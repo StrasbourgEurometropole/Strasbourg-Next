@@ -77,9 +77,6 @@ public class SaveEventActionCommand implements MVCActionCommand {
 				.getLocalizationMap(request, "title");
 			event.setTitleMap(title);
 
-			Long imageId = ParamUtil.getLong(request, "imageId");
-			event.setImageId(imageId);
-
 			Map<Locale, String> subtitle = LocalizationUtil
 				.getLocalizationMap(request, "subtitle");
 			event.setSubtitleMap(subtitle);
@@ -88,36 +85,55 @@ public class SaveEventActionCommand implements MVCActionCommand {
 				.getLocalizationMap(request, "description");
 			event.setDescriptionMap(description);
 
-			String externalImageURL = ParamUtil.getString(request,
-				"externalImageURL");
-			event.setExternalImageURL(externalImageURL);
+			Long imageId = ParamUtil.getLong(request, "imageId");
+			if (imageId > 0) {
+				event.setImageId(imageId);
+				event.setExternalImageURL("");
+				event.setExternalImageCopyright("");
+			} else {
+				event.setImageId(null);
+				String externalImageURL = ParamUtil.getString(request,
+					"externalImageURL");
+				event.setExternalImageURL(externalImageURL);
 
-			String externalImageCopyright = ParamUtil.getString(request,
-				"externalImageCopyright");
-			event.setExternalImageCopyright(externalImageCopyright);
+				String externalImageCopyright = ParamUtil.getString(request,
+					"externalImageCopyright");
+				event.setExternalImageCopyright(externalImageCopyright);
+			}
 
 			String placeSIGId = ParamUtil.getString(request, "placeSIGId");
-			event.setPlaceSIGId(placeSIGId);
+			if (Validator.isNotNull(placeSIGId)) {
+				event.setPlaceSIGId(placeSIGId);
+				event.setPlaceName("");
+				event.setPlaceStreetNumber("");
+				event.setPlaceStreetName("");
+				event.setPlaceZipCode("");
+				event.setPlaceCountry("");
+			} else {
+				event.setPlaceSIGId("");
 
-			String placeName = ParamUtil.getString(request, "placeName");
-			event.setPlaceName(placeName);
+				String placeName = ParamUtil.getString(request, "placeName");
+				event.setPlaceName(placeName);
 
-			String placeStreetNumber = ParamUtil.getString(request,
-				"placeStreetNumber");
-			event.setPlaceStreetNumber(placeStreetNumber);
+				String placeStreetNumber = ParamUtil.getString(request,
+					"placeStreetNumber");
+				event.setPlaceStreetNumber(placeStreetNumber);
 
-			String placeStreetName = ParamUtil.getString(request,
-				"placeStreetName");
-			event.setPlaceStreetName(placeStreetName);
+				String placeStreetName = ParamUtil.getString(request,
+					"placeStreetName");
+				event.setPlaceStreetName(placeStreetName);
 
-			String placeZipCode = ParamUtil.getString(request, "placeZipCode");
-			event.setPlaceZipCode(placeZipCode);
+				String placeZipCode = ParamUtil.getString(request,
+					"placeZipCode");
+				event.setPlaceZipCode(placeZipCode);
 
-			String placeCity = ParamUtil.getString(request, "placeCity");
-			event.setPlaceCity(placeCity);
+				String placeCity = ParamUtil.getString(request, "placeCity");
+				event.setPlaceCity(placeCity);
 
-			String placeCountry = ParamUtil.getString(request, "placeCountry");
-			event.setPlaceCountry(placeCountry);
+				String placeCountry = ParamUtil.getString(request,
+					"placeCountry");
+				event.setPlaceCountry(placeCountry);
+			}
 
 			Map<Locale, String> access = LocalizationUtil
 				.getLocalizationMap(request, "access");
@@ -170,14 +186,14 @@ public class SaveEventActionCommand implements MVCActionCommand {
 			Map<Locale, String> scheduleComments = LocalizationUtil
 				.getLocalizationMap(request, "scheduleComments");
 			event.setScheduleCommentsMap(scheduleComments);
-			
-			Boolean free = ParamUtil.getBoolean(request, "isFree");
+
+			Integer free = ParamUtil.getInteger(request, "free");
 			event.setFree(free);
-			
+
 			Map<Locale, String> price = LocalizationUtil
 				.getLocalizationMap(request, "price");
 			event.setPriceMap(price);
-			
+
 			String displayDateString = ParamUtil.getString(request,
 				"displayDate");
 			Date displayDate = DateUtil.parseDate(displayDateString,
@@ -197,7 +213,6 @@ public class SaveEventActionCommand implements MVCActionCommand {
 						event);
 				}
 			}
-
 
 			/**
 			 * Périodes de l'événement
@@ -236,16 +251,22 @@ public class SaveEventActionCommand implements MVCActionCommand {
 						.updateEventPeriod(eventPeriod);
 				}
 			}
-			// On classe les périodes par date de début, ce qui va nous permettre 
-			// de setter les champs "firstStartDate" et "lastEndDate" sur l'événement
-			List<EventPeriod> periods = new ArrayList<EventPeriod>(event.getEventPeriods());
-			periods.sort((p1, p2) -> p1.getStartDate().compareTo(p2.getStartDate()));
-			
-			Date firstStartDate = periods.get(0).getStartDate();
-			Date lastEndDate = periods.get(periods.size() - 1).getEndDate();
-			event.setFirstStartDate(firstStartDate);
-			event.setLastEndDate(lastEndDate);
-			
+			// On classe les périodes par date de début, ce qui va nous
+			// permettre
+			// de setter les champs "firstStartDate" et "lastEndDate" sur
+			// l'événement
+			if (event.getEventPeriods().size() > 0) {
+				List<EventPeriod> periods = new ArrayList<EventPeriod>(
+					event.getEventPeriods());
+				periods.sort(
+					(p1, p2) -> p1.getStartDate().compareTo(p2.getStartDate()));
+
+				Date firstStartDate = periods.get(0).getStartDate();
+				Date lastEndDate = periods.get(periods.size() - 1).getEndDate();
+				event.setFirstStartDate(firstStartDate);
+				event.setLastEndDate(lastEndDate);
+			}
+
 			_eventLocalService.updateEvent(event, sc);
 
 		} catch (PortalException e) {

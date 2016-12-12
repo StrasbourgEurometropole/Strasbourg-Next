@@ -23,8 +23,57 @@ jQuery(function() {
 	});
 });
 
-// Périodes
 
+// Champs conditionnelles
+jQuery(function() {
+	var namespace = "_eu_strasbourg_portlet_agenda_AgendaBOPortlet_";
+	
+	$('[name=placeType]').on('click change', function(e) {
+		var classOfDivToShow = e.target.value;
+		$('.sig, .manual').hide();	
+		$('.' + classOfDivToShow).show();
+		setConditionalValidators();
+	});
+	
+	$('[name=imageType]').on('click change', function(e) {
+		var classOfDivToShow = e.target.value;
+		$('.internalImage, .externalImage').hide();	
+		$('.' + classOfDivToShow).show();
+		setConditionalValidators();
+	});
+	
+	Liferay.on('allPortletsReady', setConditionalValidators);
+	
+	function setConditionalValidators() {
+		// Validation des champos obligatoires conditionnels
+		AUI().use('liferay-form', function() {
+			var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
+			if (jQuery('.manual').is(':visible')) {
+				rules[namespace + 'placeSIGId'].required = false;
+				rules[namespace + 'placeName'].required = true;
+				rules[namespace + 'placeCity'].required = true;
+			} else {
+				rules[namespace + 'placeSIGId'].required = true;
+				rules[namespace + 'placeName'].required = false;
+				rules[namespace + 'placeCity'].required = false;
+			}
+			
+			if (jQuery('.internalImage').is(':visible')) {
+				rules[namespace + 'imageId'].required = true;
+				rules[namespace + 'externalImageURL'].required = false;
+				rules[namespace + 'externalImageCopyright'].required = false;
+			} else {
+				rules[namespace + 'imageId'].required = false;
+				rules[namespace + 'externalImageURL'].required = true;
+				rules[namespace + 'externalImageCopyright'].required = true;
+			}
+		});
+		
+	}
+	
+});
+
+// Périodes
 var autoFields = undefined; // Référence au champ répétable (setté plus loin)
 (function($) {
 	var namespace = "_eu_strasbourg_portlet_agenda_AgendaBOPortlet_"; // Namespace du portlet
@@ -145,7 +194,9 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 // Validation des périodes
 function validatePeriods(event) {
 	var allValidated = true;
-	for (var dateRange of document.querySelectorAll('#date-fields .date-range')) {
+	var dateRanges = document.querySelectorAll('#date-fields .date-range')
+	for (var i = 0; i < dateRanges.length; i++) {
+		var dateRange = dateRanges[i];
 		var validated = true;
 		var id = $(dateRange).attr('id');
 		// On ne lance la validation que si une période a déjà été sélectionnée
@@ -154,7 +205,9 @@ function validatePeriods(event) {
 				&& $(dateRange).parents('.lfr-form-row').attr('class').indexOf('hide') === -1) {
 			var startDate = moment($(dateRange).text().split(' - ')[0], 'DD/MM/YYYY');
 			var endDate = moment($(dateRange).text().split(' - ')[1], 'DD/MM/YYYY');
-			for (var otherDateRange of document.querySelectorAll('#date-fields .date-range')) {
+			var otherDateRanges = document.querySelectorAll('#date-fields .date-range');
+			for (var j = 0; j < otherDateRanges.length; j++) {
+				var otherDateRange = document.querySelectorAll('#date-fields .date-range')[j];
 				var otherId = $(otherDateRange).attr('id');
 				if (otherId !== id && $(otherDateRange).text().indexOf('-') > 0  
 						&& $(otherDateRange).parents('.lfr-form-row').attr('class').indexOf('hide') === -1) {
@@ -173,6 +226,7 @@ function validatePeriods(event) {
 		}
 		
 	}
+	
 	if (!allValidated) {
 		event.preventDefault();
 	} else {
