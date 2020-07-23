@@ -1,0 +1,4 @@
+Bundle-Name: coe-saml-role-maping-test
+Bundle-SymbolicName: com.coe.hook.role.mapping
+Bundle-Version: 1.0.0
+Export-Package: com.coe.hook.role.mapping.api
