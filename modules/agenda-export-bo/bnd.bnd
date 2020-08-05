@@ -3,4 +3,11 @@ Bundle-SymbolicName: eu.strasbourg.portlet.agendaExport
 Bundle-Version: 1.0.0
 Web-ContextPath: /agendaexportbo
 
+Bundle-ClassPath: \
+  .,\
+ lib/commons-lang3.jar,\
+
+-includeresource: \
+ lib/commons-lang3.jar=commons-lang3-3.9.jar,\
+
 Import-Package: *;resolution:=optional
