@@ -17,6 +17,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.search.document.Document;
+import com.liferay.portal.search.groupby.GroupByRequest;
 import com.liferay.portal.search.hits.SearchHit;
 import com.liferay.portal.search.hits.SearchHits;
 import com.liferay.portal.search.query.BooleanQuery;
@@ -138,8 +139,8 @@ public class SearchRequestPortlet extends MVCPortlet {
 				}
 		);
 
-		/*groupByRequest.setField(Field.CLASS_TYPE_ID);
-		searchRequestBuilder.groupByRequests(groupByRequest);*/
+		groupByRequest.setField(Field.CLASS_TYPE_ID);
+		searchRequestBuilder.groupByRequests(groupByRequest);
 
 		searchRequestBuilder.from(start);
 		searchRequestBuilder.size(end - start);
@@ -464,7 +465,7 @@ public class SearchRequestPortlet extends MVCPortlet {
 			randomScoreFunction.setSeed(seed);
 			randomScoreFunction.setField("entryClassPK");
 			/* Ne fonctionne pas -> tri par score */
-			FunctionScoreQuery functionScoreQuery = queries.functionScore(query);
+			//FunctionScoreQuery functionScoreQuery = queries.functionScore(query);
 			functionScoreQuery.addFilterQueryScoreFunctionHolder(query, randomScoreFunction);
 		}
 
@@ -483,15 +484,15 @@ public class SearchRequestPortlet extends MVCPortlet {
 	 *	Cette portlet n'a pas été trouvée. Veuillez la redéployer ou supprimez-la de la page.
 	 *   functionScoreQuery: com.liferay.portal.search.query.FunctionScoreQuery UNSATISFIED 1..1 static target=(*) scope=bundle
 	 * */
-//	@Reference
-//	protected FunctionScoreQuery functionScoreQuery;
+	@Reference
+	protected FunctionScoreQuery functionScoreQuery;
 
 	/*
 	*	Cette portlet n'a pas été trouvée. Veuillez la redéployer ou supprimez-la de la page.
 	*   groupByRequest: com.liferay.portal.search.groupby.GroupByRequest UNSATISFIED 1..1 static target=(*) scope=bundle
     * */
-//	@Reference
-//	protected GroupByRequest groupByRequest;
+	@Reference
+	protected GroupByRequest groupByRequest;
 
 	@Reference
 	protected Queries queries;
