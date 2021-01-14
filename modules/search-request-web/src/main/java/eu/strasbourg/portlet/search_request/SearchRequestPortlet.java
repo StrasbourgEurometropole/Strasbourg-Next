@@ -84,35 +84,51 @@ import java.util.Map;
 public class SearchRequestPortlet extends MVCPortlet {
 
 	@Override
-	public void processAction(ActionRequest actionRequest,
-							  ActionResponse actionResponse)
+	public void processAction(ActionRequest actionRequest, ActionResponse actionResponse)
 			throws IOException, PortletException {
 
 		HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(actionRequest);
 		SearchContext searchContext = SearchContextFactory.getInstance(servletRequest);
+
+		// START : user query simulation
 		JSONArray assetTypes = null;
 		try {
-			assetTypes = JSONFactoryUtil.createJSONArray("[{\"classname\":\"searchJournalArticle\",\"scopeIds\":[20160,976405],\"structureId\":0,\"prefilters\":[]},{\"classname\":\"eu.strasbourg.service.agenda.model.Event\",\"scopeIds\":[20160,976405],\"structureId\":0,\"prefilters\":[]},{\"classname\":\"eu.strasbourg.service.place.model.Place\",\"scopeIds\":[20160,976405],\"structureId\":0,\"prefilters\":[]}]");
+			assetTypes = JSONFactoryUtil.createJSONArray(
+				"[" +
+					"{" +
+						"\"classname\":\"searchJournalArticle\"," +
+						"\"scopeIds\":[20160,976405]," +
+						"\"structureId\":0," +
+						"\"prefilters\":[]" +
+					"}," +
+					"{" +
+						"\"classname\":\"searchDocument\"," +
+						"\"scopeIds\":[20160,976405]," +
+						"\"structureId\":0," +
+						"\"prefilters\":[]" +
+					"}," +
+				"]");
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		// Used by functionQuery to process a random score and have a random sort
 		int seed= 64684153;
 		List<String> classNamesSelected = new ArrayList<>();
 		classNamesSelected.add("searchJournalArticle");
-		classNamesSelected.add("eu.strasbourg.service.agenda.model.Event");
-		classNamesSelected.add("eu.strasbourg.service.place.model.Place");
+		classNamesSelected.add("searchDocument");
 		int start = 0;
 		int end = 14;
 		Map<String, String> sortingFieldsAndTypes = new HashMap();
+		// END : user query simulation
 
-		// Query
+		// Generate query
 		Query query = getGlobalSearchV2Query(assetTypes, false, "",
 				seed, "test", LocalDate.of(2011,10,13), LocalDate.now(), new ArrayList<>(),
 				"", classNamesSelected, Locale.FRANCE);
 
 		SearchRequestBuilder searchRequestBuilder = searchRequestBuilderFactory.builder();
 
-		// Ordre
+		// Order
 		if(Validator.isNull(seed) || seed == 0) {
 			Sort[] sortArray = new Sort[sortingFieldsAndTypes.size()];
 			Iterator iterator = sortingFieldsAndTypes.entrySet().iterator();
@@ -133,7 +149,8 @@ public class SearchRequestPortlet extends MVCPortlet {
 					sc.setCompanyId(searchContext.getCompanyId());
 					sc.setStart(start);
 					sc.setEnd(end);
-					// 1er test de groupBY qui ne fonctionne pas -> les différents types sont mélangés
+
+					// TODO Correct : Try this kind of Group By but doesn't affect results
 					GroupBy groupBy = new GroupBy(Field.CLASS_TYPE_ID);
 					sc.setGroupBy(groupBy);
 				}
@@ -151,12 +168,14 @@ public class SearchRequestPortlet extends MVCPortlet {
 
 		// Recherche
 		SearchHits searchHits = searchResponse.getSearchHits();
-		_log.info("Recherche front-end : " + searchHits.getSearchTime() * 1000 + "ms");
+		_log.info("Search front-end : " + searchHits.getSearchTime() * 1000 + "ms");
 
 		if (searchHits != null) {
 			for (SearchHit searchHit : searchHits.getSearchHits()) {
 				Document document = searchHit.getDocument();
-				_log.info(document.getString("localized_title_fr_FR_sortable") + " : " + searchHit.getScore() + ", className : " + document.getString("entryClassName"));
+				_log.info(document.getString(
+						"localized_title_fr_FR_sortable") + " : " + searchHit.getScore() +
+						", className : " + document.getString("entryClassName"));
 
 			}
 		}
@@ -165,35 +184,35 @@ public class SearchRequestPortlet extends MVCPortlet {
 	}
 
 	/**
-	 * Retourne la requête à exécuter correspondant aux paramètres pour le searchAssetV2
+	 * Generate the request for searchAssetV2
 	 */
 	private Query getGlobalSearchV2Query(JSONArray assetTypes,
 										 Boolean isDisplayField, String filterField,
 										 int seed, String keywords, LocalDate fromDate,
 										 LocalDate toDate, List<Long[]> categoriesIds,
 										 String placeSigId, List<String> filterClassNames, Locale locale) {
-		// Construction de la requète
+		// Construct base request
 		BooleanQuery superQuery = queries.booleanQuery();
 		BooleanQuery query = queries.booleanQuery();
 
-		//Asset type
+		// Cast json asset types to query elements
 		BooleanQuery assetTypesQuery = queries.booleanQuery();
 		if(filterClassNames.size() > 0) {
 			for (Object assetTypeObject : assetTypes) {
 				JSONObject assetType = (JSONObject) assetTypeObject;
 				if (Validator.isNotNull(assetType)) {
 					if (Validator.isNotNull(assetType.getString("classname"))) {
-						// on vérifie si le className est sélectionné par l'utilisateur
+						// Check if classname is asked by user
 						if (filterClassNames.contains(assetType.getString("classname"))) {
 							BooleanQuery assetTypeQuery = queries.booleanQuery();
 							// ClassNames
 							if (assetType.getString("classname").equals("searchJournalArticle")) {
-								// Cas d'un journalArticle
+								// JournalArticle use case
 								TermQuery journalArticleClassNameQuery = queries.term(Field.ENTRY_CLASS_NAME, JournalArticle.class.getName());
-								// on vérifie que c'est la dernière version
+								// Check if it is the last version
 								TermQuery journalArticleHeadQuery = queries.term("head", true);
 								assetTypeQuery.addMustQueryClauses(journalArticleClassNameQuery, journalArticleHeadQuery);
-								// ajout de la structure du contenu web
+								// Add web content structure
 								if (Validator.isNotNull(assetType.getLong("structureId"))) {
 									TermQuery structureQuery = queries.term(Field.CLASS_TYPE_ID, assetType.getString("structureId"));
 									assetTypeQuery.addMustQueryClauses(structureQuery);
@@ -201,23 +220,12 @@ public class SearchRequestPortlet extends MVCPortlet {
 
 							} else {
 								if (assetType.getString("classname").equals("searchDocument")) {
-									// Cas d'un fichier
+									// DLFileEntry use case
 									TermQuery classNameQuery = queries.term(Field.ENTRY_CLASS_NAME, DLFileEntry.class.getName());
 									assetTypeQuery.addMustQueryClauses(classNameQuery);
 								} else {
-									if (assetType.getString("classname").equals("searchDemarche")) {
-										// Cas d'une procédures/démarches
-										BooleanQuery procedureQuery = queries.booleanQuery();
-										TermQuery typeQuery = queries.term("type", "procedure");
-										TermQuery titleQuery = queries.term("title", keywords);
-										procedureQuery.addShouldQueryClauses(typeQuery, titleQuery);
-										// On rajoute la condition à la requête principale
-										superQuery.addShouldQueryClauses(procedureQuery);
-									} else {
-										// Cas général
-										TermQuery classNameQuery = queries.term(Field.ENTRY_CLASS_NAME, assetType.getString("classname"));
-										assetTypeQuery.addMustQueryClauses(classNameQuery);
-									}
+									TermQuery classNameQuery = queries.term(Field.ENTRY_CLASS_NAME, assetType.getString("classname"));
+									assetTypeQuery.addMustQueryClauses(classNameQuery);
 								}
 							}
 
@@ -232,7 +240,7 @@ public class SearchRequestPortlet extends MVCPortlet {
 								assetTypeQuery.addMustQueryClauses(groupsQuery);
 							}
 
-							// Préfiltres
+							// Prefilters
 							if (assetType.getJSONArray("prefilters").length() > 0) {
 								BooleanQuery prefiltersQuery = queries.booleanQuery();
 								for (Object prefilterObject : assetType.getJSONArray("prefilters")) {
@@ -248,7 +256,7 @@ public class SearchRequestPortlet extends MVCPortlet {
 												tagsQuery.addShouldQueryClauses(tagQuery);
 											}
 										}
-										// si true alors contient
+										// CONTAINS operator
 										if (prefilter.getBoolean("contains")) {
 											prefiltersQuery.addMustQueryClauses(tagsQuery);
 										} else {
@@ -265,7 +273,7 @@ public class SearchRequestPortlet extends MVCPortlet {
 												categoriesQuery.addShouldQueryClauses(categoryQuery);
 											}
 										}
-										// si true alors contient
+										// CONTAINS operator
 										if (prefilter.getBoolean("contains")) {
 											prefiltersQuery.addMustQueryClauses(categoriesQuery);
 										} else {
@@ -288,21 +296,20 @@ public class SearchRequestPortlet extends MVCPortlet {
 		}
 		query.addMustQueryClauses(assetTypesQuery);
 
-		// Statut et visibilité
+		// Status and visibility
 		TermQuery statusQuery = queries.term(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
 		TermQuery visibilityQuery = queries.term("visible", true);
 		query.addMustQueryClauses(statusQuery, visibilityQuery);
 
-
-		// Date de publication
+		// Publication date
 		RangeTermQuery publicationDateQuery = queries.rangeTerm(Field.PUBLISH_DATE + "_sortable", true, true, 0, Timestamp.valueOf(LocalDateTime.now()).toInstant().toEpochMilli());
 		query.addMustQueryClauses(publicationDateQuery);
 
-		// Mots-clés
+		// Keywords
 		if (Validator.isNotNull(keywords)) {
 			BooleanQuery keywordQuery = queries.booleanQuery();
 
-			// Fuzzy sur titre
+			// Fuzzy on title
 			MatchQuery titleQuery = queries.match(Field.TITLE + '_' + locale, keywords);
 			titleQuery.setOperator(Operator.OR);
 			titleQuery.setAnalyzer("strasbourg_analyzer");
@@ -323,12 +330,12 @@ public class SearchRequestPortlet extends MVCPortlet {
 			titleQueryWithoutAnalyzer.setFuzzyTranspositions(true);
 			titleQueryWithoutAnalyzer.setLenient(false);
 			titleQueryWithoutAnalyzer.setZeroTermsQuery(com.liferay.portal.search.query.MatchQuery.ZeroTermsQuery.NONE);
-//					"auto_generate_synonyms_phrase_query" : true,
-			// Boost pas pris en compte
+
+			// TODO Correct : this boost setter is not used by the request
 			titleQueryWithoutAnalyzer.setBoost(3.0f);
 			keywordQuery.addShouldQueryClauses(titleQueryWithoutAnalyzer);
 
-			// Wildcard sur titre
+			// Wildcard on title
 			WildcardQuery titleWildcardQuery = queries.wildcard(Field.TITLE + "_" + locale,
 					"*" + keywords + "*");
 			// Boost pas pris en compte
@@ -343,20 +350,16 @@ public class SearchRequestPortlet extends MVCPortlet {
 			descriptionQuery.setFuzzyTranspositions(true);
 			descriptionQuery.setLenient(false);
 			descriptionQuery.setZeroTermsQuery(com.liferay.portal.search.query.MatchQuery.ZeroTermsQuery.NONE);
-//					"auto_generate_synonyms_phrase_query" : true,
 			keywordQuery.addShouldQueryClauses(descriptionQuery);
 
-			// Pour les fichiers on recherche dans le champ "title" sans la
-			// locale car il est indexé uniquement comme cela
+			// For files, we search only on title field without taking care of locales cause it's indexed that way
 			MatchQuery fileTitleQuery = queries.match(Field.TITLE, keywords);
 			fileTitleQuery.setOperator(Operator.OR);
-			// fileTitleQuery.setFuzziness(10f);
 			fileTitleQuery.setPrefixLength(0);
 			fileTitleQuery.setMaxExpansions(50);
 			fileTitleQuery.setFuzzyTranspositions(true);
 			fileTitleQuery.setLenient(false);
 			fileTitleQuery.setZeroTermsQuery(com.liferay.portal.search.query.MatchQuery.ZeroTermsQuery.NONE);
-//			"auto_generate_synonyms_phrase_query" : true,
 
 			TermQuery classNameQuery = queries.term(Field.ENTRY_CLASS_NAME, DLFileEntry.class.getName());
 
@@ -364,54 +367,42 @@ public class SearchRequestPortlet extends MVCPortlet {
 			fileQuery.addMustQueryClauses(fileTitleQuery, classNameQuery);
 			keywordQuery.addShouldQueryClauses(fileQuery);
 
-			// Fuzzy sur content (tous les champs indexables des structures
-			// de CW et de D&M sont dans ce champ)
+			// Fuzzy on content for webcontent behavior
 			MatchQuery contentQuery = queries.match(Field.CONTENT + "_" + locale, keywords);
 			contentQuery.setOperator(Operator.OR);
-			// contentQuery.setFuzziness(1f);
 			contentQuery.setPrefixLength(0);
 			contentQuery.setMaxExpansions(50);
 			contentQuery.setFuzzyTranspositions(true);
 			contentQuery.setLenient(false);
 			contentQuery.setZeroTermsQuery(com.liferay.portal.search.query.MatchQuery.ZeroTermsQuery.NONE);
-//			"auto_generate_synonyms_phrase_query" : true,
 			keywordQuery.addShouldQueryClauses(contentQuery);
 
-			// Fuzzy sur catégorie
+			// Fuzzy on category
 			MatchQuery categoryKeywordQuery = queries.match(Field.ASSET_CATEGORY_TITLES, keywords);
 			categoryKeywordQuery.setOperator(Operator.OR);
-			// categoryKeywordQuery.setFuzziness(10f);
 			categoryKeywordQuery.setPrefixLength(0);
 			categoryKeywordQuery.setMaxExpansions(50);
 			categoryKeywordQuery.setFuzzyTranspositions(true);
 			categoryKeywordQuery.setLenient(false);
 			categoryKeywordQuery.setZeroTermsQuery(com.liferay.portal.search.query.MatchQuery.ZeroTermsQuery.NONE);
-//			"auto_generate_synonyms_phrase_query" : true,
 			keywordQuery.addShouldQueryClauses(categoryKeywordQuery);
 
-			// Fuzzy sur tags
+			// Fuzzy on tags
 			MatchQuery tagKeywordQuery = queries.match(Field.ASSET_TAG_NAMES, keywords);
 			tagKeywordQuery.setOperator(Operator.OR);
-			// tagKeywordQuery.setFuzziness(10f);
 			tagKeywordQuery.setPrefixLength(0);
 			tagKeywordQuery.setMaxExpansions(50);
 			tagKeywordQuery.setFuzzyTranspositions(true);
 			tagKeywordQuery.setLenient(false);
 			tagKeywordQuery.setZeroTermsQuery(com.liferay.portal.search.query.MatchQuery.ZeroTermsQuery.NONE);
-//			"auto_generate_synonyms_phrase_query" : true,
 			keywordQuery.addShouldQueryClauses(tagKeywordQuery);
 
 			query.addMustQueryClauses(keywordQuery);
 		} else {
-			// Si on n'a pas de keyword : on ne veut que les entités de la
-			// langue en cours tout de même
-			// Pour cela on vérifie que le champ "title_{locale}" n'est pas
-			// vide On ne fait pas cela pour les fichiers car ils n'ont pas
-			// de champ titre traduit
+			// If there is no keyword, we stil want located results exept for files (no location on title for them)
 			BooleanQuery anyKeywordQuery = queries.booleanQuery();
 			TermQuery classNameQuery = queries.term(Field.ENTRY_CLASS_NAME, DLFileEntry.class.getName());
 			anyKeywordQuery.addShouldQueryClauses(classNameQuery);
-
 
 			WildcardQuery anyKeywordWildcardQuery = queries.wildcard("title_" + locale, "*");
 			anyKeywordQuery.addShouldQueryClauses(anyKeywordWildcardQuery);
@@ -453,19 +444,21 @@ public class SearchRequestPortlet extends MVCPortlet {
 
 		}
 
-		// Si le id SIG du lieu est renseigné on rajoute la condition à la requête
+		// If SIG is complete (for Strasbourg places) put it on the request
 		if(Validator.isNotNull(placeSigId)) {
 			TermQuery placeQuery = queries.term("idSIGPlace", placeSigId);
 			query.addMustQueryClauses(placeQuery);
 		}
 
-		// Tri aléatoire
+		// Random sort
 		if(Validator.isNotNull(seed) && seed > 0) {
 			RandomScoreFunction randomScoreFunction = scoreFunctions.random();
 			randomScoreFunction.setSeed(seed);
 			randomScoreFunction.setField("entryClassPK");
-			/* Ne fonctionne pas -> tri par score */
+
+			// TODO Correct : function score for the random sort can't be called because of unsatisfied reference
 			//FunctionScoreQuery functionScoreQuery = queries.functionScore(query);
+
 			functionScoreQuery.addFilterQueryScoreFunctionHolder(query, randomScoreFunction);
 		}
 
@@ -481,14 +474,14 @@ public class SearchRequestPortlet extends MVCPortlet {
 	protected ScoreFunctions scoreFunctions;
 
 	/*
-	 *	Cette portlet n'a pas été trouvée. Veuillez la redéployer ou supprimez-la de la page.
+	 * @notes GogoShell result using scr:info on this component :
 	 *   functionScoreQuery: com.liferay.portal.search.query.FunctionScoreQuery UNSATISFIED 1..1 static target=(*) scope=bundle
 	 * */
 	@Reference
 	protected FunctionScoreQuery functionScoreQuery;
 
 	/*
-	*	Cette portlet n'a pas été trouvée. Veuillez la redéployer ou supprimez-la de la page.
+	* @notes GogoShell result using scr:info on this component :
 	*   groupByRequest: com.liferay.portal.search.groupby.GroupByRequest UNSATISFIED 1..1 static target=(*) scope=bundle
     * */
 	@Reference
