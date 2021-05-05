@@ -21,11 +21,8 @@ import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DefaultActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -54,6 +51,7 @@ import eu.strasbourg.service.gtfs.service.persistence.ImportHistoricPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.LignePersistence;
 import eu.strasbourg.service.gtfs.service.persistence.RoutePersistence;
 import eu.strasbourg.service.gtfs.service.persistence.StopPersistence;
+import eu.strasbourg.service.gtfs.service.persistence.StopTimePK;
 import eu.strasbourg.service.gtfs.service.persistence.StopTimePersistence;
 import eu.strasbourg.service.gtfs.service.persistence.TripFinder;
 import eu.strasbourg.service.gtfs.service.persistence.TripPersistence;
@@ -103,26 +101,28 @@ public abstract class StopTimeLocalServiceBaseImpl
 	/**
 	 * Creates a new stop time with the primary key. Does not add the stop time to the database.
 	 *
-	 * @param id the primary key for the new stop time
+	 * @param stopTimePK the primary key for the new stop time
 	 * @return the new stop time
 	 */
 	@Override
 	@Transactional(enabled = false)
-	public StopTime createStopTime(long id) {
-		return stopTimePersistence.create(id);
+	public StopTime createStopTime(StopTimePK stopTimePK) {
+		return stopTimePersistence.create(stopTimePK);
 	}
 
 	/**
 	 * Deletes the stop time with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param id the primary key of the stop time
+	 * @param stopTimePK the primary key of the stop time
 	 * @return the stop time that was removed
 	 * @throws PortalException if a stop time with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	@Override
-	public StopTime deleteStopTime(long id) throws PortalException {
-		return stopTimePersistence.remove(id);
+	public StopTime deleteStopTime(StopTimePK stopTimePK)
+		throws PortalException {
+
+		return stopTimePersistence.remove(stopTimePK);
 	}
 
 	/**
@@ -225,61 +225,20 @@ public abstract class StopTimeLocalServiceBaseImpl
 	}
 
 	@Override
-	public StopTime fetchStopTime(long id) {
-		return stopTimePersistence.fetchByPrimaryKey(id);
+	public StopTime fetchStopTime(StopTimePK stopTimePK) {
+		return stopTimePersistence.fetchByPrimaryKey(stopTimePK);
 	}
 
 	/**
 	 * Returns the stop time with the primary key.
 	 *
-	 * @param id the primary key of the stop time
+	 * @param stopTimePK the primary key of the stop time
 	 * @return the stop time
 	 * @throws PortalException if a stop time with the primary key could not be found
 	 */
 	@Override
-	public StopTime getStopTime(long id) throws PortalException {
-		return stopTimePersistence.findByPrimaryKey(id);
-	}
-
-	@Override
-	public ActionableDynamicQuery getActionableDynamicQuery() {
-		ActionableDynamicQuery actionableDynamicQuery =
-			new DefaultActionableDynamicQuery();
-
-		actionableDynamicQuery.setBaseLocalService(stopTimeLocalService);
-		actionableDynamicQuery.setClassLoader(getClassLoader());
-		actionableDynamicQuery.setModelClass(StopTime.class);
-
-		actionableDynamicQuery.setPrimaryKeyPropertyName("id");
-
-		return actionableDynamicQuery;
-	}
-
-	@Override
-	public IndexableActionableDynamicQuery
-		getIndexableActionableDynamicQuery() {
-
-		IndexableActionableDynamicQuery indexableActionableDynamicQuery =
-			new IndexableActionableDynamicQuery();
-
-		indexableActionableDynamicQuery.setBaseLocalService(
-			stopTimeLocalService);
-		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
-		indexableActionableDynamicQuery.setModelClass(StopTime.class);
-
-		indexableActionableDynamicQuery.setPrimaryKeyPropertyName("id");
-
-		return indexableActionableDynamicQuery;
-	}
-
-	protected void initActionableDynamicQuery(
-		ActionableDynamicQuery actionableDynamicQuery) {
-
-		actionableDynamicQuery.setBaseLocalService(stopTimeLocalService);
-		actionableDynamicQuery.setClassLoader(getClassLoader());
-		actionableDynamicQuery.setModelClass(StopTime.class);
-
-		actionableDynamicQuery.setPrimaryKeyPropertyName("id");
+	public StopTime getStopTime(StopTimePK stopTimePK) throws PortalException {
+		return stopTimePersistence.findByPrimaryKey(stopTimePK);
 	}
 
 	/**

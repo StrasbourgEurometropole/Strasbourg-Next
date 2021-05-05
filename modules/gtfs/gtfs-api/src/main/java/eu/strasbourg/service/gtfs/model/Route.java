@@ -36,17 +36,17 @@ public interface Route extends PersistedModel, RouteModel {
 	 *
 	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.gtfs.model.impl.RouteImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Route, Long> ID_ACCESSOR =
-		new Accessor<Route, Long>() {
+	public static final Accessor<Route, String> ROUTE_ID_ACCESSOR =
+		new Accessor<Route, String>() {
 
 			@Override
-			public Long get(Route route) {
-				return route.getId();
+			public String get(Route route) {
+				return route.getRoute_id();
 			}
 
 			@Override
-			public Class<Long> getAttributeClass() {
-				return Long.class;
+			public Class<String> getAttributeClass() {
+				return String.class;
 			}
 
 			@Override

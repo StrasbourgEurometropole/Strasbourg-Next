@@ -56,21 +56,13 @@ public class RouteLocalServiceUtil {
 	/**
 	 * Creates a new route with the primary key. Does not add the route to the database.
 	 *
-	 * @param id the primary key for the new route
+	 * @param route_id the primary key for the new route
 	 * @return the new route
 	 */
-	public static eu.strasbourg.service.gtfs.model.Route createRoute(long id) {
-		return getService().createRoute(id);
-	}
-
-	/**
-	 * Crée une Route vide avec une PK, non ajouté à la base de donnée
-	 */
 	public static eu.strasbourg.service.gtfs.model.Route createRoute(
-			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		String route_id) {
 
-		return getService().createRoute(sc);
+		return getService().createRoute(route_id);
 	}
 
 	/**
@@ -95,19 +87,6 @@ public class RouteLocalServiceUtil {
 	}
 
 	/**
-	 * Deletes the route with the primary key from the database. Also notifies the appropriate model listeners.
-	 *
-	 * @param id the primary key of the route
-	 * @return the route that was removed
-	 * @throws PortalException if a route with the primary key could not be found
-	 */
-	public static eu.strasbourg.service.gtfs.model.Route deleteRoute(long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return getService().deleteRoute(id);
-	}
-
-	/**
 	 * Deletes the route from the database. Also notifies the appropriate model listeners.
 	 *
 	 * @param route the route
@@ -117,6 +96,20 @@ public class RouteLocalServiceUtil {
 		eu.strasbourg.service.gtfs.model.Route route) {
 
 		return getService().deleteRoute(route);
+	}
+
+	/**
+	 * Deletes the route with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param route_id the primary key of the route
+	 * @return the route that was removed
+	 * @throws PortalException if a route with the primary key could not be found
+	 */
+	public static eu.strasbourg.service.gtfs.model.Route deleteRoute(
+			String route_id)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().deleteRoute(route_id);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
@@ -204,14 +197,10 @@ public class RouteLocalServiceUtil {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.gtfs.model.Route fetchRoute(long id) {
-		return getService().fetchRoute(id);
-	}
+	public static eu.strasbourg.service.gtfs.model.Route fetchRoute(
+		String route_id) {
 
-	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
-		getActionableDynamicQuery() {
-
-		return getService().getActionableDynamicQuery();
+		return getService().fetchRoute(route_id);
 	}
 
 	/**
@@ -230,13 +219,6 @@ public class RouteLocalServiceUtil {
 		String routeId) {
 
 		return getService().getByRouteId(routeId);
-	}
-
-	public static
-		com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
-			getIndexableActionableDynamicQuery() {
-
-		return getService().getIndexableActionableDynamicQuery();
 	}
 
 	/**
@@ -258,14 +240,15 @@ public class RouteLocalServiceUtil {
 	/**
 	 * Returns the route with the primary key.
 	 *
-	 * @param id the primary key of the route
+	 * @param route_id the primary key of the route
 	 * @return the route
 	 * @throws PortalException if a route with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.Route getRoute(long id)
+	public static eu.strasbourg.service.gtfs.model.Route getRoute(
+			String route_id)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return getService().getRoute(id);
+		return getService().getRoute(route_id);
 	}
 
 	/**
@@ -317,7 +300,7 @@ public class RouteLocalServiceUtil {
 	 * Supprime une Route
 	 */
 	public static eu.strasbourg.service.gtfs.model.Route removeRoute(
-			long routeId)
+			String routeId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().removeRoute(routeId);

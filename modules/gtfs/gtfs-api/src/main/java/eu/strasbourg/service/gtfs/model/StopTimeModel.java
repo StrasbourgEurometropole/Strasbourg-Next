@@ -22,6 +22,8 @@ import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
+import eu.strasbourg.service.gtfs.service.persistence.StopTimePK;
+
 import java.io.Serializable;
 
 /**
@@ -49,28 +51,14 @@ public interface StopTimeModel extends BaseModel<StopTime> {
 	 *
 	 * @return the primary key of this stop time
 	 */
-	public long getPrimaryKey();
+	public StopTimePK getPrimaryKey();
 
 	/**
 	 * Sets the primary key of this stop time.
 	 *
 	 * @param primaryKey the primary key of this stop time
 	 */
-	public void setPrimaryKey(long primaryKey);
-
-	/**
-	 * Returns the ID of this stop time.
-	 *
-	 * @return the ID of this stop time
-	 */
-	public long getId();
-
-	/**
-	 * Sets the ID of this stop time.
-	 *
-	 * @param id the ID of this stop time
-	 */
-	public void setId(long id);
+	public void setPrimaryKey(StopTimePK primaryKey);
 
 	/**
 	 * Returns the trip_id of this stop time.

@@ -258,19 +258,20 @@ public class StopTimeUtil {
 	/**
 	 * Returns the stop times before and after the current stop time in the ordered set where trip_id = &#63;.
 	 *
-	 * @param id the primary key of the current stop time
+	 * @param stopTimePK the primary key of the current stop time
 	 * @param trip_id the trip_id
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next stop time
 	 * @throws NoSuchStopTimeException if a stop time with the primary key could not be found
 	 */
 	public static StopTime[] findByTripId_PrevAndNext(
-			long id, String trip_id,
-			OrderByComparator<StopTime> orderByComparator)
+			eu.strasbourg.service.gtfs.service.persistence.StopTimePK
+				stopTimePK,
+			String trip_id, OrderByComparator<StopTime> orderByComparator)
 		throws eu.strasbourg.service.gtfs.exception.NoSuchStopTimeException {
 
 		return getPersistence().findByTripId_PrevAndNext(
-			id, trip_id, orderByComparator);
+			stopTimePK, trip_id, orderByComparator);
 	}
 
 	/**
@@ -423,19 +424,20 @@ public class StopTimeUtil {
 	/**
 	 * Returns the stop times before and after the current stop time in the ordered set where stop_id = &#63;.
 	 *
-	 * @param id the primary key of the current stop time
+	 * @param stopTimePK the primary key of the current stop time
 	 * @param stop_id the stop_id
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next stop time
 	 * @throws NoSuchStopTimeException if a stop time with the primary key could not be found
 	 */
 	public static StopTime[] findByStopId_PrevAndNext(
-			long id, String stop_id,
-			OrderByComparator<StopTime> orderByComparator)
+			eu.strasbourg.service.gtfs.service.persistence.StopTimePK
+				stopTimePK,
+			String stop_id, OrderByComparator<StopTime> orderByComparator)
 		throws eu.strasbourg.service.gtfs.exception.NoSuchStopTimeException {
 
 		return getPersistence().findByStopId_PrevAndNext(
-			id, stop_id, orderByComparator);
+			stopTimePK, stop_id, orderByComparator);
 	}
 
 	/**
@@ -478,24 +480,28 @@ public class StopTimeUtil {
 	/**
 	 * Creates a new stop time with the primary key. Does not add the stop time to the database.
 	 *
-	 * @param id the primary key for the new stop time
+	 * @param stopTimePK the primary key for the new stop time
 	 * @return the new stop time
 	 */
-	public static StopTime create(long id) {
-		return getPersistence().create(id);
+	public static StopTime create(
+		eu.strasbourg.service.gtfs.service.persistence.StopTimePK stopTimePK) {
+
+		return getPersistence().create(stopTimePK);
 	}
 
 	/**
 	 * Removes the stop time with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param id the primary key of the stop time
+	 * @param stopTimePK the primary key of the stop time
 	 * @return the stop time that was removed
 	 * @throws NoSuchStopTimeException if a stop time with the primary key could not be found
 	 */
-	public static StopTime remove(long id)
+	public static StopTime remove(
+			eu.strasbourg.service.gtfs.service.persistence.StopTimePK
+				stopTimePK)
 		throws eu.strasbourg.service.gtfs.exception.NoSuchStopTimeException {
 
-		return getPersistence().remove(id);
+		return getPersistence().remove(stopTimePK);
 	}
 
 	public static StopTime updateImpl(StopTime stopTime) {
@@ -505,24 +511,28 @@ public class StopTimeUtil {
 	/**
 	 * Returns the stop time with the primary key or throws a <code>NoSuchStopTimeException</code> if it could not be found.
 	 *
-	 * @param id the primary key of the stop time
+	 * @param stopTimePK the primary key of the stop time
 	 * @return the stop time
 	 * @throws NoSuchStopTimeException if a stop time with the primary key could not be found
 	 */
-	public static StopTime findByPrimaryKey(long id)
+	public static StopTime findByPrimaryKey(
+			eu.strasbourg.service.gtfs.service.persistence.StopTimePK
+				stopTimePK)
 		throws eu.strasbourg.service.gtfs.exception.NoSuchStopTimeException {
 
-		return getPersistence().findByPrimaryKey(id);
+		return getPersistence().findByPrimaryKey(stopTimePK);
 	}
 
 	/**
 	 * Returns the stop time with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param id the primary key of the stop time
+	 * @param stopTimePK the primary key of the stop time
 	 * @return the stop time, or <code>null</code> if a stop time with the primary key could not be found
 	 */
-	public static StopTime fetchByPrimaryKey(long id) {
-		return getPersistence().fetchByPrimaryKey(id);
+	public static StopTime fetchByPrimaryKey(
+		eu.strasbourg.service.gtfs.service.persistence.StopTimePK stopTimePK) {
+
+		return getPersistence().fetchByPrimaryKey(stopTimePK);
 	}
 
 	/**
@@ -604,8 +614,8 @@ public class StopTimeUtil {
 		return getPersistence().countAll();
 	}
 
-	public static Set<String> getBadColumnNames() {
-		return getPersistence().getBadColumnNames();
+	public static Set<String> getCompoundPKColumnNames() {
+		return getPersistence().getCompoundPKColumnNames();
 	}
 
 	public static StopTimePersistence getPersistence() {

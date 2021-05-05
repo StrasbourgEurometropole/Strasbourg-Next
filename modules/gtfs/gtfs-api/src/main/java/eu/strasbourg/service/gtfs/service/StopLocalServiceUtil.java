@@ -56,21 +56,13 @@ public class StopLocalServiceUtil {
 	/**
 	 * Creates a new stop with the primary key. Does not add the stop to the database.
 	 *
-	 * @param id the primary key for the new stop
+	 * @param stop_id the primary key for the new stop
 	 * @return the new stop
 	 */
-	public static eu.strasbourg.service.gtfs.model.Stop createStop(long id) {
-		return getService().createStop(id);
-	}
-
-	/**
-	 * Crée une agence vide avec une PK, non ajouté à la base de donnée
-	 */
 	public static eu.strasbourg.service.gtfs.model.Stop createStop(
-			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		String stop_id) {
 
-		return getService().createStop(sc);
+		return getService().createStop(stop_id);
 	}
 
 	/**
@@ -95,19 +87,6 @@ public class StopLocalServiceUtil {
 	}
 
 	/**
-	 * Deletes the stop with the primary key from the database. Also notifies the appropriate model listeners.
-	 *
-	 * @param id the primary key of the stop
-	 * @return the stop that was removed
-	 * @throws PortalException if a stop with the primary key could not be found
-	 */
-	public static eu.strasbourg.service.gtfs.model.Stop deleteStop(long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return getService().deleteStop(id);
-	}
-
-	/**
 	 * Deletes the stop from the database. Also notifies the appropriate model listeners.
 	 *
 	 * @param stop the stop
@@ -117,6 +96,20 @@ public class StopLocalServiceUtil {
 		eu.strasbourg.service.gtfs.model.Stop stop) {
 
 		return getService().deleteStop(stop);
+	}
+
+	/**
+	 * Deletes the stop with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param stop_id the primary key of the stop
+	 * @return the stop that was removed
+	 * @throws PortalException if a stop with the primary key could not be found
+	 */
+	public static eu.strasbourg.service.gtfs.model.Stop deleteStop(
+			String stop_id)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().deleteStop(stop_id);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
@@ -204,14 +197,10 @@ public class StopLocalServiceUtil {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.gtfs.model.Stop fetchStop(long id) {
-		return getService().fetchStop(id);
-	}
+	public static eu.strasbourg.service.gtfs.model.Stop fetchStop(
+		String stop_id) {
 
-	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
-		getActionableDynamicQuery() {
-
-		return getService().getActionableDynamicQuery();
+		return getService().fetchStop(stop_id);
 	}
 
 	/**
@@ -230,13 +219,6 @@ public class StopLocalServiceUtil {
 		String stopId) {
 
 		return getService().getByStopId(stopId);
-	}
-
-	public static
-		com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
-			getIndexableActionableDynamicQuery() {
-
-		return getService().getIndexableActionableDynamicQuery();
 	}
 
 	/**
@@ -258,14 +240,14 @@ public class StopLocalServiceUtil {
 	/**
 	 * Returns the stop with the primary key.
 	 *
-	 * @param id the primary key of the stop
+	 * @param stop_id the primary key of the stop
 	 * @return the stop
 	 * @throws PortalException if a stop with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.Stop getStop(long id)
+	public static eu.strasbourg.service.gtfs.model.Stop getStop(String stop_id)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return getService().getStop(id);
+		return getService().getStop(stop_id);
 	}
 
 	/**

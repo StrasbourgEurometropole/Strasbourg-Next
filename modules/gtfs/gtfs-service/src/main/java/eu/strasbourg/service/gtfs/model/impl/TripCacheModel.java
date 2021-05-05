@@ -48,7 +48,7 @@ public class TripCacheModel implements CacheModel<Trip>, Externalizable {
 
 		TripCacheModel tripCacheModel = (TripCacheModel)obj;
 
-		if (id == tripCacheModel.id) {
+		if (trip_id.equals(tripCacheModel.trip_id)) {
 			return true;
 		}
 
@@ -57,16 +57,14 @@ public class TripCacheModel implements CacheModel<Trip>, Externalizable {
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, id);
+		return HashUtil.hash(0, trip_id);
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(9);
 
-		sb.append("{id=");
-		sb.append(id);
-		sb.append(", route_id=");
+		sb.append("{route_id=");
 		sb.append(route_id);
 		sb.append(", service_id=");
 		sb.append(service_id);
@@ -82,8 +80,6 @@ public class TripCacheModel implements CacheModel<Trip>, Externalizable {
 	@Override
 	public Trip toEntityModel() {
 		TripImpl tripImpl = new TripImpl();
-
-		tripImpl.setId(id);
 
 		if (route_id == null) {
 			tripImpl.setRoute_id("");
@@ -120,7 +116,6 @@ public class TripCacheModel implements CacheModel<Trip>, Externalizable {
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
-		id = objectInput.readLong();
 		route_id = objectInput.readUTF();
 		service_id = objectInput.readUTF();
 		trip_id = objectInput.readUTF();
@@ -129,8 +124,6 @@ public class TripCacheModel implements CacheModel<Trip>, Externalizable {
 
 	@Override
 	public void writeExternal(ObjectOutput objectOutput) throws IOException {
-		objectOutput.writeLong(id);
-
 		if (route_id == null) {
 			objectOutput.writeUTF("");
 		}
@@ -160,7 +153,6 @@ public class TripCacheModel implements CacheModel<Trip>, Externalizable {
 		}
 	}
 
-	public long id;
 	public String route_id;
 	public String service_id;
 	public String trip_id;

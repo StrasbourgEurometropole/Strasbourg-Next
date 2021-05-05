@@ -49,28 +49,14 @@ public interface TripModel extends BaseModel<Trip> {
 	 *
 	 * @return the primary key of this trip
 	 */
-	public long getPrimaryKey();
+	public String getPrimaryKey();
 
 	/**
 	 * Sets the primary key of this trip.
 	 *
 	 * @param primaryKey the primary key of this trip
 	 */
-	public void setPrimaryKey(long primaryKey);
-
-	/**
-	 * Returns the ID of this trip.
-	 *
-	 * @return the ID of this trip
-	 */
-	public long getId();
-
-	/**
-	 * Sets the ID of this trip.
-	 *
-	 * @param id the ID of this trip
-	 */
-	public void setId(long id);
+	public void setPrimaryKey(String primaryKey);
 
 	/**
 	 * Returns the route_id of this trip.

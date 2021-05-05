@@ -108,38 +108,38 @@ public interface RoutePersistence extends BasePersistence<Route> {
 	/**
 	 * Creates a new route with the primary key. Does not add the route to the database.
 	 *
-	 * @param id the primary key for the new route
+	 * @param route_id the primary key for the new route
 	 * @return the new route
 	 */
-	public Route create(long id);
+	public Route create(String route_id);
 
 	/**
 	 * Removes the route with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param id the primary key of the route
+	 * @param route_id the primary key of the route
 	 * @return the route that was removed
 	 * @throws NoSuchRouteException if a route with the primary key could not be found
 	 */
-	public Route remove(long id) throws NoSuchRouteException;
+	public Route remove(String route_id) throws NoSuchRouteException;
 
 	public Route updateImpl(Route route);
 
 	/**
 	 * Returns the route with the primary key or throws a <code>NoSuchRouteException</code> if it could not be found.
 	 *
-	 * @param id the primary key of the route
+	 * @param route_id the primary key of the route
 	 * @return the route
 	 * @throws NoSuchRouteException if a route with the primary key could not be found
 	 */
-	public Route findByPrimaryKey(long id) throws NoSuchRouteException;
+	public Route findByPrimaryKey(String route_id) throws NoSuchRouteException;
 
 	/**
 	 * Returns the route with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param id the primary key of the route
+	 * @param route_id the primary key of the route
 	 * @return the route, or <code>null</code> if a route with the primary key could not be found
 	 */
-	public Route fetchByPrimaryKey(long id);
+	public Route fetchByPrimaryKey(String route_id);
 
 	/**
 	 * Returns all the routes.
@@ -208,8 +208,5 @@ public interface RoutePersistence extends BasePersistence<Route> {
 	 * @return the number of routes
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

@@ -21,11 +21,8 @@ import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DefaultActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -103,26 +100,26 @@ public abstract class TripLocalServiceBaseImpl
 	/**
 	 * Creates a new trip with the primary key. Does not add the trip to the database.
 	 *
-	 * @param id the primary key for the new trip
+	 * @param trip_id the primary key for the new trip
 	 * @return the new trip
 	 */
 	@Override
 	@Transactional(enabled = false)
-	public Trip createTrip(long id) {
-		return tripPersistence.create(id);
+	public Trip createTrip(String trip_id) {
+		return tripPersistence.create(trip_id);
 	}
 
 	/**
 	 * Deletes the trip with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param id the primary key of the trip
+	 * @param trip_id the primary key of the trip
 	 * @return the trip that was removed
 	 * @throws PortalException if a trip with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	@Override
-	public Trip deleteTrip(long id) throws PortalException {
-		return tripPersistence.remove(id);
+	public Trip deleteTrip(String trip_id) throws PortalException {
+		return tripPersistence.remove(trip_id);
 	}
 
 	/**
@@ -223,60 +220,20 @@ public abstract class TripLocalServiceBaseImpl
 	}
 
 	@Override
-	public Trip fetchTrip(long id) {
-		return tripPersistence.fetchByPrimaryKey(id);
+	public Trip fetchTrip(String trip_id) {
+		return tripPersistence.fetchByPrimaryKey(trip_id);
 	}
 
 	/**
 	 * Returns the trip with the primary key.
 	 *
-	 * @param id the primary key of the trip
+	 * @param trip_id the primary key of the trip
 	 * @return the trip
 	 * @throws PortalException if a trip with the primary key could not be found
 	 */
 	@Override
-	public Trip getTrip(long id) throws PortalException {
-		return tripPersistence.findByPrimaryKey(id);
-	}
-
-	@Override
-	public ActionableDynamicQuery getActionableDynamicQuery() {
-		ActionableDynamicQuery actionableDynamicQuery =
-			new DefaultActionableDynamicQuery();
-
-		actionableDynamicQuery.setBaseLocalService(tripLocalService);
-		actionableDynamicQuery.setClassLoader(getClassLoader());
-		actionableDynamicQuery.setModelClass(Trip.class);
-
-		actionableDynamicQuery.setPrimaryKeyPropertyName("id");
-
-		return actionableDynamicQuery;
-	}
-
-	@Override
-	public IndexableActionableDynamicQuery
-		getIndexableActionableDynamicQuery() {
-
-		IndexableActionableDynamicQuery indexableActionableDynamicQuery =
-			new IndexableActionableDynamicQuery();
-
-		indexableActionableDynamicQuery.setBaseLocalService(tripLocalService);
-		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
-		indexableActionableDynamicQuery.setModelClass(Trip.class);
-
-		indexableActionableDynamicQuery.setPrimaryKeyPropertyName("id");
-
-		return indexableActionableDynamicQuery;
-	}
-
-	protected void initActionableDynamicQuery(
-		ActionableDynamicQuery actionableDynamicQuery) {
-
-		actionableDynamicQuery.setBaseLocalService(tripLocalService);
-		actionableDynamicQuery.setClassLoader(getClassLoader());
-		actionableDynamicQuery.setModelClass(Trip.class);
-
-		actionableDynamicQuery.setPrimaryKeyPropertyName("id");
+	public Trip getTrip(String trip_id) throws PortalException {
+		return tripPersistence.findByPrimaryKey(trip_id);
 	}
 
 	/**

@@ -36,17 +36,17 @@ public interface Trip extends PersistedModel, TripModel {
 	 *
 	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.gtfs.model.impl.TripImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Trip, Long> ID_ACCESSOR =
-		new Accessor<Trip, Long>() {
+	public static final Accessor<Trip, String> TRIP_ID_ACCESSOR =
+		new Accessor<Trip, String>() {
 
 			@Override
-			public Long get(Trip trip) {
-				return trip.getId();
+			public String get(Trip trip) {
+				return trip.getTrip_id();
 			}
 
 			@Override
-			public Class<Long> getAttributeClass() {
-				return Long.class;
+			public Class<String> getAttributeClass() {
+				return String.class;
 			}
 
 			@Override

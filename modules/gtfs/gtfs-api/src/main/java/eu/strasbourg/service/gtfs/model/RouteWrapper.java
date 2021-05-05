@@ -56,7 +56,6 @@ public class RouteWrapper implements Route, ModelWrapper<Route> {
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
-		attributes.put("id", getId());
 		attributes.put("route_id", getRoute_id());
 		attributes.put("route_short_name", getRoute_short_name());
 		attributes.put("route_long_name", getRoute_long_name());
@@ -69,12 +68,6 @@ public class RouteWrapper implements Route, ModelWrapper<Route> {
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
-		Long id = (Long)attributes.get("id");
-
-		if (id != null) {
-			setId(id);
-		}
-
 		String route_id = (String)attributes.get("route_id");
 
 		if (route_id != null) {
@@ -128,22 +121,12 @@ public class RouteWrapper implements Route, ModelWrapper<Route> {
 	}
 
 	/**
-	 * Returns the ID of this route.
-	 *
-	 * @return the ID of this route
-	 */
-	@Override
-	public long getId() {
-		return _route.getId();
-	}
-
-	/**
 	 * Returns the primary key of this route.
 	 *
 	 * @return the primary key of this route
 	 */
 	@Override
-	public long getPrimaryKey() {
+	public String getPrimaryKey() {
 		return _route.getPrimaryKey();
 	}
 
@@ -259,16 +242,6 @@ public class RouteWrapper implements Route, ModelWrapper<Route> {
 		_route.setExpandoBridgeAttributes(serviceContext);
 	}
 
-	/**
-	 * Sets the ID of this route.
-	 *
-	 * @param id the ID of this route
-	 */
-	@Override
-	public void setId(long id) {
-		_route.setId(id);
-	}
-
 	@Override
 	public void setNew(boolean n) {
 		_route.setNew(n);
@@ -280,7 +253,7 @@ public class RouteWrapper implements Route, ModelWrapper<Route> {
 	 * @param primaryKey the primary key of this route
 	 */
 	@Override
-	public void setPrimaryKey(long primaryKey) {
+	public void setPrimaryKey(String primaryKey) {
 		_route.setPrimaryKey(primaryKey);
 	}
 

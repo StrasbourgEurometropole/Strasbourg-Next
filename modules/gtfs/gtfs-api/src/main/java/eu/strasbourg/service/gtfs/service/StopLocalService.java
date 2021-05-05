@@ -16,9 +16,7 @@ package eu.strasbourg.service.gtfs.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -77,16 +75,11 @@ public interface StopLocalService
 	/**
 	 * Creates a new stop with the primary key. Does not add the stop to the database.
 	 *
-	 * @param id the primary key for the new stop
+	 * @param stop_id the primary key for the new stop
 	 * @return the new stop
 	 */
 	@Transactional(enabled = false)
-	public Stop createStop(long id);
-
-	/**
-	 * Crée une agence vide avec une PK, non ajouté à la base de donnée
-	 */
-	public Stop createStop(ServiceContext sc) throws PortalException;
+	public Stop createStop(String stop_id);
 
 	/**
 	 * Crée un arret à partir d'une entrée GTFS
@@ -101,16 +94,6 @@ public interface StopLocalService
 		throws PortalException;
 
 	/**
-	 * Deletes the stop with the primary key from the database. Also notifies the appropriate model listeners.
-	 *
-	 * @param id the primary key of the stop
-	 * @return the stop that was removed
-	 * @throws PortalException if a stop with the primary key could not be found
-	 */
-	@Indexable(type = IndexableType.DELETE)
-	public Stop deleteStop(long id) throws PortalException;
-
-	/**
 	 * Deletes the stop from the database. Also notifies the appropriate model listeners.
 	 *
 	 * @param stop the stop
@@ -118,6 +101,16 @@ public interface StopLocalService
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	public Stop deleteStop(Stop stop);
+
+	/**
+	 * Deletes the stop with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param stop_id the primary key of the stop
+	 * @return the stop that was removed
+	 * @throws PortalException if a stop with the primary key could not be found
+	 */
+	@Indexable(type = IndexableType.DELETE)
+	public Stop deleteStop(String stop_id) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();
@@ -186,10 +179,7 @@ public interface StopLocalService
 		DynamicQuery dynamicQuery, Projection projection);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Stop fetchStop(long id);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public ActionableDynamicQuery getActionableDynamicQuery();
+	public Stop fetchStop(String stop_id);
 
 	/**
 	 * Recuperer tous les arrets
@@ -202,9 +192,6 @@ public interface StopLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Stop getByStopId(String stopId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
 
 	/**
 	 * Returns the OSGi service identifier.
@@ -221,12 +208,12 @@ public interface StopLocalService
 	/**
 	 * Returns the stop with the primary key.
 	 *
-	 * @param id the primary key of the stop
+	 * @param stop_id the primary key of the stop
 	 * @return the stop
 	 * @throws PortalException if a stop with the primary key could not be found
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Stop getStop(long id) throws PortalException;
+	public Stop getStop(String stop_id) throws PortalException;
 
 	/**
 	 * Returns a range of all the stops.

@@ -16,9 +16,7 @@ package eu.strasbourg.service.gtfs.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -77,16 +75,11 @@ public interface TripLocalService
 	/**
 	 * Creates a new trip with the primary key. Does not add the trip to the database.
 	 *
-	 * @param id the primary key for the new trip
+	 * @param trip_id the primary key for the new trip
 	 * @return the new trip
 	 */
 	@Transactional(enabled = false)
-	public Trip createTrip(long id);
-
-	/**
-	 * Crée une agence vide avec une PK, non ajouté à la base de donnée
-	 */
-	public Trip createTrip(ServiceContext sc) throws PortalException;
+	public Trip createTrip(String trip_id);
 
 	/**
 	 * Crée un voyage à partir d'une entrée GTFS
@@ -103,12 +96,12 @@ public interface TripLocalService
 	/**
 	 * Deletes the trip with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param id the primary key of the trip
+	 * @param trip_id the primary key of the trip
 	 * @return the trip that was removed
 	 * @throws PortalException if a trip with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
-	public Trip deleteTrip(long id) throws PortalException;
+	public Trip deleteTrip(String trip_id) throws PortalException;
 
 	/**
 	 * Deletes the trip from the database. Also notifies the appropriate model listeners.
@@ -186,13 +179,7 @@ public interface TripLocalService
 		DynamicQuery dynamicQuery, Projection projection);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Trip fetchTrip(long id);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public ActionableDynamicQuery getActionableDynamicQuery();
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
+	public Trip fetchTrip(String trip_id);
 
 	/**
 	 * Returns the OSGi service identifier.
@@ -209,12 +196,12 @@ public interface TripLocalService
 	/**
 	 * Returns the trip with the primary key.
 	 *
-	 * @param id the primary key of the trip
+	 * @param trip_id the primary key of the trip
 	 * @return the trip
 	 * @throws PortalException if a trip with the primary key could not be found
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Trip getTrip(long id) throws PortalException;
+	public Trip getTrip(String trip_id) throws PortalException;
 
 	/**
 	 * Rechercher les voyages disponibles aujourd'hui pour id d'arret donne

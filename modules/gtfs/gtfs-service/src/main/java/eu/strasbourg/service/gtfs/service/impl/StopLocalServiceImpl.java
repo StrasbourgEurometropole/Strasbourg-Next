@@ -45,27 +45,14 @@ public class StopLocalServiceImpl extends StopLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.gtfs.service.StopLocalServiceUtil} to access the stop local service.
 	 */
-	
-	/**
-	 * Crée une agence vide avec une PK, non ajouté à la base de donnée
-	 */
-	@Override
-	public Stop createStop(ServiceContext sc) throws PortalException {
-		long pk = counterLocalService.increment();
-		Stop stop = this.stopLocalService.createStop(pk);
 
-		return stop;
-	}
 	
 	/**
 	 * Crée un arret à partir d'une entrée GTFS
 	 */
 	@Override
 	public Stop createStopFromGTFS(StopsGTFS entry) throws PortalException {
-		long pk = counterLocalService.increment();
-		Stop stop = this.stopLocalService.createStop(pk);
-		
-		stop.setStop_id(entry.getStop_id());
+		Stop stop = this.stopLocalService.createStop(entry.getStop_id());
 		stop.setStop_code(entry.getStop_code());
 		stop.setStop_lat(Double.toString(entry.getStop_lat()));
 		stop.setStop_lon(Double.toString(entry.getStop_lon()));

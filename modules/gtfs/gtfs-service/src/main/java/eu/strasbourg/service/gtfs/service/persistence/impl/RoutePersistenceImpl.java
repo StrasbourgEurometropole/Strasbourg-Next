@@ -28,7 +28,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -41,7 +40,6 @@ import eu.strasbourg.service.gtfs.service.persistence.RoutePersistence;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -316,24 +314,6 @@ public class RoutePersistenceImpl
 
 	public RoutePersistenceImpl() {
 		setModelClass(Route.class);
-
-		Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-		dbColumnNames.put("id", "id_");
-
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception e) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(e, e);
-			}
-		}
 	}
 
 	/**
@@ -455,15 +435,15 @@ public class RoutePersistenceImpl
 	/**
 	 * Creates a new route with the primary key. Does not add the route to the database.
 	 *
-	 * @param id the primary key for the new route
+	 * @param route_id the primary key for the new route
 	 * @return the new route
 	 */
 	@Override
-	public Route create(long id) {
+	public Route create(String route_id) {
 		Route route = new RouteImpl();
 
 		route.setNew(true);
-		route.setPrimaryKey(id);
+		route.setPrimaryKey(route_id);
 
 		return route;
 	}
@@ -471,13 +451,13 @@ public class RoutePersistenceImpl
 	/**
 	 * Removes the route with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param id the primary key of the route
+	 * @param route_id the primary key of the route
 	 * @return the route that was removed
 	 * @throws NoSuchRouteException if a route with the primary key could not be found
 	 */
 	@Override
-	public Route remove(long id) throws NoSuchRouteException {
-		return remove((Serializable)id);
+	public Route remove(String route_id) throws NoSuchRouteException {
+		return remove((Serializable)route_id);
 	}
 
 	/**
@@ -642,13 +622,13 @@ public class RoutePersistenceImpl
 	/**
 	 * Returns the route with the primary key or throws a <code>NoSuchRouteException</code> if it could not be found.
 	 *
-	 * @param id the primary key of the route
+	 * @param route_id the primary key of the route
 	 * @return the route
 	 * @throws NoSuchRouteException if a route with the primary key could not be found
 	 */
 	@Override
-	public Route findByPrimaryKey(long id) throws NoSuchRouteException {
-		return findByPrimaryKey((Serializable)id);
+	public Route findByPrimaryKey(String route_id) throws NoSuchRouteException {
+		return findByPrimaryKey((Serializable)route_id);
 	}
 
 	/**
@@ -703,12 +683,12 @@ public class RoutePersistenceImpl
 	/**
 	 * Returns the route with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param id the primary key of the route
+	 * @param route_id the primary key of the route
 	 * @return the route, or <code>null</code> if a route with the primary key could not be found
 	 */
 	@Override
-	public Route fetchByPrimaryKey(long id) {
-		return fetchByPrimaryKey((Serializable)id);
+	public Route fetchByPrimaryKey(String route_id) {
+		return fetchByPrimaryKey((Serializable)route_id);
 	}
 
 	@Override
@@ -765,8 +745,8 @@ public class RoutePersistenceImpl
 
 		query.append(_SQL_SELECT_ROUTE_WHERE_PKS_IN);
 
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
+		for (int i = 0; i < uncachedPrimaryKeys.size(); i++) {
+			query.append("?");
 
 			query.append(",");
 		}
@@ -783,6 +763,12 @@ public class RoutePersistenceImpl
 			session = openSession();
 
 			Query q = session.createQuery(sql);
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			for (Serializable primaryKey : uncachedPrimaryKeys) {
+				qPos.add((String)primaryKey);
+			}
 
 			for (Route route : (List<Route>)q.list()) {
 				map.put(route.getPrimaryKeyObj(), route);
@@ -1003,11 +989,6 @@ public class RoutePersistenceImpl
 	}
 
 	@Override
-	public Set<String> getBadColumnNames() {
-		return _badColumnNames;
-	}
-
-	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return RouteModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1064,7 +1045,7 @@ public class RoutePersistenceImpl
 		"SELECT route FROM Route route";
 
 	private static final String _SQL_SELECT_ROUTE_WHERE_PKS_IN =
-		"SELECT route FROM Route route WHERE id_ IN (";
+		"SELECT route FROM Route route WHERE route_id IN (";
 
 	private static final String _SQL_SELECT_ROUTE_WHERE =
 		"SELECT route FROM Route route WHERE ";
@@ -1085,8 +1066,5 @@ public class RoutePersistenceImpl
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		RoutePersistenceImpl.class);
-
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(
-		new String[] {"id"});
 
 }

@@ -28,7 +28,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -41,7 +40,6 @@ import eu.strasbourg.service.gtfs.service.persistence.StopPersistence;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -613,7 +611,7 @@ public class StopPersistenceImpl
 	/**
 	 * Returns the stops before and after the current stop in the ordered set where stop_code = &#63;.
 	 *
-	 * @param id the primary key of the current stop
+	 * @param stop_id the primary key of the current stop
 	 * @param stop_code the stop_code
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next stop
@@ -621,13 +619,13 @@ public class StopPersistenceImpl
 	 */
 	@Override
 	public Stop[] findByStopCode_PrevAndNext(
-			long id, String stop_code,
+			String stop_id, String stop_code,
 			OrderByComparator<Stop> orderByComparator)
 		throws NoSuchStopException {
 
 		stop_code = Objects.toString(stop_code, "");
 
-		Stop stop = findByPrimaryKey(id);
+		Stop stop = findByPrimaryKey(stop_id);
 
 		Session session = null;
 
@@ -860,24 +858,6 @@ public class StopPersistenceImpl
 
 	public StopPersistenceImpl() {
 		setModelClass(Stop.class);
-
-		Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-		dbColumnNames.put("id", "id_");
-
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception e) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(e, e);
-			}
-		}
 	}
 
 	/**
@@ -998,15 +978,15 @@ public class StopPersistenceImpl
 	/**
 	 * Creates a new stop with the primary key. Does not add the stop to the database.
 	 *
-	 * @param id the primary key for the new stop
+	 * @param stop_id the primary key for the new stop
 	 * @return the new stop
 	 */
 	@Override
-	public Stop create(long id) {
+	public Stop create(String stop_id) {
 		Stop stop = new StopImpl();
 
 		stop.setNew(true);
-		stop.setPrimaryKey(id);
+		stop.setPrimaryKey(stop_id);
 
 		return stop;
 	}
@@ -1014,13 +994,13 @@ public class StopPersistenceImpl
 	/**
 	 * Removes the stop with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param id the primary key of the stop
+	 * @param stop_id the primary key of the stop
 	 * @return the stop that was removed
 	 * @throws NoSuchStopException if a stop with the primary key could not be found
 	 */
 	@Override
-	public Stop remove(long id) throws NoSuchStopException {
-		return remove((Serializable)id);
+	public Stop remove(String stop_id) throws NoSuchStopException {
+		return remove((Serializable)stop_id);
 	}
 
 	/**
@@ -1211,13 +1191,13 @@ public class StopPersistenceImpl
 	/**
 	 * Returns the stop with the primary key or throws a <code>NoSuchStopException</code> if it could not be found.
 	 *
-	 * @param id the primary key of the stop
+	 * @param stop_id the primary key of the stop
 	 * @return the stop
 	 * @throws NoSuchStopException if a stop with the primary key could not be found
 	 */
 	@Override
-	public Stop findByPrimaryKey(long id) throws NoSuchStopException {
-		return findByPrimaryKey((Serializable)id);
+	public Stop findByPrimaryKey(String stop_id) throws NoSuchStopException {
+		return findByPrimaryKey((Serializable)stop_id);
 	}
 
 	/**
@@ -1272,12 +1252,12 @@ public class StopPersistenceImpl
 	/**
 	 * Returns the stop with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param id the primary key of the stop
+	 * @param stop_id the primary key of the stop
 	 * @return the stop, or <code>null</code> if a stop with the primary key could not be found
 	 */
 	@Override
-	public Stop fetchByPrimaryKey(long id) {
-		return fetchByPrimaryKey((Serializable)id);
+	public Stop fetchByPrimaryKey(String stop_id) {
+		return fetchByPrimaryKey((Serializable)stop_id);
 	}
 
 	@Override
@@ -1333,8 +1313,8 @@ public class StopPersistenceImpl
 
 		query.append(_SQL_SELECT_STOP_WHERE_PKS_IN);
 
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
+		for (int i = 0; i < uncachedPrimaryKeys.size(); i++) {
+			query.append("?");
 
 			query.append(",");
 		}
@@ -1351,6 +1331,12 @@ public class StopPersistenceImpl
 			session = openSession();
 
 			Query q = session.createQuery(sql);
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			for (Serializable primaryKey : uncachedPrimaryKeys) {
+				qPos.add((String)primaryKey);
+			}
 
 			for (Stop stop : (List<Stop>)q.list()) {
 				map.put(stop.getPrimaryKeyObj(), stop);
@@ -1571,11 +1557,6 @@ public class StopPersistenceImpl
 	}
 
 	@Override
-	public Set<String> getBadColumnNames() {
-		return _badColumnNames;
-	}
-
-	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return StopModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1628,8 +1609,7 @@ public class StopPersistenceImpl
 			StopModelImpl.FINDER_CACHE_ENABLED, StopImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStopCode",
 			new String[] {String.class.getName()},
-			StopModelImpl.STOP_CODE_COLUMN_BITMASK |
-			StopModelImpl.STOP_ID_COLUMN_BITMASK);
+			StopModelImpl.STOP_CODE_COLUMN_BITMASK);
 
 		_finderPathCountByStopCode = new FinderPath(
 			StopModelImpl.ENTITY_CACHE_ENABLED,
@@ -1654,7 +1634,7 @@ public class StopPersistenceImpl
 	private static final String _SQL_SELECT_STOP = "SELECT stop FROM Stop stop";
 
 	private static final String _SQL_SELECT_STOP_WHERE_PKS_IN =
-		"SELECT stop FROM Stop stop WHERE id_ IN (";
+		"SELECT stop FROM Stop stop WHERE stop_id IN (";
 
 	private static final String _SQL_SELECT_STOP_WHERE =
 		"SELECT stop FROM Stop stop WHERE ";
@@ -1675,8 +1655,5 @@ public class StopPersistenceImpl
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		StopPersistenceImpl.class);
-
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(
-		new String[] {"id"});
 
 }

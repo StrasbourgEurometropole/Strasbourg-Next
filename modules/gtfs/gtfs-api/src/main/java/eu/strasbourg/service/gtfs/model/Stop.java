@@ -36,17 +36,17 @@ public interface Stop extends PersistedModel, StopModel {
 	 *
 	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.gtfs.model.impl.StopImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Stop, Long> ID_ACCESSOR =
-		new Accessor<Stop, Long>() {
+	public static final Accessor<Stop, String> STOP_ID_ACCESSOR =
+		new Accessor<Stop, String>() {
 
 			@Override
-			public Long get(Stop stop) {
-				return stop.getId();
+			public String get(Stop stop) {
+				return stop.getStop_id();
 			}
 
 			@Override
-			public Class<Long> getAttributeClass() {
-				return Long.class;
+			public Class<String> getAttributeClass() {
+				return String.class;
 			}
 
 			@Override

@@ -16,19 +16,17 @@ package eu.strasbourg.service.gtfs.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
-import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
-import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 
 import eu.strasbourg.service.gtfs.model.StopTime;
 import eu.strasbourg.service.gtfs.model.StopTimeModel;
+import eu.strasbourg.service.gtfs.service.persistence.StopTimePK;
 
 import java.io.Serializable;
 
@@ -67,25 +65,24 @@ public class StopTimeModelImpl
 	public static final String TABLE_NAME = "gtfs_StopTime";
 
 	public static final Object[][] TABLE_COLUMNS = {
-		{"id_", Types.BIGINT}, {"trip_id", Types.VARCHAR},
-		{"stop_id", Types.VARCHAR}
+		{"trip_id", Types.VARCHAR}, {"stop_id", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
 		new HashMap<String, Integer>();
 
 	static {
-		TABLE_COLUMNS_MAP.put("id_", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("trip_id", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("stop_id", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table gtfs_StopTime (id_ LONG not null primary key,trip_id VARCHAR(75) null,stop_id VARCHAR(75) null)";
+		"create table gtfs_StopTime (trip_id VARCHAR(75) not null,stop_id VARCHAR(75) not null,primary key (trip_id, stop_id))";
 
 	public static final String TABLE_SQL_DROP = "drop table gtfs_StopTime";
 
-	public static final String ORDER_BY_JPQL = " ORDER BY stopTime.trip_id ASC";
+	public static final String ORDER_BY_JPQL =
+		" ORDER BY stopTime.id.trip_id ASC";
 
 	public static final String ORDER_BY_SQL =
 		" ORDER BY gtfs_StopTime.trip_id ASC";
@@ -123,23 +120,24 @@ public class StopTimeModelImpl
 	}
 
 	@Override
-	public long getPrimaryKey() {
-		return _id;
+	public StopTimePK getPrimaryKey() {
+		return new StopTimePK(_trip_id, _stop_id);
 	}
 
 	@Override
-	public void setPrimaryKey(long primaryKey) {
-		setId(primaryKey);
+	public void setPrimaryKey(StopTimePK primaryKey) {
+		setTrip_id(primaryKey.trip_id);
+		setStop_id(primaryKey.stop_id);
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return _id;
+		return new StopTimePK(_trip_id, _stop_id);
 	}
 
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		setPrimaryKey(((Long)primaryKeyObj).longValue());
+		setPrimaryKey((StopTimePK)primaryKeyObj);
 	}
 
 	@Override
@@ -244,26 +242,6 @@ public class StopTimeModelImpl
 			new LinkedHashMap<String, BiConsumer<StopTime, ?>>();
 
 		attributeGetterFunctions.put(
-			"id",
-			new Function<StopTime, Object>() {
-
-				@Override
-				public Object apply(StopTime stopTime) {
-					return stopTime.getId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"id",
-			new BiConsumer<StopTime, Object>() {
-
-				@Override
-				public void accept(StopTime stopTime, Object id) {
-					stopTime.setId((Long)id);
-				}
-
-			});
-		attributeGetterFunctions.put(
 			"trip_id",
 			new Function<StopTime, Object>() {
 
@@ -308,16 +286,6 @@ public class StopTimeModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
-	}
-
-	@Override
-	public long getId() {
-		return _id;
-	}
-
-	@Override
-	public void setId(long id) {
-		_id = id;
 	}
 
 	@Override
@@ -375,19 +343,6 @@ public class StopTimeModelImpl
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return ExpandoBridgeFactoryUtil.getExpandoBridge(
-			0, StopTime.class.getName(), getPrimaryKey());
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		ExpandoBridge expandoBridge = getExpandoBridge();
-
-		expandoBridge.setAttributes(serviceContext);
-	}
-
-	@Override
 	public StopTime toEscapedModel() {
 		if (_escapedModel == null) {
 			_escapedModel = _escapedModelProxyProviderFunction.apply(
@@ -401,7 +356,6 @@ public class StopTimeModelImpl
 	public Object clone() {
 		StopTimeImpl stopTimeImpl = new StopTimeImpl();
 
-		stopTimeImpl.setId(getId());
 		stopTimeImpl.setTrip_id(getTrip_id());
 		stopTimeImpl.setStop_id(getStop_id());
 
@@ -435,9 +389,9 @@ public class StopTimeModelImpl
 
 		StopTime stopTime = (StopTime)obj;
 
-		long primaryKey = stopTime.getPrimaryKey();
+		StopTimePK primaryKey = stopTime.getPrimaryKey();
 
-		if (getPrimaryKey() == primaryKey) {
+		if (getPrimaryKey().equals(primaryKey)) {
 			return true;
 		}
 		else {
@@ -447,7 +401,7 @@ public class StopTimeModelImpl
 
 	@Override
 	public int hashCode() {
-		return (int)getPrimaryKey();
+		return getPrimaryKey().hashCode();
 	}
 
 	@Override
@@ -475,7 +429,7 @@ public class StopTimeModelImpl
 	public CacheModel<StopTime> toCacheModel() {
 		StopTimeCacheModel stopTimeCacheModel = new StopTimeCacheModel();
 
-		stopTimeCacheModel.id = getId();
+		stopTimeCacheModel.stopTimePK = getPrimaryKey();
 
 		stopTimeCacheModel.trip_id = getTrip_id();
 
@@ -562,7 +516,6 @@ public class StopTimeModelImpl
 	private static final Function<InvocationHandler, StopTime>
 		_escapedModelProxyProviderFunction = _getProxyProviderFunction();
 
-	private long _id;
 	private String _trip_id;
 	private String _originalTrip_id;
 	private String _stop_id;

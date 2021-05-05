@@ -48,7 +48,7 @@ public class RouteCacheModel implements CacheModel<Route>, Externalizable {
 
 		RouteCacheModel routeCacheModel = (RouteCacheModel)obj;
 
-		if (id == routeCacheModel.id) {
+		if (route_id.equals(routeCacheModel.route_id)) {
 			return true;
 		}
 
@@ -57,16 +57,14 @@ public class RouteCacheModel implements CacheModel<Route>, Externalizable {
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, id);
+		return HashUtil.hash(0, route_id);
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(13);
 
-		sb.append("{id=");
-		sb.append(id);
-		sb.append(", route_id=");
+		sb.append("{route_id=");
 		sb.append(route_id);
 		sb.append(", route_short_name=");
 		sb.append(route_short_name);
@@ -86,8 +84,6 @@ public class RouteCacheModel implements CacheModel<Route>, Externalizable {
 	@Override
 	public Route toEntityModel() {
 		RouteImpl routeImpl = new RouteImpl();
-
-		routeImpl.setId(id);
 
 		if (route_id == null) {
 			routeImpl.setRoute_id("");
@@ -133,7 +129,6 @@ public class RouteCacheModel implements CacheModel<Route>, Externalizable {
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
-		id = objectInput.readLong();
 		route_id = objectInput.readUTF();
 		route_short_name = objectInput.readUTF();
 		route_long_name = objectInput.readUTF();
@@ -145,8 +140,6 @@ public class RouteCacheModel implements CacheModel<Route>, Externalizable {
 
 	@Override
 	public void writeExternal(ObjectOutput objectOutput) throws IOException {
-		objectOutput.writeLong(id);
-
 		if (route_id == null) {
 			objectOutput.writeUTF("");
 		}
@@ -185,7 +178,6 @@ public class RouteCacheModel implements CacheModel<Route>, Externalizable {
 		}
 	}
 
-	public long id;
 	public String route_id;
 	public String route_short_name;
 	public String route_long_name;

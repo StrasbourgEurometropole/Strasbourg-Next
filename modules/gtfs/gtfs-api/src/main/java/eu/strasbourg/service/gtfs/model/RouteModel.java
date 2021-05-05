@@ -49,28 +49,14 @@ public interface RouteModel extends BaseModel<Route> {
 	 *
 	 * @return the primary key of this route
 	 */
-	public long getPrimaryKey();
+	public String getPrimaryKey();
 
 	/**
 	 * Sets the primary key of this route.
 	 *
 	 * @param primaryKey the primary key of this route
 	 */
-	public void setPrimaryKey(long primaryKey);
-
-	/**
-	 * Returns the ID of this route.
-	 *
-	 * @return the ID of this route
-	 */
-	public long getId();
-
-	/**
-	 * Sets the ID of this route.
-	 *
-	 * @param id the ID of this route
-	 */
-	public void setId(long id);
+	public void setPrimaryKey(String primaryKey);
 
 	/**
 	 * Returns the route_id of this route.

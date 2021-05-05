@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 
 import eu.strasbourg.service.gtfs.model.StopTime;
+import eu.strasbourg.service.gtfs.service.persistence.StopTimePK;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -49,7 +50,7 @@ public class StopTimeCacheModel
 
 		StopTimeCacheModel stopTimeCacheModel = (StopTimeCacheModel)obj;
 
-		if (id == stopTimeCacheModel.id) {
+		if (stopTimePK.equals(stopTimeCacheModel.stopTimePK)) {
 			return true;
 		}
 
@@ -58,16 +59,14 @@ public class StopTimeCacheModel
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, id);
+		return HashUtil.hash(0, stopTimePK);
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(7);
+		StringBundler sb = new StringBundler(5);
 
-		sb.append("{id=");
-		sb.append(id);
-		sb.append(", trip_id=");
+		sb.append("{trip_id=");
 		sb.append(trip_id);
 		sb.append(", stop_id=");
 		sb.append(stop_id);
@@ -79,8 +78,6 @@ public class StopTimeCacheModel
 	@Override
 	public StopTime toEntityModel() {
 		StopTimeImpl stopTimeImpl = new StopTimeImpl();
-
-		stopTimeImpl.setId(id);
 
 		if (trip_id == null) {
 			stopTimeImpl.setTrip_id("");
@@ -103,15 +100,14 @@ public class StopTimeCacheModel
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
-		id = objectInput.readLong();
 		trip_id = objectInput.readUTF();
 		stop_id = objectInput.readUTF();
+
+		stopTimePK = new StopTimePK(trip_id, stop_id);
 	}
 
 	@Override
 	public void writeExternal(ObjectOutput objectOutput) throws IOException {
-		objectOutput.writeLong(id);
-
 		if (trip_id == null) {
 			objectOutput.writeUTF("");
 		}
@@ -127,8 +123,8 @@ public class StopTimeCacheModel
 		}
 	}
 
-	public long id;
 	public String trip_id;
 	public String stop_id;
+	public transient StopTimePK stopTimePK;
 
 }

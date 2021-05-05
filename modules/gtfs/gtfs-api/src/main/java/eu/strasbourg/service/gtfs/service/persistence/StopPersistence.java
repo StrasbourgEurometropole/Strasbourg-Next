@@ -207,14 +207,14 @@ public interface StopPersistence extends BasePersistence<Stop> {
 	/**
 	 * Returns the stops before and after the current stop in the ordered set where stop_code = &#63;.
 	 *
-	 * @param id the primary key of the current stop
+	 * @param stop_id the primary key of the current stop
 	 * @param stop_code the stop_code
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next stop
 	 * @throws NoSuchStopException if a stop with the primary key could not be found
 	 */
 	public Stop[] findByStopCode_PrevAndNext(
-			long id, String stop_code,
+			String stop_id, String stop_code,
 			com.liferay.portal.kernel.util.OrderByComparator<Stop>
 				orderByComparator)
 		throws NoSuchStopException;
@@ -251,38 +251,38 @@ public interface StopPersistence extends BasePersistence<Stop> {
 	/**
 	 * Creates a new stop with the primary key. Does not add the stop to the database.
 	 *
-	 * @param id the primary key for the new stop
+	 * @param stop_id the primary key for the new stop
 	 * @return the new stop
 	 */
-	public Stop create(long id);
+	public Stop create(String stop_id);
 
 	/**
 	 * Removes the stop with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param id the primary key of the stop
+	 * @param stop_id the primary key of the stop
 	 * @return the stop that was removed
 	 * @throws NoSuchStopException if a stop with the primary key could not be found
 	 */
-	public Stop remove(long id) throws NoSuchStopException;
+	public Stop remove(String stop_id) throws NoSuchStopException;
 
 	public Stop updateImpl(Stop stop);
 
 	/**
 	 * Returns the stop with the primary key or throws a <code>NoSuchStopException</code> if it could not be found.
 	 *
-	 * @param id the primary key of the stop
+	 * @param stop_id the primary key of the stop
 	 * @return the stop
 	 * @throws NoSuchStopException if a stop with the primary key could not be found
 	 */
-	public Stop findByPrimaryKey(long id) throws NoSuchStopException;
+	public Stop findByPrimaryKey(String stop_id) throws NoSuchStopException;
 
 	/**
 	 * Returns the stop with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param id the primary key of the stop
+	 * @param stop_id the primary key of the stop
 	 * @return the stop, or <code>null</code> if a stop with the primary key could not be found
 	 */
-	public Stop fetchByPrimaryKey(long id);
+	public Stop fetchByPrimaryKey(String stop_id);
 
 	/**
 	 * Returns all the stops.
@@ -351,8 +351,5 @@ public interface StopPersistence extends BasePersistence<Stop> {
 	 * @return the number of stops
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

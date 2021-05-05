@@ -49,23 +49,12 @@ public class RouteLocalServiceWrapper
 	/**
 	 * Creates a new route with the primary key. Does not add the route to the database.
 	 *
-	 * @param id the primary key for the new route
+	 * @param route_id the primary key for the new route
 	 * @return the new route
 	 */
 	@Override
-	public eu.strasbourg.service.gtfs.model.Route createRoute(long id) {
-		return _routeLocalService.createRoute(id);
-	}
-
-	/**
-	 * Crée une Route vide avec une PK, non ajouté à la base de donnée
-	 */
-	@Override
-	public eu.strasbourg.service.gtfs.model.Route createRoute(
-			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _routeLocalService.createRoute(sc);
+	public eu.strasbourg.service.gtfs.model.Route createRoute(String route_id) {
+		return _routeLocalService.createRoute(route_id);
 	}
 
 	/**
@@ -91,20 +80,6 @@ public class RouteLocalServiceWrapper
 	}
 
 	/**
-	 * Deletes the route with the primary key from the database. Also notifies the appropriate model listeners.
-	 *
-	 * @param id the primary key of the route
-	 * @return the route that was removed
-	 * @throws PortalException if a route with the primary key could not be found
-	 */
-	@Override
-	public eu.strasbourg.service.gtfs.model.Route deleteRoute(long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _routeLocalService.deleteRoute(id);
-	}
-
-	/**
 	 * Deletes the route from the database. Also notifies the appropriate model listeners.
 	 *
 	 * @param route the route
@@ -115,6 +90,20 @@ public class RouteLocalServiceWrapper
 		eu.strasbourg.service.gtfs.model.Route route) {
 
 		return _routeLocalService.deleteRoute(route);
+	}
+
+	/**
+	 * Deletes the route with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param route_id the primary key of the route
+	 * @return the route that was removed
+	 * @throws PortalException if a route with the primary key could not be found
+	 */
+	@Override
+	public eu.strasbourg.service.gtfs.model.Route deleteRoute(String route_id)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _routeLocalService.deleteRoute(route_id);
 	}
 
 	@Override
@@ -207,15 +196,8 @@ public class RouteLocalServiceWrapper
 	}
 
 	@Override
-	public eu.strasbourg.service.gtfs.model.Route fetchRoute(long id) {
-		return _routeLocalService.fetchRoute(id);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
-		getActionableDynamicQuery() {
-
-		return _routeLocalService.getActionableDynamicQuery();
+	public eu.strasbourg.service.gtfs.model.Route fetchRoute(String route_id) {
+		return _routeLocalService.fetchRoute(route_id);
 	}
 
 	/**
@@ -234,13 +216,6 @@ public class RouteLocalServiceWrapper
 	@Override
 	public eu.strasbourg.service.gtfs.model.Route getByRouteId(String routeId) {
 		return _routeLocalService.getByRouteId(routeId);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
-		getIndexableActionableDynamicQuery() {
-
-		return _routeLocalService.getIndexableActionableDynamicQuery();
 	}
 
 	/**
@@ -264,15 +239,15 @@ public class RouteLocalServiceWrapper
 	/**
 	 * Returns the route with the primary key.
 	 *
-	 * @param id the primary key of the route
+	 * @param route_id the primary key of the route
 	 * @return the route
 	 * @throws PortalException if a route with the primary key could not be found
 	 */
 	@Override
-	public eu.strasbourg.service.gtfs.model.Route getRoute(long id)
+	public eu.strasbourg.service.gtfs.model.Route getRoute(String route_id)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _routeLocalService.getRoute(id);
+		return _routeLocalService.getRoute(route_id);
 	}
 
 	/**
@@ -328,7 +303,7 @@ public class RouteLocalServiceWrapper
 	 * Supprime une Route
 	 */
 	@Override
-	public eu.strasbourg.service.gtfs.model.Route removeRoute(long routeId)
+	public eu.strasbourg.service.gtfs.model.Route removeRoute(String routeId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _routeLocalService.removeRoute(routeId);

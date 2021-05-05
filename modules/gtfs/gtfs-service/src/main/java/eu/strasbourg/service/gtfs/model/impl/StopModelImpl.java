@@ -16,13 +16,10 @@ package eu.strasbourg.service.gtfs.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
-import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
-import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -66,16 +63,15 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	public static final String TABLE_NAME = "gtfs_Stop";
 
 	public static final Object[][] TABLE_COLUMNS = {
-		{"id_", Types.BIGINT}, {"stop_id", Types.VARCHAR},
-		{"stop_code", Types.VARCHAR}, {"stop_lat", Types.VARCHAR},
-		{"stop_lon", Types.VARCHAR}, {"stop_name", Types.VARCHAR}
+		{"stop_id", Types.VARCHAR}, {"stop_code", Types.VARCHAR},
+		{"stop_lat", Types.VARCHAR}, {"stop_lon", Types.VARCHAR},
+		{"stop_name", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
 		new HashMap<String, Integer>();
 
 	static {
-		TABLE_COLUMNS_MAP.put("id_", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("stop_id", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("stop_code", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("stop_lat", Types.VARCHAR);
@@ -84,7 +80,7 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table gtfs_Stop (id_ LONG not null primary key,stop_id VARCHAR(75) null,stop_code VARCHAR(75) null,stop_lat VARCHAR(75) null,stop_lon VARCHAR(75) null,stop_name VARCHAR(75) null)";
+		"create table gtfs_Stop (stop_id VARCHAR(75) not null primary key,stop_code VARCHAR(75) null,stop_lat VARCHAR(75) null,stop_lon VARCHAR(75) null,stop_name VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table gtfs_Stop";
 
@@ -125,23 +121,23 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	}
 
 	@Override
-	public long getPrimaryKey() {
-		return _id;
+	public String getPrimaryKey() {
+		return _stop_id;
 	}
 
 	@Override
-	public void setPrimaryKey(long primaryKey) {
-		setId(primaryKey);
+	public void setPrimaryKey(String primaryKey) {
+		setStop_id(primaryKey);
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return _id;
+		return _stop_id;
 	}
 
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		setPrimaryKey(((Long)primaryKeyObj).longValue());
+		setPrimaryKey((String)primaryKeyObj);
 	}
 
 	@Override
@@ -240,26 +236,6 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 		Map<String, BiConsumer<Stop, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Stop, ?>>();
 
-		attributeGetterFunctions.put(
-			"id",
-			new Function<Stop, Object>() {
-
-				@Override
-				public Object apply(Stop stop) {
-					return stop.getId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"id",
-			new BiConsumer<Stop, Object>() {
-
-				@Override
-				public void accept(Stop stop, Object id) {
-					stop.setId((Long)id);
-				}
-
-			});
 		attributeGetterFunctions.put(
 			"stop_id",
 			new Function<Stop, Object>() {
@@ -368,16 +344,6 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	}
 
 	@Override
-	public long getId() {
-		return _id;
-	}
-
-	@Override
-	public void setId(long id) {
-		_id = id;
-	}
-
-	@Override
 	public String getStop_id() {
 		if (_stop_id == null) {
 			return "";
@@ -477,19 +443,6 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return ExpandoBridgeFactoryUtil.getExpandoBridge(
-			0, Stop.class.getName(), getPrimaryKey());
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		ExpandoBridge expandoBridge = getExpandoBridge();
-
-		expandoBridge.setAttributes(serviceContext);
-	}
-
-	@Override
 	public Stop toEscapedModel() {
 		if (_escapedModel == null) {
 			_escapedModel = _escapedModelProxyProviderFunction.apply(
@@ -503,7 +456,6 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	public Object clone() {
 		StopImpl stopImpl = new StopImpl();
 
-		stopImpl.setId(getId());
 		stopImpl.setStop_id(getStop_id());
 		stopImpl.setStop_code(getStop_code());
 		stopImpl.setStop_lat(getStop_lat());
@@ -540,9 +492,9 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 
 		Stop stop = (Stop)obj;
 
-		long primaryKey = stop.getPrimaryKey();
+		String primaryKey = stop.getPrimaryKey();
 
-		if (getPrimaryKey() == primaryKey) {
+		if (getPrimaryKey().equals(primaryKey)) {
 			return true;
 		}
 		else {
@@ -552,7 +504,7 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 
 	@Override
 	public int hashCode() {
-		return (int)getPrimaryKey();
+		return getPrimaryKey().hashCode();
 	}
 
 	@Override
@@ -579,8 +531,6 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	@Override
 	public CacheModel<Stop> toCacheModel() {
 		StopCacheModel stopCacheModel = new StopCacheModel();
-
-		stopCacheModel.id = getId();
 
 		stopCacheModel.stop_id = getStop_id();
 
@@ -689,7 +639,6 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	private static final Function<InvocationHandler, Stop>
 		_escapedModelProxyProviderFunction = _getProxyProviderFunction();
 
-	private long _id;
 	private String _stop_id;
 	private String _originalStop_id;
 	private String _stop_code;

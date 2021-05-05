@@ -21,11 +21,8 @@ import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DefaultActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -103,26 +100,26 @@ public abstract class StopLocalServiceBaseImpl
 	/**
 	 * Creates a new stop with the primary key. Does not add the stop to the database.
 	 *
-	 * @param id the primary key for the new stop
+	 * @param stop_id the primary key for the new stop
 	 * @return the new stop
 	 */
 	@Override
 	@Transactional(enabled = false)
-	public Stop createStop(long id) {
-		return stopPersistence.create(id);
+	public Stop createStop(String stop_id) {
+		return stopPersistence.create(stop_id);
 	}
 
 	/**
 	 * Deletes the stop with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param id the primary key of the stop
+	 * @param stop_id the primary key of the stop
 	 * @return the stop that was removed
 	 * @throws PortalException if a stop with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	@Override
-	public Stop deleteStop(long id) throws PortalException {
-		return stopPersistence.remove(id);
+	public Stop deleteStop(String stop_id) throws PortalException {
+		return stopPersistence.remove(stop_id);
 	}
 
 	/**
@@ -223,60 +220,20 @@ public abstract class StopLocalServiceBaseImpl
 	}
 
 	@Override
-	public Stop fetchStop(long id) {
-		return stopPersistence.fetchByPrimaryKey(id);
+	public Stop fetchStop(String stop_id) {
+		return stopPersistence.fetchByPrimaryKey(stop_id);
 	}
 
 	/**
 	 * Returns the stop with the primary key.
 	 *
-	 * @param id the primary key of the stop
+	 * @param stop_id the primary key of the stop
 	 * @return the stop
 	 * @throws PortalException if a stop with the primary key could not be found
 	 */
 	@Override
-	public Stop getStop(long id) throws PortalException {
-		return stopPersistence.findByPrimaryKey(id);
-	}
-
-	@Override
-	public ActionableDynamicQuery getActionableDynamicQuery() {
-		ActionableDynamicQuery actionableDynamicQuery =
-			new DefaultActionableDynamicQuery();
-
-		actionableDynamicQuery.setBaseLocalService(stopLocalService);
-		actionableDynamicQuery.setClassLoader(getClassLoader());
-		actionableDynamicQuery.setModelClass(Stop.class);
-
-		actionableDynamicQuery.setPrimaryKeyPropertyName("id");
-
-		return actionableDynamicQuery;
-	}
-
-	@Override
-	public IndexableActionableDynamicQuery
-		getIndexableActionableDynamicQuery() {
-
-		IndexableActionableDynamicQuery indexableActionableDynamicQuery =
-			new IndexableActionableDynamicQuery();
-
-		indexableActionableDynamicQuery.setBaseLocalService(stopLocalService);
-		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
-		indexableActionableDynamicQuery.setModelClass(Stop.class);
-
-		indexableActionableDynamicQuery.setPrimaryKeyPropertyName("id");
-
-		return indexableActionableDynamicQuery;
-	}
-
-	protected void initActionableDynamicQuery(
-		ActionableDynamicQuery actionableDynamicQuery) {
-
-		actionableDynamicQuery.setBaseLocalService(stopLocalService);
-		actionableDynamicQuery.setClassLoader(getClassLoader());
-		actionableDynamicQuery.setModelClass(Stop.class);
-
-		actionableDynamicQuery.setPrimaryKeyPropertyName("id");
+	public Stop getStop(String stop_id) throws PortalException {
+		return stopPersistence.findByPrimaryKey(stop_id);
 	}
 
 	/**

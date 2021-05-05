@@ -165,14 +165,16 @@ public interface StopTimePersistence extends BasePersistence<StopTime> {
 	/**
 	 * Returns the stop times before and after the current stop time in the ordered set where trip_id = &#63;.
 	 *
-	 * @param id the primary key of the current stop time
+	 * @param stopTimePK the primary key of the current stop time
 	 * @param trip_id the trip_id
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next stop time
 	 * @throws NoSuchStopTimeException if a stop time with the primary key could not be found
 	 */
 	public StopTime[] findByTripId_PrevAndNext(
-			long id, String trip_id,
+			eu.strasbourg.service.gtfs.service.persistence.StopTimePK
+				stopTimePK,
+			String trip_id,
 			com.liferay.portal.kernel.util.OrderByComparator<StopTime>
 				orderByComparator)
 		throws NoSuchStopTimeException;
@@ -308,14 +310,16 @@ public interface StopTimePersistence extends BasePersistence<StopTime> {
 	/**
 	 * Returns the stop times before and after the current stop time in the ordered set where stop_id = &#63;.
 	 *
-	 * @param id the primary key of the current stop time
+	 * @param stopTimePK the primary key of the current stop time
 	 * @param stop_id the stop_id
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next stop time
 	 * @throws NoSuchStopTimeException if a stop time with the primary key could not be found
 	 */
 	public StopTime[] findByStopId_PrevAndNext(
-			long id, String stop_id,
+			eu.strasbourg.service.gtfs.service.persistence.StopTimePK
+				stopTimePK,
+			String stop_id,
 			com.liferay.portal.kernel.util.OrderByComparator<StopTime>
 				orderByComparator)
 		throws NoSuchStopTimeException;
@@ -352,38 +356,46 @@ public interface StopTimePersistence extends BasePersistence<StopTime> {
 	/**
 	 * Creates a new stop time with the primary key. Does not add the stop time to the database.
 	 *
-	 * @param id the primary key for the new stop time
+	 * @param stopTimePK the primary key for the new stop time
 	 * @return the new stop time
 	 */
-	public StopTime create(long id);
+	public StopTime create(
+		eu.strasbourg.service.gtfs.service.persistence.StopTimePK stopTimePK);
 
 	/**
 	 * Removes the stop time with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param id the primary key of the stop time
+	 * @param stopTimePK the primary key of the stop time
 	 * @return the stop time that was removed
 	 * @throws NoSuchStopTimeException if a stop time with the primary key could not be found
 	 */
-	public StopTime remove(long id) throws NoSuchStopTimeException;
+	public StopTime remove(
+			eu.strasbourg.service.gtfs.service.persistence.StopTimePK
+				stopTimePK)
+		throws NoSuchStopTimeException;
 
 	public StopTime updateImpl(StopTime stopTime);
 
 	/**
 	 * Returns the stop time with the primary key or throws a <code>NoSuchStopTimeException</code> if it could not be found.
 	 *
-	 * @param id the primary key of the stop time
+	 * @param stopTimePK the primary key of the stop time
 	 * @return the stop time
 	 * @throws NoSuchStopTimeException if a stop time with the primary key could not be found
 	 */
-	public StopTime findByPrimaryKey(long id) throws NoSuchStopTimeException;
+	public StopTime findByPrimaryKey(
+			eu.strasbourg.service.gtfs.service.persistence.StopTimePK
+				stopTimePK)
+		throws NoSuchStopTimeException;
 
 	/**
 	 * Returns the stop time with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param id the primary key of the stop time
+	 * @param stopTimePK the primary key of the stop time
 	 * @return the stop time, or <code>null</code> if a stop time with the primary key could not be found
 	 */
-	public StopTime fetchByPrimaryKey(long id);
+	public StopTime fetchByPrimaryKey(
+		eu.strasbourg.service.gtfs.service.persistence.StopTimePK stopTimePK);
 
 	/**
 	 * Returns all the stop times.
@@ -453,7 +465,6 @@ public interface StopTimePersistence extends BasePersistence<StopTime> {
 	 */
 	public int countAll();
 
-	@Override
-	public Set<String> getBadColumnNames();
+	public Set<String> getCompoundPKColumnNames();
 
 }

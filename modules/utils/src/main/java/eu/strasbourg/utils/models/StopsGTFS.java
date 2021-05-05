@@ -9,8 +9,6 @@ public class StopsGTFS implements GTFSModel {
 	private double stop_lat;
 	private double stop_lon;
 	private String stop_name;
-	private String stop_url;
-	private String stop_desc;
 
 	@Override
 	public void fromStringArray(String[] value) throws FileFormatException {
@@ -20,8 +18,6 @@ public class StopsGTFS implements GTFSModel {
 			this.stop_lat = Double.parseDouble(value[2]);
 			this.stop_lon =  Double.parseDouble(value[3]);
 			this.stop_name = value[4];
-			this.stop_url = value[5];
-			this.stop_desc = value[6];
 		} catch (ArrayIndexOutOfBoundsException e) {
 			throw new FileFormatException(e.getLocalizedMessage());
 		} catch (NumberFormatException n) {
@@ -100,36 +96,6 @@ public class StopsGTFS implements GTFSModel {
 	 */
 	public void setStop_name(String stop_name) {
 		this.stop_name = stop_name;
-	}
-
-	/**
-	 * @return the stop_url
-	 */
-	public String getStop_url() {
-		return stop_url;
-	}
-
-	/**
-	 * @param stop_url
-	 *            the stop_url to set
-	 */
-	public void setStop_url(String stop_url) {
-		this.stop_url = stop_url;
-	}
-	
-	/**
-	 * @return the stop_desc
-	 */
-	public String getStop_desc() {
-		return stop_desc;
-	}
-
-	/**
-	 * @param stop_desc
-	 *            the stop_desc to set
-	 */
-	public void setStop_desc(String stop_desc) {
-		this.stop_desc = stop_desc;
 	}
 
 	@Override

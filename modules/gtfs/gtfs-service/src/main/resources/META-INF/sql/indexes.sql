@@ -41,7 +41,6 @@ create index IX_3E9D3E4D on gtfs_Stop (stop_code[$COLUMN_LENGTH:75$]);
 create index IX_13414D7B on gtfs_Stop (stop_id[$COLUMN_LENGTH:75$]);
 
 create index IX_8402CBEE on gtfs_StopTime (stop_id[$COLUMN_LENGTH:75$]);
-create index IX_B1F7DAB on gtfs_StopTime (trip_id[$COLUMN_LENGTH:75$]);
 
 create index IX_AA8459B5 on gtfs_Trip (route_id[$COLUMN_LENGTH:75$]);
 create index IX_9657449 on gtfs_Trip (service_id[$COLUMN_LENGTH:75$]);

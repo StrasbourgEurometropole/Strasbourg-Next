@@ -33,7 +33,6 @@ public class StopSoap implements Serializable {
 	public static StopSoap toSoapModel(Stop model) {
 		StopSoap soapModel = new StopSoap();
 
-		soapModel.setId(model.getId());
 		soapModel.setStop_id(model.getStop_id());
 		soapModel.setStop_code(model.getStop_code());
 		soapModel.setStop_lat(model.getStop_lat());
@@ -83,20 +82,12 @@ public class StopSoap implements Serializable {
 	public StopSoap() {
 	}
 
-	public long getPrimaryKey() {
-		return _id;
+	public String getPrimaryKey() {
+		return _stop_id;
 	}
 
-	public void setPrimaryKey(long pk) {
-		setId(pk);
-	}
-
-	public long getId() {
-		return _id;
-	}
-
-	public void setId(long id) {
-		_id = id;
+	public void setPrimaryKey(String pk) {
+		setStop_id(pk);
 	}
 
 	public String getStop_id() {
@@ -139,7 +130,6 @@ public class StopSoap implements Serializable {
 		_stop_name = stop_name;
 	}
 
-	private long _id;
 	private String _stop_id;
 	private String _stop_code;
 	private String _stop_lat;

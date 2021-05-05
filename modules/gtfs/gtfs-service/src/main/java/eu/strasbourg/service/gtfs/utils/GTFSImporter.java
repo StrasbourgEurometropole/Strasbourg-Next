@@ -2,6 +2,7 @@ package eu.strasbourg.service.gtfs.utils;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.portal.kernel.dao.jdbc.DataAccess;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -22,7 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -81,14 +82,15 @@ public class GTFSImporter {
 			log.error(e);
 			return;
 		}
+		
 
-		boolean skipDataImport = latestImport != null && gtfsFile != null && latestImport.getResult() == 1 &&
-			this.importHistoric.getGtfsFileHash().equals(latestImport.getGtfsFileHash());
 
 		// Import des donnees du flux
-		if (!skipDataImport) {
+		boolean skipDataImport = latestImport != null && gtfsFile != null && latestImport.getResult() == 1 &&
+			this.importHistoric.getGtfsFileHash().equals(latestImport.getGtfsFileHash());
+		//if (!skipDataImport) {
 			importGTFSData(gtfsFolder.getAbsolutePath()+"\\");
-		}
+		//}
 
 		// Convertion des donnees du flux vers des entitees liferay affichables
 		if (this.importHistoric.getErrorStackTrace().equals(""))
@@ -144,6 +146,7 @@ public class GTFSImporter {
 			// Recuperation des temps d'arrêt
 			Map<String, List<StopTimesGTFS>> mapStopTimes;
 			mapStopTimes = GTFSLoaderHelper.readStopTimesData(gtfsFolderPath);
+			Timestamp stoptimesMiddleTimestamp = new Timestamp(System.currentTimeMillis());
 			StopTimeLocalServiceUtil.importFromGTFS(mapStopTimes);
 			this.importHistoric.addNewOperation("Get " + mapStopTimes.size() + " StopTime entries");
 			Timestamp stoptimesEndTimestamp = new Timestamp(System.currentTimeMillis());
@@ -151,6 +154,7 @@ public class GTFSImporter {
 			// Recuperation des routes
 			Map<String, StopsGTFS> mapStops;
 			mapStops = GTFSLoaderHelper.readStopsData(gtfsFolderPath);
+			Timestamp stopsMiddleTimestamp = new Timestamp(System.currentTimeMillis());
 			StopLocalServiceUtil.importFromGTFS(mapStops);
 			this.importHistoric.addNewOperation("Get " + mapStops.size() + " Stops entries");
 			Timestamp stopsEndTimestamp = new Timestamp(System.currentTimeMillis());
@@ -165,13 +169,17 @@ public class GTFSImporter {
 			Timestamp endTimestamp = new Timestamp(System.currentTimeMillis());
 			long processTime = (endTimestamp.getTime() - startTimestamp.getTime()) / 1000;
 			this.importHistoric.addNewOperation("Finishing files data import in " + processTime + " seconds.");
-			this.importHistoric.addNewOperation("Time for Agency:" + (startTimestamp.getTime() - agencyEndTimestamp.getTime()));
-			this.importHistoric.addNewOperation("Time for Calendar:" + (agencyEndTimestamp.getTime() - CalendarEndTimestamp.getTime()));
-			this.importHistoric.addNewOperation("Time for CalendarDates:" + (CalendarEndTimestamp.getTime() - CalendarDatesEndTimestamp.getTime()));
-			this.importHistoric.addNewOperation("Time for Routes:" + (CalendarDatesEndTimestamp.getTime() - routesEndTimestamp.getTime()));
-			this.importHistoric.addNewOperation("Time for Stoptimes:" + (routesEndTimestamp.getTime() - stoptimesEndTimestamp.getTime()));
-			this.importHistoric.addNewOperation("Time for Stops:" + (stoptimesEndTimestamp.getTime() - stopsEndTimestamp.getTime()));
-			this.importHistoric.addNewOperation("Time for Trips:" + (stopsEndTimestamp.getTime() - tripsEndTimestamp.getTime()));
+			this.importHistoric.addNewOperation("Time for Agency:" + (agencyEndTimestamp.getTime() - startTimestamp.getTime()));
+			this.importHistoric.addNewOperation("Time for Calendar:" + (CalendarEndTimestamp.getTime() - agencyEndTimestamp.getTime()));
+			this.importHistoric.addNewOperation("Time for CalendarDates:" + (CalendarDatesEndTimestamp.getTime() - CalendarEndTimestamp.getTime()));
+			this.importHistoric.addNewOperation("Time for Routes:" + (routesEndTimestamp.getTime()- CalendarDatesEndTimestamp.getTime() ));
+			this.importHistoric.addNewOperation("Time for Stoptimes:" + ( stoptimesEndTimestamp.getTime()- routesEndTimestamp.getTime()));
+			this.importHistoric.addNewOperation("Time for stoptimes parsing:"+ (stoptimesMiddleTimestamp.getTime() - routesEndTimestamp.getTime()));
+			this.importHistoric.addNewOperation("Time for stoptimes insertion:"+(stoptimesEndTimestamp.getTime() - stoptimesMiddleTimestamp.getTime()));
+			this.importHistoric.addNewOperation("Time for Stops:" + ( stopsEndTimestamp.getTime()- stoptimesEndTimestamp.getTime()));
+			this.importHistoric.addNewOperation("Time for Stops parsing:"+ (stopsMiddleTimestamp.getTime() - stoptimesEndTimestamp.getTime()));
+			this.importHistoric.addNewOperation("Time for Stops insertion:"+ (stopsEndTimestamp.getTime() - stopsMiddleTimestamp.getTime()));
+			this.importHistoric.addNewOperation("Time for Trips:" + (tripsEndTimestamp.getTime() - stopsEndTimestamp.getTime()));
 
 		} catch (PortalException e) {
 			this.importHistoric.setErrorDescription("Probleme survenu lors de la lecture des donnees du flux GTFS");
@@ -436,88 +444,41 @@ public class GTFSImporter {
 			long sql_time = 0;
 			long dir_time = 0;
 			int stopNumber = 0;
-			// Parcours des arrets pour trouver les lignes correspondantes
-			for (Stop stop : StopLocalServiceUtil.getAllStops()) {
-				stopNumber++;
-				timestamp3_sql = new Timestamp(System.currentTimeMillis());
-				List <Trip> trips = TripLocalServiceUtil.getTripAvailableForStop(stop.getStop_id());
-				sql_time += System.currentTimeMillis() - timestamp3_sql.getTime();
-
-				timestamp3_dir = new Timestamp(System.currentTimeMillis());
-				int tripIndex = 0;
-
-				for (Trip trip: trips) {
-
-					tripIndex++;
-
-					// Creation du stop vide
-					Direction direction = DirectionLocalServiceUtil.createDirection(this.sc);
-					// Completion des informations
-					direction.setTripId(trip.getTrip_id());
-					direction.setStopId(stop.getStop_id());
-					direction.setRouteId(trip.getRoute_id());
-					direction.setDestinationName(trip.getTrip_headsign());
-
-					/*
-					this.importHistoric.addNewOperation(
-						"New link with direction detected  --> [ " +
-								"id : " + trip.getTrip_id() +
-								", stop id : " + stop.getStop_id() +
-								", ligne id : " + trip.getRoute_id() +
-								", destination headsign : " + trip.getTrip_headsign() + "]"
-					);
-					 */
-
-					directionsToSave.add(direction);
-
-					// On en profite pour mettre à jour le type de l'arret s'il est dans la liste d'edition
-					// Operation à ne faire q'une fois
-					if (tripIndex == 1) {
-						Arret correspondingArret = arretsToUpdate.stream()
-								.filter(arret -> stop.getStop_id().equals(arret.getStopId()))
-								.findAny()
-								.orElse(null);
-						if (correspondingArret != null) {
-							// On recupere la ligne de la direction pour obtenir le type de ligne
-							Ligne ligne = LigneLocalServiceUtil.getByRouteId(direction.getRouteId());
-
-							if (ligne != null) {
-								// créer un nouveau SC
-								ServiceContext scArret = new ServiceContext();
-								scArret.setScopeGroupId(this.sc.getScopeGroupId());
-								scArret.setCompanyId(this.sc.getCompanyId());
-								scArret.setUserId(this.sc.getUserId());
-								scArret.setWorkflowAction(this.sc.getWorkflowAction());
-								scArret.setModifiedDate(new Date());
-
-								// changer type d'arret
-								correspondingArret.setType(ligne.getType());
-
-								// ajout de la catégorie Bus/tram
-								long categoryId = -1;
-								switch (ligne.getType()) {
-									case 0: {
-										categoryId = Validator.isNotNull(tramCateg)?tramCateg.getCategoryId():-1;
-										break;
-									}
-									case 3: {
-										categoryId = Validator.isNotNull(busCateg)?busCateg.getCategoryId():-1;
-										break;
-									}
-								}
-								scArret.setAssetCategoryIds(new long[]{categoryId});
-
-								// Mettre à jour l'arret
-								ArretLocalServiceUtil.updateArret(correspondingArret, scArret);
-
-							}
-
-						}
-					}
-				}
-				dir_time += System.currentTimeMillis() - timestamp3_dir.getTime();
-
+			// Recuperation de la connexion a la BDD
+			Connection connection = null;
+			try {
+				connection = DataAccess.getConnection();
+			} catch (SQLException e) {
+				this.importHistoric.setErrorDescription("Probleme survenu lors de la recuperation de la connexion a la base de donnees");
+				this.importHistoric.setErrorStackTrace(e.toString());
+				this.importHistoric.setResult(0);
+				log.error(e);
+				return;
 			}
+			// Test SQL procedure
+			try {
+				// Preparation de l'appel a la procedure
+				CallableStatement sqlStatement = connection.prepareCall("{call GET_TRIPS_FOR_ALL_STOPS()}");
+				if (sqlStatement.execute()) {
+
+					ResultSet results = sqlStatement.getResultSet();
+					processSQLResults(results, directionsToSave, arretsToUpdate, tramCateg, busCateg);
+					while(sqlStatement.getMoreResults()) {
+						results = sqlStatement.getResultSet();
+						processSQLResults(results, directionsToSave, arretsToUpdate, tramCateg, busCateg);
+					}
+
+				} else {
+					this.importHistoric.addNewOperation("Erreur lors de l'execution de la procedure SQL stockee.");
+				}
+
+			} catch (SQLException e) {
+				this.importHistoric.setErrorDescription("Probleme survenu lors de l'execution de la procedure SQL");
+				this.importHistoric.setErrorStackTrace(e.toString());
+				this.importHistoric.setResult(0);
+				log.error(e);
+			}
+
 
 			// Supprimer les arrets non parcourus
 			Timestamp timestamp4 = new Timestamp(System.currentTimeMillis());
@@ -543,6 +504,8 @@ public class GTFSImporter {
 					this.importHistoric,
 					this.sc
 			);
+
+
 
 			// Sauvegarder les nouvelles directions
 			Timestamp timestamp6 = new Timestamp(System.currentTimeMillis());
@@ -593,6 +556,80 @@ public class GTFSImporter {
 			log.error(e);
 		}
 
+	}
+
+	public void processSQLResults(ResultSet results, List <Direction> directionsToSave, List<Arret> arretsToUpdate,
+								  AssetCategory tramCateg, AssetCategory busCateg) throws SQLException, PortalException {
+		String stop_id = results.getString("stopId");
+		int tripIndex = 0;
+		while(results.next()) {
+			tripIndex++;
+
+			// Creation du stop vide
+			Direction direction = DirectionLocalServiceUtil.createDirection(this.sc);
+			// Completion des informations
+			direction.setTripId(results.getString("trip_id"));
+			direction.setStopId(stop_id);
+			direction.setRouteId(results.getString("route_id"));
+			direction.setDestinationName(results.getString("trip_headsign"));
+
+							/*
+							this.importHistoric.addNewOperation(
+								"New link with direction detected  --> [ " +
+										"id : " + trip.getTrip_id() +
+										", stop id : " + stop.getStop_id() +
+										", ligne id : " + trip.getRoute_id() +
+										", destination headsign : " + trip.getTrip_headsign() + "]"
+							);
+							 */
+
+			directionsToSave.add(direction);
+
+			// On en profite pour mettre à jour le type de l'arret s'il est dans la liste d'edition
+			// Operation à ne faire q'une fois
+			if (tripIndex == 1) {
+				Arret correspondingArret = arretsToUpdate.stream()
+						.filter(arret -> stop_id.equals(arret.getStopId()))
+						.findAny()
+						.orElse(null);
+				if (correspondingArret != null) {
+					// On recupere la ligne de la direction pour obtenir le type de ligne
+					Ligne ligne = LigneLocalServiceUtil.getByRouteId(direction.getRouteId());
+
+					if (ligne != null) {
+						// créer un nouveau SC
+						ServiceContext scArret = new ServiceContext();
+						scArret.setScopeGroupId(this.sc.getScopeGroupId());
+						scArret.setCompanyId(this.sc.getCompanyId());
+						scArret.setUserId(this.sc.getUserId());
+						scArret.setWorkflowAction(this.sc.getWorkflowAction());
+						scArret.setModifiedDate(new Date());
+
+						// changer type d'arret
+						correspondingArret.setType(ligne.getType());
+
+						// ajout de la catégorie Bus/tram
+						long categoryId = -1;
+						switch (ligne.getType()) {
+							case 0: {
+								categoryId = Validator.isNotNull(tramCateg)?tramCateg.getCategoryId():-1;
+								break;
+							}
+							case 3: {
+								categoryId = Validator.isNotNull(busCateg)?busCateg.getCategoryId():-1;
+								break;
+							}
+						}
+						scArret.setAssetCategoryIds(new long[]{categoryId});
+
+						// Mettre à jour l'arret
+						ArretLocalServiceUtil.updateArret(correspondingArret, scArret);
+
+					}
+
+				}
+			}
+		}
 	}
 
 	public ImportHistoric getImportHistoric() {

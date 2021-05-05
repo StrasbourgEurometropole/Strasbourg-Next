@@ -112,8 +112,7 @@ create table gtfs_Ligne (
 );
 
 create table gtfs_Route (
-	id_ LONG not null primary key,
-	route_id VARCHAR(75) null,
+	route_id VARCHAR(75) not null primary key,
 	route_short_name VARCHAR(75) null,
 	route_long_name VARCHAR(200) null,
 	route_type INTEGER,
@@ -122,8 +121,7 @@ create table gtfs_Route (
 );
 
 create table gtfs_Stop (
-	id_ LONG not null primary key,
-	stop_id VARCHAR(75) null,
+	stop_id VARCHAR(75) not null primary key,
 	stop_code VARCHAR(75) null,
 	stop_lat VARCHAR(75) null,
 	stop_lon VARCHAR(75) null,
@@ -131,15 +129,14 @@ create table gtfs_Stop (
 );
 
 create table gtfs_StopTime (
-	id_ LONG not null primary key,
-	trip_id VARCHAR(75) null,
-	stop_id VARCHAR(75) null
+	trip_id VARCHAR(75) not null,
+	stop_id VARCHAR(75) not null,
+	primary key (trip_id, stop_id)
 );
 
 create table gtfs_Trip (
-	id_ LONG not null primary key,
 	route_id VARCHAR(75) null,
 	service_id VARCHAR(75) null,
-	trip_id VARCHAR(75) null,
+	trip_id VARCHAR(75) not null primary key,
 	trip_headsign VARCHAR(75) null
 );

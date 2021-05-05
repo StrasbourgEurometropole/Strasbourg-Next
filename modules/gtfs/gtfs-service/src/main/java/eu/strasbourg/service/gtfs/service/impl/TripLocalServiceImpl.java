@@ -45,25 +45,14 @@ public class TripLocalServiceImpl extends TripLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.gtfs.service.TripLocalServiceUtil} to access the trip local service.
 	 */
-	
-	/**
-	 * Crée une agence vide avec une PK, non ajouté à la base de donnée
-	 */
-	@Override
-	public Trip createTrip(ServiceContext sc) throws PortalException {
-		long pk = counterLocalService.increment();
-		Trip trip = this.tripLocalService.createTrip(pk);
 
-		return trip;
-	}
 	
 	/**
 	 * Crée un voyage à partir d'une entrée GTFS
 	 */
 	@Override
 	public Trip createTripFromGTFS(TripsGTFS entry) throws PortalException {
-		long pk = counterLocalService.increment();
-		Trip trip = this.tripLocalService.createTrip(pk);
+		Trip trip = this.tripLocalService.createTrip(entry.getTrip_id());
 		
 		trip.setRoute_id(entry.getRoute_id());
 		trip.setService_id(entry.getService_id());

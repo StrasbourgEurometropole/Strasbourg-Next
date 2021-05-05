@@ -56,7 +56,6 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
-		attributes.put("id", getId());
 		attributes.put("stop_id", getStop_id());
 		attributes.put("stop_code", getStop_code());
 		attributes.put("stop_lat", getStop_lat());
@@ -68,12 +67,6 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
-		Long id = (Long)attributes.get("id");
-
-		if (id != null) {
-			setId(id);
-		}
-
 		String stop_id = (String)attributes.get("stop_id");
 
 		if (stop_id != null) {
@@ -121,22 +114,12 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 	}
 
 	/**
-	 * Returns the ID of this stop.
-	 *
-	 * @return the ID of this stop
-	 */
-	@Override
-	public long getId() {
-		return _stop.getId();
-	}
-
-	/**
 	 * Returns the primary key of this stop.
 	 *
 	 * @return the primary key of this stop
 	 */
 	@Override
-	public long getPrimaryKey() {
+	public String getPrimaryKey() {
 		return _stop.getPrimaryKey();
 	}
 
@@ -242,16 +225,6 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 		_stop.setExpandoBridgeAttributes(serviceContext);
 	}
 
-	/**
-	 * Sets the ID of this stop.
-	 *
-	 * @param id the ID of this stop
-	 */
-	@Override
-	public void setId(long id) {
-		_stop.setId(id);
-	}
-
 	@Override
 	public void setNew(boolean n) {
 		_stop.setNew(n);
@@ -263,7 +236,7 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 	 * @param primaryKey the primary key of this stop
 	 */
 	@Override
-	public void setPrimaryKey(long primaryKey) {
+	public void setPrimaryKey(String primaryKey) {
 		_stop.setPrimaryKey(primaryKey);
 	}
 

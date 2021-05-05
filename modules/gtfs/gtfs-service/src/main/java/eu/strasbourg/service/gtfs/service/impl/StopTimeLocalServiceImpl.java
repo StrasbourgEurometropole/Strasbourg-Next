@@ -23,6 +23,7 @@ import java.util.Map;
 
 import eu.strasbourg.service.gtfs.model.StopTime;
 import eu.strasbourg.service.gtfs.service.base.StopTimeLocalServiceBaseImpl;
+import eu.strasbourg.service.gtfs.service.persistence.StopTimePK;
 import eu.strasbourg.utils.models.StopTimesGTFS;
 
 /**
@@ -45,28 +46,15 @@ public class StopTimeLocalServiceImpl extends StopTimeLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.gtfs.service.StopTimeLocalServiceUtil} to access the stop time local service.
 	 */
-	
-	/**
-	 * Crée un StopTime vide avec une PK, non ajouté à la base de donnée
-	 */
-	@Override
-	public StopTime createStopTime(ServiceContext sc) throws PortalException {
-		long pk = counterLocalService.increment();
-		StopTime stopTime = this.stopTimeLocalService.createStopTime(pk);
 
-		return stopTime;
-	}
 	
 	/**
 	 * Crée un temps d'arret à partir d'une entrée GTFS
 	 */
 	@Override
 	public StopTime createStopTimeFromGTFS(StopTimesGTFS entry) throws PortalException {
-		long pk = counterLocalService.increment();
+		StopTimePK pk = new StopTimePK(entry.getTrip_id(), entry.getStop_id());
 		StopTime stopTime = this.stopTimeLocalService.createStopTime(pk);
-		
-		stopTime.setTrip_id(entry.getTrip_id());
-		stopTime.setStop_id(entry.getStop_id());
 		
 		stopTime = this.stopTimeLocalService.updateStopTime(stopTime);
 
@@ -109,7 +97,7 @@ public class StopTimeLocalServiceImpl extends StopTimeLocalServiceBaseImpl {
 	public void importFromGTFS(Map<String, List<StopTimesGTFS>> data) throws PortalException {
 		// Flush de la table avant incorporation des nouvelles données
 		this.removeAllStopTimes();
-		
+
 		for (Map.Entry<String, List<StopTimesGTFS>> mapEntry : data.entrySet()) {
 			for (StopTimesGTFS listEntry : mapEntry.getValue()) {
 				this.createStopTimeFromGTFS(listEntry);

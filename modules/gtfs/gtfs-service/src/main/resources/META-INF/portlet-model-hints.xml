@@ -121,7 +121,6 @@
 		<field name="textColor" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.gtfs.model.Route">
-		<field name="id" type="long" />
 		<field name="route_id" type="String" />
 		<field name="route_short_name" type="String" />
 		<field name="route_long_name" type="String">
@@ -132,7 +131,6 @@
 		<field name="route_text_color" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.gtfs.model.Stop">
-		<field name="id" type="long" />
 		<field name="stop_id" type="String" />
 		<field name="stop_code" type="String" />
 		<field name="stop_lat" type="String" />
@@ -140,12 +138,10 @@
 		<field name="stop_name" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.gtfs.model.StopTime">
-		<field name="id" type="long" />
 		<field name="trip_id" type="String" />
 		<field name="stop_id" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.gtfs.model.Trip">
-		<field name="id" type="long" />
 		<field name="route_id" type="String" />
 		<field name="service_id" type="String" />
 		<field name="trip_id" type="String" />

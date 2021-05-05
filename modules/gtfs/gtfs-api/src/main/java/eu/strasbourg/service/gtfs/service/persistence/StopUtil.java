@@ -315,19 +315,19 @@ public class StopUtil {
 	/**
 	 * Returns the stops before and after the current stop in the ordered set where stop_code = &#63;.
 	 *
-	 * @param id the primary key of the current stop
+	 * @param stop_id the primary key of the current stop
 	 * @param stop_code the stop_code
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next stop
 	 * @throws NoSuchStopException if a stop with the primary key could not be found
 	 */
 	public static Stop[] findByStopCode_PrevAndNext(
-			long id, String stop_code,
+			String stop_id, String stop_code,
 			OrderByComparator<Stop> orderByComparator)
 		throws eu.strasbourg.service.gtfs.exception.NoSuchStopException {
 
 		return getPersistence().findByStopCode_PrevAndNext(
-			id, stop_code, orderByComparator);
+			stop_id, stop_code, orderByComparator);
 	}
 
 	/**
@@ -370,24 +370,24 @@ public class StopUtil {
 	/**
 	 * Creates a new stop with the primary key. Does not add the stop to the database.
 	 *
-	 * @param id the primary key for the new stop
+	 * @param stop_id the primary key for the new stop
 	 * @return the new stop
 	 */
-	public static Stop create(long id) {
-		return getPersistence().create(id);
+	public static Stop create(String stop_id) {
+		return getPersistence().create(stop_id);
 	}
 
 	/**
 	 * Removes the stop with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param id the primary key of the stop
+	 * @param stop_id the primary key of the stop
 	 * @return the stop that was removed
 	 * @throws NoSuchStopException if a stop with the primary key could not be found
 	 */
-	public static Stop remove(long id)
+	public static Stop remove(String stop_id)
 		throws eu.strasbourg.service.gtfs.exception.NoSuchStopException {
 
-		return getPersistence().remove(id);
+		return getPersistence().remove(stop_id);
 	}
 
 	public static Stop updateImpl(Stop stop) {
@@ -397,24 +397,24 @@ public class StopUtil {
 	/**
 	 * Returns the stop with the primary key or throws a <code>NoSuchStopException</code> if it could not be found.
 	 *
-	 * @param id the primary key of the stop
+	 * @param stop_id the primary key of the stop
 	 * @return the stop
 	 * @throws NoSuchStopException if a stop with the primary key could not be found
 	 */
-	public static Stop findByPrimaryKey(long id)
+	public static Stop findByPrimaryKey(String stop_id)
 		throws eu.strasbourg.service.gtfs.exception.NoSuchStopException {
 
-		return getPersistence().findByPrimaryKey(id);
+		return getPersistence().findByPrimaryKey(stop_id);
 	}
 
 	/**
 	 * Returns the stop with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param id the primary key of the stop
+	 * @param stop_id the primary key of the stop
 	 * @return the stop, or <code>null</code> if a stop with the primary key could not be found
 	 */
-	public static Stop fetchByPrimaryKey(long id) {
-		return getPersistence().fetchByPrimaryKey(id);
+	public static Stop fetchByPrimaryKey(String stop_id) {
+		return getPersistence().fetchByPrimaryKey(stop_id);
 	}
 
 	/**
@@ -494,10 +494,6 @@ public class StopUtil {
 	 */
 	public static int countAll() {
 		return getPersistence().countAll();
-	}
-
-	public static Set<String> getBadColumnNames() {
-		return getPersistence().getBadColumnNames();
 	}
 
 	public static StopPersistence getPersistence() {

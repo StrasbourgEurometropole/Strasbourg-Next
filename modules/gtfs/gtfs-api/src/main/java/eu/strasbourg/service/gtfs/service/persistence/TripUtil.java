@@ -256,18 +256,19 @@ public class TripUtil {
 	/**
 	 * Returns the trips before and after the current trip in the ordered set where route_id = &#63;.
 	 *
-	 * @param id the primary key of the current trip
+	 * @param trip_id the primary key of the current trip
 	 * @param route_id the route_id
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next trip
 	 * @throws NoSuchTripException if a trip with the primary key could not be found
 	 */
 	public static Trip[] findByRouteId_PrevAndNext(
-			long id, String route_id, OrderByComparator<Trip> orderByComparator)
+			String trip_id, String route_id,
+			OrderByComparator<Trip> orderByComparator)
 		throws eu.strasbourg.service.gtfs.exception.NoSuchTripException {
 
 		return getPersistence().findByRouteId_PrevAndNext(
-			id, route_id, orderByComparator);
+			trip_id, route_id, orderByComparator);
 	}
 
 	/**
@@ -423,19 +424,19 @@ public class TripUtil {
 	/**
 	 * Returns the trips before and after the current trip in the ordered set where service_id = &#63;.
 	 *
-	 * @param id the primary key of the current trip
+	 * @param trip_id the primary key of the current trip
 	 * @param service_id the service_id
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next trip
 	 * @throws NoSuchTripException if a trip with the primary key could not be found
 	 */
 	public static Trip[] findByServiceId_PrevAndNext(
-			long id, String service_id,
+			String trip_id, String service_id,
 			OrderByComparator<Trip> orderByComparator)
 		throws eu.strasbourg.service.gtfs.exception.NoSuchTripException {
 
 		return getPersistence().findByServiceId_PrevAndNext(
-			id, service_id, orderByComparator);
+			trip_id, service_id, orderByComparator);
 	}
 
 	/**
@@ -583,23 +584,6 @@ public class TripUtil {
 	}
 
 	/**
-	 * Returns the trips before and after the current trip in the ordered set where trip_id = &#63;.
-	 *
-	 * @param id the primary key of the current trip
-	 * @param trip_id the trip_id
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next trip
-	 * @throws NoSuchTripException if a trip with the primary key could not be found
-	 */
-	public static Trip[] findByTripId_PrevAndNext(
-			long id, String trip_id, OrderByComparator<Trip> orderByComparator)
-		throws eu.strasbourg.service.gtfs.exception.NoSuchTripException {
-
-		return getPersistence().findByTripId_PrevAndNext(
-			id, trip_id, orderByComparator);
-	}
-
-	/**
 	 * Removes all the trips where trip_id = &#63; from the database.
 	 *
 	 * @param trip_id the trip_id
@@ -639,24 +623,24 @@ public class TripUtil {
 	/**
 	 * Creates a new trip with the primary key. Does not add the trip to the database.
 	 *
-	 * @param id the primary key for the new trip
+	 * @param trip_id the primary key for the new trip
 	 * @return the new trip
 	 */
-	public static Trip create(long id) {
-		return getPersistence().create(id);
+	public static Trip create(String trip_id) {
+		return getPersistence().create(trip_id);
 	}
 
 	/**
 	 * Removes the trip with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param id the primary key of the trip
+	 * @param trip_id the primary key of the trip
 	 * @return the trip that was removed
 	 * @throws NoSuchTripException if a trip with the primary key could not be found
 	 */
-	public static Trip remove(long id)
+	public static Trip remove(String trip_id)
 		throws eu.strasbourg.service.gtfs.exception.NoSuchTripException {
 
-		return getPersistence().remove(id);
+		return getPersistence().remove(trip_id);
 	}
 
 	public static Trip updateImpl(Trip trip) {
@@ -666,24 +650,24 @@ public class TripUtil {
 	/**
 	 * Returns the trip with the primary key or throws a <code>NoSuchTripException</code> if it could not be found.
 	 *
-	 * @param id the primary key of the trip
+	 * @param trip_id the primary key of the trip
 	 * @return the trip
 	 * @throws NoSuchTripException if a trip with the primary key could not be found
 	 */
-	public static Trip findByPrimaryKey(long id)
+	public static Trip findByPrimaryKey(String trip_id)
 		throws eu.strasbourg.service.gtfs.exception.NoSuchTripException {
 
-		return getPersistence().findByPrimaryKey(id);
+		return getPersistence().findByPrimaryKey(trip_id);
 	}
 
 	/**
 	 * Returns the trip with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param id the primary key of the trip
+	 * @param trip_id the primary key of the trip
 	 * @return the trip, or <code>null</code> if a trip with the primary key could not be found
 	 */
-	public static Trip fetchByPrimaryKey(long id) {
-		return getPersistence().fetchByPrimaryKey(id);
+	public static Trip fetchByPrimaryKey(String trip_id) {
+		return getPersistence().fetchByPrimaryKey(trip_id);
 	}
 
 	/**
@@ -763,10 +747,6 @@ public class TripUtil {
 	 */
 	public static int countAll() {
 		return getPersistence().countAll();
-	}
-
-	public static Set<String> getBadColumnNames() {
-		return getPersistence().getBadColumnNames();
 	}
 
 	public static TripPersistence getPersistence() {

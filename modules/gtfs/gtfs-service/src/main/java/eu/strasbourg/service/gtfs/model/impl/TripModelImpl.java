@@ -16,13 +16,10 @@ package eu.strasbourg.service.gtfs.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
-import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
-import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -66,16 +63,14 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 	public static final String TABLE_NAME = "gtfs_Trip";
 
 	public static final Object[][] TABLE_COLUMNS = {
-		{"id_", Types.BIGINT}, {"route_id", Types.VARCHAR},
-		{"service_id", Types.VARCHAR}, {"trip_id", Types.VARCHAR},
-		{"trip_headsign", Types.VARCHAR}
+		{"route_id", Types.VARCHAR}, {"service_id", Types.VARCHAR},
+		{"trip_id", Types.VARCHAR}, {"trip_headsign", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
 		new HashMap<String, Integer>();
 
 	static {
-		TABLE_COLUMNS_MAP.put("id_", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("route_id", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("service_id", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("trip_id", Types.VARCHAR);
@@ -83,7 +78,7 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table gtfs_Trip (id_ LONG not null primary key,route_id VARCHAR(75) null,service_id VARCHAR(75) null,trip_id VARCHAR(75) null,trip_headsign VARCHAR(75) null)";
+		"create table gtfs_Trip (route_id VARCHAR(75) null,service_id VARCHAR(75) null,trip_id VARCHAR(75) not null primary key,trip_headsign VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table gtfs_Trip";
 
@@ -126,23 +121,23 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 	}
 
 	@Override
-	public long getPrimaryKey() {
-		return _id;
+	public String getPrimaryKey() {
+		return _trip_id;
 	}
 
 	@Override
-	public void setPrimaryKey(long primaryKey) {
-		setId(primaryKey);
+	public void setPrimaryKey(String primaryKey) {
+		setTrip_id(primaryKey);
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return _id;
+		return _trip_id;
 	}
 
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		setPrimaryKey(((Long)primaryKeyObj).longValue());
+		setPrimaryKey((String)primaryKeyObj);
 	}
 
 	@Override
@@ -242,26 +237,6 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 			new LinkedHashMap<String, BiConsumer<Trip, ?>>();
 
 		attributeGetterFunctions.put(
-			"id",
-			new Function<Trip, Object>() {
-
-				@Override
-				public Object apply(Trip trip) {
-					return trip.getId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"id",
-			new BiConsumer<Trip, Object>() {
-
-				@Override
-				public void accept(Trip trip, Object id) {
-					trip.setId((Long)id);
-				}
-
-			});
-		attributeGetterFunctions.put(
 			"route_id",
 			new Function<Trip, Object>() {
 
@@ -346,16 +321,6 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
-	}
-
-	@Override
-	public long getId() {
-		return _id;
-	}
-
-	@Override
-	public void setId(long id) {
-		_id = id;
 	}
 
 	@Override
@@ -453,19 +418,6 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return ExpandoBridgeFactoryUtil.getExpandoBridge(
-			0, Trip.class.getName(), getPrimaryKey());
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		ExpandoBridge expandoBridge = getExpandoBridge();
-
-		expandoBridge.setAttributes(serviceContext);
-	}
-
-	@Override
 	public Trip toEscapedModel() {
 		if (_escapedModel == null) {
 			_escapedModel = _escapedModelProxyProviderFunction.apply(
@@ -479,7 +431,6 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 	public Object clone() {
 		TripImpl tripImpl = new TripImpl();
 
-		tripImpl.setId(getId());
 		tripImpl.setRoute_id(getRoute_id());
 		tripImpl.setService_id(getService_id());
 		tripImpl.setTrip_id(getTrip_id());
@@ -515,9 +466,9 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 
 		Trip trip = (Trip)obj;
 
-		long primaryKey = trip.getPrimaryKey();
+		String primaryKey = trip.getPrimaryKey();
 
-		if (getPrimaryKey() == primaryKey) {
+		if (getPrimaryKey().equals(primaryKey)) {
 			return true;
 		}
 		else {
@@ -527,7 +478,7 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 
 	@Override
 	public int hashCode() {
-		return (int)getPrimaryKey();
+		return getPrimaryKey().hashCode();
 	}
 
 	@Override
@@ -556,8 +507,6 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 	@Override
 	public CacheModel<Trip> toCacheModel() {
 		TripCacheModel tripCacheModel = new TripCacheModel();
-
-		tripCacheModel.id = getId();
 
 		tripCacheModel.route_id = getRoute_id();
 
@@ -658,7 +607,6 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 	private static final Function<InvocationHandler, Trip>
 		_escapedModelProxyProviderFunction = _getProxyProviderFunction();
 
-	private long _id;
 	private String _route_id;
 	private String _originalRoute_id;
 	private String _service_id;

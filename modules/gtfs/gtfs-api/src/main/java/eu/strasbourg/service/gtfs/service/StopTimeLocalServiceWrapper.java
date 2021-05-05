@@ -51,23 +51,14 @@ public class StopTimeLocalServiceWrapper
 	/**
 	 * Creates a new stop time with the primary key. Does not add the stop time to the database.
 	 *
-	 * @param id the primary key for the new stop time
+	 * @param stopTimePK the primary key for the new stop time
 	 * @return the new stop time
 	 */
 	@Override
-	public eu.strasbourg.service.gtfs.model.StopTime createStopTime(long id) {
-		return _stopTimeLocalService.createStopTime(id);
-	}
-
-	/**
-	 * Crée un StopTime vide avec une PK, non ajouté à la base de donnée
-	 */
-	@Override
 	public eu.strasbourg.service.gtfs.model.StopTime createStopTime(
-			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		eu.strasbourg.service.gtfs.service.persistence.StopTimePK stopTimePK) {
 
-		return _stopTimeLocalService.createStopTime(sc);
+		return _stopTimeLocalService.createStopTime(stopTimePK);
 	}
 
 	/**
@@ -93,20 +84,6 @@ public class StopTimeLocalServiceWrapper
 	}
 
 	/**
-	 * Deletes the stop time with the primary key from the database. Also notifies the appropriate model listeners.
-	 *
-	 * @param id the primary key of the stop time
-	 * @return the stop time that was removed
-	 * @throws PortalException if a stop time with the primary key could not be found
-	 */
-	@Override
-	public eu.strasbourg.service.gtfs.model.StopTime deleteStopTime(long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _stopTimeLocalService.deleteStopTime(id);
-	}
-
-	/**
 	 * Deletes the stop time from the database. Also notifies the appropriate model listeners.
 	 *
 	 * @param stopTime the stop time
@@ -117,6 +94,22 @@ public class StopTimeLocalServiceWrapper
 		eu.strasbourg.service.gtfs.model.StopTime stopTime) {
 
 		return _stopTimeLocalService.deleteStopTime(stopTime);
+	}
+
+	/**
+	 * Deletes the stop time with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param stopTimePK the primary key of the stop time
+	 * @return the stop time that was removed
+	 * @throws PortalException if a stop time with the primary key could not be found
+	 */
+	@Override
+	public eu.strasbourg.service.gtfs.model.StopTime deleteStopTime(
+			eu.strasbourg.service.gtfs.service.persistence.StopTimePK
+				stopTimePK)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _stopTimeLocalService.deleteStopTime(stopTimePK);
 	}
 
 	@Override
@@ -210,22 +203,10 @@ public class StopTimeLocalServiceWrapper
 	}
 
 	@Override
-	public eu.strasbourg.service.gtfs.model.StopTime fetchStopTime(long id) {
-		return _stopTimeLocalService.fetchStopTime(id);
-	}
+	public eu.strasbourg.service.gtfs.model.StopTime fetchStopTime(
+		eu.strasbourg.service.gtfs.service.persistence.StopTimePK stopTimePK) {
 
-	@Override
-	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
-		getActionableDynamicQuery() {
-
-		return _stopTimeLocalService.getActionableDynamicQuery();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
-		getIndexableActionableDynamicQuery() {
-
-		return _stopTimeLocalService.getIndexableActionableDynamicQuery();
+		return _stopTimeLocalService.fetchStopTime(stopTimePK);
 	}
 
 	/**
@@ -249,15 +230,17 @@ public class StopTimeLocalServiceWrapper
 	/**
 	 * Returns the stop time with the primary key.
 	 *
-	 * @param id the primary key of the stop time
+	 * @param stopTimePK the primary key of the stop time
 	 * @return the stop time
 	 * @throws PortalException if a stop time with the primary key could not be found
 	 */
 	@Override
-	public eu.strasbourg.service.gtfs.model.StopTime getStopTime(long id)
+	public eu.strasbourg.service.gtfs.model.StopTime getStopTime(
+			eu.strasbourg.service.gtfs.service.persistence.StopTimePK
+				stopTimePK)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _stopTimeLocalService.getStopTime(id);
+		return _stopTimeLocalService.getStopTime(stopTimePK);
 	}
 
 	/**

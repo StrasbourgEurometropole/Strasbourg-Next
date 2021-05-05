@@ -45,25 +45,14 @@ public class RouteLocalServiceImpl extends RouteLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.gtfs.service.RouteLocalServiceUtil} to access the route local service.
 	 */
-	
-	/**
-	 * Crée une Route vide avec une PK, non ajouté à la base de donnée
-	 */
-	@Override
-	public Route createRoute(ServiceContext sc) throws PortalException {
-		long pk = counterLocalService.increment();
-		Route route = this.routeLocalService.createRoute(pk);
 
-		return route;
-	}
 	
 	/**
 	 * Crée un Route à partir d'une entrée GTFS
 	 */
 	@Override
 	public Route createRouteFromGTFS(RoutesGTFS entry) throws PortalException {
-		long pk = counterLocalService.increment();
-		Route route = this.routeLocalService.createRoute(pk);
+		Route route = this.routeLocalService.createRoute(entry.getRoute_id());
 		
 		route.setRoute_id(entry.getRoute_id());
 		route.setRoute_short_name(entry.getRoute_short_name());
@@ -92,7 +81,7 @@ public class RouteLocalServiceImpl extends RouteLocalServiceBaseImpl {
 	 * Supprime une Route
 	 */
 	@Override
-	public Route removeRoute(long routeId) throws PortalException {
+	public Route removeRoute(String routeId) throws PortalException {
 		Route route = this.routePersistence.remove(routeId);
 
 		return route;

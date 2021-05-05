@@ -33,7 +33,6 @@ public class TripSoap implements Serializable {
 	public static TripSoap toSoapModel(Trip model) {
 		TripSoap soapModel = new TripSoap();
 
-		soapModel.setId(model.getId());
 		soapModel.setRoute_id(model.getRoute_id());
 		soapModel.setService_id(model.getService_id());
 		soapModel.setTrip_id(model.getTrip_id());
@@ -82,20 +81,12 @@ public class TripSoap implements Serializable {
 	public TripSoap() {
 	}
 
-	public long getPrimaryKey() {
-		return _id;
+	public String getPrimaryKey() {
+		return _trip_id;
 	}
 
-	public void setPrimaryKey(long pk) {
-		setId(pk);
-	}
-
-	public long getId() {
-		return _id;
-	}
-
-	public void setId(long id) {
-		_id = id;
+	public void setPrimaryKey(String pk) {
+		setTrip_id(pk);
 	}
 
 	public String getRoute_id() {
@@ -130,7 +121,6 @@ public class TripSoap implements Serializable {
 		_trip_headsign = trip_headsign;
 	}
 
-	private long _id;
 	private String _route_id;
 	private String _service_id;
 	private String _trip_id;

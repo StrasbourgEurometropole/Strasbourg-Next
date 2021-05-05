@@ -202,24 +202,24 @@ public class RouteUtil {
 	/**
 	 * Creates a new route with the primary key. Does not add the route to the database.
 	 *
-	 * @param id the primary key for the new route
+	 * @param route_id the primary key for the new route
 	 * @return the new route
 	 */
-	public static Route create(long id) {
-		return getPersistence().create(id);
+	public static Route create(String route_id) {
+		return getPersistence().create(route_id);
 	}
 
 	/**
 	 * Removes the route with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param id the primary key of the route
+	 * @param route_id the primary key of the route
 	 * @return the route that was removed
 	 * @throws NoSuchRouteException if a route with the primary key could not be found
 	 */
-	public static Route remove(long id)
+	public static Route remove(String route_id)
 		throws eu.strasbourg.service.gtfs.exception.NoSuchRouteException {
 
-		return getPersistence().remove(id);
+		return getPersistence().remove(route_id);
 	}
 
 	public static Route updateImpl(Route route) {
@@ -229,24 +229,24 @@ public class RouteUtil {
 	/**
 	 * Returns the route with the primary key or throws a <code>NoSuchRouteException</code> if it could not be found.
 	 *
-	 * @param id the primary key of the route
+	 * @param route_id the primary key of the route
 	 * @return the route
 	 * @throws NoSuchRouteException if a route with the primary key could not be found
 	 */
-	public static Route findByPrimaryKey(long id)
+	public static Route findByPrimaryKey(String route_id)
 		throws eu.strasbourg.service.gtfs.exception.NoSuchRouteException {
 
-		return getPersistence().findByPrimaryKey(id);
+		return getPersistence().findByPrimaryKey(route_id);
 	}
 
 	/**
 	 * Returns the route with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param id the primary key of the route
+	 * @param route_id the primary key of the route
 	 * @return the route, or <code>null</code> if a route with the primary key could not be found
 	 */
-	public static Route fetchByPrimaryKey(long id) {
-		return getPersistence().fetchByPrimaryKey(id);
+	public static Route fetchByPrimaryKey(String route_id) {
+		return getPersistence().fetchByPrimaryKey(route_id);
 	}
 
 	/**
@@ -326,10 +326,6 @@ public class RouteUtil {
 	 */
 	public static int countAll() {
 		return getPersistence().countAll();
-	}
-
-	public static Set<String> getBadColumnNames() {
-		return getPersistence().getBadColumnNames();
 	}
 
 	public static RoutePersistence getPersistence() {

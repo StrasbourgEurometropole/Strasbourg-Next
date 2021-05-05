@@ -36,17 +36,15 @@ import eu.strasbourg.service.gtfs.exception.NoSuchStopTimeException;
 import eu.strasbourg.service.gtfs.model.StopTime;
 import eu.strasbourg.service.gtfs.model.impl.StopTimeImpl;
 import eu.strasbourg.service.gtfs.model.impl.StopTimeModelImpl;
+import eu.strasbourg.service.gtfs.service.persistence.StopTimePK;
 import eu.strasbourg.service.gtfs.service.persistence.StopTimePersistence;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -381,7 +379,7 @@ public class StopTimePersistenceImpl
 	/**
 	 * Returns the stop times before and after the current stop time in the ordered set where trip_id = &#63;.
 	 *
-	 * @param id the primary key of the current stop time
+	 * @param stopTimePK the primary key of the current stop time
 	 * @param trip_id the trip_id
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next stop time
@@ -389,13 +387,13 @@ public class StopTimePersistenceImpl
 	 */
 	@Override
 	public StopTime[] findByTripId_PrevAndNext(
-			long id, String trip_id,
+			StopTimePK stopTimePK, String trip_id,
 			OrderByComparator<StopTime> orderByComparator)
 		throws NoSuchStopTimeException {
 
 		trip_id = Objects.toString(trip_id, "");
 
-		StopTime stopTime = findByPrimaryKey(id);
+		StopTime stopTime = findByPrimaryKey(stopTimePK);
 
 		Session session = null;
 
@@ -621,10 +619,10 @@ public class StopTimePersistenceImpl
 	}
 
 	private static final String _FINDER_COLUMN_TRIPID_TRIP_ID_2 =
-		"stopTime.trip_id = ?";
+		"stopTime.id.trip_id = ?";
 
 	private static final String _FINDER_COLUMN_TRIPID_TRIP_ID_3 =
-		"(stopTime.trip_id IS NULL OR stopTime.trip_id = '')";
+		"(stopTime.id.trip_id IS NULL OR stopTime.id.trip_id = '')";
 
 	private FinderPath _finderPathWithPaginationFindByStopId;
 	private FinderPath _finderPathWithoutPaginationFindByStopId;
@@ -924,7 +922,7 @@ public class StopTimePersistenceImpl
 	/**
 	 * Returns the stop times before and after the current stop time in the ordered set where stop_id = &#63;.
 	 *
-	 * @param id the primary key of the current stop time
+	 * @param stopTimePK the primary key of the current stop time
 	 * @param stop_id the stop_id
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next stop time
@@ -932,13 +930,13 @@ public class StopTimePersistenceImpl
 	 */
 	@Override
 	public StopTime[] findByStopId_PrevAndNext(
-			long id, String stop_id,
+			StopTimePK stopTimePK, String stop_id,
 			OrderByComparator<StopTime> orderByComparator)
 		throws NoSuchStopTimeException {
 
 		stop_id = Objects.toString(stop_id, "");
 
-		StopTime stopTime = findByPrimaryKey(id);
+		StopTime stopTime = findByPrimaryKey(stopTimePK);
 
 		Session session = null;
 
@@ -1164,31 +1162,13 @@ public class StopTimePersistenceImpl
 	}
 
 	private static final String _FINDER_COLUMN_STOPID_STOP_ID_2 =
-		"stopTime.stop_id = ?";
+		"stopTime.id.stop_id = ?";
 
 	private static final String _FINDER_COLUMN_STOPID_STOP_ID_3 =
-		"(stopTime.stop_id IS NULL OR stopTime.stop_id = '')";
+		"(stopTime.id.stop_id IS NULL OR stopTime.id.stop_id = '')";
 
 	public StopTimePersistenceImpl() {
 		setModelClass(StopTime.class);
-
-		Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-		dbColumnNames.put("id", "id_");
-
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception e) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(e, e);
-			}
-		}
 	}
 
 	/**
@@ -1273,15 +1253,15 @@ public class StopTimePersistenceImpl
 	/**
 	 * Creates a new stop time with the primary key. Does not add the stop time to the database.
 	 *
-	 * @param id the primary key for the new stop time
+	 * @param stopTimePK the primary key for the new stop time
 	 * @return the new stop time
 	 */
 	@Override
-	public StopTime create(long id) {
+	public StopTime create(StopTimePK stopTimePK) {
 		StopTime stopTime = new StopTimeImpl();
 
 		stopTime.setNew(true);
-		stopTime.setPrimaryKey(id);
+		stopTime.setPrimaryKey(stopTimePK);
 
 		return stopTime;
 	}
@@ -1289,13 +1269,15 @@ public class StopTimePersistenceImpl
 	/**
 	 * Removes the stop time with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param id the primary key of the stop time
+	 * @param stopTimePK the primary key of the stop time
 	 * @return the stop time that was removed
 	 * @throws NoSuchStopTimeException if a stop time with the primary key could not be found
 	 */
 	@Override
-	public StopTime remove(long id) throws NoSuchStopTimeException {
-		return remove((Serializable)id);
+	public StopTime remove(StopTimePK stopTimePK)
+		throws NoSuchStopTimeException {
+
+		return remove((Serializable)stopTimePK);
 	}
 
 	/**
@@ -1511,13 +1493,15 @@ public class StopTimePersistenceImpl
 	/**
 	 * Returns the stop time with the primary key or throws a <code>NoSuchStopTimeException</code> if it could not be found.
 	 *
-	 * @param id the primary key of the stop time
+	 * @param stopTimePK the primary key of the stop time
 	 * @return the stop time
 	 * @throws NoSuchStopTimeException if a stop time with the primary key could not be found
 	 */
 	@Override
-	public StopTime findByPrimaryKey(long id) throws NoSuchStopTimeException {
-		return findByPrimaryKey((Serializable)id);
+	public StopTime findByPrimaryKey(StopTimePK stopTimePK)
+		throws NoSuchStopTimeException {
+
+		return findByPrimaryKey((Serializable)stopTimePK);
 	}
 
 	/**
@@ -1574,12 +1558,12 @@ public class StopTimePersistenceImpl
 	/**
 	 * Returns the stop time with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param id the primary key of the stop time
+	 * @param stopTimePK the primary key of the stop time
 	 * @return the stop time, or <code>null</code> if a stop time with the primary key could not be found
 	 */
 	@Override
-	public StopTime fetchByPrimaryKey(long id) {
-		return fetchByPrimaryKey((Serializable)id);
+	public StopTime fetchByPrimaryKey(StopTimePK stopTimePK) {
+		return fetchByPrimaryKey((Serializable)stopTimePK);
 	}
 
 	@Override
@@ -1592,88 +1576,12 @@ public class StopTimePersistenceImpl
 
 		Map<Serializable, StopTime> map = new HashMap<Serializable, StopTime>();
 
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
+		for (Serializable primaryKey : primaryKeys) {
 			StopTime stopTime = fetchByPrimaryKey(primaryKey);
 
 			if (stopTime != null) {
 				map.put(primaryKey, stopTime);
 			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				StopTimeModelImpl.ENTITY_CACHE_ENABLED, StopTimeImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (StopTime)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler query = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		query.append(_SQL_SELECT_STOPTIME_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
-
-			query.append(",");
-		}
-
-		query.setIndex(query.index() - 1);
-
-		query.append(")");
-
-		String sql = query.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query q = session.createQuery(sql);
-
-			for (StopTime stopTime : (List<StopTime>)q.list()) {
-				map.put(stopTime.getPrimaryKeyObj(), stopTime);
-
-				cacheResult(stopTime);
-
-				uncachedPrimaryKeys.remove(stopTime.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					StopTimeModelImpl.ENTITY_CACHE_ENABLED, StopTimeImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
 		}
 
 		return map;
@@ -1874,8 +1782,8 @@ public class StopTimePersistenceImpl
 	}
 
 	@Override
-	public Set<String> getBadColumnNames() {
-		return _badColumnNames;
+	public Set<String> getCompoundPKColumnNames() {
+		return _compoundPKColumnNames;
 	}
 
 	@Override
@@ -1940,8 +1848,7 @@ public class StopTimePersistenceImpl
 			StopTimeModelImpl.FINDER_CACHE_ENABLED, StopTimeImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStopId",
 			new String[] {String.class.getName()},
-			StopTimeModelImpl.STOP_ID_COLUMN_BITMASK |
-			StopTimeModelImpl.TRIP_ID_COLUMN_BITMASK);
+			StopTimeModelImpl.STOP_ID_COLUMN_BITMASK);
 
 		_finderPathCountByStopId = new FinderPath(
 			StopTimeModelImpl.ENTITY_CACHE_ENABLED,
@@ -1966,9 +1873,6 @@ public class StopTimePersistenceImpl
 	private static final String _SQL_SELECT_STOPTIME =
 		"SELECT stopTime FROM StopTime stopTime";
 
-	private static final String _SQL_SELECT_STOPTIME_WHERE_PKS_IN =
-		"SELECT stopTime FROM StopTime stopTime WHERE id_ IN (";
-
 	private static final String _SQL_SELECT_STOPTIME_WHERE =
 		"SELECT stopTime FROM StopTime stopTime WHERE ";
 
@@ -1989,7 +1893,7 @@ public class StopTimePersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		StopTimePersistenceImpl.class);
 
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(
-		new String[] {"id"});
+	private static final Set<String> _compoundPKColumnNames = SetUtil.fromArray(
+		new String[] {"trip_id", "stop_id"});
 
 }

@@ -48,7 +48,7 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 
 		StopCacheModel stopCacheModel = (StopCacheModel)obj;
 
-		if (id == stopCacheModel.id) {
+		if (stop_id.equals(stopCacheModel.stop_id)) {
 			return true;
 		}
 
@@ -57,16 +57,14 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, id);
+		return HashUtil.hash(0, stop_id);
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(11);
 
-		sb.append("{id=");
-		sb.append(id);
-		sb.append(", stop_id=");
+		sb.append("{stop_id=");
 		sb.append(stop_id);
 		sb.append(", stop_code=");
 		sb.append(stop_code);
@@ -84,8 +82,6 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 	@Override
 	public Stop toEntityModel() {
 		StopImpl stopImpl = new StopImpl();
-
-		stopImpl.setId(id);
 
 		if (stop_id == null) {
 			stopImpl.setStop_id("");
@@ -129,7 +125,6 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
-		id = objectInput.readLong();
 		stop_id = objectInput.readUTF();
 		stop_code = objectInput.readUTF();
 		stop_lat = objectInput.readUTF();
@@ -139,8 +134,6 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 
 	@Override
 	public void writeExternal(ObjectOutput objectOutput) throws IOException {
-		objectOutput.writeLong(id);
-
 		if (stop_id == null) {
 			objectOutput.writeUTF("");
 		}
@@ -177,7 +170,6 @@ public class StopCacheModel implements CacheModel<Stop>, Externalizable {
 		}
 	}
 
-	public long id;
 	public String stop_id;
 	public String stop_code;
 	public String stop_lat;

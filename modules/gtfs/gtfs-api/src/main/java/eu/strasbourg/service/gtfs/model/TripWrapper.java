@@ -56,7 +56,6 @@ public class TripWrapper implements Trip, ModelWrapper<Trip> {
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
-		attributes.put("id", getId());
 		attributes.put("route_id", getRoute_id());
 		attributes.put("service_id", getService_id());
 		attributes.put("trip_id", getTrip_id());
@@ -67,12 +66,6 @@ public class TripWrapper implements Trip, ModelWrapper<Trip> {
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
-		Long id = (Long)attributes.get("id");
-
-		if (id != null) {
-			setId(id);
-		}
-
 		String route_id = (String)attributes.get("route_id");
 
 		if (route_id != null) {
@@ -114,22 +107,12 @@ public class TripWrapper implements Trip, ModelWrapper<Trip> {
 	}
 
 	/**
-	 * Returns the ID of this trip.
-	 *
-	 * @return the ID of this trip
-	 */
-	@Override
-	public long getId() {
-		return _trip.getId();
-	}
-
-	/**
 	 * Returns the primary key of this trip.
 	 *
 	 * @return the primary key of this trip
 	 */
 	@Override
-	public long getPrimaryKey() {
+	public String getPrimaryKey() {
 		return _trip.getPrimaryKey();
 	}
 
@@ -225,16 +208,6 @@ public class TripWrapper implements Trip, ModelWrapper<Trip> {
 		_trip.setExpandoBridgeAttributes(serviceContext);
 	}
 
-	/**
-	 * Sets the ID of this trip.
-	 *
-	 * @param id the ID of this trip
-	 */
-	@Override
-	public void setId(long id) {
-		_trip.setId(id);
-	}
-
 	@Override
 	public void setNew(boolean n) {
 		_trip.setNew(n);
@@ -246,7 +219,7 @@ public class TripWrapper implements Trip, ModelWrapper<Trip> {
 	 * @param primaryKey the primary key of this trip
 	 */
 	@Override
-	public void setPrimaryKey(long primaryKey) {
+	public void setPrimaryKey(String primaryKey) {
 		_trip.setPrimaryKey(primaryKey);
 	}
 

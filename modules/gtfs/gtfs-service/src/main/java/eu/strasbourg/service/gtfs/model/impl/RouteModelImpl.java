@@ -16,13 +16,10 @@ package eu.strasbourg.service.gtfs.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
-import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
-import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -66,17 +63,15 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 	public static final String TABLE_NAME = "gtfs_Route";
 
 	public static final Object[][] TABLE_COLUMNS = {
-		{"id_", Types.BIGINT}, {"route_id", Types.VARCHAR},
-		{"route_short_name", Types.VARCHAR}, {"route_long_name", Types.VARCHAR},
-		{"route_type", Types.INTEGER}, {"route_color", Types.VARCHAR},
-		{"route_text_color", Types.VARCHAR}
+		{"route_id", Types.VARCHAR}, {"route_short_name", Types.VARCHAR},
+		{"route_long_name", Types.VARCHAR}, {"route_type", Types.INTEGER},
+		{"route_color", Types.VARCHAR}, {"route_text_color", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
 		new HashMap<String, Integer>();
 
 	static {
-		TABLE_COLUMNS_MAP.put("id_", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("route_id", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("route_short_name", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("route_long_name", Types.VARCHAR);
@@ -86,7 +81,7 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table gtfs_Route (id_ LONG not null primary key,route_id VARCHAR(75) null,route_short_name VARCHAR(75) null,route_long_name VARCHAR(200) null,route_type INTEGER,route_color VARCHAR(75) null,route_text_color VARCHAR(75) null)";
+		"create table gtfs_Route (route_id VARCHAR(75) not null primary key,route_short_name VARCHAR(75) null,route_long_name VARCHAR(200) null,route_type INTEGER,route_color VARCHAR(75) null,route_text_color VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table gtfs_Route";
 
@@ -126,23 +121,23 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 	}
 
 	@Override
-	public long getPrimaryKey() {
-		return _id;
+	public String getPrimaryKey() {
+		return _route_id;
 	}
 
 	@Override
-	public void setPrimaryKey(long primaryKey) {
-		setId(primaryKey);
+	public void setPrimaryKey(String primaryKey) {
+		setRoute_id(primaryKey);
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return _id;
+		return _route_id;
 	}
 
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		setPrimaryKey(((Long)primaryKeyObj).longValue());
+		setPrimaryKey((String)primaryKeyObj);
 	}
 
 	@Override
@@ -241,26 +236,6 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 		Map<String, BiConsumer<Route, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Route, ?>>();
 
-		attributeGetterFunctions.put(
-			"id",
-			new Function<Route, Object>() {
-
-				@Override
-				public Object apply(Route route) {
-					return route.getId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"id",
-			new BiConsumer<Route, Object>() {
-
-				@Override
-				public void accept(Route route, Object id) {
-					route.setId((Long)id);
-				}
-
-			});
 		attributeGetterFunctions.put(
 			"route_id",
 			new Function<Route, Object>() {
@@ -389,16 +364,6 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 	}
 
 	@Override
-	public long getId() {
-		return _id;
-	}
-
-	@Override
-	public void setId(long id) {
-		_id = id;
-	}
-
-	@Override
 	public String getRoute_id() {
 		if (_route_id == null) {
 			return "";
@@ -498,19 +463,6 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return ExpandoBridgeFactoryUtil.getExpandoBridge(
-			0, Route.class.getName(), getPrimaryKey());
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		ExpandoBridge expandoBridge = getExpandoBridge();
-
-		expandoBridge.setAttributes(serviceContext);
-	}
-
-	@Override
 	public Route toEscapedModel() {
 		if (_escapedModel == null) {
 			_escapedModel = _escapedModelProxyProviderFunction.apply(
@@ -524,7 +476,6 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 	public Object clone() {
 		RouteImpl routeImpl = new RouteImpl();
 
-		routeImpl.setId(getId());
 		routeImpl.setRoute_id(getRoute_id());
 		routeImpl.setRoute_short_name(getRoute_short_name());
 		routeImpl.setRoute_long_name(getRoute_long_name());
@@ -562,9 +513,9 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 
 		Route route = (Route)obj;
 
-		long primaryKey = route.getPrimaryKey();
+		String primaryKey = route.getPrimaryKey();
 
-		if (getPrimaryKey() == primaryKey) {
+		if (getPrimaryKey().equals(primaryKey)) {
 			return true;
 		}
 		else {
@@ -574,7 +525,7 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 
 	@Override
 	public int hashCode() {
-		return (int)getPrimaryKey();
+		return getPrimaryKey().hashCode();
 	}
 
 	@Override
@@ -599,8 +550,6 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 	@Override
 	public CacheModel<Route> toCacheModel() {
 		RouteCacheModel routeCacheModel = new RouteCacheModel();
-
-		routeCacheModel.id = getId();
 
 		routeCacheModel.route_id = getRoute_id();
 
@@ -711,7 +660,6 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 	private static final Function<InvocationHandler, Route>
 		_escapedModelProxyProviderFunction = _getProxyProviderFunction();
 
-	private long _id;
 	private String _route_id;
 	private String _originalRoute_id;
 	private String _route_short_name;

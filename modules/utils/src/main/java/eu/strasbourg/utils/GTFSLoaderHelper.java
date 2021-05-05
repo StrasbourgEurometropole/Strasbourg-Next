@@ -133,7 +133,7 @@ public class GTFSLoaderHelper {
 	public static Map<String, StopsGTFS> readStopsData(String directory) throws FileAccessException {
 		StopsParser stopsParser = new StopsParser(StopsGTFS.class);
 		Map<String, StopsGTFS> mapStops = new HashMap<String, StopsGTFS>();
-		List<StopsGTFS> stops = stopsParser.getAll(directory + STOPS_FILENAME, COMMA_SEP);
+		List<StopsGTFS> stops = stopsParser.getAll(directory + STOPS_FILENAME, COMMA_SEP, 6);
 		for (StopsGTFS stop : stops) {
 			mapStops.put(stop.getStop_id(), stop);
 		}

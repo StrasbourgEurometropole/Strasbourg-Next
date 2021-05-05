@@ -56,21 +56,13 @@ public class TripLocalServiceUtil {
 	/**
 	 * Creates a new trip with the primary key. Does not add the trip to the database.
 	 *
-	 * @param id the primary key for the new trip
+	 * @param trip_id the primary key for the new trip
 	 * @return the new trip
 	 */
-	public static eu.strasbourg.service.gtfs.model.Trip createTrip(long id) {
-		return getService().createTrip(id);
-	}
-
-	/**
-	 * Crée une agence vide avec une PK, non ajouté à la base de donnée
-	 */
 	public static eu.strasbourg.service.gtfs.model.Trip createTrip(
-			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		String trip_id) {
 
-		return getService().createTrip(sc);
+		return getService().createTrip(trip_id);
 	}
 
 	/**
@@ -97,14 +89,15 @@ public class TripLocalServiceUtil {
 	/**
 	 * Deletes the trip with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param id the primary key of the trip
+	 * @param trip_id the primary key of the trip
 	 * @return the trip that was removed
 	 * @throws PortalException if a trip with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.Trip deleteTrip(long id)
+	public static eu.strasbourg.service.gtfs.model.Trip deleteTrip(
+			String trip_id)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return getService().deleteTrip(id);
+		return getService().deleteTrip(trip_id);
 	}
 
 	/**
@@ -204,21 +197,10 @@ public class TripLocalServiceUtil {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.gtfs.model.Trip fetchTrip(long id) {
-		return getService().fetchTrip(id);
-	}
+	public static eu.strasbourg.service.gtfs.model.Trip fetchTrip(
+		String trip_id) {
 
-	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
-		getActionableDynamicQuery() {
-
-		return getService().getActionableDynamicQuery();
-	}
-
-	public static
-		com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
-			getIndexableActionableDynamicQuery() {
-
-		return getService().getIndexableActionableDynamicQuery();
+		return getService().fetchTrip(trip_id);
 	}
 
 	/**
@@ -240,14 +222,14 @@ public class TripLocalServiceUtil {
 	/**
 	 * Returns the trip with the primary key.
 	 *
-	 * @param id the primary key of the trip
+	 * @param trip_id the primary key of the trip
 	 * @return the trip
 	 * @throws PortalException if a trip with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.Trip getTrip(long id)
+	public static eu.strasbourg.service.gtfs.model.Trip getTrip(String trip_id)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return getService().getTrip(id);
+		return getService().getTrip(trip_id);
 	}
 
 	/**

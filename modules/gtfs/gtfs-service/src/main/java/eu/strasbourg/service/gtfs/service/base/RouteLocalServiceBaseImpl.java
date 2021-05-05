@@ -21,11 +21,8 @@ import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DefaultActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -103,26 +100,26 @@ public abstract class RouteLocalServiceBaseImpl
 	/**
 	 * Creates a new route with the primary key. Does not add the route to the database.
 	 *
-	 * @param id the primary key for the new route
+	 * @param route_id the primary key for the new route
 	 * @return the new route
 	 */
 	@Override
 	@Transactional(enabled = false)
-	public Route createRoute(long id) {
-		return routePersistence.create(id);
+	public Route createRoute(String route_id) {
+		return routePersistence.create(route_id);
 	}
 
 	/**
 	 * Deletes the route with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param id the primary key of the route
+	 * @param route_id the primary key of the route
 	 * @return the route that was removed
 	 * @throws PortalException if a route with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	@Override
-	public Route deleteRoute(long id) throws PortalException {
-		return routePersistence.remove(id);
+	public Route deleteRoute(String route_id) throws PortalException {
+		return routePersistence.remove(route_id);
 	}
 
 	/**
@@ -223,60 +220,20 @@ public abstract class RouteLocalServiceBaseImpl
 	}
 
 	@Override
-	public Route fetchRoute(long id) {
-		return routePersistence.fetchByPrimaryKey(id);
+	public Route fetchRoute(String route_id) {
+		return routePersistence.fetchByPrimaryKey(route_id);
 	}
 
 	/**
 	 * Returns the route with the primary key.
 	 *
-	 * @param id the primary key of the route
+	 * @param route_id the primary key of the route
 	 * @return the route
 	 * @throws PortalException if a route with the primary key could not be found
 	 */
 	@Override
-	public Route getRoute(long id) throws PortalException {
-		return routePersistence.findByPrimaryKey(id);
-	}
-
-	@Override
-	public ActionableDynamicQuery getActionableDynamicQuery() {
-		ActionableDynamicQuery actionableDynamicQuery =
-			new DefaultActionableDynamicQuery();
-
-		actionableDynamicQuery.setBaseLocalService(routeLocalService);
-		actionableDynamicQuery.setClassLoader(getClassLoader());
-		actionableDynamicQuery.setModelClass(Route.class);
-
-		actionableDynamicQuery.setPrimaryKeyPropertyName("id");
-
-		return actionableDynamicQuery;
-	}
-
-	@Override
-	public IndexableActionableDynamicQuery
-		getIndexableActionableDynamicQuery() {
-
-		IndexableActionableDynamicQuery indexableActionableDynamicQuery =
-			new IndexableActionableDynamicQuery();
-
-		indexableActionableDynamicQuery.setBaseLocalService(routeLocalService);
-		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
-		indexableActionableDynamicQuery.setModelClass(Route.class);
-
-		indexableActionableDynamicQuery.setPrimaryKeyPropertyName("id");
-
-		return indexableActionableDynamicQuery;
-	}
-
-	protected void initActionableDynamicQuery(
-		ActionableDynamicQuery actionableDynamicQuery) {
-
-		actionableDynamicQuery.setBaseLocalService(routeLocalService);
-		actionableDynamicQuery.setClassLoader(getClassLoader());
-		actionableDynamicQuery.setModelClass(Route.class);
-
-		actionableDynamicQuery.setPrimaryKeyPropertyName("id");
+	public Route getRoute(String route_id) throws PortalException {
+		return routePersistence.findByPrimaryKey(route_id);
 	}
 
 	/**

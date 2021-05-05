@@ -16,6 +16,8 @@ package eu.strasbourg.service.gtfs.model;
 
 import aQute.bnd.annotation.ProviderType;
 
+import eu.strasbourg.service.gtfs.service.persistence.StopTimePK;
+
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -33,7 +35,6 @@ public class StopTimeSoap implements Serializable {
 	public static StopTimeSoap toSoapModel(StopTime model) {
 		StopTimeSoap soapModel = new StopTimeSoap();
 
-		soapModel.setId(model.getId());
 		soapModel.setTrip_id(model.getTrip_id());
 		soapModel.setStop_id(model.getStop_id());
 
@@ -81,20 +82,13 @@ public class StopTimeSoap implements Serializable {
 	public StopTimeSoap() {
 	}
 
-	public long getPrimaryKey() {
-		return _id;
+	public StopTimePK getPrimaryKey() {
+		return new StopTimePK(_trip_id, _stop_id);
 	}
 
-	public void setPrimaryKey(long pk) {
-		setId(pk);
-	}
-
-	public long getId() {
-		return _id;
-	}
-
-	public void setId(long id) {
-		_id = id;
+	public void setPrimaryKey(StopTimePK pk) {
+		setTrip_id(pk.trip_id);
+		setStop_id(pk.stop_id);
 	}
 
 	public String getTrip_id() {
@@ -113,7 +107,6 @@ public class StopTimeSoap implements Serializable {
 		_stop_id = stop_id;
 	}
 
-	private long _id;
 	private String _trip_id;
 	private String _stop_id;
 

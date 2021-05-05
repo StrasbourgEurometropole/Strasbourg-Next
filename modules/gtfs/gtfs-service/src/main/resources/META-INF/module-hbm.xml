@@ -136,10 +136,9 @@
 		<property name="textColor" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.gtfs.model.impl.RouteImpl" table="gtfs_Route">
-		<id column="id_" name="id" type="long">
+		<id name="route_id" type="java.lang.String">
 			<generator class="assigned" />
 		</id>
-		<property name="route_id" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="route_short_name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="route_long_name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="route_type" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
@@ -147,29 +146,26 @@
 		<property name="route_text_color" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.gtfs.model.impl.StopImpl" table="gtfs_Stop">
-		<id column="id_" name="id" type="long">
+		<id name="stop_id" type="java.lang.String">
 			<generator class="assigned" />
 		</id>
-		<property name="stop_id" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="stop_code" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="stop_lat" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="stop_lon" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="stop_name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.gtfs.model.impl.StopTimeImpl" table="gtfs_StopTime">
-		<id column="id_" name="id" type="long">
-			<generator class="assigned" />
-		</id>
-		<property name="trip_id" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="stop_id" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<composite-id class="eu.strasbourg.service.gtfs.service.persistence.StopTimePK" name="primaryKey">
+			<key-property name="trip_id" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+			<key-property name="stop_id" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		</composite-id>
 	</class>
 	<class name="eu.strasbourg.service.gtfs.model.impl.TripImpl" table="gtfs_Trip">
-		<id column="id_" name="id" type="long">
+		<id name="trip_id" type="java.lang.String">
 			<generator class="assigned" />
 		</id>
 		<property name="route_id" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="service_id" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="trip_id" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="trip_headsign" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 </hibernate-mapping>

@@ -16,9 +16,7 @@ package eu.strasbourg.service.gtfs.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -34,6 +32,7 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.gtfs.model.StopTime;
+import eu.strasbourg.service.gtfs.service.persistence.StopTimePK;
 import eu.strasbourg.utils.models.StopTimesGTFS;
 
 import java.io.Serializable;
@@ -77,16 +76,11 @@ public interface StopTimeLocalService
 	/**
 	 * Creates a new stop time with the primary key. Does not add the stop time to the database.
 	 *
-	 * @param id the primary key for the new stop time
+	 * @param stopTimePK the primary key for the new stop time
 	 * @return the new stop time
 	 */
 	@Transactional(enabled = false)
-	public StopTime createStopTime(long id);
-
-	/**
-	 * Crée un StopTime vide avec une PK, non ajouté à la base de donnée
-	 */
-	public StopTime createStopTime(ServiceContext sc) throws PortalException;
+	public StopTime createStopTime(StopTimePK stopTimePK);
 
 	/**
 	 * Crée un temps d'arret à partir d'une entrée GTFS
@@ -102,16 +96,6 @@ public interface StopTimeLocalService
 		throws PortalException;
 
 	/**
-	 * Deletes the stop time with the primary key from the database. Also notifies the appropriate model listeners.
-	 *
-	 * @param id the primary key of the stop time
-	 * @return the stop time that was removed
-	 * @throws PortalException if a stop time with the primary key could not be found
-	 */
-	@Indexable(type = IndexableType.DELETE)
-	public StopTime deleteStopTime(long id) throws PortalException;
-
-	/**
 	 * Deletes the stop time from the database. Also notifies the appropriate model listeners.
 	 *
 	 * @param stopTime the stop time
@@ -119,6 +103,17 @@ public interface StopTimeLocalService
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	public StopTime deleteStopTime(StopTime stopTime);
+
+	/**
+	 * Deletes the stop time with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param stopTimePK the primary key of the stop time
+	 * @return the stop time that was removed
+	 * @throws PortalException if a stop time with the primary key could not be found
+	 */
+	@Indexable(type = IndexableType.DELETE)
+	public StopTime deleteStopTime(StopTimePK stopTimePK)
+		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();
@@ -187,13 +182,7 @@ public interface StopTimeLocalService
 		DynamicQuery dynamicQuery, Projection projection);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public StopTime fetchStopTime(long id);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public ActionableDynamicQuery getActionableDynamicQuery();
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
+	public StopTime fetchStopTime(StopTimePK stopTimePK);
 
 	/**
 	 * Returns the OSGi service identifier.
@@ -210,12 +199,12 @@ public interface StopTimeLocalService
 	/**
 	 * Returns the stop time with the primary key.
 	 *
-	 * @param id the primary key of the stop time
+	 * @param stopTimePK the primary key of the stop time
 	 * @return the stop time
 	 * @throws PortalException if a stop time with the primary key could not be found
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public StopTime getStopTime(long id) throws PortalException;
+	public StopTime getStopTime(StopTimePK stopTimePK) throws PortalException;
 
 	/**
 	 * Returns a range of all the stop times.

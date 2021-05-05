@@ -56,7 +56,6 @@ public class StopTimeWrapper implements StopTime, ModelWrapper<StopTime> {
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
-		attributes.put("id", getId());
 		attributes.put("trip_id", getTrip_id());
 		attributes.put("stop_id", getStop_id());
 
@@ -65,12 +64,6 @@ public class StopTimeWrapper implements StopTime, ModelWrapper<StopTime> {
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
-		Long id = (Long)attributes.get("id");
-
-		if (id != null) {
-			setId(id);
-		}
-
 		String trip_id = (String)attributes.get("trip_id");
 
 		if (trip_id != null) {
@@ -100,22 +93,14 @@ public class StopTimeWrapper implements StopTime, ModelWrapper<StopTime> {
 	}
 
 	/**
-	 * Returns the ID of this stop time.
-	 *
-	 * @return the ID of this stop time
-	 */
-	@Override
-	public long getId() {
-		return _stopTime.getId();
-	}
-
-	/**
 	 * Returns the primary key of this stop time.
 	 *
 	 * @return the primary key of this stop time
 	 */
 	@Override
-	public long getPrimaryKey() {
+	public eu.strasbourg.service.gtfs.service.persistence.StopTimePK
+		getPrimaryKey() {
+
 		return _stopTime.getPrimaryKey();
 	}
 
@@ -191,16 +176,6 @@ public class StopTimeWrapper implements StopTime, ModelWrapper<StopTime> {
 		_stopTime.setExpandoBridgeAttributes(serviceContext);
 	}
 
-	/**
-	 * Sets the ID of this stop time.
-	 *
-	 * @param id the ID of this stop time
-	 */
-	@Override
-	public void setId(long id) {
-		_stopTime.setId(id);
-	}
-
 	@Override
 	public void setNew(boolean n) {
 		_stopTime.setNew(n);
@@ -212,7 +187,9 @@ public class StopTimeWrapper implements StopTime, ModelWrapper<StopTime> {
 	 * @param primaryKey the primary key of this stop time
 	 */
 	@Override
-	public void setPrimaryKey(long primaryKey) {
+	public void setPrimaryKey(
+		eu.strasbourg.service.gtfs.service.persistence.StopTimePK primaryKey) {
+
 		_stopTime.setPrimaryKey(primaryKey);
 	}
 

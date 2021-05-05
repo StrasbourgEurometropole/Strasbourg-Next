@@ -36,17 +36,36 @@ public interface StopTime extends PersistedModel, StopTimeModel {
 	 *
 	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.gtfs.model.impl.StopTimeImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<StopTime, Long> ID_ACCESSOR =
-		new Accessor<StopTime, Long>() {
+	public static final Accessor<StopTime, String> TRIP_ID_ACCESSOR =
+		new Accessor<StopTime, String>() {
 
 			@Override
-			public Long get(StopTime stopTime) {
-				return stopTime.getId();
+			public String get(StopTime stopTime) {
+				return stopTime.getTrip_id();
 			}
 
 			@Override
-			public Class<Long> getAttributeClass() {
-				return Long.class;
+			public Class<String> getAttributeClass() {
+				return String.class;
+			}
+
+			@Override
+			public Class<StopTime> getTypeClass() {
+				return StopTime.class;
+			}
+
+		};
+	public static final Accessor<StopTime, String> STOP_ID_ACCESSOR =
+		new Accessor<StopTime, String>() {
+
+			@Override
+			public String get(StopTime stopTime) {
+				return stopTime.getStop_id();
+			}
+
+			@Override
+			public Class<String> getAttributeClass() {
+				return String.class;
 			}
 
 			@Override

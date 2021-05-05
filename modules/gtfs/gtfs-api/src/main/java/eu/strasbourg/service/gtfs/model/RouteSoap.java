@@ -33,7 +33,6 @@ public class RouteSoap implements Serializable {
 	public static RouteSoap toSoapModel(Route model) {
 		RouteSoap soapModel = new RouteSoap();
 
-		soapModel.setId(model.getId());
 		soapModel.setRoute_id(model.getRoute_id());
 		soapModel.setRoute_short_name(model.getRoute_short_name());
 		soapModel.setRoute_long_name(model.getRoute_long_name());
@@ -84,20 +83,12 @@ public class RouteSoap implements Serializable {
 	public RouteSoap() {
 	}
 
-	public long getPrimaryKey() {
-		return _id;
+	public String getPrimaryKey() {
+		return _route_id;
 	}
 
-	public void setPrimaryKey(long pk) {
-		setId(pk);
-	}
-
-	public long getId() {
-		return _id;
-	}
-
-	public void setId(long id) {
-		_id = id;
+	public void setPrimaryKey(String pk) {
+		setRoute_id(pk);
 	}
 
 	public String getRoute_id() {
@@ -148,7 +139,6 @@ public class RouteSoap implements Serializable {
 		_route_text_color = route_text_color;
 	}
 
-	private long _id;
 	private String _route_id;
 	private String _route_short_name;
 	private String _route_long_name;

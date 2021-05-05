@@ -49,28 +49,14 @@ public interface StopModel extends BaseModel<Stop> {
 	 *
 	 * @return the primary key of this stop
 	 */
-	public long getPrimaryKey();
+	public String getPrimaryKey();
 
 	/**
 	 * Sets the primary key of this stop.
 	 *
 	 * @param primaryKey the primary key of this stop
 	 */
-	public void setPrimaryKey(long primaryKey);
-
-	/**
-	 * Returns the ID of this stop.
-	 *
-	 * @return the ID of this stop
-	 */
-	public long getId();
-
-	/**
-	 * Sets the ID of this stop.
-	 *
-	 * @param id the ID of this stop
-	 */
-	public void setId(long id);
+	public void setPrimaryKey(String primaryKey);
 
 	/**
 	 * Returns the stop_id of this stop.

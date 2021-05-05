@@ -28,7 +28,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
@@ -40,7 +39,6 @@ import eu.strasbourg.service.gtfs.service.persistence.TripPersistence;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -380,7 +378,7 @@ public class TripPersistenceImpl
 	/**
 	 * Returns the trips before and after the current trip in the ordered set where route_id = &#63;.
 	 *
-	 * @param id the primary key of the current trip
+	 * @param trip_id the primary key of the current trip
 	 * @param route_id the route_id
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next trip
@@ -388,12 +386,13 @@ public class TripPersistenceImpl
 	 */
 	@Override
 	public Trip[] findByRouteId_PrevAndNext(
-			long id, String route_id, OrderByComparator<Trip> orderByComparator)
+			String trip_id, String route_id,
+			OrderByComparator<Trip> orderByComparator)
 		throws NoSuchTripException {
 
 		route_id = Objects.toString(route_id, "");
 
-		Trip trip = findByPrimaryKey(id);
+		Trip trip = findByPrimaryKey(trip_id);
 
 		Session session = null;
 
@@ -923,7 +922,7 @@ public class TripPersistenceImpl
 	/**
 	 * Returns the trips before and after the current trip in the ordered set where service_id = &#63;.
 	 *
-	 * @param id the primary key of the current trip
+	 * @param trip_id the primary key of the current trip
 	 * @param service_id the service_id
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next trip
@@ -931,13 +930,13 @@ public class TripPersistenceImpl
 	 */
 	@Override
 	public Trip[] findByServiceId_PrevAndNext(
-			long id, String service_id,
+			String trip_id, String service_id,
 			OrderByComparator<Trip> orderByComparator)
 		throws NoSuchTripException {
 
 		service_id = Objects.toString(service_id, "");
 
-		Trip trip = findByPrimaryKey(id);
+		Trip trip = findByPrimaryKey(trip_id);
 
 		Session session = null;
 
@@ -1463,168 +1462,6 @@ public class TripPersistenceImpl
 	}
 
 	/**
-	 * Returns the trips before and after the current trip in the ordered set where trip_id = &#63;.
-	 *
-	 * @param id the primary key of the current trip
-	 * @param trip_id the trip_id
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next trip
-	 * @throws NoSuchTripException if a trip with the primary key could not be found
-	 */
-	@Override
-	public Trip[] findByTripId_PrevAndNext(
-			long id, String trip_id, OrderByComparator<Trip> orderByComparator)
-		throws NoSuchTripException {
-
-		trip_id = Objects.toString(trip_id, "");
-
-		Trip trip = findByPrimaryKey(id);
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Trip[] array = new TripImpl[3];
-
-			array[0] = getByTripId_PrevAndNext(
-				session, trip, trip_id, orderByComparator, true);
-
-			array[1] = trip;
-
-			array[2] = getByTripId_PrevAndNext(
-				session, trip, trip_id, orderByComparator, false);
-
-			return array;
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	protected Trip getByTripId_PrevAndNext(
-		Session session, Trip trip, String trip_id,
-		OrderByComparator<Trip> orderByComparator, boolean previous) {
-
-		StringBundler query = null;
-
-		if (orderByComparator != null) {
-			query = new StringBundler(
-				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
-					(orderByComparator.getOrderByFields().length * 3));
-		}
-		else {
-			query = new StringBundler(3);
-		}
-
-		query.append(_SQL_SELECT_TRIP_WHERE);
-
-		boolean bindTrip_id = false;
-
-		if (trip_id.isEmpty()) {
-			query.append(_FINDER_COLUMN_TRIPID_TRIP_ID_3);
-		}
-		else {
-			bindTrip_id = true;
-
-			query.append(_FINDER_COLUMN_TRIPID_TRIP_ID_2);
-		}
-
-		if (orderByComparator != null) {
-			String[] orderByConditionFields =
-				orderByComparator.getOrderByConditionFields();
-
-			if (orderByConditionFields.length > 0) {
-				query.append(WHERE_AND);
-			}
-
-			for (int i = 0; i < orderByConditionFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByConditionFields[i]);
-
-				if ((i + 1) < orderByConditionFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN_HAS_NEXT);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN);
-					}
-				}
-			}
-
-			query.append(ORDER_BY_CLAUSE);
-
-			String[] orderByFields = orderByComparator.getOrderByFields();
-
-			for (int i = 0; i < orderByFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByFields[i]);
-
-				if ((i + 1) < orderByFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC_HAS_NEXT);
-					}
-					else {
-						query.append(ORDER_BY_DESC_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC);
-					}
-					else {
-						query.append(ORDER_BY_DESC);
-					}
-				}
-			}
-		}
-		else {
-			query.append(TripModelImpl.ORDER_BY_JPQL);
-		}
-
-		String sql = query.toString();
-
-		Query q = session.createQuery(sql);
-
-		q.setFirstResult(0);
-		q.setMaxResults(2);
-
-		QueryPos qPos = QueryPos.getInstance(q);
-
-		if (bindTrip_id) {
-			qPos.add(trip_id);
-		}
-
-		if (orderByComparator != null) {
-			for (Object orderByConditionValue :
-					orderByComparator.getOrderByConditionValues(trip)) {
-
-				qPos.add(orderByConditionValue);
-			}
-		}
-
-		List<Trip> list = q.list();
-
-		if (list.size() == 2) {
-			return list.get(1);
-		}
-		else {
-			return null;
-		}
-	}
-
-	/**
 	 * Removes all the trips where trip_id = &#63; from the database.
 	 *
 	 * @param trip_id the trip_id
@@ -1711,24 +1548,6 @@ public class TripPersistenceImpl
 
 	public TripPersistenceImpl() {
 		setModelClass(Trip.class);
-
-		Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-		dbColumnNames.put("id", "id_");
-
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception e) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(e, e);
-			}
-		}
 	}
 
 	/**
@@ -1813,15 +1632,15 @@ public class TripPersistenceImpl
 	/**
 	 * Creates a new trip with the primary key. Does not add the trip to the database.
 	 *
-	 * @param id the primary key for the new trip
+	 * @param trip_id the primary key for the new trip
 	 * @return the new trip
 	 */
 	@Override
-	public Trip create(long id) {
+	public Trip create(String trip_id) {
 		Trip trip = new TripImpl();
 
 		trip.setNew(true);
-		trip.setPrimaryKey(id);
+		trip.setPrimaryKey(trip_id);
 
 		return trip;
 	}
@@ -1829,13 +1648,13 @@ public class TripPersistenceImpl
 	/**
 	 * Removes the trip with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param id the primary key of the trip
+	 * @param trip_id the primary key of the trip
 	 * @return the trip that was removed
 	 * @throws NoSuchTripException if a trip with the primary key could not be found
 	 */
 	@Override
-	public Trip remove(long id) throws NoSuchTripException {
-		return remove((Serializable)id);
+	public Trip remove(String trip_id) throws NoSuchTripException {
+		return remove((Serializable)trip_id);
 	}
 
 	/**
@@ -2073,13 +1892,13 @@ public class TripPersistenceImpl
 	/**
 	 * Returns the trip with the primary key or throws a <code>NoSuchTripException</code> if it could not be found.
 	 *
-	 * @param id the primary key of the trip
+	 * @param trip_id the primary key of the trip
 	 * @return the trip
 	 * @throws NoSuchTripException if a trip with the primary key could not be found
 	 */
 	@Override
-	public Trip findByPrimaryKey(long id) throws NoSuchTripException {
-		return findByPrimaryKey((Serializable)id);
+	public Trip findByPrimaryKey(String trip_id) throws NoSuchTripException {
+		return findByPrimaryKey((Serializable)trip_id);
 	}
 
 	/**
@@ -2134,12 +1953,12 @@ public class TripPersistenceImpl
 	/**
 	 * Returns the trip with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param id the primary key of the trip
+	 * @param trip_id the primary key of the trip
 	 * @return the trip, or <code>null</code> if a trip with the primary key could not be found
 	 */
 	@Override
-	public Trip fetchByPrimaryKey(long id) {
-		return fetchByPrimaryKey((Serializable)id);
+	public Trip fetchByPrimaryKey(String trip_id) {
+		return fetchByPrimaryKey((Serializable)trip_id);
 	}
 
 	@Override
@@ -2195,8 +2014,8 @@ public class TripPersistenceImpl
 
 		query.append(_SQL_SELECT_TRIP_WHERE_PKS_IN);
 
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
+		for (int i = 0; i < uncachedPrimaryKeys.size(); i++) {
+			query.append("?");
 
 			query.append(",");
 		}
@@ -2213,6 +2032,12 @@ public class TripPersistenceImpl
 			session = openSession();
 
 			Query q = session.createQuery(sql);
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			for (Serializable primaryKey : uncachedPrimaryKeys) {
+				qPos.add((String)primaryKey);
+			}
 
 			for (Trip trip : (List<Trip>)q.list()) {
 				map.put(trip.getPrimaryKeyObj(), trip);
@@ -2433,11 +2258,6 @@ public class TripPersistenceImpl
 	}
 
 	@Override
-	public Set<String> getBadColumnNames() {
-		return _badColumnNames;
-	}
-
-	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return TripModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2477,8 +2297,7 @@ public class TripPersistenceImpl
 			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByRouteId",
 			new String[] {String.class.getName()},
-			TripModelImpl.ROUTE_ID_COLUMN_BITMASK |
-			TripModelImpl.TRIP_ID_COLUMN_BITMASK);
+			TripModelImpl.ROUTE_ID_COLUMN_BITMASK);
 
 		_finderPathCountByRouteId = new FinderPath(
 			TripModelImpl.ENTITY_CACHE_ENABLED,
@@ -2500,8 +2319,7 @@ public class TripPersistenceImpl
 			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByServiceId",
 			new String[] {String.class.getName()},
-			TripModelImpl.SERVICE_ID_COLUMN_BITMASK |
-			TripModelImpl.TRIP_ID_COLUMN_BITMASK);
+			TripModelImpl.SERVICE_ID_COLUMN_BITMASK);
 
 		_finderPathCountByServiceId = new FinderPath(
 			TripModelImpl.ENTITY_CACHE_ENABLED,
@@ -2548,7 +2366,7 @@ public class TripPersistenceImpl
 	private static final String _SQL_SELECT_TRIP = "SELECT trip FROM Trip trip";
 
 	private static final String _SQL_SELECT_TRIP_WHERE_PKS_IN =
-		"SELECT trip FROM Trip trip WHERE id_ IN (";
+		"SELECT trip FROM Trip trip WHERE trip_id IN (";
 
 	private static final String _SQL_SELECT_TRIP_WHERE =
 		"SELECT trip FROM Trip trip WHERE ";
@@ -2569,8 +2387,5 @@ public class TripPersistenceImpl
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		TripPersistenceImpl.class);
-
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(
-		new String[] {"id"});
 
 }

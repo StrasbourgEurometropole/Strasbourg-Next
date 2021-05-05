@@ -252,7 +252,7 @@
 		<column name="id" primary="true" type="long" />
 
 		<!-- Other fields -->
-		<column name="service_id" type="String" />
+		<column name="service_id"  type="String" />
 		<column name="start_date" type="Date" />
 		<column name="end_date" type="Date" />
 
@@ -302,10 +302,9 @@
 	<entity local-service="true" name="Route" remote-service="false" uuid="false">
 
 		<!-- PK fields -->
-		<column name="id" primary="true" type="long" />
 		
 		<!-- Other fields -->
-		<column name="route_id" type="String" />
+		<column name="route_id" primary="true" type="String" />
 		<column name="route_short_name" type="String" />
 		<column name="route_long_name" type="String" />
 		<column name="route_type" type="int" />
@@ -327,11 +326,10 @@
 	<entity local-service="true" name="StopTime" remote-service="false" uuid="false">
 
 		<!-- PK fields -->
-		<column name="id" primary="true" type="long" />
 
 		<!-- Other fields -->
-		<column name="trip_id" type="String" />
-		<column name="stop_id" type="String" />
+		<column name="trip_id" primary="true" type="String" />
+		<column name="stop_id" primary="true" type="String" />
 
 		<!-- Order -->
 		<order by="asc">
@@ -351,10 +349,9 @@
 	<entity local-service="true" name="Stop" remote-service="false" uuid="false">
 		
 		<!-- PK fields -->
-		<column name="id" primary="true" type="long" />
 		
 		<!-- Other fields -->
-		<column name="stop_id" type="String" />
+		<column name="stop_id" primary="true" type="String" />
 		<column name="stop_code" type="String" />
 		<column name="stop_lat" type="String" />
 		<column name="stop_lon" type="String" />
@@ -378,12 +375,11 @@
 	<entity local-service="true" name="Trip" remote-service="false" uuid="false">
 
 		<!-- PK fields -->
-		<column name="id" primary="true" type="long" />
 		
 		<!-- Other fields -->
 		<column name="route_id" type="String" />
 		<column name="service_id" type="String" />
-		<column name="trip_id" type="String" />
+		<column name="trip_id" primary="true" type="String" />
 		<column name="trip_headsign" type="String" />
 		
 		<!-- Order -->

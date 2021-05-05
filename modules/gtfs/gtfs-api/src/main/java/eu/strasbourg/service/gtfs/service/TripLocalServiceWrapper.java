@@ -49,23 +49,12 @@ public class TripLocalServiceWrapper
 	/**
 	 * Creates a new trip with the primary key. Does not add the trip to the database.
 	 *
-	 * @param id the primary key for the new trip
+	 * @param trip_id the primary key for the new trip
 	 * @return the new trip
 	 */
 	@Override
-	public eu.strasbourg.service.gtfs.model.Trip createTrip(long id) {
-		return _tripLocalService.createTrip(id);
-	}
-
-	/**
-	 * Crée une agence vide avec une PK, non ajouté à la base de donnée
-	 */
-	@Override
-	public eu.strasbourg.service.gtfs.model.Trip createTrip(
-			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _tripLocalService.createTrip(sc);
+	public eu.strasbourg.service.gtfs.model.Trip createTrip(String trip_id) {
+		return _tripLocalService.createTrip(trip_id);
 	}
 
 	/**
@@ -93,15 +82,15 @@ public class TripLocalServiceWrapper
 	/**
 	 * Deletes the trip with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param id the primary key of the trip
+	 * @param trip_id the primary key of the trip
 	 * @return the trip that was removed
 	 * @throws PortalException if a trip with the primary key could not be found
 	 */
 	@Override
-	public eu.strasbourg.service.gtfs.model.Trip deleteTrip(long id)
+	public eu.strasbourg.service.gtfs.model.Trip deleteTrip(String trip_id)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _tripLocalService.deleteTrip(id);
+		return _tripLocalService.deleteTrip(trip_id);
 	}
 
 	/**
@@ -207,22 +196,8 @@ public class TripLocalServiceWrapper
 	}
 
 	@Override
-	public eu.strasbourg.service.gtfs.model.Trip fetchTrip(long id) {
-		return _tripLocalService.fetchTrip(id);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
-		getActionableDynamicQuery() {
-
-		return _tripLocalService.getActionableDynamicQuery();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
-		getIndexableActionableDynamicQuery() {
-
-		return _tripLocalService.getIndexableActionableDynamicQuery();
+	public eu.strasbourg.service.gtfs.model.Trip fetchTrip(String trip_id) {
+		return _tripLocalService.fetchTrip(trip_id);
 	}
 
 	/**
@@ -246,15 +221,15 @@ public class TripLocalServiceWrapper
 	/**
 	 * Returns the trip with the primary key.
 	 *
-	 * @param id the primary key of the trip
+	 * @param trip_id the primary key of the trip
 	 * @return the trip
 	 * @throws PortalException if a trip with the primary key could not be found
 	 */
 	@Override
-	public eu.strasbourg.service.gtfs.model.Trip getTrip(long id)
+	public eu.strasbourg.service.gtfs.model.Trip getTrip(String trip_id)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _tripLocalService.getTrip(id);
+		return _tripLocalService.getTrip(trip_id);
 	}
 
 	/**

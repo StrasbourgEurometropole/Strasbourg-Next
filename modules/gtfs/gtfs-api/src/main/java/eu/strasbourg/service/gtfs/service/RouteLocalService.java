@@ -16,9 +16,7 @@ package eu.strasbourg.service.gtfs.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -77,16 +75,11 @@ public interface RouteLocalService
 	/**
 	 * Creates a new route with the primary key. Does not add the route to the database.
 	 *
-	 * @param id the primary key for the new route
+	 * @param route_id the primary key for the new route
 	 * @return the new route
 	 */
 	@Transactional(enabled = false)
-	public Route createRoute(long id);
-
-	/**
-	 * Crée une Route vide avec une PK, non ajouté à la base de donnée
-	 */
-	public Route createRoute(ServiceContext sc) throws PortalException;
+	public Route createRoute(String route_id);
 
 	/**
 	 * Crée un Route à partir d'une entrée GTFS
@@ -101,16 +94,6 @@ public interface RouteLocalService
 		throws PortalException;
 
 	/**
-	 * Deletes the route with the primary key from the database. Also notifies the appropriate model listeners.
-	 *
-	 * @param id the primary key of the route
-	 * @return the route that was removed
-	 * @throws PortalException if a route with the primary key could not be found
-	 */
-	@Indexable(type = IndexableType.DELETE)
-	public Route deleteRoute(long id) throws PortalException;
-
-	/**
 	 * Deletes the route from the database. Also notifies the appropriate model listeners.
 	 *
 	 * @param route the route
@@ -118,6 +101,16 @@ public interface RouteLocalService
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	public Route deleteRoute(Route route);
+
+	/**
+	 * Deletes the route with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param route_id the primary key of the route
+	 * @return the route that was removed
+	 * @throws PortalException if a route with the primary key could not be found
+	 */
+	@Indexable(type = IndexableType.DELETE)
+	public Route deleteRoute(String route_id) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();
@@ -186,10 +179,7 @@ public interface RouteLocalService
 		DynamicQuery dynamicQuery, Projection projection);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Route fetchRoute(long id);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public ActionableDynamicQuery getActionableDynamicQuery();
+	public Route fetchRoute(String route_id);
 
 	/**
 	 * Recuperer toutes les lignes
@@ -202,9 +192,6 @@ public interface RouteLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Route getByRouteId(String routeId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
 
 	/**
 	 * Returns the OSGi service identifier.
@@ -221,12 +208,12 @@ public interface RouteLocalService
 	/**
 	 * Returns the route with the primary key.
 	 *
-	 * @param id the primary key of the route
+	 * @param route_id the primary key of the route
 	 * @return the route
 	 * @throws PortalException if a route with the primary key could not be found
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Route getRoute(long id) throws PortalException;
+	public Route getRoute(String route_id) throws PortalException;
 
 	/**
 	 * Returns a range of all the routes.
@@ -264,7 +251,7 @@ public interface RouteLocalService
 	/**
 	 * Supprime une Route
 	 */
-	public Route removeRoute(long routeId) throws PortalException;
+	public Route removeRoute(String routeId) throws PortalException;
 
 	/**
 	 * Updates the route in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

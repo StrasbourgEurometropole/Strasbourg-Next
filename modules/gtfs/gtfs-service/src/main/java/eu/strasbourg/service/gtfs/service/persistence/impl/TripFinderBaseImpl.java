@@ -15,18 +15,10 @@
 package eu.strasbourg.service.gtfs.service.persistence.impl;
 
 import com.liferay.portal.kernel.bean.BeanReference;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 
 import eu.strasbourg.service.gtfs.model.Trip;
 import eu.strasbourg.service.gtfs.service.persistence.TripPersistence;
-
-import java.lang.reflect.Field;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * @author Cedric Henry
@@ -36,29 +28,6 @@ public class TripFinderBaseImpl extends BasePersistenceImpl<Trip> {
 
 	public TripFinderBaseImpl() {
 		setModelClass(Trip.class);
-
-		Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-		dbColumnNames.put("id", "id_");
-
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception e) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(e, e);
-			}
-		}
-	}
-
-	@Override
-	public Set<String> getBadColumnNames() {
-		return getTripPersistence().getBadColumnNames();
 	}
 
 	/**
@@ -81,8 +50,5 @@ public class TripFinderBaseImpl extends BasePersistenceImpl<Trip> {
 
 	@BeanReference(type = TripPersistence.class)
 	protected TripPersistence tripPersistence;
-
-	private static final Log _log = LogFactoryUtil.getLog(
-		TripFinderBaseImpl.class);
 
 }
