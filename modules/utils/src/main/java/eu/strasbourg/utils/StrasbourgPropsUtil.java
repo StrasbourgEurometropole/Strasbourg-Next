@@ -249,6 +249,10 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.family.space.url");
 	}
 
+	public static String getFamilyKiosk(){
+		return PropsUtil.get("eu.strasbourg.family.kiosk.url");
+	}
+
 	public static String getDashboardURL() {
 		return PropsUtil.get("eu.strasbourg.dashboard.url");
 	}
