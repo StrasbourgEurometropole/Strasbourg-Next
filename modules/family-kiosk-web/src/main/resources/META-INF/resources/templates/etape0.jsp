@@ -15,10 +15,6 @@
     </div>
     <h2>${title}</h2>
     <div class="detail" ${dc.isFolded()?'style="display: none;"':''}>
-        <!-- contenu web -->
-        <liferay-portlet:runtime
-            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-            instanceId="family-kiosk" />
         <!-- Etape 0 -->
         <c:if test="${not empty error}">
             <!-- Message d'erreur -->

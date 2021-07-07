@@ -37,7 +37,7 @@ public class FamilyKioskWebPortlet extends MVCPortlet {
 		String publikInternalId = dc.getPublikID(renderRequest);
 		String template = "";
 		try {
-			FamilyKioskResponse familyKiosk = FamilyKioskWebService.getResponse(publikInternalId, renderRequest);
+			FamilyKioskResponse familyKiosk = FamilyKioskWebService.getResponse(publikInternalId);
 
 			if (Validator.isNull(familyKiosk)) {
 				// erreur technique

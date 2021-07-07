@@ -14,19 +14,12 @@
         </c:if>
     </div>
     <h2>${title}</h2>
-    <div>${dc.intro}</div>
     <div class="detail" ${dc.isFolded()?'style="display: none;"':''}>
-        <!-- contenu web -->
-        <liferay-portlet:runtime
-            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-            instanceId="family-kiosk" />
+        <div>${dc.intro}</div>
         <!-- Etape 1 -->
         <c:if test="${dc.familyKiosk.family != null}">
             <c:set value="${dc.familyKiosk.family}" var="family" />
-            <div name="${family.idFamily}" class="family">
-                <div><liferay-ui:message key="family-x" arguments="${family.idFamily}" /></div>
-            </div>
-            <div id="family${family.idFamily}" style="margin-bottom: 40px;">
+            <div id="family${family.idFamily}" style="margin: 40px 0;">
                 <c:if test="${fn:length(family.children) == 0}">
                     <!-- Accès espace famille -->
                     <div class="form-group">
@@ -44,6 +37,16 @@
                     </div>
                 </c:if>
                 <c:forEach items="${family.children}" var="child" varStatus="count">
+                    <c:if test="${person.hasLunchBooked}">
+                        <!-- Une alerte est définie pour avertir que le dernier jour réservé est proche. Le message devra être affiché 12 jours avant le dernier jour réservé -->
+                        <c:set var="dateAlert" value="${dc.today.plusDays(13)}" />
+                        <c:if test="${dateAlert.isAfter(person.lastBookingDate)}">
+                            <div class="warning">
+                                <strong><liferay-ui:message key="warning" /></strong><br>
+                                <liferay-ui:message key="expire-validity-text-x" arguments="${newLastBookingDate}" />
+                            </div>
+                        </c:if>
+                    </c:if>
                     <div class="webform-layout-box">
                         <!-- Enfant -->
                         <div class="form-group">
@@ -91,9 +94,9 @@
             <!-- Acces espace famille -->
             <div class="form-group">
                 <div class="content" style="text-align: right;">
-                    <a href="${dc.familyKioskURL}" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="access-family-Kiosk" /> (<liferay-ui:message key="eu.new-window" />)">
+                    <a href="${dc.familyKioskURL}" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="access-family-kiosk" /> (<liferay-ui:message key="eu.new-window" />)">
                         <span class="flexbox">
-                            <span class="btn-text"><liferay-ui:message key="access-family-Kiosk" /></span>
+                            <span class="btn-text"><liferay-ui:message key="access-family-kiosk" /></span>
                             <span class="btn-arrow"></span>
                         </span>
                     </a>
