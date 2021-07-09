@@ -59,6 +59,14 @@ public class FamilyKioskDisplayContext {
 		return familyKioskURL;
 	}
 
+	public String getRequestskURL() {
+		String requestsURL = configuration.requestsURL();
+		if (Validator.isNull(requestsURL)) {
+			requestsURL = "#";
+		}
+		return requestsURL;
+	}
+
 	public void setFamilyKiosk(FamilyKioskResponse familyKiosk) {
 		this.familyKiosk = familyKiosk;
 	}

@@ -59,6 +59,10 @@ public class FamilyKioskConfigurationAction
 			// URL site espace famille
 			String familyKioskURL = ParamUtil.getString(request, "familyKioskURL");
 			setPreference(request, "familyKioskURL", familyKioskURL);
+
+			// URL site espace famille
+			String requestsURL = ParamUtil.getString(request, "requestsURL");
+			setPreference(request, "requestsURL", requestsURL);
 		}
 		super.processAction(portletConfig, request, response);
 	}
@@ -80,6 +84,7 @@ public class FamilyKioskConfigurationAction
 
 			request.setAttribute("intro", configuration.introXML());
 			request.setAttribute("familyKioskURL", configuration.familyKioskURL());
+			request.setAttribute("requestsURL", configuration.requestsURL());
 			
 		} catch (ConfigurationException e) {
 			_log.error(e);

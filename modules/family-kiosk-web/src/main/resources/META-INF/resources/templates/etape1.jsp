@@ -135,7 +135,7 @@
                         <!-- Acces demandes -->
                         <div class="form-group">
                             <div class="content" style="text-align: right;">
-                                <a href="${dc.familyKioskURL}" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="see-all-requests" /> (<liferay-ui:message key="eu.new-window" />)">
+                                <a href="${dc.requestskURL}" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="see-all-requests" /> (<liferay-ui:message key="eu.new-window" />)">
                                     <span class="flexbox">
                                         <span class="btn-text"><liferay-ui:message key="see-all-requests" /></span>
                                         <span class="btn-arrow"></span>

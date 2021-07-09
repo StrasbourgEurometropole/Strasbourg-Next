@@ -17,4 +17,8 @@ public interface FamilyKioskConfiguration {
 	@Meta.AD(name = "familyKioskURL", deflt = "", required = false)
 	public String familyKioskURL();
 
+
+	@Meta.AD(name = "requestsURL", deflt = "", required = false)
+	public String requestsURL();
+
 }

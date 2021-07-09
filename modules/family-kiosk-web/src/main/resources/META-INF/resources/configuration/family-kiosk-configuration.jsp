@@ -22,6 +22,10 @@
 		<aui:fieldset>
 			<aui:input name="familyKioskURL" value="${familyKioskURL}" type="text" label="family-kiosk-url" />
 		</aui:fieldset>
+
+		<aui:fieldset>
+			<aui:input name="requestsURL" value="${requestsURL}" type="text" label="requests-url" />
+		</aui:fieldset>
 		
 		<aui:button-row>
 			<aui:button type="submit"></aui:button>
