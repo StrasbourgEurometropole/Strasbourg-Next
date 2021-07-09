@@ -4,12 +4,15 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.Validator;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Family {
 
-    public String idFamily;
     public String civility;
     public String firstName;
     public String lastName;
@@ -17,18 +20,21 @@ public class Family {
     public List<Child> children;
 
     public Family(JSONObject json) {
-        idFamily = json.getString("identifiantFamille");
+        /* inutile pour le moment
         civility = json.getString("civilite");
         firstName = json.getString("prenom");
-        lastName = json.getString("nom");
+        lastName = json.getString("nom");*/
         try {
+            adults = new ArrayList<>();
+            /* inutile pour le moment
             JSONArray jsonAdults = JSONFactoryUtil.createJSONArray(json.getString("liste_adultes"));
             for (Object adult : jsonAdults) {
-                adults.add(new Adult(JSONFactoryUtil.createJSONObject(adult.toString())));
-            }
+                adults.add(new Adult((JSONObject) adult));
+            }*/
             JSONArray jsonChildren = JSONFactoryUtil.createJSONArray(json.getString("liste_enfants"));
+            children = new ArrayList<>();
             for (Object child : jsonChildren) {
-                children.add(new Child(JSONFactoryUtil.createJSONObject(child.toString())));
+                children.add(new Child((JSONObject) child));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -38,9 +44,6 @@ public class Family {
     public Family() {
     }
 
-    public String getIdFamily() {
-        return idFamily;
-    }
 
     public String getCivility() {
         return civility;
@@ -61,4 +64,21 @@ public class Family {
     public List<Child> getChildren() {
         return children;
     }
+
+    public LocalDate getLastDateBookingByTypeActifAndYear(String type, int actif, int year) {
+        LocalDate lastBookingDate = null;
+        for (Child child : getChildren()) {
+            Inscription inscription = child.getInscriptionsByTypeActifAndYear(type, actif, year).stream()
+                    .sorted(Comparator.comparing(Inscription::getMaxDateBooking).reversed())
+                    .findFirst().orElse(null);
+            if(Validator.isNotNull(inscription)) {
+                if (Validator.isNull(lastBookingDate))
+                    lastBookingDate = inscription.getMaxDateBooking();
+                else if(lastBookingDate.isAfter(inscription.getMaxDateBooking()))
+                    lastBookingDate = inscription.getMaxDateBooking();
+            }
+        }
+        return lastBookingDate;
+    }
+
 }

@@ -18,8 +18,22 @@
         margin-bottom: 20px;
     }
 
+    .info  {
+        background-image: url(../images/picto-message-info.png);
+        background-repeat: no-repeat;
+        background-size: 20px;
+        background-position: 15px 15px;
+        background-color: #DDEEFF;
+        padding: 15px 20px;
+        padding-left: 60px;
+		color: #505050;
+		font-size: 18px;
+	    margin-bottom: 25px;
+        margin-top: -20px;
+    }
+
     .warning  {
-        background-image: url(../images/picto-message-alerte.png);
+        background-image: url( svg-bg-uri($svg-exclamation, #5c5c5c) );
         background-repeat: no-repeat;
         background-size: 20px;
         background-position: 15px 15px;
@@ -30,6 +44,10 @@
 		font-size: 18px;
 	    margin-bottom: 25px;
 	    margin-top: -20px;
+
+        &:not(:first-child) {
+            margin-top: 10px;
+        }
     }
 
     .content {
@@ -47,7 +65,7 @@
             display: block;
         }
     }
-    /*.form-group{
+    .form-group{
         margin-bottom: 15px;
         width: 100%;
 
@@ -58,11 +76,31 @@
             }
         }
     }
+    .form-group.request{
+
+        .form-group{
+            margin-bottom: 0;
+        }
+
+        &:not(:first-child) {
+            margin-top: 30px;
+        }
+    }
     label{
         @extend %text-form-label;
         .required{
             color: #ff1818;
         }
         margin-bottom: 5px;
-    }*/
+    }
+
+    .upper-title{
+    	text-transform: uppercase;
+    	margin-top: 20px;
+    	margin-bottom: 10px;
+    }
+
+    strong{
+        font-weight: 600;
+    }
 }

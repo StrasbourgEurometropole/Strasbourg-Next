@@ -1,40 +1,32 @@
 package eu.strasbourg.portlet.familyKiosk;
 
-import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.portlet.familyKiosk.entities.Family;
 import eu.strasbourg.portlet.familyKiosk.entities.Finance;
 import eu.strasbourg.portlet.familyKiosk.entities.Requests;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class FamilyKioskResponse {
 
 	public int codeRetour;
 	public String erreurDescription;
 	public Family family;
-	public List<Requests> requests;
-	public List<Finance> finances;
+	public Requests requests;
+	public Finance finance;
 
 	public FamilyKioskResponse(JSONObject json) {
 		codeRetour = json.getInt("erreur");
 		erreurDescription = json.getString("detail_erreur");
-		requests = new ArrayList<>();
-		finances = new ArrayList<>();
 		if (codeRetour == 0) {
 			try {
-				family = new Family(JSONFactoryUtil.createJSONObject(json.getString("famille")));
-				JSONArray jsonRequests = JSONFactoryUtil.createJSONArray(json.getString("demandes"));
-				for (Object request : jsonRequests) {
-					requests.add(new Requests(JSONFactoryUtil.createJSONObject(request.toString())));
-				}
-				JSONArray jsonFinances = JSONFactoryUtil.createJSONArray(json.getString("finances"));
-				for (Object finance : jsonFinances) {
-					finances.add(new Finance(JSONFactoryUtil.createJSONObject(finance.toString())));
-				}
+				if(Validator.isNotNull(json.getString("famille")))
+					family = new Family(JSONFactoryUtil.createJSONObject(json.getString("famille")));
+				if(Validator.isNotNull(json.getString("demandes")))
+					requests = new Requests(JSONFactoryUtil.createJSONObject(json.getString("demandes")));
+				if(Validator.isNotNull(json.getString("finances")))
+					finance = new Finance(JSONFactoryUtil.createJSONObject(json.getString("finances")));
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -63,23 +55,12 @@ public class FamilyKioskResponse {
 		return family;
 	}
 
-	public void setFamily(Family family) {
-		this.family = family;
-	}
-
-	public List<Requests> getRequests() {
+	public Requests getRequests() {
 		return requests;
 	}
 
-	public void setRequests(List<Requests> requests) {
-		this.requests = requests;
+	public Finance getFinance() {
+		return finance;
 	}
 
-	public List<Finance> getFinances() {
-		return finances;
-	}
-
-	public void setFinances(List<Finance> finances) {
-		this.finances = finances;
-	}
 }

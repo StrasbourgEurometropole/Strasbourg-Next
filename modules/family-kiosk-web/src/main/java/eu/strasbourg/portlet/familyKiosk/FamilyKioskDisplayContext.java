@@ -13,6 +13,7 @@ import eu.strasbourg.utils.PortletHelper;
 
 import javax.portlet.PortletRequest;
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.util.Locale;
 import java.util.Map;
 
@@ -76,6 +77,10 @@ public class FamilyKioskDisplayContext {
 		}
 
 		return this.publikId;
+	}
+
+	public LocalDate getToday() {
+		return LocalDate.now();
 	}
 
 	public boolean showDeleteButton() {

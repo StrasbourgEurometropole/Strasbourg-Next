@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.familyKiosk.entities;
 
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -17,8 +18,9 @@ public class Adult {
         civility = json.getString("civilite");
         firstName = json.getString("prenom");
         lastName = json.getString("nom");
-        birth = LocalDate.parse(json.getString("date_naissance"),
-                DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        if(Validator.isNotNull(json.getString("date_naissance")))
+            birth = LocalDate.parse(json.getString("date_naissance"),
+                DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         sex = json.getString("sexe");
     }
 

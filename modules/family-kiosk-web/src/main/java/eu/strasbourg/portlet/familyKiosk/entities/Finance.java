@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.familyKiosk.entities;
 
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -13,11 +14,13 @@ public class Finance {
     public LocalDate lastReturnDate;
 
     public Finance(JSONObject json) {
-        type = json.getString("type_impaye");
+        /* inutile pour le moment
+        type = json.getString("type_impaye");*/
         nb = json.getLong("nb_impaye");
         total = json.getDouble("total_impaye");
-        lastReturnDate = LocalDate.parse(json.getString("date_dernier_retour_pes"),
-                DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        if(Validator.isNotNull(json.getString("date_dernier_retour_pes")))
+            lastReturnDate = LocalDate.parse(json.getString("date_dernier_retour_pes"),
+                    DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public Finance() {

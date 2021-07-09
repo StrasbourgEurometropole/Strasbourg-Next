@@ -15,10 +15,6 @@
     </div>
     <h2>${title}</h2>
     <div class="detail" ${dc.isFolded()?'style="display: none;"':''}>
-        <!-- contenu web -->
-        <liferay-portlet:runtime
-            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-            instanceId="family-kiosk" />
         <!-- accéder au kiosque famille -->
         <div align="center">
             <a href="${familyKioskURL}" class="btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="access-family-kiosk" /> (<liferay-ui:message key="eu.new-window" />)">

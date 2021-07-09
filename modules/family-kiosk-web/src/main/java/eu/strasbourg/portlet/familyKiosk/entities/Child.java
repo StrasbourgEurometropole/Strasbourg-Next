@@ -6,7 +6,8 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,11 +22,14 @@ public class Child {
     public Child(JSONObject json) {
         firstName = json.getString("prenom");
         lastName = json.getString("nom");
-        birth = LocalDate.parse(json.getString("date_naissance"),
-                DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        sex = json.getString("sexe");
+        /* inutile pour le moment
+        if(Validator.isNotNull(json.getString("date_naissance")))
+            birth = LocalDate.parse(json.getString("date_naissance"),
+                DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        sex = json.getString("sexe");*/
         try {
             JSONArray jsonInscriptions = JSONFactoryUtil.createJSONArray(json.getString("liste_inscriptions"));
+            inscriptions = new ArrayList<>();
             for (Object inscription : jsonInscriptions) {
                 inscriptions.add(new Inscription(JSONFactoryUtil.createJSONObject(inscription.toString())));
             }
@@ -57,7 +61,10 @@ public class Child {
         return inscriptions;
     }
 
-    public List<Inscription> getInscriptionsByTypeActifAndYear(String type, boolean isactif, boolean year) {
-        return inscriptions.stream().filter(i -> i.getTypact().equals(type) && i.getActif() == isactif && i.getThisYear() == year).collect(Collectors.toList());
+    public List<Inscription> getInscriptionsByTypeActifAndYear(String type, int actif, int year) {
+        return inscriptions.stream()
+                .filter(i -> i.getTypact().equals(type) && i.getActif() == actif && i.getThisYear() == year)
+                .sorted(Comparator.comparing(Inscription::getMaxDateBooking))
+                .collect(Collectors.toList());
     }
 }

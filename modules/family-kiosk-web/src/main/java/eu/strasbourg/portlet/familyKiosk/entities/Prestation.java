@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.familyKiosk.entities;
 
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -8,8 +9,8 @@ import java.time.format.DateTimeFormatter;
 public class Prestation {
 
     public String libelle;
-    public Boolean isActif;
-    public Boolean isThisYear;
+    public int actif;
+    public int thisYear;
     public LocalDate startDateRegistration;
     public LocalDate endDateRegistration;
     public LocalDate minDateBooking;
@@ -17,16 +18,20 @@ public class Prestation {
 
     public Prestation(JSONObject json) {
         libelle = json.getString("libelle");
-        isActif = json.getBoolean("actif");
-        isThisYear = json.getBoolean("anneecou");
-        startDateRegistration = LocalDate.parse(json.getString("date_debut_inscription"),
-                DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        endDateRegistration = LocalDate.parse(json.getString("date_fin_inscription"),
-                DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        minDateBooking = LocalDate.parse(json.getString("date_min_reservation"),
-                DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        maxDateBooking = LocalDate.parse(json.getString("date_max_reservation"),
-                DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        actif = json.getInt("actif");
+        thisYear = json.getInt("anneecou");
+        if(Validator.isNotNull(json.getString("date_debut_inscription")))
+            startDateRegistration = LocalDate.parse(json.getString("date_debut_inscription"),
+                DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        if(Validator.isNotNull(json.getString("date_fin_inscription")))
+            endDateRegistration = LocalDate.parse(json.getString("date_fin_inscription"),
+                DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        if(Validator.isNotNull(json.getString("date_min_reservation")))
+            minDateBooking = LocalDate.parse(json.getString("date_min_reservation"),
+                DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        if(Validator.isNotNull(json.getString("date_max_reservation")))
+            maxDateBooking = LocalDate.parse(json.getString("date_max_reservation"),
+                DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public Prestation() {
@@ -36,12 +41,12 @@ public class Prestation {
         return libelle;
     }
 
-    public Boolean getActif() {
-        return isActif;
+    public int getActif() {
+        return actif;
     }
 
-    public Boolean getThisYear() {
-        return isThisYear;
+    public int getThisYear() {
+        return thisYear;
     }
 
     public LocalDate getStartDateRegistration() {
