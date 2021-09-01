@@ -135,7 +135,6 @@ public class PeriodImpl extends PeriodBaseImpl {
 		JSONObject periodJSON = JSONFactoryUtil.createJSONObject();
 
 		periodJSON.put("periodName", JSONHelper.getJSONFromI18nMap(this.getNameMap()));
-		// TODO périod par défaut ?
 		if (!this.getDefaultPeriod()) {
 			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
 			if (Validator.isNotNull(this.getStartDate())) {

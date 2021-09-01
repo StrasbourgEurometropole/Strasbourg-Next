@@ -62,26 +62,6 @@ public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDMFo
     }
 
     public List<DDMFormInstanceRecord> getFormSends() {
-
-        //TODO pour la pagination
-//        if (this._formSends == null) {
-//            List<DDLRecord> recordList = DDLRecordLocalServiceUtil.getDDLRecords(-1,-1);
-//
-//            // ne garde que les formulaires envoyé du formulaire choisi
-//            long recordSetId = ParamUtil.getLong(_request,"recordSetId");
-//            recordList = recordList.stream().filter(r -> r.getRecordSetId() == recordSetId).collect(Collectors.toList());
-//
-//            //effectue le tri
-//            recordList.sort((r1, r2) -> r1.getModifiedDate().compareTo(r2.getModifiedDate()));
-//            if("desc".equals(this.getOrderByType()))
-//                Collections.reverse(recordList);
-//
-//            this._formSends = recordList.subList(
-//                    this._searchContainer.getStart()>this._allFormSends.size()?this._allFormSends.size():this._searchContainer.getStart(),
-//                    this._searchContainer.getEnd()>this._allFormSends.size()?this._allFormSends.size():this._searchContainer.getEnd());
-//        }
-//        return this._formSends;
-
         return this.getAllFormSends();
     }
 

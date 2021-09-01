@@ -373,8 +373,6 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
             DLFolder folder = DLFolderLocalServiceUtil.getFolder(this.themeDisplay.getScopeGroupId(),
                                                                 folderparent.getFolderId(),
                                                                 "uploads");
-            // TODO Remove this after debug
-            FileEntryHelper.logFileInfo(this.photoFile);
 
             // Ajout du fichier
             FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
@@ -453,8 +451,6 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                 // Ajout du fichier
                 FileEntry fileEntry;
                 try {
-                    // TODO Remove this after debug
-                    FileEntryHelper.logFileInfo(file);
 
                     fileEntry = DLAppLocalServiceUtil.addFileEntry(
                             this.sc.getUserId(), folder.getRepositoryId(),

@@ -115,7 +115,6 @@ public class OfficialStagedModelDataHandler
 		importedOfficial.setMissions(stagedModel.getMissions());
 		importedOfficial.setWasMinister(stagedModel.getWasMinister());
 		importedOfficial.setContact(stagedModel.getContact());
-//		TODO on garde ?
 		importedOfficial.setImageId(stagedModel.getImageId());
 		importedOfficial.setStatus(stagedModel.getStatus());
 		

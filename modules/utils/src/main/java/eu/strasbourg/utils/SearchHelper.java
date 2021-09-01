@@ -742,7 +742,6 @@ public class SearchHelper {
 				for (String tagName : prefilterTagsNames) {
 					BooleanQuery tagQuery = new BooleanQueryImpl();
 					tagQuery.addExactTerm(Field.ASSET_TAG_NAMES, String.valueOf(tagName));
-					// TODO ATTENTION : La recherche se faisait par SHOULD et non MUST avant
 					if (andOnTags) {
 						tagsQuery.add(tagQuery, BooleanClauseOccur.MUST);
 					} else {

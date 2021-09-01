@@ -90,7 +90,6 @@ public class OfficialServiceImpl extends OfficialServiceBaseImpl {
         searchContext.setCompanyId(PortalUtil.getDefaultCompanyId());
         searchContext.setGroupIds(new long[]{groupId});
 
-        // TODO : utilisation d'une méthode de recherche plus "light" que BOSearchHit
         Hits hits = SearchHelper.getBOSearchHits(searchContext, 0, 50, Official.class.getName(), groupId,
                 "", fullName.toLowerCase(), "title", true);
 

@@ -33,24 +33,9 @@ public class LayoutHelperImpl implements LayoutHelperService {
 		return LayoutHelper.getJournalArticleLayoutURL(groupId, articleId, themeDisplay);
 	}
 
-	/**
-	 * TODO : appeler les méthodes statiques du Helper associé
-	 */
 	@Override
 	public String getPublikLoginURL(String currentURL) throws MalformedURLException, UnsupportedEncodingException {
-		URL url = new URL(currentURL);
-		Map<String, List<String>> params = getQueryParams(url);
-		String loginURL = url.toString().split("\\?")[0].split("\\#")[0];
-		loginURL += "?";
-		for (Map.Entry<String, List<String>> param : params.entrySet()) {
-			if (!param.getKey().equals("logout")) {
-				for (String paramValue : param.getValue()) {
-					loginURL += param.getKey() + "=" + paramValue + "&";
-				}
-			}
-		}
-		loginURL += "auth=publik";
-		return loginURL;
+		return LayoutHelper.getPublikLoginURL(currentURL);
 	}
 
 	@Override
@@ -70,24 +55,9 @@ public class LayoutHelperImpl implements LayoutHelperService {
 		return logoutURL;
 	}
 
-	/**
-	 * TODO : appeler les méthodes statiques du Helper associé
-	 */
 	public static Map<String, List<String>> getQueryParams(URL url)
 			throws UnsupportedEncodingException, MalformedURLException {
-		final Map<String, List<String>> query_pairs = new LinkedHashMap<String, List<String>>();
-		final String[] pairs = url.getQuery() != null ? url.getQuery().split("&") : new String[0];
-		for (String pair : pairs) {
-			final int idx = pair.indexOf("=");
-			final String key = idx > 0 ? URLDecoder.decode(pair.substring(0, idx), "UTF-8") : pair;
-			if (!query_pairs.containsKey(key)) {
-				query_pairs.put(key, new LinkedList<String>());
-			}
-			final String value = idx > 0 && pair.length() > idx + 1
-					? URLDecoder.decode(pair.substring(idx + 1), "UTF-8") : null;
-			query_pairs.get(key).add(value);
-		}
-		return query_pairs;
+		return LayoutHelper.getQueryParams(url);
 	}
 
 	@Override

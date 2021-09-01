@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.agendaExport.constants.AgendaExportEnum;
 import eu.strasbourg.service.agenda.model.AgendaExport;
 import eu.strasbourg.service.agenda.model.AgendaExportPeriod;
 import eu.strasbourg.service.agenda.service.AgendaExportLocalServiceUtil;
@@ -253,12 +254,11 @@ public class EditAgendaExportDisplayContext {
             return "";
         }
 
-        //TODO ENUM !
         if(
-            type.toUpperCase().equals("TYPE") ||
-            type.toUpperCase().equals("VOCABULARY") ||
-            type.toUpperCase().equals("CATEGORY") ||
-            type.toUpperCase().equals("CATEGORYFILTER")
+            type.toUpperCase().equals(AgendaExportEnum.TYPE.getName()) ||
+            type.toUpperCase().equals(AgendaExportEnum.VOCABULARY.getName()) ||
+            type.toUpperCase().equals(AgendaExportEnum.CATEGORY.getName()) ||
+            type.toUpperCase().equals(AgendaExportEnum.CATEGORYFILTER.getName())
         ) {
             Object value = sectionObject.get(type.toLowerCase());
             if(value != null) {
@@ -270,8 +270,7 @@ public class EditAgendaExportDisplayContext {
     }
 
     public String getAggregationCategoryFilter(String section) throws JSONException {
-
-        String result = this.getAggregationSavedValue(section, "CATEGORYFILTER");
+        String result = this.getAggregationSavedValue(section, AgendaExportEnum.CATEGORYFILTER.getName());
 
         if(result == null) {
             return "true";
@@ -281,8 +280,7 @@ public class EditAgendaExportDisplayContext {
     }
 
     public String getAggregationCategoryName(String section) throws JSONException {
-
-        String id = getAggregationSavedValue(section, "CATEGORY");
+        String id = getAggregationSavedValue(section, AgendaExportEnum.CATEGORY.getName());
         if(id == null || id.equals("")) {
             return "";
         }
@@ -307,7 +305,7 @@ public class EditAgendaExportDisplayContext {
 
         Map<Long, String> categories = new LinkedHashMap<>();
         Locale locale = _themeDisplay.getLocale();
-        String id = getAggregationSavedValue(section, "VOCABULARY");
+        String id = getAggregationSavedValue(section, AgendaExportEnum.VOCABULARY.getName());
         if(id == null || id.equals("")) {
             return categories;
         }
