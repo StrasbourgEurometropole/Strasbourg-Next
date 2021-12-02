@@ -12,6 +12,7 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.portlet.council.helper.CouncilHelper;
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.model.Procuration;
 import eu.strasbourg.service.council.model.Vote;
@@ -89,7 +90,8 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
             );
 
             // Verification du business de la requête
-            if (validate(request).equals("")) {
+            message = validate(request);
+            if (message.equals("")) {
                 ServiceContext sc = ServiceContextFactory.getInstance(request);
 
                 try {
@@ -233,6 +235,10 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
                         paramDeliberationId + "alors qu'il ne possede pas/plus cette procuration");
                 return LanguageUtil.get(bundle, "procuration-voted-not-found-error");
             }
+        }
+        // Vérification que la personne vote bien avec son officialId
+        if(CouncilHelper.getOfficialId(request)!=paramOfficialId){
+            return LanguageUtil.get(bundle, "officialId-not-match");
         }
 
         return "";
