@@ -98,6 +98,16 @@ public class PrintPDF {
 			document.setMargins(40f, 0f, 40f, 0f);
 			document.setFont(fontBold).setFontSize(12f);
 
+			// image d'entête en haut à gauche (position fixe)
+			String domaine = StrasbourgPropsUtil.getBaseURL();
+			ImageData image = ImageDataFactory.create(domaine + "/o/councilbo/images/logo_strasbourg_vert.jpg");
+			Image img = new Image(image);
+			float newWidth = 140;
+			float newHeight = (img.getImageHeight() / img.getImageWidth()) * newWidth;
+			img.scaleAbsolute(newWidth, newHeight)
+					.setFixedPosition(0f,520f);
+			document.add(img);
+
 			// titre du PDF
 			String titleCouncil = "";
 			if (Validator.isNotNull(council)) {
@@ -117,6 +127,8 @@ public class PrintPDF {
 					.setTextAlignment(TextAlignment.CENTER)
 					.setFontSize(13.5f);
 			document.add(title);
+
+			// Date(s) du vote en bas à droite (position fixe)
 			if(Validator.isNotNull(deliberation.getBeginningVoteDate())) {
 				LocalDateTime beginningVote = deliberation.getBeginningVoteDate().toInstant()
 						.atZone(ZoneId.systemDefault())
@@ -126,36 +138,31 @@ public class PrintPDF {
 						.toLocalDateTime();
 				String dateVote;
 				if (beginningVote.getDayOfMonth() == endVote.getDayOfMonth())
+					// sur une journée
 					dateVote = "Le " + beginningVote.getDayOfMonth() + " "
 							+ beginningVote.getMonth().getDisplayName(TextStyle.FULL, Locale.FRANCE) + " "
 							+ beginningVote.getYear() + " "
-							+ "de " + beginningVote.getHour() + ":" + beginningVote.getMinute() + ":" + beginningVote.getSecond()
-							+ " \u00e0 " + endVote.getHour() + ":" + endVote.getMinute() + ":" + endVote.getSecond();
+							+ "de " + beginningVote.getHour() + ":" + beginningVote.getMinute()
+							+ " \u00e0 " + endVote.getHour() + ":" + endVote.getMinute();
 				else
+					// sur plusieurs jours
 					dateVote = "Du " + beginningVote.getDayOfMonth() + " "
 							+ beginningVote.getMonth().getDisplayName(TextStyle.FULL, Locale.FRANCE) + " "
 							+ beginningVote.getYear() + " "
-							+ beginningVote.getHour() + ":" + beginningVote.getMinute() + ":" + beginningVote.getSecond()
+							+ beginningVote.getHour() + ":" + beginningVote.getMinute()
 							+ " au " + endVote.getDayOfMonth() + " "
 							+ endVote.getMonth().getDisplayName(TextStyle.FULL, Locale.FRANCE) + " "
 							+ endVote.getYear() + " "
-							+ endVote.getHour() + ":" + endVote.getMinute() + ":" + endVote.getSecond();
-				title = new Paragraph(dateVote).setFont(font)
-						.setPaddings(0f, 10f, 0f, 150f)
-						.setTextAlignment(TextAlignment.CENTER)
-						.setFontSize(12.5f);
-				document.add(title);
+							+ endVote.getHour() + ":" + endVote.getMinute();
+				Paragraph date = new Paragraph(dateVote).setFont(font)
+						.setTextAlignment(TextAlignment.RIGHT)
+						.setFontSize(10f)
+						.setFixedPosition(0f,10f, 830f);
+				document.add(date);
 			}
-			// image d'entête
-			String domaine = StrasbourgPropsUtil.getBaseURL();
-			ImageData image = ImageDataFactory.create(domaine + "/o/councilbo/images/logo_strasbourg_vert.jpg");
-			Image img = new Image(image);
-			float newWidth = 140;
-			float newHeight = (img.getImageHeight() / img.getImageWidth()) * newWidth;
-			img.scaleAbsolute(newWidth, newHeight)
-					.setFixedPosition(0f,520f);
-			document.add(img);
 
+
+			// tableau des vote en position fixe
 			float hauteur_pour = 245f;
 			float hauteur_contre = 70f;
 			float hauteur_abstention = 70f;
