@@ -142,18 +142,22 @@ public class PrintPDF {
 					dateVote = "Le " + beginningVote.getDayOfMonth() + " "
 							+ beginningVote.getMonth().getDisplayName(TextStyle.FULL, Locale.FRANCE) + " "
 							+ beginningVote.getYear() + " "
-							+ "de " + beginningVote.getHour() + ":" + beginningVote.getMinute()
-							+ " \u00e0 " + endVote.getHour() + ":" + endVote.getMinute();
+							+ "de " + (beginningVote.getHour()<10?"0"+beginningVote.getHour():beginningVote.getHour())
+							+ ":" + (beginningVote.getMinute()<10?"0"+beginningVote.getMinute():beginningVote.getMinute())
+							+ " \u00e0 " + (endVote.getHour()<10?"0"+endVote.getHour():endVote.getHour())
+							+ ":" + (endVote.getMinute()<10?"0"+endVote.getMinute():endVote.getMinute());
 				else
 					// sur plusieurs jours
 					dateVote = "Du " + beginningVote.getDayOfMonth() + " "
 							+ beginningVote.getMonth().getDisplayName(TextStyle.FULL, Locale.FRANCE) + " "
 							+ beginningVote.getYear() + " "
-							+ beginningVote.getHour() + ":" + beginningVote.getMinute()
+							+ (beginningVote.getHour()<10?"0"+beginningVote.getHour():beginningVote.getHour())
+							+ ":" + (beginningVote.getMinute()<10?"0"+beginningVote.getMinute():beginningVote.getMinute())
 							+ " au " + endVote.getDayOfMonth() + " "
 							+ endVote.getMonth().getDisplayName(TextStyle.FULL, Locale.FRANCE) + " "
 							+ endVote.getYear() + " "
-							+ endVote.getHour() + ":" + endVote.getMinute();
+							+ (endVote.getHour()<10?"0"+endVote.getHour():endVote.getHour())
+							+ ":" + (endVote.getMinute()<10?"0"+endVote.getMinute():endVote.getMinute());
 				Paragraph date = new Paragraph(dateVote).setFont(font)
 						.setTextAlignment(TextAlignment.RIGHT)
 						.setFontSize(10f)
