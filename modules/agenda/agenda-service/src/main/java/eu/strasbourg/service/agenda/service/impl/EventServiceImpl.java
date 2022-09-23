@@ -227,21 +227,22 @@ public class EventServiceImpl extends EventServiceBaseImpl {
             return error("not authorized");
         }
 
+        List<Event> events = new ArrayList<>();
         // on récupère la catégorie liée à l'externalId de la catégorie (categoryId)
         long categId = 0;
         AssetCategory category = AssetVocabularyHelper.getCategoryByExternalId(categoryId);
-        if(Validator.isNotNull(category))
+        if(Validator.isNotNull(category)) {
             categId = category.getCategoryId();
 
-        Hits hits = SearchHelper.getEventWebServiceSearchHits(
-                Event.class.getName(), null, categId, null);
-        List<Event> events = new ArrayList<>();
-        if (hits != null) {
-            for (Document document : hits.getDocs()) {
-                Event event = this.eventLocalService.fetchEvent(
-                        GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-                if (event != null) {
-                    events.add(event);
+            Hits hits = SearchHelper.getEventWebServiceSearchHits(
+                    Event.class.getName(), null, categId, null);
+            if (hits != null) {
+                for (Document document : hits.getDocs()) {
+                    Event event = this.eventLocalService.fetchEvent(
+                            GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+                    if (event != null) {
+                        events.add(event);
+                    }
                 }
             }
         }
