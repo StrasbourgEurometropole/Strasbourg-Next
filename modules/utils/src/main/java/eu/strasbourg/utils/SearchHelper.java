@@ -16,8 +16,10 @@ import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.SortFactoryUtil;
 import com.liferay.portal.kernel.search.WildcardQuery;
 import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
+import com.liferay.portal.kernel.search.generic.FuzzyQuery;
 import com.liferay.portal.kernel.search.generic.MatchQuery;
 import com.liferay.portal.kernel.search.generic.WildcardQueryImpl;
+import com.liferay.portal.kernel.search.suggest.TermSuggester;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -43,6 +45,7 @@ public class SearchHelper {
 	/**
 	 * Retourne les Hits correspondant aux paramètres pour les portlets du BO
 	 */
+
 	public static Hits getBOSearchHits(SearchContext searchContext, int start, int end, String className, long groupId,
 									   String categoriesIds, String keywords, String sortField, boolean isSortDesc,
 									   BooleanClauseOccur categoriesBooleanClause) {
@@ -73,7 +76,28 @@ public class SearchHelper {
 			return null;
 		}
 	}
+	public static Hits getCouncilOfficialSearchHits(SearchContext searchContext, int start, int end, String className, long groupId, String keywords ) {
+		try {
+			// Pagination
+			searchContext.setStart(start);
+			searchContext.setEnd(end);
 
+			// Query
+			Query query = SearchHelper.getCouncilOfficialSearchQuery(className, groupId, keywords);
+
+			// Ordre
+			// on trie par pertinence
+			Sort sort = SortFactoryUtil.create("_score", false);
+			searchContext.setSorts(sort);
+			// Recherche
+			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
+			_log.info("Recherche : " + hits.getSearchTime() * 1000 + "ms");
+			return hits;
+		} catch (SearchException e) {
+			_log.error(e);
+			return null;
+		}
+	}
 	/**
 	 * Retourne le nombre de résultats correspondant aux paramètres pour les
 	 * portlets du BO
@@ -135,23 +159,31 @@ public class SearchHelper {
 			// Mots-clés
 			if (Validator.isNotNull(keywords)) {
 				BooleanQuery keywordQuery = new BooleanQueryImpl();
-				MatchQuery titleQuery = new MatchQuery(Field.TITLE, keywords);
-				titleQuery.setFuzziness(new Float(10));
-				keywordQuery.add(titleQuery, BooleanClauseOccur.SHOULD);
+				// recherche titre exact
+				MatchQuery titleExactQuery = new MatchQuery(Field.TITLE, keywords);
+				titleExactQuery.setBoost(new Float(15));
+				keywordQuery.add(titleExactQuery, BooleanClauseOccur.SHOULD);
 
+				//recherche title avec fuzzi
+				MatchQuery titleFuzzyQuery = new MatchQuery(Field.TITLE, keywords);
+				titleFuzzyQuery.setFuzziness(new Float(1));
+				titleFuzzyQuery.setBoost(new Float(7.5));
+				keywordQuery.add(titleFuzzyQuery, BooleanClauseOccur.SHOULD);
+
+				///recherche dans le contenu de title
 				WildcardQuery titleWildcardQuery = new WildcardQueryImpl(Field.TITLE, "*" + keywords + "*");
+				titleWildcardQuery.setBoost(new Float(10));
 				keywordQuery.add(titleWildcardQuery, BooleanClauseOccur.SHOULD);
 
-
 				MatchQuery frTitleQuery = new MatchQuery("title_fr_FR", keywords);
-				frTitleQuery.setFuzziness(new Float(10));
+				frTitleQuery.setFuzziness(new Float(1));
 				keywordQuery.add(frTitleQuery, BooleanClauseOccur.SHOULD);
 
 				WildcardQuery frTitleWildcardQuery = new WildcardQueryImpl("title_fr_FR", "*" + keywords + "*");
 				keywordQuery.add(frTitleWildcardQuery, BooleanClauseOccur.SHOULD);
 
 				MatchQuery descriptionQuery = new MatchQuery(Field.DESCRIPTION, keywords);
-				descriptionQuery.setFuzziness(new Float(10));
+				descriptionQuery.setFuzziness(new Float(1));
 				keywordQuery.add(descriptionQuery, BooleanClauseOccur.SHOULD);
 
 				query.add(keywordQuery, BooleanClauseOccur.MUST);
@@ -162,7 +194,41 @@ public class SearchHelper {
 			return null;
 		}
 	}
+	private static Query getCouncilOfficialSearchQuery(String className, long groupId, String keywords) {
+		try {
+			// Construction de la requète
+			BooleanQuery query = new BooleanQueryImpl();
 
+			// ClassName
+			BooleanQuery classNameQuery = new BooleanQueryImpl();
+			classNameQuery.addExactTerm(Field.ENTRY_CLASS_NAME, className);
+			query.add(classNameQuery, BooleanClauseOccur.MUST);
+
+			// Group
+			BooleanQuery groupIdQuery = new BooleanQueryImpl();
+			groupIdQuery.addExactTerm(Field.GROUP_ID, groupId);
+			query.add(groupIdQuery, BooleanClauseOccur.MUST);
+
+			// Mots-clés
+			if (Validator.isNotNull(keywords)) {
+				BooleanQuery keywordQuery = new BooleanQueryImpl();
+				MatchQuery titleQuery = new MatchQuery(Field.TITLE, keywords);
+				titleQuery.setFuzziness(new Float(1));
+
+				keywordQuery.add(titleQuery, BooleanClauseOccur.SHOULD);
+
+				WildcardQuery titleWildcardQuery = new WildcardQueryImpl(Field.TITLE, "*" + keywords + "*");
+				keywordQuery.add(titleWildcardQuery, BooleanClauseOccur.SHOULD);
+				titleWildcardQuery.setBoost(new Float(5));
+				query.add(keywordQuery, BooleanClauseOccur.MUST);
+
+			}
+			return query;
+		} catch (ParseException e) {
+			_log.error(e);
+			return null;
+		}
+	}
 	/**
 	 * Retourne les Hits correspondant aux paramètres pour les moteurs de
 	 * recherche d'assets
