@@ -6,7 +6,6 @@ out
 .idea
 .gradle
 .settings
-gradle.properties
 
 **/.settings
 modules/*/bin
