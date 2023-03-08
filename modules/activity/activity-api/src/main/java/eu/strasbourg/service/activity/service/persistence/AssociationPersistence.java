@@ -14,17 +14,12 @@
 
 package eu.strasbourg.service.activity.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.activity.exception.NoSuchAssociationException;
 import eu.strasbourg.service.activity.model.Association;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the association service.
@@ -45,9 +40,6 @@ public interface AssociationPersistence extends BasePersistence<Association> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link AssociationUtil} to access the association persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Association> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the associations where uuid = &#63;.
@@ -659,8 +651,5 @@ public interface AssociationPersistence extends BasePersistence<Association> {
 	 * @return the number of associations
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

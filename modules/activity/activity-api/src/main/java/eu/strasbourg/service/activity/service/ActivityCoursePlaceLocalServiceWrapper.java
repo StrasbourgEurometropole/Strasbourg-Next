@@ -27,6 +27,10 @@ public class ActivityCoursePlaceLocalServiceWrapper
 	implements ActivityCoursePlaceLocalService,
 			   ServiceWrapper<ActivityCoursePlaceLocalService> {
 
+	public ActivityCoursePlaceLocalServiceWrapper() {
+		this(null);
+	}
+
 	public ActivityCoursePlaceLocalServiceWrapper(
 		ActivityCoursePlaceLocalService activityCoursePlaceLocalService) {
 
@@ -80,6 +84,18 @@ public class ActivityCoursePlaceLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _activityCoursePlaceLocalService.createPersistedModel(
+			primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the activity course place from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -129,6 +145,18 @@ public class ActivityCoursePlaceLocalServiceWrapper
 
 		return _activityCoursePlaceLocalService.deletePersistedModel(
 			persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _activityCoursePlaceLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _activityCoursePlaceLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override
@@ -492,10 +520,7 @@ public class ActivityCoursePlaceLocalServiceWrapper
 	 * Lance une recherche selon le searchContext
 	 */
 	@Override
-	public com.liferay.portal.kernel.search.Hits search(
-			com.liferay.portal.kernel.search.SearchContext searchContext)
-		throws com.liferay.portal.kernel.search.SearchException {
-
+	public Hits search(SearchContext searchContext) throws SearchException {
 		return _activityCoursePlaceLocalService.search(searchContext);
 	}
 

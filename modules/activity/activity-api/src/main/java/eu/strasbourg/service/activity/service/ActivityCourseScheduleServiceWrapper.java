@@ -27,6 +27,10 @@ public class ActivityCourseScheduleServiceWrapper
 	implements ActivityCourseScheduleService,
 			   ServiceWrapper<ActivityCourseScheduleService> {
 
+	public ActivityCourseScheduleServiceWrapper() {
+		this(null);
+	}
+
 	public ActivityCourseScheduleServiceWrapper(
 		ActivityCourseScheduleService activityCourseScheduleService) {
 

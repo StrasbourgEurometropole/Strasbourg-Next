@@ -14,9 +14,17 @@
 
 package eu.strasbourg.service.activity.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.activity.model.ActivityCourse;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for ActivityCourse. This utility wraps
@@ -48,10 +56,8 @@ public class ActivityCourseLocalServiceUtil {
 	 * @param activityCourse the activity course
 	 * @return the activity course that was added
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityCourse
-		addActivityCourse(
-			eu.strasbourg.service.activity.model.ActivityCourse
-				activityCourse) {
+	public static ActivityCourse addActivityCourse(
+		ActivityCourse activityCourse) {
 
 		return getService().addActivityCourse(activityCourse);
 	}
@@ -62,21 +68,28 @@ public class ActivityCourseLocalServiceUtil {
 	 * @param activityCourseId the primary key for the new activity course
 	 * @return the new activity course
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityCourse
-		createActivityCourse(long activityCourseId) {
-
+	public static ActivityCourse createActivityCourse(long activityCourseId) {
 		return getService().createActivityCourse(activityCourseId);
 	}
 
 	/**
 	 * Crée une activité vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityCourse
-			createActivityCourse(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ActivityCourse createActivityCourse(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().createActivityCourse(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -89,10 +102,8 @@ public class ActivityCourseLocalServiceUtil {
 	 * @param activityCourse the activity course
 	 * @return the activity course that was removed
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityCourse
-		deleteActivityCourse(
-			eu.strasbourg.service.activity.model.ActivityCourse
-				activityCourse) {
+	public static ActivityCourse deleteActivityCourse(
+		ActivityCourse activityCourse) {
 
 		return getService().deleteActivityCourse(activityCourse);
 	}
@@ -108,9 +119,8 @@ public class ActivityCourseLocalServiceUtil {
 	 * @return the activity course that was removed
 	 * @throws PortalException if a activity course with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityCourse
-			deleteActivityCourse(long activityCourseId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ActivityCourse deleteActivityCourse(long activityCourseId)
+		throws PortalException {
 
 		return getService().deleteActivityCourse(activityCourseId);
 	}
@@ -118,17 +128,22 @@ public class ActivityCourseLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -138,9 +153,7 @@ public class ActivityCourseLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -156,9 +169,8 @@ public class ActivityCourseLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -176,10 +188,9 @@ public class ActivityCourseLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -191,9 +202,7 @@ public class ActivityCourseLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -205,15 +214,13 @@ public class ActivityCourseLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.activity.model.ActivityCourse
-		fetchActivityCourse(long activityCourseId) {
-
+	public static ActivityCourse fetchActivityCourse(long activityCourseId) {
 		return getService().fetchActivityCourse(activityCourseId);
 	}
 
@@ -224,8 +231,8 @@ public class ActivityCourseLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching activity course, or <code>null</code> if a matching activity course could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityCourse
-		fetchActivityCourseByUuidAndGroupId(String uuid, long groupId) {
+	public static ActivityCourse fetchActivityCourseByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchActivityCourseByUuidAndGroupId(uuid, groupId);
 	}
@@ -233,19 +240,15 @@ public class ActivityCourseLocalServiceUtil {
 	/**
 	 * Lance une recherche par liste d'ids
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.ActivityCourse> findByIds(
-			java.util.List<Long> activityCourseIds) {
-
+	public static List<ActivityCourse> findByIds(List<Long> activityCourseIds) {
 		return getService().findByIds(activityCourseIds);
 	}
 
 	/**
 	 * Lance une recherche par mots-clés
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.ActivityCourse> findByKeyword(
-			String keyword, long groupId, int start, int end) {
+	public static List<ActivityCourse> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -270,9 +273,8 @@ public class ActivityCourseLocalServiceUtil {
 	 * @return the activity course
 	 * @throws PortalException if a activity course with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityCourse
-			getActivityCourse(long activityCourseId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ActivityCourse getActivityCourse(long activityCourseId)
+		throws PortalException {
 
 		return getService().getActivityCourse(activityCourseId);
 	}
@@ -285,9 +287,9 @@ public class ActivityCourseLocalServiceUtil {
 	 * @return the matching activity course
 	 * @throws PortalException if a matching activity course could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityCourse
-			getActivityCourseByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ActivityCourse getActivityCourseByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getActivityCourseByUuidAndGroupId(uuid, groupId);
 	}
@@ -303,10 +305,7 @@ public class ActivityCourseLocalServiceUtil {
 	 * @param end the upper bound of the range of activity courses (not inclusive)
 	 * @return the range of activity courses
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.ActivityCourse>
-			getActivityCourses(int start, int end) {
-
+	public static List<ActivityCourse> getActivityCourses(int start, int end) {
 		return getService().getActivityCourses(start, end);
 	}
 
@@ -317,9 +316,8 @@ public class ActivityCourseLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching activity courses, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.ActivityCourse>
-			getActivityCoursesByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<ActivityCourse> getActivityCoursesByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getActivityCoursesByUuidAndCompanyId(
 			uuid, companyId);
@@ -335,13 +333,9 @@ public class ActivityCourseLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching activity courses, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.ActivityCourse>
-			getActivityCoursesByUuidAndCompanyId(
-				String uuid, long companyId, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<eu.strasbourg.service.activity.model.ActivityCourse>
-						orderByComparator) {
+	public static List<ActivityCourse> getActivityCoursesByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<ActivityCourse> orderByComparator) {
 
 		return getService().getActivityCoursesByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -359,7 +353,7 @@ public class ActivityCourseLocalServiceUtil {
 	/**
 	 * Renvoie la liste des vocabulaires rattachés à l'entité
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -368,20 +362,14 @@ public class ActivityCourseLocalServiceUtil {
 	/**
 	 * Retourne les cours d'une activité
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.ActivityCourse> getByActivity(
-			long activityId) {
-
+	public static List<ActivityCourse> getByActivity(long activityId) {
 		return getService().getByActivity(activityId);
 	}
 
 	/**
 	 * Retourne toutes les éditions d'un groupe
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.ActivityCourse> getByGroupId(
-			long groupId) {
-
+	public static List<ActivityCourse> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
@@ -412,9 +400,8 @@ public class ActivityCourseLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -422,9 +409,8 @@ public class ActivityCourseLocalServiceUtil {
 	/**
 	 * Supprime une entité
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityCourse
-			removeActivityCourse(long activityCourseId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ActivityCourse removeActivityCourse(long activityCourseId)
+		throws PortalException {
 
 		return getService().removeActivityCourse(activityCourseId);
 	}
@@ -432,9 +418,8 @@ public class ActivityCourseLocalServiceUtil {
 	/**
 	 * Lance une recherche selon le searchContext
 	 */
-	public static com.liferay.portal.kernel.search.Hits search(
-			com.liferay.portal.kernel.search.SearchContext searchContext)
-		throws com.liferay.portal.kernel.search.SearchException {
+	public static Hits search(SearchContext searchContext)
+		throws SearchException {
 
 		return getService().search(searchContext);
 	}
@@ -449,10 +434,8 @@ public class ActivityCourseLocalServiceUtil {
 	 * @param activityCourse the activity course
 	 * @return the activity course that was updated
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityCourse
-		updateActivityCourse(
-			eu.strasbourg.service.activity.model.ActivityCourse
-				activityCourse) {
+	public static ActivityCourse updateActivityCourse(
+		ActivityCourse activityCourse) {
 
 		return getService().updateActivityCourse(activityCourse);
 	}
@@ -460,12 +443,10 @@ public class ActivityCourseLocalServiceUtil {
 	/**
 	 * Met à jour une activité et l'enregistre en base de données
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityCourse
-			updateActivityCourse(
-				eu.strasbourg.service.activity.model.ActivityCourse
-					activityCourse,
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ActivityCourse updateActivityCourse(
+			ActivityCourse activityCourse,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateActivityCourse(activityCourse, sc);
 	}
@@ -473,35 +454,17 @@ public class ActivityCourseLocalServiceUtil {
 	/**
 	 * Met à jour le statut de l'édition par le framework workflow
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityCourse
-			updateStatus(long userId, long entryId, int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ActivityCourse updateStatus(
+			long userId, long entryId, int status)
+		throws PortalException {
 
 		return getService().updateStatus(userId, entryId, status);
 	}
 
 	public static ActivityCourseLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<ActivityCourseLocalService, ActivityCourseLocalService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			ActivityCourseLocalService.class);
-
-		ServiceTracker<ActivityCourseLocalService, ActivityCourseLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<ActivityCourseLocalService, ActivityCourseLocalService>(
-						bundle.getBundleContext(),
-						ActivityCourseLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile ActivityCourseLocalService _service;
 
 }

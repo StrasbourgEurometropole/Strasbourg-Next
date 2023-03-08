@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class AssociationServiceWrapper
 	implements AssociationService, ServiceWrapper<AssociationService> {
 
+	public AssociationServiceWrapper() {
+		this(null);
+	}
+
 	public AssociationServiceWrapper(AssociationService associationService) {
 		_associationService = associationService;
 	}

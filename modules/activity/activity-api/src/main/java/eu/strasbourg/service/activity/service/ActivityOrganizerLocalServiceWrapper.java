@@ -27,6 +27,10 @@ public class ActivityOrganizerLocalServiceWrapper
 	implements ActivityOrganizerLocalService,
 			   ServiceWrapper<ActivityOrganizerLocalService> {
 
+	public ActivityOrganizerLocalServiceWrapper() {
+		this(null);
+	}
+
 	public ActivityOrganizerLocalServiceWrapper(
 		ActivityOrganizerLocalService activityOrganizerLocalService) {
 
@@ -80,6 +84,18 @@ public class ActivityOrganizerLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _activityOrganizerLocalService.createPersistedModel(
+			primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the activity organizer from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -129,6 +145,18 @@ public class ActivityOrganizerLocalServiceWrapper
 
 		return _activityOrganizerLocalService.deletePersistedModel(
 			persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _activityOrganizerLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _activityOrganizerLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override
@@ -452,10 +480,7 @@ public class ActivityOrganizerLocalServiceWrapper
 	 * Lance une recherche selon le searchContext
 	 */
 	@Override
-	public com.liferay.portal.kernel.search.Hits search(
-			com.liferay.portal.kernel.search.SearchContext searchContext)
-		throws com.liferay.portal.kernel.search.SearchException {
-
+	public Hits search(SearchContext searchContext) throws SearchException {
 		return _activityOrganizerLocalService.search(searchContext);
 	}
 

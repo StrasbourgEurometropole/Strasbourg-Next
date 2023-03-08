@@ -14,17 +14,12 @@
 
 package eu.strasbourg.service.activity.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.activity.exception.NoSuchPracticeException;
 import eu.strasbourg.service.activity.model.Practice;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the practice service.
@@ -45,9 +40,6 @@ public interface PracticePersistence extends BasePersistence<Practice> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link PracticeUtil} to access the practice persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Practice> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the practices where uuid = &#63;.
@@ -799,8 +791,5 @@ public interface PracticePersistence extends BasePersistence<Practice> {
 	 * @return the number of practices
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

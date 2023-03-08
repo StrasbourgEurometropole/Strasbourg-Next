@@ -62,6 +62,7 @@ public class ActivityCourseIndexer extends BaseIndexer<ActivityCourse> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(activityCourse.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
+
 		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
 			assetCategories);
 
@@ -94,8 +95,7 @@ public class ActivityCourseIndexer extends BaseIndexer<ActivityCourse> {
 	protected void doReindex(ActivityCourse activityCourse) throws Exception {
 		Document document = getDocument(activityCourse);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-			activityCourse.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(activityCourse.getCompanyId(), document);
 
 	}
 
@@ -128,7 +128,6 @@ public class ActivityCourseIndexer extends BaseIndexer<ActivityCourse> {
 
 			});
 
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 

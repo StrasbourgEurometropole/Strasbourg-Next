@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.activity.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for ActivityCourse. This utility wraps
  * <code>eu.strasbourg.service.activity.service.impl.ActivityCourseServiceImpl</code> and is an
@@ -43,30 +39,14 @@ public class ActivityCourseServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static ActivityCourseService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<ActivityCourseService, ActivityCourseService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(ActivityCourseService.class);
-
-		ServiceTracker<ActivityCourseService, ActivityCourseService>
-			serviceTracker =
-				new ServiceTracker
-					<ActivityCourseService, ActivityCourseService>(
-						bundle.getBundleContext(), ActivityCourseService.class,
-						null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile ActivityCourseService _service;
 
 }

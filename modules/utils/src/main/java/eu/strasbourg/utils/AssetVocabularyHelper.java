@@ -1,5 +1,6 @@
 package eu.strasbourg.utils;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -22,6 +23,7 @@ import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.service.component.annotations.Reference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -459,8 +461,8 @@ public class AssetVocabularyHelper {
 	 * Ajoute une catégorie à un AssetEntry
 	 * @return
 	 */
-	public static void addCategoryToAssetEntry(AssetCategory category, AssetEntry entry) {
-		AssetCategoryLocalServiceUtil.addAssetEntryAssetCategory(
+	public void addCategoryToAssetEntry(AssetCategory category, AssetEntry entry) {
+		assetEntryAssetCategoryRelLocalService.addAssetEntryAssetCategoryRel(
 				entry.getEntryId(), category.getCategoryId());
 	}
 
@@ -468,8 +470,8 @@ public class AssetVocabularyHelper {
 	 * Retire une catégorie à un AssetEntry
 	 * @return
 	 */
-	public static void removeCategoryToAssetEntry(AssetCategory category, AssetEntry entry) {
-		AssetCategoryLocalServiceUtil.deleteAssetEntryAssetCategory(
+	public void removeCategoryToAssetEntry(AssetCategory category, AssetEntry entry) {
+		assetEntryAssetCategoryRelLocalService.deleteAssetEntryAssetCategoryRel(
 				entry.getEntryId(), category.getCategoryId());
 	}
 
@@ -861,6 +863,9 @@ public class AssetVocabularyHelper {
 		}
 		return assetCategory;
 	}
+	@Reference
+	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 
 	private static Log _log = LogFactoryUtil.getLog("AssetVocabularyHelper");
+
 }

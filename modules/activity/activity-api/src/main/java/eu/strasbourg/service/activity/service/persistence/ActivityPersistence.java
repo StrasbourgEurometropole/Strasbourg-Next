@@ -14,17 +14,12 @@
 
 package eu.strasbourg.service.activity.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.activity.exception.NoSuchActivityException;
 import eu.strasbourg.service.activity.model.Activity;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the activity service.
@@ -45,9 +40,6 @@ public interface ActivityPersistence extends BasePersistence<Activity> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link ActivityUtil} to access the activity persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Activity> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the activities where uuid = &#63;.
@@ -656,8 +648,5 @@ public interface ActivityPersistence extends BasePersistence<Activity> {
 	 * @return the number of activities
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

@@ -34,6 +34,6 @@ public class AssociationServiceImpl extends AssociationServiceBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. Always use {@link eu.strasbourg.service.activity.service.AssociationServiceUtil} to access the association remote service.
+	 * Never ref@erence this class directly. Always use {@link eu.strasbourg.service.activity.service.AssociationServiceUtil} to access the association remote service.
 	 */
 }

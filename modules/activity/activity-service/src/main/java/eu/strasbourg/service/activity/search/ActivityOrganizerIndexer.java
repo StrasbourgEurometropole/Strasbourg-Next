@@ -96,8 +96,7 @@ public class ActivityOrganizerIndexer extends BaseIndexer<ActivityOrganizer> {
 	protected void doReindex(ActivityOrganizer activityOrganizer) throws Exception {
 		Document document = getDocument(activityOrganizer);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-			activityOrganizer.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(activityOrganizer.getCompanyId(), document);
 
 	}
 
@@ -129,8 +128,6 @@ public class ActivityOrganizerIndexer extends BaseIndexer<ActivityOrganizer> {
 				}
 
 			});
-
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 

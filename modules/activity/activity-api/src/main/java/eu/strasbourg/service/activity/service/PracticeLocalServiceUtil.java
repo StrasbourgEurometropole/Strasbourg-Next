@@ -14,9 +14,17 @@
 
 package eu.strasbourg.service.activity.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.activity.model.Practice;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for Practice. This utility wraps
@@ -48,10 +56,18 @@ public class PracticeLocalServiceUtil {
 	 * @param practice the practice
 	 * @return the practice that was added
 	 */
-	public static eu.strasbourg.service.activity.model.Practice addPractice(
-		eu.strasbourg.service.activity.model.Practice practice) {
-
+	public static Practice addPractice(Practice practice) {
 		return getService().addPractice(practice);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -60,18 +76,16 @@ public class PracticeLocalServiceUtil {
 	 * @param practiceId the primary key for the new practice
 	 * @return the new practice
 	 */
-	public static eu.strasbourg.service.activity.model.Practice createPractice(
-		long practiceId) {
-
+	public static Practice createPractice(long practiceId) {
 		return getService().createPractice(practiceId);
 	}
 
 	/**
 	 * Crée une pratique vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.activity.model.Practice createPractice(
+	public static Practice createPractice(
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().createPractice(sc);
 	}
@@ -79,10 +93,9 @@ public class PracticeLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -98,9 +111,8 @@ public class PracticeLocalServiceUtil {
 	 * @return the practice that was removed
 	 * @throws PortalException if a practice with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.Practice deletePractice(
-			long practiceId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Practice deletePractice(long practiceId)
+		throws PortalException {
 
 		return getService().deletePractice(practiceId);
 	}
@@ -115,15 +127,19 @@ public class PracticeLocalServiceUtil {
 	 * @param practice the practice
 	 * @return the practice that was removed
 	 */
-	public static eu.strasbourg.service.activity.model.Practice deletePractice(
-		eu.strasbourg.service.activity.model.Practice practice) {
-
+	public static Practice deletePractice(Practice practice) {
 		return getService().deletePractice(practice);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -133,9 +149,7 @@ public class PracticeLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -151,9 +165,8 @@ public class PracticeLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -171,10 +184,9 @@ public class PracticeLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -186,9 +198,7 @@ public class PracticeLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -200,15 +210,13 @@ public class PracticeLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.activity.model.Practice fetchPractice(
-		long practiceId) {
-
+	public static Practice fetchPractice(long practiceId) {
 		return getService().fetchPractice(practiceId);
 	}
 
@@ -219,8 +227,8 @@ public class PracticeLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching practice, or <code>null</code> if a matching practice could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.Practice
-		fetchPracticeByUuidAndGroupId(String uuid, long groupId) {
+	public static Practice fetchPracticeByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchPracticeByUuidAndGroupId(uuid, groupId);
 	}
@@ -228,8 +236,8 @@ public class PracticeLocalServiceUtil {
 	/**
 	 * Lance une recherche par mots-clés
 	 */
-	public static java.util.List<eu.strasbourg.service.activity.model.Practice>
-		findByKeyword(String keyword, long groupId, int start, int end) {
+	public static List<Practice> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -250,7 +258,7 @@ public class PracticeLocalServiceUtil {
 	/**
 	 * Renvoie la liste des vocabulaires rattachés à l'entité
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -259,18 +267,14 @@ public class PracticeLocalServiceUtil {
 	/**
 	 * Retourne les pratiques d'une association
 	 */
-	public static java.util.List<eu.strasbourg.service.activity.model.Practice>
-		getByAssociation(long associationId) {
-
+	public static List<Practice> getByAssociation(long associationId) {
 		return getService().getByAssociation(associationId);
 	}
 
 	/**
 	 * Retourne toutes les éditions d'un groupe
 	 */
-	public static java.util.List<eu.strasbourg.service.activity.model.Practice>
-		getByGroupId(long groupId) {
-
+	public static List<Practice> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
@@ -301,9 +305,8 @@ public class PracticeLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -315,10 +318,7 @@ public class PracticeLocalServiceUtil {
 	 * @return the practice
 	 * @throws PortalException if a practice with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.Practice getPractice(
-			long practiceId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Practice getPractice(long practiceId) throws PortalException {
 		return getService().getPractice(practiceId);
 	}
 
@@ -330,9 +330,9 @@ public class PracticeLocalServiceUtil {
 	 * @return the matching practice
 	 * @throws PortalException if a matching practice could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.Practice
-			getPracticeByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Practice getPracticeByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getPracticeByUuidAndGroupId(uuid, groupId);
 	}
@@ -348,9 +348,7 @@ public class PracticeLocalServiceUtil {
 	 * @param end the upper bound of the range of practices (not inclusive)
 	 * @return the range of practices
 	 */
-	public static java.util.List<eu.strasbourg.service.activity.model.Practice>
-		getPractices(int start, int end) {
-
+	public static List<Practice> getPractices(int start, int end) {
 		return getService().getPractices(start, end);
 	}
 
@@ -361,8 +359,8 @@ public class PracticeLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching practices, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.activity.model.Practice>
-		getPracticesByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<Practice> getPracticesByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getPracticesByUuidAndCompanyId(uuid, companyId);
 	}
@@ -377,12 +375,9 @@ public class PracticeLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching practices, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.activity.model.Practice>
-		getPracticesByUuidAndCompanyId(
-			String uuid, long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<eu.strasbourg.service.activity.model.Practice>
-					orderByComparator) {
+	public static List<Practice> getPracticesByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Practice> orderByComparator) {
 
 		return getService().getPracticesByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -400,9 +395,8 @@ public class PracticeLocalServiceUtil {
 	/**
 	 * Retourne les activités triées par domaine de l'association
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.PracticeCategories>
-			getPracticesSortedByAssociation(long associationId) {
+	public static List<eu.strasbourg.service.activity.model.PracticeCategories>
+		getPracticesSortedByAssociation(long associationId) {
 
 		return getService().getPracticesSortedByAssociation(associationId);
 	}
@@ -410,9 +404,8 @@ public class PracticeLocalServiceUtil {
 	/**
 	 * Supprime une entité
 	 */
-	public static eu.strasbourg.service.activity.model.Practice removePractice(
-			long practiceId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Practice removePractice(long practiceId)
+		throws PortalException {
 
 		return getService().removePractice(practiceId);
 	}
@@ -420,9 +413,8 @@ public class PracticeLocalServiceUtil {
 	/**
 	 * Lance une recherche selon le searchContext
 	 */
-	public static com.liferay.portal.kernel.search.Hits search(
-			com.liferay.portal.kernel.search.SearchContext searchContext)
-		throws com.liferay.portal.kernel.search.SearchException {
+	public static Hits search(SearchContext searchContext)
+		throws SearchException {
 
 		return getService().search(searchContext);
 	}
@@ -437,19 +429,17 @@ public class PracticeLocalServiceUtil {
 	 * @param practice the practice
 	 * @return the practice that was updated
 	 */
-	public static eu.strasbourg.service.activity.model.Practice updatePractice(
-		eu.strasbourg.service.activity.model.Practice practice) {
-
+	public static Practice updatePractice(Practice practice) {
 		return getService().updatePractice(practice);
 	}
 
 	/**
 	 * Met à jour une pratique et l'enregistre en base de données
 	 */
-	public static eu.strasbourg.service.activity.model.Practice updatePractice(
-			eu.strasbourg.service.activity.model.Practice practice,
+	public static Practice updatePractice(
+			Practice practice,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().updatePractice(practice, sc);
 	}
@@ -457,32 +447,16 @@ public class PracticeLocalServiceUtil {
 	/**
 	 * Met à jour le statut de la pratique par le framework workflow
 	 */
-	public static eu.strasbourg.service.activity.model.Practice updateStatus(
-			long userId, long entryId, int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Practice updateStatus(long userId, long entryId, int status)
+		throws PortalException {
 
 		return getService().updateStatus(userId, entryId, status);
 	}
 
 	public static PracticeLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<PracticeLocalService, PracticeLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(PracticeLocalService.class);
-
-		ServiceTracker<PracticeLocalService, PracticeLocalService>
-			serviceTracker =
-				new ServiceTracker<PracticeLocalService, PracticeLocalService>(
-					bundle.getBundleContext(), PracticeLocalService.class,
-					null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile PracticeLocalService _service;
 
 }

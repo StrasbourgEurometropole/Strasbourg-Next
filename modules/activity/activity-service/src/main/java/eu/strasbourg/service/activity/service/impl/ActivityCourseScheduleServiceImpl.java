@@ -15,7 +15,6 @@
 package eu.strasbourg.service.activity.service.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.activity.service.base.ActivityCourseScheduleServiceBaseImpl;
 
 /**

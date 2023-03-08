@@ -96,8 +96,7 @@ public class ActivityIndexer extends BaseIndexer<Activity> {
 	protected void doReindex(Activity activity) throws Exception {
 		Document document = getDocument(activity);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-			activity.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(activity.getCompanyId(), document);
 
 	}
 
@@ -130,7 +129,6 @@ public class ActivityIndexer extends BaseIndexer<Activity> {
 
 			});
 
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 

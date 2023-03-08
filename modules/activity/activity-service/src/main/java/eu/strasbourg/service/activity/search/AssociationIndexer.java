@@ -90,8 +90,8 @@ public class AssociationIndexer extends BaseIndexer<Association> {
 	protected void doReindex(Association association) throws Exception {
 		Document document = getDocument(association);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-			association.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(
+			association.getCompanyId(), document);
 
 	}
 
@@ -124,7 +124,6 @@ public class AssociationIndexer extends BaseIndexer<Association> {
 
 			});
 
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 

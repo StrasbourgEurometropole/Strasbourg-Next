@@ -91,8 +91,7 @@ public class PracticeIndexer extends BaseIndexer<Practice> {
 	protected void doReindex(Practice practice) throws Exception {
 		Document document = getDocument(practice);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-				practice.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(practice.getCompanyId(), document);
 
 	}
 
@@ -124,8 +123,6 @@ public class PracticeIndexer extends BaseIndexer<Practice> {
 				}
 
 			});
-
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 
