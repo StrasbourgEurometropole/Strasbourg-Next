@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class ArtworkLocalServiceWrapper
 	implements ArtworkLocalService, ServiceWrapper<ArtworkLocalService> {
 
+	public ArtworkLocalServiceWrapper() {
+		this(null);
+	}
+
 	public ArtworkLocalServiceWrapper(ArtworkLocalService artworkLocalService) {
 		_artworkLocalService = artworkLocalService;
 	}
@@ -108,6 +112,17 @@ public class ArtworkLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _artworkLocalService.createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the artwork from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -186,6 +201,18 @@ public class ArtworkLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _artworkLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _artworkLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _artworkLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

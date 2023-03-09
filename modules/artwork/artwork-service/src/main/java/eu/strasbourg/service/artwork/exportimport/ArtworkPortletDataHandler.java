@@ -1,13 +1,5 @@
 package eu.strasbourg.service.artwork.exportimport;
 
-import java.util.List;
-
-import javax.portlet.PortletPreferences;
-
-import org.osgi.service.component.annotations.Activate;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 import com.liferay.exportimport.kernel.lar.BasePortletDataHandler;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.PortletDataHandler;
@@ -16,7 +8,6 @@ import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.kernel.xstream.XStreamAliasRegistryUtil;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
 import com.liferay.portal.kernel.xml.Element;
-
 import eu.strasbourg.service.artwork.model.Artwork;
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
 import eu.strasbourg.service.artwork.model.impl.ArtworkCollectionImpl;
@@ -24,6 +15,12 @@ import eu.strasbourg.service.artwork.model.impl.ArtworkImpl;
 import eu.strasbourg.service.artwork.service.ArtworkCollectionLocalService;
 import eu.strasbourg.service.artwork.service.ArtworkLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import javax.portlet.PortletPreferences;
+import java.util.List;
 
 @Component(
 	immediate = true,

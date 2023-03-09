@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.artwork.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -31,32 +32,31 @@ import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.service.persistence.impl.TableMapper;
 import com.liferay.portal.kernel.service.persistence.impl.TableMapperFactory;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
+import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.artwork.exception.NoSuchArtworkException;
 import eu.strasbourg.service.artwork.model.Artwork;
+import eu.strasbourg.service.artwork.model.ArtworkTable;
 import eu.strasbourg.service.artwork.model.impl.ArtworkImpl;
 import eu.strasbourg.service.artwork.model.impl.ArtworkModelImpl;
 import eu.strasbourg.service.artwork.service.persistence.ArtworkCollectionPersistence;
 import eu.strasbourg.service.artwork.service.persistence.ArtworkPersistence;
+import eu.strasbourg.service.artwork.service.persistence.ArtworkUtil;
 
 import java.io.Serializable;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
-
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -256,10 +256,6 @@ public class ArtworkPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -608,8 +604,6 @@ public class ArtworkPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -766,11 +760,6 @@ public class ArtworkPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -859,8 +848,6 @@ public class ArtworkPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1060,10 +1047,6 @@ public class ArtworkPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1442,8 +1425,6 @@ public class ArtworkPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1615,10 +1596,6 @@ public class ArtworkPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1942,8 +1919,6 @@ public class ArtworkPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1962,21 +1937,14 @@ public class ArtworkPersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(Artwork.class);
+
+		setModelImplClass(ArtworkImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(ArtworkTable.INSTANCE);
 	}
 
 	/**
@@ -1987,15 +1955,14 @@ public class ArtworkPersistenceImpl
 	@Override
 	public void cacheResult(Artwork artwork) {
 		entityCache.putResult(
-			ArtworkModelImpl.ENTITY_CACHE_ENABLED, ArtworkImpl.class,
-			artwork.getPrimaryKey(), artwork);
+			ArtworkImpl.class, artwork.getPrimaryKey(), artwork);
 
 		finderCache.putResult(
 			_finderPathFetchByUUID_G,
 			new Object[] {artwork.getUuid(), artwork.getGroupId()}, artwork);
-
-		artwork.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the artworks in the entity cache if it is enabled.
@@ -2004,15 +1971,18 @@ public class ArtworkPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Artwork> artworks) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (artworks.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Artwork artwork : artworks) {
 			if (entityCache.getResult(
-					ArtworkModelImpl.ENTITY_CACHE_ENABLED, ArtworkImpl.class,
-					artwork.getPrimaryKey()) == null) {
+					ArtworkImpl.class, artwork.getPrimaryKey()) == null) {
 
 				cacheResult(artwork);
-			}
-			else {
-				artwork.resetOriginalValues();
 			}
 		}
 	}
@@ -2028,9 +1998,7 @@ public class ArtworkPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(ArtworkImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ArtworkImpl.class);
 	}
 
 	/**
@@ -2042,39 +2010,22 @@ public class ArtworkPersistenceImpl
 	 */
 	@Override
 	public void clearCache(Artwork artwork) {
-		entityCache.removeResult(
-			ArtworkModelImpl.ENTITY_CACHE_ENABLED, ArtworkImpl.class,
-			artwork.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((ArtworkModelImpl)artwork, true);
+		entityCache.removeResult(ArtworkImpl.class, artwork);
 	}
 
 	@Override
 	public void clearCache(List<Artwork> artworks) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Artwork artwork : artworks) {
-			entityCache.removeResult(
-				ArtworkModelImpl.ENTITY_CACHE_ENABLED, ArtworkImpl.class,
-				artwork.getPrimaryKey());
-
-			clearUniqueFindersCache((ArtworkModelImpl)artwork, true);
+			entityCache.removeResult(ArtworkImpl.class, artwork);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ArtworkImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				ArtworkModelImpl.ENTITY_CACHE_ENABLED, ArtworkImpl.class,
-				primaryKey);
+			entityCache.removeResult(ArtworkImpl.class, primaryKey);
 		}
 	}
 
@@ -2083,35 +2034,8 @@ public class ArtworkPersistenceImpl
 			artworkModelImpl.getUuid(), artworkModelImpl.getGroupId()
 		};
 
-		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, artworkModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		ArtworkModelImpl artworkModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				artworkModelImpl.getUuid(), artworkModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((artworkModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				artworkModelImpl.getOriginalUuid(),
-				artworkModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
+		finderCache.putResult(_finderPathCountByUUID_G, args, Long.valueOf(1));
+		finderCache.putResult(_finderPathFetchByUUID_G, args, artworkModelImpl);
 	}
 
 	/**
@@ -2127,7 +2051,7 @@ public class ArtworkPersistenceImpl
 		artwork.setNew(true);
 		artwork.setPrimaryKey(artworkId);
 
-		String uuid = PortalUUIDUtil.generate();
+		String uuid = _portalUUID.generate();
 
 		artwork.setUuid(uuid);
 
@@ -2245,7 +2169,7 @@ public class ArtworkPersistenceImpl
 		ArtworkModelImpl artworkModelImpl = (ArtworkModelImpl)artwork;
 
 		if (Validator.isNull(artwork.getUuid())) {
-			String uuid = PortalUUIDUtil.generate();
+			String uuid = _portalUUID.generate();
 
 			artwork.setUuid(uuid);
 		}
@@ -2253,23 +2177,23 @@ public class ArtworkPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (artwork.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				artwork.setCreateDate(now);
+				artwork.setCreateDate(date);
 			}
 			else {
-				artwork.setCreateDate(serviceContext.getCreateDate(now));
+				artwork.setCreateDate(serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!artworkModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				artwork.setModifiedDate(now);
+				artwork.setModifiedDate(date);
 			}
 			else {
-				artwork.setModifiedDate(serviceContext.getModifiedDate(now));
+				artwork.setModifiedDate(serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -2278,10 +2202,8 @@ public class ArtworkPersistenceImpl
 		try {
 			session = openSession();
 
-			if (artwork.isNew()) {
+			if (isNew) {
 				session.save(artwork);
-
-				artwork.setNew(false);
 			}
 			else {
 				artwork = (Artwork)session.merge(artwork);
@@ -2294,104 +2216,13 @@ public class ArtworkPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(ArtworkImpl.class, artworkModelImpl, false, true);
 
-		if (!ArtworkModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {artworkModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				artworkModelImpl.getUuid(), artworkModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {artworkModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((artworkModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					artworkModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {artworkModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((artworkModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					artworkModelImpl.getOriginalUuid(),
-					artworkModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					artworkModelImpl.getUuid(), artworkModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((artworkModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					artworkModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {artworkModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-		}
-
-		entityCache.putResult(
-			ArtworkModelImpl.ENTITY_CACHE_ENABLED, ArtworkImpl.class,
-			artwork.getPrimaryKey(), artwork, false);
-
-		clearUniqueFindersCache(artworkModelImpl, false);
 		cacheUniqueFindersCache(artworkModelImpl);
+
+		if (isNew) {
+			artwork.setNew(false);
+		}
 
 		artwork.resetOriginalValues();
 
@@ -2440,159 +2271,12 @@ public class ArtworkPersistenceImpl
 	/**
 	 * Returns the artwork with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the artwork
-	 * @return the artwork, or <code>null</code> if a artwork with the primary key could not be found
-	 */
-	@Override
-	public Artwork fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			ArtworkModelImpl.ENTITY_CACHE_ENABLED, ArtworkImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Artwork artwork = (Artwork)serializable;
-
-		if (artwork == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				artwork = (Artwork)session.get(ArtworkImpl.class, primaryKey);
-
-				if (artwork != null) {
-					cacheResult(artwork);
-				}
-				else {
-					entityCache.putResult(
-						ArtworkModelImpl.ENTITY_CACHE_ENABLED,
-						ArtworkImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					ArtworkModelImpl.ENTITY_CACHE_ENABLED, ArtworkImpl.class,
-					primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return artwork;
-	}
-
-	/**
-	 * Returns the artwork with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param artworkId the primary key of the artwork
 	 * @return the artwork, or <code>null</code> if a artwork with the primary key could not be found
 	 */
 	@Override
 	public Artwork fetchByPrimaryKey(long artworkId) {
 		return fetchByPrimaryKey((Serializable)artworkId);
-	}
-
-	@Override
-	public Map<Serializable, Artwork> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Artwork> map = new HashMap<Serializable, Artwork>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Artwork artwork = fetchByPrimaryKey(primaryKey);
-
-			if (artwork != null) {
-				map.put(primaryKey, artwork);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				ArtworkModelImpl.ENTITY_CACHE_ENABLED, ArtworkImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Artwork)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_ARTWORK_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Artwork artwork : (List<Artwork>)query.list()) {
-				map.put(artwork.getPrimaryKeyObj(), artwork);
-
-				cacheResult(artwork);
-
-				uncachedPrimaryKeys.remove(artwork.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					ArtworkModelImpl.ENTITY_CACHE_ENABLED, ArtworkImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2719,10 +2403,6 @@ public class ArtworkPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2768,9 +2448,6 @@ public class ArtworkPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3129,6 +2806,21 @@ public class ArtworkPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "artworkId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_ARTWORK;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return ArtworkModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -3137,122 +2829,116 @@ public class ArtworkPersistenceImpl
 	 * Initializes the artwork persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		artworkToArtworkCollectionTableMapper =
 			TableMapperFactory.getTableMapper(
 				"artwork_ArtworkToArtworkCollection", "companyId", "artworkId",
 				"collectionId", this, artworkCollectionPersistence);
 
 		_finderPathWithPaginationFindAll = new FinderPath(
-			ArtworkModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkModelImpl.FINDER_CACHE_ENABLED, ArtworkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			ArtworkModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkModelImpl.FINDER_CACHE_ENABLED, ArtworkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			ArtworkModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			ArtworkModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkModelImpl.FINDER_CACHE_ENABLED, ArtworkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			ArtworkModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkModelImpl.FINDER_CACHE_ENABLED, ArtworkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			ArtworkModelImpl.UUID_COLUMN_BITMASK |
-			ArtworkModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			ArtworkModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			ArtworkModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkModelImpl.FINDER_CACHE_ENABLED, ArtworkImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			ArtworkModelImpl.UUID_COLUMN_BITMASK |
-			ArtworkModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			ArtworkModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			ArtworkModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkModelImpl.FINDER_CACHE_ENABLED, ArtworkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			ArtworkModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkModelImpl.FINDER_CACHE_ENABLED, ArtworkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			ArtworkModelImpl.UUID_COLUMN_BITMASK |
-			ArtworkModelImpl.COMPANYID_COLUMN_BITMASK |
-			ArtworkModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			ArtworkModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			ArtworkModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkModelImpl.FINDER_CACHE_ENABLED, ArtworkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"groupId"}, true);
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			ArtworkModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkModelImpl.FINDER_CACHE_ENABLED, ArtworkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
-			ArtworkModelImpl.GROUPID_COLUMN_BITMASK |
-			ArtworkModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			true);
 
 		_finderPathCountByGroupId = new FinderPath(
-			ArtworkModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			false);
+
+		_setArtworkUtilPersistence(this);
 	}
 
 	public void destroy() {
+		_setArtworkUtilPersistence(null);
+
 		entityCache.removeCache(ArtworkImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		TableMapperFactory.removeTableMapper(
 			"artwork_ArtworkToArtworkCollection");
+	}
+
+	private void _setArtworkUtilPersistence(
+		ArtworkPersistence artworkPersistence) {
+
+		try {
+			Field field = ArtworkUtil.class.getDeclaredField("_persistence");
+
+			field.setAccessible(true);
+
+			field.set(null, artworkPersistence);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
+		}
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -3270,9 +2956,6 @@ public class ArtworkPersistenceImpl
 
 	private static final String _SQL_SELECT_ARTWORK =
 		"SELECT artwork FROM Artwork artwork";
-
-	private static final String _SQL_SELECT_ARTWORK_WHERE_PKS_IN =
-		"SELECT artwork FROM Artwork artwork WHERE artworkId IN (";
 
 	private static final String _SQL_SELECT_ARTWORK_WHERE =
 		"SELECT artwork FROM Artwork artwork WHERE ";
@@ -3296,5 +2979,13 @@ public class ArtworkPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
+	@ServiceReference(type = PortalUUID.class)
+	private PortalUUID _portalUUID;
 
 }

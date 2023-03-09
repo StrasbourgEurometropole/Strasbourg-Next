@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.artwork.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.artwork.exception.NoSuchArtworkCollectionException;
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the artwork collection service.
@@ -46,9 +39,6 @@ public interface ArtworkCollectionPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link ArtworkCollectionUtil} to access the artwork collection persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, ArtworkCollection> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the artwork collections where uuid = &#63;.
@@ -833,8 +823,5 @@ public interface ArtworkCollectionPersistence
 	public void setArtworks(
 		long pk,
 		java.util.List<eu.strasbourg.service.artwork.model.Artwork> artworks);
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

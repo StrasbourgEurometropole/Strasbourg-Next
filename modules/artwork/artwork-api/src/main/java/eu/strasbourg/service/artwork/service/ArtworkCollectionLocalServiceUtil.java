@@ -14,9 +14,16 @@
 
 package eu.strasbourg.service.artwork.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.artwork.model.ArtworkCollection;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for ArtworkCollection. This utility wraps
@@ -38,9 +45,7 @@ public class ArtworkCollectionLocalServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.artwork.service.impl.ArtworkCollectionLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static void addArtworkArtworkCollection(
-		long artworkId,
-		eu.strasbourg.service.artwork.model.ArtworkCollection
-			artworkCollection) {
+		long artworkId, ArtworkCollection artworkCollection) {
 
 		getService().addArtworkArtworkCollection(artworkId, artworkCollection);
 	}
@@ -52,9 +57,7 @@ public class ArtworkCollectionLocalServiceUtil {
 	}
 
 	public static void addArtworkArtworkCollections(
-		long artworkId,
-		java.util.List<eu.strasbourg.service.artwork.model.ArtworkCollection>
-			artworkCollections) {
+		long artworkId, List<ArtworkCollection> artworkCollections) {
 
 		getService().addArtworkArtworkCollections(
 			artworkId, artworkCollections);
@@ -76,10 +79,8 @@ public class ArtworkCollectionLocalServiceUtil {
 	 * @param artworkCollection the artwork collection
 	 * @return the artwork collection that was added
 	 */
-	public static eu.strasbourg.service.artwork.model.ArtworkCollection
-		addArtworkCollection(
-			eu.strasbourg.service.artwork.model.ArtworkCollection
-				artworkCollection) {
+	public static ArtworkCollection addArtworkCollection(
+		ArtworkCollection artworkCollection) {
 
 		return getService().addArtworkCollection(artworkCollection);
 	}
@@ -94,27 +95,32 @@ public class ArtworkCollectionLocalServiceUtil {
 	 * @param collectionId the primary key for the new artwork collection
 	 * @return the new artwork collection
 	 */
-	public static eu.strasbourg.service.artwork.model.ArtworkCollection
-		createArtworkCollection(long collectionId) {
-
+	public static ArtworkCollection createArtworkCollection(long collectionId) {
 		return getService().createArtworkCollection(collectionId);
 	}
 
 	/**
 	 * Crée une édition vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.artwork.model.ArtworkCollection
-			createArtworkCollection(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ArtworkCollection createArtworkCollection(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().createArtworkCollection(sc);
 	}
 
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
+	}
+
 	public static void deleteArtworkArtworkCollection(
-		long artworkId,
-		eu.strasbourg.service.artwork.model.ArtworkCollection
-			artworkCollection) {
+		long artworkId, ArtworkCollection artworkCollection) {
 
 		getService().deleteArtworkArtworkCollection(
 			artworkId, artworkCollection);
@@ -127,9 +133,7 @@ public class ArtworkCollectionLocalServiceUtil {
 	}
 
 	public static void deleteArtworkArtworkCollections(
-		long artworkId,
-		java.util.List<eu.strasbourg.service.artwork.model.ArtworkCollection>
-			artworkCollections) {
+		long artworkId, List<ArtworkCollection> artworkCollections) {
 
 		getService().deleteArtworkArtworkCollections(
 			artworkId, artworkCollections);
@@ -151,10 +155,8 @@ public class ArtworkCollectionLocalServiceUtil {
 	 * @param artworkCollection the artwork collection
 	 * @return the artwork collection that was removed
 	 */
-	public static eu.strasbourg.service.artwork.model.ArtworkCollection
-		deleteArtworkCollection(
-			eu.strasbourg.service.artwork.model.ArtworkCollection
-				artworkCollection) {
+	public static ArtworkCollection deleteArtworkCollection(
+		ArtworkCollection artworkCollection) {
 
 		return getService().deleteArtworkCollection(artworkCollection);
 	}
@@ -170,9 +172,8 @@ public class ArtworkCollectionLocalServiceUtil {
 	 * @return the artwork collection that was removed
 	 * @throws PortalException if a artwork collection with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.artwork.model.ArtworkCollection
-			deleteArtworkCollection(long collectionId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ArtworkCollection deleteArtworkCollection(long collectionId)
+		throws PortalException {
 
 		return getService().deleteArtworkCollection(collectionId);
 	}
@@ -180,17 +181,22 @@ public class ArtworkCollectionLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -200,9 +206,7 @@ public class ArtworkCollectionLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -218,9 +222,8 @@ public class ArtworkCollectionLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -238,10 +241,9 @@ public class ArtworkCollectionLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -253,9 +255,7 @@ public class ArtworkCollectionLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -267,15 +267,13 @@ public class ArtworkCollectionLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.artwork.model.ArtworkCollection
-		fetchArtworkCollection(long collectionId) {
-
+	public static ArtworkCollection fetchArtworkCollection(long collectionId) {
 		return getService().fetchArtworkCollection(collectionId);
 	}
 
@@ -286,16 +284,15 @@ public class ArtworkCollectionLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching artwork collection, or <code>null</code> if a matching artwork collection could not be found
 	 */
-	public static eu.strasbourg.service.artwork.model.ArtworkCollection
-		fetchArtworkCollectionByUuidAndGroupId(String uuid, long groupId) {
+	public static ArtworkCollection fetchArtworkCollectionByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchArtworkCollectionByUuidAndGroupId(
 			uuid, groupId);
 	}
 
-	public static java.util.List
-		<eu.strasbourg.service.artwork.model.ArtworkCollection> findByKeyword(
-			String keyword, long groupId, int start, int end) {
+	public static List<ArtworkCollection> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -310,27 +307,21 @@ public class ArtworkCollectionLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
-	public static java.util.List
-		<eu.strasbourg.service.artwork.model.ArtworkCollection>
-			getArtworkArtworkCollections(long artworkId) {
+	public static List<ArtworkCollection> getArtworkArtworkCollections(
+		long artworkId) {
 
 		return getService().getArtworkArtworkCollections(artworkId);
 	}
 
-	public static java.util.List
-		<eu.strasbourg.service.artwork.model.ArtworkCollection>
-			getArtworkArtworkCollections(long artworkId, int start, int end) {
+	public static List<ArtworkCollection> getArtworkArtworkCollections(
+		long artworkId, int start, int end) {
 
 		return getService().getArtworkArtworkCollections(artworkId, start, end);
 	}
 
-	public static java.util.List
-		<eu.strasbourg.service.artwork.model.ArtworkCollection>
-			getArtworkArtworkCollections(
-				long artworkId, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<eu.strasbourg.service.artwork.model.ArtworkCollection>
-						orderByComparator) {
+	public static List<ArtworkCollection> getArtworkArtworkCollections(
+		long artworkId, int start, int end,
+		OrderByComparator<ArtworkCollection> orderByComparator) {
 
 		return getService().getArtworkArtworkCollections(
 			artworkId, start, end, orderByComparator);
@@ -347,9 +338,8 @@ public class ArtworkCollectionLocalServiceUtil {
 	 * @return the artwork collection
 	 * @throws PortalException if a artwork collection with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.artwork.model.ArtworkCollection
-			getArtworkCollection(long collectionId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ArtworkCollection getArtworkCollection(long collectionId)
+		throws PortalException {
 
 		return getService().getArtworkCollection(collectionId);
 	}
@@ -362,9 +352,9 @@ public class ArtworkCollectionLocalServiceUtil {
 	 * @return the matching artwork collection
 	 * @throws PortalException if a matching artwork collection could not be found
 	 */
-	public static eu.strasbourg.service.artwork.model.ArtworkCollection
-			getArtworkCollectionByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ArtworkCollection getArtworkCollectionByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getArtworkCollectionByUuidAndGroupId(uuid, groupId);
 	}
@@ -380,9 +370,8 @@ public class ArtworkCollectionLocalServiceUtil {
 	 * @param end the upper bound of the range of artwork collections (not inclusive)
 	 * @return the range of artwork collections
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.artwork.model.ArtworkCollection>
-			getArtworkCollections(int start, int end) {
+	public static List<ArtworkCollection> getArtworkCollections(
+		int start, int end) {
 
 		return getService().getArtworkCollections(start, end);
 	}
@@ -394,10 +383,8 @@ public class ArtworkCollectionLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching artwork collections, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.artwork.model.ArtworkCollection>
-			getArtworkCollectionsByUuidAndCompanyId(
-				String uuid, long companyId) {
+	public static List<ArtworkCollection>
+		getArtworkCollectionsByUuidAndCompanyId(String uuid, long companyId) {
 
 		return getService().getArtworkCollectionsByUuidAndCompanyId(
 			uuid, companyId);
@@ -413,13 +400,10 @@ public class ArtworkCollectionLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching artwork collections, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.artwork.model.ArtworkCollection>
-			getArtworkCollectionsByUuidAndCompanyId(
-				String uuid, long companyId, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<eu.strasbourg.service.artwork.model.ArtworkCollection>
-						orderByComparator) {
+	public static List<ArtworkCollection>
+		getArtworkCollectionsByUuidAndCompanyId(
+			String uuid, long companyId, int start, int end,
+			OrderByComparator<ArtworkCollection> orderByComparator) {
 
 		return getService().getArtworkCollectionsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -447,7 +431,7 @@ public class ArtworkCollectionLocalServiceUtil {
 	/**
 	 * Return the vocabularies attached to the ArtworkCollection entity
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -456,10 +440,7 @@ public class ArtworkCollectionLocalServiceUtil {
 	/**
 	 * Retourne toutes les collections d'oeuvres d'un groupe
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.artwork.model.ArtworkCollection> getByGroupId(
-			long groupId) {
-
+	public static List<ArtworkCollection> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
@@ -490,9 +471,8 @@ public class ArtworkCollectionLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -511,9 +491,9 @@ public class ArtworkCollectionLocalServiceUtil {
 	/**
 	 * Delete an artworkCollection
 	 */
-	public static eu.strasbourg.service.artwork.model.ArtworkCollection
-			removeArtworkCollection(long artworkCollectionId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ArtworkCollection removeArtworkCollection(
+			long artworkCollectionId)
+		throws PortalException {
 
 		return getService().removeArtworkCollection(artworkCollectionId);
 	}
@@ -544,10 +524,8 @@ public class ArtworkCollectionLocalServiceUtil {
 	 * @param artworkCollection the artwork collection
 	 * @return the artwork collection that was updated
 	 */
-	public static eu.strasbourg.service.artwork.model.ArtworkCollection
-		updateArtworkCollection(
-			eu.strasbourg.service.artwork.model.ArtworkCollection
-				artworkCollection) {
+	public static ArtworkCollection updateArtworkCollection(
+		ArtworkCollection artworkCollection) {
 
 		return getService().updateArtworkCollection(artworkCollection);
 	}
@@ -555,12 +533,10 @@ public class ArtworkCollectionLocalServiceUtil {
 	/**
 	 * Met à jour une édition et l'enregistre en base de données
 	 */
-	public static eu.strasbourg.service.artwork.model.ArtworkCollection
-			updateArtworkCollection(
-				eu.strasbourg.service.artwork.model.ArtworkCollection
-					collection,
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ArtworkCollection updateArtworkCollection(
+			ArtworkCollection collection,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateArtworkCollection(collection, sc);
 	}
@@ -568,10 +544,8 @@ public class ArtworkCollectionLocalServiceUtil {
 	/**
 	 * Met à jour le statut de l'oeuvre "manuellement" (pas via le workflow)
 	 */
-	public static void updateStatus(
-			eu.strasbourg.service.artwork.model.ArtworkCollection collection,
-			int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static void updateStatus(ArtworkCollection collection, int status)
+		throws PortalException {
 
 		getService().updateStatus(collection, status);
 	}
@@ -579,41 +553,20 @@ public class ArtworkCollectionLocalServiceUtil {
 	/**
 	 * /** Met à jour le statut de l'oeuvre par le framework workflow
 	 */
-	public static eu.strasbourg.service.artwork.model.ArtworkCollection
-			updateStatus(
-				long userId, long entryId, int status,
-				com.liferay.portal.kernel.service.ServiceContext sc,
-				java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ArtworkCollection updateStatus(
+			long userId, long entryId, int status,
+			com.liferay.portal.kernel.service.ServiceContext sc,
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, entryId, status, sc, workflowContext);
 	}
 
 	public static ArtworkCollectionLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<ArtworkCollectionLocalService, ArtworkCollectionLocalService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			ArtworkCollectionLocalService.class);
-
-		ServiceTracker
-			<ArtworkCollectionLocalService, ArtworkCollectionLocalService>
-				serviceTracker =
-					new ServiceTracker
-						<ArtworkCollectionLocalService,
-						 ArtworkCollectionLocalService>(
-							 bundle.getBundleContext(),
-							 ArtworkCollectionLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile ArtworkCollectionLocalService _service;
 
 }

@@ -17,6 +17,7 @@ package eu.strasbourg.service.artwork.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -33,29 +34,23 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.artwork.model.Artwork;
 import eu.strasbourg.service.artwork.model.ArtworkModel;
-import eu.strasbourg.service.artwork.model.ArtworkSoap;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -150,92 +145,48 @@ public class ArtworkModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.artwork.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.artwork.model.Artwork"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.artwork.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.artwork.model.Artwork"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.artwork.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.artwork.model.Artwork"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long MODIFIEDDATE_COLUMN_BITMASK = 8L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Artwork toModel(ArtworkSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Artwork model = new ArtworkImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setArtworkId(soapModel.getArtworkId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setLastPublishDate(soapModel.getLastPublishDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setTitle(soapModel.getTitle());
-		model.setDescription(soapModel.getDescription());
-		model.setTechnicalInformation(soapModel.getTechnicalInformation());
-		model.setNoticeLink(soapModel.getNoticeLink());
-		model.setArtistName(soapModel.getArtistName());
-		model.setCreationYear(soapModel.getCreationYear());
-		model.setOrigin(soapModel.getOrigin());
-		model.setExhibitionName(soapModel.getExhibitionName());
-		model.setExhibitionPlace(soapModel.getExhibitionPlace());
-		model.setLoanPeriod(soapModel.getLoanPeriod());
-		model.setLinkName(soapModel.getLinkName());
-		model.setLink(soapModel.getLink());
-		model.setImageId(soapModel.getImageId());
-		model.setImagesIds(soapModel.getImagesIds());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Artwork> toModels(ArtworkSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Artwork> models = new ArrayList<Artwork>(soapModels.length);
-
-		for (ArtworkSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final String
 		MAPPING_TABLE_ARTWORK_ARTWORKTOARTWORKCOLLECTION_NAME =
@@ -251,12 +202,12 @@ public class ArtworkModelImpl
 		MAPPING_TABLE_ARTWORK_ARTWORKTOARTWORKCOLLECTION_SQL_CREATE =
 			"create table artwork_ArtworkToArtworkCollection (companyId LONG not null,artworkId LONG not null,collectionId LONG not null,primary key (artworkId, collectionId))";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public static final boolean
-		FINDER_CACHE_ENABLED_ARTWORK_ARTWORKTOARTWORKCOLLECTION =
-			GetterUtil.getBoolean(
-				eu.strasbourg.service.artwork.service.util.PropsUtil.get(
-					"value.object.finder.cache.enabled.artwork_ArtworkToArtworkCollection"),
-				true);
+		FINDER_CACHE_ENABLED_ARTWORK_ARTWORKTOARTWORKCOLLECTION = true;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.artwork.service.util.PropsUtil.get(
@@ -313,9 +264,6 @@ public class ArtworkModelImpl
 				attributeName, attributeGetterFunction.apply((Artwork)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -349,33 +297,6 @@ public class ArtworkModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Artwork>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Artwork.class.getClassLoader(), Artwork.class, ModelWrapper.class);
-
-		try {
-			Constructor<Artwork> constructor =
-				(Constructor<Artwork>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<Artwork, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Artwork, Object>>
@@ -387,559 +308,102 @@ public class ArtworkModelImpl
 		Map<String, BiConsumer<Artwork, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Artwork, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", Artwork::getUuid);
 		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(Artwork artwork, Object uuidObject) {
-					artwork.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"artworkId",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getArtworkId();
-				}
-
-			});
+			"uuid", (BiConsumer<Artwork, String>)Artwork::setUuid);
+		attributeGetterFunctions.put("artworkId", Artwork::getArtworkId);
 		attributeSetterBiConsumers.put(
-			"artworkId",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(Artwork artwork, Object artworkIdObject) {
-					artwork.setArtworkId((Long)artworkIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getGroupId();
-				}
-
-			});
+			"artworkId", (BiConsumer<Artwork, Long>)Artwork::setArtworkId);
+		attributeGetterFunctions.put("groupId", Artwork::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(Artwork artwork, Object groupIdObject) {
-					artwork.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getCompanyId();
-				}
-
-			});
+			"groupId", (BiConsumer<Artwork, Long>)Artwork::setGroupId);
+		attributeGetterFunctions.put("companyId", Artwork::getCompanyId);
 		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(Artwork artwork, Object companyIdObject) {
-					artwork.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getUserId();
-				}
-
-			});
+			"companyId", (BiConsumer<Artwork, Long>)Artwork::setCompanyId);
+		attributeGetterFunctions.put("userId", Artwork::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(Artwork artwork, Object userIdObject) {
-					artwork.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getUserName();
-				}
-
-			});
+			"userId", (BiConsumer<Artwork, Long>)Artwork::setUserId);
+		attributeGetterFunctions.put("userName", Artwork::getUserName);
 		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(Artwork artwork, Object userNameObject) {
-					artwork.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getCreateDate();
-				}
-
-			});
+			"userName", (BiConsumer<Artwork, String>)Artwork::setUserName);
+		attributeGetterFunctions.put("createDate", Artwork::getCreateDate);
 		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(Artwork artwork, Object createDateObject) {
-					artwork.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getModifiedDate();
-				}
-
-			});
+			"createDate", (BiConsumer<Artwork, Date>)Artwork::setCreateDate);
+		attributeGetterFunctions.put("modifiedDate", Artwork::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(Artwork artwork, Object modifiedDateObject) {
-					artwork.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
+			(BiConsumer<Artwork, Date>)Artwork::setModifiedDate);
 		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getLastPublishDate();
-				}
-
-			});
+			"lastPublishDate", Artwork::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(
-					Artwork artwork, Object lastPublishDateObject) {
-
-					artwork.setLastPublishDate((Date)lastPublishDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getStatus();
-				}
-
-			});
+			(BiConsumer<Artwork, Date>)Artwork::setLastPublishDate);
+		attributeGetterFunctions.put("status", Artwork::getStatus);
 		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(Artwork artwork, Object statusObject) {
-					artwork.setStatus((Integer)statusObject);
-				}
-
-			});
+			"status", (BiConsumer<Artwork, Integer>)Artwork::setStatus);
 		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getStatusByUserId();
-				}
-
-			});
+			"statusByUserId", Artwork::getStatusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(
-					Artwork artwork, Object statusByUserIdObject) {
-
-					artwork.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
+			(BiConsumer<Artwork, Long>)Artwork::setStatusByUserId);
 		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getStatusByUserName();
-				}
-
-			});
+			"statusByUserName", Artwork::getStatusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(
-					Artwork artwork, Object statusByUserNameObject) {
-
-					artwork.setStatusByUserName((String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getStatusDate();
-				}
-
-			});
+			(BiConsumer<Artwork, String>)Artwork::setStatusByUserName);
+		attributeGetterFunctions.put("statusDate", Artwork::getStatusDate);
 		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(Artwork artwork, Object statusDateObject) {
-					artwork.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getTitle();
-				}
-
-			});
+			"statusDate", (BiConsumer<Artwork, Date>)Artwork::setStatusDate);
+		attributeGetterFunctions.put("title", Artwork::getTitle);
 		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(Artwork artwork, Object titleObject) {
-					artwork.setTitle((String)titleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"description",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getDescription();
-				}
-
-			});
+			"title", (BiConsumer<Artwork, String>)Artwork::setTitle);
+		attributeGetterFunctions.put("description", Artwork::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(Artwork artwork, Object descriptionObject) {
-					artwork.setDescription((String)descriptionObject);
-				}
-
-			});
+			(BiConsumer<Artwork, String>)Artwork::setDescription);
 		attributeGetterFunctions.put(
-			"technicalInformation",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getTechnicalInformation();
-				}
-
-			});
+			"technicalInformation", Artwork::getTechnicalInformation);
 		attributeSetterBiConsumers.put(
 			"technicalInformation",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(
-					Artwork artwork, Object technicalInformationObject) {
-
-					artwork.setTechnicalInformation(
-						(String)technicalInformationObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"noticeLink",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getNoticeLink();
-				}
-
-			});
+			(BiConsumer<Artwork, String>)Artwork::setTechnicalInformation);
+		attributeGetterFunctions.put("noticeLink", Artwork::getNoticeLink);
 		attributeSetterBiConsumers.put(
-			"noticeLink",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(Artwork artwork, Object noticeLinkObject) {
-					artwork.setNoticeLink((String)noticeLinkObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"artistName",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getArtistName();
-				}
-
-			});
+			"noticeLink", (BiConsumer<Artwork, String>)Artwork::setNoticeLink);
+		attributeGetterFunctions.put("artistName", Artwork::getArtistName);
 		attributeSetterBiConsumers.put(
-			"artistName",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(Artwork artwork, Object artistNameObject) {
-					artwork.setArtistName((String)artistNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"creationYear",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getCreationYear();
-				}
-
-			});
+			"artistName", (BiConsumer<Artwork, String>)Artwork::setArtistName);
+		attributeGetterFunctions.put("creationYear", Artwork::getCreationYear);
 		attributeSetterBiConsumers.put(
 			"creationYear",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(Artwork artwork, Object creationYearObject) {
-					artwork.setCreationYear((String)creationYearObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"origin",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getOrigin();
-				}
-
-			});
+			(BiConsumer<Artwork, String>)Artwork::setCreationYear);
+		attributeGetterFunctions.put("origin", Artwork::getOrigin);
 		attributeSetterBiConsumers.put(
-			"origin",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(Artwork artwork, Object originObject) {
-					artwork.setOrigin((String)originObject);
-				}
-
-			});
+			"origin", (BiConsumer<Artwork, String>)Artwork::setOrigin);
 		attributeGetterFunctions.put(
-			"exhibitionName",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getExhibitionName();
-				}
-
-			});
+			"exhibitionName", Artwork::getExhibitionName);
 		attributeSetterBiConsumers.put(
 			"exhibitionName",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(
-					Artwork artwork, Object exhibitionNameObject) {
-
-					artwork.setExhibitionName((String)exhibitionNameObject);
-				}
-
-			});
+			(BiConsumer<Artwork, String>)Artwork::setExhibitionName);
 		attributeGetterFunctions.put(
-			"exhibitionPlace",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getExhibitionPlace();
-				}
-
-			});
+			"exhibitionPlace", Artwork::getExhibitionPlace);
 		attributeSetterBiConsumers.put(
 			"exhibitionPlace",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(
-					Artwork artwork, Object exhibitionPlaceObject) {
-
-					artwork.setExhibitionPlace((String)exhibitionPlaceObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"loanPeriod",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getLoanPeriod();
-				}
-
-			});
+			(BiConsumer<Artwork, String>)Artwork::setExhibitionPlace);
+		attributeGetterFunctions.put("loanPeriod", Artwork::getLoanPeriod);
 		attributeSetterBiConsumers.put(
-			"loanPeriod",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(Artwork artwork, Object loanPeriodObject) {
-					artwork.setLoanPeriod((String)loanPeriodObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"linkName",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getLinkName();
-				}
-
-			});
+			"loanPeriod", (BiConsumer<Artwork, String>)Artwork::setLoanPeriod);
+		attributeGetterFunctions.put("linkName", Artwork::getLinkName);
 		attributeSetterBiConsumers.put(
-			"linkName",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(Artwork artwork, Object linkNameObject) {
-					artwork.setLinkName((String)linkNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"link",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getLink();
-				}
-
-			});
+			"linkName", (BiConsumer<Artwork, String>)Artwork::setLinkName);
+		attributeGetterFunctions.put("link", Artwork::getLink);
 		attributeSetterBiConsumers.put(
-			"link",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(Artwork artwork, Object linkObject) {
-					artwork.setLink((String)linkObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"imageId",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getImageId();
-				}
-
-			});
+			"link", (BiConsumer<Artwork, String>)Artwork::setLink);
+		attributeGetterFunctions.put("imageId", Artwork::getImageId);
 		attributeSetterBiConsumers.put(
-			"imageId",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(Artwork artwork, Object imageIdObject) {
-					artwork.setImageId((Long)imageIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"imagesIds",
-			new Function<Artwork, Object>() {
-
-				@Override
-				public Object apply(Artwork artwork) {
-					return artwork.getImagesIds();
-				}
-
-			});
+			"imageId", (BiConsumer<Artwork, Long>)Artwork::setImageId);
+		attributeGetterFunctions.put("imagesIds", Artwork::getImagesIds);
 		attributeSetterBiConsumers.put(
-			"imagesIds",
-			new BiConsumer<Artwork, Object>() {
-
-				@Override
-				public void accept(Artwork artwork, Object imagesIdsObject) {
-					artwork.setImagesIds((String)imagesIdsObject);
-				}
-
-			});
+			"imagesIds", (BiConsumer<Artwork, String>)Artwork::setImagesIds);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -960,17 +424,20 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -981,6 +448,10 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setArtworkId(long artworkId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_artworkId = artworkId;
 	}
 
@@ -992,19 +463,20 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -1015,19 +487,21 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -1038,6 +512,10 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -1070,6 +548,10 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -1081,6 +563,10 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -1098,7 +584,9 @@ public class ArtworkModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -1111,6 +599,10 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -1122,6 +614,10 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -1133,6 +629,10 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1165,6 +665,10 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1176,6 +680,10 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1235,6 +743,10 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setTitle(String title) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_title = title;
 	}
 
@@ -1340,6 +852,10 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_description = description;
 	}
 
@@ -1451,6 +967,10 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setTechnicalInformation(String technicalInformation) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_technicalInformation = technicalInformation;
 	}
 
@@ -1567,6 +1087,10 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setNoticeLink(String noticeLink) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_noticeLink = noticeLink;
 	}
 
@@ -1675,6 +1199,10 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setArtistName(String artistName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_artistName = artistName;
 	}
 
@@ -1783,6 +1311,10 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setCreationYear(String creationYear) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_creationYear = creationYear;
 	}
 
@@ -1891,6 +1423,10 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setOrigin(String origin) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_origin = origin;
 	}
 
@@ -1998,6 +1534,10 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setExhibitionName(String exhibitionName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_exhibitionName = exhibitionName;
 	}
 
@@ -2107,6 +1647,10 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setExhibitionPlace(String exhibitionPlace) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_exhibitionPlace = exhibitionPlace;
 	}
 
@@ -2216,6 +1760,10 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setLoanPeriod(String loanPeriod) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_loanPeriod = loanPeriod;
 	}
 
@@ -2324,6 +1872,10 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setLinkName(String linkName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_linkName = linkName;
 	}
 
@@ -2432,6 +1984,10 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setLink(String link) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_link = link;
 	}
 
@@ -2487,6 +2043,10 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setImageId(Long imageId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageId = imageId;
 	}
 
@@ -2503,6 +2063,10 @@ public class ArtworkModelImpl
 
 	@Override
 	public void setImagesIds(String imagesIds) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imagesIds = imagesIds;
 	}
 
@@ -2593,6 +2157,26 @@ public class ArtworkModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -2967,6 +2551,60 @@ public class ArtworkModelImpl
 	}
 
 	@Override
+	public Artwork cloneWithOriginalValues() {
+		ArtworkImpl artworkImpl = new ArtworkImpl();
+
+		artworkImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		artworkImpl.setArtworkId(
+			this.<Long>getColumnOriginalValue("artworkId"));
+		artworkImpl.setGroupId(this.<Long>getColumnOriginalValue("groupId"));
+		artworkImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		artworkImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		artworkImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		artworkImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		artworkImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		artworkImpl.setLastPublishDate(
+			this.<Date>getColumnOriginalValue("lastPublishDate"));
+		artworkImpl.setStatus(this.<Integer>getColumnOriginalValue("status"));
+		artworkImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		artworkImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		artworkImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		artworkImpl.setTitle(this.<String>getColumnOriginalValue("title"));
+		artworkImpl.setDescription(
+			this.<String>getColumnOriginalValue("description"));
+		artworkImpl.setTechnicalInformation(
+			this.<String>getColumnOriginalValue("technicalInformation"));
+		artworkImpl.setNoticeLink(
+			this.<String>getColumnOriginalValue("noticeLink"));
+		artworkImpl.setArtistName(
+			this.<String>getColumnOriginalValue("artistName"));
+		artworkImpl.setCreationYear(
+			this.<String>getColumnOriginalValue("creationYear"));
+		artworkImpl.setOrigin(this.<String>getColumnOriginalValue("origin"));
+		artworkImpl.setExhibitionName(
+			this.<String>getColumnOriginalValue("exhibitionName"));
+		artworkImpl.setExhibitionPlace(
+			this.<String>getColumnOriginalValue("exhibitionPlace"));
+		artworkImpl.setLoanPeriod(
+			this.<String>getColumnOriginalValue("loanPeriod"));
+		artworkImpl.setLinkName(
+			this.<String>getColumnOriginalValue("linkName"));
+		artworkImpl.setLink(this.<String>getColumnOriginalValue("link"));
+		artworkImpl.setImageId(this.<Long>getColumnOriginalValue("imageId"));
+		artworkImpl.setImagesIds(
+			this.<String>getColumnOriginalValue("imagesIds"));
+
+		return artworkImpl;
+	}
+
+	@Override
 	public int compareTo(Artwork artwork) {
 		int value = 0;
 
@@ -3009,11 +2647,19 @@ public class ArtworkModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -3021,21 +2667,11 @@ public class ArtworkModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ArtworkModelImpl artworkModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		artworkModelImpl._originalUuid = artworkModelImpl._uuid;
+		_setModifiedDate = false;
 
-		artworkModelImpl._originalGroupId = artworkModelImpl._groupId;
-
-		artworkModelImpl._setOriginalGroupId = false;
-
-		artworkModelImpl._originalCompanyId = artworkModelImpl._companyId;
-
-		artworkModelImpl._setOriginalCompanyId = false;
-
-		artworkModelImpl._setModifiedDate = false;
-
-		artworkModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -3235,7 +2871,7 @@ public class ArtworkModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -3246,9 +2882,26 @@ public class ArtworkModelImpl
 			Function<Artwork, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Artwork)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Artwork)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -3261,53 +2914,19 @@ public class ArtworkModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Artwork, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Artwork, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Artwork, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Artwork)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Artwork>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Artwork.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _artworkId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -3344,6 +2963,144 @@ public class ArtworkModelImpl
 	private String _linkCurrentLanguageId;
 	private Long _imageId;
 	private String _imagesIds;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Artwork, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Artwork)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("artworkId", _artworkId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("lastPublishDate", _lastPublishDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("description", _description);
+		_columnOriginalValues.put(
+			"technicalInformation", _technicalInformation);
+		_columnOriginalValues.put("noticeLink", _noticeLink);
+		_columnOriginalValues.put("artistName", _artistName);
+		_columnOriginalValues.put("creationYear", _creationYear);
+		_columnOriginalValues.put("origin", _origin);
+		_columnOriginalValues.put("exhibitionName", _exhibitionName);
+		_columnOriginalValues.put("exhibitionPlace", _exhibitionPlace);
+		_columnOriginalValues.put("loanPeriod", _loanPeriod);
+		_columnOriginalValues.put("linkName", _linkName);
+		_columnOriginalValues.put("link", _link);
+		_columnOriginalValues.put("imageId", _imageId);
+		_columnOriginalValues.put("imagesIds", _imagesIds);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("artworkId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("lastPublishDate", 256L);
+
+		columnBitmasks.put("status", 512L);
+
+		columnBitmasks.put("statusByUserId", 1024L);
+
+		columnBitmasks.put("statusByUserName", 2048L);
+
+		columnBitmasks.put("statusDate", 4096L);
+
+		columnBitmasks.put("title", 8192L);
+
+		columnBitmasks.put("description", 16384L);
+
+		columnBitmasks.put("technicalInformation", 32768L);
+
+		columnBitmasks.put("noticeLink", 65536L);
+
+		columnBitmasks.put("artistName", 131072L);
+
+		columnBitmasks.put("creationYear", 262144L);
+
+		columnBitmasks.put("origin", 524288L);
+
+		columnBitmasks.put("exhibitionName", 1048576L);
+
+		columnBitmasks.put("exhibitionPlace", 2097152L);
+
+		columnBitmasks.put("loanPeriod", 4194304L);
+
+		columnBitmasks.put("linkName", 8388608L);
+
+		columnBitmasks.put("link", 16777216L);
+
+		columnBitmasks.put("imageId", 33554432L);
+
+		columnBitmasks.put("imagesIds", 67108864L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Artwork _escapedModel;
 

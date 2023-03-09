@@ -1,13 +1,5 @@
 package eu.strasbourg.service.artwork.search;
 
-import java.util.List;
-import java.util.Locale;
-
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -22,10 +14,15 @@ import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
-
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
 import eu.strasbourg.service.artwork.service.ArtworkCollectionLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
+import java.util.List;
+import java.util.Locale;
 
 @Component(immediate = true, service = Indexer.class)
 public class ArtworkCollectionIndexer extends BaseIndexer<ArtworkCollection> {
@@ -101,8 +98,7 @@ public class ArtworkCollectionIndexer extends BaseIndexer<ArtworkCollection> {
 		throws Exception {
 		Document document = getDocument(artworkCollection);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-			artworkCollection.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(artworkCollection.getCompanyId(),document);
 
 	}
 
@@ -134,8 +130,6 @@ public class ArtworkCollectionIndexer extends BaseIndexer<ArtworkCollection> {
 				}
 
 			});
-
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 

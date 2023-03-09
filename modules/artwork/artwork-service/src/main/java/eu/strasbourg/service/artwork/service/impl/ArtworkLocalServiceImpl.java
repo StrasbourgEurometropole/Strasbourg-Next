@@ -14,13 +14,8 @@
 
 package eu.strasbourg.service.artwork.service.impl;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.LongStream;
-
+import aQute.bnd.annotation.ProviderType;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -43,10 +38,16 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.artwork.model.Artwork;
 import eu.strasbourg.service.artwork.service.base.ArtworkLocalServiceBaseImpl;
+import org.osgi.service.component.annotations.Reference;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.LongStream;
 
 /**
  * The implementation of the artwork local service.
@@ -227,10 +228,8 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 		if (entry != null) {
 
 			// Supprime le lien avec les catégories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-					categoryId, entry.getEntryId());
-			}
+			assetEntryAssetCategoryRelLocalService.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
 			// Supprime le lien avec les tags
 			long[] tagsIds = this.assetEntryLocalService
@@ -349,4 +348,6 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 			.nullSafeGetIndexer(Artwork.class);
 		return indexer.search(searchContext);
 	}
+	@Reference
+	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }
