@@ -43,9 +43,6 @@ import eu.strasbourg.service.agenda.model.CacheJson;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.CacheJsonLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.base.EventServiceBaseImpl;
-import eu.strasbourg.service.place.model.Place;
-import eu.strasbourg.service.place.model.PlaceModel;
-import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.SearchHelper;
@@ -56,7 +53,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**

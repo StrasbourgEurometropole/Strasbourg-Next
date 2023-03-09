@@ -14,9 +14,7 @@
 
 package eu.strasbourg.service.agenda.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.portal.kernel.exception.PortalException;
 
 /**
  * Provides the remote service utility for AgendaExport. This utility wraps
@@ -52,29 +50,15 @@ public class AgendaExportServiceUtil {
 	 */
 	public static com.liferay.portal.kernel.json.JSONArray getParentCategories(
 			Long vocabularyId, String localeId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getParentCategories(vocabularyId, localeId);
 	}
 
 	public static AgendaExportService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<AgendaExportService, AgendaExportService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(AgendaExportService.class);
-
-		ServiceTracker<AgendaExportService, AgendaExportService>
-			serviceTracker =
-				new ServiceTracker<AgendaExportService, AgendaExportService>(
-					bundle.getBundleContext(), AgendaExportService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile AgendaExportService _service;
 
 }

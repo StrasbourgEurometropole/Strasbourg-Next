@@ -14,18 +14,14 @@
 
 package eu.strasbourg.service.agenda.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.agenda.exception.NoSuchHistoricException;
 import eu.strasbourg.service.agenda.model.Historic;
 
-import java.io.Serializable;
-
 import java.util.Date;
-import java.util.Map;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the historic service.
@@ -46,9 +42,6 @@ public interface HistoricPersistence extends BasePersistence<Historic> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link HistoricUtil} to access the historic persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Historic> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the historics where uuid = &#63;.
@@ -453,8 +446,5 @@ public interface HistoricPersistence extends BasePersistence<Historic> {
 	 * @return the number of historics
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

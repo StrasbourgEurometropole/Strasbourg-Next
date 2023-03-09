@@ -27,6 +27,10 @@ public class AgendaExportPeriodServiceWrapper
 	implements AgendaExportPeriodService,
 			   ServiceWrapper<AgendaExportPeriodService> {
 
+	public AgendaExportPeriodServiceWrapper() {
+		this(null);
+	}
+
 	public AgendaExportPeriodServiceWrapper(
 		AgendaExportPeriodService agendaExportPeriodService) {
 

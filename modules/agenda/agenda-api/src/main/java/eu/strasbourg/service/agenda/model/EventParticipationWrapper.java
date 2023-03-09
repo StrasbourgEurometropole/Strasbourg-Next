@@ -14,16 +14,12 @@
 
 package eu.strasbourg.service.agenda.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +31,11 @@ import java.util.Objects;
  * @generated
  */
 public class EventParticipationWrapper
+	extends BaseModelWrapper<EventParticipation>
 	implements EventParticipation, ModelWrapper<EventParticipation> {
 
 	public EventParticipationWrapper(EventParticipation eventParticipation) {
-		_eventParticipation = eventParticipation;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return EventParticipation.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return EventParticipation.class.getName();
+		super(eventParticipation);
 	}
 
 	@Override
@@ -99,17 +86,8 @@ public class EventParticipationWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new EventParticipationWrapper(
-			(EventParticipation)_eventParticipation.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.agenda.model.EventParticipation
-			eventParticipation) {
-
-		return _eventParticipation.compareTo(eventParticipation);
+	public EventParticipation cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -119,7 +97,7 @@ public class EventParticipationWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _eventParticipation.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -129,7 +107,7 @@ public class EventParticipationWrapper
 	 */
 	@Override
 	public long getEventId() {
-		return _eventParticipation.getEventId();
+		return model.getEventId();
 	}
 
 	/**
@@ -139,12 +117,7 @@ public class EventParticipationWrapper
 	 */
 	@Override
 	public long getEventParticipationId() {
-		return _eventParticipation.getEventParticipationId();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _eventParticipation.getExpandoBridge();
+		return model.getEventParticipationId();
 	}
 
 	/**
@@ -154,7 +127,7 @@ public class EventParticipationWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _eventParticipation.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -164,12 +137,7 @@ public class EventParticipationWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _eventParticipation.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _eventParticipation.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -179,37 +147,12 @@ public class EventParticipationWrapper
 	 */
 	@Override
 	public String getPublikUserId() {
-		return _eventParticipation.getPublikUserId();
-	}
-
-	@Override
-	public int hashCode() {
-		return _eventParticipation.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _eventParticipation.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _eventParticipation.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _eventParticipation.isNew();
+		return model.getPublikUserId();
 	}
 
 	@Override
 	public void persist() {
-		_eventParticipation.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_eventParticipation.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -219,7 +162,7 @@ public class EventParticipationWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_eventParticipation.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -229,7 +172,7 @@ public class EventParticipationWrapper
 	 */
 	@Override
 	public void setEventId(long eventId) {
-		_eventParticipation.setEventId(eventId);
+		model.setEventId(eventId);
 	}
 
 	/**
@@ -239,24 +182,7 @@ public class EventParticipationWrapper
 	 */
 	@Override
 	public void setEventParticipationId(long eventParticipationId) {
-		_eventParticipation.setEventParticipationId(eventParticipationId);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_eventParticipation.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_eventParticipation.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_eventParticipation.setExpandoBridgeAttributes(serviceContext);
+		model.setEventParticipationId(eventParticipationId);
 	}
 
 	/**
@@ -266,12 +192,7 @@ public class EventParticipationWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_eventParticipation.setGroupId(groupId);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_eventParticipation.setNew(n);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -281,12 +202,7 @@ public class EventParticipationWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_eventParticipation.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_eventParticipation.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -296,22 +212,7 @@ public class EventParticipationWrapper
 	 */
 	@Override
 	public void setPublikUserId(String publikUserId) {
-		_eventParticipation.setPublikUserId(publikUserId);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.agenda.model.EventParticipation> toCacheModel() {
-
-		return _eventParticipation.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.EventParticipation
-		toEscapedModel() {
-
-		return new EventParticipationWrapper(
-			_eventParticipation.toEscapedModel());
+		model.setPublikUserId(publikUserId);
 	}
 
 	/**
@@ -319,70 +220,19 @@ public class EventParticipationWrapper
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _eventParticipation.toJSON();
-	}
-
-	@Override
-	public String toString() {
-		return _eventParticipation.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.EventParticipation
-		toUnescapedModel() {
-
-		return new EventParticipationWrapper(
-			_eventParticipation.toUnescapedModel());
+		return model.toJSON();
 	}
 
 	@Override
 	public String toXmlString() {
-		return _eventParticipation.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
+	protected EventParticipationWrapper wrap(
+		EventParticipation eventParticipation) {
 
-		if (!(object instanceof EventParticipationWrapper)) {
-			return false;
-		}
-
-		EventParticipationWrapper eventParticipationWrapper =
-			(EventParticipationWrapper)object;
-
-		if (Objects.equals(
-				_eventParticipation,
-				eventParticipationWrapper._eventParticipation)) {
-
-			return true;
-		}
-
-		return false;
+		return new EventParticipationWrapper(eventParticipation);
 	}
-
-	@Override
-	public EventParticipation getWrappedModel() {
-		return _eventParticipation;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _eventParticipation.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _eventParticipation.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_eventParticipation.resetOriginalValues();
-	}
-
-	private final EventParticipation _eventParticipation;
 
 }

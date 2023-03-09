@@ -16,6 +16,7 @@ package eu.strasbourg.service.agenda.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -23,16 +24,16 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.agenda.model.CacheJson;
 import eu.strasbourg.service.agenda.model.CacheJsonModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
@@ -40,6 +41,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -98,23 +100,34 @@ public class CacheJsonModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.agenda.model.CacheJson"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.agenda.model.CacheJson"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.agenda.model.CacheJson"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long EVENTID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ISAPPROVED_COLUMN_BITMASK = 2L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -172,9 +185,6 @@ public class CacheJsonModelImpl
 				attributeName, attributeGetterFunction.apply((CacheJson)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -208,34 +218,6 @@ public class CacheJsonModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, CacheJson>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			CacheJson.class.getClassLoader(), CacheJson.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<CacheJson> constructor =
-				(Constructor<CacheJson>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<CacheJson, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<CacheJson, Object>>
@@ -247,114 +229,26 @@ public class CacheJsonModelImpl
 		Map<String, BiConsumer<CacheJson, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<CacheJson, ?>>();
 
-		attributeGetterFunctions.put(
-			"eventId",
-			new Function<CacheJson, Object>() {
-
-				@Override
-				public Object apply(CacheJson cacheJson) {
-					return cacheJson.getEventId();
-				}
-
-			});
+		attributeGetterFunctions.put("eventId", CacheJson::getEventId);
 		attributeSetterBiConsumers.put(
-			"eventId",
-			new BiConsumer<CacheJson, Object>() {
-
-				@Override
-				public void accept(CacheJson cacheJson, Object eventIdObject) {
-					cacheJson.setEventId((Long)eventIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"jsonEvent",
-			new Function<CacheJson, Object>() {
-
-				@Override
-				public Object apply(CacheJson cacheJson) {
-					return cacheJson.getJsonEvent();
-				}
-
-			});
+			"eventId", (BiConsumer<CacheJson, Long>)CacheJson::setEventId);
+		attributeGetterFunctions.put("jsonEvent", CacheJson::getJsonEvent);
 		attributeSetterBiConsumers.put(
 			"jsonEvent",
-			new BiConsumer<CacheJson, Object>() {
-
-				@Override
-				public void accept(
-					CacheJson cacheJson, Object jsonEventObject) {
-
-					cacheJson.setJsonEvent((String)jsonEventObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createEvent",
-			new Function<CacheJson, Object>() {
-
-				@Override
-				public Object apply(CacheJson cacheJson) {
-					return cacheJson.getCreateEvent();
-				}
-
-			});
+			(BiConsumer<CacheJson, String>)CacheJson::setJsonEvent);
+		attributeGetterFunctions.put("createEvent", CacheJson::getCreateEvent);
 		attributeSetterBiConsumers.put(
 			"createEvent",
-			new BiConsumer<CacheJson, Object>() {
-
-				@Override
-				public void accept(
-					CacheJson cacheJson, Object createEventObject) {
-
-					cacheJson.setCreateEvent((Date)createEventObject);
-				}
-
-			});
+			(BiConsumer<CacheJson, Date>)CacheJson::setCreateEvent);
 		attributeGetterFunctions.put(
-			"modifiedEvent",
-			new Function<CacheJson, Object>() {
-
-				@Override
-				public Object apply(CacheJson cacheJson) {
-					return cacheJson.getModifiedEvent();
-				}
-
-			});
+			"modifiedEvent", CacheJson::getModifiedEvent);
 		attributeSetterBiConsumers.put(
 			"modifiedEvent",
-			new BiConsumer<CacheJson, Object>() {
-
-				@Override
-				public void accept(
-					CacheJson cacheJson, Object modifiedEventObject) {
-
-					cacheJson.setModifiedEvent((Date)modifiedEventObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"isApproved",
-			new Function<CacheJson, Object>() {
-
-				@Override
-				public Object apply(CacheJson cacheJson) {
-					return cacheJson.getIsApproved();
-				}
-
-			});
+			(BiConsumer<CacheJson, Date>)CacheJson::setModifiedEvent);
+		attributeGetterFunctions.put("isApproved", CacheJson::getIsApproved);
 		attributeSetterBiConsumers.put(
 			"isApproved",
-			new BiConsumer<CacheJson, Object>() {
-
-				@Override
-				public void accept(
-					CacheJson cacheJson, Object isApprovedObject) {
-
-					cacheJson.setIsApproved((Boolean)isApprovedObject);
-				}
-
-			});
+			(BiConsumer<CacheJson, Boolean>)CacheJson::setIsApproved);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -369,19 +263,20 @@ public class CacheJsonModelImpl
 
 	@Override
 	public void setEventId(long eventId) {
-		_columnBitmask |= EVENTID_COLUMN_BITMASK;
-
-		if (!_setOriginalEventId) {
-			_setOriginalEventId = true;
-
-			_originalEventId = _eventId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_eventId = eventId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalEventId() {
-		return _originalEventId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("eventId"));
 	}
 
 	@Override
@@ -396,6 +291,10 @@ public class CacheJsonModelImpl
 
 	@Override
 	public void setJsonEvent(String jsonEvent) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_jsonEvent = jsonEvent;
 	}
 
@@ -406,6 +305,10 @@ public class CacheJsonModelImpl
 
 	@Override
 	public void setCreateEvent(Date createEvent) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createEvent = createEvent;
 	}
 
@@ -416,6 +319,10 @@ public class CacheJsonModelImpl
 
 	@Override
 	public void setModifiedEvent(Date modifiedEvent) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedEvent = modifiedEvent;
 	}
 
@@ -431,22 +338,44 @@ public class CacheJsonModelImpl
 
 	@Override
 	public void setIsApproved(boolean isApproved) {
-		_columnBitmask |= ISAPPROVED_COLUMN_BITMASK;
-
-		if (!_setOriginalIsApproved) {
-			_setOriginalIsApproved = true;
-
-			_originalIsApproved = _isApproved;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_isApproved = isApproved;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalIsApproved() {
-		return _originalIsApproved;
+		return GetterUtil.getBoolean(
+			this.<Boolean>getColumnOriginalValue("isApproved"));
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -494,6 +423,23 @@ public class CacheJsonModelImpl
 	}
 
 	@Override
+	public CacheJson cloneWithOriginalValues() {
+		CacheJsonImpl cacheJsonImpl = new CacheJsonImpl();
+
+		cacheJsonImpl.setEventId(this.<Long>getColumnOriginalValue("eventId"));
+		cacheJsonImpl.setJsonEvent(
+			this.<String>getColumnOriginalValue("jsonEvent"));
+		cacheJsonImpl.setCreateEvent(
+			this.<Date>getColumnOriginalValue("createEvent"));
+		cacheJsonImpl.setModifiedEvent(
+			this.<Date>getColumnOriginalValue("modifiedEvent"));
+		cacheJsonImpl.setIsApproved(
+			this.<Boolean>getColumnOriginalValue("isApproved"));
+
+		return cacheJsonImpl;
+	}
+
+	@Override
 	public int compareTo(CacheJson cacheJson) {
 		long primaryKey = cacheJson.getPrimaryKey();
 
@@ -535,11 +481,19 @@ public class CacheJsonModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -547,17 +501,9 @@ public class CacheJsonModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		CacheJsonModelImpl cacheJsonModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		cacheJsonModelImpl._originalEventId = cacheJsonModelImpl._eventId;
-
-		cacheJsonModelImpl._setOriginalEventId = false;
-
-		cacheJsonModelImpl._originalIsApproved = cacheJsonModelImpl._isApproved;
-
-		cacheJsonModelImpl._setOriginalIsApproved = false;
-
-		cacheJsonModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -603,7 +549,7 @@ public class CacheJsonModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -614,9 +560,26 @@ public class CacheJsonModelImpl
 			Function<CacheJson, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((CacheJson)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((CacheJson)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -629,53 +592,79 @@ public class CacheJsonModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<CacheJson, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<CacheJson, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<CacheJson, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((CacheJson)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, CacheJson>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					CacheJson.class, ModelWrapper.class);
 
 	}
 
 	private long _eventId;
-	private long _originalEventId;
-	private boolean _setOriginalEventId;
 	private String _jsonEvent;
 	private Date _createEvent;
 	private Date _modifiedEvent;
 	private boolean _isApproved;
-	private boolean _originalIsApproved;
-	private boolean _setOriginalIsApproved;
+
+	public <T> T getColumnValue(String columnName) {
+		Function<CacheJson, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((CacheJson)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("eventId", _eventId);
+		_columnOriginalValues.put("jsonEvent", _jsonEvent);
+		_columnOriginalValues.put("createEvent", _createEvent);
+		_columnOriginalValues.put("modifiedEvent", _modifiedEvent);
+		_columnOriginalValues.put("isApproved", _isApproved);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("eventId", 1L);
+
+		columnBitmasks.put("jsonEvent", 2L);
+
+		columnBitmasks.put("createEvent", 4L);
+
+		columnBitmasks.put("modifiedEvent", 8L);
+
+		columnBitmasks.put("isApproved", 16L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private CacheJson _escapedModel;
 
