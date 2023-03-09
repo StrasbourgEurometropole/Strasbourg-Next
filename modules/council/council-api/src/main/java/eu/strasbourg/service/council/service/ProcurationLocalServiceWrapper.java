@@ -27,6 +27,10 @@ public class ProcurationLocalServiceWrapper
 	implements ProcurationLocalService,
 			   ServiceWrapper<ProcurationLocalService> {
 
+	public ProcurationLocalServiceWrapper() {
+		this(null);
+	}
+
 	public ProcurationLocalServiceWrapper(
 		ProcurationLocalService procurationLocalService) {
 
@@ -48,6 +52,17 @@ public class ProcurationLocalServiceWrapper
 		eu.strasbourg.service.council.model.Procuration procuration) {
 
 		return _procurationLocalService.addProcuration(procuration);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _procurationLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -119,6 +134,18 @@ public class ProcurationLocalServiceWrapper
 		eu.strasbourg.service.council.model.Procuration procuration) {
 
 		return _procurationLocalService.deleteProcuration(procuration);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _procurationLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _procurationLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

@@ -14,16 +14,11 @@
 
 package eu.strasbourg.service.council.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.council.exception.NoSuchVoteException;
 import eu.strasbourg.service.council.model.Vote;
+import org.osgi.annotation.versioning.ProviderType;
 
-import java.io.Serializable;
-
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -45,9 +40,6 @@ public interface VotePersistence extends BasePersistence<Vote> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link VoteUtil} to access the vote persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Vote> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the votes where uuid = &#63;.
@@ -718,9 +710,6 @@ public interface VotePersistence extends BasePersistence<Vote> {
 	 * @return the number of votes
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 	public Set<String> getCompoundPKColumnNames();
 

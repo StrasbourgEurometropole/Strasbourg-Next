@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.council.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for Deliberation. This utility wraps
  * <code>eu.strasbourg.service.council.service.impl.DeliberationServiceImpl</code> and is an
@@ -43,35 +39,22 @@ public class DeliberationServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getUserFront(
-		long officialId, String officialDeviceInfo, long councilSessionId) {
+		long officialId, java.lang.String officialDeviceInfo,
+		long councilSessionId) {
 
 		return getService().getUserFront(
 			officialId, officialDeviceInfo, councilSessionId);
 	}
 
 	public static DeliberationService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<DeliberationService, DeliberationService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(DeliberationService.class);
-
-		ServiceTracker<DeliberationService, DeliberationService>
-			serviceTracker =
-				new ServiceTracker<DeliberationService, DeliberationService>(
-					bundle.getBundleContext(), DeliberationService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile DeliberationService _service;
 
 }

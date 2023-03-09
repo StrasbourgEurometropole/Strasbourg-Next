@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.council.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for Type. This utility wraps
  * <code>eu.strasbourg.service.council.service.impl.TypeServiceImpl</code> and is an
@@ -43,26 +39,14 @@ public class TypeServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static TypeService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<TypeService, TypeService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(TypeService.class);
-
-		ServiceTracker<TypeService, TypeService> serviceTracker =
-			new ServiceTracker<TypeService, TypeService>(
-				bundle.getBundleContext(), TypeService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile TypeService _service;
 
 }

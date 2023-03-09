@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class DeliberationServiceWrapper
 	implements DeliberationService, ServiceWrapper<DeliberationService> {
 
+	public DeliberationServiceWrapper() {
+		this(null);
+	}
+
 	public DeliberationServiceWrapper(DeliberationService deliberationService) {
 		_deliberationService = deliberationService;
 	}

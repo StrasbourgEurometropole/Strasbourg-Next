@@ -7,7 +7,12 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.search.BaseIndexer;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
@@ -96,8 +101,7 @@ public class OfficialIndexer extends BaseIndexer<Official> {
     protected void doReindex(Official official) throws Exception {
         Document document = getDocument(official);
 
-        IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-                official.getCompanyId(), document, isCommitImmediately());
+        IndexWriterHelperUtil.updateDocument(official.getCompanyId(), document);
 
     }
 
@@ -130,7 +134,6 @@ public class OfficialIndexer extends BaseIndexer<Official> {
 
                 });
 
-        indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
         indexableActionableDynamicQuery.performActions();
     }
 

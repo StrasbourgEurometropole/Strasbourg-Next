@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class OfficialLocalServiceWrapper
 	implements OfficialLocalService, ServiceWrapper<OfficialLocalService> {
 
+	public OfficialLocalServiceWrapper() {
+		this(null);
+	}
+
 	public OfficialLocalServiceWrapper(
 		OfficialLocalService officialLocalService) {
 
@@ -74,6 +78,17 @@ public class OfficialLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _officialLocalService.createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the official with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -118,6 +133,18 @@ public class OfficialLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _officialLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _officialLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _officialLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override
