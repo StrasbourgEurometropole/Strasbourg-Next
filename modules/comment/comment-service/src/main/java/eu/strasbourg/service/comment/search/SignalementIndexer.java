@@ -20,10 +20,8 @@ import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * @author alexandre.quere
@@ -71,8 +69,7 @@ public class SignalementIndexer extends BaseIndexer<Signalement> {
     protected void doReindex(Signalement signalement) throws Exception {
         Document document = getDocument(signalement);
 
-        IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-                signalement.getCompanyId(), document, isCommitImmediately());
+        IndexWriterHelperUtil.updateDocument(signalement.getCompanyId(), document);
 
     }
 
@@ -92,7 +89,6 @@ public class SignalementIndexer extends BaseIndexer<Signalement> {
                     }
                 });
 
-        indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
         indexableActionableDynamicQuery.performActions();
     }
 
