@@ -130,8 +130,7 @@ public class OfferIndexer extends BaseIndexer<Offer> {
 	protected void doReindex(Offer offer) throws Exception {
 		Document document = getDocument(offer);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-				offer.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(offer.getCompanyId(), document);
 
 	}
 
@@ -164,7 +163,6 @@ public class OfferIndexer extends BaseIndexer<Offer> {
 
 			});
 
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 

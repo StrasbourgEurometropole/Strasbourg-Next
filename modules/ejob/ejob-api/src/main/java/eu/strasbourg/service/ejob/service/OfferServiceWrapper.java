@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class OfferServiceWrapper
 	implements OfferService, ServiceWrapper<OfferService> {
 
+	public OfferServiceWrapper() {
+		this(null);
+	}
+
 	public OfferServiceWrapper(OfferService offerService) {
 		_offerService = offerService;
 	}

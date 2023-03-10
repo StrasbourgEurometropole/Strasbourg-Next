@@ -14,9 +14,16 @@
 
 package eu.strasbourg.service.ejob.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.ejob.model.Alert;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for Alert. This utility wraps
@@ -48,9 +55,7 @@ public class AlertLocalServiceUtil {
 	 * @param alert the alert
 	 * @return the alert that was added
 	 */
-	public static eu.strasbourg.service.ejob.model.Alert addAlert(
-		eu.strasbourg.service.ejob.model.Alert alert) {
-
+	public static Alert addAlert(Alert alert) {
 		return getService().addAlert(alert);
 	}
 
@@ -60,20 +65,28 @@ public class AlertLocalServiceUtil {
 	 * @param alertId the primary key for the new alert
 	 * @return the new alert
 	 */
-	public static eu.strasbourg.service.ejob.model.Alert createAlert(
-		long alertId) {
-
+	public static Alert createAlert(long alertId) {
 		return getService().createAlert(alertId);
 	}
 
 	/**
 	 * Crée une edition vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.ejob.model.Alert createAlert(
+	public static Alert createAlert(
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().createAlert(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -86,9 +99,7 @@ public class AlertLocalServiceUtil {
 	 * @param alert the alert
 	 * @return the alert that was removed
 	 */
-	public static eu.strasbourg.service.ejob.model.Alert deleteAlert(
-		eu.strasbourg.service.ejob.model.Alert alert) {
-
+	public static Alert deleteAlert(Alert alert) {
 		return getService().deleteAlert(alert);
 	}
 
@@ -103,27 +114,29 @@ public class AlertLocalServiceUtil {
 	 * @return the alert that was removed
 	 * @throws PortalException if a alert with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.ejob.model.Alert deleteAlert(
-			long alertId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Alert deleteAlert(long alertId) throws PortalException {
 		return getService().deleteAlert(alertId);
 	}
 
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -133,9 +146,7 @@ public class AlertLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -151,9 +162,8 @@ public class AlertLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -171,10 +181,9 @@ public class AlertLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -186,9 +195,7 @@ public class AlertLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -200,15 +207,13 @@ public class AlertLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.ejob.model.Alert fetchAlert(
-		long alertId) {
-
+	public static Alert fetchAlert(long alertId) {
 		return getService().fetchAlert(alertId);
 	}
 
@@ -219,14 +224,12 @@ public class AlertLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching alert, or <code>null</code> if a matching alert could not be found
 	 */
-	public static eu.strasbourg.service.ejob.model.Alert
-		fetchAlertByUuidAndGroupId(String uuid, long groupId) {
-
+	public static Alert fetchAlertByUuidAndGroupId(String uuid, long groupId) {
 		return getService().fetchAlertByUuidAndGroupId(uuid, groupId);
 	}
 
-	public static java.util.List<eu.strasbourg.service.ejob.model.Alert>
-		findByKeyword(String keyword, long groupId, int start, int end) {
+	public static List<Alert> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -238,9 +241,7 @@ public class AlertLocalServiceUtil {
 	/**
 	 * Retourne une alerte via publikUserId
 	 */
-	public static java.util.List<eu.strasbourg.service.ejob.model.Alert>
-		findByPublikUserId(String publikUserId) {
-
+	public static List<Alert> findByPublikUserId(String publikUserId) {
 		return getService().findByPublikUserId(publikUserId);
 	}
 
@@ -257,9 +258,7 @@ public class AlertLocalServiceUtil {
 	 * @return the alert
 	 * @throws PortalException if a alert with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.ejob.model.Alert getAlert(long alertId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Alert getAlert(long alertId) throws PortalException {
 		return getService().getAlert(alertId);
 	}
 
@@ -271,9 +270,8 @@ public class AlertLocalServiceUtil {
 	 * @return the matching alert
 	 * @throws PortalException if a matching alert could not be found
 	 */
-	public static eu.strasbourg.service.ejob.model.Alert
-			getAlertByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Alert getAlertByUuidAndGroupId(String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getAlertByUuidAndGroupId(uuid, groupId);
 	}
@@ -289,9 +287,7 @@ public class AlertLocalServiceUtil {
 	 * @param end the upper bound of the range of alerts (not inclusive)
 	 * @return the range of alerts
 	 */
-	public static java.util.List<eu.strasbourg.service.ejob.model.Alert>
-		getAlerts(int start, int end) {
-
+	public static List<Alert> getAlerts(int start, int end) {
 		return getService().getAlerts(start, end);
 	}
 
@@ -302,8 +298,8 @@ public class AlertLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching alerts, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.ejob.model.Alert>
-		getAlertsByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<Alert> getAlertsByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getAlertsByUuidAndCompanyId(uuid, companyId);
 	}
@@ -318,11 +314,9 @@ public class AlertLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching alerts, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.ejob.model.Alert>
-		getAlertsByUuidAndCompanyId(
-			String uuid, long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<eu.strasbourg.service.ejob.model.Alert> orderByComparator) {
+	public static List<Alert> getAlertsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Alert> orderByComparator) {
 
 		return getService().getAlertsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -340,7 +334,7 @@ public class AlertLocalServiceUtil {
 	/**
 	 * Retourne les vocabulaires rattrachés à ce type d'entité pour un groupe
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -373,9 +367,8 @@ public class AlertLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -383,10 +376,7 @@ public class AlertLocalServiceUtil {
 	/**
 	 * Supprime une alerte
 	 */
-	public static eu.strasbourg.service.ejob.model.Alert removeAlert(
-			long alertId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Alert removeAlert(long alertId) throws PortalException {
 		return getService().removeAlert(alertId);
 	}
 
@@ -400,19 +390,16 @@ public class AlertLocalServiceUtil {
 	 * @param alert the alert
 	 * @return the alert that was updated
 	 */
-	public static eu.strasbourg.service.ejob.model.Alert updateAlert(
-		eu.strasbourg.service.ejob.model.Alert alert) {
-
+	public static Alert updateAlert(Alert alert) {
 		return getService().updateAlert(alert);
 	}
 
 	/**
 	 * Met à jour une edition et l'enregistre en base de données
 	 */
-	public static eu.strasbourg.service.ejob.model.Alert updateAlert(
-			eu.strasbourg.service.ejob.model.Alert alert,
-			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Alert updateAlert(
+			Alert alert, com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateAlert(alert, sc);
 	}
@@ -420,9 +407,8 @@ public class AlertLocalServiceUtil {
 	/**
 	 * Met à jour le statut de l'edition "manuellement" (pas via le workflow)
 	 */
-	public static void updateStatus(
-			eu.strasbourg.service.ejob.model.Alert alert, int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static void updateStatus(Alert alert, int status)
+		throws PortalException {
 
 		getService().updateStatus(alert, status);
 	}
@@ -430,33 +416,20 @@ public class AlertLocalServiceUtil {
 	/**
 	 * Met à jour le statut de l'edition par le framework workflow
 	 */
-	public static eu.strasbourg.service.ejob.model.Alert updateStatus(
+	public static Alert updateStatus(
 			long userId, long entryId, int status,
 			com.liferay.portal.kernel.service.ServiceContext sc,
-			java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, entryId, status, sc, workflowContext);
 	}
 
 	public static AlertLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<AlertLocalService, AlertLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(AlertLocalService.class);
-
-		ServiceTracker<AlertLocalService, AlertLocalService> serviceTracker =
-			new ServiceTracker<AlertLocalService, AlertLocalService>(
-				bundle.getBundleContext(), AlertLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile AlertLocalService _service;
 
 }

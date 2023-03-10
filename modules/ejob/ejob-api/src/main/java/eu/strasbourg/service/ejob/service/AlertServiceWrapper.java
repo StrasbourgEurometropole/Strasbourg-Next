@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class AlertServiceWrapper
 	implements AlertService, ServiceWrapper<AlertService> {
 
+	public AlertServiceWrapper() {
+		this(null);
+	}
+
 	public AlertServiceWrapper(AlertService alertService) {
 		_alertService = alertService;
 	}

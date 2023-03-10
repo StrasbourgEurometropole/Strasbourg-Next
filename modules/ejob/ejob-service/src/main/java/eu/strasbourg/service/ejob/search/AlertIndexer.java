@@ -95,8 +95,7 @@ public class AlertIndexer extends BaseIndexer<Alert> {
 	protected void doReindex(Alert alert) throws Exception {
 		Document document = getDocument(alert);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-				alert.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(alert.getCompanyId(), document);
 
 	}
 
@@ -129,7 +128,6 @@ public class AlertIndexer extends BaseIndexer<Alert> {
 
 			});
 
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 

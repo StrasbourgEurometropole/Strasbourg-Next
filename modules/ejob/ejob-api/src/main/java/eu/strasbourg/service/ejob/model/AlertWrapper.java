@@ -14,17 +14,13 @@
 
 package eu.strasbourg.service.ejob.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +31,11 @@ import java.util.Objects;
  * @see Alert
  * @generated
  */
-public class AlertWrapper implements Alert, ModelWrapper<Alert> {
+public class AlertWrapper
+	extends BaseModelWrapper<Alert> implements Alert, ModelWrapper<Alert> {
 
 	public AlertWrapper(Alert alert) {
-		_alert = alert;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Alert.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Alert.class.getName();
+		super(alert);
 	}
 
 	@Override
@@ -175,13 +162,8 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	}
 
 	@Override
-	public Object clone() {
-		return new AlertWrapper((Alert)_alert.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.ejob.model.Alert alert) {
-		return _alert.compareTo(alert);
+	public Alert cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -191,7 +173,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public long getAlertId() {
-		return _alert.getAlertId();
+		return model.getAlertId();
 	}
 
 	/**
@@ -199,7 +181,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _alert.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	/**
@@ -210,7 +192,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _alert.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -220,7 +202,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _alert.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -230,12 +212,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _alert.getCreateDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _alert.getExpandoBridge();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -245,7 +222,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _alert.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -255,7 +232,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public String getKeyWord() {
-		return _alert.getKeyWord();
+		return model.getKeyWord();
 	}
 
 	/**
@@ -265,7 +242,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public String getLanguage() {
-		return _alert.getLanguage();
+		return model.getLanguage();
 	}
 
 	/**
@@ -275,7 +252,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _alert.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -285,7 +262,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public String getName() {
-		return _alert.getName();
+		return model.getName();
 	}
 
 	/**
@@ -295,12 +272,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _alert.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _alert.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -310,7 +282,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public String getPublikUserId() {
-		return _alert.getPublikUserId();
+		return model.getPublikUserId();
 	}
 
 	/**
@@ -320,7 +292,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public int getStatus() {
-		return _alert.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -330,7 +302,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _alert.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -340,7 +312,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _alert.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -350,7 +322,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _alert.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -360,7 +332,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _alert.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -370,7 +342,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public long getUserId() {
-		return _alert.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -380,7 +352,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public String getUserName() {
-		return _alert.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -390,7 +362,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _alert.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -400,12 +372,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public String getUuid() {
-		return _alert.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _alert.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -415,12 +382,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _alert.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _alert.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -430,7 +392,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _alert.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -440,12 +402,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _alert.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _alert.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -455,7 +412,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _alert.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -465,7 +422,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _alert.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -475,12 +432,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _alert.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _alert.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -490,7 +442,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public boolean isPending() {
-		return _alert.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -500,19 +452,19 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _alert.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_alert.persist();
+		model.persist();
 	}
 
 	@Override
 	public boolean sendMail(
 		java.util.List<eu.strasbourg.service.ejob.model.Offer> listOffer) {
 
-		return _alert.sendMail(listOffer);
+		return model.sendMail(listOffer);
 	}
 
 	/**
@@ -522,12 +474,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setAlertId(long alertId) {
-		_alert.setAlertId(alertId);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_alert.setCachedModel(cachedModel);
+		model.setAlertId(alertId);
 	}
 
 	/**
@@ -537,7 +484,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_alert.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -547,24 +494,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_alert.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_alert.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_alert.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_alert.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -574,7 +504,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_alert.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -584,7 +514,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setKeyWord(String keyWord) {
-		_alert.setKeyWord(keyWord);
+		model.setKeyWord(keyWord);
 	}
 
 	/**
@@ -594,7 +524,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setLanguage(String language) {
-		_alert.setLanguage(language);
+		model.setLanguage(language);
 	}
 
 	/**
@@ -604,7 +534,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_alert.setModifiedDate(modifiedDate);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -614,12 +544,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setName(String name) {
-		_alert.setName(name);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_alert.setNew(n);
+		model.setName(name);
 	}
 
 	/**
@@ -629,12 +554,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_alert.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_alert.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -644,7 +564,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setPublikUserId(String publikUserId) {
-		_alert.setPublikUserId(publikUserId);
+		model.setPublikUserId(publikUserId);
 	}
 
 	/**
@@ -654,7 +574,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_alert.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -664,7 +584,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_alert.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -674,7 +594,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_alert.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -684,7 +604,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_alert.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -694,7 +614,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_alert.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -704,7 +624,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_alert.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -714,7 +634,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_alert.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -724,7 +644,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_alert.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -734,80 +654,22 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_alert.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.ejob.model.Alert> toCacheModel() {
-
-		return _alert.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.ejob.model.Alert toEscapedModel() {
-		return new AlertWrapper(_alert.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _alert.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.ejob.model.Alert toUnescapedModel() {
-		return new AlertWrapper(_alert.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _alert.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof AlertWrapper)) {
-			return false;
-		}
-
-		AlertWrapper alertWrapper = (AlertWrapper)object;
-
-		if (Objects.equals(_alert, alertWrapper._alert)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _alert.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Alert getWrappedModel() {
-		return _alert;
+	protected AlertWrapper wrap(Alert alert) {
+		return new AlertWrapper(alert);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _alert.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _alert.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_alert.resetOriginalValues();
-	}
-
-	private final Alert _alert;
 
 }

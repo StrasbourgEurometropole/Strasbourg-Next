@@ -14,17 +14,13 @@
 
 package eu.strasbourg.service.ejob.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +31,11 @@ import java.util.Objects;
  * @see Offer
  * @generated
  */
-public class OfferWrapper implements ModelWrapper<Offer>, Offer {
+public class OfferWrapper
+	extends BaseModelWrapper<Offer> implements ModelWrapper<Offer>, Offer {
 
 	public OfferWrapper(Offer offer) {
-		_offer = offer;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Offer.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Offer.class.getName();
+		super(offer);
 	}
 
 	@Override
@@ -312,13 +299,8 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	}
 
 	@Override
-	public Object clone() {
-		return new OfferWrapper((Offer)_offer.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.ejob.model.Offer offer) {
-		return _offer.compareTo(offer);
+	public Offer cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -328,7 +310,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getActivities() {
-		return _offer.getActivities();
+		return model.getActivities();
 	}
 
 	/**
@@ -339,7 +321,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getActivities(java.util.Locale locale) {
-		return _offer.getActivities(locale);
+		return model.getActivities(locale);
 	}
 
 	/**
@@ -351,7 +333,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getActivities(java.util.Locale locale, boolean useDefault) {
-		return _offer.getActivities(locale, useDefault);
+		return model.getActivities(locale, useDefault);
 	}
 
 	/**
@@ -362,7 +344,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getActivities(String languageId) {
-		return _offer.getActivities(languageId);
+		return model.getActivities(languageId);
 	}
 
 	/**
@@ -374,17 +356,17 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getActivities(String languageId, boolean useDefault) {
-		return _offer.getActivities(languageId, useDefault);
+		return model.getActivities(languageId, useDefault);
 	}
 
 	@Override
 	public String getActivitiesCurrentLanguageId() {
-		return _offer.getActivitiesCurrentLanguageId();
+		return model.getActivitiesCurrentLanguageId();
 	}
 
 	@Override
 	public String getActivitiesCurrentValue() {
-		return _offer.getActivitiesCurrentValue();
+		return model.getActivitiesCurrentValue();
 	}
 
 	/**
@@ -394,7 +376,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getActivitiesMap() {
-		return _offer.getActivitiesMap();
+		return model.getActivitiesMap();
 	}
 
 	/**
@@ -402,12 +384,12 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _offer.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _offer.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -417,7 +399,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getAvantages() {
-		return _offer.getAvantages();
+		return model.getAvantages();
 	}
 
 	/**
@@ -428,7 +410,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getAvantages(java.util.Locale locale) {
-		return _offer.getAvantages(locale);
+		return model.getAvantages(locale);
 	}
 
 	/**
@@ -440,7 +422,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getAvantages(java.util.Locale locale, boolean useDefault) {
-		return _offer.getAvantages(locale, useDefault);
+		return model.getAvantages(locale, useDefault);
 	}
 
 	/**
@@ -451,7 +433,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getAvantages(String languageId) {
-		return _offer.getAvantages(languageId);
+		return model.getAvantages(languageId);
 	}
 
 	/**
@@ -463,17 +445,17 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getAvantages(String languageId, boolean useDefault) {
-		return _offer.getAvantages(languageId, useDefault);
+		return model.getAvantages(languageId, useDefault);
 	}
 
 	@Override
 	public String getAvantagesCurrentLanguageId() {
-		return _offer.getAvantagesCurrentLanguageId();
+		return model.getAvantagesCurrentLanguageId();
 	}
 
 	@Override
 	public String getAvantagesCurrentValue() {
-		return _offer.getAvantagesCurrentValue();
+		return model.getAvantagesCurrentValue();
 	}
 
 	/**
@@ -483,7 +465,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getAvantagesMap() {
-		return _offer.getAvantagesMap();
+		return model.getAvantagesMap();
 	}
 
 	/**
@@ -494,7 +476,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _offer.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -504,7 +486,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _offer.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -514,7 +496,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getConditions() {
-		return _offer.getConditions();
+		return model.getConditions();
 	}
 
 	/**
@@ -525,7 +507,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getConditions(java.util.Locale locale) {
-		return _offer.getConditions(locale);
+		return model.getConditions(locale);
 	}
 
 	/**
@@ -537,7 +519,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getConditions(java.util.Locale locale, boolean useDefault) {
-		return _offer.getConditions(locale, useDefault);
+		return model.getConditions(locale, useDefault);
 	}
 
 	/**
@@ -548,7 +530,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getConditions(String languageId) {
-		return _offer.getConditions(languageId);
+		return model.getConditions(languageId);
 	}
 
 	/**
@@ -560,17 +542,17 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getConditions(String languageId, boolean useDefault) {
-		return _offer.getConditions(languageId, useDefault);
+		return model.getConditions(languageId, useDefault);
 	}
 
 	@Override
 	public String getConditionsCurrentLanguageId() {
-		return _offer.getConditionsCurrentLanguageId();
+		return model.getConditionsCurrentLanguageId();
 	}
 
 	@Override
 	public String getConditionsCurrentValue() {
-		return _offer.getConditionsCurrentValue();
+		return model.getConditionsCurrentValue();
 	}
 
 	/**
@@ -580,7 +562,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getConditionsMap() {
-		return _offer.getConditionsMap();
+		return model.getConditionsMap();
 	}
 
 	/**
@@ -590,7 +572,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getContact() {
-		return _offer.getContact();
+		return model.getContact();
 	}
 
 	/**
@@ -598,7 +580,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getContactRE() {
-		return _offer.getContactRE();
+		return model.getContactRE();
 	}
 
 	/**
@@ -608,12 +590,12 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _offer.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _offer.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -621,7 +603,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getDirection() {
-		return _offer.getDirection();
+		return model.getDirection();
 	}
 
 	/**
@@ -631,7 +613,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getDuration() {
-		return _offer.getDuration();
+		return model.getDuration();
 	}
 
 	/**
@@ -642,7 +624,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getDuration(java.util.Locale locale) {
-		return _offer.getDuration(locale);
+		return model.getDuration(locale);
 	}
 
 	/**
@@ -654,7 +636,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getDuration(java.util.Locale locale, boolean useDefault) {
-		return _offer.getDuration(locale, useDefault);
+		return model.getDuration(locale, useDefault);
 	}
 
 	/**
@@ -665,7 +647,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getDuration(String languageId) {
-		return _offer.getDuration(languageId);
+		return model.getDuration(languageId);
 	}
 
 	/**
@@ -677,17 +659,17 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getDuration(String languageId, boolean useDefault) {
-		return _offer.getDuration(languageId, useDefault);
+		return model.getDuration(languageId, useDefault);
 	}
 
 	@Override
 	public String getDurationCurrentLanguageId() {
-		return _offer.getDurationCurrentLanguageId();
+		return model.getDurationCurrentLanguageId();
 	}
 
 	@Override
 	public String getDurationCurrentValue() {
-		return _offer.getDurationCurrentValue();
+		return model.getDurationCurrentValue();
 	}
 
 	/**
@@ -697,7 +679,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getDurationMap() {
-		return _offer.getDurationMap();
+		return model.getDurationMap();
 	}
 
 	/**
@@ -707,7 +689,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public int getEmailPartnerSent() {
-		return _offer.getEmailPartnerSent();
+		return model.getEmailPartnerSent();
 	}
 
 	/**
@@ -717,7 +699,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getEmails() {
-		return _offer.getEmails();
+		return model.getEmails();
 	}
 
 	/**
@@ -727,12 +709,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public int getEmailSend() {
-		return _offer.getEmailSend();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _offer.getExpandoBridge();
+		return model.getEmailSend();
 	}
 
 	/**
@@ -740,7 +717,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getFamille() {
-		return _offer.getFamille();
+		return model.getFamille();
 	}
 
 	/**
@@ -750,7 +727,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getFullTimeDescription() {
-		return _offer.getFullTimeDescription();
+		return model.getFullTimeDescription();
 	}
 
 	/**
@@ -761,7 +738,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getFullTimeDescription(java.util.Locale locale) {
-		return _offer.getFullTimeDescription(locale);
+		return model.getFullTimeDescription(locale);
 	}
 
 	/**
@@ -775,7 +752,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	public String getFullTimeDescription(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _offer.getFullTimeDescription(locale, useDefault);
+		return model.getFullTimeDescription(locale, useDefault);
 	}
 
 	/**
@@ -786,7 +763,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getFullTimeDescription(String languageId) {
-		return _offer.getFullTimeDescription(languageId);
+		return model.getFullTimeDescription(languageId);
 	}
 
 	/**
@@ -800,17 +777,17 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	public String getFullTimeDescription(
 		String languageId, boolean useDefault) {
 
-		return _offer.getFullTimeDescription(languageId, useDefault);
+		return model.getFullTimeDescription(languageId, useDefault);
 	}
 
 	@Override
 	public String getFullTimeDescriptionCurrentLanguageId() {
-		return _offer.getFullTimeDescriptionCurrentLanguageId();
+		return model.getFullTimeDescriptionCurrentLanguageId();
 	}
 
 	@Override
 	public String getFullTimeDescriptionCurrentValue() {
-		return _offer.getFullTimeDescriptionCurrentValue();
+		return model.getFullTimeDescriptionCurrentValue();
 	}
 
 	/**
@@ -820,7 +797,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getFullTimeDescriptionMap() {
-		return _offer.getFullTimeDescriptionMap();
+		return model.getFullTimeDescriptionMap();
 	}
 
 	/**
@@ -828,7 +805,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public java.util.List<java.util.List> getGradeRanges() {
-		return _offer.getGradeRanges();
+		return model.getGradeRanges();
 	}
 
 	/**
@@ -838,7 +815,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getGrades() {
 
-		return _offer.getGrades();
+		return model.getGrades();
 	}
 
 	/**
@@ -848,7 +825,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public long getGroupId() {
-		return _offer.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -858,7 +835,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getIntroduction() {
-		return _offer.getIntroduction();
+		return model.getIntroduction();
 	}
 
 	/**
@@ -869,7 +846,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getIntroduction(java.util.Locale locale) {
-		return _offer.getIntroduction(locale);
+		return model.getIntroduction(locale);
 	}
 
 	/**
@@ -881,7 +858,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getIntroduction(java.util.Locale locale, boolean useDefault) {
-		return _offer.getIntroduction(locale, useDefault);
+		return model.getIntroduction(locale, useDefault);
 	}
 
 	/**
@@ -892,7 +869,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getIntroduction(String languageId) {
-		return _offer.getIntroduction(languageId);
+		return model.getIntroduction(languageId);
 	}
 
 	/**
@@ -904,17 +881,17 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getIntroduction(String languageId, boolean useDefault) {
-		return _offer.getIntroduction(languageId, useDefault);
+		return model.getIntroduction(languageId, useDefault);
 	}
 
 	@Override
 	public String getIntroductionCurrentLanguageId() {
-		return _offer.getIntroductionCurrentLanguageId();
+		return model.getIntroductionCurrentLanguageId();
 	}
 
 	@Override
 	public String getIntroductionCurrentValue() {
-		return _offer.getIntroductionCurrentValue();
+		return model.getIntroductionCurrentValue();
 	}
 
 	/**
@@ -924,7 +901,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getIntroductionMap() {
-		return _offer.getIntroductionMap();
+		return model.getIntroductionMap();
 	}
 
 	/**
@@ -934,7 +911,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public int getIsExported() {
-		return _offer.getIsExported();
+		return model.getIsExported();
 	}
 
 	/**
@@ -944,7 +921,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public boolean getIsFullTime() {
-		return _offer.getIsFullTime();
+		return model.getIsFullTime();
 	}
 
 	/**
@@ -954,7 +931,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getJobCreationDescription() {
-		return _offer.getJobCreationDescription();
+		return model.getJobCreationDescription();
 	}
 
 	/**
@@ -965,7 +942,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getJobCreationDescription(java.util.Locale locale) {
-		return _offer.getJobCreationDescription(locale);
+		return model.getJobCreationDescription(locale);
 	}
 
 	/**
@@ -979,7 +956,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	public String getJobCreationDescription(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _offer.getJobCreationDescription(locale, useDefault);
+		return model.getJobCreationDescription(locale, useDefault);
 	}
 
 	/**
@@ -990,7 +967,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getJobCreationDescription(String languageId) {
-		return _offer.getJobCreationDescription(languageId);
+		return model.getJobCreationDescription(languageId);
 	}
 
 	/**
@@ -1004,17 +981,17 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	public String getJobCreationDescription(
 		String languageId, boolean useDefault) {
 
-		return _offer.getJobCreationDescription(languageId, useDefault);
+		return model.getJobCreationDescription(languageId, useDefault);
 	}
 
 	@Override
 	public String getJobCreationDescriptionCurrentLanguageId() {
-		return _offer.getJobCreationDescriptionCurrentLanguageId();
+		return model.getJobCreationDescriptionCurrentLanguageId();
 	}
 
 	@Override
 	public String getJobCreationDescriptionCurrentValue() {
-		return _offer.getJobCreationDescriptionCurrentValue();
+		return model.getJobCreationDescriptionCurrentValue();
 	}
 
 	/**
@@ -1024,7 +1001,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getJobCreationDescriptionMap() {
-		return _offer.getJobCreationDescriptionMap();
+		return model.getJobCreationDescriptionMap();
 	}
 
 	/**
@@ -1034,7 +1011,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public Date getLimitDate() {
-		return _offer.getLimitDate();
+		return model.getLimitDate();
 	}
 
 	/**
@@ -1044,7 +1021,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _offer.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -1052,7 +1029,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getMotif() {
-		return _offer.getMotif();
+		return model.getMotif();
 	}
 
 	/**
@@ -1060,7 +1037,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getNiveauEtude() {
-		return _offer.getNiveauEtude();
+		return model.getNiveauEtude();
 	}
 
 	/**
@@ -1070,7 +1047,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getOfferCategories() {
 
-		return _offer.getOfferCategories();
+		return model.getOfferCategories();
 	}
 
 	/**
@@ -1080,7 +1057,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public long getOfferId() {
-		return _offer.getOfferId();
+		return model.getOfferId();
 	}
 
 	/**
@@ -1090,7 +1067,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getPermanentDescription() {
-		return _offer.getPermanentDescription();
+		return model.getPermanentDescription();
 	}
 
 	/**
@@ -1101,7 +1078,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getPermanentDescription(java.util.Locale locale) {
-		return _offer.getPermanentDescription(locale);
+		return model.getPermanentDescription(locale);
 	}
 
 	/**
@@ -1115,7 +1092,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	public String getPermanentDescription(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _offer.getPermanentDescription(locale, useDefault);
+		return model.getPermanentDescription(locale, useDefault);
 	}
 
 	/**
@@ -1126,7 +1103,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getPermanentDescription(String languageId) {
-		return _offer.getPermanentDescription(languageId);
+		return model.getPermanentDescription(languageId);
 	}
 
 	/**
@@ -1140,17 +1117,17 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	public String getPermanentDescription(
 		String languageId, boolean useDefault) {
 
-		return _offer.getPermanentDescription(languageId, useDefault);
+		return model.getPermanentDescription(languageId, useDefault);
 	}
 
 	@Override
 	public String getPermanentDescriptionCurrentLanguageId() {
-		return _offer.getPermanentDescriptionCurrentLanguageId();
+		return model.getPermanentDescriptionCurrentLanguageId();
 	}
 
 	@Override
 	public String getPermanentDescriptionCurrentValue() {
-		return _offer.getPermanentDescriptionCurrentValue();
+		return model.getPermanentDescriptionCurrentValue();
 	}
 
 	/**
@@ -1160,7 +1137,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getPermanentDescriptionMap() {
-		return _offer.getPermanentDescriptionMap();
+		return model.getPermanentDescriptionMap();
 	}
 
 	/**
@@ -1170,7 +1147,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getPost() {
-		return _offer.getPost();
+		return model.getPost();
 	}
 
 	/**
@@ -1181,7 +1158,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getPost(java.util.Locale locale) {
-		return _offer.getPost(locale);
+		return model.getPost(locale);
 	}
 
 	/**
@@ -1193,7 +1170,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getPost(java.util.Locale locale, boolean useDefault) {
-		return _offer.getPost(locale, useDefault);
+		return model.getPost(locale, useDefault);
 	}
 
 	/**
@@ -1204,7 +1181,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getPost(String languageId) {
-		return _offer.getPost(languageId);
+		return model.getPost(languageId);
 	}
 
 	/**
@@ -1216,17 +1193,17 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getPost(String languageId, boolean useDefault) {
-		return _offer.getPost(languageId, useDefault);
+		return model.getPost(languageId, useDefault);
 	}
 
 	@Override
 	public String getPostCurrentLanguageId() {
-		return _offer.getPostCurrentLanguageId();
+		return model.getPostCurrentLanguageId();
 	}
 
 	@Override
 	public String getPostCurrentValue() {
-		return _offer.getPostCurrentValue();
+		return model.getPostCurrentValue();
 	}
 
 	/**
@@ -1236,7 +1213,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getPostMap() {
-		return _offer.getPostMap();
+		return model.getPostMap();
 	}
 
 	/**
@@ -1246,7 +1223,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getPostNumber() {
-		return _offer.getPostNumber();
+		return model.getPostNumber();
 	}
 
 	/**
@@ -1256,12 +1233,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _offer.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _offer.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -1271,7 +1243,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getProfil() {
-		return _offer.getProfil();
+		return model.getProfil();
 	}
 
 	/**
@@ -1282,7 +1254,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getProfil(java.util.Locale locale) {
-		return _offer.getProfil(locale);
+		return model.getProfil(locale);
 	}
 
 	/**
@@ -1294,7 +1266,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getProfil(java.util.Locale locale, boolean useDefault) {
-		return _offer.getProfil(locale, useDefault);
+		return model.getProfil(locale, useDefault);
 	}
 
 	/**
@@ -1305,7 +1277,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getProfil(String languageId) {
-		return _offer.getProfil(languageId);
+		return model.getProfil(languageId);
 	}
 
 	/**
@@ -1317,17 +1289,17 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getProfil(String languageId, boolean useDefault) {
-		return _offer.getProfil(languageId, useDefault);
+		return model.getProfil(languageId, useDefault);
 	}
 
 	@Override
 	public String getProfilCurrentLanguageId() {
-		return _offer.getProfilCurrentLanguageId();
+		return model.getProfilCurrentLanguageId();
 	}
 
 	@Override
 	public String getProfilCurrentValue() {
-		return _offer.getProfilCurrentValue();
+		return model.getProfilCurrentValue();
 	}
 
 	/**
@@ -1337,7 +1309,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getProfilMap() {
-		return _offer.getProfilMap();
+		return model.getProfilMap();
 	}
 
 	/**
@@ -1347,7 +1319,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public Date getPublicationEndDate() {
-		return _offer.getPublicationEndDate();
+		return model.getPublicationEndDate();
 	}
 
 	/**
@@ -1357,7 +1329,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getPublicationId() {
-		return _offer.getPublicationId();
+		return model.getPublicationId();
 	}
 
 	/**
@@ -1367,7 +1339,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public Date getPublicationStartDate() {
-		return _offer.getPublicationStartDate();
+		return model.getPublicationStartDate();
 	}
 
 	/**
@@ -1375,7 +1347,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getService() {
-		return _offer.getService();
+		return model.getService();
 	}
 
 	/**
@@ -1385,7 +1357,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public boolean getShareLinkedin() {
-		return _offer.getShareLinkedin();
+		return model.getShareLinkedin();
 	}
 
 	/**
@@ -1395,7 +1367,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public Date getStartDate() {
-		return _offer.getStartDate();
+		return model.getStartDate();
 	}
 
 	/**
@@ -1405,7 +1377,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public int getStatus() {
-		return _offer.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -1415,7 +1387,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _offer.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -1425,7 +1397,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _offer.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -1435,7 +1407,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _offer.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -1445,12 +1417,12 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _offer.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getTypePublication() {
-		return _offer.getTypePublication();
+		return model.getTypePublication();
 	}
 
 	/**
@@ -1458,7 +1430,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getTypeRecrutement() {
-		return _offer.getTypeRecrutement();
+		return model.getTypeRecrutement();
 	}
 
 	/**
@@ -1468,7 +1440,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public long getUserId() {
-		return _offer.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -1478,7 +1450,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getUserName() {
-		return _offer.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -1488,7 +1460,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _offer.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -1498,12 +1470,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public String getUuid() {
-		return _offer.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _offer.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -1513,12 +1480,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _offer.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _offer.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -1528,7 +1490,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _offer.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -1538,12 +1500,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _offer.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _offer.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -1553,7 +1510,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _offer.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -1563,7 +1520,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _offer.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -1573,7 +1530,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _offer.isIncomplete();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -1583,12 +1540,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public boolean isIsFullTime() {
-		return _offer.isIsFullTime();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _offer.isNew();
+		return model.isIsFullTime();
 	}
 
 	/**
@@ -1598,7 +1550,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public boolean isPending() {
-		return _offer.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -1608,7 +1560,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _offer.isScheduled();
+		return model.isScheduled();
 	}
 
 	/**
@@ -1618,19 +1570,19 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public boolean isShareLinkedin() {
-		return _offer.isShareLinkedin();
+		return model.isShareLinkedin();
 	}
 
 	@Override
 	public void persist() {
-		_offer.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_offer.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -1638,12 +1590,12 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_offer.prepareLocalizedFieldsForImport(defaultImportLocale);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	@Override
 	public boolean sendMail() {
-		return _offer.sendMail();
+		return model.sendMail();
 	}
 
 	/**
@@ -1653,7 +1605,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setActivities(String activities) {
-		_offer.setActivities(activities);
+		model.setActivities(activities);
 	}
 
 	/**
@@ -1664,7 +1616,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setActivities(String activities, java.util.Locale locale) {
-		_offer.setActivities(activities, locale);
+		model.setActivities(activities, locale);
 	}
 
 	/**
@@ -1679,12 +1631,12 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 		String activities, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_offer.setActivities(activities, locale, defaultLocale);
+		model.setActivities(activities, locale, defaultLocale);
 	}
 
 	@Override
 	public void setActivitiesCurrentLanguageId(String languageId) {
-		_offer.setActivitiesCurrentLanguageId(languageId);
+		model.setActivitiesCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1694,7 +1646,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setActivitiesMap(Map<java.util.Locale, String> activitiesMap) {
-		_offer.setActivitiesMap(activitiesMap);
+		model.setActivitiesMap(activitiesMap);
 	}
 
 	/**
@@ -1708,7 +1660,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 		Map<java.util.Locale, String> activitiesMap,
 		java.util.Locale defaultLocale) {
 
-		_offer.setActivitiesMap(activitiesMap, defaultLocale);
+		model.setActivitiesMap(activitiesMap, defaultLocale);
 	}
 
 	/**
@@ -1718,7 +1670,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setAvantages(String avantages) {
-		_offer.setAvantages(avantages);
+		model.setAvantages(avantages);
 	}
 
 	/**
@@ -1729,7 +1681,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setAvantages(String avantages, java.util.Locale locale) {
-		_offer.setAvantages(avantages, locale);
+		model.setAvantages(avantages, locale);
 	}
 
 	/**
@@ -1744,12 +1696,12 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 		String avantages, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_offer.setAvantages(avantages, locale, defaultLocale);
+		model.setAvantages(avantages, locale, defaultLocale);
 	}
 
 	@Override
 	public void setAvantagesCurrentLanguageId(String languageId) {
-		_offer.setAvantagesCurrentLanguageId(languageId);
+		model.setAvantagesCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1759,7 +1711,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setAvantagesMap(Map<java.util.Locale, String> avantagesMap) {
-		_offer.setAvantagesMap(avantagesMap);
+		model.setAvantagesMap(avantagesMap);
 	}
 
 	/**
@@ -1773,12 +1725,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 		Map<java.util.Locale, String> avantagesMap,
 		java.util.Locale defaultLocale) {
 
-		_offer.setAvantagesMap(avantagesMap, defaultLocale);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_offer.setCachedModel(cachedModel);
+		model.setAvantagesMap(avantagesMap, defaultLocale);
 	}
 
 	/**
@@ -1788,7 +1735,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_offer.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -1798,7 +1745,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setConditions(String conditions) {
-		_offer.setConditions(conditions);
+		model.setConditions(conditions);
 	}
 
 	/**
@@ -1809,7 +1756,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setConditions(String conditions, java.util.Locale locale) {
-		_offer.setConditions(conditions, locale);
+		model.setConditions(conditions, locale);
 	}
 
 	/**
@@ -1824,12 +1771,12 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 		String conditions, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_offer.setConditions(conditions, locale, defaultLocale);
+		model.setConditions(conditions, locale, defaultLocale);
 	}
 
 	@Override
 	public void setConditionsCurrentLanguageId(String languageId) {
-		_offer.setConditionsCurrentLanguageId(languageId);
+		model.setConditionsCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1839,7 +1786,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setConditionsMap(Map<java.util.Locale, String> conditionsMap) {
-		_offer.setConditionsMap(conditionsMap);
+		model.setConditionsMap(conditionsMap);
 	}
 
 	/**
@@ -1853,7 +1800,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 		Map<java.util.Locale, String> conditionsMap,
 		java.util.Locale defaultLocale) {
 
-		_offer.setConditionsMap(conditionsMap, defaultLocale);
+		model.setConditionsMap(conditionsMap, defaultLocale);
 	}
 
 	/**
@@ -1863,7 +1810,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setContact(String contact) {
-		_offer.setContact(contact);
+		model.setContact(contact);
 	}
 
 	/**
@@ -1873,7 +1820,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_offer.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -1883,7 +1830,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setDuration(String duration) {
-		_offer.setDuration(duration);
+		model.setDuration(duration);
 	}
 
 	/**
@@ -1894,7 +1841,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setDuration(String duration, java.util.Locale locale) {
-		_offer.setDuration(duration, locale);
+		model.setDuration(duration, locale);
 	}
 
 	/**
@@ -1909,12 +1856,12 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 		String duration, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_offer.setDuration(duration, locale, defaultLocale);
+		model.setDuration(duration, locale, defaultLocale);
 	}
 
 	@Override
 	public void setDurationCurrentLanguageId(String languageId) {
-		_offer.setDurationCurrentLanguageId(languageId);
+		model.setDurationCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1924,7 +1871,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setDurationMap(Map<java.util.Locale, String> durationMap) {
-		_offer.setDurationMap(durationMap);
+		model.setDurationMap(durationMap);
 	}
 
 	/**
@@ -1938,7 +1885,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 		Map<java.util.Locale, String> durationMap,
 		java.util.Locale defaultLocale) {
 
-		_offer.setDurationMap(durationMap, defaultLocale);
+		model.setDurationMap(durationMap, defaultLocale);
 	}
 
 	/**
@@ -1948,7 +1895,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setEmailPartnerSent(int emailPartnerSent) {
-		_offer.setEmailPartnerSent(emailPartnerSent);
+		model.setEmailPartnerSent(emailPartnerSent);
 	}
 
 	/**
@@ -1958,7 +1905,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setEmails(String emails) {
-		_offer.setEmails(emails);
+		model.setEmails(emails);
 	}
 
 	/**
@@ -1968,24 +1915,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setEmailSend(int emailSend) {
-		_offer.setEmailSend(emailSend);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_offer.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_offer.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_offer.setExpandoBridgeAttributes(serviceContext);
+		model.setEmailSend(emailSend);
 	}
 
 	/**
@@ -1995,7 +1925,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setFullTimeDescription(String fullTimeDescription) {
-		_offer.setFullTimeDescription(fullTimeDescription);
+		model.setFullTimeDescription(fullTimeDescription);
 	}
 
 	/**
@@ -2008,7 +1938,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	public void setFullTimeDescription(
 		String fullTimeDescription, java.util.Locale locale) {
 
-		_offer.setFullTimeDescription(fullTimeDescription, locale);
+		model.setFullTimeDescription(fullTimeDescription, locale);
 	}
 
 	/**
@@ -2023,13 +1953,13 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 		String fullTimeDescription, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_offer.setFullTimeDescription(
+		model.setFullTimeDescription(
 			fullTimeDescription, locale, defaultLocale);
 	}
 
 	@Override
 	public void setFullTimeDescriptionCurrentLanguageId(String languageId) {
-		_offer.setFullTimeDescriptionCurrentLanguageId(languageId);
+		model.setFullTimeDescriptionCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2041,7 +1971,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	public void setFullTimeDescriptionMap(
 		Map<java.util.Locale, String> fullTimeDescriptionMap) {
 
-		_offer.setFullTimeDescriptionMap(fullTimeDescriptionMap);
+		model.setFullTimeDescriptionMap(fullTimeDescriptionMap);
 	}
 
 	/**
@@ -2055,7 +1985,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 		Map<java.util.Locale, String> fullTimeDescriptionMap,
 		java.util.Locale defaultLocale) {
 
-		_offer.setFullTimeDescriptionMap(fullTimeDescriptionMap, defaultLocale);
+		model.setFullTimeDescriptionMap(fullTimeDescriptionMap, defaultLocale);
 	}
 
 	/**
@@ -2065,7 +1995,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_offer.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -2075,7 +2005,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setIntroduction(String introduction) {
-		_offer.setIntroduction(introduction);
+		model.setIntroduction(introduction);
 	}
 
 	/**
@@ -2086,7 +2016,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setIntroduction(String introduction, java.util.Locale locale) {
-		_offer.setIntroduction(introduction, locale);
+		model.setIntroduction(introduction, locale);
 	}
 
 	/**
@@ -2101,12 +2031,12 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 		String introduction, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_offer.setIntroduction(introduction, locale, defaultLocale);
+		model.setIntroduction(introduction, locale, defaultLocale);
 	}
 
 	@Override
 	public void setIntroductionCurrentLanguageId(String languageId) {
-		_offer.setIntroductionCurrentLanguageId(languageId);
+		model.setIntroductionCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2118,7 +2048,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	public void setIntroductionMap(
 		Map<java.util.Locale, String> introductionMap) {
 
-		_offer.setIntroductionMap(introductionMap);
+		model.setIntroductionMap(introductionMap);
 	}
 
 	/**
@@ -2132,7 +2062,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 		Map<java.util.Locale, String> introductionMap,
 		java.util.Locale defaultLocale) {
 
-		_offer.setIntroductionMap(introductionMap, defaultLocale);
+		model.setIntroductionMap(introductionMap, defaultLocale);
 	}
 
 	/**
@@ -2142,7 +2072,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setIsExported(int isExported) {
-		_offer.setIsExported(isExported);
+		model.setIsExported(isExported);
 	}
 
 	/**
@@ -2152,7 +2082,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setIsFullTime(boolean isFullTime) {
-		_offer.setIsFullTime(isFullTime);
+		model.setIsFullTime(isFullTime);
 	}
 
 	/**
@@ -2162,7 +2092,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setJobCreationDescription(String jobCreationDescription) {
-		_offer.setJobCreationDescription(jobCreationDescription);
+		model.setJobCreationDescription(jobCreationDescription);
 	}
 
 	/**
@@ -2175,7 +2105,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	public void setJobCreationDescription(
 		String jobCreationDescription, java.util.Locale locale) {
 
-		_offer.setJobCreationDescription(jobCreationDescription, locale);
+		model.setJobCreationDescription(jobCreationDescription, locale);
 	}
 
 	/**
@@ -2190,13 +2120,13 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 		String jobCreationDescription, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_offer.setJobCreationDescription(
+		model.setJobCreationDescription(
 			jobCreationDescription, locale, defaultLocale);
 	}
 
 	@Override
 	public void setJobCreationDescriptionCurrentLanguageId(String languageId) {
-		_offer.setJobCreationDescriptionCurrentLanguageId(languageId);
+		model.setJobCreationDescriptionCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2208,7 +2138,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	public void setJobCreationDescriptionMap(
 		Map<java.util.Locale, String> jobCreationDescriptionMap) {
 
-		_offer.setJobCreationDescriptionMap(jobCreationDescriptionMap);
+		model.setJobCreationDescriptionMap(jobCreationDescriptionMap);
 	}
 
 	/**
@@ -2222,7 +2152,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 		Map<java.util.Locale, String> jobCreationDescriptionMap,
 		java.util.Locale defaultLocale) {
 
-		_offer.setJobCreationDescriptionMap(
+		model.setJobCreationDescriptionMap(
 			jobCreationDescriptionMap, defaultLocale);
 	}
 
@@ -2233,7 +2163,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setLimitDate(Date limitDate) {
-		_offer.setLimitDate(limitDate);
+		model.setLimitDate(limitDate);
 	}
 
 	/**
@@ -2243,12 +2173,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_offer.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_offer.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -2258,7 +2183,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setOfferId(long offerId) {
-		_offer.setOfferId(offerId);
+		model.setOfferId(offerId);
 	}
 
 	/**
@@ -2268,7 +2193,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setPermanentDescription(String permanentDescription) {
-		_offer.setPermanentDescription(permanentDescription);
+		model.setPermanentDescription(permanentDescription);
 	}
 
 	/**
@@ -2281,7 +2206,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	public void setPermanentDescription(
 		String permanentDescription, java.util.Locale locale) {
 
-		_offer.setPermanentDescription(permanentDescription, locale);
+		model.setPermanentDescription(permanentDescription, locale);
 	}
 
 	/**
@@ -2296,13 +2221,13 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 		String permanentDescription, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_offer.setPermanentDescription(
+		model.setPermanentDescription(
 			permanentDescription, locale, defaultLocale);
 	}
 
 	@Override
 	public void setPermanentDescriptionCurrentLanguageId(String languageId) {
-		_offer.setPermanentDescriptionCurrentLanguageId(languageId);
+		model.setPermanentDescriptionCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2314,7 +2239,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	public void setPermanentDescriptionMap(
 		Map<java.util.Locale, String> permanentDescriptionMap) {
 
-		_offer.setPermanentDescriptionMap(permanentDescriptionMap);
+		model.setPermanentDescriptionMap(permanentDescriptionMap);
 	}
 
 	/**
@@ -2328,7 +2253,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 		Map<java.util.Locale, String> permanentDescriptionMap,
 		java.util.Locale defaultLocale) {
 
-		_offer.setPermanentDescriptionMap(
+		model.setPermanentDescriptionMap(
 			permanentDescriptionMap, defaultLocale);
 	}
 
@@ -2339,7 +2264,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setPost(String post) {
-		_offer.setPost(post);
+		model.setPost(post);
 	}
 
 	/**
@@ -2350,7 +2275,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setPost(String post, java.util.Locale locale) {
-		_offer.setPost(post, locale);
+		model.setPost(post, locale);
 	}
 
 	/**
@@ -2364,12 +2289,12 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	public void setPost(
 		String post, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_offer.setPost(post, locale, defaultLocale);
+		model.setPost(post, locale, defaultLocale);
 	}
 
 	@Override
 	public void setPostCurrentLanguageId(String languageId) {
-		_offer.setPostCurrentLanguageId(languageId);
+		model.setPostCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2379,7 +2304,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setPostMap(Map<java.util.Locale, String> postMap) {
-		_offer.setPostMap(postMap);
+		model.setPostMap(postMap);
 	}
 
 	/**
@@ -2392,7 +2317,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	public void setPostMap(
 		Map<java.util.Locale, String> postMap, java.util.Locale defaultLocale) {
 
-		_offer.setPostMap(postMap, defaultLocale);
+		model.setPostMap(postMap, defaultLocale);
 	}
 
 	/**
@@ -2402,7 +2327,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setPostNumber(String postNumber) {
-		_offer.setPostNumber(postNumber);
+		model.setPostNumber(postNumber);
 	}
 
 	/**
@@ -2412,12 +2337,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_offer.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_offer.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -2427,7 +2347,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setProfil(String profil) {
-		_offer.setProfil(profil);
+		model.setProfil(profil);
 	}
 
 	/**
@@ -2438,7 +2358,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setProfil(String profil, java.util.Locale locale) {
-		_offer.setProfil(profil, locale);
+		model.setProfil(profil, locale);
 	}
 
 	/**
@@ -2453,12 +2373,12 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 		String profil, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_offer.setProfil(profil, locale, defaultLocale);
+		model.setProfil(profil, locale, defaultLocale);
 	}
 
 	@Override
 	public void setProfilCurrentLanguageId(String languageId) {
-		_offer.setProfilCurrentLanguageId(languageId);
+		model.setProfilCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2468,7 +2388,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setProfilMap(Map<java.util.Locale, String> profilMap) {
-		_offer.setProfilMap(profilMap);
+		model.setProfilMap(profilMap);
 	}
 
 	/**
@@ -2482,7 +2402,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 		Map<java.util.Locale, String> profilMap,
 		java.util.Locale defaultLocale) {
 
-		_offer.setProfilMap(profilMap, defaultLocale);
+		model.setProfilMap(profilMap, defaultLocale);
 	}
 
 	/**
@@ -2492,7 +2412,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setPublicationEndDate(Date publicationEndDate) {
-		_offer.setPublicationEndDate(publicationEndDate);
+		model.setPublicationEndDate(publicationEndDate);
 	}
 
 	/**
@@ -2502,7 +2422,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setPublicationId(String publicationId) {
-		_offer.setPublicationId(publicationId);
+		model.setPublicationId(publicationId);
 	}
 
 	/**
@@ -2512,7 +2432,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setPublicationStartDate(Date publicationStartDate) {
-		_offer.setPublicationStartDate(publicationStartDate);
+		model.setPublicationStartDate(publicationStartDate);
 	}
 
 	/**
@@ -2522,7 +2442,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setShareLinkedin(boolean shareLinkedin) {
-		_offer.setShareLinkedin(shareLinkedin);
+		model.setShareLinkedin(shareLinkedin);
 	}
 
 	/**
@@ -2532,7 +2452,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setStartDate(Date startDate) {
-		_offer.setStartDate(startDate);
+		model.setStartDate(startDate);
 	}
 
 	/**
@@ -2542,7 +2462,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_offer.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -2552,7 +2472,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_offer.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -2562,7 +2482,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_offer.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -2572,7 +2492,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_offer.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -2582,7 +2502,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_offer.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -2592,7 +2512,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_offer.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -2602,7 +2522,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_offer.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -2612,7 +2532,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_offer.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -2622,19 +2542,7 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_offer.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.ejob.model.Offer> toCacheModel() {
-
-		return _offer.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.ejob.model.Offer toEscapedModel() {
-		return new OfferWrapper(_offer.toEscapedModel());
+		model.setUuid(uuid);
 	}
 
 	/**
@@ -2642,68 +2550,22 @@ public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _offer.toJSON();
-	}
-
-	@Override
-	public String toString() {
-		return _offer.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.ejob.model.Offer toUnescapedModel() {
-		return new OfferWrapper(_offer.toUnescapedModel());
+		return model.toJSON();
 	}
 
 	@Override
 	public String toXmlString() {
-		return _offer.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof OfferWrapper)) {
-			return false;
-		}
-
-		OfferWrapper offerWrapper = (OfferWrapper)object;
-
-		if (Objects.equals(_offer, offerWrapper._offer)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _offer.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Offer getWrappedModel() {
-		return _offer;
+	protected OfferWrapper wrap(Offer offer) {
+		return new OfferWrapper(offer);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _offer.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _offer.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_offer.resetOriginalValues();
-	}
-
-	private final Offer _offer;
 
 }
