@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.csmap.service.base;
 
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -27,6 +28,8 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -37,23 +40,22 @@ import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
-
 import eu.strasbourg.service.csmap.model.RefreshToken;
 import eu.strasbourg.service.csmap.service.RefreshTokenLocalService;
+import eu.strasbourg.service.csmap.service.RefreshTokenLocalServiceUtil;
 import eu.strasbourg.service.csmap.service.persistence.AgendaPersistence;
 import eu.strasbourg.service.csmap.service.persistence.BaseNoncePersistence;
 import eu.strasbourg.service.csmap.service.persistence.CsmapCachePersistence;
 import eu.strasbourg.service.csmap.service.persistence.PlaceCategoriesPersistence;
 import eu.strasbourg.service.csmap.service.persistence.RefreshTokenPersistence;
 import eu.strasbourg.service.csmap.service.persistence.ThematicPersistence;
-
-import java.io.Serializable;
-
-import java.util.List;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.sql.DataSource;
-
-import org.osgi.service.component.annotations.Reference;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * Provides the base implementation for the refresh token local service.
@@ -73,7 +75,7 @@ public abstract class RefreshTokenLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>RefreshTokenLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.csmap.service.RefreshTokenLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>RefreshTokenLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>RefreshTokenLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -139,6 +141,18 @@ public abstract class RefreshTokenLocalServiceBaseImpl
 	@Override
 	public RefreshToken deleteRefreshToken(RefreshToken refreshToken) {
 		return refreshTokenPersistence.remove(refreshToken);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return refreshTokenPersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -293,13 +307,30 @@ public abstract class RefreshTokenLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return refreshTokenPersistence.create(
+			((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement RefreshTokenLocalServiceImpl#deleteRefreshToken(RefreshToken) to avoid orphaned data");
+		}
 
 		return refreshTokenLocalService.deleteRefreshToken(
 			(RefreshToken)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<RefreshToken> getBasePersistence() {
 		return refreshTokenPersistence;
 	}
@@ -356,6 +387,11 @@ public abstract class RefreshTokenLocalServiceBaseImpl
 		return refreshTokenPersistence.update(refreshToken);
 	}
 
+	@Deactivate
+	protected void deactivate() {
+		_setLocalServiceUtilService(null);
+	}
+
 	@Override
 	public Class<?>[] getAopInterfaces() {
 		return new Class<?>[] {
@@ -367,6 +403,8 @@ public abstract class RefreshTokenLocalServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		refreshTokenLocalService = (RefreshTokenLocalService)aopProxy;
+
+		_setLocalServiceUtilService(refreshTokenLocalService);
 	}
 
 	/**
@@ -411,6 +449,22 @@ public abstract class RefreshTokenLocalServiceBaseImpl
 		}
 	}
 
+	private void _setLocalServiceUtilService(
+		RefreshTokenLocalService refreshTokenLocalService) {
+
+		try {
+			Field field = RefreshTokenLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, refreshTokenLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
+		}
+	}
+
 	@Reference
 	protected AgendaPersistence agendaPersistence;
 
@@ -446,5 +500,8 @@ public abstract class RefreshTokenLocalServiceBaseImpl
 	@Reference
 	protected com.liferay.portal.kernel.service.UserLocalService
 		userLocalService;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		RefreshTokenLocalServiceBaseImpl.class);
 
 }

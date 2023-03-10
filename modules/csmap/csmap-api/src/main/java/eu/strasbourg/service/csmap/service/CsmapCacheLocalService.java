@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.csmap.service;
 
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -30,15 +31,12 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.csmap.model.CsmapCache;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.io.Serializable;
-
 import java.util.Date;
 import java.util.List;
-
-import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * Provides the local service interface for CsmapCache. Methods of this
@@ -61,7 +59,7 @@ public interface CsmapCacheLocalService
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link CsmapCacheLocalServiceUtil} to access the csmap cache local service. Add custom service methods to <code>eu.strasbourg.service.csmap.service.impl.CsmapCacheLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.csmap.service.impl.CsmapCacheLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the csmap cache local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link CsmapCacheLocalServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**
@@ -87,6 +85,12 @@ public interface CsmapCacheLocalService
 	public CsmapCache createCsmapCache(long cacheId);
 
 	public CsmapCache createCsmapCache(long codeCache, String json, Date date);
+
+	/**
+	 * @throws PortalException
+	 */
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException;
 
 	/**
 	 * Deletes the csmap cache from the database. Also notifies the appropriate model listeners.
@@ -121,6 +125,12 @@ public interface CsmapCacheLocalService
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> T dslQuery(DSLQuery dslQuery);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int dslQueryCount(DSLQuery dslQuery);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();

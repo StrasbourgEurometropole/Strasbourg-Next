@@ -1,8 +1,8 @@
 package eu.strasbourg.service.csmap.utils;
 
+import com.liferay.asset.category.property.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;

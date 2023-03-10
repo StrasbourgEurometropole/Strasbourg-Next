@@ -14,9 +14,15 @@
 
 package eu.strasbourg.service.csmap.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.csmap.model.PlaceCategories;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Provides the local service utility for PlaceCategories. This utility wraps
@@ -48,16 +54,23 @@ public class PlaceCategoriesLocalServiceUtil {
 	 * @param placeCategories the place categories
 	 * @return the place categories that was added
 	 */
-	public static eu.strasbourg.service.csmap.model.PlaceCategories
-		addPlaceCategories(
-			eu.strasbourg.service.csmap.model.PlaceCategories placeCategories) {
+	public static PlaceCategories addPlaceCategories(
+		PlaceCategories placeCategories) {
 
 		return getService().addPlaceCategories(placeCategories);
 	}
 
-	public static eu.strasbourg.service.csmap.model.PlaceCategories
-		createPlaceCategories() {
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
 
+		return getService().createPersistedModel(primaryKeyObj);
+	}
+
+	public static PlaceCategories createPlaceCategories() {
 		return getService().createPlaceCategories();
 	}
 
@@ -67,8 +80,8 @@ public class PlaceCategoriesLocalServiceUtil {
 	 * @param placeCategoriesId the primary key for the new place categories
 	 * @return the new place categories
 	 */
-	public static eu.strasbourg.service.csmap.model.PlaceCategories
-		createPlaceCategories(long placeCategoriesId) {
+	public static PlaceCategories createPlaceCategories(
+		long placeCategoriesId) {
 
 		return getService().createPlaceCategories(placeCategoriesId);
 	}
@@ -76,10 +89,9 @@ public class PlaceCategoriesLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -95,9 +107,8 @@ public class PlaceCategoriesLocalServiceUtil {
 	 * @return the place categories that was removed
 	 * @throws PortalException if a place categories with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.csmap.model.PlaceCategories
-			deletePlaceCategories(long placeCategoriesId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PlaceCategories deletePlaceCategories(long placeCategoriesId)
+		throws PortalException {
 
 		return getService().deletePlaceCategories(placeCategoriesId);
 	}
@@ -112,16 +123,21 @@ public class PlaceCategoriesLocalServiceUtil {
 	 * @param placeCategories the place categories
 	 * @return the place categories that was removed
 	 */
-	public static eu.strasbourg.service.csmap.model.PlaceCategories
-		deletePlaceCategories(
-			eu.strasbourg.service.csmap.model.PlaceCategories placeCategories) {
+	public static PlaceCategories deletePlaceCategories(
+		PlaceCategories placeCategories) {
 
 		return getService().deletePlaceCategories(placeCategories);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -131,9 +147,7 @@ public class PlaceCategoriesLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -149,9 +163,8 @@ public class PlaceCategoriesLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -169,10 +182,9 @@ public class PlaceCategoriesLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -184,9 +196,7 @@ public class PlaceCategoriesLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -198,15 +208,13 @@ public class PlaceCategoriesLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.csmap.model.PlaceCategories
-		fetchPlaceCategories(long placeCategoriesId) {
-
+	public static PlaceCategories fetchPlaceCategories(long placeCategoriesId) {
 		return getService().fetchPlaceCategories(placeCategoriesId);
 	}
 
@@ -235,16 +243,13 @@ public class PlaceCategoriesLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
 
-	public static eu.strasbourg.service.csmap.model.PlaceCategories
-		getPlaceCategories() {
-
+	public static PlaceCategories getPlaceCategories() {
 		return getService().getPlaceCategories();
 	}
 
@@ -255,9 +260,8 @@ public class PlaceCategoriesLocalServiceUtil {
 	 * @return the place categories
 	 * @throws PortalException if a place categories with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.csmap.model.PlaceCategories
-			getPlaceCategories(long placeCategoriesId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PlaceCategories getPlaceCategories(long placeCategoriesId)
+		throws PortalException {
 
 		return getService().getPlaceCategories(placeCategoriesId);
 	}
@@ -273,9 +277,8 @@ public class PlaceCategoriesLocalServiceUtil {
 	 * @param end the upper bound of the range of place categorieses (not inclusive)
 	 * @return the range of place categorieses
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.csmap.model.PlaceCategories>
-			getPlaceCategorieses(int start, int end) {
+	public static List<PlaceCategories> getPlaceCategorieses(
+		int start, int end) {
 
 		return getService().getPlaceCategorieses(start, end);
 	}
@@ -299,35 +302,16 @@ public class PlaceCategoriesLocalServiceUtil {
 	 * @param placeCategories the place categories
 	 * @return the place categories that was updated
 	 */
-	public static eu.strasbourg.service.csmap.model.PlaceCategories
-		updatePlaceCategories(
-			eu.strasbourg.service.csmap.model.PlaceCategories placeCategories) {
+	public static PlaceCategories updatePlaceCategories(
+		PlaceCategories placeCategories) {
 
 		return getService().updatePlaceCategories(placeCategories);
 	}
 
 	public static PlaceCategoriesLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<PlaceCategoriesLocalService, PlaceCategoriesLocalService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			PlaceCategoriesLocalService.class);
-
-		ServiceTracker<PlaceCategoriesLocalService, PlaceCategoriesLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<PlaceCategoriesLocalService, PlaceCategoriesLocalService>(
-						bundle.getBundleContext(),
-						PlaceCategoriesLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile PlaceCategoriesLocalService _service;
 
 }

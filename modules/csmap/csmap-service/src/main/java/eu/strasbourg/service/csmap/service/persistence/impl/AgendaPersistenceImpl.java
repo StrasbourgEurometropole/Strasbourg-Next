@@ -29,34 +29,34 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
-
+import com.liferay.portal.kernel.uuid.PortalUUID;
 import eu.strasbourg.service.csmap.exception.NoSuchAgendaException;
 import eu.strasbourg.service.csmap.model.Agenda;
+import eu.strasbourg.service.csmap.model.AgendaTable;
 import eu.strasbourg.service.csmap.model.impl.AgendaImpl;
 import eu.strasbourg.service.csmap.model.impl.AgendaModelImpl;
 import eu.strasbourg.service.csmap.service.persistence.AgendaPersistence;
+import eu.strasbourg.service.csmap.service.persistence.AgendaUtil;
 import eu.strasbourg.service.csmap.service.persistence.impl.constants.csmapPersistenceConstants;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
 
+import javax.sql.DataSource;
 import java.io.Serializable;
-
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-
-import javax.sql.DataSource;
-
-import org.osgi.service.component.annotations.Activate;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Deactivate;
-import org.osgi.service.component.annotations.Reference;
 
 /**
  * The persistence implementation for the agenda service.
@@ -182,7 +182,7 @@ public class AgendaPersistenceImpl
 		List<Agenda> list = null;
 
 		if (useFinderCache) {
-			list = (List<Agenda>)finderCache.getResult(
+			list = (List<Agenda>)dummyFinderCache.getResult(
 				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
@@ -249,14 +249,10 @@ public class AgendaPersistenceImpl
 				cacheResult(list);
 
 				if (useFinderCache) {
-					finderCache.putResult(finderPath, finderArgs, list);
+					dummyFinderCache.putResult(finderPath, finderArgs, list);
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -567,7 +563,8 @@ public class AgendaPersistenceImpl
 
 		Object[] finderArgs = new Object[] {uuid};
 
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+		Long count = (Long)dummyFinderCache.getResult(
+			finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler sb = new StringBundler(2);
@@ -602,11 +599,9 @@ public class AgendaPersistenceImpl
 
 				count = (Long)query.uniqueResult();
 
-				finderCache.putResult(finderPath, finderArgs, count);
+				dummyFinderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -719,7 +714,7 @@ public class AgendaPersistenceImpl
 		List<Agenda> list = null;
 
 		if (useFinderCache) {
-			list = (List<Agenda>)finderCache.getResult(
+			list = (List<Agenda>)dummyFinderCache.getResult(
 				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
@@ -775,14 +770,10 @@ public class AgendaPersistenceImpl
 				cacheResult(list);
 
 				if (useFinderCache) {
-					finderCache.putResult(finderPath, finderArgs, list);
+					dummyFinderCache.putResult(finderPath, finderArgs, list);
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1081,7 +1072,8 @@ public class AgendaPersistenceImpl
 
 		Object[] finderArgs = new Object[] {isPrincipal};
 
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+		Long count = (Long)dummyFinderCache.getResult(
+			finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler sb = new StringBundler(2);
@@ -1105,11 +1097,9 @@ public class AgendaPersistenceImpl
 
 				count = (Long)query.uniqueResult();
 
-				finderCache.putResult(finderPath, finderArgs, count);
+				dummyFinderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1228,7 +1218,7 @@ public class AgendaPersistenceImpl
 		List<Agenda> list = null;
 
 		if (useFinderCache) {
-			list = (List<Agenda>)finderCache.getResult(
+			list = (List<Agenda>)dummyFinderCache.getResult(
 				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
@@ -1290,14 +1280,10 @@ public class AgendaPersistenceImpl
 				cacheResult(list);
 
 				if (useFinderCache) {
-					finderCache.putResult(finderPath, finderArgs, list);
+					dummyFinderCache.putResult(finderPath, finderArgs, list);
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1625,7 +1611,8 @@ public class AgendaPersistenceImpl
 
 		Object[] finderArgs = new Object[] {isPrincipal, isActive};
 
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+		Long count = (Long)dummyFinderCache.getResult(
+			finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler sb = new StringBundler(3);
@@ -1653,11 +1640,9 @@ public class AgendaPersistenceImpl
 
 				count = (Long)query.uniqueResult();
 
-				finderCache.putResult(finderPath, finderArgs, count);
+				dummyFinderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1687,6 +1672,8 @@ public class AgendaPersistenceImpl
 
 		setModelImplClass(AgendaImpl.class);
 		setModelPKClass(long.class);
+
+		setTable(AgendaTable.INSTANCE);
 	}
 
 	/**
@@ -1696,12 +1683,11 @@ public class AgendaPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(Agenda agenda) {
-		entityCache.putResult(
-			entityCacheEnabled, AgendaImpl.class, agenda.getPrimaryKey(),
-			agenda);
-
-		agenda.resetOriginalValues();
+		dummyEntityCache.putResult(
+			AgendaImpl.class, agenda.getPrimaryKey(), agenda);
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the agendas in the entity cache if it is enabled.
@@ -1710,15 +1696,18 @@ public class AgendaPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Agenda> agendas) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (agendas.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Agenda agenda : agendas) {
-			if (entityCache.getResult(
-					entityCacheEnabled, AgendaImpl.class,
-					agenda.getPrimaryKey()) == null) {
+			if (dummyEntityCache.getResult(
+					AgendaImpl.class, agenda.getPrimaryKey()) == null) {
 
 				cacheResult(agenda);
-			}
-			else {
-				agenda.resetOriginalValues();
 			}
 		}
 	}
@@ -1732,11 +1721,9 @@ public class AgendaPersistenceImpl
 	 */
 	@Override
 	public void clearCache() {
-		entityCache.clearCache(AgendaImpl.class);
+		dummyEntityCache.clearCache(AgendaImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		dummyFinderCache.clearCache(AgendaImpl.class);
 	}
 
 	/**
@@ -1748,32 +1735,22 @@ public class AgendaPersistenceImpl
 	 */
 	@Override
 	public void clearCache(Agenda agenda) {
-		entityCache.removeResult(
-			entityCacheEnabled, AgendaImpl.class, agenda.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		dummyEntityCache.removeResult(AgendaImpl.class, agenda);
 	}
 
 	@Override
 	public void clearCache(List<Agenda> agendas) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Agenda agenda : agendas) {
-			entityCache.removeResult(
-				entityCacheEnabled, AgendaImpl.class, agenda.getPrimaryKey());
+			dummyEntityCache.removeResult(AgendaImpl.class, agenda);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		dummyFinderCache.clearCache(AgendaImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				entityCacheEnabled, AgendaImpl.class, primaryKey);
+			dummyEntityCache.removeResult(AgendaImpl.class, primaryKey);
 		}
 	}
 
@@ -1790,7 +1767,7 @@ public class AgendaPersistenceImpl
 		agenda.setNew(true);
 		agenda.setPrimaryKey(agendaId);
 
-		String uuid = PortalUUIDUtil.generate();
+		String uuid = _portalUUID.generate();
 
 		agenda.setUuid(uuid);
 
@@ -1900,7 +1877,7 @@ public class AgendaPersistenceImpl
 		AgendaModelImpl agendaModelImpl = (AgendaModelImpl)agenda;
 
 		if (Validator.isNull(agenda.getUuid())) {
-			String uuid = PortalUUIDUtil.generate();
+			String uuid = _portalUUID.generate();
 
 			agenda.setUuid(uuid);
 		}
@@ -1910,10 +1887,8 @@ public class AgendaPersistenceImpl
 		try {
 			session = openSession();
 
-			if (agenda.isNew()) {
+			if (isNew) {
 				session.save(agenda);
-
-				agenda.setNew(false);
 			}
 			else {
 				agenda = (Agenda)session.merge(agenda);
@@ -1926,107 +1901,12 @@ public class AgendaPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		dummyEntityCache.putResult(
+			AgendaImpl.class, agendaModelImpl, false, true);
 
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		if (isNew) {
+			agenda.setNew(false);
 		}
-		else if (isNew) {
-			Object[] args = new Object[] {agendaModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {agendaModelImpl.getIsPrincipal()};
-
-			finderCache.removeResult(_finderPathCountByIsPrincipal, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByIsPrincipal, args);
-
-			args = new Object[] {
-				agendaModelImpl.getIsPrincipal(), agendaModelImpl.getIsActive()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByIsPrincipalAndIsActive, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByIsPrincipalAndIsActive, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((agendaModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					agendaModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {agendaModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((agendaModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByIsPrincipal.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					agendaModelImpl.getOriginalIsPrincipal()
-				};
-
-				finderCache.removeResult(_finderPathCountByIsPrincipal, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByIsPrincipal, args);
-
-				args = new Object[] {agendaModelImpl.getIsPrincipal()};
-
-				finderCache.removeResult(_finderPathCountByIsPrincipal, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByIsPrincipal, args);
-			}
-
-			if ((agendaModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByIsPrincipalAndIsActive.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					agendaModelImpl.getOriginalIsPrincipal(),
-					agendaModelImpl.getOriginalIsActive()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByIsPrincipalAndIsActive, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByIsPrincipalAndIsActive,
-					args);
-
-				args = new Object[] {
-					agendaModelImpl.getIsPrincipal(),
-					agendaModelImpl.getIsActive()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByIsPrincipalAndIsActive, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByIsPrincipalAndIsActive,
-					args);
-			}
-		}
-
-		entityCache.putResult(
-			entityCacheEnabled, AgendaImpl.class, agenda.getPrimaryKey(),
-			agenda, false);
 
 		agenda.resetOriginalValues();
 
@@ -2163,7 +2043,7 @@ public class AgendaPersistenceImpl
 		List<Agenda> list = null;
 
 		if (useFinderCache) {
-			list = (List<Agenda>)finderCache.getResult(
+			list = (List<Agenda>)dummyFinderCache.getResult(
 				finderPath, finderArgs, this);
 		}
 
@@ -2201,14 +2081,10 @@ public class AgendaPersistenceImpl
 				cacheResult(list);
 
 				if (useFinderCache) {
-					finderCache.putResult(finderPath, finderArgs, list);
+					dummyFinderCache.putResult(finderPath, finderArgs, list);
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2237,7 +2113,7 @@ public class AgendaPersistenceImpl
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(
+		Long count = (Long)dummyFinderCache.getResult(
 			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
@@ -2250,13 +2126,10 @@ public class AgendaPersistenceImpl
 
 				count = (Long)query.uniqueResult();
 
-				finderCache.putResult(
+				dummyFinderCache.putResult(
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2274,7 +2147,7 @@ public class AgendaPersistenceImpl
 
 	@Override
 	protected EntityCache getEntityCache() {
-		return entityCache;
+		return dummyEntityCache;
 	}
 
 	@Override
@@ -2297,93 +2170,103 @@ public class AgendaPersistenceImpl
 	 */
 	@Activate
 	public void activate() {
-		AgendaModelImpl.setEntityCacheEnabled(entityCacheEnabled);
-		AgendaModelImpl.setFinderCacheEnabled(finderCacheEnabled);
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
 
 		_finderPathWithPaginationFindAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, AgendaImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, AgendaImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, AgendaImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, AgendaImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			AgendaModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathWithPaginationFindByIsPrincipal = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, AgendaImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByIsPrincipal",
 			new String[] {
 				Boolean.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"isPrincipal"}, true);
 
 		_finderPathWithoutPaginationFindByIsPrincipal = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, AgendaImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByIsPrincipal",
 			new String[] {Boolean.class.getName()},
-			AgendaModelImpl.ISPRINCIPAL_COLUMN_BITMASK);
+			new String[] {"isPrincipal"}, true);
 
 		_finderPathCountByIsPrincipal = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByIsPrincipal",
-			new String[] {Boolean.class.getName()});
+			new String[] {Boolean.class.getName()},
+			new String[] {"isPrincipal"}, false);
 
 		_finderPathWithPaginationFindByIsPrincipalAndIsActive = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, AgendaImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findByIsPrincipalAndIsActive",
 			new String[] {
 				Boolean.class.getName(), Boolean.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"isPrincipal", "isActive"}, true);
 
 		_finderPathWithoutPaginationFindByIsPrincipalAndIsActive =
 			new FinderPath(
-				entityCacheEnabled, finderCacheEnabled, AgendaImpl.class,
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByIsPrincipalAndIsActive",
 				new String[] {Boolean.class.getName(), Boolean.class.getName()},
-				AgendaModelImpl.ISPRINCIPAL_COLUMN_BITMASK |
-				AgendaModelImpl.ISACTIVE_COLUMN_BITMASK);
+				new String[] {"isPrincipal", "isActive"}, true);
 
 		_finderPathCountByIsPrincipalAndIsActive = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByIsPrincipalAndIsActive",
-			new String[] {Boolean.class.getName(), Boolean.class.getName()});
+			new String[] {Boolean.class.getName(), Boolean.class.getName()},
+			new String[] {"isPrincipal", "isActive"}, false);
+
+		_setAgendaUtilPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		entityCache.removeCache(AgendaImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		_setAgendaUtilPersistence(null);
+
+		dummyEntityCache.removeCache(AgendaImpl.class.getName());
+	}
+
+	private void _setAgendaUtilPersistence(
+		AgendaPersistence agendaPersistence) {
+
+		try {
+			Field field = AgendaUtil.class.getDeclaredField("_persistence");
+
+			field.setAccessible(true);
+
+			field.set(null, agendaPersistence);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
+		}
 	}
 
 	@Override
@@ -2392,12 +2275,6 @@ public class AgendaPersistenceImpl
 		unbind = "-"
 	)
 	public void setConfiguration(Configuration configuration) {
-		super.setConfiguration(configuration);
-
-		_columnBitmaskEnabled = GetterUtil.getBoolean(
-			configuration.get(
-				"value.object.column.bitmask.enabled.eu.strasbourg.service.csmap.model.Agenda"),
-			true);
 	}
 
 	@Override
@@ -2417,14 +2294,6 @@ public class AgendaPersistenceImpl
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		super.setSessionFactory(sessionFactory);
 	}
-
-	private boolean _columnBitmaskEnabled;
-
-	@Reference
-	protected EntityCache entityCache;
-
-	@Reference
-	protected FinderCache finderCache;
 
 	private static final String _SQL_SELECT_AGENDA =
 		"SELECT agenda FROM Agenda agenda";
@@ -2452,13 +2321,12 @@ public class AgendaPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
 
-	static {
-		try {
-			Class.forName(csmapPersistenceConstants.class.getName());
-		}
-		catch (ClassNotFoundException classNotFoundException) {
-			throw new ExceptionInInitializerError(classNotFoundException);
-		}
+	@Override
+	protected FinderCache getFinderCache() {
+		return dummyFinderCache;
 	}
+
+	@Reference
+	private PortalUUID _portalUUID;
 
 }

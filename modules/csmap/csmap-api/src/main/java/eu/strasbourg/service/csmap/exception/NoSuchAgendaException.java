@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.csmap.exception;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Brian Wing Shun Chan
  */
-@ProviderType
 public class NoSuchAgendaException extends NoSuchModelException {
 
 	public NoSuchAgendaException() {
@@ -30,12 +27,12 @@ public class NoSuchAgendaException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchAgendaException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchAgendaException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchAgendaException(Throwable cause) {
-		super(cause);
+	public NoSuchAgendaException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

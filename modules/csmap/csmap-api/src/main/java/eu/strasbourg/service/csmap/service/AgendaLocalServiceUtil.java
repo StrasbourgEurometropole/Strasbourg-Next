@@ -14,9 +14,15 @@
 
 package eu.strasbourg.service.csmap.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.csmap.model.Agenda;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Provides the local service utility for Agenda. This utility wraps
@@ -48,13 +54,11 @@ public class AgendaLocalServiceUtil {
 	 * @param agenda the agenda
 	 * @return the agenda that was added
 	 */
-	public static eu.strasbourg.service.csmap.model.Agenda addAgenda(
-		eu.strasbourg.service.csmap.model.Agenda agenda) {
-
+	public static Agenda addAgenda(Agenda agenda) {
 		return getService().addAgenda(agenda);
 	}
 
-	public static eu.strasbourg.service.csmap.model.Agenda createAgenda() {
+	public static Agenda createAgenda() {
 		return getService().createAgenda();
 	}
 
@@ -64,10 +68,18 @@ public class AgendaLocalServiceUtil {
 	 * @param agendaId the primary key for the new agenda
 	 * @return the new agenda
 	 */
-	public static eu.strasbourg.service.csmap.model.Agenda createAgenda(
-		long agendaId) {
-
+	public static Agenda createAgenda(long agendaId) {
 		return getService().createAgenda(agendaId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -80,9 +92,7 @@ public class AgendaLocalServiceUtil {
 	 * @param agenda the agenda
 	 * @return the agenda that was removed
 	 */
-	public static eu.strasbourg.service.csmap.model.Agenda deleteAgenda(
-		eu.strasbourg.service.csmap.model.Agenda agenda) {
-
+	public static Agenda deleteAgenda(Agenda agenda) {
 		return getService().deleteAgenda(agenda);
 	}
 
@@ -97,27 +107,29 @@ public class AgendaLocalServiceUtil {
 	 * @return the agenda that was removed
 	 * @throws PortalException if a agenda with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.csmap.model.Agenda deleteAgenda(
-			long agendaId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Agenda deleteAgenda(long agendaId) throws PortalException {
 		return getService().deleteAgenda(agendaId);
 	}
 
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -127,9 +139,7 @@ public class AgendaLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -145,9 +155,8 @@ public class AgendaLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -165,10 +174,9 @@ public class AgendaLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -180,9 +188,7 @@ public class AgendaLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -194,15 +200,13 @@ public class AgendaLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.csmap.model.Agenda fetchAgenda(
-		long agendaId) {
-
+	public static Agenda fetchAgenda(long agendaId) {
 		return getService().fetchAgenda(agendaId);
 	}
 
@@ -219,16 +223,11 @@ public class AgendaLocalServiceUtil {
 	 * @return the agenda
 	 * @throws PortalException if a agenda with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.csmap.model.Agenda getAgenda(
-			long agendaId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Agenda getAgenda(long agendaId) throws PortalException {
 		return getService().getAgenda(agendaId);
 	}
 
-	public static eu.strasbourg.service.csmap.model.Agenda
-		getAgendaPrincipal() {
-
+	public static Agenda getAgendaPrincipal() {
 		return getService().getAgendaPrincipal();
 	}
 
@@ -243,9 +242,7 @@ public class AgendaLocalServiceUtil {
 	 * @param end the upper bound of the range of agendas (not inclusive)
 	 * @return the range of agendas
 	 */
-	public static java.util.List<eu.strasbourg.service.csmap.model.Agenda>
-		getAgendas(int start, int end) {
-
+	public static List<Agenda> getAgendas(int start, int end) {
 		return getService().getAgendas(start, end);
 	}
 
@@ -258,21 +255,15 @@ public class AgendaLocalServiceUtil {
 		return getService().getAgendasCount();
 	}
 
-	public static java.util.List<eu.strasbourg.service.csmap.model.Agenda>
-		getAgendasThematique() {
-
+	public static List<Agenda> getAgendasThematique() {
 		return getService().getAgendasThematique();
 	}
 
-	public static java.util.List<eu.strasbourg.service.csmap.model.Agenda>
-		getAgendasThematiqueInactif() {
-
+	public static List<Agenda> getAgendasThematiqueInactif() {
 		return getService().getAgendasThematiqueInactif();
 	}
 
-	public static eu.strasbourg.service.csmap.model.Agenda
-		getAgendaThematiqueActif() {
-
+	public static Agenda getAgendaThematiqueActif() {
 		return getService().getAgendaThematiqueActif();
 	}
 
@@ -295,9 +286,8 @@ public class AgendaLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -312,29 +302,14 @@ public class AgendaLocalServiceUtil {
 	 * @param agenda the agenda
 	 * @return the agenda that was updated
 	 */
-	public static eu.strasbourg.service.csmap.model.Agenda updateAgenda(
-		eu.strasbourg.service.csmap.model.Agenda agenda) {
-
+	public static Agenda updateAgenda(Agenda agenda) {
 		return getService().updateAgenda(agenda);
 	}
 
 	public static AgendaLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<AgendaLocalService, AgendaLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(AgendaLocalService.class);
-
-		ServiceTracker<AgendaLocalService, AgendaLocalService> serviceTracker =
-			new ServiceTracker<AgendaLocalService, AgendaLocalService>(
-				bundle.getBundleContext(), AgendaLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile AgendaLocalService _service;
 
 }

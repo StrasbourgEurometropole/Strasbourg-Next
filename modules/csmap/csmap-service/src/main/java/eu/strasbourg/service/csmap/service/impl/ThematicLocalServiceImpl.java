@@ -15,9 +15,7 @@
 package eu.strasbourg.service.csmap.service.impl;
 
 import com.liferay.portal.aop.AopService;
-
 import eu.strasbourg.service.csmap.service.base.ThematicLocalServiceBaseImpl;
-
 import org.osgi.service.component.annotations.Component;
 
 /**
@@ -38,10 +36,4 @@ import org.osgi.service.component.annotations.Component;
 	service = AopService.class
 )
 public class ThematicLocalServiceImpl extends ThematicLocalServiceBaseImpl {
-
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Use <code>eu.strasbourg.service.csmap.service.ThematicLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.csmap.service.ThematicLocalServiceUtil</code>.
-	 */
 }

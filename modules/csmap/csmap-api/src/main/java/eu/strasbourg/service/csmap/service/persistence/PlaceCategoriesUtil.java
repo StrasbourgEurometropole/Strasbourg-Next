@@ -17,18 +17,12 @@ package eu.strasbourg.service.csmap.service.persistence;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.csmap.model.PlaceCategories;
 
 import java.io.Serializable;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * The persistence utility for the place categories service. This utility wraps <code>eu.strasbourg.service.csmap.service.persistence.impl.PlaceCategoriesPersistenceImpl</code> and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
@@ -443,27 +437,9 @@ public class PlaceCategoriesUtil {
 	}
 
 	public static PlaceCategoriesPersistence getPersistence() {
-		return _serviceTracker.getService();
+		return _persistence;
 	}
 
-	private static ServiceTracker
-		<PlaceCategoriesPersistence, PlaceCategoriesPersistence>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			PlaceCategoriesPersistence.class);
-
-		ServiceTracker<PlaceCategoriesPersistence, PlaceCategoriesPersistence>
-			serviceTracker =
-				new ServiceTracker
-					<PlaceCategoriesPersistence, PlaceCategoriesPersistence>(
-						bundle.getBundleContext(),
-						PlaceCategoriesPersistence.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile PlaceCategoriesPersistence _persistence;
 
 }
