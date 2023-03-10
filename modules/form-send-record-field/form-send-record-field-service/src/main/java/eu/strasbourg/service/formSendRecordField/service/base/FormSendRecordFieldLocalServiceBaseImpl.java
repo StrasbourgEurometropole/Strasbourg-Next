@@ -22,6 +22,7 @@ import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerRegistryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -41,6 +42,8 @@ import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -55,17 +58,16 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordField;
 import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldLocalService;
+import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldLocalServiceUtil;
 import eu.strasbourg.service.formSendRecordField.service.persistence.FormSendRecordFieldPersistence;
 import eu.strasbourg.service.formSendRecordField.service.persistence.FormSendRecordFieldSignalementPersistence;
 
-import java.io.Serializable;
-
-import java.util.List;
-
 import javax.sql.DataSource;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * Provides the base implementation for the form send record field local service.
@@ -85,7 +87,7 @@ public abstract class FormSendRecordFieldLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>FormSendRecordFieldLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>FormSendRecordFieldLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>FormSendRecordFieldLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -158,6 +160,18 @@ public abstract class FormSendRecordFieldLocalServiceBaseImpl
 		FormSendRecordField formSendRecordField) {
 
 		return formSendRecordFieldPersistence.remove(formSendRecordField);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return formSendRecordFieldPersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -442,13 +456,30 @@ public abstract class FormSendRecordFieldLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return formSendRecordFieldPersistence.create(
+			((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement FormSendRecordFieldLocalServiceImpl#deleteFormSendRecordField(FormSendRecordField) to avoid orphaned data");
+		}
 
 		return formSendRecordFieldLocalService.deleteFormSendRecordField(
 			(FormSendRecordField)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<FormSendRecordField> getBasePersistence() {
 		return formSendRecordFieldPersistence;
 	}
@@ -826,11 +857,15 @@ public abstract class FormSendRecordFieldLocalServiceBaseImpl
 		persistedModelLocalServiceRegistry.register(
 			"eu.strasbourg.service.formSendRecordField.model.FormSendRecordField",
 			formSendRecordFieldLocalService);
+
+		_setLocalServiceUtilService(formSendRecordFieldLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"eu.strasbourg.service.formSendRecordField.model.FormSendRecordField");
+
+		_setLocalServiceUtilService(null);
 	}
 
 	/**
@@ -873,6 +908,23 @@ public abstract class FormSendRecordFieldLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		FormSendRecordFieldLocalService formSendRecordFieldLocalService) {
+
+		try {
+			Field field =
+				FormSendRecordFieldLocalServiceUtil.class.getDeclaredField(
+					"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, formSendRecordFieldLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -931,6 +983,9 @@ public abstract class FormSendRecordFieldLocalServiceBaseImpl
 
 	@ServiceReference(type = AssetEntryPersistence.class)
 	protected AssetEntryPersistence assetEntryPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		FormSendRecordFieldLocalServiceBaseImpl.class);
 
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry

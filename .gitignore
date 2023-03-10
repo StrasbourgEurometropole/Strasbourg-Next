@@ -441,3 +441,5 @@ modules/ejob/ejob-service/src/main/resources/service.properties
 modules/ejob/ejob-service/service.xml
 modules/favorite/favorite-service/src/main/resources/service.properties
 modules/favorite/favorite-service/service.xml
+modules/form-send-record-field/form-send-record-field-service/service.xml
+modules/form-send-record-field/form-send-record-field-service/src/main/resources/service.properties
