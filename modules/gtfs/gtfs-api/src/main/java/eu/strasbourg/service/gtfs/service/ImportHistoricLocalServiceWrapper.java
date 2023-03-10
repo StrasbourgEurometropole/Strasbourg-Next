@@ -27,6 +27,10 @@ public class ImportHistoricLocalServiceWrapper
 	implements ImportHistoricLocalService,
 			   ServiceWrapper<ImportHistoricLocalService> {
 
+	public ImportHistoricLocalServiceWrapper() {
+		this(null);
+	}
+
 	public ImportHistoricLocalServiceWrapper(
 		ImportHistoricLocalService importHistoricLocalService) {
 
@@ -73,6 +77,17 @@ public class ImportHistoricLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _importHistoricLocalService.createImportHistoric(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _importHistoricLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -140,6 +155,18 @@ public class ImportHistoricLocalServiceWrapper
 		eu.strasbourg.service.gtfs.model.ImportHistoric importHistoric) {
 
 		_importHistoricLocalService.doImportGTFS(sc, importHistoric);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _importHistoricLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _importHistoricLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

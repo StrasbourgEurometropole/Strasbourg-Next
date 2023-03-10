@@ -14,17 +14,12 @@
 
 package eu.strasbourg.service.gtfs.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.gtfs.exception.NoSuchDirectionException;
 import eu.strasbourg.service.gtfs.model.Direction;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the direction service.
@@ -45,9 +40,6 @@ public interface DirectionPersistence extends BasePersistence<Direction> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link DirectionUtil} to access the direction persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Direction> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the directions where uuid = &#63;.
@@ -987,8 +979,5 @@ public interface DirectionPersistence extends BasePersistence<Direction> {
 	 * @return the number of directions
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

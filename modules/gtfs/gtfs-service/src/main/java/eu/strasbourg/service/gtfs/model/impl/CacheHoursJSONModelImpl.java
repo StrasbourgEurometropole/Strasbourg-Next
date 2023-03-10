@@ -14,30 +14,28 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
-
+import com.liferay.portal.kernel.util.StringUtil;
 import eu.strasbourg.service.gtfs.model.CacheHoursJSON;
 import eu.strasbourg.service.gtfs.model.CacheHoursJSONModel;
 import eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -98,25 +96,40 @@ public class CacheHoursJSONModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.gtfs.model.CacheHoursJSON"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.gtfs.model.CacheHoursJSON"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.gtfs.model.CacheHoursJSON"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STOPCODE_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long TYPE_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 4L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -176,9 +189,6 @@ public class CacheHoursJSONModelImpl
 				attributeGetterFunction.apply((CacheHoursJSON)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -212,34 +222,6 @@ public class CacheHoursJSONModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, CacheHoursJSON>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			CacheHoursJSON.class.getClassLoader(), CacheHoursJSON.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<CacheHoursJSON> constructor =
-				(Constructor<CacheHoursJSON>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<CacheHoursJSON, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<CacheHoursJSON, Object>>
@@ -251,138 +233,32 @@ public class CacheHoursJSONModelImpl
 		Map<String, BiConsumer<CacheHoursJSON, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<CacheHoursJSON, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<CacheHoursJSON, Object>() {
-
-				@Override
-				public Object apply(CacheHoursJSON cacheHoursJSON) {
-					return cacheHoursJSON.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", CacheHoursJSON::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
-			new BiConsumer<CacheHoursJSON, Object>() {
-
-				@Override
-				public void accept(
-					CacheHoursJSON cacheHoursJSON, Object uuidObject) {
-
-					cacheHoursJSON.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"stopCode",
-			new Function<CacheHoursJSON, Object>() {
-
-				@Override
-				public Object apply(CacheHoursJSON cacheHoursJSON) {
-					return cacheHoursJSON.getStopCode();
-				}
-
-			});
+			(BiConsumer<CacheHoursJSON, String>)CacheHoursJSON::setUuid);
+		attributeGetterFunctions.put("stopCode", CacheHoursJSON::getStopCode);
 		attributeSetterBiConsumers.put(
 			"stopCode",
-			new BiConsumer<CacheHoursJSON, Object>() {
-
-				@Override
-				public void accept(
-					CacheHoursJSON cacheHoursJSON, Object stopCodeObject) {
-
-					cacheHoursJSON.setStopCode((String)stopCodeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"type",
-			new Function<CacheHoursJSON, Object>() {
-
-				@Override
-				public Object apply(CacheHoursJSON cacheHoursJSON) {
-					return cacheHoursJSON.getType();
-				}
-
-			});
+			(BiConsumer<CacheHoursJSON, String>)CacheHoursJSON::setStopCode);
+		attributeGetterFunctions.put("type", CacheHoursJSON::getType);
 		attributeSetterBiConsumers.put(
 			"type",
-			new BiConsumer<CacheHoursJSON, Object>() {
-
-				@Override
-				public void accept(
-					CacheHoursJSON cacheHoursJSON, Object typeObject) {
-
-					cacheHoursJSON.setType((Integer)typeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"jsonHour",
-			new Function<CacheHoursJSON, Object>() {
-
-				@Override
-				public Object apply(CacheHoursJSON cacheHoursJSON) {
-					return cacheHoursJSON.getJsonHour();
-				}
-
-			});
+			(BiConsumer<CacheHoursJSON, Integer>)CacheHoursJSON::setType);
+		attributeGetterFunctions.put("jsonHour", CacheHoursJSON::getJsonHour);
 		attributeSetterBiConsumers.put(
 			"jsonHour",
-			new BiConsumer<CacheHoursJSON, Object>() {
-
-				@Override
-				public void accept(
-					CacheHoursJSON cacheHoursJSON, Object jsonHourObject) {
-
-					cacheHoursJSON.setJsonHour((String)jsonHourObject);
-				}
-
-			});
+			(BiConsumer<CacheHoursJSON, String>)CacheHoursJSON::setJsonHour);
 		attributeGetterFunctions.put(
-			"creationDate",
-			new Function<CacheHoursJSON, Object>() {
-
-				@Override
-				public Object apply(CacheHoursJSON cacheHoursJSON) {
-					return cacheHoursJSON.getCreationDate();
-				}
-
-			});
+			"creationDate", CacheHoursJSON::getCreationDate);
 		attributeSetterBiConsumers.put(
 			"creationDate",
-			new BiConsumer<CacheHoursJSON, Object>() {
-
-				@Override
-				public void accept(
-					CacheHoursJSON cacheHoursJSON, Object creationDateObject) {
-
-					cacheHoursJSON.setCreationDate((Date)creationDateObject);
-				}
-
-			});
+			(BiConsumer<CacheHoursJSON, Date>)CacheHoursJSON::setCreationDate);
 		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CacheHoursJSON, Object>() {
-
-				@Override
-				public Object apply(CacheHoursJSON cacheHoursJSON) {
-					return cacheHoursJSON.getModifiedDate();
-				}
-
-			});
+			"modifiedDate", CacheHoursJSON::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<CacheHoursJSON, Object>() {
-
-				@Override
-				public void accept(
-					CacheHoursJSON cacheHoursJSON, Object modifiedDateObject) {
-
-					cacheHoursJSON.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
+			(BiConsumer<CacheHoursJSON, Date>)CacheHoursJSON::setModifiedDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -402,17 +278,20 @@ public class CacheHoursJSONModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -427,17 +306,20 @@ public class CacheHoursJSONModelImpl
 
 	@Override
 	public void setStopCode(String stopCode) {
-		_columnBitmask |= STOPCODE_COLUMN_BITMASK;
-
-		if (_originalStopCode == null) {
-			_originalStopCode = _stopCode;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_stopCode = stopCode;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalStopCode() {
-		return GetterUtil.getString(_originalStopCode);
+		return getColumnOriginalValue("stopCode");
 	}
 
 	@Override
@@ -447,19 +329,21 @@ public class CacheHoursJSONModelImpl
 
 	@Override
 	public void setType(int type) {
-		_columnBitmask |= TYPE_COLUMN_BITMASK;
-
-		if (!_setOriginalType) {
-			_setOriginalType = true;
-
-			_originalType = _type;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalType() {
-		return _originalType;
+		return GetterUtil.getInteger(
+			this.<Integer>getColumnOriginalValue("type_"));
 	}
 
 	@Override
@@ -474,6 +358,10 @@ public class CacheHoursJSONModelImpl
 
 	@Override
 	public void setJsonHour(String jsonHour) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_jsonHour = jsonHour;
 	}
 
@@ -484,6 +372,10 @@ public class CacheHoursJSONModelImpl
 
 	@Override
 	public void setCreationDate(Date creationDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_creationDate = creationDate;
 	}
 
@@ -492,12 +384,42 @@ public class CacheHoursJSONModelImpl
 		return _modifiedDate;
 	}
 
+	public boolean hasSetModifiedDate() {
+		return _setModifiedDate;
+	}
+
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
+		_setModifiedDate = true;
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -528,6 +450,26 @@ public class CacheHoursJSONModelImpl
 		cacheHoursJSONImpl.setModifiedDate(getModifiedDate());
 
 		cacheHoursJSONImpl.resetOriginalValues();
+
+		return cacheHoursJSONImpl;
+	}
+
+	@Override
+	public CacheHoursJSON cloneWithOriginalValues() {
+		CacheHoursJSONImpl cacheHoursJSONImpl = new CacheHoursJSONImpl();
+
+		cacheHoursJSONImpl.setUuid(
+			this.<String>getColumnOriginalValue("uuid_"));
+		cacheHoursJSONImpl.setStopCode(
+			this.<String>getColumnOriginalValue("stopCode"));
+		cacheHoursJSONImpl.setType(
+			this.<Integer>getColumnOriginalValue("type_"));
+		cacheHoursJSONImpl.setJsonHour(
+			this.<String>getColumnOriginalValue("jsonHour"));
+		cacheHoursJSONImpl.setCreationDate(
+			this.<Date>getColumnOriginalValue("creationDate"));
+		cacheHoursJSONImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
 
 		return cacheHoursJSONImpl;
 	}
@@ -566,11 +508,19 @@ public class CacheHoursJSONModelImpl
 		return getPrimaryKey().hashCode();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -578,18 +528,11 @@ public class CacheHoursJSONModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		CacheHoursJSONModelImpl cacheHoursJSONModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		cacheHoursJSONModelImpl._originalUuid = cacheHoursJSONModelImpl._uuid;
+		_setModifiedDate = false;
 
-		cacheHoursJSONModelImpl._originalStopCode =
-			cacheHoursJSONModelImpl._stopCode;
-
-		cacheHoursJSONModelImpl._originalType = cacheHoursJSONModelImpl._type;
-
-		cacheHoursJSONModelImpl._setOriginalType = false;
-
-		cacheHoursJSONModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -652,7 +595,7 @@ public class CacheHoursJSONModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -663,9 +606,26 @@ public class CacheHoursJSONModelImpl
 			Function<CacheHoursJSON, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((CacheHoursJSON)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((CacheHoursJSON)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -678,54 +638,97 @@ public class CacheHoursJSONModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<CacheHoursJSON, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<CacheHoursJSON, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<CacheHoursJSON, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((CacheHoursJSON)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, CacheHoursJSON>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					CacheHoursJSON.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private String _stopCode;
-	private String _originalStopCode;
 	private int _type;
-	private int _originalType;
-	private boolean _setOriginalType;
 	private String _jsonHour;
 	private Date _creationDate;
 	private Date _modifiedDate;
+	private boolean _setModifiedDate;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<CacheHoursJSON, Object> function =
+			_attributeGetterFunctions.get(columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((CacheHoursJSON)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("stopCode", _stopCode);
+		_columnOriginalValues.put("type_", _type);
+		_columnOriginalValues.put("jsonHour", _jsonHour);
+		_columnOriginalValues.put("creationDate", _creationDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("type_", "type");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("stopCode", 2L);
+
+		columnBitmasks.put("type_", 4L);
+
+		columnBitmasks.put("jsonHour", 8L);
+
+		columnBitmasks.put("creationDate", 16L);
+
+		columnBitmasks.put("modifiedDate", 32L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private CacheHoursJSON _escapedModel;
 

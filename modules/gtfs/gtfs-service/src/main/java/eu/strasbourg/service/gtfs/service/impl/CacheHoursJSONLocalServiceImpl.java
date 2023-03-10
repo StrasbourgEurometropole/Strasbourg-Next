@@ -19,9 +19,7 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.Validator;
-import eu.strasbourg.service.gtfs.exception.NoSuchCacheHoursJSONException;
 import eu.strasbourg.service.gtfs.model.CacheHoursJSON;
 import eu.strasbourg.service.gtfs.service.ArretServiceUtil;
 import eu.strasbourg.service.gtfs.service.CacheHoursJSONLocalServiceUtil;
@@ -29,7 +27,6 @@ import eu.strasbourg.service.gtfs.service.base.CacheHoursJSONLocalServiceBaseImp
 import eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK;
 
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**

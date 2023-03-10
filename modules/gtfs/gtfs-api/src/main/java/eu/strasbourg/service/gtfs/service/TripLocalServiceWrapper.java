@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class TripLocalServiceWrapper
 	implements ServiceWrapper<TripLocalService>, TripLocalService {
 
+	public TripLocalServiceWrapper() {
+		this(null);
+	}
+
 	public TripLocalServiceWrapper(TripLocalService tripLocalService) {
 		_tripLocalService = tripLocalService;
 	}
@@ -45,6 +49,17 @@ public class TripLocalServiceWrapper
 		eu.strasbourg.service.gtfs.model.Trip trip) {
 
 		return _tripLocalService.addTrip(trip);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _tripLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -124,6 +139,18 @@ public class TripLocalServiceWrapper
 		eu.strasbourg.service.gtfs.model.Trip trip) {
 
 		return _tripLocalService.deleteTrip(trip);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _tripLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _tripLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

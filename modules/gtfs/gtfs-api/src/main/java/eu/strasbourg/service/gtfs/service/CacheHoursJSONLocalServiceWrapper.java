@@ -27,6 +27,10 @@ public class CacheHoursJSONLocalServiceWrapper
 	implements CacheHoursJSONLocalService,
 			   ServiceWrapper<CacheHoursJSONLocalService> {
 
+	public CacheHoursJSONLocalServiceWrapper() {
+		this(null);
+	}
+
 	public CacheHoursJSONLocalServiceWrapper(
 		CacheHoursJSONLocalService cacheHoursJSONLocalService) {
 
@@ -76,6 +80,17 @@ public class CacheHoursJSONLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _cacheHoursJSONLocalService.createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the cache hours json from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -122,6 +137,18 @@ public class CacheHoursJSONLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _cacheHoursJSONLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _cacheHoursJSONLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _cacheHoursJSONLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

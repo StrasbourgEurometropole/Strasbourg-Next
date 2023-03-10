@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.gtfs.service.base;
 
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -27,6 +28,8 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -40,9 +43,9 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.gtfs.model.Alert;
 import eu.strasbourg.service.gtfs.service.AlertLocalService;
+import eu.strasbourg.service.gtfs.service.AlertLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.persistence.AgencyPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.AlertPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.ArretPersistence;
@@ -59,11 +62,10 @@ import eu.strasbourg.service.gtfs.service.persistence.StopTimePersistence;
 import eu.strasbourg.service.gtfs.service.persistence.TripFinder;
 import eu.strasbourg.service.gtfs.service.persistence.TripPersistence;
 
-import java.io.Serializable;
-
-import java.util.List;
-
 import javax.sql.DataSource;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * Provides the base implementation for the alert local service.
@@ -83,7 +85,7 @@ public abstract class AlertLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>AlertLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.gtfs.service.AlertLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>AlertLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>AlertLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -147,6 +149,18 @@ public abstract class AlertLocalServiceBaseImpl
 	@Override
 	public Alert deleteAlert(Alert alert) {
 		return alertPersistence.remove(alert);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return alertPersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -307,12 +321,28 @@ public abstract class AlertLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return alertPersistence.create(((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement AlertLocalServiceImpl#deleteAlert(Alert) to avoid orphaned data");
+		}
 
 		return alertLocalService.deleteAlert((Alert)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<Alert> getBasePersistence() {
 		return alertPersistence;
 	}
@@ -1148,11 +1178,15 @@ public abstract class AlertLocalServiceBaseImpl
 	public void afterPropertiesSet() {
 		persistedModelLocalServiceRegistry.register(
 			"eu.strasbourg.service.gtfs.model.Alert", alertLocalService);
+
+		_setLocalServiceUtilService(alertLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"eu.strasbourg.service.gtfs.model.Alert");
+
+		_setLocalServiceUtilService(null);
 	}
 
 	/**
@@ -1194,6 +1228,22 @@ public abstract class AlertLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		AlertLocalService alertLocalService) {
+
+		try {
+			Field field = AlertLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, alertLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1352,6 +1402,9 @@ public abstract class AlertLocalServiceBaseImpl
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		AlertLocalServiceBaseImpl.class);
 
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry

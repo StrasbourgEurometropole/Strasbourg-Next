@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class StopTimeLocalServiceWrapper
 	implements ServiceWrapper<StopTimeLocalService>, StopTimeLocalService {
 
+	public StopTimeLocalServiceWrapper() {
+		this(null);
+	}
+
 	public StopTimeLocalServiceWrapper(
 		StopTimeLocalService stopTimeLocalService) {
 
@@ -47,6 +51,17 @@ public class StopTimeLocalServiceWrapper
 		eu.strasbourg.service.gtfs.model.StopTime stopTime) {
 
 		return _stopTimeLocalService.addStopTime(stopTime);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _stopTimeLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -126,6 +141,18 @@ public class StopTimeLocalServiceWrapper
 		eu.strasbourg.service.gtfs.model.StopTime stopTime) {
 
 		return _stopTimeLocalService.deleteStopTime(stopTime);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _stopTimeLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _stopTimeLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

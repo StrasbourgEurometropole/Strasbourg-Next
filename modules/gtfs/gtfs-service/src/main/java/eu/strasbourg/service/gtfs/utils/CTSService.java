@@ -7,12 +7,11 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
-
-import java.io.IOException;
-
 import eu.strasbourg.service.gtfs.service.impl.LigneLocalServiceImpl;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+
+import java.io.IOException;
 
 public class CTSService {
 	

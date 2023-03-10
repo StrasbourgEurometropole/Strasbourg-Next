@@ -19,7 +19,6 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import eu.strasbourg.service.gtfs.model.Alert;
-import eu.strasbourg.service.gtfs.model.Direction;
 import eu.strasbourg.service.gtfs.service.base.AlertLocalServiceBaseImpl;
 
 import java.io.IOException;

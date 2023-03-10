@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class LigneServiceWrapper
 	implements LigneService, ServiceWrapper<LigneService> {
 
+	public LigneServiceWrapper() {
+		this(null);
+	}
+
 	public LigneServiceWrapper(LigneService ligneService) {
 		_ligneService = ligneService;
 	}

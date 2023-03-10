@@ -14,17 +14,12 @@
 
 package eu.strasbourg.service.gtfs.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.gtfs.exception.NoSuchLigneException;
 import eu.strasbourg.service.gtfs.model.Ligne;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the ligne service.
@@ -45,9 +40,6 @@ public interface LignePersistence extends BasePersistence<Ligne> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link LigneUtil} to access the ligne persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Ligne> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the lignes where uuid = &#63;.
@@ -994,8 +986,5 @@ public interface LignePersistence extends BasePersistence<Ligne> {
 	 * @return the number of lignes
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

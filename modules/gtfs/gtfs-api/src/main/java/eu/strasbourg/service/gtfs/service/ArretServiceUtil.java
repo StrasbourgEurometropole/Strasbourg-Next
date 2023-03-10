@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.gtfs.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for Arret. This utility wraps
  * <code>eu.strasbourg.service.gtfs.service.impl.ArretServiceImpl</code> and is an
@@ -44,7 +40,7 @@ public class ArretServiceUtil {
 	 * @param stopCode code SMS de l'arret (ex: "275c" pour l'arret de tram Homme de fer)
 	 */
 	public static com.liferay.portal.kernel.json.JSONArray getArretRealTime(
-		String stopCode) {
+		java.lang.String stopCode) {
 
 		return getService().getArretRealTime(stopCode);
 	}
@@ -56,7 +52,7 @@ public class ArretServiceUtil {
 	 * @param type type de l'arret (0 -> tram, 3 -> bus)
 	 */
 	public static com.liferay.portal.kernel.json.JSONArray getArretRealTime(
-		String stopCode, int type, int timeOut) {
+		java.lang.String stopCode, int type, int timeOut) {
 
 		return getService().getArretRealTime(stopCode, type, timeOut);
 	}
@@ -66,26 +62,14 @@ public class ArretServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static ArretService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<ArretService, ArretService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(ArretService.class);
-
-		ServiceTracker<ArretService, ArretService> serviceTracker =
-			new ServiceTracker<ArretService, ArretService>(
-				bundle.getBundleContext(), ArretService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile ArretService _service;
 
 }

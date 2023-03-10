@@ -14,20 +14,17 @@ import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
+import eu.strasbourg.service.gtfs.model.Arret;
+import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import org.osgi.service.component.annotations.Component;
 
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-
-import org.osgi.service.component.annotations.Component;
-
-import eu.strasbourg.service.gtfs.model.Arret;
-import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
-import eu.strasbourg.utils.AssetVocabularyHelper;
 
 @Component(
 	immediate = true, 
@@ -105,8 +102,7 @@ public class ArretIndexer extends BaseIndexer<Arret> {
 	protected void doReindex(Arret arret) throws Exception {
 		Document document = getDocument(arret);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-				arret.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(arret.getCompanyId(), document);
 		
 	}
 	
@@ -139,7 +135,6 @@ public class ArretIndexer extends BaseIndexer<Arret> {
 
 			});
 
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 	

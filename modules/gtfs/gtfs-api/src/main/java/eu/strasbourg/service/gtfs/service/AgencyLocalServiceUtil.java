@@ -14,9 +14,18 @@
 
 package eu.strasbourg.service.gtfs.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.gtfs.model.Agency;
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for Agency. This utility wraps
@@ -48,9 +57,7 @@ public class AgencyLocalServiceUtil {
 	 * @param agency the agency
 	 * @return the agency that was added
 	 */
-	public static eu.strasbourg.service.gtfs.model.Agency addAgency(
-		eu.strasbourg.service.gtfs.model.Agency agency) {
-
+	public static Agency addAgency(Agency agency) {
 		return getService().addAgency(agency);
 	}
 
@@ -60,18 +67,16 @@ public class AgencyLocalServiceUtil {
 	 * @param id the primary key for the new agency
 	 * @return the new agency
 	 */
-	public static eu.strasbourg.service.gtfs.model.Agency createAgency(
-		long id) {
-
+	public static Agency createAgency(long id) {
 		return getService().createAgency(id);
 	}
 
 	/**
 	 * Crée une agence vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.gtfs.model.Agency createAgency(
+	public static Agency createAgency(
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().createAgency(sc);
 	}
@@ -79,11 +84,21 @@ public class AgencyLocalServiceUtil {
 	/**
 	 * Crée une agence à partir d'une entrée GTFS
 	 */
-	public static eu.strasbourg.service.gtfs.model.Agency createAgencyFromGTFS(
+	public static Agency createAgencyFromGTFS(
 			eu.strasbourg.utils.models.AgencyGTFS entry)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().createAgencyFromGTFS(entry);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -96,9 +111,7 @@ public class AgencyLocalServiceUtil {
 	 * @param agency the agency
 	 * @return the agency that was removed
 	 */
-	public static eu.strasbourg.service.gtfs.model.Agency deleteAgency(
-		eu.strasbourg.service.gtfs.model.Agency agency) {
-
+	public static Agency deleteAgency(Agency agency) {
 		return getService().deleteAgency(agency);
 	}
 
@@ -113,26 +126,29 @@ public class AgencyLocalServiceUtil {
 	 * @return the agency that was removed
 	 * @throws PortalException if a agency with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.Agency deleteAgency(long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Agency deleteAgency(long id) throws PortalException {
 		return getService().deleteAgency(id);
 	}
 
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -142,9 +158,7 @@ public class AgencyLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -160,9 +174,8 @@ public class AgencyLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -180,10 +193,9 @@ public class AgencyLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -195,9 +207,7 @@ public class AgencyLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -209,13 +219,13 @@ public class AgencyLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.gtfs.model.Agency fetchAgency(long id) {
+	public static Agency fetchAgency(long id) {
 		return getService().fetchAgency(id);
 	}
 
@@ -236,9 +246,7 @@ public class AgencyLocalServiceUtil {
 	 * @param end the upper bound of the range of agencies (not inclusive)
 	 * @return the range of agencies
 	 */
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Agency>
-		getAgencies(int start, int end) {
-
+	public static List<Agency> getAgencies(int start, int end) {
 		return getService().getAgencies(start, end);
 	}
 
@@ -258,9 +266,7 @@ public class AgencyLocalServiceUtil {
 	 * @return the agency
 	 * @throws PortalException if a agency with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.Agency getAgency(long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Agency getAgency(long id) throws PortalException {
 		return getService().getAgency(id);
 	}
 
@@ -283,9 +289,8 @@ public class AgencyLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -294,8 +299,8 @@ public class AgencyLocalServiceUtil {
 	 * Import des agences sous le format de données GTFS
 	 */
 	public static void importFromGTFS(
-			java.util.Map<String, eu.strasbourg.utils.models.AgencyGTFS> data)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, eu.strasbourg.utils.models.AgencyGTFS> data)
+		throws PortalException {
 
 		getService().importFromGTFS(data);
 	}
@@ -303,19 +308,14 @@ public class AgencyLocalServiceUtil {
 	/**
 	 * Supprime une agence
 	 */
-	public static eu.strasbourg.service.gtfs.model.Agency removeAgency(
-			long agencyId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Agency removeAgency(long agencyId) throws PortalException {
 		return getService().removeAgency(agencyId);
 	}
 
 	/**
 	 * Supprime toutes les agences
 	 */
-	public static void removeAllAgencies()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static void removeAllAgencies() throws PortalException {
 		getService().removeAllAgencies();
 	}
 
@@ -329,9 +329,7 @@ public class AgencyLocalServiceUtil {
 	 * @param agency the agency
 	 * @return the agency that was updated
 	 */
-	public static eu.strasbourg.service.gtfs.model.Agency updateAgency(
-		eu.strasbourg.service.gtfs.model.Agency agency) {
-
+	public static Agency updateAgency(Agency agency) {
 		return getService().updateAgency(agency);
 	}
 
@@ -340,31 +338,17 @@ public class AgencyLocalServiceUtil {
 	 *
 	 * @throws IOException
 	 */
-	public static eu.strasbourg.service.gtfs.model.Agency updateAgency(
-			eu.strasbourg.service.gtfs.model.Agency agency,
-			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Agency updateAgency(
+			Agency agency, com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateAgency(agency, sc);
 	}
 
 	public static AgencyLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<AgencyLocalService, AgencyLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(AgencyLocalService.class);
-
-		ServiceTracker<AgencyLocalService, AgencyLocalService> serviceTracker =
-			new ServiceTracker<AgencyLocalService, AgencyLocalService>(
-				bundle.getBundleContext(), AgencyLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile AgencyLocalService _service;
 
 }

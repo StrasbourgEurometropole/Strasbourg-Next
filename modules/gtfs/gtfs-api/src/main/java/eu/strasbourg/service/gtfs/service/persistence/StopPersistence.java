@@ -14,17 +14,12 @@
 
 package eu.strasbourg.service.gtfs.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.gtfs.exception.NoSuchStopException;
 import eu.strasbourg.service.gtfs.model.Stop;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the stop service.
@@ -45,9 +40,6 @@ public interface StopPersistence extends BasePersistence<Stop> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link StopUtil} to access the stop persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Stop> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the stops where uuid = &#63;.
@@ -493,8 +485,5 @@ public interface StopPersistence extends BasePersistence<Stop> {
 	 * @return the number of stops
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

@@ -14,9 +14,7 @@
 
 package eu.strasbourg.service.gtfs.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import java.util.Map;
 
 /**
  * Provides the remote service utility for Ligne. This utility wraps
@@ -48,7 +46,7 @@ public class LigneServiceUtil {
 	/**
 	 * Recuperer les couleurs des lignes pour freemarker
 	 */
-	public static java.util.Map<String, String[]> getLigneColorsFreemarker() {
+	public static Map<String, String[]> getLigneColorsFreemarker() {
 		return getService().getLigneColorsFreemarker();
 	}
 
@@ -62,21 +60,9 @@ public class LigneServiceUtil {
 	}
 
 	public static LigneService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<LigneService, LigneService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(LigneService.class);
-
-		ServiceTracker<LigneService, LigneService> serviceTracker =
-			new ServiceTracker<LigneService, LigneService>(
-				bundle.getBundleContext(), LigneService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile LigneService _service;
 
 }
