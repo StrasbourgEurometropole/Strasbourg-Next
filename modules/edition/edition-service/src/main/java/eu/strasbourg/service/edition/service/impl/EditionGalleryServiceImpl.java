@@ -15,7 +15,6 @@
 package eu.strasbourg.service.edition.service.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.edition.service.base.EditionGalleryServiceBaseImpl;
 
 /**

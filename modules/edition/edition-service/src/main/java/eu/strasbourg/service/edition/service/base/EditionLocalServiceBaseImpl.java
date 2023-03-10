@@ -24,6 +24,7 @@ import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerRegistryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -44,6 +45,8 @@ import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -58,18 +61,17 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.service.EditionLocalService;
+import eu.strasbourg.service.edition.service.EditionLocalServiceUtil;
 import eu.strasbourg.service.edition.service.persistence.EditionFinder;
 import eu.strasbourg.service.edition.service.persistence.EditionGalleryPersistence;
 import eu.strasbourg.service.edition.service.persistence.EditionPersistence;
 
-import java.io.Serializable;
-
-import java.util.List;
-
 import javax.sql.DataSource;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * Provides the base implementation for the edition local service.
@@ -89,7 +91,7 @@ public abstract class EditionLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>EditionLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.edition.service.EditionLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>EditionLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>EditionLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -153,6 +155,18 @@ public abstract class EditionLocalServiceBaseImpl
 	@Override
 	public Edition deleteEdition(Edition edition) {
 		return editionPersistence.remove(edition);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return editionPersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -443,12 +457,28 @@ public abstract class EditionLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return editionPersistence.create(((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement EditionLocalServiceImpl#deleteEdition(Edition) to avoid orphaned data");
+		}
 
 		return editionLocalService.deleteEdition((Edition)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<Edition> getBasePersistence() {
 		return editionPersistence;
 	}
@@ -1048,11 +1078,15 @@ public abstract class EditionLocalServiceBaseImpl
 	public void afterPropertiesSet() {
 		persistedModelLocalServiceRegistry.register(
 			"eu.strasbourg.service.edition.model.Edition", editionLocalService);
+
+		_setLocalServiceUtilService(editionLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"eu.strasbourg.service.edition.model.Edition");
+
+		_setLocalServiceUtilService(null);
 	}
 
 	/**
@@ -1094,6 +1128,22 @@ public abstract class EditionLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		EditionLocalService editionLocalService) {
+
+		try {
+			Field field = EditionLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, editionLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1171,6 +1221,9 @@ public abstract class EditionLocalServiceBaseImpl
 
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		EditionLocalServiceBaseImpl.class);
 
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry

@@ -1,11 +1,10 @@
 package eu.strasbourg.service.edition.service.persistence.impl;
 
-import java.util.List;
-
 import com.liferay.portal.kernel.dao.orm.Session;
-
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.service.persistence.EditionFinder;
+
+import java.util.List;
 
 public class EditionFinderImpl extends EditionFinderBaseImpl
 	implements EditionFinder {

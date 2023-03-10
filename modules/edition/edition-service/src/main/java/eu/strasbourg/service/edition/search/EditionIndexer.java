@@ -1,13 +1,5 @@
 package eu.strasbourg.service.edition.search;
 
-import java.util.List;
-import java.util.Locale;
-
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -22,10 +14,15 @@ import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
-
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.service.EditionLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
+import java.util.List;
+import java.util.Locale;
 
 @Component(immediate = true, service = Indexer.class)
 public class EditionIndexer extends BaseIndexer<Edition> {
@@ -96,8 +93,7 @@ public class EditionIndexer extends BaseIndexer<Edition> {
 	protected void doReindex(Edition edition) throws Exception {
 		Document document = getDocument(edition);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-			edition.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(edition.getCompanyId(), document);
 
 	}
 
@@ -129,8 +125,6 @@ public class EditionIndexer extends BaseIndexer<Edition> {
 				}
 
 			});
-
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 

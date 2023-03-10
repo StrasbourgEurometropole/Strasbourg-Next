@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class EditionLocalServiceWrapper
 	implements EditionLocalService, ServiceWrapper<EditionLocalService> {
 
+	public EditionLocalServiceWrapper() {
+		this(null);
+	}
+
 	public EditionLocalServiceWrapper(EditionLocalService editionLocalService) {
 		_editionLocalService = editionLocalService;
 	}
@@ -113,6 +117,17 @@ public class EditionLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _editionLocalService.createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the edition from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -185,6 +200,18 @@ public class EditionLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _editionLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _editionLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _editionLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override
