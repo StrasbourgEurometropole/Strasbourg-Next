@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.favorite.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.favorite.exception.NoSuchFavoriteException;
 import eu.strasbourg.service.favorite.model.Favorite;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the favorite service.
@@ -45,9 +38,6 @@ public interface FavoritePersistence extends BasePersistence<Favorite> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link FavoriteUtil} to access the favorite persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Favorite> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the favorites where publikUserId = &#63;.
@@ -718,8 +708,5 @@ public interface FavoritePersistence extends BasePersistence<Favorite> {
 	 * @return the number of favorites
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

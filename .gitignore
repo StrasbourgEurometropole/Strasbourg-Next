@@ -439,3 +439,5 @@ modules/csmap/csmap-service/service.xml
 modules/csmap/csmap-service/src/main/resources/service.properties
 modules/ejob/ejob-service/src/main/resources/service.properties
 modules/ejob/ejob-service/service.xml
+modules/favorite/favorite-service/src/main/resources/service.properties
+modules/favorite/favorite-service/service.xml
