@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.interest.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for Interest. This utility wraps
  * <code>eu.strasbourg.service.interest.service.impl.InterestServiceImpl</code> and is an
@@ -50,7 +46,7 @@ public class InterestServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
@@ -59,7 +55,7 @@ public class InterestServiceUtil {
 	 * en paramètre
 	 */
 	public static com.liferay.portal.kernel.json.JSONObject getUserInterests(
-		String userId) {
+		java.lang.String userId) {
 
 		return getService().getUserInterests(userId);
 	}
@@ -69,28 +65,15 @@ public class InterestServiceUtil {
 	 * paramètre
 	 */
 	public static com.liferay.portal.kernel.json.JSONObject setUserInterests(
-		String userId, String interestIds) {
+		java.lang.String userId, java.lang.String interestIds) {
 
 		return getService().setUserInterests(userId, interestIds);
 	}
 
 	public static InterestService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<InterestService, InterestService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(InterestService.class);
-
-		ServiceTracker<InterestService, InterestService> serviceTracker =
-			new ServiceTracker<InterestService, InterestService>(
-				bundle.getBundleContext(), InterestService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile InterestService _service;
 
 }

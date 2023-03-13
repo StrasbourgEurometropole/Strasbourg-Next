@@ -1,13 +1,5 @@
 package eu.strasbourg.service.interest.search;
 
-import java.util.List;
-import java.util.Locale;
-
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -22,10 +14,15 @@ import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
-
 import eu.strasbourg.service.interest.model.Interest;
 import eu.strasbourg.service.interest.service.InterestLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
+import java.util.List;
+import java.util.Locale;
 
 @Component(immediate = true, service = Indexer.class)
 public class InterestIndexer extends BaseIndexer<Interest> {
@@ -49,8 +46,8 @@ public class InterestIndexer extends BaseIndexer<Interest> {
 	}
 
 	/**
-	 * Fonction appelée lors de l'indexation de l'item
-	 * C'est ici qu'on choisi les champs à  indexer
+	 * Fonction appelï¿½e lors de l'indexation de l'item
+	 * C'est ici qu'on choisi les champs ï¿½ indexer
 	 */
 	@Override
 	protected Document doGetDocument(Interest Interest)
@@ -98,8 +95,7 @@ public class InterestIndexer extends BaseIndexer<Interest> {
 	protected void doReindex(Interest Interest) throws Exception {
 		Document document = getDocument(Interest);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-			Interest.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(Interest.getCompanyId(), document);
 
 	}
 
@@ -132,7 +128,6 @@ public class InterestIndexer extends BaseIndexer<Interest> {
 
 			});
 
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 

@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class InterestLocalServiceWrapper
 	implements InterestLocalService, ServiceWrapper<InterestLocalService> {
 
+	public InterestLocalServiceWrapper() {
+		this(null);
+	}
+
 	public InterestLocalServiceWrapper(
 		InterestLocalService interestLocalService) {
 
@@ -74,6 +78,17 @@ public class InterestLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _interestLocalService.createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the interest from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -118,6 +133,18 @@ public class InterestLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _interestLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _interestLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _interestLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override
