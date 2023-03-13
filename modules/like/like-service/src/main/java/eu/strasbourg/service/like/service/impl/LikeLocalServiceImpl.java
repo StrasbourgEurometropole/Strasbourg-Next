@@ -14,10 +14,10 @@
 
 package eu.strasbourg.service.like.service.impl;
 
-import java.util.List;
-
 import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.service.base.LikeLocalServiceBaseImpl;
+
+import java.util.List;
 
 /**
  * The implementation of the like local service.

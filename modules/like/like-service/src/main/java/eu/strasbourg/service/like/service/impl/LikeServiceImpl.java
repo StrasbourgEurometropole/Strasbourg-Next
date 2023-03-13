@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.like.service.impl;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -27,12 +23,14 @@ import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
-
 import eu.strasbourg.service.like.exception.NoSuchLikeException;
 import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.model.LikeType;
 import eu.strasbourg.service.like.service.base.LikeServiceBaseImpl;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * The implementation of the like remote service.
@@ -54,7 +52,7 @@ public class LikeServiceImpl extends LikeServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.like.service.LikeServiceUtil} to access the like remote service.
 	 */
-	
+
 	/**
 	 * Retourne la liste des types de likes/dislikes
 	 */

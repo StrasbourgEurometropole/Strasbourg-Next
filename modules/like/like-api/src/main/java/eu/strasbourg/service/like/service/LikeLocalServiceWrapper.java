@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class LikeLocalServiceWrapper
 	implements LikeLocalService, ServiceWrapper<LikeLocalService> {
 
+	public LikeLocalServiceWrapper() {
+		this(null);
+	}
+
 	public LikeLocalServiceWrapper(LikeLocalService likeLocalService) {
 		_likeLocalService = likeLocalService;
 	}
@@ -64,6 +68,17 @@ public class LikeLocalServiceWrapper
 	@Override
 	public eu.strasbourg.service.like.model.Like createLike(long likeId) {
 		return _likeLocalService.createLike(likeId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _likeLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -129,6 +144,18 @@ public class LikeLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _likeLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _likeLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _likeLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override
