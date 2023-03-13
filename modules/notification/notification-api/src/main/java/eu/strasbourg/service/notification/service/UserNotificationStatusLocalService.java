@@ -14,8 +14,7 @@
 
 package eu.strasbourg.service.notification.service;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -31,12 +30,11 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.notification.model.UserNotificationStatus;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationStatusPK;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.io.Serializable;
-
 import java.util.List;
 
 /**
@@ -60,7 +58,7 @@ public interface UserNotificationStatusLocalService
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link UserNotificationStatusLocalServiceUtil} to access the user notification status local service. Add custom service methods to <code>eu.strasbourg.service.notification.service.impl.UserNotificationStatusLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.notification.service.impl.UserNotificationStatusLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the user notification status local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link UserNotificationStatusLocalServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**
@@ -76,6 +74,12 @@ public interface UserNotificationStatusLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public UserNotificationStatus addUserNotificationStatus(
 		UserNotificationStatus userNotificationStatus);
+
+	/**
+	 * @throws PortalException
+	 */
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException;
 
 	/**
 	 * Creates a new user notification status with the primary key. Does not add the user notification status to the database.
@@ -123,6 +127,12 @@ public interface UserNotificationStatusLocalService
 	public UserNotificationStatus deleteUserNotificationStatus(
 			UserNotificationStatusPK userNotificationStatusPK)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> T dslQuery(DSLQuery dslQuery);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int dslQueryCount(DSLQuery dslQuery);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();

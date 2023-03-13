@@ -14,16 +14,11 @@
 
 package eu.strasbourg.service.notification.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.notification.exception.NoSuchUserNotificationTypeException;
 import eu.strasbourg.service.notification.model.UserNotificationType;
+import org.osgi.annotation.versioning.ProviderType;
 
-import java.io.Serializable;
-
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -46,9 +41,6 @@ public interface UserNotificationTypePersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link UserNotificationTypeUtil} to access the user notification type persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, UserNotificationType> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the user notification types where publikUserId = &#63;.

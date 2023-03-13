@@ -14,16 +14,11 @@
 
 package eu.strasbourg.service.notification.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.notification.exception.NoSuchUserNotificationStatusException;
 import eu.strasbourg.service.notification.model.UserNotificationStatus;
+import org.osgi.annotation.versioning.ProviderType;
 
-import java.io.Serializable;
-
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -46,9 +41,6 @@ public interface UserNotificationStatusPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link UserNotificationStatusUtil} to access the user notification status persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, UserNotificationStatus> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the user notification statuses where notificationId = &#63;.
@@ -471,9 +463,6 @@ public interface UserNotificationStatusPersistence
 	 * @return the number of user notification statuses
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 	public Set<String> getCompoundPKColumnNames();
 

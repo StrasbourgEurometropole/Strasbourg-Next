@@ -14,15 +14,11 @@
 
 package eu.strasbourg.service.notification.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -34,22 +30,13 @@ import java.util.Objects;
  * @generated
  */
 public class UserNotificationTypeWrapper
+	extends BaseModelWrapper<UserNotificationType>
 	implements ModelWrapper<UserNotificationType>, UserNotificationType {
 
 	public UserNotificationTypeWrapper(
 		UserNotificationType userNotificationType) {
 
-		_userNotificationType = userNotificationType;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return UserNotificationType.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return UserNotificationType.class.getName();
+		super(userNotificationType);
 	}
 
 	@Override
@@ -78,22 +65,8 @@ public class UserNotificationTypeWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new UserNotificationTypeWrapper(
-			(UserNotificationType)_userNotificationType.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.notification.model.UserNotificationType
-			userNotificationType) {
-
-		return _userNotificationType.compareTo(userNotificationType);
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _userNotificationType.getExpandoBridge();
+	public UserNotificationType cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -105,12 +78,7 @@ public class UserNotificationTypeWrapper
 	public eu.strasbourg.service.notification.service.persistence.
 		UserNotificationTypePK getPrimaryKey() {
 
-		return _userNotificationType.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _userNotificationType.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -120,7 +88,7 @@ public class UserNotificationTypeWrapper
 	 */
 	@Override
 	public String getPublikUserId() {
-		return _userNotificationType.getPublikUserId();
+		return model.getPublikUserId();
 	}
 
 	/**
@@ -130,59 +98,12 @@ public class UserNotificationTypeWrapper
 	 */
 	@Override
 	public long getTypeId() {
-		return _userNotificationType.getTypeId();
-	}
-
-	@Override
-	public int hashCode() {
-		return _userNotificationType.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _userNotificationType.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _userNotificationType.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _userNotificationType.isNew();
+		return model.getTypeId();
 	}
 
 	@Override
 	public void persist() {
-		_userNotificationType.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_userNotificationType.setCachedModel(cachedModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_userNotificationType.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_userNotificationType.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_userNotificationType.setExpandoBridgeAttributes(serviceContext);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_userNotificationType.setNew(n);
+		model.persist();
 	}
 
 	/**
@@ -195,12 +116,7 @@ public class UserNotificationTypeWrapper
 		eu.strasbourg.service.notification.service.persistence.
 			UserNotificationTypePK primaryKey) {
 
-		_userNotificationType.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_userNotificationType.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -210,7 +126,7 @@ public class UserNotificationTypeWrapper
 	 */
 	@Override
 	public void setPublikUserId(String publikUserId) {
-		_userNotificationType.setPublikUserId(publikUserId);
+		model.setPublikUserId(publikUserId);
 	}
 
 	/**
@@ -220,86 +136,19 @@ public class UserNotificationTypeWrapper
 	 */
 	@Override
 	public void setTypeId(long typeId) {
-		_userNotificationType.setTypeId(typeId);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.notification.model.UserNotificationType>
-			toCacheModel() {
-
-		return _userNotificationType.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.notification.model.UserNotificationType
-		toEscapedModel() {
-
-		return new UserNotificationTypeWrapper(
-			_userNotificationType.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _userNotificationType.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.notification.model.UserNotificationType
-		toUnescapedModel() {
-
-		return new UserNotificationTypeWrapper(
-			_userNotificationType.toUnescapedModel());
+		model.setTypeId(typeId);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _userNotificationType.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
+	protected UserNotificationTypeWrapper wrap(
+		UserNotificationType userNotificationType) {
 
-		if (!(object instanceof UserNotificationTypeWrapper)) {
-			return false;
-		}
-
-		UserNotificationTypeWrapper userNotificationTypeWrapper =
-			(UserNotificationTypeWrapper)object;
-
-		if (Objects.equals(
-				_userNotificationType,
-				userNotificationTypeWrapper._userNotificationType)) {
-
-			return true;
-		}
-
-		return false;
+		return new UserNotificationTypeWrapper(userNotificationType);
 	}
-
-	@Override
-	public UserNotificationType getWrappedModel() {
-		return _userNotificationType;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _userNotificationType.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _userNotificationType.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_userNotificationType.resetOriginalValues();
-	}
-
-	private final UserNotificationType _userNotificationType;
 
 }

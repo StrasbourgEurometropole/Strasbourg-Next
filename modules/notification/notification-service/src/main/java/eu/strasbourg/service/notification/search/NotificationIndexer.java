@@ -8,7 +8,12 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
-import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.search.BaseIndexer;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.notification.model.Notification;
@@ -84,8 +89,7 @@ public class NotificationIndexer extends BaseIndexer<Notification> {
 	protected void doReindex(Notification notification) throws Exception {
 		Document document = getDocument(notification);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-				companyId, document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(companyId, document);
 
 	}
 
@@ -118,7 +122,6 @@ public class NotificationIndexer extends BaseIndexer<Notification> {
 
 				});
 
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 
