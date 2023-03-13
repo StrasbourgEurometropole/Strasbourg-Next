@@ -22,12 +22,11 @@ import com.liferay.portal.kernel.model.LocalizedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.StagedAuditedModel;
 import com.liferay.portal.kernel.model.WorkflowedModel;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
-
-import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model interface for the HelpRequest service. Represents a row in the &quot;help_HelpRequest&quot; database table, with each column mapped to a property of this class.
@@ -602,5 +601,12 @@ public interface HelpRequestModel
 	@Override
 	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
 		throws LocaleException;
+
+	@Override
+	public HelpRequest cloneWithOriginalValues();
+
+	public default String toXmlString() {
+		return null;
+	}
 
 }

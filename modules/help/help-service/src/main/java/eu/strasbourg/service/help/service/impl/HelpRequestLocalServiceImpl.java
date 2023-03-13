@@ -14,11 +14,11 @@
 
 package eu.strasbourg.service.help.service.impl;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.aop.AopService;
-
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -34,12 +34,10 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import eu.strasbourg.service.help.exception.NoSuchHelpRequestException;
-import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.service.help.model.HelpRequest;
 import eu.strasbourg.service.help.service.base.HelpRequestLocalServiceBaseImpl;
-
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -101,11 +99,8 @@ public class HelpRequestLocalServiceImpl
 
 		if (entry != null) {
 			// Delete the link with categories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-						categoryId, entry.getEntryId());
-			}
-
+			assetEntryAssetCategoryRelLocalService.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Delete the link with tags
 			long[] tagIds = AssetEntryLocalServiceUtil
 					.getAssetTagPrimaryKeys(entry.getEntryId());
@@ -314,4 +309,6 @@ public class HelpRequestLocalServiceImpl
 	}
 
 	public final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+	@Reference
+	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

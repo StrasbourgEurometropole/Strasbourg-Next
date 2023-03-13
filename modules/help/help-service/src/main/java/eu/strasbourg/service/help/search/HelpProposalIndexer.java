@@ -132,8 +132,7 @@ public class HelpProposalIndexer extends BaseIndexer<HelpProposal> {
 				}
 	
 			});
-	
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
+
 		indexableActionableDynamicQuery.performActions();
 	}
 
@@ -143,8 +142,7 @@ public class HelpProposalIndexer extends BaseIndexer<HelpProposal> {
 	protected void doReindex(HelpProposal helpProposal) throws Exception {
 		Document document = getDocument(helpProposal);
 		
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-				helpProposal.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(helpProposal.getCompanyId(), document);
 	}
 
 }

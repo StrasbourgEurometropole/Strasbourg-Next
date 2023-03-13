@@ -428,19 +428,6 @@ modules/test3.xml
 modules/test2.xml
 modules/bidon.html
 
-modules/csmap/csmap-service/src/main/resources/service.properties
-modules/csmap/csmap-service/service.xml
-modules/edition/edition-service/service.xml
-modules/csmap/csmap-service/service.xml
-modules/csmap/csmap-service/src/main/resources/service.properties
-modules/edition/edition-service/service.xml
-modules/edition/edition-service/src/main/resources/service.properties
-modules/csmap/csmap-service/service.xml
-modules/csmap/csmap-service/src/main/resources/service.properties
-modules/ejob/ejob-service/src/main/resources/service.properties
-modules/ejob/ejob-service/service.xml
-modules/favorite/favorite-service/src/main/resources/service.properties
-modules/favorite/favorite-service/service.xml
-modules/form-send-record-field/form-send-record-field-service/service.xml
-modules/form-send-record-field/form-send-record-field-service/src/main/resources/service.properties
-modules/gtfs/gtfs-service/service.xml
+modules/**/service.properties
+modules/**/service.xml
+

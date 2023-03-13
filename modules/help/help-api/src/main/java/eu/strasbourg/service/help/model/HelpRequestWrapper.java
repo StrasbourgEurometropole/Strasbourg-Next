@@ -197,6 +197,11 @@ public class HelpRequestWrapper
 		}
 	}
 
+	@Override
+	public HelpRequest cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
+	}
+
 	/**
 	 * Returns the agreement signed1 of this help request.
 	 *
@@ -1044,6 +1049,11 @@ public class HelpRequestWrapper
 	@Override
 	public void setUuid(String uuid) {
 		model.setUuid(uuid);
+	}
+
+	@Override
+	public String toXmlString() {
+		return model.toXmlString();
 	}
 
 	@Override
