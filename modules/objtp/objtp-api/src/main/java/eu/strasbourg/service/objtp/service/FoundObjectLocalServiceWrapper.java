@@ -27,6 +27,10 @@ public class FoundObjectLocalServiceWrapper
 	implements FoundObjectLocalService,
 			   ServiceWrapper<FoundObjectLocalService> {
 
+	public FoundObjectLocalServiceWrapper() {
+		this(null);
+	}
+
 	public FoundObjectLocalServiceWrapper(
 		FoundObjectLocalService foundObjectLocalService) {
 
@@ -61,6 +65,17 @@ public class FoundObjectLocalServiceWrapper
 		String number) {
 
 		return _foundObjectLocalService.createFoundObject(number);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _foundObjectLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -117,6 +132,18 @@ public class FoundObjectLocalServiceWrapper
 			   java.io.IOException, java.text.ParseException {
 
 		_foundObjectLocalService.doImport();
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _foundObjectLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _foundObjectLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

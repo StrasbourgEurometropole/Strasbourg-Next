@@ -14,9 +14,15 @@
 
 package eu.strasbourg.service.objtp.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.objtp.model.ObjectCategory;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Provides the local service utility for ObjectCategory. This utility wraps
@@ -48,9 +54,8 @@ public class ObjectCategoryLocalServiceUtil {
 	 * @param objectCategory the object category
 	 * @return the object category that was added
 	 */
-	public static eu.strasbourg.service.objtp.model.ObjectCategory
-		addObjectCategory(
-			eu.strasbourg.service.objtp.model.ObjectCategory objectCategory) {
+	public static ObjectCategory addObjectCategory(
+		ObjectCategory objectCategory) {
 
 		return getService().addObjectCategory(objectCategory);
 	}
@@ -61,10 +66,18 @@ public class ObjectCategoryLocalServiceUtil {
 	 * @param code the primary key for the new object category
 	 * @return the new object category
 	 */
-	public static eu.strasbourg.service.objtp.model.ObjectCategory
-		createObjectCategory(String code) {
-
+	public static ObjectCategory createObjectCategory(String code) {
 		return getService().createObjectCategory(code);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -77,9 +90,8 @@ public class ObjectCategoryLocalServiceUtil {
 	 * @param objectCategory the object category
 	 * @return the object category that was removed
 	 */
-	public static eu.strasbourg.service.objtp.model.ObjectCategory
-		deleteObjectCategory(
-			eu.strasbourg.service.objtp.model.ObjectCategory objectCategory) {
+	public static ObjectCategory deleteObjectCategory(
+		ObjectCategory objectCategory) {
 
 		return getService().deleteObjectCategory(objectCategory);
 	}
@@ -95,9 +107,8 @@ public class ObjectCategoryLocalServiceUtil {
 	 * @return the object category that was removed
 	 * @throws PortalException if a object category with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.objtp.model.ObjectCategory
-			deleteObjectCategory(String code)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ObjectCategory deleteObjectCategory(String code)
+		throws PortalException {
 
 		return getService().deleteObjectCategory(code);
 	}
@@ -105,17 +116,22 @@ public class ObjectCategoryLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -125,9 +141,7 @@ public class ObjectCategoryLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -143,9 +157,8 @@ public class ObjectCategoryLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -163,10 +176,9 @@ public class ObjectCategoryLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -178,9 +190,7 @@ public class ObjectCategoryLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -192,15 +202,13 @@ public class ObjectCategoryLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.objtp.model.ObjectCategory
-		fetchObjectCategory(String code) {
-
+	public static ObjectCategory fetchObjectCategory(String code) {
 		return getService().fetchObjectCategory(code);
 	}
 
@@ -215,10 +223,7 @@ public class ObjectCategoryLocalServiceUtil {
 	 * @param end the upper bound of the range of object categories (not inclusive)
 	 * @return the range of object categories
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.objtp.model.ObjectCategory> getObjectCategories(
-			int start, int end) {
-
+	public static List<ObjectCategory> getObjectCategories(int start, int end) {
 		return getService().getObjectCategories(start, end);
 	}
 
@@ -238,9 +243,8 @@ public class ObjectCategoryLocalServiceUtil {
 	 * @return the object category
 	 * @throws PortalException if a object category with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.objtp.model.ObjectCategory
-			getObjectCategory(String code)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ObjectCategory getObjectCategory(String code)
+		throws PortalException {
 
 		return getService().getObjectCategory(code);
 	}
@@ -257,9 +261,8 @@ public class ObjectCategoryLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -274,35 +277,16 @@ public class ObjectCategoryLocalServiceUtil {
 	 * @param objectCategory the object category
 	 * @return the object category that was updated
 	 */
-	public static eu.strasbourg.service.objtp.model.ObjectCategory
-		updateObjectCategory(
-			eu.strasbourg.service.objtp.model.ObjectCategory objectCategory) {
+	public static ObjectCategory updateObjectCategory(
+		ObjectCategory objectCategory) {
 
 		return getService().updateObjectCategory(objectCategory);
 	}
 
 	public static ObjectCategoryLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<ObjectCategoryLocalService, ObjectCategoryLocalService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			ObjectCategoryLocalService.class);
-
-		ServiceTracker<ObjectCategoryLocalService, ObjectCategoryLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<ObjectCategoryLocalService, ObjectCategoryLocalService>(
-						bundle.getBundleContext(),
-						ObjectCategoryLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile ObjectCategoryLocalService _service;
 
 }
