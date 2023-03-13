@@ -133,8 +133,7 @@ public class OfficialIndexer extends BaseIndexer<Official> {
 	protected void doReindex(Official official) throws Exception {
 		Document document = getDocument(official);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-				official.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(official.getCompanyId(), document);
 
 	}
 
@@ -168,7 +167,6 @@ public class OfficialIndexer extends BaseIndexer<Official> {
 
 				});
 
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 

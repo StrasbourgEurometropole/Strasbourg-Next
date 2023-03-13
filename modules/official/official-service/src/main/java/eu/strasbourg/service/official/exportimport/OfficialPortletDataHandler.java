@@ -1,13 +1,5 @@
 package eu.strasbourg.service.official.exportimport;
 
-import java.util.List;
-
-import javax.portlet.PortletPreferences;
-
-import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
-import org.osgi.service.component.annotations.Activate;
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.exportimport.kernel.lar.BasePortletDataHandler;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.PortletDataHandler;
@@ -16,10 +8,15 @@ import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.kernel.xstream.XStreamAliasRegistryUtil;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
 import com.liferay.portal.kernel.xml.Element;
-
 import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.official.model.impl.OfficialImpl;
+import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.PortletPreferences;
+import java.util.List;
 
 @Component(
 	immediate = true,
