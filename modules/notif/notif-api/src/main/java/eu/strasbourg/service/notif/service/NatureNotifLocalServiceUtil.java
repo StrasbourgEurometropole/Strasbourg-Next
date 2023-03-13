@@ -14,9 +14,15 @@
 
 package eu.strasbourg.service.notif.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.notif.model.NatureNotif;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Provides the local service utility for NatureNotif. This utility wraps
@@ -48,16 +54,14 @@ public class NatureNotifLocalServiceUtil {
 	 * @param natureNotif the nature notif
 	 * @return the nature notif that was added
 	 */
-	public static eu.strasbourg.service.notif.model.NatureNotif addNatureNotif(
-		eu.strasbourg.service.notif.model.NatureNotif natureNotif) {
-
+	public static NatureNotif addNatureNotif(NatureNotif natureNotif) {
 		return getService().addNatureNotif(natureNotif);
 	}
 
 	/**
 	 * Crée une nature vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.notif.model.NatureNotif createNature() {
+	public static NatureNotif createNature() {
 		return getService().createNature();
 	}
 
@@ -67,10 +71,18 @@ public class NatureNotifLocalServiceUtil {
 	 * @param natureId the primary key for the new nature notif
 	 * @return the new nature notif
 	 */
-	public static eu.strasbourg.service.notif.model.NatureNotif
-		createNatureNotif(long natureId) {
-
+	public static NatureNotif createNatureNotif(long natureId) {
 		return getService().createNatureNotif(natureId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -84,9 +96,8 @@ public class NatureNotifLocalServiceUtil {
 	 * @return the nature notif that was removed
 	 * @throws PortalException if a nature notif with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.notif.model.NatureNotif
-			deleteNatureNotif(long natureId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static NatureNotif deleteNatureNotif(long natureId)
+		throws PortalException {
 
 		return getService().deleteNatureNotif(natureId);
 	}
@@ -101,27 +112,29 @@ public class NatureNotifLocalServiceUtil {
 	 * @param natureNotif the nature notif
 	 * @return the nature notif that was removed
 	 */
-	public static eu.strasbourg.service.notif.model.NatureNotif
-		deleteNatureNotif(
-			eu.strasbourg.service.notif.model.NatureNotif natureNotif) {
-
+	public static NatureNotif deleteNatureNotif(NatureNotif natureNotif) {
 		return getService().deleteNatureNotif(natureNotif);
 	}
 
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -131,9 +144,7 @@ public class NatureNotifLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -149,9 +160,8 @@ public class NatureNotifLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -169,10 +179,9 @@ public class NatureNotifLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -184,9 +193,7 @@ public class NatureNotifLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -198,15 +205,13 @@ public class NatureNotifLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.notif.model.NatureNotif
-		fetchNatureNotif(long natureId) {
-
+	public static NatureNotif fetchNatureNotif(long natureId) {
 		return getService().fetchNatureNotif(natureId);
 	}
 
@@ -216,9 +221,7 @@ public class NatureNotifLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
-	public static java.util.List<eu.strasbourg.service.notif.model.NatureNotif>
-		getByServiceId(long serviceId) {
-
+	public static List<NatureNotif> getByServiceId(long serviceId) {
 		return getService().getByServiceId(serviceId);
 	}
 
@@ -236,9 +239,8 @@ public class NatureNotifLocalServiceUtil {
 	 * @return the nature notif
 	 * @throws PortalException if a nature notif with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.notif.model.NatureNotif getNatureNotif(
-			long natureId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static NatureNotif getNatureNotif(long natureId)
+		throws PortalException {
 
 		return getService().getNatureNotif(natureId);
 	}
@@ -254,9 +256,7 @@ public class NatureNotifLocalServiceUtil {
 	 * @param end the upper bound of the range of nature notifs (not inclusive)
 	 * @return the range of nature notifs
 	 */
-	public static java.util.List<eu.strasbourg.service.notif.model.NatureNotif>
-		getNatureNotifs(int start, int end) {
-
+	public static List<NatureNotif> getNatureNotifs(int start, int end) {
 		return getService().getNatureNotifs(start, end);
 	}
 
@@ -281,9 +281,8 @@ public class NatureNotifLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -298,33 +297,14 @@ public class NatureNotifLocalServiceUtil {
 	 * @param natureNotif the nature notif
 	 * @return the nature notif that was updated
 	 */
-	public static eu.strasbourg.service.notif.model.NatureNotif
-		updateNatureNotif(
-			eu.strasbourg.service.notif.model.NatureNotif natureNotif) {
-
+	public static NatureNotif updateNatureNotif(NatureNotif natureNotif) {
 		return getService().updateNatureNotif(natureNotif);
 	}
 
 	public static NatureNotifLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<NatureNotifLocalService, NatureNotifLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(NatureNotifLocalService.class);
-
-		ServiceTracker<NatureNotifLocalService, NatureNotifLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<NatureNotifLocalService, NatureNotifLocalService>(
-						bundle.getBundleContext(),
-						NatureNotifLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile NatureNotifLocalService _service;
 
 }

@@ -17,18 +17,12 @@ package eu.strasbourg.service.notif.service.persistence;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.notif.model.Notification;
 
 import java.io.Serializable;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * The persistence utility for the notification service. This utility wraps <code>eu.strasbourg.service.notif.service.persistence.impl.NotificationPersistenceImpl</code> and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
@@ -756,7 +750,7 @@ public class NotificationUtil {
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>.
 	 * </p>
 	 *
-	 * @param serviceId the service ID
+	 * @param serviceIds the service IDs
 	 * @param start the lower bound of the range of notifications
 	 * @param end the upper bound of the range of notifications (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
@@ -950,30 +944,10 @@ public class NotificationUtil {
 		return getPersistence().countAll();
 	}
 
-	public static Set<String> getBadColumnNames() {
-		return getPersistence().getBadColumnNames();
-	}
-
 	public static NotificationPersistence getPersistence() {
-		return _serviceTracker.getService();
+		return _persistence;
 	}
 
-	private static ServiceTracker
-		<NotificationPersistence, NotificationPersistence> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(NotificationPersistence.class);
-
-		ServiceTracker<NotificationPersistence, NotificationPersistence>
-			serviceTracker =
-				new ServiceTracker
-					<NotificationPersistence, NotificationPersistence>(
-						bundle.getBundleContext(),
-						NotificationPersistence.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile NotificationPersistence _persistence;
 
 }

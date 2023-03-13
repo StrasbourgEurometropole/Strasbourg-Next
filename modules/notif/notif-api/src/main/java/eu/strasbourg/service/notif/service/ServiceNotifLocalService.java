@@ -14,8 +14,7 @@
 
 package eu.strasbourg.service.notif.service;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -31,12 +30,11 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.notif.exception.NoSuchServiceNotifException;
 import eu.strasbourg.service.notif.model.ServiceNotif;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.io.Serializable;
-
 import java.util.List;
 
 /**
@@ -60,7 +58,7 @@ public interface ServiceNotifLocalService
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link ServiceNotifLocalServiceUtil} to access the service notif local service. Add custom service methods to <code>eu.strasbourg.service.notif.service.impl.ServiceNotifLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.notif.service.impl.ServiceNotifLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the service notif local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link ServiceNotifLocalServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**
@@ -75,6 +73,12 @@ public interface ServiceNotifLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public ServiceNotif addServiceNotif(ServiceNotif serviceNotif);
+
+	/**
+	 * @throws PortalException
+	 */
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException;
 
 	/**
 	 * Crée un service vide avec une PK, non ajouté à la base de donnée
@@ -124,6 +128,12 @@ public interface ServiceNotifLocalService
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	public ServiceNotif deleteServiceNotif(ServiceNotif serviceNotif);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> T dslQuery(DSLQuery dslQuery);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int dslQueryCount(DSLQuery dslQuery);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();
