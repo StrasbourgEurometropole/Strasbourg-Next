@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.place.service.impl;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -38,6 +39,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.place.model.GoogleMyBusinessHistoric;
 import eu.strasbourg.service.place.service.base.GoogleMyBusinessHistoricLocalServiceBaseImpl;
 import eu.strasbourg.service.place.utils.GoogleSynchronisation;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -204,11 +206,8 @@ public class GoogleMyBusinessHistoricLocalServiceImpl
 
 		if (entry != null) {
 			// Delete the link with categories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-						categoryId, entry.getEntryId());
-			}
-
+			assetEntryAssetCategoryRelLocalService.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Delete the link with tags
 			long[] tagIds = AssetEntryLocalServiceUtil
 					.getAssetTagPrimaryKeys(entry.getEntryId());
@@ -327,4 +326,6 @@ public class GoogleMyBusinessHistoricLocalServiceImpl
 		GoogleSynchronisation googleSynchronisation = new GoogleSynchronisation(sc, googleMyBusinessHistoric);
 		googleSynchronisation.doSynchronisation();
 	}
+	@Reference
+	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

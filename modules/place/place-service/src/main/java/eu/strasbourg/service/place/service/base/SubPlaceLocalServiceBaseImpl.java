@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.place.service.base;
 
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -27,6 +28,8 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -40,9 +43,9 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.place.model.SubPlace;
 import eu.strasbourg.service.place.service.SubPlaceLocalService;
+import eu.strasbourg.service.place.service.SubPlaceLocalServiceUtil;
 import eu.strasbourg.service.place.service.persistence.CsmapCacheJsonPersistence;
 import eu.strasbourg.service.place.service.persistence.GoogleMyBusinessHistoricPersistence;
 import eu.strasbourg.service.place.service.persistence.HistoricPersistence;
@@ -54,11 +57,10 @@ import eu.strasbourg.service.place.service.persistence.ScheduleExceptionPersiste
 import eu.strasbourg.service.place.service.persistence.SlotPersistence;
 import eu.strasbourg.service.place.service.persistence.SubPlacePersistence;
 
-import java.io.Serializable;
-
-import java.util.List;
-
 import javax.sql.DataSource;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * Provides the base implementation for the sub place local service.
@@ -78,7 +80,7 @@ public abstract class SubPlaceLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>SubPlaceLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.place.service.SubPlaceLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>SubPlaceLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>SubPlaceLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -142,6 +144,18 @@ public abstract class SubPlaceLocalServiceBaseImpl
 	@Override
 	public SubPlace deleteSubPlace(SubPlace subPlace) {
 		return subPlacePersistence.remove(subPlace);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return subPlacePersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -293,12 +307,28 @@ public abstract class SubPlaceLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return subPlacePersistence.create(((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement SubPlaceLocalServiceImpl#deleteSubPlace(SubPlace) to avoid orphaned data");
+		}
 
 		return subPlaceLocalService.deleteSubPlace((SubPlace)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<SubPlace> getBasePersistence() {
 		return subPlacePersistence;
 	}
@@ -911,11 +941,15 @@ public abstract class SubPlaceLocalServiceBaseImpl
 	public void afterPropertiesSet() {
 		persistedModelLocalServiceRegistry.register(
 			"eu.strasbourg.service.place.model.SubPlace", subPlaceLocalService);
+
+		_setLocalServiceUtilService(subPlaceLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"eu.strasbourg.service.place.model.SubPlace");
+
+		_setLocalServiceUtilService(null);
 	}
 
 	/**
@@ -957,6 +991,22 @@ public abstract class SubPlaceLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		SubPlaceLocalService subPlaceLocalService) {
+
+		try {
+			Field field = SubPlaceLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, subPlaceLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1078,6 +1128,9 @@ public abstract class SubPlaceLocalServiceBaseImpl
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		SubPlaceLocalServiceBaseImpl.class);
 
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry

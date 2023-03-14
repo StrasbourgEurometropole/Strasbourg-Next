@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.place.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Angelique Zunino Champougny
  */
-@ProviderType
 public class NoSuchGoogleMyBusinessHistoricException extends NoSuchModelException {
 
 	public NoSuchGoogleMyBusinessHistoricException() {
@@ -30,12 +27,12 @@ public class NoSuchGoogleMyBusinessHistoricException extends NoSuchModelExceptio
 		super(msg);
 	}
 
-	public NoSuchGoogleMyBusinessHistoricException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchGoogleMyBusinessHistoricException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchGoogleMyBusinessHistoricException(Throwable cause) {
-		super(cause);
+	public NoSuchGoogleMyBusinessHistoricException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

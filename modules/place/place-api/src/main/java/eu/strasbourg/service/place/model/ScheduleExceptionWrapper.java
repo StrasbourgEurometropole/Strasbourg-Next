@@ -14,16 +14,12 @@
 
 package eu.strasbourg.service.place.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +31,11 @@ import java.util.Objects;
  * @generated
  */
 public class ScheduleExceptionWrapper
+	extends BaseModelWrapper<ScheduleException>
 	implements ModelWrapper<ScheduleException>, ScheduleException {
 
 	public ScheduleExceptionWrapper(ScheduleException scheduleException) {
-		_scheduleException = scheduleException;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return ScheduleException.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return ScheduleException.class.getName();
+		super(scheduleException);
 	}
 
 	@Override
@@ -161,21 +148,13 @@ public class ScheduleExceptionWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new ScheduleExceptionWrapper(
-			(ScheduleException)_scheduleException.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.place.model.ScheduleException scheduleException) {
-
-		return _scheduleException.compareTo(scheduleException);
+	public ScheduleException cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _scheduleException.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -185,7 +164,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public boolean getClosed() {
-		return _scheduleException.getClosed();
+		return model.getClosed();
 	}
 
 	/**
@@ -195,7 +174,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getComment() {
-		return _scheduleException.getComment();
+		return model.getComment();
 	}
 
 	/**
@@ -206,7 +185,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getComment(java.util.Locale locale) {
-		return _scheduleException.getComment(locale);
+		return model.getComment(locale);
 	}
 
 	/**
@@ -218,7 +197,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getComment(java.util.Locale locale, boolean useDefault) {
-		return _scheduleException.getComment(locale, useDefault);
+		return model.getComment(locale, useDefault);
 	}
 
 	/**
@@ -229,7 +208,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getComment(String languageId) {
-		return _scheduleException.getComment(languageId);
+		return model.getComment(languageId);
 	}
 
 	/**
@@ -241,17 +220,17 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getComment(String languageId, boolean useDefault) {
-		return _scheduleException.getComment(languageId, useDefault);
+		return model.getComment(languageId, useDefault);
 	}
 
 	@Override
 	public String getCommentCurrentLanguageId() {
-		return _scheduleException.getCommentCurrentLanguageId();
+		return model.getCommentCurrentLanguageId();
 	}
 
 	@Override
 	public String getCommentCurrentValue() {
-		return _scheduleException.getCommentCurrentValue();
+		return model.getCommentCurrentValue();
 	}
 
 	/**
@@ -261,7 +240,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getCommentMap() {
-		return _scheduleException.getCommentMap();
+		return model.getCommentMap();
 	}
 
 	/**
@@ -269,12 +248,12 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String[] getComments() {
-		return _scheduleException.getComments();
+		return model.getComments();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _scheduleException.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -284,7 +263,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public Date getEndDate() {
-		return _scheduleException.getEndDate();
+		return model.getEndDate();
 	}
 
 	/**
@@ -292,7 +271,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public java.time.LocalTime getEndHour(int index) {
-		return _scheduleException.getEndHour(index);
+		return model.getEndHour(index);
 	}
 
 	/**
@@ -302,12 +281,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public long getExceptionId() {
-		return _scheduleException.getExceptionId();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _scheduleException.getExpandoBridge();
+		return model.getExceptionId();
 	}
 
 	/**
@@ -317,7 +291,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getFifthComment() {
-		return _scheduleException.getFifthComment();
+		return model.getFifthComment();
 	}
 
 	/**
@@ -328,7 +302,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getFifthComment(java.util.Locale locale) {
-		return _scheduleException.getFifthComment(locale);
+		return model.getFifthComment(locale);
 	}
 
 	/**
@@ -340,7 +314,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getFifthComment(java.util.Locale locale, boolean useDefault) {
-		return _scheduleException.getFifthComment(locale, useDefault);
+		return model.getFifthComment(locale, useDefault);
 	}
 
 	/**
@@ -351,7 +325,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getFifthComment(String languageId) {
-		return _scheduleException.getFifthComment(languageId);
+		return model.getFifthComment(languageId);
 	}
 
 	/**
@@ -363,17 +337,17 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getFifthComment(String languageId, boolean useDefault) {
-		return _scheduleException.getFifthComment(languageId, useDefault);
+		return model.getFifthComment(languageId, useDefault);
 	}
 
 	@Override
 	public String getFifthCommentCurrentLanguageId() {
-		return _scheduleException.getFifthCommentCurrentLanguageId();
+		return model.getFifthCommentCurrentLanguageId();
 	}
 
 	@Override
 	public String getFifthCommentCurrentValue() {
-		return _scheduleException.getFifthCommentCurrentValue();
+		return model.getFifthCommentCurrentValue();
 	}
 
 	/**
@@ -383,7 +357,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getFifthCommentMap() {
-		return _scheduleException.getFifthCommentMap();
+		return model.getFifthCommentMap();
 	}
 
 	/**
@@ -393,7 +367,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getFirstComment() {
-		return _scheduleException.getFirstComment();
+		return model.getFirstComment();
 	}
 
 	/**
@@ -404,7 +378,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getFirstComment(java.util.Locale locale) {
-		return _scheduleException.getFirstComment(locale);
+		return model.getFirstComment(locale);
 	}
 
 	/**
@@ -416,7 +390,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getFirstComment(java.util.Locale locale, boolean useDefault) {
-		return _scheduleException.getFirstComment(locale, useDefault);
+		return model.getFirstComment(locale, useDefault);
 	}
 
 	/**
@@ -427,7 +401,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getFirstComment(String languageId) {
-		return _scheduleException.getFirstComment(languageId);
+		return model.getFirstComment(languageId);
 	}
 
 	/**
@@ -439,17 +413,17 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getFirstComment(String languageId, boolean useDefault) {
-		return _scheduleException.getFirstComment(languageId, useDefault);
+		return model.getFirstComment(languageId, useDefault);
 	}
 
 	@Override
 	public String getFirstCommentCurrentLanguageId() {
-		return _scheduleException.getFirstCommentCurrentLanguageId();
+		return model.getFirstCommentCurrentLanguageId();
 	}
 
 	@Override
 	public String getFirstCommentCurrentValue() {
-		return _scheduleException.getFirstCommentCurrentValue();
+		return model.getFirstCommentCurrentValue();
 	}
 
 	/**
@@ -459,7 +433,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getFirstCommentMap() {
-		return _scheduleException.getFirstCommentMap();
+		return model.getFirstCommentMap();
 	}
 
 	/**
@@ -469,7 +443,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getFourthComment() {
-		return _scheduleException.getFourthComment();
+		return model.getFourthComment();
 	}
 
 	/**
@@ -480,7 +454,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getFourthComment(java.util.Locale locale) {
-		return _scheduleException.getFourthComment(locale);
+		return model.getFourthComment(locale);
 	}
 
 	/**
@@ -494,7 +468,7 @@ public class ScheduleExceptionWrapper
 	public String getFourthComment(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _scheduleException.getFourthComment(locale, useDefault);
+		return model.getFourthComment(locale, useDefault);
 	}
 
 	/**
@@ -505,7 +479,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getFourthComment(String languageId) {
-		return _scheduleException.getFourthComment(languageId);
+		return model.getFourthComment(languageId);
 	}
 
 	/**
@@ -517,17 +491,17 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getFourthComment(String languageId, boolean useDefault) {
-		return _scheduleException.getFourthComment(languageId, useDefault);
+		return model.getFourthComment(languageId, useDefault);
 	}
 
 	@Override
 	public String getFourthCommentCurrentLanguageId() {
-		return _scheduleException.getFourthCommentCurrentLanguageId();
+		return model.getFourthCommentCurrentLanguageId();
 	}
 
 	@Override
 	public String getFourthCommentCurrentValue() {
-		return _scheduleException.getFourthCommentCurrentValue();
+		return model.getFourthCommentCurrentValue();
 	}
 
 	/**
@@ -537,7 +511,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getFourthCommentMap() {
-		return _scheduleException.getFourthCommentMap();
+		return model.getFourthCommentMap();
 	}
 
 	/**
@@ -548,7 +522,7 @@ public class ScheduleExceptionWrapper
 		<eu.strasbourg.utils.models.Pair
 			<java.time.LocalTime, java.time.LocalTime>> getOpeningLocalTimes() {
 
-		return _scheduleException.getOpeningLocalTimes();
+		return model.getOpeningLocalTimes();
 	}
 
 	/**
@@ -558,7 +532,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getOpeningTimes() {
-		return _scheduleException.getOpeningTimes();
+		return model.getOpeningTimes();
 	}
 
 	/**
@@ -568,7 +542,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public long getPlaceId() {
-		return _scheduleException.getPlaceId();
+		return model.getPlaceId();
 	}
 
 	/**
@@ -578,12 +552,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _scheduleException.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _scheduleException.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -593,7 +562,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getSecondComment() {
-		return _scheduleException.getSecondComment();
+		return model.getSecondComment();
 	}
 
 	/**
@@ -604,7 +573,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getSecondComment(java.util.Locale locale) {
-		return _scheduleException.getSecondComment(locale);
+		return model.getSecondComment(locale);
 	}
 
 	/**
@@ -618,7 +587,7 @@ public class ScheduleExceptionWrapper
 	public String getSecondComment(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _scheduleException.getSecondComment(locale, useDefault);
+		return model.getSecondComment(locale, useDefault);
 	}
 
 	/**
@@ -629,7 +598,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getSecondComment(String languageId) {
-		return _scheduleException.getSecondComment(languageId);
+		return model.getSecondComment(languageId);
 	}
 
 	/**
@@ -641,17 +610,17 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getSecondComment(String languageId, boolean useDefault) {
-		return _scheduleException.getSecondComment(languageId, useDefault);
+		return model.getSecondComment(languageId, useDefault);
 	}
 
 	@Override
 	public String getSecondCommentCurrentLanguageId() {
-		return _scheduleException.getSecondCommentCurrentLanguageId();
+		return model.getSecondCommentCurrentLanguageId();
 	}
 
 	@Override
 	public String getSecondCommentCurrentValue() {
-		return _scheduleException.getSecondCommentCurrentValue();
+		return model.getSecondCommentCurrentValue();
 	}
 
 	/**
@@ -661,7 +630,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getSecondCommentMap() {
-		return _scheduleException.getSecondCommentMap();
+		return model.getSecondCommentMap();
 	}
 
 	/**
@@ -671,7 +640,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public Date getStartDate() {
-		return _scheduleException.getStartDate();
+		return model.getStartDate();
 	}
 
 	/**
@@ -679,7 +648,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public java.time.LocalTime getStartHour(int index) {
-		return _scheduleException.getStartHour(index);
+		return model.getStartHour(index);
 	}
 
 	/**
@@ -689,7 +658,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public long getSubPlaceId() {
-		return _scheduleException.getSubPlaceId();
+		return model.getSubPlaceId();
 	}
 
 	/**
@@ -699,7 +668,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getThirdComment() {
-		return _scheduleException.getThirdComment();
+		return model.getThirdComment();
 	}
 
 	/**
@@ -710,7 +679,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getThirdComment(java.util.Locale locale) {
-		return _scheduleException.getThirdComment(locale);
+		return model.getThirdComment(locale);
 	}
 
 	/**
@@ -722,7 +691,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getThirdComment(java.util.Locale locale, boolean useDefault) {
-		return _scheduleException.getThirdComment(locale, useDefault);
+		return model.getThirdComment(locale, useDefault);
 	}
 
 	/**
@@ -733,7 +702,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getThirdComment(String languageId) {
-		return _scheduleException.getThirdComment(languageId);
+		return model.getThirdComment(languageId);
 	}
 
 	/**
@@ -745,17 +714,17 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getThirdComment(String languageId, boolean useDefault) {
-		return _scheduleException.getThirdComment(languageId, useDefault);
+		return model.getThirdComment(languageId, useDefault);
 	}
 
 	@Override
 	public String getThirdCommentCurrentLanguageId() {
-		return _scheduleException.getThirdCommentCurrentLanguageId();
+		return model.getThirdCommentCurrentLanguageId();
 	}
 
 	@Override
 	public String getThirdCommentCurrentValue() {
-		return _scheduleException.getThirdCommentCurrentValue();
+		return model.getThirdCommentCurrentValue();
 	}
 
 	/**
@@ -765,7 +734,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getThirdCommentMap() {
-		return _scheduleException.getThirdCommentMap();
+		return model.getThirdCommentMap();
 	}
 
 	/**
@@ -775,17 +744,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _scheduleException.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _scheduleException.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _scheduleException.isCachedModel();
+		return model.getUuid();
 	}
 
 	/**
@@ -795,29 +754,19 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public boolean isClosed() {
-		return _scheduleException.isClosed();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _scheduleException.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _scheduleException.isNew();
+		return model.isClosed();
 	}
 
 	@Override
 	public void persist() {
-		_scheduleException.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_scheduleException.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -825,12 +774,7 @@ public class ScheduleExceptionWrapper
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_scheduleException.prepareLocalizedFieldsForImport(defaultImportLocale);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_scheduleException.setCachedModel(cachedModel);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -840,7 +784,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public void setClosed(boolean closed) {
-		_scheduleException.setClosed(closed);
+		model.setClosed(closed);
 	}
 
 	/**
@@ -850,7 +794,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public void setComment(String comment) {
-		_scheduleException.setComment(comment);
+		model.setComment(comment);
 	}
 
 	/**
@@ -861,7 +805,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public void setComment(String comment, java.util.Locale locale) {
-		_scheduleException.setComment(comment, locale);
+		model.setComment(comment, locale);
 	}
 
 	/**
@@ -876,12 +820,12 @@ public class ScheduleExceptionWrapper
 		String comment, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_scheduleException.setComment(comment, locale, defaultLocale);
+		model.setComment(comment, locale, defaultLocale);
 	}
 
 	@Override
 	public void setCommentCurrentLanguageId(String languageId) {
-		_scheduleException.setCommentCurrentLanguageId(languageId);
+		model.setCommentCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -891,7 +835,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public void setCommentMap(Map<java.util.Locale, String> commentMap) {
-		_scheduleException.setCommentMap(commentMap);
+		model.setCommentMap(commentMap);
 	}
 
 	/**
@@ -905,7 +849,7 @@ public class ScheduleExceptionWrapper
 		Map<java.util.Locale, String> commentMap,
 		java.util.Locale defaultLocale) {
 
-		_scheduleException.setCommentMap(commentMap, defaultLocale);
+		model.setCommentMap(commentMap, defaultLocale);
 	}
 
 	/**
@@ -915,7 +859,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public void setEndDate(Date endDate) {
-		_scheduleException.setEndDate(endDate);
+		model.setEndDate(endDate);
 	}
 
 	/**
@@ -925,24 +869,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public void setExceptionId(long exceptionId) {
-		_scheduleException.setExceptionId(exceptionId);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_scheduleException.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_scheduleException.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_scheduleException.setExpandoBridgeAttributes(serviceContext);
+		model.setExceptionId(exceptionId);
 	}
 
 	/**
@@ -952,7 +879,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public void setFifthComment(String fifthComment) {
-		_scheduleException.setFifthComment(fifthComment);
+		model.setFifthComment(fifthComment);
 	}
 
 	/**
@@ -963,7 +890,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public void setFifthComment(String fifthComment, java.util.Locale locale) {
-		_scheduleException.setFifthComment(fifthComment, locale);
+		model.setFifthComment(fifthComment, locale);
 	}
 
 	/**
@@ -978,12 +905,12 @@ public class ScheduleExceptionWrapper
 		String fifthComment, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_scheduleException.setFifthComment(fifthComment, locale, defaultLocale);
+		model.setFifthComment(fifthComment, locale, defaultLocale);
 	}
 
 	@Override
 	public void setFifthCommentCurrentLanguageId(String languageId) {
-		_scheduleException.setFifthCommentCurrentLanguageId(languageId);
+		model.setFifthCommentCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -995,7 +922,7 @@ public class ScheduleExceptionWrapper
 	public void setFifthCommentMap(
 		Map<java.util.Locale, String> fifthCommentMap) {
 
-		_scheduleException.setFifthCommentMap(fifthCommentMap);
+		model.setFifthCommentMap(fifthCommentMap);
 	}
 
 	/**
@@ -1009,7 +936,7 @@ public class ScheduleExceptionWrapper
 		Map<java.util.Locale, String> fifthCommentMap,
 		java.util.Locale defaultLocale) {
 
-		_scheduleException.setFifthCommentMap(fifthCommentMap, defaultLocale);
+		model.setFifthCommentMap(fifthCommentMap, defaultLocale);
 	}
 
 	/**
@@ -1019,7 +946,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public void setFirstComment(String firstComment) {
-		_scheduleException.setFirstComment(firstComment);
+		model.setFirstComment(firstComment);
 	}
 
 	/**
@@ -1030,7 +957,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public void setFirstComment(String firstComment, java.util.Locale locale) {
-		_scheduleException.setFirstComment(firstComment, locale);
+		model.setFirstComment(firstComment, locale);
 	}
 
 	/**
@@ -1045,12 +972,12 @@ public class ScheduleExceptionWrapper
 		String firstComment, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_scheduleException.setFirstComment(firstComment, locale, defaultLocale);
+		model.setFirstComment(firstComment, locale, defaultLocale);
 	}
 
 	@Override
 	public void setFirstCommentCurrentLanguageId(String languageId) {
-		_scheduleException.setFirstCommentCurrentLanguageId(languageId);
+		model.setFirstCommentCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1062,7 +989,7 @@ public class ScheduleExceptionWrapper
 	public void setFirstCommentMap(
 		Map<java.util.Locale, String> firstCommentMap) {
 
-		_scheduleException.setFirstCommentMap(firstCommentMap);
+		model.setFirstCommentMap(firstCommentMap);
 	}
 
 	/**
@@ -1076,7 +1003,7 @@ public class ScheduleExceptionWrapper
 		Map<java.util.Locale, String> firstCommentMap,
 		java.util.Locale defaultLocale) {
 
-		_scheduleException.setFirstCommentMap(firstCommentMap, defaultLocale);
+		model.setFirstCommentMap(firstCommentMap, defaultLocale);
 	}
 
 	/**
@@ -1086,7 +1013,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public void setFourthComment(String fourthComment) {
-		_scheduleException.setFourthComment(fourthComment);
+		model.setFourthComment(fourthComment);
 	}
 
 	/**
@@ -1099,7 +1026,7 @@ public class ScheduleExceptionWrapper
 	public void setFourthComment(
 		String fourthComment, java.util.Locale locale) {
 
-		_scheduleException.setFourthComment(fourthComment, locale);
+		model.setFourthComment(fourthComment, locale);
 	}
 
 	/**
@@ -1114,13 +1041,12 @@ public class ScheduleExceptionWrapper
 		String fourthComment, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_scheduleException.setFourthComment(
-			fourthComment, locale, defaultLocale);
+		model.setFourthComment(fourthComment, locale, defaultLocale);
 	}
 
 	@Override
 	public void setFourthCommentCurrentLanguageId(String languageId) {
-		_scheduleException.setFourthCommentCurrentLanguageId(languageId);
+		model.setFourthCommentCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1132,7 +1058,7 @@ public class ScheduleExceptionWrapper
 	public void setFourthCommentMap(
 		Map<java.util.Locale, String> fourthCommentMap) {
 
-		_scheduleException.setFourthCommentMap(fourthCommentMap);
+		model.setFourthCommentMap(fourthCommentMap);
 	}
 
 	/**
@@ -1146,12 +1072,7 @@ public class ScheduleExceptionWrapper
 		Map<java.util.Locale, String> fourthCommentMap,
 		java.util.Locale defaultLocale) {
 
-		_scheduleException.setFourthCommentMap(fourthCommentMap, defaultLocale);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_scheduleException.setNew(n);
+		model.setFourthCommentMap(fourthCommentMap, defaultLocale);
 	}
 
 	/**
@@ -1161,7 +1082,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public void setOpeningTimes(String openingTimes) {
-		_scheduleException.setOpeningTimes(openingTimes);
+		model.setOpeningTimes(openingTimes);
 	}
 
 	/**
@@ -1171,7 +1092,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public void setPlaceId(long placeId) {
-		_scheduleException.setPlaceId(placeId);
+		model.setPlaceId(placeId);
 	}
 
 	/**
@@ -1181,12 +1102,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_scheduleException.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_scheduleException.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -1196,7 +1112,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public void setSecondComment(String secondComment) {
-		_scheduleException.setSecondComment(secondComment);
+		model.setSecondComment(secondComment);
 	}
 
 	/**
@@ -1209,7 +1125,7 @@ public class ScheduleExceptionWrapper
 	public void setSecondComment(
 		String secondComment, java.util.Locale locale) {
 
-		_scheduleException.setSecondComment(secondComment, locale);
+		model.setSecondComment(secondComment, locale);
 	}
 
 	/**
@@ -1224,13 +1140,12 @@ public class ScheduleExceptionWrapper
 		String secondComment, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_scheduleException.setSecondComment(
-			secondComment, locale, defaultLocale);
+		model.setSecondComment(secondComment, locale, defaultLocale);
 	}
 
 	@Override
 	public void setSecondCommentCurrentLanguageId(String languageId) {
-		_scheduleException.setSecondCommentCurrentLanguageId(languageId);
+		model.setSecondCommentCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1242,7 +1157,7 @@ public class ScheduleExceptionWrapper
 	public void setSecondCommentMap(
 		Map<java.util.Locale, String> secondCommentMap) {
 
-		_scheduleException.setSecondCommentMap(secondCommentMap);
+		model.setSecondCommentMap(secondCommentMap);
 	}
 
 	/**
@@ -1256,7 +1171,7 @@ public class ScheduleExceptionWrapper
 		Map<java.util.Locale, String> secondCommentMap,
 		java.util.Locale defaultLocale) {
 
-		_scheduleException.setSecondCommentMap(secondCommentMap, defaultLocale);
+		model.setSecondCommentMap(secondCommentMap, defaultLocale);
 	}
 
 	/**
@@ -1266,7 +1181,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public void setStartDate(Date startDate) {
-		_scheduleException.setStartDate(startDate);
+		model.setStartDate(startDate);
 	}
 
 	/**
@@ -1276,7 +1191,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public void setSubPlaceId(long subPlaceId) {
-		_scheduleException.setSubPlaceId(subPlaceId);
+		model.setSubPlaceId(subPlaceId);
 	}
 
 	/**
@@ -1286,7 +1201,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public void setThirdComment(String thirdComment) {
-		_scheduleException.setThirdComment(thirdComment);
+		model.setThirdComment(thirdComment);
 	}
 
 	/**
@@ -1297,7 +1212,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public void setThirdComment(String thirdComment, java.util.Locale locale) {
-		_scheduleException.setThirdComment(thirdComment, locale);
+		model.setThirdComment(thirdComment, locale);
 	}
 
 	/**
@@ -1312,12 +1227,12 @@ public class ScheduleExceptionWrapper
 		String thirdComment, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_scheduleException.setThirdComment(thirdComment, locale, defaultLocale);
+		model.setThirdComment(thirdComment, locale, defaultLocale);
 	}
 
 	@Override
 	public void setThirdCommentCurrentLanguageId(String languageId) {
-		_scheduleException.setThirdCommentCurrentLanguageId(languageId);
+		model.setThirdCommentCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1329,7 +1244,7 @@ public class ScheduleExceptionWrapper
 	public void setThirdCommentMap(
 		Map<java.util.Locale, String> thirdCommentMap) {
 
-		_scheduleException.setThirdCommentMap(thirdCommentMap);
+		model.setThirdCommentMap(thirdCommentMap);
 	}
 
 	/**
@@ -1343,7 +1258,7 @@ public class ScheduleExceptionWrapper
 		Map<java.util.Locale, String> thirdCommentMap,
 		java.util.Locale defaultLocale) {
 
-		_scheduleException.setThirdCommentMap(thirdCommentMap, defaultLocale);
+		model.setThirdCommentMap(thirdCommentMap, defaultLocale);
 	}
 
 	/**
@@ -1353,14 +1268,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_scheduleException.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.place.model.ScheduleException> toCacheModel() {
-
-		return _scheduleException.toCacheModel();
+		model.setUuid(uuid);
 	}
 
 	/**
@@ -1368,15 +1276,7 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toCSMapJSON() {
-		return _scheduleException.toCSMapJSON();
-	}
-
-	@Override
-	public eu.strasbourg.service.place.model.ScheduleException
-		toEscapedModel() {
-
-		return new ScheduleExceptionWrapper(
-			_scheduleException.toEscapedModel());
+		return model.toCSMapJSON();
 	}
 
 	/**
@@ -1384,70 +1284,19 @@ public class ScheduleExceptionWrapper
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _scheduleException.toJSON();
-	}
-
-	@Override
-	public String toString() {
-		return _scheduleException.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.place.model.ScheduleException
-		toUnescapedModel() {
-
-		return new ScheduleExceptionWrapper(
-			_scheduleException.toUnescapedModel());
+		return model.toJSON();
 	}
 
 	@Override
 	public String toXmlString() {
-		return _scheduleException.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
+	protected ScheduleExceptionWrapper wrap(
+		ScheduleException scheduleException) {
 
-		if (!(object instanceof ScheduleExceptionWrapper)) {
-			return false;
-		}
-
-		ScheduleExceptionWrapper scheduleExceptionWrapper =
-			(ScheduleExceptionWrapper)object;
-
-		if (Objects.equals(
-				_scheduleException,
-				scheduleExceptionWrapper._scheduleException)) {
-
-			return true;
-		}
-
-		return false;
+		return new ScheduleExceptionWrapper(scheduleException);
 	}
-
-	@Override
-	public ScheduleException getWrappedModel() {
-		return _scheduleException;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _scheduleException.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _scheduleException.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_scheduleException.resetOriginalValues();
-	}
-
-	private final ScheduleException _scheduleException;
 
 }

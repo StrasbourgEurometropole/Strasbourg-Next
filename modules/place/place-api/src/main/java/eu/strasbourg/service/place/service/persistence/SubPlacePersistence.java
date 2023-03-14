@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.place.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.place.exception.NoSuchSubPlaceException;
 import eu.strasbourg.service.place.model.SubPlace;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the sub place service.
@@ -45,9 +38,6 @@ public interface SubPlacePersistence extends BasePersistence<SubPlace> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link SubPlaceUtil} to access the sub place persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, SubPlace> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the sub places where uuid = &#63;.
@@ -452,8 +442,5 @@ public interface SubPlacePersistence extends BasePersistence<SubPlace> {
 	 * @return the number of sub places
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

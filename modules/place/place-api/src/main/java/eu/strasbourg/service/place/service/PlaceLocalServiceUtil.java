@@ -14,9 +14,16 @@
 
 package eu.strasbourg.service.place.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.place.model.Place;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for Place. This utility wraps
@@ -48,10 +55,18 @@ public class PlaceLocalServiceUtil {
 	 * @param place the place
 	 * @return the place that was added
 	 */
-	public static eu.strasbourg.service.place.model.Place addPlace(
-		eu.strasbourg.service.place.model.Place place) {
-
+	public static Place addPlace(Place place) {
 		return getService().addPlace(place);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -60,18 +75,16 @@ public class PlaceLocalServiceUtil {
 	 * @param placeId the primary key for the new place
 	 * @return the new place
 	 */
-	public static eu.strasbourg.service.place.model.Place createPlace(
-		long placeId) {
-
+	public static Place createPlace(long placeId) {
 		return getService().createPlace(placeId);
 	}
 
 	/**
 	 * Crée un lieu vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.place.model.Place createPlace(
+	public static Place createPlace(
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().createPlace(sc);
 	}
@@ -79,10 +92,9 @@ public class PlaceLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -98,10 +110,7 @@ public class PlaceLocalServiceUtil {
 	 * @return the place that was removed
 	 * @throws PortalException if a place with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.place.model.Place deletePlace(
-			long placeId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Place deletePlace(long placeId) throws PortalException {
 		return getService().deletePlace(placeId);
 	}
 
@@ -115,15 +124,19 @@ public class PlaceLocalServiceUtil {
 	 * @param place the place
 	 * @return the place that was removed
 	 */
-	public static eu.strasbourg.service.place.model.Place deletePlace(
-		eu.strasbourg.service.place.model.Place place) {
-
+	public static Place deletePlace(Place place) {
 		return getService().deletePlace(place);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -133,9 +146,7 @@ public class PlaceLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -151,9 +162,8 @@ public class PlaceLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -171,10 +181,9 @@ public class PlaceLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -186,9 +195,7 @@ public class PlaceLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -200,15 +207,13 @@ public class PlaceLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.place.model.Place fetchPlace(
-		long placeId) {
-
+	public static Place fetchPlace(long placeId) {
 		return getService().fetchPlace(placeId);
 	}
 
@@ -219,17 +224,15 @@ public class PlaceLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching place, or <code>null</code> if a matching place could not be found
 	 */
-	public static eu.strasbourg.service.place.model.Place
-		fetchPlaceByUuidAndGroupId(String uuid, long groupId) {
-
+	public static Place fetchPlaceByUuidAndGroupId(String uuid, long groupId) {
 		return getService().fetchPlaceByUuidAndGroupId(uuid, groupId);
 	}
 
 	/**
 	 * Lance une recherche par mots-clés
 	 */
-	public static java.util.List<eu.strasbourg.service.place.model.Place>
-		findByKeyword(String keyword, long groupId, int start, int end) {
+	public static List<Place> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -246,8 +249,7 @@ public class PlaceLocalServiceUtil {
 	 *
 	 * @throws NoSuchPlaceException
 	 */
-	public static java.util.List<eu.strasbourg.service.place.model.Place>
-			findByName(String name)
+	public static List<Place> findByName(String name)
 		throws eu.strasbourg.service.place.exception.NoSuchPlaceException {
 
 		return getService().findByName(name);
@@ -262,7 +264,7 @@ public class PlaceLocalServiceUtil {
 	/**
 	 * Retourne les vocabulaires rattrachés à ce type d'entité pour un groupe
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -271,18 +273,14 @@ public class PlaceLocalServiceUtil {
 	/**
 	 * Retourne les lieux d'un groupe
 	 */
-	public static java.util.List<eu.strasbourg.service.place.model.Place>
-		getByGroupId(long groupId) {
-
+	public static List<Place> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
 	/**
 	 * Retourne les lieux rattachés à un tarif
 	 */
-	public static java.util.List<eu.strasbourg.service.place.model.Place>
-		getByPriceId(long priceId) {
-
+	public static List<Place> getByPriceId(long priceId) {
 		return getService().getByPriceId(priceId);
 	}
 
@@ -313,9 +311,8 @@ public class PlaceLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -327,15 +324,11 @@ public class PlaceLocalServiceUtil {
 	 * @return the place
 	 * @throws PortalException if a place with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.place.model.Place getPlace(long placeId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Place getPlace(long placeId) throws PortalException {
 		return getService().getPlace(placeId);
 	}
 
-	public static eu.strasbourg.service.place.model.Place getPlaceBySIGId(
-		String idSIG) {
-
+	public static Place getPlaceBySIGId(String idSIG) {
 		return getService().getPlaceBySIGId(idSIG);
 	}
 
@@ -347,9 +340,8 @@ public class PlaceLocalServiceUtil {
 	 * @return the matching place
 	 * @throws PortalException if a matching place could not be found
 	 */
-	public static eu.strasbourg.service.place.model.Place
-			getPlaceByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Place getPlaceByUuidAndGroupId(String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getPlaceByUuidAndGroupId(uuid, groupId);
 	}
@@ -365,9 +357,7 @@ public class PlaceLocalServiceUtil {
 	 * @param end the upper bound of the range of places (not inclusive)
 	 * @return the range of places
 	 */
-	public static java.util.List<eu.strasbourg.service.place.model.Place>
-		getPlaces(int start, int end) {
-
+	public static List<Place> getPlaces(int start, int end) {
 		return getService().getPlaces(start, end);
 	}
 
@@ -378,8 +368,8 @@ public class PlaceLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching places, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.place.model.Place>
-		getPlacesByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<Place> getPlacesByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getPlacesByUuidAndCompanyId(uuid, companyId);
 	}
@@ -394,11 +384,9 @@ public class PlaceLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching places, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.place.model.Place>
-		getPlacesByUuidAndCompanyId(
-			String uuid, long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<eu.strasbourg.service.place.model.Place> orderByComparator) {
+	public static List<Place> getPlacesByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Place> orderByComparator) {
 
 		return getService().getPlacesByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -416,10 +404,7 @@ public class PlaceLocalServiceUtil {
 	/**
 	 * Supprime un lieu
 	 */
-	public static eu.strasbourg.service.place.model.Place removePlace(
-			long placeId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Place removePlace(long placeId) throws PortalException {
 		return getService().removePlace(placeId);
 	}
 
@@ -436,10 +421,7 @@ public class PlaceLocalServiceUtil {
 	/**
 	 * Met à jour le jsonHoraire d'un lieu
 	 */
-	public static eu.strasbourg.service.place.model.Place updateJsonHoraire(
-			eu.strasbourg.service.place.model.Place place)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Place updateJsonHoraire(Place place) throws PortalException {
 		return getService().updateJsonHoraire(place);
 	}
 
@@ -453,19 +435,16 @@ public class PlaceLocalServiceUtil {
 	 * @param place the place
 	 * @return the place that was updated
 	 */
-	public static eu.strasbourg.service.place.model.Place updatePlace(
-		eu.strasbourg.service.place.model.Place place) {
-
+	public static Place updatePlace(Place place) {
 		return getService().updatePlace(place);
 	}
 
 	/**
 	 * Met à jour un lieu et l'enregistre en base de données
 	 */
-	public static eu.strasbourg.service.place.model.Place updatePlace(
-			eu.strasbourg.service.place.model.Place place,
-			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Place updatePlace(
+			Place place, com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updatePlace(place, sc);
 	}
@@ -484,8 +463,8 @@ public class PlaceLocalServiceUtil {
 	}
 
 	public static void updateRealTime(
-		eu.strasbourg.service.place.model.Place place, String type,
-		long occupation, long available, long capacity, String status) {
+		Place place, String type, long occupation, long available,
+		long capacity, String status) {
 
 		getService().updateRealTime(
 			place, type, occupation, available, capacity, status);
@@ -494,11 +473,11 @@ public class PlaceLocalServiceUtil {
 	/**
 	 * Met à jour le statut du lieu par le framework workflow
 	 */
-	public static eu.strasbourg.service.place.model.Place updateStatus(
+	public static Place updateStatus(
 			long userId, long entryId, int status,
 			com.liferay.portal.kernel.service.ServiceContext sc,
-			java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, entryId, status, sc, workflowContext);
@@ -507,30 +486,16 @@ public class PlaceLocalServiceUtil {
 	/**
 	 * Met à jour le statut du lieu "manuellement" (pas via le workflow)
 	 */
-	public static void updateStatus(
-			eu.strasbourg.service.place.model.Place place, int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static void updateStatus(Place place, int status)
+		throws PortalException {
 
 		getService().updateStatus(place, status);
 	}
 
 	public static PlaceLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<PlaceLocalService, PlaceLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(PlaceLocalService.class);
-
-		ServiceTracker<PlaceLocalService, PlaceLocalService> serviceTracker =
-			new ServiceTracker<PlaceLocalService, PlaceLocalService>(
-				bundle.getBundleContext(), PlaceLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile PlaceLocalService _service;
 
 }

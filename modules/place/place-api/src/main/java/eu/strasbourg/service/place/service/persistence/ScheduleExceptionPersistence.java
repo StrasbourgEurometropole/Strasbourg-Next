@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.place.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.place.exception.NoSuchScheduleExceptionException;
 import eu.strasbourg.service.place.model.ScheduleException;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the schedule exception service.
@@ -46,9 +39,6 @@ public interface ScheduleExceptionPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link ScheduleExceptionUtil} to access the schedule exception persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, ScheduleException> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the schedule exceptions where uuid = &#63;.
@@ -599,8 +589,5 @@ public interface ScheduleExceptionPersistence
 	 * @return the number of schedule exceptions
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

@@ -7,7 +7,12 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.search.BaseIndexer;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.place.model.GoogleMyBusinessHistoric;
 import eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalServiceUtil;
@@ -100,8 +105,7 @@ public class GoogleMyBusinessHistoricIndexer  extends BaseIndexer<GoogleMyBusine
     protected void doReindex(GoogleMyBusinessHistoric googleMyBusinessHistoric) throws Exception {
         Document document = getDocument(googleMyBusinessHistoric);
 
-        IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-                googleMyBusinessHistoric.getCompanyId(), document, isCommitImmediately());
+        IndexWriterHelperUtil.updateDocument(googleMyBusinessHistoric.getCompanyId(), document);
 
     }
 
@@ -135,7 +139,6 @@ public class GoogleMyBusinessHistoricIndexer  extends BaseIndexer<GoogleMyBusine
 
                 });
 
-        indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
         indexableActionableDynamicQuery.performActions();
     }
 

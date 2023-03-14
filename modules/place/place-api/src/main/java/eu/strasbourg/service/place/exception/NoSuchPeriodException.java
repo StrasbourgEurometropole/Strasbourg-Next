@@ -11,17 +11,13 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-
 package eu.strasbourg.service.place.exception;
-
-import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Angelique Zunino Champougny
  */
-@ProviderType
 public class NoSuchPeriodException extends NoSuchModelException {
 
 	public NoSuchPeriodException() {
@@ -31,12 +27,12 @@ public class NoSuchPeriodException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchPeriodException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchPeriodException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchPeriodException(Throwable cause) {
-		super(cause);
+	public NoSuchPeriodException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

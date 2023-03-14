@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.place.service.base;
 
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -27,6 +28,8 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -40,9 +43,9 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.service.PeriodLocalService;
+import eu.strasbourg.service.place.service.PeriodLocalServiceUtil;
 import eu.strasbourg.service.place.service.persistence.CsmapCacheJsonPersistence;
 import eu.strasbourg.service.place.service.persistence.GoogleMyBusinessHistoricPersistence;
 import eu.strasbourg.service.place.service.persistence.HistoricPersistence;
@@ -54,11 +57,10 @@ import eu.strasbourg.service.place.service.persistence.ScheduleExceptionPersiste
 import eu.strasbourg.service.place.service.persistence.SlotPersistence;
 import eu.strasbourg.service.place.service.persistence.SubPlacePersistence;
 
-import java.io.Serializable;
-
-import java.util.List;
-
 import javax.sql.DataSource;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * Provides the base implementation for the period local service.
@@ -78,7 +80,7 @@ public abstract class PeriodLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>PeriodLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.place.service.PeriodLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>PeriodLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>PeriodLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -142,6 +144,18 @@ public abstract class PeriodLocalServiceBaseImpl
 	@Override
 	public Period deletePeriod(Period period) {
 		return periodPersistence.remove(period);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return periodPersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -291,12 +305,28 @@ public abstract class PeriodLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return periodPersistence.create(((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement PeriodLocalServiceImpl#deletePeriod(Period) to avoid orphaned data");
+		}
 
 		return periodLocalService.deletePeriod((Period)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<Period> getBasePersistence() {
 		return periodPersistence;
 	}
@@ -907,11 +937,15 @@ public abstract class PeriodLocalServiceBaseImpl
 	public void afterPropertiesSet() {
 		persistedModelLocalServiceRegistry.register(
 			"eu.strasbourg.service.place.model.Period", periodLocalService);
+
+		_setLocalServiceUtilService(periodLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"eu.strasbourg.service.place.model.Period");
+
+		_setLocalServiceUtilService(null);
 	}
 
 	/**
@@ -953,6 +987,22 @@ public abstract class PeriodLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		PeriodLocalService periodLocalService) {
+
+		try {
+			Field field = PeriodLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, periodLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1074,6 +1124,9 @@ public abstract class PeriodLocalServiceBaseImpl
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		PeriodLocalServiceBaseImpl.class);
 
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry
