@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -50,6 +51,7 @@ import eu.strasbourg.service.like.model.LikeType;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 import eu.strasbourg.service.project.model.*;
 import eu.strasbourg.service.project.service.base.InitiativeLocalServiceBaseImpl;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * The implementation of the initiative local service.
@@ -226,10 +228,9 @@ public class InitiativeLocalServiceImpl extends InitiativeLocalServiceBaseImpl {
 
 		if (entry != null) {
 			// Delete the link with categories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-						categoryId, entry.getEntryId());
-			}
+
+			assetEntryAssetCategoryRelLocalService.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
 			// Delete the link with tags
 			long[] tagIds = AssetEntryLocalServiceUtil
@@ -507,5 +508,6 @@ public class InitiativeLocalServiceImpl extends InitiativeLocalServiceBaseImpl {
     public List<Initiative> getByPublikUserID(String publikId){
 		 return initiativePersistence.findBypublikId(publikId);
     }
-	
+	@Reference
+	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

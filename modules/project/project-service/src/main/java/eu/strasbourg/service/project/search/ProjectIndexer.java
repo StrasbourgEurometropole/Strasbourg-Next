@@ -1,15 +1,5 @@
 package eu.strasbourg.service.project.search;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -24,10 +14,17 @@ import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
-
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 @Component(immediate = true, service = Indexer.class)
 public class ProjectIndexer extends BaseIndexer<Project> {
@@ -103,8 +100,7 @@ public class ProjectIndexer extends BaseIndexer<Project> {
 	protected void doReindex(Project project) throws Exception {
 		Document document = getDocument(project);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-			project.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(project.getCompanyId(), document);
 		
 	}
 	
@@ -137,7 +133,6 @@ public class ProjectIndexer extends BaseIndexer<Project> {
 
 			});
 
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 	

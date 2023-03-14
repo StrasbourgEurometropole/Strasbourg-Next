@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.project.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for BudgetPhase. This utility wraps
  * <code>eu.strasbourg.service.project.service.impl.BudgetPhaseServiceImpl</code> and is an
@@ -43,27 +39,14 @@ public class BudgetPhaseServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static BudgetPhaseService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<BudgetPhaseService, BudgetPhaseService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(BudgetPhaseService.class);
-
-		ServiceTracker<BudgetPhaseService, BudgetPhaseService> serviceTracker =
-			new ServiceTracker<BudgetPhaseService, BudgetPhaseService>(
-				bundle.getBundleContext(), BudgetPhaseService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile BudgetPhaseService _service;
 
 }

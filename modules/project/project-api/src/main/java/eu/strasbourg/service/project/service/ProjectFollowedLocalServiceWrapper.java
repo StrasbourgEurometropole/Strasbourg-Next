@@ -27,6 +27,10 @@ public class ProjectFollowedLocalServiceWrapper
 	implements ProjectFollowedLocalService,
 			   ServiceWrapper<ProjectFollowedLocalService> {
 
+	public ProjectFollowedLocalServiceWrapper() {
+		this(null);
+	}
+
 	public ProjectFollowedLocalServiceWrapper(
 		ProjectFollowedLocalService projectFollowedLocalService) {
 
@@ -50,6 +54,17 @@ public class ProjectFollowedLocalServiceWrapper
 				projectFollowed) {
 
 		return _projectFollowedLocalService.addProjectFollowed(projectFollowed);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _projectFollowedLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -126,6 +141,18 @@ public class ProjectFollowedLocalServiceWrapper
 
 		return _projectFollowedLocalService.deleteProjectFollowed(
 			projectFollowed);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _projectFollowedLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _projectFollowedLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

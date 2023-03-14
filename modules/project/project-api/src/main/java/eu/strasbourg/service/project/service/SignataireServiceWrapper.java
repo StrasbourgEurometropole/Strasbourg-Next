@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class SignataireServiceWrapper
 	implements ServiceWrapper<SignataireService>, SignataireService {
 
+	public SignataireServiceWrapper() {
+		this(null);
+	}
+
 	public SignataireServiceWrapper(SignataireService signataireService) {
 		_signataireService = signataireService;
 	}

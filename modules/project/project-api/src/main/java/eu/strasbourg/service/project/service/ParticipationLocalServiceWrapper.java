@@ -27,6 +27,10 @@ public class ParticipationLocalServiceWrapper
 	implements ParticipationLocalService,
 			   ServiceWrapper<ParticipationLocalService> {
 
+	public ParticipationLocalServiceWrapper() {
+		this(null);
+	}
+
 	public ParticipationLocalServiceWrapper(
 		ParticipationLocalService participationLocalService) {
 
@@ -76,6 +80,17 @@ public class ParticipationLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _participationLocalService.createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the participation with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -121,6 +136,18 @@ public class ParticipationLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _participationLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _participationLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _participationLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

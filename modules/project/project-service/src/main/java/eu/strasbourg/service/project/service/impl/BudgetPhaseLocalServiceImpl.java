@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.LongStream;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -49,6 +50,7 @@ import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.base.BudgetPhaseLocalServiceBaseImpl;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * The implementation of the budget phase local service.
@@ -209,11 +211,8 @@ public final static Log log = LogFactoryUtil.getLog(ProjectLocalServiceImpl.clas
 
 		if (entry != null) {
 			// Delete the link with categories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-						categoryId, entry.getEntryId());
-			}
-
+			assetEntryAssetCategoryRelLocalService.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Delete the link with tags
 			long[] tagIds = AssetEntryLocalServiceUtil.getAssetTagPrimaryKeys(entry.getEntryId());
 			for (int i = 0; i < tagIds.length; i++) {
@@ -350,5 +349,6 @@ public final static Log log = LogFactoryUtil.getLog(ProjectLocalServiceImpl.clas
 			return null;
 		}
 	}
-	
+	@Reference
+	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

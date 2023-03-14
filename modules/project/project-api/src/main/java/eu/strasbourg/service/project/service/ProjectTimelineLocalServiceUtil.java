@@ -14,9 +14,15 @@
 
 package eu.strasbourg.service.project.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.project.model.ProjectTimeline;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Provides the local service utility for ProjectTimeline. This utility wraps
@@ -48,20 +54,27 @@ public class ProjectTimelineLocalServiceUtil {
 	 * @param projectTimeline the project timeline
 	 * @return the project timeline that was added
 	 */
-	public static eu.strasbourg.service.project.model.ProjectTimeline
-		addProjectTimeline(
-			eu.strasbourg.service.project.model.ProjectTimeline
-				projectTimeline) {
+	public static ProjectTimeline addProjectTimeline(
+		ProjectTimeline projectTimeline) {
 
 		return getService().addProjectTimeline(projectTimeline);
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Crée une une entrée de timeline vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.project.model.ProjectTimeline
-			createProjectTimeline()
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ProjectTimeline createProjectTimeline()
+		throws PortalException {
 
 		return getService().createProjectTimeline();
 	}
@@ -72,8 +85,8 @@ public class ProjectTimelineLocalServiceUtil {
 	 * @param projectTimelineId the primary key for the new project timeline
 	 * @return the new project timeline
 	 */
-	public static eu.strasbourg.service.project.model.ProjectTimeline
-		createProjectTimeline(long projectTimelineId) {
+	public static ProjectTimeline createProjectTimeline(
+		long projectTimelineId) {
 
 		return getService().createProjectTimeline(projectTimelineId);
 	}
@@ -81,10 +94,9 @@ public class ProjectTimelineLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -100,9 +112,8 @@ public class ProjectTimelineLocalServiceUtil {
 	 * @return the project timeline that was removed
 	 * @throws PortalException if a project timeline with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.ProjectTimeline
-			deleteProjectTimeline(long projectTimelineId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ProjectTimeline deleteProjectTimeline(long projectTimelineId)
+		throws PortalException {
 
 		return getService().deleteProjectTimeline(projectTimelineId);
 	}
@@ -117,17 +128,21 @@ public class ProjectTimelineLocalServiceUtil {
 	 * @param projectTimeline the project timeline
 	 * @return the project timeline that was removed
 	 */
-	public static eu.strasbourg.service.project.model.ProjectTimeline
-		deleteProjectTimeline(
-			eu.strasbourg.service.project.model.ProjectTimeline
-				projectTimeline) {
+	public static ProjectTimeline deleteProjectTimeline(
+		ProjectTimeline projectTimeline) {
 
 		return getService().deleteProjectTimeline(projectTimeline);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -137,9 +152,7 @@ public class ProjectTimelineLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -155,9 +168,8 @@ public class ProjectTimelineLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -175,10 +187,9 @@ public class ProjectTimelineLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -190,9 +201,7 @@ public class ProjectTimelineLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -204,15 +213,13 @@ public class ProjectTimelineLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.project.model.ProjectTimeline
-		fetchProjectTimeline(long projectTimelineId) {
-
+	public static ProjectTimeline fetchProjectTimeline(long projectTimelineId) {
 		return getService().fetchProjectTimeline(projectTimelineId);
 	}
 
@@ -225,9 +232,8 @@ public class ProjectTimelineLocalServiceUtil {
 	/**
 	 * Retourne les timeLine d'un budget participatif
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.ProjectTimeline>
-			getByBudgetParticipatifId(long budgetParticipatifId) {
+	public static List<ProjectTimeline> getByBudgetParticipatifId(
+		long budgetParticipatifId) {
 
 		return getService().getByBudgetParticipatifId(budgetParticipatifId);
 	}
@@ -235,10 +241,7 @@ public class ProjectTimelineLocalServiceUtil {
 	/**
 	 * Retourne les périodes d'un événement
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.ProjectTimeline> getByProjectId(
-			long projectIdId) {
-
+	public static List<ProjectTimeline> getByProjectId(long projectIdId) {
 		return getService().getByProjectId(projectIdId);
 	}
 
@@ -261,9 +264,8 @@ public class ProjectTimelineLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -275,9 +277,8 @@ public class ProjectTimelineLocalServiceUtil {
 	 * @return the project timeline
 	 * @throws PortalException if a project timeline with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.ProjectTimeline
-			getProjectTimeline(long projectTimelineId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ProjectTimeline getProjectTimeline(long projectTimelineId)
+		throws PortalException {
 
 		return getService().getProjectTimeline(projectTimelineId);
 	}
@@ -293,9 +294,8 @@ public class ProjectTimelineLocalServiceUtil {
 	 * @param end the upper bound of the range of project timelines (not inclusive)
 	 * @return the range of project timelines
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.ProjectTimeline>
-			getProjectTimelines(int start, int end) {
+	public static List<ProjectTimeline> getProjectTimelines(
+		int start, int end) {
 
 		return getService().getProjectTimelines(start, end);
 	}
@@ -319,36 +319,16 @@ public class ProjectTimelineLocalServiceUtil {
 	 * @param projectTimeline the project timeline
 	 * @return the project timeline that was updated
 	 */
-	public static eu.strasbourg.service.project.model.ProjectTimeline
-		updateProjectTimeline(
-			eu.strasbourg.service.project.model.ProjectTimeline
-				projectTimeline) {
+	public static ProjectTimeline updateProjectTimeline(
+		ProjectTimeline projectTimeline) {
 
 		return getService().updateProjectTimeline(projectTimeline);
 	}
 
 	public static ProjectTimelineLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<ProjectTimelineLocalService, ProjectTimelineLocalService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			ProjectTimelineLocalService.class);
-
-		ServiceTracker<ProjectTimelineLocalService, ProjectTimelineLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<ProjectTimelineLocalService, ProjectTimelineLocalService>(
-						bundle.getBundleContext(),
-						ProjectTimelineLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile ProjectTimelineLocalService _service;
 
 }

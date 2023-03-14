@@ -98,8 +98,7 @@ public class BudgetParticipatifIndexer extends BaseIndexer<BudgetParticipatif> {
     protected void doReindex(BudgetParticipatif budget) throws Exception {
         Document document = getDocument(budget);
 
-        IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-                budget.getCompanyId(), document, isCommitImmediately());
+        IndexWriterHelperUtil.updateDocument(budget.getCompanyId(), document);
 
     }
 
@@ -122,7 +121,6 @@ public class BudgetParticipatifIndexer extends BaseIndexer<BudgetParticipatif> {
                     }
                 });
 
-        indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
         indexableActionableDynamicQuery.performActions();
     }
 

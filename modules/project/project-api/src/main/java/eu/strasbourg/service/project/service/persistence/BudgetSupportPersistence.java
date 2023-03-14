@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.project.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.project.exception.NoSuchBudgetSupportException;
 import eu.strasbourg.service.project.model.BudgetSupport;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the budget support service.
@@ -46,9 +39,6 @@ public interface BudgetSupportPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link BudgetSupportUtil} to access the budget support persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, BudgetSupport> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the budget supports where uuid = &#63;.
@@ -1111,8 +1101,5 @@ public interface BudgetSupportPersistence
 	 * @return the number of budget supports
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

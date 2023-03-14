@@ -38,7 +38,6 @@ package eu.strasbourg.service.project.service.http;
  * </p>
  *
  * @author Cedric Henry
- * @see ProjectTimelineServiceSoap
  * @generated
  */
 public class ProjectTimelineServiceHttp {

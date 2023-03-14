@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class PetitionLocalServiceWrapper
 	implements PetitionLocalService, ServiceWrapper<PetitionLocalService> {
 
+	public PetitionLocalServiceWrapper() {
+		this(null);
+	}
+
 	public PetitionLocalServiceWrapper(
 		PetitionLocalService petitionLocalService) {
 
@@ -47,6 +51,17 @@ public class PetitionLocalServiceWrapper
 		eu.strasbourg.service.project.model.Petition petition) {
 
 		return _petitionLocalService.addPetition(petition);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _petitionLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -118,6 +133,18 @@ public class PetitionLocalServiceWrapper
 		eu.strasbourg.service.project.model.Petition petition) {
 
 		return _petitionLocalService.deletePetition(petition);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _petitionLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _petitionLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

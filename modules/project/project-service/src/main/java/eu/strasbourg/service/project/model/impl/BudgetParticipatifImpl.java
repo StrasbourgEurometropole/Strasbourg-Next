@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- * <p>
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * <p>
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
@@ -15,10 +15,10 @@
 package eu.strasbourg.service.project.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
-import com.liferay.asset.kernel.service.persistence.AssetEntryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -63,6 +63,7 @@ import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.CategoryNames;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
@@ -571,8 +572,8 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     	AssetCategory category = AssetVocabularyHelper.getCategory(status.getName(), groupID);
     	
     	if(!statuses.isEmpty())
-    		AssetEntryUtil.removeAssetCategory(entry.getEntryId(), statuses.get(0));
-    	
+		assetEntryAssetCategoryRelLocalService.deleteAssetEntryAssetCategoryRel
+				(entry.getEntryId(), statuses.get(0).getCategoryId());
     	AssetVocabularyHelper.addCategoryToAssetEntry(category, entry);
     }
     
@@ -1036,5 +1037,6 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     	
     	return result;
     }
-
+	@Reference
+	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

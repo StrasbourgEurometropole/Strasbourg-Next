@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class ProjectServiceWrapper
 	implements ProjectService, ServiceWrapper<ProjectService> {
 
+	public ProjectServiceWrapper() {
+		this(null);
+	}
+
 	public ProjectServiceWrapper(ProjectService projectService) {
 		_projectService = projectService;
 	}

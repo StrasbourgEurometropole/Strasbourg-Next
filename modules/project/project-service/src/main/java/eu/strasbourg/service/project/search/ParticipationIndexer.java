@@ -1,17 +1,5 @@
 package eu.strasbourg.service.project.search;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -26,11 +14,20 @@ import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
-
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 @Component(immediate = true, service = Indexer.class)
 public class ParticipationIndexer extends BaseIndexer<Participation> {
@@ -121,8 +118,7 @@ public class ParticipationIndexer extends BaseIndexer<Participation> {
 	protected void doReindex(Participation participation) throws Exception {
 		Document document = getDocument(participation);
 	
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-				participation.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(participation.getCompanyId(), document);
 		
 	}
 	
@@ -154,8 +150,6 @@ public class ParticipationIndexer extends BaseIndexer<Participation> {
 				}
 	
 			});
-	
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 	

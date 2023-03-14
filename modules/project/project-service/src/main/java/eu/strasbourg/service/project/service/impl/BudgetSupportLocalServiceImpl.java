@@ -110,7 +110,7 @@ public class BudgetSupportLocalServiceImpl extends BudgetSupportLocalServiceBase
     /**
      * Recuperer les soutiens d'un budgte et d'un utilisateur donne
      * @param budgetParticipatifId ID du budget participatif.
-     * @param publikId ID publik de l'utilsiateur
+     * @param publikUserId ID publik de l'utilsiateur
      * @return Liste des soutiens
      */
     @Override

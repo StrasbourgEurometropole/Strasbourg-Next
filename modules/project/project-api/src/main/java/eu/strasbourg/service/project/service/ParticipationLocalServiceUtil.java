@@ -14,9 +14,16 @@
 
 package eu.strasbourg.service.project.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.project.model.Participation;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for Participation. This utility wraps
@@ -48,10 +55,7 @@ public class ParticipationLocalServiceUtil {
 	 * @param participation the participation
 	 * @return the participation that was added
 	 */
-	public static eu.strasbourg.service.project.model.Participation
-		addParticipation(
-			eu.strasbourg.service.project.model.Participation participation) {
-
+	public static Participation addParticipation(Participation participation) {
 		return getService().addParticipation(participation);
 	}
 
@@ -61,21 +65,28 @@ public class ParticipationLocalServiceUtil {
 	 * @param participationId the primary key for the new participation
 	 * @return the new participation
 	 */
-	public static eu.strasbourg.service.project.model.Participation
-		createParticipation(long participationId) {
-
+	public static Participation createParticipation(long participationId) {
 		return getService().createParticipation(participationId);
 	}
 
 	/**
 	 * Crée une participation vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.project.model.Participation
-			createParticipation(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Participation createParticipation(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().createParticipation(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -89,9 +100,8 @@ public class ParticipationLocalServiceUtil {
 	 * @return the participation that was removed
 	 * @throws PortalException if a participation with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.Participation
-			deleteParticipation(long participationId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Participation deleteParticipation(long participationId)
+		throws PortalException {
 
 		return getService().deleteParticipation(participationId);
 	}
@@ -106,9 +116,8 @@ public class ParticipationLocalServiceUtil {
 	 * @param participation the participation
 	 * @return the participation that was removed
 	 */
-	public static eu.strasbourg.service.project.model.Participation
-		deleteParticipation(
-			eu.strasbourg.service.project.model.Participation participation) {
+	public static Participation deleteParticipation(
+		Participation participation) {
 
 		return getService().deleteParticipation(participation);
 	}
@@ -116,17 +125,22 @@ public class ParticipationLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -136,9 +150,7 @@ public class ParticipationLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -154,9 +166,8 @@ public class ParticipationLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -174,10 +185,9 @@ public class ParticipationLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -189,9 +199,7 @@ public class ParticipationLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -203,15 +211,13 @@ public class ParticipationLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.project.model.Participation
-		fetchParticipation(long participationId) {
-
+	public static Participation fetchParticipation(long participationId) {
 		return getService().fetchParticipation(participationId);
 	}
 
@@ -222,8 +228,8 @@ public class ParticipationLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching participation, or <code>null</code> if a matching participation could not be found
 	 */
-	public static eu.strasbourg.service.project.model.Participation
-		fetchParticipationByUuidAndGroupId(String uuid, long groupId) {
+	public static Participation fetchParticipationByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchParticipationByUuidAndGroupId(uuid, groupId);
 	}
@@ -231,9 +237,8 @@ public class ParticipationLocalServiceUtil {
 	/**
 	 * Recherche par mot clés
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.Participation> findByKeyword(
-			String keyword, long groupId, int start, int end) {
+	public static List<Participation> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -254,7 +259,7 @@ public class ParticipationLocalServiceUtil {
 	/**
 	 * Renvoie la liste des vocabulaires rattachés à une participation
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -263,10 +268,7 @@ public class ParticipationLocalServiceUtil {
 	/**
 	 * Retourne toutes les participations d'un groupe
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.Participation> getByGroupId(
-			long groupId) {
-
+	public static List<Participation> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
@@ -291,10 +293,7 @@ public class ParticipationLocalServiceUtil {
 	 * @param groupId le grouptId
 	 * @return la liste de participation.
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.Participation> getLessCommented(
-			long groupId) {
-
+	public static List<Participation> getLessCommented(long groupId) {
 		return getService().getLessCommented(groupId);
 	}
 
@@ -304,10 +303,7 @@ public class ParticipationLocalServiceUtil {
 	 * @param groupId le grouptId
 	 * @return la liste de participation.
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.Participation> getMostCommented(
-			long groupId) {
-
+	public static List<Participation> getMostCommented(long groupId) {
 		return getService().getMostCommented(groupId);
 	}
 
@@ -327,9 +323,8 @@ public class ParticipationLocalServiceUtil {
 	 * @return the participation
 	 * @throws PortalException if a participation with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.Participation
-			getParticipation(long participationId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Participation getParticipation(long participationId)
+		throws PortalException {
 
 		return getService().getParticipation(participationId);
 	}
@@ -342,9 +337,9 @@ public class ParticipationLocalServiceUtil {
 	 * @return the matching participation
 	 * @throws PortalException if a matching participation could not be found
 	 */
-	public static eu.strasbourg.service.project.model.Participation
-			getParticipationByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Participation getParticipationByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getParticipationByUuidAndGroupId(uuid, groupId);
 	}
@@ -360,10 +355,7 @@ public class ParticipationLocalServiceUtil {
 	 * @param end the upper bound of the range of participations (not inclusive)
 	 * @return the range of participations
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.Participation> getParticipations(
-			int start, int end) {
-
+	public static List<Participation> getParticipations(int start, int end) {
 		return getService().getParticipations(start, end);
 	}
 
@@ -374,9 +366,8 @@ public class ParticipationLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching participations, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.Participation>
-			getParticipationsByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<Participation> getParticipationsByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getParticipationsByUuidAndCompanyId(
 			uuid, companyId);
@@ -392,13 +383,9 @@ public class ParticipationLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching participations, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.Participation>
-			getParticipationsByUuidAndCompanyId(
-				String uuid, long companyId, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<eu.strasbourg.service.project.model.Participation>
-						orderByComparator) {
+	public static List<Participation> getParticipationsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Participation> orderByComparator) {
 
 		return getService().getParticipationsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -416,9 +403,8 @@ public class ParticipationLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -426,19 +412,15 @@ public class ParticipationLocalServiceUtil {
 	/**
 	 * Retourne toutes les participation publiees d'un groupe
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.Participation>
-			getPublishedByGroupId(long groupId) {
-
+	public static List<Participation> getPublishedByGroupId(long groupId) {
 		return getService().getPublishedByGroupId(groupId);
 	}
 
 	/**
 	 * Supprime une participation
 	 */
-	public static eu.strasbourg.service.project.model.Participation
-			removeParticipation(long participationId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Participation removeParticipation(long participationId)
+		throws PortalException {
 
 		return getService().removeParticipation(participationId);
 	}
@@ -448,9 +430,7 @@ public class ParticipationLocalServiceUtil {
 	 *
 	 * @throws PortalException
 	 */
-	public static void updateAllParticipationsStatus()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static void updateAllParticipationsStatus() throws PortalException {
 		getService().updateAllParticipationsStatus();
 	}
 
@@ -464,9 +444,8 @@ public class ParticipationLocalServiceUtil {
 	 * @param participation the participation
 	 * @return the participation that was updated
 	 */
-	public static eu.strasbourg.service.project.model.Participation
-		updateParticipation(
-			eu.strasbourg.service.project.model.Participation participation) {
+	public static Participation updateParticipation(
+		Participation participation) {
 
 		return getService().updateParticipation(participation);
 	}
@@ -476,11 +455,10 @@ public class ParticipationLocalServiceUtil {
 	 *
 	 * @throws IOException
 	 */
-	public static eu.strasbourg.service.project.model.Participation
-			updateParticipation(
-				eu.strasbourg.service.project.model.Participation participation,
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Participation updateParticipation(
+			Participation participation,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateParticipation(participation, sc);
 	}
@@ -488,12 +466,11 @@ public class ParticipationLocalServiceUtil {
 	/**
 	 * Met à jour le statut de la participation par le framework workflow
 	 */
-	public static eu.strasbourg.service.project.model.Participation
-			updateStatus(
-				long userId, long entryId, int status,
-				com.liferay.portal.kernel.service.ServiceContext sc,
-				java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Participation updateStatus(
+			long userId, long entryId, int status,
+			com.liferay.portal.kernel.service.ServiceContext sc,
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, entryId, status, sc, workflowContext);
@@ -502,35 +479,16 @@ public class ParticipationLocalServiceUtil {
 	/**
 	 * Met à jour le statut de la participation "manuellement" (pas via le workflow)
 	 */
-	public static void updateStatus(
-			eu.strasbourg.service.project.model.Participation participation,
-			int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static void updateStatus(Participation participation, int status)
+		throws PortalException {
 
 		getService().updateStatus(participation, status);
 	}
 
 	public static ParticipationLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<ParticipationLocalService, ParticipationLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			ParticipationLocalService.class);
-
-		ServiceTracker<ParticipationLocalService, ParticipationLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<ParticipationLocalService, ParticipationLocalService>(
-						bundle.getBundleContext(),
-						ParticipationLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile ParticipationLocalService _service;
 
 }
