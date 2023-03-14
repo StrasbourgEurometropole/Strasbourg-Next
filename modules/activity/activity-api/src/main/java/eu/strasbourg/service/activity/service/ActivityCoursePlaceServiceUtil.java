@@ -47,25 +47,6 @@ public class ActivityCoursePlaceServiceUtil {
 		return _service;
 	}
 
-	private static ServiceTracker
-		<ActivityCoursePlaceService, ActivityCoursePlaceService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			ActivityCoursePlaceService.class);
-
-		ServiceTracker<ActivityCoursePlaceService, ActivityCoursePlaceService>
-			serviceTracker =
-				new ServiceTracker
-					<ActivityCoursePlaceService, ActivityCoursePlaceService>(
-						bundle.getBundleContext(),
-						ActivityCoursePlaceService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
 	private static volatile ActivityCoursePlaceService _service;
 
 }

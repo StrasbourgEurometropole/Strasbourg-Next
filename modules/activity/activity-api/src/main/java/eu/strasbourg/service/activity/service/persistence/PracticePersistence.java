@@ -15,10 +15,8 @@
 package eu.strasbourg.service.activity.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.activity.exception.NoSuchPracticeException;
 import eu.strasbourg.service.activity.model.Practice;
-
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

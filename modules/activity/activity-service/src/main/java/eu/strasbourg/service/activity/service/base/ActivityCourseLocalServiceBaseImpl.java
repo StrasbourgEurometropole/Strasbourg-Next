@@ -60,7 +60,6 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.activity.model.ActivityCourse;
 import eu.strasbourg.service.activity.service.ActivityCourseLocalService;
 import eu.strasbourg.service.activity.service.ActivityCourseLocalServiceUtil;
@@ -72,13 +71,10 @@ import eu.strasbourg.service.activity.service.persistence.ActivityPersistence;
 import eu.strasbourg.service.activity.service.persistence.AssociationPersistence;
 import eu.strasbourg.service.activity.service.persistence.PracticePersistence;
 
-import java.io.Serializable;
-
-import java.lang.reflect.Field;
-
-import java.util.List;
-
 import javax.sql.DataSource;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * Provides the base implementation for the activity course local service.

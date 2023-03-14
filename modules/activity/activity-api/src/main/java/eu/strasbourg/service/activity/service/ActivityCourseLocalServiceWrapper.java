@@ -14,6 +14,9 @@
 
 package eu.strasbourg.service.activity.service;
 
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -121,7 +124,7 @@ public class ActivityCourseLocalServiceWrapper
 	 *
 	 * @param activityCourseId the primary key of the activity course
 	 * @return the activity course that was removed
-	 * @throws PortalException if a activity course with the primary key could not be found
+	 * @throws  if a activity course with the primary key could not be found
 	 */
 	@Override
 	public eu.strasbourg.service.activity.model.ActivityCourse
@@ -133,7 +136,7 @@ public class ActivityCourseLocalServiceWrapper
 	}
 
 	/**
-	 * @throws PortalException
+	 * @throws
 	 */
 	@Override
 	public com.liferay.portal.kernel.model.PersistedModel deletePersistedModel(

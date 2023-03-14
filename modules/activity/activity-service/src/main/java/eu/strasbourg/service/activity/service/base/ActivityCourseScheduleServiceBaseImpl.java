@@ -31,7 +31,6 @@ import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.activity.model.ActivityCourseSchedule;
 import eu.strasbourg.service.activity.service.ActivityCourseScheduleService;
 import eu.strasbourg.service.activity.service.ActivityCourseScheduleServiceUtil;
@@ -43,9 +42,8 @@ import eu.strasbourg.service.activity.service.persistence.ActivityPersistence;
 import eu.strasbourg.service.activity.service.persistence.AssociationPersistence;
 import eu.strasbourg.service.activity.service.persistence.PracticePersistence;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
+import java.lang.reflect.Field;
 
 /**
  * Provides the base implementation for the activity course schedule remote service.
