@@ -14,9 +14,16 @@
 
 package eu.strasbourg.service.oidc.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.oidc.model.AnonymisationHistoric;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for AnonymisationHistoric. This utility wraps
@@ -48,10 +55,8 @@ public class AnonymisationHistoricLocalServiceUtil {
 	 * @param anonymisationHistoric the anonymisation historic
 	 * @return the anonymisation historic that was added
 	 */
-	public static eu.strasbourg.service.oidc.model.AnonymisationHistoric
-		addAnonymisationHistoric(
-			eu.strasbourg.service.oidc.model.AnonymisationHistoric
-				anonymisationHistoric) {
+	public static AnonymisationHistoric addAnonymisationHistoric(
+		AnonymisationHistoric anonymisationHistoric) {
 
 		return getService().addAnonymisationHistoric(anonymisationHistoric);
 	}
@@ -62,8 +67,8 @@ public class AnonymisationHistoricLocalServiceUtil {
 	 * @param anonymisationHistoricId the primary key for the new anonymisation historic
 	 * @return the new anonymisation historic
 	 */
-	public static eu.strasbourg.service.oidc.model.AnonymisationHistoric
-		createAnonymisationHistoric(long anonymisationHistoricId) {
+	public static AnonymisationHistoric createAnonymisationHistoric(
+		long anonymisationHistoricId) {
 
 		return getService().createAnonymisationHistoric(
 			anonymisationHistoricId);
@@ -72,12 +77,21 @@ public class AnonymisationHistoricLocalServiceUtil {
 	/**
 	 * Crée une entree d'anonymisation vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.oidc.model.AnonymisationHistoric
-			createAnonymisationHistoric(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static AnonymisationHistoric createAnonymisationHistoric(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().createAnonymisationHistoric(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -90,10 +104,8 @@ public class AnonymisationHistoricLocalServiceUtil {
 	 * @param anonymisationHistoric the anonymisation historic
 	 * @return the anonymisation historic that was removed
 	 */
-	public static eu.strasbourg.service.oidc.model.AnonymisationHistoric
-		deleteAnonymisationHistoric(
-			eu.strasbourg.service.oidc.model.AnonymisationHistoric
-				anonymisationHistoric) {
+	public static AnonymisationHistoric deleteAnonymisationHistoric(
+		AnonymisationHistoric anonymisationHistoric) {
 
 		return getService().deleteAnonymisationHistoric(anonymisationHistoric);
 	}
@@ -109,9 +121,9 @@ public class AnonymisationHistoricLocalServiceUtil {
 	 * @return the anonymisation historic that was removed
 	 * @throws PortalException if a anonymisation historic with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.oidc.model.AnonymisationHistoric
-			deleteAnonymisationHistoric(long anonymisationHistoricId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static AnonymisationHistoric deleteAnonymisationHistoric(
+			long anonymisationHistoricId)
+		throws PortalException {
 
 		return getService().deleteAnonymisationHistoric(
 			anonymisationHistoricId);
@@ -120,10 +132,9 @@ public class AnonymisationHistoricLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -133,15 +144,20 @@ public class AnonymisationHistoricLocalServiceUtil {
 	 */
 	public static void doAnonymisation(
 		com.liferay.portal.kernel.service.ServiceContext sc,
-		eu.strasbourg.service.oidc.model.AnonymisationHistoric
-			anonymisationHistoric) {
+		AnonymisationHistoric anonymisationHistoric) {
 
 		getService().doAnonymisation(sc, anonymisationHistoric);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -151,9 +167,7 @@ public class AnonymisationHistoricLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -169,9 +183,8 @@ public class AnonymisationHistoricLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -189,10 +202,9 @@ public class AnonymisationHistoricLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -204,9 +216,7 @@ public class AnonymisationHistoricLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -218,14 +228,14 @@ public class AnonymisationHistoricLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.oidc.model.AnonymisationHistoric
-		fetchAnonymisationHistoric(long anonymisationHistoricId) {
+	public static AnonymisationHistoric fetchAnonymisationHistoric(
+		long anonymisationHistoricId) {
 
 		return getService().fetchAnonymisationHistoric(anonymisationHistoricId);
 	}
@@ -237,7 +247,7 @@ public class AnonymisationHistoricLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching anonymisation historic, or <code>null</code> if a matching anonymisation historic could not be found
 	 */
-	public static eu.strasbourg.service.oidc.model.AnonymisationHistoric
+	public static AnonymisationHistoric
 		fetchAnonymisationHistoricByUuidAndGroupId(String uuid, long groupId) {
 
 		return getService().fetchAnonymisationHistoricByUuidAndGroupId(
@@ -247,9 +257,8 @@ public class AnonymisationHistoricLocalServiceUtil {
 	/**
 	 * Recherche par mot clés
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.oidc.model.AnonymisationHistoric> findByKeyword(
-			String keyword, long groupId, int start, int end) {
+	public static List<AnonymisationHistoric> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -274,9 +283,9 @@ public class AnonymisationHistoricLocalServiceUtil {
 	 * @return the anonymisation historic
 	 * @throws PortalException if a anonymisation historic with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.oidc.model.AnonymisationHistoric
-			getAnonymisationHistoric(long anonymisationHistoricId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static AnonymisationHistoric getAnonymisationHistoric(
+			long anonymisationHistoricId)
+		throws PortalException {
 
 		return getService().getAnonymisationHistoric(anonymisationHistoricId);
 	}
@@ -289,9 +298,9 @@ public class AnonymisationHistoricLocalServiceUtil {
 	 * @return the matching anonymisation historic
 	 * @throws PortalException if a matching anonymisation historic could not be found
 	 */
-	public static eu.strasbourg.service.oidc.model.AnonymisationHistoric
+	public static AnonymisationHistoric
 			getAnonymisationHistoricByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getAnonymisationHistoricByUuidAndGroupId(
 			uuid, groupId);
@@ -308,9 +317,8 @@ public class AnonymisationHistoricLocalServiceUtil {
 	 * @param end the upper bound of the range of anonymisation historics (not inclusive)
 	 * @return the range of anonymisation historics
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.oidc.model.AnonymisationHistoric>
-			getAnonymisationHistorics(int start, int end) {
+	public static List<AnonymisationHistoric> getAnonymisationHistorics(
+		int start, int end) {
 
 		return getService().getAnonymisationHistorics(start, end);
 	}
@@ -322,10 +330,9 @@ public class AnonymisationHistoricLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching anonymisation historics, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.oidc.model.AnonymisationHistoric>
-			getAnonymisationHistoricsByUuidAndCompanyId(
-				String uuid, long companyId) {
+	public static List<AnonymisationHistoric>
+		getAnonymisationHistoricsByUuidAndCompanyId(
+			String uuid, long companyId) {
 
 		return getService().getAnonymisationHistoricsByUuidAndCompanyId(
 			uuid, companyId);
@@ -341,13 +348,10 @@ public class AnonymisationHistoricLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching anonymisation historics, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.oidc.model.AnonymisationHistoric>
-			getAnonymisationHistoricsByUuidAndCompanyId(
-				String uuid, long companyId, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<eu.strasbourg.service.oidc.model.AnonymisationHistoric>
-						orderByComparator) {
+	public static List<AnonymisationHistoric>
+		getAnonymisationHistoricsByUuidAndCompanyId(
+			String uuid, long companyId, int start, int end,
+			OrderByComparator<AnonymisationHistoric> orderByComparator) {
 
 		return getService().getAnonymisationHistoricsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -365,7 +369,7 @@ public class AnonymisationHistoricLocalServiceUtil {
 	/**
 	 * Renvoie la liste des vocabulaires rattachés à l'anonymisation
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -374,10 +378,7 @@ public class AnonymisationHistoricLocalServiceUtil {
 	/**
 	 * Retourne toutes les anonymisations d'un groupe
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.oidc.model.AnonymisationHistoric> getByGroupId(
-			long groupId) {
-
+	public static List<AnonymisationHistoric> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
@@ -408,9 +409,8 @@ public class AnonymisationHistoricLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -418,9 +418,9 @@ public class AnonymisationHistoricLocalServiceUtil {
 	/**
 	 * Supprime l'entree d'anonymisation
 	 */
-	public static eu.strasbourg.service.oidc.model.AnonymisationHistoric
-			removeAnonymisationHistoric(long anonymisationHistoricId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static AnonymisationHistoric removeAnonymisationHistoric(
+			long anonymisationHistoricId)
+		throws PortalException {
 
 		return getService().removeAnonymisationHistoric(
 			anonymisationHistoricId);
@@ -436,10 +436,8 @@ public class AnonymisationHistoricLocalServiceUtil {
 	 * @param anonymisationHistoric the anonymisation historic
 	 * @return the anonymisation historic that was updated
 	 */
-	public static eu.strasbourg.service.oidc.model.AnonymisationHistoric
-		updateAnonymisationHistoric(
-			eu.strasbourg.service.oidc.model.AnonymisationHistoric
-				anonymisationHistoric) {
+	public static AnonymisationHistoric updateAnonymisationHistoric(
+		AnonymisationHistoric anonymisationHistoric) {
 
 		return getService().updateAnonymisationHistoric(anonymisationHistoric);
 	}
@@ -449,12 +447,10 @@ public class AnonymisationHistoricLocalServiceUtil {
 	 *
 	 * @throws IOException
 	 */
-	public static eu.strasbourg.service.oidc.model.AnonymisationHistoric
-			updateAnonymisationHistoric(
-				eu.strasbourg.service.oidc.model.AnonymisationHistoric
-					anonymisationHistoric,
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static AnonymisationHistoric updateAnonymisationHistoric(
+			AnonymisationHistoric anonymisationHistoric,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateAnonymisationHistoric(
 			anonymisationHistoric, sc);
@@ -464,10 +460,8 @@ public class AnonymisationHistoricLocalServiceUtil {
 	 * Met à jour le statut de l'entree d'anonymisation "manuellement" (pas via le workflow)
 	 */
 	public static void updateStatus(
-			eu.strasbourg.service.oidc.model.AnonymisationHistoric
-				anonymisationHistoric,
-			int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			AnonymisationHistoric anonymisationHistoric, int status)
+		throws PortalException {
 
 		getService().updateStatus(anonymisationHistoric, status);
 	}
@@ -475,41 +469,20 @@ public class AnonymisationHistoricLocalServiceUtil {
 	/**
 	 * Met à jour le statut de l'entree d'anonymisation par le framework workflow
 	 */
-	public static eu.strasbourg.service.oidc.model.AnonymisationHistoric
-			updateStatus(
-				long userId, long entryId, int status,
-				com.liferay.portal.kernel.service.ServiceContext sc,
-				java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static AnonymisationHistoric updateStatus(
+			long userId, long entryId, int status,
+			com.liferay.portal.kernel.service.ServiceContext sc,
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, entryId, status, sc, workflowContext);
 	}
 
 	public static AnonymisationHistoricLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<AnonymisationHistoricLocalService, AnonymisationHistoricLocalService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			AnonymisationHistoricLocalService.class);
-
-		ServiceTracker
-			<AnonymisationHistoricLocalService,
-			 AnonymisationHistoricLocalService> serviceTracker =
-				new ServiceTracker
-					<AnonymisationHistoricLocalService,
-					 AnonymisationHistoricLocalService>(
-						 bundle.getBundleContext(),
-						 AnonymisationHistoricLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile AnonymisationHistoricLocalService _service;
 
 }

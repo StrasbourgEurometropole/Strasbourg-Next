@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.oidc.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.oidc.exception.NoSuchAnonymisationHistoricException;
 import eu.strasbourg.service.oidc.model.AnonymisationHistoric;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the anonymisation historic service.
@@ -46,9 +39,6 @@ public interface AnonymisationHistoricPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link AnonymisationHistoricUtil} to access the anonymisation historic persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, AnonymisationHistoric> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the anonymisation historics where uuid = &#63;.
@@ -663,8 +653,5 @@ public interface AnonymisationHistoricPersistence
 	 * @return the number of anonymisation historics
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }
