@@ -461,8 +461,8 @@ public class AssetVocabularyHelper {
 	 * Ajoute une catégorie à un AssetEntry
 	 * @return
 	 */
-	public void addCategoryToAssetEntry(AssetCategory category, AssetEntry entry) {
-		assetEntryAssetCategoryRelLocalService.addAssetEntryAssetCategoryRel(
+	public static void addCategoryToAssetEntry(AssetCategory category, AssetEntry entry) {
+		AssetCategoryLocalServiceUtil.addAssetEntryAssetCategory(
 				entry.getEntryId(), category.getCategoryId());
 	}
 
@@ -470,8 +470,8 @@ public class AssetVocabularyHelper {
 	 * Retire une catégorie à un AssetEntry
 	 * @return
 	 */
-	public void removeCategoryToAssetEntry(AssetCategory category, AssetEntry entry) {
-		assetEntryAssetCategoryRelLocalService.deleteAssetEntryAssetCategoryRel(
+	public static void removeCategoryToAssetEntry(AssetCategory category, AssetEntry entry) {
+		AssetCategoryLocalServiceUtil.addAssetEntryAssetCategory(
 				entry.getEntryId(), category.getCategoryId());
 	}
 
@@ -863,9 +863,6 @@ public class AssetVocabularyHelper {
 		}
 		return assetCategory;
 	}
-	@Reference
-	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 
 	private static Log _log = LogFactoryUtil.getLog("AssetVocabularyHelper");
-
 }
