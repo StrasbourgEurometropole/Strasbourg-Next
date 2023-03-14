@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class SearchLogLocalServiceWrapper
 	implements SearchLogLocalService, ServiceWrapper<SearchLogLocalService> {
 
+	public SearchLogLocalServiceWrapper() {
+		this(null);
+	}
+
 	public SearchLogLocalServiceWrapper(
 		SearchLogLocalService searchLogLocalService) {
 
@@ -66,6 +70,17 @@ public class SearchLogLocalServiceWrapper
 		return _searchLogLocalService.addSearchLog(
 			sc, keywords, resultCount, result1, result2, result3,
 			userTargetResult, searchTime);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _searchLogLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -126,6 +141,18 @@ public class SearchLogLocalServiceWrapper
 		eu.strasbourg.service.search.log.model.SearchLog searchLog) {
 
 		return _searchLogLocalService.deleteSearchLog(searchLog);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _searchLogLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _searchLogLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

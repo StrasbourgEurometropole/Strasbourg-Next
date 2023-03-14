@@ -16,6 +16,7 @@ package eu.strasbourg.service.search.log.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -25,26 +26,20 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
-
+import com.liferay.portal.kernel.util.StringUtil;
 import eu.strasbourg.service.search.log.model.SearchLog;
 import eu.strasbourg.service.search.log.model.SearchLogModel;
-import eu.strasbourg.service.search.log.model.SearchLogSoap;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -127,75 +122,30 @@ public class SearchLogModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.model.search.log.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.search.log.model.SearchLog"),
-		true);
-
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.model.search.log.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.search.log.model.SearchLog"),
-		true);
-
-	public static final boolean COLUMN_BITMASK_ENABLED = false;
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
 	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
 	 */
-	public static SearchLog toModel(SearchLogSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		SearchLog model = new SearchLogImpl();
-
-		model.setSearchLogId(soapModel.getSearchLogId());
-		model.setKeywords(soapModel.getKeywords());
-		model.setSearchTime(soapModel.getSearchTime());
-		model.setResultCount(soapModel.getResultCount());
-		model.setResult1ClassId(soapModel.getResult1ClassId());
-		model.setResult1ClassPK(soapModel.getResult1ClassPK());
-		model.setResult1Title(soapModel.getResult1Title());
-		model.setResult2ClassId(soapModel.getResult2ClassId());
-		model.setResult2ClassPK(soapModel.getResult2ClassPK());
-		model.setResult2Title(soapModel.getResult2Title());
-		model.setResult3ClassId(soapModel.getResult3ClassId());
-		model.setResult3ClassPK(soapModel.getResult3ClassPK());
-		model.setResult3Title(soapModel.getResult3Title());
-		model.setUserTargetClassId(soapModel.getUserTargetClassId());
-		model.setUserTargetClassPK(soapModel.getUserTargetClassPK());
-		model.setUserTargetTitle(soapModel.getUserTargetTitle());
-		model.setGroupId(soapModel.getGroupId());
-		model.setLayoutId(soapModel.getLayoutId());
-		model.setLayoutFriendlyURL(soapModel.getLayoutFriendlyURL());
-		model.setLanguage(soapModel.getLanguage());
-		model.setDate(soapModel.getDate());
-
-		return model;
-	}
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
 	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
 	 */
-	public static List<SearchLog> toModels(SearchLogSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-		List<SearchLog> models = new ArrayList<SearchLog>(soapModels.length);
-
-		for (SearchLogSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
+	public static final long DATE_COLUMN_BITMASK = 1L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.model.search.log.service.util.PropsUtil.get(
@@ -252,9 +202,6 @@ public class SearchLogModelImpl
 				attributeName, attributeGetterFunction.apply((SearchLog)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -288,34 +235,6 @@ public class SearchLogModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, SearchLog>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			SearchLog.class.getClassLoader(), SearchLog.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<SearchLog> constructor =
-				(Constructor<SearchLog>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<SearchLog, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<SearchLog, Object>>
@@ -327,461 +246,98 @@ public class SearchLogModelImpl
 		Map<String, BiConsumer<SearchLog, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<SearchLog, ?>>();
 
-		attributeGetterFunctions.put(
-			"searchLogId",
-			new Function<SearchLog, Object>() {
-
-				@Override
-				public Object apply(SearchLog searchLog) {
-					return searchLog.getSearchLogId();
-				}
-
-			});
+		attributeGetterFunctions.put("searchLogId", SearchLog::getSearchLogId);
 		attributeSetterBiConsumers.put(
 			"searchLogId",
-			new BiConsumer<SearchLog, Object>() {
-
-				@Override
-				public void accept(
-					SearchLog searchLog, Object searchLogIdObject) {
-
-					searchLog.setSearchLogId((Long)searchLogIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"keywords",
-			new Function<SearchLog, Object>() {
-
-				@Override
-				public Object apply(SearchLog searchLog) {
-					return searchLog.getKeywords();
-				}
-
-			});
+			(BiConsumer<SearchLog, Long>)SearchLog::setSearchLogId);
+		attributeGetterFunctions.put("keywords", SearchLog::getKeywords);
 		attributeSetterBiConsumers.put(
-			"keywords",
-			new BiConsumer<SearchLog, Object>() {
-
-				@Override
-				public void accept(SearchLog searchLog, Object keywordsObject) {
-					searchLog.setKeywords((String)keywordsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"searchTime",
-			new Function<SearchLog, Object>() {
-
-				@Override
-				public Object apply(SearchLog searchLog) {
-					return searchLog.getSearchTime();
-				}
-
-			});
+			"keywords", (BiConsumer<SearchLog, String>)SearchLog::setKeywords);
+		attributeGetterFunctions.put("searchTime", SearchLog::getSearchTime);
 		attributeSetterBiConsumers.put(
 			"searchTime",
-			new BiConsumer<SearchLog, Object>() {
-
-				@Override
-				public void accept(
-					SearchLog searchLog, Object searchTimeObject) {
-
-					searchLog.setSearchTime((Long)searchTimeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"resultCount",
-			new Function<SearchLog, Object>() {
-
-				@Override
-				public Object apply(SearchLog searchLog) {
-					return searchLog.getResultCount();
-				}
-
-			});
+			(BiConsumer<SearchLog, Long>)SearchLog::setSearchTime);
+		attributeGetterFunctions.put("resultCount", SearchLog::getResultCount);
 		attributeSetterBiConsumers.put(
 			"resultCount",
-			new BiConsumer<SearchLog, Object>() {
-
-				@Override
-				public void accept(
-					SearchLog searchLog, Object resultCountObject) {
-
-					searchLog.setResultCount((Long)resultCountObject);
-				}
-
-			});
+			(BiConsumer<SearchLog, Long>)SearchLog::setResultCount);
 		attributeGetterFunctions.put(
-			"result1ClassId",
-			new Function<SearchLog, Object>() {
-
-				@Override
-				public Object apply(SearchLog searchLog) {
-					return searchLog.getResult1ClassId();
-				}
-
-			});
+			"result1ClassId", SearchLog::getResult1ClassId);
 		attributeSetterBiConsumers.put(
 			"result1ClassId",
-			new BiConsumer<SearchLog, Object>() {
-
-				@Override
-				public void accept(
-					SearchLog searchLog, Object result1ClassIdObject) {
-
-					searchLog.setResult1ClassId((Long)result1ClassIdObject);
-				}
-
-			});
+			(BiConsumer<SearchLog, Long>)SearchLog::setResult1ClassId);
 		attributeGetterFunctions.put(
-			"result1ClassPK",
-			new Function<SearchLog, Object>() {
-
-				@Override
-				public Object apply(SearchLog searchLog) {
-					return searchLog.getResult1ClassPK();
-				}
-
-			});
+			"result1ClassPK", SearchLog::getResult1ClassPK);
 		attributeSetterBiConsumers.put(
 			"result1ClassPK",
-			new BiConsumer<SearchLog, Object>() {
-
-				@Override
-				public void accept(
-					SearchLog searchLog, Object result1ClassPKObject) {
-
-					searchLog.setResult1ClassPK((Long)result1ClassPKObject);
-				}
-
-			});
+			(BiConsumer<SearchLog, Long>)SearchLog::setResult1ClassPK);
 		attributeGetterFunctions.put(
-			"result1Title",
-			new Function<SearchLog, Object>() {
-
-				@Override
-				public Object apply(SearchLog searchLog) {
-					return searchLog.getResult1Title();
-				}
-
-			});
+			"result1Title", SearchLog::getResult1Title);
 		attributeSetterBiConsumers.put(
 			"result1Title",
-			new BiConsumer<SearchLog, Object>() {
-
-				@Override
-				public void accept(
-					SearchLog searchLog, Object result1TitleObject) {
-
-					searchLog.setResult1Title((String)result1TitleObject);
-				}
-
-			});
+			(BiConsumer<SearchLog, String>)SearchLog::setResult1Title);
 		attributeGetterFunctions.put(
-			"result2ClassId",
-			new Function<SearchLog, Object>() {
-
-				@Override
-				public Object apply(SearchLog searchLog) {
-					return searchLog.getResult2ClassId();
-				}
-
-			});
+			"result2ClassId", SearchLog::getResult2ClassId);
 		attributeSetterBiConsumers.put(
 			"result2ClassId",
-			new BiConsumer<SearchLog, Object>() {
-
-				@Override
-				public void accept(
-					SearchLog searchLog, Object result2ClassIdObject) {
-
-					searchLog.setResult2ClassId((Long)result2ClassIdObject);
-				}
-
-			});
+			(BiConsumer<SearchLog, Long>)SearchLog::setResult2ClassId);
 		attributeGetterFunctions.put(
-			"result2ClassPK",
-			new Function<SearchLog, Object>() {
-
-				@Override
-				public Object apply(SearchLog searchLog) {
-					return searchLog.getResult2ClassPK();
-				}
-
-			});
+			"result2ClassPK", SearchLog::getResult2ClassPK);
 		attributeSetterBiConsumers.put(
 			"result2ClassPK",
-			new BiConsumer<SearchLog, Object>() {
-
-				@Override
-				public void accept(
-					SearchLog searchLog, Object result2ClassPKObject) {
-
-					searchLog.setResult2ClassPK((Long)result2ClassPKObject);
-				}
-
-			});
+			(BiConsumer<SearchLog, Long>)SearchLog::setResult2ClassPK);
 		attributeGetterFunctions.put(
-			"result2Title",
-			new Function<SearchLog, Object>() {
-
-				@Override
-				public Object apply(SearchLog searchLog) {
-					return searchLog.getResult2Title();
-				}
-
-			});
+			"result2Title", SearchLog::getResult2Title);
 		attributeSetterBiConsumers.put(
 			"result2Title",
-			new BiConsumer<SearchLog, Object>() {
-
-				@Override
-				public void accept(
-					SearchLog searchLog, Object result2TitleObject) {
-
-					searchLog.setResult2Title((String)result2TitleObject);
-				}
-
-			});
+			(BiConsumer<SearchLog, String>)SearchLog::setResult2Title);
 		attributeGetterFunctions.put(
-			"result3ClassId",
-			new Function<SearchLog, Object>() {
-
-				@Override
-				public Object apply(SearchLog searchLog) {
-					return searchLog.getResult3ClassId();
-				}
-
-			});
+			"result3ClassId", SearchLog::getResult3ClassId);
 		attributeSetterBiConsumers.put(
 			"result3ClassId",
-			new BiConsumer<SearchLog, Object>() {
-
-				@Override
-				public void accept(
-					SearchLog searchLog, Object result3ClassIdObject) {
-
-					searchLog.setResult3ClassId((Long)result3ClassIdObject);
-				}
-
-			});
+			(BiConsumer<SearchLog, Long>)SearchLog::setResult3ClassId);
 		attributeGetterFunctions.put(
-			"result3ClassPK",
-			new Function<SearchLog, Object>() {
-
-				@Override
-				public Object apply(SearchLog searchLog) {
-					return searchLog.getResult3ClassPK();
-				}
-
-			});
+			"result3ClassPK", SearchLog::getResult3ClassPK);
 		attributeSetterBiConsumers.put(
 			"result3ClassPK",
-			new BiConsumer<SearchLog, Object>() {
-
-				@Override
-				public void accept(
-					SearchLog searchLog, Object result3ClassPKObject) {
-
-					searchLog.setResult3ClassPK((Long)result3ClassPKObject);
-				}
-
-			});
+			(BiConsumer<SearchLog, Long>)SearchLog::setResult3ClassPK);
 		attributeGetterFunctions.put(
-			"result3Title",
-			new Function<SearchLog, Object>() {
-
-				@Override
-				public Object apply(SearchLog searchLog) {
-					return searchLog.getResult3Title();
-				}
-
-			});
+			"result3Title", SearchLog::getResult3Title);
 		attributeSetterBiConsumers.put(
 			"result3Title",
-			new BiConsumer<SearchLog, Object>() {
-
-				@Override
-				public void accept(
-					SearchLog searchLog, Object result3TitleObject) {
-
-					searchLog.setResult3Title((String)result3TitleObject);
-				}
-
-			});
+			(BiConsumer<SearchLog, String>)SearchLog::setResult3Title);
 		attributeGetterFunctions.put(
-			"userTargetClassId",
-			new Function<SearchLog, Object>() {
-
-				@Override
-				public Object apply(SearchLog searchLog) {
-					return searchLog.getUserTargetClassId();
-				}
-
-			});
+			"userTargetClassId", SearchLog::getUserTargetClassId);
 		attributeSetterBiConsumers.put(
 			"userTargetClassId",
-			new BiConsumer<SearchLog, Object>() {
-
-				@Override
-				public void accept(
-					SearchLog searchLog, Object userTargetClassIdObject) {
-
-					searchLog.setUserTargetClassId(
-						(Long)userTargetClassIdObject);
-				}
-
-			});
+			(BiConsumer<SearchLog, Long>)SearchLog::setUserTargetClassId);
 		attributeGetterFunctions.put(
-			"userTargetClassPK",
-			new Function<SearchLog, Object>() {
-
-				@Override
-				public Object apply(SearchLog searchLog) {
-					return searchLog.getUserTargetClassPK();
-				}
-
-			});
+			"userTargetClassPK", SearchLog::getUserTargetClassPK);
 		attributeSetterBiConsumers.put(
 			"userTargetClassPK",
-			new BiConsumer<SearchLog, Object>() {
-
-				@Override
-				public void accept(
-					SearchLog searchLog, Object userTargetClassPKObject) {
-
-					searchLog.setUserTargetClassPK(
-						(Long)userTargetClassPKObject);
-				}
-
-			});
+			(BiConsumer<SearchLog, Long>)SearchLog::setUserTargetClassPK);
 		attributeGetterFunctions.put(
-			"userTargetTitle",
-			new Function<SearchLog, Object>() {
-
-				@Override
-				public Object apply(SearchLog searchLog) {
-					return searchLog.getUserTargetTitle();
-				}
-
-			});
+			"userTargetTitle", SearchLog::getUserTargetTitle);
 		attributeSetterBiConsumers.put(
 			"userTargetTitle",
-			new BiConsumer<SearchLog, Object>() {
-
-				@Override
-				public void accept(
-					SearchLog searchLog, Object userTargetTitleObject) {
-
-					searchLog.setUserTargetTitle((String)userTargetTitleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<SearchLog, Object>() {
-
-				@Override
-				public Object apply(SearchLog searchLog) {
-					return searchLog.getGroupId();
-				}
-
-			});
+			(BiConsumer<SearchLog, String>)SearchLog::setUserTargetTitle);
+		attributeGetterFunctions.put("groupId", SearchLog::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<SearchLog, Object>() {
-
-				@Override
-				public void accept(SearchLog searchLog, Object groupIdObject) {
-					searchLog.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"layoutId",
-			new Function<SearchLog, Object>() {
-
-				@Override
-				public Object apply(SearchLog searchLog) {
-					return searchLog.getLayoutId();
-				}
-
-			});
+			"groupId", (BiConsumer<SearchLog, Long>)SearchLog::setGroupId);
+		attributeGetterFunctions.put("layoutId", SearchLog::getLayoutId);
 		attributeSetterBiConsumers.put(
-			"layoutId",
-			new BiConsumer<SearchLog, Object>() {
-
-				@Override
-				public void accept(SearchLog searchLog, Object layoutIdObject) {
-					searchLog.setLayoutId((Long)layoutIdObject);
-				}
-
-			});
+			"layoutId", (BiConsumer<SearchLog, Long>)SearchLog::setLayoutId);
 		attributeGetterFunctions.put(
-			"layoutFriendlyURL",
-			new Function<SearchLog, Object>() {
-
-				@Override
-				public Object apply(SearchLog searchLog) {
-					return searchLog.getLayoutFriendlyURL();
-				}
-
-			});
+			"layoutFriendlyURL", SearchLog::getLayoutFriendlyURL);
 		attributeSetterBiConsumers.put(
 			"layoutFriendlyURL",
-			new BiConsumer<SearchLog, Object>() {
-
-				@Override
-				public void accept(
-					SearchLog searchLog, Object layoutFriendlyURLObject) {
-
-					searchLog.setLayoutFriendlyURL(
-						(String)layoutFriendlyURLObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"language",
-			new Function<SearchLog, Object>() {
-
-				@Override
-				public Object apply(SearchLog searchLog) {
-					return searchLog.getLanguage();
-				}
-
-			});
+			(BiConsumer<SearchLog, String>)SearchLog::setLayoutFriendlyURL);
+		attributeGetterFunctions.put("language", SearchLog::getLanguage);
 		attributeSetterBiConsumers.put(
-			"language",
-			new BiConsumer<SearchLog, Object>() {
-
-				@Override
-				public void accept(SearchLog searchLog, Object languageObject) {
-					searchLog.setLanguage((String)languageObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"date",
-			new Function<SearchLog, Object>() {
-
-				@Override
-				public Object apply(SearchLog searchLog) {
-					return searchLog.getDate();
-				}
-
-			});
+			"language", (BiConsumer<SearchLog, String>)SearchLog::setLanguage);
+		attributeGetterFunctions.put("date", SearchLog::getDate);
 		attributeSetterBiConsumers.put(
-			"date",
-			new BiConsumer<SearchLog, Object>() {
-
-				@Override
-				public void accept(SearchLog searchLog, Object dateObject) {
-					searchLog.setDate((Date)dateObject);
-				}
-
-			});
+			"date", (BiConsumer<SearchLog, Date>)SearchLog::setDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -797,6 +353,10 @@ public class SearchLogModelImpl
 
 	@Override
 	public void setSearchLogId(long searchLogId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_searchLogId = searchLogId;
 	}
 
@@ -813,6 +373,10 @@ public class SearchLogModelImpl
 
 	@Override
 	public void setKeywords(String keywords) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_keywords = keywords;
 	}
 
@@ -824,6 +388,10 @@ public class SearchLogModelImpl
 
 	@Override
 	public void setSearchTime(long searchTime) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_searchTime = searchTime;
 	}
 
@@ -835,6 +403,10 @@ public class SearchLogModelImpl
 
 	@Override
 	public void setResultCount(long resultCount) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_resultCount = resultCount;
 	}
 
@@ -846,6 +418,10 @@ public class SearchLogModelImpl
 
 	@Override
 	public void setResult1ClassId(long result1ClassId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_result1ClassId = result1ClassId;
 	}
 
@@ -857,6 +433,10 @@ public class SearchLogModelImpl
 
 	@Override
 	public void setResult1ClassPK(long result1ClassPK) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_result1ClassPK = result1ClassPK;
 	}
 
@@ -873,6 +453,10 @@ public class SearchLogModelImpl
 
 	@Override
 	public void setResult1Title(String result1Title) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_result1Title = result1Title;
 	}
 
@@ -884,6 +468,10 @@ public class SearchLogModelImpl
 
 	@Override
 	public void setResult2ClassId(long result2ClassId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_result2ClassId = result2ClassId;
 	}
 
@@ -895,6 +483,10 @@ public class SearchLogModelImpl
 
 	@Override
 	public void setResult2ClassPK(long result2ClassPK) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_result2ClassPK = result2ClassPK;
 	}
 
@@ -911,6 +503,10 @@ public class SearchLogModelImpl
 
 	@Override
 	public void setResult2Title(String result2Title) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_result2Title = result2Title;
 	}
 
@@ -922,6 +518,10 @@ public class SearchLogModelImpl
 
 	@Override
 	public void setResult3ClassId(long result3ClassId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_result3ClassId = result3ClassId;
 	}
 
@@ -933,6 +533,10 @@ public class SearchLogModelImpl
 
 	@Override
 	public void setResult3ClassPK(long result3ClassPK) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_result3ClassPK = result3ClassPK;
 	}
 
@@ -949,6 +553,10 @@ public class SearchLogModelImpl
 
 	@Override
 	public void setResult3Title(String result3Title) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_result3Title = result3Title;
 	}
 
@@ -960,6 +568,10 @@ public class SearchLogModelImpl
 
 	@Override
 	public void setUserTargetClassId(long userTargetClassId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userTargetClassId = userTargetClassId;
 	}
 
@@ -971,6 +583,10 @@ public class SearchLogModelImpl
 
 	@Override
 	public void setUserTargetClassPK(long userTargetClassPK) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userTargetClassPK = userTargetClassPK;
 	}
 
@@ -987,6 +603,10 @@ public class SearchLogModelImpl
 
 	@Override
 	public void setUserTargetTitle(String userTargetTitle) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userTargetTitle = userTargetTitle;
 	}
 
@@ -998,6 +618,10 @@ public class SearchLogModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_groupId = groupId;
 	}
 
@@ -1009,6 +633,10 @@ public class SearchLogModelImpl
 
 	@Override
 	public void setLayoutId(Long layoutId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_layoutId = layoutId;
 	}
 
@@ -1025,6 +653,10 @@ public class SearchLogModelImpl
 
 	@Override
 	public void setLayoutFriendlyURL(String layoutFriendlyURL) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_layoutFriendlyURL = layoutFriendlyURL;
 	}
 
@@ -1041,6 +673,10 @@ public class SearchLogModelImpl
 
 	@Override
 	public void setLanguage(String language) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_language = language;
 	}
 
@@ -1052,7 +688,35 @@ public class SearchLogModelImpl
 
 	@Override
 	public void setDate(Date date) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_date = date;
+	}
+
+	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
+		return _columnBitmask;
 	}
 
 	@Override
@@ -1115,6 +779,54 @@ public class SearchLogModelImpl
 	}
 
 	@Override
+	public SearchLog cloneWithOriginalValues() {
+		SearchLogImpl searchLogImpl = new SearchLogImpl();
+
+		searchLogImpl.setSearchLogId(
+			this.<Long>getColumnOriginalValue("searchLogId"));
+		searchLogImpl.setKeywords(
+			this.<String>getColumnOriginalValue("keywords"));
+		searchLogImpl.setSearchTime(
+			this.<Long>getColumnOriginalValue("searchTime"));
+		searchLogImpl.setResultCount(
+			this.<Long>getColumnOriginalValue("resultCount"));
+		searchLogImpl.setResult1ClassId(
+			this.<Long>getColumnOriginalValue("result1ClassId"));
+		searchLogImpl.setResult1ClassPK(
+			this.<Long>getColumnOriginalValue("result1ClassPK"));
+		searchLogImpl.setResult1Title(
+			this.<String>getColumnOriginalValue("result1Title"));
+		searchLogImpl.setResult2ClassId(
+			this.<Long>getColumnOriginalValue("result2ClassId"));
+		searchLogImpl.setResult2ClassPK(
+			this.<Long>getColumnOriginalValue("result2ClassPK"));
+		searchLogImpl.setResult2Title(
+			this.<String>getColumnOriginalValue("result2Title"));
+		searchLogImpl.setResult3ClassId(
+			this.<Long>getColumnOriginalValue("result3ClassId"));
+		searchLogImpl.setResult3ClassPK(
+			this.<Long>getColumnOriginalValue("result3ClassPK"));
+		searchLogImpl.setResult3Title(
+			this.<String>getColumnOriginalValue("result3Title"));
+		searchLogImpl.setUserTargetClassId(
+			this.<Long>getColumnOriginalValue("userTargetClassId"));
+		searchLogImpl.setUserTargetClassPK(
+			this.<Long>getColumnOriginalValue("userTargetClassPK"));
+		searchLogImpl.setUserTargetTitle(
+			this.<String>getColumnOriginalValue("userTargetTitle"));
+		searchLogImpl.setGroupId(this.<Long>getColumnOriginalValue("groupId"));
+		searchLogImpl.setLayoutId(
+			this.<Long>getColumnOriginalValue("layoutId"));
+		searchLogImpl.setLayoutFriendlyURL(
+			this.<String>getColumnOriginalValue("layoutFriendlyURL"));
+		searchLogImpl.setLanguage(
+			this.<String>getColumnOriginalValue("language"));
+		searchLogImpl.setDate(this.<Date>getColumnOriginalValue("date_"));
+
+		return searchLogImpl;
+	}
+
+	@Override
 	public int compareTo(SearchLog searchLog) {
 		int value = 0;
 
@@ -1156,11 +868,19 @@ public class SearchLogModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1168,6 +888,9 @@ public class SearchLogModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		_columnOriginalValues = Collections.emptyMap();
+
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1278,7 +1001,7 @@ public class SearchLogModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1289,9 +1012,26 @@ public class SearchLogModelImpl
 			Function<SearchLog, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((SearchLog)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((SearchLog)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1304,41 +1044,12 @@ public class SearchLogModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<SearchLog, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<SearchLog, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<SearchLog, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((SearchLog)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, SearchLog>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					SearchLog.class, ModelWrapper.class);
 
 	}
 
@@ -1363,6 +1074,126 @@ public class SearchLogModelImpl
 	private String _layoutFriendlyURL;
 	private String _language;
 	private Date _date;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<SearchLog, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((SearchLog)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("searchLogId", _searchLogId);
+		_columnOriginalValues.put("keywords", _keywords);
+		_columnOriginalValues.put("searchTime", _searchTime);
+		_columnOriginalValues.put("resultCount", _resultCount);
+		_columnOriginalValues.put("result1ClassId", _result1ClassId);
+		_columnOriginalValues.put("result1ClassPK", _result1ClassPK);
+		_columnOriginalValues.put("result1Title", _result1Title);
+		_columnOriginalValues.put("result2ClassId", _result2ClassId);
+		_columnOriginalValues.put("result2ClassPK", _result2ClassPK);
+		_columnOriginalValues.put("result2Title", _result2Title);
+		_columnOriginalValues.put("result3ClassId", _result3ClassId);
+		_columnOriginalValues.put("result3ClassPK", _result3ClassPK);
+		_columnOriginalValues.put("result3Title", _result3Title);
+		_columnOriginalValues.put("userTargetClassId", _userTargetClassId);
+		_columnOriginalValues.put("userTargetClassPK", _userTargetClassPK);
+		_columnOriginalValues.put("userTargetTitle", _userTargetTitle);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("layoutId", _layoutId);
+		_columnOriginalValues.put("layoutFriendlyURL", _layoutFriendlyURL);
+		_columnOriginalValues.put("language", _language);
+		_columnOriginalValues.put("date_", _date);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("date_", "date");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("searchLogId", 1L);
+
+		columnBitmasks.put("keywords", 2L);
+
+		columnBitmasks.put("searchTime", 4L);
+
+		columnBitmasks.put("resultCount", 8L);
+
+		columnBitmasks.put("result1ClassId", 16L);
+
+		columnBitmasks.put("result1ClassPK", 32L);
+
+		columnBitmasks.put("result1Title", 64L);
+
+		columnBitmasks.put("result2ClassId", 128L);
+
+		columnBitmasks.put("result2ClassPK", 256L);
+
+		columnBitmasks.put("result2Title", 512L);
+
+		columnBitmasks.put("result3ClassId", 1024L);
+
+		columnBitmasks.put("result3ClassPK", 2048L);
+
+		columnBitmasks.put("result3Title", 4096L);
+
+		columnBitmasks.put("userTargetClassId", 8192L);
+
+		columnBitmasks.put("userTargetClassPK", 16384L);
+
+		columnBitmasks.put("userTargetTitle", 32768L);
+
+		columnBitmasks.put("groupId", 65536L);
+
+		columnBitmasks.put("layoutId", 131072L);
+
+		columnBitmasks.put("layoutFriendlyURL", 262144L);
+
+		columnBitmasks.put("language", 524288L);
+
+		columnBitmasks.put("date_", 1048576L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private long _columnBitmask;
 	private SearchLog _escapedModel;
 
 }
