@@ -1,10 +1,11 @@
 package eu.strasbourg.utils;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
-import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
+import com.liferay.asset.category.property.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -23,11 +24,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -460,7 +457,7 @@ public class AssetVocabularyHelper {
 	 * @return
 	 */
 	public static void addCategoryToAssetEntry(AssetCategory category, AssetEntry entry) {
-		AssetCategoryLocalServiceUtil.addAssetEntryAssetCategory(
+		AssetEntryAssetCategoryRelLocalServiceUtil.addAssetEntryAssetCategoryRel(
 				entry.getEntryId(), category.getCategoryId());
 	}
 
@@ -469,7 +466,7 @@ public class AssetVocabularyHelper {
 	 * @return
 	 */
 	public static void removeCategoryToAssetEntry(AssetCategory category, AssetEntry entry) {
-		AssetCategoryLocalServiceUtil.deleteAssetEntryAssetCategory(
+		AssetEntryAssetCategoryRelLocalServiceUtil.deleteAssetEntryAssetCategoryRel(
 				entry.getEntryId(), category.getCategoryId());
 	}
 

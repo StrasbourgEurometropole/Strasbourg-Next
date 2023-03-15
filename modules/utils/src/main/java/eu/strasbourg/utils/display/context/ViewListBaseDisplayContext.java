@@ -1,39 +1,28 @@
 package eu.strasbourg.utils.display.context;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
-
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletURL;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
-import com.liferay.frontend.taglib.servlet.taglib.ManagementBarFilterItem;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
-
-import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.SearchHelper;
+
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.LongStream;
 
 public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 	protected String _filterCategoriesIds;
@@ -96,7 +85,7 @@ public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 		int count = (int) SearchHelper.getBOSearchCount(searchContext,
 			tClass.getName(), groupId,
 			this.getFilterCategoriesIds(), keywords);
-		this.getSearchContainer().setTotal(count);
+		this.getSearchContainer().setResultsAndTotal(null, count);
 
 		return hits;
 	}
@@ -123,7 +112,7 @@ public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 		int count = (int) SearchHelper.getBOSearchCount(searchContext,
 			tClass.getName(), groupId,
 			this.getFilterCategoriesIds(), keywords);
-		this.getSearchContainer().setTotal(count);
+		this.getSearchContainer().setResultsAndTotal(null, count);
 
 		return hits;
 	}
@@ -289,7 +278,7 @@ public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 	/**
 	 * Affichage des filtres par catégories
 	 */
-	public List<ManagementBarFilterItem> getManagementBarFilterItems(
+	/*public List<ManagementBarFilterItem> getManagementBarFilterItems(
 		AssetVocabulary vocabulary) throws PortalException {
 		List<ManagementBarFilterItem> managementBarFilterItems = new ArrayList<>();
 
@@ -364,7 +353,7 @@ public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 		String url = filterURL.toString();
 
 		return new ManagementBarFilterItem(isActive, label, url);
-	}
+	}*/
 
 
 }
