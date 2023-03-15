@@ -15,7 +15,6 @@
 package eu.strasbourg.service.strasbourg.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -58,7 +57,7 @@ public interface StrasbourgService extends BaseService {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link StrasbourgServiceUtil} to access the strasbourg remote service. Add custom service methods to <code>eu.strasbourg.service.strasbourg.service.impl.StrasbourgServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.strasbourg.service.impl.StrasbourgServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the strasbourg remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link StrasbourgServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**

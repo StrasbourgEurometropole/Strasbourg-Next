@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class StrasbourgServiceWrapper
 	implements ServiceWrapper<StrasbourgService>, StrasbourgService {
 
+	public StrasbourgServiceWrapper() {
+		this(null);
+	}
+
 	public StrasbourgServiceWrapper(StrasbourgService strasbourgService) {
 		_strasbourgService = strasbourgService;
 	}

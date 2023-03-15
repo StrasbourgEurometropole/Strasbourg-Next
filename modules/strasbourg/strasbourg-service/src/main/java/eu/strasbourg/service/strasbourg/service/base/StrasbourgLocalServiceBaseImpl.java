@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.strasbourg.service.base;
 
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -27,6 +28,8 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -40,16 +43,15 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.strasbourg.model.Strasbourg;
 import eu.strasbourg.service.strasbourg.service.StrasbourgLocalService;
+import eu.strasbourg.service.strasbourg.service.StrasbourgLocalServiceUtil;
 import eu.strasbourg.service.strasbourg.service.persistence.StrasbourgPersistence;
 
-import java.io.Serializable;
-
-import java.util.List;
-
 import javax.sql.DataSource;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * Provides the base implementation for the strasbourg local service.
@@ -69,7 +71,7 @@ public abstract class StrasbourgLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>StrasbourgLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.strasbourg.service.StrasbourgLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>StrasbourgLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>StrasbourgLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -133,6 +135,18 @@ public abstract class StrasbourgLocalServiceBaseImpl
 	@Override
 	public Strasbourg deleteStrasbourg(Strasbourg strasbourg) {
 		return strasbourgPersistence.remove(strasbourg);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return strasbourgPersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -284,13 +298,29 @@ public abstract class StrasbourgLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return strasbourgPersistence.create(((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement StrasbourgLocalServiceImpl#deleteStrasbourg(Strasbourg) to avoid orphaned data");
+		}
 
 		return strasbourgLocalService.deleteStrasbourg(
 			(Strasbourg)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<Strasbourg> getBasePersistence() {
 		return strasbourgPersistence;
 	}
@@ -520,11 +550,15 @@ public abstract class StrasbourgLocalServiceBaseImpl
 		persistedModelLocalServiceRegistry.register(
 			"eu.strasbourg.service.strasbourg.model.Strasbourg",
 			strasbourgLocalService);
+
+		_setLocalServiceUtilService(strasbourgLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"eu.strasbourg.service.strasbourg.model.Strasbourg");
+
+		_setLocalServiceUtilService(null);
 	}
 
 	/**
@@ -569,6 +603,22 @@ public abstract class StrasbourgLocalServiceBaseImpl
 		}
 	}
 
+	private void _setLocalServiceUtilService(
+		StrasbourgLocalService strasbourgLocalService) {
+
+		try {
+			Field field = StrasbourgLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, strasbourgLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
+		}
+	}
+
 	@BeanReference(type = StrasbourgLocalService.class)
 	protected StrasbourgLocalService strasbourgLocalService;
 
@@ -604,6 +654,9 @@ public abstract class StrasbourgLocalServiceBaseImpl
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		StrasbourgLocalServiceBaseImpl.class);
 
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry
