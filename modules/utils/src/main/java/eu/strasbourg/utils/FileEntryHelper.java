@@ -1,11 +1,12 @@
 package eu.strasbourg.utils;
 
 import com.liferay.document.library.kernel.antivirus.AntivirusScannerException;
+import com.liferay.document.library.kernel.antivirus.AntivirusScannerUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
-import com.liferay.document.library.kernel.util.DLUtil;
+import com.liferay.document.library.util.DLURLHelperUtil;
 import com.liferay.dynamic.data.mapping.kernel.DDMFormFieldValue;
 import com.liferay.dynamic.data.mapping.kernel.DDMFormValues;
 import com.liferay.dynamic.data.mapping.kernel.Value;
@@ -18,7 +19,6 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.TextFormatter;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portlet.documentlibrary.antivirus.ClamAntivirusScannerImpl;
 import com.liferay.portlet.documentlibrary.lar.FileEntryUtil;
 
 import java.io.File;
@@ -27,14 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.FileOwnerAttributeView;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Random;
-import java.util.TreeMap;
-import java.util.stream.IntStream;
+import java.util.*;
 
 /**
  * Classe Helper pour tout ce qui concerne les fichiers
@@ -226,7 +219,7 @@ public class FileEntryHelper {
 	public static String getFileThumbnail(Long fileEntryId, ThemeDisplay themeDisplay) {
 		FileEntry fileEntry = FileEntryUtil.fetchByPrimaryKey(fileEntryId);
 		try {
-			return DLUtil.getThumbnailSrc(fileEntry, themeDisplay);
+			return DLURLHelperUtil.getThumbnailSrc(fileEntry, themeDisplay);
 		} catch (Exception e) {
 			_log.error(e);
 			return "";
@@ -255,15 +248,15 @@ public class FileEntryHelper {
 	 * @param file  fichier a scnner
 	 * @return l'erreur si il y en a :
 	 *    unable-to-scan-file-for-viruses
+	 *    unable-to-scan-file-for-viruses.-size-limit-exceeded
 	 *    a-virus-was-detected-in-the-file
 	 *    an-unexpected-error-occurred-while-scanning-for-viruses
 	 */
 	public static String scanFile(File file) {
 		String error = "";
-        ClamAntivirusScannerImpl Scanner = new ClamAntivirusScannerImpl();
 		try {
 			// vérifi que le fichier est clean
-			Scanner.scan(file);
+			AntivirusScannerUtil.scan(file);
 		} catch (AntivirusScannerException e) {
 			_log.error(file.getName() + " -> " + e.getMessageKey());
 			error = e.getMessageKey();
