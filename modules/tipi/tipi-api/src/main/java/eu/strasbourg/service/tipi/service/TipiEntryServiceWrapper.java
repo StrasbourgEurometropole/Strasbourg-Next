@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class TipiEntryServiceWrapper
 	implements ServiceWrapper<TipiEntryService>, TipiEntryService {
 
+	public TipiEntryServiceWrapper() {
+		this(null);
+	}
+
 	public TipiEntryServiceWrapper(TipiEntryService tipiEntryService) {
 		_tipiEntryService = tipiEntryService;
 	}

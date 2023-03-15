@@ -14,16 +14,15 @@
 
 package eu.strasbourg.service.tipi.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import com.liferay.portal.kernel.exception.SystemException;
-
 import aQute.bnd.annotation.ProviderType;
+import com.liferay.portal.kernel.exception.SystemException;
 import eu.strasbourg.service.tipi.model.TipiEntry;
 import eu.strasbourg.service.tipi.service.TipiEntryLocalServiceUtil;
 import eu.strasbourg.service.tipi.service.base.TipiEntryLocalServiceBaseImpl;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * The implementation of the tipi entry local service.
