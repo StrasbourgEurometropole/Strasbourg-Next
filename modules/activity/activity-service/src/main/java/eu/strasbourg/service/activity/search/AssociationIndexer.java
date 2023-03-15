@@ -59,8 +59,8 @@ public class AssociationIndexer extends BaseIndexer<Association> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(association.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);
+		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);*/
 
 		document.addLocalizedText(Field.TITLE, association.getNameMap());
 		document.addLocalizedText(Field.DESCRIPTION,

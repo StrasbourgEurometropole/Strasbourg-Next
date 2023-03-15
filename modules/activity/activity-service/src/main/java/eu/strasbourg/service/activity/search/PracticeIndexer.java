@@ -61,8 +61,8 @@ public class PracticeIndexer extends BaseIndexer<Practice> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(practice.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);
+		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);*/
 
 		Map<Locale, String> fieldMap = new HashMap<Locale, String>();
 		fieldMap.put(Locale.FRANCE, "Activité de " + practice.getAssociation().getNameCurrentValue());

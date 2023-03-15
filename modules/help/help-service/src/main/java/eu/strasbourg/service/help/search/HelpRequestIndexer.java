@@ -52,8 +52,8 @@ public class HelpRequestIndexer extends BaseIndexer<HelpRequest> {
         List<AssetCategory> assetCategories = AssetVocabularyHelper
                 .getFullHierarchyCategories(helpRequest.getCategories());
         document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-        addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-                assetCategories);
+        /*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+                assetCategories);*/
 
         Map<Locale, String> helpProposalTitle = new HashMap<>();
         helpProposalTitle.put(Locale.FRANCE, helpRequest.getHelpProposal().getTitle());

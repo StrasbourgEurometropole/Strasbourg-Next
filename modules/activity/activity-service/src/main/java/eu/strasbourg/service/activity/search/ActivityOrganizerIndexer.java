@@ -59,8 +59,8 @@ public class ActivityOrganizerIndexer extends BaseIndexer<ActivityOrganizer> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(activityOrganizer.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);
+		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);*/
 
 		document.addLocalizedText(Field.TITLE, activityOrganizer.getNameMap());
 		document.addLocalizedText(Field.DESCRIPTION,

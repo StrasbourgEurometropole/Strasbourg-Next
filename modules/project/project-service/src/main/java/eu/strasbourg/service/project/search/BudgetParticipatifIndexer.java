@@ -53,8 +53,8 @@ public class BudgetParticipatifIndexer extends BaseIndexer<BudgetParticipatif> {
         List<AssetCategory> assetCategories = AssetVocabularyHelper
                 .getFullHierarchyCategories(budget.getCategories());
         document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-        addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-                assetCategories);
+        /*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+                assetCategories);*/
 
         Map<Locale, String> titleFieldMap = new HashMap<>();
         titleFieldMap.put(Locale.FRANCE, budget.getTitle());

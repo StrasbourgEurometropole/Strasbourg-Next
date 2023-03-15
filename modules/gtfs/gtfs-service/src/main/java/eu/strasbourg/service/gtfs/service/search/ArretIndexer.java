@@ -64,7 +64,7 @@ public class ArretIndexer extends BaseIndexer<Arret> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(arret.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES, assetCategories);
+		//addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES, assetCategories);
 		
 		Map<Locale, String> titleFieldMap = new HashMap<Locale, String>();
 		titleFieldMap.put(Locale.FRANCE, arret.getTitle());

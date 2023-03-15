@@ -61,8 +61,8 @@ public class AlertIndexer extends BaseIndexer<Alert> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(alert.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);
+		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);*/
 		
 		document.addText(Field.TITLE, alert.getName());
 		document.addText(Field.DESCRIPTION,alert.getName());

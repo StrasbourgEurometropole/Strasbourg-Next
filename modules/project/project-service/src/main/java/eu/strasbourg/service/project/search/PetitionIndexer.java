@@ -58,8 +58,8 @@ public class PetitionIndexer extends BaseIndexer<Petition> {
         List<AssetCategory> assetCategories = AssetVocabularyHelper
                 .getFullHierarchyCategories(petition.getCategories());
         document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-        addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-                assetCategories);
+        /*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+                assetCategories);*/
 
         Map<Locale, String> titleFieldMap = new HashMap<>();
         titleFieldMap.put(Locale.FRANCE, petition.getTitle());

@@ -61,8 +61,8 @@ public class ManifestationIndexer extends BaseIndexer<Manifestation> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(manifestation.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);
+		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);*/
 		
 		document.addLocalizedText(Field.TITLE, manifestation.getTitleMap());
 		document.addLocalizedText(Field.DESCRIPTION,

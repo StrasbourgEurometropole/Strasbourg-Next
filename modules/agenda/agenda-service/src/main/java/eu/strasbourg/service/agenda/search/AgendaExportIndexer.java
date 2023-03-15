@@ -60,8 +60,8 @@ public class AgendaExportIndexer extends BaseIndexer<AgendaExport>{
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(agendaExport.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);
+		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);*/
 
 		document.addLocalizedText(Field.TITLE, agendaExport.getTitleMap());
 		return document;

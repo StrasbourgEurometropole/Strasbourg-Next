@@ -67,8 +67,8 @@ public class PlaceIndexer extends BaseIndexer<Place> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 				.getFullHierarchyCategories(place.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-				assetCategories);
+		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+				assetCategories);*/
 
 		document.addText(Field.TITLE, place.getAlias(Locale.FRANCE));
 

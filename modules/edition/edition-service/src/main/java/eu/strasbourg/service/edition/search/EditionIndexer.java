@@ -59,8 +59,8 @@ public class EditionIndexer extends BaseIndexer<Edition> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(edition.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);
+		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);*/
 		
 		document.addLocalizedText(Field.TITLE, edition.getTitleMap());
 		document.addLocalizedText(Field.DESCRIPTION,

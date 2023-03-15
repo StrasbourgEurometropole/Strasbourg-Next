@@ -59,8 +59,8 @@ public class InterestIndexer extends BaseIndexer<Interest> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(Interest.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);
+		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);*/
 		
 		document.addLocalizedText(Field.TITLE, Interest.getTitleMap());
 		document.addLocalizedText(Field.DESCRIPTION,

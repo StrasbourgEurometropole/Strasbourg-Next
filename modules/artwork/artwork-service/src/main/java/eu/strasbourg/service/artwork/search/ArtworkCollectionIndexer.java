@@ -62,8 +62,8 @@ public class ArtworkCollectionIndexer extends BaseIndexer<ArtworkCollection> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(artworkCollection.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);
+		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);*/
 
 		document.addLocalizedText(Field.TITLE, artworkCollection.getTitleMap());
 		document.addLocalizedText(Field.DESCRIPTION,

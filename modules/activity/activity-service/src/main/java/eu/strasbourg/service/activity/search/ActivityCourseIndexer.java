@@ -60,8 +60,8 @@ public class ActivityCourseIndexer extends BaseIndexer<ActivityCourse> {
 			.getFullHierarchyCategories(activityCourse.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
 
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);
+		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);*/
 
 		document.addLocalizedText(Field.TITLE, activityCourse.getNameMap());
 		document.addNumber(Field.STATUS, activityCourse.getStatus());

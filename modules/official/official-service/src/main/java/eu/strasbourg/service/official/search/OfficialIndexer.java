@@ -61,8 +61,8 @@ public class OfficialIndexer extends BaseIndexer<Official> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 				.getFullHierarchyCategories(official.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-				assetCategories);
+		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+				assetCategories);*/
 
 		String title = official.getLastName() + " " + official.getFirstName();
 
