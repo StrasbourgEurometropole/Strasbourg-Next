@@ -24,6 +24,7 @@ import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerRegistryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -44,6 +45,8 @@ import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -58,17 +61,16 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalService;
+import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import eu.strasbourg.service.video.service.persistence.VideoGalleryPersistence;
 import eu.strasbourg.service.video.service.persistence.VideoPersistence;
 
-import java.io.Serializable;
-
-import java.util.List;
-
 import javax.sql.DataSource;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * Provides the base implementation for the video local service.
@@ -88,7 +90,7 @@ public abstract class VideoLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>VideoLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.video.service.VideoLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>VideoLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>VideoLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -152,6 +154,18 @@ public abstract class VideoLocalServiceBaseImpl
 	@Override
 	public Video deleteVideo(Video video) {
 		return videoPersistence.remove(video);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return videoPersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -437,12 +451,28 @@ public abstract class VideoLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return videoPersistence.create(((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement VideoLocalServiceImpl#deleteVideo(Video) to avoid orphaned data");
+		}
 
 		return videoLocalService.deleteVideo((Video)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<Video> getBasePersistence() {
 		return videoPersistence;
 	}
@@ -1016,11 +1046,15 @@ public abstract class VideoLocalServiceBaseImpl
 	public void afterPropertiesSet() {
 		persistedModelLocalServiceRegistry.register(
 			"eu.strasbourg.service.video.model.Video", videoLocalService);
+
+		_setLocalServiceUtilService(videoLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"eu.strasbourg.service.video.model.Video");
+
+		_setLocalServiceUtilService(null);
 	}
 
 	/**
@@ -1062,6 +1096,22 @@ public abstract class VideoLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		VideoLocalService videoLocalService) {
+
+		try {
+			Field field = VideoLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, videoLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1136,6 +1186,9 @@ public abstract class VideoLocalServiceBaseImpl
 
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		VideoLocalServiceBaseImpl.class);
 
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry

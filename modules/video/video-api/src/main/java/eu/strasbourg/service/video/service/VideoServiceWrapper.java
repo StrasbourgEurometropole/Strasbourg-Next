@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class VideoServiceWrapper
 	implements ServiceWrapper<VideoService>, VideoService {
 
+	public VideoServiceWrapper() {
+		this(null);
+	}
+
 	public VideoServiceWrapper(VideoService videoService) {
 		_videoService = videoService;
 	}

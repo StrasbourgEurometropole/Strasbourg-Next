@@ -14,18 +14,12 @@
 
 package eu.strasbourg.service.video.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.video.exception.NoSuchVideoException;
 import eu.strasbourg.service.video.model.Video;
-
-import java.io.Serializable;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.Date;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * The persistence interface for the video service.
@@ -46,9 +40,6 @@ public interface VideoPersistence extends BasePersistence<Video> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link VideoUtil} to access the video persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Video> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the videos where uuid = &#63;.
@@ -988,8 +979,5 @@ public interface VideoPersistence extends BasePersistence<Video> {
 		long pk,
 		java.util.List<eu.strasbourg.service.video.model.VideoGallery>
 			videoGalleries);
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

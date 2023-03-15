@@ -27,6 +27,10 @@ public class VideoGalleryLocalServiceWrapper
 	implements ServiceWrapper<VideoGalleryLocalService>,
 			   VideoGalleryLocalService {
 
+	public VideoGalleryLocalServiceWrapper() {
+		this(null);
+	}
+
 	public VideoGalleryLocalServiceWrapper(
 		VideoGalleryLocalService videoGalleryLocalService) {
 
@@ -92,6 +96,17 @@ public class VideoGalleryLocalServiceWrapper
 	@Override
 	public void clearVideoVideoGalleries(long videoId) {
 		_videoGalleryLocalService.clearVideoVideoGalleries(videoId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _videoGalleryLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -193,6 +208,18 @@ public class VideoGalleryLocalServiceWrapper
 
 		_videoGalleryLocalService.deleteVideoVideoGallery(
 			videoId, videoGallery);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _videoGalleryLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _videoGalleryLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override
