@@ -428,6 +428,4 @@ modules/test3.xml
 modules/test2.xml
 modules/bidon.html
 
-modules/**/service.properties
-modules/**/service.xml
 
