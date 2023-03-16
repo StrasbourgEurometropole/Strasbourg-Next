@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.csmap.service.base;
 
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -27,6 +28,8 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -37,23 +40,22 @@ import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
-
 import eu.strasbourg.service.csmap.model.CsmapCache;
 import eu.strasbourg.service.csmap.service.CsmapCacheLocalService;
+import eu.strasbourg.service.csmap.service.CsmapCacheLocalServiceUtil;
 import eu.strasbourg.service.csmap.service.persistence.AgendaPersistence;
 import eu.strasbourg.service.csmap.service.persistence.BaseNoncePersistence;
 import eu.strasbourg.service.csmap.service.persistence.CsmapCachePersistence;
 import eu.strasbourg.service.csmap.service.persistence.PlaceCategoriesPersistence;
 import eu.strasbourg.service.csmap.service.persistence.RefreshTokenPersistence;
 import eu.strasbourg.service.csmap.service.persistence.ThematicPersistence;
-
-import java.io.Serializable;
-
-import java.util.List;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.sql.DataSource;
-
-import org.osgi.service.component.annotations.Reference;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * Provides the base implementation for the csmap cache local service.
@@ -73,7 +75,7 @@ public abstract class CsmapCacheLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>CsmapCacheLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.csmap.service.CsmapCacheLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>CsmapCacheLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>CsmapCacheLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -137,6 +139,18 @@ public abstract class CsmapCacheLocalServiceBaseImpl
 	@Override
 	public CsmapCache deleteCsmapCache(CsmapCache csmapCache) {
 		return csmapCachePersistence.remove(csmapCache);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return csmapCachePersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -288,13 +302,29 @@ public abstract class CsmapCacheLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return csmapCachePersistence.create(((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement CsmapCacheLocalServiceImpl#deleteCsmapCache(CsmapCache) to avoid orphaned data");
+		}
 
 		return csmapCacheLocalService.deleteCsmapCache(
 			(CsmapCache)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<CsmapCache> getBasePersistence() {
 		return csmapCachePersistence;
 	}
@@ -351,6 +381,11 @@ public abstract class CsmapCacheLocalServiceBaseImpl
 		return csmapCachePersistence.update(csmapCache);
 	}
 
+	@Deactivate
+	protected void deactivate() {
+		_setLocalServiceUtilService(null);
+	}
+
 	@Override
 	public Class<?>[] getAopInterfaces() {
 		return new Class<?>[] {
@@ -362,6 +397,8 @@ public abstract class CsmapCacheLocalServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		csmapCacheLocalService = (CsmapCacheLocalService)aopProxy;
+
+		_setLocalServiceUtilService(csmapCacheLocalService);
 	}
 
 	/**
@@ -406,6 +443,22 @@ public abstract class CsmapCacheLocalServiceBaseImpl
 		}
 	}
 
+	private void _setLocalServiceUtilService(
+		CsmapCacheLocalService csmapCacheLocalService) {
+
+		try {
+			Field field = CsmapCacheLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, csmapCacheLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
+		}
+	}
+
 	@Reference
 	protected AgendaPersistence agendaPersistence;
 
@@ -441,5 +494,8 @@ public abstract class CsmapCacheLocalServiceBaseImpl
 	@Reference
 	protected com.liferay.portal.kernel.service.UserLocalService
 		userLocalService;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		CsmapCacheLocalServiceBaseImpl.class);
 
 }

@@ -27,6 +27,10 @@ public class ScheduleExceptionLocalServiceWrapper
 	implements ScheduleExceptionLocalService,
 			   ServiceWrapper<ScheduleExceptionLocalService> {
 
+	public ScheduleExceptionLocalServiceWrapper() {
+		this(null);
+	}
+
 	public ScheduleExceptionLocalServiceWrapper(
 		ScheduleExceptionLocalService scheduleExceptionLocalService) {
 
@@ -51,6 +55,18 @@ public class ScheduleExceptionLocalServiceWrapper
 
 		return _scheduleExceptionLocalService.addScheduleException(
 			scheduleException);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _scheduleExceptionLocalService.createPersistedModel(
+			primaryKeyObj);
 	}
 
 	/**
@@ -129,6 +145,18 @@ public class ScheduleExceptionLocalServiceWrapper
 
 		return _scheduleExceptionLocalService.deleteScheduleException(
 			scheduleException);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _scheduleExceptionLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _scheduleExceptionLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

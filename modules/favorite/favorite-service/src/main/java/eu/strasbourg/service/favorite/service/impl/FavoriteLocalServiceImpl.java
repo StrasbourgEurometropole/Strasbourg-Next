@@ -14,9 +14,6 @@
 
 package eu.strasbourg.service.favorite.service.impl;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -24,6 +21,9 @@ import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.model.FavoriteType;
 import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
 import eu.strasbourg.service.favorite.service.base.FavoriteLocalServiceBaseImpl;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The implementation of the favorite local service.

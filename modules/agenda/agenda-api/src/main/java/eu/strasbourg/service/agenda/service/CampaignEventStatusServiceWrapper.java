@@ -27,6 +27,10 @@ public class CampaignEventStatusServiceWrapper
 	implements CampaignEventStatusService,
 			   ServiceWrapper<CampaignEventStatusService> {
 
+	public CampaignEventStatusServiceWrapper() {
+		this(null);
+	}
+
 	public CampaignEventStatusServiceWrapper(
 		CampaignEventStatusService campaignEventStatusService) {
 

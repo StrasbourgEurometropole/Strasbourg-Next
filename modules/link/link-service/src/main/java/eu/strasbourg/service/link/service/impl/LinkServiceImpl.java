@@ -15,7 +15,6 @@
 package eu.strasbourg.service.link.service.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.link.service.base.LinkServiceBaseImpl;
 
 /**

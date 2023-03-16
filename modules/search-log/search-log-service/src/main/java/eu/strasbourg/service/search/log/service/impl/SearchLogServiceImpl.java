@@ -14,29 +14,10 @@
 
 package eu.strasbourg.service.search.log.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.search.log.service.base.SearchLogServiceBaseImpl;
 
 /**
- * The implementation of the search log remote service.
- *
- * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.search.log.service.SearchLogService} interface.
- *
- * <p>
- * This is a remote service. Methods of this service are expected to have security checks based on the propagated JAAS credentials because this service can be accessed remotely.
- * </p>
- *
  * @author BenjaminBini
- * @see SearchLogServiceBaseImpl
- * @see eu.strasbourg.service.search.log.service.SearchLogServiceUtil
  */
-@ProviderType
 public class SearchLogServiceImpl extends SearchLogServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Always use {@link eu.strasbourg.service.search.log.service.SearchLogServiceUtil} to access the search log remote service.
-	 */
 }

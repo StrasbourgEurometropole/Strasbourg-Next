@@ -14,13 +14,12 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
-import java.util.List;
-
-import com.liferay.portal.kernel.exception.PortalException;
-
 import aQute.bnd.annotation.ProviderType;
+import com.liferay.portal.kernel.exception.PortalException;
 import eu.strasbourg.service.agenda.model.CampaignEventStatus;
 import eu.strasbourg.service.agenda.service.base.CampaignEventStatusLocalServiceBaseImpl;
+
+import java.util.List;
 
 /**
  * The implementation of the campaign event status local service.

@@ -27,6 +27,10 @@ public class AnonymisationHistoricLocalServiceWrapper
 	implements AnonymisationHistoricLocalService,
 			   ServiceWrapper<AnonymisationHistoricLocalService> {
 
+	public AnonymisationHistoricLocalServiceWrapper() {
+		this(null);
+	}
+
 	public AnonymisationHistoricLocalServiceWrapper(
 		AnonymisationHistoricLocalService anonymisationHistoricLocalService) {
 
@@ -78,6 +82,18 @@ public class AnonymisationHistoricLocalServiceWrapper
 
 		return _anonymisationHistoricLocalService.createAnonymisationHistoric(
 			sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _anonymisationHistoricLocalService.createPersistedModel(
+			primaryKeyObj);
 	}
 
 	/**
@@ -143,6 +159,18 @@ public class AnonymisationHistoricLocalServiceWrapper
 
 		_anonymisationHistoricLocalService.doAnonymisation(
 			sc, anonymisationHistoric);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _anonymisationHistoricLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _anonymisationHistoricLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

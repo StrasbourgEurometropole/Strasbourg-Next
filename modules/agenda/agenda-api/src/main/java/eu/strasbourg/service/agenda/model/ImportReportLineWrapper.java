@@ -14,15 +14,11 @@
 
 package eu.strasbourg.service.agenda.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -34,20 +30,11 @@ import java.util.Objects;
  * @generated
  */
 public class ImportReportLineWrapper
+	extends BaseModelWrapper<ImportReportLine>
 	implements ImportReportLine, ModelWrapper<ImportReportLine> {
 
 	public ImportReportLineWrapper(ImportReportLine importReportLine) {
-		_importReportLine = importReportLine;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return ImportReportLine.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return ImportReportLine.class.getName();
+		super(importReportLine);
 	}
 
 	@Override
@@ -125,21 +112,13 @@ public class ImportReportLineWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new ImportReportLineWrapper(
-			(ImportReportLine)_importReportLine.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.agenda.model.ImportReportLine importReportLine) {
-
-		return _importReportLine.compareTo(importReportLine);
+	public ImportReportLine cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	@Override
 	public void error(String cause) {
-		_importReportLine.error(cause);
+		model.error(cause);
 	}
 
 	/**
@@ -149,7 +128,7 @@ public class ImportReportLineWrapper
 	 */
 	@Override
 	public String getEntityExternalId() {
-		return _importReportLine.getEntityExternalId();
+		return model.getEntityExternalId();
 	}
 
 	/**
@@ -159,7 +138,7 @@ public class ImportReportLineWrapper
 	 */
 	@Override
 	public long getEntityId() {
-		return _importReportLine.getEntityId();
+		return model.getEntityId();
 	}
 
 	/**
@@ -169,12 +148,7 @@ public class ImportReportLineWrapper
 	 */
 	@Override
 	public String getEntityName() {
-		return _importReportLine.getEntityName();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _importReportLine.getExpandoBridge();
+		return model.getEntityName();
 	}
 
 	/**
@@ -184,7 +158,7 @@ public class ImportReportLineWrapper
 	 */
 	@Override
 	public long getLineId() {
-		return _importReportLine.getLineId();
+		return model.getLineId();
 	}
 
 	/**
@@ -194,7 +168,7 @@ public class ImportReportLineWrapper
 	 */
 	@Override
 	public String getLog() {
-		return _importReportLine.getLog();
+		return model.getLog();
 	}
 
 	/**
@@ -204,12 +178,7 @@ public class ImportReportLineWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _importReportLine.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _importReportLine.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -219,7 +188,7 @@ public class ImportReportLineWrapper
 	 */
 	@Override
 	public long getReportId() {
-		return _importReportLine.getReportId();
+		return model.getReportId();
 	}
 
 	/**
@@ -229,7 +198,7 @@ public class ImportReportLineWrapper
 	 */
 	@Override
 	public long getStatus() {
-		return _importReportLine.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -239,7 +208,7 @@ public class ImportReportLineWrapper
 	 */
 	@Override
 	public String getType() {
-		return _importReportLine.getType();
+		return model.getType();
 	}
 
 	/**
@@ -249,42 +218,17 @@ public class ImportReportLineWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _importReportLine.getUuid();
+		return model.getUuid();
 	}
 
 	@Override
 	public boolean hasError() {
-		return _importReportLine.hasError();
-	}
-
-	@Override
-	public int hashCode() {
-		return _importReportLine.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _importReportLine.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _importReportLine.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _importReportLine.isNew();
+		return model.hasError();
 	}
 
 	@Override
 	public void persist() {
-		_importReportLine.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_importReportLine.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -294,7 +238,7 @@ public class ImportReportLineWrapper
 	 */
 	@Override
 	public void setEntityExternalId(String entityExternalId) {
-		_importReportLine.setEntityExternalId(entityExternalId);
+		model.setEntityExternalId(entityExternalId);
 	}
 
 	/**
@@ -304,7 +248,7 @@ public class ImportReportLineWrapper
 	 */
 	@Override
 	public void setEntityId(long entityId) {
-		_importReportLine.setEntityId(entityId);
+		model.setEntityId(entityId);
 	}
 
 	/**
@@ -314,24 +258,7 @@ public class ImportReportLineWrapper
 	 */
 	@Override
 	public void setEntityName(String entityName) {
-		_importReportLine.setEntityName(entityName);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_importReportLine.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_importReportLine.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_importReportLine.setExpandoBridgeAttributes(serviceContext);
+		model.setEntityName(entityName);
 	}
 
 	/**
@@ -341,7 +268,7 @@ public class ImportReportLineWrapper
 	 */
 	@Override
 	public void setLineId(long lineId) {
-		_importReportLine.setLineId(lineId);
+		model.setLineId(lineId);
 	}
 
 	/**
@@ -351,12 +278,7 @@ public class ImportReportLineWrapper
 	 */
 	@Override
 	public void setLog(String log) {
-		_importReportLine.setLog(log);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_importReportLine.setNew(n);
+		model.setLog(log);
 	}
 
 	/**
@@ -366,12 +288,7 @@ public class ImportReportLineWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_importReportLine.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_importReportLine.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -381,7 +298,7 @@ public class ImportReportLineWrapper
 	 */
 	@Override
 	public void setReportId(long reportId) {
-		_importReportLine.setReportId(reportId);
+		model.setReportId(reportId);
 	}
 
 	/**
@@ -391,7 +308,7 @@ public class ImportReportLineWrapper
 	 */
 	@Override
 	public void setStatus(long status) {
-		_importReportLine.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -401,7 +318,7 @@ public class ImportReportLineWrapper
 	 */
 	@Override
 	public void setType(String type) {
-		_importReportLine.setType(type);
+		model.setType(type);
 	}
 
 	/**
@@ -411,83 +328,17 @@ public class ImportReportLineWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_importReportLine.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.agenda.model.ImportReportLine> toCacheModel() {
-
-		return _importReportLine.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.ImportReportLine
-		toEscapedModel() {
-
-		return new ImportReportLineWrapper(_importReportLine.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _importReportLine.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.ImportReportLine
-		toUnescapedModel() {
-
-		return new ImportReportLineWrapper(
-			_importReportLine.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _importReportLine.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof ImportReportLineWrapper)) {
-			return false;
-		}
-
-		ImportReportLineWrapper importReportLineWrapper =
-			(ImportReportLineWrapper)object;
-
-		if (Objects.equals(
-				_importReportLine, importReportLineWrapper._importReportLine)) {
-
-			return true;
-		}
-
-		return false;
+	protected ImportReportLineWrapper wrap(ImportReportLine importReportLine) {
+		return new ImportReportLineWrapper(importReportLine);
 	}
-
-	@Override
-	public ImportReportLine getWrappedModel() {
-		return _importReportLine;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _importReportLine.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _importReportLine.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_importReportLine.resetOriginalValues();
-	}
-
-	private final ImportReportLine _importReportLine;
 
 }

@@ -14,10 +14,10 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
-import java.util.List;
-
 import eu.strasbourg.service.agenda.model.EventParticipation;
 import eu.strasbourg.service.agenda.service.base.EventParticipationLocalServiceBaseImpl;
+
+import java.util.List;
 
 
 /**

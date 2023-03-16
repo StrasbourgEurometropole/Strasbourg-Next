@@ -14,18 +14,14 @@
 
 package eu.strasbourg.service.agenda.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.agenda.exception.NoSuchManifestationException;
 import eu.strasbourg.service.agenda.model.Manifestation;
 
-import java.io.Serializable;
-
 import java.util.Date;
-import java.util.Map;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the manifestation service.
@@ -47,9 +43,6 @@ public interface ManifestationPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link ManifestationUtil} to access the manifestation persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Manifestation> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the manifestations where uuid = &#63;.
@@ -1526,8 +1519,5 @@ public interface ManifestationPersistence
 	public void setEvents(
 		long pk,
 		java.util.List<eu.strasbourg.service.agenda.model.Event> events);
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.interest.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author BenjaminBini
  */
-@ProviderType
 public class NoSuchUserInterestException extends NoSuchModelException {
 
 	public NoSuchUserInterestException() {
@@ -30,12 +27,12 @@ public class NoSuchUserInterestException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchUserInterestException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchUserInterestException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchUserInterestException(Throwable cause) {
-		super(cause);
+	public NoSuchUserInterestException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

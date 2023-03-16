@@ -14,17 +14,12 @@
 
 package eu.strasbourg.service.agenda.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.agenda.exception.NoSuchEventPeriodException;
 import eu.strasbourg.service.agenda.model.EventPeriod;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the event period service.
@@ -45,9 +40,6 @@ public interface EventPeriodPersistence extends BasePersistence<EventPeriod> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link EventPeriodUtil} to access the event period persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, EventPeriod> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the event periods where uuid = &#63;.
@@ -598,8 +590,5 @@ public interface EventPeriodPersistence extends BasePersistence<EventPeriod> {
 	 * @return the number of event periods
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

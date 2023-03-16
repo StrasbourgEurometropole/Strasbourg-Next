@@ -17,6 +17,7 @@ package eu.strasbourg.service.ejob.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
@@ -29,27 +30,21 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.ejob.model.Alert;
 import eu.strasbourg.service.ejob.model.AlertModel;
-import eu.strasbourg.service.ejob.model.AlertSoap;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -123,83 +118,54 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.ejob.service.util.ServiceProps.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.ejob.model.Alert"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.ejob.service.util.ServiceProps.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.ejob.model.Alert"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.ejob.service.util.ServiceProps.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.ejob.model.Alert"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLIKUSERID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ALERTID_COLUMN_BITMASK = 16L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Alert toModel(AlertSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Alert model = new AlertImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setAlertId(soapModel.getAlertId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setName(soapModel.getName());
-		model.setKeyWord(soapModel.getKeyWord());
-		model.setPublikUserId(soapModel.getPublikUserId());
-		model.setLanguage(soapModel.getLanguage());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Alert> toModels(AlertSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Alert> models = new ArrayList<Alert>(soapModels.length);
-
-		for (AlertSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.ejob.service.util.ServiceProps.get(
@@ -255,9 +221,6 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 				attributeName, attributeGetterFunction.apply((Alert)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -288,33 +251,6 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Alert>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Alert.class.getClassLoader(), Alert.class, ModelWrapper.class);
-
-		try {
-			Constructor<Alert> constructor =
-				(Constructor<Alert>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<Alert, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Alert, Object>>
@@ -326,326 +262,58 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 		Map<String, BiConsumer<Alert, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Alert, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", Alert::getUuid);
 		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object uuidObject) {
-					alert.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"alertId",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getAlertId();
-				}
-
-			});
+			"uuid", (BiConsumer<Alert, String>)Alert::setUuid);
+		attributeGetterFunctions.put("alertId", Alert::getAlertId);
 		attributeSetterBiConsumers.put(
-			"alertId",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object alertIdObject) {
-					alert.setAlertId((Long)alertIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getGroupId();
-				}
-
-			});
+			"alertId", (BiConsumer<Alert, Long>)Alert::setAlertId);
+		attributeGetterFunctions.put("groupId", Alert::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object groupIdObject) {
-					alert.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getCompanyId();
-				}
-
-			});
+			"groupId", (BiConsumer<Alert, Long>)Alert::setGroupId);
+		attributeGetterFunctions.put("companyId", Alert::getCompanyId);
 		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object companyIdObject) {
-					alert.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getUserId();
-				}
-
-			});
+			"companyId", (BiConsumer<Alert, Long>)Alert::setCompanyId);
+		attributeGetterFunctions.put("userId", Alert::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object userIdObject) {
-					alert.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getUserName();
-				}
-
-			});
+			"userId", (BiConsumer<Alert, Long>)Alert::setUserId);
+		attributeGetterFunctions.put("userName", Alert::getUserName);
 		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object userNameObject) {
-					alert.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getCreateDate();
-				}
-
-			});
+			"userName", (BiConsumer<Alert, String>)Alert::setUserName);
+		attributeGetterFunctions.put("createDate", Alert::getCreateDate);
 		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object createDateObject) {
-					alert.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getModifiedDate();
-				}
-
-			});
+			"createDate", (BiConsumer<Alert, Date>)Alert::setCreateDate);
+		attributeGetterFunctions.put("modifiedDate", Alert::getModifiedDate);
 		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object modifiedDateObject) {
-					alert.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getStatus();
-				}
-
-			});
+			"modifiedDate", (BiConsumer<Alert, Date>)Alert::setModifiedDate);
+		attributeGetterFunctions.put("status", Alert::getStatus);
 		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object statusObject) {
-					alert.setStatus((Integer)statusObject);
-				}
-
-			});
+			"status", (BiConsumer<Alert, Integer>)Alert::setStatus);
 		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getStatusByUserId();
-				}
-
-			});
+			"statusByUserId", Alert::getStatusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object statusByUserIdObject) {
-					alert.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
+			(BiConsumer<Alert, Long>)Alert::setStatusByUserId);
 		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getStatusByUserName();
-				}
-
-			});
+			"statusByUserName", Alert::getStatusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object statusByUserNameObject) {
-					alert.setStatusByUserName((String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getStatusDate();
-				}
-
-			});
+			(BiConsumer<Alert, String>)Alert::setStatusByUserName);
+		attributeGetterFunctions.put("statusDate", Alert::getStatusDate);
 		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object statusDateObject) {
-					alert.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getName();
-				}
-
-			});
+			"statusDate", (BiConsumer<Alert, Date>)Alert::setStatusDate);
+		attributeGetterFunctions.put("name", Alert::getName);
 		attributeSetterBiConsumers.put(
-			"name",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object nameObject) {
-					alert.setName((String)nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"keyWord",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getKeyWord();
-				}
-
-			});
+			"name", (BiConsumer<Alert, String>)Alert::setName);
+		attributeGetterFunctions.put("keyWord", Alert::getKeyWord);
 		attributeSetterBiConsumers.put(
-			"keyWord",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object keyWordObject) {
-					alert.setKeyWord((String)keyWordObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"publikUserId",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getPublikUserId();
-				}
-
-			});
+			"keyWord", (BiConsumer<Alert, String>)Alert::setKeyWord);
+		attributeGetterFunctions.put("publikUserId", Alert::getPublikUserId);
 		attributeSetterBiConsumers.put(
-			"publikUserId",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object publikUserIdObject) {
-					alert.setPublikUserId((String)publikUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"language",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getLanguage();
-				}
-
-			});
+			"publikUserId", (BiConsumer<Alert, String>)Alert::setPublikUserId);
+		attributeGetterFunctions.put("language", Alert::getLanguage);
 		attributeSetterBiConsumers.put(
-			"language",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object languageObject) {
-					alert.setLanguage((String)languageObject);
-				}
-
-			});
+			"language", (BiConsumer<Alert, String>)Alert::setLanguage);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -666,17 +334,20 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -687,6 +358,10 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setAlertId(long alertId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_alertId = alertId;
 	}
 
@@ -698,19 +373,20 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -721,19 +397,21 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -744,6 +422,10 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -776,6 +458,10 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -787,6 +473,10 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -804,6 +494,10 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -815,6 +509,10 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setStatus(int status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -826,6 +524,10 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -858,6 +560,10 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -869,6 +575,10 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -885,6 +595,10 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setName(String name) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_name = name;
 	}
 
@@ -901,6 +615,10 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setKeyWord(String keyWord) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_keyWord = keyWord;
 	}
 
@@ -917,17 +635,20 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setPublikUserId(String publikUserId) {
-		_columnBitmask |= PUBLIKUSERID_COLUMN_BITMASK;
-
-		if (_originalPublikUserId == null) {
-			_originalPublikUserId = _publikUserId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publikUserId = publikUserId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPublikUserId() {
-		return GetterUtil.getString(_originalPublikUserId);
+		return getColumnOriginalValue("publikUserId");
 	}
 
 	@JSON
@@ -943,6 +664,10 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setLanguage(String language) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_language = language;
 	}
 
@@ -1033,6 +758,26 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1091,6 +836,36 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 	}
 
 	@Override
+	public Alert cloneWithOriginalValues() {
+		AlertImpl alertImpl = new AlertImpl();
+
+		alertImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		alertImpl.setAlertId(this.<Long>getColumnOriginalValue("alertId"));
+		alertImpl.setGroupId(this.<Long>getColumnOriginalValue("groupId"));
+		alertImpl.setCompanyId(this.<Long>getColumnOriginalValue("companyId"));
+		alertImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		alertImpl.setUserName(this.<String>getColumnOriginalValue("userName"));
+		alertImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		alertImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		alertImpl.setStatus(this.<Integer>getColumnOriginalValue("status"));
+		alertImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		alertImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		alertImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		alertImpl.setName(this.<String>getColumnOriginalValue("name"));
+		alertImpl.setKeyWord(this.<String>getColumnOriginalValue("keyWord"));
+		alertImpl.setPublikUserId(
+			this.<String>getColumnOriginalValue("publikUserId"));
+		alertImpl.setLanguage(this.<String>getColumnOriginalValue("language"));
+
+		return alertImpl;
+	}
+
+	@Override
 	public int compareTo(Alert alert) {
 		long primaryKey = alert.getPrimaryKey();
 
@@ -1132,11 +907,19 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1144,23 +927,11 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void resetOriginalValues() {
-		AlertModelImpl alertModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		alertModelImpl._originalUuid = alertModelImpl._uuid;
+		_setModifiedDate = false;
 
-		alertModelImpl._originalGroupId = alertModelImpl._groupId;
-
-		alertModelImpl._setOriginalGroupId = false;
-
-		alertModelImpl._originalCompanyId = alertModelImpl._companyId;
-
-		alertModelImpl._setOriginalCompanyId = false;
-
-		alertModelImpl._setModifiedDate = false;
-
-		alertModelImpl._originalPublikUserId = alertModelImpl._publikUserId;
-
-		alertModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1271,7 +1042,7 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1281,9 +1052,26 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 			String attributeName = entry.getKey();
 			Function<Alert, Object> attributeGetterFunction = entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Alert)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Alert)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1296,52 +1084,19 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Alert, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Alert, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Alert, Object> attributeGetterFunction = entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Alert)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Alert>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Alert.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _alertId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1354,8 +1109,111 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 	private String _name;
 	private String _keyWord;
 	private String _publikUserId;
-	private String _originalPublikUserId;
 	private String _language;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Alert, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Alert)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("alertId", _alertId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("name", _name);
+		_columnOriginalValues.put("keyWord", _keyWord);
+		_columnOriginalValues.put("publikUserId", _publikUserId);
+		_columnOriginalValues.put("language", _language);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("alertId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("status", 256L);
+
+		columnBitmasks.put("statusByUserId", 512L);
+
+		columnBitmasks.put("statusByUserName", 1024L);
+
+		columnBitmasks.put("statusDate", 2048L);
+
+		columnBitmasks.put("name", 4096L);
+
+		columnBitmasks.put("keyWord", 8192L);
+
+		columnBitmasks.put("publikUserId", 16384L);
+
+		columnBitmasks.put("language", 32768L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Alert _escapedModel;
 

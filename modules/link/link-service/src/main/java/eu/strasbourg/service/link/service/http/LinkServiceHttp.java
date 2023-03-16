@@ -38,7 +38,6 @@ package eu.strasbourg.service.link.service.http;
  * </p>
  *
  * @author BenjaminBini
- * @see LinkServiceSoap
  * @generated
  */
 public class LinkServiceHttp {

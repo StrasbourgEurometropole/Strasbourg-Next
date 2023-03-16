@@ -14,17 +14,12 @@
 
 package eu.strasbourg.service.gtfs.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.gtfs.exception.NoSuchStopTimeException;
 import eu.strasbourg.service.gtfs.model.StopTime;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the stop time service.
@@ -45,9 +40,6 @@ public interface StopTimePersistence extends BasePersistence<StopTime> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link StopTimeUtil} to access the stop time persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, StopTime> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the stop times where uuid = &#63;.
@@ -594,8 +586,5 @@ public interface StopTimePersistence extends BasePersistence<StopTime> {
 	 * @return the number of stop times
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

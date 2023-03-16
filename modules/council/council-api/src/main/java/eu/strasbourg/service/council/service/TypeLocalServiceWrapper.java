@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class TypeLocalServiceWrapper
 	implements ServiceWrapper<TypeLocalService>, TypeLocalService {
 
+	public TypeLocalServiceWrapper() {
+		this(null);
+	}
+
 	public TypeLocalServiceWrapper(TypeLocalService typeLocalService) {
 		_typeLocalService = typeLocalService;
 	}
@@ -45,6 +49,17 @@ public class TypeLocalServiceWrapper
 		eu.strasbourg.service.council.model.Type type) {
 
 		return _typeLocalService.addType(type);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _typeLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -113,6 +128,18 @@ public class TypeLocalServiceWrapper
 		eu.strasbourg.service.council.model.Type type) {
 
 		return _typeLocalService.deleteType(type);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _typeLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _typeLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

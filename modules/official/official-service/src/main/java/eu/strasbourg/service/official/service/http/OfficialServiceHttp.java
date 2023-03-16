@@ -38,7 +38,6 @@ package eu.strasbourg.service.official.service.http;
  * </p>
  *
  * @author AngeliqueZUNINO
- * @see OfficialServiceSoap
  * @generated
  */
 public class OfficialServiceHttp {

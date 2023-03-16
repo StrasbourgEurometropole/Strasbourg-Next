@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class BudgetPhaseServiceWrapper
 	implements BudgetPhaseService, ServiceWrapper<BudgetPhaseService> {
 
+	public BudgetPhaseServiceWrapper() {
+		this(null);
+	}
+
 	public BudgetPhaseServiceWrapper(BudgetPhaseService budgetPhaseService) {
 		_budgetPhaseService = budgetPhaseService;
 	}

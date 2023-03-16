@@ -38,7 +38,6 @@ package eu.strasbourg.service.agenda.service.http;
  * </p>
  *
  * @author BenjaminBini
- * @see EventPeriodServiceSoap
  * @generated
  */
 public class EventPeriodServiceHttp {

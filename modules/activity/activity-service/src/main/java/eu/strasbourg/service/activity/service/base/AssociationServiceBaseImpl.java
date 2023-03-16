@@ -23,15 +23,17 @@ import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.activity.model.Association;
 import eu.strasbourg.service.activity.service.AssociationService;
+import eu.strasbourg.service.activity.service.AssociationServiceUtil;
 import eu.strasbourg.service.activity.service.persistence.ActivityCoursePersistence;
 import eu.strasbourg.service.activity.service.persistence.ActivityCoursePlacePersistence;
 import eu.strasbourg.service.activity.service.persistence.ActivityCourseSchedulePersistence;
@@ -41,6 +43,7 @@ import eu.strasbourg.service.activity.service.persistence.AssociationPersistence
 import eu.strasbourg.service.activity.service.persistence.PracticePersistence;
 
 import javax.sql.DataSource;
+import java.lang.reflect.Field;
 
 /**
  * Provides the base implementation for the association remote service.
@@ -60,7 +63,7 @@ public abstract class AssociationServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>AssociationService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.activity.service.AssociationServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>AssociationService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>AssociationServiceUtil</code>.
 	 */
 
 	/**
@@ -873,9 +876,11 @@ public abstract class AssociationServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
+		_setServiceUtilService(associationService);
 	}
 
 	public void destroy() {
+		_setServiceUtilService(null);
 	}
 
 	/**
@@ -917,6 +922,20 @@ public abstract class AssociationServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setServiceUtilService(AssociationService associationService) {
+		try {
+			Field field = AssociationServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, associationService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1106,5 +1125,8 @@ public abstract class AssociationServiceBaseImpl
 
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		AssociationServiceBaseImpl.class);
 
 }

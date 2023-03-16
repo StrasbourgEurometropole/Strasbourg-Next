@@ -14,9 +14,7 @@
 
 package eu.strasbourg.service.agenda.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.portal.kernel.exception.PortalException;
 
 /**
  * Provides the remote service utility for Event. This utility wraps
@@ -38,7 +36,7 @@ public class EventServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.agenda.service.impl.EventServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static com.liferay.portal.kernel.json.JSONArray getCategories()
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getCategories();
 	}
@@ -95,13 +93,13 @@ public class EventServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray getPublics()
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getPublics();
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray getServices()
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getServices();
 	}
@@ -113,39 +111,27 @@ public class EventServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray getTerritories()
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getTerritories();
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray getThemes()
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getThemes();
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray getTypes()
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getTypes();
 	}
 
 	public static EventService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<EventService, EventService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(EventService.class);
-
-		ServiceTracker<EventService, EventService> serviceTracker =
-			new ServiceTracker<EventService, EventService>(
-				bundle.getBundleContext(), EventService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile EventService _service;
 
 }

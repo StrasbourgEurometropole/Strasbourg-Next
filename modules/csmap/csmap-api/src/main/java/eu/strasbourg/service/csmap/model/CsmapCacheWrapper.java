@@ -99,6 +99,11 @@ public class CsmapCacheWrapper
 		}
 	}
 
+	@Override
+	public CsmapCache cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
+	}
+
 	/**
 	 * Returns the cache ID of this csmap cache.
 	 *
@@ -262,6 +267,11 @@ public class CsmapCacheWrapper
 	@Override
 	public void setProcessedDate(Date processedDate) {
 		model.setProcessedDate(processedDate);
+	}
+
+	@Override
+	public String toXmlString() {
+		return model.toXmlString();
 	}
 
 	@Override

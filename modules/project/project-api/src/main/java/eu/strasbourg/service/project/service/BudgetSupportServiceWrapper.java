@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class BudgetSupportServiceWrapper
 	implements BudgetSupportService, ServiceWrapper<BudgetSupportService> {
 
+	public BudgetSupportServiceWrapper() {
+		this(null);
+	}
+
 	public BudgetSupportServiceWrapper(
 		BudgetSupportService budgetSupportService) {
 

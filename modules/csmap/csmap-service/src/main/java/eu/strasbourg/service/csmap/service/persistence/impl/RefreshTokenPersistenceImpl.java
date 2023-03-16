@@ -26,39 +26,42 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
-
+import com.liferay.portal.kernel.uuid.PortalUUID;
 import eu.strasbourg.service.csmap.exception.NoSuchRefreshTokenException;
 import eu.strasbourg.service.csmap.model.RefreshToken;
+import eu.strasbourg.service.csmap.model.RefreshTokenTable;
 import eu.strasbourg.service.csmap.model.impl.RefreshTokenImpl;
 import eu.strasbourg.service.csmap.model.impl.RefreshTokenModelImpl;
 import eu.strasbourg.service.csmap.service.persistence.RefreshTokenPersistence;
+import eu.strasbourg.service.csmap.service.persistence.RefreshTokenUtil;
 import eu.strasbourg.service.csmap.service.persistence.impl.constants.csmapPersistenceConstants;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
 
+import javax.sql.DataSource;
 import java.io.Serializable;
-
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
-
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-
-import javax.sql.DataSource;
-
-import org.osgi.service.component.annotations.Activate;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Deactivate;
-import org.osgi.service.component.annotations.Reference;
 
 /**
  * The persistence implementation for the refresh token service.
@@ -257,10 +260,6 @@ public class RefreshTokenPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -609,8 +608,6 @@ public class RefreshTokenPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -769,11 +766,6 @@ public class RefreshTokenPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByValue, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -856,8 +848,6 @@ public class RefreshTokenPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -885,6 +875,8 @@ public class RefreshTokenPersistenceImpl
 
 		setModelImplClass(RefreshTokenImpl.class);
 		setModelPKClass(long.class);
+
+		setTable(RefreshTokenTable.INSTANCE);
 	}
 
 	/**
@@ -895,15 +887,14 @@ public class RefreshTokenPersistenceImpl
 	@Override
 	public void cacheResult(RefreshToken refreshToken) {
 		entityCache.putResult(
-			entityCacheEnabled, RefreshTokenImpl.class,
-			refreshToken.getPrimaryKey(), refreshToken);
+			RefreshTokenImpl.class, refreshToken.getPrimaryKey(), refreshToken);
 
 		finderCache.putResult(
 			_finderPathFetchByValue, new Object[] {refreshToken.getValue()},
 			refreshToken);
-
-		refreshToken.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the refresh tokens in the entity cache if it is enabled.
@@ -912,15 +903,19 @@ public class RefreshTokenPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<RefreshToken> refreshTokens) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (refreshTokens.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (RefreshToken refreshToken : refreshTokens) {
 			if (entityCache.getResult(
-					entityCacheEnabled, RefreshTokenImpl.class,
-					refreshToken.getPrimaryKey()) == null) {
+					RefreshTokenImpl.class, refreshToken.getPrimaryKey()) ==
+						null) {
 
 				cacheResult(refreshToken);
-			}
-			else {
-				refreshToken.resetOriginalValues();
 			}
 		}
 	}
@@ -936,9 +931,7 @@ public class RefreshTokenPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(RefreshTokenImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(RefreshTokenImpl.class);
 	}
 
 	/**
@@ -950,38 +943,22 @@ public class RefreshTokenPersistenceImpl
 	 */
 	@Override
 	public void clearCache(RefreshToken refreshToken) {
-		entityCache.removeResult(
-			entityCacheEnabled, RefreshTokenImpl.class,
-			refreshToken.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((RefreshTokenModelImpl)refreshToken, true);
+		entityCache.removeResult(RefreshTokenImpl.class, refreshToken);
 	}
 
 	@Override
 	public void clearCache(List<RefreshToken> refreshTokens) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (RefreshToken refreshToken : refreshTokens) {
-			entityCache.removeResult(
-				entityCacheEnabled, RefreshTokenImpl.class,
-				refreshToken.getPrimaryKey());
-
-			clearUniqueFindersCache((RefreshTokenModelImpl)refreshToken, true);
+			entityCache.removeResult(RefreshTokenImpl.class, refreshToken);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(RefreshTokenImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				entityCacheEnabled, RefreshTokenImpl.class, primaryKey);
+			entityCache.removeResult(RefreshTokenImpl.class, primaryKey);
 		}
 	}
 
@@ -990,32 +967,9 @@ public class RefreshTokenPersistenceImpl
 
 		Object[] args = new Object[] {refreshTokenModelImpl.getValue()};
 
+		finderCache.putResult(_finderPathCountByValue, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathCountByValue, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByValue, args, refreshTokenModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		RefreshTokenModelImpl refreshTokenModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {refreshTokenModelImpl.getValue()};
-
-			finderCache.removeResult(_finderPathCountByValue, args);
-			finderCache.removeResult(_finderPathFetchByValue, args);
-		}
-
-		if ((refreshTokenModelImpl.getColumnBitmask() &
-			 _finderPathFetchByValue.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				refreshTokenModelImpl.getOriginalValue()
-			};
-
-			finderCache.removeResult(_finderPathCountByValue, args);
-			finderCache.removeResult(_finderPathFetchByValue, args);
-		}
+			_finderPathFetchByValue, args, refreshTokenModelImpl);
 	}
 
 	/**
@@ -1031,7 +985,7 @@ public class RefreshTokenPersistenceImpl
 		refreshToken.setNew(true);
 		refreshToken.setPrimaryKey(refreshTokenId);
 
-		String uuid = PortalUUIDUtil.generate();
+		String uuid = _portalUUID.generate();
 
 		refreshToken.setUuid(uuid);
 
@@ -1148,9 +1102,23 @@ public class RefreshTokenPersistenceImpl
 			(RefreshTokenModelImpl)refreshToken;
 
 		if (Validator.isNull(refreshToken.getUuid())) {
-			String uuid = PortalUUIDUtil.generate();
+			String uuid = _portalUUID.generate();
 
 			refreshToken.setUuid(uuid);
+		}
+
+		if (isNew && (refreshToken.getCreateDate() == null)) {
+			ServiceContext serviceContext =
+				ServiceContextThreadLocal.getServiceContext();
+
+			Date date = new Date();
+
+			if (serviceContext == null) {
+				refreshToken.setCreateDate(date);
+			}
+			else {
+				refreshToken.setCreateDate(serviceContext.getCreateDate(date));
+			}
 		}
 
 		Session session = null;
@@ -1158,10 +1126,8 @@ public class RefreshTokenPersistenceImpl
 		try {
 			session = openSession();
 
-			if (refreshToken.isNew()) {
+			if (isNew) {
 				session.save(refreshToken);
-
-				refreshToken.setNew(false);
 			}
 			else {
 				refreshToken = (RefreshToken)session.merge(refreshToken);
@@ -1174,49 +1140,14 @@ public class RefreshTokenPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {refreshTokenModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((refreshTokenModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					refreshTokenModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {refreshTokenModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-		}
-
 		entityCache.putResult(
-			entityCacheEnabled, RefreshTokenImpl.class,
-			refreshToken.getPrimaryKey(), refreshToken, false);
+			RefreshTokenImpl.class, refreshTokenModelImpl, false, true);
 
-		clearUniqueFindersCache(refreshTokenModelImpl, false);
 		cacheUniqueFindersCache(refreshTokenModelImpl);
+
+		if (isNew) {
+			refreshToken.setNew(false);
+		}
 
 		refreshToken.resetOriginalValues();
 
@@ -1397,10 +1328,6 @@ public class RefreshTokenPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1446,9 +1373,6 @@ public class RefreshTokenPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1489,61 +1413,73 @@ public class RefreshTokenPersistenceImpl
 	 */
 	@Activate
 	public void activate() {
-		RefreshTokenModelImpl.setEntityCacheEnabled(entityCacheEnabled);
-		RefreshTokenModelImpl.setFinderCacheEnabled(finderCacheEnabled);
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
 
 		_finderPathWithPaginationFindAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, RefreshTokenImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, RefreshTokenImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, RefreshTokenImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, RefreshTokenImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			RefreshTokenModelImpl.UUID_COLUMN_BITMASK |
-			RefreshTokenModelImpl.CREATEDATE_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByValue = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, RefreshTokenImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByValue",
-			new String[] {String.class.getName()},
-			RefreshTokenModelImpl.VALUE_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"value"},
+			true);
 
 		_finderPathCountByValue = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByValue",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"value"},
+			false);
+
+		_setRefreshTokenUtilPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
+		_setRefreshTokenUtilPersistence(null);
+
 		entityCache.removeCache(RefreshTokenImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+	}
+
+	private void _setRefreshTokenUtilPersistence(
+		RefreshTokenPersistence refreshTokenPersistence) {
+
+		try {
+			Field field = RefreshTokenUtil.class.getDeclaredField(
+				"_persistence");
+
+			field.setAccessible(true);
+
+			field.set(null, refreshTokenPersistence);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
+		}
 	}
 
 	@Override
@@ -1552,12 +1488,6 @@ public class RefreshTokenPersistenceImpl
 		unbind = "-"
 	)
 	public void setConfiguration(Configuration configuration) {
-		super.setConfiguration(configuration);
-
-		_columnBitmaskEnabled = GetterUtil.getBoolean(
-			configuration.get(
-				"value.object.column.bitmask.enabled.eu.strasbourg.service.csmap.model.RefreshToken"),
-			true);
 	}
 
 	@Override
@@ -1577,8 +1507,6 @@ public class RefreshTokenPersistenceImpl
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		super.setSessionFactory(sessionFactory);
 	}
-
-	private boolean _columnBitmaskEnabled;
 
 	@Reference
 	protected EntityCache entityCache;
@@ -1612,13 +1540,12 @@ public class RefreshTokenPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
 
-	static {
-		try {
-			Class.forName(csmapPersistenceConstants.class.getName());
-		}
-		catch (ClassNotFoundException classNotFoundException) {
-			throw new ExceptionInInitializerError(classNotFoundException);
-		}
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
 	}
+
+	@Reference
+	private PortalUUID _portalUUID;
 
 }

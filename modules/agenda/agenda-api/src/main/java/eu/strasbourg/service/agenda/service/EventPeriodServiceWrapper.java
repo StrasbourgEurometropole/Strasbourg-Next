@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class EventPeriodServiceWrapper
 	implements EventPeriodService, ServiceWrapper<EventPeriodService> {
 
+	public EventPeriodServiceWrapper() {
+		this(null);
+	}
+
 	public EventPeriodServiceWrapper(EventPeriodService eventPeriodService) {
 		_eventPeriodService = eventPeriodService;
 	}

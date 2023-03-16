@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.objtp.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.objtp.exception.NoSuchFoundObjectException;
 import eu.strasbourg.service.objtp.model.FoundObject;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the found object service.
@@ -45,9 +38,6 @@ public interface FoundObjectPersistence extends BasePersistence<FoundObject> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link FoundObjectUtil} to access the found object persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, FoundObject> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the found objects where categoryCode = &#63;.
@@ -310,8 +300,5 @@ public interface FoundObjectPersistence extends BasePersistence<FoundObject> {
 	 * @return the number of found objects
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

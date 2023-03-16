@@ -15,7 +15,6 @@
 package eu.strasbourg.service.agenda.service.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.agenda.service.base.EventPeriodServiceBaseImpl;
 
 /**

@@ -14,6 +14,10 @@
 
 package eu.strasbourg.service.activity.service;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -26,6 +30,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class ActivityCourseScheduleLocalServiceWrapper
 	implements ActivityCourseScheduleLocalService,
 			   ServiceWrapper<ActivityCourseScheduleLocalService> {
+
+	public ActivityCourseScheduleLocalServiceWrapper() {
+		this(null);
+	}
 
 	public ActivityCourseScheduleLocalServiceWrapper(
 		ActivityCourseScheduleLocalService activityCourseScheduleLocalService) {
@@ -82,6 +90,18 @@ public class ActivityCourseScheduleLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _activityCourseScheduleLocalService.createPersistedModel(
+			primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the activity course schedule from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -131,6 +151,18 @@ public class ActivityCourseScheduleLocalServiceWrapper
 
 		return _activityCourseScheduleLocalService.deletePersistedModel(
 			persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _activityCourseScheduleLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _activityCourseScheduleLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override
@@ -477,10 +509,7 @@ public class ActivityCourseScheduleLocalServiceWrapper
 	 * Lance une recherche selon le searchContext
 	 */
 	@Override
-	public com.liferay.portal.kernel.search.Hits search(
-			com.liferay.portal.kernel.search.SearchContext searchContext)
-		throws com.liferay.portal.kernel.search.SearchException {
-
+	public Hits search(SearchContext searchContext) throws SearchException {
 		return _activityCourseScheduleLocalService.search(searchContext);
 	}
 

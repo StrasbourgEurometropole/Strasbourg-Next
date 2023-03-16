@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class StopLocalServiceWrapper
 	implements ServiceWrapper<StopLocalService>, StopLocalService {
 
+	public StopLocalServiceWrapper() {
+		this(null);
+	}
+
 	public StopLocalServiceWrapper(StopLocalService stopLocalService) {
 		_stopLocalService = stopLocalService;
 	}
@@ -45,6 +49,17 @@ public class StopLocalServiceWrapper
 		eu.strasbourg.service.gtfs.model.Stop stop) {
 
 		return _stopLocalService.addStop(stop);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _stopLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -124,6 +139,18 @@ public class StopLocalServiceWrapper
 		eu.strasbourg.service.gtfs.model.Stop stop) {
 
 		return _stopLocalService.deleteStop(stop);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _stopLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _stopLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

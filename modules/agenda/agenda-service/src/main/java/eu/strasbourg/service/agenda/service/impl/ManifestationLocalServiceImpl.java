@@ -14,15 +14,8 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.LongStream;
-
+import aQute.bnd.annotation.ProviderType;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -49,12 +42,20 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.exception.NoSuchManifestationException;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.base.ManifestationLocalServiceBaseImpl;
+import org.osgi.service.component.annotations.Reference;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.LongStream;
 
 /**
  * The implementation of the event manifestation local service.
@@ -317,11 +318,8 @@ public class ManifestationLocalServiceImpl
 		if (entry != null) {
 
 			// Supprime le lien avec les catégories
-			long[] categoryIds = entry.getCategoryIds();
-			for (int i = 0; i < categoryIds.length; i++) {
-				AssetEntryLocalServiceUtil.deleteAssetCategoryAssetEntry(
-					categoryIds[i], entry.getEntryId());
-			}
+			assetEntryAssetCategoryRelLocalService.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
 			// Supprime le lien avec les tags
 			long[] tagIds = AssetEntryLocalServiceUtil
@@ -462,4 +460,7 @@ public class ManifestationLocalServiceImpl
 	}
 
 	private final Log _log = LogFactoryUtil.getLog("strasbourg");
+
+	@Reference
+	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

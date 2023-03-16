@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.gtfs.service.base;
 
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -27,6 +28,8 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -40,9 +43,9 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.gtfs.model.Trip;
 import eu.strasbourg.service.gtfs.service.TripLocalService;
+import eu.strasbourg.service.gtfs.service.TripLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.persistence.AgencyPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.AlertPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.ArretPersistence;
@@ -59,11 +62,10 @@ import eu.strasbourg.service.gtfs.service.persistence.StopTimePersistence;
 import eu.strasbourg.service.gtfs.service.persistence.TripFinder;
 import eu.strasbourg.service.gtfs.service.persistence.TripPersistence;
 
-import java.io.Serializable;
-
-import java.util.List;
-
 import javax.sql.DataSource;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * Provides the base implementation for the trip local service.
@@ -83,7 +85,7 @@ public abstract class TripLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>TripLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.gtfs.service.TripLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>TripLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>TripLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -147,6 +149,18 @@ public abstract class TripLocalServiceBaseImpl
 	@Override
 	public Trip deleteTrip(Trip trip) {
 		return tripPersistence.remove(trip);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return tripPersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -295,12 +309,28 @@ public abstract class TripLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return tripPersistence.create(((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement TripLocalServiceImpl#deleteTrip(Trip) to avoid orphaned data");
+		}
 
 		return tripLocalService.deleteTrip((Trip)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<Trip> getBasePersistence() {
 		return tripPersistence;
 	}
@@ -1089,11 +1119,15 @@ public abstract class TripLocalServiceBaseImpl
 	public void afterPropertiesSet() {
 		persistedModelLocalServiceRegistry.register(
 			"eu.strasbourg.service.gtfs.model.Trip", tripLocalService);
+
+		_setLocalServiceUtilService(tripLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"eu.strasbourg.service.gtfs.model.Trip");
+
+		_setLocalServiceUtilService(null);
 	}
 
 	/**
@@ -1135,6 +1169,22 @@ public abstract class TripLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		TripLocalService tripLocalService) {
+
+		try {
+			Field field = TripLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, tripLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1293,6 +1343,9 @@ public abstract class TripLocalServiceBaseImpl
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		TripLocalServiceBaseImpl.class);
 
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry

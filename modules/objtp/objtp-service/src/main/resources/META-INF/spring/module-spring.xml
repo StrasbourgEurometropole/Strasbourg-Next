@@ -9,8 +9,10 @@
 >
 	<bean class="eu.strasbourg.service.objtp.service.impl.FoundObjectLocalServiceImpl" id="eu.strasbourg.service.objtp.service.FoundObjectLocalService" />
 	<bean class="eu.strasbourg.service.objtp.service.impl.FoundObjectServiceImpl" id="eu.strasbourg.service.objtp.service.FoundObjectService" />
-	<bean class="eu.strasbourg.service.objtp.service.persistence.impl.FoundObjectPersistenceImpl" id="eu.strasbourg.service.objtp.service.persistence.FoundObjectPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.objtp.service.persistence.impl.FoundObjectModelArgumentsResolver" id="eu.strasbourg.service.objtp.service.persistence.impl.FoundObjectModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.objtp.service.persistence.impl.FoundObjectPersistenceImpl" id="eu.strasbourg.service.objtp.service.persistence.FoundObjectPersistence" />
 	<bean class="eu.strasbourg.service.objtp.service.impl.ObjectCategoryLocalServiceImpl" id="eu.strasbourg.service.objtp.service.ObjectCategoryLocalService" />
 	<bean class="eu.strasbourg.service.objtp.service.impl.ObjectCategoryServiceImpl" id="eu.strasbourg.service.objtp.service.ObjectCategoryService" />
-	<bean class="eu.strasbourg.service.objtp.service.persistence.impl.ObjectCategoryPersistenceImpl" id="eu.strasbourg.service.objtp.service.persistence.ObjectCategoryPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.objtp.service.persistence.impl.ObjectCategoryModelArgumentsResolver" id="eu.strasbourg.service.objtp.service.persistence.impl.ObjectCategoryModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.objtp.service.persistence.impl.ObjectCategoryPersistenceImpl" id="eu.strasbourg.service.objtp.service.persistence.ObjectCategoryPersistence" />
 </beans>

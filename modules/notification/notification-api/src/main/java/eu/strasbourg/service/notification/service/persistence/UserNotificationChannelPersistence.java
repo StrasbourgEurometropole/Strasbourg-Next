@@ -14,16 +14,11 @@
 
 package eu.strasbourg.service.notification.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.notification.exception.NoSuchUserNotificationChannelException;
 import eu.strasbourg.service.notification.model.UserNotificationChannel;
+import org.osgi.annotation.versioning.ProviderType;
 
-import java.io.Serializable;
-
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -46,9 +41,6 @@ public interface UserNotificationChannelPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link UserNotificationChannelUtil} to access the user notification channel persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, UserNotificationChannel> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the user notification channels where publikUserId = &#63;.

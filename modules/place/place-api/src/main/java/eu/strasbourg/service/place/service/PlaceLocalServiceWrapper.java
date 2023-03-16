@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class PlaceLocalServiceWrapper
 	implements PlaceLocalService, ServiceWrapper<PlaceLocalService> {
 
+	public PlaceLocalServiceWrapper() {
+		this(null);
+	}
+
 	public PlaceLocalServiceWrapper(PlaceLocalService placeLocalService) {
 		_placeLocalService = placeLocalService;
 	}
@@ -45,6 +49,17 @@ public class PlaceLocalServiceWrapper
 		eu.strasbourg.service.place.model.Place place) {
 
 		return _placeLocalService.addPlace(place);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _placeLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -113,6 +128,18 @@ public class PlaceLocalServiceWrapper
 		eu.strasbourg.service.place.model.Place place) {
 
 		return _placeLocalService.deletePlace(place);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _placeLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _placeLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

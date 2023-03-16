@@ -1,7 +1,6 @@
 package eu.strasbourg.webservice.csmap.service;
 
 import com.liferay.journal.model.JournalArticle;
-import com.liferay.portal.kernel.xml.Node;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
 
 import java.io.StringReader;

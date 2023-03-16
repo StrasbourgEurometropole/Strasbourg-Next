@@ -14,8 +14,7 @@
 
 package eu.strasbourg.service.gtfs.service;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -36,6 +35,8 @@ import eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK;
 import java.io.Serializable;
 
 import java.util.List;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * Provides the local service interface for CacheHoursJSON. Methods of this
@@ -58,7 +59,7 @@ public interface CacheHoursJSONLocalService
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link CacheHoursJSONLocalServiceUtil} to access the cache hours json local service. Add custom service methods to <code>eu.strasbourg.service.gtfs.service.impl.CacheHoursJSONLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.gtfs.service.impl.CacheHoursJSONLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the cache hours json local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link CacheHoursJSONLocalServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**
@@ -88,6 +89,12 @@ public interface CacheHoursJSONLocalService
 	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
 	 */
 	public CacheHoursJSON createCacheHoursJSON(String stopCode, int type);
+
+	/**
+	 * @throws PortalException
+	 */
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException;
 
 	/**
 	 * Deletes the cache hours json from the database. Also notifies the appropriate model listeners.
@@ -124,6 +131,12 @@ public interface CacheHoursJSONLocalService
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> T dslQuery(DSLQuery dslQuery);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int dslQueryCount(DSLQuery dslQuery);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();

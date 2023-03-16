@@ -16,6 +16,7 @@ package eu.strasbourg.service.notif.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.json.JSON;
@@ -27,24 +28,22 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-
 import eu.strasbourg.service.notif.model.Message;
 import eu.strasbourg.service.notif.model.MessageModel;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -102,23 +101,35 @@ public class MessageModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.notif.service.util.ServiceProps.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.notif.model.Message"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.notif.service.util.ServiceProps.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.notif.model.Message"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.notif.service.util.ServiceProps.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.notif.model.Message"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long SERVICEID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long MESSAGEID_COLUMN_BITMASK = 2L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -176,9 +187,6 @@ public class MessageModelImpl
 				attributeName, attributeGetterFunction.apply((Message)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -212,33 +220,6 @@ public class MessageModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Message>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Message.class.getClassLoader(), Message.class, ModelWrapper.class);
-
-		try {
-			Constructor<Message> constructor =
-				(Constructor<Message>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<Message, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Message, Object>>
@@ -250,66 +231,15 @@ public class MessageModelImpl
 		Map<String, BiConsumer<Message, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Message, ?>>();
 
-		attributeGetterFunctions.put(
-			"messageId",
-			new Function<Message, Object>() {
-
-				@Override
-				public Object apply(Message message) {
-					return message.getMessageId();
-				}
-
-			});
+		attributeGetterFunctions.put("messageId", Message::getMessageId);
 		attributeSetterBiConsumers.put(
-			"messageId",
-			new BiConsumer<Message, Object>() {
-
-				@Override
-				public void accept(Message message, Object messageIdObject) {
-					message.setMessageId((Long)messageIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"serviceId",
-			new Function<Message, Object>() {
-
-				@Override
-				public Object apply(Message message) {
-					return message.getServiceId();
-				}
-
-			});
+			"messageId", (BiConsumer<Message, Long>)Message::setMessageId);
+		attributeGetterFunctions.put("serviceId", Message::getServiceId);
 		attributeSetterBiConsumers.put(
-			"serviceId",
-			new BiConsumer<Message, Object>() {
-
-				@Override
-				public void accept(Message message, Object serviceIdObject) {
-					message.setServiceId((Long)serviceIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"content",
-			new Function<Message, Object>() {
-
-				@Override
-				public Object apply(Message message) {
-					return message.getContent();
-				}
-
-			});
+			"serviceId", (BiConsumer<Message, Long>)Message::setServiceId);
+		attributeGetterFunctions.put("content", Message::getContent);
 		attributeSetterBiConsumers.put(
-			"content",
-			new BiConsumer<Message, Object>() {
-
-				@Override
-				public void accept(Message message, Object contentObject) {
-					message.setContent((String)contentObject);
-				}
-
-			});
+			"content", (BiConsumer<Message, String>)Message::setContent);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -324,6 +254,10 @@ public class MessageModelImpl
 
 	@Override
 	public void setMessageId(long messageId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_messageId = messageId;
 	}
 
@@ -334,19 +268,21 @@ public class MessageModelImpl
 
 	@Override
 	public void setServiceId(long serviceId) {
-		_columnBitmask |= SERVICEID_COLUMN_BITMASK;
-
-		if (!_setOriginalServiceId) {
-			_setOriginalServiceId = true;
-
-			_originalServiceId = _serviceId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_serviceId = serviceId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalServiceId() {
-		return _originalServiceId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("serviceId"));
 	}
 
 	@Override
@@ -404,6 +340,10 @@ public class MessageModelImpl
 
 	@Override
 	public void setContent(String content) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_content = content;
 	}
 
@@ -457,6 +397,26 @@ public class MessageModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -568,6 +528,19 @@ public class MessageModelImpl
 	}
 
 	@Override
+	public Message cloneWithOriginalValues() {
+		MessageImpl messageImpl = new MessageImpl();
+
+		messageImpl.setMessageId(
+			this.<Long>getColumnOriginalValue("messageId"));
+		messageImpl.setServiceId(
+			this.<Long>getColumnOriginalValue("serviceId"));
+		messageImpl.setContent(this.<String>getColumnOriginalValue("content"));
+
+		return messageImpl;
+	}
+
+	@Override
 	public int compareTo(Message message) {
 		long primaryKey = message.getPrimaryKey();
 
@@ -609,11 +582,19 @@ public class MessageModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -621,13 +602,9 @@ public class MessageModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		MessageModelImpl messageModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		messageModelImpl._originalServiceId = messageModelImpl._serviceId;
-
-		messageModelImpl._setOriginalServiceId = false;
-
-		messageModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -655,7 +632,7 @@ public class MessageModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -666,9 +643,26 @@ public class MessageModelImpl
 			Function<Message, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Message)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Message)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -681,50 +675,72 @@ public class MessageModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Message, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Message, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Message, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Message)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Message>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Message.class, ModelWrapper.class);
 
 	}
 
 	private long _messageId;
 	private long _serviceId;
-	private long _originalServiceId;
-	private boolean _setOriginalServiceId;
 	private String _content;
 	private String _contentCurrentLanguageId;
+
+	public <T> T getColumnValue(String columnName) {
+		Function<Message, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Message)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("messageId", _messageId);
+		_columnOriginalValues.put("serviceId", _serviceId);
+		_columnOriginalValues.put("content", _content);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("messageId", 1L);
+
+		columnBitmasks.put("serviceId", 2L);
+
+		columnBitmasks.put("content", 4L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Message _escapedModel;
 

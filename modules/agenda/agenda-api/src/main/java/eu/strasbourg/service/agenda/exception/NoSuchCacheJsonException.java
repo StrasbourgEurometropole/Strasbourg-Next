@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.agenda.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author BenjaminBini
  */
-@ProviderType
 public class NoSuchCacheJsonException extends NoSuchModelException {
 
 	public NoSuchCacheJsonException() {
@@ -30,12 +27,12 @@ public class NoSuchCacheJsonException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchCacheJsonException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchCacheJsonException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchCacheJsonException(Throwable cause) {
-		super(cause);
+	public NoSuchCacheJsonException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

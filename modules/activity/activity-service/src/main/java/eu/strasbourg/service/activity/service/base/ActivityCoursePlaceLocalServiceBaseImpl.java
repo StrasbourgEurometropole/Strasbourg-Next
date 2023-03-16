@@ -22,6 +22,7 @@ import com.liferay.exportimport.kernel.lar.ManifestSummary;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -36,6 +37,8 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -49,9 +52,9 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.activity.model.ActivityCoursePlace;
 import eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalService;
+import eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalServiceUtil;
 import eu.strasbourg.service.activity.service.persistence.ActivityCoursePersistence;
 import eu.strasbourg.service.activity.service.persistence.ActivityCoursePlacePersistence;
 import eu.strasbourg.service.activity.service.persistence.ActivityCourseSchedulePersistence;
@@ -60,11 +63,10 @@ import eu.strasbourg.service.activity.service.persistence.ActivityPersistence;
 import eu.strasbourg.service.activity.service.persistence.AssociationPersistence;
 import eu.strasbourg.service.activity.service.persistence.PracticePersistence;
 
-import java.io.Serializable;
-
-import java.util.List;
-
 import javax.sql.DataSource;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * Provides the base implementation for the activity course place local service.
@@ -84,7 +86,7 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>ActivityCoursePlaceLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>ActivityCoursePlaceLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ActivityCoursePlaceLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -157,6 +159,18 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 		ActivityCoursePlace activityCoursePlace) {
 
 		return activityCoursePlacePersistence.remove(activityCoursePlace);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return activityCoursePlacePersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -406,13 +420,30 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return activityCoursePlacePersistence.create(
+			((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement ActivityCoursePlaceLocalServiceImpl#deleteActivityCoursePlace(ActivityCoursePlace) to avoid orphaned data");
+		}
 
 		return activityCoursePlaceLocalService.deleteActivityCoursePlace(
 			(ActivityCoursePlace)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<ActivityCoursePlace> getBasePersistence() {
 		return activityCoursePlacePersistence;
 	}
@@ -1091,11 +1122,15 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 		persistedModelLocalServiceRegistry.register(
 			"eu.strasbourg.service.activity.model.ActivityCoursePlace",
 			activityCoursePlaceLocalService);
+
+		_setLocalServiceUtilService(activityCoursePlaceLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"eu.strasbourg.service.activity.model.ActivityCoursePlace");
+
+		_setLocalServiceUtilService(null);
 	}
 
 	/**
@@ -1138,6 +1173,23 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		ActivityCoursePlaceLocalService activityCoursePlaceLocalService) {
+
+		try {
+			Field field =
+				ActivityCoursePlaceLocalServiceUtil.class.getDeclaredField(
+					"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, activityCoursePlaceLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1261,6 +1313,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		ActivityCoursePlaceLocalServiceBaseImpl.class);
 
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry

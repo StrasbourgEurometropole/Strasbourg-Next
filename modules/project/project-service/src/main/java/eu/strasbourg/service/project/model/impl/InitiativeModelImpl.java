@@ -17,6 +17,7 @@ package eu.strasbourg.service.project.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
@@ -29,27 +30,21 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.InitiativeModel;
-import eu.strasbourg.service.project.model.InitiativeSoap;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -138,94 +133,60 @@ public class InitiativeModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.project.model.Initiative"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.project.model.Initiative"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.project.model.Initiative"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLIKID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long TITLE_COLUMN_BITMASK = 32L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Initiative toModel(InitiativeSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Initiative model = new InitiativeImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setInitiativeId(soapModel.getInitiativeId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setTitle(soapModel.getTitle());
-		model.setDescription(soapModel.getDescription());
-		model.setPlaceTextArea(soapModel.getPlaceTextArea());
-		model.setInTheNameOf(soapModel.getInTheNameOf());
-		model.setVideoUrl(soapModel.getVideoUrl());
-		model.setExternalImageURL(soapModel.getExternalImageURL());
-		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
-		model.setMediaChoice(soapModel.isMediaChoice());
-		model.setAssetEntryId(soapModel.getAssetEntryId());
-		model.setPublikId(soapModel.getPublikId());
-		model.setImageId(soapModel.getImageId());
-		model.setFilesIds(soapModel.getFilesIds());
-		model.setPublicationDate(soapModel.getPublicationDate());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Initiative> toModels(InitiativeSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Initiative> models = new ArrayList<Initiative>(soapModels.length);
-
-		for (InitiativeSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.project.service.util.PropsUtil.get(
@@ -282,9 +243,6 @@ public class InitiativeModelImpl
 				attributeName, attributeGetterFunction.apply((Initiative)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -318,34 +276,6 @@ public class InitiativeModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Initiative>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Initiative.class.getClassLoader(), Initiative.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<Initiative> constructor =
-				(Constructor<Initiative>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<Initiative, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Initiative, Object>>
@@ -357,552 +287,110 @@ public class InitiativeModelImpl
 		Map<String, BiConsumer<Initiative, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Initiative, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", Initiative::getUuid);
 		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(Initiative initiative, Object uuidObject) {
-					initiative.setUuid((String)uuidObject);
-				}
-
-			});
+			"uuid", (BiConsumer<Initiative, String>)Initiative::setUuid);
 		attributeGetterFunctions.put(
-			"initiativeId",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getInitiativeId();
-				}
-
-			});
+			"initiativeId", Initiative::getInitiativeId);
 		attributeSetterBiConsumers.put(
 			"initiativeId",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(
-					Initiative initiative, Object initiativeIdObject) {
-
-					initiative.setInitiativeId((Long)initiativeIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getGroupId();
-				}
-
-			});
+			(BiConsumer<Initiative, Long>)Initiative::setInitiativeId);
+		attributeGetterFunctions.put("groupId", Initiative::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(
-					Initiative initiative, Object groupIdObject) {
-
-					initiative.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getCompanyId();
-				}
-
-			});
+			"groupId", (BiConsumer<Initiative, Long>)Initiative::setGroupId);
+		attributeGetterFunctions.put("companyId", Initiative::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(
-					Initiative initiative, Object companyIdObject) {
-
-					initiative.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getUserId();
-				}
-
-			});
+			(BiConsumer<Initiative, Long>)Initiative::setCompanyId);
+		attributeGetterFunctions.put("userId", Initiative::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(Initiative initiative, Object userIdObject) {
-					initiative.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getUserName();
-				}
-
-			});
+			"userId", (BiConsumer<Initiative, Long>)Initiative::setUserId);
+		attributeGetterFunctions.put("userName", Initiative::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(
-					Initiative initiative, Object userNameObject) {
-
-					initiative.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getCreateDate();
-				}
-
-			});
+			(BiConsumer<Initiative, String>)Initiative::setUserName);
+		attributeGetterFunctions.put("createDate", Initiative::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(
-					Initiative initiative, Object createDateObject) {
-
-					initiative.setCreateDate((Date)createDateObject);
-				}
-
-			});
+			(BiConsumer<Initiative, Date>)Initiative::setCreateDate);
 		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getModifiedDate();
-				}
-
-			});
+			"modifiedDate", Initiative::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(
-					Initiative initiative, Object modifiedDateObject) {
-
-					initiative.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getStatus();
-				}
-
-			});
+			(BiConsumer<Initiative, Date>)Initiative::setModifiedDate);
+		attributeGetterFunctions.put("status", Initiative::getStatus);
 		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(Initiative initiative, Object statusObject) {
-					initiative.setStatus((Integer)statusObject);
-				}
-
-			});
+			"status", (BiConsumer<Initiative, Integer>)Initiative::setStatus);
 		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getStatusByUserId();
-				}
-
-			});
+			"statusByUserId", Initiative::getStatusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(
-					Initiative initiative, Object statusByUserIdObject) {
-
-					initiative.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
+			(BiConsumer<Initiative, Long>)Initiative::setStatusByUserId);
 		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getStatusByUserName();
-				}
-
-			});
+			"statusByUserName", Initiative::getStatusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(
-					Initiative initiative, Object statusByUserNameObject) {
-
-					initiative.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getStatusDate();
-				}
-
-			});
+			(BiConsumer<Initiative, String>)Initiative::setStatusByUserName);
+		attributeGetterFunctions.put("statusDate", Initiative::getStatusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(
-					Initiative initiative, Object statusDateObject) {
-
-					initiative.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getTitle();
-				}
-
-			});
+			(BiConsumer<Initiative, Date>)Initiative::setStatusDate);
+		attributeGetterFunctions.put("title", Initiative::getTitle);
 		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(Initiative initiative, Object titleObject) {
-					initiative.setTitle((String)titleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"description",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getDescription();
-				}
-
-			});
+			"title", (BiConsumer<Initiative, String>)Initiative::setTitle);
+		attributeGetterFunctions.put("description", Initiative::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(
-					Initiative initiative, Object descriptionObject) {
-
-					initiative.setDescription((String)descriptionObject);
-				}
-
-			});
+			(BiConsumer<Initiative, String>)Initiative::setDescription);
 		attributeGetterFunctions.put(
-			"placeTextArea",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getPlaceTextArea();
-				}
-
-			});
+			"placeTextArea", Initiative::getPlaceTextArea);
 		attributeSetterBiConsumers.put(
 			"placeTextArea",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(
-					Initiative initiative, Object placeTextAreaObject) {
-
-					initiative.setPlaceTextArea((String)placeTextAreaObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"inTheNameOf",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getInTheNameOf();
-				}
-
-			});
+			(BiConsumer<Initiative, String>)Initiative::setPlaceTextArea);
+		attributeGetterFunctions.put("inTheNameOf", Initiative::getInTheNameOf);
 		attributeSetterBiConsumers.put(
 			"inTheNameOf",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(
-					Initiative initiative, Object inTheNameOfObject) {
-
-					initiative.setInTheNameOf((String)inTheNameOfObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"videoUrl",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getVideoUrl();
-				}
-
-			});
+			(BiConsumer<Initiative, String>)Initiative::setInTheNameOf);
+		attributeGetterFunctions.put("videoUrl", Initiative::getVideoUrl);
 		attributeSetterBiConsumers.put(
 			"videoUrl",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(
-					Initiative initiative, Object videoUrlObject) {
-
-					initiative.setVideoUrl((String)videoUrlObject);
-				}
-
-			});
+			(BiConsumer<Initiative, String>)Initiative::setVideoUrl);
 		attributeGetterFunctions.put(
-			"externalImageURL",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getExternalImageURL();
-				}
-
-			});
+			"externalImageURL", Initiative::getExternalImageURL);
 		attributeSetterBiConsumers.put(
 			"externalImageURL",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(
-					Initiative initiative, Object externalImageURLObject) {
-
-					initiative.setExternalImageURL(
-						(String)externalImageURLObject);
-				}
-
-			});
+			(BiConsumer<Initiative, String>)Initiative::setExternalImageURL);
 		attributeGetterFunctions.put(
-			"externalImageCopyright",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getExternalImageCopyright();
-				}
-
-			});
+			"externalImageCopyright", Initiative::getExternalImageCopyright);
 		attributeSetterBiConsumers.put(
 			"externalImageCopyright",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(
-					Initiative initiative,
-					Object externalImageCopyrightObject) {
-
-					initiative.setExternalImageCopyright(
-						(String)externalImageCopyrightObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"mediaChoice",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getMediaChoice();
-				}
-
-			});
+			(BiConsumer<Initiative, String>)
+				Initiative::setExternalImageCopyright);
+		attributeGetterFunctions.put("mediaChoice", Initiative::getMediaChoice);
 		attributeSetterBiConsumers.put(
 			"mediaChoice",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(
-					Initiative initiative, Object mediaChoiceObject) {
-
-					initiative.setMediaChoice((Boolean)mediaChoiceObject);
-				}
-
-			});
+			(BiConsumer<Initiative, Boolean>)Initiative::setMediaChoice);
 		attributeGetterFunctions.put(
-			"assetEntryId",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getAssetEntryId();
-				}
-
-			});
+			"assetEntryId", Initiative::getAssetEntryId);
 		attributeSetterBiConsumers.put(
 			"assetEntryId",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(
-					Initiative initiative, Object assetEntryIdObject) {
-
-					initiative.setAssetEntryId((Long)assetEntryIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"publikId",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getPublikId();
-				}
-
-			});
+			(BiConsumer<Initiative, Long>)Initiative::setAssetEntryId);
+		attributeGetterFunctions.put("publikId", Initiative::getPublikId);
 		attributeSetterBiConsumers.put(
 			"publikId",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(
-					Initiative initiative, Object publikIdObject) {
-
-					initiative.setPublikId((String)publikIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"imageId",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getImageId();
-				}
-
-			});
+			(BiConsumer<Initiative, String>)Initiative::setPublikId);
+		attributeGetterFunctions.put("imageId", Initiative::getImageId);
 		attributeSetterBiConsumers.put(
-			"imageId",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(
-					Initiative initiative, Object imageIdObject) {
-
-					initiative.setImageId((Long)imageIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"filesIds",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getFilesIds();
-				}
-
-			});
+			"imageId", (BiConsumer<Initiative, Long>)Initiative::setImageId);
+		attributeGetterFunctions.put("filesIds", Initiative::getFilesIds);
 		attributeSetterBiConsumers.put(
 			"filesIds",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(
-					Initiative initiative, Object filesIdsObject) {
-
-					initiative.setFilesIds((String)filesIdsObject);
-				}
-
-			});
+			(BiConsumer<Initiative, String>)Initiative::setFilesIds);
 		attributeGetterFunctions.put(
-			"publicationDate",
-			new Function<Initiative, Object>() {
-
-				@Override
-				public Object apply(Initiative initiative) {
-					return initiative.getPublicationDate();
-				}
-
-			});
+			"publicationDate", Initiative::getPublicationDate);
 		attributeSetterBiConsumers.put(
 			"publicationDate",
-			new BiConsumer<Initiative, Object>() {
-
-				@Override
-				public void accept(
-					Initiative initiative, Object publicationDateObject) {
-
-					initiative.setPublicationDate((Date)publicationDateObject);
-				}
-
-			});
+			(BiConsumer<Initiative, Date>)Initiative::setPublicationDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -923,17 +411,20 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -944,6 +435,10 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setInitiativeId(long initiativeId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_initiativeId = initiativeId;
 	}
 
@@ -955,19 +450,20 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -978,19 +474,21 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -1001,6 +499,10 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -1033,6 +535,10 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -1044,6 +550,10 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -1061,6 +571,10 @@ public class InitiativeModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -1072,19 +586,21 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return GetterUtil.getInteger(
+			this.<Integer>getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -1095,6 +611,10 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1127,6 +647,10 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1138,6 +662,10 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1154,7 +682,9 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setTitle(String title) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_title = title;
 	}
@@ -1172,6 +702,10 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_description = description;
 	}
 
@@ -1188,6 +722,10 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setPlaceTextArea(String placeTextArea) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_placeTextArea = placeTextArea;
 	}
 
@@ -1204,6 +742,10 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setInTheNameOf(String inTheNameOf) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_inTheNameOf = inTheNameOf;
 	}
 
@@ -1220,6 +762,10 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setVideoUrl(String videoUrl) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_videoUrl = videoUrl;
 	}
 
@@ -1236,6 +782,10 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setExternalImageURL(String externalImageURL) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_externalImageURL = externalImageURL;
 	}
 
@@ -1252,6 +802,10 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setExternalImageCopyright(String externalImageCopyright) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_externalImageCopyright = externalImageCopyright;
 	}
 
@@ -1269,6 +823,10 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setMediaChoice(boolean mediaChoice) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mediaChoice = mediaChoice;
 	}
 
@@ -1280,6 +838,10 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setAssetEntryId(long assetEntryId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_assetEntryId = assetEntryId;
 	}
 
@@ -1296,17 +858,20 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setPublikId(String publikId) {
-		_columnBitmask |= PUBLIKID_COLUMN_BITMASK;
-
-		if (_originalPublikId == null) {
-			_originalPublikId = _publikId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publikId = publikId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPublikId() {
-		return GetterUtil.getString(_originalPublikId);
+		return getColumnOriginalValue("publikId");
 	}
 
 	@JSON
@@ -1317,6 +882,10 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setImageId(long imageId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageId = imageId;
 	}
 
@@ -1333,6 +902,10 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setFilesIds(String filesIds) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_filesIds = filesIds;
 	}
 
@@ -1344,6 +917,10 @@ public class InitiativeModelImpl
 
 	@Override
 	public void setPublicationDate(Date publicationDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_publicationDate = publicationDate;
 	}
 
@@ -1434,6 +1011,26 @@ public class InitiativeModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1501,6 +1098,59 @@ public class InitiativeModelImpl
 	}
 
 	@Override
+	public Initiative cloneWithOriginalValues() {
+		InitiativeImpl initiativeImpl = new InitiativeImpl();
+
+		initiativeImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		initiativeImpl.setInitiativeId(
+			this.<Long>getColumnOriginalValue("initiativeId"));
+		initiativeImpl.setGroupId(this.<Long>getColumnOriginalValue("groupId"));
+		initiativeImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		initiativeImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		initiativeImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		initiativeImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		initiativeImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		initiativeImpl.setStatus(
+			this.<Integer>getColumnOriginalValue("status"));
+		initiativeImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		initiativeImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		initiativeImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		initiativeImpl.setTitle(this.<String>getColumnOriginalValue("title"));
+		initiativeImpl.setDescription(
+			this.<String>getColumnOriginalValue("description"));
+		initiativeImpl.setPlaceTextArea(
+			this.<String>getColumnOriginalValue("placeTextArea"));
+		initiativeImpl.setInTheNameOf(
+			this.<String>getColumnOriginalValue("inTheNameOf"));
+		initiativeImpl.setVideoUrl(
+			this.<String>getColumnOriginalValue("videoUrl"));
+		initiativeImpl.setExternalImageURL(
+			this.<String>getColumnOriginalValue("externalImageURL"));
+		initiativeImpl.setExternalImageCopyright(
+			this.<String>getColumnOriginalValue("externalImageCopyright"));
+		initiativeImpl.setMediaChoice(
+			this.<Boolean>getColumnOriginalValue("mediaChoice"));
+		initiativeImpl.setAssetEntryId(
+			this.<Long>getColumnOriginalValue("assetEntryId"));
+		initiativeImpl.setPublikId(
+			this.<String>getColumnOriginalValue("publikId"));
+		initiativeImpl.setImageId(this.<Long>getColumnOriginalValue("imageId"));
+		initiativeImpl.setFilesIds(
+			this.<String>getColumnOriginalValue("filesIds"));
+		initiativeImpl.setPublicationDate(
+			this.<Date>getColumnOriginalValue("publicationDate"));
+
+		return initiativeImpl;
+	}
+
+	@Override
 	public int compareTo(Initiative initiative) {
 		int value = 0;
 
@@ -1540,11 +1190,19 @@ public class InitiativeModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1552,27 +1210,11 @@ public class InitiativeModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		InitiativeModelImpl initiativeModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		initiativeModelImpl._originalUuid = initiativeModelImpl._uuid;
+		_setModifiedDate = false;
 
-		initiativeModelImpl._originalGroupId = initiativeModelImpl._groupId;
-
-		initiativeModelImpl._setOriginalGroupId = false;
-
-		initiativeModelImpl._originalCompanyId = initiativeModelImpl._companyId;
-
-		initiativeModelImpl._setOriginalCompanyId = false;
-
-		initiativeModelImpl._setModifiedDate = false;
-
-		initiativeModelImpl._originalStatus = initiativeModelImpl._status;
-
-		initiativeModelImpl._setOriginalStatus = false;
-
-		initiativeModelImpl._originalPublikId = initiativeModelImpl._publikId;
-
-		initiativeModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1742,7 +1384,7 @@ public class InitiativeModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1753,9 +1395,26 @@ public class InitiativeModelImpl
 			Function<Initiative, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Initiative)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Initiative)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1768,61 +1427,25 @@ public class InitiativeModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Initiative, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Initiative, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Initiative, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Initiative)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Initiative>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Initiative.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _initiativeId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
@@ -1836,10 +1459,141 @@ public class InitiativeModelImpl
 	private boolean _mediaChoice;
 	private long _assetEntryId;
 	private String _publikId;
-	private String _originalPublikId;
 	private long _imageId;
 	private String _filesIds;
 	private Date _publicationDate;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Initiative, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Initiative)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("initiativeId", _initiativeId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("description", _description);
+		_columnOriginalValues.put("placeTextArea", _placeTextArea);
+		_columnOriginalValues.put("inTheNameOf", _inTheNameOf);
+		_columnOriginalValues.put("videoUrl", _videoUrl);
+		_columnOriginalValues.put("externalImageURL", _externalImageURL);
+		_columnOriginalValues.put(
+			"externalImageCopyright", _externalImageCopyright);
+		_columnOriginalValues.put("mediaChoice", _mediaChoice);
+		_columnOriginalValues.put("assetEntryId", _assetEntryId);
+		_columnOriginalValues.put("publikId", _publikId);
+		_columnOriginalValues.put("imageId", _imageId);
+		_columnOriginalValues.put("filesIds", _filesIds);
+		_columnOriginalValues.put("publicationDate", _publicationDate);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("initiativeId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("status", 256L);
+
+		columnBitmasks.put("statusByUserId", 512L);
+
+		columnBitmasks.put("statusByUserName", 1024L);
+
+		columnBitmasks.put("statusDate", 2048L);
+
+		columnBitmasks.put("title", 4096L);
+
+		columnBitmasks.put("description", 8192L);
+
+		columnBitmasks.put("placeTextArea", 16384L);
+
+		columnBitmasks.put("inTheNameOf", 32768L);
+
+		columnBitmasks.put("videoUrl", 65536L);
+
+		columnBitmasks.put("externalImageURL", 131072L);
+
+		columnBitmasks.put("externalImageCopyright", 262144L);
+
+		columnBitmasks.put("mediaChoice", 524288L);
+
+		columnBitmasks.put("assetEntryId", 1048576L);
+
+		columnBitmasks.put("publikId", 2097152L);
+
+		columnBitmasks.put("imageId", 4194304L);
+
+		columnBitmasks.put("filesIds", 8388608L);
+
+		columnBitmasks.put("publicationDate", 16777216L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Initiative _escapedModel;
 

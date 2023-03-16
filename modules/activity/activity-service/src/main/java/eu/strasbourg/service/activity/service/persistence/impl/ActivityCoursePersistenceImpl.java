@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.activity.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -27,30 +28,28 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
+import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.activity.exception.NoSuchActivityCourseException;
 import eu.strasbourg.service.activity.model.ActivityCourse;
+import eu.strasbourg.service.activity.model.ActivityCourseTable;
 import eu.strasbourg.service.activity.model.impl.ActivityCourseImpl;
 import eu.strasbourg.service.activity.model.impl.ActivityCourseModelImpl;
 import eu.strasbourg.service.activity.service.persistence.ActivityCoursePersistence;
+import eu.strasbourg.service.activity.service.persistence.ActivityCourseUtil;
 
 import java.io.Serializable;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
-
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -252,10 +251,6 @@ public class ActivityCoursePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -607,8 +602,6 @@ public class ActivityCoursePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -766,11 +759,6 @@ public class ActivityCoursePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -859,8 +847,6 @@ public class ActivityCoursePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1061,10 +1047,6 @@ public class ActivityCoursePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1447,8 +1429,6 @@ public class ActivityCoursePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1625,10 +1605,6 @@ public class ActivityCoursePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1958,8 +1934,6 @@ public class ActivityCoursePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2128,10 +2102,6 @@ public class ActivityCoursePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2459,8 +2429,6 @@ public class ActivityCoursePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2479,21 +2447,14 @@ public class ActivityCoursePersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(ActivityCourse.class);
+
+		setModelImplClass(ActivityCourseImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(ActivityCourseTable.INSTANCE);
 	}
 
 	/**
@@ -2504,7 +2465,6 @@ public class ActivityCoursePersistenceImpl
 	@Override
 	public void cacheResult(ActivityCourse activityCourse) {
 		entityCache.putResult(
-			ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
 			ActivityCourseImpl.class, activityCourse.getPrimaryKey(),
 			activityCourse);
 
@@ -2514,9 +2474,9 @@ public class ActivityCoursePersistenceImpl
 				activityCourse.getUuid(), activityCourse.getGroupId()
 			},
 			activityCourse);
-
-		activityCourse.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the activity courses in the entity cache if it is enabled.
@@ -2525,16 +2485,19 @@ public class ActivityCoursePersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<ActivityCourse> activityCourses) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (activityCourses.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (ActivityCourse activityCourse : activityCourses) {
 			if (entityCache.getResult(
-					ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
 					ActivityCourseImpl.class, activityCourse.getPrimaryKey()) ==
 						null) {
 
 				cacheResult(activityCourse);
-			}
-			else {
-				activityCourse.resetOriginalValues();
 			}
 		}
 	}
@@ -2550,9 +2513,7 @@ public class ActivityCoursePersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(ActivityCourseImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ActivityCourseImpl.class);
 	}
 
 	/**
@@ -2564,40 +2525,22 @@ public class ActivityCoursePersistenceImpl
 	 */
 	@Override
 	public void clearCache(ActivityCourse activityCourse) {
-		entityCache.removeResult(
-			ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseImpl.class, activityCourse.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((ActivityCourseModelImpl)activityCourse, true);
+		entityCache.removeResult(ActivityCourseImpl.class, activityCourse);
 	}
 
 	@Override
 	public void clearCache(List<ActivityCourse> activityCourses) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (ActivityCourse activityCourse : activityCourses) {
-			entityCache.removeResult(
-				ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-				ActivityCourseImpl.class, activityCourse.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(ActivityCourseModelImpl)activityCourse, true);
+			entityCache.removeResult(ActivityCourseImpl.class, activityCourse);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ActivityCourseImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-				ActivityCourseImpl.class, primaryKey);
+			entityCache.removeResult(ActivityCourseImpl.class, primaryKey);
 		}
 	}
 
@@ -2609,36 +2552,9 @@ public class ActivityCoursePersistenceImpl
 			activityCourseModelImpl.getGroupId()
 		};
 
+		finderCache.putResult(_finderPathCountByUUID_G, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, activityCourseModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		ActivityCourseModelImpl activityCourseModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				activityCourseModelImpl.getUuid(),
-				activityCourseModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((activityCourseModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				activityCourseModelImpl.getOriginalUuid(),
-				activityCourseModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
+			_finderPathFetchByUUID_G, args, activityCourseModelImpl);
 	}
 
 	/**
@@ -2654,7 +2570,7 @@ public class ActivityCoursePersistenceImpl
 		activityCourse.setNew(true);
 		activityCourse.setPrimaryKey(activityCourseId);
 
-		String uuid = PortalUUIDUtil.generate();
+		String uuid = _portalUUID.generate();
 
 		activityCourse.setUuid(uuid);
 
@@ -2774,7 +2690,7 @@ public class ActivityCoursePersistenceImpl
 			(ActivityCourseModelImpl)activityCourse;
 
 		if (Validator.isNull(activityCourse.getUuid())) {
-			String uuid = PortalUUIDUtil.generate();
+			String uuid = _portalUUID.generate();
 
 			activityCourse.setUuid(uuid);
 		}
@@ -2782,24 +2698,25 @@ public class ActivityCoursePersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (activityCourse.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				activityCourse.setCreateDate(now);
+				activityCourse.setCreateDate(date);
 			}
 			else {
-				activityCourse.setCreateDate(serviceContext.getCreateDate(now));
+				activityCourse.setCreateDate(
+					serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!activityCourseModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				activityCourse.setModifiedDate(now);
+				activityCourse.setModifiedDate(date);
 			}
 			else {
 				activityCourse.setModifiedDate(
-					serviceContext.getModifiedDate(now));
+					serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -2808,10 +2725,8 @@ public class ActivityCoursePersistenceImpl
 		try {
 			session = openSession();
 
-			if (activityCourse.isNew()) {
+			if (isNew) {
 				session.save(activityCourse);
-
-				activityCourse.setNew(false);
 			}
 			else {
 				activityCourse = (ActivityCourse)session.merge(activityCourse);
@@ -2824,132 +2739,14 @@ public class ActivityCoursePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!ActivityCourseModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {activityCourseModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				activityCourseModelImpl.getUuid(),
-				activityCourseModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {activityCourseModelImpl.getActivityId()};
-
-			finderCache.removeResult(_finderPathCountByActivity, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByActivity, args);
-
-			args = new Object[] {activityCourseModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((activityCourseModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					activityCourseModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {activityCourseModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((activityCourseModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					activityCourseModelImpl.getOriginalUuid(),
-					activityCourseModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					activityCourseModelImpl.getUuid(),
-					activityCourseModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((activityCourseModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByActivity.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					activityCourseModelImpl.getOriginalActivityId()
-				};
-
-				finderCache.removeResult(_finderPathCountByActivity, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByActivity, args);
-
-				args = new Object[] {activityCourseModelImpl.getActivityId()};
-
-				finderCache.removeResult(_finderPathCountByActivity, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByActivity, args);
-			}
-
-			if ((activityCourseModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					activityCourseModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {activityCourseModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-		}
-
 		entityCache.putResult(
-			ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseImpl.class, activityCourse.getPrimaryKey(),
-			activityCourse, false);
+			ActivityCourseImpl.class, activityCourseModelImpl, false, true);
 
-		clearUniqueFindersCache(activityCourseModelImpl, false);
 		cacheUniqueFindersCache(activityCourseModelImpl);
+
+		if (isNew) {
+			activityCourse.setNew(false);
+		}
 
 		activityCourse.resetOriginalValues();
 
@@ -2998,163 +2795,12 @@ public class ActivityCoursePersistenceImpl
 	/**
 	 * Returns the activity course with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the activity course
-	 * @return the activity course, or <code>null</code> if a activity course with the primary key could not be found
-	 */
-	@Override
-	public ActivityCourse fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		ActivityCourse activityCourse = (ActivityCourse)serializable;
-
-		if (activityCourse == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				activityCourse = (ActivityCourse)session.get(
-					ActivityCourseImpl.class, primaryKey);
-
-				if (activityCourse != null) {
-					cacheResult(activityCourse);
-				}
-				else {
-					entityCache.putResult(
-						ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-						ActivityCourseImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-					ActivityCourseImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return activityCourse;
-	}
-
-	/**
-	 * Returns the activity course with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param activityCourseId the primary key of the activity course
 	 * @return the activity course, or <code>null</code> if a activity course with the primary key could not be found
 	 */
 	@Override
 	public ActivityCourse fetchByPrimaryKey(long activityCourseId) {
 		return fetchByPrimaryKey((Serializable)activityCourseId);
-	}
-
-	@Override
-	public Map<Serializable, ActivityCourse> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, ActivityCourse> map =
-			new HashMap<Serializable, ActivityCourse>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			ActivityCourse activityCourse = fetchByPrimaryKey(primaryKey);
-
-			if (activityCourse != null) {
-				map.put(primaryKey, activityCourse);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-				ActivityCourseImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (ActivityCourse)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_ACTIVITYCOURSE_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (ActivityCourse activityCourse :
-					(List<ActivityCourse>)query.list()) {
-
-				map.put(activityCourse.getPrimaryKeyObj(), activityCourse);
-
-				cacheResult(activityCourse);
-
-				uncachedPrimaryKeys.remove(activityCourse.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-					ActivityCourseImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3282,10 +2928,6 @@ public class ActivityCoursePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3331,9 +2973,6 @@ public class ActivityCoursePersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3350,6 +2989,21 @@ public class ActivityCoursePersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "activityCourseId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_ACTIVITYCOURSE;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return ActivityCourseModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -3358,139 +3012,127 @@ public class ActivityCoursePersistenceImpl
 	 * Initializes the activity course persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseModelImpl.FINDER_CACHE_ENABLED,
-			ActivityCourseImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseModelImpl.FINDER_CACHE_ENABLED,
-			ActivityCourseImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseModelImpl.FINDER_CACHE_ENABLED,
-			ActivityCourseImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseModelImpl.FINDER_CACHE_ENABLED,
-			ActivityCourseImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByUuid", new String[] {String.class.getName()},
-			ActivityCourseModelImpl.UUID_COLUMN_BITMASK);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseModelImpl.FINDER_CACHE_ENABLED,
-			ActivityCourseImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			ActivityCourseModelImpl.UUID_COLUMN_BITMASK |
-			ActivityCourseModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseModelImpl.FINDER_CACHE_ENABLED,
-			ActivityCourseImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid_C",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseModelImpl.FINDER_CACHE_ENABLED,
-			ActivityCourseImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByUuid_C",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			ActivityCourseModelImpl.UUID_COLUMN_BITMASK |
-			ActivityCourseModelImpl.COMPANYID_COLUMN_BITMASK);
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindByActivity = new FinderPath(
-			ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseModelImpl.FINDER_CACHE_ENABLED,
-			ActivityCourseImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByActivity",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByActivity",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"activityId"}, true);
 
 		_finderPathWithoutPaginationFindByActivity = new FinderPath(
-			ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseModelImpl.FINDER_CACHE_ENABLED,
-			ActivityCourseImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByActivity", new String[] {Long.class.getName()},
-			ActivityCourseModelImpl.ACTIVITYID_COLUMN_BITMASK);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByActivity",
+			new String[] {Long.class.getName()}, new String[] {"activityId"},
+			true);
 
 		_finderPathCountByActivity = new FinderPath(
-			ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByActivity",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"activityId"},
+			false);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseModelImpl.FINDER_CACHE_ENABLED,
-			ActivityCourseImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByGroupId",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"groupId"}, true);
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseModelImpl.FINDER_CACHE_ENABLED,
-			ActivityCourseImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByGroupId", new String[] {Long.class.getName()},
-			ActivityCourseModelImpl.GROUPID_COLUMN_BITMASK);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			true);
 
 		_finderPathCountByGroupId = new FinderPath(
-			ActivityCourseModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			false);
+
+		_setActivityCourseUtilPersistence(this);
 	}
 
 	public void destroy() {
+		_setActivityCourseUtilPersistence(null);
+
 		entityCache.removeCache(ActivityCourseImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+	}
+
+	private void _setActivityCourseUtilPersistence(
+		ActivityCoursePersistence activityCoursePersistence) {
+
+		try {
+			Field field = ActivityCourseUtil.class.getDeclaredField(
+				"_persistence");
+
+			field.setAccessible(true);
+
+			field.set(null, activityCoursePersistence);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
+		}
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -3501,9 +3143,6 @@ public class ActivityCoursePersistenceImpl
 
 	private static final String _SQL_SELECT_ACTIVITYCOURSE =
 		"SELECT activityCourse FROM ActivityCourse activityCourse";
-
-	private static final String _SQL_SELECT_ACTIVITYCOURSE_WHERE_PKS_IN =
-		"SELECT activityCourse FROM ActivityCourse activityCourse WHERE activityCourseId IN (";
 
 	private static final String _SQL_SELECT_ACTIVITYCOURSE_WHERE =
 		"SELECT activityCourse FROM ActivityCourse activityCourse WHERE ";
@@ -3527,5 +3166,13 @@ public class ActivityCoursePersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
+	@ServiceReference(type = PortalUUID.class)
+	private PortalUUID _portalUUID;
 
 }

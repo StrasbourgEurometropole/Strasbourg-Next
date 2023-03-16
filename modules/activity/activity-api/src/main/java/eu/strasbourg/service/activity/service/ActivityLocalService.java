@@ -15,9 +15,9 @@
 package eu.strasbourg.service.activity.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
@@ -38,12 +38,10 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.service.activity.model.PlaceAgenda;
 
 import java.io.Serializable;
-
 import java.util.List;
 import java.util.Locale;
 
@@ -68,7 +66,7 @@ public interface ActivityLocalService
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link ActivityLocalServiceUtil} to access the activity local service. Add custom service methods to <code>eu.strasbourg.service.activity.service.impl.ActivityLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.activity.service.impl.ActivityLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the activity local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link ActivityLocalServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**
@@ -97,6 +95,12 @@ public interface ActivityLocalService
 	 * Crée une activité vide avec une PK, non ajouté à la base de donnée
 	 */
 	public Activity createActivity(ServiceContext sc) throws PortalException;
+
+	/**
+	 * @throws PortalException
+	 */
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException;
 
 	/**
 	 * Deletes the activity from the database. Also notifies the appropriate model listeners.
@@ -131,6 +135,12 @@ public interface ActivityLocalService
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> T dslQuery(DSLQuery dslQuery);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int dslQueryCount(DSLQuery dslQuery);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();

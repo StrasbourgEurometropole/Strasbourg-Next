@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class FavoriteLocalServiceWrapper
 	implements FavoriteLocalService, ServiceWrapper<FavoriteLocalService> {
 
+	public FavoriteLocalServiceWrapper() {
+		this(null);
+	}
+
 	public FavoriteLocalServiceWrapper(
 		FavoriteLocalService favoriteLocalService) {
 
@@ -68,6 +72,17 @@ public class FavoriteLocalServiceWrapper
 		long favoriteId) {
 
 		return _favoriteLocalService.createFavorite(favoriteId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _favoriteLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -120,6 +135,18 @@ public class FavoriteLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _favoriteLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _favoriteLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _favoriteLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

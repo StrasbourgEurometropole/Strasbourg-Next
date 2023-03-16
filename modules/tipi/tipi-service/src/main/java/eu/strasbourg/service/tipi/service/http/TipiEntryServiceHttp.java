@@ -38,7 +38,6 @@ package eu.strasbourg.service.tipi.service.http;
  * </p>
  *
  * @author Angelique Zunino Champougny
- * @see TipiEntryServiceSoap
  * @generated
  */
 public class TipiEntryServiceHttp {

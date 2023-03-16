@@ -15,9 +15,9 @@
 package eu.strasbourg.service.artwork.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
@@ -38,11 +38,9 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
 
 import java.io.Serializable;
-
 import java.util.List;
 import java.util.Map;
 
@@ -67,7 +65,7 @@ public interface ArtworkCollectionLocalService
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link ArtworkCollectionLocalServiceUtil} to access the artwork collection local service. Add custom service methods to <code>eu.strasbourg.service.artwork.service.impl.ArtworkCollectionLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.artwork.service.impl.ArtworkCollectionLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the artwork collection local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link ArtworkCollectionLocalServiceUtil} if injection and service tracking are not available.
 	 */
 	public void addArtworkArtworkCollection(
 		long artworkId, ArtworkCollection artworkCollection);
@@ -109,6 +107,12 @@ public interface ArtworkCollectionLocalService
 	 * Crée une édition vide avec une PK, non ajouté à la base de donnée
 	 */
 	public ArtworkCollection createArtworkCollection(ServiceContext sc)
+		throws PortalException;
+
+	/**
+	 * @throws PortalException
+	 */
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
 
 	public void deleteArtworkArtworkCollection(
@@ -158,6 +162,12 @@ public interface ArtworkCollectionLocalService
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> T dslQuery(DSLQuery dslQuery);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int dslQueryCount(DSLQuery dslQuery);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();

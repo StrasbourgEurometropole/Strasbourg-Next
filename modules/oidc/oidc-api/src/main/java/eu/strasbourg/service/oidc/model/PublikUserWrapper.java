@@ -14,16 +14,12 @@
 
 package eu.strasbourg.service.oidc.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -34,20 +30,12 @@ import java.util.Objects;
  * @see PublikUser
  * @generated
  */
-public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
+public class PublikUserWrapper
+	extends BaseModelWrapper<PublikUser>
+	implements ModelWrapper<PublikUser>, PublikUser {
 
 	public PublikUserWrapper(PublikUser publikUser) {
-		_publikUser = publikUser;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return PublikUser.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return PublikUser.class.getName();
+		super(publikUser);
 	}
 
 	@Override
@@ -217,15 +205,8 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	}
 
 	@Override
-	public Object clone() {
-		return new PublikUserWrapper((PublikUser)_publikUser.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.oidc.model.PublikUser publikUser) {
-
-		return _publikUser.compareTo(publikUser);
+	public PublikUser cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -235,7 +216,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public String getAccessToken() {
-		return _publikUser.getAccessToken();
+		return model.getAccessToken();
 	}
 
 	/**
@@ -245,7 +226,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public Date getBanishDate() {
-		return _publikUser.getBanishDate();
+		return model.getBanishDate();
 	}
 
 	/**
@@ -255,7 +236,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public String getBanishDescription() {
-		return _publikUser.getBanishDescription();
+		return model.getBanishDescription();
 	}
 
 	/**
@@ -265,7 +246,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _publikUser.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -275,7 +256,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public String getCsmapJSON() {
-		return _publikUser.getCsmapJSON();
+		return model.getCsmapJSON();
 	}
 
 	/**
@@ -285,7 +266,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public String getDisplayConfig() {
-		return _publikUser.getDisplayConfig();
+		return model.getDisplayConfig();
 	}
 
 	/**
@@ -295,12 +276,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public String getEmail() {
-		return _publikUser.getEmail();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _publikUser.getExpandoBridge();
+		return model.getEmail();
 	}
 
 	/**
@@ -310,7 +286,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public String getFirstName() {
-		return _publikUser.getFirstName();
+		return model.getFirstName();
 	}
 
 	/**
@@ -320,7 +296,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public String getImageURL() {
-		return _publikUser.getImageURL();
+		return model.getImageURL();
 	}
 
 	/**
@@ -328,7 +304,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public String getImageURLOrSurrogate() {
-		return _publikUser.getImageURLOrSurrogate();
+		return model.getImageURLOrSurrogate();
 	}
 
 	/**
@@ -338,7 +314,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public String getLastName() {
-		return _publikUser.getLastName();
+		return model.getLastName();
 	}
 
 	/**
@@ -348,7 +324,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public long getLastUpdateTimeTopics() {
-		return _publikUser.getLastUpdateTimeTopics();
+		return model.getLastUpdateTimeTopics();
 	}
 
 	/**
@@ -358,7 +334,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public String getMapConfig() {
-		return _publikUser.getMapConfig();
+		return model.getMapConfig();
 	}
 
 	/**
@@ -368,7 +344,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _publikUser.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -378,7 +354,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public Date getModifiedDateJSON() {
-		return _publikUser.getModifiedDateJSON();
+		return model.getModifiedDateJSON();
 	}
 
 	/**
@@ -388,7 +364,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public boolean getPactDisplay() {
-		return _publikUser.getPactDisplay();
+		return model.getPactDisplay();
 	}
 
 	/**
@@ -398,7 +374,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public Date getPactSignature() {
-		return _publikUser.getPactSignature();
+		return model.getPactSignature();
 	}
 
 	/**
@@ -408,12 +384,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _publikUser.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _publikUser.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -423,7 +394,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public String getPublikId() {
-		return _publikUser.getPublikId();
+		return model.getPublikId();
 	}
 
 	/**
@@ -433,7 +404,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public long getPublikUserLiferayId() {
-		return _publikUser.getPublikUserLiferayId();
+		return model.getPublikUserLiferayId();
 	}
 
 	/**
@@ -443,7 +414,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public String getTopicsFCM() {
-		return _publikUser.getTopicsFCM();
+		return model.getTopicsFCM();
 	}
 
 	/**
@@ -453,7 +424,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public long getUserId() {
-		return _publikUser.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -463,7 +434,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public String getUserName() {
-		return _publikUser.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -473,7 +444,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _publikUser.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -483,12 +454,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public String getUuid() {
-		return _publikUser.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _publikUser.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -496,22 +462,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public boolean isBanned() {
-		return _publikUser.isBanned();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _publikUser.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _publikUser.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _publikUser.isNew();
+		return model.isBanned();
 	}
 
 	/**
@@ -521,12 +472,12 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public boolean isPactDisplay() {
-		return _publikUser.isPactDisplay();
+		return model.isPactDisplay();
 	}
 
 	@Override
 	public void persist() {
-		_publikUser.persist();
+		model.persist();
 	}
 
 	/**
@@ -536,7 +487,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setAccessToken(String accessToken) {
-		_publikUser.setAccessToken(accessToken);
+		model.setAccessToken(accessToken);
 	}
 
 	/**
@@ -546,7 +497,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setBanishDate(Date banishDate) {
-		_publikUser.setBanishDate(banishDate);
+		model.setBanishDate(banishDate);
 	}
 
 	/**
@@ -556,12 +507,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setBanishDescription(String banishDescription) {
-		_publikUser.setBanishDescription(banishDescription);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_publikUser.setCachedModel(cachedModel);
+		model.setBanishDescription(banishDescription);
 	}
 
 	/**
@@ -571,7 +517,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_publikUser.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -581,7 +527,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setCsmapJSON(String csmapJSON) {
-		_publikUser.setCsmapJSON(csmapJSON);
+		model.setCsmapJSON(csmapJSON);
 	}
 
 	/**
@@ -591,7 +537,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setDisplayConfig(String displayConfig) {
-		_publikUser.setDisplayConfig(displayConfig);
+		model.setDisplayConfig(displayConfig);
 	}
 
 	/**
@@ -601,24 +547,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setEmail(String email) {
-		_publikUser.setEmail(email);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_publikUser.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_publikUser.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_publikUser.setExpandoBridgeAttributes(serviceContext);
+		model.setEmail(email);
 	}
 
 	/**
@@ -628,7 +557,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setFirstName(String firstName) {
-		_publikUser.setFirstName(firstName);
+		model.setFirstName(firstName);
 	}
 
 	/**
@@ -638,7 +567,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setImageURL(String imageURL) {
-		_publikUser.setImageURL(imageURL);
+		model.setImageURL(imageURL);
 	}
 
 	/**
@@ -648,7 +577,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setLastName(String lastName) {
-		_publikUser.setLastName(lastName);
+		model.setLastName(lastName);
 	}
 
 	/**
@@ -658,7 +587,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setLastUpdateTimeTopics(long lastUpdateTimeTopics) {
-		_publikUser.setLastUpdateTimeTopics(lastUpdateTimeTopics);
+		model.setLastUpdateTimeTopics(lastUpdateTimeTopics);
 	}
 
 	/**
@@ -668,7 +597,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setMapConfig(String mapConfig) {
-		_publikUser.setMapConfig(mapConfig);
+		model.setMapConfig(mapConfig);
 	}
 
 	/**
@@ -678,7 +607,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_publikUser.setModifiedDate(modifiedDate);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -688,12 +617,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setModifiedDateJSON(Date modifiedDateJSON) {
-		_publikUser.setModifiedDateJSON(modifiedDateJSON);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_publikUser.setNew(n);
+		model.setModifiedDateJSON(modifiedDateJSON);
 	}
 
 	/**
@@ -703,7 +627,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setPactDisplay(boolean pactDisplay) {
-		_publikUser.setPactDisplay(pactDisplay);
+		model.setPactDisplay(pactDisplay);
 	}
 
 	/**
@@ -713,7 +637,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setPactSignature(Date pactSignature) {
-		_publikUser.setPactSignature(pactSignature);
+		model.setPactSignature(pactSignature);
 	}
 
 	/**
@@ -723,12 +647,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_publikUser.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_publikUser.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -738,7 +657,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setPublikId(String publikId) {
-		_publikUser.setPublikId(publikId);
+		model.setPublikId(publikId);
 	}
 
 	/**
@@ -748,7 +667,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setPublikUserLiferayId(long publikUserLiferayId) {
-		_publikUser.setPublikUserLiferayId(publikUserLiferayId);
+		model.setPublikUserLiferayId(publikUserLiferayId);
 	}
 
 	/**
@@ -758,7 +677,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setTopicsFCM(String topicsFCM) {
-		_publikUser.setTopicsFCM(topicsFCM);
+		model.setTopicsFCM(topicsFCM);
 	}
 
 	/**
@@ -768,7 +687,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_publikUser.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -778,7 +697,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_publikUser.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -788,7 +707,7 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_publikUser.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -798,75 +717,17 @@ public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_publikUser.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.oidc.model.PublikUser> toCacheModel() {
-
-		return _publikUser.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.oidc.model.PublikUser toEscapedModel() {
-		return new PublikUserWrapper(_publikUser.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _publikUser.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.oidc.model.PublikUser toUnescapedModel() {
-		return new PublikUserWrapper(_publikUser.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _publikUser.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof PublikUserWrapper)) {
-			return false;
-		}
-
-		PublikUserWrapper publikUserWrapper = (PublikUserWrapper)object;
-
-		if (Objects.equals(_publikUser, publikUserWrapper._publikUser)) {
-			return true;
-		}
-
-		return false;
+	protected PublikUserWrapper wrap(PublikUser publikUser) {
+		return new PublikUserWrapper(publikUser);
 	}
-
-	@Override
-	public PublikUser getWrappedModel() {
-		return _publikUser;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _publikUser.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _publikUser.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_publikUser.resetOriginalValues();
-	}
-
-	private final PublikUser _publikUser;
 
 }

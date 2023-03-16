@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.oidc.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Brian Wing Shun Chan
  */
-@ProviderType
 public class NoSuchAnonymisationHistoricException extends NoSuchModelException {
 
 	public NoSuchAnonymisationHistoricException() {
@@ -30,12 +27,12 @@ public class NoSuchAnonymisationHistoricException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchAnonymisationHistoricException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchAnonymisationHistoricException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchAnonymisationHistoricException(Throwable cause) {
-		super(cause);
+	public NoSuchAnonymisationHistoricException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

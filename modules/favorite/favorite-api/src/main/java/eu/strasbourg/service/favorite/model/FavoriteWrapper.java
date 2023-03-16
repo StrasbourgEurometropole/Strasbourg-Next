@@ -14,16 +14,12 @@
 
 package eu.strasbourg.service.favorite.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -34,20 +30,12 @@ import java.util.Objects;
  * @see Favorite
  * @generated
  */
-public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
+public class FavoriteWrapper
+	extends BaseModelWrapper<Favorite>
+	implements Favorite, ModelWrapper<Favorite> {
 
 	public FavoriteWrapper(Favorite favorite) {
-		_favorite = favorite;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Favorite.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Favorite.class.getName();
+		super(favorite);
 	}
 
 	@Override
@@ -146,20 +134,13 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	}
 
 	@Override
-	public Object clone() {
-		return new FavoriteWrapper((Favorite)_favorite.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.favorite.model.Favorite favorite) {
-
-		return _favorite.compareTo(favorite);
+	public Favorite cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _favorite.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	/**
@@ -169,7 +150,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public String getContent() {
-		return _favorite.getContent();
+		return model.getContent();
 	}
 
 	/**
@@ -179,7 +160,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _favorite.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -189,7 +170,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public long getEntityGroupId() {
-		return _favorite.getEntityGroupId();
+		return model.getEntityGroupId();
 	}
 
 	/**
@@ -199,12 +180,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public long getEntityId() {
-		return _favorite.getEntityId();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _favorite.getExpandoBridge();
+		return model.getEntityId();
 	}
 
 	/**
@@ -214,12 +190,12 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public long getFavoriteId() {
-		return _favorite.getFavoriteId();
+		return model.getFavoriteId();
 	}
 
 	@Override
 	public eu.strasbourg.service.favorite.model.FavoriteType getFavoriteType() {
-		return _favorite.getFavoriteType();
+		return model.getFavoriteType();
 	}
 
 	/**
@@ -229,7 +205,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _favorite.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -239,7 +215,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public Date getOnDashboardDate() {
-		return _favorite.getOnDashboardDate();
+		return model.getOnDashboardDate();
 	}
 
 	/**
@@ -249,7 +225,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public int getOrder() {
-		return _favorite.getOrder();
+		return model.getOrder();
 	}
 
 	/**
@@ -259,12 +235,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _favorite.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _favorite.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -274,7 +245,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public String getPublikUserId() {
-		return _favorite.getPublikUserId();
+		return model.getPublikUserId();
 	}
 
 	/**
@@ -284,7 +255,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public String getTitle() {
-		return _favorite.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -294,7 +265,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public long getTypeId() {
-		return _favorite.getTypeId();
+		return model.getTypeId();
 	}
 
 	/**
@@ -304,47 +275,22 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public String getUrl() {
-		return _favorite.getUrl();
+		return model.getUrl();
 	}
 
 	@Override
 	public boolean hasAssetEntry() {
-		return _favorite.hasAssetEntry();
-	}
-
-	@Override
-	public int hashCode() {
-		return _favorite.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _favorite.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _favorite.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _favorite.isNew();
+		return model.hasAssetEntry();
 	}
 
 	@Override
 	public boolean isOnDashboard() {
-		return _favorite.isOnDashboard();
+		return model.isOnDashboard();
 	}
 
 	@Override
 	public void persist() {
-		_favorite.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_favorite.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -354,7 +300,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public void setContent(String content) {
-		_favorite.setContent(content);
+		model.setContent(content);
 	}
 
 	/**
@@ -364,7 +310,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_favorite.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -374,7 +320,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public void setEntityGroupId(long entityGroupId) {
-		_favorite.setEntityGroupId(entityGroupId);
+		model.setEntityGroupId(entityGroupId);
 	}
 
 	/**
@@ -384,24 +330,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public void setEntityId(long entityId) {
-		_favorite.setEntityId(entityId);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_favorite.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_favorite.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_favorite.setExpandoBridgeAttributes(serviceContext);
+		model.setEntityId(entityId);
 	}
 
 	/**
@@ -411,7 +340,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public void setFavoriteId(long favoriteId) {
-		_favorite.setFavoriteId(favoriteId);
+		model.setFavoriteId(favoriteId);
 	}
 
 	/**
@@ -421,12 +350,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_favorite.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_favorite.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -436,7 +360,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public void setOnDashboardDate(Date onDashboardDate) {
-		_favorite.setOnDashboardDate(onDashboardDate);
+		model.setOnDashboardDate(onDashboardDate);
 	}
 
 	/**
@@ -446,7 +370,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public void setOrder(int order) {
-		_favorite.setOrder(order);
+		model.setOrder(order);
 	}
 
 	/**
@@ -456,12 +380,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_favorite.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_favorite.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -471,7 +390,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public void setPublikUserId(String publikUserId) {
-		_favorite.setPublikUserId(publikUserId);
+		model.setPublikUserId(publikUserId);
 	}
 
 	/**
@@ -481,7 +400,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public void setTitle(String title) {
-		_favorite.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -491,7 +410,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public void setTypeId(long typeId) {
-		_favorite.setTypeId(typeId);
+		model.setTypeId(typeId);
 	}
 
 	/**
@@ -501,19 +420,7 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public void setUrl(String url) {
-		_favorite.setUrl(url);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.favorite.model.Favorite> toCacheModel() {
-
-		return _favorite.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.favorite.model.Favorite toEscapedModel() {
-		return new FavoriteWrapper(_favorite.toEscapedModel());
+		model.setUrl(url);
 	}
 
 	/**
@@ -521,63 +428,17 @@ public class FavoriteWrapper implements Favorite, ModelWrapper<Favorite> {
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _favorite.toJSON();
-	}
-
-	@Override
-	public String toString() {
-		return _favorite.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.favorite.model.Favorite toUnescapedModel() {
-		return new FavoriteWrapper(_favorite.toUnescapedModel());
+		return model.toJSON();
 	}
 
 	@Override
 	public String toXmlString() {
-		return _favorite.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof FavoriteWrapper)) {
-			return false;
-		}
-
-		FavoriteWrapper favoriteWrapper = (FavoriteWrapper)object;
-
-		if (Objects.equals(_favorite, favoriteWrapper._favorite)) {
-			return true;
-		}
-
-		return false;
+	protected FavoriteWrapper wrap(Favorite favorite) {
+		return new FavoriteWrapper(favorite);
 	}
-
-	@Override
-	public Favorite getWrappedModel() {
-		return _favorite;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _favorite.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _favorite.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_favorite.resetOriginalValues();
-	}
-
-	private final Favorite _favorite;
 
 }

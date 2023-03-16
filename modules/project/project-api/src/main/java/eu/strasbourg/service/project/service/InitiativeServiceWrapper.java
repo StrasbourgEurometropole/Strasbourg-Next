@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class InitiativeServiceWrapper
 	implements InitiativeService, ServiceWrapper<InitiativeService> {
 
+	public InitiativeServiceWrapper() {
+		this(null);
+	}
+
 	public InitiativeServiceWrapper(InitiativeService initiativeService) {
 		_initiativeService = initiativeService;
 	}

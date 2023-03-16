@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.comment.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for Comment. This utility wraps
  * <code>eu.strasbourg.service.comment.service.impl.CommentServiceImpl</code> and is an
@@ -43,27 +39,14 @@ public class CommentServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static CommentService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<CommentService, CommentService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(CommentService.class);
-
-		ServiceTracker<CommentService, CommentService> serviceTracker =
-			new ServiceTracker<CommentService, CommentService>(
-				bundle.getBundleContext(), CommentService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile CommentService _service;
 
 }

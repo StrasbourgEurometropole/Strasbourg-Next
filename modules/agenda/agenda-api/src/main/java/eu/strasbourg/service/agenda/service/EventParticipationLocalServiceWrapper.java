@@ -27,6 +27,10 @@ public class EventParticipationLocalServiceWrapper
 	implements EventParticipationLocalService,
 			   ServiceWrapper<EventParticipationLocalService> {
 
+	public EventParticipationLocalServiceWrapper() {
+		this(null);
+	}
+
 	public EventParticipationLocalServiceWrapper(
 		EventParticipationLocalService eventParticipationLocalService) {
 
@@ -75,6 +79,18 @@ public class EventParticipationLocalServiceWrapper
 
 		return _eventParticipationLocalService.createEventParticipation(
 			eventParticipationId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _eventParticipationLocalService.createPersistedModel(
+			primaryKeyObj);
 	}
 
 	/**
@@ -127,6 +143,18 @@ public class EventParticipationLocalServiceWrapper
 
 		return _eventParticipationLocalService.deletePersistedModel(
 			persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _eventParticipationLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _eventParticipationLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

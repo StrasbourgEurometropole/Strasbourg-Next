@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.interest.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.interest.exception.NoSuchInterestException;
 import eu.strasbourg.service.interest.model.Interest;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the interest service.
@@ -45,9 +38,6 @@ public interface InterestPersistence extends BasePersistence<Interest> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link InterestUtil} to access the interest persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Interest> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the interests where uuid = &#63;.
@@ -656,8 +646,5 @@ public interface InterestPersistence extends BasePersistence<Interest> {
 	 * @return the number of interests
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

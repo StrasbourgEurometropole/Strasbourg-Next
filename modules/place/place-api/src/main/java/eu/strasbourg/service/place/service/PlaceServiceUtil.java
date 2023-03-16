@@ -14,9 +14,9 @@
 
 package eu.strasbourg.service.place.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.portal.kernel.exception.PortalException;
+
+import java.util.List;
 
 /**
  * Provides the remote service utility for Place. This utility wraps
@@ -38,7 +38,7 @@ public class PlaceServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.place.service.impl.PlaceServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static com.liferay.portal.kernel.json.JSONArray getEquipments()
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getEquipments();
 	}
@@ -76,28 +76,28 @@ public class PlaceServiceUtil {
 
 	public static com.liferay.portal.kernel.json.JSONArray getPlacesByTerritory(
 			String territoryId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getPlacesByTerritory(territoryId);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray
 			getPlacesByTerritoryAndType(String territoryId, String typeId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getPlacesByTerritoryAndType(territoryId, typeId);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray getPlacesByType(
 			String typeId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getPlacesByType(typeId);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray getPlacesByTypes(
-			java.util.List<String> typesId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			List<String> typesId)
+		throws PortalException {
 
 		return getService().getPlacesByTypes(typesId);
 	}
@@ -114,27 +114,15 @@ public class PlaceServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray getTypes()
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getTypes();
 	}
 
 	public static PlaceService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<PlaceService, PlaceService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(PlaceService.class);
-
-		ServiceTracker<PlaceService, PlaceService> serviceTracker =
-			new ServiceTracker<PlaceService, PlaceService>(
-				bundle.getBundleContext(), PlaceService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile PlaceService _service;
 
 }

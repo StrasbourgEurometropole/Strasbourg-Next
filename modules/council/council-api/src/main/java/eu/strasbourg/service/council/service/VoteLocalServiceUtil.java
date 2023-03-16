@@ -14,9 +14,15 @@
 
 package eu.strasbourg.service.council.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.council.model.Vote;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Provides the local service utility for Vote. This utility wraps
@@ -48,16 +54,24 @@ public class VoteLocalServiceUtil {
 	 * @param vote the vote
 	 * @return the vote that was added
 	 */
-	public static eu.strasbourg.service.council.model.Vote addVote(
-		eu.strasbourg.service.council.model.Vote vote) {
-
+	public static Vote addVote(Vote vote) {
 		return getService().addVote(vote);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
 	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.council.model.Vote createVote(
+	public static Vote createVote(
 		long officialId, long deliberationId,
 		com.liferay.portal.kernel.service.ServiceContext sc) {
 
@@ -70,7 +84,7 @@ public class VoteLocalServiceUtil {
 	 * @param votePK the primary key for the new vote
 	 * @return the new vote
 	 */
-	public static eu.strasbourg.service.council.model.Vote createVote(
+	public static Vote createVote(
 		eu.strasbourg.service.council.service.persistence.VotePK votePK) {
 
 		return getService().createVote(votePK);
@@ -79,10 +93,9 @@ public class VoteLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -97,9 +110,7 @@ public class VoteLocalServiceUtil {
 	 * @param vote the vote
 	 * @return the vote that was removed
 	 */
-	public static eu.strasbourg.service.council.model.Vote deleteVote(
-		eu.strasbourg.service.council.model.Vote vote) {
-
+	public static Vote deleteVote(Vote vote) {
 		return getService().deleteVote(vote);
 	}
 
@@ -114,16 +125,22 @@ public class VoteLocalServiceUtil {
 	 * @return the vote that was removed
 	 * @throws PortalException if a vote with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.council.model.Vote deleteVote(
+	public static Vote deleteVote(
 			eu.strasbourg.service.council.service.persistence.VotePK votePK)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().deleteVote(votePK);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -133,9 +150,7 @@ public class VoteLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -151,9 +166,8 @@ public class VoteLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -171,10 +185,9 @@ public class VoteLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -186,9 +199,7 @@ public class VoteLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -200,13 +211,13 @@ public class VoteLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.council.model.Vote fetchVote(
+	public static Vote fetchVote(
 		eu.strasbourg.service.council.service.persistence.VotePK votePK) {
 
 		return getService().fetchVote(votePK);
@@ -219,27 +230,22 @@ public class VoteLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching vote, or <code>null</code> if a matching vote could not be found
 	 */
-	public static eu.strasbourg.service.council.model.Vote
-		fetchVoteByUuidAndGroupId(String uuid, long groupId) {
-
+	public static Vote fetchVoteByUuidAndGroupId(String uuid, long groupId) {
 		return getService().fetchVoteByUuidAndGroupId(uuid, groupId);
 	}
 
 	/**
 	 * Retourne la liste des votes d'une délibération
 	 */
-	public static java.util.List<eu.strasbourg.service.council.model.Vote>
-		findByDeliberationId(long deliberationId) {
-
+	public static List<Vote> findByDeliberationId(long deliberationId) {
 		return getService().findByDeliberationId(deliberationId);
 	}
 
 	/**
 	 * Retourne le vote d'un élu pour une délibération
 	 */
-	public static eu.strasbourg.service.council.model.Vote
-		findByDeliberationIdandOfficialId(
-			long deliberationId, long officialId) {
+	public static Vote findByDeliberationIdandOfficialId(
+		long deliberationId, long officialId) {
 
 		return getService().findByDeliberationIdandOfficialId(
 			deliberationId, officialId);
@@ -270,9 +276,8 @@ public class VoteLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -284,9 +289,9 @@ public class VoteLocalServiceUtil {
 	 * @return the vote
 	 * @throws PortalException if a vote with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.council.model.Vote getVote(
+	public static Vote getVote(
 			eu.strasbourg.service.council.service.persistence.VotePK votePK)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getVote(votePK);
 	}
@@ -299,9 +304,8 @@ public class VoteLocalServiceUtil {
 	 * @return the matching vote
 	 * @throws PortalException if a matching vote could not be found
 	 */
-	public static eu.strasbourg.service.council.model.Vote
-			getVoteByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Vote getVoteByUuidAndGroupId(String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getVoteByUuidAndGroupId(uuid, groupId);
 	}
@@ -317,9 +321,7 @@ public class VoteLocalServiceUtil {
 	 * @param end the upper bound of the range of votes (not inclusive)
 	 * @return the range of votes
 	 */
-	public static java.util.List<eu.strasbourg.service.council.model.Vote>
-		getVotes(int start, int end) {
-
+	public static List<Vote> getVotes(int start, int end) {
 		return getService().getVotes(start, end);
 	}
 
@@ -330,8 +332,8 @@ public class VoteLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching votes, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.council.model.Vote>
-		getVotesByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<Vote> getVotesByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getVotesByUuidAndCompanyId(uuid, companyId);
 	}
@@ -346,11 +348,9 @@ public class VoteLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching votes, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.council.model.Vote>
-		getVotesByUuidAndCompanyId(
-			String uuid, long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<eu.strasbourg.service.council.model.Vote> orderByComparator) {
+	public static List<Vote> getVotesByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Vote> orderByComparator) {
 
 		return getService().getVotesByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -368,9 +368,8 @@ public class VoteLocalServiceUtil {
 	/**
 	 * Supprime une entité
 	 */
-	public static eu.strasbourg.service.council.model.Vote removeVote(
-			long officialId, long deliberationId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Vote removeVote(long officialId, long deliberationId)
+		throws PortalException {
 
 		return getService().removeVote(officialId, deliberationId);
 	}
@@ -379,7 +378,7 @@ public class VoteLocalServiceUtil {
 	 * Supprime les votes d'une délibération
 	 */
 	public static void removeVotesFromDeliberation(long deliberationId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		getService().removeVotesFromDeliberation(deliberationId);
 	}
@@ -394,39 +393,23 @@ public class VoteLocalServiceUtil {
 	 * @param vote the vote
 	 * @return the vote that was updated
 	 */
-	public static eu.strasbourg.service.council.model.Vote updateVote(
-		eu.strasbourg.service.council.model.Vote vote) {
-
+	public static Vote updateVote(Vote vote) {
 		return getService().updateVote(vote);
 	}
 
 	/**
 	 * Met à jour une entité et l'enregistre en base de données
 	 */
-	public static eu.strasbourg.service.council.model.Vote updateVote(
-		eu.strasbourg.service.council.model.Vote vote,
-		com.liferay.portal.kernel.service.ServiceContext sc) {
+	public static Vote updateVote(
+		Vote vote, com.liferay.portal.kernel.service.ServiceContext sc) {
 
 		return getService().updateVote(vote, sc);
 	}
 
 	public static VoteLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<VoteLocalService, VoteLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(VoteLocalService.class);
-
-		ServiceTracker<VoteLocalService, VoteLocalService> serviceTracker =
-			new ServiceTracker<VoteLocalService, VoteLocalService>(
-				bundle.getBundleContext(), VoteLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile VoteLocalService _service;
 
 }

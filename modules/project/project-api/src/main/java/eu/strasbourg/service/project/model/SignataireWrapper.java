@@ -14,17 +14,13 @@
 
 package eu.strasbourg.service.project.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +31,12 @@ import java.util.Objects;
  * @see Signataire
  * @generated
  */
-public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
+public class SignataireWrapper
+	extends BaseModelWrapper<Signataire>
+	implements ModelWrapper<Signataire>, Signataire {
 
 	public SignataireWrapper(Signataire signataire) {
-		_signataire = signataire;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Signataire.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Signataire.class.getName();
+		super(signataire);
 	}
 
 	@Override
@@ -232,15 +220,8 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	}
 
 	@Override
-	public Object clone() {
-		return new SignataireWrapper((Signataire)_signataire.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.project.model.Signataire signataire) {
-
-		return _signataire.compareTo(signataire);
+	public Signataire cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -250,7 +231,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public String getAddress() {
-		return _signataire.getAddress();
+		return model.getAddress();
 	}
 
 	/**
@@ -260,7 +241,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public Date getBirthday() {
-		return _signataire.getBirthday();
+		return model.getBirthday();
 	}
 
 	/**
@@ -270,7 +251,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public String getCity() {
-		return _signataire.getCity();
+		return model.getCity();
 	}
 
 	/**
@@ -280,7 +261,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _signataire.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -290,12 +271,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _signataire.getCreateDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _signataire.getExpandoBridge();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -305,7 +281,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public long getGroupId() {
-		return _signataire.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -315,7 +291,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public String getMail() {
-		return _signataire.getMail();
+		return model.getMail();
 	}
 
 	/**
@@ -325,7 +301,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public String getMobilePhone() {
-		return _signataire.getMobilePhone();
+		return model.getMobilePhone();
 	}
 
 	/**
@@ -335,7 +311,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _signataire.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -345,7 +321,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public long getPetitionId() {
-		return _signataire.getPetitionId();
+		return model.getPetitionId();
 	}
 
 	/**
@@ -355,7 +331,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public String getPhone() {
-		return _signataire.getPhone();
+		return model.getPhone();
 	}
 
 	/**
@@ -365,7 +341,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public long getPostalCode() {
-		return _signataire.getPostalCode();
+		return model.getPostalCode();
 	}
 
 	/**
@@ -375,12 +351,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _signataire.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _signataire.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -390,7 +361,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public String getPublikUserId() {
-		return _signataire.getPublikUserId();
+		return model.getPublikUserId();
 	}
 
 	/**
@@ -400,7 +371,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public String getSignataireFirstname() {
-		return _signataire.getSignataireFirstname();
+		return model.getSignataireFirstname();
 	}
 
 	/**
@@ -410,7 +381,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public long getSignataireId() {
-		return _signataire.getSignataireId();
+		return model.getSignataireId();
 	}
 
 	/**
@@ -420,7 +391,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public String getSignataireName() {
-		return _signataire.getSignataireName();
+		return model.getSignataireName();
 	}
 
 	/**
@@ -430,7 +401,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public Date getSignatureDate() {
-		return _signataire.getSignatureDate();
+		return model.getSignatureDate();
 	}
 
 	/**
@@ -440,7 +411,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public int getStatus() {
-		return _signataire.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -450,7 +421,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _signataire.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -460,7 +431,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _signataire.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -470,7 +441,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _signataire.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -480,7 +451,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _signataire.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -490,7 +461,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public long getUserId() {
-		return _signataire.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -500,7 +471,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public String getUserName() {
-		return _signataire.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -510,7 +481,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _signataire.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -520,12 +491,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public String getUuid() {
-		return _signataire.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _signataire.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -535,12 +501,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _signataire.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _signataire.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -550,7 +511,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _signataire.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -560,12 +521,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _signataire.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _signataire.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -575,7 +531,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _signataire.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -585,7 +541,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _signataire.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -595,12 +551,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _signataire.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _signataire.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -610,7 +561,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public boolean isPending() {
-		return _signataire.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -620,12 +571,12 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _signataire.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_signataire.persist();
+		model.persist();
 	}
 
 	/**
@@ -635,7 +586,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setAddress(String address) {
-		_signataire.setAddress(address);
+		model.setAddress(address);
 	}
 
 	/**
@@ -645,12 +596,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setBirthday(Date birthday) {
-		_signataire.setBirthday(birthday);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_signataire.setCachedModel(cachedModel);
+		model.setBirthday(birthday);
 	}
 
 	/**
@@ -660,7 +606,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setCity(String city) {
-		_signataire.setCity(city);
+		model.setCity(city);
 	}
 
 	/**
@@ -670,7 +616,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_signataire.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -680,24 +626,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_signataire.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_signataire.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_signataire.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_signataire.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -707,7 +636,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_signataire.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -717,7 +646,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setMail(String mail) {
-		_signataire.setMail(mail);
+		model.setMail(mail);
 	}
 
 	/**
@@ -727,7 +656,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setMobilePhone(String mobilePhone) {
-		_signataire.setMobilePhone(mobilePhone);
+		model.setMobilePhone(mobilePhone);
 	}
 
 	/**
@@ -737,12 +666,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_signataire.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_signataire.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -752,7 +676,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setPetitionId(long petitionId) {
-		_signataire.setPetitionId(petitionId);
+		model.setPetitionId(petitionId);
 	}
 
 	/**
@@ -762,7 +686,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setPhone(String phone) {
-		_signataire.setPhone(phone);
+		model.setPhone(phone);
 	}
 
 	/**
@@ -772,7 +696,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setPostalCode(long postalCode) {
-		_signataire.setPostalCode(postalCode);
+		model.setPostalCode(postalCode);
 	}
 
 	/**
@@ -782,12 +706,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_signataire.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_signataire.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -797,7 +716,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setPublikUserId(String publikUserId) {
-		_signataire.setPublikUserId(publikUserId);
+		model.setPublikUserId(publikUserId);
 	}
 
 	/**
@@ -807,7 +726,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setSignataireFirstname(String signataireFirstname) {
-		_signataire.setSignataireFirstname(signataireFirstname);
+		model.setSignataireFirstname(signataireFirstname);
 	}
 
 	/**
@@ -817,7 +736,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setSignataireId(long signataireId) {
-		_signataire.setSignataireId(signataireId);
+		model.setSignataireId(signataireId);
 	}
 
 	/**
@@ -827,7 +746,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setSignataireName(String signataireName) {
-		_signataire.setSignataireName(signataireName);
+		model.setSignataireName(signataireName);
 	}
 
 	/**
@@ -837,7 +756,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setSignatureDate(Date signatureDate) {
-		_signataire.setSignatureDate(signatureDate);
+		model.setSignatureDate(signatureDate);
 	}
 
 	/**
@@ -847,7 +766,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_signataire.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -857,7 +776,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_signataire.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -867,7 +786,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_signataire.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -877,7 +796,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_signataire.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -887,7 +806,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_signataire.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -897,7 +816,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_signataire.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -907,7 +826,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_signataire.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -917,7 +836,7 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_signataire.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -927,80 +846,22 @@ public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_signataire.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.project.model.Signataire> toCacheModel() {
-
-		return _signataire.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.Signataire toEscapedModel() {
-		return new SignataireWrapper(_signataire.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _signataire.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.Signataire toUnescapedModel() {
-		return new SignataireWrapper(_signataire.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _signataire.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof SignataireWrapper)) {
-			return false;
-		}
-
-		SignataireWrapper signataireWrapper = (SignataireWrapper)object;
-
-		if (Objects.equals(_signataire, signataireWrapper._signataire)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _signataire.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Signataire getWrappedModel() {
-		return _signataire;
+	protected SignataireWrapper wrap(Signataire signataire) {
+		return new SignataireWrapper(signataire);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _signataire.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _signataire.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_signataire.resetOriginalValues();
-	}
-
-	private final Signataire _signataire;
 
 }

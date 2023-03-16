@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.agenda.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for EventPeriod. This utility wraps
  * <code>eu.strasbourg.service.agenda.service.impl.EventPeriodServiceImpl</code> and is an
@@ -43,27 +39,14 @@ public class EventPeriodServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static EventPeriodService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<EventPeriodService, EventPeriodService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(EventPeriodService.class);
-
-		ServiceTracker<EventPeriodService, EventPeriodService> serviceTracker =
-			new ServiceTracker<EventPeriodService, EventPeriodService>(
-				bundle.getBundleContext(), EventPeriodService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile EventPeriodService _service;
 
 }

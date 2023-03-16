@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.csmap.exception;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Brian Wing Shun Chan
  */
-@ProviderType
 public class NoSuchCsmapCacheException extends NoSuchModelException {
 
 	public NoSuchCsmapCacheException() {
@@ -30,12 +27,12 @@ public class NoSuchCsmapCacheException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchCsmapCacheException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchCsmapCacheException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchCsmapCacheException(Throwable cause) {
-		super(cause);
+	public NoSuchCsmapCacheException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.artwork.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author BenjaminBini
  */
-@ProviderType
 public class NoSuchArtworkException extends NoSuchModelException {
 
 	public NoSuchArtworkException() {
@@ -30,12 +27,12 @@ public class NoSuchArtworkException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchArtworkException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchArtworkException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchArtworkException(Throwable cause) {
-		super(cause);
+	public NoSuchArtworkException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

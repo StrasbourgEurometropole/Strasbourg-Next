@@ -14,9 +14,17 @@
 
 package eu.strasbourg.service.agenda.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.agenda.model.EventPeriod;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for EventPeriod. This utility wraps
@@ -48,9 +56,7 @@ public class EventPeriodLocalServiceUtil {
 	 * @param eventPeriod the event period
 	 * @return the event period that was added
 	 */
-	public static eu.strasbourg.service.agenda.model.EventPeriod addEventPeriod(
-		eu.strasbourg.service.agenda.model.EventPeriod eventPeriod) {
-
+	public static EventPeriod addEventPeriod(EventPeriod eventPeriod) {
 		return getService().addEventPeriod(eventPeriod);
 	}
 
@@ -59,8 +65,7 @@ public class EventPeriodLocalServiceUtil {
 	 * chevauchent
 	 */
 	public static boolean checkForOverlappingPeriods(
-		java.util.List<eu.strasbourg.service.agenda.model.EventPeriod>
-			periods) {
+		List<EventPeriod> periods) {
 
 		return getService().checkForOverlappingPeriods(periods);
 	}
@@ -68,10 +73,7 @@ public class EventPeriodLocalServiceUtil {
 	/**
 	 * Crée une édition vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.agenda.model.EventPeriod
-			createEventPeriod()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static EventPeriod createEventPeriod() throws PortalException {
 		return getService().createEventPeriod();
 	}
 
@@ -81,10 +83,18 @@ public class EventPeriodLocalServiceUtil {
 	 * @param eventPeriodId the primary key for the new event period
 	 * @return the new event period
 	 */
-	public static eu.strasbourg.service.agenda.model.EventPeriod
-		createEventPeriod(long eventPeriodId) {
-
+	public static EventPeriod createEventPeriod(long eventPeriodId) {
 		return getService().createEventPeriod(eventPeriodId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -97,10 +107,7 @@ public class EventPeriodLocalServiceUtil {
 	 * @param eventPeriod the event period
 	 * @return the event period that was removed
 	 */
-	public static eu.strasbourg.service.agenda.model.EventPeriod
-		deleteEventPeriod(
-			eu.strasbourg.service.agenda.model.EventPeriod eventPeriod) {
-
+	public static EventPeriod deleteEventPeriod(EventPeriod eventPeriod) {
 		return getService().deleteEventPeriod(eventPeriod);
 	}
 
@@ -115,9 +122,8 @@ public class EventPeriodLocalServiceUtil {
 	 * @return the event period that was removed
 	 * @throws PortalException if a event period with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.agenda.model.EventPeriod
-			deleteEventPeriod(long eventPeriodId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static EventPeriod deleteEventPeriod(long eventPeriodId)
+		throws PortalException {
 
 		return getService().deleteEventPeriod(eventPeriodId);
 	}
@@ -125,17 +131,22 @@ public class EventPeriodLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -145,9 +156,7 @@ public class EventPeriodLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -163,9 +172,8 @@ public class EventPeriodLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -183,10 +191,9 @@ public class EventPeriodLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -198,9 +205,7 @@ public class EventPeriodLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -212,15 +217,13 @@ public class EventPeriodLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.agenda.model.EventPeriod
-		fetchEventPeriod(long eventPeriodId) {
-
+	public static EventPeriod fetchEventPeriod(long eventPeriodId) {
 		return getService().fetchEventPeriod(eventPeriodId);
 	}
 
@@ -233,18 +236,14 @@ public class EventPeriodLocalServiceUtil {
 	/**
 	 * Retourne les périodes d'un événement de campagne
 	 */
-	public static java.util.List<eu.strasbourg.service.agenda.model.EventPeriod>
-		getByCampaignEventId(long campaignEventId) {
-
+	public static List<EventPeriod> getByCampaignEventId(long campaignEventId) {
 		return getService().getByCampaignEventId(campaignEventId);
 	}
 
 	/**
 	 * Retourne les périodes d'un événement
 	 */
-	public static java.util.List<eu.strasbourg.service.agenda.model.EventPeriod>
-		getByEventId(long eventId) {
-
+	public static List<EventPeriod> getByEventId(long eventId) {
 		return getService().getByEventId(eventId);
 	}
 
@@ -255,9 +254,8 @@ public class EventPeriodLocalServiceUtil {
 	 * @return the event period
 	 * @throws PortalException if a event period with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.agenda.model.EventPeriod getEventPeriod(
-			long eventPeriodId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static EventPeriod getEventPeriod(long eventPeriodId)
+		throws PortalException {
 
 		return getService().getEventPeriod(eventPeriodId);
 	}
@@ -273,9 +271,7 @@ public class EventPeriodLocalServiceUtil {
 	 * @param end the upper bound of the range of event periods (not inclusive)
 	 * @return the range of event periods
 	 */
-	public static java.util.List<eu.strasbourg.service.agenda.model.EventPeriod>
-		getEventPeriods(int start, int end) {
-
+	public static List<EventPeriod> getEventPeriods(int start, int end) {
 		return getService().getEventPeriods(start, end);
 	}
 
@@ -307,9 +303,8 @@ public class EventPeriodLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -324,33 +319,14 @@ public class EventPeriodLocalServiceUtil {
 	 * @param eventPeriod the event period
 	 * @return the event period that was updated
 	 */
-	public static eu.strasbourg.service.agenda.model.EventPeriod
-		updateEventPeriod(
-			eu.strasbourg.service.agenda.model.EventPeriod eventPeriod) {
-
+	public static EventPeriod updateEventPeriod(EventPeriod eventPeriod) {
 		return getService().updateEventPeriod(eventPeriod);
 	}
 
 	public static EventPeriodLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<EventPeriodLocalService, EventPeriodLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(EventPeriodLocalService.class);
-
-		ServiceTracker<EventPeriodLocalService, EventPeriodLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<EventPeriodLocalService, EventPeriodLocalService>(
-						bundle.getBundleContext(),
-						EventPeriodLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile EventPeriodLocalService _service;
 
 }

@@ -14,13 +14,7 @@
 
 package eu.strasbourg.service.video.service.impl;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.LongStream;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -47,11 +41,16 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.model.VideoGallery;
 import eu.strasbourg.service.video.service.base.VideoGalleryLocalServiceBaseImpl;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.LongStream;
 
 /**
  * The implementation of the video gallery local service.

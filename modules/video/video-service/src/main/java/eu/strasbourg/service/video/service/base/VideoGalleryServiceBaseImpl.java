@@ -23,19 +23,22 @@ import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.video.model.VideoGallery;
 import eu.strasbourg.service.video.service.VideoGalleryService;
+import eu.strasbourg.service.video.service.VideoGalleryServiceUtil;
 import eu.strasbourg.service.video.service.persistence.VideoGalleryPersistence;
 import eu.strasbourg.service.video.service.persistence.VideoPersistence;
 
 import javax.sql.DataSource;
+import java.lang.reflect.Field;
 
 /**
  * Provides the base implementation for the video gallery remote service.
@@ -55,7 +58,7 @@ public abstract class VideoGalleryServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>VideoGalleryService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.video.service.VideoGalleryServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>VideoGalleryService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>VideoGalleryServiceUtil</code>.
 	 */
 
 	/**
@@ -527,9 +530,11 @@ public abstract class VideoGalleryServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
+		_setServiceUtilService(videoGalleryService);
 	}
 
 	public void destroy() {
+		_setServiceUtilService(null);
 	}
 
 	/**
@@ -571,6 +576,22 @@ public abstract class VideoGalleryServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setServiceUtilService(
+		VideoGalleryService videoGalleryService) {
+
+		try {
+			Field field = VideoGalleryServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, videoGalleryService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -678,5 +699,8 @@ public abstract class VideoGalleryServiceBaseImpl
 
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		VideoGalleryServiceBaseImpl.class);
 
 }

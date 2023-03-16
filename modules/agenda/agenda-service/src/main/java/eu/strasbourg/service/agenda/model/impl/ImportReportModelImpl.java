@@ -16,6 +16,7 @@ package eu.strasbourg.service.agenda.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -23,16 +24,16 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.agenda.model.ImportReport;
 import eu.strasbourg.service.agenda.model.ImportReportModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
@@ -40,6 +41,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -122,23 +124,35 @@ public class ImportReportModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.agenda.model.ImportReport"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.agenda.model.ImportReport"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.agenda.model.ImportReport"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long REPORTID_COLUMN_BITMASK = 2L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -197,9 +211,6 @@ public class ImportReportModelImpl
 				attributeGetterFunction.apply((ImportReport)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -233,34 +244,6 @@ public class ImportReportModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, ImportReport>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			ImportReport.class.getClassLoader(), ImportReport.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<ImportReport> constructor =
-				(Constructor<ImportReport>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<ImportReport, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<ImportReport, Object>>
@@ -272,420 +255,100 @@ public class ImportReportModelImpl
 		Map<String, BiConsumer<ImportReport, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<ImportReport, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<ImportReport, Object>() {
-
-				@Override
-				public Object apply(ImportReport importReport) {
-					return importReport.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", ImportReport::getUuid);
 		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<ImportReport, Object>() {
-
-				@Override
-				public void accept(
-					ImportReport importReport, Object uuidObject) {
-
-					importReport.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"reportId",
-			new Function<ImportReport, Object>() {
-
-				@Override
-				public Object apply(ImportReport importReport) {
-					return importReport.getReportId();
-				}
-
-			});
+			"uuid", (BiConsumer<ImportReport, String>)ImportReport::setUuid);
+		attributeGetterFunctions.put("reportId", ImportReport::getReportId);
 		attributeSetterBiConsumers.put(
 			"reportId",
-			new BiConsumer<ImportReport, Object>() {
-
-				@Override
-				public void accept(
-					ImportReport importReport, Object reportIdObject) {
-
-					importReport.setReportId((Long)reportIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"provider",
-			new Function<ImportReport, Object>() {
-
-				@Override
-				public Object apply(ImportReport importReport) {
-					return importReport.getProvider();
-				}
-
-			});
+			(BiConsumer<ImportReport, Long>)ImportReport::setReportId);
+		attributeGetterFunctions.put("provider", ImportReport::getProvider);
 		attributeSetterBiConsumers.put(
 			"provider",
-			new BiConsumer<ImportReport, Object>() {
-
-				@Override
-				public void accept(
-					ImportReport importReport, Object providerObject) {
-
-					importReport.setProvider((String)providerObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"filename",
-			new Function<ImportReport, Object>() {
-
-				@Override
-				public Object apply(ImportReport importReport) {
-					return importReport.getFilename();
-				}
-
-			});
+			(BiConsumer<ImportReport, String>)ImportReport::setProvider);
+		attributeGetterFunctions.put("filename", ImportReport::getFilename);
 		attributeSetterBiConsumers.put(
 			"filename",
-			new BiConsumer<ImportReport, Object>() {
-
-				@Override
-				public void accept(
-					ImportReport importReport, Object filenameObject) {
-
-					importReport.setFilename((String)filenameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<ImportReport, Object>() {
-
-				@Override
-				public Object apply(ImportReport importReport) {
-					return importReport.getStatus();
-				}
-
-			});
+			(BiConsumer<ImportReport, String>)ImportReport::setFilename);
+		attributeGetterFunctions.put("status", ImportReport::getStatus);
 		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<ImportReport, Object>() {
-
-				@Override
-				public void accept(
-					ImportReport importReport, Object statusObject) {
-
-					importReport.setStatus((Long)statusObject);
-				}
-
-			});
+			"status", (BiConsumer<ImportReport, Long>)ImportReport::setStatus);
 		attributeGetterFunctions.put(
-			"globalErrorCause",
-			new Function<ImportReport, Object>() {
-
-				@Override
-				public Object apply(ImportReport importReport) {
-					return importReport.getGlobalErrorCause();
-				}
-
-			});
+			"globalErrorCause", ImportReport::getGlobalErrorCause);
 		attributeSetterBiConsumers.put(
 			"globalErrorCause",
-			new BiConsumer<ImportReport, Object>() {
-
-				@Override
-				public void accept(
-					ImportReport importReport, Object globalErrorCauseObject) {
-
-					importReport.setGlobalErrorCause(
-						(String)globalErrorCauseObject);
-				}
-
-			});
+			(BiConsumer<ImportReport, String>)
+				ImportReport::setGlobalErrorCause);
 		attributeGetterFunctions.put(
-			"newEventsCount",
-			new Function<ImportReport, Object>() {
-
-				@Override
-				public Object apply(ImportReport importReport) {
-					return importReport.getNewEventsCount();
-				}
-
-			});
+			"newEventsCount", ImportReport::getNewEventsCount);
 		attributeSetterBiConsumers.put(
 			"newEventsCount",
-			new BiConsumer<ImportReport, Object>() {
-
-				@Override
-				public void accept(
-					ImportReport importReport, Object newEventsCountObject) {
-
-					importReport.setNewEventsCount((Long)newEventsCountObject);
-				}
-
-			});
+			(BiConsumer<ImportReport, Long>)ImportReport::setNewEventsCount);
 		attributeGetterFunctions.put(
-			"modifiedEventsCount",
-			new Function<ImportReport, Object>() {
-
-				@Override
-				public Object apply(ImportReport importReport) {
-					return importReport.getModifiedEventsCount();
-				}
-
-			});
+			"modifiedEventsCount", ImportReport::getModifiedEventsCount);
 		attributeSetterBiConsumers.put(
 			"modifiedEventsCount",
-			new BiConsumer<ImportReport, Object>() {
-
-				@Override
-				public void accept(
-					ImportReport importReport,
-					Object modifiedEventsCountObject) {
-
-					importReport.setModifiedEventsCount(
-						(Long)modifiedEventsCountObject);
-				}
-
-			});
+			(BiConsumer<ImportReport, Long>)
+				ImportReport::setModifiedEventsCount);
 		attributeGetterFunctions.put(
-			"errorEventsCount",
-			new Function<ImportReport, Object>() {
-
-				@Override
-				public Object apply(ImportReport importReport) {
-					return importReport.getErrorEventsCount();
-				}
-
-			});
+			"errorEventsCount", ImportReport::getErrorEventsCount);
 		attributeSetterBiConsumers.put(
 			"errorEventsCount",
-			new BiConsumer<ImportReport, Object>() {
-
-				@Override
-				public void accept(
-					ImportReport importReport, Object errorEventsCountObject) {
-
-					importReport.setErrorEventsCount(
-						(Long)errorEventsCountObject);
-				}
-
-			});
+			(BiConsumer<ImportReport, Long>)ImportReport::setErrorEventsCount);
 		attributeGetterFunctions.put(
-			"unmodifiedEventsCount",
-			new Function<ImportReport, Object>() {
-
-				@Override
-				public Object apply(ImportReport importReport) {
-					return importReport.getUnmodifiedEventsCount();
-				}
-
-			});
+			"unmodifiedEventsCount", ImportReport::getUnmodifiedEventsCount);
 		attributeSetterBiConsumers.put(
 			"unmodifiedEventsCount",
-			new BiConsumer<ImportReport, Object>() {
-
-				@Override
-				public void accept(
-					ImportReport importReport,
-					Object unmodifiedEventsCountObject) {
-
-					importReport.setUnmodifiedEventsCount(
-						(Long)unmodifiedEventsCountObject);
-				}
-
-			});
+			(BiConsumer<ImportReport, Long>)
+				ImportReport::setUnmodifiedEventsCount);
 		attributeGetterFunctions.put(
-			"deletedEventsCount",
-			new Function<ImportReport, Object>() {
-
-				@Override
-				public Object apply(ImportReport importReport) {
-					return importReport.getDeletedEventsCount();
-				}
-
-			});
+			"deletedEventsCount", ImportReport::getDeletedEventsCount);
 		attributeSetterBiConsumers.put(
 			"deletedEventsCount",
-			new BiConsumer<ImportReport, Object>() {
-
-				@Override
-				public void accept(
-					ImportReport importReport,
-					Object deletedEventsCountObject) {
-
-					importReport.setDeletedEventsCount(
-						(Long)deletedEventsCountObject);
-				}
-
-			});
+			(BiConsumer<ImportReport, Long>)
+				ImportReport::setDeletedEventsCount);
 		attributeGetterFunctions.put(
-			"newManifestationsCount",
-			new Function<ImportReport, Object>() {
-
-				@Override
-				public Object apply(ImportReport importReport) {
-					return importReport.getNewManifestationsCount();
-				}
-
-			});
+			"newManifestationsCount", ImportReport::getNewManifestationsCount);
 		attributeSetterBiConsumers.put(
 			"newManifestationsCount",
-			new BiConsumer<ImportReport, Object>() {
-
-				@Override
-				public void accept(
-					ImportReport importReport,
-					Object newManifestationsCountObject) {
-
-					importReport.setNewManifestationsCount(
-						(Long)newManifestationsCountObject);
-				}
-
-			});
+			(BiConsumer<ImportReport, Long>)
+				ImportReport::setNewManifestationsCount);
 		attributeGetterFunctions.put(
 			"modifiedManifestationsCount",
-			new Function<ImportReport, Object>() {
-
-				@Override
-				public Object apply(ImportReport importReport) {
-					return importReport.getModifiedManifestationsCount();
-				}
-
-			});
+			ImportReport::getModifiedManifestationsCount);
 		attributeSetterBiConsumers.put(
 			"modifiedManifestationsCount",
-			new BiConsumer<ImportReport, Object>() {
-
-				@Override
-				public void accept(
-					ImportReport importReport,
-					Object modifiedManifestationsCountObject) {
-
-					importReport.setModifiedManifestationsCount(
-						(Long)modifiedManifestationsCountObject);
-				}
-
-			});
+			(BiConsumer<ImportReport, Long>)
+				ImportReport::setModifiedManifestationsCount);
 		attributeGetterFunctions.put(
 			"errorManifestationsCount",
-			new Function<ImportReport, Object>() {
-
-				@Override
-				public Object apply(ImportReport importReport) {
-					return importReport.getErrorManifestationsCount();
-				}
-
-			});
+			ImportReport::getErrorManifestationsCount);
 		attributeSetterBiConsumers.put(
 			"errorManifestationsCount",
-			new BiConsumer<ImportReport, Object>() {
-
-				@Override
-				public void accept(
-					ImportReport importReport,
-					Object errorManifestationsCountObject) {
-
-					importReport.setErrorManifestationsCount(
-						(Long)errorManifestationsCountObject);
-				}
-
-			});
+			(BiConsumer<ImportReport, Long>)
+				ImportReport::setErrorManifestationsCount);
 		attributeGetterFunctions.put(
 			"unmodifiedManifestationsCount",
-			new Function<ImportReport, Object>() {
-
-				@Override
-				public Object apply(ImportReport importReport) {
-					return importReport.getUnmodifiedManifestationsCount();
-				}
-
-			});
+			ImportReport::getUnmodifiedManifestationsCount);
 		attributeSetterBiConsumers.put(
 			"unmodifiedManifestationsCount",
-			new BiConsumer<ImportReport, Object>() {
-
-				@Override
-				public void accept(
-					ImportReport importReport,
-					Object unmodifiedManifestationsCountObject) {
-
-					importReport.setUnmodifiedManifestationsCount(
-						(Long)unmodifiedManifestationsCountObject);
-				}
-
-			});
+			(BiConsumer<ImportReport, Long>)
+				ImportReport::setUnmodifiedManifestationsCount);
 		attributeGetterFunctions.put(
 			"deletedManifestationsCount",
-			new Function<ImportReport, Object>() {
-
-				@Override
-				public Object apply(ImportReport importReport) {
-					return importReport.getDeletedManifestationsCount();
-				}
-
-			});
+			ImportReport::getDeletedManifestationsCount);
 		attributeSetterBiConsumers.put(
 			"deletedManifestationsCount",
-			new BiConsumer<ImportReport, Object>() {
-
-				@Override
-				public void accept(
-					ImportReport importReport,
-					Object deletedManifestationsCountObject) {
-
-					importReport.setDeletedManifestationsCount(
-						(Long)deletedManifestationsCountObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"startDate",
-			new Function<ImportReport, Object>() {
-
-				@Override
-				public Object apply(ImportReport importReport) {
-					return importReport.getStartDate();
-				}
-
-			});
+			(BiConsumer<ImportReport, Long>)
+				ImportReport::setDeletedManifestationsCount);
+		attributeGetterFunctions.put("startDate", ImportReport::getStartDate);
 		attributeSetterBiConsumers.put(
 			"startDate",
-			new BiConsumer<ImportReport, Object>() {
-
-				@Override
-				public void accept(
-					ImportReport importReport, Object startDateObject) {
-
-					importReport.setStartDate((Date)startDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"endDate",
-			new Function<ImportReport, Object>() {
-
-				@Override
-				public Object apply(ImportReport importReport) {
-					return importReport.getEndDate();
-				}
-
-			});
+			(BiConsumer<ImportReport, Date>)ImportReport::setStartDate);
+		attributeGetterFunctions.put("endDate", ImportReport::getEndDate);
 		attributeSetterBiConsumers.put(
 			"endDate",
-			new BiConsumer<ImportReport, Object>() {
-
-				@Override
-				public void accept(
-					ImportReport importReport, Object endDateObject) {
-
-					importReport.setEndDate((Date)endDateObject);
-				}
-
-			});
+			(BiConsumer<ImportReport, Date>)ImportReport::setEndDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -705,17 +368,20 @@ public class ImportReportModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -725,6 +391,10 @@ public class ImportReportModelImpl
 
 	@Override
 	public void setReportId(long reportId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_reportId = reportId;
 	}
 
@@ -740,6 +410,10 @@ public class ImportReportModelImpl
 
 	@Override
 	public void setProvider(String provider) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_provider = provider;
 	}
 
@@ -755,6 +429,10 @@ public class ImportReportModelImpl
 
 	@Override
 	public void setFilename(String filename) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_filename = filename;
 	}
 
@@ -765,6 +443,10 @@ public class ImportReportModelImpl
 
 	@Override
 	public void setStatus(long status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -780,6 +462,10 @@ public class ImportReportModelImpl
 
 	@Override
 	public void setGlobalErrorCause(String globalErrorCause) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_globalErrorCause = globalErrorCause;
 	}
 
@@ -790,6 +476,10 @@ public class ImportReportModelImpl
 
 	@Override
 	public void setNewEventsCount(long newEventsCount) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_newEventsCount = newEventsCount;
 	}
 
@@ -800,6 +490,10 @@ public class ImportReportModelImpl
 
 	@Override
 	public void setModifiedEventsCount(long modifiedEventsCount) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedEventsCount = modifiedEventsCount;
 	}
 
@@ -810,6 +504,10 @@ public class ImportReportModelImpl
 
 	@Override
 	public void setErrorEventsCount(long errorEventsCount) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_errorEventsCount = errorEventsCount;
 	}
 
@@ -820,6 +518,10 @@ public class ImportReportModelImpl
 
 	@Override
 	public void setUnmodifiedEventsCount(long unmodifiedEventsCount) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_unmodifiedEventsCount = unmodifiedEventsCount;
 	}
 
@@ -830,6 +532,10 @@ public class ImportReportModelImpl
 
 	@Override
 	public void setDeletedEventsCount(long deletedEventsCount) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_deletedEventsCount = deletedEventsCount;
 	}
 
@@ -840,6 +546,10 @@ public class ImportReportModelImpl
 
 	@Override
 	public void setNewManifestationsCount(long newManifestationsCount) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_newManifestationsCount = newManifestationsCount;
 	}
 
@@ -852,6 +562,10 @@ public class ImportReportModelImpl
 	public void setModifiedManifestationsCount(
 		long modifiedManifestationsCount) {
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedManifestationsCount = modifiedManifestationsCount;
 	}
 
@@ -862,6 +576,10 @@ public class ImportReportModelImpl
 
 	@Override
 	public void setErrorManifestationsCount(long errorManifestationsCount) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_errorManifestationsCount = errorManifestationsCount;
 	}
 
@@ -874,6 +592,10 @@ public class ImportReportModelImpl
 	public void setUnmodifiedManifestationsCount(
 		long unmodifiedManifestationsCount) {
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_unmodifiedManifestationsCount = unmodifiedManifestationsCount;
 	}
 
@@ -884,6 +606,10 @@ public class ImportReportModelImpl
 
 	@Override
 	public void setDeletedManifestationsCount(long deletedManifestationsCount) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_deletedManifestationsCount = deletedManifestationsCount;
 	}
 
@@ -894,6 +620,10 @@ public class ImportReportModelImpl
 
 	@Override
 	public void setStartDate(Date startDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_startDate = startDate;
 	}
 
@@ -904,10 +634,34 @@ public class ImportReportModelImpl
 
 	@Override
 	public void setEndDate(Date endDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_endDate = endDate;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -972,6 +726,48 @@ public class ImportReportModelImpl
 	}
 
 	@Override
+	public ImportReport cloneWithOriginalValues() {
+		ImportReportImpl importReportImpl = new ImportReportImpl();
+
+		importReportImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		importReportImpl.setReportId(
+			this.<Long>getColumnOriginalValue("reportId"));
+		importReportImpl.setProvider(
+			this.<String>getColumnOriginalValue("provider"));
+		importReportImpl.setFilename(
+			this.<String>getColumnOriginalValue("filename"));
+		importReportImpl.setStatus(this.<Long>getColumnOriginalValue("status"));
+		importReportImpl.setGlobalErrorCause(
+			this.<String>getColumnOriginalValue("globalErrorCause"));
+		importReportImpl.setNewEventsCount(
+			this.<Long>getColumnOriginalValue("newEventsCount"));
+		importReportImpl.setModifiedEventsCount(
+			this.<Long>getColumnOriginalValue("modifiedEventsCount"));
+		importReportImpl.setErrorEventsCount(
+			this.<Long>getColumnOriginalValue("errorEventsCount"));
+		importReportImpl.setUnmodifiedEventsCount(
+			this.<Long>getColumnOriginalValue("unmodifiedEventsCount"));
+		importReportImpl.setDeletedEventsCount(
+			this.<Long>getColumnOriginalValue("deletedEventsCount"));
+		importReportImpl.setNewManifestationsCount(
+			this.<Long>getColumnOriginalValue("newManifestationsCount"));
+		importReportImpl.setModifiedManifestationsCount(
+			this.<Long>getColumnOriginalValue("modifiedManifestationsCount"));
+		importReportImpl.setErrorManifestationsCount(
+			this.<Long>getColumnOriginalValue("errorManifestationsCount"));
+		importReportImpl.setUnmodifiedManifestationsCount(
+			this.<Long>getColumnOriginalValue("unmodifiedManifestationsCount"));
+		importReportImpl.setDeletedManifestationsCount(
+			this.<Long>getColumnOriginalValue("deletedManifestationsCount"));
+		importReportImpl.setStartDate(
+			this.<Date>getColumnOriginalValue("startDate"));
+		importReportImpl.setEndDate(
+			this.<Date>getColumnOriginalValue("endDate"));
+
+		return importReportImpl;
+	}
+
+	@Override
 	public int compareTo(ImportReport importReport) {
 		long primaryKey = importReport.getPrimaryKey();
 
@@ -1013,11 +809,19 @@ public class ImportReportModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1025,11 +829,9 @@ public class ImportReportModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ImportReportModelImpl importReportModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		importReportModelImpl._originalUuid = importReportModelImpl._uuid;
-
-		importReportModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1126,7 +928,7 @@ public class ImportReportModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1137,9 +939,26 @@ public class ImportReportModelImpl
 			Function<ImportReport, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((ImportReport)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((ImportReport)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1152,46 +971,16 @@ public class ImportReportModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<ImportReport, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<ImportReport, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<ImportReport, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((ImportReport)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, ImportReport>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					ImportReport.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _reportId;
 	private String _provider;
 	private String _filename;
@@ -1209,6 +998,123 @@ public class ImportReportModelImpl
 	private long _deletedManifestationsCount;
 	private Date _startDate;
 	private Date _endDate;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<ImportReport, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((ImportReport)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("reportId", _reportId);
+		_columnOriginalValues.put("provider", _provider);
+		_columnOriginalValues.put("filename", _filename);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("globalErrorCause", _globalErrorCause);
+		_columnOriginalValues.put("newEventsCount", _newEventsCount);
+		_columnOriginalValues.put("modifiedEventsCount", _modifiedEventsCount);
+		_columnOriginalValues.put("errorEventsCount", _errorEventsCount);
+		_columnOriginalValues.put(
+			"unmodifiedEventsCount", _unmodifiedEventsCount);
+		_columnOriginalValues.put("deletedEventsCount", _deletedEventsCount);
+		_columnOriginalValues.put(
+			"newManifestationsCount", _newManifestationsCount);
+		_columnOriginalValues.put(
+			"modifiedManifestationsCount", _modifiedManifestationsCount);
+		_columnOriginalValues.put(
+			"errorManifestationsCount", _errorManifestationsCount);
+		_columnOriginalValues.put(
+			"unmodifiedManifestationsCount", _unmodifiedManifestationsCount);
+		_columnOriginalValues.put(
+			"deletedManifestationsCount", _deletedManifestationsCount);
+		_columnOriginalValues.put("startDate", _startDate);
+		_columnOriginalValues.put("endDate", _endDate);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("lines_", "lines");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("reportId", 2L);
+
+		columnBitmasks.put("provider", 4L);
+
+		columnBitmasks.put("filename", 8L);
+
+		columnBitmasks.put("status", 16L);
+
+		columnBitmasks.put("globalErrorCause", 32L);
+
+		columnBitmasks.put("newEventsCount", 64L);
+
+		columnBitmasks.put("modifiedEventsCount", 128L);
+
+		columnBitmasks.put("errorEventsCount", 256L);
+
+		columnBitmasks.put("unmodifiedEventsCount", 512L);
+
+		columnBitmasks.put("deletedEventsCount", 1024L);
+
+		columnBitmasks.put("newManifestationsCount", 2048L);
+
+		columnBitmasks.put("modifiedManifestationsCount", 4096L);
+
+		columnBitmasks.put("errorManifestationsCount", 8192L);
+
+		columnBitmasks.put("unmodifiedManifestationsCount", 16384L);
+
+		columnBitmasks.put("deletedManifestationsCount", 32768L);
+
+		columnBitmasks.put("startDate", 65536L);
+
+		columnBitmasks.put("endDate", 131072L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private ImportReport _escapedModel;
 

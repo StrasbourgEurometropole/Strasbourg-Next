@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class InterestServiceWrapper
 	implements InterestService, ServiceWrapper<InterestService> {
 
+	public InterestServiceWrapper() {
+		this(null);
+	}
+
 	public InterestServiceWrapper(InterestService interestService) {
 		_interestService = interestService;
 	}

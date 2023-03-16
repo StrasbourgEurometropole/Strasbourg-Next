@@ -14,7 +14,6 @@
 package eu.strasbourg.service.formSendRecordField.exception;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**

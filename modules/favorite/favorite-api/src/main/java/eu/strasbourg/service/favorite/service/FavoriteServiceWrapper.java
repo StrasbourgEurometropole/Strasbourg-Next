@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class FavoriteServiceWrapper
 	implements FavoriteService, ServiceWrapper<FavoriteService> {
 
+	public FavoriteServiceWrapper() {
+		this(null);
+	}
+
 	public FavoriteServiceWrapper(FavoriteService favoriteService) {
 		_favoriteService = favoriteService;
 	}

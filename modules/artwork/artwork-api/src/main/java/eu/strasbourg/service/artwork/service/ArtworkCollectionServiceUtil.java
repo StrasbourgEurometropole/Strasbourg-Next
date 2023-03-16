@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.artwork.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for ArtworkCollection. This utility wraps
  * <code>eu.strasbourg.service.artwork.service.impl.ArtworkCollectionServiceImpl</code> and is an
@@ -43,30 +39,14 @@ public class ArtworkCollectionServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static ArtworkCollectionService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<ArtworkCollectionService, ArtworkCollectionService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(ArtworkCollectionService.class);
-
-		ServiceTracker<ArtworkCollectionService, ArtworkCollectionService>
-			serviceTracker =
-				new ServiceTracker
-					<ArtworkCollectionService, ArtworkCollectionService>(
-						bundle.getBundleContext(),
-						ArtworkCollectionService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile ArtworkCollectionService _service;
 
 }

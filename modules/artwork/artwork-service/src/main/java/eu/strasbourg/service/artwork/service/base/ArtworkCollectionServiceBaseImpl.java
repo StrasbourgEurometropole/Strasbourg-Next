@@ -23,19 +23,22 @@ import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
 import eu.strasbourg.service.artwork.service.ArtworkCollectionService;
+import eu.strasbourg.service.artwork.service.ArtworkCollectionServiceUtil;
 import eu.strasbourg.service.artwork.service.persistence.ArtworkCollectionPersistence;
 import eu.strasbourg.service.artwork.service.persistence.ArtworkPersistence;
 
 import javax.sql.DataSource;
+import java.lang.reflect.Field;
 
 /**
  * Provides the base implementation for the artwork collection remote service.
@@ -55,7 +58,7 @@ public abstract class ArtworkCollectionServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>ArtworkCollectionService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.artwork.service.ArtworkCollectionServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>ArtworkCollectionService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ArtworkCollectionServiceUtil</code>.
 	 */
 
 	/**
@@ -529,9 +532,11 @@ public abstract class ArtworkCollectionServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
+		_setServiceUtilService(artworkCollectionService);
 	}
 
 	public void destroy() {
+		_setServiceUtilService(null);
 	}
 
 	/**
@@ -574,6 +579,22 @@ public abstract class ArtworkCollectionServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setServiceUtilService(
+		ArtworkCollectionService artworkCollectionService) {
+
+		try {
+			Field field = ArtworkCollectionServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, artworkCollectionService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -683,5 +704,8 @@ public abstract class ArtworkCollectionServiceBaseImpl
 
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		ArtworkCollectionServiceBaseImpl.class);
 
 }

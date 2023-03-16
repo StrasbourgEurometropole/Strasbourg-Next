@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class SignalementServiceWrapper
 	implements ServiceWrapper<SignalementService>, SignalementService {
 
+	public SignalementServiceWrapper() {
+		this(null);
+	}
+
 	public SignalementServiceWrapper(SignalementService signalementService) {
 		_signalementService = signalementService;
 	}

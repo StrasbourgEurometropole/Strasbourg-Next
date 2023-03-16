@@ -17,18 +17,12 @@ package eu.strasbourg.service.favorite.service.persistence;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.favorite.model.Favorite;
 
 import java.io.Serializable;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * The persistence utility for the favorite service. This utility wraps <code>eu.strasbourg.service.favorite.service.persistence.impl.FavoritePersistenceImpl</code> and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
@@ -963,28 +957,10 @@ public class FavoriteUtil {
 		return getPersistence().countAll();
 	}
 
-	public static Set<String> getBadColumnNames() {
-		return getPersistence().getBadColumnNames();
-	}
-
 	public static FavoritePersistence getPersistence() {
-		return _serviceTracker.getService();
+		return _persistence;
 	}
 
-	private static ServiceTracker<FavoritePersistence, FavoritePersistence>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(FavoritePersistence.class);
-
-		ServiceTracker<FavoritePersistence, FavoritePersistence>
-			serviceTracker =
-				new ServiceTracker<FavoritePersistence, FavoritePersistence>(
-					bundle.getBundleContext(), FavoritePersistence.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile FavoritePersistence _persistence;
 
 }

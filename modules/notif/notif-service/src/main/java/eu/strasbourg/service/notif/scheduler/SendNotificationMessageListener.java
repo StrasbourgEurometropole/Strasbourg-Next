@@ -5,23 +5,21 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
-import com.liferay.portal.kernel.scheduler.*;
-import eu.strasbourg.service.notif.constants.BroadcastChannel;
-import eu.strasbourg.service.notif.constants.SendStatus;
-import eu.strasbourg.service.notif.constants.TypeBroadcast;
-import eu.strasbourg.service.notif.helper.FCMHelper;
-import eu.strasbourg.service.notif.model.Notification;
-import eu.strasbourg.service.notif.model.ServiceNotif;
+import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
+import com.liferay.portal.kernel.scheduler.SchedulerEntry;
+import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
+import com.liferay.portal.kernel.scheduler.TimeUnit;
+import com.liferay.portal.kernel.scheduler.Trigger;
+import com.liferay.portal.kernel.scheduler.TriggerFactory;
 import eu.strasbourg.service.notif.service.NotificationLocalService;
-import eu.strasbourg.service.notif.service.ServiceNotifLocalServiceUtil;
-import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.FileEntryHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
-import org.osgi.service.component.annotations.*;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Modified;
+import org.osgi.service.component.annotations.Reference;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Exporte automatiquement les campagnes au format JSON et les place dans le dossier d'import.

@@ -27,6 +27,10 @@ public class UserNotificationTypeLocalServiceWrapper
 	implements ServiceWrapper<UserNotificationTypeLocalService>,
 			   UserNotificationTypeLocalService {
 
+	public UserNotificationTypeLocalServiceWrapper() {
+		this(null);
+	}
+
 	public UserNotificationTypeLocalServiceWrapper(
 		UserNotificationTypeLocalService userNotificationTypeLocalService) {
 
@@ -51,6 +55,18 @@ public class UserNotificationTypeLocalServiceWrapper
 
 		return _userNotificationTypeLocalService.addUserNotificationType(
 			userNotificationType);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _userNotificationTypeLocalService.createPersistedModel(
+			primaryKeyObj);
 	}
 
 	/**
@@ -121,6 +137,18 @@ public class UserNotificationTypeLocalServiceWrapper
 
 		return _userNotificationTypeLocalService.deleteUserNotificationType(
 			userNotificationTypePK);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _userNotificationTypeLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _userNotificationTypeLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

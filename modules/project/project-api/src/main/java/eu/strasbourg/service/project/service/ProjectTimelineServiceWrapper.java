@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class ProjectTimelineServiceWrapper
 	implements ProjectTimelineService, ServiceWrapper<ProjectTimelineService> {
 
+	public ProjectTimelineServiceWrapper() {
+		this(null);
+	}
+
 	public ProjectTimelineServiceWrapper(
 		ProjectTimelineService projectTimelineService) {
 

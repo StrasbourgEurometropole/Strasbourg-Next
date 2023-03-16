@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.security.auth.HttpPrincipal;
 import com.liferay.portal.kernel.service.http.TunnelUtil;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
-
 import eu.strasbourg.service.ejob.service.AlertServiceUtil;
 
 /**
@@ -47,7 +46,6 @@ import eu.strasbourg.service.ejob.service.AlertServiceUtil;
  * </p>
  *
  * @author Brian Wing Shun Chan
- * @see AlertServiceSoap
  * @generated
  */
 public class AlertServiceHttp {

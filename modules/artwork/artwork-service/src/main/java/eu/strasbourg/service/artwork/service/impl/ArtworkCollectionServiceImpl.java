@@ -15,7 +15,6 @@
 package eu.strasbourg.service.artwork.service.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.artwork.service.base.ArtworkCollectionServiceBaseImpl;
 
 /**

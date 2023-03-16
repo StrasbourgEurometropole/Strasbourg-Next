@@ -15,6 +15,7 @@
 package eu.strasbourg.service.place.service.impl;
 
 import aQute.bnd.annotation.ProviderType;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
@@ -55,11 +56,11 @@ import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.ScheduleException;
 import eu.strasbourg.service.place.model.SubPlace;
-import eu.strasbourg.service.place.model.impl.PlaceModelImpl;
 import eu.strasbourg.service.place.service.base.PlaceLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -440,10 +441,8 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 
 		if (entry != null) {
 			// Delete the link with categories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-						categoryId, entry.getEntryId());
-			}
+			assetEntryAssetCategoryRelLocalService.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
 			// Delete the link with tags
 			long[] tagIds = AssetEntryLocalServiceUtil
@@ -629,5 +628,6 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 	}
 
 	private Log log = LogFactoryUtil.getLog(this.getClass().getName());
-
+	@Reference
+	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

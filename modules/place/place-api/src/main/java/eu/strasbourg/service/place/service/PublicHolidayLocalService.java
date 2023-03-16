@@ -15,7 +15,7 @@
 package eu.strasbourg.service.place.service;
 
 import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -32,11 +32,9 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.place.model.PublicHoliday;
 
 import java.io.Serializable;
-
 import java.util.List;
 
 /**
@@ -60,7 +58,7 @@ public interface PublicHolidayLocalService
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link PublicHolidayLocalServiceUtil} to access the public holiday local service. Add custom service methods to <code>eu.strasbourg.service.place.service.impl.PublicHolidayLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.place.service.impl.PublicHolidayLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the public holiday local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link PublicHolidayLocalServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**
@@ -75,6 +73,12 @@ public interface PublicHolidayLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public PublicHoliday addPublicHoliday(PublicHoliday publicHoliday);
+
+	/**
+	 * @throws PortalException
+	 */
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException;
 
 	/**
 	 * Creates a new public holiday with the primary key. Does not add the public holiday to the database.
@@ -125,6 +129,12 @@ public interface PublicHolidayLocalService
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	public PublicHoliday deletePublicHoliday(PublicHoliday publicHoliday);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> T dslQuery(DSLQuery dslQuery);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int dslQueryCount(DSLQuery dslQuery);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();
@@ -217,28 +227,6 @@ public interface PublicHolidayLocalService
 		throws PortalException;
 
 	/**
-	 * Returns a range of all the public holidaies.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.PublicHolidayModelImpl</code>.
-	 * </p>
-	 *
-	 * @param start the lower bound of the range of public holidaies
-	 * @param end the upper bound of the range of public holidaies (not inclusive)
-	 * @return the range of public holidaies
-	 */
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<PublicHoliday> getPublicHolidaies(int start, int end);
-
-	/**
-	 * Returns the number of public holidaies.
-	 *
-	 * @return the number of public holidaies
-	 */
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getPublicHolidaiesCount();
-
-	/**
 	 * Returns the public holiday with the primary key.
 	 *
 	 * @param publicHolidayId the primary key of the public holiday
@@ -248,6 +236,28 @@ public interface PublicHolidayLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public PublicHoliday getPublicHoliday(long publicHolidayId)
 		throws PortalException;
+
+	/**
+	 * Returns a range of all the public holidays.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.PublicHolidayModelImpl</code>.
+	 * </p>
+	 *
+	 * @param start the lower bound of the range of public holidays
+	 * @param end the upper bound of the range of public holidays (not inclusive)
+	 * @return the range of public holidays
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<PublicHoliday> getPublicHolidays(int start, int end);
+
+	/**
+	 * Returns the number of public holidays.
+	 *
+	 * @return the number of public holidays
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getPublicHolidaysCount();
 
 	/**
 	 * Updates the public holiday in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

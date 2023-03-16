@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.project.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.project.exception.NoSuchParticipationException;
 import eu.strasbourg.service.project.model.Participation;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the participation service.
@@ -46,9 +39,6 @@ public interface ParticipationPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link ParticipationUtil} to access the participation persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Participation> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the participations where uuid = &#63;.
@@ -815,8 +805,5 @@ public interface ParticipationPersistence
 	 * @return the number of participations
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

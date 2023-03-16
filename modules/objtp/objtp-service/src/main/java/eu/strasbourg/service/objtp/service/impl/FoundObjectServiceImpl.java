@@ -14,15 +14,14 @@
 
 package eu.strasbourg.service.objtp.service.impl;
 
-import java.util.List;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-
 import eu.strasbourg.service.objtp.model.FoundObject;
 import eu.strasbourg.service.objtp.service.base.FoundObjectServiceBaseImpl;
+
+import java.util.List;
 
 /**
  * The implementation of the found object remote service.

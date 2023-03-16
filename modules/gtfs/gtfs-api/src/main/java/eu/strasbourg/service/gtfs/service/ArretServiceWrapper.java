@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class ArretServiceWrapper
 	implements ArretService, ServiceWrapper<ArretService> {
 
+	public ArretServiceWrapper() {
+		this(null);
+	}
+
 	public ArretServiceWrapper(ArretService arretService) {
 		_arretService = arretService;
 	}

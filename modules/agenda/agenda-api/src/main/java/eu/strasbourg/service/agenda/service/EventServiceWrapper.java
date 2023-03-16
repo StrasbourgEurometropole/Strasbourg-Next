@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class EventServiceWrapper
 	implements EventService, ServiceWrapper<EventService> {
 
+	public EventServiceWrapper() {
+		this(null);
+	}
+
 	public EventServiceWrapper(EventService eventService) {
 		_eventService = eventService;
 	}

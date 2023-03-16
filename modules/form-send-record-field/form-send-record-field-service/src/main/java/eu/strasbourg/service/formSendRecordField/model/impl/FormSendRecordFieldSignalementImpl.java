@@ -79,7 +79,7 @@ public class FormSendRecordFieldSignalementImpl
 	@Override
 	public List<AssetCategory> getCategoriesByAssetEntry() {
 		return AssetCategoryLocalServiceUtil
-				.getAssetEntryAssetCategories(this.getSignalementId());
+				.getEntryCategories(this.getSignalementId());
 	}
 
 	public String getCategorieName(){

@@ -14,17 +14,12 @@
 
 package eu.strasbourg.service.agenda.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.agenda.exception.NoSuchAgendaExportPeriodException;
 import eu.strasbourg.service.agenda.model.AgendaExportPeriod;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the agenda export period service.
@@ -46,9 +41,6 @@ public interface AgendaExportPeriodPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link AgendaExportPeriodUtil} to access the agenda export period persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, AgendaExportPeriod> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the agenda export periods where uuid = &#63;.
@@ -457,8 +449,5 @@ public interface AgendaExportPeriodPersistence
 	 * @return the number of agenda export periods
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

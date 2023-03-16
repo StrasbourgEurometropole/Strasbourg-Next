@@ -27,6 +27,10 @@ public class ImportReportLocalServiceWrapper
 	implements ImportReportLocalService,
 			   ServiceWrapper<ImportReportLocalService> {
 
+	public ImportReportLocalServiceWrapper() {
+		this(null);
+	}
+
 	public ImportReportLocalServiceWrapper(
 		ImportReportLocalService importReportLocalService) {
 
@@ -74,6 +78,17 @@ public class ImportReportLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _importReportLocalService.createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the import report from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -118,6 +133,18 @@ public class ImportReportLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _importReportLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _importReportLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _importReportLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

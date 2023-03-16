@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.gtfs.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Cedric Henry
  */
-@ProviderType
 public class NoSuchStopTimeException extends NoSuchModelException {
 
 	public NoSuchStopTimeException() {
@@ -30,12 +27,12 @@ public class NoSuchStopTimeException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchStopTimeException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchStopTimeException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchStopTimeException(Throwable cause) {
-		super(cause);
+	public NoSuchStopTimeException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

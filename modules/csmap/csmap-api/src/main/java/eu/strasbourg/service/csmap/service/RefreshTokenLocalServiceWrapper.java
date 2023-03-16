@@ -27,6 +27,10 @@ public class RefreshTokenLocalServiceWrapper
 	implements RefreshTokenLocalService,
 			   ServiceWrapper<RefreshTokenLocalService> {
 
+	public RefreshTokenLocalServiceWrapper() {
+		this(null);
+	}
+
 	public RefreshTokenLocalServiceWrapper(
 		RefreshTokenLocalService refreshTokenLocalService) {
 
@@ -48,6 +52,17 @@ public class RefreshTokenLocalServiceWrapper
 		eu.strasbourg.service.csmap.model.RefreshToken refreshToken) {
 
 		return _refreshTokenLocalService.addRefreshToken(refreshToken);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _refreshTokenLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -118,6 +133,18 @@ public class RefreshTokenLocalServiceWrapper
 		eu.strasbourg.service.csmap.model.RefreshToken refreshToken) {
 
 		return _refreshTokenLocalService.deleteRefreshToken(refreshToken);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _refreshTokenLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _refreshTokenLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

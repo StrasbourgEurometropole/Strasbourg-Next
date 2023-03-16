@@ -16,6 +16,7 @@ package eu.strasbourg.service.gtfs.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -23,22 +24,20 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
-
+import com.liferay.portal.kernel.util.StringUtil;
 import eu.strasbourg.service.gtfs.model.Agency;
 import eu.strasbourg.service.gtfs.model.AgencyModel;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -101,23 +100,35 @@ public class AgencyModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.gtfs.model.Agency"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.gtfs.model.Agency"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.gtfs.model.Agency"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long AGENCY_NAME_COLUMN_BITMASK = 2L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -174,9 +185,6 @@ public class AgencyModelImpl
 				attributeName, attributeGetterFunction.apply((Agency)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -208,33 +216,6 @@ public class AgencyModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Agency>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Agency.class.getClassLoader(), Agency.class, ModelWrapper.class);
-
-		try {
-			Constructor<Agency> constructor =
-				(Constructor<Agency>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<Agency, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Agency, Object>>
@@ -246,170 +227,35 @@ public class AgencyModelImpl
 		Map<String, BiConsumer<Agency, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Agency, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Agency, Object>() {
-
-				@Override
-				public Object apply(Agency agency) {
-					return agency.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", Agency::getUuid);
 		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Agency, Object>() {
-
-				@Override
-				public void accept(Agency agency, Object uuidObject) {
-					agency.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"id",
-			new Function<Agency, Object>() {
-
-				@Override
-				public Object apply(Agency agency) {
-					return agency.getId();
-				}
-
-			});
+			"uuid", (BiConsumer<Agency, String>)Agency::setUuid);
+		attributeGetterFunctions.put("id", Agency::getId);
 		attributeSetterBiConsumers.put(
-			"id",
-			new BiConsumer<Agency, Object>() {
-
-				@Override
-				public void accept(Agency agency, Object idObject) {
-					agency.setId((Long)idObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"agency_name",
-			new Function<Agency, Object>() {
-
-				@Override
-				public Object apply(Agency agency) {
-					return agency.getAgency_name();
-				}
-
-			});
+			"id", (BiConsumer<Agency, Long>)Agency::setId);
+		attributeGetterFunctions.put("agency_name", Agency::getAgency_name);
 		attributeSetterBiConsumers.put(
-			"agency_name",
-			new BiConsumer<Agency, Object>() {
-
-				@Override
-				public void accept(Agency agency, Object agency_nameObject) {
-					agency.setAgency_name((String)agency_nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"agency_url",
-			new Function<Agency, Object>() {
-
-				@Override
-				public Object apply(Agency agency) {
-					return agency.getAgency_url();
-				}
-
-			});
+			"agency_name", (BiConsumer<Agency, String>)Agency::setAgency_name);
+		attributeGetterFunctions.put("agency_url", Agency::getAgency_url);
 		attributeSetterBiConsumers.put(
-			"agency_url",
-			new BiConsumer<Agency, Object>() {
-
-				@Override
-				public void accept(Agency agency, Object agency_urlObject) {
-					agency.setAgency_url((String)agency_urlObject);
-				}
-
-			});
+			"agency_url", (BiConsumer<Agency, String>)Agency::setAgency_url);
 		attributeGetterFunctions.put(
-			"agency_timezone",
-			new Function<Agency, Object>() {
-
-				@Override
-				public Object apply(Agency agency) {
-					return agency.getAgency_timezone();
-				}
-
-			});
+			"agency_timezone", Agency::getAgency_timezone);
 		attributeSetterBiConsumers.put(
 			"agency_timezone",
-			new BiConsumer<Agency, Object>() {
-
-				@Override
-				public void accept(
-					Agency agency, Object agency_timezoneObject) {
-
-					agency.setAgency_timezone((String)agency_timezoneObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"agency_phone",
-			new Function<Agency, Object>() {
-
-				@Override
-				public Object apply(Agency agency) {
-					return agency.getAgency_phone();
-				}
-
-			});
+			(BiConsumer<Agency, String>)Agency::setAgency_timezone);
+		attributeGetterFunctions.put("agency_phone", Agency::getAgency_phone);
 		attributeSetterBiConsumers.put(
 			"agency_phone",
-			new BiConsumer<Agency, Object>() {
-
-				@Override
-				public void accept(Agency agency, Object agency_phoneObject) {
-					agency.setAgency_phone((String)agency_phoneObject);
-				}
-
-			});
+			(BiConsumer<Agency, String>)Agency::setAgency_phone);
 		attributeGetterFunctions.put(
-			"agency_fare_url",
-			new Function<Agency, Object>() {
-
-				@Override
-				public Object apply(Agency agency) {
-					return agency.getAgency_fare_url();
-				}
-
-			});
+			"agency_fare_url", Agency::getAgency_fare_url);
 		attributeSetterBiConsumers.put(
 			"agency_fare_url",
-			new BiConsumer<Agency, Object>() {
-
-				@Override
-				public void accept(
-					Agency agency, Object agency_fare_urlObject) {
-
-					agency.setAgency_fare_url((String)agency_fare_urlObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"agency_lang",
-			new Function<Agency, Object>() {
-
-				@Override
-				public Object apply(Agency agency) {
-					return agency.getAgency_lang();
-				}
-
-			});
+			(BiConsumer<Agency, String>)Agency::setAgency_fare_url);
+		attributeGetterFunctions.put("agency_lang", Agency::getAgency_lang);
 		attributeSetterBiConsumers.put(
-			"agency_lang",
-			new BiConsumer<Agency, Object>() {
-
-				@Override
-				public void accept(Agency agency, Object agency_langObject) {
-					agency.setAgency_lang((String)agency_langObject);
-				}
-
-			});
+			"agency_lang", (BiConsumer<Agency, String>)Agency::setAgency_lang);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -429,17 +275,20 @@ public class AgencyModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -449,6 +298,10 @@ public class AgencyModelImpl
 
 	@Override
 	public void setId(long id) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_id = id;
 	}
 
@@ -464,7 +317,9 @@ public class AgencyModelImpl
 
 	@Override
 	public void setAgency_name(String agency_name) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_agency_name = agency_name;
 	}
@@ -481,6 +336,10 @@ public class AgencyModelImpl
 
 	@Override
 	public void setAgency_url(String agency_url) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_agency_url = agency_url;
 	}
 
@@ -496,6 +355,10 @@ public class AgencyModelImpl
 
 	@Override
 	public void setAgency_timezone(String agency_timezone) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_agency_timezone = agency_timezone;
 	}
 
@@ -511,6 +374,10 @@ public class AgencyModelImpl
 
 	@Override
 	public void setAgency_phone(String agency_phone) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_agency_phone = agency_phone;
 	}
 
@@ -526,6 +393,10 @@ public class AgencyModelImpl
 
 	@Override
 	public void setAgency_fare_url(String agency_fare_url) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_agency_fare_url = agency_fare_url;
 	}
 
@@ -541,10 +412,34 @@ public class AgencyModelImpl
 
 	@Override
 	public void setAgency_lang(String agency_lang) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_agency_lang = agency_lang;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -595,6 +490,28 @@ public class AgencyModelImpl
 	}
 
 	@Override
+	public Agency cloneWithOriginalValues() {
+		AgencyImpl agencyImpl = new AgencyImpl();
+
+		agencyImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		agencyImpl.setId(this.<Long>getColumnOriginalValue("id_"));
+		agencyImpl.setAgency_name(
+			this.<String>getColumnOriginalValue("agency_name"));
+		agencyImpl.setAgency_url(
+			this.<String>getColumnOriginalValue("agency_url"));
+		agencyImpl.setAgency_timezone(
+			this.<String>getColumnOriginalValue("agency_timezone"));
+		agencyImpl.setAgency_phone(
+			this.<String>getColumnOriginalValue("agency_phone"));
+		agencyImpl.setAgency_fare_url(
+			this.<String>getColumnOriginalValue("agency_fare_url"));
+		agencyImpl.setAgency_lang(
+			this.<String>getColumnOriginalValue("agency_lang"));
+
+		return agencyImpl;
+	}
+
+	@Override
 	public int compareTo(Agency agency) {
 		int value = 0;
 
@@ -634,11 +551,19 @@ public class AgencyModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -646,11 +571,9 @@ public class AgencyModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AgencyModelImpl agencyModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		agencyModelImpl._originalUuid = agencyModelImpl._uuid;
-
-		agencyModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -724,7 +647,7 @@ public class AgencyModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -734,9 +657,26 @@ public class AgencyModelImpl
 			String attributeName = entry.getKey();
 			Function<Agency, Object> attributeGetterFunction = entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Agency)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Agency)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -749,45 +689,16 @@ public class AgencyModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Agency, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Agency, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Agency, Object> attributeGetterFunction = entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Agency)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Agency>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Agency.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _id;
 	private String _agency_name;
 	private String _agency_url;
@@ -795,6 +706,87 @@ public class AgencyModelImpl
 	private String _agency_phone;
 	private String _agency_fare_url;
 	private String _agency_lang;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Agency, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Agency)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("id_", _id);
+		_columnOriginalValues.put("agency_name", _agency_name);
+		_columnOriginalValues.put("agency_url", _agency_url);
+		_columnOriginalValues.put("agency_timezone", _agency_timezone);
+		_columnOriginalValues.put("agency_phone", _agency_phone);
+		_columnOriginalValues.put("agency_fare_url", _agency_fare_url);
+		_columnOriginalValues.put("agency_lang", _agency_lang);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("id_", "id");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("id_", 2L);
+
+		columnBitmasks.put("agency_name", 4L);
+
+		columnBitmasks.put("agency_url", 8L);
+
+		columnBitmasks.put("agency_timezone", 16L);
+
+		columnBitmasks.put("agency_phone", 32L);
+
+		columnBitmasks.put("agency_fare_url", 64L);
+
+		columnBitmasks.put("agency_lang", 128L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Agency _escapedModel;
 

@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.project.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -23,21 +24,27 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
+import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.project.exception.NoSuchInitiativeHelpException;
 import eu.strasbourg.service.project.model.InitiativeHelp;
+import eu.strasbourg.service.project.model.InitiativeHelpTable;
 import eu.strasbourg.service.project.model.impl.InitiativeHelpImpl;
 import eu.strasbourg.service.project.model.impl.InitiativeHelpModelImpl;
 import eu.strasbourg.service.project.service.persistence.InitiativeHelpPersistence;
+import eu.strasbourg.service.project.service.persistence.InitiativeHelpUtil;
 
 import java.io.Serializable;
 
@@ -45,9 +52,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -249,10 +255,6 @@ public class InitiativeHelpPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -604,8 +606,6 @@ public class InitiativeHelpPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -763,11 +763,6 @@ public class InitiativeHelpPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -856,8 +851,6 @@ public class InitiativeHelpPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1050,10 +1043,6 @@ public class InitiativeHelpPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1412,8 +1401,6 @@ public class InitiativeHelpPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1588,10 +1575,6 @@ public class InitiativeHelpPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1924,8 +1907,6 @@ public class InitiativeHelpPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2108,12 +2089,6 @@ public class InitiativeHelpPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByPublikUserIdAndInitiativeId,
-						finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2209,8 +2184,6 @@ public class InitiativeHelpPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2238,21 +2211,14 @@ public class InitiativeHelpPersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(InitiativeHelp.class);
+
+		setModelImplClass(InitiativeHelpImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(InitiativeHelpTable.INSTANCE);
 	}
 
 	/**
@@ -2263,7 +2229,6 @@ public class InitiativeHelpPersistenceImpl
 	@Override
 	public void cacheResult(InitiativeHelp initiativeHelp) {
 		entityCache.putResult(
-			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
 			InitiativeHelpImpl.class, initiativeHelp.getPrimaryKey(),
 			initiativeHelp);
 
@@ -2281,9 +2246,9 @@ public class InitiativeHelpPersistenceImpl
 				initiativeHelp.getInitiativeId()
 			},
 			initiativeHelp);
-
-		initiativeHelp.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the initiative helps in the entity cache if it is enabled.
@@ -2292,16 +2257,19 @@ public class InitiativeHelpPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<InitiativeHelp> initiativeHelps) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (initiativeHelps.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (InitiativeHelp initiativeHelp : initiativeHelps) {
 			if (entityCache.getResult(
-					InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
 					InitiativeHelpImpl.class, initiativeHelp.getPrimaryKey()) ==
 						null) {
 
 				cacheResult(initiativeHelp);
-			}
-			else {
-				initiativeHelp.resetOriginalValues();
 			}
 		}
 	}
@@ -2317,9 +2285,7 @@ public class InitiativeHelpPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(InitiativeHelpImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(InitiativeHelpImpl.class);
 	}
 
 	/**
@@ -2331,40 +2297,22 @@ public class InitiativeHelpPersistenceImpl
 	 */
 	@Override
 	public void clearCache(InitiativeHelp initiativeHelp) {
-		entityCache.removeResult(
-			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpImpl.class, initiativeHelp.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((InitiativeHelpModelImpl)initiativeHelp, true);
+		entityCache.removeResult(InitiativeHelpImpl.class, initiativeHelp);
 	}
 
 	@Override
 	public void clearCache(List<InitiativeHelp> initiativeHelps) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (InitiativeHelp initiativeHelp : initiativeHelps) {
-			entityCache.removeResult(
-				InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-				InitiativeHelpImpl.class, initiativeHelp.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(InitiativeHelpModelImpl)initiativeHelp, true);
+			entityCache.removeResult(InitiativeHelpImpl.class, initiativeHelp);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(InitiativeHelpImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-				InitiativeHelpImpl.class, primaryKey);
+			entityCache.removeResult(InitiativeHelpImpl.class, primaryKey);
 		}
 	}
 
@@ -2376,10 +2324,9 @@ public class InitiativeHelpPersistenceImpl
 			initiativeHelpModelImpl.getGroupId()
 		};
 
+		finderCache.putResult(_finderPathCountByUUID_G, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, initiativeHelpModelImpl, false);
+			_finderPathFetchByUUID_G, args, initiativeHelpModelImpl);
 
 		args = new Object[] {
 			initiativeHelpModelImpl.getPublikUserId(),
@@ -2388,63 +2335,10 @@ public class InitiativeHelpPersistenceImpl
 
 		finderCache.putResult(
 			_finderPathCountByPublikUserIdAndInitiativeId, args,
-			Long.valueOf(1), false);
+			Long.valueOf(1));
 		finderCache.putResult(
 			_finderPathFetchByPublikUserIdAndInitiativeId, args,
-			initiativeHelpModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		InitiativeHelpModelImpl initiativeHelpModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				initiativeHelpModelImpl.getUuid(),
-				initiativeHelpModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((initiativeHelpModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				initiativeHelpModelImpl.getOriginalUuid(),
-				initiativeHelpModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				initiativeHelpModelImpl.getPublikUserId(),
-				initiativeHelpModelImpl.getInitiativeId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByPublikUserIdAndInitiativeId, args);
-			finderCache.removeResult(
-				_finderPathFetchByPublikUserIdAndInitiativeId, args);
-		}
-
-		if ((initiativeHelpModelImpl.getColumnBitmask() &
-			 _finderPathFetchByPublikUserIdAndInitiativeId.
-				 getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				initiativeHelpModelImpl.getOriginalPublikUserId(),
-				initiativeHelpModelImpl.getOriginalInitiativeId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByPublikUserIdAndInitiativeId, args);
-			finderCache.removeResult(
-				_finderPathFetchByPublikUserIdAndInitiativeId, args);
-		}
+			initiativeHelpModelImpl);
 	}
 
 	/**
@@ -2460,7 +2354,7 @@ public class InitiativeHelpPersistenceImpl
 		initiativeHelp.setNew(true);
 		initiativeHelp.setPrimaryKey(initiativeHelpId);
 
-		String uuid = PortalUUIDUtil.generate();
+		String uuid = _portalUUID.generate();
 
 		initiativeHelp.setUuid(uuid);
 
@@ -2578,9 +2472,24 @@ public class InitiativeHelpPersistenceImpl
 			(InitiativeHelpModelImpl)initiativeHelp;
 
 		if (Validator.isNull(initiativeHelp.getUuid())) {
-			String uuid = PortalUUIDUtil.generate();
+			String uuid = _portalUUID.generate();
 
 			initiativeHelp.setUuid(uuid);
+		}
+
+		if (isNew && (initiativeHelp.getCreateDate() == null)) {
+			ServiceContext serviceContext =
+				ServiceContextThreadLocal.getServiceContext();
+
+			Date date = new Date();
+
+			if (serviceContext == null) {
+				initiativeHelp.setCreateDate(date);
+			}
+			else {
+				initiativeHelp.setCreateDate(
+					serviceContext.getCreateDate(date));
+			}
 		}
 
 		Session session = null;
@@ -2588,10 +2497,8 @@ public class InitiativeHelpPersistenceImpl
 		try {
 			session = openSession();
 
-			if (initiativeHelp.isNew()) {
+			if (isNew) {
 				session.save(initiativeHelp);
-
-				initiativeHelp.setNew(false);
 			}
 			else {
 				initiativeHelp = (InitiativeHelp)session.merge(initiativeHelp);
@@ -2604,100 +2511,14 @@ public class InitiativeHelpPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!InitiativeHelpModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {initiativeHelpModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {initiativeHelpModelImpl.getPublikUserId()};
-
-			finderCache.removeResult(_finderPathCountByPublikUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPublikUserId, args);
-
-			args = new Object[] {initiativeHelpModelImpl.getInitiativeId()};
-
-			finderCache.removeResult(_finderPathCountByinitiativeId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByinitiativeId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((initiativeHelpModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					initiativeHelpModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {initiativeHelpModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((initiativeHelpModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPublikUserId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					initiativeHelpModelImpl.getOriginalPublikUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPublikUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikUserId, args);
-
-				args = new Object[] {initiativeHelpModelImpl.getPublikUserId()};
-
-				finderCache.removeResult(_finderPathCountByPublikUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikUserId, args);
-			}
-
-			if ((initiativeHelpModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByinitiativeId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					initiativeHelpModelImpl.getOriginalInitiativeId()
-				};
-
-				finderCache.removeResult(_finderPathCountByinitiativeId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByinitiativeId, args);
-
-				args = new Object[] {initiativeHelpModelImpl.getInitiativeId()};
-
-				finderCache.removeResult(_finderPathCountByinitiativeId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByinitiativeId, args);
-			}
-		}
-
 		entityCache.putResult(
-			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpImpl.class, initiativeHelp.getPrimaryKey(),
-			initiativeHelp, false);
+			InitiativeHelpImpl.class, initiativeHelpModelImpl, false, true);
 
-		clearUniqueFindersCache(initiativeHelpModelImpl, false);
 		cacheUniqueFindersCache(initiativeHelpModelImpl);
+
+		if (isNew) {
+			initiativeHelp.setNew(false);
+		}
 
 		initiativeHelp.resetOriginalValues();
 
@@ -2746,163 +2567,12 @@ public class InitiativeHelpPersistenceImpl
 	/**
 	 * Returns the initiative help with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the initiative help
-	 * @return the initiative help, or <code>null</code> if a initiative help with the primary key could not be found
-	 */
-	@Override
-	public InitiativeHelp fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		InitiativeHelp initiativeHelp = (InitiativeHelp)serializable;
-
-		if (initiativeHelp == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				initiativeHelp = (InitiativeHelp)session.get(
-					InitiativeHelpImpl.class, primaryKey);
-
-				if (initiativeHelp != null) {
-					cacheResult(initiativeHelp);
-				}
-				else {
-					entityCache.putResult(
-						InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-						InitiativeHelpImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-					InitiativeHelpImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return initiativeHelp;
-	}
-
-	/**
-	 * Returns the initiative help with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param initiativeHelpId the primary key of the initiative help
 	 * @return the initiative help, or <code>null</code> if a initiative help with the primary key could not be found
 	 */
 	@Override
 	public InitiativeHelp fetchByPrimaryKey(long initiativeHelpId) {
 		return fetchByPrimaryKey((Serializable)initiativeHelpId);
-	}
-
-	@Override
-	public Map<Serializable, InitiativeHelp> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, InitiativeHelp> map =
-			new HashMap<Serializable, InitiativeHelp>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			InitiativeHelp initiativeHelp = fetchByPrimaryKey(primaryKey);
-
-			if (initiativeHelp != null) {
-				map.put(primaryKey, initiativeHelp);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-				InitiativeHelpImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (InitiativeHelp)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_INITIATIVEHELP_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (InitiativeHelp initiativeHelp :
-					(List<InitiativeHelp>)query.list()) {
-
-				map.put(initiativeHelp.getPrimaryKeyObj(), initiativeHelp);
-
-				cacheResult(initiativeHelp);
-
-				uncachedPrimaryKeys.remove(initiativeHelp.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-					InitiativeHelpImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3030,10 +2700,6 @@ public class InitiativeHelpPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3079,9 +2745,6 @@ public class InitiativeHelpPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3098,6 +2761,21 @@ public class InitiativeHelpPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "initiativeHelpId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_INITIATIVEHELP;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return InitiativeHelpModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -3106,129 +2784,119 @@ public class InitiativeHelpPersistenceImpl
 	 * Initializes the initiative help persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
-			InitiativeHelpImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
-			InitiativeHelpImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
-			InitiativeHelpImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
-			InitiativeHelpImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByUuid", new String[] {String.class.getName()},
-			InitiativeHelpModelImpl.UUID_COLUMN_BITMASK);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
-			InitiativeHelpImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			InitiativeHelpModelImpl.UUID_COLUMN_BITMASK |
-			InitiativeHelpModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByPublikUserId = new FinderPath(
-			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
-			InitiativeHelpImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByPublikUserId",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikUserId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"publikUserId"}, true);
 
 		_finderPathWithoutPaginationFindByPublikUserId = new FinderPath(
-			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
-			InitiativeHelpImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByPublikUserId", new String[] {String.class.getName()},
-			InitiativeHelpModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikUserId",
+			new String[] {String.class.getName()},
+			new String[] {"publikUserId"}, true);
 
 		_finderPathCountByPublikUserId = new FinderPath(
-			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikUserId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()},
+			new String[] {"publikUserId"}, false);
 
 		_finderPathWithPaginationFindByinitiativeId = new FinderPath(
-			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
-			InitiativeHelpImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByinitiativeId",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByinitiativeId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"initiativeId"}, true);
 
 		_finderPathWithoutPaginationFindByinitiativeId = new FinderPath(
-			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
-			InitiativeHelpImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByinitiativeId", new String[] {Long.class.getName()},
-			InitiativeHelpModelImpl.INITIATIVEID_COLUMN_BITMASK);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByinitiativeId",
+			new String[] {Long.class.getName()}, new String[] {"initiativeId"},
+			true);
 
 		_finderPathCountByinitiativeId = new FinderPath(
-			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByinitiativeId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"initiativeId"},
+			false);
 
 		_finderPathFetchByPublikUserIdAndInitiativeId = new FinderPath(
-			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED,
-			InitiativeHelpImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByPublikUserIdAndInitiativeId",
+			FINDER_CLASS_NAME_ENTITY, "fetchByPublikUserIdAndInitiativeId",
 			new String[] {String.class.getName(), Long.class.getName()},
-			InitiativeHelpModelImpl.PUBLIKUSERID_COLUMN_BITMASK |
-			InitiativeHelpModelImpl.INITIATIVEID_COLUMN_BITMASK);
+			new String[] {"publikUserId", "initiativeId"}, true);
 
 		_finderPathCountByPublikUserIdAndInitiativeId = new FinderPath(
-			InitiativeHelpModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeHelpModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByPublikUserIdAndInitiativeId",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"publikUserId", "initiativeId"}, false);
+
+		_setInitiativeHelpUtilPersistence(this);
 	}
 
 	public void destroy() {
+		_setInitiativeHelpUtilPersistence(null);
+
 		entityCache.removeCache(InitiativeHelpImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+	}
+
+	private void _setInitiativeHelpUtilPersistence(
+		InitiativeHelpPersistence initiativeHelpPersistence) {
+
+		try {
+			Field field = InitiativeHelpUtil.class.getDeclaredField(
+				"_persistence");
+
+			field.setAccessible(true);
+
+			field.set(null, initiativeHelpPersistence);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
+		}
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -3239,9 +2907,6 @@ public class InitiativeHelpPersistenceImpl
 
 	private static final String _SQL_SELECT_INITIATIVEHELP =
 		"SELECT initiativeHelp FROM InitiativeHelp initiativeHelp";
-
-	private static final String _SQL_SELECT_INITIATIVEHELP_WHERE_PKS_IN =
-		"SELECT initiativeHelp FROM InitiativeHelp initiativeHelp WHERE initiativeHelpId IN (";
 
 	private static final String _SQL_SELECT_INITIATIVEHELP_WHERE =
 		"SELECT initiativeHelp FROM InitiativeHelp initiativeHelp WHERE ";
@@ -3265,5 +2930,13 @@ public class InitiativeHelpPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
+	@ServiceReference(type = PortalUUID.class)
+	private PortalUUID _portalUUID;
 
 }

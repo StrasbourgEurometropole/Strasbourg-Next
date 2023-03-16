@@ -15,6 +15,7 @@
 package eu.strasbourg.service.agenda.service.impl;
 
 import aQute.bnd.annotation.ProviderType;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -44,7 +45,13 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import eu.strasbourg.service.agenda.exception.NoSuchEventException;
-import eu.strasbourg.service.agenda.model.*;
+import eu.strasbourg.service.agenda.model.CacheJson;
+import eu.strasbourg.service.agenda.model.CsmapCacheJson;
+import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.model.EventModel;
+import eu.strasbourg.service.agenda.model.EventParticipation;
+import eu.strasbourg.service.agenda.model.EventPeriod;
+import eu.strasbourg.service.agenda.model.Historic;
 import eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.base.EventLocalServiceBaseImpl;
@@ -56,6 +63,7 @@ import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -433,10 +441,8 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 
 		if (entry != null) {
 			// Delete the link with categories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-					categoryId, entry.getEntryId());
-			}
+			assetEntryAssetCategoryRelLocalService.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
 			// Delete the link with tags
 			long[] tagIds = AssetEntryLocalServiceUtil
@@ -816,5 +822,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	)
 	protected eu.strasbourg.service.agenda.service.HistoricLocalService
 			historicLocalService;
+	@Reference
+	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 
 }

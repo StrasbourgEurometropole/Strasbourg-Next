@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.project.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.project.exception.NoSuchProjectException;
 import eu.strasbourg.service.project.model.Project;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the project service.
@@ -45,9 +38,6 @@ public interface ProjectPersistence extends BasePersistence<Project> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link ProjectUtil} to access the project persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Project> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the projects where uuid = &#63;.
@@ -811,8 +801,5 @@ public interface ProjectPersistence extends BasePersistence<Project> {
 	 * @return the number of projects
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.like.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Cedric Henry
  */
-@ProviderType
 public class NoSuchLikeException extends NoSuchModelException {
 
 	public NoSuchLikeException() {
@@ -30,12 +27,12 @@ public class NoSuchLikeException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchLikeException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchLikeException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchLikeException(Throwable cause) {
-		super(cause);
+	public NoSuchLikeException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

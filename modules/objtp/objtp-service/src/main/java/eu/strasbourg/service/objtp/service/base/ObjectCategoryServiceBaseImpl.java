@@ -20,19 +20,22 @@ import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.objtp.model.ObjectCategory;
 import eu.strasbourg.service.objtp.service.ObjectCategoryService;
+import eu.strasbourg.service.objtp.service.ObjectCategoryServiceUtil;
 import eu.strasbourg.service.objtp.service.persistence.FoundObjectPersistence;
 import eu.strasbourg.service.objtp.service.persistence.ObjectCategoryPersistence;
 
 import javax.sql.DataSource;
+import java.lang.reflect.Field;
 
 /**
  * Provides the base implementation for the object category remote service.
@@ -52,7 +55,7 @@ public abstract class ObjectCategoryServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>ObjectCategoryService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.objtp.service.ObjectCategoryServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>ObjectCategoryService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ObjectCategoryServiceUtil</code>.
 	 */
 
 	/**
@@ -356,9 +359,11 @@ public abstract class ObjectCategoryServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
+		_setServiceUtilService(objectCategoryService);
 	}
 
 	public void destroy() {
+		_setServiceUtilService(null);
 	}
 
 	/**
@@ -400,6 +405,22 @@ public abstract class ObjectCategoryServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setServiceUtilService(
+		ObjectCategoryService objectCategoryService) {
+
+		try {
+			Field field = ObjectCategoryServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, objectCategoryService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -470,5 +491,8 @@ public abstract class ObjectCategoryServiceBaseImpl
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		ObjectCategoryServiceBaseImpl.class);
 
 }

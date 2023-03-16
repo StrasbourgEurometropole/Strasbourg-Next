@@ -27,6 +27,10 @@ public class EditionGalleryLocalServiceWrapper
 	implements EditionGalleryLocalService,
 			   ServiceWrapper<EditionGalleryLocalService> {
 
+	public EditionGalleryLocalServiceWrapper() {
+		this(null);
+	}
+
 	public EditionGalleryLocalServiceWrapper(
 		EditionGalleryLocalService editionGalleryLocalService) {
 
@@ -122,6 +126,17 @@ public class EditionGalleryLocalServiceWrapper
 		return _editionGalleryLocalService.createEditionGallery(sc);
 	}
 
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _editionGalleryLocalService.createPersistedModel(primaryKeyObj);
+	}
+
 	@Override
 	public void deleteEditionEditionGalleries(
 		long editionId,
@@ -201,6 +216,18 @@ public class EditionGalleryLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _editionGalleryLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _editionGalleryLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _editionGalleryLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

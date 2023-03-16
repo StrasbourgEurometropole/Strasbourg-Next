@@ -17,6 +17,7 @@ package eu.strasbourg.service.council.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
@@ -29,27 +30,21 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.OfficialModel;
-import eu.strasbourg.service.council.model.OfficialSoap;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -129,89 +124,67 @@ public class OfficialModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.council.service.util.ServiceProps.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.council.model.Official"),
-		false);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.council.service.util.ServiceProps.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.council.model.Official"),
-		false);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.council.service.util.ServiceProps.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.council.model.Official"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long EMAIL_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ISACTIVE_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long LASTNAME_COLUMN_BITMASK = 32L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long FIRSTNAME_COLUMN_BITMASK = 64L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Official toModel(OfficialSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Official model = new OfficialImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setOfficialId(soapModel.getOfficialId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setEmail(soapModel.getEmail());
-		model.setFirstname(soapModel.getFirstname());
-		model.setLastname(soapModel.getLastname());
-		model.setIsActive(soapModel.isIsActive());
-		model.setLastActivity(soapModel.getLastActivity());
-		model.setLastSignInDeviceInfo(soapModel.getLastSignInDeviceInfo());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Official> toModels(OfficialSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Official> models = new ArrayList<Official>(soapModels.length);
-
-		for (OfficialSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.council.service.util.ServiceProps.get(
@@ -268,9 +241,6 @@ public class OfficialModelImpl
 				attributeName, attributeGetterFunction.apply((Official)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -304,34 +274,6 @@ public class OfficialModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Official>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Official.class.getClassLoader(), Official.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<Official> constructor =
-				(Constructor<Official>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<Official, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Official, Object>>
@@ -343,378 +285,68 @@ public class OfficialModelImpl
 		Map<String, BiConsumer<Official, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Official, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", Official::getUuid);
 		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object uuidObject) {
-					official.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"officialId",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getOfficialId();
-				}
-
-			});
+			"uuid", (BiConsumer<Official, String>)Official::setUuid);
+		attributeGetterFunctions.put("officialId", Official::getOfficialId);
 		attributeSetterBiConsumers.put(
-			"officialId",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object officialIdObject) {
-					official.setOfficialId((Long)officialIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getGroupId();
-				}
-
-			});
+			"officialId", (BiConsumer<Official, Long>)Official::setOfficialId);
+		attributeGetterFunctions.put("groupId", Official::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object groupIdObject) {
-					official.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getCompanyId();
-				}
-
-			});
+			"groupId", (BiConsumer<Official, Long>)Official::setGroupId);
+		attributeGetterFunctions.put("companyId", Official::getCompanyId);
 		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object companyIdObject) {
-					official.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getUserId();
-				}
-
-			});
+			"companyId", (BiConsumer<Official, Long>)Official::setCompanyId);
+		attributeGetterFunctions.put("userId", Official::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object userIdObject) {
-					official.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getUserName();
-				}
-
-			});
+			"userId", (BiConsumer<Official, Long>)Official::setUserId);
+		attributeGetterFunctions.put("userName", Official::getUserName);
 		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object userNameObject) {
-					official.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getCreateDate();
-				}
-
-			});
+			"userName", (BiConsumer<Official, String>)Official::setUserName);
+		attributeGetterFunctions.put("createDate", Official::getCreateDate);
 		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object createDateObject) {
-					official.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getModifiedDate();
-				}
-
-			});
+			"createDate", (BiConsumer<Official, Date>)Official::setCreateDate);
+		attributeGetterFunctions.put("modifiedDate", Official::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(
-					Official official, Object modifiedDateObject) {
-
-					official.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getStatus();
-				}
-
-			});
+			(BiConsumer<Official, Date>)Official::setModifiedDate);
+		attributeGetterFunctions.put("status", Official::getStatus);
 		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object statusObject) {
-					official.setStatus((Integer)statusObject);
-				}
-
-			});
+			"status", (BiConsumer<Official, Integer>)Official::setStatus);
 		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getStatusByUserId();
-				}
-
-			});
+			"statusByUserId", Official::getStatusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(
-					Official official, Object statusByUserIdObject) {
-
-					official.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
+			(BiConsumer<Official, Long>)Official::setStatusByUserId);
 		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getStatusByUserName();
-				}
-
-			});
+			"statusByUserName", Official::getStatusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(
-					Official official, Object statusByUserNameObject) {
-
-					official.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getStatusDate();
-				}
-
-			});
+			(BiConsumer<Official, String>)Official::setStatusByUserName);
+		attributeGetterFunctions.put("statusDate", Official::getStatusDate);
 		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object statusDateObject) {
-					official.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"email",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getEmail();
-				}
-
-			});
+			"statusDate", (BiConsumer<Official, Date>)Official::setStatusDate);
+		attributeGetterFunctions.put("email", Official::getEmail);
 		attributeSetterBiConsumers.put(
-			"email",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object emailObject) {
-					official.setEmail((String)emailObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"firstname",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getFirstname();
-				}
-
-			});
+			"email", (BiConsumer<Official, String>)Official::setEmail);
+		attributeGetterFunctions.put("firstname", Official::getFirstname);
 		attributeSetterBiConsumers.put(
-			"firstname",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object firstnameObject) {
-					official.setFirstname((String)firstnameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastname",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getLastname();
-				}
-
-			});
+			"firstname", (BiConsumer<Official, String>)Official::setFirstname);
+		attributeGetterFunctions.put("lastname", Official::getLastname);
 		attributeSetterBiConsumers.put(
-			"lastname",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object lastnameObject) {
-					official.setLastname((String)lastnameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"isActive",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getIsActive();
-				}
-
-			});
+			"lastname", (BiConsumer<Official, String>)Official::setLastname);
+		attributeGetterFunctions.put("isActive", Official::getIsActive);
 		attributeSetterBiConsumers.put(
-			"isActive",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object isActiveObject) {
-					official.setIsActive((Boolean)isActiveObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastActivity",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getLastActivity();
-				}
-
-			});
+			"isActive", (BiConsumer<Official, Boolean>)Official::setIsActive);
+		attributeGetterFunctions.put("lastActivity", Official::getLastActivity);
 		attributeSetterBiConsumers.put(
 			"lastActivity",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(
-					Official official, Object lastActivityObject) {
-
-					official.setLastActivity((Date)lastActivityObject);
-				}
-
-			});
+			(BiConsumer<Official, Date>)Official::setLastActivity);
 		attributeGetterFunctions.put(
-			"lastSignInDeviceInfo",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getLastSignInDeviceInfo();
-				}
-
-			});
+			"lastSignInDeviceInfo", Official::getLastSignInDeviceInfo);
 		attributeSetterBiConsumers.put(
 			"lastSignInDeviceInfo",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(
-					Official official, Object lastSignInDeviceInfoObject) {
-
-					official.setLastSignInDeviceInfo(
-						(String)lastSignInDeviceInfoObject);
-				}
-
-			});
+			(BiConsumer<Official, String>)Official::setLastSignInDeviceInfo);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -735,17 +367,20 @@ public class OfficialModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -756,6 +391,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setOfficialId(long officialId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_officialId = officialId;
 	}
 
@@ -767,19 +406,20 @@ public class OfficialModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -790,19 +430,21 @@ public class OfficialModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -813,6 +455,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -845,6 +491,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -856,6 +506,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -873,6 +527,10 @@ public class OfficialModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -884,6 +542,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -895,6 +557,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -927,6 +593,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -938,6 +608,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -954,17 +628,20 @@ public class OfficialModelImpl
 
 	@Override
 	public void setEmail(String email) {
-		_columnBitmask |= EMAIL_COLUMN_BITMASK;
-
-		if (_originalEmail == null) {
-			_originalEmail = _email;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_email = email;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalEmail() {
-		return GetterUtil.getString(_originalEmail);
+		return getColumnOriginalValue("email");
 	}
 
 	@JSON
@@ -980,7 +657,9 @@ public class OfficialModelImpl
 
 	@Override
 	public void setFirstname(String firstname) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_firstname = firstname;
 	}
@@ -998,7 +677,9 @@ public class OfficialModelImpl
 
 	@Override
 	public void setLastname(String lastname) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_lastname = lastname;
 	}
@@ -1017,19 +698,21 @@ public class OfficialModelImpl
 
 	@Override
 	public void setIsActive(boolean isActive) {
-		_columnBitmask |= ISACTIVE_COLUMN_BITMASK;
-
-		if (!_setOriginalIsActive) {
-			_setOriginalIsActive = true;
-
-			_originalIsActive = _isActive;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_isActive = isActive;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalIsActive() {
-		return _originalIsActive;
+		return GetterUtil.getBoolean(
+			this.<Boolean>getColumnOriginalValue("isActive"));
 	}
 
 	@JSON
@@ -1040,6 +723,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setLastActivity(Date lastActivity) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lastActivity = lastActivity;
 	}
 
@@ -1056,6 +743,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setLastSignInDeviceInfo(String lastSignInDeviceInfo) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lastSignInDeviceInfo = lastSignInDeviceInfo;
 	}
 
@@ -1146,6 +837,26 @@ public class OfficialModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1206,6 +917,45 @@ public class OfficialModelImpl
 	}
 
 	@Override
+	public Official cloneWithOriginalValues() {
+		OfficialImpl officialImpl = new OfficialImpl();
+
+		officialImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		officialImpl.setOfficialId(
+			this.<Long>getColumnOriginalValue("officialId"));
+		officialImpl.setGroupId(this.<Long>getColumnOriginalValue("groupId"));
+		officialImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		officialImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		officialImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		officialImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		officialImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		officialImpl.setStatus(this.<Integer>getColumnOriginalValue("status"));
+		officialImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		officialImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		officialImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		officialImpl.setEmail(this.<String>getColumnOriginalValue("email"));
+		officialImpl.setFirstname(
+			this.<String>getColumnOriginalValue("firstname"));
+		officialImpl.setLastname(
+			this.<String>getColumnOriginalValue("lastname"));
+		officialImpl.setIsActive(
+			this.<Boolean>getColumnOriginalValue("isActive"));
+		officialImpl.setLastActivity(
+			this.<Date>getColumnOriginalValue("lastActivity"));
+		officialImpl.setLastSignInDeviceInfo(
+			this.<String>getColumnOriginalValue("lastSignInDeviceInfo"));
+
+		return officialImpl;
+	}
+
+	@Override
 	public int compareTo(Official official) {
 		int value = 0;
 
@@ -1251,11 +1001,19 @@ public class OfficialModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1263,27 +1021,11 @@ public class OfficialModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		OfficialModelImpl officialModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		officialModelImpl._originalUuid = officialModelImpl._uuid;
+		_setModifiedDate = false;
 
-		officialModelImpl._originalGroupId = officialModelImpl._groupId;
-
-		officialModelImpl._setOriginalGroupId = false;
-
-		officialModelImpl._originalCompanyId = officialModelImpl._companyId;
-
-		officialModelImpl._setOriginalCompanyId = false;
-
-		officialModelImpl._setModifiedDate = false;
-
-		officialModelImpl._originalEmail = officialModelImpl._email;
-
-		officialModelImpl._originalIsActive = officialModelImpl._isActive;
-
-		officialModelImpl._setOriginalIsActive = false;
-
-		officialModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1407,7 +1149,7 @@ public class OfficialModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1418,9 +1160,26 @@ public class OfficialModelImpl
 			Function<Official, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Official)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Official)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1433,53 +1192,19 @@ public class OfficialModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Official, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Official, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Official, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Official)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Official>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Official.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _officialId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1490,14 +1215,122 @@ public class OfficialModelImpl
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _email;
-	private String _originalEmail;
 	private String _firstname;
 	private String _lastname;
 	private boolean _isActive;
-	private boolean _originalIsActive;
-	private boolean _setOriginalIsActive;
 	private Date _lastActivity;
 	private String _lastSignInDeviceInfo;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Official, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Official)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("officialId", _officialId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("email", _email);
+		_columnOriginalValues.put("firstname", _firstname);
+		_columnOriginalValues.put("lastname", _lastname);
+		_columnOriginalValues.put("isActive", _isActive);
+		_columnOriginalValues.put("lastActivity", _lastActivity);
+		_columnOriginalValues.put(
+			"lastSignInDeviceInfo", _lastSignInDeviceInfo);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("officialId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("status", 256L);
+
+		columnBitmasks.put("statusByUserId", 512L);
+
+		columnBitmasks.put("statusByUserName", 1024L);
+
+		columnBitmasks.put("statusDate", 2048L);
+
+		columnBitmasks.put("email", 4096L);
+
+		columnBitmasks.put("firstname", 8192L);
+
+		columnBitmasks.put("lastname", 16384L);
+
+		columnBitmasks.put("isActive", 32768L);
+
+		columnBitmasks.put("lastActivity", 65536L);
+
+		columnBitmasks.put("lastSignInDeviceInfo", 131072L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Official _escapedModel;
 

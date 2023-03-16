@@ -23,15 +23,17 @@ import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.ProjectService;
+import eu.strasbourg.service.project.service.ProjectServiceUtil;
 import eu.strasbourg.service.project.service.persistence.BudgetParticipatifFinder;
 import eu.strasbourg.service.project.service.persistence.BudgetParticipatifPersistence;
 import eu.strasbourg.service.project.service.persistence.BudgetPhasePersistence;
@@ -47,6 +49,7 @@ import eu.strasbourg.service.project.service.persistence.ProjectTimelinePersiste
 import eu.strasbourg.service.project.service.persistence.SignatairePersistence;
 
 import javax.sql.DataSource;
+import java.lang.reflect.Field;
 
 /**
  * Provides the base implementation for the project remote service.
@@ -65,7 +68,7 @@ public abstract class ProjectServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>ProjectService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.project.service.ProjectServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>ProjectService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ProjectServiceUtil</code>.
 	 */
 
 	/**
@@ -1217,9 +1220,11 @@ public abstract class ProjectServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
+		_setServiceUtilService(projectService);
 	}
 
 	public void destroy() {
+		_setServiceUtilService(null);
 	}
 
 	/**
@@ -1261,6 +1266,19 @@ public abstract class ProjectServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setServiceUtilService(ProjectService projectService) {
+		try {
+			Field field = ProjectServiceUtil.class.getDeclaredField("_service");
+
+			field.setAccessible(true);
+
+			field.set(null, projectService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1523,5 +1541,8 @@ public abstract class ProjectServiceBaseImpl
 
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		ProjectServiceBaseImpl.class);
 
 }

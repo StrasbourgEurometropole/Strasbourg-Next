@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.project.service.base;
 
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -27,6 +28,8 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -40,9 +43,9 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalService;
+import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
 import eu.strasbourg.service.project.service.persistence.BudgetParticipatifFinder;
 import eu.strasbourg.service.project.service.persistence.BudgetParticipatifPersistence;
 import eu.strasbourg.service.project.service.persistence.BudgetPhasePersistence;
@@ -57,11 +60,10 @@ import eu.strasbourg.service.project.service.persistence.ProjectPersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectTimelinePersistence;
 import eu.strasbourg.service.project.service.persistence.SignatairePersistence;
 
-import java.io.Serializable;
-
-import java.util.List;
-
 import javax.sql.DataSource;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * Provides the base implementation for the project timeline local service.
@@ -81,7 +83,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>ProjectTimelineLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>ProjectTimelineLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ProjectTimelineLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -149,6 +151,18 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 		ProjectTimeline projectTimeline) {
 
 		return projectTimelinePersistence.remove(projectTimeline);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return projectTimelinePersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -303,13 +317,30 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return projectTimelinePersistence.create(
+			((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement ProjectTimelineLocalServiceImpl#deleteProjectTimeline(ProjectTimeline) to avoid orphaned data");
+		}
 
 		return projectTimelineLocalService.deleteProjectTimeline(
 			(ProjectTimeline)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<ProjectTimeline> getBasePersistence() {
 		return projectTimelinePersistence;
 	}
@@ -1032,11 +1063,15 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 		persistedModelLocalServiceRegistry.register(
 			"eu.strasbourg.service.project.model.ProjectTimeline",
 			projectTimelineLocalService);
+
+		_setLocalServiceUtilService(projectTimelineLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"eu.strasbourg.service.project.model.ProjectTimeline");
+
+		_setLocalServiceUtilService(null);
 	}
 
 	/**
@@ -1078,6 +1113,23 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		ProjectTimelineLocalService projectTimelineLocalService) {
+
+		try {
+			Field field =
+				ProjectTimelineLocalServiceUtil.class.getDeclaredField(
+					"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, projectTimelineLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1219,6 +1271,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		ProjectTimelineLocalServiceBaseImpl.class);
 
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry

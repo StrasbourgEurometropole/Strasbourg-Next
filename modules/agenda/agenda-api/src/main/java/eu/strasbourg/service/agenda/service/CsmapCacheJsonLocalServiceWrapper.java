@@ -27,6 +27,10 @@ public class CsmapCacheJsonLocalServiceWrapper
 	implements CsmapCacheJsonLocalService,
 			   ServiceWrapper<CsmapCacheJsonLocalService> {
 
+	public CsmapCacheJsonLocalServiceWrapper() {
+		this(null);
+	}
+
 	public CsmapCacheJsonLocalServiceWrapper(
 		CsmapCacheJsonLocalService csmapCacheJsonLocalService) {
 
@@ -61,6 +65,17 @@ public class CsmapCacheJsonLocalServiceWrapper
 		createCsmapCacheJson(long eventId) {
 
 		return _csmapCacheJsonLocalService.createCsmapCacheJson(eventId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _csmapCacheJsonLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -109,6 +124,18 @@ public class CsmapCacheJsonLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _csmapCacheJsonLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _csmapCacheJsonLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _csmapCacheJsonLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

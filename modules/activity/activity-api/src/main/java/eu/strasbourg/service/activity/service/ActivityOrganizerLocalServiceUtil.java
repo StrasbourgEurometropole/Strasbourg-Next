@@ -14,9 +14,15 @@
 
 package eu.strasbourg.service.activity.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.activity.model.ActivityOrganizer;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Provides the local service utility for ActivityOrganizer. This utility wraps
@@ -48,10 +54,8 @@ public class ActivityOrganizerLocalServiceUtil {
 	 * @param activityOrganizer the activity organizer
 	 * @return the activity organizer that was added
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityOrganizer
-		addActivityOrganizer(
-			eu.strasbourg.service.activity.model.ActivityOrganizer
-				activityOrganizer) {
+	public static ActivityOrganizer addActivityOrganizer(
+		ActivityOrganizer activityOrganizer) {
 
 		return getService().addActivityOrganizer(activityOrganizer);
 	}
@@ -62,8 +66,8 @@ public class ActivityOrganizerLocalServiceUtil {
 	 * @param activityOrganizerId the primary key for the new activity organizer
 	 * @return the new activity organizer
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityOrganizer
-		createActivityOrganizer(long activityOrganizerId) {
+	public static ActivityOrganizer createActivityOrganizer(
+		long activityOrganizerId) {
 
 		return getService().createActivityOrganizer(activityOrganizerId);
 	}
@@ -71,12 +75,21 @@ public class ActivityOrganizerLocalServiceUtil {
 	/**
 	 * Crée une activité vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityOrganizer
-			createActivityOrganizer(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ActivityOrganizer createActivityOrganizer(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().createActivityOrganizer(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -89,10 +102,8 @@ public class ActivityOrganizerLocalServiceUtil {
 	 * @param activityOrganizer the activity organizer
 	 * @return the activity organizer that was removed
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityOrganizer
-		deleteActivityOrganizer(
-			eu.strasbourg.service.activity.model.ActivityOrganizer
-				activityOrganizer) {
+	public static ActivityOrganizer deleteActivityOrganizer(
+		ActivityOrganizer activityOrganizer) {
 
 		return getService().deleteActivityOrganizer(activityOrganizer);
 	}
@@ -108,9 +119,9 @@ public class ActivityOrganizerLocalServiceUtil {
 	 * @return the activity organizer that was removed
 	 * @throws PortalException if a activity organizer with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityOrganizer
-			deleteActivityOrganizer(long activityOrganizerId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ActivityOrganizer deleteActivityOrganizer(
+			long activityOrganizerId)
+		throws PortalException {
 
 		return getService().deleteActivityOrganizer(activityOrganizerId);
 	}
@@ -118,17 +129,22 @@ public class ActivityOrganizerLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -138,9 +154,7 @@ public class ActivityOrganizerLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -156,9 +170,8 @@ public class ActivityOrganizerLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -176,10 +189,9 @@ public class ActivityOrganizerLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -191,9 +203,7 @@ public class ActivityOrganizerLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -205,14 +215,14 @@ public class ActivityOrganizerLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.activity.model.ActivityOrganizer
-		fetchActivityOrganizer(long activityOrganizerId) {
+	public static ActivityOrganizer fetchActivityOrganizer(
+		long activityOrganizerId) {
 
 		return getService().fetchActivityOrganizer(activityOrganizerId);
 	}
@@ -224,8 +234,8 @@ public class ActivityOrganizerLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching activity organizer, or <code>null</code> if a matching activity organizer could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityOrganizer
-		fetchActivityOrganizerByUuidAndGroupId(String uuid, long groupId) {
+	public static ActivityOrganizer fetchActivityOrganizerByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchActivityOrganizerByUuidAndGroupId(
 			uuid, groupId);
@@ -234,9 +244,8 @@ public class ActivityOrganizerLocalServiceUtil {
 	/**
 	 * Lance une recherche par mots-clés
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.ActivityOrganizer> findByKeyword(
-			String keyword, long groupId, int start, int end) {
+	public static List<ActivityOrganizer> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -261,9 +270,9 @@ public class ActivityOrganizerLocalServiceUtil {
 	 * @return the activity organizer
 	 * @throws PortalException if a activity organizer with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityOrganizer
-			getActivityOrganizer(long activityOrganizerId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ActivityOrganizer getActivityOrganizer(
+			long activityOrganizerId)
+		throws PortalException {
 
 		return getService().getActivityOrganizer(activityOrganizerId);
 	}
@@ -276,9 +285,9 @@ public class ActivityOrganizerLocalServiceUtil {
 	 * @return the matching activity organizer
 	 * @throws PortalException if a matching activity organizer could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityOrganizer
-			getActivityOrganizerByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ActivityOrganizer getActivityOrganizerByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getActivityOrganizerByUuidAndGroupId(uuid, groupId);
 	}
@@ -294,9 +303,8 @@ public class ActivityOrganizerLocalServiceUtil {
 	 * @param end the upper bound of the range of activity organizers (not inclusive)
 	 * @return the range of activity organizers
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.ActivityOrganizer>
-			getActivityOrganizers(int start, int end) {
+	public static List<ActivityOrganizer> getActivityOrganizers(
+		int start, int end) {
 
 		return getService().getActivityOrganizers(start, end);
 	}
@@ -308,10 +316,8 @@ public class ActivityOrganizerLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching activity organizers, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.ActivityOrganizer>
-			getActivityOrganizersByUuidAndCompanyId(
-				String uuid, long companyId) {
+	public static List<ActivityOrganizer>
+		getActivityOrganizersByUuidAndCompanyId(String uuid, long companyId) {
 
 		return getService().getActivityOrganizersByUuidAndCompanyId(
 			uuid, companyId);
@@ -327,13 +333,10 @@ public class ActivityOrganizerLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching activity organizers, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.ActivityOrganizer>
-			getActivityOrganizersByUuidAndCompanyId(
-				String uuid, long companyId, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<eu.strasbourg.service.activity.model.ActivityOrganizer>
-						orderByComparator) {
+	public static List<ActivityOrganizer>
+		getActivityOrganizersByUuidAndCompanyId(
+			String uuid, long companyId, int start, int end,
+			OrderByComparator<ActivityOrganizer> orderByComparator) {
 
 		return getService().getActivityOrganizersByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -351,7 +354,7 @@ public class ActivityOrganizerLocalServiceUtil {
 	/**
 	 * Renvoie la liste des vocabulaires rattachés à l'entité
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -360,10 +363,7 @@ public class ActivityOrganizerLocalServiceUtil {
 	/**
 	 * Retourne toutes les éditions d'un groupe
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.ActivityOrganizer> getByGroupId(
-			long groupId) {
-
+	public static List<ActivityOrganizer> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
@@ -394,9 +394,8 @@ public class ActivityOrganizerLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -404,9 +403,9 @@ public class ActivityOrganizerLocalServiceUtil {
 	/**
 	 * Supprime une entité
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityOrganizer
-			removeActivityOrganizer(long activityOrganizerId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ActivityOrganizer removeActivityOrganizer(
+			long activityOrganizerId)
+		throws PortalException {
 
 		return getService().removeActivityOrganizer(activityOrganizerId);
 	}
@@ -414,9 +413,8 @@ public class ActivityOrganizerLocalServiceUtil {
 	/**
 	 * Lance une recherche selon le searchContext
 	 */
-	public static com.liferay.portal.kernel.search.Hits search(
-			com.liferay.portal.kernel.search.SearchContext searchContext)
-		throws com.liferay.portal.kernel.search.SearchException {
+	public static Hits search(SearchContext searchContext)
+		throws SearchException {
 
 		return getService().search(searchContext);
 	}
@@ -431,10 +429,8 @@ public class ActivityOrganizerLocalServiceUtil {
 	 * @param activityOrganizer the activity organizer
 	 * @return the activity organizer that was updated
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityOrganizer
-		updateActivityOrganizer(
-			eu.strasbourg.service.activity.model.ActivityOrganizer
-				activityOrganizer) {
+	public static ActivityOrganizer updateActivityOrganizer(
+		ActivityOrganizer activityOrganizer) {
 
 		return getService().updateActivityOrganizer(activityOrganizer);
 	}
@@ -442,12 +438,10 @@ public class ActivityOrganizerLocalServiceUtil {
 	/**
 	 * Met à jour une activité et l'enregistre en base de données
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityOrganizer
-			updateActivityOrganizer(
-				eu.strasbourg.service.activity.model.ActivityOrganizer
-					activityOrganizer,
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ActivityOrganizer updateActivityOrganizer(
+			ActivityOrganizer activityOrganizer,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateActivityOrganizer(activityOrganizer, sc);
 	}
@@ -455,37 +449,17 @@ public class ActivityOrganizerLocalServiceUtil {
 	/**
 	 * Met à jour le statut de l'édition par le framework workflow
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityOrganizer
-			updateStatus(long userId, long entryId, int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ActivityOrganizer updateStatus(
+			long userId, long entryId, int status)
+		throws PortalException {
 
 		return getService().updateStatus(userId, entryId, status);
 	}
 
 	public static ActivityOrganizerLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<ActivityOrganizerLocalService, ActivityOrganizerLocalService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			ActivityOrganizerLocalService.class);
-
-		ServiceTracker
-			<ActivityOrganizerLocalService, ActivityOrganizerLocalService>
-				serviceTracker =
-					new ServiceTracker
-						<ActivityOrganizerLocalService,
-						 ActivityOrganizerLocalService>(
-							 bundle.getBundleContext(),
-							 ActivityOrganizerLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile ActivityOrganizerLocalService _service;
 
 }

@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.help.exception;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Brian Wing Shun Chan
  */
-@ProviderType
 public class NoSuchHelpRequestException extends NoSuchModelException {
 
 	public NoSuchHelpRequestException() {
@@ -30,12 +27,12 @@ public class NoSuchHelpRequestException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchHelpRequestException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchHelpRequestException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchHelpRequestException(Throwable cause) {
-		super(cause);
+	public NoSuchHelpRequestException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

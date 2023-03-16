@@ -14,9 +14,15 @@
 
 package eu.strasbourg.service.notification.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.notification.model.UserNotificationStatus;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Provides the local service utility for UserNotificationStatus. This utility wraps
@@ -48,13 +54,20 @@ public class UserNotificationStatusLocalServiceUtil {
 	 * @param userNotificationStatus the user notification status
 	 * @return the user notification status that was added
 	 */
-	public static
-		eu.strasbourg.service.notification.model.UserNotificationStatus
-			addUserNotificationStatus(
-				eu.strasbourg.service.notification.model.UserNotificationStatus
-					userNotificationStatus) {
+	public static UserNotificationStatus addUserNotificationStatus(
+		UserNotificationStatus userNotificationStatus) {
 
 		return getService().addUserNotificationStatus(userNotificationStatus);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -63,11 +76,9 @@ public class UserNotificationStatusLocalServiceUtil {
 	 * @param userNotificationStatusPK the primary key for the new user notification status
 	 * @return the new user notification status
 	 */
-	public static
-		eu.strasbourg.service.notification.model.UserNotificationStatus
-			createUserNotificationStatus(
-				eu.strasbourg.service.notification.service.persistence.
-					UserNotificationStatusPK userNotificationStatusPK) {
+	public static UserNotificationStatus createUserNotificationStatus(
+		eu.strasbourg.service.notification.service.persistence.
+			UserNotificationStatusPK userNotificationStatusPK) {
 
 		return getService().createUserNotificationStatus(
 			userNotificationStatusPK);
@@ -76,10 +87,9 @@ public class UserNotificationStatusLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -94,11 +104,8 @@ public class UserNotificationStatusLocalServiceUtil {
 	 * @param userNotificationStatus the user notification status
 	 * @return the user notification status that was removed
 	 */
-	public static
-		eu.strasbourg.service.notification.model.UserNotificationStatus
-			deleteUserNotificationStatus(
-				eu.strasbourg.service.notification.model.UserNotificationStatus
-					userNotificationStatus) {
+	public static UserNotificationStatus deleteUserNotificationStatus(
+		UserNotificationStatus userNotificationStatus) {
 
 		return getService().deleteUserNotificationStatus(
 			userNotificationStatus);
@@ -115,20 +122,24 @@ public class UserNotificationStatusLocalServiceUtil {
 	 * @return the user notification status that was removed
 	 * @throws PortalException if a user notification status with the primary key could not be found
 	 */
-	public static
-		eu.strasbourg.service.notification.model.UserNotificationStatus
-				deleteUserNotificationStatus(
-					eu.strasbourg.service.notification.service.persistence.
-						UserNotificationStatusPK userNotificationStatusPK)
-			throws com.liferay.portal.kernel.exception.PortalException {
+	public static UserNotificationStatus deleteUserNotificationStatus(
+			eu.strasbourg.service.notification.service.persistence.
+				UserNotificationStatusPK userNotificationStatusPK)
+		throws PortalException {
 
 		return getService().deleteUserNotificationStatus(
 			userNotificationStatusPK);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -138,9 +149,7 @@ public class UserNotificationStatusLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -156,9 +165,8 @@ public class UserNotificationStatusLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -176,10 +184,9 @@ public class UserNotificationStatusLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -191,9 +198,7 @@ public class UserNotificationStatusLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -205,17 +210,15 @@ public class UserNotificationStatusLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static
-		eu.strasbourg.service.notification.model.UserNotificationStatus
-			fetchUserNotificationStatus(
-				eu.strasbourg.service.notification.service.persistence.
-					UserNotificationStatusPK userNotificationStatusPK) {
+	public static UserNotificationStatus fetchUserNotificationStatus(
+		eu.strasbourg.service.notification.service.persistence.
+			UserNotificationStatusPK userNotificationStatusPK) {
 
 		return getService().fetchUserNotificationStatus(
 			userNotificationStatusPK);
@@ -230,9 +233,8 @@ public class UserNotificationStatusLocalServiceUtil {
 	/**
 	 * Retourne la liste des statuts de notification pour une notification
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.notification.model.UserNotificationStatus>
-			getByNotificationId(long notificationId) {
+	public static List<UserNotificationStatus> getByNotificationId(
+		long notificationId) {
 
 		return getService().getByNotificationId(notificationId);
 	}
@@ -240,9 +242,8 @@ public class UserNotificationStatusLocalServiceUtil {
 	/**
 	 * Retourne la liste des statuts de notification pour un utilisateur
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.notification.model.UserNotificationStatus>
-			getByPublikUserId(String publikUserId) {
+	public static List<UserNotificationStatus> getByPublikUserId(
+		String publikUserId) {
 
 		return getService().getByPublikUserId(publikUserId);
 	}
@@ -266,9 +267,8 @@ public class UserNotificationStatusLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -287,12 +287,10 @@ public class UserNotificationStatusLocalServiceUtil {
 	 * @return the user notification status
 	 * @throws PortalException if a user notification status with the primary key could not be found
 	 */
-	public static
-		eu.strasbourg.service.notification.model.UserNotificationStatus
-				getUserNotificationStatus(
-					eu.strasbourg.service.notification.service.persistence.
-						UserNotificationStatusPK userNotificationStatusPK)
-			throws com.liferay.portal.kernel.exception.PortalException {
+	public static UserNotificationStatus getUserNotificationStatus(
+			eu.strasbourg.service.notification.service.persistence.
+				UserNotificationStatusPK userNotificationStatusPK)
+		throws PortalException {
 
 		return getService().getUserNotificationStatus(userNotificationStatusPK);
 	}
@@ -308,9 +306,8 @@ public class UserNotificationStatusLocalServiceUtil {
 	 * @param end the upper bound of the range of user notification statuses (not inclusive)
 	 * @return the range of user notification statuses
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.notification.model.UserNotificationStatus>
-			getUserNotificationStatuses(int start, int end) {
+	public static List<UserNotificationStatus> getUserNotificationStatuses(
+		int start, int end) {
 
 		return getService().getUserNotificationStatuses(start, end);
 	}
@@ -334,40 +331,17 @@ public class UserNotificationStatusLocalServiceUtil {
 	 * @param userNotificationStatus the user notification status
 	 * @return the user notification status that was updated
 	 */
-	public static
-		eu.strasbourg.service.notification.model.UserNotificationStatus
-			updateUserNotificationStatus(
-				eu.strasbourg.service.notification.model.UserNotificationStatus
-					userNotificationStatus) {
+	public static UserNotificationStatus updateUserNotificationStatus(
+		UserNotificationStatus userNotificationStatus) {
 
 		return getService().updateUserNotificationStatus(
 			userNotificationStatus);
 	}
 
 	public static UserNotificationStatusLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<UserNotificationStatusLocalService, UserNotificationStatusLocalService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			UserNotificationStatusLocalService.class);
-
-		ServiceTracker
-			<UserNotificationStatusLocalService,
-			 UserNotificationStatusLocalService> serviceTracker =
-				new ServiceTracker
-					<UserNotificationStatusLocalService,
-					 UserNotificationStatusLocalService>(
-						 bundle.getBundleContext(),
-						 UserNotificationStatusLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile UserNotificationStatusLocalService _service;
 
 }

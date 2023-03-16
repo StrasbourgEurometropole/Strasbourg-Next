@@ -14,16 +14,12 @@
 
 package eu.strasbourg.service.agenda.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +31,11 @@ import java.util.Objects;
  * @generated
  */
 public class ImportReportWrapper
+	extends BaseModelWrapper<ImportReport>
 	implements ImportReport, ModelWrapper<ImportReport> {
 
 	public ImportReportWrapper(ImportReport importReport) {
-		_importReport = importReport;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return ImportReport.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return ImportReport.class.getName();
+		super(importReport);
 	}
 
 	@Override
@@ -200,15 +187,8 @@ public class ImportReportWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new ImportReportWrapper((ImportReport)_importReport.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.agenda.model.ImportReport importReport) {
-
-		return _importReport.compareTo(importReport);
+	public ImportReport cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -218,14 +198,14 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public long getDeletedEventsCount() {
-		return _importReport.getDeletedEventsCount();
+		return model.getDeletedEventsCount();
 	}
 
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
 		getDeletedEventsLines() {
 
-		return _importReport.getDeletedEventsLines();
+		return model.getDeletedEventsLines();
 	}
 
 	/**
@@ -235,14 +215,14 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public long getDeletedManifestationsCount() {
-		return _importReport.getDeletedManifestationsCount();
+		return model.getDeletedManifestationsCount();
 	}
 
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
 		getDeletedManifestationsLines() {
 
-		return _importReport.getDeletedManifestationsLines();
+		return model.getDeletedManifestationsLines();
 	}
 
 	/**
@@ -252,7 +232,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public Date getEndDate() {
-		return _importReport.getEndDate();
+		return model.getEndDate();
 	}
 
 	/**
@@ -262,14 +242,14 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public long getErrorEventsCount() {
-		return _importReport.getErrorEventsCount();
+		return model.getErrorEventsCount();
 	}
 
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
 		getErrorEventsLines() {
 
-		return _importReport.getErrorEventsLines();
+		return model.getErrorEventsLines();
 	}
 
 	/**
@@ -279,19 +259,14 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public long getErrorManifestationsCount() {
-		return _importReport.getErrorManifestationsCount();
+		return model.getErrorManifestationsCount();
 	}
 
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
 		getErrorManifestationsLines() {
 
-		return _importReport.getErrorManifestationsLines();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _importReport.getExpandoBridge();
+		return model.getErrorManifestationsLines();
 	}
 
 	/**
@@ -301,7 +276,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public String getFilename() {
-		return _importReport.getFilename();
+		return model.getFilename();
 	}
 
 	/**
@@ -311,14 +286,14 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public String getGlobalErrorCause() {
-		return _importReport.getGlobalErrorCause();
+		return model.getGlobalErrorCause();
 	}
 
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
 		getLines() {
 
-		return _importReport.getLines();
+		return model.getLines();
 	}
 
 	/**
@@ -328,14 +303,14 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public long getModifiedEventsCount() {
-		return _importReport.getModifiedEventsCount();
+		return model.getModifiedEventsCount();
 	}
 
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
 		getModifiedEventsLines() {
 
-		return _importReport.getModifiedEventsLines();
+		return model.getModifiedEventsLines();
 	}
 
 	/**
@@ -345,14 +320,14 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public long getModifiedManifestationsCount() {
-		return _importReport.getModifiedManifestationsCount();
+		return model.getModifiedManifestationsCount();
 	}
 
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
 		getModifiedManifestationsLines() {
 
-		return _importReport.getModifiedManifestationsLines();
+		return model.getModifiedManifestationsLines();
 	}
 
 	/**
@@ -362,14 +337,14 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public long getNewEventsCount() {
-		return _importReport.getNewEventsCount();
+		return model.getNewEventsCount();
 	}
 
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
 		getNewEventsLines() {
 
-		return _importReport.getNewEventsLines();
+		return model.getNewEventsLines();
 	}
 
 	/**
@@ -379,14 +354,14 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public long getNewManifestationsCount() {
-		return _importReport.getNewManifestationsCount();
+		return model.getNewManifestationsCount();
 	}
 
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
 		getNewManifestationsLines() {
 
-		return _importReport.getNewManifestationsLines();
+		return model.getNewManifestationsLines();
 	}
 
 	/**
@@ -396,12 +371,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _importReport.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _importReport.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -411,7 +381,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public String getProvider() {
-		return _importReport.getProvider();
+		return model.getProvider();
 	}
 
 	/**
@@ -421,7 +391,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public long getReportId() {
-		return _importReport.getReportId();
+		return model.getReportId();
 	}
 
 	/**
@@ -431,7 +401,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public Date getStartDate() {
-		return _importReport.getStartDate();
+		return model.getStartDate();
 	}
 
 	/**
@@ -441,7 +411,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public long getStatus() {
-		return _importReport.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -451,7 +421,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public long getUnmodifiedEventsCount() {
-		return _importReport.getUnmodifiedEventsCount();
+		return model.getUnmodifiedEventsCount();
 	}
 
 	/**
@@ -461,7 +431,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public long getUnmodifiedManifestationsCount() {
-		return _importReport.getUnmodifiedManifestationsCount();
+		return model.getUnmodifiedManifestationsCount();
 	}
 
 	/**
@@ -471,97 +441,72 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _importReport.getUuid();
+		return model.getUuid();
 	}
 
 	@Override
 	public void globalError(String cause) {
-		_importReport.globalError(cause);
-	}
-
-	@Override
-	public int hashCode() {
-		return _importReport.hashCode();
+		model.globalError(cause);
 	}
 
 	@Override
 	public void incrementDeletedEvents() {
-		_importReport.incrementDeletedEvents();
+		model.incrementDeletedEvents();
 	}
 
 	@Override
 	public void incrementDeletedManifestations() {
-		_importReport.incrementDeletedManifestations();
+		model.incrementDeletedManifestations();
 	}
 
 	@Override
 	public void incrementErrorEvents() {
-		_importReport.incrementErrorEvents();
+		model.incrementErrorEvents();
 	}
 
 	@Override
 	public void incrementErrorManifestations() {
-		_importReport.incrementErrorManifestations();
+		model.incrementErrorManifestations();
 	}
 
 	@Override
 	public void incrementModifiedEvents() {
-		_importReport.incrementModifiedEvents();
+		model.incrementModifiedEvents();
 	}
 
 	@Override
 	public void incrementModifiedManifestations() {
-		_importReport.incrementModifiedManifestations();
+		model.incrementModifiedManifestations();
 	}
 
 	@Override
 	public void incrementNewEvents() {
-		_importReport.incrementNewEvents();
+		model.incrementNewEvents();
 	}
 
 	@Override
 	public void incrementNewManifestations() {
-		_importReport.incrementNewManifestations();
+		model.incrementNewManifestations();
 	}
 
 	@Override
 	public void incrementUnmodifiedEvents() {
-		_importReport.incrementUnmodifiedEvents();
+		model.incrementUnmodifiedEvents();
 	}
 
 	@Override
 	public void incrementUnmodifiedManifestations() {
-		_importReport.incrementUnmodifiedManifestations();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _importReport.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _importReport.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _importReport.isNew();
+		model.incrementUnmodifiedManifestations();
 	}
 
 	@Override
 	public void persist() {
-		_importReport.persist();
+		model.persist();
 	}
 
 	@Override
 	public void sendMail() {
-		_importReport.sendMail();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_importReport.setCachedModel(cachedModel);
+		model.sendMail();
 	}
 
 	/**
@@ -571,7 +516,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public void setDeletedEventsCount(long deletedEventsCount) {
-		_importReport.setDeletedEventsCount(deletedEventsCount);
+		model.setDeletedEventsCount(deletedEventsCount);
 	}
 
 	/**
@@ -581,7 +526,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public void setDeletedManifestationsCount(long deletedManifestationsCount) {
-		_importReport.setDeletedManifestationsCount(deletedManifestationsCount);
+		model.setDeletedManifestationsCount(deletedManifestationsCount);
 	}
 
 	/**
@@ -591,7 +536,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public void setEndDate(Date endDate) {
-		_importReport.setEndDate(endDate);
+		model.setEndDate(endDate);
 	}
 
 	/**
@@ -601,7 +546,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public void setErrorEventsCount(long errorEventsCount) {
-		_importReport.setErrorEventsCount(errorEventsCount);
+		model.setErrorEventsCount(errorEventsCount);
 	}
 
 	/**
@@ -611,24 +556,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public void setErrorManifestationsCount(long errorManifestationsCount) {
-		_importReport.setErrorManifestationsCount(errorManifestationsCount);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_importReport.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_importReport.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_importReport.setExpandoBridgeAttributes(serviceContext);
+		model.setErrorManifestationsCount(errorManifestationsCount);
 	}
 
 	/**
@@ -638,7 +566,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public void setFilename(String filename) {
-		_importReport.setFilename(filename);
+		model.setFilename(filename);
 	}
 
 	/**
@@ -648,7 +576,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public void setGlobalErrorCause(String globalErrorCause) {
-		_importReport.setGlobalErrorCause(globalErrorCause);
+		model.setGlobalErrorCause(globalErrorCause);
 	}
 
 	/**
@@ -658,7 +586,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public void setModifiedEventsCount(long modifiedEventsCount) {
-		_importReport.setModifiedEventsCount(modifiedEventsCount);
+		model.setModifiedEventsCount(modifiedEventsCount);
 	}
 
 	/**
@@ -670,13 +598,7 @@ public class ImportReportWrapper
 	public void setModifiedManifestationsCount(
 		long modifiedManifestationsCount) {
 
-		_importReport.setModifiedManifestationsCount(
-			modifiedManifestationsCount);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_importReport.setNew(n);
+		model.setModifiedManifestationsCount(modifiedManifestationsCount);
 	}
 
 	/**
@@ -686,7 +608,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public void setNewEventsCount(long newEventsCount) {
-		_importReport.setNewEventsCount(newEventsCount);
+		model.setNewEventsCount(newEventsCount);
 	}
 
 	/**
@@ -696,7 +618,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public void setNewManifestationsCount(long newManifestationsCount) {
-		_importReport.setNewManifestationsCount(newManifestationsCount);
+		model.setNewManifestationsCount(newManifestationsCount);
 	}
 
 	/**
@@ -706,12 +628,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_importReport.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_importReport.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -721,7 +638,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public void setProvider(String provider) {
-		_importReport.setProvider(provider);
+		model.setProvider(provider);
 	}
 
 	/**
@@ -731,7 +648,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public void setReportId(long reportId) {
-		_importReport.setReportId(reportId);
+		model.setReportId(reportId);
 	}
 
 	/**
@@ -741,7 +658,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public void setStartDate(Date startDate) {
-		_importReport.setStartDate(startDate);
+		model.setStartDate(startDate);
 	}
 
 	/**
@@ -751,7 +668,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public void setStatus(long status) {
-		_importReport.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -761,7 +678,7 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public void setUnmodifiedEventsCount(long unmodifiedEventsCount) {
-		_importReport.setUnmodifiedEventsCount(unmodifiedEventsCount);
+		model.setUnmodifiedEventsCount(unmodifiedEventsCount);
 	}
 
 	/**
@@ -773,8 +690,7 @@ public class ImportReportWrapper
 	public void setUnmodifiedManifestationsCount(
 		long unmodifiedManifestationsCount) {
 
-		_importReport.setUnmodifiedManifestationsCount(
-			unmodifiedManifestationsCount);
+		model.setUnmodifiedManifestationsCount(unmodifiedManifestationsCount);
 	}
 
 	/**
@@ -784,75 +700,17 @@ public class ImportReportWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_importReport.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.agenda.model.ImportReport> toCacheModel() {
-
-		return _importReport.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.ImportReport toEscapedModel() {
-		return new ImportReportWrapper(_importReport.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _importReport.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.ImportReport toUnescapedModel() {
-		return new ImportReportWrapper(_importReport.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _importReport.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof ImportReportWrapper)) {
-			return false;
-		}
-
-		ImportReportWrapper importReportWrapper = (ImportReportWrapper)object;
-
-		if (Objects.equals(_importReport, importReportWrapper._importReport)) {
-			return true;
-		}
-
-		return false;
+	protected ImportReportWrapper wrap(ImportReport importReport) {
+		return new ImportReportWrapper(importReport);
 	}
-
-	@Override
-	public ImportReport getWrappedModel() {
-		return _importReport;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _importReport.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _importReport.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_importReport.resetOriginalValues();
-	}
-
-	private final ImportReport _importReport;
 
 }

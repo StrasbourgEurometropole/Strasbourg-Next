@@ -14,9 +14,17 @@
 
 package eu.strasbourg.service.agenda.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.agenda.model.Historic;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for Historic. This utility wraps
@@ -48,9 +56,7 @@ public class HistoricLocalServiceUtil {
 	 * @param historic the historic
 	 * @return the historic that was added
 	 */
-	public static eu.strasbourg.service.agenda.model.Historic addHistoric(
-		eu.strasbourg.service.agenda.model.Historic historic) {
-
+	public static Historic addHistoric(Historic historic) {
 		return getService().addHistoric(historic);
 	}
 
@@ -60,10 +66,18 @@ public class HistoricLocalServiceUtil {
 	 * @param eventId the primary key for the new historic
 	 * @return the new historic
 	 */
-	public static eu.strasbourg.service.agenda.model.Historic createHistoric(
-		long eventId) {
-
+	public static Historic createHistoric(long eventId) {
 		return getService().createHistoric(eventId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -76,9 +90,7 @@ public class HistoricLocalServiceUtil {
 	 * @param historic the historic
 	 * @return the historic that was removed
 	 */
-	public static eu.strasbourg.service.agenda.model.Historic deleteHistoric(
-		eu.strasbourg.service.agenda.model.Historic historic) {
-
+	public static Historic deleteHistoric(Historic historic) {
 		return getService().deleteHistoric(historic);
 	}
 
@@ -93,27 +105,29 @@ public class HistoricLocalServiceUtil {
 	 * @return the historic that was removed
 	 * @throws PortalException if a historic with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.agenda.model.Historic deleteHistoric(
-			long eventId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Historic deleteHistoric(long eventId) throws PortalException {
 		return getService().deleteHistoric(eventId);
 	}
 
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -123,9 +137,7 @@ public class HistoricLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -141,9 +153,8 @@ public class HistoricLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -161,10 +172,9 @@ public class HistoricLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -176,9 +186,7 @@ public class HistoricLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -190,15 +198,13 @@ public class HistoricLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.agenda.model.Historic fetchHistoric(
-		long eventId) {
-
+	public static Historic fetchHistoric(long eventId) {
 		return getService().fetchHistoric(eventId);
 	}
 
@@ -211,9 +217,7 @@ public class HistoricLocalServiceUtil {
 	/**
 	 * Retourne les caches d'un lieu créé après une date et actif
 	 */
-	public static java.util.List<eu.strasbourg.service.agenda.model.Historic>
-		getBySuppressionDate(java.util.Date date) {
-
+	public static List<Historic> getBySuppressionDate(java.util.Date date) {
 		return getService().getBySuppressionDate(date);
 	}
 
@@ -224,10 +228,7 @@ public class HistoricLocalServiceUtil {
 	 * @return the historic
 	 * @throws PortalException if a historic with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.agenda.model.Historic getHistoric(
-			long eventId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Historic getHistoric(long eventId) throws PortalException {
 		return getService().getHistoric(eventId);
 	}
 
@@ -242,9 +243,7 @@ public class HistoricLocalServiceUtil {
 	 * @param end the upper bound of the range of historics (not inclusive)
 	 * @return the range of historics
 	 */
-	public static java.util.List<eu.strasbourg.service.agenda.model.Historic>
-		getHistorics(int start, int end) {
-
+	public static List<Historic> getHistorics(int start, int end) {
 		return getService().getHistorics(start, end);
 	}
 
@@ -276,9 +275,8 @@ public class HistoricLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -293,31 +291,14 @@ public class HistoricLocalServiceUtil {
 	 * @param historic the historic
 	 * @return the historic that was updated
 	 */
-	public static eu.strasbourg.service.agenda.model.Historic updateHistoric(
-		eu.strasbourg.service.agenda.model.Historic historic) {
-
+	public static Historic updateHistoric(Historic historic) {
 		return getService().updateHistoric(historic);
 	}
 
 	public static HistoricLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<HistoricLocalService, HistoricLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(HistoricLocalService.class);
-
-		ServiceTracker<HistoricLocalService, HistoricLocalService>
-			serviceTracker =
-				new ServiceTracker<HistoricLocalService, HistoricLocalService>(
-					bundle.getBundleContext(), HistoricLocalService.class,
-					null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile HistoricLocalService _service;
 
 }

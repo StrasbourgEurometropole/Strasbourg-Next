@@ -27,6 +27,10 @@ public class UserNotificationChannelLocalServiceWrapper
 	implements ServiceWrapper<UserNotificationChannelLocalService>,
 			   UserNotificationChannelLocalService {
 
+	public UserNotificationChannelLocalServiceWrapper() {
+		this(null);
+	}
+
 	public UserNotificationChannelLocalServiceWrapper(
 		UserNotificationChannelLocalService
 			userNotificationChannelLocalService) {
@@ -53,6 +57,18 @@ public class UserNotificationChannelLocalServiceWrapper
 
 		return _userNotificationChannelLocalService.addUserNotificationChannel(
 			userNotificationChannel);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _userNotificationChannelLocalService.createPersistedModel(
+			primaryKeyObj);
 	}
 
 	/**
@@ -123,6 +139,18 @@ public class UserNotificationChannelLocalServiceWrapper
 
 		return _userNotificationChannelLocalService.
 			deleteUserNotificationChannel(userNotificationChannelPK);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _userNotificationChannelLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _userNotificationChannelLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

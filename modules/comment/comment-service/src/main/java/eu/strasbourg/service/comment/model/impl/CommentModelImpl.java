@@ -17,6 +17,7 @@ package eu.strasbourg.service.comment.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
@@ -30,27 +31,21 @@ import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.model.CommentModel;
-import eu.strasbourg.service.comment.model.CommentSoap;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -132,95 +127,78 @@ public class CommentModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.comment.service.util.ServiceProps.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.comment.model.Comment"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.comment.service.util.ServiceProps.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.comment.model.Comment"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.comment.service.util.ServiceProps.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.comment.model.Comment"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ASSETENTRYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long LEVEL_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PARENTCOMMENTID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLIKID_COLUMN_BITMASK = 32L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 64L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 128L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long CREATEDATE_COLUMN_BITMASK = 256L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Comment toModel(CommentSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Comment model = new CommentImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setCommentId(soapModel.getCommentId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setText(soapModel.getText());
-		model.setLevel(soapModel.getLevel());
-		model.setUserQuality(soapModel.getUserQuality());
-		model.setModifiedByUserDate(soapModel.getModifiedByUserDate());
-		model.setAssetEntryId(soapModel.getAssetEntryId());
-		model.setPublikId(soapModel.getPublikId());
-		model.setParentCommentId(soapModel.getParentCommentId());
-		model.setUrlProjectCommentaire(soapModel.getUrlProjectCommentaire());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Comment> toModels(CommentSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Comment> models = new ArrayList<Comment>(soapModels.length);
-
-		for (CommentSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.comment.service.util.ServiceProps.get(
@@ -277,9 +255,6 @@ public class CommentModelImpl
 				attributeName, attributeGetterFunction.apply((Comment)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -313,33 +288,6 @@ public class CommentModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Comment>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Comment.class.getClassLoader(), Comment.class, ModelWrapper.class);
-
-		try {
-			Constructor<Comment> constructor =
-				(Constructor<Comment>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<Comment, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Comment, Object>>
@@ -351,418 +299,79 @@ public class CommentModelImpl
 		Map<String, BiConsumer<Comment, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Comment, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Comment, Object>() {
-
-				@Override
-				public Object apply(Comment comment) {
-					return comment.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", Comment::getUuid);
 		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Comment, Object>() {
-
-				@Override
-				public void accept(Comment comment, Object uuidObject) {
-					comment.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commentId",
-			new Function<Comment, Object>() {
-
-				@Override
-				public Object apply(Comment comment) {
-					return comment.getCommentId();
-				}
-
-			});
+			"uuid", (BiConsumer<Comment, String>)Comment::setUuid);
+		attributeGetterFunctions.put("commentId", Comment::getCommentId);
 		attributeSetterBiConsumers.put(
-			"commentId",
-			new BiConsumer<Comment, Object>() {
-
-				@Override
-				public void accept(Comment comment, Object commentIdObject) {
-					comment.setCommentId((Long)commentIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Comment, Object>() {
-
-				@Override
-				public Object apply(Comment comment) {
-					return comment.getGroupId();
-				}
-
-			});
+			"commentId", (BiConsumer<Comment, Long>)Comment::setCommentId);
+		attributeGetterFunctions.put("groupId", Comment::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Comment, Object>() {
-
-				@Override
-				public void accept(Comment comment, Object groupIdObject) {
-					comment.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Comment, Object>() {
-
-				@Override
-				public Object apply(Comment comment) {
-					return comment.getCompanyId();
-				}
-
-			});
+			"groupId", (BiConsumer<Comment, Long>)Comment::setGroupId);
+		attributeGetterFunctions.put("companyId", Comment::getCompanyId);
 		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Comment, Object>() {
-
-				@Override
-				public void accept(Comment comment, Object companyIdObject) {
-					comment.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Comment, Object>() {
-
-				@Override
-				public Object apply(Comment comment) {
-					return comment.getUserId();
-				}
-
-			});
+			"companyId", (BiConsumer<Comment, Long>)Comment::setCompanyId);
+		attributeGetterFunctions.put("userId", Comment::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Comment, Object>() {
-
-				@Override
-				public void accept(Comment comment, Object userIdObject) {
-					comment.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Comment, Object>() {
-
-				@Override
-				public Object apply(Comment comment) {
-					return comment.getUserName();
-				}
-
-			});
+			"userId", (BiConsumer<Comment, Long>)Comment::setUserId);
+		attributeGetterFunctions.put("userName", Comment::getUserName);
 		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Comment, Object>() {
-
-				@Override
-				public void accept(Comment comment, Object userNameObject) {
-					comment.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Comment, Object>() {
-
-				@Override
-				public Object apply(Comment comment) {
-					return comment.getCreateDate();
-				}
-
-			});
+			"userName", (BiConsumer<Comment, String>)Comment::setUserName);
+		attributeGetterFunctions.put("createDate", Comment::getCreateDate);
 		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Comment, Object>() {
-
-				@Override
-				public void accept(Comment comment, Object createDateObject) {
-					comment.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Comment, Object>() {
-
-				@Override
-				public Object apply(Comment comment) {
-					return comment.getModifiedDate();
-				}
-
-			});
+			"createDate", (BiConsumer<Comment, Date>)Comment::setCreateDate);
+		attributeGetterFunctions.put("modifiedDate", Comment::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<Comment, Object>() {
-
-				@Override
-				public void accept(Comment comment, Object modifiedDateObject) {
-					comment.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Comment, Object>() {
-
-				@Override
-				public Object apply(Comment comment) {
-					return comment.getStatus();
-				}
-
-			});
+			(BiConsumer<Comment, Date>)Comment::setModifiedDate);
+		attributeGetterFunctions.put("status", Comment::getStatus);
 		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Comment, Object>() {
-
-				@Override
-				public void accept(Comment comment, Object statusObject) {
-					comment.setStatus((Integer)statusObject);
-				}
-
-			});
+			"status", (BiConsumer<Comment, Integer>)Comment::setStatus);
 		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Comment, Object>() {
-
-				@Override
-				public Object apply(Comment comment) {
-					return comment.getStatusByUserId();
-				}
-
-			});
+			"statusByUserId", Comment::getStatusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
-			new BiConsumer<Comment, Object>() {
-
-				@Override
-				public void accept(
-					Comment comment, Object statusByUserIdObject) {
-
-					comment.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
+			(BiConsumer<Comment, Long>)Comment::setStatusByUserId);
 		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Comment, Object>() {
-
-				@Override
-				public Object apply(Comment comment) {
-					return comment.getStatusByUserName();
-				}
-
-			});
+			"statusByUserName", Comment::getStatusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
-			new BiConsumer<Comment, Object>() {
-
-				@Override
-				public void accept(
-					Comment comment, Object statusByUserNameObject) {
-
-					comment.setStatusByUserName((String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Comment, Object>() {
-
-				@Override
-				public Object apply(Comment comment) {
-					return comment.getStatusDate();
-				}
-
-			});
+			(BiConsumer<Comment, String>)Comment::setStatusByUserName);
+		attributeGetterFunctions.put("statusDate", Comment::getStatusDate);
 		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<Comment, Object>() {
-
-				@Override
-				public void accept(Comment comment, Object statusDateObject) {
-					comment.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"text",
-			new Function<Comment, Object>() {
-
-				@Override
-				public Object apply(Comment comment) {
-					return comment.getText();
-				}
-
-			});
+			"statusDate", (BiConsumer<Comment, Date>)Comment::setStatusDate);
+		attributeGetterFunctions.put("text", Comment::getText);
 		attributeSetterBiConsumers.put(
-			"text",
-			new BiConsumer<Comment, Object>() {
-
-				@Override
-				public void accept(Comment comment, Object textObject) {
-					comment.setText((String)textObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"level",
-			new Function<Comment, Object>() {
-
-				@Override
-				public Object apply(Comment comment) {
-					return comment.getLevel();
-				}
-
-			});
+			"text", (BiConsumer<Comment, String>)Comment::setText);
+		attributeGetterFunctions.put("level", Comment::getLevel);
 		attributeSetterBiConsumers.put(
-			"level",
-			new BiConsumer<Comment, Object>() {
-
-				@Override
-				public void accept(Comment comment, Object levelObject) {
-					comment.setLevel((Integer)levelObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userQuality",
-			new Function<Comment, Object>() {
-
-				@Override
-				public Object apply(Comment comment) {
-					return comment.getUserQuality();
-				}
-
-			});
+			"level", (BiConsumer<Comment, Integer>)Comment::setLevel);
+		attributeGetterFunctions.put("userQuality", Comment::getUserQuality);
 		attributeSetterBiConsumers.put(
 			"userQuality",
-			new BiConsumer<Comment, Object>() {
-
-				@Override
-				public void accept(Comment comment, Object userQualityObject) {
-					comment.setUserQuality((String)userQualityObject);
-				}
-
-			});
+			(BiConsumer<Comment, String>)Comment::setUserQuality);
 		attributeGetterFunctions.put(
-			"modifiedByUserDate",
-			new Function<Comment, Object>() {
-
-				@Override
-				public Object apply(Comment comment) {
-					return comment.getModifiedByUserDate();
-				}
-
-			});
+			"modifiedByUserDate", Comment::getModifiedByUserDate);
 		attributeSetterBiConsumers.put(
 			"modifiedByUserDate",
-			new BiConsumer<Comment, Object>() {
-
-				@Override
-				public void accept(
-					Comment comment, Object modifiedByUserDateObject) {
-
-					comment.setModifiedByUserDate(
-						(Date)modifiedByUserDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"assetEntryId",
-			new Function<Comment, Object>() {
-
-				@Override
-				public Object apply(Comment comment) {
-					return comment.getAssetEntryId();
-				}
-
-			});
+			(BiConsumer<Comment, Date>)Comment::setModifiedByUserDate);
+		attributeGetterFunctions.put("assetEntryId", Comment::getAssetEntryId);
 		attributeSetterBiConsumers.put(
 			"assetEntryId",
-			new BiConsumer<Comment, Object>() {
-
-				@Override
-				public void accept(Comment comment, Object assetEntryIdObject) {
-					comment.setAssetEntryId((Long)assetEntryIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"publikId",
-			new Function<Comment, Object>() {
-
-				@Override
-				public Object apply(Comment comment) {
-					return comment.getPublikId();
-				}
-
-			});
+			(BiConsumer<Comment, Long>)Comment::setAssetEntryId);
+		attributeGetterFunctions.put("publikId", Comment::getPublikId);
 		attributeSetterBiConsumers.put(
-			"publikId",
-			new BiConsumer<Comment, Object>() {
-
-				@Override
-				public void accept(Comment comment, Object publikIdObject) {
-					comment.setPublikId((String)publikIdObject);
-				}
-
-			});
+			"publikId", (BiConsumer<Comment, String>)Comment::setPublikId);
 		attributeGetterFunctions.put(
-			"parentCommentId",
-			new Function<Comment, Object>() {
-
-				@Override
-				public Object apply(Comment comment) {
-					return comment.getParentCommentId();
-				}
-
-			});
+			"parentCommentId", Comment::getParentCommentId);
 		attributeSetterBiConsumers.put(
 			"parentCommentId",
-			new BiConsumer<Comment, Object>() {
-
-				@Override
-				public void accept(
-					Comment comment, Object parentCommentIdObject) {
-
-					comment.setParentCommentId((Long)parentCommentIdObject);
-				}
-
-			});
+			(BiConsumer<Comment, Long>)Comment::setParentCommentId);
 		attributeGetterFunctions.put(
-			"urlProjectCommentaire",
-			new Function<Comment, Object>() {
-
-				@Override
-				public Object apply(Comment comment) {
-					return comment.getUrlProjectCommentaire();
-				}
-
-			});
+			"urlProjectCommentaire", Comment::getUrlProjectCommentaire);
 		attributeSetterBiConsumers.put(
 			"urlProjectCommentaire",
-			new BiConsumer<Comment, Object>() {
-
-				@Override
-				public void accept(
-					Comment comment, Object urlProjectCommentaireObject) {
-
-					comment.setUrlProjectCommentaire(
-						(String)urlProjectCommentaireObject);
-				}
-
-			});
+			(BiConsumer<Comment, String>)Comment::setUrlProjectCommentaire);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -783,17 +392,20 @@ public class CommentModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -804,6 +416,10 @@ public class CommentModelImpl
 
 	@Override
 	public void setCommentId(long commentId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_commentId = commentId;
 	}
 
@@ -815,19 +431,20 @@ public class CommentModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -838,19 +455,21 @@ public class CommentModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -861,6 +480,10 @@ public class CommentModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -893,6 +516,10 @@ public class CommentModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -904,7 +531,9 @@ public class CommentModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_createDate = createDate;
 	}
@@ -923,6 +552,10 @@ public class CommentModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -934,19 +567,21 @@ public class CommentModelImpl
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return GetterUtil.getInteger(
+			this.<Integer>getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -957,6 +592,10 @@ public class CommentModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -989,6 +628,10 @@ public class CommentModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1000,6 +643,10 @@ public class CommentModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1016,6 +663,10 @@ public class CommentModelImpl
 
 	@Override
 	public void setText(String text) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_text = text;
 	}
 
@@ -1027,19 +678,21 @@ public class CommentModelImpl
 
 	@Override
 	public void setLevel(int level) {
-		_columnBitmask |= LEVEL_COLUMN_BITMASK;
-
-		if (!_setOriginalLevel) {
-			_setOriginalLevel = true;
-
-			_originalLevel = _level;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_level = level;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalLevel() {
-		return _originalLevel;
+		return GetterUtil.getInteger(
+			this.<Integer>getColumnOriginalValue("level"));
 	}
 
 	@JSON
@@ -1055,6 +708,10 @@ public class CommentModelImpl
 
 	@Override
 	public void setUserQuality(String userQuality) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userQuality = userQuality;
 	}
 
@@ -1066,6 +723,10 @@ public class CommentModelImpl
 
 	@Override
 	public void setModifiedByUserDate(Date modifiedByUserDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedByUserDate = modifiedByUserDate;
 	}
 
@@ -1077,19 +738,21 @@ public class CommentModelImpl
 
 	@Override
 	public void setAssetEntryId(long assetEntryId) {
-		_columnBitmask |= ASSETENTRYID_COLUMN_BITMASK;
-
-		if (!_setOriginalAssetEntryId) {
-			_setOriginalAssetEntryId = true;
-
-			_originalAssetEntryId = _assetEntryId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_assetEntryId = assetEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalAssetEntryId() {
-		return _originalAssetEntryId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("assetEntryId"));
 	}
 
 	@JSON
@@ -1105,17 +768,20 @@ public class CommentModelImpl
 
 	@Override
 	public void setPublikId(String publikId) {
-		_columnBitmask |= PUBLIKID_COLUMN_BITMASK;
-
-		if (_originalPublikId == null) {
-			_originalPublikId = _publikId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publikId = publikId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPublikId() {
-		return GetterUtil.getString(_originalPublikId);
+		return getColumnOriginalValue("publikId");
 	}
 
 	@JSON
@@ -1126,19 +792,21 @@ public class CommentModelImpl
 
 	@Override
 	public void setParentCommentId(long parentCommentId) {
-		_columnBitmask |= PARENTCOMMENTID_COLUMN_BITMASK;
-
-		if (!_setOriginalParentCommentId) {
-			_setOriginalParentCommentId = true;
-
-			_originalParentCommentId = _parentCommentId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_parentCommentId = parentCommentId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalParentCommentId() {
-		return _originalParentCommentId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("parentCommentId"));
 	}
 
 	@JSON
@@ -1154,6 +822,10 @@ public class CommentModelImpl
 
 	@Override
 	public void setUrlProjectCommentaire(String urlProjectCommentaire) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_urlProjectCommentaire = urlProjectCommentaire;
 	}
 
@@ -1244,6 +916,26 @@ public class CommentModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1306,6 +998,48 @@ public class CommentModelImpl
 	}
 
 	@Override
+	public Comment cloneWithOriginalValues() {
+		CommentImpl commentImpl = new CommentImpl();
+
+		commentImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		commentImpl.setCommentId(
+			this.<Long>getColumnOriginalValue("commentId"));
+		commentImpl.setGroupId(this.<Long>getColumnOriginalValue("groupId"));
+		commentImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		commentImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		commentImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		commentImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		commentImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		commentImpl.setStatus(this.<Integer>getColumnOriginalValue("status"));
+		commentImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		commentImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		commentImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		commentImpl.setText(this.<String>getColumnOriginalValue("text_"));
+		commentImpl.setLevel(this.<Integer>getColumnOriginalValue("level"));
+		commentImpl.setUserQuality(
+			this.<String>getColumnOriginalValue("userQuality"));
+		commentImpl.setModifiedByUserDate(
+			this.<Date>getColumnOriginalValue("modifiedByUserDate"));
+		commentImpl.setAssetEntryId(
+			this.<Long>getColumnOriginalValue("assetEntryId"));
+		commentImpl.setPublikId(
+			this.<String>getColumnOriginalValue("publikId"));
+		commentImpl.setParentCommentId(
+			this.<Long>getColumnOriginalValue("parentCommentId"));
+		commentImpl.setUrlProjectCommentaire(
+			this.<String>getColumnOriginalValue("urlProjectCommentaire"));
+
+		return commentImpl;
+	}
+
+	@Override
 	public int compareTo(Comment comment) {
 		int value = 0;
 
@@ -1345,11 +1079,19 @@ public class CommentModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1357,40 +1099,11 @@ public class CommentModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		CommentModelImpl commentModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		commentModelImpl._originalUuid = commentModelImpl._uuid;
+		_setModifiedDate = false;
 
-		commentModelImpl._originalGroupId = commentModelImpl._groupId;
-
-		commentModelImpl._setOriginalGroupId = false;
-
-		commentModelImpl._originalCompanyId = commentModelImpl._companyId;
-
-		commentModelImpl._setOriginalCompanyId = false;
-
-		commentModelImpl._setModifiedDate = false;
-
-		commentModelImpl._originalStatus = commentModelImpl._status;
-
-		commentModelImpl._setOriginalStatus = false;
-
-		commentModelImpl._originalLevel = commentModelImpl._level;
-
-		commentModelImpl._setOriginalLevel = false;
-
-		commentModelImpl._originalAssetEntryId = commentModelImpl._assetEntryId;
-
-		commentModelImpl._setOriginalAssetEntryId = false;
-
-		commentModelImpl._originalPublikId = commentModelImpl._publikId;
-
-		commentModelImpl._originalParentCommentId =
-			commentModelImpl._parentCommentId;
-
-		commentModelImpl._setOriginalParentCommentId = false;
-
-		commentModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1518,7 +1231,7 @@ public class CommentModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1529,9 +1242,26 @@ public class CommentModelImpl
 			Function<Comment, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Comment)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Comment)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1544,79 +1274,154 @@ public class CommentModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Comment, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Comment, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Comment, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Comment)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Comment>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Comment.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _commentId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _text;
 	private int _level;
-	private int _originalLevel;
-	private boolean _setOriginalLevel;
 	private String _userQuality;
 	private Date _modifiedByUserDate;
 	private long _assetEntryId;
-	private long _originalAssetEntryId;
-	private boolean _setOriginalAssetEntryId;
 	private String _publikId;
-	private String _originalPublikId;
 	private long _parentCommentId;
-	private long _originalParentCommentId;
-	private boolean _setOriginalParentCommentId;
 	private String _urlProjectCommentaire;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Comment, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Comment)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("commentId", _commentId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("text_", _text);
+		_columnOriginalValues.put("level", _level);
+		_columnOriginalValues.put("userQuality", _userQuality);
+		_columnOriginalValues.put("modifiedByUserDate", _modifiedByUserDate);
+		_columnOriginalValues.put("assetEntryId", _assetEntryId);
+		_columnOriginalValues.put("publikId", _publikId);
+		_columnOriginalValues.put("parentCommentId", _parentCommentId);
+		_columnOriginalValues.put(
+			"urlProjectCommentaire", _urlProjectCommentaire);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("text_", "text");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("commentId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("status", 256L);
+
+		columnBitmasks.put("statusByUserId", 512L);
+
+		columnBitmasks.put("statusByUserName", 1024L);
+
+		columnBitmasks.put("statusDate", 2048L);
+
+		columnBitmasks.put("text_", 4096L);
+
+		columnBitmasks.put("level", 8192L);
+
+		columnBitmasks.put("userQuality", 16384L);
+
+		columnBitmasks.put("modifiedByUserDate", 32768L);
+
+		columnBitmasks.put("assetEntryId", 65536L);
+
+		columnBitmasks.put("publikId", 131072L);
+
+		columnBitmasks.put("parentCommentId", 262144L);
+
+		columnBitmasks.put("urlProjectCommentaire", 524288L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Comment _escapedModel;
 

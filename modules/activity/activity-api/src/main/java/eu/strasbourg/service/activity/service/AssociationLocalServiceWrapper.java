@@ -14,6 +14,10 @@
 
 package eu.strasbourg.service.activity.service;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -26,6 +30,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class AssociationLocalServiceWrapper
 	implements AssociationLocalService,
 			   ServiceWrapper<AssociationLocalService> {
+
+	public AssociationLocalServiceWrapper() {
+		this(null);
+	}
 
 	public AssociationLocalServiceWrapper(
 		AssociationLocalService associationLocalService) {
@@ -75,6 +83,17 @@ public class AssociationLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _associationLocalService.createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the association from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -119,6 +138,18 @@ public class AssociationLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _associationLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _associationLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _associationLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override
@@ -429,10 +460,7 @@ public class AssociationLocalServiceWrapper
 	 * Lance une recherche selon le searchContext
 	 */
 	@Override
-	public com.liferay.portal.kernel.search.Hits search(
-			com.liferay.portal.kernel.search.SearchContext searchContext)
-		throws com.liferay.portal.kernel.search.SearchException {
-
+	public Hits search(SearchContext searchContext) throws SearchException {
 		return _associationLocalService.search(searchContext);
 	}
 

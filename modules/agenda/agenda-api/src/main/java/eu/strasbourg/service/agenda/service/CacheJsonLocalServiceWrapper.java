@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class CacheJsonLocalServiceWrapper
 	implements CacheJsonLocalService, ServiceWrapper<CacheJsonLocalService> {
 
+	public CacheJsonLocalServiceWrapper() {
+		this(null);
+	}
+
 	public CacheJsonLocalServiceWrapper(
 		CacheJsonLocalService cacheJsonLocalService) {
 
@@ -60,6 +64,17 @@ public class CacheJsonLocalServiceWrapper
 		long eventId) {
 
 		return _cacheJsonLocalService.createCacheJson(eventId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _cacheJsonLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -107,6 +122,18 @@ public class CacheJsonLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _cacheJsonLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _cacheJsonLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _cacheJsonLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

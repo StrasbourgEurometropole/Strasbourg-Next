@@ -17,6 +17,7 @@ package eu.strasbourg.service.agenda.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -32,29 +33,27 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.agenda.model.AgendaExport;
 import eu.strasbourg.service.agenda.model.AgendaExportModel;
-import eu.strasbourg.service.agenda.model.AgendaExportSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -138,87 +137,54 @@ public class AgendaExportModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.agenda.model.AgendaExport"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.agenda.model.AgendaExport"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.agenda.model.AgendaExport"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long AGENDAEXPORTID_COLUMN_BITMASK = 16L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static AgendaExport toModel(AgendaExportSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		AgendaExport model = new AgendaExportImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setAgendaExportId(soapModel.getAgendaExportId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setLastPublishDate(soapModel.getLastPublishDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setTitle(soapModel.getTitle());
-		model.setLanguage(soapModel.getLanguage());
-		model.setExportFormat(soapModel.getExportFormat());
-		model.setTemplateId(soapModel.getTemplateId());
-		model.setEventCategories(soapModel.getEventCategories());
-		model.setAggregations(soapModel.getAggregations());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<AgendaExport> toModels(AgendaExportSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<AgendaExport> models = new ArrayList<AgendaExport>(
-			soapModels.length);
-
-		for (AgendaExportSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
@@ -276,9 +242,6 @@ public class AgendaExportModelImpl
 				attributeGetterFunction.apply((AgendaExport)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -312,34 +275,6 @@ public class AgendaExportModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, AgendaExport>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			AgendaExport.class.getClassLoader(), AgendaExport.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<AgendaExport> constructor =
-				(Constructor<AgendaExport>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<AgendaExport, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<AgendaExport, Object>>
@@ -351,427 +286,88 @@ public class AgendaExportModelImpl
 		Map<String, BiConsumer<AgendaExport, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<AgendaExport, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<AgendaExport, Object>() {
-
-				@Override
-				public Object apply(AgendaExport agendaExport) {
-					return agendaExport.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", AgendaExport::getUuid);
 		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<AgendaExport, Object>() {
-
-				@Override
-				public void accept(
-					AgendaExport agendaExport, Object uuidObject) {
-
-					agendaExport.setUuid((String)uuidObject);
-				}
-
-			});
+			"uuid", (BiConsumer<AgendaExport, String>)AgendaExport::setUuid);
 		attributeGetterFunctions.put(
-			"agendaExportId",
-			new Function<AgendaExport, Object>() {
-
-				@Override
-				public Object apply(AgendaExport agendaExport) {
-					return agendaExport.getAgendaExportId();
-				}
-
-			});
+			"agendaExportId", AgendaExport::getAgendaExportId);
 		attributeSetterBiConsumers.put(
 			"agendaExportId",
-			new BiConsumer<AgendaExport, Object>() {
-
-				@Override
-				public void accept(
-					AgendaExport agendaExport, Object agendaExportIdObject) {
-
-					agendaExport.setAgendaExportId((Long)agendaExportIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<AgendaExport, Object>() {
-
-				@Override
-				public Object apply(AgendaExport agendaExport) {
-					return agendaExport.getGroupId();
-				}
-
-			});
+			(BiConsumer<AgendaExport, Long>)AgendaExport::setAgendaExportId);
+		attributeGetterFunctions.put("groupId", AgendaExport::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
-			new BiConsumer<AgendaExport, Object>() {
-
-				@Override
-				public void accept(
-					AgendaExport agendaExport, Object groupIdObject) {
-
-					agendaExport.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<AgendaExport, Object>() {
-
-				@Override
-				public Object apply(AgendaExport agendaExport) {
-					return agendaExport.getCompanyId();
-				}
-
-			});
+			(BiConsumer<AgendaExport, Long>)AgendaExport::setGroupId);
+		attributeGetterFunctions.put("companyId", AgendaExport::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
-			new BiConsumer<AgendaExport, Object>() {
-
-				@Override
-				public void accept(
-					AgendaExport agendaExport, Object companyIdObject) {
-
-					agendaExport.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<AgendaExport, Object>() {
-
-				@Override
-				public Object apply(AgendaExport agendaExport) {
-					return agendaExport.getUserId();
-				}
-
-			});
+			(BiConsumer<AgendaExport, Long>)AgendaExport::setCompanyId);
+		attributeGetterFunctions.put("userId", AgendaExport::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<AgendaExport, Object>() {
-
-				@Override
-				public void accept(
-					AgendaExport agendaExport, Object userIdObject) {
-
-					agendaExport.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<AgendaExport, Object>() {
-
-				@Override
-				public Object apply(AgendaExport agendaExport) {
-					return agendaExport.getUserName();
-				}
-
-			});
+			"userId", (BiConsumer<AgendaExport, Long>)AgendaExport::setUserId);
+		attributeGetterFunctions.put("userName", AgendaExport::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
-			new BiConsumer<AgendaExport, Object>() {
-
-				@Override
-				public void accept(
-					AgendaExport agendaExport, Object userNameObject) {
-
-					agendaExport.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<AgendaExport, Object>() {
-
-				@Override
-				public Object apply(AgendaExport agendaExport) {
-					return agendaExport.getCreateDate();
-				}
-
-			});
+			(BiConsumer<AgendaExport, String>)AgendaExport::setUserName);
+		attributeGetterFunctions.put("createDate", AgendaExport::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
-			new BiConsumer<AgendaExport, Object>() {
-
-				@Override
-				public void accept(
-					AgendaExport agendaExport, Object createDateObject) {
-
-					agendaExport.setCreateDate((Date)createDateObject);
-				}
-
-			});
+			(BiConsumer<AgendaExport, Date>)AgendaExport::setCreateDate);
 		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<AgendaExport, Object>() {
-
-				@Override
-				public Object apply(AgendaExport agendaExport) {
-					return agendaExport.getModifiedDate();
-				}
-
-			});
+			"modifiedDate", AgendaExport::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<AgendaExport, Object>() {
-
-				@Override
-				public void accept(
-					AgendaExport agendaExport, Object modifiedDateObject) {
-
-					agendaExport.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
+			(BiConsumer<AgendaExport, Date>)AgendaExport::setModifiedDate);
 		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<AgendaExport, Object>() {
-
-				@Override
-				public Object apply(AgendaExport agendaExport) {
-					return agendaExport.getLastPublishDate();
-				}
-
-			});
+			"lastPublishDate", AgendaExport::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
-			new BiConsumer<AgendaExport, Object>() {
-
-				@Override
-				public void accept(
-					AgendaExport agendaExport, Object lastPublishDateObject) {
-
-					agendaExport.setLastPublishDate(
-						(Date)lastPublishDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<AgendaExport, Object>() {
-
-				@Override
-				public Object apply(AgendaExport agendaExport) {
-					return agendaExport.getStatus();
-				}
-
-			});
+			(BiConsumer<AgendaExport, Date>)AgendaExport::setLastPublishDate);
+		attributeGetterFunctions.put("status", AgendaExport::getStatus);
 		attributeSetterBiConsumers.put(
 			"status",
-			new BiConsumer<AgendaExport, Object>() {
-
-				@Override
-				public void accept(
-					AgendaExport agendaExport, Object statusObject) {
-
-					agendaExport.setStatus((Integer)statusObject);
-				}
-
-			});
+			(BiConsumer<AgendaExport, Integer>)AgendaExport::setStatus);
 		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<AgendaExport, Object>() {
-
-				@Override
-				public Object apply(AgendaExport agendaExport) {
-					return agendaExport.getStatusByUserId();
-				}
-
-			});
+			"statusByUserId", AgendaExport::getStatusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
-			new BiConsumer<AgendaExport, Object>() {
-
-				@Override
-				public void accept(
-					AgendaExport agendaExport, Object statusByUserIdObject) {
-
-					agendaExport.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
+			(BiConsumer<AgendaExport, Long>)AgendaExport::setStatusByUserId);
 		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<AgendaExport, Object>() {
-
-				@Override
-				public Object apply(AgendaExport agendaExport) {
-					return agendaExport.getStatusByUserName();
-				}
-
-			});
+			"statusByUserName", AgendaExport::getStatusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
-			new BiConsumer<AgendaExport, Object>() {
-
-				@Override
-				public void accept(
-					AgendaExport agendaExport, Object statusByUserNameObject) {
-
-					agendaExport.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<AgendaExport, Object>() {
-
-				@Override
-				public Object apply(AgendaExport agendaExport) {
-					return agendaExport.getStatusDate();
-				}
-
-			});
+			(BiConsumer<AgendaExport, String>)
+				AgendaExport::setStatusByUserName);
+		attributeGetterFunctions.put("statusDate", AgendaExport::getStatusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
-			new BiConsumer<AgendaExport, Object>() {
-
-				@Override
-				public void accept(
-					AgendaExport agendaExport, Object statusDateObject) {
-
-					agendaExport.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<AgendaExport, Object>() {
-
-				@Override
-				public Object apply(AgendaExport agendaExport) {
-					return agendaExport.getTitle();
-				}
-
-			});
+			(BiConsumer<AgendaExport, Date>)AgendaExport::setStatusDate);
+		attributeGetterFunctions.put("title", AgendaExport::getTitle);
 		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<AgendaExport, Object>() {
-
-				@Override
-				public void accept(
-					AgendaExport agendaExport, Object titleObject) {
-
-					agendaExport.setTitle((String)titleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"language",
-			new Function<AgendaExport, Object>() {
-
-				@Override
-				public Object apply(AgendaExport agendaExport) {
-					return agendaExport.getLanguage();
-				}
-
-			});
+			"title", (BiConsumer<AgendaExport, String>)AgendaExport::setTitle);
+		attributeGetterFunctions.put("language", AgendaExport::getLanguage);
 		attributeSetterBiConsumers.put(
 			"language",
-			new BiConsumer<AgendaExport, Object>() {
-
-				@Override
-				public void accept(
-					AgendaExport agendaExport, Object languageObject) {
-
-					agendaExport.setLanguage((String)languageObject);
-				}
-
-			});
+			(BiConsumer<AgendaExport, String>)AgendaExport::setLanguage);
 		attributeGetterFunctions.put(
-			"exportFormat",
-			new Function<AgendaExport, Object>() {
-
-				@Override
-				public Object apply(AgendaExport agendaExport) {
-					return agendaExport.getExportFormat();
-				}
-
-			});
+			"exportFormat", AgendaExport::getExportFormat);
 		attributeSetterBiConsumers.put(
 			"exportFormat",
-			new BiConsumer<AgendaExport, Object>() {
-
-				@Override
-				public void accept(
-					AgendaExport agendaExport, Object exportFormatObject) {
-
-					agendaExport.setExportFormat((String)exportFormatObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"templateId",
-			new Function<AgendaExport, Object>() {
-
-				@Override
-				public Object apply(AgendaExport agendaExport) {
-					return agendaExport.getTemplateId();
-				}
-
-			});
+			(BiConsumer<AgendaExport, String>)AgendaExport::setExportFormat);
+		attributeGetterFunctions.put("templateId", AgendaExport::getTemplateId);
 		attributeSetterBiConsumers.put(
 			"templateId",
-			new BiConsumer<AgendaExport, Object>() {
-
-				@Override
-				public void accept(
-					AgendaExport agendaExport, Object templateIdObject) {
-
-					agendaExport.setTemplateId((Long)templateIdObject);
-				}
-
-			});
+			(BiConsumer<AgendaExport, Long>)AgendaExport::setTemplateId);
 		attributeGetterFunctions.put(
-			"eventCategories",
-			new Function<AgendaExport, Object>() {
-
-				@Override
-				public Object apply(AgendaExport agendaExport) {
-					return agendaExport.getEventCategories();
-				}
-
-			});
+			"eventCategories", AgendaExport::getEventCategories);
 		attributeSetterBiConsumers.put(
 			"eventCategories",
-			new BiConsumer<AgendaExport, Object>() {
-
-				@Override
-				public void accept(
-					AgendaExport agendaExport, Object eventCategoriesObject) {
-
-					agendaExport.setEventCategories(
-						(String)eventCategoriesObject);
-				}
-
-			});
+			(BiConsumer<AgendaExport, String>)AgendaExport::setEventCategories);
 		attributeGetterFunctions.put(
-			"aggregations",
-			new Function<AgendaExport, Object>() {
-
-				@Override
-				public Object apply(AgendaExport agendaExport) {
-					return agendaExport.getAggregations();
-				}
-
-			});
+			"aggregations", AgendaExport::getAggregations);
 		attributeSetterBiConsumers.put(
 			"aggregations",
-			new BiConsumer<AgendaExport, Object>() {
-
-				@Override
-				public void accept(
-					AgendaExport agendaExport, Object aggregationsObject) {
-
-					agendaExport.setAggregations((String)aggregationsObject);
-				}
-
-			});
+			(BiConsumer<AgendaExport, String>)AgendaExport::setAggregations);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -792,17 +388,20 @@ public class AgendaExportModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -813,6 +412,10 @@ public class AgendaExportModelImpl
 
 	@Override
 	public void setAgendaExportId(long agendaExportId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_agendaExportId = agendaExportId;
 	}
 
@@ -824,19 +427,20 @@ public class AgendaExportModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -847,19 +451,21 @@ public class AgendaExportModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -870,6 +476,10 @@ public class AgendaExportModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -902,6 +512,10 @@ public class AgendaExportModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -913,6 +527,10 @@ public class AgendaExportModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -930,6 +548,10 @@ public class AgendaExportModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -941,6 +563,10 @@ public class AgendaExportModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -952,19 +578,21 @@ public class AgendaExportModelImpl
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return GetterUtil.getInteger(
+			this.<Integer>getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -975,6 +603,10 @@ public class AgendaExportModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1007,6 +639,10 @@ public class AgendaExportModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1018,6 +654,10 @@ public class AgendaExportModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1077,6 +717,10 @@ public class AgendaExportModelImpl
 
 	@Override
 	public void setTitle(String title) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_title = title;
 	}
 
@@ -1139,6 +783,10 @@ public class AgendaExportModelImpl
 
 	@Override
 	public void setLanguage(String language) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_language = language;
 	}
 
@@ -1155,6 +803,10 @@ public class AgendaExportModelImpl
 
 	@Override
 	public void setExportFormat(String exportFormat) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_exportFormat = exportFormat;
 	}
 
@@ -1166,6 +818,10 @@ public class AgendaExportModelImpl
 
 	@Override
 	public void setTemplateId(long templateId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_templateId = templateId;
 	}
 
@@ -1182,6 +838,10 @@ public class AgendaExportModelImpl
 
 	@Override
 	public void setEventCategories(String eventCategories) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_eventCategories = eventCategories;
 	}
 
@@ -1198,6 +858,10 @@ public class AgendaExportModelImpl
 
 	@Override
 	public void setAggregations(String aggregations) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_aggregations = aggregations;
 	}
 
@@ -1288,6 +952,26 @@ public class AgendaExportModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1415,6 +1099,49 @@ public class AgendaExportModelImpl
 	}
 
 	@Override
+	public AgendaExport cloneWithOriginalValues() {
+		AgendaExportImpl agendaExportImpl = new AgendaExportImpl();
+
+		agendaExportImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		agendaExportImpl.setAgendaExportId(
+			this.<Long>getColumnOriginalValue("agendaExportId"));
+		agendaExportImpl.setGroupId(
+			this.<Long>getColumnOriginalValue("groupId"));
+		agendaExportImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		agendaExportImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		agendaExportImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		agendaExportImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		agendaExportImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		agendaExportImpl.setLastPublishDate(
+			this.<Date>getColumnOriginalValue("lastPublishDate"));
+		agendaExportImpl.setStatus(
+			this.<Integer>getColumnOriginalValue("status"));
+		agendaExportImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		agendaExportImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		agendaExportImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		agendaExportImpl.setTitle(this.<String>getColumnOriginalValue("title"));
+		agendaExportImpl.setLanguage(
+			this.<String>getColumnOriginalValue("language"));
+		agendaExportImpl.setExportFormat(
+			this.<String>getColumnOriginalValue("exportFormat"));
+		agendaExportImpl.setTemplateId(
+			this.<Long>getColumnOriginalValue("templateId"));
+		agendaExportImpl.setEventCategories(
+			this.<String>getColumnOriginalValue("eventCategories"));
+		agendaExportImpl.setAggregations(
+			this.<String>getColumnOriginalValue("aggregations"));
+
+		return agendaExportImpl;
+	}
+
+	@Override
 	public int compareTo(AgendaExport agendaExport) {
 		long primaryKey = agendaExport.getPrimaryKey();
 
@@ -1456,11 +1183,19 @@ public class AgendaExportModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1468,26 +1203,11 @@ public class AgendaExportModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AgendaExportModelImpl agendaExportModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		agendaExportModelImpl._originalUuid = agendaExportModelImpl._uuid;
+		_setModifiedDate = false;
 
-		agendaExportModelImpl._originalGroupId = agendaExportModelImpl._groupId;
-
-		agendaExportModelImpl._setOriginalGroupId = false;
-
-		agendaExportModelImpl._originalCompanyId =
-			agendaExportModelImpl._companyId;
-
-		agendaExportModelImpl._setOriginalCompanyId = false;
-
-		agendaExportModelImpl._setModifiedDate = false;
-
-		agendaExportModelImpl._originalStatus = agendaExportModelImpl._status;
-
-		agendaExportModelImpl._setOriginalStatus = false;
-
-		agendaExportModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1618,7 +1338,7 @@ public class AgendaExportModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1629,9 +1349,26 @@ public class AgendaExportModelImpl
 			Function<AgendaExport, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((AgendaExport)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((AgendaExport)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1644,53 +1381,19 @@ public class AgendaExportModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<AgendaExport, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<AgendaExport, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<AgendaExport, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((AgendaExport)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, AgendaExport>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					AgendaExport.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _agendaExportId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1698,8 +1401,6 @@ public class AgendaExportModelImpl
 	private boolean _setModifiedDate;
 	private Date _lastPublishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
@@ -1710,6 +1411,119 @@ public class AgendaExportModelImpl
 	private long _templateId;
 	private String _eventCategories;
 	private String _aggregations;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<AgendaExport, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((AgendaExport)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("agendaExportId", _agendaExportId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("lastPublishDate", _lastPublishDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("language", _language);
+		_columnOriginalValues.put("exportFormat", _exportFormat);
+		_columnOriginalValues.put("templateId", _templateId);
+		_columnOriginalValues.put("eventCategories", _eventCategories);
+		_columnOriginalValues.put("aggregations", _aggregations);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("agendaExportId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("lastPublishDate", 256L);
+
+		columnBitmasks.put("status", 512L);
+
+		columnBitmasks.put("statusByUserId", 1024L);
+
+		columnBitmasks.put("statusByUserName", 2048L);
+
+		columnBitmasks.put("statusDate", 4096L);
+
+		columnBitmasks.put("title", 8192L);
+
+		columnBitmasks.put("language", 16384L);
+
+		columnBitmasks.put("exportFormat", 32768L);
+
+		columnBitmasks.put("templateId", 65536L);
+
+		columnBitmasks.put("eventCategories", 131072L);
+
+		columnBitmasks.put("aggregations", 262144L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private AgendaExport _escapedModel;
 

@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class LigneLocalServiceWrapper
 	implements LigneLocalService, ServiceWrapper<LigneLocalService> {
 
+	public LigneLocalServiceWrapper() {
+		this(null);
+	}
+
 	public LigneLocalServiceWrapper(LigneLocalService ligneLocalService) {
 		_ligneLocalService = ligneLocalService;
 	}
@@ -67,6 +71,17 @@ public class LigneLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _ligneLocalService.createLigne(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _ligneLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -113,6 +128,18 @@ public class LigneLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _ligneLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _ligneLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _ligneLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

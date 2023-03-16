@@ -14,17 +14,13 @@
 
 package eu.strasbourg.service.gtfs.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,20 +32,11 @@ import java.util.Objects;
  * @generated
  */
 public class ImportHistoricWrapper
+	extends BaseModelWrapper<ImportHistoric>
 	implements ImportHistoric, ModelWrapper<ImportHistoric> {
 
 	public ImportHistoricWrapper(ImportHistoric importHistoric) {
-		_importHistoric = importHistoric;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return ImportHistoric.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return ImportHistoric.class.getName();
+		super(importHistoric);
 	}
 
 	@Override
@@ -203,20 +190,12 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void addNewOperation(String operation) {
-		_importHistoric.addNewOperation(operation);
+		model.addNewOperation(operation);
 	}
 
 	@Override
-	public Object clone() {
-		return new ImportHistoricWrapper(
-			(ImportHistoric)_importHistoric.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.gtfs.model.ImportHistoric importHistoric) {
-
-		return _importHistoric.compareTo(importHistoric);
+	public ImportHistoric cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -224,7 +203,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _importHistoric.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	/**
@@ -235,7 +214,7 @@ public class ImportHistoricWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _importHistoric.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -245,7 +224,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _importHistoric.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -255,7 +234,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _importHistoric.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -265,7 +244,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public String getErrorDescription() {
-		return _importHistoric.getErrorDescription();
+		return model.getErrorDescription();
 	}
 
 	/**
@@ -275,12 +254,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public String getErrorStackTrace() {
-		return _importHistoric.getErrorStackTrace();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _importHistoric.getExpandoBridge();
+		return model.getErrorStackTrace();
 	}
 
 	/**
@@ -290,7 +264,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public Date getFinishDate() {
-		return _importHistoric.getFinishDate();
+		return model.getFinishDate();
 	}
 
 	/**
@@ -300,7 +274,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _importHistoric.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -310,7 +284,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public String getGtfsFileHash() {
-		return _importHistoric.getGtfsFileHash();
+		return model.getGtfsFileHash();
 	}
 
 	/**
@@ -320,7 +294,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public long getImportHistoricId() {
-		return _importHistoric.getImportHistoricId();
+		return model.getImportHistoricId();
 	}
 
 	/**
@@ -330,7 +304,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _importHistoric.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -340,7 +314,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public String getOperations() {
-		return _importHistoric.getOperations();
+		return model.getOperations();
 	}
 
 	/**
@@ -350,12 +324,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _importHistoric.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _importHistoric.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -365,7 +334,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public int getResult() {
-		return _importHistoric.getResult();
+		return model.getResult();
 	}
 
 	/**
@@ -375,7 +344,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public String getResultLabel() {
-		return _importHistoric.getResultLabel();
+		return model.getResultLabel();
 	}
 
 	/**
@@ -385,7 +354,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public Date getStartDate() {
-		return _importHistoric.getStartDate();
+		return model.getStartDate();
 	}
 
 	/**
@@ -395,7 +364,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public int getStatus() {
-		return _importHistoric.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -405,7 +374,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _importHistoric.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -415,7 +384,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _importHistoric.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -425,7 +394,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _importHistoric.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -435,7 +404,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _importHistoric.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -445,7 +414,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _importHistoric.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -455,7 +424,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _importHistoric.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -465,7 +434,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _importHistoric.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -475,12 +444,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _importHistoric.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _importHistoric.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -490,12 +454,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public boolean isApproved() {
-		return _importHistoric.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _importHistoric.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -505,7 +464,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public boolean isDenied() {
-		return _importHistoric.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -515,12 +474,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public boolean isDraft() {
-		return _importHistoric.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _importHistoric.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -530,7 +484,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public boolean isExpired() {
-		return _importHistoric.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -540,7 +494,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public boolean isInactive() {
-		return _importHistoric.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -550,12 +504,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _importHistoric.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _importHistoric.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -565,7 +514,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public boolean isPending() {
-		return _importHistoric.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -575,12 +524,12 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _importHistoric.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_importHistoric.persist();
+		model.persist();
 	}
 
 	/**
@@ -588,12 +537,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void sendMail() {
-		_importHistoric.sendMail();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_importHistoric.setCachedModel(cachedModel);
+		model.sendMail();
 	}
 
 	/**
@@ -603,7 +547,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_importHistoric.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -613,7 +557,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_importHistoric.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -623,7 +567,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setErrorDescription(String errorDescription) {
-		_importHistoric.setErrorDescription(errorDescription);
+		model.setErrorDescription(errorDescription);
 	}
 
 	/**
@@ -633,24 +577,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setErrorStackTrace(String errorStackTrace) {
-		_importHistoric.setErrorStackTrace(errorStackTrace);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_importHistoric.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_importHistoric.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_importHistoric.setExpandoBridgeAttributes(serviceContext);
+		model.setErrorStackTrace(errorStackTrace);
 	}
 
 	/**
@@ -660,7 +587,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setFinishDate(Date finishDate) {
-		_importHistoric.setFinishDate(finishDate);
+		model.setFinishDate(finishDate);
 	}
 
 	/**
@@ -670,7 +597,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_importHistoric.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -680,7 +607,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setGtfsFileHash(String gtfsFileHash) {
-		_importHistoric.setGtfsFileHash(gtfsFileHash);
+		model.setGtfsFileHash(gtfsFileHash);
 	}
 
 	/**
@@ -690,7 +617,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setImportHistoricId(long importHistoricId) {
-		_importHistoric.setImportHistoricId(importHistoricId);
+		model.setImportHistoricId(importHistoricId);
 	}
 
 	/**
@@ -700,12 +627,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_importHistoric.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_importHistoric.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -715,7 +637,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setOperations(String operations) {
-		_importHistoric.setOperations(operations);
+		model.setOperations(operations);
 	}
 
 	/**
@@ -725,12 +647,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_importHistoric.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_importHistoric.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -740,7 +657,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setResult(int result) {
-		_importHistoric.setResult(result);
+		model.setResult(result);
 	}
 
 	/**
@@ -750,7 +667,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setStartDate(Date startDate) {
-		_importHistoric.setStartDate(startDate);
+		model.setStartDate(startDate);
 	}
 
 	/**
@@ -760,7 +677,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setStatus(int status) {
-		_importHistoric.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -770,7 +687,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_importHistoric.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -780,7 +697,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_importHistoric.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -790,7 +707,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_importHistoric.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -800,7 +717,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_importHistoric.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -810,7 +727,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_importHistoric.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -820,7 +737,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_importHistoric.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -830,7 +747,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_importHistoric.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -840,83 +757,22 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_importHistoric.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.gtfs.model.ImportHistoric> toCacheModel() {
-
-		return _importHistoric.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.ImportHistoric toEscapedModel() {
-		return new ImportHistoricWrapper(_importHistoric.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _importHistoric.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.ImportHistoric toUnescapedModel() {
-		return new ImportHistoricWrapper(_importHistoric.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _importHistoric.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof ImportHistoricWrapper)) {
-			return false;
-		}
-
-		ImportHistoricWrapper importHistoricWrapper =
-			(ImportHistoricWrapper)object;
-
-		if (Objects.equals(
-				_importHistoric, importHistoricWrapper._importHistoric)) {
-
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _importHistoric.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public ImportHistoric getWrappedModel() {
-		return _importHistoric;
+	protected ImportHistoricWrapper wrap(ImportHistoric importHistoric) {
+		return new ImportHistoricWrapper(importHistoric);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _importHistoric.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _importHistoric.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_importHistoric.resetOriginalValues();
-	}
-
-	private final ImportHistoric _importHistoric;
 
 }

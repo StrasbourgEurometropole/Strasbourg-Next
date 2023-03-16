@@ -14,8 +14,7 @@
 
 package eu.strasbourg.service.gtfs.service;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -39,6 +38,8 @@ import java.io.Serializable;
 
 import java.util.List;
 
+import org.osgi.annotation.versioning.ProviderType;
+
 /**
  * Provides the local service interface for Alert. Methods of this
  * service will not have security checks based on the propagated JAAS
@@ -60,7 +61,7 @@ public interface AlertLocalService
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link AlertLocalServiceUtil} to access the alert local service. Add custom service methods to <code>eu.strasbourg.service.gtfs.service.impl.AlertLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.gtfs.service.impl.AlertLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the alert local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link AlertLocalServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**
@@ -89,6 +90,12 @@ public interface AlertLocalService
 	 * Crée une entree avec une PK, non ajouté à la base de donnée
 	 */
 	public Alert createAlert(ServiceContext sc) throws PortalException;
+
+	/**
+	 * @throws PortalException
+	 */
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException;
 
 	/**
 	 * Deletes the alert from the database. Also notifies the appropriate model listeners.
@@ -123,6 +130,12 @@ public interface AlertLocalService
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> T dslQuery(DSLQuery dslQuery);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int dslQueryCount(DSLQuery dslQuery);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();

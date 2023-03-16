@@ -14,17 +14,13 @@
 
 package eu.strasbourg.service.project.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +31,12 @@ import java.util.Objects;
  * @see Initiative
  * @generated
  */
-public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
+public class InitiativeWrapper
+	extends BaseModelWrapper<Initiative>
+	implements Initiative, ModelWrapper<Initiative> {
 
 	public InitiativeWrapper(Initiative initiative) {
-		_initiative = initiative;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Initiative.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Initiative.class.getName();
+		super(initiative);
 	}
 
 	@Override
@@ -239,15 +227,8 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	}
 
 	@Override
-	public Object clone() {
-		return new InitiativeWrapper((Initiative)_initiative.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.project.model.Initiative initiative) {
-
-		return _initiative.compareTo(initiative);
+	public Initiative cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -257,7 +238,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	public java.util.List<eu.strasbourg.service.comment.model.Comment>
 		getApprovedComments() {
 
-		return _initiative.getApprovedComments();
+		return model.getApprovedComments();
 	}
 
 	/**
@@ -265,7 +246,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _initiative.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	/**
@@ -275,7 +256,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public long getAssetEntryId() {
-		return _initiative.getAssetEntryId();
+		return model.getAssetEntryId();
 	}
 
 	/**
@@ -285,7 +266,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public eu.strasbourg.service.oidc.model.PublikUser getAuthor() {
-		return _initiative.getAuthor();
+		return model.getAuthor();
 	}
 
 	/**
@@ -293,7 +274,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getAuthorEmail() {
-		return _initiative.getAuthorEmail();
+		return model.getAuthorEmail();
 	}
 
 	/**
@@ -301,7 +282,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getAuthorImageURL() {
-		return _initiative.getAuthorImageURL();
+		return model.getAuthorImageURL();
 	}
 
 	/**
@@ -309,7 +290,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getAuthorLabel() {
-		return _initiative.getAuthorLabel();
+		return model.getAuthorLabel();
 	}
 
 	/**
@@ -317,7 +298,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getAuthorNameLabel() {
-		return _initiative.getAuthorNameLabel();
+		return model.getAuthorNameLabel();
 	}
 
 	/**
@@ -328,7 +309,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _initiative.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -340,7 +321,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCityCategories() {
 
-		return _initiative.getCityCategories();
+		return model.getCityCategories();
 	}
 
 	/**
@@ -350,7 +331,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _initiative.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -360,7 +341,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _initiative.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -370,7 +351,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getDescription() {
-		return _initiative.getDescription();
+		return model.getDescription();
 	}
 
 	/**
@@ -380,7 +361,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.like.model.Like> getDislikes() {
-		return _initiative.getDislikes();
+		return model.getDislikes();
 	}
 
 	/**
@@ -392,7 +373,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getDistrictCategories() {
 
-		return _initiative.getDistrictCategories();
+		return model.getDistrictCategories();
 	}
 
 	/**
@@ -402,12 +383,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getDistrictLabel(java.util.Locale locale) {
-		return _initiative.getDistrictLabel(locale);
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _initiative.getExpandoBridge();
+		return model.getDistrictLabel(locale);
 	}
 
 	/**
@@ -417,7 +393,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getExternalImageCopyright() {
-		return _initiative.getExternalImageCopyright();
+		return model.getExternalImageCopyright();
 	}
 
 	/**
@@ -427,7 +403,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getExternalImageURL() {
-		return _initiative.getExternalImageURL();
+		return model.getExternalImageURL();
 	}
 
 	/**
@@ -437,7 +413,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getFilesIds() {
-		return _initiative.getFilesIds();
+		return model.getFilesIds();
 	}
 
 	/**
@@ -445,7 +421,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public java.util.List<String> getFilesURLs() {
-		return _initiative.getFilesURLs();
+		return model.getFilesURLs();
 	}
 
 	/**
@@ -455,7 +431,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _initiative.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -465,7 +441,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	public java.util.List<eu.strasbourg.service.project.model.InitiativeHelp>
 		getHelps() {
 
-		return _initiative.getHelps();
+		return model.getHelps();
 	}
 
 	/**
@@ -473,7 +449,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getImageCopyright(java.util.Locale locale) {
-		return _initiative.getImageCopyright(locale);
+		return model.getImageCopyright(locale);
 	}
 
 	/**
@@ -483,7 +459,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public long getImageId() {
-		return _initiative.getImageId();
+		return model.getImageId();
 	}
 
 	/**
@@ -491,7 +467,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getImageURL() {
-		return _initiative.getImageURL();
+		return model.getImageURL();
 	}
 
 	/**
@@ -501,7 +477,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public long getInitiativeId() {
-		return _initiative.getInitiativeId();
+		return model.getInitiativeId();
 	}
 
 	/**
@@ -511,7 +487,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getInTheNameOf() {
-		return _initiative.getInTheNameOf();
+		return model.getInTheNameOf();
 	}
 
 	/**
@@ -521,7 +497,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.like.model.Like> getLikes() {
-		return _initiative.getLikes();
+		return model.getLikes();
 	}
 
 	/**
@@ -533,7 +509,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	public java.util.List<eu.strasbourg.service.like.model.Like>
 		getLikesDislikes() {
 
-		return _initiative.getLikesDislikes();
+		return model.getLikesDislikes();
 	}
 
 	/**
@@ -543,7 +519,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public boolean getMediaChoice() {
-		return _initiative.getMediaChoice();
+		return model.getMediaChoice();
 	}
 
 	/**
@@ -553,7 +529,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _initiative.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -561,7 +537,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public int getNbApprovedComments() {
-		return _initiative.getNbApprovedComments();
+		return model.getNbApprovedComments();
 	}
 
 	/**
@@ -571,7 +547,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public int getNbDislikes() {
-		return _initiative.getNbDislikes();
+		return model.getNbDislikes();
 	}
 
 	/**
@@ -579,7 +555,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public int getNbHelps() {
-		return _initiative.getNbHelps();
+		return model.getNbHelps();
 	}
 
 	/**
@@ -589,7 +565,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public int getNbLikes() {
-		return _initiative.getNbLikes();
+		return model.getNbLikes();
 	}
 
 	/**
@@ -599,7 +575,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public int getNbLikesDislikes() {
-		return _initiative.getNbLikesDislikes();
+		return model.getNbLikesDislikes();
 	}
 
 	/**
@@ -607,7 +583,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public java.util.List<String> getPlaceNames(java.util.Locale locale) {
-		return _initiative.getPlaceNames(locale);
+		return model.getPlaceNames(locale);
 	}
 
 	/**
@@ -615,7 +591,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public java.util.List<String> getPlaceSIGIds(java.util.Locale locale) {
-		return _initiative.getPlaceSIGIds(locale);
+		return model.getPlaceSIGIds(locale);
 	}
 
 	/**
@@ -625,7 +601,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getPlaceTextArea() {
-		return _initiative.getPlaceTextArea();
+		return model.getPlaceTextArea();
 	}
 
 	/**
@@ -635,7 +611,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace>
 		getPlacitPlaces() {
 
-		return _initiative.getPlacitPlaces();
+		return model.getPlacitPlaces();
 	}
 
 	/**
@@ -645,12 +621,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _initiative.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _initiative.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -658,7 +629,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
-		return _initiative.getProjectCategory();
+		return model.getProjectCategory();
 	}
 
 	/**
@@ -666,7 +637,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getProjectName() {
-		return _initiative.getProjectName();
+		return model.getProjectName();
 	}
 
 	/**
@@ -676,12 +647,12 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public Date getPublicationDate() {
-		return _initiative.getPublicationDate();
+		return model.getPublicationDate();
 	}
 
 	@Override
 	public String getPublicationDateFr() {
-		return _initiative.getPublicationDateFr();
+		return model.getPublicationDateFr();
 	}
 
 	/**
@@ -691,7 +662,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getPublikId() {
-		return _initiative.getPublikId();
+		return model.getPublikId();
 	}
 
 	/**
@@ -701,7 +672,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public int getStatus() {
-		return _initiative.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -711,7 +682,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _initiative.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -721,7 +692,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _initiative.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -731,7 +702,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _initiative.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -739,7 +710,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getStatusCategory() {
-		return _initiative.getStatusCategory();
+		return model.getStatusCategory();
 	}
 
 	/**
@@ -748,7 +719,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getStatusCategoryColor() {
-		return _initiative.getStatusCategoryColor();
+		return model.getStatusCategoryColor();
 	}
 
 	/**
@@ -758,7 +729,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _initiative.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -776,7 +747,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 		throws com.liferay.portal.kernel.exception.PortalException,
 			   com.liferay.portal.kernel.search.SearchException {
 
-		return _initiative.getSuggestions(request, nbSuggestions);
+		return model.getSuggestions(request, nbSuggestions);
 	}
 
 	/**
@@ -786,7 +757,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getTerritoryCategories() {
 
-		return _initiative.getTerritoryCategories();
+		return model.getTerritoryCategories();
 	}
 
 	/**
@@ -796,7 +767,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getThematicCategories() {
 
-		return _initiative.getThematicCategories();
+		return model.getThematicCategories();
 	}
 
 	/**
@@ -804,7 +775,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getThematicsLabel(java.util.Locale locale) {
-		return _initiative.getThematicsLabel(locale);
+		return model.getThematicsLabel(locale);
 	}
 
 	/**
@@ -814,7 +785,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getTitle() {
-		return _initiative.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -824,7 +795,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public long getUserId() {
-		return _initiative.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -834,7 +805,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getUserName() {
-		return _initiative.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -844,7 +815,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _initiative.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -854,7 +825,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getUuid() {
-		return _initiative.getUuid();
+		return model.getUuid();
 	}
 
 	/**
@@ -864,12 +835,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public String getVideoUrl() {
-		return _initiative.getVideoUrl();
-	}
-
-	@Override
-	public int hashCode() {
-		return _initiative.hashCode();
+		return model.getVideoUrl();
 	}
 
 	/**
@@ -879,12 +845,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _initiative.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _initiative.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -894,7 +855,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _initiative.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -904,12 +865,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _initiative.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _initiative.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -919,7 +875,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _initiative.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -929,7 +885,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _initiative.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -939,7 +895,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _initiative.isIncomplete();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -949,12 +905,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public boolean isMediaChoice() {
-		return _initiative.isMediaChoice();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _initiative.isNew();
+		return model.isMediaChoice();
 	}
 
 	/**
@@ -964,7 +915,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public boolean isPending() {
-		return _initiative.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -974,7 +925,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _initiative.isScheduled();
+		return model.isScheduled();
 	}
 
 	/**
@@ -985,12 +936,12 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public boolean isUserAlreadyHelp(String publikUserId) {
-		return _initiative.isUserAlreadyHelp(publikUserId);
+		return model.isUserAlreadyHelp(publikUserId);
 	}
 
 	@Override
 	public void persist() {
-		_initiative.persist();
+		model.persist();
 	}
 
 	/**
@@ -1000,12 +951,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setAssetEntryId(long assetEntryId) {
-		_initiative.setAssetEntryId(assetEntryId);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_initiative.setCachedModel(cachedModel);
+		model.setAssetEntryId(assetEntryId);
 	}
 
 	/**
@@ -1015,7 +961,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_initiative.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -1025,7 +971,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_initiative.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -1035,24 +981,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setDescription(String description) {
-		_initiative.setDescription(description);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_initiative.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_initiative.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_initiative.setExpandoBridgeAttributes(serviceContext);
+		model.setDescription(description);
 	}
 
 	/**
@@ -1062,7 +991,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setExternalImageCopyright(String externalImageCopyright) {
-		_initiative.setExternalImageCopyright(externalImageCopyright);
+		model.setExternalImageCopyright(externalImageCopyright);
 	}
 
 	/**
@@ -1072,7 +1001,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setExternalImageURL(String externalImageURL) {
-		_initiative.setExternalImageURL(externalImageURL);
+		model.setExternalImageURL(externalImageURL);
 	}
 
 	/**
@@ -1082,7 +1011,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setFilesIds(String filesIds) {
-		_initiative.setFilesIds(filesIds);
+		model.setFilesIds(filesIds);
 	}
 
 	/**
@@ -1092,7 +1021,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_initiative.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -1102,7 +1031,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setImageId(long imageId) {
-		_initiative.setImageId(imageId);
+		model.setImageId(imageId);
 	}
 
 	/**
@@ -1112,7 +1041,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setInitiativeId(long initiativeId) {
-		_initiative.setInitiativeId(initiativeId);
+		model.setInitiativeId(initiativeId);
 	}
 
 	/**
@@ -1122,7 +1051,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setInTheNameOf(String inTheNameOf) {
-		_initiative.setInTheNameOf(inTheNameOf);
+		model.setInTheNameOf(inTheNameOf);
 	}
 
 	/**
@@ -1132,7 +1061,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setMediaChoice(boolean mediaChoice) {
-		_initiative.setMediaChoice(mediaChoice);
+		model.setMediaChoice(mediaChoice);
 	}
 
 	/**
@@ -1142,12 +1071,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_initiative.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_initiative.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -1157,7 +1081,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setPlaceTextArea(String placeTextArea) {
-		_initiative.setPlaceTextArea(placeTextArea);
+		model.setPlaceTextArea(placeTextArea);
 	}
 
 	/**
@@ -1167,12 +1091,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_initiative.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_initiative.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -1182,7 +1101,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setPublicationDate(Date publicationDate) {
-		_initiative.setPublicationDate(publicationDate);
+		model.setPublicationDate(publicationDate);
 	}
 
 	/**
@@ -1192,7 +1111,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setPublikId(String publikId) {
-		_initiative.setPublikId(publikId);
+		model.setPublikId(publikId);
 	}
 
 	/**
@@ -1202,7 +1121,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_initiative.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -1212,7 +1131,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_initiative.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -1222,7 +1141,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_initiative.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -1232,7 +1151,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_initiative.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -1242,7 +1161,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_initiative.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -1252,7 +1171,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setTitle(String title) {
-		_initiative.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -1262,7 +1181,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_initiative.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -1272,7 +1191,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_initiative.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -1282,7 +1201,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_initiative.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -1292,7 +1211,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_initiative.setUuid(uuid);
+		model.setUuid(uuid);
 	}
 
 	/**
@@ -1302,19 +1221,7 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	 */
 	@Override
 	public void setVideoUrl(String videoUrl) {
-		_initiative.setVideoUrl(videoUrl);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.project.model.Initiative> toCacheModel() {
-
-		return _initiative.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.Initiative toEscapedModel() {
-		return new InitiativeWrapper(_initiative.toEscapedModel());
+		model.setVideoUrl(videoUrl);
 	}
 
 	/**
@@ -1326,68 +1233,22 @@ public class InitiativeWrapper implements Initiative, ModelWrapper<Initiative> {
 	public com.liferay.portal.kernel.json.JSONObject toJSON()
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _initiative.toJSON();
-	}
-
-	@Override
-	public String toString() {
-		return _initiative.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.Initiative toUnescapedModel() {
-		return new InitiativeWrapper(_initiative.toUnescapedModel());
+		return model.toJSON();
 	}
 
 	@Override
 	public String toXmlString() {
-		return _initiative.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof InitiativeWrapper)) {
-			return false;
-		}
-
-		InitiativeWrapper initiativeWrapper = (InitiativeWrapper)object;
-
-		if (Objects.equals(_initiative, initiativeWrapper._initiative)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _initiative.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Initiative getWrappedModel() {
-		return _initiative;
+	protected InitiativeWrapper wrap(Initiative initiative) {
+		return new InitiativeWrapper(initiative);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _initiative.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _initiative.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_initiative.resetOriginalValues();
-	}
-
-	private final Initiative _initiative;
 
 }

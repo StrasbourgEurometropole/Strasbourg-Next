@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class EditionGalleryServiceWrapper
 	implements EditionGalleryService, ServiceWrapper<EditionGalleryService> {
 
+	public EditionGalleryServiceWrapper() {
+		this(null);
+	}
+
 	public EditionGalleryServiceWrapper(
 		EditionGalleryService editionGalleryService) {
 

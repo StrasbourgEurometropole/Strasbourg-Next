@@ -20,18 +20,21 @@ import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.service.LikeService;
+import eu.strasbourg.service.like.service.LikeServiceUtil;
 import eu.strasbourg.service.like.service.persistence.LikePersistence;
 
 import javax.sql.DataSource;
+import java.lang.reflect.Field;
 
 /**
  * Provides the base implementation for the like remote service.
@@ -50,7 +53,7 @@ public abstract class LikeServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>LikeService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.like.service.LikeServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>LikeService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>LikeServiceUtil</code>.
 	 */
 
 	/**
@@ -283,9 +286,11 @@ public abstract class LikeServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
+		_setServiceUtilService(likeService);
 	}
 
 	public void destroy() {
+		_setServiceUtilService(null);
 	}
 
 	/**
@@ -327,6 +332,19 @@ public abstract class LikeServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setServiceUtilService(LikeService likeService) {
+		try {
+			Field field = LikeServiceUtil.class.getDeclaredField("_service");
+
+			field.setAccessible(true);
+
+			field.set(null, likeService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -382,5 +400,8 @@ public abstract class LikeServiceBaseImpl
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		LikeServiceBaseImpl.class);
 
 }

@@ -14,17 +14,11 @@
 
 package eu.strasbourg.service.place.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.model.BaseModel;
-import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.LocalizedModel;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.Date;
 import java.util.Locale;
@@ -229,39 +223,6 @@ public interface PublicHolidayModel
 	public void setRecurrent(boolean recurrent);
 
 	@Override
-	public boolean isNew();
-
-	@Override
-	public void setNew(boolean n);
-
-	@Override
-	public boolean isCachedModel();
-
-	@Override
-	public void setCachedModel(boolean cachedModel);
-
-	@Override
-	public boolean isEscapedModel();
-
-	@Override
-	public Serializable getPrimaryKeyObj();
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj);
-
-	@Override
-	public ExpandoBridge getExpandoBridge();
-
-	@Override
-	public void setExpandoBridgeAttributes(BaseModel<?> baseModel);
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge);
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext);
-
-	@Override
 	public String[] getAvailableLanguageIds();
 
 	@Override
@@ -275,29 +236,10 @@ public interface PublicHolidayModel
 		throws LocaleException;
 
 	@Override
-	public Object clone();
+	public PublicHoliday cloneWithOriginalValues();
 
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.place.model.PublicHoliday publicHoliday);
-
-	@Override
-	public int hashCode();
-
-	@Override
-	public CacheModel<eu.strasbourg.service.place.model.PublicHoliday>
-		toCacheModel();
-
-	@Override
-	public eu.strasbourg.service.place.model.PublicHoliday toEscapedModel();
-
-	@Override
-	public eu.strasbourg.service.place.model.PublicHoliday toUnescapedModel();
-
-	@Override
-	public String toString();
-
-	@Override
-	public String toXmlString();
+	public default String toXmlString() {
+		return null;
+	}
 
 }

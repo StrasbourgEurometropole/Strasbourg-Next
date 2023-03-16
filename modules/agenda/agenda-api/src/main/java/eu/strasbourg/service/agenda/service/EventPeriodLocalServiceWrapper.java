@@ -27,6 +27,10 @@ public class EventPeriodLocalServiceWrapper
 	implements EventPeriodLocalService,
 			   ServiceWrapper<EventPeriodLocalService> {
 
+	public EventPeriodLocalServiceWrapper() {
+		this(null);
+	}
+
 	public EventPeriodLocalServiceWrapper(
 		EventPeriodLocalService eventPeriodLocalService) {
 
@@ -86,6 +90,17 @@ public class EventPeriodLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _eventPeriodLocalService.createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the event period from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -130,6 +145,18 @@ public class EventPeriodLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _eventPeriodLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _eventPeriodLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _eventPeriodLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

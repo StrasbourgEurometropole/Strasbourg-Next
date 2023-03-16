@@ -27,6 +27,10 @@ public class UserNotificationStatusLocalServiceWrapper
 	implements ServiceWrapper<UserNotificationStatusLocalService>,
 			   UserNotificationStatusLocalService {
 
+	public UserNotificationStatusLocalServiceWrapper() {
+		this(null);
+	}
+
 	public UserNotificationStatusLocalServiceWrapper(
 		UserNotificationStatusLocalService userNotificationStatusLocalService) {
 
@@ -52,6 +56,18 @@ public class UserNotificationStatusLocalServiceWrapper
 
 		return _userNotificationStatusLocalService.addUserNotificationStatus(
 			userNotificationStatus);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _userNotificationStatusLocalService.createPersistedModel(
+			primaryKeyObj);
 	}
 
 	/**
@@ -122,6 +138,18 @@ public class UserNotificationStatusLocalServiceWrapper
 
 		return _userNotificationStatusLocalService.deleteUserNotificationStatus(
 			userNotificationStatusPK);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _userNotificationStatusLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _userNotificationStatusLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

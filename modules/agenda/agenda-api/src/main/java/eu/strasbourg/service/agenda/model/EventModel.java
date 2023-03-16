@@ -14,24 +14,19 @@
 
 package eu.strasbourg.service.agenda.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.model.BaseModel;
-import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.LocalizedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.StagedGroupedModel;
 import com.liferay.portal.kernel.model.WorkflowedModel;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
 
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model interface for the Event service. Represents a row in the &quot;agenda_Event&quot; database table, with each column mapped to a property of this class.
@@ -2127,39 +2122,6 @@ public interface EventModel
 	public boolean isScheduled();
 
 	@Override
-	public boolean isNew();
-
-	@Override
-	public void setNew(boolean n);
-
-	@Override
-	public boolean isCachedModel();
-
-	@Override
-	public void setCachedModel(boolean cachedModel);
-
-	@Override
-	public boolean isEscapedModel();
-
-	@Override
-	public Serializable getPrimaryKeyObj();
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj);
-
-	@Override
-	public ExpandoBridge getExpandoBridge();
-
-	@Override
-	public void setExpandoBridgeAttributes(BaseModel<?> baseModel);
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge);
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext);
-
-	@Override
 	public String[] getAvailableLanguageIds();
 
 	@Override
@@ -2173,27 +2135,10 @@ public interface EventModel
 		throws LocaleException;
 
 	@Override
-	public Object clone();
+	public Event cloneWithOriginalValues();
 
-	@Override
-	public int compareTo(eu.strasbourg.service.agenda.model.Event event);
-
-	@Override
-	public int hashCode();
-
-	@Override
-	public CacheModel<eu.strasbourg.service.agenda.model.Event> toCacheModel();
-
-	@Override
-	public eu.strasbourg.service.agenda.model.Event toEscapedModel();
-
-	@Override
-	public eu.strasbourg.service.agenda.model.Event toUnescapedModel();
-
-	@Override
-	public String toString();
-
-	@Override
-	public String toXmlString();
+	public default String toXmlString() {
+		return null;
+	}
 
 }

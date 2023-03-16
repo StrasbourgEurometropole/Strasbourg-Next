@@ -14,9 +14,7 @@
 
 package eu.strasbourg.service.activity.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.portal.kernel.exception.PortalException;
 
 /**
  * Provides the remote service utility for Activity. This utility wraps
@@ -39,7 +37,7 @@ public class ActivityServiceUtil {
 	 */
 	public static com.liferay.portal.kernel.json.JSONArray getActivities(
 			long groupId, String name, String language)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getActivities(groupId, name, language);
 	}
@@ -54,22 +52,9 @@ public class ActivityServiceUtil {
 	}
 
 	public static ActivityService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<ActivityService, ActivityService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(ActivityService.class);
-
-		ServiceTracker<ActivityService, ActivityService> serviceTracker =
-			new ServiceTracker<ActivityService, ActivityService>(
-				bundle.getBundleContext(), ActivityService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile ActivityService _service;
 
 }

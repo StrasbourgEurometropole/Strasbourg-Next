@@ -16,6 +16,7 @@ package eu.strasbourg.service.agenda.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -23,16 +24,16 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.agenda.model.Historic;
 import eu.strasbourg.service.agenda.model.HistoricModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
@@ -40,6 +41,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -95,25 +97,41 @@ public class HistoricModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.agenda.model.Historic"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.agenda.model.Historic"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.agenda.model.Historic"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long SUPPRESSIONDATE_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long EVENTID_COLUMN_BITMASK = 4L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -171,9 +189,6 @@ public class HistoricModelImpl
 				attributeName, attributeGetterFunction.apply((Historic)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -207,34 +222,6 @@ public class HistoricModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Historic>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Historic.class.getClassLoader(), Historic.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<Historic> constructor =
-				(Constructor<Historic>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<Historic, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Historic, Object>>
@@ -246,88 +233,20 @@ public class HistoricModelImpl
 		Map<String, BiConsumer<Historic, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Historic, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Historic, Object>() {
-
-				@Override
-				public Object apply(Historic historic) {
-					return historic.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", Historic::getUuid);
 		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Historic, Object>() {
-
-				@Override
-				public void accept(Historic historic, Object uuidObject) {
-					historic.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"eventId",
-			new Function<Historic, Object>() {
-
-				@Override
-				public Object apply(Historic historic) {
-					return historic.getEventId();
-				}
-
-			});
+			"uuid", (BiConsumer<Historic, String>)Historic::setUuid);
+		attributeGetterFunctions.put("eventId", Historic::getEventId);
 		attributeSetterBiConsumers.put(
-			"eventId",
-			new BiConsumer<Historic, Object>() {
-
-				@Override
-				public void accept(Historic historic, Object eventIdObject) {
-					historic.setEventId((Long)eventIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<Historic, Object>() {
-
-				@Override
-				public Object apply(Historic historic) {
-					return historic.getTitle();
-				}
-
-			});
+			"eventId", (BiConsumer<Historic, Long>)Historic::setEventId);
+		attributeGetterFunctions.put("title", Historic::getTitle);
 		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<Historic, Object>() {
-
-				@Override
-				public void accept(Historic historic, Object titleObject) {
-					historic.setTitle((String)titleObject);
-				}
-
-			});
+			"title", (BiConsumer<Historic, String>)Historic::setTitle);
 		attributeGetterFunctions.put(
-			"suppressionDate",
-			new Function<Historic, Object>() {
-
-				@Override
-				public Object apply(Historic historic) {
-					return historic.getSuppressionDate();
-				}
-
-			});
+			"suppressionDate", Historic::getSuppressionDate);
 		attributeSetterBiConsumers.put(
 			"suppressionDate",
-			new BiConsumer<Historic, Object>() {
-
-				@Override
-				public void accept(
-					Historic historic, Object suppressionDateObject) {
-
-					historic.setSuppressionDate((Date)suppressionDateObject);
-				}
-
-			});
+			(BiConsumer<Historic, Date>)Historic::setSuppressionDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -347,17 +266,20 @@ public class HistoricModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -367,6 +289,10 @@ public class HistoricModelImpl
 
 	@Override
 	public void setEventId(long eventId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_eventId = eventId;
 	}
 
@@ -382,6 +308,10 @@ public class HistoricModelImpl
 
 	@Override
 	public void setTitle(String title) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_title = title;
 	}
 
@@ -392,20 +322,43 @@ public class HistoricModelImpl
 
 	@Override
 	public void setSuppressionDate(Date suppressionDate) {
-		_columnBitmask |= SUPPRESSIONDATE_COLUMN_BITMASK;
-
-		if (_originalSuppressionDate == null) {
-			_originalSuppressionDate = _suppressionDate;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_suppressionDate = suppressionDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalSuppressionDate() {
-		return _originalSuppressionDate;
+		return getColumnOriginalValue("suppressionDate");
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -452,6 +405,19 @@ public class HistoricModelImpl
 	}
 
 	@Override
+	public Historic cloneWithOriginalValues() {
+		HistoricImpl historicImpl = new HistoricImpl();
+
+		historicImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		historicImpl.setEventId(this.<Long>getColumnOriginalValue("eventId"));
+		historicImpl.setTitle(this.<String>getColumnOriginalValue("title"));
+		historicImpl.setSuppressionDate(
+			this.<Date>getColumnOriginalValue("suppressionDate"));
+
+		return historicImpl;
+	}
+
+	@Override
 	public int compareTo(Historic historic) {
 		long primaryKey = historic.getPrimaryKey();
 
@@ -493,11 +459,19 @@ public class HistoricModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -505,14 +479,9 @@ public class HistoricModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		HistoricModelImpl historicModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		historicModelImpl._originalUuid = historicModelImpl._uuid;
-
-		historicModelImpl._originalSuppressionDate =
-			historicModelImpl._suppressionDate;
-
-		historicModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -555,7 +524,7 @@ public class HistoricModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -566,9 +535,26 @@ public class HistoricModelImpl
 			Function<Historic, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Historic)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Historic)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -581,50 +567,87 @@ public class HistoricModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Historic, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Historic, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Historic, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Historic)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Historic>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Historic.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _eventId;
 	private String _title;
 	private Date _suppressionDate;
-	private Date _originalSuppressionDate;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Historic, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Historic)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("eventId", _eventId);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("suppressionDate", _suppressionDate);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("eventId", 2L);
+
+		columnBitmasks.put("title", 4L);
+
+		columnBitmasks.put("suppressionDate", 8L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Historic _escapedModel;
 
