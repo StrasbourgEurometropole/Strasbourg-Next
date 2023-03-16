@@ -64,7 +64,7 @@ public class DeliberationIndexer extends BaseIndexer<Deliberation> {
         List<AssetCategory> assetCategories = AssetVocabularyHelper
                 .getFullHierarchyCategories(deliberation.getCategories());
         document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-        addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES, assetCategories);
+       // addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES, assetCategories);
 
         Map<Locale, String> titleFieldMap = new HashMap<>();
         titleFieldMap.put(Locale.FRANCE, deliberation.getTitle());

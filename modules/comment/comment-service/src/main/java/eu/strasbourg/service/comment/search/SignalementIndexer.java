@@ -100,7 +100,7 @@ public class SignalementIndexer extends BaseIndexer<Signalement> {
         List<AssetCategory> assetCategories = AssetVocabularyHelper
                 .getFullHierarchyCategories(signalement.getCategoriesByAssetEntry());
         document.addKeyword(Field.ASSET_CATEGORY_IDS,assetCategorIds);
-        addSearchAssetCategoryTitles(document,Field.ASSET_CATEGORY_TITLES,assetCategories);
+        //addSearchAssetCategoryTitles(document,Field.ASSET_CATEGORY_TITLES,assetCategories);
         document.addTextSortable("reportType",signalement.getCategorieName());
         document.addTextSortable(Field.USER_NAME,signalement.getUserName());
         document.addNumber(Field.STATUS, signalement.getStatus());

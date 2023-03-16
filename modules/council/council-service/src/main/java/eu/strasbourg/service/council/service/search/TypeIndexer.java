@@ -64,7 +64,7 @@ public class TypeIndexer extends BaseIndexer<Type> {
         List<AssetCategory> assetCategories = AssetVocabularyHelper
                 .getFullHierarchyCategories(type.getCategories());
         document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-        addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES, assetCategories);
+        //addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES, assetCategories);
 
         Map<Locale, String> titleFieldMap = new HashMap<>();
         titleFieldMap.put(Locale.FRANCE, type.getTitle());
