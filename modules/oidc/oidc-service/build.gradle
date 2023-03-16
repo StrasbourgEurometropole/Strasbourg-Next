@@ -1,16 +1,15 @@
 dependencies {
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
-	compileOnly group: "javax.portlet", name: "portlet-api"
 	compileOnly group: "javax.servlet", name: "javax.servlet-api"
 	compileOnly group: 'javax.mail', name: 'mail', version: '1.4.7'
 
-	compile project(":modules:interest:interest-api")
-	compile project(":modules:notification:notification-api")
-	compile project(":modules:oidc:oidc-api")
-	compile project (':modules:utils')
-	compile project(":modules:favorite:favorite-api")
-	compile project(":modules:project:project-api")
-	compile project (':modules:form-send-record-field:form-send-record-field-api')
+	implementation project(":modules:interest:interest-api")
+	implementation project(":modules:notification:notification-api")
+	implementation project(":modules:oidc:oidc-api")
+	implementation project (':modules:utils')
+	implementation project(":modules:favorite:favorite-api")
+	implementation project(":modules:project:project-api")
+	implementation project (':modules:form-send-record-field:form-send-record-field-api')
 
 }
 

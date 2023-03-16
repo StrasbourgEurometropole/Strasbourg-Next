@@ -1,11 +1,10 @@
 dependencies {
 
-	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
-	compile project(":modules:activity:activity-api")
-	compile project(":modules:video:video-api")
-	compile project(":modules:place:place-api")
-	compile project (':modules:utils')
+	implementation project(":modules:activity:activity-api")
+	implementation project(":modules:video:video-api")
+	implementation project(":modules:place:place-api")
+	implementation project (':modules:utils')
 }
 
 buildService {

@@ -1,11 +1,10 @@
 dependencies {
 
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
-	compileOnly group: "javax.portlet", name: "portlet-api"
 	compileOnly group: "javax.servlet", name: "javax.servlet-api"
 
-	compile project (':modules:utils')
-	compile project(":modules:tipi:tipi-api")
+	implementation project (':modules:utils')
+	implementation project(":modules:tipi:tipi-api")
 }
 
 buildService {

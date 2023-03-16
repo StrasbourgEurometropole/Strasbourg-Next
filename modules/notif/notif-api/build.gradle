@@ -5,5 +5,5 @@ dependencies {
 	compileInclude group: 'com.github.luben', name: 'zstd-jni', version: '1.5.0-4'
 	compileInclude group: 'com.google.guava', name: 'guava', version: '23.0'
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
-	compile project(":modules:utils")
+	implementation project(":modules:utils")
 }

@@ -1,16 +1,15 @@
 dependencies {
 	compileOnly group: "com.sun.xml.ws", name: "jaxws-ri", version: "2.3.2"
-	compileOnly group: "javax.portlet", name: "portlet-api"
 	compileOnly group: "javax.servlet", name: "javax.servlet-api"
 	compileOnly group: 'org.json', name: 'org.json', version: '2.0'
 	compileOnly group: 'javax.mail', name: 'mail', version: '1.4.7'
 	compileInclude group: "org.apache.commons", name: "commons-lang3", version: "3.12.0"
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
 
-	compile project(':modules:utils')
-	compile project(':modules:open-data')
-	compile project(':modules:place:place-api')
-	compile project(':modules:video:video-api')
+	implementation project(':modules:utils')
+	implementation project(':modules:open-data')
+	implementation project(':modules:place:place-api')
+	implementation project(':modules:video:video-api')
 }
 
 buildService {
