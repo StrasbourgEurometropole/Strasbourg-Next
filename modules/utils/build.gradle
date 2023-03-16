@@ -10,7 +10,7 @@ dependencies {
 
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
 
-	compile project (':modules:oidc:oidc-api')
+	implementation project (':modules:oidc:oidc-api')
 }
 
 
