@@ -60,16 +60,20 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalService;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.comment.service.persistence.CommentPersistence;
 import eu.strasbourg.service.comment.service.persistence.SignalementPersistence;
 
-import javax.sql.DataSource;
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
+
 import java.util.List;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the comment local service.

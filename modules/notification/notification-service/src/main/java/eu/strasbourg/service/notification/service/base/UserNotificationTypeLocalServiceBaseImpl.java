@@ -40,6 +40,7 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.notification.model.UserNotificationType;
 import eu.strasbourg.service.notification.service.UserNotificationTypeLocalService;
 import eu.strasbourg.service.notification.service.UserNotificationTypeLocalServiceUtil;
@@ -49,10 +50,13 @@ import eu.strasbourg.service.notification.service.persistence.UserNotificationSt
 import eu.strasbourg.service.notification.service.persistence.UserNotificationTypePK;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationTypePersistence;
 
-import javax.sql.DataSource;
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
+
 import java.util.List;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the user notification type local service.

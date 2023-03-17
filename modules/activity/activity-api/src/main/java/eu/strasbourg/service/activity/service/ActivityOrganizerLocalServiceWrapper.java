@@ -480,7 +480,10 @@ public class ActivityOrganizerLocalServiceWrapper
 	 * Lance une recherche selon le searchContext
 	 */
 	@Override
-	public Hits search(SearchContext searchContext) throws SearchException {
+	public com.liferay.portal.kernel.search.Hits search(
+			com.liferay.portal.kernel.search.SearchContext searchContext)
+		throws com.liferay.portal.kernel.search.SearchException {
+
 		return _activityOrganizerLocalService.search(searchContext);
 	}
 

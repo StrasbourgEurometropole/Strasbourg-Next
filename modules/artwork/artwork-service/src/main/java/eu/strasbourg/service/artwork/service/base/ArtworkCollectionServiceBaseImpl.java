@@ -31,14 +31,16 @@ import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
 import eu.strasbourg.service.artwork.service.ArtworkCollectionService;
 import eu.strasbourg.service.artwork.service.ArtworkCollectionServiceUtil;
 import eu.strasbourg.service.artwork.service.persistence.ArtworkCollectionPersistence;
 import eu.strasbourg.service.artwork.service.persistence.ArtworkPersistence;
 
-import javax.sql.DataSource;
 import java.lang.reflect.Field;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the artwork collection remote service.

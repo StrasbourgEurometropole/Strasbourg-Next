@@ -517,8 +517,6 @@ public class AnonymisationHistoricLocalServiceWrapper
 
 	/**
 	 * Met à jour une entree d'anonymisation et l'enregistre en base de données
-	 *
-	 * @throws IOException
 	 */
 	@Override
 	public eu.strasbourg.service.oidc.model.AnonymisationHistoric

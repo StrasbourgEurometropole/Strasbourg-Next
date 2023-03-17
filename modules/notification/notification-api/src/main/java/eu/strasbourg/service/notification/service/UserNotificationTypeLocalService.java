@@ -29,13 +29,16 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
+
 import eu.strasbourg.service.notification.model.UserNotificationType;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationTypePK;
 import eu.strasbourg.service.oidc.model.PublikUser;
-import org.osgi.annotation.versioning.ProviderType;
 
 import java.io.Serializable;
+
 import java.util.List;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * Provides the local service interface for UserNotificationType. Methods of this

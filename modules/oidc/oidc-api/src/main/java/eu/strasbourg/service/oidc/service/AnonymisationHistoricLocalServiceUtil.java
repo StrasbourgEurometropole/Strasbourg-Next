@@ -19,9 +19,11 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.util.OrderByComparator;
+
 import eu.strasbourg.service.oidc.model.AnonymisationHistoric;
 
 import java.io.Serializable;
+
 import java.util.List;
 import java.util.Map;
 
@@ -444,8 +446,6 @@ public class AnonymisationHistoricLocalServiceUtil {
 
 	/**
 	 * Met à jour une entree d'anonymisation et l'enregistre en base de données
-	 *
-	 * @throws IOException
 	 */
 	public static AnonymisationHistoric updateAnonymisationHistoric(
 			AnonymisationHistoric anonymisationHistoric,

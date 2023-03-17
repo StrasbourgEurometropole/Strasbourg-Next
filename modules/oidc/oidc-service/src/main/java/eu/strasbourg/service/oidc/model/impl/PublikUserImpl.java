@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.oidc.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.Date;
 

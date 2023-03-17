@@ -40,16 +40,20 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.objtp.model.ObjectCategory;
 import eu.strasbourg.service.objtp.service.ObjectCategoryLocalService;
 import eu.strasbourg.service.objtp.service.ObjectCategoryLocalServiceUtil;
 import eu.strasbourg.service.objtp.service.persistence.FoundObjectPersistence;
 import eu.strasbourg.service.objtp.service.persistence.ObjectCategoryPersistence;
 
-import javax.sql.DataSource;
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
+
 import java.util.List;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the object category local service.

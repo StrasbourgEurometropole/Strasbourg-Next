@@ -28,13 +28,15 @@ import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.service.FavoriteService;
 import eu.strasbourg.service.favorite.service.FavoriteServiceUtil;
 import eu.strasbourg.service.favorite.service.persistence.FavoritePersistence;
 
-import javax.sql.DataSource;
 import java.lang.reflect.Field;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the favorite remote service.

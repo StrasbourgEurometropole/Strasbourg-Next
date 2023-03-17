@@ -15,11 +15,13 @@
 package eu.strasbourg.service.tipi.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.tipi.exception.NoSuchTipiEntryException;
 import eu.strasbourg.service.tipi.model.TipiEntry;
-import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.Date;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the tipi entry service.

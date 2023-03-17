@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.tipi.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.portal.kernel.exception.SystemException;
 import eu.strasbourg.service.tipi.model.TipiEntry;
 import eu.strasbourg.service.tipi.service.TipiEntryLocalServiceUtil;

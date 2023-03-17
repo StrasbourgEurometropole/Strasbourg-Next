@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.portal.kernel.util.StringUtil;
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.Place;

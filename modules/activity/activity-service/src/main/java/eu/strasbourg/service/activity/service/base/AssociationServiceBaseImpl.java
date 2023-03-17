@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.activity.model.Association;
 import eu.strasbourg.service.activity.service.AssociationService;
 import eu.strasbourg.service.activity.service.AssociationServiceUtil;
@@ -42,8 +43,9 @@ import eu.strasbourg.service.activity.service.persistence.ActivityPersistence;
 import eu.strasbourg.service.activity.service.persistence.AssociationPersistence;
 import eu.strasbourg.service.activity.service.persistence.PracticePersistence;
 
-import javax.sql.DataSource;
 import java.lang.reflect.Field;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the association remote service.

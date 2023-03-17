@@ -43,16 +43,20 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalService;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.oidc.service.persistence.AnonymisationHistoricPersistence;
 import eu.strasbourg.service.oidc.service.persistence.PublikUserPersistence;
 
-import javax.sql.DataSource;
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
+
 import java.util.List;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the publik user local service.

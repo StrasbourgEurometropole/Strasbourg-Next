@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.service.EditionService;
 import eu.strasbourg.service.edition.service.EditionServiceUtil;
@@ -38,8 +39,9 @@ import eu.strasbourg.service.edition.service.persistence.EditionFinder;
 import eu.strasbourg.service.edition.service.persistence.EditionGalleryPersistence;
 import eu.strasbourg.service.edition.service.persistence.EditionPersistence;
 
-import javax.sql.DataSource;
 import java.lang.reflect.Field;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the edition remote service.

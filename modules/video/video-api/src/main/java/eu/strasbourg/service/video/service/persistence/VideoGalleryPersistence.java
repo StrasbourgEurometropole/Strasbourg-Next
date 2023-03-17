@@ -15,11 +15,13 @@
 package eu.strasbourg.service.video.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.video.exception.NoSuchVideoGalleryException;
 import eu.strasbourg.service.video.model.VideoGallery;
-import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.Date;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the video gallery service.

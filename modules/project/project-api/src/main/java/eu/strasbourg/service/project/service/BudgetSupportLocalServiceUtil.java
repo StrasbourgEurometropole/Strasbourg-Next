@@ -19,9 +19,11 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.util.OrderByComparator;
+
 import eu.strasbourg.service.project.model.BudgetSupport;
 
 import java.io.Serializable;
+
 import java.util.List;
 
 /**
@@ -271,7 +273,7 @@ public class BudgetSupportLocalServiceUtil {
 	 * Recuperer les soutiens d'un budgte et d'un utilisateur donne
 	 *
 	 * @param budgetParticipatifId ID du budget participatif.
-	 * @param publikId ID publik de l'utilsiateur
+	 * @param publikUserId ID publik de l'utilsiateur
 	 * @return Liste des soutiens
 	 */
 	public static List<BudgetSupport>

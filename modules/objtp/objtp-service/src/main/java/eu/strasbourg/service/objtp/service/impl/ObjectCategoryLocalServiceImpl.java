@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.objtp.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import org.osgi.annotation.versioning.ProviderType;
 import eu.strasbourg.service.objtp.service.base.ObjectCategoryLocalServiceBaseImpl;
 
 /**

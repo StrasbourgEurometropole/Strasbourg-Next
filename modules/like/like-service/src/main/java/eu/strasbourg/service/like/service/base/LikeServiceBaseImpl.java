@@ -28,13 +28,15 @@ import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.service.LikeService;
 import eu.strasbourg.service.like.service.LikeServiceUtil;
 import eu.strasbourg.service.like.service.persistence.LikePersistence;
 
-import javax.sql.DataSource;
 import java.lang.reflect.Field;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the like remote service.

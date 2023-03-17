@@ -15,11 +15,13 @@
 package eu.strasbourg.service.edition.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.edition.exception.NoSuchEditionGalleryException;
 import eu.strasbourg.service.edition.model.EditionGallery;
-import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.Date;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the edition gallery service.

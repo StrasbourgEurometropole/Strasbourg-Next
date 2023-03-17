@@ -33,11 +33,14 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
+
 import eu.strasbourg.service.project.model.BudgetSupport;
-import org.osgi.annotation.versioning.ProviderType;
 
 import java.io.Serializable;
+
 import java.util.List;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * Provides the local service interface for BudgetSupport. Methods of this
@@ -247,7 +250,7 @@ public interface BudgetSupportLocalService
 	 * Recuperer les soutiens d'un budgte et d'un utilisateur donne
 	 *
 	 * @param budgetParticipatifId ID du budget participatif.
-	 * @param publikId ID publik de l'utilsiateur
+	 * @param publikUserId ID publik de l'utilsiateur
 	 * @return Liste des soutiens
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

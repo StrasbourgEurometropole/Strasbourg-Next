@@ -43,6 +43,7 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.place.model.Slot;
 import eu.strasbourg.service.place.service.SlotLocalService;
 import eu.strasbourg.service.place.service.SlotLocalServiceUtil;
@@ -57,10 +58,13 @@ import eu.strasbourg.service.place.service.persistence.ScheduleExceptionPersiste
 import eu.strasbourg.service.place.service.persistence.SlotPersistence;
 import eu.strasbourg.service.place.service.persistence.SubPlacePersistence;
 
-import javax.sql.DataSource;
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
+
 import java.util.List;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the slot local service.

@@ -43,15 +43,19 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.service.FavoriteLocalService;
 import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
 import eu.strasbourg.service.favorite.service.persistence.FavoritePersistence;
 
-import javax.sql.DataSource;
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
+
 import java.util.List;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the favorite local service.

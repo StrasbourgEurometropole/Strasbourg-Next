@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceService;
 import eu.strasbourg.service.place.service.PlaceServiceUtil;
@@ -45,8 +46,9 @@ import eu.strasbourg.service.place.service.persistence.ScheduleExceptionPersiste
 import eu.strasbourg.service.place.service.persistence.SlotPersistence;
 import eu.strasbourg.service.place.service.persistence.SubPlacePersistence;
 
-import javax.sql.DataSource;
 import java.lang.reflect.Field;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the place remote service.

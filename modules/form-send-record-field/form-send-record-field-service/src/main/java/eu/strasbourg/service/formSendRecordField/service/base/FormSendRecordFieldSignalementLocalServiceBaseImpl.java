@@ -60,16 +60,20 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement;
 import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldSignalementLocalService;
 import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldSignalementLocalServiceUtil;
 import eu.strasbourg.service.formSendRecordField.service.persistence.FormSendRecordFieldPersistence;
 import eu.strasbourg.service.formSendRecordField.service.persistence.FormSendRecordFieldSignalementPersistence;
 
-import javax.sql.DataSource;
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
+
 import java.util.List;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the form send record field signalement local service.

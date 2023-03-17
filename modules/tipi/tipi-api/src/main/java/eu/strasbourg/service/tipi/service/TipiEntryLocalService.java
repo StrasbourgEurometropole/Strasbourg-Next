@@ -14,7 +14,6 @@
 
 package eu.strasbourg.service.tipi.service;
 
-import aQute.bnd.annotation.ProviderType;
 import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -31,11 +30,15 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
+
 import eu.strasbourg.service.tipi.model.TipiEntry;
 
 import java.io.Serializable;
+
 import java.util.Date;
 import java.util.List;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * Provides the local service interface for TipiEntry. Methods of this

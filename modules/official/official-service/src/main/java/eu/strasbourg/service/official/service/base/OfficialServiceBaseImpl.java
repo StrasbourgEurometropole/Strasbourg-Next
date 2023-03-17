@@ -30,13 +30,15 @@ import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.official.service.OfficialService;
 import eu.strasbourg.service.official.service.OfficialServiceUtil;
 import eu.strasbourg.service.official.service.persistence.OfficialPersistence;
 
-import javax.sql.DataSource;
 import java.lang.reflect.Field;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the official remote service.

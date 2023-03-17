@@ -15,11 +15,13 @@
 package eu.strasbourg.service.place.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.place.exception.NoSuchCsmapCacheJsonException;
 import eu.strasbourg.service.place.model.CsmapCacheJson;
-import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.Date;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the csmap cache json service.

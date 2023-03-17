@@ -28,14 +28,16 @@ import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.objtp.model.ObjectCategory;
 import eu.strasbourg.service.objtp.service.ObjectCategoryService;
 import eu.strasbourg.service.objtp.service.ObjectCategoryServiceUtil;
 import eu.strasbourg.service.objtp.service.persistence.FoundObjectPersistence;
 import eu.strasbourg.service.objtp.service.persistence.ObjectCategoryPersistence;
 
-import javax.sql.DataSource;
 import java.lang.reflect.Field;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the object category remote service.
