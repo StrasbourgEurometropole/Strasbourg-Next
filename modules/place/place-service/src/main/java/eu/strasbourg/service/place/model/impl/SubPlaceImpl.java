@@ -132,7 +132,7 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 	 */
 	@Override
 	public List<PublicHoliday> getPublicHolidays() {
-		return PublicHolidayLocalServiceUtil.getPublicHolidaies(-1, -1);
+		return PublicHolidayLocalServiceUtil.getPublicHolidays(-1, -1);
 	}
 
 	/**
@@ -325,7 +325,7 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 	 * Retourne les PlaceSchedule des exceptions d'ouverture à partir du lundi
 	 * de la semaine en cours
 	 * 
-	 * @param surPériode
+	 * @param surPeriode
 	 *            (false = horaires d'une journée uniquement , true = horaires
 	 *            sur une semaine)
 	 */

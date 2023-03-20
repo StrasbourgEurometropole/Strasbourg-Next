@@ -1,6 +1,7 @@
 
 package eu.strasbourg.service.place.model.impl;
 
+import eu.strasbourg.utils.PortalHelper;
 import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -146,7 +147,7 @@ public class PlaceImpl extends PlaceBaseImpl {
      */
     @Override
     public List<PublicHoliday> getPublicHolidays() {
-        return PublicHolidayLocalServiceUtil.getPublicHolidaies(-1, -1);
+        return PublicHolidayLocalServiceUtil.getPublicHolidays(-1, -1);
     }
 
     /**
@@ -1427,7 +1428,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         }
         if (group != null) {
             String url = "";
-            String virtualHostName = group.getPublicLayoutSet().getVirtualHostname();
+            String virtualHostName= PortalHelper.getVirtualHostname(group, Locale.FRANCE.getLanguage());
             if (virtualHostName.isEmpty()) {
                 url = "/web" + group.getFriendlyURL() + "/";
             } else {
