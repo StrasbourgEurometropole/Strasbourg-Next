@@ -14,15 +14,6 @@
 
 package eu.strasbourg.service.project.service.impl;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
@@ -42,16 +33,27 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.comment.exception.NoSuchCommentException;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.model.LikeType;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
-import eu.strasbourg.service.project.model.*;
+import eu.strasbourg.service.project.model.Initiative;
+import eu.strasbourg.service.project.model.InitiativeHelp;
+import eu.strasbourg.service.project.model.InitiativeModel;
+import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.base.InitiativeLocalServiceBaseImpl;
 import org.osgi.service.component.annotations.Reference;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * The implementation of the initiative local service.

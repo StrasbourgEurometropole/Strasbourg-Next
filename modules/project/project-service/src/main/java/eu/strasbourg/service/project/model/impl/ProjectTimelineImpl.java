@@ -14,11 +14,11 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.text.DateFormat;
 

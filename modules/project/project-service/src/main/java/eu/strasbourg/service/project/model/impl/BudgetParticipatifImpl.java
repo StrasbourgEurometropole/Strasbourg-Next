@@ -14,7 +14,6 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -63,6 +62,7 @@ import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.CategoryNames;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.annotation.versioning.ProviderType;
 import org.osgi.service.component.annotations.Reference;
 
 import javax.servlet.http.HttpServletRequest;
