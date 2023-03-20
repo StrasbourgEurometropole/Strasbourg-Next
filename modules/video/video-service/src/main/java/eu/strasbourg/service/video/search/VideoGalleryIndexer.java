@@ -61,8 +61,8 @@ public class VideoGalleryIndexer extends BaseIndexer<VideoGallery> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(videoGallery.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);
+		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);*/
 		
 		document.addLocalizedText(Field.TITLE, videoGallery.getTitleMap());
 		document.addLocalizedText(Field.DESCRIPTION,
@@ -96,8 +96,7 @@ public class VideoGalleryIndexer extends BaseIndexer<VideoGallery> {
 	protected void doReindex(VideoGallery videoGallery) throws Exception {
 		Document document = getDocument(videoGallery);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-			videoGallery.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(videoGallery.getCompanyId(), document);
 
 	}
 
@@ -130,7 +129,6 @@ public class VideoGalleryIndexer extends BaseIndexer<VideoGallery> {
 
 			});
 
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 
