@@ -1,6 +1,6 @@
 package eu.strasbourg.service.social.scheduler;
 
-import com.liferay.portal.kernel.cache.MultiVMPoolUtil;
+import com.liferay.portal.kernel.cache.PortalCacheHelperUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -8,7 +8,6 @@ import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.model.PortletPreferences;
-import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.scheduler.*;
 import com.liferay.portal.kernel.service.PortletPreferencesLocalServiceUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -68,9 +67,9 @@ public class AccessTokenRefresh extends BaseMessageListener {
 		List<PortletPreferences> preferences = PortletPreferencesLocalServiceUtil.getPortletPreferences();
 		preferences = preferences.stream().filter(p -> p.getPortletId().contains("SocialWallPortlet")).collect(Collectors.toList());
 		for (PortletPreferences preference : preferences ) {
-			javax.portlet.PortletPreferences portletPreferences = PortletPreferencesFactoryUtil
-					.fromXML(preference.getCompanyId(),preference.getOwnerId(),preference.getOwnerType(),
-							preference.getPlid(), preference.getPortletId(),preference.getPreferences());
+			javax.portlet.PortletPreferences portletPreferences = PortletPreferencesLocalServiceUtil
+					.getPreferences(preference.getCompanyId(),preference.getOwnerId(),preference.getOwnerType(),
+							preference.getPlid(), preference.getPortletId());
 			String instagramCreateDate = portletPreferences.getValue("instagramCreateDate","");
 			String instagramToken = portletPreferences.getValue("instagramToken","");
 
@@ -91,8 +90,8 @@ public class AccessTokenRefresh extends BaseMessageListener {
 						portletPreferences.setValue("instagramCreateDate", today.format(formatter));
 						portletPreferences.store();
 
-						MultiVMPoolUtil.getPortalCache("instagram_cache").remove(instagramToken);
-						MultiVMPoolUtil.getPortalCache("instagram_cache")
+						PortalCacheHelperUtil.getPortalCache(null,"instagram_cache").remove(instagramToken);
+						PortalCacheHelperUtil.getPortalCache(null, "instagram_cache")
 								.remove(instagramToken + "_last_update");
 					} catch (Exception e) {
 						log.error(e);
