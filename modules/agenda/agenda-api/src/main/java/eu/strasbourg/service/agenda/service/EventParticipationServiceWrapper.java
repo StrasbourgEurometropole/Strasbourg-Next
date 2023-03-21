@@ -27,6 +27,10 @@ public class EventParticipationServiceWrapper
 	implements EventParticipationService,
 			   ServiceWrapper<EventParticipationService> {
 
+	public EventParticipationServiceWrapper() {
+		this(null);
+	}
+
 	public EventParticipationServiceWrapper(
 		EventParticipationService eventParticipationService) {
 

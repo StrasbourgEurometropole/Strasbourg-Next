@@ -14,9 +14,15 @@
 
 package eu.strasbourg.service.comment.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.comment.model.Signalement;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Provides the local service utility for Signalement. This utility wraps
@@ -48,11 +54,18 @@ public class SignalementLocalServiceUtil {
 	 * @param signalement the signalement
 	 * @return the signalement that was added
 	 */
-	public static eu.strasbourg.service.comment.model.Signalement
-		addSignalement(
-			eu.strasbourg.service.comment.model.Signalement signalement) {
-
+	public static Signalement addSignalement(Signalement signalement) {
 		return getService().addSignalement(signalement);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -61,9 +74,7 @@ public class SignalementLocalServiceUtil {
 	 * @param signalementId the primary key for the new signalement
 	 * @return the new signalement
 	 */
-	public static eu.strasbourg.service.comment.model.Signalement
-		createSignalement(long signalementId) {
-
+	public static Signalement createSignalement(long signalementId) {
 		return getService().createSignalement(signalementId);
 	}
 
@@ -74,10 +85,9 @@ public class SignalementLocalServiceUtil {
 	 * @return le signalement.
 	 * @throws PortalException l'exception.
 	 */
-	public static eu.strasbourg.service.comment.model.Signalement
-			createSignalement(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Signalement createSignalement(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().createSignalement(sc);
 	}
@@ -85,10 +95,9 @@ public class SignalementLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -104,9 +113,8 @@ public class SignalementLocalServiceUtil {
 	 * @return the signalement that was removed
 	 * @throws PortalException if a signalement with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.comment.model.Signalement
-			deleteSignalement(long signalementId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Signalement deleteSignalement(long signalementId)
+		throws PortalException {
 
 		return getService().deleteSignalement(signalementId);
 	}
@@ -121,16 +129,19 @@ public class SignalementLocalServiceUtil {
 	 * @param signalement the signalement
 	 * @return the signalement that was removed
 	 */
-	public static eu.strasbourg.service.comment.model.Signalement
-		deleteSignalement(
-			eu.strasbourg.service.comment.model.Signalement signalement) {
-
+	public static Signalement deleteSignalement(Signalement signalement) {
 		return getService().deleteSignalement(signalement);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -140,9 +151,7 @@ public class SignalementLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -158,9 +167,8 @@ public class SignalementLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -178,10 +186,9 @@ public class SignalementLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -193,9 +200,7 @@ public class SignalementLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -207,15 +212,13 @@ public class SignalementLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.comment.model.Signalement
-		fetchSignalement(long signalementId) {
-
+	public static Signalement fetchSignalement(long signalementId) {
 		return getService().fetchSignalement(signalementId);
 	}
 
@@ -226,16 +229,13 @@ public class SignalementLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching signalement, or <code>null</code> if a matching signalement could not be found
 	 */
-	public static eu.strasbourg.service.comment.model.Signalement
-		fetchSignalementByUuidAndGroupId(String uuid, long groupId) {
+	public static Signalement fetchSignalementByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchSignalementByUuidAndGroupId(uuid, groupId);
 	}
 
-	public static java.util.List
-		<eu.strasbourg.service.comment.model.Signalement> findByCommentId(
-			long commentId) {
-
+	public static List<Signalement> findByCommentId(long commentId) {
 		return getService().findByCommentId(commentId);
 	}
 
@@ -245,20 +245,14 @@ public class SignalementLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
-	public static java.util.List
-		<eu.strasbourg.service.comment.model.Signalement> getByGroupId(
-			long groupId) {
-
+	public static List<Signalement> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
 	/**
 	 * Retourne tous les signalements d'un utilisateur
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.comment.model.Signalement> getByPublikId(
-			String publikId) {
-
+	public static List<Signalement> getByPublikId(String publikId) {
 		return getService().getByPublikId(publikId);
 	}
 
@@ -289,9 +283,8 @@ public class SignalementLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -303,9 +296,8 @@ public class SignalementLocalServiceUtil {
 	 * @return the signalement
 	 * @throws PortalException if a signalement with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.comment.model.Signalement
-			getSignalement(long signalementId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Signalement getSignalement(long signalementId)
+		throws PortalException {
 
 		return getService().getSignalement(signalementId);
 	}
@@ -318,9 +310,9 @@ public class SignalementLocalServiceUtil {
 	 * @return the matching signalement
 	 * @throws PortalException if a matching signalement could not be found
 	 */
-	public static eu.strasbourg.service.comment.model.Signalement
-			getSignalementByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Signalement getSignalementByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getSignalementByUuidAndGroupId(uuid, groupId);
 	}
@@ -336,10 +328,7 @@ public class SignalementLocalServiceUtil {
 	 * @param end the upper bound of the range of signalements (not inclusive)
 	 * @return the range of signalements
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.comment.model.Signalement> getSignalements(
-			int start, int end) {
-
+	public static List<Signalement> getSignalements(int start, int end) {
 		return getService().getSignalements(start, end);
 	}
 
@@ -350,9 +339,8 @@ public class SignalementLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching signalements, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.comment.model.Signalement>
-			getSignalementsByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<Signalement> getSignalementsByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getSignalementsByUuidAndCompanyId(uuid, companyId);
 	}
@@ -367,13 +355,9 @@ public class SignalementLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching signalements, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.comment.model.Signalement>
-			getSignalementsByUuidAndCompanyId(
-				String uuid, long companyId, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<eu.strasbourg.service.comment.model.Signalement>
-						orderByComparator) {
+	public static List<Signalement> getSignalementsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Signalement> orderByComparator) {
 
 		return getService().getSignalementsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -398,42 +382,22 @@ public class SignalementLocalServiceUtil {
 	 * @param signalement the signalement
 	 * @return the signalement that was updated
 	 */
-	public static eu.strasbourg.service.comment.model.Signalement
-		updateSignalement(
-			eu.strasbourg.service.comment.model.Signalement signalement) {
-
+	public static Signalement updateSignalement(Signalement signalement) {
 		return getService().updateSignalement(signalement);
 	}
 
-	public static eu.strasbourg.service.comment.model.Signalement
-			updateSignalement(
-				eu.strasbourg.service.comment.model.Signalement signalement,
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Signalement updateSignalement(
+			Signalement signalement,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateSignalement(signalement, sc);
 	}
 
 	public static SignalementLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<SignalementLocalService, SignalementLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(SignalementLocalService.class);
-
-		ServiceTracker<SignalementLocalService, SignalementLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<SignalementLocalService, SignalementLocalService>(
-						bundle.getBundleContext(),
-						SignalementLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile SignalementLocalService _service;
 
 }

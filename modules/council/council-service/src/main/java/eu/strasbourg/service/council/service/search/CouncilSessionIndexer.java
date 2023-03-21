@@ -7,7 +7,12 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.search.BaseIndexer;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
@@ -59,7 +64,7 @@ public class CouncilSessionIndexer extends BaseIndexer<CouncilSession> {
         List<AssetCategory> assetCategories = AssetVocabularyHelper
                 .getFullHierarchyCategories(councilSession.getCategories());
         document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-        addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES, assetCategories);
+        //addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES, assetCategories);
 
         Map<Locale, String> titleFieldMap = new HashMap<>();
         titleFieldMap.put(Locale.FRANCE, councilSession.getTitle());
@@ -97,8 +102,7 @@ public class CouncilSessionIndexer extends BaseIndexer<CouncilSession> {
     protected void doReindex(CouncilSession deliberation) throws Exception {
         Document document = getDocument(deliberation);
 
-        IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-                deliberation.getCompanyId(), document, isCommitImmediately());
+        IndexWriterHelperUtil.updateDocument(deliberation.getCompanyId(), document);
 
     }
 
@@ -131,7 +135,6 @@ public class CouncilSessionIndexer extends BaseIndexer<CouncilSession> {
 
                 });
 
-        indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
         indexableActionableDynamicQuery.performActions();
     }
 

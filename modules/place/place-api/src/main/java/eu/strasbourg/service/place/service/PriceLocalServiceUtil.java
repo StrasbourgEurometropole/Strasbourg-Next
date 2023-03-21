@@ -14,9 +14,16 @@
 
 package eu.strasbourg.service.place.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.place.model.Price;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for Price. This utility wraps
@@ -48,10 +55,18 @@ public class PriceLocalServiceUtil {
 	 * @param price the price
 	 * @return the price that was added
 	 */
-	public static eu.strasbourg.service.place.model.Price addPrice(
-		eu.strasbourg.service.place.model.Price price) {
-
+	public static Price addPrice(Price price) {
 		return getService().addPrice(price);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -60,18 +75,16 @@ public class PriceLocalServiceUtil {
 	 * @param priceId the primary key for the new price
 	 * @return the new price
 	 */
-	public static eu.strasbourg.service.place.model.Price createPrice(
-		long priceId) {
-
+	public static Price createPrice(long priceId) {
 		return getService().createPrice(priceId);
 	}
 
 	/**
 	 * Crée un prix vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.place.model.Price createPrice(
+	public static Price createPrice(
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().createPrice(sc);
 	}
@@ -79,10 +92,9 @@ public class PriceLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -98,10 +110,7 @@ public class PriceLocalServiceUtil {
 	 * @return the price that was removed
 	 * @throws PortalException if a price with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.place.model.Price deletePrice(
-			long priceId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Price deletePrice(long priceId) throws PortalException {
 		return getService().deletePrice(priceId);
 	}
 
@@ -115,15 +124,19 @@ public class PriceLocalServiceUtil {
 	 * @param price the price
 	 * @return the price that was removed
 	 */
-	public static eu.strasbourg.service.place.model.Price deletePrice(
-		eu.strasbourg.service.place.model.Price price) {
-
+	public static Price deletePrice(Price price) {
 		return getService().deletePrice(price);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -133,9 +146,7 @@ public class PriceLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -151,9 +162,8 @@ public class PriceLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -171,10 +181,9 @@ public class PriceLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -186,9 +195,7 @@ public class PriceLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -200,15 +207,13 @@ public class PriceLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.place.model.Price fetchPrice(
-		long priceId) {
-
+	public static Price fetchPrice(long priceId) {
 		return getService().fetchPrice(priceId);
 	}
 
@@ -237,9 +242,8 @@ public class PriceLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -251,9 +255,7 @@ public class PriceLocalServiceUtil {
 	 * @return the price
 	 * @throws PortalException if a price with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.place.model.Price getPrice(long priceId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Price getPrice(long priceId) throws PortalException {
 		return getService().getPrice(priceId);
 	}
 
@@ -268,9 +270,7 @@ public class PriceLocalServiceUtil {
 	 * @param end the upper bound of the range of prices (not inclusive)
 	 * @return the range of prices
 	 */
-	public static java.util.List<eu.strasbourg.service.place.model.Price>
-		getPrices(int start, int end) {
-
+	public static List<Price> getPrices(int start, int end) {
 		return getService().getPrices(start, end);
 	}
 
@@ -286,10 +286,7 @@ public class PriceLocalServiceUtil {
 	/**
 	 * Supprime un tarif
 	 */
-	public static eu.strasbourg.service.place.model.Price removePrice(
-			long priceId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Price removePrice(long priceId) throws PortalException {
 		return getService().removePrice(priceId);
 	}
 
@@ -303,19 +300,16 @@ public class PriceLocalServiceUtil {
 	 * @param price the price
 	 * @return the price that was updated
 	 */
-	public static eu.strasbourg.service.place.model.Price updatePrice(
-		eu.strasbourg.service.place.model.Price price) {
-
+	public static Price updatePrice(Price price) {
 		return getService().updatePrice(price);
 	}
 
 	/**
 	 * Met à jour un tarif et l'enregistre en base de données
 	 */
-	public static eu.strasbourg.service.place.model.Price updatePrice(
-			eu.strasbourg.service.place.model.Price price,
-			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Price updatePrice(
+			Price price, com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updatePrice(price, sc);
 	}
@@ -323,11 +317,11 @@ public class PriceLocalServiceUtil {
 	/**
 	 * Met à jour le statut du tarif par le framework workflow
 	 */
-	public static eu.strasbourg.service.place.model.Price updateStatus(
+	public static Price updateStatus(
 			long userId, long entryId, int status,
 			com.liferay.portal.kernel.service.ServiceContext sc,
-			java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, entryId, status, sc, workflowContext);
@@ -336,31 +330,16 @@ public class PriceLocalServiceUtil {
 	/**
 	 * Met à jour le statut du tarif "manuellement" (pas via le workflow)
 	 */
-	public static void updateStatus(
-			long userId, eu.strasbourg.service.place.model.Price price,
-			int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static void updateStatus(long userId, Price price, int status)
+		throws PortalException {
 
 		getService().updateStatus(userId, price, status);
 	}
 
 	public static PriceLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<PriceLocalService, PriceLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(PriceLocalService.class);
-
-		ServiceTracker<PriceLocalService, PriceLocalService> serviceTracker =
-			new ServiceTracker<PriceLocalService, PriceLocalService>(
-				bundle.getBundleContext(), PriceLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile PriceLocalService _service;
 
 }

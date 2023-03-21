@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.place.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,32 +25,29 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
+import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.place.exception.NoSuchCsmapCacheJsonException;
 import eu.strasbourg.service.place.model.CsmapCacheJson;
+import eu.strasbourg.service.place.model.CsmapCacheJsonTable;
 import eu.strasbourg.service.place.model.impl.CsmapCacheJsonImpl;
 import eu.strasbourg.service.place.model.impl.CsmapCacheJsonModelImpl;
 import eu.strasbourg.service.place.service.persistence.CsmapCacheJsonPersistence;
+import eu.strasbourg.service.place.service.persistence.CsmapCacheJsonUtil;
 
 import java.io.Serializable;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
-
 import java.sql.Timestamp;
-
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -251,10 +249,6 @@ public class CsmapCacheJsonPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -606,8 +600,6 @@ public class CsmapCacheJsonPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -789,10 +781,6 @@ public class CsmapCacheJsonPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -981,8 +969,6 @@ public class CsmapCacheJsonPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1098,8 +1084,8 @@ public class CsmapCacheJsonPersistenceImpl
 
 			if ((list != null) && !list.isEmpty()) {
 				for (CsmapCacheJson csmapCacheJson : list) {
-					if ((createPlace.getTime() >
-							csmapCacheJson.getCreatePlace().getTime()) ||
+					if ((createPlace.getTime() > csmapCacheJson.getCreatePlace(
+						).getTime()) ||
 						(isActive != csmapCacheJson.isIsActive())) {
 
 						list = null;
@@ -1171,10 +1157,6 @@ public class CsmapCacheJsonPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1558,8 +1540,6 @@ public class CsmapCacheJsonPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1692,10 +1672,11 @@ public class CsmapCacheJsonPersistenceImpl
 
 			if ((list != null) && !list.isEmpty()) {
 				for (CsmapCacheJson csmapCacheJson : list) {
-					if ((createPlace.getTime() <=
-							csmapCacheJson.getCreatePlace().getTime()) ||
+					if ((createPlace.getTime() <= csmapCacheJson.getCreatePlace(
+						).getTime()) ||
 						(modifiedPlace.getTime() >
-							csmapCacheJson.getModifiedPlace().getTime()) ||
+							csmapCacheJson.getModifiedPlace(
+							).getTime()) ||
 						(isActive != csmapCacheJson.isIsActive())) {
 
 						list = null;
@@ -1787,10 +1768,6 @@ public class CsmapCacheJsonPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2237,8 +2214,6 @@ public class CsmapCacheJsonPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2370,7 +2345,8 @@ public class CsmapCacheJsonPersistenceImpl
 			if ((list != null) && !list.isEmpty()) {
 				for (CsmapCacheJson csmapCacheJson : list) {
 					if ((modifiedPlace.getTime() >
-							csmapCacheJson.getModifiedPlace().getTime()) ||
+							csmapCacheJson.getModifiedPlace(
+							).getTime()) ||
 						(isActive != csmapCacheJson.isIsActive())) {
 
 						list = null;
@@ -2444,10 +2420,6 @@ public class CsmapCacheJsonPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2833,8 +2805,6 @@ public class CsmapCacheJsonPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2862,21 +2832,14 @@ public class CsmapCacheJsonPersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(CsmapCacheJson.class);
+
+		setModelImplClass(CsmapCacheJsonImpl.class);
+		setModelPKClass(String.class);
+
+		setTable(CsmapCacheJsonTable.INSTANCE);
 	}
 
 	/**
@@ -2887,12 +2850,11 @@ public class CsmapCacheJsonPersistenceImpl
 	@Override
 	public void cacheResult(CsmapCacheJson csmapCacheJson) {
 		entityCache.putResult(
-			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
 			CsmapCacheJsonImpl.class, csmapCacheJson.getPrimaryKey(),
 			csmapCacheJson);
-
-		csmapCacheJson.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the csmap cache jsons in the entity cache if it is enabled.
@@ -2901,16 +2863,19 @@ public class CsmapCacheJsonPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<CsmapCacheJson> csmapCacheJsons) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (csmapCacheJsons.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (CsmapCacheJson csmapCacheJson : csmapCacheJsons) {
 			if (entityCache.getResult(
-					CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
 					CsmapCacheJsonImpl.class, csmapCacheJson.getPrimaryKey()) ==
 						null) {
 
 				cacheResult(csmapCacheJson);
-			}
-			else {
-				csmapCacheJson.resetOriginalValues();
 			}
 		}
 	}
@@ -2926,9 +2891,7 @@ public class CsmapCacheJsonPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(CsmapCacheJsonImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(CsmapCacheJsonImpl.class);
 	}
 
 	/**
@@ -2940,35 +2903,22 @@ public class CsmapCacheJsonPersistenceImpl
 	 */
 	@Override
 	public void clearCache(CsmapCacheJson csmapCacheJson) {
-		entityCache.removeResult(
-			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CsmapCacheJsonImpl.class, csmapCacheJson.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		entityCache.removeResult(CsmapCacheJsonImpl.class, csmapCacheJson);
 	}
 
 	@Override
 	public void clearCache(List<CsmapCacheJson> csmapCacheJsons) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (CsmapCacheJson csmapCacheJson : csmapCacheJsons) {
-			entityCache.removeResult(
-				CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-				CsmapCacheJsonImpl.class, csmapCacheJson.getPrimaryKey());
+			entityCache.removeResult(CsmapCacheJsonImpl.class, csmapCacheJson);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(CsmapCacheJsonImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-				CsmapCacheJsonImpl.class, primaryKey);
+			entityCache.removeResult(CsmapCacheJsonImpl.class, primaryKey);
 		}
 	}
 
@@ -2985,7 +2935,7 @@ public class CsmapCacheJsonPersistenceImpl
 		csmapCacheJson.setNew(true);
 		csmapCacheJson.setPrimaryKey(sigId);
 
-		String uuid = PortalUUIDUtil.generate();
+		String uuid = _portalUUID.generate();
 
 		csmapCacheJson.setUuid(uuid);
 
@@ -3103,7 +3053,7 @@ public class CsmapCacheJsonPersistenceImpl
 			(CsmapCacheJsonModelImpl)csmapCacheJson;
 
 		if (Validator.isNull(csmapCacheJson.getUuid())) {
-			String uuid = PortalUUIDUtil.generate();
+			String uuid = _portalUUID.generate();
 
 			csmapCacheJson.setUuid(uuid);
 		}
@@ -3113,10 +3063,8 @@ public class CsmapCacheJsonPersistenceImpl
 		try {
 			session = openSession();
 
-			if (csmapCacheJson.isNew()) {
+			if (isNew) {
 				session.save(csmapCacheJson);
-
-				csmapCacheJson.setNew(false);
 			}
 			else {
 				csmapCacheJson = (CsmapCacheJson)session.merge(csmapCacheJson);
@@ -3129,72 +3077,12 @@ public class CsmapCacheJsonPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!CsmapCacheJsonModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {csmapCacheJsonModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {csmapCacheJsonModelImpl.getSigId()};
-
-			finderCache.removeResult(_finderPathCountBysigId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindBysigId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((csmapCacheJsonModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					csmapCacheJsonModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {csmapCacheJsonModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((csmapCacheJsonModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindBysigId.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					csmapCacheJsonModelImpl.getOriginalSigId()
-				};
-
-				finderCache.removeResult(_finderPathCountBysigId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindBysigId, args);
-
-				args = new Object[] {csmapCacheJsonModelImpl.getSigId()};
-
-				finderCache.removeResult(_finderPathCountBysigId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindBysigId, args);
-			}
-		}
-
 		entityCache.putResult(
-			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CsmapCacheJsonImpl.class, csmapCacheJson.getPrimaryKey(),
-			csmapCacheJson, false);
+			CsmapCacheJsonImpl.class, csmapCacheJsonModelImpl, false, true);
+
+		if (isNew) {
+			csmapCacheJson.setNew(false);
+		}
 
 		csmapCacheJson.resetOriginalValues();
 
@@ -3243,169 +3131,12 @@ public class CsmapCacheJsonPersistenceImpl
 	/**
 	 * Returns the csmap cache json with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the csmap cache json
-	 * @return the csmap cache json, or <code>null</code> if a csmap cache json with the primary key could not be found
-	 */
-	@Override
-	public CsmapCacheJson fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CsmapCacheJsonImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		CsmapCacheJson csmapCacheJson = (CsmapCacheJson)serializable;
-
-		if (csmapCacheJson == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				csmapCacheJson = (CsmapCacheJson)session.get(
-					CsmapCacheJsonImpl.class, primaryKey);
-
-				if (csmapCacheJson != null) {
-					cacheResult(csmapCacheJson);
-				}
-				else {
-					entityCache.putResult(
-						CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-						CsmapCacheJsonImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-					CsmapCacheJsonImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return csmapCacheJson;
-	}
-
-	/**
-	 * Returns the csmap cache json with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param sigId the primary key of the csmap cache json
 	 * @return the csmap cache json, or <code>null</code> if a csmap cache json with the primary key could not be found
 	 */
 	@Override
 	public CsmapCacheJson fetchByPrimaryKey(String sigId) {
 		return fetchByPrimaryKey((Serializable)sigId);
-	}
-
-	@Override
-	public Map<Serializable, CsmapCacheJson> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, CsmapCacheJson> map =
-			new HashMap<Serializable, CsmapCacheJson>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			CsmapCacheJson csmapCacheJson = fetchByPrimaryKey(primaryKey);
-
-			if (csmapCacheJson != null) {
-				map.put(primaryKey, csmapCacheJson);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-				CsmapCacheJsonImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (CsmapCacheJson)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_CSMAPCACHEJSON_WHERE_PKS_IN);
-
-		for (int i = 0; i < uncachedPrimaryKeys.size(); i++) {
-			sb.append("?");
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			QueryPos queryPos = QueryPos.getInstance(query);
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				queryPos.add((String)primaryKey);
-			}
-
-			for (CsmapCacheJson csmapCacheJson :
-					(List<CsmapCacheJson>)query.list()) {
-
-				map.put(csmapCacheJson.getPrimaryKeyObj(), csmapCacheJson);
-
-				cacheResult(csmapCacheJson);
-
-				uncachedPrimaryKeys.remove(csmapCacheJson.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-					CsmapCacheJsonImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3533,10 +3264,6 @@ public class CsmapCacheJsonPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3582,9 +3309,6 @@ public class CsmapCacheJsonPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3601,6 +3325,21 @@ public class CsmapCacheJsonPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "sigId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_CSMAPCACHEJSON;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return CsmapCacheJsonModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -3609,137 +3348,136 @@ public class CsmapCacheJsonPersistenceImpl
 	 * Initializes the csmap cache json persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED,
-			CsmapCacheJsonImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED,
-			CsmapCacheJsonImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED,
-			CsmapCacheJsonImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED,
-			CsmapCacheJsonImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByUuid", new String[] {String.class.getName()},
-			CsmapCacheJsonModelImpl.UUID_COLUMN_BITMASK);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathWithPaginationFindBysigId = new FinderPath(
-			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED,
-			CsmapCacheJsonImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findBysigId",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBysigId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"sigId"}, true);
 
 		_finderPathWithoutPaginationFindBysigId = new FinderPath(
-			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED,
-			CsmapCacheJsonImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findBysigId", new String[] {String.class.getName()},
-			CsmapCacheJsonModelImpl.SIGID_COLUMN_BITMASK);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBysigId",
+			new String[] {String.class.getName()}, new String[] {"sigId"},
+			true);
 
 		_finderPathCountBysigId = new FinderPath(
-			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBysigId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"sigId"},
+			false);
 
 		_finderPathWithPaginationFindByCreatedDateAndIsActive = new FinderPath(
-			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED,
-			CsmapCacheJsonImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findByCreatedDateAndIsActive",
 			new String[] {
 				Date.class.getName(), Boolean.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"createPlace", "isActive"}, true);
 
 		_finderPathWithPaginationCountByCreatedDateAndIsActive = new FinderPath(
-			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"countByCreatedDateAndIsActive",
-			new String[] {Date.class.getName(), Boolean.class.getName()});
+			new String[] {Date.class.getName(), Boolean.class.getName()},
+			new String[] {"createPlace", "isActive"}, false);
 
 		_finderPathWithPaginationFindByCreatedDateAndModifiedDateAndIsActive =
 			new FinderPath(
-				CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-				CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED,
-				CsmapCacheJsonImpl.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"findByCreatedDateAndModifiedDateAndIsActive",
 				new String[] {
 					Date.class.getName(), Date.class.getName(),
 					Boolean.class.getName(), Integer.class.getName(),
 					Integer.class.getName(), OrderByComparator.class.getName()
-				});
+				},
+				new String[] {"createPlace", "modifiedPlace", "isActive"},
+				true);
 
 		_finderPathWithPaginationCountByCreatedDateAndModifiedDateAndIsActive =
 			new FinderPath(
-				CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-				CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"countByCreatedDateAndModifiedDateAndIsActive",
 				new String[] {
 					Date.class.getName(), Date.class.getName(),
 					Boolean.class.getName()
-				});
+				},
+				new String[] {"createPlace", "modifiedPlace", "isActive"},
+				false);
 
 		_finderPathWithPaginationFindByModifiedDateAndIsActive = new FinderPath(
-			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED,
-			CsmapCacheJsonImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findByModifiedDateAndIsActive",
 			new String[] {
 				Date.class.getName(), Boolean.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"modifiedPlace", "isActive"}, true);
 
 		_finderPathWithPaginationCountByModifiedDateAndIsActive =
 			new FinderPath(
-				CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-				CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"countByModifiedDateAndIsActive",
-				new String[] {Date.class.getName(), Boolean.class.getName()});
+				new String[] {Date.class.getName(), Boolean.class.getName()},
+				new String[] {"modifiedPlace", "isActive"}, false);
+
+		_setCsmapCacheJsonUtilPersistence(this);
 	}
 
 	public void destroy() {
+		_setCsmapCacheJsonUtilPersistence(null);
+
 		entityCache.removeCache(CsmapCacheJsonImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+	}
+
+	private void _setCsmapCacheJsonUtilPersistence(
+		CsmapCacheJsonPersistence csmapCacheJsonPersistence) {
+
+		try {
+			Field field = CsmapCacheJsonUtil.class.getDeclaredField(
+				"_persistence");
+
+			field.setAccessible(true);
+
+			field.set(null, csmapCacheJsonPersistence);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
+		}
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -3748,7 +3486,7 @@ public class CsmapCacheJsonPersistenceImpl
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
 
-	private Long _getTime(Date date) {
+	private static Long _getTime(Date date) {
 		if (date == null) {
 			return null;
 		}
@@ -3758,9 +3496,6 @@ public class CsmapCacheJsonPersistenceImpl
 
 	private static final String _SQL_SELECT_CSMAPCACHEJSON =
 		"SELECT csmapCacheJson FROM CsmapCacheJson csmapCacheJson";
-
-	private static final String _SQL_SELECT_CSMAPCACHEJSON_WHERE_PKS_IN =
-		"SELECT csmapCacheJson FROM CsmapCacheJson csmapCacheJson WHERE sigId IN (";
 
 	private static final String _SQL_SELECT_CSMAPCACHEJSON_WHERE =
 		"SELECT csmapCacheJson FROM CsmapCacheJson csmapCacheJson WHERE ";
@@ -3784,5 +3519,13 @@ public class CsmapCacheJsonPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
+
+	@ServiceReference(type = PortalUUID.class)
+	private PortalUUID _portalUUID;
 
 }

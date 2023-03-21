@@ -14,9 +14,15 @@
 
 package eu.strasbourg.service.council.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.council.model.OfficialTypeCouncil;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Provides the local service utility for OfficialTypeCouncil. This utility wraps
@@ -48,10 +54,8 @@ public class OfficialTypeCouncilLocalServiceUtil {
 	 * @param officialTypeCouncil the official type council
 	 * @return the official type council that was added
 	 */
-	public static eu.strasbourg.service.council.model.OfficialTypeCouncil
-		addOfficialTypeCouncil(
-			eu.strasbourg.service.council.model.OfficialTypeCouncil
-				officialTypeCouncil) {
+	public static OfficialTypeCouncil addOfficialTypeCouncil(
+		OfficialTypeCouncil officialTypeCouncil) {
 
 		return getService().addOfficialTypeCouncil(officialTypeCouncil);
 	}
@@ -59,10 +63,9 @@ public class OfficialTypeCouncilLocalServiceUtil {
 	/**
 	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.council.model.OfficialTypeCouncil
-		createOfficialTypeCouncil(
-			long officialId, long typeId,
-			com.liferay.portal.kernel.service.ServiceContext sc) {
+	public static OfficialTypeCouncil createOfficialTypeCouncil(
+		long officialId, long typeId,
+		com.liferay.portal.kernel.service.ServiceContext sc) {
 
 		return getService().createOfficialTypeCouncil(officialId, typeId, sc);
 	}
@@ -73,12 +76,21 @@ public class OfficialTypeCouncilLocalServiceUtil {
 	 * @param officialTypeCouncilPK the primary key for the new official type council
 	 * @return the new official type council
 	 */
-	public static eu.strasbourg.service.council.model.OfficialTypeCouncil
-		createOfficialTypeCouncil(
-			eu.strasbourg.service.council.service.persistence.
-				OfficialTypeCouncilPK officialTypeCouncilPK) {
+	public static OfficialTypeCouncil createOfficialTypeCouncil(
+		eu.strasbourg.service.council.service.persistence.OfficialTypeCouncilPK
+			officialTypeCouncilPK) {
 
 		return getService().createOfficialTypeCouncil(officialTypeCouncilPK);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -91,10 +103,8 @@ public class OfficialTypeCouncilLocalServiceUtil {
 	 * @param officialTypeCouncil the official type council
 	 * @return the official type council that was removed
 	 */
-	public static eu.strasbourg.service.council.model.OfficialTypeCouncil
-		deleteOfficialTypeCouncil(
-			eu.strasbourg.service.council.model.OfficialTypeCouncil
-				officialTypeCouncil) {
+	public static OfficialTypeCouncil deleteOfficialTypeCouncil(
+		OfficialTypeCouncil officialTypeCouncil) {
 
 		return getService().deleteOfficialTypeCouncil(officialTypeCouncil);
 	}
@@ -110,11 +120,10 @@ public class OfficialTypeCouncilLocalServiceUtil {
 	 * @return the official type council that was removed
 	 * @throws PortalException if a official type council with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.council.model.OfficialTypeCouncil
-			deleteOfficialTypeCouncil(
-				eu.strasbourg.service.council.service.persistence.
-					OfficialTypeCouncilPK officialTypeCouncilPK)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static OfficialTypeCouncil deleteOfficialTypeCouncil(
+			eu.strasbourg.service.council.service.persistence.
+				OfficialTypeCouncilPK officialTypeCouncilPK)
+		throws PortalException {
 
 		return getService().deleteOfficialTypeCouncil(officialTypeCouncilPK);
 	}
@@ -122,17 +131,22 @@ public class OfficialTypeCouncilLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -142,9 +156,7 @@ public class OfficialTypeCouncilLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -160,9 +172,8 @@ public class OfficialTypeCouncilLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -180,10 +191,9 @@ public class OfficialTypeCouncilLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -195,9 +205,7 @@ public class OfficialTypeCouncilLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -209,16 +217,15 @@ public class OfficialTypeCouncilLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.council.model.OfficialTypeCouncil
-		fetchOfficialTypeCouncil(
-			eu.strasbourg.service.council.service.persistence.
-				OfficialTypeCouncilPK officialTypeCouncilPK) {
+	public static OfficialTypeCouncil fetchOfficialTypeCouncil(
+		eu.strasbourg.service.council.service.persistence.OfficialTypeCouncilPK
+			officialTypeCouncilPK) {
 
 		return getService().fetchOfficialTypeCouncil(officialTypeCouncilPK);
 	}
@@ -230,8 +237,8 @@ public class OfficialTypeCouncilLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching official type council, or <code>null</code> if a matching official type council could not be found
 	 */
-	public static eu.strasbourg.service.council.model.OfficialTypeCouncil
-		fetchOfficialTypeCouncilByUuidAndGroupId(String uuid, long groupId) {
+	public static OfficialTypeCouncil fetchOfficialTypeCouncilByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchOfficialTypeCouncilByUuidAndGroupId(
 			uuid, groupId);
@@ -242,28 +249,22 @@ public class OfficialTypeCouncilLocalServiceUtil {
 	 *
 	 * @return
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.council.model.OfficialTypeCouncil>
-			findByOfficialId(long officialId) {
-
+	public static List<OfficialTypeCouncil> findByOfficialId(long officialId) {
 		return getService().findByOfficialId(officialId);
 	}
 
 	/**
 	 * Retourne la liste des votes d'une délibération
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.council.model.OfficialTypeCouncil> findByTypeId(
-			long typeId) {
-
+	public static List<OfficialTypeCouncil> findByTypeId(long typeId) {
 		return getService().findByTypeId(typeId);
 	}
 
 	/**
 	 * Retourne le vote d'un élu pour une délibération
 	 */
-	public static eu.strasbourg.service.council.model.OfficialTypeCouncil
-		findByTypeIdandOfficialId(long typeId, long officialId) {
+	public static OfficialTypeCouncil findByTypeIdandOfficialId(
+		long typeId, long officialId) {
 
 		return getService().findByTypeIdandOfficialId(typeId, officialId);
 	}
@@ -288,11 +289,10 @@ public class OfficialTypeCouncilLocalServiceUtil {
 	 * @return the official type council
 	 * @throws PortalException if a official type council with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.council.model.OfficialTypeCouncil
-			getOfficialTypeCouncil(
-				eu.strasbourg.service.council.service.persistence.
-					OfficialTypeCouncilPK officialTypeCouncilPK)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static OfficialTypeCouncil getOfficialTypeCouncil(
+			eu.strasbourg.service.council.service.persistence.
+				OfficialTypeCouncilPK officialTypeCouncilPK)
+		throws PortalException {
 
 		return getService().getOfficialTypeCouncil(officialTypeCouncilPK);
 	}
@@ -305,9 +305,9 @@ public class OfficialTypeCouncilLocalServiceUtil {
 	 * @return the matching official type council
 	 * @throws PortalException if a matching official type council could not be found
 	 */
-	public static eu.strasbourg.service.council.model.OfficialTypeCouncil
-			getOfficialTypeCouncilByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static OfficialTypeCouncil getOfficialTypeCouncilByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getOfficialTypeCouncilByUuidAndGroupId(
 			uuid, groupId);
@@ -324,9 +324,8 @@ public class OfficialTypeCouncilLocalServiceUtil {
 	 * @param end the upper bound of the range of official type councils (not inclusive)
 	 * @return the range of official type councils
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.council.model.OfficialTypeCouncil>
-			getOfficialTypeCouncils(int start, int end) {
+	public static List<OfficialTypeCouncil> getOfficialTypeCouncils(
+		int start, int end) {
 
 		return getService().getOfficialTypeCouncils(start, end);
 	}
@@ -338,10 +337,8 @@ public class OfficialTypeCouncilLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching official type councils, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.council.model.OfficialTypeCouncil>
-			getOfficialTypeCouncilsByUuidAndCompanyId(
-				String uuid, long companyId) {
+	public static List<OfficialTypeCouncil>
+		getOfficialTypeCouncilsByUuidAndCompanyId(String uuid, long companyId) {
 
 		return getService().getOfficialTypeCouncilsByUuidAndCompanyId(
 			uuid, companyId);
@@ -357,13 +354,10 @@ public class OfficialTypeCouncilLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching official type councils, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.council.model.OfficialTypeCouncil>
-			getOfficialTypeCouncilsByUuidAndCompanyId(
-				String uuid, long companyId, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<eu.strasbourg.service.council.model.OfficialTypeCouncil>
-						orderByComparator) {
+	public static List<OfficialTypeCouncil>
+		getOfficialTypeCouncilsByUuidAndCompanyId(
+			String uuid, long companyId, int start, int end,
+			OrderByComparator<OfficialTypeCouncil> orderByComparator) {
 
 		return getService().getOfficialTypeCouncilsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -390,9 +384,8 @@ public class OfficialTypeCouncilLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -400,9 +393,9 @@ public class OfficialTypeCouncilLocalServiceUtil {
 	/**
 	 * Supprime une entité
 	 */
-	public static eu.strasbourg.service.council.model.OfficialTypeCouncil
-			removeOfficialTypeCouncil(long officialId, long typeId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static OfficialTypeCouncil removeOfficialTypeCouncil(
+			long officialId, long typeId)
+		throws PortalException {
 
 		return getService().removeOfficialTypeCouncil(officialId, typeId);
 	}
@@ -417,38 +410,16 @@ public class OfficialTypeCouncilLocalServiceUtil {
 	 * @param officialTypeCouncil the official type council
 	 * @return the official type council that was updated
 	 */
-	public static eu.strasbourg.service.council.model.OfficialTypeCouncil
-		updateOfficialTypeCouncil(
-			eu.strasbourg.service.council.model.OfficialTypeCouncil
-				officialTypeCouncil) {
+	public static OfficialTypeCouncil updateOfficialTypeCouncil(
+		OfficialTypeCouncil officialTypeCouncil) {
 
 		return getService().updateOfficialTypeCouncil(officialTypeCouncil);
 	}
 
 	public static OfficialTypeCouncilLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<OfficialTypeCouncilLocalService, OfficialTypeCouncilLocalService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			OfficialTypeCouncilLocalService.class);
-
-		ServiceTracker
-			<OfficialTypeCouncilLocalService, OfficialTypeCouncilLocalService>
-				serviceTracker =
-					new ServiceTracker
-						<OfficialTypeCouncilLocalService,
-						 OfficialTypeCouncilLocalService>(
-							 bundle.getBundleContext(),
-							 OfficialTypeCouncilLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile OfficialTypeCouncilLocalService _service;
 
 }

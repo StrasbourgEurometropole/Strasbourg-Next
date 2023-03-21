@@ -14,17 +14,12 @@
 
 package eu.strasbourg.service.gtfs.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.gtfs.exception.NoSuchArretException;
 import eu.strasbourg.service.gtfs.model.Arret;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the arret service.
@@ -45,9 +40,6 @@ public interface ArretPersistence extends BasePersistence<Arret> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link ArretUtil} to access the arret persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Arret> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the arrets where uuid = &#63;.
@@ -981,8 +973,5 @@ public interface ArretPersistence extends BasePersistence<Arret> {
 	 * @return the number of arrets
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

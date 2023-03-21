@@ -14,15 +14,11 @@
 
 package eu.strasbourg.service.gtfs.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -33,20 +29,11 @@ import java.util.Objects;
  * @see Trip
  * @generated
  */
-public class TripWrapper implements ModelWrapper<Trip>, Trip {
+public class TripWrapper
+	extends BaseModelWrapper<Trip> implements ModelWrapper<Trip>, Trip {
 
 	public TripWrapper(Trip trip) {
-		_trip = trip;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Trip.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Trip.class.getName();
+		super(trip);
 	}
 
 	@Override
@@ -117,13 +104,8 @@ public class TripWrapper implements ModelWrapper<Trip>, Trip {
 	}
 
 	@Override
-	public Object clone() {
-		return new TripWrapper((Trip)_trip.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.gtfs.model.Trip trip) {
-		return _trip.compareTo(trip);
+	public Trip cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -133,7 +115,7 @@ public class TripWrapper implements ModelWrapper<Trip>, Trip {
 	 */
 	@Override
 	public String getBlock_id() {
-		return _trip.getBlock_id();
+		return model.getBlock_id();
 	}
 
 	/**
@@ -143,12 +125,7 @@ public class TripWrapper implements ModelWrapper<Trip>, Trip {
 	 */
 	@Override
 	public boolean getDirection_id() {
-		return _trip.getDirection_id();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _trip.getExpandoBridge();
+		return model.getDirection_id();
 	}
 
 	/**
@@ -158,7 +135,7 @@ public class TripWrapper implements ModelWrapper<Trip>, Trip {
 	 */
 	@Override
 	public long getId() {
-		return _trip.getId();
+		return model.getId();
 	}
 
 	/**
@@ -168,12 +145,7 @@ public class TripWrapper implements ModelWrapper<Trip>, Trip {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _trip.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _trip.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -183,7 +155,7 @@ public class TripWrapper implements ModelWrapper<Trip>, Trip {
 	 */
 	@Override
 	public String getRoute_id() {
-		return _trip.getRoute_id();
+		return model.getRoute_id();
 	}
 
 	/**
@@ -193,7 +165,7 @@ public class TripWrapper implements ModelWrapper<Trip>, Trip {
 	 */
 	@Override
 	public String getService_id() {
-		return _trip.getService_id();
+		return model.getService_id();
 	}
 
 	/**
@@ -203,7 +175,7 @@ public class TripWrapper implements ModelWrapper<Trip>, Trip {
 	 */
 	@Override
 	public String getTrip_headsign() {
-		return _trip.getTrip_headsign();
+		return model.getTrip_headsign();
 	}
 
 	/**
@@ -213,7 +185,7 @@ public class TripWrapper implements ModelWrapper<Trip>, Trip {
 	 */
 	@Override
 	public String getTrip_id() {
-		return _trip.getTrip_id();
+		return model.getTrip_id();
 	}
 
 	/**
@@ -223,17 +195,7 @@ public class TripWrapper implements ModelWrapper<Trip>, Trip {
 	 */
 	@Override
 	public String getUuid() {
-		return _trip.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _trip.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _trip.isCachedModel();
+		return model.getUuid();
 	}
 
 	/**
@@ -243,22 +205,12 @@ public class TripWrapper implements ModelWrapper<Trip>, Trip {
 	 */
 	@Override
 	public boolean isDirection_id() {
-		return _trip.isDirection_id();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _trip.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _trip.isNew();
+		return model.isDirection_id();
 	}
 
 	@Override
 	public void persist() {
-		_trip.persist();
+		model.persist();
 	}
 
 	/**
@@ -268,12 +220,7 @@ public class TripWrapper implements ModelWrapper<Trip>, Trip {
 	 */
 	@Override
 	public void setBlock_id(String block_id) {
-		_trip.setBlock_id(block_id);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_trip.setCachedModel(cachedModel);
+		model.setBlock_id(block_id);
 	}
 
 	/**
@@ -283,24 +230,7 @@ public class TripWrapper implements ModelWrapper<Trip>, Trip {
 	 */
 	@Override
 	public void setDirection_id(boolean direction_id) {
-		_trip.setDirection_id(direction_id);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_trip.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_trip.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_trip.setExpandoBridgeAttributes(serviceContext);
+		model.setDirection_id(direction_id);
 	}
 
 	/**
@@ -310,12 +240,7 @@ public class TripWrapper implements ModelWrapper<Trip>, Trip {
 	 */
 	@Override
 	public void setId(long id) {
-		_trip.setId(id);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_trip.setNew(n);
+		model.setId(id);
 	}
 
 	/**
@@ -325,12 +250,7 @@ public class TripWrapper implements ModelWrapper<Trip>, Trip {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_trip.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_trip.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -340,7 +260,7 @@ public class TripWrapper implements ModelWrapper<Trip>, Trip {
 	 */
 	@Override
 	public void setRoute_id(String route_id) {
-		_trip.setRoute_id(route_id);
+		model.setRoute_id(route_id);
 	}
 
 	/**
@@ -350,7 +270,7 @@ public class TripWrapper implements ModelWrapper<Trip>, Trip {
 	 */
 	@Override
 	public void setService_id(String service_id) {
-		_trip.setService_id(service_id);
+		model.setService_id(service_id);
 	}
 
 	/**
@@ -360,7 +280,7 @@ public class TripWrapper implements ModelWrapper<Trip>, Trip {
 	 */
 	@Override
 	public void setTrip_headsign(String trip_headsign) {
-		_trip.setTrip_headsign(trip_headsign);
+		model.setTrip_headsign(trip_headsign);
 	}
 
 	/**
@@ -370,7 +290,7 @@ public class TripWrapper implements ModelWrapper<Trip>, Trip {
 	 */
 	@Override
 	public void setTrip_id(String trip_id) {
-		_trip.setTrip_id(trip_id);
+		model.setTrip_id(trip_id);
 	}
 
 	/**
@@ -380,75 +300,17 @@ public class TripWrapper implements ModelWrapper<Trip>, Trip {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_trip.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.gtfs.model.Trip> toCacheModel() {
-
-		return _trip.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Trip toEscapedModel() {
-		return new TripWrapper(_trip.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _trip.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Trip toUnescapedModel() {
-		return new TripWrapper(_trip.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _trip.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof TripWrapper)) {
-			return false;
-		}
-
-		TripWrapper tripWrapper = (TripWrapper)object;
-
-		if (Objects.equals(_trip, tripWrapper._trip)) {
-			return true;
-		}
-
-		return false;
+	protected TripWrapper wrap(Trip trip) {
+		return new TripWrapper(trip);
 	}
-
-	@Override
-	public Trip getWrappedModel() {
-		return _trip;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _trip.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _trip.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_trip.resetOriginalValues();
-	}
-
-	private final Trip _trip;
 
 }

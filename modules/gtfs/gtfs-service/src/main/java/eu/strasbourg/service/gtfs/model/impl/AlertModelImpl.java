@@ -16,6 +16,7 @@ package eu.strasbourg.service.gtfs.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.json.JSON;
@@ -27,25 +28,22 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-
 import eu.strasbourg.service.gtfs.model.Alert;
 import eu.strasbourg.service.gtfs.model.AlertModel;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -110,29 +108,53 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.gtfs.model.Alert"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.gtfs.model.Alert"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.gtfs.model.Alert"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ARRETID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ALERTID_COLUMN_BITMASK = 16L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -189,9 +211,6 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 				attributeName, attributeGetterFunction.apply((Alert)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -222,33 +241,6 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Alert>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Alert.class.getClassLoader(), Alert.class, ModelWrapper.class);
-
-		try {
-			Constructor<Alert> constructor =
-				(Constructor<Alert>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<Alert, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Alert, Object>>
@@ -260,188 +252,35 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 		Map<String, BiConsumer<Alert, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Alert, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", Alert::getUuid);
 		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object uuidObject) {
-					alert.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"alertId",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getAlertId();
-				}
-
-			});
+			"uuid", (BiConsumer<Alert, String>)Alert::setUuid);
+		attributeGetterFunctions.put("alertId", Alert::getAlertId);
 		attributeSetterBiConsumers.put(
-			"alertId",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object alertIdObject) {
-					alert.setAlertId((Long)alertIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getGroupId();
-				}
-
-			});
+			"alertId", (BiConsumer<Alert, Long>)Alert::setAlertId);
+		attributeGetterFunctions.put("groupId", Alert::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object groupIdObject) {
-					alert.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getCompanyId();
-				}
-
-			});
+			"groupId", (BiConsumer<Alert, Long>)Alert::setGroupId);
+		attributeGetterFunctions.put("companyId", Alert::getCompanyId);
 		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object companyIdObject) {
-					alert.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"arretId",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getArretId();
-				}
-
-			});
+			"companyId", (BiConsumer<Alert, Long>)Alert::setCompanyId);
+		attributeGetterFunctions.put("arretId", Alert::getArretId);
 		attributeSetterBiConsumers.put(
-			"arretId",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object arretIdObject) {
-					alert.setArretId((Long)arretIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"startDate",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getStartDate();
-				}
-
-			});
+			"arretId", (BiConsumer<Alert, Long>)Alert::setArretId);
+		attributeGetterFunctions.put("startDate", Alert::getStartDate);
 		attributeSetterBiConsumers.put(
-			"startDate",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object startDateObject) {
-					alert.setStartDate((Date)startDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"endDate",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getEndDate();
-				}
-
-			});
+			"startDate", (BiConsumer<Alert, Date>)Alert::setStartDate);
+		attributeGetterFunctions.put("endDate", Alert::getEndDate);
 		attributeSetterBiConsumers.put(
-			"endDate",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object endDateObject) {
-					alert.setEndDate((Date)endDateObject);
-				}
-
-			});
+			"endDate", (BiConsumer<Alert, Date>)Alert::setEndDate);
 		attributeGetterFunctions.put(
-			"ligneAndDirection",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getLigneAndDirection();
-				}
-
-			});
+			"ligneAndDirection", Alert::getLigneAndDirection);
 		attributeSetterBiConsumers.put(
 			"ligneAndDirection",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(
-					Alert alert, Object ligneAndDirectionObject) {
-
-					alert.setLigneAndDirection((String)ligneAndDirectionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"perturbation",
-			new Function<Alert, Object>() {
-
-				@Override
-				public Object apply(Alert alert) {
-					return alert.getPerturbation();
-				}
-
-			});
+			(BiConsumer<Alert, String>)Alert::setLigneAndDirection);
+		attributeGetterFunctions.put("perturbation", Alert::getPerturbation);
 		attributeSetterBiConsumers.put(
-			"perturbation",
-			new BiConsumer<Alert, Object>() {
-
-				@Override
-				public void accept(Alert alert, Object perturbationObject) {
-					alert.setPerturbation((String)perturbationObject);
-				}
-
-			});
+			"perturbation", (BiConsumer<Alert, String>)Alert::setPerturbation);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -461,17 +300,20 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -481,7 +323,9 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setAlertId(long alertId) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_alertId = alertId;
 	}
@@ -493,19 +337,20 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -515,19 +360,21 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -537,19 +384,20 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setArretId(long arretId) {
-		_columnBitmask |= ARRETID_COLUMN_BITMASK;
-
-		if (!_setOriginalArretId) {
-			_setOriginalArretId = true;
-
-			_originalArretId = _arretId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_arretId = arretId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalArretId() {
-		return _originalArretId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("arretId"));
 	}
 
 	@Override
@@ -559,6 +407,10 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setStartDate(Date startDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_startDate = startDate;
 	}
 
@@ -569,6 +421,10 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setEndDate(Date endDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_endDate = endDate;
 	}
 
@@ -628,6 +484,10 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setLigneAndDirection(String ligneAndDirection) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_ligneAndDirection = ligneAndDirection;
 	}
 
@@ -738,6 +598,10 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void setPerturbation(String perturbation) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_perturbation = perturbation;
 	}
 
@@ -791,6 +655,26 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -935,6 +819,25 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 	}
 
 	@Override
+	public Alert cloneWithOriginalValues() {
+		AlertImpl alertImpl = new AlertImpl();
+
+		alertImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		alertImpl.setAlertId(this.<Long>getColumnOriginalValue("alertId"));
+		alertImpl.setGroupId(this.<Long>getColumnOriginalValue("groupId"));
+		alertImpl.setCompanyId(this.<Long>getColumnOriginalValue("companyId"));
+		alertImpl.setArretId(this.<Long>getColumnOriginalValue("arretId"));
+		alertImpl.setStartDate(this.<Date>getColumnOriginalValue("startDate"));
+		alertImpl.setEndDate(this.<Date>getColumnOriginalValue("endDate"));
+		alertImpl.setLigneAndDirection(
+			this.<String>getColumnOriginalValue("ligneAndDirection"));
+		alertImpl.setPerturbation(
+			this.<String>getColumnOriginalValue("perturbation"));
+
+		return alertImpl;
+	}
+
+	@Override
 	public int compareTo(Alert alert) {
 		int value = 0;
 
@@ -984,11 +887,19 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -996,23 +907,9 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	@Override
 	public void resetOriginalValues() {
-		AlertModelImpl alertModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		alertModelImpl._originalUuid = alertModelImpl._uuid;
-
-		alertModelImpl._originalGroupId = alertModelImpl._groupId;
-
-		alertModelImpl._setOriginalGroupId = false;
-
-		alertModelImpl._originalCompanyId = alertModelImpl._companyId;
-
-		alertModelImpl._setOriginalCompanyId = false;
-
-		alertModelImpl._originalArretId = alertModelImpl._arretId;
-
-		alertModelImpl._setOriginalArretId = false;
-
-		alertModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1078,7 +975,7 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1088,9 +985,26 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 			String attributeName = entry.getKey();
 			Function<Alert, Object> attributeGetterFunction = entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Alert)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Alert)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1103,61 +1017,109 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Alert, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Alert, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Alert, Object> attributeGetterFunction = entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Alert)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Alert>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Alert.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _alertId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _arretId;
-	private long _originalArretId;
-	private boolean _setOriginalArretId;
 	private Date _startDate;
 	private Date _endDate;
 	private String _ligneAndDirection;
 	private String _ligneAndDirectionCurrentLanguageId;
 	private String _perturbation;
 	private String _perturbationCurrentLanguageId;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Alert, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Alert)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("alertId", _alertId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("arretId", _arretId);
+		_columnOriginalValues.put("startDate", _startDate);
+		_columnOriginalValues.put("endDate", _endDate);
+		_columnOriginalValues.put("ligneAndDirection", _ligneAndDirection);
+		_columnOriginalValues.put("perturbation", _perturbation);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("alertId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("arretId", 16L);
+
+		columnBitmasks.put("startDate", 32L);
+
+		columnBitmasks.put("endDate", 64L);
+
+		columnBitmasks.put("ligneAndDirection", 128L);
+
+		columnBitmasks.put("perturbation", 256L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Alert _escapedModel;
 

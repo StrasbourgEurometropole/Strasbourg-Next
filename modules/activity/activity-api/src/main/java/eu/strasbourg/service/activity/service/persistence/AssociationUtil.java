@@ -17,18 +17,12 @@ package eu.strasbourg.service.activity.service.persistence;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.activity.model.Association;
 
 import java.io.Serializable;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * The persistence utility for the association service. This utility wraps <code>eu.strasbourg.service.activity.service.persistence.impl.AssociationPersistenceImpl</code> and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
@@ -861,30 +855,10 @@ public class AssociationUtil {
 		return getPersistence().countAll();
 	}
 
-	public static Set<String> getBadColumnNames() {
-		return getPersistence().getBadColumnNames();
-	}
-
 	public static AssociationPersistence getPersistence() {
-		return _serviceTracker.getService();
+		return _persistence;
 	}
 
-	private static ServiceTracker
-		<AssociationPersistence, AssociationPersistence> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(AssociationPersistence.class);
-
-		ServiceTracker<AssociationPersistence, AssociationPersistence>
-			serviceTracker =
-				new ServiceTracker
-					<AssociationPersistence, AssociationPersistence>(
-						bundle.getBundleContext(), AssociationPersistence.class,
-						null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile AssociationPersistence _persistence;
 
 }

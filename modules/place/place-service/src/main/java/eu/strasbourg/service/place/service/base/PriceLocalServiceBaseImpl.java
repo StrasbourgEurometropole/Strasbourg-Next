@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.place.service.base;
 
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -27,6 +28,8 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -43,6 +46,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.place.model.Price;
 import eu.strasbourg.service.place.service.PriceLocalService;
+import eu.strasbourg.service.place.service.PriceLocalServiceUtil;
 import eu.strasbourg.service.place.service.persistence.CsmapCacheJsonPersistence;
 import eu.strasbourg.service.place.service.persistence.GoogleMyBusinessHistoricPersistence;
 import eu.strasbourg.service.place.service.persistence.HistoricPersistence;
@@ -55,6 +59,8 @@ import eu.strasbourg.service.place.service.persistence.SlotPersistence;
 import eu.strasbourg.service.place.service.persistence.SubPlacePersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.List;
 
@@ -78,7 +84,7 @@ public abstract class PriceLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>PriceLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.place.service.PriceLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>PriceLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>PriceLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -142,6 +148,18 @@ public abstract class PriceLocalServiceBaseImpl
 	@Override
 	public Price deletePrice(Price price) {
 		return pricePersistence.remove(price);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return pricePersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -290,12 +308,28 @@ public abstract class PriceLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return pricePersistence.create(((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement PriceLocalServiceImpl#deletePrice(Price) to avoid orphaned data");
+		}
 
 		return priceLocalService.deletePrice((Price)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<Price> getBasePersistence() {
 		return pricePersistence;
 	}
@@ -906,11 +940,15 @@ public abstract class PriceLocalServiceBaseImpl
 	public void afterPropertiesSet() {
 		persistedModelLocalServiceRegistry.register(
 			"eu.strasbourg.service.place.model.Price", priceLocalService);
+
+		_setLocalServiceUtilService(priceLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"eu.strasbourg.service.place.model.Price");
+
+		_setLocalServiceUtilService(null);
 	}
 
 	/**
@@ -952,6 +990,22 @@ public abstract class PriceLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		PriceLocalService priceLocalService) {
+
+		try {
+			Field field = PriceLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, priceLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1073,6 +1127,9 @@ public abstract class PriceLocalServiceBaseImpl
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		PriceLocalServiceBaseImpl.class);
 
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry

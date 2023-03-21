@@ -27,6 +27,10 @@ public class ActivityCoursePlaceServiceWrapper
 	implements ActivityCoursePlaceService,
 			   ServiceWrapper<ActivityCoursePlaceService> {
 
+	public ActivityCoursePlaceServiceWrapper() {
+		this(null);
+	}
+
 	public ActivityCoursePlaceServiceWrapper(
 		ActivityCoursePlaceService activityCoursePlaceService) {
 

@@ -27,6 +27,10 @@ public class AssociationLocalServiceWrapper
 	implements AssociationLocalService,
 			   ServiceWrapper<AssociationLocalService> {
 
+	public AssociationLocalServiceWrapper() {
+		this(null);
+	}
+
 	public AssociationLocalServiceWrapper(
 		AssociationLocalService associationLocalService) {
 
@@ -75,6 +79,17 @@ public class AssociationLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _associationLocalService.createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the association from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -119,6 +134,18 @@ public class AssociationLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _associationLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _associationLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _associationLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

@@ -38,7 +38,6 @@ package eu.strasbourg.service.search.log.service.http;
  * </p>
  *
  * @author BenjaminBini
- * @see SearchLogServiceSoap
  * @generated
  */
 public class SearchLogServiceHttp {

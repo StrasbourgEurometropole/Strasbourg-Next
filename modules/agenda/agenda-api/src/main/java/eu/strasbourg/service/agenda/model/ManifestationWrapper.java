@@ -14,17 +14,13 @@
 
 package eu.strasbourg.service.agenda.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,20 +32,11 @@ import java.util.Objects;
  * @generated
  */
 public class ManifestationWrapper
+	extends BaseModelWrapper<Manifestation>
 	implements Manifestation, ModelWrapper<Manifestation> {
 
 	public ManifestationWrapper(Manifestation manifestation) {
-		_manifestation = manifestation;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Manifestation.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Manifestation.class.getName();
+		super(manifestation);
 	}
 
 	@Override
@@ -240,15 +227,8 @@ public class ManifestationWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new ManifestationWrapper((Manifestation)_manifestation.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.agenda.model.Manifestation manifestation) {
-
-		return _manifestation.compareTo(manifestation);
+	public Manifestation cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -256,12 +236,12 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _manifestation.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _manifestation.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -272,7 +252,7 @@ public class ManifestationWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _manifestation.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -282,7 +262,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _manifestation.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -292,7 +272,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _manifestation.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -302,12 +282,12 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public Date getCreateDateSource() {
-		return _manifestation.getCreateDateSource();
+		return model.getCreateDateSource();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _manifestation.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -317,7 +297,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getDescription() {
-		return _manifestation.getDescription();
+		return model.getDescription();
 	}
 
 	/**
@@ -328,7 +308,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale) {
-		return _manifestation.getDescription(locale);
+		return model.getDescription(locale);
 	}
 
 	/**
@@ -340,7 +320,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale, boolean useDefault) {
-		return _manifestation.getDescription(locale, useDefault);
+		return model.getDescription(locale, useDefault);
 	}
 
 	/**
@@ -351,7 +331,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getDescription(String languageId) {
-		return _manifestation.getDescription(languageId);
+		return model.getDescription(languageId);
 	}
 
 	/**
@@ -363,17 +343,17 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getDescription(String languageId, boolean useDefault) {
-		return _manifestation.getDescription(languageId, useDefault);
+		return model.getDescription(languageId, useDefault);
 	}
 
 	@Override
 	public String getDescriptionCurrentLanguageId() {
-		return _manifestation.getDescriptionCurrentLanguageId();
+		return model.getDescriptionCurrentLanguageId();
 	}
 
 	@Override
 	public String getDescriptionCurrentValue() {
-		return _manifestation.getDescriptionCurrentValue();
+		return model.getDescriptionCurrentValue();
 	}
 
 	/**
@@ -383,7 +363,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getDescriptionMap() {
-		return _manifestation.getDescriptionMap();
+		return model.getDescriptionMap();
 	}
 
 	/**
@@ -393,7 +373,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public Date getEndDate() {
-		return _manifestation.getEndDate();
+		return model.getEndDate();
 	}
 
 	/**
@@ -403,7 +383,7 @@ public class ManifestationWrapper
 	public java.util.List<eu.strasbourg.service.agenda.model.Event>
 		getEvents() {
 
-		return _manifestation.getEvents();
+		return model.getEvents();
 	}
 
 	/**
@@ -411,12 +391,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getEventsIds() {
-		return _manifestation.getEventsIds();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _manifestation.getExpandoBridge();
+		return model.getEventsIds();
 	}
 
 	/**
@@ -426,7 +401,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getExternalImageCopyright() {
-		return _manifestation.getExternalImageCopyright();
+		return model.getExternalImageCopyright();
 	}
 
 	/**
@@ -436,7 +411,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getExternalImageURL() {
-		return _manifestation.getExternalImageURL();
+		return model.getExternalImageURL();
 	}
 
 	/**
@@ -446,7 +421,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _manifestation.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -456,7 +431,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getIdSource() {
-		return _manifestation.getIdSource();
+		return model.getIdSource();
 	}
 
 	/**
@@ -464,7 +439,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getImageCopyright(java.util.Locale locale) {
-		return _manifestation.getImageCopyright(locale);
+		return model.getImageCopyright(locale);
 	}
 
 	/**
@@ -474,7 +449,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public Long getImageId() {
-		return _manifestation.getImageId();
+		return model.getImageId();
 	}
 
 	/**
@@ -482,7 +457,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getImageURL() {
-		return _manifestation.getImageURL();
+		return model.getImageURL();
 	}
 
 	/**
@@ -492,7 +467,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public Date getLastPublishDate() {
-		return _manifestation.getLastPublishDate();
+		return model.getLastPublishDate();
 	}
 
 	/**
@@ -500,7 +475,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public eu.strasbourg.service.agenda.model.Manifestation getLiveVersion() {
-		return _manifestation.getLiveVersion();
+		return model.getLiveVersion();
 	}
 
 	/**
@@ -510,7 +485,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public long getManifestationId() {
-		return _manifestation.getManifestationId();
+		return model.getManifestationId();
 	}
 
 	/**
@@ -519,7 +494,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getManifestationScheduleDisplay(java.util.Locale locale) {
-		return _manifestation.getManifestationScheduleDisplay(locale);
+		return model.getManifestationScheduleDisplay(locale);
 	}
 
 	/**
@@ -529,7 +504,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _manifestation.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -539,7 +514,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public Date getModifiedDateSource() {
-		return _manifestation.getModifiedDateSource();
+		return model.getModifiedDateSource();
 	}
 
 	/**
@@ -549,12 +524,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _manifestation.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _manifestation.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -564,7 +534,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public Date getPublicationDate() {
-		return _manifestation.getPublicationDate();
+		return model.getPublicationDate();
 	}
 
 	/**
@@ -572,7 +542,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getPublicLabel(java.util.Locale locale) {
-		return _manifestation.getPublicLabel(locale);
+		return model.getPublicLabel(locale);
 	}
 
 	/**
@@ -582,7 +552,7 @@ public class ManifestationWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getPublics() {
 
-		return _manifestation.getPublics();
+		return model.getPublics();
 	}
 
 	/**
@@ -592,7 +562,7 @@ public class ManifestationWrapper
 	public java.util.List<eu.strasbourg.service.agenda.model.Event>
 		getPublishedEvents() {
 
-		return _manifestation.getPublishedEvents();
+		return model.getPublishedEvents();
 	}
 
 	/**
@@ -602,7 +572,7 @@ public class ManifestationWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getServices() {
 
-		return _manifestation.getServices();
+		return model.getServices();
 	}
 
 	/**
@@ -612,7 +582,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getSource() {
-		return _manifestation.getSource();
+		return model.getSource();
 	}
 
 	/**
@@ -622,7 +592,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public Date getStartDate() {
-		return _manifestation.getStartDate();
+		return model.getStartDate();
 	}
 
 	/**
@@ -632,7 +602,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public int getStatus() {
-		return _manifestation.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -642,7 +612,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _manifestation.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -652,7 +622,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _manifestation.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -662,7 +632,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _manifestation.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -672,7 +642,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _manifestation.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -680,7 +650,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getThemeLabel(java.util.Locale locale) {
-		return _manifestation.getThemeLabel(locale);
+		return model.getThemeLabel(locale);
 	}
 
 	/**
@@ -690,7 +660,7 @@ public class ManifestationWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getThemes() {
 
-		return _manifestation.getThemes();
+		return model.getThemes();
 	}
 
 	/**
@@ -700,7 +670,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getTitle() {
-		return _manifestation.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -711,7 +681,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale) {
-		return _manifestation.getTitle(locale);
+		return model.getTitle(locale);
 	}
 
 	/**
@@ -723,7 +693,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale, boolean useDefault) {
-		return _manifestation.getTitle(locale, useDefault);
+		return model.getTitle(locale, useDefault);
 	}
 
 	/**
@@ -734,7 +704,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getTitle(String languageId) {
-		return _manifestation.getTitle(languageId);
+		return model.getTitle(languageId);
 	}
 
 	/**
@@ -746,17 +716,17 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getTitle(String languageId, boolean useDefault) {
-		return _manifestation.getTitle(languageId, useDefault);
+		return model.getTitle(languageId, useDefault);
 	}
 
 	@Override
 	public String getTitleCurrentLanguageId() {
-		return _manifestation.getTitleCurrentLanguageId();
+		return model.getTitleCurrentLanguageId();
 	}
 
 	@Override
 	public String getTitleCurrentValue() {
-		return _manifestation.getTitleCurrentValue();
+		return model.getTitleCurrentValue();
 	}
 
 	/**
@@ -766,7 +736,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getTitleMap() {
-		return _manifestation.getTitleMap();
+		return model.getTitleMap();
 	}
 
 	/**
@@ -774,7 +744,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getTypeLabel(java.util.Locale locale) {
-		return _manifestation.getTypeLabel(locale);
+		return model.getTypeLabel(locale);
 	}
 
 	/**
@@ -784,7 +754,7 @@ public class ManifestationWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getTypes() {
 
-		return _manifestation.getTypes();
+		return model.getTypes();
 	}
 
 	/**
@@ -794,7 +764,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _manifestation.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -804,7 +774,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _manifestation.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -814,7 +784,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _manifestation.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -824,12 +794,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _manifestation.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _manifestation.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -839,12 +804,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public boolean isApproved() {
-		return _manifestation.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _manifestation.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -854,7 +814,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public boolean isDenied() {
-		return _manifestation.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -864,12 +824,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public boolean isDraft() {
-		return _manifestation.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _manifestation.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -879,7 +834,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public boolean isExpired() {
-		return _manifestation.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -889,7 +844,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public boolean isInactive() {
-		return _manifestation.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -899,12 +854,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _manifestation.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _manifestation.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -914,7 +864,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public boolean isPending() {
-		return _manifestation.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -924,19 +874,19 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _manifestation.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_manifestation.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_manifestation.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -944,12 +894,7 @@ public class ManifestationWrapper
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_manifestation.prepareLocalizedFieldsForImport(defaultImportLocale);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_manifestation.setCachedModel(cachedModel);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -959,7 +904,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_manifestation.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -969,7 +914,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_manifestation.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -979,7 +924,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setCreateDateSource(Date createDateSource) {
-		_manifestation.setCreateDateSource(createDateSource);
+		model.setCreateDateSource(createDateSource);
 	}
 
 	/**
@@ -989,7 +934,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setDescription(String description) {
-		_manifestation.setDescription(description);
+		model.setDescription(description);
 	}
 
 	/**
@@ -1000,7 +945,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setDescription(String description, java.util.Locale locale) {
-		_manifestation.setDescription(description, locale);
+		model.setDescription(description, locale);
 	}
 
 	/**
@@ -1015,12 +960,12 @@ public class ManifestationWrapper
 		String description, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_manifestation.setDescription(description, locale, defaultLocale);
+		model.setDescription(description, locale, defaultLocale);
 	}
 
 	@Override
 	public void setDescriptionCurrentLanguageId(String languageId) {
-		_manifestation.setDescriptionCurrentLanguageId(languageId);
+		model.setDescriptionCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1032,7 +977,7 @@ public class ManifestationWrapper
 	public void setDescriptionMap(
 		Map<java.util.Locale, String> descriptionMap) {
 
-		_manifestation.setDescriptionMap(descriptionMap);
+		model.setDescriptionMap(descriptionMap);
 	}
 
 	/**
@@ -1046,7 +991,7 @@ public class ManifestationWrapper
 		Map<java.util.Locale, String> descriptionMap,
 		java.util.Locale defaultLocale) {
 
-		_manifestation.setDescriptionMap(descriptionMap, defaultLocale);
+		model.setDescriptionMap(descriptionMap, defaultLocale);
 	}
 
 	/**
@@ -1056,24 +1001,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setEndDate(Date endDate) {
-		_manifestation.setEndDate(endDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_manifestation.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_manifestation.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_manifestation.setExpandoBridgeAttributes(serviceContext);
+		model.setEndDate(endDate);
 	}
 
 	/**
@@ -1083,7 +1011,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setExternalImageCopyright(String externalImageCopyright) {
-		_manifestation.setExternalImageCopyright(externalImageCopyright);
+		model.setExternalImageCopyright(externalImageCopyright);
 	}
 
 	/**
@@ -1093,7 +1021,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setExternalImageURL(String externalImageURL) {
-		_manifestation.setExternalImageURL(externalImageURL);
+		model.setExternalImageURL(externalImageURL);
 	}
 
 	/**
@@ -1103,7 +1031,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_manifestation.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -1113,7 +1041,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setIdSource(String idSource) {
-		_manifestation.setIdSource(idSource);
+		model.setIdSource(idSource);
 	}
 
 	/**
@@ -1123,7 +1051,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setImageId(Long imageId) {
-		_manifestation.setImageId(imageId);
+		model.setImageId(imageId);
 	}
 
 	/**
@@ -1133,7 +1061,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
-		_manifestation.setLastPublishDate(lastPublishDate);
+		model.setLastPublishDate(lastPublishDate);
 	}
 
 	/**
@@ -1143,7 +1071,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setManifestationId(long manifestationId) {
-		_manifestation.setManifestationId(manifestationId);
+		model.setManifestationId(manifestationId);
 	}
 
 	/**
@@ -1153,7 +1081,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_manifestation.setModifiedDate(modifiedDate);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -1163,12 +1091,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setModifiedDateSource(Date modifiedDateSource) {
-		_manifestation.setModifiedDateSource(modifiedDateSource);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_manifestation.setNew(n);
+		model.setModifiedDateSource(modifiedDateSource);
 	}
 
 	/**
@@ -1178,12 +1101,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_manifestation.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_manifestation.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -1193,7 +1111,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setPublicationDate(Date publicationDate) {
-		_manifestation.setPublicationDate(publicationDate);
+		model.setPublicationDate(publicationDate);
 	}
 
 	/**
@@ -1203,7 +1121,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setSource(String source) {
-		_manifestation.setSource(source);
+		model.setSource(source);
 	}
 
 	/**
@@ -1213,7 +1131,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setStartDate(Date startDate) {
-		_manifestation.setStartDate(startDate);
+		model.setStartDate(startDate);
 	}
 
 	/**
@@ -1223,7 +1141,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setStatus(int status) {
-		_manifestation.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -1233,7 +1151,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_manifestation.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -1243,7 +1161,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_manifestation.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -1253,7 +1171,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_manifestation.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -1263,7 +1181,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_manifestation.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -1273,7 +1191,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setTitle(String title) {
-		_manifestation.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -1284,7 +1202,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setTitle(String title, java.util.Locale locale) {
-		_manifestation.setTitle(title, locale);
+		model.setTitle(title, locale);
 	}
 
 	/**
@@ -1298,12 +1216,12 @@ public class ManifestationWrapper
 	public void setTitle(
 		String title, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_manifestation.setTitle(title, locale, defaultLocale);
+		model.setTitle(title, locale, defaultLocale);
 	}
 
 	@Override
 	public void setTitleCurrentLanguageId(String languageId) {
-		_manifestation.setTitleCurrentLanguageId(languageId);
+		model.setTitleCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1313,7 +1231,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setTitleMap(Map<java.util.Locale, String> titleMap) {
-		_manifestation.setTitleMap(titleMap);
+		model.setTitleMap(titleMap);
 	}
 
 	/**
@@ -1327,7 +1245,7 @@ public class ManifestationWrapper
 		Map<java.util.Locale, String> titleMap,
 		java.util.Locale defaultLocale) {
 
-		_manifestation.setTitleMap(titleMap, defaultLocale);
+		model.setTitleMap(titleMap, defaultLocale);
 	}
 
 	/**
@@ -1337,7 +1255,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_manifestation.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -1347,7 +1265,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_manifestation.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -1357,7 +1275,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_manifestation.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -1367,19 +1285,7 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_manifestation.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.agenda.model.Manifestation> toCacheModel() {
-
-		return _manifestation.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.Manifestation toEscapedModel() {
-		return new ManifestationWrapper(_manifestation.toEscapedModel());
+		model.setUuid(uuid);
 	}
 
 	/**
@@ -1387,71 +1293,22 @@ public class ManifestationWrapper
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _manifestation.toJSON();
-	}
-
-	@Override
-	public String toString() {
-		return _manifestation.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.Manifestation toUnescapedModel() {
-		return new ManifestationWrapper(_manifestation.toUnescapedModel());
+		return model.toJSON();
 	}
 
 	@Override
 	public String toXmlString() {
-		return _manifestation.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof ManifestationWrapper)) {
-			return false;
-		}
-
-		ManifestationWrapper manifestationWrapper =
-			(ManifestationWrapper)object;
-
-		if (Objects.equals(
-				_manifestation, manifestationWrapper._manifestation)) {
-
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _manifestation.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Manifestation getWrappedModel() {
-		return _manifestation;
+	protected ManifestationWrapper wrap(Manifestation manifestation) {
+		return new ManifestationWrapper(manifestation);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _manifestation.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _manifestation.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_manifestation.resetOriginalValues();
-	}
-
-	private final Manifestation _manifestation;
 
 }

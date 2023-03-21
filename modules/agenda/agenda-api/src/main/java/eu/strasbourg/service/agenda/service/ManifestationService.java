@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -27,6 +25,8 @@ import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * Provides the remote service interface for Manifestation. Methods of this
@@ -56,7 +56,7 @@ public interface ManifestationService extends BaseService {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link ManifestationServiceUtil} to access the manifestation remote service. Add custom service methods to <code>eu.strasbourg.service.agenda.service.impl.ManifestationServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.agenda.service.impl.ManifestationServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the manifestation remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link ManifestationServiceUtil} if injection and service tracking are not available.
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getManifestation(long id) throws PortalException;

@@ -47,7 +47,6 @@ import eu.strasbourg.service.like.service.LikeServiceUtil;
  * </p>
  *
  * @author Cedric Henry
- * @see LikeServiceSoap
  * @generated
  */
 public class LikeServiceHttp {

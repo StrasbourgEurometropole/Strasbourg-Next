@@ -14,17 +14,13 @@
 
 package eu.strasbourg.service.edition.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +31,12 @@ import java.util.Objects;
  * @see Edition
  * @generated
  */
-public class EditionWrapper implements Edition, ModelWrapper<Edition> {
+public class EditionWrapper
+	extends BaseModelWrapper<Edition>
+	implements Edition, ModelWrapper<Edition> {
 
 	public EditionWrapper(Edition edition) {
-		_edition = edition;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Edition.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Edition.class.getName();
+		super(edition);
 	}
 
 	@Override
@@ -282,13 +270,8 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	@Override
-	public Object clone() {
-		return new EditionWrapper((Edition)_edition.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.edition.model.Edition edition) {
-		return _edition.compareTo(edition);
+	public Edition cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -296,7 +279,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _edition.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	/**
@@ -306,7 +289,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getAuthor() {
-		return _edition.getAuthor();
+		return model.getAuthor();
 	}
 
 	/**
@@ -317,7 +300,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getAuthor(java.util.Locale locale) {
-		return _edition.getAuthor(locale);
+		return model.getAuthor(locale);
 	}
 
 	/**
@@ -329,7 +312,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getAuthor(java.util.Locale locale, boolean useDefault) {
-		return _edition.getAuthor(locale, useDefault);
+		return model.getAuthor(locale, useDefault);
 	}
 
 	/**
@@ -340,7 +323,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getAuthor(String languageId) {
-		return _edition.getAuthor(languageId);
+		return model.getAuthor(languageId);
 	}
 
 	/**
@@ -352,17 +335,17 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getAuthor(String languageId, boolean useDefault) {
-		return _edition.getAuthor(languageId, useDefault);
+		return model.getAuthor(languageId, useDefault);
 	}
 
 	@Override
 	public String getAuthorCurrentLanguageId() {
-		return _edition.getAuthorCurrentLanguageId();
+		return model.getAuthorCurrentLanguageId();
 	}
 
 	@Override
 	public String getAuthorCurrentValue() {
-		return _edition.getAuthorCurrentValue();
+		return model.getAuthorCurrentValue();
 	}
 
 	/**
@@ -372,7 +355,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getAuthorMap() {
-		return _edition.getAuthorMap();
+		return model.getAuthorMap();
 	}
 
 	/**
@@ -382,12 +365,12 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public boolean getAvailableForExchange() {
-		return _edition.getAvailableForExchange();
+		return model.getAvailableForExchange();
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _edition.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -398,7 +381,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _edition.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -408,7 +391,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _edition.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -418,12 +401,12 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _edition.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _edition.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -433,7 +416,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getDescription() {
-		return _edition.getDescription();
+		return model.getDescription();
 	}
 
 	/**
@@ -444,7 +427,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale) {
-		return _edition.getDescription(locale);
+		return model.getDescription(locale);
 	}
 
 	/**
@@ -456,7 +439,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale, boolean useDefault) {
-		return _edition.getDescription(locale, useDefault);
+		return model.getDescription(locale, useDefault);
 	}
 
 	/**
@@ -467,7 +450,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getDescription(String languageId) {
-		return _edition.getDescription(languageId);
+		return model.getDescription(languageId);
 	}
 
 	/**
@@ -479,17 +462,17 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getDescription(String languageId, boolean useDefault) {
-		return _edition.getDescription(languageId, useDefault);
+		return model.getDescription(languageId, useDefault);
 	}
 
 	@Override
 	public String getDescriptionCurrentLanguageId() {
-		return _edition.getDescriptionCurrentLanguageId();
+		return model.getDescriptionCurrentLanguageId();
 	}
 
 	@Override
 	public String getDescriptionCurrentValue() {
-		return _edition.getDescriptionCurrentValue();
+		return model.getDescriptionCurrentValue();
 	}
 
 	/**
@@ -499,7 +482,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getDescriptionMap() {
-		return _edition.getDescriptionMap();
+		return model.getDescriptionMap();
 	}
 
 	/**
@@ -509,7 +492,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getDiffusionDateMonth() {
-		return _edition.getDiffusionDateMonth();
+		return model.getDiffusionDateMonth();
 	}
 
 	/**
@@ -519,7 +502,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getDiffusionDateYear() {
-		return _edition.getDiffusionDateYear();
+		return model.getDiffusionDateYear();
 	}
 
 	/**
@@ -529,7 +512,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getDistribution() {
-		return _edition.getDistribution();
+		return model.getDistribution();
 	}
 
 	/**
@@ -539,7 +522,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	public java.util.List<eu.strasbourg.service.edition.model.EditionGallery>
 		getEditionGalleries() {
 
-		return _edition.getEditionGalleries();
+		return model.getEditionGalleries();
 	}
 
 	/**
@@ -548,7 +531,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getEditionGalleriesIds() {
-		return _edition.getEditionGalleriesIds();
+		return model.getEditionGalleriesIds();
 	}
 
 	/**
@@ -558,7 +541,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public long getEditionId() {
-		return _edition.getEditionId();
+		return model.getEditionId();
 	}
 
 	/**
@@ -568,7 +551,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getEditor() {
-		return _edition.getEditor();
+		return model.getEditor();
 	}
 
 	/**
@@ -579,7 +562,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getEditor(java.util.Locale locale) {
-		return _edition.getEditor(locale);
+		return model.getEditor(locale);
 	}
 
 	/**
@@ -591,7 +574,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getEditor(java.util.Locale locale, boolean useDefault) {
-		return _edition.getEditor(locale, useDefault);
+		return model.getEditor(locale, useDefault);
 	}
 
 	/**
@@ -602,7 +585,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getEditor(String languageId) {
-		return _edition.getEditor(languageId);
+		return model.getEditor(languageId);
 	}
 
 	/**
@@ -614,17 +597,17 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getEditor(String languageId, boolean useDefault) {
-		return _edition.getEditor(languageId, useDefault);
+		return model.getEditor(languageId, useDefault);
 	}
 
 	@Override
 	public String getEditorCurrentLanguageId() {
-		return _edition.getEditorCurrentLanguageId();
+		return model.getEditorCurrentLanguageId();
 	}
 
 	@Override
 	public String getEditorCurrentValue() {
-		return _edition.getEditorCurrentValue();
+		return model.getEditorCurrentValue();
 	}
 
 	/**
@@ -634,12 +617,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getEditorMap() {
-		return _edition.getEditorMap();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _edition.getExpandoBridge();
+		return model.getEditorMap();
 	}
 
 	/**
@@ -648,7 +626,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getFileDownloadURL(java.util.Locale locale) {
-		return _edition.getFileDownloadURL(locale);
+		return model.getFileDownloadURL(locale);
 	}
 
 	/**
@@ -658,7 +636,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getFileId() {
-		return _edition.getFileId();
+		return model.getFileId();
 	}
 
 	/**
@@ -669,7 +647,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getFileId(java.util.Locale locale) {
-		return _edition.getFileId(locale);
+		return model.getFileId(locale);
 	}
 
 	/**
@@ -681,7 +659,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getFileId(java.util.Locale locale, boolean useDefault) {
-		return _edition.getFileId(locale, useDefault);
+		return model.getFileId(locale, useDefault);
 	}
 
 	/**
@@ -692,7 +670,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getFileId(String languageId) {
-		return _edition.getFileId(languageId);
+		return model.getFileId(languageId);
 	}
 
 	/**
@@ -704,17 +682,17 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getFileId(String languageId, boolean useDefault) {
-		return _edition.getFileId(languageId, useDefault);
+		return model.getFileId(languageId, useDefault);
 	}
 
 	@Override
 	public String getFileIdCurrentLanguageId() {
-		return _edition.getFileIdCurrentLanguageId();
+		return model.getFileIdCurrentLanguageId();
 	}
 
 	@Override
 	public String getFileIdCurrentValue() {
-		return _edition.getFileIdCurrentValue();
+		return model.getFileIdCurrentValue();
 	}
 
 	/**
@@ -724,7 +702,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getFileIdMap() {
-		return _edition.getFileIdMap();
+		return model.getFileIdMap();
 	}
 
 	/**
@@ -732,7 +710,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getFileSize(java.util.Locale locale) {
-		return _edition.getFileSize(locale);
+		return model.getFileSize(locale);
 	}
 
 	/**
@@ -740,7 +718,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getFileTitle(java.util.Locale locale) {
-		return _edition.getFileTitle(locale);
+		return model.getFileTitle(locale);
 	}
 
 	/**
@@ -749,7 +727,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getFileType(java.util.Locale locale) {
-		return _edition.getFileType(locale);
+		return model.getFileType(locale);
 	}
 
 	/**
@@ -759,7 +737,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _edition.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -767,7 +745,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getImageCopyright(java.util.Locale locale) {
-		return _edition.getImageCopyright(locale);
+		return model.getImageCopyright(locale);
 	}
 
 	/**
@@ -777,7 +755,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public Long getImageId() {
-		return _edition.getImageId();
+		return model.getImageId();
 	}
 
 	/**
@@ -785,7 +763,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getImageURL() {
-		return _edition.getImageURL();
+		return model.getImageURL();
 	}
 
 	/**
@@ -795,7 +773,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public boolean getInStock() {
-		return _edition.getInStock();
+		return model.getInStock();
 	}
 
 	/**
@@ -805,7 +783,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getISBN() {
-		return _edition.getISBN();
+		return model.getISBN();
 	}
 
 	/**
@@ -815,7 +793,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public Date getLastPublishDate() {
-		return _edition.getLastPublishDate();
+		return model.getLastPublishDate();
 	}
 
 	/**
@@ -823,7 +801,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public eu.strasbourg.service.edition.model.Edition getLiveVersion() {
-		return _edition.getLiveVersion();
+		return model.getLiveVersion();
 	}
 
 	/**
@@ -833,7 +811,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _edition.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -843,7 +821,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getMuseums() {
 
-		return _edition.getMuseums();
+		return model.getMuseums();
 	}
 
 	/**
@@ -851,7 +829,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getMuseumsLabel(java.util.Locale locale) {
-		return _edition.getMuseumsLabel(locale);
+		return model.getMuseumsLabel(locale);
 	}
 
 	/**
@@ -861,7 +839,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getPageNumber() {
-		return _edition.getPageNumber();
+		return model.getPageNumber();
 	}
 
 	/**
@@ -871,7 +849,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getPictureNumber() {
-		return _edition.getPictureNumber();
+		return model.getPictureNumber();
 	}
 
 	/**
@@ -881,7 +859,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getPrice() {
-		return _edition.getPrice();
+		return model.getPrice();
 	}
 
 	/**
@@ -891,12 +869,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _edition.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _edition.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -906,7 +879,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public Date getPublicationDate() {
-		return _edition.getPublicationDate();
+		return model.getPublicationDate();
 	}
 
 	/**
@@ -916,7 +889,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	public java.util.List<eu.strasbourg.service.edition.model.EditionGallery>
 		getPublishedEditionGalleries() {
 
-		return _edition.getPublishedEditionGalleries();
+		return model.getPublishedEditionGalleries();
 	}
 
 	/**
@@ -926,7 +899,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getSources() {
 
-		return _edition.getSources();
+		return model.getSources();
 	}
 
 	/**
@@ -936,7 +909,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public int getStatus() {
-		return _edition.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -946,7 +919,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _edition.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -956,7 +929,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _edition.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -966,7 +939,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _edition.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -976,7 +949,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _edition.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -986,7 +959,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getSubtitle() {
-		return _edition.getSubtitle();
+		return model.getSubtitle();
 	}
 
 	/**
@@ -997,7 +970,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getSubtitle(java.util.Locale locale) {
-		return _edition.getSubtitle(locale);
+		return model.getSubtitle(locale);
 	}
 
 	/**
@@ -1009,7 +982,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getSubtitle(java.util.Locale locale, boolean useDefault) {
-		return _edition.getSubtitle(locale, useDefault);
+		return model.getSubtitle(locale, useDefault);
 	}
 
 	/**
@@ -1020,7 +993,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getSubtitle(String languageId) {
-		return _edition.getSubtitle(languageId);
+		return model.getSubtitle(languageId);
 	}
 
 	/**
@@ -1032,17 +1005,17 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getSubtitle(String languageId, boolean useDefault) {
-		return _edition.getSubtitle(languageId, useDefault);
+		return model.getSubtitle(languageId, useDefault);
 	}
 
 	@Override
 	public String getSubtitleCurrentLanguageId() {
-		return _edition.getSubtitleCurrentLanguageId();
+		return model.getSubtitleCurrentLanguageId();
 	}
 
 	@Override
 	public String getSubtitleCurrentValue() {
-		return _edition.getSubtitleCurrentValue();
+		return model.getSubtitleCurrentValue();
 	}
 
 	/**
@@ -1052,7 +1025,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getSubtitleMap() {
-		return _edition.getSubtitleMap();
+		return model.getSubtitleMap();
 	}
 
 	/**
@@ -1062,7 +1035,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getTitle() {
-		return _edition.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -1073,7 +1046,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale) {
-		return _edition.getTitle(locale);
+		return model.getTitle(locale);
 	}
 
 	/**
@@ -1085,7 +1058,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale, boolean useDefault) {
-		return _edition.getTitle(locale, useDefault);
+		return model.getTitle(locale, useDefault);
 	}
 
 	/**
@@ -1096,7 +1069,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getTitle(String languageId) {
-		return _edition.getTitle(languageId);
+		return model.getTitle(languageId);
 	}
 
 	/**
@@ -1108,17 +1081,17 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getTitle(String languageId, boolean useDefault) {
-		return _edition.getTitle(languageId, useDefault);
+		return model.getTitle(languageId, useDefault);
 	}
 
 	@Override
 	public String getTitleCurrentLanguageId() {
-		return _edition.getTitleCurrentLanguageId();
+		return model.getTitleCurrentLanguageId();
 	}
 
 	@Override
 	public String getTitleCurrentValue() {
-		return _edition.getTitleCurrentValue();
+		return model.getTitleCurrentValue();
 	}
 
 	/**
@@ -1128,7 +1101,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getTitleMap() {
-		return _edition.getTitleMap();
+		return model.getTitleMap();
 	}
 
 	/**
@@ -1138,7 +1111,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getTypes() {
 
-		return _edition.getTypes();
+		return model.getTypes();
 	}
 
 	/**
@@ -1146,7 +1119,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getTypesLabels(java.util.Locale locale) {
-		return _edition.getTypesLabels(locale);
+		return model.getTypesLabels(locale);
 	}
 
 	/**
@@ -1156,7 +1129,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getURL() {
-		return _edition.getURL();
+		return model.getURL();
 	}
 
 	/**
@@ -1167,7 +1140,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getURL(java.util.Locale locale) {
-		return _edition.getURL(locale);
+		return model.getURL(locale);
 	}
 
 	/**
@@ -1179,7 +1152,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getURL(java.util.Locale locale, boolean useDefault) {
-		return _edition.getURL(locale, useDefault);
+		return model.getURL(locale, useDefault);
 	}
 
 	/**
@@ -1190,7 +1163,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getURL(String languageId) {
-		return _edition.getURL(languageId);
+		return model.getURL(languageId);
 	}
 
 	/**
@@ -1202,17 +1175,17 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getURL(String languageId, boolean useDefault) {
-		return _edition.getURL(languageId, useDefault);
+		return model.getURL(languageId, useDefault);
 	}
 
 	@Override
 	public String getURLCurrentLanguageId() {
-		return _edition.getURLCurrentLanguageId();
+		return model.getURLCurrentLanguageId();
 	}
 
 	@Override
 	public String getURLCurrentValue() {
-		return _edition.getURLCurrentValue();
+		return model.getURLCurrentValue();
 	}
 
 	/**
@@ -1222,7 +1195,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getURLMap() {
-		return _edition.getURLMap();
+		return model.getURLMap();
 	}
 
 	/**
@@ -1232,7 +1205,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public long getUserId() {
-		return _edition.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -1242,7 +1215,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getUserName() {
-		return _edition.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -1252,7 +1225,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _edition.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -1262,12 +1235,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public String getUuid() {
-		return _edition.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _edition.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -1277,7 +1245,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _edition.isApproved();
+		return model.isApproved();
 	}
 
 	/**
@@ -1287,12 +1255,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public boolean isAvailableForExchange() {
-		return _edition.isAvailableForExchange();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _edition.isCachedModel();
+		return model.isAvailableForExchange();
 	}
 
 	/**
@@ -1302,7 +1265,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _edition.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -1312,12 +1275,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _edition.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _edition.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -1327,7 +1285,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _edition.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -1337,7 +1295,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _edition.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -1347,7 +1305,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _edition.isIncomplete();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -1357,12 +1315,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public boolean isInStock() {
-		return _edition.isInStock();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _edition.isNew();
+		return model.isInStock();
 	}
 
 	/**
@@ -1372,7 +1325,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public boolean isPending() {
-		return _edition.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -1382,19 +1335,19 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _edition.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_edition.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_edition.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -1402,7 +1355,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_edition.prepareLocalizedFieldsForImport(defaultImportLocale);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -1412,7 +1365,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setAuthor(String author) {
-		_edition.setAuthor(author);
+		model.setAuthor(author);
 	}
 
 	/**
@@ -1423,7 +1376,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setAuthor(String author, java.util.Locale locale) {
-		_edition.setAuthor(author, locale);
+		model.setAuthor(author, locale);
 	}
 
 	/**
@@ -1438,12 +1391,12 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		String author, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_edition.setAuthor(author, locale, defaultLocale);
+		model.setAuthor(author, locale, defaultLocale);
 	}
 
 	@Override
 	public void setAuthorCurrentLanguageId(String languageId) {
-		_edition.setAuthorCurrentLanguageId(languageId);
+		model.setAuthorCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1453,7 +1406,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setAuthorMap(Map<java.util.Locale, String> authorMap) {
-		_edition.setAuthorMap(authorMap);
+		model.setAuthorMap(authorMap);
 	}
 
 	/**
@@ -1467,7 +1420,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		Map<java.util.Locale, String> authorMap,
 		java.util.Locale defaultLocale) {
 
-		_edition.setAuthorMap(authorMap, defaultLocale);
+		model.setAuthorMap(authorMap, defaultLocale);
 	}
 
 	/**
@@ -1477,12 +1430,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setAvailableForExchange(boolean availableForExchange) {
-		_edition.setAvailableForExchange(availableForExchange);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_edition.setCachedModel(cachedModel);
+		model.setAvailableForExchange(availableForExchange);
 	}
 
 	/**
@@ -1492,7 +1440,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_edition.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -1502,7 +1450,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_edition.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -1512,7 +1460,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setDescription(String description) {
-		_edition.setDescription(description);
+		model.setDescription(description);
 	}
 
 	/**
@@ -1523,7 +1471,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setDescription(String description, java.util.Locale locale) {
-		_edition.setDescription(description, locale);
+		model.setDescription(description, locale);
 	}
 
 	/**
@@ -1538,12 +1486,12 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		String description, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_edition.setDescription(description, locale, defaultLocale);
+		model.setDescription(description, locale, defaultLocale);
 	}
 
 	@Override
 	public void setDescriptionCurrentLanguageId(String languageId) {
-		_edition.setDescriptionCurrentLanguageId(languageId);
+		model.setDescriptionCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1555,7 +1503,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	public void setDescriptionMap(
 		Map<java.util.Locale, String> descriptionMap) {
 
-		_edition.setDescriptionMap(descriptionMap);
+		model.setDescriptionMap(descriptionMap);
 	}
 
 	/**
@@ -1569,7 +1517,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		Map<java.util.Locale, String> descriptionMap,
 		java.util.Locale defaultLocale) {
 
-		_edition.setDescriptionMap(descriptionMap, defaultLocale);
+		model.setDescriptionMap(descriptionMap, defaultLocale);
 	}
 
 	/**
@@ -1579,7 +1527,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setDiffusionDateMonth(String diffusionDateMonth) {
-		_edition.setDiffusionDateMonth(diffusionDateMonth);
+		model.setDiffusionDateMonth(diffusionDateMonth);
 	}
 
 	/**
@@ -1589,7 +1537,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setDiffusionDateYear(String diffusionDateYear) {
-		_edition.setDiffusionDateYear(diffusionDateYear);
+		model.setDiffusionDateYear(diffusionDateYear);
 	}
 
 	/**
@@ -1599,7 +1547,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setDistribution(String distribution) {
-		_edition.setDistribution(distribution);
+		model.setDistribution(distribution);
 	}
 
 	/**
@@ -1609,7 +1557,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setEditionId(long editionId) {
-		_edition.setEditionId(editionId);
+		model.setEditionId(editionId);
 	}
 
 	/**
@@ -1619,7 +1567,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setEditor(String editor) {
-		_edition.setEditor(editor);
+		model.setEditor(editor);
 	}
 
 	/**
@@ -1630,7 +1578,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setEditor(String editor, java.util.Locale locale) {
-		_edition.setEditor(editor, locale);
+		model.setEditor(editor, locale);
 	}
 
 	/**
@@ -1645,12 +1593,12 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		String editor, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_edition.setEditor(editor, locale, defaultLocale);
+		model.setEditor(editor, locale, defaultLocale);
 	}
 
 	@Override
 	public void setEditorCurrentLanguageId(String languageId) {
-		_edition.setEditorCurrentLanguageId(languageId);
+		model.setEditorCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1660,7 +1608,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setEditorMap(Map<java.util.Locale, String> editorMap) {
-		_edition.setEditorMap(editorMap);
+		model.setEditorMap(editorMap);
 	}
 
 	/**
@@ -1674,24 +1622,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		Map<java.util.Locale, String> editorMap,
 		java.util.Locale defaultLocale) {
 
-		_edition.setEditorMap(editorMap, defaultLocale);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_edition.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_edition.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_edition.setExpandoBridgeAttributes(serviceContext);
+		model.setEditorMap(editorMap, defaultLocale);
 	}
 
 	/**
@@ -1701,7 +1632,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setFileId(String fileId) {
-		_edition.setFileId(fileId);
+		model.setFileId(fileId);
 	}
 
 	/**
@@ -1712,7 +1643,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setFileId(String fileId, java.util.Locale locale) {
-		_edition.setFileId(fileId, locale);
+		model.setFileId(fileId, locale);
 	}
 
 	/**
@@ -1727,12 +1658,12 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		String fileId, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_edition.setFileId(fileId, locale, defaultLocale);
+		model.setFileId(fileId, locale, defaultLocale);
 	}
 
 	@Override
 	public void setFileIdCurrentLanguageId(String languageId) {
-		_edition.setFileIdCurrentLanguageId(languageId);
+		model.setFileIdCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1742,7 +1673,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setFileIdMap(Map<java.util.Locale, String> fileIdMap) {
-		_edition.setFileIdMap(fileIdMap);
+		model.setFileIdMap(fileIdMap);
 	}
 
 	/**
@@ -1756,7 +1687,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		Map<java.util.Locale, String> fileIdMap,
 		java.util.Locale defaultLocale) {
 
-		_edition.setFileIdMap(fileIdMap, defaultLocale);
+		model.setFileIdMap(fileIdMap, defaultLocale);
 	}
 
 	/**
@@ -1766,7 +1697,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_edition.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -1776,7 +1707,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setImageId(Long imageId) {
-		_edition.setImageId(imageId);
+		model.setImageId(imageId);
 	}
 
 	/**
@@ -1786,7 +1717,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setInStock(boolean inStock) {
-		_edition.setInStock(inStock);
+		model.setInStock(inStock);
 	}
 
 	/**
@@ -1796,7 +1727,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setISBN(String ISBN) {
-		_edition.setISBN(ISBN);
+		model.setISBN(ISBN);
 	}
 
 	/**
@@ -1806,7 +1737,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
-		_edition.setLastPublishDate(lastPublishDate);
+		model.setLastPublishDate(lastPublishDate);
 	}
 
 	/**
@@ -1816,12 +1747,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_edition.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_edition.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -1831,7 +1757,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setPageNumber(String pageNumber) {
-		_edition.setPageNumber(pageNumber);
+		model.setPageNumber(pageNumber);
 	}
 
 	/**
@@ -1841,7 +1767,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setPictureNumber(String pictureNumber) {
-		_edition.setPictureNumber(pictureNumber);
+		model.setPictureNumber(pictureNumber);
 	}
 
 	/**
@@ -1851,7 +1777,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setPrice(String price) {
-		_edition.setPrice(price);
+		model.setPrice(price);
 	}
 
 	/**
@@ -1861,12 +1787,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_edition.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_edition.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -1876,7 +1797,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setPublicationDate(Date publicationDate) {
-		_edition.setPublicationDate(publicationDate);
+		model.setPublicationDate(publicationDate);
 	}
 
 	/**
@@ -1886,7 +1807,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_edition.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -1896,7 +1817,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_edition.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -1906,7 +1827,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_edition.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -1916,7 +1837,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_edition.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -1926,7 +1847,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_edition.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -1936,7 +1857,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setSubtitle(String subtitle) {
-		_edition.setSubtitle(subtitle);
+		model.setSubtitle(subtitle);
 	}
 
 	/**
@@ -1947,7 +1868,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setSubtitle(String subtitle, java.util.Locale locale) {
-		_edition.setSubtitle(subtitle, locale);
+		model.setSubtitle(subtitle, locale);
 	}
 
 	/**
@@ -1962,12 +1883,12 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		String subtitle, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_edition.setSubtitle(subtitle, locale, defaultLocale);
+		model.setSubtitle(subtitle, locale, defaultLocale);
 	}
 
 	@Override
 	public void setSubtitleCurrentLanguageId(String languageId) {
-		_edition.setSubtitleCurrentLanguageId(languageId);
+		model.setSubtitleCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1977,7 +1898,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setSubtitleMap(Map<java.util.Locale, String> subtitleMap) {
-		_edition.setSubtitleMap(subtitleMap);
+		model.setSubtitleMap(subtitleMap);
 	}
 
 	/**
@@ -1991,7 +1912,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		Map<java.util.Locale, String> subtitleMap,
 		java.util.Locale defaultLocale) {
 
-		_edition.setSubtitleMap(subtitleMap, defaultLocale);
+		model.setSubtitleMap(subtitleMap, defaultLocale);
 	}
 
 	/**
@@ -2001,7 +1922,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setTitle(String title) {
-		_edition.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -2012,7 +1933,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setTitle(String title, java.util.Locale locale) {
-		_edition.setTitle(title, locale);
+		model.setTitle(title, locale);
 	}
 
 	/**
@@ -2026,12 +1947,12 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	public void setTitle(
 		String title, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_edition.setTitle(title, locale, defaultLocale);
+		model.setTitle(title, locale, defaultLocale);
 	}
 
 	@Override
 	public void setTitleCurrentLanguageId(String languageId) {
-		_edition.setTitleCurrentLanguageId(languageId);
+		model.setTitleCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2041,7 +1962,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setTitleMap(Map<java.util.Locale, String> titleMap) {
-		_edition.setTitleMap(titleMap);
+		model.setTitleMap(titleMap);
 	}
 
 	/**
@@ -2055,7 +1976,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 		Map<java.util.Locale, String> titleMap,
 		java.util.Locale defaultLocale) {
 
-		_edition.setTitleMap(titleMap, defaultLocale);
+		model.setTitleMap(titleMap, defaultLocale);
 	}
 
 	/**
@@ -2065,7 +1986,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setURL(String URL) {
-		_edition.setURL(URL);
+		model.setURL(URL);
 	}
 
 	/**
@@ -2076,7 +1997,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setURL(String URL, java.util.Locale locale) {
-		_edition.setURL(URL, locale);
+		model.setURL(URL, locale);
 	}
 
 	/**
@@ -2090,12 +2011,12 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	public void setURL(
 		String URL, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_edition.setURL(URL, locale, defaultLocale);
+		model.setURL(URL, locale, defaultLocale);
 	}
 
 	@Override
 	public void setURLCurrentLanguageId(String languageId) {
-		_edition.setURLCurrentLanguageId(languageId);
+		model.setURLCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2105,7 +2026,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setURLMap(Map<java.util.Locale, String> URLMap) {
-		_edition.setURLMap(URLMap);
+		model.setURLMap(URLMap);
 	}
 
 	/**
@@ -2118,7 +2039,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	public void setURLMap(
 		Map<java.util.Locale, String> URLMap, java.util.Locale defaultLocale) {
 
-		_edition.setURLMap(URLMap, defaultLocale);
+		model.setURLMap(URLMap, defaultLocale);
 	}
 
 	/**
@@ -2128,7 +2049,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_edition.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -2138,7 +2059,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_edition.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -2148,7 +2069,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_edition.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -2158,19 +2079,7 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_edition.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.edition.model.Edition> toCacheModel() {
-
-		return _edition.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.edition.model.Edition toEscapedModel() {
-		return new EditionWrapper(_edition.toEscapedModel());
+		model.setUuid(uuid);
 	}
 
 	/**
@@ -2178,68 +2087,22 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _edition.toJSON();
-	}
-
-	@Override
-	public String toString() {
-		return _edition.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.edition.model.Edition toUnescapedModel() {
-		return new EditionWrapper(_edition.toUnescapedModel());
+		return model.toJSON();
 	}
 
 	@Override
 	public String toXmlString() {
-		return _edition.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof EditionWrapper)) {
-			return false;
-		}
-
-		EditionWrapper editionWrapper = (EditionWrapper)object;
-
-		if (Objects.equals(_edition, editionWrapper._edition)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _edition.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Edition getWrappedModel() {
-		return _edition;
+	protected EditionWrapper wrap(Edition edition) {
+		return new EditionWrapper(edition);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _edition.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _edition.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_edition.resetOriginalValues();
-	}
-
-	private final Edition _edition;
 
 }

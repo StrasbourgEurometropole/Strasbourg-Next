@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.oidc.service.base;
 
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -27,6 +28,8 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -43,10 +46,13 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalService;
+import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.oidc.service.persistence.AnonymisationHistoricPersistence;
 import eu.strasbourg.service.oidc.service.persistence.PublikUserPersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.List;
 
@@ -70,7 +76,7 @@ public abstract class PublikUserLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>PublikUserLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>PublikUserLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>PublikUserLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -136,6 +142,18 @@ public abstract class PublikUserLocalServiceBaseImpl
 	@Override
 	public PublikUser deletePublikUser(PublikUser publikUser) {
 		return publikUserPersistence.remove(publikUser);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return publikUserPersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -290,13 +308,29 @@ public abstract class PublikUserLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return publikUserPersistence.create(((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement PublikUserLocalServiceImpl#deletePublikUser(PublikUser) to avoid orphaned data");
+		}
 
 		return publikUserLocalService.deletePublikUser(
 			(PublikUser)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<PublikUser> getBasePersistence() {
 		return publikUserPersistence;
 	}
@@ -573,11 +607,15 @@ public abstract class PublikUserLocalServiceBaseImpl
 		persistedModelLocalServiceRegistry.register(
 			"eu.strasbourg.service.oidc.model.PublikUser",
 			publikUserLocalService);
+
+		_setLocalServiceUtilService(publikUserLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"eu.strasbourg.service.oidc.model.PublikUser");
+
+		_setLocalServiceUtilService(null);
 	}
 
 	/**
@@ -619,6 +657,22 @@ public abstract class PublikUserLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		PublikUserLocalService publikUserLocalService) {
+
+		try {
+			Field field = PublikUserLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, publikUserLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -667,6 +721,9 @@ public abstract class PublikUserLocalServiceBaseImpl
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		PublikUserLocalServiceBaseImpl.class);
 
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry

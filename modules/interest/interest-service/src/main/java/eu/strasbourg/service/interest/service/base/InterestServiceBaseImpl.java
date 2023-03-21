@@ -22,6 +22,8 @@ import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
@@ -31,8 +33,11 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.interest.model.Interest;
 import eu.strasbourg.service.interest.service.InterestService;
+import eu.strasbourg.service.interest.service.InterestServiceUtil;
 import eu.strasbourg.service.interest.service.persistence.InterestPersistence;
 import eu.strasbourg.service.interest.service.persistence.UserInterestPersistence;
+
+import java.lang.reflect.Field;
 
 import javax.sql.DataSource;
 
@@ -54,7 +59,7 @@ public abstract class InterestServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>InterestService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.interest.service.InterestServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>InterestService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>InterestServiceUtil</code>.
 	 */
 
 	/**
@@ -463,9 +468,11 @@ public abstract class InterestServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
+		_setServiceUtilService(interestService);
 	}
 
 	public void destroy() {
+		_setServiceUtilService(null);
 	}
 
 	/**
@@ -507,6 +514,20 @@ public abstract class InterestServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setServiceUtilService(InterestService interestService) {
+		try {
+			Field field = InterestServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, interestService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -600,5 +621,8 @@ public abstract class InterestServiceBaseImpl
 
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		InterestServiceBaseImpl.class);
 
 }

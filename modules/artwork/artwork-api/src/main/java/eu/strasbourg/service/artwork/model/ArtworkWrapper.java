@@ -14,17 +14,13 @@
 
 package eu.strasbourg.service.artwork.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +31,12 @@ import java.util.Objects;
  * @see Artwork
  * @generated
  */
-public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
+public class ArtworkWrapper
+	extends BaseModelWrapper<Artwork>
+	implements Artwork, ModelWrapper<Artwork> {
 
 	public ArtworkWrapper(Artwork artwork) {
-		_artwork = artwork;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Artwork.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Artwork.class.getName();
+		super(artwork);
 	}
 
 	@Override
@@ -253,13 +241,8 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	}
 
 	@Override
-	public Object clone() {
-		return new ArtworkWrapper((Artwork)_artwork.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.artwork.model.Artwork artwork) {
-		return _artwork.compareTo(artwork);
+	public Artwork cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -269,7 +252,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getArtistName() {
-		return _artwork.getArtistName();
+		return model.getArtistName();
 	}
 
 	/**
@@ -280,7 +263,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getArtistName(java.util.Locale locale) {
-		return _artwork.getArtistName(locale);
+		return model.getArtistName(locale);
 	}
 
 	/**
@@ -292,7 +275,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getArtistName(java.util.Locale locale, boolean useDefault) {
-		return _artwork.getArtistName(locale, useDefault);
+		return model.getArtistName(locale, useDefault);
 	}
 
 	/**
@@ -303,7 +286,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getArtistName(String languageId) {
-		return _artwork.getArtistName(languageId);
+		return model.getArtistName(languageId);
 	}
 
 	/**
@@ -315,17 +298,17 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getArtistName(String languageId, boolean useDefault) {
-		return _artwork.getArtistName(languageId, useDefault);
+		return model.getArtistName(languageId, useDefault);
 	}
 
 	@Override
 	public String getArtistNameCurrentLanguageId() {
-		return _artwork.getArtistNameCurrentLanguageId();
+		return model.getArtistNameCurrentLanguageId();
 	}
 
 	@Override
 	public String getArtistNameCurrentValue() {
-		return _artwork.getArtistNameCurrentValue();
+		return model.getArtistNameCurrentValue();
 	}
 
 	/**
@@ -335,7 +318,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getArtistNameMap() {
-		return _artwork.getArtistNameMap();
+		return model.getArtistNameMap();
 	}
 
 	/**
@@ -345,7 +328,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	public java.util.List<eu.strasbourg.service.artwork.model.ArtworkCollection>
 		getArtworkCollections() {
 
-		return _artwork.getArtworkCollections();
+		return model.getArtworkCollections();
 	}
 
 	/**
@@ -353,7 +336,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getArtworkCollectionsIds() {
-		return _artwork.getArtworkCollectionsIds();
+		return model.getArtworkCollectionsIds();
 	}
 
 	/**
@@ -363,7 +346,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public long getArtworkId() {
-		return _artwork.getArtworkId();
+		return model.getArtworkId();
 	}
 
 	/**
@@ -371,12 +354,12 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _artwork.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _artwork.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -387,7 +370,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _artwork.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -397,7 +380,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _artwork.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -407,7 +390,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _artwork.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -417,7 +400,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getCreationYear() {
-		return _artwork.getCreationYear();
+		return model.getCreationYear();
 	}
 
 	/**
@@ -428,7 +411,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getCreationYear(java.util.Locale locale) {
-		return _artwork.getCreationYear(locale);
+		return model.getCreationYear(locale);
 	}
 
 	/**
@@ -440,7 +423,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getCreationYear(java.util.Locale locale, boolean useDefault) {
-		return _artwork.getCreationYear(locale, useDefault);
+		return model.getCreationYear(locale, useDefault);
 	}
 
 	/**
@@ -451,7 +434,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getCreationYear(String languageId) {
-		return _artwork.getCreationYear(languageId);
+		return model.getCreationYear(languageId);
 	}
 
 	/**
@@ -463,17 +446,17 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getCreationYear(String languageId, boolean useDefault) {
-		return _artwork.getCreationYear(languageId, useDefault);
+		return model.getCreationYear(languageId, useDefault);
 	}
 
 	@Override
 	public String getCreationYearCurrentLanguageId() {
-		return _artwork.getCreationYearCurrentLanguageId();
+		return model.getCreationYearCurrentLanguageId();
 	}
 
 	@Override
 	public String getCreationYearCurrentValue() {
-		return _artwork.getCreationYearCurrentValue();
+		return model.getCreationYearCurrentValue();
 	}
 
 	/**
@@ -483,12 +466,12 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getCreationYearMap() {
-		return _artwork.getCreationYearMap();
+		return model.getCreationYearMap();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _artwork.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -498,7 +481,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getDescription() {
-		return _artwork.getDescription();
+		return model.getDescription();
 	}
 
 	/**
@@ -509,7 +492,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale) {
-		return _artwork.getDescription(locale);
+		return model.getDescription(locale);
 	}
 
 	/**
@@ -521,7 +504,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale, boolean useDefault) {
-		return _artwork.getDescription(locale, useDefault);
+		return model.getDescription(locale, useDefault);
 	}
 
 	/**
@@ -532,7 +515,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getDescription(String languageId) {
-		return _artwork.getDescription(languageId);
+		return model.getDescription(languageId);
 	}
 
 	/**
@@ -544,17 +527,17 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getDescription(String languageId, boolean useDefault) {
-		return _artwork.getDescription(languageId, useDefault);
+		return model.getDescription(languageId, useDefault);
 	}
 
 	@Override
 	public String getDescriptionCurrentLanguageId() {
-		return _artwork.getDescriptionCurrentLanguageId();
+		return model.getDescriptionCurrentLanguageId();
 	}
 
 	@Override
 	public String getDescriptionCurrentValue() {
-		return _artwork.getDescriptionCurrentValue();
+		return model.getDescriptionCurrentValue();
 	}
 
 	/**
@@ -564,7 +547,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getDescriptionMap() {
-		return _artwork.getDescriptionMap();
+		return model.getDescriptionMap();
 	}
 
 	/**
@@ -574,7 +557,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getExhibitionName() {
-		return _artwork.getExhibitionName();
+		return model.getExhibitionName();
 	}
 
 	/**
@@ -585,7 +568,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getExhibitionName(java.util.Locale locale) {
-		return _artwork.getExhibitionName(locale);
+		return model.getExhibitionName(locale);
 	}
 
 	/**
@@ -599,7 +582,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	public String getExhibitionName(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _artwork.getExhibitionName(locale, useDefault);
+		return model.getExhibitionName(locale, useDefault);
 	}
 
 	/**
@@ -610,7 +593,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getExhibitionName(String languageId) {
-		return _artwork.getExhibitionName(languageId);
+		return model.getExhibitionName(languageId);
 	}
 
 	/**
@@ -622,17 +605,17 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getExhibitionName(String languageId, boolean useDefault) {
-		return _artwork.getExhibitionName(languageId, useDefault);
+		return model.getExhibitionName(languageId, useDefault);
 	}
 
 	@Override
 	public String getExhibitionNameCurrentLanguageId() {
-		return _artwork.getExhibitionNameCurrentLanguageId();
+		return model.getExhibitionNameCurrentLanguageId();
 	}
 
 	@Override
 	public String getExhibitionNameCurrentValue() {
-		return _artwork.getExhibitionNameCurrentValue();
+		return model.getExhibitionNameCurrentValue();
 	}
 
 	/**
@@ -642,7 +625,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getExhibitionNameMap() {
-		return _artwork.getExhibitionNameMap();
+		return model.getExhibitionNameMap();
 	}
 
 	/**
@@ -652,7 +635,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getExhibitionPlace() {
-		return _artwork.getExhibitionPlace();
+		return model.getExhibitionPlace();
 	}
 
 	/**
@@ -663,7 +646,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getExhibitionPlace(java.util.Locale locale) {
-		return _artwork.getExhibitionPlace(locale);
+		return model.getExhibitionPlace(locale);
 	}
 
 	/**
@@ -677,7 +660,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	public String getExhibitionPlace(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _artwork.getExhibitionPlace(locale, useDefault);
+		return model.getExhibitionPlace(locale, useDefault);
 	}
 
 	/**
@@ -688,7 +671,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getExhibitionPlace(String languageId) {
-		return _artwork.getExhibitionPlace(languageId);
+		return model.getExhibitionPlace(languageId);
 	}
 
 	/**
@@ -700,17 +683,17 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getExhibitionPlace(String languageId, boolean useDefault) {
-		return _artwork.getExhibitionPlace(languageId, useDefault);
+		return model.getExhibitionPlace(languageId, useDefault);
 	}
 
 	@Override
 	public String getExhibitionPlaceCurrentLanguageId() {
-		return _artwork.getExhibitionPlaceCurrentLanguageId();
+		return model.getExhibitionPlaceCurrentLanguageId();
 	}
 
 	@Override
 	public String getExhibitionPlaceCurrentValue() {
-		return _artwork.getExhibitionPlaceCurrentValue();
+		return model.getExhibitionPlaceCurrentValue();
 	}
 
 	/**
@@ -720,12 +703,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getExhibitionPlaceMap() {
-		return _artwork.getExhibitionPlaceMap();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _artwork.getExpandoBridge();
+		return model.getExhibitionPlaceMap();
 	}
 
 	/**
@@ -735,7 +713,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _artwork.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -743,7 +721,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getImageCopyright(java.util.Locale locale) {
-		return _artwork.getImageCopyright(locale);
+		return model.getImageCopyright(locale);
 	}
 
 	/**
@@ -753,7 +731,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public Long getImageId() {
-		return _artwork.getImageId();
+		return model.getImageId();
 	}
 
 	/**
@@ -761,7 +739,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getImageLegend(java.util.Locale locale) {
-		return _artwork.getImageLegend(locale);
+		return model.getImageLegend(locale);
 	}
 
 	/**
@@ -769,7 +747,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getImageLegendAndCopyright(java.util.Locale locale) {
-		return _artwork.getImageLegendAndCopyright(locale);
+		return model.getImageLegendAndCopyright(locale);
 	}
 
 	/**
@@ -779,7 +757,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getImagesIds() {
-		return _artwork.getImagesIds();
+		return model.getImagesIds();
 	}
 
 	/**
@@ -789,7 +767,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	public java.util.List<String> getImagesLegendsAndCopyrights(
 		java.util.Locale locale) {
 
-		return _artwork.getImagesLegendsAndCopyrights(locale);
+		return model.getImagesLegendsAndCopyrights(locale);
 	}
 
 	/**
@@ -797,7 +775,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public java.util.List<String> getImagesURLs() {
-		return _artwork.getImagesURLs();
+		return model.getImagesURLs();
 	}
 
 	/**
@@ -805,7 +783,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getImageURL() {
-		return _artwork.getImageURL();
+		return model.getImageURL();
 	}
 
 	/**
@@ -815,7 +793,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public Date getLastPublishDate() {
-		return _artwork.getLastPublishDate();
+		return model.getLastPublishDate();
 	}
 
 	/**
@@ -825,7 +803,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getLink() {
-		return _artwork.getLink();
+		return model.getLink();
 	}
 
 	/**
@@ -836,7 +814,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getLink(java.util.Locale locale) {
-		return _artwork.getLink(locale);
+		return model.getLink(locale);
 	}
 
 	/**
@@ -848,7 +826,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getLink(java.util.Locale locale, boolean useDefault) {
-		return _artwork.getLink(locale, useDefault);
+		return model.getLink(locale, useDefault);
 	}
 
 	/**
@@ -859,7 +837,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getLink(String languageId) {
-		return _artwork.getLink(languageId);
+		return model.getLink(languageId);
 	}
 
 	/**
@@ -871,17 +849,17 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getLink(String languageId, boolean useDefault) {
-		return _artwork.getLink(languageId, useDefault);
+		return model.getLink(languageId, useDefault);
 	}
 
 	@Override
 	public String getLinkCurrentLanguageId() {
-		return _artwork.getLinkCurrentLanguageId();
+		return model.getLinkCurrentLanguageId();
 	}
 
 	@Override
 	public String getLinkCurrentValue() {
-		return _artwork.getLinkCurrentValue();
+		return model.getLinkCurrentValue();
 	}
 
 	/**
@@ -891,7 +869,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getLinkMap() {
-		return _artwork.getLinkMap();
+		return model.getLinkMap();
 	}
 
 	/**
@@ -901,7 +879,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getLinkName() {
-		return _artwork.getLinkName();
+		return model.getLinkName();
 	}
 
 	/**
@@ -912,7 +890,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getLinkName(java.util.Locale locale) {
-		return _artwork.getLinkName(locale);
+		return model.getLinkName(locale);
 	}
 
 	/**
@@ -924,7 +902,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getLinkName(java.util.Locale locale, boolean useDefault) {
-		return _artwork.getLinkName(locale, useDefault);
+		return model.getLinkName(locale, useDefault);
 	}
 
 	/**
@@ -935,7 +913,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getLinkName(String languageId) {
-		return _artwork.getLinkName(languageId);
+		return model.getLinkName(languageId);
 	}
 
 	/**
@@ -947,17 +925,17 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getLinkName(String languageId, boolean useDefault) {
-		return _artwork.getLinkName(languageId, useDefault);
+		return model.getLinkName(languageId, useDefault);
 	}
 
 	@Override
 	public String getLinkNameCurrentLanguageId() {
-		return _artwork.getLinkNameCurrentLanguageId();
+		return model.getLinkNameCurrentLanguageId();
 	}
 
 	@Override
 	public String getLinkNameCurrentValue() {
-		return _artwork.getLinkNameCurrentValue();
+		return model.getLinkNameCurrentValue();
 	}
 
 	/**
@@ -967,7 +945,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getLinkNameMap() {
-		return _artwork.getLinkNameMap();
+		return model.getLinkNameMap();
 	}
 
 	/**
@@ -975,7 +953,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public eu.strasbourg.service.artwork.model.Artwork getLiveVersion() {
-		return _artwork.getLiveVersion();
+		return model.getLiveVersion();
 	}
 
 	/**
@@ -985,7 +963,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getLoanPeriod() {
-		return _artwork.getLoanPeriod();
+		return model.getLoanPeriod();
 	}
 
 	/**
@@ -996,7 +974,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getLoanPeriod(java.util.Locale locale) {
-		return _artwork.getLoanPeriod(locale);
+		return model.getLoanPeriod(locale);
 	}
 
 	/**
@@ -1008,7 +986,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getLoanPeriod(java.util.Locale locale, boolean useDefault) {
-		return _artwork.getLoanPeriod(locale, useDefault);
+		return model.getLoanPeriod(locale, useDefault);
 	}
 
 	/**
@@ -1019,7 +997,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getLoanPeriod(String languageId) {
-		return _artwork.getLoanPeriod(languageId);
+		return model.getLoanPeriod(languageId);
 	}
 
 	/**
@@ -1031,17 +1009,17 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getLoanPeriod(String languageId, boolean useDefault) {
-		return _artwork.getLoanPeriod(languageId, useDefault);
+		return model.getLoanPeriod(languageId, useDefault);
 	}
 
 	@Override
 	public String getLoanPeriodCurrentLanguageId() {
-		return _artwork.getLoanPeriodCurrentLanguageId();
+		return model.getLoanPeriodCurrentLanguageId();
 	}
 
 	@Override
 	public String getLoanPeriodCurrentValue() {
-		return _artwork.getLoanPeriodCurrentValue();
+		return model.getLoanPeriodCurrentValue();
 	}
 
 	/**
@@ -1051,7 +1029,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getLoanPeriodMap() {
-		return _artwork.getLoanPeriodMap();
+		return model.getLoanPeriodMap();
 	}
 
 	/**
@@ -1061,7 +1039,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _artwork.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -1071,7 +1049,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getNoticeLink() {
-		return _artwork.getNoticeLink();
+		return model.getNoticeLink();
 	}
 
 	/**
@@ -1082,7 +1060,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getNoticeLink(java.util.Locale locale) {
-		return _artwork.getNoticeLink(locale);
+		return model.getNoticeLink(locale);
 	}
 
 	/**
@@ -1094,7 +1072,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getNoticeLink(java.util.Locale locale, boolean useDefault) {
-		return _artwork.getNoticeLink(locale, useDefault);
+		return model.getNoticeLink(locale, useDefault);
 	}
 
 	/**
@@ -1105,7 +1083,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getNoticeLink(String languageId) {
-		return _artwork.getNoticeLink(languageId);
+		return model.getNoticeLink(languageId);
 	}
 
 	/**
@@ -1117,17 +1095,17 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getNoticeLink(String languageId, boolean useDefault) {
-		return _artwork.getNoticeLink(languageId, useDefault);
+		return model.getNoticeLink(languageId, useDefault);
 	}
 
 	@Override
 	public String getNoticeLinkCurrentLanguageId() {
-		return _artwork.getNoticeLinkCurrentLanguageId();
+		return model.getNoticeLinkCurrentLanguageId();
 	}
 
 	@Override
 	public String getNoticeLinkCurrentValue() {
-		return _artwork.getNoticeLinkCurrentValue();
+		return model.getNoticeLinkCurrentValue();
 	}
 
 	/**
@@ -1137,7 +1115,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getNoticeLinkMap() {
-		return _artwork.getNoticeLinkMap();
+		return model.getNoticeLinkMap();
 	}
 
 	/**
@@ -1147,7 +1125,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getOrigin() {
-		return _artwork.getOrigin();
+		return model.getOrigin();
 	}
 
 	/**
@@ -1158,7 +1136,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getOrigin(java.util.Locale locale) {
-		return _artwork.getOrigin(locale);
+		return model.getOrigin(locale);
 	}
 
 	/**
@@ -1170,7 +1148,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getOrigin(java.util.Locale locale, boolean useDefault) {
-		return _artwork.getOrigin(locale, useDefault);
+		return model.getOrigin(locale, useDefault);
 	}
 
 	/**
@@ -1181,7 +1159,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getOrigin(String languageId) {
-		return _artwork.getOrigin(languageId);
+		return model.getOrigin(languageId);
 	}
 
 	/**
@@ -1193,17 +1171,17 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getOrigin(String languageId, boolean useDefault) {
-		return _artwork.getOrigin(languageId, useDefault);
+		return model.getOrigin(languageId, useDefault);
 	}
 
 	@Override
 	public String getOriginCurrentLanguageId() {
-		return _artwork.getOriginCurrentLanguageId();
+		return model.getOriginCurrentLanguageId();
 	}
 
 	@Override
 	public String getOriginCurrentValue() {
-		return _artwork.getOriginCurrentValue();
+		return model.getOriginCurrentValue();
 	}
 
 	/**
@@ -1213,7 +1191,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getOriginMap() {
-		return _artwork.getOriginMap();
+		return model.getOriginMap();
 	}
 
 	/**
@@ -1223,12 +1201,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _artwork.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _artwork.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -1238,7 +1211,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	public java.util.List<eu.strasbourg.service.artwork.model.ArtworkCollection>
 		getPublishedArtworkCollections() {
 
-		return _artwork.getPublishedArtworkCollections();
+		return model.getPublishedArtworkCollections();
 	}
 
 	/**
@@ -1246,7 +1219,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getSourceCSSClass() {
-		return _artwork.getSourceCSSClass();
+		return model.getSourceCSSClass();
 	}
 
 	/**
@@ -1256,7 +1229,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getSources() {
 
-		return _artwork.getSources();
+		return model.getSources();
 	}
 
 	/**
@@ -1266,7 +1239,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public int getStatus() {
-		return _artwork.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -1276,7 +1249,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _artwork.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -1286,7 +1259,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _artwork.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -1296,7 +1269,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _artwork.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -1306,7 +1279,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _artwork.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -1316,7 +1289,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getTechnicalInformation() {
-		return _artwork.getTechnicalInformation();
+		return model.getTechnicalInformation();
 	}
 
 	/**
@@ -1327,7 +1300,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getTechnicalInformation(java.util.Locale locale) {
-		return _artwork.getTechnicalInformation(locale);
+		return model.getTechnicalInformation(locale);
 	}
 
 	/**
@@ -1341,7 +1314,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	public String getTechnicalInformation(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _artwork.getTechnicalInformation(locale, useDefault);
+		return model.getTechnicalInformation(locale, useDefault);
 	}
 
 	/**
@@ -1352,7 +1325,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getTechnicalInformation(String languageId) {
-		return _artwork.getTechnicalInformation(languageId);
+		return model.getTechnicalInformation(languageId);
 	}
 
 	/**
@@ -1366,17 +1339,17 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	public String getTechnicalInformation(
 		String languageId, boolean useDefault) {
 
-		return _artwork.getTechnicalInformation(languageId, useDefault);
+		return model.getTechnicalInformation(languageId, useDefault);
 	}
 
 	@Override
 	public String getTechnicalInformationCurrentLanguageId() {
-		return _artwork.getTechnicalInformationCurrentLanguageId();
+		return model.getTechnicalInformationCurrentLanguageId();
 	}
 
 	@Override
 	public String getTechnicalInformationCurrentValue() {
-		return _artwork.getTechnicalInformationCurrentValue();
+		return model.getTechnicalInformationCurrentValue();
 	}
 
 	/**
@@ -1386,7 +1359,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getTechnicalInformationMap() {
-		return _artwork.getTechnicalInformationMap();
+		return model.getTechnicalInformationMap();
 	}
 
 	/**
@@ -1396,7 +1369,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getTitle() {
-		return _artwork.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -1407,7 +1380,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale) {
-		return _artwork.getTitle(locale);
+		return model.getTitle(locale);
 	}
 
 	/**
@@ -1419,7 +1392,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale, boolean useDefault) {
-		return _artwork.getTitle(locale, useDefault);
+		return model.getTitle(locale, useDefault);
 	}
 
 	/**
@@ -1430,7 +1403,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getTitle(String languageId) {
-		return _artwork.getTitle(languageId);
+		return model.getTitle(languageId);
 	}
 
 	/**
@@ -1442,17 +1415,17 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getTitle(String languageId, boolean useDefault) {
-		return _artwork.getTitle(languageId, useDefault);
+		return model.getTitle(languageId, useDefault);
 	}
 
 	@Override
 	public String getTitleCurrentLanguageId() {
-		return _artwork.getTitleCurrentLanguageId();
+		return model.getTitleCurrentLanguageId();
 	}
 
 	@Override
 	public String getTitleCurrentValue() {
-		return _artwork.getTitleCurrentValue();
+		return model.getTitleCurrentValue();
 	}
 
 	/**
@@ -1462,7 +1435,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getTitleMap() {
-		return _artwork.getTitleMap();
+		return model.getTitleMap();
 	}
 
 	/**
@@ -1472,7 +1445,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public long getUserId() {
-		return _artwork.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -1482,7 +1455,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getUserName() {
-		return _artwork.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -1492,7 +1465,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _artwork.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -1502,12 +1475,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public String getUuid() {
-		return _artwork.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _artwork.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -1517,12 +1485,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _artwork.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _artwork.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -1532,7 +1495,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _artwork.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -1542,12 +1505,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _artwork.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _artwork.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -1557,7 +1515,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _artwork.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -1567,7 +1525,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _artwork.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -1577,12 +1535,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _artwork.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _artwork.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -1592,7 +1545,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public boolean isPending() {
-		return _artwork.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -1602,19 +1555,19 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _artwork.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_artwork.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_artwork.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -1622,7 +1575,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_artwork.prepareLocalizedFieldsForImport(defaultImportLocale);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -1632,7 +1585,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setArtistName(String artistName) {
-		_artwork.setArtistName(artistName);
+		model.setArtistName(artistName);
 	}
 
 	/**
@@ -1643,7 +1596,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setArtistName(String artistName, java.util.Locale locale) {
-		_artwork.setArtistName(artistName, locale);
+		model.setArtistName(artistName, locale);
 	}
 
 	/**
@@ -1658,12 +1611,12 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		String artistName, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_artwork.setArtistName(artistName, locale, defaultLocale);
+		model.setArtistName(artistName, locale, defaultLocale);
 	}
 
 	@Override
 	public void setArtistNameCurrentLanguageId(String languageId) {
-		_artwork.setArtistNameCurrentLanguageId(languageId);
+		model.setArtistNameCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1673,7 +1626,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setArtistNameMap(Map<java.util.Locale, String> artistNameMap) {
-		_artwork.setArtistNameMap(artistNameMap);
+		model.setArtistNameMap(artistNameMap);
 	}
 
 	/**
@@ -1687,7 +1640,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		Map<java.util.Locale, String> artistNameMap,
 		java.util.Locale defaultLocale) {
 
-		_artwork.setArtistNameMap(artistNameMap, defaultLocale);
+		model.setArtistNameMap(artistNameMap, defaultLocale);
 	}
 
 	/**
@@ -1697,12 +1650,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setArtworkId(long artworkId) {
-		_artwork.setArtworkId(artworkId);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_artwork.setCachedModel(cachedModel);
+		model.setArtworkId(artworkId);
 	}
 
 	/**
@@ -1712,7 +1660,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_artwork.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -1722,7 +1670,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_artwork.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -1732,7 +1680,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setCreationYear(String creationYear) {
-		_artwork.setCreationYear(creationYear);
+		model.setCreationYear(creationYear);
 	}
 
 	/**
@@ -1743,7 +1691,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setCreationYear(String creationYear, java.util.Locale locale) {
-		_artwork.setCreationYear(creationYear, locale);
+		model.setCreationYear(creationYear, locale);
 	}
 
 	/**
@@ -1758,12 +1706,12 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		String creationYear, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_artwork.setCreationYear(creationYear, locale, defaultLocale);
+		model.setCreationYear(creationYear, locale, defaultLocale);
 	}
 
 	@Override
 	public void setCreationYearCurrentLanguageId(String languageId) {
-		_artwork.setCreationYearCurrentLanguageId(languageId);
+		model.setCreationYearCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1775,7 +1723,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	public void setCreationYearMap(
 		Map<java.util.Locale, String> creationYearMap) {
 
-		_artwork.setCreationYearMap(creationYearMap);
+		model.setCreationYearMap(creationYearMap);
 	}
 
 	/**
@@ -1789,7 +1737,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		Map<java.util.Locale, String> creationYearMap,
 		java.util.Locale defaultLocale) {
 
-		_artwork.setCreationYearMap(creationYearMap, defaultLocale);
+		model.setCreationYearMap(creationYearMap, defaultLocale);
 	}
 
 	/**
@@ -1799,7 +1747,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setDescription(String description) {
-		_artwork.setDescription(description);
+		model.setDescription(description);
 	}
 
 	/**
@@ -1810,7 +1758,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setDescription(String description, java.util.Locale locale) {
-		_artwork.setDescription(description, locale);
+		model.setDescription(description, locale);
 	}
 
 	/**
@@ -1825,12 +1773,12 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		String description, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_artwork.setDescription(description, locale, defaultLocale);
+		model.setDescription(description, locale, defaultLocale);
 	}
 
 	@Override
 	public void setDescriptionCurrentLanguageId(String languageId) {
-		_artwork.setDescriptionCurrentLanguageId(languageId);
+		model.setDescriptionCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1842,7 +1790,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	public void setDescriptionMap(
 		Map<java.util.Locale, String> descriptionMap) {
 
-		_artwork.setDescriptionMap(descriptionMap);
+		model.setDescriptionMap(descriptionMap);
 	}
 
 	/**
@@ -1856,7 +1804,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		Map<java.util.Locale, String> descriptionMap,
 		java.util.Locale defaultLocale) {
 
-		_artwork.setDescriptionMap(descriptionMap, defaultLocale);
+		model.setDescriptionMap(descriptionMap, defaultLocale);
 	}
 
 	/**
@@ -1866,7 +1814,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setExhibitionName(String exhibitionName) {
-		_artwork.setExhibitionName(exhibitionName);
+		model.setExhibitionName(exhibitionName);
 	}
 
 	/**
@@ -1879,7 +1827,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	public void setExhibitionName(
 		String exhibitionName, java.util.Locale locale) {
 
-		_artwork.setExhibitionName(exhibitionName, locale);
+		model.setExhibitionName(exhibitionName, locale);
 	}
 
 	/**
@@ -1894,12 +1842,12 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		String exhibitionName, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_artwork.setExhibitionName(exhibitionName, locale, defaultLocale);
+		model.setExhibitionName(exhibitionName, locale, defaultLocale);
 	}
 
 	@Override
 	public void setExhibitionNameCurrentLanguageId(String languageId) {
-		_artwork.setExhibitionNameCurrentLanguageId(languageId);
+		model.setExhibitionNameCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1911,7 +1859,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	public void setExhibitionNameMap(
 		Map<java.util.Locale, String> exhibitionNameMap) {
 
-		_artwork.setExhibitionNameMap(exhibitionNameMap);
+		model.setExhibitionNameMap(exhibitionNameMap);
 	}
 
 	/**
@@ -1925,7 +1873,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		Map<java.util.Locale, String> exhibitionNameMap,
 		java.util.Locale defaultLocale) {
 
-		_artwork.setExhibitionNameMap(exhibitionNameMap, defaultLocale);
+		model.setExhibitionNameMap(exhibitionNameMap, defaultLocale);
 	}
 
 	/**
@@ -1935,7 +1883,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setExhibitionPlace(String exhibitionPlace) {
-		_artwork.setExhibitionPlace(exhibitionPlace);
+		model.setExhibitionPlace(exhibitionPlace);
 	}
 
 	/**
@@ -1948,7 +1896,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	public void setExhibitionPlace(
 		String exhibitionPlace, java.util.Locale locale) {
 
-		_artwork.setExhibitionPlace(exhibitionPlace, locale);
+		model.setExhibitionPlace(exhibitionPlace, locale);
 	}
 
 	/**
@@ -1963,12 +1911,12 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		String exhibitionPlace, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_artwork.setExhibitionPlace(exhibitionPlace, locale, defaultLocale);
+		model.setExhibitionPlace(exhibitionPlace, locale, defaultLocale);
 	}
 
 	@Override
 	public void setExhibitionPlaceCurrentLanguageId(String languageId) {
-		_artwork.setExhibitionPlaceCurrentLanguageId(languageId);
+		model.setExhibitionPlaceCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1980,7 +1928,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	public void setExhibitionPlaceMap(
 		Map<java.util.Locale, String> exhibitionPlaceMap) {
 
-		_artwork.setExhibitionPlaceMap(exhibitionPlaceMap);
+		model.setExhibitionPlaceMap(exhibitionPlaceMap);
 	}
 
 	/**
@@ -1994,24 +1942,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		Map<java.util.Locale, String> exhibitionPlaceMap,
 		java.util.Locale defaultLocale) {
 
-		_artwork.setExhibitionPlaceMap(exhibitionPlaceMap, defaultLocale);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_artwork.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_artwork.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_artwork.setExpandoBridgeAttributes(serviceContext);
+		model.setExhibitionPlaceMap(exhibitionPlaceMap, defaultLocale);
 	}
 
 	/**
@@ -2021,7 +1952,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_artwork.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -2031,7 +1962,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setImageId(Long imageId) {
-		_artwork.setImageId(imageId);
+		model.setImageId(imageId);
 	}
 
 	/**
@@ -2041,7 +1972,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setImagesIds(String imagesIds) {
-		_artwork.setImagesIds(imagesIds);
+		model.setImagesIds(imagesIds);
 	}
 
 	/**
@@ -2051,7 +1982,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
-		_artwork.setLastPublishDate(lastPublishDate);
+		model.setLastPublishDate(lastPublishDate);
 	}
 
 	/**
@@ -2061,7 +1992,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setLink(String link) {
-		_artwork.setLink(link);
+		model.setLink(link);
 	}
 
 	/**
@@ -2072,7 +2003,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setLink(String link, java.util.Locale locale) {
-		_artwork.setLink(link, locale);
+		model.setLink(link, locale);
 	}
 
 	/**
@@ -2086,12 +2017,12 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	public void setLink(
 		String link, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_artwork.setLink(link, locale, defaultLocale);
+		model.setLink(link, locale, defaultLocale);
 	}
 
 	@Override
 	public void setLinkCurrentLanguageId(String languageId) {
-		_artwork.setLinkCurrentLanguageId(languageId);
+		model.setLinkCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2101,7 +2032,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setLinkMap(Map<java.util.Locale, String> linkMap) {
-		_artwork.setLinkMap(linkMap);
+		model.setLinkMap(linkMap);
 	}
 
 	/**
@@ -2114,7 +2045,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	public void setLinkMap(
 		Map<java.util.Locale, String> linkMap, java.util.Locale defaultLocale) {
 
-		_artwork.setLinkMap(linkMap, defaultLocale);
+		model.setLinkMap(linkMap, defaultLocale);
 	}
 
 	/**
@@ -2124,7 +2055,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setLinkName(String linkName) {
-		_artwork.setLinkName(linkName);
+		model.setLinkName(linkName);
 	}
 
 	/**
@@ -2135,7 +2066,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setLinkName(String linkName, java.util.Locale locale) {
-		_artwork.setLinkName(linkName, locale);
+		model.setLinkName(linkName, locale);
 	}
 
 	/**
@@ -2150,12 +2081,12 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		String linkName, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_artwork.setLinkName(linkName, locale, defaultLocale);
+		model.setLinkName(linkName, locale, defaultLocale);
 	}
 
 	@Override
 	public void setLinkNameCurrentLanguageId(String languageId) {
-		_artwork.setLinkNameCurrentLanguageId(languageId);
+		model.setLinkNameCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2165,7 +2096,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setLinkNameMap(Map<java.util.Locale, String> linkNameMap) {
-		_artwork.setLinkNameMap(linkNameMap);
+		model.setLinkNameMap(linkNameMap);
 	}
 
 	/**
@@ -2179,7 +2110,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		Map<java.util.Locale, String> linkNameMap,
 		java.util.Locale defaultLocale) {
 
-		_artwork.setLinkNameMap(linkNameMap, defaultLocale);
+		model.setLinkNameMap(linkNameMap, defaultLocale);
 	}
 
 	/**
@@ -2189,7 +2120,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setLoanPeriod(String loanPeriod) {
-		_artwork.setLoanPeriod(loanPeriod);
+		model.setLoanPeriod(loanPeriod);
 	}
 
 	/**
@@ -2200,7 +2131,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setLoanPeriod(String loanPeriod, java.util.Locale locale) {
-		_artwork.setLoanPeriod(loanPeriod, locale);
+		model.setLoanPeriod(loanPeriod, locale);
 	}
 
 	/**
@@ -2215,12 +2146,12 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		String loanPeriod, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_artwork.setLoanPeriod(loanPeriod, locale, defaultLocale);
+		model.setLoanPeriod(loanPeriod, locale, defaultLocale);
 	}
 
 	@Override
 	public void setLoanPeriodCurrentLanguageId(String languageId) {
-		_artwork.setLoanPeriodCurrentLanguageId(languageId);
+		model.setLoanPeriodCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2230,7 +2161,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setLoanPeriodMap(Map<java.util.Locale, String> loanPeriodMap) {
-		_artwork.setLoanPeriodMap(loanPeriodMap);
+		model.setLoanPeriodMap(loanPeriodMap);
 	}
 
 	/**
@@ -2244,7 +2175,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		Map<java.util.Locale, String> loanPeriodMap,
 		java.util.Locale defaultLocale) {
 
-		_artwork.setLoanPeriodMap(loanPeriodMap, defaultLocale);
+		model.setLoanPeriodMap(loanPeriodMap, defaultLocale);
 	}
 
 	/**
@@ -2254,12 +2185,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_artwork.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_artwork.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -2269,7 +2195,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setNoticeLink(String noticeLink) {
-		_artwork.setNoticeLink(noticeLink);
+		model.setNoticeLink(noticeLink);
 	}
 
 	/**
@@ -2280,7 +2206,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setNoticeLink(String noticeLink, java.util.Locale locale) {
-		_artwork.setNoticeLink(noticeLink, locale);
+		model.setNoticeLink(noticeLink, locale);
 	}
 
 	/**
@@ -2295,12 +2221,12 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		String noticeLink, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_artwork.setNoticeLink(noticeLink, locale, defaultLocale);
+		model.setNoticeLink(noticeLink, locale, defaultLocale);
 	}
 
 	@Override
 	public void setNoticeLinkCurrentLanguageId(String languageId) {
-		_artwork.setNoticeLinkCurrentLanguageId(languageId);
+		model.setNoticeLinkCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2310,7 +2236,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setNoticeLinkMap(Map<java.util.Locale, String> noticeLinkMap) {
-		_artwork.setNoticeLinkMap(noticeLinkMap);
+		model.setNoticeLinkMap(noticeLinkMap);
 	}
 
 	/**
@@ -2324,7 +2250,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		Map<java.util.Locale, String> noticeLinkMap,
 		java.util.Locale defaultLocale) {
 
-		_artwork.setNoticeLinkMap(noticeLinkMap, defaultLocale);
+		model.setNoticeLinkMap(noticeLinkMap, defaultLocale);
 	}
 
 	/**
@@ -2334,7 +2260,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setOrigin(String origin) {
-		_artwork.setOrigin(origin);
+		model.setOrigin(origin);
 	}
 
 	/**
@@ -2345,7 +2271,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setOrigin(String origin, java.util.Locale locale) {
-		_artwork.setOrigin(origin, locale);
+		model.setOrigin(origin, locale);
 	}
 
 	/**
@@ -2360,12 +2286,12 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		String origin, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_artwork.setOrigin(origin, locale, defaultLocale);
+		model.setOrigin(origin, locale, defaultLocale);
 	}
 
 	@Override
 	public void setOriginCurrentLanguageId(String languageId) {
-		_artwork.setOriginCurrentLanguageId(languageId);
+		model.setOriginCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2375,7 +2301,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setOriginMap(Map<java.util.Locale, String> originMap) {
-		_artwork.setOriginMap(originMap);
+		model.setOriginMap(originMap);
 	}
 
 	/**
@@ -2389,7 +2315,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		Map<java.util.Locale, String> originMap,
 		java.util.Locale defaultLocale) {
 
-		_artwork.setOriginMap(originMap, defaultLocale);
+		model.setOriginMap(originMap, defaultLocale);
 	}
 
 	/**
@@ -2399,12 +2325,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_artwork.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_artwork.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -2414,7 +2335,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_artwork.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -2424,7 +2345,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_artwork.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -2434,7 +2355,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_artwork.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -2444,7 +2365,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_artwork.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -2454,7 +2375,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_artwork.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -2464,7 +2385,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setTechnicalInformation(String technicalInformation) {
-		_artwork.setTechnicalInformation(technicalInformation);
+		model.setTechnicalInformation(technicalInformation);
 	}
 
 	/**
@@ -2477,7 +2398,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	public void setTechnicalInformation(
 		String technicalInformation, java.util.Locale locale) {
 
-		_artwork.setTechnicalInformation(technicalInformation, locale);
+		model.setTechnicalInformation(technicalInformation, locale);
 	}
 
 	/**
@@ -2492,13 +2413,13 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		String technicalInformation, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_artwork.setTechnicalInformation(
+		model.setTechnicalInformation(
 			technicalInformation, locale, defaultLocale);
 	}
 
 	@Override
 	public void setTechnicalInformationCurrentLanguageId(String languageId) {
-		_artwork.setTechnicalInformationCurrentLanguageId(languageId);
+		model.setTechnicalInformationCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2510,7 +2431,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	public void setTechnicalInformationMap(
 		Map<java.util.Locale, String> technicalInformationMap) {
 
-		_artwork.setTechnicalInformationMap(technicalInformationMap);
+		model.setTechnicalInformationMap(technicalInformationMap);
 	}
 
 	/**
@@ -2524,7 +2445,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		Map<java.util.Locale, String> technicalInformationMap,
 		java.util.Locale defaultLocale) {
 
-		_artwork.setTechnicalInformationMap(
+		model.setTechnicalInformationMap(
 			technicalInformationMap, defaultLocale);
 	}
 
@@ -2535,7 +2456,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setTitle(String title) {
-		_artwork.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -2546,7 +2467,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setTitle(String title, java.util.Locale locale) {
-		_artwork.setTitle(title, locale);
+		model.setTitle(title, locale);
 	}
 
 	/**
@@ -2560,12 +2481,12 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	public void setTitle(
 		String title, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_artwork.setTitle(title, locale, defaultLocale);
+		model.setTitle(title, locale, defaultLocale);
 	}
 
 	@Override
 	public void setTitleCurrentLanguageId(String languageId) {
-		_artwork.setTitleCurrentLanguageId(languageId);
+		model.setTitleCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2575,7 +2496,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setTitleMap(Map<java.util.Locale, String> titleMap) {
-		_artwork.setTitleMap(titleMap);
+		model.setTitleMap(titleMap);
 	}
 
 	/**
@@ -2589,7 +2510,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 		Map<java.util.Locale, String> titleMap,
 		java.util.Locale defaultLocale) {
 
-		_artwork.setTitleMap(titleMap, defaultLocale);
+		model.setTitleMap(titleMap, defaultLocale);
 	}
 
 	/**
@@ -2599,7 +2520,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_artwork.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -2609,7 +2530,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_artwork.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -2619,7 +2540,7 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_artwork.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -2629,80 +2550,22 @@ public class ArtworkWrapper implements Artwork, ModelWrapper<Artwork> {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_artwork.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.artwork.model.Artwork> toCacheModel() {
-
-		return _artwork.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.artwork.model.Artwork toEscapedModel() {
-		return new ArtworkWrapper(_artwork.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _artwork.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.artwork.model.Artwork toUnescapedModel() {
-		return new ArtworkWrapper(_artwork.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _artwork.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof ArtworkWrapper)) {
-			return false;
-		}
-
-		ArtworkWrapper artworkWrapper = (ArtworkWrapper)object;
-
-		if (Objects.equals(_artwork, artworkWrapper._artwork)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _artwork.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Artwork getWrappedModel() {
-		return _artwork;
+	protected ArtworkWrapper wrap(Artwork artwork) {
+		return new ArtworkWrapper(artwork);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _artwork.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _artwork.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_artwork.resetOriginalValues();
-	}
-
-	private final Artwork _artwork;
 
 }

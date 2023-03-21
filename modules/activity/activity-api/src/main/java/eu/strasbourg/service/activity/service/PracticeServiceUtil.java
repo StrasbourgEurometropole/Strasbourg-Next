@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.activity.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for Practice. This utility wraps
  * <code>eu.strasbourg.service.activity.service.impl.PracticeServiceImpl</code> and is an
@@ -43,27 +39,14 @@ public class PracticeServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static PracticeService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<PracticeService, PracticeService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(PracticeService.class);
-
-		ServiceTracker<PracticeService, PracticeService> serviceTracker =
-			new ServiceTracker<PracticeService, PracticeService>(
-				bundle.getBundleContext(), PracticeService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile PracticeService _service;
 
 }

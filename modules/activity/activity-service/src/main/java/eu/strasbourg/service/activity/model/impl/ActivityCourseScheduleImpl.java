@@ -14,10 +14,7 @@
 
 package eu.strasbourg.service.activity.model.impl;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
@@ -26,14 +23,16 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.Validator;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.service.activity.model.ActivityCoursePlace;
 import eu.strasbourg.service.activity.model.ActivityCourseSchedule;
 import eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalServiceUtil;
 import eu.strasbourg.service.activity.service.ActivityCourseScheduleLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The extended model implementation for the ActivityCourseSchedule service.

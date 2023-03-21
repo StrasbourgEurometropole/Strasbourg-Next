@@ -14,9 +14,7 @@
 
 package eu.strasbourg.service.agenda.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.portal.kernel.exception.PortalException;
 
 /**
  * Provides the remote service utility for Manifestation. This utility wraps
@@ -39,13 +37,13 @@ public class ManifestationServiceUtil {
 	 */
 	public static com.liferay.portal.kernel.json.JSONObject getManifestation(
 			long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getManifestation(id);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray getManifestations()
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getManifestations();
 	}
@@ -60,24 +58,9 @@ public class ManifestationServiceUtil {
 	}
 
 	public static ManifestationService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<ManifestationService, ManifestationService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(ManifestationService.class);
-
-		ServiceTracker<ManifestationService, ManifestationService>
-			serviceTracker =
-				new ServiceTracker<ManifestationService, ManifestationService>(
-					bundle.getBundleContext(), ManifestationService.class,
-					null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile ManifestationService _service;
 
 }

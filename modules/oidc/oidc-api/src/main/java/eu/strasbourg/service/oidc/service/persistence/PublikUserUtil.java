@@ -17,18 +17,12 @@ package eu.strasbourg.service.oidc.service.persistence;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.oidc.model.PublikUser;
 
 import java.io.Serializable;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * The persistence utility for the publik user service. This utility wraps <code>eu.strasbourg.service.oidc.service.persistence.impl.PublikUserPersistenceImpl</code> and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
@@ -491,30 +485,10 @@ public class PublikUserUtil {
 		return getPersistence().countAll();
 	}
 
-	public static Set<String> getBadColumnNames() {
-		return getPersistence().getBadColumnNames();
-	}
-
 	public static PublikUserPersistence getPersistence() {
-		return _serviceTracker.getService();
+		return _persistence;
 	}
 
-	private static ServiceTracker<PublikUserPersistence, PublikUserPersistence>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(PublikUserPersistence.class);
-
-		ServiceTracker<PublikUserPersistence, PublikUserPersistence>
-			serviceTracker =
-				new ServiceTracker
-					<PublikUserPersistence, PublikUserPersistence>(
-						bundle.getBundleContext(), PublikUserPersistence.class,
-						null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile PublikUserPersistence _persistence;
 
 }

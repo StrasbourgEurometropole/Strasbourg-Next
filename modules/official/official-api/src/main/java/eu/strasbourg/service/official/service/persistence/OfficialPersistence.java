@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.official.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.official.exception.NoSuchOfficialException;
 import eu.strasbourg.service.official.model.Official;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the official service.
@@ -45,9 +38,6 @@ public interface OfficialPersistence extends BasePersistence<Official> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link OfficialUtil} to access the official persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Official> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the officials where uuid = &#63;.
@@ -656,8 +646,5 @@ public interface OfficialPersistence extends BasePersistence<Official> {
 	 * @return the number of officials
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

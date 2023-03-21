@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.council.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.council.exception.NoSuchProcurationException;
 import eu.strasbourg.service.council.model.Procuration;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the procuration service.
@@ -45,9 +38,6 @@ public interface ProcurationPersistence extends BasePersistence<Procuration> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link ProcurationUtil} to access the procuration persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Procuration> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the procurations where uuid = &#63;.
@@ -1114,8 +1104,5 @@ public interface ProcurationPersistence extends BasePersistence<Procuration> {
 	 * @return the number of procurations
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

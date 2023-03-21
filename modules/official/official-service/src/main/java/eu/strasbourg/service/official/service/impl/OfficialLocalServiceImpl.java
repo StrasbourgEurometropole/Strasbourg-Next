@@ -14,11 +14,8 @@
 
 package eu.strasbourg.service.official.service.impl;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
+import org.osgi.annotation.versioning.ProviderType;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -37,11 +34,15 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.official.service.base.OfficialLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import org.osgi.service.component.annotations.Reference;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The implementation of the official local service.
@@ -215,10 +216,8 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 
 		if (entry != null) {
 			// Delete the link with categories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-						categoryId, entry.getEntryId());
-			}
+			assetEntryAssetCategoryRelLocalService.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
 			// Delete the link with tags
 			long[] tagIds = AssetEntryLocalServiceUtil
@@ -334,4 +333,6 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 
 		return this.officialPersistence.countWithDynamicQuery(dynamicQuery);
 	}
+	@Reference
+	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

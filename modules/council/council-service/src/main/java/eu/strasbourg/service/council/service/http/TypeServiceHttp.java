@@ -38,7 +38,6 @@ package eu.strasbourg.service.council.service.http;
  * </p>
  *
  * @author Brian Wing Shun Chan
- * @see TypeServiceSoap
  * @generated
  */
 public class TypeServiceHttp {

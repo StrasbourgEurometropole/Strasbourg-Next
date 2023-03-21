@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class HistoricLocalServiceWrapper
 	implements HistoricLocalService, ServiceWrapper<HistoricLocalService> {
 
+	public HistoricLocalServiceWrapper() {
+		this(null);
+	}
+
 	public HistoricLocalServiceWrapper(
 		HistoricLocalService historicLocalService) {
 
@@ -60,6 +64,17 @@ public class HistoricLocalServiceWrapper
 		long eventId) {
 
 		return _historicLocalService.createHistoric(eventId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _historicLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -107,6 +122,18 @@ public class HistoricLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _historicLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _historicLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _historicLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

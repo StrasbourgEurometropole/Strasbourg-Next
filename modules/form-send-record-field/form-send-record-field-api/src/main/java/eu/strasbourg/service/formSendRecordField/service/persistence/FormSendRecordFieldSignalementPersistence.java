@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.formSendRecordField.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException;
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the form send record field signalement service.
@@ -46,9 +39,6 @@ public interface FormSendRecordFieldSignalementPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link FormSendRecordFieldSignalementUtil} to access the form send record field signalement persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, FormSendRecordFieldSignalement> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the form send record field signalements where uuid = &#63;.
@@ -962,8 +952,5 @@ public interface FormSendRecordFieldSignalementPersistence
 	 * @return the number of form send record field signalements
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

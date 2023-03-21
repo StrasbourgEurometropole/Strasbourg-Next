@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.project.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.project.exception.NoSuchBudgetParticipatifException;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the budget participatif service.
@@ -46,9 +39,6 @@ public interface BudgetParticipatifPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link BudgetParticipatifUtil} to access the budget participatif persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, BudgetParticipatif> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the budget participatifs where uuid = &#63;.
@@ -1415,8 +1405,5 @@ public interface BudgetParticipatifPersistence
 	 * @return the number of budget participatifs
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

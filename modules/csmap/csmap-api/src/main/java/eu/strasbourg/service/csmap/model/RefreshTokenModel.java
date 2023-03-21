@@ -16,10 +16,9 @@ package eu.strasbourg.service.csmap.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.Date;
-
-import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model interface for the RefreshToken service. Represents a row in the &quot;csmap_RefreshToken&quot; database table, with each column mapped to a property of this class.
@@ -127,5 +126,12 @@ public interface RefreshTokenModel extends BaseModel<RefreshToken> {
 	 * @param publikId the publik ID of this refresh token
 	 */
 	public void setPublikId(String publikId);
+
+	@Override
+	public RefreshToken cloneWithOriginalValues();
+
+	public default String toXmlString() {
+		return null;
+	}
 
 }

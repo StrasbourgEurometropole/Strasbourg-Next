@@ -22,6 +22,8 @@ import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
@@ -31,7 +33,10 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.official.service.OfficialService;
+import eu.strasbourg.service.official.service.OfficialServiceUtil;
 import eu.strasbourg.service.official.service.persistence.OfficialPersistence;
+
+import java.lang.reflect.Field;
 
 import javax.sql.DataSource;
 
@@ -53,7 +58,7 @@ public abstract class OfficialServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>OfficialService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.official.service.OfficialServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>OfficialService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>OfficialServiceUtil</code>.
 	 */
 
 	/**
@@ -419,9 +424,11 @@ public abstract class OfficialServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
+		_setServiceUtilService(officialService);
 	}
 
 	public void destroy() {
+		_setServiceUtilService(null);
 	}
 
 	/**
@@ -463,6 +470,20 @@ public abstract class OfficialServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setServiceUtilService(OfficialService officialService) {
+		try {
+			Field field = OfficialServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, officialService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -547,5 +568,8 @@ public abstract class OfficialServiceBaseImpl
 
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		OfficialServiceBaseImpl.class);
 
 }

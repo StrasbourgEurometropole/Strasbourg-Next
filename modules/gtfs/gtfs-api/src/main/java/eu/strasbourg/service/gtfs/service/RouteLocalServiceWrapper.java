@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class RouteLocalServiceWrapper
 	implements RouteLocalService, ServiceWrapper<RouteLocalService> {
 
+	public RouteLocalServiceWrapper() {
+		this(null);
+	}
+
 	public RouteLocalServiceWrapper(RouteLocalService routeLocalService) {
 		_routeLocalService = routeLocalService;
 	}
@@ -45,6 +49,17 @@ public class RouteLocalServiceWrapper
 		eu.strasbourg.service.gtfs.model.Route route) {
 
 		return _routeLocalService.addRoute(route);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _routeLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -124,6 +139,18 @@ public class RouteLocalServiceWrapper
 		eu.strasbourg.service.gtfs.model.Route route) {
 
 		return _routeLocalService.deleteRoute(route);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _routeLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _routeLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

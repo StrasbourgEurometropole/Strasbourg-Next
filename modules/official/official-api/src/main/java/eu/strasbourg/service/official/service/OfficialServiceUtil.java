@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.official.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for Official. This utility wraps
  * <code>eu.strasbourg.service.official.service.impl.OfficialServiceImpl</code> and is an
@@ -43,27 +39,14 @@ public class OfficialServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static OfficialService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<OfficialService, OfficialService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(OfficialService.class);
-
-		ServiceTracker<OfficialService, OfficialService> serviceTracker =
-			new ServiceTracker<OfficialService, OfficialService>(
-				bundle.getBundleContext(), OfficialService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile OfficialService _service;
 
 }

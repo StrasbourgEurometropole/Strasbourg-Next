@@ -15,8 +15,8 @@
 package eu.strasbourg.service.search.log.service;
 
 import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -33,11 +33,9 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.search.log.model.SearchLog;
 
 import java.io.Serializable;
-
 import java.util.List;
 
 /**
@@ -61,7 +59,7 @@ public interface SearchLogLocalService
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link SearchLogLocalServiceUtil} to access the search log local service. Add custom service methods to <code>eu.strasbourg.service.search.log.service.impl.SearchLogLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.search.log.service.impl.SearchLogLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the search log local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link SearchLogLocalServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**
@@ -84,6 +82,12 @@ public interface SearchLogLocalService
 			ServiceContext sc, String keywords, long resultCount,
 			AssetEntry result1, AssetEntry result2, AssetEntry result3,
 			AssetEntry userTargetResult, long searchTime)
+		throws PortalException;
+
+	/**
+	 * @throws PortalException
+	 */
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
 
 	/**
@@ -128,6 +132,12 @@ public interface SearchLogLocalService
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	public SearchLog deleteSearchLog(SearchLog searchLog);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> T dslQuery(DSLQuery dslQuery);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int dslQueryCount(DSLQuery dslQuery);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();

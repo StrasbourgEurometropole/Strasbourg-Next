@@ -14,18 +14,14 @@
 
 package eu.strasbourg.service.edition.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.edition.exception.NoSuchEditionException;
 import eu.strasbourg.service.edition.model.Edition;
 
-import java.io.Serializable;
-
 import java.util.Date;
-import java.util.Map;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the edition service.
@@ -46,9 +42,6 @@ public interface EditionPersistence extends BasePersistence<Edition> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link EditionUtil} to access the edition persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Edition> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the editions where uuid = &#63;.
@@ -1289,8 +1282,5 @@ public interface EditionPersistence extends BasePersistence<Edition> {
 		long pk,
 		java.util.List<eu.strasbourg.service.edition.model.EditionGallery>
 			editionGalleries);
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

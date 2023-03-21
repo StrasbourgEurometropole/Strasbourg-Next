@@ -27,6 +27,10 @@ public class UserInterestLocalServiceWrapper
 	implements ServiceWrapper<UserInterestLocalService>,
 			   UserInterestLocalService {
 
+	public UserInterestLocalServiceWrapper() {
+		this(null);
+	}
+
 	public UserInterestLocalServiceWrapper(
 		UserInterestLocalService userInterestLocalService) {
 
@@ -48,6 +52,17 @@ public class UserInterestLocalServiceWrapper
 		eu.strasbourg.service.interest.model.UserInterest userInterest) {
 
 		return _userInterestLocalService.addUserInterest(userInterest);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _userInterestLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -110,6 +125,18 @@ public class UserInterestLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _userInterestLocalService.deleteUserInterest(userInterestPK);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _userInterestLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _userInterestLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

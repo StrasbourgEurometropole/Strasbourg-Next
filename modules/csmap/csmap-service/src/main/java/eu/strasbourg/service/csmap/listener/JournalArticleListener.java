@@ -37,7 +37,7 @@ public class JournalArticleListener extends BaseModelListener<JournalArticle>
      * @throws ModelListenerException
      */
     @Override
-    public void onAfterUpdate(JournalArticle model) throws ModelListenerException {
+    public void onAfterUpdate(JournalArticle originalJournalArticle,JournalArticle model) throws ModelListenerException {
         try {
             long csmapId = GroupLocalServiceUtil.getGroup(PortalUtil.getDefaultCompanyId(), GROUP_CSMAP).getGroupId();
             DDMStructure structure = DDMStructureLocalServiceUtil.getStructures(csmapId).stream().filter(s -> s.getName(Locale.FRANCE).equals(STRUCTURE_EMERGENCY_HELP)).findFirst().orElse(null);
@@ -57,7 +57,7 @@ public class JournalArticleListener extends BaseModelListener<JournalArticle>
             _log.error(e);
         }
 
-        super.onAfterUpdate(model);
+        super.onAfterUpdate(originalJournalArticle,model);
     }
 
 }

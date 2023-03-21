@@ -14,17 +14,13 @@
 
 package eu.strasbourg.service.council.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +31,11 @@ import java.util.Objects;
  * @see Type
  * @generated
  */
-public class TypeWrapper implements ModelWrapper<Type>, Type {
+public class TypeWrapper
+	extends BaseModelWrapper<Type> implements ModelWrapper<Type>, Type {
 
 	public TypeWrapper(Type type) {
-		_type = type;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Type.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Type.class.getName();
+		super(type);
 	}
 
 	@Override
@@ -168,13 +155,8 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	}
 
 	@Override
-	public Object clone() {
-		return new TypeWrapper((Type)_type.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.council.model.Type type) {
-		return _type.compareTo(type);
+	public Type cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -182,7 +164,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _type.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	/**
@@ -192,7 +174,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _type.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -202,7 +184,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _type.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -212,12 +194,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _type.getCreateDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _type.getExpandoBridge();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -227,7 +204,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public long getGroupId() {
-		return _type.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -237,7 +214,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _type.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -247,12 +224,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _type.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _type.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -262,7 +234,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public long getRoleId() {
-		return _type.getRoleId();
+		return model.getRoleId();
 	}
 
 	/**
@@ -272,7 +244,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public int getStatus() {
-		return _type.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -282,7 +254,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _type.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -292,7 +264,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _type.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -302,7 +274,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _type.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -312,7 +284,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _type.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -322,7 +294,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public String getTitle() {
-		return _type.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -332,7 +304,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public String getTitleLong() {
-		return _type.getTitleLong();
+		return model.getTitleLong();
 	}
 
 	/**
@@ -342,7 +314,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public long getTypeId() {
-		return _type.getTypeId();
+		return model.getTypeId();
 	}
 
 	/**
@@ -352,7 +324,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public long getUserId() {
-		return _type.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -362,7 +334,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public String getUserName() {
-		return _type.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -372,7 +344,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _type.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -382,12 +354,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public String getUuid() {
-		return _type.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _type.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -397,12 +364,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _type.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _type.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -412,7 +374,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _type.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -422,12 +384,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _type.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _type.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -437,7 +394,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _type.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -447,7 +404,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _type.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -457,12 +414,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _type.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _type.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -472,7 +424,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public boolean isPending() {
-		return _type.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -482,17 +434,12 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _type.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_type.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_type.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -502,7 +449,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_type.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -512,24 +459,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_type.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_type.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_type.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_type.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -539,7 +469,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_type.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -549,12 +479,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_type.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_type.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -564,12 +489,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_type.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_type.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -579,7 +499,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public void setRoleId(long roleId) {
-		_type.setRoleId(roleId);
+		model.setRoleId(roleId);
 	}
 
 	/**
@@ -589,7 +509,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_type.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -599,7 +519,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_type.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -609,7 +529,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_type.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -619,7 +539,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_type.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -629,7 +549,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_type.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -639,7 +559,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public void setTitle(String title) {
-		_type.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -649,7 +569,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public void setTitleLong(String titleLong) {
-		_type.setTitleLong(titleLong);
+		model.setTitleLong(titleLong);
 	}
 
 	/**
@@ -659,7 +579,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public void setTypeId(long typeId) {
-		_type.setTypeId(typeId);
+		model.setTypeId(typeId);
 	}
 
 	/**
@@ -669,7 +589,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_type.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -679,7 +599,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_type.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -689,7 +609,7 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_type.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -699,80 +619,22 @@ public class TypeWrapper implements ModelWrapper<Type>, Type {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_type.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.council.model.Type> toCacheModel() {
-
-		return _type.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.council.model.Type toEscapedModel() {
-		return new TypeWrapper(_type.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _type.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.council.model.Type toUnescapedModel() {
-		return new TypeWrapper(_type.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _type.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof TypeWrapper)) {
-			return false;
-		}
-
-		TypeWrapper typeWrapper = (TypeWrapper)object;
-
-		if (Objects.equals(_type, typeWrapper._type)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _type.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Type getWrappedModel() {
-		return _type;
+	protected TypeWrapper wrap(Type type) {
+		return new TypeWrapper(type);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _type.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _type.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_type.resetOriginalValues();
-	}
-
-	private final Type _type;
 
 }

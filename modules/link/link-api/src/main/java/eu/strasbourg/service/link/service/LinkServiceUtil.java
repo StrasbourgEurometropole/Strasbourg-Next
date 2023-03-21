@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.link.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for Link. This utility wraps
  * <code>eu.strasbourg.service.link.service.impl.LinkServiceImpl</code> and is an
@@ -43,26 +39,14 @@ public class LinkServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static LinkService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<LinkService, LinkService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(LinkService.class);
-
-		ServiceTracker<LinkService, LinkService> serviceTracker =
-			new ServiceTracker<LinkService, LinkService>(
-				bundle.getBundleContext(), LinkService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile LinkService _service;
 
 }

@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.objtp.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.objtp.exception.NoSuchObjectCategoryException;
 import eu.strasbourg.service.objtp.model.ObjectCategory;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the object category service.
@@ -46,9 +39,6 @@ public interface ObjectCategoryPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link ObjectCategoryUtil} to access the object category persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, ObjectCategory> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Caches the object category in the entity cache if it is enabled.
@@ -169,8 +159,5 @@ public interface ObjectCategoryPersistence
 	 * @return the number of object categories
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

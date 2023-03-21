@@ -14,9 +14,15 @@
 
 package eu.strasbourg.service.place.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.place.model.Slot;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Provides the local service utility for Slot. This utility wraps
@@ -48,10 +54,18 @@ public class SlotLocalServiceUtil {
 	 * @param slot the slot
 	 * @return the slot that was added
 	 */
-	public static eu.strasbourg.service.place.model.Slot addSlot(
-		eu.strasbourg.service.place.model.Slot slot) {
-
+	public static Slot addSlot(Slot slot) {
 		return getService().addSlot(slot);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -60,18 +74,16 @@ public class SlotLocalServiceUtil {
 	 * @param slotId the primary key for the new slot
 	 * @return the new slot
 	 */
-	public static eu.strasbourg.service.place.model.Slot createSlot(
-		long slotId) {
-
+	public static Slot createSlot(long slotId) {
 		return getService().createSlot(slotId);
 	}
 
 	/**
 	 * Crée un slot vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.place.model.Slot createSlot(
+	public static Slot createSlot(
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().createSlot(sc);
 	}
@@ -79,10 +91,9 @@ public class SlotLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -98,9 +109,7 @@ public class SlotLocalServiceUtil {
 	 * @return the slot that was removed
 	 * @throws PortalException if a slot with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.place.model.Slot deleteSlot(long slotId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Slot deleteSlot(long slotId) throws PortalException {
 		return getService().deleteSlot(slotId);
 	}
 
@@ -114,15 +123,19 @@ public class SlotLocalServiceUtil {
 	 * @param slot the slot
 	 * @return the slot that was removed
 	 */
-	public static eu.strasbourg.service.place.model.Slot deleteSlot(
-		eu.strasbourg.service.place.model.Slot slot) {
-
+	public static Slot deleteSlot(Slot slot) {
 		return getService().deleteSlot(slot);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -132,9 +145,7 @@ public class SlotLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -150,9 +161,8 @@ public class SlotLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -170,10 +180,9 @@ public class SlotLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -185,9 +194,7 @@ public class SlotLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -199,15 +206,13 @@ public class SlotLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.place.model.Slot fetchSlot(
-		long slotId) {
-
+	public static Slot fetchSlot(long slotId) {
 		return getService().fetchSlot(slotId);
 	}
 
@@ -220,9 +225,7 @@ public class SlotLocalServiceUtil {
 	/**
 	 * Retourne les slots rattachées à une période
 	 */
-	public static java.util.List<eu.strasbourg.service.place.model.Slot>
-		getByPeriodId(long slotId) {
-
+	public static List<Slot> getByPeriodId(long slotId) {
 		return getService().getByPeriodId(slotId);
 	}
 
@@ -245,9 +248,8 @@ public class SlotLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -259,9 +261,7 @@ public class SlotLocalServiceUtil {
 	 * @return the slot
 	 * @throws PortalException if a slot with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.place.model.Slot getSlot(long slotId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Slot getSlot(long slotId) throws PortalException {
 		return getService().getSlot(slotId);
 	}
 
@@ -276,9 +276,7 @@ public class SlotLocalServiceUtil {
 	 * @param end the upper bound of the range of slots (not inclusive)
 	 * @return the range of slots
 	 */
-	public static java.util.List<eu.strasbourg.service.place.model.Slot>
-		getSlots(int start, int end) {
-
+	public static List<Slot> getSlots(int start, int end) {
 		return getService().getSlots(start, end);
 	}
 
@@ -301,29 +299,14 @@ public class SlotLocalServiceUtil {
 	 * @param slot the slot
 	 * @return the slot that was updated
 	 */
-	public static eu.strasbourg.service.place.model.Slot updateSlot(
-		eu.strasbourg.service.place.model.Slot slot) {
-
+	public static Slot updateSlot(Slot slot) {
 		return getService().updateSlot(slot);
 	}
 
 	public static SlotLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<SlotLocalService, SlotLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(SlotLocalService.class);
-
-		ServiceTracker<SlotLocalService, SlotLocalService> serviceTracker =
-			new ServiceTracker<SlotLocalService, SlotLocalService>(
-				bundle.getBundleContext(), SlotLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile SlotLocalService _service;
 
 }

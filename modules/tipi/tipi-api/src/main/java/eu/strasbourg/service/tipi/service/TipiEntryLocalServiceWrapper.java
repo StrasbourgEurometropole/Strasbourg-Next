@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class TipiEntryLocalServiceWrapper
 	implements ServiceWrapper<TipiEntryLocalService>, TipiEntryLocalService {
 
+	public TipiEntryLocalServiceWrapper() {
+		this(null);
+	}
+
 	public TipiEntryLocalServiceWrapper(
 		TipiEntryLocalService tipiEntryLocalService) {
 
@@ -54,6 +58,17 @@ public class TipiEntryLocalServiceWrapper
 		eu.strasbourg.service.tipi.model.TipiEntry tipiEntry) {
 
 		return _tipiEntryLocalService.addTipiEntry(tipiEntry);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _tipiEntryLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -111,6 +126,18 @@ public class TipiEntryLocalServiceWrapper
 		eu.strasbourg.service.tipi.model.TipiEntry tipiEntry) {
 
 		return _tipiEntryLocalService.deleteTipiEntry(tipiEntry);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _tipiEntryLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _tipiEntryLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

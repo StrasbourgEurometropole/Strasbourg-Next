@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.favorite.service.base;
 
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -27,6 +28,8 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -43,9 +46,12 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.service.FavoriteLocalService;
+import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
 import eu.strasbourg.service.favorite.service.persistence.FavoritePersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.List;
 
@@ -69,7 +75,7 @@ public abstract class FavoriteLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>FavoriteLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>FavoriteLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>FavoriteLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -133,6 +139,18 @@ public abstract class FavoriteLocalServiceBaseImpl
 	@Override
 	public Favorite deleteFavorite(Favorite favorite) {
 		return favoritePersistence.remove(favorite);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return favoritePersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -284,12 +302,28 @@ public abstract class FavoriteLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return favoritePersistence.create(((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement FavoriteLocalServiceImpl#deleteFavorite(Favorite) to avoid orphaned data");
+		}
 
 		return favoriteLocalService.deleteFavorite((Favorite)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<Favorite> getBasePersistence() {
 		return favoritePersistence;
 	}
@@ -519,11 +553,15 @@ public abstract class FavoriteLocalServiceBaseImpl
 		persistedModelLocalServiceRegistry.register(
 			"eu.strasbourg.service.favorite.model.Favorite",
 			favoriteLocalService);
+
+		_setLocalServiceUtilService(favoriteLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"eu.strasbourg.service.favorite.model.Favorite");
+
+		_setLocalServiceUtilService(null);
 	}
 
 	/**
@@ -568,6 +606,22 @@ public abstract class FavoriteLocalServiceBaseImpl
 		}
 	}
 
+	private void _setLocalServiceUtilService(
+		FavoriteLocalService favoriteLocalService) {
+
+		try {
+			Field field = FavoriteLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, favoriteLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
+		}
+	}
+
 	@BeanReference(type = FavoriteLocalService.class)
 	protected FavoriteLocalService favoriteLocalService;
 
@@ -603,6 +657,9 @@ public abstract class FavoriteLocalServiceBaseImpl
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		FavoriteLocalServiceBaseImpl.class);
 
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry

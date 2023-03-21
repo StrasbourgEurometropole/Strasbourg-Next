@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.security.auth.HttpPrincipal;
 import com.liferay.portal.kernel.service.http.TunnelUtil;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
-
 import eu.strasbourg.service.place.service.PlaceServiceUtil;
 
 /**
@@ -47,7 +46,6 @@ import eu.strasbourg.service.place.service.PlaceServiceUtil;
  * </p>
  *
  * @author Angelique Zunino Champougny
- * @see PlaceServiceSoap
  * @generated
  */
 public class PlaceServiceHttp {

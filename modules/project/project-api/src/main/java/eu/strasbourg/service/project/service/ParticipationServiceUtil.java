@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.project.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for Participation. This utility wraps
  * <code>eu.strasbourg.service.project.service.impl.ParticipationServiceImpl</code> and is an
@@ -43,29 +39,14 @@ public class ParticipationServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static ParticipationService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<ParticipationService, ParticipationService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(ParticipationService.class);
-
-		ServiceTracker<ParticipationService, ParticipationService>
-			serviceTracker =
-				new ServiceTracker<ParticipationService, ParticipationService>(
-					bundle.getBundleContext(), ParticipationService.class,
-					null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile ParticipationService _service;
 
 }

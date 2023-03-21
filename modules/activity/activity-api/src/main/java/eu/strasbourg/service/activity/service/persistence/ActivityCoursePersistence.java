@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.activity.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.activity.exception.NoSuchActivityCourseException;
 import eu.strasbourg.service.activity.model.ActivityCourse;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the activity course service.
@@ -46,9 +39,6 @@ public interface ActivityCoursePersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link ActivityCourseUtil} to access the activity course persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, ActivityCourse> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the activity courses where uuid = &#63;.
@@ -803,8 +793,5 @@ public interface ActivityCoursePersistence
 	 * @return the number of activity courses
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

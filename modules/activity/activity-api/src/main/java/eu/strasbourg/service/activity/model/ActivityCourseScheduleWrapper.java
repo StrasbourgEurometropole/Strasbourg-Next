@@ -14,17 +14,13 @@
 
 package eu.strasbourg.service.activity.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,22 +32,13 @@ import java.util.Objects;
  * @generated
  */
 public class ActivityCourseScheduleWrapper
+	extends BaseModelWrapper<ActivityCourseSchedule>
 	implements ActivityCourseSchedule, ModelWrapper<ActivityCourseSchedule> {
 
 	public ActivityCourseScheduleWrapper(
 		ActivityCourseSchedule activityCourseSchedule) {
 
-		_activityCourseSchedule = activityCourseSchedule;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return ActivityCourseSchedule.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return ActivityCourseSchedule.class.getName();
+		super(activityCourseSchedule);
 	}
 
 	@Override
@@ -209,17 +196,8 @@ public class ActivityCourseScheduleWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new ActivityCourseScheduleWrapper(
-			(ActivityCourseSchedule)_activityCourseSchedule.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.activity.model.ActivityCourseSchedule
-			activityCourseSchedule) {
-
-		return _activityCourseSchedule.compareTo(activityCourseSchedule);
+	public ActivityCourseSchedule cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -229,7 +207,7 @@ public class ActivityCourseScheduleWrapper
 	public eu.strasbourg.service.activity.model.ActivityCoursePlace
 		getActivityCoursePlace() {
 
-		return _activityCourseSchedule.getActivityCoursePlace();
+		return model.getActivityCoursePlace();
 	}
 
 	/**
@@ -239,7 +217,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public long getActivityCoursePlaceId() {
-		return _activityCourseSchedule.getActivityCoursePlaceId();
+		return model.getActivityCoursePlaceId();
 	}
 
 	/**
@@ -249,7 +227,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public long getActivityCourseScheduleId() {
-		return _activityCourseSchedule.getActivityCourseScheduleId();
+		return model.getActivityCourseScheduleId();
 	}
 
 	/**
@@ -257,12 +235,12 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _activityCourseSchedule.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _activityCourseSchedule.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -273,7 +251,7 @@ public class ActivityCourseScheduleWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _activityCourseSchedule.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -283,7 +261,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public String getComments() {
-		return _activityCourseSchedule.getComments();
+		return model.getComments();
 	}
 
 	/**
@@ -294,7 +272,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public String getComments(java.util.Locale locale) {
-		return _activityCourseSchedule.getComments(locale);
+		return model.getComments(locale);
 	}
 
 	/**
@@ -306,7 +284,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public String getComments(java.util.Locale locale, boolean useDefault) {
-		return _activityCourseSchedule.getComments(locale, useDefault);
+		return model.getComments(locale, useDefault);
 	}
 
 	/**
@@ -317,7 +295,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public String getComments(String languageId) {
-		return _activityCourseSchedule.getComments(languageId);
+		return model.getComments(languageId);
 	}
 
 	/**
@@ -329,17 +307,17 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public String getComments(String languageId, boolean useDefault) {
-		return _activityCourseSchedule.getComments(languageId, useDefault);
+		return model.getComments(languageId, useDefault);
 	}
 
 	@Override
 	public String getCommentsCurrentLanguageId() {
-		return _activityCourseSchedule.getCommentsCurrentLanguageId();
+		return model.getCommentsCurrentLanguageId();
 	}
 
 	@Override
 	public String getCommentsCurrentValue() {
-		return _activityCourseSchedule.getCommentsCurrentValue();
+		return model.getCommentsCurrentValue();
 	}
 
 	/**
@@ -349,7 +327,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getCommentsMap() {
-		return _activityCourseSchedule.getCommentsMap();
+		return model.getCommentsMap();
 	}
 
 	/**
@@ -359,7 +337,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _activityCourseSchedule.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -369,12 +347,12 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _activityCourseSchedule.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _activityCourseSchedule.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -384,12 +362,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public String getEndTime() {
-		return _activityCourseSchedule.getEndTime();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _activityCourseSchedule.getExpandoBridge();
+		return model.getEndTime();
 	}
 
 	/**
@@ -399,7 +372,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public boolean getFriday() {
-		return _activityCourseSchedule.getFriday();
+		return model.getFriday();
 	}
 
 	/**
@@ -409,7 +382,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _activityCourseSchedule.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -419,7 +392,7 @@ public class ActivityCourseScheduleWrapper
 	public eu.strasbourg.service.activity.model.ActivityCourseSchedule
 		getLiveVersion() {
 
-		return _activityCourseSchedule.getLiveVersion();
+		return model.getLiveVersion();
 	}
 
 	/**
@@ -429,7 +402,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _activityCourseSchedule.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -439,7 +412,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public boolean getMonday() {
-		return _activityCourseSchedule.getMonday();
+		return model.getMonday();
 	}
 
 	/**
@@ -449,7 +422,7 @@ public class ActivityCourseScheduleWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getPeriods() {
 
-		return _activityCourseSchedule.getPeriods();
+		return model.getPeriods();
 	}
 
 	/**
@@ -459,7 +432,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public String getPeriodsIds() {
-		return _activityCourseSchedule.getPeriodsIds();
+		return model.getPeriodsIds();
 	}
 
 	/**
@@ -469,12 +442,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _activityCourseSchedule.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _activityCourseSchedule.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -484,7 +452,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public boolean getSaturday() {
-		return _activityCourseSchedule.getSaturday();
+		return model.getSaturday();
 	}
 
 	/**
@@ -494,7 +462,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public String getStartTime() {
-		return _activityCourseSchedule.getStartTime();
+		return model.getStartTime();
 	}
 
 	/**
@@ -504,7 +472,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public boolean getSunday() {
-		return _activityCourseSchedule.getSunday();
+		return model.getSunday();
 	}
 
 	/**
@@ -514,7 +482,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public boolean getThursday() {
-		return _activityCourseSchedule.getThursday();
+		return model.getThursday();
 	}
 
 	/**
@@ -524,7 +492,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public boolean getTuesday() {
-		return _activityCourseSchedule.getTuesday();
+		return model.getTuesday();
 	}
 
 	/**
@@ -534,7 +502,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _activityCourseSchedule.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -544,7 +512,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _activityCourseSchedule.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -554,7 +522,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _activityCourseSchedule.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -564,7 +532,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _activityCourseSchedule.getUuid();
+		return model.getUuid();
 	}
 
 	/**
@@ -574,7 +542,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public boolean getWednesday() {
-		return _activityCourseSchedule.getWednesday();
+		return model.getWednesday();
 	}
 
 	/**
@@ -583,12 +551,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public boolean[] getWeekDays() {
-		return _activityCourseSchedule.getWeekDays();
-	}
-
-	@Override
-	public int hashCode() {
-		return _activityCourseSchedule.hashCode();
+		return model.getWeekDays();
 	}
 
 	/**
@@ -597,17 +560,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public boolean hasScheduleOnDay(int day) {
-		return _activityCourseSchedule.hasScheduleOnDay(day);
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _activityCourseSchedule.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _activityCourseSchedule.isEscapedModel();
+		return model.hasScheduleOnDay(day);
 	}
 
 	/**
@@ -617,7 +570,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public boolean isFriday() {
-		return _activityCourseSchedule.isFriday();
+		return model.isFriday();
 	}
 
 	/**
@@ -627,12 +580,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public boolean isMonday() {
-		return _activityCourseSchedule.isMonday();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _activityCourseSchedule.isNew();
+		return model.isMonday();
 	}
 
 	/**
@@ -642,7 +590,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public boolean isSaturday() {
-		return _activityCourseSchedule.isSaturday();
+		return model.isSaturday();
 	}
 
 	/**
@@ -652,7 +600,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public boolean isSunday() {
-		return _activityCourseSchedule.isSunday();
+		return model.isSunday();
 	}
 
 	/**
@@ -662,7 +610,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public boolean isThursday() {
-		return _activityCourseSchedule.isThursday();
+		return model.isThursday();
 	}
 
 	/**
@@ -672,7 +620,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public boolean isTuesday() {
-		return _activityCourseSchedule.isTuesday();
+		return model.isTuesday();
 	}
 
 	/**
@@ -682,19 +630,19 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public boolean isWednesday() {
-		return _activityCourseSchedule.isWednesday();
+		return model.isWednesday();
 	}
 
 	@Override
 	public void persist() {
-		_activityCourseSchedule.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_activityCourseSchedule.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -702,8 +650,7 @@ public class ActivityCourseScheduleWrapper
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_activityCourseSchedule.prepareLocalizedFieldsForImport(
-			defaultImportLocale);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -713,7 +660,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setActivityCoursePlaceId(long activityCoursePlaceId) {
-		_activityCourseSchedule.setActivityCoursePlaceId(activityCoursePlaceId);
+		model.setActivityCoursePlaceId(activityCoursePlaceId);
 	}
 
 	/**
@@ -723,13 +670,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setActivityCourseScheduleId(long activityCourseScheduleId) {
-		_activityCourseSchedule.setActivityCourseScheduleId(
-			activityCourseScheduleId);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_activityCourseSchedule.setCachedModel(cachedModel);
+		model.setActivityCourseScheduleId(activityCourseScheduleId);
 	}
 
 	/**
@@ -739,7 +680,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setComments(String comments) {
-		_activityCourseSchedule.setComments(comments);
+		model.setComments(comments);
 	}
 
 	/**
@@ -750,7 +691,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setComments(String comments, java.util.Locale locale) {
-		_activityCourseSchedule.setComments(comments, locale);
+		model.setComments(comments, locale);
 	}
 
 	/**
@@ -765,12 +706,12 @@ public class ActivityCourseScheduleWrapper
 		String comments, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_activityCourseSchedule.setComments(comments, locale, defaultLocale);
+		model.setComments(comments, locale, defaultLocale);
 	}
 
 	@Override
 	public void setCommentsCurrentLanguageId(String languageId) {
-		_activityCourseSchedule.setCommentsCurrentLanguageId(languageId);
+		model.setCommentsCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -780,7 +721,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setCommentsMap(Map<java.util.Locale, String> commentsMap) {
-		_activityCourseSchedule.setCommentsMap(commentsMap);
+		model.setCommentsMap(commentsMap);
 	}
 
 	/**
@@ -794,7 +735,7 @@ public class ActivityCourseScheduleWrapper
 		Map<java.util.Locale, String> commentsMap,
 		java.util.Locale defaultLocale) {
 
-		_activityCourseSchedule.setCommentsMap(commentsMap, defaultLocale);
+		model.setCommentsMap(commentsMap, defaultLocale);
 	}
 
 	/**
@@ -804,7 +745,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_activityCourseSchedule.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -814,7 +755,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_activityCourseSchedule.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -824,24 +765,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setEndTime(String endTime) {
-		_activityCourseSchedule.setEndTime(endTime);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_activityCourseSchedule.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_activityCourseSchedule.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_activityCourseSchedule.setExpandoBridgeAttributes(serviceContext);
+		model.setEndTime(endTime);
 	}
 
 	/**
@@ -851,7 +775,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setFriday(boolean friday) {
-		_activityCourseSchedule.setFriday(friday);
+		model.setFriday(friday);
 	}
 
 	/**
@@ -861,7 +785,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_activityCourseSchedule.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -871,7 +795,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_activityCourseSchedule.setModifiedDate(modifiedDate);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -881,12 +805,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setMonday(boolean monday) {
-		_activityCourseSchedule.setMonday(monday);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_activityCourseSchedule.setNew(n);
+		model.setMonday(monday);
 	}
 
 	/**
@@ -896,7 +815,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setPeriodsIds(String periodsIds) {
-		_activityCourseSchedule.setPeriodsIds(periodsIds);
+		model.setPeriodsIds(periodsIds);
 	}
 
 	/**
@@ -906,12 +825,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_activityCourseSchedule.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_activityCourseSchedule.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -921,7 +835,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setSaturday(boolean saturday) {
-		_activityCourseSchedule.setSaturday(saturday);
+		model.setSaturday(saturday);
 	}
 
 	/**
@@ -931,7 +845,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setStartTime(String startTime) {
-		_activityCourseSchedule.setStartTime(startTime);
+		model.setStartTime(startTime);
 	}
 
 	/**
@@ -941,7 +855,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setSunday(boolean sunday) {
-		_activityCourseSchedule.setSunday(sunday);
+		model.setSunday(sunday);
 	}
 
 	/**
@@ -951,7 +865,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setThursday(boolean thursday) {
-		_activityCourseSchedule.setThursday(thursday);
+		model.setThursday(thursday);
 	}
 
 	/**
@@ -961,7 +875,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setTuesday(boolean tuesday) {
-		_activityCourseSchedule.setTuesday(tuesday);
+		model.setTuesday(tuesday);
 	}
 
 	/**
@@ -971,7 +885,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_activityCourseSchedule.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -981,7 +895,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_activityCourseSchedule.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -991,7 +905,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_activityCourseSchedule.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -1001,7 +915,7 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_activityCourseSchedule.setUuid(uuid);
+		model.setUuid(uuid);
 	}
 
 	/**
@@ -1011,91 +925,24 @@ public class ActivityCourseScheduleWrapper
 	 */
 	@Override
 	public void setWednesday(boolean wednesday) {
-		_activityCourseSchedule.setWednesday(wednesday);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.activity.model.ActivityCourseSchedule>
-			toCacheModel() {
-
-		return _activityCourseSchedule.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.activity.model.ActivityCourseSchedule
-		toEscapedModel() {
-
-		return new ActivityCourseScheduleWrapper(
-			_activityCourseSchedule.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _activityCourseSchedule.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.activity.model.ActivityCourseSchedule
-		toUnescapedModel() {
-
-		return new ActivityCourseScheduleWrapper(
-			_activityCourseSchedule.toUnescapedModel());
+		model.setWednesday(wednesday);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _activityCourseSchedule.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof ActivityCourseScheduleWrapper)) {
-			return false;
-		}
-
-		ActivityCourseScheduleWrapper activityCourseScheduleWrapper =
-			(ActivityCourseScheduleWrapper)object;
-
-		if (Objects.equals(
-				_activityCourseSchedule,
-				activityCourseScheduleWrapper._activityCourseSchedule)) {
-
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _activityCourseSchedule.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public ActivityCourseSchedule getWrappedModel() {
-		return _activityCourseSchedule;
-	}
+	protected ActivityCourseScheduleWrapper wrap(
+		ActivityCourseSchedule activityCourseSchedule) {
 
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _activityCourseSchedule.isEntityCacheEnabled();
+		return new ActivityCourseScheduleWrapper(activityCourseSchedule);
 	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _activityCourseSchedule.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_activityCourseSchedule.resetOriginalValues();
-	}
-
-	private final ActivityCourseSchedule _activityCourseSchedule;
 
 }

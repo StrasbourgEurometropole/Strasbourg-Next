@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.place.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.place.exception.NoSuchPlaceException;
 import eu.strasbourg.service.place.model.Place;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the place service.
@@ -45,9 +38,6 @@ public interface PlacePersistence extends BasePersistence<Place> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link PlaceUtil} to access the place persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Place> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the places where uuid = &#63;.
@@ -982,8 +972,5 @@ public interface PlacePersistence extends BasePersistence<Place> {
 	 * @return the number of places
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

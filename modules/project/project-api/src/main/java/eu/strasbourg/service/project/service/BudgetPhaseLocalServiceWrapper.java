@@ -27,6 +27,10 @@ public class BudgetPhaseLocalServiceWrapper
 	implements BudgetPhaseLocalService,
 			   ServiceWrapper<BudgetPhaseLocalService> {
 
+	public BudgetPhaseLocalServiceWrapper() {
+		this(null);
+	}
+
 	public BudgetPhaseLocalServiceWrapper(
 		BudgetPhaseLocalService budgetPhaseLocalService) {
 
@@ -75,6 +79,17 @@ public class BudgetPhaseLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _budgetPhaseLocalService.createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the budget phase from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -119,6 +134,18 @@ public class BudgetPhaseLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _budgetPhaseLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _budgetPhaseLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _budgetPhaseLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

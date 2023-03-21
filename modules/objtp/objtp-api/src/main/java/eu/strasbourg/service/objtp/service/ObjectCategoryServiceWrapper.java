@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class ObjectCategoryServiceWrapper
 	implements ObjectCategoryService, ServiceWrapper<ObjectCategoryService> {
 
+	public ObjectCategoryServiceWrapper() {
+		this(null);
+	}
+
 	public ObjectCategoryServiceWrapper(
 		ObjectCategoryService objectCategoryService) {
 

@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class VideoGalleryServiceWrapper
 	implements ServiceWrapper<VideoGalleryService>, VideoGalleryService {
 
+	public VideoGalleryServiceWrapper() {
+		this(null);
+	}
+
 	public VideoGalleryServiceWrapper(VideoGalleryService videoGalleryService) {
 		_videoGalleryService = videoGalleryService;
 	}

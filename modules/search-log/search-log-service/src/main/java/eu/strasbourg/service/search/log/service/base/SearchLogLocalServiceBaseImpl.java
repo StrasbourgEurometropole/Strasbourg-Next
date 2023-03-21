@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.search.log.service.base;
 
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -27,6 +28,8 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -40,16 +43,15 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.search.log.model.SearchLog;
 import eu.strasbourg.service.search.log.service.SearchLogLocalService;
+import eu.strasbourg.service.search.log.service.SearchLogLocalServiceUtil;
 import eu.strasbourg.service.search.log.service.persistence.SearchLogPersistence;
 
-import java.io.Serializable;
-
-import java.util.List;
-
 import javax.sql.DataSource;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * Provides the base implementation for the search log local service.
@@ -69,7 +71,7 @@ public abstract class SearchLogLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>SearchLogLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.search.log.service.SearchLogLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>SearchLogLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>SearchLogLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -133,6 +135,18 @@ public abstract class SearchLogLocalServiceBaseImpl
 	@Override
 	public SearchLog deleteSearchLog(SearchLog searchLog) {
 		return searchLogPersistence.remove(searchLog);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return searchLogPersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -285,12 +299,28 @@ public abstract class SearchLogLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return searchLogPersistence.create(((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement SearchLogLocalServiceImpl#deleteSearchLog(SearchLog) to avoid orphaned data");
+		}
 
 		return searchLogLocalService.deleteSearchLog((SearchLog)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<SearchLog> getBasePersistence() {
 		return searchLogPersistence;
 	}
@@ -520,11 +550,15 @@ public abstract class SearchLogLocalServiceBaseImpl
 		persistedModelLocalServiceRegistry.register(
 			"eu.strasbourg.service.search.log.model.SearchLog",
 			searchLogLocalService);
+
+		_setLocalServiceUtilService(searchLogLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"eu.strasbourg.service.search.log.model.SearchLog");
+
+		_setLocalServiceUtilService(null);
 	}
 
 	/**
@@ -569,6 +603,22 @@ public abstract class SearchLogLocalServiceBaseImpl
 		}
 	}
 
+	private void _setLocalServiceUtilService(
+		SearchLogLocalService searchLogLocalService) {
+
+		try {
+			Field field = SearchLogLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, searchLogLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
+		}
+	}
+
 	@BeanReference(type = SearchLogLocalService.class)
 	protected SearchLogLocalService searchLogLocalService;
 
@@ -604,6 +654,9 @@ public abstract class SearchLogLocalServiceBaseImpl
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		SearchLogLocalServiceBaseImpl.class);
 
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry

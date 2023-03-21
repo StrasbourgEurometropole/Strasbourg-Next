@@ -27,6 +27,10 @@ public class FormSendRecordFieldLocalServiceWrapper
 	implements FormSendRecordFieldLocalService,
 			   ServiceWrapper<FormSendRecordFieldLocalService> {
 
+	public FormSendRecordFieldLocalServiceWrapper() {
+		this(null);
+	}
+
 	public FormSendRecordFieldLocalServiceWrapper(
 		FormSendRecordFieldLocalService formSendRecordFieldLocalService) {
 
@@ -80,6 +84,18 @@ public class FormSendRecordFieldLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _formSendRecordFieldLocalService.createPersistedModel(
+			primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the form send record field from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -129,6 +145,18 @@ public class FormSendRecordFieldLocalServiceWrapper
 
 		return _formSendRecordFieldLocalService.deletePersistedModel(
 			persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _formSendRecordFieldLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _formSendRecordFieldLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

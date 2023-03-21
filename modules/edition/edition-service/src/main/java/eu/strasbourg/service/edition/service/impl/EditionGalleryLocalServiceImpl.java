@@ -14,11 +14,8 @@
 
 package eu.strasbourg.service.edition.service.impl;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
+import org.osgi.annotation.versioning.ProviderType;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -44,12 +41,16 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.edition.service.base.EditionGalleryLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import org.osgi.service.component.annotations.Reference;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The implementation of the edition gallery local service.
@@ -276,12 +277,8 @@ public class EditionGalleryLocalServiceImpl
 		if (entry != null) {
 
 			// Supprime le lien avec les catégories
-			long[] categoryIds = entry.getCategoryIds();
-			for (int i = 0; i < categoryIds.length; i++) {
-				AssetEntryLocalServiceUtil.deleteAssetCategoryAssetEntry(
-					categoryIds[i], entry.getEntryId());
-			}
-
+			assetEntryAssetCategoryRelLocalService.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Supprime le lien avec les tags
 			long[] tagIds = AssetEntryLocalServiceUtil
 				.getAssetTagPrimaryKeys(entry.getEntryId());
@@ -391,4 +388,6 @@ public class EditionGalleryLocalServiceImpl
 	}
 
 	private final Log _log = LogFactoryUtil.getLog("strasbourg");
+	@Reference
+	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

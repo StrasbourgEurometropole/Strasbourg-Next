@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.favorite.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for Favorite. This utility wraps
  * <code>eu.strasbourg.service.favorite.service.impl.FavoriteServiceImpl</code> and is an
@@ -42,7 +38,8 @@ public class FavoriteServiceUtil {
 	 * Ajoute un favoris à un utilisateur
 	 */
 	public static com.liferay.portal.kernel.json.JSONObject addFavorite(
-		String title, String url, long typeId, String userId, long entityId) {
+		java.lang.String title, java.lang.String url, long typeId,
+		java.lang.String userId, long entityId) {
 
 		return getService().addFavorite(title, url, typeId, userId, entityId);
 	}
@@ -51,8 +48,8 @@ public class FavoriteServiceUtil {
 	 * Ajoute un favori à un utilisateur
 	 */
 	public static com.liferay.portal.kernel.json.JSONObject addFavoriteLink(
-		String title, String url, long typeId, long entityId,
-		long entityGroupId) {
+		java.lang.String title, java.lang.String url, long typeId,
+		long entityId, long entityGroupId) {
 
 		return getService().addFavoriteLink(
 			title, url, typeId, entityId, entityGroupId);
@@ -62,7 +59,7 @@ public class FavoriteServiceUtil {
 	 * Supprime un favoris d'un utilisateur
 	 */
 	public static com.liferay.portal.kernel.json.JSONObject deleteFavorite(
-		String userId, long favoriteId) {
+		java.lang.String userId, long favoriteId) {
 
 		return getService().deleteFavorite(userId, favoriteId);
 	}
@@ -71,7 +68,8 @@ public class FavoriteServiceUtil {
 	 * Supprime un favoris d'un utilisateur
 	 */
 	public static com.liferay.portal.kernel.json.JSONObject deleteFavoriteLink(
-		String title, String url, long typeId, long entityId) {
+		java.lang.String title, java.lang.String url, long typeId,
+		long entityId) {
 
 		return getService().deleteFavoriteLink(title, url, typeId, entityId);
 	}
@@ -81,7 +79,7 @@ public class FavoriteServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
@@ -96,28 +94,15 @@ public class FavoriteServiceUtil {
 	 * Retourne les favoris d'un utilisateur
 	 */
 	public static com.liferay.portal.kernel.json.JSONObject getUserFavorites(
-		String userId) {
+		java.lang.String userId) {
 
 		return getService().getUserFavorites(userId);
 	}
 
 	public static FavoriteService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<FavoriteService, FavoriteService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(FavoriteService.class);
-
-		ServiceTracker<FavoriteService, FavoriteService> serviceTracker =
-			new ServiceTracker<FavoriteService, FavoriteService>(
-				bundle.getBundleContext(), FavoriteService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile FavoriteService _service;
 
 }

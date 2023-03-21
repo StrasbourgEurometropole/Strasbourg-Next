@@ -16,6 +16,7 @@ package eu.strasbourg.service.like.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -24,25 +25,20 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
-
+import com.liferay.portal.kernel.util.StringUtil;
 import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.model.LikeModel;
-import eu.strasbourg.service.like.model.LikeSoap;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -102,76 +98,60 @@ public class LikeModelImpl extends BaseModelImpl<Like> implements LikeModel {
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.like.service.util.ServiceProps.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.like.model.Like"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.like.service.util.ServiceProps.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.like.model.Like"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.like.service.util.ServiceProps.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.like.model.Like"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ENTITYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ISDISLIKE_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLIKUSERID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long TITLE_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long TYPEID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long LIKEID_COLUMN_BITMASK = 32L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Like toModel(LikeSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Like model = new LikeImpl();
-
-		model.setLikeId(soapModel.getLikeId());
-		model.setPublikUserId(soapModel.getPublikUserId());
-		model.setTitle(soapModel.getTitle());
-		model.setIsDislike(soapModel.isIsDislike());
-		model.setTypeId(soapModel.getTypeId());
-		model.setEntityId(soapModel.getEntityId());
-		model.setEntityGroupId(soapModel.getEntityGroupId());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Like> toModels(LikeSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Like> models = new ArrayList<Like>(soapModels.length);
-
-		for (LikeSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.like.service.util.ServiceProps.get(
@@ -227,9 +207,6 @@ public class LikeModelImpl extends BaseModelImpl<Like> implements LikeModel {
 				attributeName, attributeGetterFunction.apply((Like)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -260,33 +237,6 @@ public class LikeModelImpl extends BaseModelImpl<Like> implements LikeModel {
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Like>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Like.class.getClassLoader(), Like.class, ModelWrapper.class);
-
-		try {
-			Constructor<Like> constructor =
-				(Constructor<Like>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<Like, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Like, Object>>
@@ -298,146 +248,27 @@ public class LikeModelImpl extends BaseModelImpl<Like> implements LikeModel {
 		Map<String, BiConsumer<Like, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Like, ?>>();
 
-		attributeGetterFunctions.put(
-			"likeId",
-			new Function<Like, Object>() {
-
-				@Override
-				public Object apply(Like like) {
-					return like.getLikeId();
-				}
-
-			});
+		attributeGetterFunctions.put("likeId", Like::getLikeId);
 		attributeSetterBiConsumers.put(
-			"likeId",
-			new BiConsumer<Like, Object>() {
-
-				@Override
-				public void accept(Like like, Object likeIdObject) {
-					like.setLikeId((Long)likeIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"publikUserId",
-			new Function<Like, Object>() {
-
-				@Override
-				public Object apply(Like like) {
-					return like.getPublikUserId();
-				}
-
-			});
+			"likeId", (BiConsumer<Like, Long>)Like::setLikeId);
+		attributeGetterFunctions.put("publikUserId", Like::getPublikUserId);
 		attributeSetterBiConsumers.put(
-			"publikUserId",
-			new BiConsumer<Like, Object>() {
-
-				@Override
-				public void accept(Like like, Object publikUserIdObject) {
-					like.setPublikUserId((String)publikUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<Like, Object>() {
-
-				@Override
-				public Object apply(Like like) {
-					return like.getTitle();
-				}
-
-			});
+			"publikUserId", (BiConsumer<Like, String>)Like::setPublikUserId);
+		attributeGetterFunctions.put("title", Like::getTitle);
 		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<Like, Object>() {
-
-				@Override
-				public void accept(Like like, Object titleObject) {
-					like.setTitle((String)titleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"isDislike",
-			new Function<Like, Object>() {
-
-				@Override
-				public Object apply(Like like) {
-					return like.getIsDislike();
-				}
-
-			});
+			"title", (BiConsumer<Like, String>)Like::setTitle);
+		attributeGetterFunctions.put("isDislike", Like::getIsDislike);
 		attributeSetterBiConsumers.put(
-			"isDislike",
-			new BiConsumer<Like, Object>() {
-
-				@Override
-				public void accept(Like like, Object isDislikeObject) {
-					like.setIsDislike((Boolean)isDislikeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"typeId",
-			new Function<Like, Object>() {
-
-				@Override
-				public Object apply(Like like) {
-					return like.getTypeId();
-				}
-
-			});
+			"isDislike", (BiConsumer<Like, Boolean>)Like::setIsDislike);
+		attributeGetterFunctions.put("typeId", Like::getTypeId);
 		attributeSetterBiConsumers.put(
-			"typeId",
-			new BiConsumer<Like, Object>() {
-
-				@Override
-				public void accept(Like like, Object typeIdObject) {
-					like.setTypeId((Long)typeIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"entityId",
-			new Function<Like, Object>() {
-
-				@Override
-				public Object apply(Like like) {
-					return like.getEntityId();
-				}
-
-			});
+			"typeId", (BiConsumer<Like, Long>)Like::setTypeId);
+		attributeGetterFunctions.put("entityId", Like::getEntityId);
 		attributeSetterBiConsumers.put(
-			"entityId",
-			new BiConsumer<Like, Object>() {
-
-				@Override
-				public void accept(Like like, Object entityIdObject) {
-					like.setEntityId((Long)entityIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"entityGroupId",
-			new Function<Like, Object>() {
-
-				@Override
-				public Object apply(Like like) {
-					return like.getEntityGroupId();
-				}
-
-			});
+			"entityId", (BiConsumer<Like, Long>)Like::setEntityId);
+		attributeGetterFunctions.put("entityGroupId", Like::getEntityGroupId);
 		attributeSetterBiConsumers.put(
-			"entityGroupId",
-			new BiConsumer<Like, Object>() {
-
-				@Override
-				public void accept(Like like, Object entityGroupIdObject) {
-					like.setEntityGroupId((Long)entityGroupIdObject);
-				}
-
-			});
+			"entityGroupId", (BiConsumer<Like, Long>)Like::setEntityGroupId);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -453,6 +284,10 @@ public class LikeModelImpl extends BaseModelImpl<Like> implements LikeModel {
 
 	@Override
 	public void setLikeId(long likeId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_likeId = likeId;
 	}
 
@@ -469,17 +304,20 @@ public class LikeModelImpl extends BaseModelImpl<Like> implements LikeModel {
 
 	@Override
 	public void setPublikUserId(String publikUserId) {
-		_columnBitmask |= PUBLIKUSERID_COLUMN_BITMASK;
-
-		if (_originalPublikUserId == null) {
-			_originalPublikUserId = _publikUserId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publikUserId = publikUserId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPublikUserId() {
-		return GetterUtil.getString(_originalPublikUserId);
+		return getColumnOriginalValue("publikUserId");
 	}
 
 	@JSON
@@ -495,17 +333,20 @@ public class LikeModelImpl extends BaseModelImpl<Like> implements LikeModel {
 
 	@Override
 	public void setTitle(String title) {
-		_columnBitmask |= TITLE_COLUMN_BITMASK;
-
-		if (_originalTitle == null) {
-			_originalTitle = _title;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_title = title;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalTitle() {
-		return GetterUtil.getString(_originalTitle);
+		return getColumnOriginalValue("title");
 	}
 
 	@JSON
@@ -522,19 +363,21 @@ public class LikeModelImpl extends BaseModelImpl<Like> implements LikeModel {
 
 	@Override
 	public void setIsDislike(boolean isDislike) {
-		_columnBitmask |= ISDISLIKE_COLUMN_BITMASK;
-
-		if (!_setOriginalIsDislike) {
-			_setOriginalIsDislike = true;
-
-			_originalIsDislike = _isDislike;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_isDislike = isDislike;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalIsDislike() {
-		return _originalIsDislike;
+		return GetterUtil.getBoolean(
+			this.<Boolean>getColumnOriginalValue("isDislike"));
 	}
 
 	@JSON
@@ -545,19 +388,20 @@ public class LikeModelImpl extends BaseModelImpl<Like> implements LikeModel {
 
 	@Override
 	public void setTypeId(long typeId) {
-		_columnBitmask |= TYPEID_COLUMN_BITMASK;
-
-		if (!_setOriginalTypeId) {
-			_setOriginalTypeId = true;
-
-			_originalTypeId = _typeId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_typeId = typeId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalTypeId() {
-		return _originalTypeId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("typeId"));
 	}
 
 	@JSON
@@ -568,19 +412,21 @@ public class LikeModelImpl extends BaseModelImpl<Like> implements LikeModel {
 
 	@Override
 	public void setEntityId(long entityId) {
-		_columnBitmask |= ENTITYID_COLUMN_BITMASK;
-
-		if (!_setOriginalEntityId) {
-			_setOriginalEntityId = true;
-
-			_originalEntityId = _entityId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_entityId = entityId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalEntityId() {
-		return _originalEntityId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("entityId"));
 	}
 
 	@JSON
@@ -591,10 +437,34 @@ public class LikeModelImpl extends BaseModelImpl<Like> implements LikeModel {
 
 	@Override
 	public void setEntityGroupId(long entityGroupId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_entityGroupId = entityGroupId;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -644,6 +514,24 @@ public class LikeModelImpl extends BaseModelImpl<Like> implements LikeModel {
 	}
 
 	@Override
+	public Like cloneWithOriginalValues() {
+		LikeImpl likeImpl = new LikeImpl();
+
+		likeImpl.setLikeId(this.<Long>getColumnOriginalValue("likeId"));
+		likeImpl.setPublikUserId(
+			this.<String>getColumnOriginalValue("publikUserId"));
+		likeImpl.setTitle(this.<String>getColumnOriginalValue("title"));
+		likeImpl.setIsDislike(
+			this.<Boolean>getColumnOriginalValue("isDislike"));
+		likeImpl.setTypeId(this.<Long>getColumnOriginalValue("typeId"));
+		likeImpl.setEntityId(this.<Long>getColumnOriginalValue("entityId"));
+		likeImpl.setEntityGroupId(
+			this.<Long>getColumnOriginalValue("entityGroupId"));
+
+		return likeImpl;
+	}
+
+	@Override
 	public int compareTo(Like like) {
 		long primaryKey = like.getPrimaryKey();
 
@@ -685,11 +573,19 @@ public class LikeModelImpl extends BaseModelImpl<Like> implements LikeModel {
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -697,25 +593,9 @@ public class LikeModelImpl extends BaseModelImpl<Like> implements LikeModel {
 
 	@Override
 	public void resetOriginalValues() {
-		LikeModelImpl likeModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		likeModelImpl._originalPublikUserId = likeModelImpl._publikUserId;
-
-		likeModelImpl._originalTitle = likeModelImpl._title;
-
-		likeModelImpl._originalIsDislike = likeModelImpl._isDislike;
-
-		likeModelImpl._setOriginalIsDislike = false;
-
-		likeModelImpl._originalTypeId = likeModelImpl._typeId;
-
-		likeModelImpl._setOriginalTypeId = false;
-
-		likeModelImpl._originalEntityId = likeModelImpl._entityId;
-
-		likeModelImpl._setOriginalEntityId = false;
-
-		likeModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -757,7 +637,7 @@ public class LikeModelImpl extends BaseModelImpl<Like> implements LikeModel {
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -767,9 +647,26 @@ public class LikeModelImpl extends BaseModelImpl<Like> implements LikeModel {
 			String attributeName = entry.getKey();
 			Function<Like, Object> attributeGetterFunction = entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Like)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Like)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -782,58 +679,87 @@ public class LikeModelImpl extends BaseModelImpl<Like> implements LikeModel {
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Like, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Like, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Like, Object> attributeGetterFunction = entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Like)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Like>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Like.class, ModelWrapper.class);
 
 	}
 
 	private long _likeId;
 	private String _publikUserId;
-	private String _originalPublikUserId;
 	private String _title;
-	private String _originalTitle;
 	private boolean _isDislike;
-	private boolean _originalIsDislike;
-	private boolean _setOriginalIsDislike;
 	private long _typeId;
-	private long _originalTypeId;
-	private boolean _setOriginalTypeId;
 	private long _entityId;
-	private long _originalEntityId;
-	private boolean _setOriginalEntityId;
 	private long _entityGroupId;
+
+	public <T> T getColumnValue(String columnName) {
+		Function<Like, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Like)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("likeId", _likeId);
+		_columnOriginalValues.put("publikUserId", _publikUserId);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("isDislike", _isDislike);
+		_columnOriginalValues.put("typeId", _typeId);
+		_columnOriginalValues.put("entityId", _entityId);
+		_columnOriginalValues.put("entityGroupId", _entityGroupId);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("likeId", 1L);
+
+		columnBitmasks.put("publikUserId", 2L);
+
+		columnBitmasks.put("title", 4L);
+
+		columnBitmasks.put("isDislike", 8L);
+
+		columnBitmasks.put("typeId", 16L);
+
+		columnBitmasks.put("entityId", 32L);
+
+		columnBitmasks.put("entityGroupId", 64L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Like _escapedModel;
 

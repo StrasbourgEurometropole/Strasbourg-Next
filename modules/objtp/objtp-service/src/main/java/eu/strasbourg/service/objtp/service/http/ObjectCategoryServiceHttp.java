@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.security.auth.HttpPrincipal;
 import com.liferay.portal.kernel.service.http.TunnelUtil;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
-
 import eu.strasbourg.service.objtp.service.ObjectCategoryServiceUtil;
 
 /**
@@ -47,7 +46,6 @@ import eu.strasbourg.service.objtp.service.ObjectCategoryServiceUtil;
  * </p>
  *
  * @author JeremyZwickert
- * @see ObjectCategoryServiceSoap
  * @generated
  */
 public class ObjectCategoryServiceHttp {

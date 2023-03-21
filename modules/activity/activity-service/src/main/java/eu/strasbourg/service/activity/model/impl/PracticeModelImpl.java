@@ -17,6 +17,7 @@ package eu.strasbourg.service.activity.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
@@ -29,27 +30,21 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.activity.model.Practice;
 import eu.strasbourg.service.activity.model.PracticeModel;
-import eu.strasbourg.service.activity.model.PracticeSoap;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -121,80 +116,54 @@ public class PracticeModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.activity.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.activity.model.Practice"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.activity.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.activity.model.Practice"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.activity.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.activity.model.Practice"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ASSOCIATIONID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PRACTICEID_COLUMN_BITMASK = 16L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Practice toModel(PracticeSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Practice model = new PracticeImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setPracticeId(soapModel.getPracticeId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setAssociationId(soapModel.getAssociationId());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Practice> toModels(PracticeSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Practice> models = new ArrayList<Practice>(soapModels.length);
-
-		for (PracticeSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.activity.service.util.PropsUtil.get(
@@ -251,9 +220,6 @@ public class PracticeModelImpl
 				attributeName, attributeGetterFunction.apply((Practice)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -287,34 +253,6 @@ public class PracticeModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Practice>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Practice.class.getClassLoader(), Practice.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<Practice> constructor =
-				(Constructor<Practice>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<Practice, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Practice, Object>>
@@ -326,275 +264,52 @@ public class PracticeModelImpl
 		Map<String, BiConsumer<Practice, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Practice, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Practice, Object>() {
-
-				@Override
-				public Object apply(Practice practice) {
-					return practice.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", Practice::getUuid);
 		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Practice, Object>() {
-
-				@Override
-				public void accept(Practice practice, Object uuidObject) {
-					practice.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"practiceId",
-			new Function<Practice, Object>() {
-
-				@Override
-				public Object apply(Practice practice) {
-					return practice.getPracticeId();
-				}
-
-			});
+			"uuid", (BiConsumer<Practice, String>)Practice::setUuid);
+		attributeGetterFunctions.put("practiceId", Practice::getPracticeId);
 		attributeSetterBiConsumers.put(
-			"practiceId",
-			new BiConsumer<Practice, Object>() {
-
-				@Override
-				public void accept(Practice practice, Object practiceIdObject) {
-					practice.setPracticeId((Long)practiceIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Practice, Object>() {
-
-				@Override
-				public Object apply(Practice practice) {
-					return practice.getGroupId();
-				}
-
-			});
+			"practiceId", (BiConsumer<Practice, Long>)Practice::setPracticeId);
+		attributeGetterFunctions.put("groupId", Practice::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Practice, Object>() {
-
-				@Override
-				public void accept(Practice practice, Object groupIdObject) {
-					practice.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Practice, Object>() {
-
-				@Override
-				public Object apply(Practice practice) {
-					return practice.getCompanyId();
-				}
-
-			});
+			"groupId", (BiConsumer<Practice, Long>)Practice::setGroupId);
+		attributeGetterFunctions.put("companyId", Practice::getCompanyId);
 		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Practice, Object>() {
-
-				@Override
-				public void accept(Practice practice, Object companyIdObject) {
-					practice.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Practice, Object>() {
-
-				@Override
-				public Object apply(Practice practice) {
-					return practice.getUserId();
-				}
-
-			});
+			"companyId", (BiConsumer<Practice, Long>)Practice::setCompanyId);
+		attributeGetterFunctions.put("userId", Practice::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Practice, Object>() {
-
-				@Override
-				public void accept(Practice practice, Object userIdObject) {
-					practice.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Practice, Object>() {
-
-				@Override
-				public Object apply(Practice practice) {
-					return practice.getUserName();
-				}
-
-			});
+			"userId", (BiConsumer<Practice, Long>)Practice::setUserId);
+		attributeGetterFunctions.put("userName", Practice::getUserName);
 		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Practice, Object>() {
-
-				@Override
-				public void accept(Practice practice, Object userNameObject) {
-					practice.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Practice, Object>() {
-
-				@Override
-				public Object apply(Practice practice) {
-					return practice.getCreateDate();
-				}
-
-			});
+			"userName", (BiConsumer<Practice, String>)Practice::setUserName);
+		attributeGetterFunctions.put("createDate", Practice::getCreateDate);
 		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Practice, Object>() {
-
-				@Override
-				public void accept(Practice practice, Object createDateObject) {
-					practice.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Practice, Object>() {
-
-				@Override
-				public Object apply(Practice practice) {
-					return practice.getModifiedDate();
-				}
-
-			});
+			"createDate", (BiConsumer<Practice, Date>)Practice::setCreateDate);
+		attributeGetterFunctions.put("modifiedDate", Practice::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<Practice, Object>() {
-
-				@Override
-				public void accept(
-					Practice practice, Object modifiedDateObject) {
-
-					practice.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Practice, Object>() {
-
-				@Override
-				public Object apply(Practice practice) {
-					return practice.getStatus();
-				}
-
-			});
+			(BiConsumer<Practice, Date>)Practice::setModifiedDate);
+		attributeGetterFunctions.put("status", Practice::getStatus);
 		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Practice, Object>() {
-
-				@Override
-				public void accept(Practice practice, Object statusObject) {
-					practice.setStatus((Integer)statusObject);
-				}
-
-			});
+			"status", (BiConsumer<Practice, Integer>)Practice::setStatus);
 		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Practice, Object>() {
-
-				@Override
-				public Object apply(Practice practice) {
-					return practice.getStatusByUserId();
-				}
-
-			});
+			"statusByUserId", Practice::getStatusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
-			new BiConsumer<Practice, Object>() {
-
-				@Override
-				public void accept(
-					Practice practice, Object statusByUserIdObject) {
-
-					practice.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
+			(BiConsumer<Practice, Long>)Practice::setStatusByUserId);
 		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Practice, Object>() {
-
-				@Override
-				public Object apply(Practice practice) {
-					return practice.getStatusByUserName();
-				}
-
-			});
+			"statusByUserName", Practice::getStatusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
-			new BiConsumer<Practice, Object>() {
-
-				@Override
-				public void accept(
-					Practice practice, Object statusByUserNameObject) {
-
-					practice.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Practice, Object>() {
-
-				@Override
-				public Object apply(Practice practice) {
-					return practice.getStatusDate();
-				}
-
-			});
+			(BiConsumer<Practice, String>)Practice::setStatusByUserName);
+		attributeGetterFunctions.put("statusDate", Practice::getStatusDate);
 		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<Practice, Object>() {
-
-				@Override
-				public void accept(Practice practice, Object statusDateObject) {
-					practice.setStatusDate((Date)statusDateObject);
-				}
-
-			});
+			"statusDate", (BiConsumer<Practice, Date>)Practice::setStatusDate);
 		attributeGetterFunctions.put(
-			"associationId",
-			new Function<Practice, Object>() {
-
-				@Override
-				public Object apply(Practice practice) {
-					return practice.getAssociationId();
-				}
-
-			});
+			"associationId", Practice::getAssociationId);
 		attributeSetterBiConsumers.put(
 			"associationId",
-			new BiConsumer<Practice, Object>() {
-
-				@Override
-				public void accept(
-					Practice practice, Object associationIdObject) {
-
-					practice.setAssociationId((Long)associationIdObject);
-				}
-
-			});
+			(BiConsumer<Practice, Long>)Practice::setAssociationId);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -615,17 +330,20 @@ public class PracticeModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -636,6 +354,10 @@ public class PracticeModelImpl
 
 	@Override
 	public void setPracticeId(long practiceId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_practiceId = practiceId;
 	}
 
@@ -647,19 +369,20 @@ public class PracticeModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -670,19 +393,21 @@ public class PracticeModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -693,6 +418,10 @@ public class PracticeModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -725,6 +454,10 @@ public class PracticeModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -736,6 +469,10 @@ public class PracticeModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -753,6 +490,10 @@ public class PracticeModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -764,6 +505,10 @@ public class PracticeModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -775,6 +520,10 @@ public class PracticeModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -807,6 +556,10 @@ public class PracticeModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -818,6 +571,10 @@ public class PracticeModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -829,19 +586,21 @@ public class PracticeModelImpl
 
 	@Override
 	public void setAssociationId(long associationId) {
-		_columnBitmask |= ASSOCIATIONID_COLUMN_BITMASK;
-
-		if (!_setOriginalAssociationId) {
-			_setOriginalAssociationId = true;
-
-			_originalAssociationId = _associationId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_associationId = associationId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalAssociationId() {
-		return _originalAssociationId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("associationId"));
 	}
 
 	@Override
@@ -931,6 +690,26 @@ public class PracticeModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -986,6 +765,36 @@ public class PracticeModelImpl
 	}
 
 	@Override
+	public Practice cloneWithOriginalValues() {
+		PracticeImpl practiceImpl = new PracticeImpl();
+
+		practiceImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		practiceImpl.setPracticeId(
+			this.<Long>getColumnOriginalValue("practiceId"));
+		practiceImpl.setGroupId(this.<Long>getColumnOriginalValue("groupId"));
+		practiceImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		practiceImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		practiceImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		practiceImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		practiceImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		practiceImpl.setStatus(this.<Integer>getColumnOriginalValue("status"));
+		practiceImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		practiceImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		practiceImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		practiceImpl.setAssociationId(
+			this.<Long>getColumnOriginalValue("associationId"));
+
+		return practiceImpl;
+	}
+
+	@Override
 	public int compareTo(Practice practice) {
 		long primaryKey = practice.getPrimaryKey();
 
@@ -1027,11 +836,19 @@ public class PracticeModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1039,26 +856,11 @@ public class PracticeModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		PracticeModelImpl practiceModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		practiceModelImpl._originalUuid = practiceModelImpl._uuid;
+		_setModifiedDate = false;
 
-		practiceModelImpl._originalGroupId = practiceModelImpl._groupId;
-
-		practiceModelImpl._setOriginalGroupId = false;
-
-		practiceModelImpl._originalCompanyId = practiceModelImpl._companyId;
-
-		practiceModelImpl._setOriginalCompanyId = false;
-
-		practiceModelImpl._setModifiedDate = false;
-
-		practiceModelImpl._originalAssociationId =
-			practiceModelImpl._associationId;
-
-		practiceModelImpl._setOriginalAssociationId = false;
-
-		practiceModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1139,7 +941,7 @@ public class PracticeModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1150,9 +952,26 @@ public class PracticeModelImpl
 			Function<Practice, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Practice)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Practice)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1165,53 +984,19 @@ public class PracticeModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Practice, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Practice, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Practice, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Practice)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Practice>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Practice.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _practiceId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1222,8 +1007,101 @@ public class PracticeModelImpl
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _associationId;
-	private long _originalAssociationId;
-	private boolean _setOriginalAssociationId;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Practice, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Practice)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("practiceId", _practiceId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("associationId", _associationId);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("practiceId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("status", 256L);
+
+		columnBitmasks.put("statusByUserId", 512L);
+
+		columnBitmasks.put("statusByUserName", 1024L);
+
+		columnBitmasks.put("statusDate", 2048L);
+
+		columnBitmasks.put("associationId", 4096L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Practice _escapedModel;
 

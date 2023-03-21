@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class CampaignLocalServiceWrapper
 	implements CampaignLocalService, ServiceWrapper<CampaignLocalService> {
 
+	public CampaignLocalServiceWrapper() {
+		this(null);
+	}
+
 	public CampaignLocalServiceWrapper(
 		CampaignLocalService campaignLocalService) {
 
@@ -74,6 +78,17 @@ public class CampaignLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _campaignLocalService.createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the campaign from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -118,6 +133,18 @@ public class CampaignLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _campaignLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _campaignLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _campaignLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

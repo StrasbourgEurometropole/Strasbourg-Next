@@ -16,6 +16,7 @@ package eu.strasbourg.service.place.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -30,26 +31,23 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.place.model.Price;
 import eu.strasbourg.service.place.model.PriceModel;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -112,23 +110,35 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.place.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.place.model.Price"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.place.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.place.model.Price"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.place.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.place.model.Price"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PRICEID_COLUMN_BITMASK = 2L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -185,9 +195,6 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 				attributeName, attributeGetterFunction.apply((Price)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -218,33 +225,6 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Price>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Price.class.getClassLoader(), Price.class, ModelWrapper.class);
-
-		try {
-			Constructor<Price> constructor =
-				(Constructor<Price>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<Price, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Price, Object>>
@@ -256,166 +236,36 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 		Map<String, BiConsumer<Price, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Price, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Price, Object>() {
-
-				@Override
-				public Object apply(Price price) {
-					return price.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", Price::getUuid);
 		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Price, Object>() {
-
-				@Override
-				public void accept(Price price, Object uuidObject) {
-					price.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"priceId",
-			new Function<Price, Object>() {
-
-				@Override
-				public Object apply(Price price) {
-					return price.getPriceId();
-				}
-
-			});
+			"uuid", (BiConsumer<Price, String>)Price::setUuid);
+		attributeGetterFunctions.put("priceId", Price::getPriceId);
 		attributeSetterBiConsumers.put(
-			"priceId",
-			new BiConsumer<Price, Object>() {
-
-				@Override
-				public void accept(Price price, Object priceIdObject) {
-					price.setPriceId((Long)priceIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Price, Object>() {
-
-				@Override
-				public Object apply(Price price) {
-					return price.getStatus();
-				}
-
-			});
+			"priceId", (BiConsumer<Price, Long>)Price::setPriceId);
+		attributeGetterFunctions.put("status", Price::getStatus);
 		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Price, Object>() {
-
-				@Override
-				public void accept(Price price, Object statusObject) {
-					price.setStatus((Integer)statusObject);
-				}
-
-			});
+			"status", (BiConsumer<Price, Integer>)Price::setStatus);
 		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Price, Object>() {
-
-				@Override
-				public Object apply(Price price) {
-					return price.getStatusByUserId();
-				}
-
-			});
+			"statusByUserId", Price::getStatusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
-			new BiConsumer<Price, Object>() {
-
-				@Override
-				public void accept(Price price, Object statusByUserIdObject) {
-					price.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
+			(BiConsumer<Price, Long>)Price::setStatusByUserId);
 		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Price, Object>() {
-
-				@Override
-				public Object apply(Price price) {
-					return price.getStatusByUserName();
-				}
-
-			});
+			"statusByUserName", Price::getStatusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
-			new BiConsumer<Price, Object>() {
-
-				@Override
-				public void accept(Price price, Object statusByUserNameObject) {
-					price.setStatusByUserName((String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Price, Object>() {
-
-				@Override
-				public Object apply(Price price) {
-					return price.getStatusDate();
-				}
-
-			});
+			(BiConsumer<Price, String>)Price::setStatusByUserName);
+		attributeGetterFunctions.put("statusDate", Price::getStatusDate);
 		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<Price, Object>() {
-
-				@Override
-				public void accept(Price price, Object statusDateObject) {
-					price.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<Price, Object>() {
-
-				@Override
-				public Object apply(Price price) {
-					return price.getTitle();
-				}
-
-			});
+			"statusDate", (BiConsumer<Price, Date>)Price::setStatusDate);
+		attributeGetterFunctions.put("title", Price::getTitle);
 		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<Price, Object>() {
-
-				@Override
-				public void accept(Price price, Object titleObject) {
-					price.setTitle((String)titleObject);
-				}
-
-			});
+			"title", (BiConsumer<Price, String>)Price::setTitle);
 		attributeGetterFunctions.put(
-			"priceDescription",
-			new Function<Price, Object>() {
-
-				@Override
-				public Object apply(Price price) {
-					return price.getPriceDescription();
-				}
-
-			});
+			"priceDescription", Price::getPriceDescription);
 		attributeSetterBiConsumers.put(
 			"priceDescription",
-			new BiConsumer<Price, Object>() {
-
-				@Override
-				public void accept(Price price, Object priceDescriptionObject) {
-					price.setPriceDescription((String)priceDescriptionObject);
-				}
-
-			});
+			(BiConsumer<Price, String>)Price::setPriceDescription);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -435,17 +285,20 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -455,6 +308,10 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 
 	@Override
 	public void setPriceId(long priceId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_priceId = priceId;
 	}
 
@@ -465,6 +322,10 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 
 	@Override
 	public void setStatus(int status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -475,6 +336,10 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -506,6 +371,10 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -516,6 +385,10 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -574,6 +447,10 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 
 	@Override
 	public void setTitle(String title) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_title = title;
 	}
 
@@ -679,6 +556,10 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 
 	@Override
 	public void setPriceDescription(String priceDescription) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_priceDescription = priceDescription;
 	}
 
@@ -814,6 +695,26 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -953,6 +854,26 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 	}
 
 	@Override
+	public Price cloneWithOriginalValues() {
+		PriceImpl priceImpl = new PriceImpl();
+
+		priceImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		priceImpl.setPriceId(this.<Long>getColumnOriginalValue("priceId"));
+		priceImpl.setStatus(this.<Integer>getColumnOriginalValue("status"));
+		priceImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		priceImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		priceImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		priceImpl.setTitle(this.<String>getColumnOriginalValue("title"));
+		priceImpl.setPriceDescription(
+			this.<String>getColumnOriginalValue("priceDescription"));
+
+		return priceImpl;
+	}
+
+	@Override
 	public int compareTo(Price price) {
 		long primaryKey = price.getPrimaryKey();
 
@@ -994,11 +915,19 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1006,11 +935,9 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 
 	@Override
 	public void resetOriginalValues() {
-		PriceModelImpl priceModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		priceModelImpl._originalUuid = priceModelImpl._uuid;
-
-		priceModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1073,7 +1000,7 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1083,9 +1010,26 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 			String attributeName = entry.getKey();
 			Function<Price, Object> attributeGetterFunction = entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Price)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Price)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1098,45 +1042,16 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Price, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Price, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Price, Object> attributeGetterFunction = entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Price)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Price>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Price.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _priceId;
 	private int _status;
 	private long _statusByUserId;
@@ -1146,6 +1061,86 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 	private String _titleCurrentLanguageId;
 	private String _priceDescription;
 	private String _priceDescriptionCurrentLanguageId;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Price, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Price)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("priceId", _priceId);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("priceDescription", _priceDescription);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("priceId", 2L);
+
+		columnBitmasks.put("status", 4L);
+
+		columnBitmasks.put("statusByUserId", 8L);
+
+		columnBitmasks.put("statusByUserName", 16L);
+
+		columnBitmasks.put("statusDate", 32L);
+
+		columnBitmasks.put("title", 64L);
+
+		columnBitmasks.put("priceDescription", 128L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Price _escapedModel;
 

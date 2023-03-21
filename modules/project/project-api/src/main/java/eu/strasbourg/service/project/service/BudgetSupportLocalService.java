@@ -14,9 +14,8 @@
 
 package eu.strasbourg.service.project.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
@@ -34,11 +33,10 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.project.model.BudgetSupport;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.io.Serializable;
-
 import java.util.List;
 
 /**
@@ -62,7 +60,7 @@ public interface BudgetSupportLocalService
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link BudgetSupportLocalServiceUtil} to access the budget support local service. Add custom service methods to <code>eu.strasbourg.service.project.service.impl.BudgetSupportLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.project.service.impl.BudgetSupportLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the budget support local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link BudgetSupportLocalServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**
@@ -105,6 +103,12 @@ public interface BudgetSupportLocalService
 	public BudgetSupport createBudgetSupport(ServiceContext sc);
 
 	/**
+	 * @throws PortalException
+	 */
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException;
+
+	/**
 	 * Deletes the budget support from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -138,6 +142,12 @@ public interface BudgetSupportLocalService
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> T dslQuery(DSLQuery dslQuery);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int dslQueryCount(DSLQuery dslQuery);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();
@@ -237,7 +247,7 @@ public interface BudgetSupportLocalService
 	 * Recuperer les soutiens d'un budgte et d'un utilisateur donne
 	 *
 	 * @param budgetParticipatifId ID du budget participatif.
-	 * @param publikId ID publik de l'utilsiateur
+	 * @param publikUserId ID publik de l'utilsiateur
 	 * @return Liste des soutiens
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

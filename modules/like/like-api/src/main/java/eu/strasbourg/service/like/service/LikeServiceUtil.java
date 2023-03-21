@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.like.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for Like. This utility wraps
  * <code>eu.strasbourg.service.like.service.impl.LikeServiceImpl</code> and is an
@@ -42,8 +38,8 @@ public class LikeServiceUtil {
 	 * Ajoute un like/dislike d'un utilisateur a une entite
 	 */
 	public static com.liferay.portal.kernel.json.JSONObject addLike(
-		String userId, String title, boolean isDislike, long typeId,
-		long entityId) {
+		java.lang.String userId, java.lang.String title, boolean isDislike,
+		long typeId, long entityId) {
 
 		return getService().addLike(userId, title, isDislike, typeId, entityId);
 	}
@@ -52,7 +48,7 @@ public class LikeServiceUtil {
 	 * Ajoute un like à un utilisateur
 	 */
 	public static com.liferay.portal.kernel.json.JSONObject addLikeLink(
-		String title, boolean isDislike, long typeId, long entityId,
+		java.lang.String title, boolean isDislike, long typeId, long entityId,
 		long entityGroupId) {
 
 		return getService().addLikeLink(
@@ -63,7 +59,7 @@ public class LikeServiceUtil {
 	 * Supprime un like d'un utilisateur
 	 */
 	public static com.liferay.portal.kernel.json.JSONObject deleteLike(
-		String userId, long likeId) {
+		java.lang.String userId, long likeId) {
 
 		return getService().deleteLike(userId, likeId);
 	}
@@ -72,8 +68,8 @@ public class LikeServiceUtil {
 	 * Supprime un like d'un utilisateur
 	 */
 	public static com.liferay.portal.kernel.json.JSONObject deleteLikeLink(
-		String title, String url, boolean isDislike, long typeId,
-		long entityId) {
+		java.lang.String title, java.lang.String url, boolean isDislike,
+		long typeId, long entityId) {
 
 		return getService().deleteLikeLink(
 			title, url, isDislike, typeId, entityId);
@@ -84,7 +80,7 @@ public class LikeServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
@@ -99,27 +95,15 @@ public class LikeServiceUtil {
 	 * Retourne les likes d'un utilisateur
 	 */
 	public static com.liferay.portal.kernel.json.JSONObject getUserLikes(
-		String userId) {
+		java.lang.String userId) {
 
 		return getService().getUserLikes(userId);
 	}
 
 	public static LikeService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<LikeService, LikeService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(LikeService.class);
-
-		ServiceTracker<LikeService, LikeService> serviceTracker =
-			new ServiceTracker<LikeService, LikeService>(
-				bundle.getBundleContext(), LikeService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile LikeService _service;
 
 }

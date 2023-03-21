@@ -66,8 +66,8 @@ public class EventIndexer extends BaseIndexer<Event> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(event.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);
+		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);*/
 
 		
 		Map<Locale, String> titleFieldMap = new HashMap<Locale, String>();
@@ -121,8 +121,7 @@ public class EventIndexer extends BaseIndexer<Event> {
 	protected void doReindex(Event event) throws Exception {
 		Document document = getDocument(event);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-			event.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(event.getCompanyId(), document);
 
 	}
 
@@ -156,7 +155,6 @@ public class EventIndexer extends BaseIndexer<Event> {
 
 					});
 
-			indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 			indexableActionableDynamicQuery.performActions();
 		} catch (NullPointerException ex){
 		}

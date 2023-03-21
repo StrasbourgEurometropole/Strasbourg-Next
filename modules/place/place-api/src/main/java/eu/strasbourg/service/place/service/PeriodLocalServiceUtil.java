@@ -14,9 +14,15 @@
 
 package eu.strasbourg.service.place.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.place.model.Period;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Provides the local service utility for Period. This utility wraps
@@ -48,9 +54,7 @@ public class PeriodLocalServiceUtil {
 	 * @param period the period
 	 * @return the period that was added
 	 */
-	public static eu.strasbourg.service.place.model.Period addPeriod(
-		eu.strasbourg.service.place.model.Period period) {
-
+	public static Period addPeriod(Period period) {
 		return getService().addPeriod(period);
 	}
 
@@ -60,20 +64,28 @@ public class PeriodLocalServiceUtil {
 	 * @param periodId the primary key for the new period
 	 * @return the new period
 	 */
-	public static eu.strasbourg.service.place.model.Period createPeriod(
-		long periodId) {
-
+	public static Period createPeriod(long periodId) {
 		return getService().createPeriod(periodId);
 	}
 
 	/**
 	 * Crée une période vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.place.model.Period createPeriod(
+	public static Period createPeriod(
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().createPeriod(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -87,10 +99,7 @@ public class PeriodLocalServiceUtil {
 	 * @return the period that was removed
 	 * @throws PortalException if a period with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.place.model.Period deletePeriod(
-			long periodId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Period deletePeriod(long periodId) throws PortalException {
 		return getService().deletePeriod(periodId);
 	}
 
@@ -104,26 +113,29 @@ public class PeriodLocalServiceUtil {
 	 * @param period the period
 	 * @return the period that was removed
 	 */
-	public static eu.strasbourg.service.place.model.Period deletePeriod(
-		eu.strasbourg.service.place.model.Period period) {
-
+	public static Period deletePeriod(Period period) {
 		return getService().deletePeriod(period);
 	}
 
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -133,9 +145,7 @@ public class PeriodLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -151,9 +161,8 @@ public class PeriodLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -171,10 +180,9 @@ public class PeriodLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -186,9 +194,7 @@ public class PeriodLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -200,15 +206,13 @@ public class PeriodLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.place.model.Period fetchPeriod(
-		long periodId) {
-
+	public static Period fetchPeriod(long periodId) {
 		return getService().fetchPeriod(periodId);
 	}
 
@@ -221,9 +225,7 @@ public class PeriodLocalServiceUtil {
 	/**
 	 * Retourne les Periods rattachées à un lieu
 	 */
-	public static java.util.List<eu.strasbourg.service.place.model.Period>
-		getByPlaceId(long placeId) {
-
+	public static List<Period> getByPlaceId(long placeId) {
 		return getService().getByPlaceId(placeId);
 	}
 
@@ -250,10 +252,7 @@ public class PeriodLocalServiceUtil {
 	 * @return the period
 	 * @throws PortalException if a period with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.place.model.Period getPeriod(
-			long periodId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Period getPeriod(long periodId) throws PortalException {
 		return getService().getPeriod(periodId);
 	}
 
@@ -268,9 +267,7 @@ public class PeriodLocalServiceUtil {
 	 * @param end the upper bound of the range of periods (not inclusive)
 	 * @return the range of periods
 	 */
-	public static java.util.List<eu.strasbourg.service.place.model.Period>
-		getPeriods(int start, int end) {
-
+	public static List<Period> getPeriods(int start, int end) {
 		return getService().getPeriods(start, end);
 	}
 
@@ -286,9 +283,8 @@ public class PeriodLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -296,10 +292,7 @@ public class PeriodLocalServiceUtil {
 	/**
 	 * Supprime une période
 	 */
-	public static eu.strasbourg.service.place.model.Period removePeriod(
-			long periodId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Period removePeriod(long periodId) throws PortalException {
 		return getService().removePeriod(periodId);
 	}
 
@@ -313,29 +306,14 @@ public class PeriodLocalServiceUtil {
 	 * @param period the period
 	 * @return the period that was updated
 	 */
-	public static eu.strasbourg.service.place.model.Period updatePeriod(
-		eu.strasbourg.service.place.model.Period period) {
-
+	public static Period updatePeriod(Period period) {
 		return getService().updatePeriod(period);
 	}
 
 	public static PeriodLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<PeriodLocalService, PeriodLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(PeriodLocalService.class);
-
-		ServiceTracker<PeriodLocalService, PeriodLocalService> serviceTracker =
-			new ServiceTracker<PeriodLocalService, PeriodLocalService>(
-				bundle.getBundleContext(), PeriodLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile PeriodLocalService _service;
 
 }

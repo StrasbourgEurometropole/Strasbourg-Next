@@ -23,6 +23,8 @@ import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
@@ -32,6 +34,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventService;
+import eu.strasbourg.service.agenda.service.EventServiceUtil;
 import eu.strasbourg.service.agenda.service.persistence.AgendaExportPeriodPersistence;
 import eu.strasbourg.service.agenda.service.persistence.AgendaExportPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CacheJsonPersistence;
@@ -48,6 +51,8 @@ import eu.strasbourg.service.agenda.service.persistence.HistoricPersistence;
 import eu.strasbourg.service.agenda.service.persistence.ImportReportLinePersistence;
 import eu.strasbourg.service.agenda.service.persistence.ImportReportPersistence;
 import eu.strasbourg.service.agenda.service.persistence.ManifestationPersistence;
+
+import java.lang.reflect.Field;
 
 import javax.sql.DataSource;
 
@@ -68,7 +73,7 @@ public abstract class EventServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>EventService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.agenda.service.EventServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>EventService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>EventServiceUtil</code>.
 	 */
 
 	/**
@@ -1210,9 +1215,11 @@ public abstract class EventServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
+		_setServiceUtilService(eventService);
 	}
 
 	public void destroy() {
+		_setServiceUtilService(null);
 	}
 
 	/**
@@ -1254,6 +1261,19 @@ public abstract class EventServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setServiceUtilService(EventService eventService) {
+		try {
+			Field field = EventServiceUtil.class.getDeclaredField("_service");
+
+			field.setAccessible(true);
+
+			field.set(null, eventService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1509,5 +1529,8 @@ public abstract class EventServiceBaseImpl
 
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		EventServiceBaseImpl.class);
 
 }

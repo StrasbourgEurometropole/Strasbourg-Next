@@ -14,17 +14,12 @@
 
 package eu.strasbourg.service.gtfs.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.gtfs.exception.NoSuchCacheAlertJSONException;
 import eu.strasbourg.service.gtfs.model.CacheAlertJSON;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the cache alert json service.
@@ -46,9 +41,6 @@ public interface CacheAlertJSONPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link CacheAlertJSONUtil} to access the cache alert json persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, CacheAlertJSON> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the cache alert jsons where uuid = &#63;.
@@ -440,8 +432,5 @@ public interface CacheAlertJSONPersistence
 	 * @return the number of cache alert jsons
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

@@ -17,6 +17,7 @@ package eu.strasbourg.service.project.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
@@ -30,27 +31,21 @@ import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.model.BudgetPhaseModel;
-import eu.strasbourg.service.project.model.BudgetPhaseSoap;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -133,88 +128,54 @@ public class BudgetPhaseModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.project.model.BudgetPhase"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.project.model.BudgetPhase"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.project.model.BudgetPhase"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ISACTIVE_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long BEGINDATE_COLUMN_BITMASK = 16L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static BudgetPhase toModel(BudgetPhaseSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		BudgetPhase model = new BudgetPhaseImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setBudgetPhaseId(soapModel.getBudgetPhaseId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setTitle(soapModel.getTitle());
-		model.setDescription(soapModel.getDescription());
-		model.setNumberOfVote(soapModel.getNumberOfVote());
-		model.setIsActive(soapModel.isIsActive());
-		model.setBeginDate(soapModel.getBeginDate());
-		model.setEndDate(soapModel.getEndDate());
-		model.setBeginVoteDate(soapModel.getBeginVoteDate());
-		model.setEndVoteDate(soapModel.getEndVoteDate());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<BudgetPhase> toModels(BudgetPhaseSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<BudgetPhase> models = new ArrayList<BudgetPhase>(
-			soapModels.length);
-
-		for (BudgetPhaseSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.project.service.util.PropsUtil.get(
@@ -272,9 +233,6 @@ public class BudgetPhaseModelImpl
 				attributeGetterFunction.apply((BudgetPhase)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -308,34 +266,6 @@ public class BudgetPhaseModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, BudgetPhase>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			BudgetPhase.class.getClassLoader(), BudgetPhase.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<BudgetPhase> constructor =
-				(Constructor<BudgetPhase>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<BudgetPhase, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<BudgetPhase, Object>>
@@ -347,445 +277,88 @@ public class BudgetPhaseModelImpl
 		Map<String, BiConsumer<BudgetPhase, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<BudgetPhase, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<BudgetPhase, Object>() {
-
-				@Override
-				public Object apply(BudgetPhase budgetPhase) {
-					return budgetPhase.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", BudgetPhase::getUuid);
 		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<BudgetPhase, Object>() {
-
-				@Override
-				public void accept(BudgetPhase budgetPhase, Object uuidObject) {
-					budgetPhase.setUuid((String)uuidObject);
-				}
-
-			});
+			"uuid", (BiConsumer<BudgetPhase, String>)BudgetPhase::setUuid);
 		attributeGetterFunctions.put(
-			"budgetPhaseId",
-			new Function<BudgetPhase, Object>() {
-
-				@Override
-				public Object apply(BudgetPhase budgetPhase) {
-					return budgetPhase.getBudgetPhaseId();
-				}
-
-			});
+			"budgetPhaseId", BudgetPhase::getBudgetPhaseId);
 		attributeSetterBiConsumers.put(
 			"budgetPhaseId",
-			new BiConsumer<BudgetPhase, Object>() {
-
-				@Override
-				public void accept(
-					BudgetPhase budgetPhase, Object budgetPhaseIdObject) {
-
-					budgetPhase.setBudgetPhaseId((Long)budgetPhaseIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<BudgetPhase, Object>() {
-
-				@Override
-				public Object apply(BudgetPhase budgetPhase) {
-					return budgetPhase.getGroupId();
-				}
-
-			});
+			(BiConsumer<BudgetPhase, Long>)BudgetPhase::setBudgetPhaseId);
+		attributeGetterFunctions.put("groupId", BudgetPhase::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<BudgetPhase, Object>() {
-
-				@Override
-				public void accept(
-					BudgetPhase budgetPhase, Object groupIdObject) {
-
-					budgetPhase.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<BudgetPhase, Object>() {
-
-				@Override
-				public Object apply(BudgetPhase budgetPhase) {
-					return budgetPhase.getCompanyId();
-				}
-
-			});
+			"groupId", (BiConsumer<BudgetPhase, Long>)BudgetPhase::setGroupId);
+		attributeGetterFunctions.put("companyId", BudgetPhase::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
-			new BiConsumer<BudgetPhase, Object>() {
-
-				@Override
-				public void accept(
-					BudgetPhase budgetPhase, Object companyIdObject) {
-
-					budgetPhase.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<BudgetPhase, Object>() {
-
-				@Override
-				public Object apply(BudgetPhase budgetPhase) {
-					return budgetPhase.getUserId();
-				}
-
-			});
+			(BiConsumer<BudgetPhase, Long>)BudgetPhase::setCompanyId);
+		attributeGetterFunctions.put("userId", BudgetPhase::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<BudgetPhase, Object>() {
-
-				@Override
-				public void accept(
-					BudgetPhase budgetPhase, Object userIdObject) {
-
-					budgetPhase.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<BudgetPhase, Object>() {
-
-				@Override
-				public Object apply(BudgetPhase budgetPhase) {
-					return budgetPhase.getUserName();
-				}
-
-			});
+			"userId", (BiConsumer<BudgetPhase, Long>)BudgetPhase::setUserId);
+		attributeGetterFunctions.put("userName", BudgetPhase::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
-			new BiConsumer<BudgetPhase, Object>() {
-
-				@Override
-				public void accept(
-					BudgetPhase budgetPhase, Object userNameObject) {
-
-					budgetPhase.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<BudgetPhase, Object>() {
-
-				@Override
-				public Object apply(BudgetPhase budgetPhase) {
-					return budgetPhase.getCreateDate();
-				}
-
-			});
+			(BiConsumer<BudgetPhase, String>)BudgetPhase::setUserName);
+		attributeGetterFunctions.put("createDate", BudgetPhase::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
-			new BiConsumer<BudgetPhase, Object>() {
-
-				@Override
-				public void accept(
-					BudgetPhase budgetPhase, Object createDateObject) {
-
-					budgetPhase.setCreateDate((Date)createDateObject);
-				}
-
-			});
+			(BiConsumer<BudgetPhase, Date>)BudgetPhase::setCreateDate);
 		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<BudgetPhase, Object>() {
-
-				@Override
-				public Object apply(BudgetPhase budgetPhase) {
-					return budgetPhase.getModifiedDate();
-				}
-
-			});
+			"modifiedDate", BudgetPhase::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<BudgetPhase, Object>() {
-
-				@Override
-				public void accept(
-					BudgetPhase budgetPhase, Object modifiedDateObject) {
-
-					budgetPhase.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<BudgetPhase, Object>() {
-
-				@Override
-				public Object apply(BudgetPhase budgetPhase) {
-					return budgetPhase.getStatus();
-				}
-
-			});
+			(BiConsumer<BudgetPhase, Date>)BudgetPhase::setModifiedDate);
+		attributeGetterFunctions.put("status", BudgetPhase::getStatus);
 		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<BudgetPhase, Object>() {
-
-				@Override
-				public void accept(
-					BudgetPhase budgetPhase, Object statusObject) {
-
-					budgetPhase.setStatus((Integer)statusObject);
-				}
-
-			});
+			"status", (BiConsumer<BudgetPhase, Integer>)BudgetPhase::setStatus);
 		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<BudgetPhase, Object>() {
-
-				@Override
-				public Object apply(BudgetPhase budgetPhase) {
-					return budgetPhase.getStatusByUserId();
-				}
-
-			});
+			"statusByUserId", BudgetPhase::getStatusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
-			new BiConsumer<BudgetPhase, Object>() {
-
-				@Override
-				public void accept(
-					BudgetPhase budgetPhase, Object statusByUserIdObject) {
-
-					budgetPhase.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
+			(BiConsumer<BudgetPhase, Long>)BudgetPhase::setStatusByUserId);
 		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<BudgetPhase, Object>() {
-
-				@Override
-				public Object apply(BudgetPhase budgetPhase) {
-					return budgetPhase.getStatusByUserName();
-				}
-
-			});
+			"statusByUserName", BudgetPhase::getStatusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
-			new BiConsumer<BudgetPhase, Object>() {
-
-				@Override
-				public void accept(
-					BudgetPhase budgetPhase, Object statusByUserNameObject) {
-
-					budgetPhase.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<BudgetPhase, Object>() {
-
-				@Override
-				public Object apply(BudgetPhase budgetPhase) {
-					return budgetPhase.getStatusDate();
-				}
-
-			});
+			(BiConsumer<BudgetPhase, String>)BudgetPhase::setStatusByUserName);
+		attributeGetterFunctions.put("statusDate", BudgetPhase::getStatusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
-			new BiConsumer<BudgetPhase, Object>() {
-
-				@Override
-				public void accept(
-					BudgetPhase budgetPhase, Object statusDateObject) {
-
-					budgetPhase.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<BudgetPhase, Object>() {
-
-				@Override
-				public Object apply(BudgetPhase budgetPhase) {
-					return budgetPhase.getTitle();
-				}
-
-			});
+			(BiConsumer<BudgetPhase, Date>)BudgetPhase::setStatusDate);
+		attributeGetterFunctions.put("title", BudgetPhase::getTitle);
 		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<BudgetPhase, Object>() {
-
-				@Override
-				public void accept(
-					BudgetPhase budgetPhase, Object titleObject) {
-
-					budgetPhase.setTitle((String)titleObject);
-				}
-
-			});
+			"title", (BiConsumer<BudgetPhase, String>)BudgetPhase::setTitle);
 		attributeGetterFunctions.put(
-			"description",
-			new Function<BudgetPhase, Object>() {
-
-				@Override
-				public Object apply(BudgetPhase budgetPhase) {
-					return budgetPhase.getDescription();
-				}
-
-			});
+			"description", BudgetPhase::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
-			new BiConsumer<BudgetPhase, Object>() {
-
-				@Override
-				public void accept(
-					BudgetPhase budgetPhase, Object descriptionObject) {
-
-					budgetPhase.setDescription((String)descriptionObject);
-				}
-
-			});
+			(BiConsumer<BudgetPhase, String>)BudgetPhase::setDescription);
 		attributeGetterFunctions.put(
-			"numberOfVote",
-			new Function<BudgetPhase, Object>() {
-
-				@Override
-				public Object apply(BudgetPhase budgetPhase) {
-					return budgetPhase.getNumberOfVote();
-				}
-
-			});
+			"numberOfVote", BudgetPhase::getNumberOfVote);
 		attributeSetterBiConsumers.put(
 			"numberOfVote",
-			new BiConsumer<BudgetPhase, Object>() {
-
-				@Override
-				public void accept(
-					BudgetPhase budgetPhase, Object numberOfVoteObject) {
-
-					budgetPhase.setNumberOfVote((Long)numberOfVoteObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"isActive",
-			new Function<BudgetPhase, Object>() {
-
-				@Override
-				public Object apply(BudgetPhase budgetPhase) {
-					return budgetPhase.getIsActive();
-				}
-
-			});
+			(BiConsumer<BudgetPhase, Long>)BudgetPhase::setNumberOfVote);
+		attributeGetterFunctions.put("isActive", BudgetPhase::getIsActive);
 		attributeSetterBiConsumers.put(
 			"isActive",
-			new BiConsumer<BudgetPhase, Object>() {
-
-				@Override
-				public void accept(
-					BudgetPhase budgetPhase, Object isActiveObject) {
-
-					budgetPhase.setIsActive((Boolean)isActiveObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"beginDate",
-			new Function<BudgetPhase, Object>() {
-
-				@Override
-				public Object apply(BudgetPhase budgetPhase) {
-					return budgetPhase.getBeginDate();
-				}
-
-			});
+			(BiConsumer<BudgetPhase, Boolean>)BudgetPhase::setIsActive);
+		attributeGetterFunctions.put("beginDate", BudgetPhase::getBeginDate);
 		attributeSetterBiConsumers.put(
 			"beginDate",
-			new BiConsumer<BudgetPhase, Object>() {
-
-				@Override
-				public void accept(
-					BudgetPhase budgetPhase, Object beginDateObject) {
-
-					budgetPhase.setBeginDate((Date)beginDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"endDate",
-			new Function<BudgetPhase, Object>() {
-
-				@Override
-				public Object apply(BudgetPhase budgetPhase) {
-					return budgetPhase.getEndDate();
-				}
-
-			});
+			(BiConsumer<BudgetPhase, Date>)BudgetPhase::setBeginDate);
+		attributeGetterFunctions.put("endDate", BudgetPhase::getEndDate);
 		attributeSetterBiConsumers.put(
-			"endDate",
-			new BiConsumer<BudgetPhase, Object>() {
-
-				@Override
-				public void accept(
-					BudgetPhase budgetPhase, Object endDateObject) {
-
-					budgetPhase.setEndDate((Date)endDateObject);
-				}
-
-			});
+			"endDate", (BiConsumer<BudgetPhase, Date>)BudgetPhase::setEndDate);
 		attributeGetterFunctions.put(
-			"beginVoteDate",
-			new Function<BudgetPhase, Object>() {
-
-				@Override
-				public Object apply(BudgetPhase budgetPhase) {
-					return budgetPhase.getBeginVoteDate();
-				}
-
-			});
+			"beginVoteDate", BudgetPhase::getBeginVoteDate);
 		attributeSetterBiConsumers.put(
 			"beginVoteDate",
-			new BiConsumer<BudgetPhase, Object>() {
-
-				@Override
-				public void accept(
-					BudgetPhase budgetPhase, Object beginVoteDateObject) {
-
-					budgetPhase.setBeginVoteDate((Date)beginVoteDateObject);
-				}
-
-			});
+			(BiConsumer<BudgetPhase, Date>)BudgetPhase::setBeginVoteDate);
 		attributeGetterFunctions.put(
-			"endVoteDate",
-			new Function<BudgetPhase, Object>() {
-
-				@Override
-				public Object apply(BudgetPhase budgetPhase) {
-					return budgetPhase.getEndVoteDate();
-				}
-
-			});
+			"endVoteDate", BudgetPhase::getEndVoteDate);
 		attributeSetterBiConsumers.put(
 			"endVoteDate",
-			new BiConsumer<BudgetPhase, Object>() {
-
-				@Override
-				public void accept(
-					BudgetPhase budgetPhase, Object endVoteDateObject) {
-
-					budgetPhase.setEndVoteDate((Date)endVoteDateObject);
-				}
-
-			});
+			(BiConsumer<BudgetPhase, Date>)BudgetPhase::setEndVoteDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -806,17 +379,20 @@ public class BudgetPhaseModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -827,6 +403,10 @@ public class BudgetPhaseModelImpl
 
 	@Override
 	public void setBudgetPhaseId(long budgetPhaseId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_budgetPhaseId = budgetPhaseId;
 	}
 
@@ -838,19 +418,20 @@ public class BudgetPhaseModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -861,19 +442,21 @@ public class BudgetPhaseModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -884,6 +467,10 @@ public class BudgetPhaseModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -916,6 +503,10 @@ public class BudgetPhaseModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -927,6 +518,10 @@ public class BudgetPhaseModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -944,6 +539,10 @@ public class BudgetPhaseModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -955,6 +554,10 @@ public class BudgetPhaseModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -966,6 +569,10 @@ public class BudgetPhaseModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -998,6 +605,10 @@ public class BudgetPhaseModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1009,6 +620,10 @@ public class BudgetPhaseModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1025,6 +640,10 @@ public class BudgetPhaseModelImpl
 
 	@Override
 	public void setTitle(String title) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_title = title;
 	}
 
@@ -1041,6 +660,10 @@ public class BudgetPhaseModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_description = description;
 	}
 
@@ -1052,6 +675,10 @@ public class BudgetPhaseModelImpl
 
 	@Override
 	public void setNumberOfVote(long numberOfVote) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_numberOfVote = numberOfVote;
 	}
 
@@ -1069,19 +696,21 @@ public class BudgetPhaseModelImpl
 
 	@Override
 	public void setIsActive(boolean isActive) {
-		_columnBitmask |= ISACTIVE_COLUMN_BITMASK;
-
-		if (!_setOriginalIsActive) {
-			_setOriginalIsActive = true;
-
-			_originalIsActive = _isActive;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_isActive = isActive;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalIsActive() {
-		return _originalIsActive;
+		return GetterUtil.getBoolean(
+			this.<Boolean>getColumnOriginalValue("isActive"));
 	}
 
 	@JSON
@@ -1092,7 +721,9 @@ public class BudgetPhaseModelImpl
 
 	@Override
 	public void setBeginDate(Date beginDate) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_beginDate = beginDate;
 	}
@@ -1105,6 +736,10 @@ public class BudgetPhaseModelImpl
 
 	@Override
 	public void setEndDate(Date endDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_endDate = endDate;
 	}
 
@@ -1116,6 +751,10 @@ public class BudgetPhaseModelImpl
 
 	@Override
 	public void setBeginVoteDate(Date beginVoteDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_beginVoteDate = beginVoteDate;
 	}
 
@@ -1127,6 +766,10 @@ public class BudgetPhaseModelImpl
 
 	@Override
 	public void setEndVoteDate(Date endVoteDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_endVoteDate = endVoteDate;
 	}
 
@@ -1217,6 +860,26 @@ public class BudgetPhaseModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1279,6 +942,51 @@ public class BudgetPhaseModelImpl
 	}
 
 	@Override
+	public BudgetPhase cloneWithOriginalValues() {
+		BudgetPhaseImpl budgetPhaseImpl = new BudgetPhaseImpl();
+
+		budgetPhaseImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		budgetPhaseImpl.setBudgetPhaseId(
+			this.<Long>getColumnOriginalValue("budgetPhaseId"));
+		budgetPhaseImpl.setGroupId(
+			this.<Long>getColumnOriginalValue("groupId"));
+		budgetPhaseImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		budgetPhaseImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		budgetPhaseImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		budgetPhaseImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		budgetPhaseImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		budgetPhaseImpl.setStatus(
+			this.<Integer>getColumnOriginalValue("status"));
+		budgetPhaseImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		budgetPhaseImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		budgetPhaseImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		budgetPhaseImpl.setTitle(this.<String>getColumnOriginalValue("title"));
+		budgetPhaseImpl.setDescription(
+			this.<String>getColumnOriginalValue("description"));
+		budgetPhaseImpl.setNumberOfVote(
+			this.<Long>getColumnOriginalValue("numberOfVote"));
+		budgetPhaseImpl.setIsActive(
+			this.<Boolean>getColumnOriginalValue("isActive"));
+		budgetPhaseImpl.setBeginDate(
+			this.<Date>getColumnOriginalValue("beginDate"));
+		budgetPhaseImpl.setEndDate(
+			this.<Date>getColumnOriginalValue("endDate"));
+		budgetPhaseImpl.setBeginVoteDate(
+			this.<Date>getColumnOriginalValue("beginVoteDate"));
+		budgetPhaseImpl.setEndVoteDate(
+			this.<Date>getColumnOriginalValue("endVoteDate"));
+
+		return budgetPhaseImpl;
+	}
+
+	@Override
 	public int compareTo(BudgetPhase budgetPhase) {
 		int value = 0;
 
@@ -1320,11 +1028,19 @@ public class BudgetPhaseModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1332,26 +1048,11 @@ public class BudgetPhaseModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		BudgetPhaseModelImpl budgetPhaseModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		budgetPhaseModelImpl._originalUuid = budgetPhaseModelImpl._uuid;
+		_setModifiedDate = false;
 
-		budgetPhaseModelImpl._originalGroupId = budgetPhaseModelImpl._groupId;
-
-		budgetPhaseModelImpl._setOriginalGroupId = false;
-
-		budgetPhaseModelImpl._originalCompanyId =
-			budgetPhaseModelImpl._companyId;
-
-		budgetPhaseModelImpl._setOriginalCompanyId = false;
-
-		budgetPhaseModelImpl._setModifiedDate = false;
-
-		budgetPhaseModelImpl._originalIsActive = budgetPhaseModelImpl._isActive;
-
-		budgetPhaseModelImpl._setOriginalIsActive = false;
-
-		budgetPhaseModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1487,7 +1188,7 @@ public class BudgetPhaseModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1498,9 +1199,26 @@ public class BudgetPhaseModelImpl
 			Function<BudgetPhase, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((BudgetPhase)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((BudgetPhase)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1513,53 +1231,19 @@ public class BudgetPhaseModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<BudgetPhase, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<BudgetPhase, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<BudgetPhase, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((BudgetPhase)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, BudgetPhase>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					BudgetPhase.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _budgetPhaseId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1573,12 +1257,126 @@ public class BudgetPhaseModelImpl
 	private String _description;
 	private long _numberOfVote;
 	private boolean _isActive;
-	private boolean _originalIsActive;
-	private boolean _setOriginalIsActive;
 	private Date _beginDate;
 	private Date _endDate;
 	private Date _beginVoteDate;
 	private Date _endVoteDate;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<BudgetPhase, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((BudgetPhase)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("budgetPhaseId", _budgetPhaseId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("description", _description);
+		_columnOriginalValues.put("numberOfVote", _numberOfVote);
+		_columnOriginalValues.put("isActive", _isActive);
+		_columnOriginalValues.put("beginDate", _beginDate);
+		_columnOriginalValues.put("endDate", _endDate);
+		_columnOriginalValues.put("beginVoteDate", _beginVoteDate);
+		_columnOriginalValues.put("endVoteDate", _endVoteDate);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("budgetPhaseId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("status", 256L);
+
+		columnBitmasks.put("statusByUserId", 512L);
+
+		columnBitmasks.put("statusByUserName", 1024L);
+
+		columnBitmasks.put("statusDate", 2048L);
+
+		columnBitmasks.put("title", 4096L);
+
+		columnBitmasks.put("description", 8192L);
+
+		columnBitmasks.put("numberOfVote", 16384L);
+
+		columnBitmasks.put("isActive", 32768L);
+
+		columnBitmasks.put("beginDate", 65536L);
+
+		columnBitmasks.put("endDate", 131072L);
+
+		columnBitmasks.put("beginVoteDate", 262144L);
+
+		columnBitmasks.put("endVoteDate", 524288L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private BudgetPhase _escapedModel;
 

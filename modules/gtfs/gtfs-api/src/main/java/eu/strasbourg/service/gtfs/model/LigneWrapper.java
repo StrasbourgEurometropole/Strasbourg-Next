@@ -14,17 +14,13 @@
 
 package eu.strasbourg.service.gtfs.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +31,11 @@ import java.util.Objects;
  * @see Ligne
  * @generated
  */
-public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
+public class LigneWrapper
+	extends BaseModelWrapper<Ligne> implements Ligne, ModelWrapper<Ligne> {
 
 	public LigneWrapper(Ligne ligne) {
-		_ligne = ligne;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Ligne.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Ligne.class.getName();
+		super(ligne);
 	}
 
 	@Override
@@ -189,13 +176,8 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	}
 
 	@Override
-	public Object clone() {
-		return new LigneWrapper((Ligne)_ligne.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.gtfs.model.Ligne ligne) {
-		return _ligne.compareTo(ligne);
+	public Ligne cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -203,7 +185,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _ligne.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	/**
@@ -213,7 +195,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public String getBackgroundColor() {
-		return _ligne.getBackgroundColor();
+		return model.getBackgroundColor();
 	}
 
 	/**
@@ -224,7 +206,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _ligne.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -232,7 +214,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getColors() {
-		return _ligne.getColors();
+		return model.getColors();
 	}
 
 	/**
@@ -242,7 +224,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _ligne.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -252,7 +234,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _ligne.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -262,12 +244,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	public java.util.List<eu.strasbourg.service.gtfs.model.Direction>
 		getDirections() {
 
-		return _ligne.getDirections();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _ligne.getExpandoBridge();
+		return model.getDirections();
 	}
 
 	/**
@@ -277,7 +254,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _ligne.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -287,7 +264,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public long getLigneId() {
-		return _ligne.getLigneId();
+		return model.getLigneId();
 	}
 
 	/**
@@ -297,7 +274,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _ligne.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -307,12 +284,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _ligne.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _ligne.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -322,7 +294,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public String getRouteId() {
-		return _ligne.getRouteId();
+		return model.getRouteId();
 	}
 
 	/**
@@ -332,7 +304,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public String getShortName() {
-		return _ligne.getShortName();
+		return model.getShortName();
 	}
 
 	/**
@@ -342,7 +314,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public int getStatus() {
-		return _ligne.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -352,7 +324,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _ligne.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -362,7 +334,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _ligne.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -372,7 +344,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _ligne.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -382,7 +354,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _ligne.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -392,7 +364,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public String getTextColor() {
-		return _ligne.getTextColor();
+		return model.getTextColor();
 	}
 
 	/**
@@ -402,7 +374,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public String getTitle() {
-		return _ligne.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -412,7 +384,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public int getType() {
-		return _ligne.getType();
+		return model.getType();
 	}
 
 	/**
@@ -422,7 +394,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public long getUserId() {
-		return _ligne.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -432,7 +404,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public String getUserName() {
-		return _ligne.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -442,7 +414,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _ligne.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -452,12 +424,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public String getUuid() {
-		return _ligne.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _ligne.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -467,12 +434,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _ligne.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _ligne.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -482,7 +444,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _ligne.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -492,12 +454,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _ligne.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _ligne.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -507,7 +464,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _ligne.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -517,7 +474,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _ligne.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -527,12 +484,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _ligne.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _ligne.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -542,7 +494,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public boolean isPending() {
-		return _ligne.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -552,12 +504,12 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _ligne.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_ligne.persist();
+		model.persist();
 	}
 
 	/**
@@ -567,12 +519,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public void setBackgroundColor(String backgroundColor) {
-		_ligne.setBackgroundColor(backgroundColor);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_ligne.setCachedModel(cachedModel);
+		model.setBackgroundColor(backgroundColor);
 	}
 
 	/**
@@ -582,7 +529,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_ligne.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -592,24 +539,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_ligne.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_ligne.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_ligne.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_ligne.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -619,7 +549,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_ligne.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -629,7 +559,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public void setLigneId(long ligneId) {
-		_ligne.setLigneId(ligneId);
+		model.setLigneId(ligneId);
 	}
 
 	/**
@@ -639,12 +569,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_ligne.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_ligne.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -654,12 +579,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_ligne.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_ligne.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -669,7 +589,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public void setRouteId(String routeId) {
-		_ligne.setRouteId(routeId);
+		model.setRouteId(routeId);
 	}
 
 	/**
@@ -679,7 +599,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public void setShortName(String shortName) {
-		_ligne.setShortName(shortName);
+		model.setShortName(shortName);
 	}
 
 	/**
@@ -689,7 +609,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_ligne.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -699,7 +619,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_ligne.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -709,7 +629,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_ligne.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -719,7 +639,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_ligne.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -729,7 +649,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_ligne.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -739,7 +659,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public void setTextColor(String textColor) {
-		_ligne.setTextColor(textColor);
+		model.setTextColor(textColor);
 	}
 
 	/**
@@ -749,7 +669,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public void setTitle(String title) {
-		_ligne.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -759,7 +679,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public void setType(int type) {
-		_ligne.setType(type);
+		model.setType(type);
 	}
 
 	/**
@@ -769,7 +689,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_ligne.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -779,7 +699,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_ligne.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -789,7 +709,7 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_ligne.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -799,80 +719,22 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_ligne.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.gtfs.model.Ligne> toCacheModel() {
-
-		return _ligne.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Ligne toEscapedModel() {
-		return new LigneWrapper(_ligne.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _ligne.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Ligne toUnescapedModel() {
-		return new LigneWrapper(_ligne.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _ligne.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof LigneWrapper)) {
-			return false;
-		}
-
-		LigneWrapper ligneWrapper = (LigneWrapper)object;
-
-		if (Objects.equals(_ligne, ligneWrapper._ligne)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _ligne.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Ligne getWrappedModel() {
-		return _ligne;
+	protected LigneWrapper wrap(Ligne ligne) {
+		return new LigneWrapper(ligne);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _ligne.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _ligne.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_ligne.resetOriginalValues();
-	}
-
-	private final Ligne _ligne;
 
 }

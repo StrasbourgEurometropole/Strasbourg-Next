@@ -17,23 +17,7 @@ package eu.strasbourg.service.project.service.impl;
 import eu.strasbourg.service.project.service.base.BudgetSupportServiceBaseImpl;
 
 /**
- * The implementation of the budget support remote service.
- *
- * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.project.service.BudgetSupportService} interface.
- *
- * <p>
- * This is a remote service. Methods of this service are expected to have security checks based on the propagated JAAS credentials because this service can be accessed remotely.
- * </p>
- *
  * @author Cedric Henry
- * @see BudgetSupportServiceBaseImpl
- * @see eu.strasbourg.service.project.service.BudgetSupportServiceUtil
  */
 public class BudgetSupportServiceImpl extends BudgetSupportServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Always use {@link eu.strasbourg.service.project.service.BudgetSupportServiceUtil} to access the budget support remote service.
-	 */
 }

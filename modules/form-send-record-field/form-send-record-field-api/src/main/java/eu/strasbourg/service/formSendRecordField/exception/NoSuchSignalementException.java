@@ -13,8 +13,7 @@
  */
 package eu.strasbourg.service.formSendRecordField.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**

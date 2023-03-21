@@ -15,13 +15,8 @@
 package eu.strasbourg.service.gtfs.service.impl;
 
 import com.liferay.portal.kernel.json.JSONArray;
-import com.liferay.portal.kernel.json.JSONObject;
-
-import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.base.ArretServiceBaseImpl;
 import eu.strasbourg.service.gtfs.utils.CTSService;
-
-import java.util.Locale;
 
 /**
  * The implementation of the arret remote service.

@@ -14,9 +14,7 @@
 
 package eu.strasbourg.service.oidc.service;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.portal.kernel.dao.orm.*;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -40,6 +38,8 @@ import java.io.Serializable;
 
 import java.util.List;
 
+import org.osgi.annotation.versioning.ProviderType;
+
 /**
  * Provides the local service interface for PublikUser. Methods of this
  * service will not have security checks based on the propagated JAAS
@@ -61,7 +61,7 @@ public interface PublikUserLocalService
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link PublikUserLocalServiceUtil} to access the publik user local service. Add custom service methods to <code>eu.strasbourg.service.oidc.service.impl.PublikUserLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.oidc.service.impl.PublikUserLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the publik user local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link PublikUserLocalServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**
@@ -85,6 +85,12 @@ public interface PublikUserLocalService
 	 */
 	public void anonymisedUserPlacit(
 		PublikUser anonymUser, PublikUser publikUser);
+
+	/**
+	 * @throws PortalException
+	 */
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException;
 
 	public PublikUser createPublikUser();
 
@@ -131,6 +137,12 @@ public interface PublikUserLocalService
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	public PublikUser deletePublikUser(PublikUser publikUser);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> T dslQuery(DSLQuery dslQuery);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int dslQueryCount(DSLQuery dslQuery);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();

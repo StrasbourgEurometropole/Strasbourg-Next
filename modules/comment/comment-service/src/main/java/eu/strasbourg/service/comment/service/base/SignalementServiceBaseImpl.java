@@ -23,6 +23,8 @@ import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
@@ -32,8 +34,11 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.comment.model.Signalement;
 import eu.strasbourg.service.comment.service.SignalementService;
+import eu.strasbourg.service.comment.service.SignalementServiceUtil;
 import eu.strasbourg.service.comment.service.persistence.CommentPersistence;
 import eu.strasbourg.service.comment.service.persistence.SignalementPersistence;
+
+import java.lang.reflect.Field;
 
 import javax.sql.DataSource;
 
@@ -55,7 +60,7 @@ public abstract class SignalementServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>SignalementService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.comment.service.SignalementServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>SignalementService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>SignalementServiceUtil</code>.
 	 */
 
 	/**
@@ -527,9 +532,11 @@ public abstract class SignalementServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
+		_setServiceUtilService(signalementService);
 	}
 
 	public void destroy() {
+		_setServiceUtilService(null);
 	}
 
 	/**
@@ -571,6 +578,20 @@ public abstract class SignalementServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setServiceUtilService(SignalementService signalementService) {
+		try {
+			Field field = SignalementServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, signalementService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -679,5 +700,8 @@ public abstract class SignalementServiceBaseImpl
 
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		SignalementServiceBaseImpl.class);
 
 }

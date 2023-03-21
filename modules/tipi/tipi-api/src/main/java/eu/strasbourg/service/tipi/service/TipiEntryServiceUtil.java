@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.tipi.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for TipiEntry. This utility wraps
  * <code>eu.strasbourg.service.tipi.service.impl.TipiEntryServiceImpl</code> and is an
@@ -43,27 +39,14 @@ public class TipiEntryServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static TipiEntryService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<TipiEntryService, TipiEntryService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(TipiEntryService.class);
-
-		ServiceTracker<TipiEntryService, TipiEntryService> serviceTracker =
-			new ServiceTracker<TipiEntryService, TipiEntryService>(
-				bundle.getBundleContext(), TipiEntryService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile TipiEntryService _service;
 
 }

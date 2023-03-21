@@ -14,8 +14,7 @@
 
 package eu.strasbourg.service.agenda.service;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -39,6 +38,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import org.osgi.annotation.versioning.ProviderType;
+
 /**
  * Provides the local service interface for Historic. Methods of this
  * service will not have security checks based on the propagated JAAS
@@ -60,7 +61,7 @@ public interface HistoricLocalService
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link HistoricLocalServiceUtil} to access the historic local service. Add custom service methods to <code>eu.strasbourg.service.agenda.service.impl.HistoricLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.agenda.service.impl.HistoricLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the historic local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link HistoricLocalServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**
@@ -84,6 +85,12 @@ public interface HistoricLocalService
 	 */
 	@Transactional(enabled = false)
 	public Historic createHistoric(long eventId);
+
+	/**
+	 * @throws PortalException
+	 */
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException;
 
 	/**
 	 * Deletes the historic from the database. Also notifies the appropriate model listeners.
@@ -118,6 +125,12 @@ public interface HistoricLocalService
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> T dslQuery(DSLQuery dslQuery);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int dslQueryCount(DSLQuery dslQuery);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();

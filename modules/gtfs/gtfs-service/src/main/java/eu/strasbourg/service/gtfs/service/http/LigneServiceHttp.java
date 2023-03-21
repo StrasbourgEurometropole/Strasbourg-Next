@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.security.auth.HttpPrincipal;
 import com.liferay.portal.kernel.service.http.TunnelUtil;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
-
 import eu.strasbourg.service.gtfs.service.LigneServiceUtil;
 
 /**
@@ -47,7 +46,6 @@ import eu.strasbourg.service.gtfs.service.LigneServiceUtil;
  * </p>
  *
  * @author Cedric Henry
- * @see LigneServiceSoap
  * @generated
  */
 public class LigneServiceHttp {

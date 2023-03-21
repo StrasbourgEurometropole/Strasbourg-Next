@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class LinkLocalServiceWrapper
 	implements LinkLocalService, ServiceWrapper<LinkLocalService> {
 
+	public LinkLocalServiceWrapper() {
+		this(null);
+	}
+
 	public LinkLocalServiceWrapper(LinkLocalService linkLocalService) {
 		_linkLocalService = linkLocalService;
 	}
@@ -67,6 +71,17 @@ public class LinkLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _linkLocalService.createLink(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _linkLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -113,6 +128,18 @@ public class LinkLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _linkLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _linkLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _linkLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

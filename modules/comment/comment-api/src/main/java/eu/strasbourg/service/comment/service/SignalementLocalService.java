@@ -14,9 +14,8 @@
 
 package eu.strasbourg.service.comment.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
@@ -41,6 +40,8 @@ import java.io.Serializable;
 
 import java.util.List;
 
+import org.osgi.annotation.versioning.ProviderType;
+
 /**
  * Provides the local service interface for Signalement. Methods of this
  * service will not have security checks based on the propagated JAAS
@@ -62,7 +63,7 @@ public interface SignalementLocalService
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link SignalementLocalServiceUtil} to access the signalement local service. Add custom service methods to <code>eu.strasbourg.service.comment.service.impl.SignalementLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.comment.service.impl.SignalementLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the signalement local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link SignalementLocalServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**
@@ -77,6 +78,12 @@ public interface SignalementLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public Signalement addSignalement(Signalement signalement);
+
+	/**
+	 * @throws PortalException
+	 */
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException;
 
 	/**
 	 * Creates a new signalement with the primary key. Does not add the signalement to the database.
@@ -131,6 +138,12 @@ public interface SignalementLocalService
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	public Signalement deleteSignalement(Signalement signalement);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> T dslQuery(DSLQuery dslQuery);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int dslQueryCount(DSLQuery dslQuery);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();

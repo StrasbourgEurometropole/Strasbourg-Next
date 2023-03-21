@@ -14,8 +14,7 @@
 
 package eu.strasbourg.service.objtp.service;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -40,6 +39,8 @@ import java.text.ParseException;
 
 import java.util.List;
 
+import org.osgi.annotation.versioning.ProviderType;
+
 /**
  * Provides the local service interface for FoundObject. Methods of this
  * service will not have security checks based on the propagated JAAS
@@ -61,7 +62,7 @@ public interface FoundObjectLocalService
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link FoundObjectLocalServiceUtil} to access the found object local service. Add custom service methods to <code>eu.strasbourg.service.objtp.service.impl.FoundObjectLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.objtp.service.impl.FoundObjectLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the found object local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link FoundObjectLocalServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**
@@ -85,6 +86,12 @@ public interface FoundObjectLocalService
 	 */
 	@Transactional(enabled = false)
 	public FoundObject createFoundObject(String number);
+
+	/**
+	 * @throws PortalException
+	 */
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException;
 
 	/**
 	 * Deletes the found object from the database. Also notifies the appropriate model listeners.
@@ -129,6 +136,12 @@ public interface FoundObjectLocalService
 	)
 	public void doImport()
 		throws IOException, JSONException, ParseException, PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> T dslQuery(DSLQuery dslQuery);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int dslQueryCount(DSLQuery dslQuery);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();

@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.agenda.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for AgendaExportPeriod. This utility wraps
  * <code>eu.strasbourg.service.agenda.service.impl.AgendaExportPeriodServiceImpl</code> and is an
@@ -43,31 +39,14 @@ public class AgendaExportPeriodServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static AgendaExportPeriodService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<AgendaExportPeriodService, AgendaExportPeriodService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			AgendaExportPeriodService.class);
-
-		ServiceTracker<AgendaExportPeriodService, AgendaExportPeriodService>
-			serviceTracker =
-				new ServiceTracker
-					<AgendaExportPeriodService, AgendaExportPeriodService>(
-						bundle.getBundleContext(),
-						AgendaExportPeriodService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile AgendaExportPeriodService _service;
 
 }

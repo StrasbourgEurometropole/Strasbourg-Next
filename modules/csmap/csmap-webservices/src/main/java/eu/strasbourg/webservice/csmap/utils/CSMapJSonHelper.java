@@ -1,10 +1,10 @@
 package eu.strasbourg.webservice.csmap.utils;
 
+import com.liferay.asset.category.property.model.AssetCategoryProperty;
 import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.model.AssetCategoryProperty;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.category.property.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
@@ -25,14 +25,20 @@ import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
 import eu.strasbourg.service.notif.model.ServiceNotif;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
-import eu.strasbourg.utils.*;
+import eu.strasbourg.utils.AssetPublisherTemplateHelper;
+import eu.strasbourg.utils.JournalArticleHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.UriHelper;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
-import eu.strasbourg.webservice.csmap.service.WSProfile;
 
-import javax.ws.rs.core.Response;
 import java.net.URISyntaxException;
 import java.text.DateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class CSMapJSonHelper {
 

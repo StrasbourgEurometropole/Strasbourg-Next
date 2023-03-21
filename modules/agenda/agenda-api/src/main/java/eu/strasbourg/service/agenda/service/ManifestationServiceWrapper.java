@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class ManifestationServiceWrapper
 	implements ManifestationService, ServiceWrapper<ManifestationService> {
 
+	public ManifestationServiceWrapper() {
+		this(null);
+	}
+
 	public ManifestationServiceWrapper(
 		ManifestationService manifestationService) {
 

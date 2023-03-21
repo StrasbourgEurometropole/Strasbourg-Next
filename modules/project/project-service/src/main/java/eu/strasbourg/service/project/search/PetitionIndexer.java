@@ -58,8 +58,8 @@ public class PetitionIndexer extends BaseIndexer<Petition> {
         List<AssetCategory> assetCategories = AssetVocabularyHelper
                 .getFullHierarchyCategories(petition.getCategories());
         document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-        addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-                assetCategories);
+        /*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+                assetCategories);*/
 
         Map<Locale, String> titleFieldMap = new HashMap<>();
         titleFieldMap.put(Locale.FRANCE, petition.getTitle());
@@ -104,7 +104,7 @@ public class PetitionIndexer extends BaseIndexer<Petition> {
     @Override
     protected void doReindex(Petition petition) throws Exception {
         Document document = getDocument(petition);
-        IndexWriterHelperUtil.updateDocument(getSearchEngineId(), petition.getCompanyId(), document, isCommitImmediately());
+        IndexWriterHelperUtil.updateDocument(petition.getCompanyId(), document);
     }
 
     protected void reindexEntries(long companyId) throws PortalException {
@@ -117,7 +117,6 @@ public class PetitionIndexer extends BaseIndexer<Petition> {
             Document document = getDocument(petition);
             indexableActionableDynamicQuery.addDocuments(document);
         });
-        indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
         indexableActionableDynamicQuery.performActions();
     }
 

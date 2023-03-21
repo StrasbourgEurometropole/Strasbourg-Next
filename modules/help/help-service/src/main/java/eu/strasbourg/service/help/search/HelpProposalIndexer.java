@@ -63,8 +63,8 @@ public class HelpProposalIndexer extends BaseIndexer<HelpProposal> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(helpProposal.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);
+		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);*/
 		
 		Map<Locale, String> titleFieldMap = new HashMap<>();
 		titleFieldMap.put(Locale.FRANCE, helpProposal.getTitle());
@@ -132,8 +132,7 @@ public class HelpProposalIndexer extends BaseIndexer<HelpProposal> {
 				}
 	
 			});
-	
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
+
 		indexableActionableDynamicQuery.performActions();
 	}
 
@@ -143,8 +142,7 @@ public class HelpProposalIndexer extends BaseIndexer<HelpProposal> {
 	protected void doReindex(HelpProposal helpProposal) throws Exception {
 		Document document = getDocument(helpProposal);
 		
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-				helpProposal.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(helpProposal.getCompanyId(), document);
 	}
 
 }

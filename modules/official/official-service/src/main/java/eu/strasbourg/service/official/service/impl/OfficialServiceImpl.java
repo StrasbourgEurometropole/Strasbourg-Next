@@ -14,27 +14,10 @@
 
 package eu.strasbourg.service.official.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.official.service.base.OfficialServiceBaseImpl;
 
 /**
- * The implementation of the official remote service.
- *
- * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the OfficialService interface.
- *
- * <p>
- * This is a remote service. Methods of this service are expected to have security checks based on the propagated JAAS credentials because this service can be accessed remotely.
- * </p>
- *
  * @author AngeliqueZUNINO
- * @see OfficialServiceBaseImpl
  */
-@ProviderType
 public class OfficialServiceImpl extends OfficialServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Always use {@link official.service.OfficialServiceUtil} to access the official remote service.
-	 */
 }

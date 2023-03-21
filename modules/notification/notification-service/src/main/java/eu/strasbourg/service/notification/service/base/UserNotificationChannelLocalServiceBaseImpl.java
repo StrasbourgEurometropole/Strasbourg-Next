@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.notification.service.base;
 
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -24,6 +25,8 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -40,6 +43,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.notification.model.UserNotificationChannel;
 import eu.strasbourg.service.notification.service.UserNotificationChannelLocalService;
+import eu.strasbourg.service.notification.service.UserNotificationChannelLocalServiceUtil;
 import eu.strasbourg.service.notification.service.persistence.NotificationPersistence;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationChannelPK;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationChannelPersistence;
@@ -47,6 +51,8 @@ import eu.strasbourg.service.notification.service.persistence.UserNotificationSt
 import eu.strasbourg.service.notification.service.persistence.UserNotificationTypePersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.List;
 
@@ -70,7 +76,7 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>UserNotificationChannelLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.notification.service.UserNotificationChannelLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>UserNotificationChannelLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>UserNotificationChannelLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -147,6 +153,18 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 
 		return userNotificationChannelPersistence.remove(
 			userNotificationChannel);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return userNotificationChannelPersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -266,14 +284,31 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return userNotificationChannelPersistence.create(
+			(UserNotificationChannelPK)primaryKeyObj);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement UserNotificationChannelLocalServiceImpl#deleteUserNotificationChannel(UserNotificationChannel) to avoid orphaned data");
+		}
 
 		return userNotificationChannelLocalService.
 			deleteUserNotificationChannel(
 				(UserNotificationChannel)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<UserNotificationChannel> getBasePersistence() {
 		return userNotificationChannelPersistence;
 	}
@@ -656,11 +691,15 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 		persistedModelLocalServiceRegistry.register(
 			"eu.strasbourg.service.notification.model.UserNotificationChannel",
 			userNotificationChannelLocalService);
+
+		_setLocalServiceUtilService(userNotificationChannelLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"eu.strasbourg.service.notification.model.UserNotificationChannel");
+
+		_setLocalServiceUtilService(null);
 	}
 
 	/**
@@ -703,6 +742,24 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		UserNotificationChannelLocalService
+			userNotificationChannelLocalService) {
+
+		try {
+			Field field =
+				UserNotificationChannelLocalServiceUtil.class.getDeclaredField(
+					"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, userNotificationChannelLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -773,6 +830,9 @@ public abstract class UserNotificationChannelLocalServiceBaseImpl
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		UserNotificationChannelLocalServiceBaseImpl.class);
 
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry

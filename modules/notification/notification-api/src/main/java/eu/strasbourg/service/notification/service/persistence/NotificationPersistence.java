@@ -14,18 +14,14 @@
 
 package eu.strasbourg.service.notification.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.notification.exception.NoSuchNotificationException;
 import eu.strasbourg.service.notification.model.Notification;
 
-import java.io.Serializable;
-
 import java.util.Date;
-import java.util.Map;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the notification service.
@@ -46,9 +42,6 @@ public interface NotificationPersistence extends BasePersistence<Notification> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link NotificationUtil} to access the notification persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Notification> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the notifications where publicationDate &lt; &#63; and status = &#63;.

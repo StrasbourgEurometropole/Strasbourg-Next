@@ -14,9 +14,9 @@
 
 package eu.strasbourg.service.project.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import eu.strasbourg.service.project.model.ProjectFollowed;
+
+import java.util.List;
 
 /**
  * Provides the remote service utility for ProjectFollowed. This utility wraps
@@ -47,9 +47,8 @@ public class ProjectFollowedServiceUtil {
 		return getService().addFollowerLink(projectId, groupId);
 	}
 
-	public static java.util.List
-		<eu.strasbourg.service.project.model.ProjectFollowed>
-			findProjectFollowedByPublikUserId(String publikId) {
+	public static List<ProjectFollowed> findProjectFollowedByPublikUserId(
+		String publikId) {
 
 		return getService().findProjectFollowedByPublikUserId(publikId);
 	}
@@ -73,25 +72,9 @@ public class ProjectFollowedServiceUtil {
 	}
 
 	public static ProjectFollowedService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<ProjectFollowedService, ProjectFollowedService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(ProjectFollowedService.class);
-
-		ServiceTracker<ProjectFollowedService, ProjectFollowedService>
-			serviceTracker =
-				new ServiceTracker
-					<ProjectFollowedService, ProjectFollowedService>(
-						bundle.getBundleContext(), ProjectFollowedService.class,
-						null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile ProjectFollowedService _service;
 
 }

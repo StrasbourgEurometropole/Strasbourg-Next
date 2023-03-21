@@ -47,7 +47,6 @@ import eu.strasbourg.service.project.service.ProjectFollowedServiceUtil;
  * </p>
  *
  * @author Cedric Henry
- * @see ProjectFollowedServiceSoap
  * @generated
  */
 public class ProjectFollowedServiceHttp {

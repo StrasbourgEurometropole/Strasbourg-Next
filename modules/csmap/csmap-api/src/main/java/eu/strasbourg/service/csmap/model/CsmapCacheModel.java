@@ -16,10 +16,9 @@ package eu.strasbourg.service.csmap.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.Date;
-
-import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model interface for the CsmapCache service. Represents a row in the &quot;csmap_CsmapCache&quot; database table, with each column mapped to a property of this class.
@@ -154,5 +153,12 @@ public interface CsmapCacheModel extends BaseModel<CsmapCache> {
 	 * @param processedDate the processed date of this csmap cache
 	 */
 	public void setProcessedDate(Date processedDate);
+
+	@Override
+	public CsmapCache cloneWithOriginalValues();
+
+	public default String toXmlString() {
+		return null;
+	}
 
 }

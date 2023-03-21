@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.video.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for VideoGallery. This utility wraps
  * <code>eu.strasbourg.service.video.service.impl.VideoGalleryServiceImpl</code> and is an
@@ -43,28 +39,14 @@ public class VideoGalleryServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static VideoGalleryService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<VideoGalleryService, VideoGalleryService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(VideoGalleryService.class);
-
-		ServiceTracker<VideoGalleryService, VideoGalleryService>
-			serviceTracker =
-				new ServiceTracker<VideoGalleryService, VideoGalleryService>(
-					bundle.getBundleContext(), VideoGalleryService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile VideoGalleryService _service;
 
 }

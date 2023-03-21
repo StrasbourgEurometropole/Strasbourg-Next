@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class LikeServiceWrapper
 	implements LikeService, ServiceWrapper<LikeService> {
 
+	public LikeServiceWrapper() {
+		this(null);
+	}
+
 	public LikeServiceWrapper(LikeService likeService) {
 		_likeService = likeService;
 	}

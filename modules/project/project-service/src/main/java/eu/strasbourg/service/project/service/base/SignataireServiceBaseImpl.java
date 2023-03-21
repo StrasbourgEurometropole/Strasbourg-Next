@@ -23,15 +23,17 @@ import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.service.SignataireService;
+import eu.strasbourg.service.project.service.SignataireServiceUtil;
 import eu.strasbourg.service.project.service.persistence.BudgetParticipatifFinder;
 import eu.strasbourg.service.project.service.persistence.BudgetParticipatifPersistence;
 import eu.strasbourg.service.project.service.persistence.BudgetPhasePersistence;
@@ -47,6 +49,7 @@ import eu.strasbourg.service.project.service.persistence.ProjectTimelinePersiste
 import eu.strasbourg.service.project.service.persistence.SignatairePersistence;
 
 import javax.sql.DataSource;
+import java.lang.reflect.Field;
 
 /**
  * Provides the base implementation for the signataire remote service.
@@ -66,7 +69,7 @@ public abstract class SignataireServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>SignataireService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.project.service.SignataireServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>SignataireService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>SignataireServiceUtil</code>.
 	 */
 
 	/**
@@ -1217,9 +1220,11 @@ public abstract class SignataireServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
+		_setServiceUtilService(signataireService);
 	}
 
 	public void destroy() {
+		_setServiceUtilService(null);
 	}
 
 	/**
@@ -1261,6 +1266,20 @@ public abstract class SignataireServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setServiceUtilService(SignataireService signataireService) {
+		try {
+			Field field = SignataireServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, signataireService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1523,5 +1542,8 @@ public abstract class SignataireServiceBaseImpl
 
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		SignataireServiceBaseImpl.class);
 
 }

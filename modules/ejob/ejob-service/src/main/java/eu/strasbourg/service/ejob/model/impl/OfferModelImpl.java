@@ -17,6 +17,7 @@ package eu.strasbourg.service.ejob.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -32,29 +33,23 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.ejob.model.OfferModel;
-import eu.strasbourg.service.ejob.model.OfferSoap;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -160,108 +155,72 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.ejob.service.util.ServiceProps.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.ejob.model.Offer"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.ejob.service.util.ServiceProps.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.ejob.model.Offer"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.ejob.service.util.ServiceProps.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.ejob.model.Offer"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long EMAILPARTNERSENT_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ISEXPORTED_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLICATIONID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLICATIONSTARTDATE_COLUMN_BITMASK = 32L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 64L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long OFFERID_COLUMN_BITMASK = 128L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Offer toModel(OfferSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Offer model = new OfferImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setOfferId(soapModel.getOfferId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setPublicationId(soapModel.getPublicationId());
-		model.setPostNumber(soapModel.getPostNumber());
-		model.setJobCreationDescription(soapModel.getJobCreationDescription());
-		model.setStartDate(soapModel.getStartDate());
-		model.setPermanentDescription(soapModel.getPermanentDescription());
-		model.setDuration(soapModel.getDuration());
-		model.setPost(soapModel.getPost());
-		model.setIsFullTime(soapModel.isIsFullTime());
-		model.setFullTimeDescription(soapModel.getFullTimeDescription());
-		model.setIntroduction(soapModel.getIntroduction());
-		model.setActivities(soapModel.getActivities());
-		model.setProfil(soapModel.getProfil());
-		model.setConditions(soapModel.getConditions());
-		model.setAvantages(soapModel.getAvantages());
-		model.setLimitDate(soapModel.getLimitDate());
-		model.setContact(soapModel.getContact());
-		model.setEmails(soapModel.getEmails());
-		model.setShareLinkedin(soapModel.isShareLinkedin());
-		model.setPublicationStartDate(soapModel.getPublicationStartDate());
-		model.setPublicationEndDate(soapModel.getPublicationEndDate());
-		model.setIsExported(soapModel.getIsExported());
-		model.setEmailSend(soapModel.getEmailSend());
-		model.setEmailPartnerSent(soapModel.getEmailPartnerSent());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Offer> toModels(OfferSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Offer> models = new ArrayList<Offer>(soapModels.length);
-
-		for (OfferSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.ejob.service.util.ServiceProps.get(
@@ -317,9 +276,6 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 				attributeName, attributeGetterFunction.apply((Offer)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -350,33 +306,6 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Offer>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Offer.class.getClassLoader(), Offer.class, ModelWrapper.class);
-
-		try {
-			Constructor<Offer> constructor =
-				(Constructor<Offer>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<Offer, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Offer, Object>>
@@ -388,720 +317,129 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 		Map<String, BiConsumer<Offer, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Offer, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", Offer::getUuid);
 		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object uuidObject) {
-					offer.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"offerId",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getOfferId();
-				}
-
-			});
+			"uuid", (BiConsumer<Offer, String>)Offer::setUuid);
+		attributeGetterFunctions.put("offerId", Offer::getOfferId);
 		attributeSetterBiConsumers.put(
-			"offerId",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object offerIdObject) {
-					offer.setOfferId((Long)offerIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getGroupId();
-				}
-
-			});
+			"offerId", (BiConsumer<Offer, Long>)Offer::setOfferId);
+		attributeGetterFunctions.put("groupId", Offer::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object groupIdObject) {
-					offer.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getCompanyId();
-				}
-
-			});
+			"groupId", (BiConsumer<Offer, Long>)Offer::setGroupId);
+		attributeGetterFunctions.put("companyId", Offer::getCompanyId);
 		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object companyIdObject) {
-					offer.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getUserId();
-				}
-
-			});
+			"companyId", (BiConsumer<Offer, Long>)Offer::setCompanyId);
+		attributeGetterFunctions.put("userId", Offer::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object userIdObject) {
-					offer.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getUserName();
-				}
-
-			});
+			"userId", (BiConsumer<Offer, Long>)Offer::setUserId);
+		attributeGetterFunctions.put("userName", Offer::getUserName);
 		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object userNameObject) {
-					offer.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getCreateDate();
-				}
-
-			});
+			"userName", (BiConsumer<Offer, String>)Offer::setUserName);
+		attributeGetterFunctions.put("createDate", Offer::getCreateDate);
 		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object createDateObject) {
-					offer.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getModifiedDate();
-				}
-
-			});
+			"createDate", (BiConsumer<Offer, Date>)Offer::setCreateDate);
+		attributeGetterFunctions.put("modifiedDate", Offer::getModifiedDate);
 		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object modifiedDateObject) {
-					offer.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getStatus();
-				}
-
-			});
+			"modifiedDate", (BiConsumer<Offer, Date>)Offer::setModifiedDate);
+		attributeGetterFunctions.put("status", Offer::getStatus);
 		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object statusObject) {
-					offer.setStatus((Integer)statusObject);
-				}
-
-			});
+			"status", (BiConsumer<Offer, Integer>)Offer::setStatus);
 		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getStatusByUserId();
-				}
-
-			});
+			"statusByUserId", Offer::getStatusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object statusByUserIdObject) {
-					offer.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
+			(BiConsumer<Offer, Long>)Offer::setStatusByUserId);
 		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getStatusByUserName();
-				}
-
-			});
+			"statusByUserName", Offer::getStatusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object statusByUserNameObject) {
-					offer.setStatusByUserName((String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getStatusDate();
-				}
-
-			});
+			(BiConsumer<Offer, String>)Offer::setStatusByUserName);
+		attributeGetterFunctions.put("statusDate", Offer::getStatusDate);
 		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object statusDateObject) {
-					offer.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"publicationId",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getPublicationId();
-				}
-
-			});
+			"statusDate", (BiConsumer<Offer, Date>)Offer::setStatusDate);
+		attributeGetterFunctions.put("publicationId", Offer::getPublicationId);
 		attributeSetterBiConsumers.put(
 			"publicationId",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object publicationIdObject) {
-					offer.setPublicationId((String)publicationIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"postNumber",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getPostNumber();
-				}
-
-			});
+			(BiConsumer<Offer, String>)Offer::setPublicationId);
+		attributeGetterFunctions.put("postNumber", Offer::getPostNumber);
 		attributeSetterBiConsumers.put(
-			"postNumber",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object postNumberObject) {
-					offer.setPostNumber((String)postNumberObject);
-				}
-
-			});
+			"postNumber", (BiConsumer<Offer, String>)Offer::setPostNumber);
 		attributeGetterFunctions.put(
-			"jobCreationDescription",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getJobCreationDescription();
-				}
-
-			});
+			"jobCreationDescription", Offer::getJobCreationDescription);
 		attributeSetterBiConsumers.put(
 			"jobCreationDescription",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(
-					Offer offer, Object jobCreationDescriptionObject) {
-
-					offer.setJobCreationDescription(
-						(String)jobCreationDescriptionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"startDate",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getStartDate();
-				}
-
-			});
+			(BiConsumer<Offer, String>)Offer::setJobCreationDescription);
+		attributeGetterFunctions.put("startDate", Offer::getStartDate);
 		attributeSetterBiConsumers.put(
-			"startDate",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object startDateObject) {
-					offer.setStartDate((Date)startDateObject);
-				}
-
-			});
+			"startDate", (BiConsumer<Offer, Date>)Offer::setStartDate);
 		attributeGetterFunctions.put(
-			"permanentDescription",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getPermanentDescription();
-				}
-
-			});
+			"permanentDescription", Offer::getPermanentDescription);
 		attributeSetterBiConsumers.put(
 			"permanentDescription",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(
-					Offer offer, Object permanentDescriptionObject) {
-
-					offer.setPermanentDescription(
-						(String)permanentDescriptionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"duration",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getDuration();
-				}
-
-			});
+			(BiConsumer<Offer, String>)Offer::setPermanentDescription);
+		attributeGetterFunctions.put("duration", Offer::getDuration);
 		attributeSetterBiConsumers.put(
-			"duration",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object durationObject) {
-					offer.setDuration((String)durationObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"post",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getPost();
-				}
-
-			});
+			"duration", (BiConsumer<Offer, String>)Offer::setDuration);
+		attributeGetterFunctions.put("post", Offer::getPost);
 		attributeSetterBiConsumers.put(
-			"post",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object postObject) {
-					offer.setPost((String)postObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"isFullTime",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getIsFullTime();
-				}
-
-			});
+			"post", (BiConsumer<Offer, String>)Offer::setPost);
+		attributeGetterFunctions.put("isFullTime", Offer::getIsFullTime);
 		attributeSetterBiConsumers.put(
-			"isFullTime",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object isFullTimeObject) {
-					offer.setIsFullTime((Boolean)isFullTimeObject);
-				}
-
-			});
+			"isFullTime", (BiConsumer<Offer, Boolean>)Offer::setIsFullTime);
 		attributeGetterFunctions.put(
-			"fullTimeDescription",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getFullTimeDescription();
-				}
-
-			});
+			"fullTimeDescription", Offer::getFullTimeDescription);
 		attributeSetterBiConsumers.put(
 			"fullTimeDescription",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(
-					Offer offer, Object fullTimeDescriptionObject) {
-
-					offer.setFullTimeDescription(
-						(String)fullTimeDescriptionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"introduction",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getIntroduction();
-				}
-
-			});
+			(BiConsumer<Offer, String>)Offer::setFullTimeDescription);
+		attributeGetterFunctions.put("introduction", Offer::getIntroduction);
 		attributeSetterBiConsumers.put(
-			"introduction",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object introductionObject) {
-					offer.setIntroduction((String)introductionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"activities",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getActivities();
-				}
-
-			});
+			"introduction", (BiConsumer<Offer, String>)Offer::setIntroduction);
+		attributeGetterFunctions.put("activities", Offer::getActivities);
 		attributeSetterBiConsumers.put(
-			"activities",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object activitiesObject) {
-					offer.setActivities((String)activitiesObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"profil",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getProfil();
-				}
-
-			});
+			"activities", (BiConsumer<Offer, String>)Offer::setActivities);
+		attributeGetterFunctions.put("profil", Offer::getProfil);
 		attributeSetterBiConsumers.put(
-			"profil",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object profilObject) {
-					offer.setProfil((String)profilObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"conditions",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getConditions();
-				}
-
-			});
+			"profil", (BiConsumer<Offer, String>)Offer::setProfil);
+		attributeGetterFunctions.put("conditions", Offer::getConditions);
 		attributeSetterBiConsumers.put(
-			"conditions",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object conditionsObject) {
-					offer.setConditions((String)conditionsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"avantages",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getAvantages();
-				}
-
-			});
+			"conditions", (BiConsumer<Offer, String>)Offer::setConditions);
+		attributeGetterFunctions.put("avantages", Offer::getAvantages);
 		attributeSetterBiConsumers.put(
-			"avantages",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object avantagesObject) {
-					offer.setAvantages((String)avantagesObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"limitDate",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getLimitDate();
-				}
-
-			});
+			"avantages", (BiConsumer<Offer, String>)Offer::setAvantages);
+		attributeGetterFunctions.put("limitDate", Offer::getLimitDate);
 		attributeSetterBiConsumers.put(
-			"limitDate",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object limitDateObject) {
-					offer.setLimitDate((Date)limitDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"contact",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getContact();
-				}
-
-			});
+			"limitDate", (BiConsumer<Offer, Date>)Offer::setLimitDate);
+		attributeGetterFunctions.put("contact", Offer::getContact);
 		attributeSetterBiConsumers.put(
-			"contact",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object contactObject) {
-					offer.setContact((String)contactObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"emails",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getEmails();
-				}
-
-			});
+			"contact", (BiConsumer<Offer, String>)Offer::setContact);
+		attributeGetterFunctions.put("emails", Offer::getEmails);
 		attributeSetterBiConsumers.put(
-			"emails",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object emailsObject) {
-					offer.setEmails((String)emailsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"shareLinkedin",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getShareLinkedin();
-				}
-
-			});
+			"emails", (BiConsumer<Offer, String>)Offer::setEmails);
+		attributeGetterFunctions.put("shareLinkedin", Offer::getShareLinkedin);
 		attributeSetterBiConsumers.put(
 			"shareLinkedin",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object shareLinkedinObject) {
-					offer.setShareLinkedin((Boolean)shareLinkedinObject);
-				}
-
-			});
+			(BiConsumer<Offer, Boolean>)Offer::setShareLinkedin);
 		attributeGetterFunctions.put(
-			"publicationStartDate",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getPublicationStartDate();
-				}
-
-			});
+			"publicationStartDate", Offer::getPublicationStartDate);
 		attributeSetterBiConsumers.put(
 			"publicationStartDate",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(
-					Offer offer, Object publicationStartDateObject) {
-
-					offer.setPublicationStartDate(
-						(Date)publicationStartDateObject);
-				}
-
-			});
+			(BiConsumer<Offer, Date>)Offer::setPublicationStartDate);
 		attributeGetterFunctions.put(
-			"publicationEndDate",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getPublicationEndDate();
-				}
-
-			});
+			"publicationEndDate", Offer::getPublicationEndDate);
 		attributeSetterBiConsumers.put(
 			"publicationEndDate",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(
-					Offer offer, Object publicationEndDateObject) {
-
-					offer.setPublicationEndDate((Date)publicationEndDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"isExported",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getIsExported();
-				}
-
-			});
+			(BiConsumer<Offer, Date>)Offer::setPublicationEndDate);
+		attributeGetterFunctions.put("isExported", Offer::getIsExported);
 		attributeSetterBiConsumers.put(
-			"isExported",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object isExportedObject) {
-					offer.setIsExported((Integer)isExportedObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"emailSend",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getEmailSend();
-				}
-
-			});
+			"isExported", (BiConsumer<Offer, Integer>)Offer::setIsExported);
+		attributeGetterFunctions.put("emailSend", Offer::getEmailSend);
 		attributeSetterBiConsumers.put(
-			"emailSend",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object emailSendObject) {
-					offer.setEmailSend((Integer)emailSendObject);
-				}
-
-			});
+			"emailSend", (BiConsumer<Offer, Integer>)Offer::setEmailSend);
 		attributeGetterFunctions.put(
-			"emailPartnerSent",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getEmailPartnerSent();
-				}
-
-			});
+			"emailPartnerSent", Offer::getEmailPartnerSent);
 		attributeSetterBiConsumers.put(
 			"emailPartnerSent",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object emailPartnerSentObject) {
-					offer.setEmailPartnerSent((Integer)emailPartnerSentObject);
-				}
-
-			});
+			(BiConsumer<Offer, Integer>)Offer::setEmailPartnerSent);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -1122,17 +460,20 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -1143,6 +484,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setOfferId(long offerId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_offerId = offerId;
 	}
 
@@ -1154,19 +499,20 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -1177,19 +523,21 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -1200,6 +548,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -1232,6 +584,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -1243,6 +599,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -1260,6 +620,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -1271,6 +635,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setStatus(int status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -1282,6 +650,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1314,6 +686,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1325,6 +701,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1341,17 +721,20 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setPublicationId(String publicationId) {
-		_columnBitmask |= PUBLICATIONID_COLUMN_BITMASK;
-
-		if (_originalPublicationId == null) {
-			_originalPublicationId = _publicationId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publicationId = publicationId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPublicationId() {
-		return GetterUtil.getString(_originalPublicationId);
+		return getColumnOriginalValue("publicationId");
 	}
 
 	@JSON
@@ -1367,6 +750,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setPostNumber(String postNumber) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_postNumber = postNumber;
 	}
 
@@ -1429,6 +816,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setJobCreationDescription(String jobCreationDescription) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_jobCreationDescription = jobCreationDescription;
 	}
 
@@ -1497,6 +888,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setStartDate(Date startDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_startDate = startDate;
 	}
 
@@ -1559,6 +954,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setPermanentDescription(String permanentDescription) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_permanentDescription = permanentDescription;
 	}
 
@@ -1675,6 +1074,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setDuration(String duration) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_duration = duration;
 	}
 
@@ -1783,6 +1186,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setPost(String post) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_post = post;
 	}
 
@@ -1844,6 +1251,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setIsFullTime(boolean isFullTime) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_isFullTime = isFullTime;
 	}
 
@@ -1906,6 +1317,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setFullTimeDescription(String fullTimeDescription) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_fullTimeDescription = fullTimeDescription;
 	}
 
@@ -2021,6 +1436,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setIntroduction(String introduction) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_introduction = introduction;
 	}
 
@@ -2129,6 +1548,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setActivities(String activities) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_activities = activities;
 	}
 
@@ -2237,6 +1660,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setProfil(String profil) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_profil = profil;
 	}
 
@@ -2343,6 +1770,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setConditions(String conditions) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_conditions = conditions;
 	}
 
@@ -2451,6 +1882,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setAvantages(String avantages) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_avantages = avantages;
 	}
 
@@ -2511,6 +1946,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setLimitDate(Date limitDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_limitDate = limitDate;
 	}
 
@@ -2527,6 +1966,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setContact(String contact) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_contact = contact;
 	}
 
@@ -2543,6 +1986,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setEmails(String emails) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_emails = emails;
 	}
 
@@ -2560,6 +2007,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setShareLinkedin(boolean shareLinkedin) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_shareLinkedin = shareLinkedin;
 	}
 
@@ -2571,17 +2022,20 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setPublicationStartDate(Date publicationStartDate) {
-		_columnBitmask |= PUBLICATIONSTARTDATE_COLUMN_BITMASK;
-
-		if (_originalPublicationStartDate == null) {
-			_originalPublicationStartDate = _publicationStartDate;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publicationStartDate = publicationStartDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalPublicationStartDate() {
-		return _originalPublicationStartDate;
+		return getColumnOriginalValue("publicationStartDate");
 	}
 
 	@JSON
@@ -2592,6 +2046,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setPublicationEndDate(Date publicationEndDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_publicationEndDate = publicationEndDate;
 	}
 
@@ -2603,19 +2061,21 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setIsExported(int isExported) {
-		_columnBitmask |= ISEXPORTED_COLUMN_BITMASK;
-
-		if (!_setOriginalIsExported) {
-			_setOriginalIsExported = true;
-
-			_originalIsExported = _isExported;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_isExported = isExported;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalIsExported() {
-		return _originalIsExported;
+		return GetterUtil.getInteger(
+			this.<Integer>getColumnOriginalValue("isExported"));
 	}
 
 	@JSON
@@ -2626,6 +2086,10 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setEmailSend(int emailSend) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_emailSend = emailSend;
 	}
 
@@ -2637,19 +2101,21 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setEmailPartnerSent(int emailPartnerSent) {
-		_columnBitmask |= EMAILPARTNERSENT_COLUMN_BITMASK;
-
-		if (!_setOriginalEmailPartnerSent) {
-			_setOriginalEmailPartnerSent = true;
-
-			_originalEmailPartnerSent = _emailPartnerSent;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_emailPartnerSent = emailPartnerSent;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalEmailPartnerSent() {
-		return _originalEmailPartnerSent;
+		return GetterUtil.getInteger(
+			this.<Integer>getColumnOriginalValue("emailPartnerSent"));
 	}
 
 	@Override
@@ -2739,6 +2205,26 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -3088,6 +2574,70 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 	}
 
 	@Override
+	public Offer cloneWithOriginalValues() {
+		OfferImpl offerImpl = new OfferImpl();
+
+		offerImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		offerImpl.setOfferId(this.<Long>getColumnOriginalValue("offerId"));
+		offerImpl.setGroupId(this.<Long>getColumnOriginalValue("groupId"));
+		offerImpl.setCompanyId(this.<Long>getColumnOriginalValue("companyId"));
+		offerImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		offerImpl.setUserName(this.<String>getColumnOriginalValue("userName"));
+		offerImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		offerImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		offerImpl.setStatus(this.<Integer>getColumnOriginalValue("status"));
+		offerImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		offerImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		offerImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		offerImpl.setPublicationId(
+			this.<String>getColumnOriginalValue("publicationId"));
+		offerImpl.setPostNumber(
+			this.<String>getColumnOriginalValue("postNumber"));
+		offerImpl.setJobCreationDescription(
+			this.<String>getColumnOriginalValue("jobCreationDescription"));
+		offerImpl.setStartDate(this.<Date>getColumnOriginalValue("startDate"));
+		offerImpl.setPermanentDescription(
+			this.<String>getColumnOriginalValue("permanentDescription"));
+		offerImpl.setDuration(this.<String>getColumnOriginalValue("duration"));
+		offerImpl.setPost(this.<String>getColumnOriginalValue("post"));
+		offerImpl.setIsFullTime(
+			this.<Boolean>getColumnOriginalValue("isFullTime"));
+		offerImpl.setFullTimeDescription(
+			this.<String>getColumnOriginalValue("fullTimeDescription"));
+		offerImpl.setIntroduction(
+			this.<String>getColumnOriginalValue("introduction"));
+		offerImpl.setActivities(
+			this.<String>getColumnOriginalValue("activities"));
+		offerImpl.setProfil(this.<String>getColumnOriginalValue("profil"));
+		offerImpl.setConditions(
+			this.<String>getColumnOriginalValue("conditions"));
+		offerImpl.setAvantages(
+			this.<String>getColumnOriginalValue("avantages"));
+		offerImpl.setLimitDate(this.<Date>getColumnOriginalValue("limitDate"));
+		offerImpl.setContact(this.<String>getColumnOriginalValue("contact"));
+		offerImpl.setEmails(this.<String>getColumnOriginalValue("emails"));
+		offerImpl.setShareLinkedin(
+			this.<Boolean>getColumnOriginalValue("shareLinkedin"));
+		offerImpl.setPublicationStartDate(
+			this.<Date>getColumnOriginalValue("publicationStartDate"));
+		offerImpl.setPublicationEndDate(
+			this.<Date>getColumnOriginalValue("publicationEndDate"));
+		offerImpl.setIsExported(
+			this.<Integer>getColumnOriginalValue("isExported"));
+		offerImpl.setEmailSend(
+			this.<Integer>getColumnOriginalValue("emailSend"));
+		offerImpl.setEmailPartnerSent(
+			this.<Integer>getColumnOriginalValue("emailPartnerSent"));
+
+		return offerImpl;
+	}
+
+	@Override
 	public int compareTo(Offer offer) {
 		long primaryKey = offer.getPrimaryKey();
 
@@ -3129,11 +2679,19 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -3141,35 +2699,11 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void resetOriginalValues() {
-		OfferModelImpl offerModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		offerModelImpl._originalUuid = offerModelImpl._uuid;
+		_setModifiedDate = false;
 
-		offerModelImpl._originalGroupId = offerModelImpl._groupId;
-
-		offerModelImpl._setOriginalGroupId = false;
-
-		offerModelImpl._originalCompanyId = offerModelImpl._companyId;
-
-		offerModelImpl._setOriginalCompanyId = false;
-
-		offerModelImpl._setModifiedDate = false;
-
-		offerModelImpl._originalPublicationId = offerModelImpl._publicationId;
-
-		offerModelImpl._originalPublicationStartDate =
-			offerModelImpl._publicationStartDate;
-
-		offerModelImpl._originalIsExported = offerModelImpl._isExported;
-
-		offerModelImpl._setOriginalIsExported = false;
-
-		offerModelImpl._originalEmailPartnerSent =
-			offerModelImpl._emailPartnerSent;
-
-		offerModelImpl._setOriginalEmailPartnerSent = false;
-
-		offerModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -3413,7 +2947,7 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -3423,9 +2957,26 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 			String attributeName = entry.getKey();
 			Function<Offer, Object> attributeGetterFunction = entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Offer)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Offer)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -3438,52 +2989,19 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Offer, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Offer, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Offer, Object> attributeGetterFunction = entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Offer)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Offer>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Offer.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _offerId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -3494,7 +3012,6 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _publicationId;
-	private String _originalPublicationId;
 	private String _postNumber;
 	private String _jobCreationDescription;
 	private String _jobCreationDescriptionCurrentLanguageId;
@@ -3523,15 +3040,174 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 	private String _emails;
 	private boolean _shareLinkedin;
 	private Date _publicationStartDate;
-	private Date _originalPublicationStartDate;
 	private Date _publicationEndDate;
 	private int _isExported;
-	private int _originalIsExported;
-	private boolean _setOriginalIsExported;
 	private int _emailSend;
 	private int _emailPartnerSent;
-	private int _originalEmailPartnerSent;
-	private boolean _setOriginalEmailPartnerSent;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Offer, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Offer)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("offerId", _offerId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("publicationId", _publicationId);
+		_columnOriginalValues.put("postNumber", _postNumber);
+		_columnOriginalValues.put(
+			"jobCreationDescription", _jobCreationDescription);
+		_columnOriginalValues.put("startDate", _startDate);
+		_columnOriginalValues.put(
+			"permanentDescription", _permanentDescription);
+		_columnOriginalValues.put("duration", _duration);
+		_columnOriginalValues.put("post", _post);
+		_columnOriginalValues.put("isFullTime", _isFullTime);
+		_columnOriginalValues.put("fullTimeDescription", _fullTimeDescription);
+		_columnOriginalValues.put("introduction", _introduction);
+		_columnOriginalValues.put("activities", _activities);
+		_columnOriginalValues.put("profil", _profil);
+		_columnOriginalValues.put("conditions", _conditions);
+		_columnOriginalValues.put("avantages", _avantages);
+		_columnOriginalValues.put("limitDate", _limitDate);
+		_columnOriginalValues.put("contact", _contact);
+		_columnOriginalValues.put("emails", _emails);
+		_columnOriginalValues.put("shareLinkedin", _shareLinkedin);
+		_columnOriginalValues.put(
+			"publicationStartDate", _publicationStartDate);
+		_columnOriginalValues.put("publicationEndDate", _publicationEndDate);
+		_columnOriginalValues.put("isExported", _isExported);
+		_columnOriginalValues.put("emailSend", _emailSend);
+		_columnOriginalValues.put("emailPartnerSent", _emailPartnerSent);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("offerId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("status", 256L);
+
+		columnBitmasks.put("statusByUserId", 512L);
+
+		columnBitmasks.put("statusByUserName", 1024L);
+
+		columnBitmasks.put("statusDate", 2048L);
+
+		columnBitmasks.put("publicationId", 4096L);
+
+		columnBitmasks.put("postNumber", 8192L);
+
+		columnBitmasks.put("jobCreationDescription", 16384L);
+
+		columnBitmasks.put("startDate", 32768L);
+
+		columnBitmasks.put("permanentDescription", 65536L);
+
+		columnBitmasks.put("duration", 131072L);
+
+		columnBitmasks.put("post", 262144L);
+
+		columnBitmasks.put("isFullTime", 524288L);
+
+		columnBitmasks.put("fullTimeDescription", 1048576L);
+
+		columnBitmasks.put("introduction", 2097152L);
+
+		columnBitmasks.put("activities", 4194304L);
+
+		columnBitmasks.put("profil", 8388608L);
+
+		columnBitmasks.put("conditions", 16777216L);
+
+		columnBitmasks.put("avantages", 33554432L);
+
+		columnBitmasks.put("limitDate", 67108864L);
+
+		columnBitmasks.put("contact", 134217728L);
+
+		columnBitmasks.put("emails", 268435456L);
+
+		columnBitmasks.put("shareLinkedin", 536870912L);
+
+		columnBitmasks.put("publicationStartDate", 1073741824L);
+
+		columnBitmasks.put("publicationEndDate", 2147483648L);
+
+		columnBitmasks.put("isExported", 4294967296L);
+
+		columnBitmasks.put("emailSend", 8589934592L);
+
+		columnBitmasks.put("emailPartnerSent", 17179869184L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Offer _escapedModel;
 

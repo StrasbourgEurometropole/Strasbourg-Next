@@ -14,17 +14,16 @@
 
 package eu.strasbourg.service.notification.model.impl;
 
-import java.text.DateFormat;
-import java.util.Locale;
-
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.notification.model.Notification;
 import eu.strasbourg.service.notification.service.NotificationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+
+import java.text.DateFormat;
+import java.util.Locale;
 
 /**
  * The extended model implementation for the UserNotificationStatus service.

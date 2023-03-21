@@ -17,6 +17,7 @@ package eu.strasbourg.service.edition.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -32,29 +33,23 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.edition.model.EditionGalleryModel;
-import eu.strasbourg.service.edition.model.EditionGallerySoap;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -135,89 +130,59 @@ public class EditionGalleryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.edition.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.edition.model.EditionGallery"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.edition.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.edition.model.EditionGallery"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.edition.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.edition.model.EditionGallery"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long TITLE_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 32L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static EditionGallery toModel(EditionGallerySoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		EditionGallery model = new EditionGalleryImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setGalleryId(soapModel.getGalleryId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setLastPublishDate(soapModel.getLastPublishDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setImageId(soapModel.getImageId());
-		model.setTitle(soapModel.getTitle());
-		model.setDescription(soapModel.getDescription());
-		model.setPublicationDate(soapModel.getPublicationDate());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<EditionGallery> toModels(
-		EditionGallerySoap[] soapModels) {
-
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<EditionGallery> models = new ArrayList<EditionGallery>(
-			soapModels.length);
-
-		for (EditionGallerySoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final String
 		MAPPING_TABLE_EDITION_EDITIONTOEDITIONGALLERY_NAME =
@@ -233,12 +198,12 @@ public class EditionGalleryModelImpl
 		MAPPING_TABLE_EDITION_EDITIONTOEDITIONGALLERY_SQL_CREATE =
 			"create table edition_EditionToEditionGallery (companyId LONG not null,editionId LONG not null,galleryId LONG not null,primary key (editionId, galleryId))";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public static final boolean
-		FINDER_CACHE_ENABLED_EDITION_EDITIONTOEDITIONGALLERY =
-			GetterUtil.getBoolean(
-				eu.strasbourg.service.edition.service.util.PropsUtil.get(
-					"value.object.finder.cache.enabled.edition_EditionToEditionGallery"),
-				true);
+		FINDER_CACHE_ENABLED_EDITION_EDITIONTOEDITIONGALLERY = true;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.edition.service.util.PropsUtil.get(
@@ -296,9 +261,6 @@ public class EditionGalleryModelImpl
 				attributeGetterFunction.apply((EditionGallery)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -332,34 +294,6 @@ public class EditionGalleryModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, EditionGallery>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			EditionGallery.class.getClassLoader(), EditionGallery.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<EditionGallery> constructor =
-				(Constructor<EditionGallery>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<EditionGallery, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<EditionGallery, Object>>
@@ -371,388 +305,86 @@ public class EditionGalleryModelImpl
 		Map<String, BiConsumer<EditionGallery, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<EditionGallery, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<EditionGallery, Object>() {
-
-				@Override
-				public Object apply(EditionGallery editionGallery) {
-					return editionGallery.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", EditionGallery::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
-			new BiConsumer<EditionGallery, Object>() {
-
-				@Override
-				public void accept(
-					EditionGallery editionGallery, Object uuidObject) {
-
-					editionGallery.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"galleryId",
-			new Function<EditionGallery, Object>() {
-
-				@Override
-				public Object apply(EditionGallery editionGallery) {
-					return editionGallery.getGalleryId();
-				}
-
-			});
+			(BiConsumer<EditionGallery, String>)EditionGallery::setUuid);
+		attributeGetterFunctions.put("galleryId", EditionGallery::getGalleryId);
 		attributeSetterBiConsumers.put(
 			"galleryId",
-			new BiConsumer<EditionGallery, Object>() {
-
-				@Override
-				public void accept(
-					EditionGallery editionGallery, Object galleryIdObject) {
-
-					editionGallery.setGalleryId((Long)galleryIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<EditionGallery, Object>() {
-
-				@Override
-				public Object apply(EditionGallery editionGallery) {
-					return editionGallery.getGroupId();
-				}
-
-			});
+			(BiConsumer<EditionGallery, Long>)EditionGallery::setGalleryId);
+		attributeGetterFunctions.put("groupId", EditionGallery::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
-			new BiConsumer<EditionGallery, Object>() {
-
-				@Override
-				public void accept(
-					EditionGallery editionGallery, Object groupIdObject) {
-
-					editionGallery.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<EditionGallery, Object>() {
-
-				@Override
-				public Object apply(EditionGallery editionGallery) {
-					return editionGallery.getCompanyId();
-				}
-
-			});
+			(BiConsumer<EditionGallery, Long>)EditionGallery::setGroupId);
+		attributeGetterFunctions.put("companyId", EditionGallery::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
-			new BiConsumer<EditionGallery, Object>() {
-
-				@Override
-				public void accept(
-					EditionGallery editionGallery, Object companyIdObject) {
-
-					editionGallery.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<EditionGallery, Object>() {
-
-				@Override
-				public Object apply(EditionGallery editionGallery) {
-					return editionGallery.getUserId();
-				}
-
-			});
+			(BiConsumer<EditionGallery, Long>)EditionGallery::setCompanyId);
+		attributeGetterFunctions.put("userId", EditionGallery::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
-			new BiConsumer<EditionGallery, Object>() {
-
-				@Override
-				public void accept(
-					EditionGallery editionGallery, Object userIdObject) {
-
-					editionGallery.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<EditionGallery, Object>() {
-
-				@Override
-				public Object apply(EditionGallery editionGallery) {
-					return editionGallery.getUserName();
-				}
-
-			});
+			(BiConsumer<EditionGallery, Long>)EditionGallery::setUserId);
+		attributeGetterFunctions.put("userName", EditionGallery::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
-			new BiConsumer<EditionGallery, Object>() {
-
-				@Override
-				public void accept(
-					EditionGallery editionGallery, Object userNameObject) {
-
-					editionGallery.setUserName((String)userNameObject);
-				}
-
-			});
+			(BiConsumer<EditionGallery, String>)EditionGallery::setUserName);
 		attributeGetterFunctions.put(
-			"createDate",
-			new Function<EditionGallery, Object>() {
-
-				@Override
-				public Object apply(EditionGallery editionGallery) {
-					return editionGallery.getCreateDate();
-				}
-
-			});
+			"createDate", EditionGallery::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
-			new BiConsumer<EditionGallery, Object>() {
-
-				@Override
-				public void accept(
-					EditionGallery editionGallery, Object createDateObject) {
-
-					editionGallery.setCreateDate((Date)createDateObject);
-				}
-
-			});
+			(BiConsumer<EditionGallery, Date>)EditionGallery::setCreateDate);
 		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<EditionGallery, Object>() {
-
-				@Override
-				public Object apply(EditionGallery editionGallery) {
-					return editionGallery.getModifiedDate();
-				}
-
-			});
+			"modifiedDate", EditionGallery::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<EditionGallery, Object>() {
-
-				@Override
-				public void accept(
-					EditionGallery editionGallery, Object modifiedDateObject) {
-
-					editionGallery.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
+			(BiConsumer<EditionGallery, Date>)EditionGallery::setModifiedDate);
 		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<EditionGallery, Object>() {
-
-				@Override
-				public Object apply(EditionGallery editionGallery) {
-					return editionGallery.getLastPublishDate();
-				}
-
-			});
+			"lastPublishDate", EditionGallery::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
-			new BiConsumer<EditionGallery, Object>() {
-
-				@Override
-				public void accept(
-					EditionGallery editionGallery,
-					Object lastPublishDateObject) {
-
-					editionGallery.setLastPublishDate(
-						(Date)lastPublishDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<EditionGallery, Object>() {
-
-				@Override
-				public Object apply(EditionGallery editionGallery) {
-					return editionGallery.getStatus();
-				}
-
-			});
+			(BiConsumer<EditionGallery, Date>)
+				EditionGallery::setLastPublishDate);
+		attributeGetterFunctions.put("status", EditionGallery::getStatus);
 		attributeSetterBiConsumers.put(
 			"status",
-			new BiConsumer<EditionGallery, Object>() {
-
-				@Override
-				public void accept(
-					EditionGallery editionGallery, Object statusObject) {
-
-					editionGallery.setStatus((Integer)statusObject);
-				}
-
-			});
+			(BiConsumer<EditionGallery, Integer>)EditionGallery::setStatus);
 		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<EditionGallery, Object>() {
-
-				@Override
-				public Object apply(EditionGallery editionGallery) {
-					return editionGallery.getStatusByUserId();
-				}
-
-			});
+			"statusByUserId", EditionGallery::getStatusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
-			new BiConsumer<EditionGallery, Object>() {
-
-				@Override
-				public void accept(
-					EditionGallery editionGallery,
-					Object statusByUserIdObject) {
-
-					editionGallery.setStatusByUserId(
-						(Long)statusByUserIdObject);
-				}
-
-			});
+			(BiConsumer<EditionGallery, Long>)
+				EditionGallery::setStatusByUserId);
 		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<EditionGallery, Object>() {
-
-				@Override
-				public Object apply(EditionGallery editionGallery) {
-					return editionGallery.getStatusByUserName();
-				}
-
-			});
+			"statusByUserName", EditionGallery::getStatusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
-			new BiConsumer<EditionGallery, Object>() {
-
-				@Override
-				public void accept(
-					EditionGallery editionGallery,
-					Object statusByUserNameObject) {
-
-					editionGallery.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
+			(BiConsumer<EditionGallery, String>)
+				EditionGallery::setStatusByUserName);
 		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<EditionGallery, Object>() {
-
-				@Override
-				public Object apply(EditionGallery editionGallery) {
-					return editionGallery.getStatusDate();
-				}
-
-			});
+			"statusDate", EditionGallery::getStatusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
-			new BiConsumer<EditionGallery, Object>() {
-
-				@Override
-				public void accept(
-					EditionGallery editionGallery, Object statusDateObject) {
-
-					editionGallery.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"imageId",
-			new Function<EditionGallery, Object>() {
-
-				@Override
-				public Object apply(EditionGallery editionGallery) {
-					return editionGallery.getImageId();
-				}
-
-			});
+			(BiConsumer<EditionGallery, Date>)EditionGallery::setStatusDate);
+		attributeGetterFunctions.put("imageId", EditionGallery::getImageId);
 		attributeSetterBiConsumers.put(
 			"imageId",
-			new BiConsumer<EditionGallery, Object>() {
-
-				@Override
-				public void accept(
-					EditionGallery editionGallery, Object imageIdObject) {
-
-					editionGallery.setImageId((Long)imageIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<EditionGallery, Object>() {
-
-				@Override
-				public Object apply(EditionGallery editionGallery) {
-					return editionGallery.getTitle();
-				}
-
-			});
+			(BiConsumer<EditionGallery, Long>)EditionGallery::setImageId);
+		attributeGetterFunctions.put("title", EditionGallery::getTitle);
 		attributeSetterBiConsumers.put(
 			"title",
-			new BiConsumer<EditionGallery, Object>() {
-
-				@Override
-				public void accept(
-					EditionGallery editionGallery, Object titleObject) {
-
-					editionGallery.setTitle((String)titleObject);
-				}
-
-			});
+			(BiConsumer<EditionGallery, String>)EditionGallery::setTitle);
 		attributeGetterFunctions.put(
-			"description",
-			new Function<EditionGallery, Object>() {
-
-				@Override
-				public Object apply(EditionGallery editionGallery) {
-					return editionGallery.getDescription();
-				}
-
-			});
+			"description", EditionGallery::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
-			new BiConsumer<EditionGallery, Object>() {
-
-				@Override
-				public void accept(
-					EditionGallery editionGallery, Object descriptionObject) {
-
-					editionGallery.setDescription((String)descriptionObject);
-				}
-
-			});
+			(BiConsumer<EditionGallery, String>)EditionGallery::setDescription);
 		attributeGetterFunctions.put(
-			"publicationDate",
-			new Function<EditionGallery, Object>() {
-
-				@Override
-				public Object apply(EditionGallery editionGallery) {
-					return editionGallery.getPublicationDate();
-				}
-
-			});
+			"publicationDate", EditionGallery::getPublicationDate);
 		attributeSetterBiConsumers.put(
 			"publicationDate",
-			new BiConsumer<EditionGallery, Object>() {
-
-				@Override
-				public void accept(
-					EditionGallery editionGallery,
-					Object publicationDateObject) {
-
-					editionGallery.setPublicationDate(
-						(Date)publicationDateObject);
-				}
-
-			});
+			(BiConsumer<EditionGallery, Date>)
+				EditionGallery::setPublicationDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -773,17 +405,20 @@ public class EditionGalleryModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -794,6 +429,10 @@ public class EditionGalleryModelImpl
 
 	@Override
 	public void setGalleryId(long galleryId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_galleryId = galleryId;
 	}
 
@@ -805,19 +444,20 @@ public class EditionGalleryModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -828,19 +468,21 @@ public class EditionGalleryModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -851,6 +493,10 @@ public class EditionGalleryModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -883,6 +529,10 @@ public class EditionGalleryModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -894,6 +544,10 @@ public class EditionGalleryModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -911,6 +565,10 @@ public class EditionGalleryModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -922,6 +580,10 @@ public class EditionGalleryModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -933,19 +595,21 @@ public class EditionGalleryModelImpl
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return GetterUtil.getInteger(
+			this.<Integer>getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -956,6 +620,10 @@ public class EditionGalleryModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -988,6 +656,10 @@ public class EditionGalleryModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -999,6 +671,10 @@ public class EditionGalleryModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1010,6 +686,10 @@ public class EditionGalleryModelImpl
 
 	@Override
 	public void setImageId(Long imageId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageId = imageId;
 	}
 
@@ -1069,10 +749,8 @@ public class EditionGalleryModelImpl
 
 	@Override
 	public void setTitle(String title) {
-		_columnBitmask = -1L;
-
-		if (_originalTitle == null) {
-			_originalTitle = _title;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_title = title;
@@ -1124,8 +802,13 @@ public class EditionGalleryModelImpl
 				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalTitle() {
-		return GetterUtil.getString(_originalTitle);
+		return getColumnOriginalValue("title");
 	}
 
 	@JSON
@@ -1184,6 +867,10 @@ public class EditionGalleryModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_description = description;
 	}
 
@@ -1244,17 +931,20 @@ public class EditionGalleryModelImpl
 
 	@Override
 	public void setPublicationDate(Date publicationDate) {
-		_columnBitmask |= PUBLICATIONDATE_COLUMN_BITMASK;
-
-		if (_originalPublicationDate == null) {
-			_originalPublicationDate = _publicationDate;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publicationDate = publicationDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalPublicationDate() {
-		return _originalPublicationDate;
+		return getColumnOriginalValue("publicationDate");
 	}
 
 	@Override
@@ -1344,6 +1034,26 @@ public class EditionGalleryModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1491,6 +1201,48 @@ public class EditionGalleryModelImpl
 	}
 
 	@Override
+	public EditionGallery cloneWithOriginalValues() {
+		EditionGalleryImpl editionGalleryImpl = new EditionGalleryImpl();
+
+		editionGalleryImpl.setUuid(
+			this.<String>getColumnOriginalValue("uuid_"));
+		editionGalleryImpl.setGalleryId(
+			this.<Long>getColumnOriginalValue("galleryId"));
+		editionGalleryImpl.setGroupId(
+			this.<Long>getColumnOriginalValue("groupId"));
+		editionGalleryImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		editionGalleryImpl.setUserId(
+			this.<Long>getColumnOriginalValue("userId"));
+		editionGalleryImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		editionGalleryImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		editionGalleryImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		editionGalleryImpl.setLastPublishDate(
+			this.<Date>getColumnOriginalValue("lastPublishDate"));
+		editionGalleryImpl.setStatus(
+			this.<Integer>getColumnOriginalValue("status"));
+		editionGalleryImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		editionGalleryImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		editionGalleryImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		editionGalleryImpl.setImageId(
+			this.<Long>getColumnOriginalValue("imageId"));
+		editionGalleryImpl.setTitle(
+			this.<String>getColumnOriginalValue("title"));
+		editionGalleryImpl.setDescription(
+			this.<String>getColumnOriginalValue("description"));
+		editionGalleryImpl.setPublicationDate(
+			this.<Date>getColumnOriginalValue("publicationDate"));
+
+		return editionGalleryImpl;
+	}
+
+	@Override
 	public int compareTo(EditionGallery editionGallery) {
 		int value = 0;
 
@@ -1530,11 +1282,19 @@ public class EditionGalleryModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1542,33 +1302,11 @@ public class EditionGalleryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		EditionGalleryModelImpl editionGalleryModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		editionGalleryModelImpl._originalUuid = editionGalleryModelImpl._uuid;
+		_setModifiedDate = false;
 
-		editionGalleryModelImpl._originalGroupId =
-			editionGalleryModelImpl._groupId;
-
-		editionGalleryModelImpl._setOriginalGroupId = false;
-
-		editionGalleryModelImpl._originalCompanyId =
-			editionGalleryModelImpl._companyId;
-
-		editionGalleryModelImpl._setOriginalCompanyId = false;
-
-		editionGalleryModelImpl._setModifiedDate = false;
-
-		editionGalleryModelImpl._originalStatus =
-			editionGalleryModelImpl._status;
-
-		editionGalleryModelImpl._setOriginalStatus = false;
-
-		editionGalleryModelImpl._originalTitle = editionGalleryModelImpl._title;
-
-		editionGalleryModelImpl._originalPublicationDate =
-			editionGalleryModelImpl._publicationDate;
-
-		editionGalleryModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1690,7 +1428,7 @@ public class EditionGalleryModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1701,9 +1439,26 @@ public class EditionGalleryModelImpl
 			Function<EditionGallery, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((EditionGallery)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((EditionGallery)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1716,53 +1471,19 @@ public class EditionGalleryModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<EditionGallery, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<EditionGallery, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<EditionGallery, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((EditionGallery)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, EditionGallery>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					EditionGallery.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _galleryId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1770,19 +1491,122 @@ public class EditionGalleryModelImpl
 	private boolean _setModifiedDate;
 	private Date _lastPublishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
 	private Long _imageId;
 	private String _title;
 	private String _titleCurrentLanguageId;
-	private String _originalTitle;
 	private String _description;
 	private String _descriptionCurrentLanguageId;
 	private Date _publicationDate;
-	private Date _originalPublicationDate;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<EditionGallery, Object> function =
+			_attributeGetterFunctions.get(columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((EditionGallery)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("galleryId", _galleryId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("lastPublishDate", _lastPublishDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("imageId", _imageId);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("description", _description);
+		_columnOriginalValues.put("publicationDate", _publicationDate);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("galleryId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("lastPublishDate", 256L);
+
+		columnBitmasks.put("status", 512L);
+
+		columnBitmasks.put("statusByUserId", 1024L);
+
+		columnBitmasks.put("statusByUserName", 2048L);
+
+		columnBitmasks.put("statusDate", 4096L);
+
+		columnBitmasks.put("imageId", 8192L);
+
+		columnBitmasks.put("title", 16384L);
+
+		columnBitmasks.put("description", 32768L);
+
+		columnBitmasks.put("publicationDate", 65536L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private EditionGallery _escapedModel;
 

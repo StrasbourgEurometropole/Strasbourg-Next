@@ -14,10 +14,9 @@
 
 package eu.strasbourg.service.place.model.impl;
 
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-
-import aQute.bnd.annotation.ProviderType;
 
 /**
  * The extended model implementation for the Slot service. Represents a row in

@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.ejob.service.impl;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -37,6 +38,7 @@ import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import eu.strasbourg.service.ejob.model.Alert;
 import eu.strasbourg.service.ejob.service.base.AlertLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -208,11 +210,8 @@ public class AlertLocalServiceImpl extends AlertLocalServiceBaseImpl {
 
 		if (entry != null) {
 			// Delete the link with categories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-						categoryId, entry.getEntryId());
-			}
-
+			assetEntryAssetCategoryRelLocalService.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Delete the link with tags
 			long[] tagIds = AssetEntryLocalServiceUtil
 					.getAssetTagPrimaryKeys(entry.getEntryId());
@@ -313,4 +312,6 @@ public class AlertLocalServiceImpl extends AlertLocalServiceBaseImpl {
 	public List<Alert> findByPublikUserId(String publikUserId) {
 		return this.alertPersistence.findByPublikUserId(publikUserId);
 	}
+	@Reference
+	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

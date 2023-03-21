@@ -14,8 +14,7 @@
 
 package eu.strasbourg.service.gtfs.service;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -41,6 +40,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import org.osgi.annotation.versioning.ProviderType;
+
 /**
  * Provides the local service interface for Agency. Methods of this
  * service will not have security checks based on the propagated JAAS
@@ -62,7 +63,7 @@ public interface AgencyLocalService
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link AgencyLocalServiceUtil} to access the agency local service. Add custom service methods to <code>eu.strasbourg.service.gtfs.service.impl.AgencyLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.gtfs.service.impl.AgencyLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the agency local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link AgencyLocalServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**
@@ -98,6 +99,12 @@ public interface AgencyLocalService
 	public Agency createAgencyFromGTFS(AgencyGTFS entry) throws PortalException;
 
 	/**
+	 * @throws PortalException
+	 */
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException;
+
+	/**
 	 * Deletes the agency from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -130,6 +137,12 @@ public interface AgencyLocalService
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> T dslQuery(DSLQuery dslQuery);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int dslQueryCount(DSLQuery dslQuery);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();

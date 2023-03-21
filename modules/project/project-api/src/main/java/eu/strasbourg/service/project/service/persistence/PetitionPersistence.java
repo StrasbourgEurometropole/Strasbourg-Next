@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.project.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.project.exception.NoSuchPetitionException;
 import eu.strasbourg.service.project.model.Petition;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the petition service.
@@ -45,9 +38,6 @@ public interface PetitionPersistence extends BasePersistence<Petition> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link PetitionUtil} to access the petition persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Petition> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the petitions where uuid = &#63;.
@@ -954,8 +944,5 @@ public interface PetitionPersistence extends BasePersistence<Petition> {
 	 * @return the number of petitions
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

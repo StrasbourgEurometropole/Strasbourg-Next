@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.oidc.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.oidc.exception.NoSuchPublikUserException;
 import eu.strasbourg.service.oidc.model.PublikUser;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the publik user service.
@@ -45,9 +38,6 @@ public interface PublikUserPersistence extends BasePersistence<PublikUser> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link PublikUserUtil} to access the publik user persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, PublikUser> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the publik users where uuid = &#63;.
@@ -355,8 +345,5 @@ public interface PublikUserPersistence extends BasePersistence<PublikUser> {
 	 * @return the number of publik users
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

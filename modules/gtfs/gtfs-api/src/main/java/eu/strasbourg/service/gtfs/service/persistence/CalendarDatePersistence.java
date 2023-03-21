@@ -14,18 +14,14 @@
 
 package eu.strasbourg.service.gtfs.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.gtfs.exception.NoSuchCalendarDateException;
 import eu.strasbourg.service.gtfs.model.CalendarDate;
 
-import java.io.Serializable;
-
 import java.util.Date;
-import java.util.Map;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the calendar date service.
@@ -46,9 +42,6 @@ public interface CalendarDatePersistence extends BasePersistence<CalendarDate> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link CalendarDateUtil} to access the calendar date persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, CalendarDate> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the calendar dates where uuid = &#63;.
@@ -597,8 +590,5 @@ public interface CalendarDatePersistence extends BasePersistence<CalendarDate> {
 	 * @return the number of calendar dates
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

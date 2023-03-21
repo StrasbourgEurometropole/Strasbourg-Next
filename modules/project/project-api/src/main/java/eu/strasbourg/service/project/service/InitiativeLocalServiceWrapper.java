@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class InitiativeLocalServiceWrapper
 	implements InitiativeLocalService, ServiceWrapper<InitiativeLocalService> {
 
+	public InitiativeLocalServiceWrapper() {
+		this(null);
+	}
+
 	public InitiativeLocalServiceWrapper(
 		InitiativeLocalService initiativeLocalService) {
 
@@ -74,6 +78,17 @@ public class InitiativeLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _initiativeLocalService.createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the initiative from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -118,6 +133,18 @@ public class InitiativeLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _initiativeLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _initiativeLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _initiativeLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

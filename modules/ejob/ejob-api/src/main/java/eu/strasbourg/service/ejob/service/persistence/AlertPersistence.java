@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.ejob.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.ejob.exception.NoSuchAlertException;
 import eu.strasbourg.service.ejob.model.Alert;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the alert service.
@@ -45,9 +38,6 @@ public interface AlertPersistence extends BasePersistence<Alert> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link AlertUtil} to access the alert persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Alert> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the alerts where uuid = &#63;.
@@ -655,8 +645,5 @@ public interface AlertPersistence extends BasePersistence<Alert> {
 	 * @return the number of alerts
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

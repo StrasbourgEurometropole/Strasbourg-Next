@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.strasbourg.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetTag;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -559,11 +559,20 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 					sc.setUserId(userId);
 					try {
 						fileEntry = DLAppLocalServiceUtil.addFileEntry(
-								userId, folder.getRepositoryId(),
-								folder.getFolderId(), fileName,
+								null,
+								userId,
+								folder.getRepositoryId(),
+								folder.getFolderId(),
+								fileName,
 								MimeTypesUtil.getContentType(document),
-								fileName, documentName,
-								"", decoder, sc);
+								fileName,
+								null,
+								documentName,
+								"",
+								decoder,
+								null,
+								null,
+								sc);
 					} catch (PortalException ex) {
 						log.error(e);
 						return error("Error adding the document");
@@ -572,10 +581,24 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 					DLFileEntry dlFileEntry = null;
 					try {
 						//Réenregistrement du DLFileEntry pour mettre à jour les métadonnées
-						dlFileEntry = DLFileEntryLocalServiceUtil.updateFileEntry(userId, fileEntry.getFileEntryId(), fileName,
-								MimeTypesUtil.getContentType(document), fileName,
-								StringPool.BLANK, StringPool.BLANK,DLVersionNumberIncrease.NONE, fileType.getFileEntryTypeId(), ddmFormValuesMap, document,
-								null, document.length(), sc);
+						dlFileEntry = DLFileEntryLocalServiceUtil.updateFileEntry(
+								userId,
+								fileEntry.getFileEntryId(),
+								fileName,
+								MimeTypesUtil.getContentType(document),
+								fileName,
+								null,
+								StringPool.BLANK,
+								StringPool.BLANK,
+								DLVersionNumberIncrease.NONE,
+								fileType.getFileEntryTypeId(),
+								ddmFormValuesMap,
+								document,
+								null,
+								document.length(),
+								null,
+								null,
+								sc);
 
 					} catch (Exception ex) {
 						log.error(ex);
@@ -854,11 +877,21 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 					sc.setUserId(userId);
 					try {
 						fileEntry = DLAppLocalServiceUtil.addFileEntry(
-								userId, folder.getRepositoryId(),
-								folder.getFolderId(), fileName,
+								null,
+								userId,
+								folder.getRepositoryId(),
+								folder.getFolderId(),
+								fileName,
 								MimeTypesUtil.getContentType(document),
-								fileName, documentName,
-								"", decoder, sc);
+								fileName,
+								null,
+								documentName,
+								"",
+								decoder,
+								null,
+								null,
+								sc);
+
 					} catch (PortalException ex) {
 						log.error(e);
 						return error("Error adding the document");
@@ -867,10 +900,24 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 					DLFileEntry dlFileEntry = null;
 					try {
 						//Réenregistrement du DLFileEntry pour mettre à jour les métadonnées
-						dlFileEntry = DLFileEntryLocalServiceUtil.updateFileEntry(userId, fileEntry.getFileEntryId(), fileName,
-								MimeTypesUtil.getContentType(document), fileName,
-								StringPool.BLANK, StringPool.BLANK,DLVersionNumberIncrease.NONE, fileType.getFileEntryTypeId(), ddmFormValuesMap, document,
-								null, document.length(), sc);
+						dlFileEntry = DLFileEntryLocalServiceUtil.updateFileEntry(
+								userId,
+								fileEntry.getFileEntryId(),
+								fileName,
+								MimeTypesUtil.getContentType(document),
+								fileName,
+								null,
+								StringPool.BLANK,
+								StringPool.BLANK,
+								DLVersionNumberIncrease.NONE,
+								fileType.getFileEntryTypeId(),
+								ddmFormValuesMap,
+								document,
+								null,
+								document.length(),
+								null,
+								null,
+								sc);
 
 					} catch (Exception ex) {
 						log.error(ex);

@@ -47,7 +47,6 @@ import eu.strasbourg.service.agenda.service.EventParticipationServiceUtil;
  * </p>
  *
  * @author BenjaminBini
- * @see EventParticipationServiceSoap
  * @generated
  */
 public class EventParticipationServiceHttp {

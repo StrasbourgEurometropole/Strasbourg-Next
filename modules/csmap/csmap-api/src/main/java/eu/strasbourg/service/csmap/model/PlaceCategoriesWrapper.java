@@ -69,6 +69,11 @@ public class PlaceCategoriesWrapper
 		}
 	}
 
+	@Override
+	public PlaceCategories cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
+	}
+
 	/**
 	 * Returns the categories IDs of this place categories.
 	 *
@@ -152,6 +157,11 @@ public class PlaceCategoriesWrapper
 	@Override
 	public void setUuid(String uuid) {
 		model.setUuid(uuid);
+	}
+
+	@Override
+	public String toXmlString() {
+		return model.toXmlString();
 	}
 
 	@Override

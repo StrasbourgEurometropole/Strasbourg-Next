@@ -27,6 +27,10 @@ public class PlaceCategoriesLocalServiceWrapper
 	implements PlaceCategoriesLocalService,
 			   ServiceWrapper<PlaceCategoriesLocalService> {
 
+	public PlaceCategoriesLocalServiceWrapper() {
+		this(null);
+	}
+
 	public PlaceCategoriesLocalServiceWrapper(
 		PlaceCategoriesLocalService placeCategoriesLocalService) {
 
@@ -48,6 +52,17 @@ public class PlaceCategoriesLocalServiceWrapper
 		eu.strasbourg.service.csmap.model.PlaceCategories placeCategories) {
 
 		return _placeCategoriesLocalService.addPlaceCategories(placeCategories);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _placeCategoriesLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	@Override
@@ -120,6 +135,18 @@ public class PlaceCategoriesLocalServiceWrapper
 
 		return _placeCategoriesLocalService.deletePlaceCategories(
 			placeCategories);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _placeCategoriesLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _placeCategoriesLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

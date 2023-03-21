@@ -16,7 +16,6 @@ package eu.strasbourg.service.csmap.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
-
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
@@ -126,5 +125,12 @@ public interface ThematicModel extends BaseModel<Thematic> {
 	 * @param topics the topics of this thematic
 	 */
 	public void setTopics(String topics);
+
+	@Override
+	public Thematic cloneWithOriginalValues();
+
+	public default String toXmlString() {
+		return null;
+	}
 
 }

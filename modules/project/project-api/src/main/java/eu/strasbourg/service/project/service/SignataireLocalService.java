@@ -14,9 +14,8 @@
 
 package eu.strasbourg.service.project.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
@@ -34,14 +33,12 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.project.model.Signataire;
-
-import java.io.Serializable;
-
-import java.util.List;
+import org.osgi.annotation.versioning.ProviderType;
 
 import javax.portlet.PortletException;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Provides the local service interface for Signataire. Methods of this
@@ -64,7 +61,7 @@ public interface SignataireLocalService
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link SignataireLocalServiceUtil} to access the signataire local service. Add custom service methods to <code>eu.strasbourg.service.project.service.impl.SignataireLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.project.service.impl.SignataireLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the signataire local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link SignataireLocalServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**
@@ -103,6 +100,12 @@ public interface SignataireLocalService
 	 * @param nombreCreation le nombre de creation souhaité.
 	 */
 	public void createFakeSignataire(long petitionId, int nombreCreation);
+
+	/**
+	 * @throws PortalException
+	 */
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException;
 
 	/**
 	 * Creates a new signataire with the primary key. Does not add the signataire to the database.
@@ -155,6 +158,12 @@ public interface SignataireLocalService
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	public Signataire deleteSignataire(Signataire signataire);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> T dslQuery(DSLQuery dslQuery);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int dslQueryCount(DSLQuery dslQuery);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();

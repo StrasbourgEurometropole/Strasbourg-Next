@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class PlacitPlaceServiceWrapper
 	implements PlacitPlaceService, ServiceWrapper<PlacitPlaceService> {
 
+	public PlacitPlaceServiceWrapper() {
+		this(null);
+	}
+
 	public PlacitPlaceServiceWrapper(PlacitPlaceService placitPlaceService) {
 		_placitPlaceService = placitPlaceService;
 	}

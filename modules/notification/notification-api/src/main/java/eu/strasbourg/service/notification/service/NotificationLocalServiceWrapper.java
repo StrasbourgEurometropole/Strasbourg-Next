@@ -27,6 +27,10 @@ public class NotificationLocalServiceWrapper
 	implements NotificationLocalService,
 			   ServiceWrapper<NotificationLocalService> {
 
+	public NotificationLocalServiceWrapper() {
+		this(null);
+	}
+
 	public NotificationLocalServiceWrapper(
 		NotificationLocalService notificationLocalService) {
 
@@ -75,6 +79,17 @@ public class NotificationLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _notificationLocalService.createNotification(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _notificationLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -134,6 +149,18 @@ public class NotificationLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _notificationLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _notificationLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _notificationLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

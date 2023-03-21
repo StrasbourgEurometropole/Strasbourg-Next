@@ -17,18 +17,12 @@ package eu.strasbourg.service.place.service.persistence;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.place.model.Period;
 
 import java.io.Serializable;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * The persistence utility for the period service. This utility wraps <code>eu.strasbourg.service.place.service.persistence.impl.PeriodPersistenceImpl</code> and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
@@ -591,27 +585,10 @@ public class PeriodUtil {
 		return getPersistence().countAll();
 	}
 
-	public static Set<String> getBadColumnNames() {
-		return getPersistence().getBadColumnNames();
-	}
-
 	public static PeriodPersistence getPersistence() {
-		return _serviceTracker.getService();
+		return _persistence;
 	}
 
-	private static ServiceTracker<PeriodPersistence, PeriodPersistence>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(PeriodPersistence.class);
-
-		ServiceTracker<PeriodPersistence, PeriodPersistence> serviceTracker =
-			new ServiceTracker<PeriodPersistence, PeriodPersistence>(
-				bundle.getBundleContext(), PeriodPersistence.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile PeriodPersistence _persistence;
 
 }

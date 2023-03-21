@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.comment.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.comment.exception.NoSuchCommentException;
 import eu.strasbourg.service.comment.model.Comment;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the comment service.
@@ -45,9 +38,6 @@ public interface CommentPersistence extends BasePersistence<Comment> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link CommentUtil} to access the comment persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Comment> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the comments where uuid = &#63;.
@@ -1277,8 +1267,5 @@ public interface CommentPersistence extends BasePersistence<Comment> {
 	 * @return the number of comments
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

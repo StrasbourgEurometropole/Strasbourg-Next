@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class AgendaLocalServiceWrapper
 	implements AgendaLocalService, ServiceWrapper<AgendaLocalService> {
 
+	public AgendaLocalServiceWrapper() {
+		this(null);
+	}
+
 	public AgendaLocalServiceWrapper(AgendaLocalService agendaLocalService) {
 		_agendaLocalService = agendaLocalService;
 	}
@@ -63,6 +67,17 @@ public class AgendaLocalServiceWrapper
 		long agendaId) {
 
 		return _agendaLocalService.createAgenda(agendaId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _agendaLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -109,6 +124,18 @@ public class AgendaLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _agendaLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _agendaLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _agendaLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

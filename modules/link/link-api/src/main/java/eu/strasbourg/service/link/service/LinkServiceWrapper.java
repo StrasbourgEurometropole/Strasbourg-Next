@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class LinkServiceWrapper
 	implements LinkService, ServiceWrapper<LinkService> {
 
+	public LinkServiceWrapper() {
+		this(null);
+	}
+
 	public LinkServiceWrapper(LinkService linkService) {
 		_linkService = linkService;
 	}

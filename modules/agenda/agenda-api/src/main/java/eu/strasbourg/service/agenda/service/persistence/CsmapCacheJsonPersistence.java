@@ -14,18 +14,14 @@
 
 package eu.strasbourg.service.agenda.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.agenda.exception.NoSuchCsmapCacheJsonException;
 import eu.strasbourg.service.agenda.model.CsmapCacheJson;
 
-import java.io.Serializable;
-
 import java.util.Date;
-import java.util.Map;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the csmap cache json service.
@@ -47,9 +43,6 @@ public interface CsmapCacheJsonPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link CsmapCacheJsonUtil} to access the csmap cache json persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, CsmapCacheJson> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the csmap cache jsons where uuid = &#63;.
@@ -1465,8 +1458,5 @@ public interface CsmapCacheJsonPersistence
 	 * @return the number of csmap cache jsons
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

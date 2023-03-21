@@ -14,16 +14,12 @@
 
 package eu.strasbourg.service.council.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +31,11 @@ import java.util.Objects;
  * @generated
  */
 public class OfficialTypeCouncilWrapper
+	extends BaseModelWrapper<OfficialTypeCouncil>
 	implements ModelWrapper<OfficialTypeCouncil>, OfficialTypeCouncil {
 
 	public OfficialTypeCouncilWrapper(OfficialTypeCouncil officialTypeCouncil) {
-		_officialTypeCouncil = officialTypeCouncil;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return OfficialTypeCouncil.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return OfficialTypeCouncil.class.getName();
+		super(officialTypeCouncil);
 	}
 
 	@Override
@@ -112,17 +99,8 @@ public class OfficialTypeCouncilWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new OfficialTypeCouncilWrapper(
-			(OfficialTypeCouncil)_officialTypeCouncil.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.council.model.OfficialTypeCouncil
-			officialTypeCouncil) {
-
-		return _officialTypeCouncil.compareTo(officialTypeCouncil);
+	public OfficialTypeCouncil cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -132,7 +110,7 @@ public class OfficialTypeCouncilWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _officialTypeCouncil.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -142,12 +120,7 @@ public class OfficialTypeCouncilWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _officialTypeCouncil.getCreateDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _officialTypeCouncil.getExpandoBridge();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -157,7 +130,7 @@ public class OfficialTypeCouncilWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _officialTypeCouncil.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -167,7 +140,7 @@ public class OfficialTypeCouncilWrapper
 	 */
 	@Override
 	public long getOfficialId() {
-		return _officialTypeCouncil.getOfficialId();
+		return model.getOfficialId();
 	}
 
 	/**
@@ -180,12 +153,7 @@ public class OfficialTypeCouncilWrapper
 		eu.strasbourg.service.council.service.persistence.OfficialTypeCouncilPK
 			getPrimaryKey() {
 
-		return _officialTypeCouncil.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _officialTypeCouncil.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -195,7 +163,7 @@ public class OfficialTypeCouncilWrapper
 	 */
 	@Override
 	public String getResult() {
-		return _officialTypeCouncil.getResult();
+		return model.getResult();
 	}
 
 	/**
@@ -205,7 +173,7 @@ public class OfficialTypeCouncilWrapper
 	 */
 	@Override
 	public long getTypeId() {
-		return _officialTypeCouncil.getTypeId();
+		return model.getTypeId();
 	}
 
 	/**
@@ -215,37 +183,12 @@ public class OfficialTypeCouncilWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _officialTypeCouncil.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _officialTypeCouncil.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _officialTypeCouncil.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _officialTypeCouncil.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _officialTypeCouncil.isNew();
+		return model.getUuid();
 	}
 
 	@Override
 	public void persist() {
-		_officialTypeCouncil.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_officialTypeCouncil.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -255,7 +198,7 @@ public class OfficialTypeCouncilWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_officialTypeCouncil.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -265,24 +208,7 @@ public class OfficialTypeCouncilWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_officialTypeCouncil.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_officialTypeCouncil.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_officialTypeCouncil.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_officialTypeCouncil.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -292,12 +218,7 @@ public class OfficialTypeCouncilWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_officialTypeCouncil.setGroupId(groupId);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_officialTypeCouncil.setNew(n);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -307,7 +228,7 @@ public class OfficialTypeCouncilWrapper
 	 */
 	@Override
 	public void setOfficialId(long officialId) {
-		_officialTypeCouncil.setOfficialId(officialId);
+		model.setOfficialId(officialId);
 	}
 
 	/**
@@ -320,12 +241,7 @@ public class OfficialTypeCouncilWrapper
 		eu.strasbourg.service.council.service.persistence.OfficialTypeCouncilPK
 			primaryKey) {
 
-		_officialTypeCouncil.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_officialTypeCouncil.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -335,7 +251,7 @@ public class OfficialTypeCouncilWrapper
 	 */
 	@Override
 	public void setResult(String result) {
-		_officialTypeCouncil.setResult(result);
+		model.setResult(result);
 	}
 
 	/**
@@ -345,7 +261,7 @@ public class OfficialTypeCouncilWrapper
 	 */
 	@Override
 	public void setTypeId(long typeId) {
-		_officialTypeCouncil.setTypeId(typeId);
+		model.setTypeId(typeId);
 	}
 
 	/**
@@ -355,86 +271,19 @@ public class OfficialTypeCouncilWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_officialTypeCouncil.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.council.model.OfficialTypeCouncil>
-			toCacheModel() {
-
-		return _officialTypeCouncil.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.council.model.OfficialTypeCouncil
-		toEscapedModel() {
-
-		return new OfficialTypeCouncilWrapper(
-			_officialTypeCouncil.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _officialTypeCouncil.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.council.model.OfficialTypeCouncil
-		toUnescapedModel() {
-
-		return new OfficialTypeCouncilWrapper(
-			_officialTypeCouncil.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _officialTypeCouncil.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
+	protected OfficialTypeCouncilWrapper wrap(
+		OfficialTypeCouncil officialTypeCouncil) {
 
-		if (!(object instanceof OfficialTypeCouncilWrapper)) {
-			return false;
-		}
-
-		OfficialTypeCouncilWrapper officialTypeCouncilWrapper =
-			(OfficialTypeCouncilWrapper)object;
-
-		if (Objects.equals(
-				_officialTypeCouncil,
-				officialTypeCouncilWrapper._officialTypeCouncil)) {
-
-			return true;
-		}
-
-		return false;
+		return new OfficialTypeCouncilWrapper(officialTypeCouncil);
 	}
-
-	@Override
-	public OfficialTypeCouncil getWrappedModel() {
-		return _officialTypeCouncil;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _officialTypeCouncil.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _officialTypeCouncil.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_officialTypeCouncil.resetOriginalValues();
-	}
-
-	private final OfficialTypeCouncil _officialTypeCouncil;
 
 }

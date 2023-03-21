@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class SubPlaceLocalServiceWrapper
 	implements ServiceWrapper<SubPlaceLocalService>, SubPlaceLocalService {
 
+	public SubPlaceLocalServiceWrapper() {
+		this(null);
+	}
+
 	public SubPlaceLocalServiceWrapper(
 		SubPlaceLocalService subPlaceLocalService) {
 
@@ -47,6 +51,17 @@ public class SubPlaceLocalServiceWrapper
 		eu.strasbourg.service.place.model.SubPlace subPlace) {
 
 		return _subPlaceLocalService.addSubPlace(subPlace);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _subPlaceLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -118,6 +133,18 @@ public class SubPlaceLocalServiceWrapper
 		eu.strasbourg.service.place.model.SubPlace subPlace) {
 
 		return _subPlaceLocalService.deleteSubPlace(subPlace);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _subPlaceLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _subPlaceLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

@@ -14,9 +14,15 @@
 
 package eu.strasbourg.service.search.log.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.search.log.model.SearchLog;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Provides the local service utility for SearchLog. This utility wraps
@@ -48,16 +54,14 @@ public class SearchLogLocalServiceUtil {
 	 * @param searchLog the search log
 	 * @return the search log that was added
 	 */
-	public static eu.strasbourg.service.search.log.model.SearchLog addSearchLog(
-		eu.strasbourg.service.search.log.model.SearchLog searchLog) {
-
+	public static SearchLog addSearchLog(SearchLog searchLog) {
 		return getService().addSearchLog(searchLog);
 	}
 
 	/**
 	 * Crée un log de la recherche
 	 */
-	public static eu.strasbourg.service.search.log.model.SearchLog addSearchLog(
+	public static SearchLog addSearchLog(
 			com.liferay.portal.kernel.service.ServiceContext sc,
 			String keywords, long resultCount,
 			com.liferay.asset.kernel.model.AssetEntry result1,
@@ -65,11 +69,21 @@ public class SearchLogLocalServiceUtil {
 			com.liferay.asset.kernel.model.AssetEntry result3,
 			com.liferay.asset.kernel.model.AssetEntry userTargetResult,
 			long searchTime)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().addSearchLog(
 			sc, keywords, resultCount, result1, result2, result3,
 			userTargetResult, searchTime);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -78,19 +92,16 @@ public class SearchLogLocalServiceUtil {
 	 * @param searchLogId the primary key for the new search log
 	 * @return the new search log
 	 */
-	public static eu.strasbourg.service.search.log.model.SearchLog
-		createSearchLog(long searchLogId) {
-
+	public static SearchLog createSearchLog(long searchLogId) {
 		return getService().createSearchLog(searchLogId);
 	}
 
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -106,9 +117,8 @@ public class SearchLogLocalServiceUtil {
 	 * @return the search log that was removed
 	 * @throws PortalException if a search log with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.search.log.model.SearchLog
-			deleteSearchLog(long searchLogId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static SearchLog deleteSearchLog(long searchLogId)
+		throws PortalException {
 
 		return getService().deleteSearchLog(searchLogId);
 	}
@@ -123,16 +133,19 @@ public class SearchLogLocalServiceUtil {
 	 * @param searchLog the search log
 	 * @return the search log that was removed
 	 */
-	public static eu.strasbourg.service.search.log.model.SearchLog
-		deleteSearchLog(
-			eu.strasbourg.service.search.log.model.SearchLog searchLog) {
-
+	public static SearchLog deleteSearchLog(SearchLog searchLog) {
 		return getService().deleteSearchLog(searchLog);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -142,9 +155,7 @@ public class SearchLogLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -160,9 +171,8 @@ public class SearchLogLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -180,10 +190,9 @@ public class SearchLogLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -195,9 +204,7 @@ public class SearchLogLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -209,15 +216,13 @@ public class SearchLogLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.search.log.model.SearchLog
-		fetchSearchLog(long searchLogId) {
-
+	public static SearchLog fetchSearchLog(long searchLogId) {
 		return getService().fetchSearchLog(searchLogId);
 	}
 
@@ -246,9 +251,8 @@ public class SearchLogLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -260,9 +264,8 @@ public class SearchLogLocalServiceUtil {
 	 * @return the search log
 	 * @throws PortalException if a search log with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.search.log.model.SearchLog getSearchLog(
-			long searchLogId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static SearchLog getSearchLog(long searchLogId)
+		throws PortalException {
 
 		return getService().getSearchLog(searchLogId);
 	}
@@ -278,10 +281,7 @@ public class SearchLogLocalServiceUtil {
 	 * @param end the upper bound of the range of search logs (not inclusive)
 	 * @return the range of search logs
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.search.log.model.SearchLog> getSearchLogs(
-			int start, int end) {
-
+	public static List<SearchLog> getSearchLogs(int start, int end) {
 		return getService().getSearchLogs(start, end);
 	}
 
@@ -304,33 +304,14 @@ public class SearchLogLocalServiceUtil {
 	 * @param searchLog the search log
 	 * @return the search log that was updated
 	 */
-	public static eu.strasbourg.service.search.log.model.SearchLog
-		updateSearchLog(
-			eu.strasbourg.service.search.log.model.SearchLog searchLog) {
-
+	public static SearchLog updateSearchLog(SearchLog searchLog) {
 		return getService().updateSearchLog(searchLog);
 	}
 
 	public static SearchLogLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<SearchLogLocalService, SearchLogLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(SearchLogLocalService.class);
-
-		ServiceTracker<SearchLogLocalService, SearchLogLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<SearchLogLocalService, SearchLogLocalService>(
-						bundle.getBundleContext(), SearchLogLocalService.class,
-						null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile SearchLogLocalService _service;
 
 }

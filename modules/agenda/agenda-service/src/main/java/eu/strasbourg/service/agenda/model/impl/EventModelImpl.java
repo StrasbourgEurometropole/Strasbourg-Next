@@ -17,6 +17,7 @@ package eu.strasbourg.service.agenda.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -33,29 +34,27 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventModel;
-import eu.strasbourg.service.agenda.model.EventSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -205,143 +204,96 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.agenda.model.Event"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.agenda.model.Event"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.agenda.model.Event"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long IDSOURCE_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long LASTENDDATE_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PLACESIGID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 32L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long SOURCE_COLUMN_BITMASK = 64L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 128L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STATUSDATE_COLUMN_BITMASK = 256L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long TITLE_COLUMN_BITMASK = 512L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 1024L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long MODIFIEDDATE_COLUMN_BITMASK = 2048L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Event toModel(EventSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Event model = new EventImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setEventId(soapModel.getEventId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setLastPublishDate(soapModel.getLastPublishDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setTitle(soapModel.getTitle());
-		model.setSubtitle(soapModel.getSubtitle());
-		model.setDescription(soapModel.getDescription());
-		model.setExternalImageURL(soapModel.getExternalImageURL());
-		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
-		model.setImageWidth(soapModel.getImageWidth());
-		model.setImageHeight(soapModel.getImageHeight());
-		model.setPlaceSIGId(soapModel.getPlaceSIGId());
-		model.setPlaceName(soapModel.getPlaceName());
-		model.setPlaceStreetNumber(soapModel.getPlaceStreetNumber());
-		model.setPlaceStreetName(soapModel.getPlaceStreetName());
-		model.setPlaceZipCode(soapModel.getPlaceZipCode());
-		model.setPlaceCity(soapModel.getPlaceCity());
-		model.setPlaceCountry(soapModel.getPlaceCountry());
-		model.setMercatorX(soapModel.getMercatorX());
-		model.setMercatorY(soapModel.getMercatorY());
-		model.setAccess(soapModel.getAccess());
-		model.setAccessForDisabled(soapModel.getAccessForDisabled());
-		model.setAccessForBlind(soapModel.getAccessForBlind());
-		model.setAccessForDeaf(soapModel.getAccessForDeaf());
-		model.setAccessForWheelchair(soapModel.getAccessForWheelchair());
-		model.setAccessForElder(soapModel.getAccessForElder());
-		model.setAccessForDeficient(soapModel.getAccessForDeficient());
-		model.setPromoter(soapModel.getPromoter());
-		model.setPhone(soapModel.getPhone());
-		model.setEmail(soapModel.getEmail());
-		model.setWebsiteURL(soapModel.getWebsiteURL());
-		model.setWebsiteName(soapModel.getWebsiteName());
-		model.setFree(soapModel.getFree());
-		model.setPrice(soapModel.getPrice());
-		model.setBookingDescription(soapModel.getBookingDescription());
-		model.setBookingURL(soapModel.getBookingURL());
-		model.setSubscriptionURL(soapModel.getSubscriptionURL());
-		model.setSource(soapModel.getSource());
-		model.setIdSource(soapModel.getIdSource());
-		model.setPublicationDate(soapModel.getPublicationDate());
-		model.setDistribution(soapModel.getDistribution());
-		model.setComposer(soapModel.getComposer());
-		model.setConcertId(soapModel.getConcertId());
-		model.setProgram(soapModel.getProgram());
-		model.setFirstStartDate(soapModel.getFirstStartDate());
-		model.setLastEndDate(soapModel.getLastEndDate());
-		model.setCreateDateSource(soapModel.getCreateDateSource());
-		model.setModifiedDateSource(soapModel.getModifiedDateSource());
-		model.setImageId(soapModel.getImageId());
-		model.setRegistration(soapModel.isRegistration());
-		model.setRegistrationStartDate(soapModel.getRegistrationStartDate());
-		model.setRegistrationEndDate(soapModel.getRegistrationEndDate());
-		model.setMaxGauge(soapModel.getMaxGauge());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Event> toModels(EventSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Event> models = new ArrayList<Event>(soapModels.length);
-
-		for (EventSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final String MAPPING_TABLE_AGENDA_EVENTTOMANIFESTATION_NAME =
 		"agenda_EventToManifestation";
@@ -356,12 +308,12 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		MAPPING_TABLE_AGENDA_EVENTTOMANIFESTATION_SQL_CREATE =
 			"create table agenda_EventToManifestation (companyId LONG not null,eventId LONG not null,manifestationId LONG not null,primary key (eventId, manifestationId))";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public static final boolean
-		FINDER_CACHE_ENABLED_AGENDA_EVENTTOMANIFESTATION =
-			GetterUtil.getBoolean(
-				eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-					"value.object.finder.cache.enabled.agenda_EventToManifestation"),
-				true);
+		FINDER_CACHE_ENABLED_AGENDA_EVENTTOMANIFESTATION = true;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
@@ -417,9 +369,6 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 				attributeName, attributeGetterFunction.apply((Event)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -450,33 +399,6 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Event>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Event.class.getClassLoader(), Event.class, ModelWrapper.class);
-
-		try {
-			Constructor<Event> constructor =
-				(Constructor<Event>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<Event, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Event, Object>>
@@ -488,1270 +410,233 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		Map<String, BiConsumer<Event, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Event, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", Event::getUuid);
 		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object uuidObject) {
-					event.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"eventId",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getEventId();
-				}
-
-			});
+			"uuid", (BiConsumer<Event, String>)Event::setUuid);
+		attributeGetterFunctions.put("eventId", Event::getEventId);
 		attributeSetterBiConsumers.put(
-			"eventId",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object eventIdObject) {
-					event.setEventId((Long)eventIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getGroupId();
-				}
-
-			});
+			"eventId", (BiConsumer<Event, Long>)Event::setEventId);
+		attributeGetterFunctions.put("groupId", Event::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object groupIdObject) {
-					event.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getCompanyId();
-				}
-
-			});
+			"groupId", (BiConsumer<Event, Long>)Event::setGroupId);
+		attributeGetterFunctions.put("companyId", Event::getCompanyId);
 		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object companyIdObject) {
-					event.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getUserId();
-				}
-
-			});
+			"companyId", (BiConsumer<Event, Long>)Event::setCompanyId);
+		attributeGetterFunctions.put("userId", Event::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object userIdObject) {
-					event.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getUserName();
-				}
-
-			});
+			"userId", (BiConsumer<Event, Long>)Event::setUserId);
+		attributeGetterFunctions.put("userName", Event::getUserName);
 		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object userNameObject) {
-					event.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getCreateDate();
-				}
-
-			});
+			"userName", (BiConsumer<Event, String>)Event::setUserName);
+		attributeGetterFunctions.put("createDate", Event::getCreateDate);
 		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object createDateObject) {
-					event.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getModifiedDate();
-				}
-
-			});
+			"createDate", (BiConsumer<Event, Date>)Event::setCreateDate);
+		attributeGetterFunctions.put("modifiedDate", Event::getModifiedDate);
 		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object modifiedDateObject) {
-					event.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
+			"modifiedDate", (BiConsumer<Event, Date>)Event::setModifiedDate);
 		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getLastPublishDate();
-				}
-
-			});
+			"lastPublishDate", Event::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object lastPublishDateObject) {
-					event.setLastPublishDate((Date)lastPublishDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getStatus();
-				}
-
-			});
+			(BiConsumer<Event, Date>)Event::setLastPublishDate);
+		attributeGetterFunctions.put("status", Event::getStatus);
 		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object statusObject) {
-					event.setStatus((Integer)statusObject);
-				}
-
-			});
+			"status", (BiConsumer<Event, Integer>)Event::setStatus);
 		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getStatusByUserId();
-				}
-
-			});
+			"statusByUserId", Event::getStatusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object statusByUserIdObject) {
-					event.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
+			(BiConsumer<Event, Long>)Event::setStatusByUserId);
 		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getStatusByUserName();
-				}
-
-			});
+			"statusByUserName", Event::getStatusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object statusByUserNameObject) {
-					event.setStatusByUserName((String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getStatusDate();
-				}
-
-			});
+			(BiConsumer<Event, String>)Event::setStatusByUserName);
+		attributeGetterFunctions.put("statusDate", Event::getStatusDate);
 		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object statusDateObject) {
-					event.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getTitle();
-				}
-
-			});
+			"statusDate", (BiConsumer<Event, Date>)Event::setStatusDate);
+		attributeGetterFunctions.put("title", Event::getTitle);
 		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object titleObject) {
-					event.setTitle((String)titleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"subtitle",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getSubtitle();
-				}
-
-			});
+			"title", (BiConsumer<Event, String>)Event::setTitle);
+		attributeGetterFunctions.put("subtitle", Event::getSubtitle);
 		attributeSetterBiConsumers.put(
-			"subtitle",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object subtitleObject) {
-					event.setSubtitle((String)subtitleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"description",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getDescription();
-				}
-
-			});
+			"subtitle", (BiConsumer<Event, String>)Event::setSubtitle);
+		attributeGetterFunctions.put("description", Event::getDescription);
 		attributeSetterBiConsumers.put(
-			"description",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object descriptionObject) {
-					event.setDescription((String)descriptionObject);
-				}
-
-			});
+			"description", (BiConsumer<Event, String>)Event::setDescription);
 		attributeGetterFunctions.put(
-			"externalImageURL",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getExternalImageURL();
-				}
-
-			});
+			"externalImageURL", Event::getExternalImageURL);
 		attributeSetterBiConsumers.put(
 			"externalImageURL",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object externalImageURLObject) {
-					event.setExternalImageURL((String)externalImageURLObject);
-				}
-
-			});
+			(BiConsumer<Event, String>)Event::setExternalImageURL);
 		attributeGetterFunctions.put(
-			"externalImageCopyright",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getExternalImageCopyright();
-				}
-
-			});
+			"externalImageCopyright", Event::getExternalImageCopyright);
 		attributeSetterBiConsumers.put(
 			"externalImageCopyright",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(
-					Event event, Object externalImageCopyrightObject) {
-
-					event.setExternalImageCopyright(
-						(String)externalImageCopyrightObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"imageWidth",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getImageWidth();
-				}
-
-			});
+			(BiConsumer<Event, String>)Event::setExternalImageCopyright);
+		attributeGetterFunctions.put("imageWidth", Event::getImageWidth);
 		attributeSetterBiConsumers.put(
-			"imageWidth",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object imageWidthObject) {
-					event.setImageWidth((Integer)imageWidthObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"imageHeight",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getImageHeight();
-				}
-
-			});
+			"imageWidth", (BiConsumer<Event, Integer>)Event::setImageWidth);
+		attributeGetterFunctions.put("imageHeight", Event::getImageHeight);
 		attributeSetterBiConsumers.put(
-			"imageHeight",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object imageHeightObject) {
-					event.setImageHeight((Integer)imageHeightObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"placeSIGId",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getPlaceSIGId();
-				}
-
-			});
+			"imageHeight", (BiConsumer<Event, Integer>)Event::setImageHeight);
+		attributeGetterFunctions.put("placeSIGId", Event::getPlaceSIGId);
 		attributeSetterBiConsumers.put(
-			"placeSIGId",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object placeSIGIdObject) {
-					event.setPlaceSIGId((String)placeSIGIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"placeName",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getPlaceName();
-				}
-
-			});
+			"placeSIGId", (BiConsumer<Event, String>)Event::setPlaceSIGId);
+		attributeGetterFunctions.put("placeName", Event::getPlaceName);
 		attributeSetterBiConsumers.put(
-			"placeName",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object placeNameObject) {
-					event.setPlaceName((String)placeNameObject);
-				}
-
-			});
+			"placeName", (BiConsumer<Event, String>)Event::setPlaceName);
 		attributeGetterFunctions.put(
-			"placeStreetNumber",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getPlaceStreetNumber();
-				}
-
-			});
+			"placeStreetNumber", Event::getPlaceStreetNumber);
 		attributeSetterBiConsumers.put(
 			"placeStreetNumber",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(
-					Event event, Object placeStreetNumberObject) {
-
-					event.setPlaceStreetNumber((String)placeStreetNumberObject);
-				}
-
-			});
+			(BiConsumer<Event, String>)Event::setPlaceStreetNumber);
 		attributeGetterFunctions.put(
-			"placeStreetName",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getPlaceStreetName();
-				}
-
-			});
+			"placeStreetName", Event::getPlaceStreetName);
 		attributeSetterBiConsumers.put(
 			"placeStreetName",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object placeStreetNameObject) {
-					event.setPlaceStreetName((String)placeStreetNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"placeZipCode",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getPlaceZipCode();
-				}
-
-			});
+			(BiConsumer<Event, String>)Event::setPlaceStreetName);
+		attributeGetterFunctions.put("placeZipCode", Event::getPlaceZipCode);
 		attributeSetterBiConsumers.put(
-			"placeZipCode",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object placeZipCodeObject) {
-					event.setPlaceZipCode((String)placeZipCodeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"placeCity",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getPlaceCity();
-				}
-
-			});
+			"placeZipCode", (BiConsumer<Event, String>)Event::setPlaceZipCode);
+		attributeGetterFunctions.put("placeCity", Event::getPlaceCity);
 		attributeSetterBiConsumers.put(
-			"placeCity",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object placeCityObject) {
-					event.setPlaceCity((String)placeCityObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"placeCountry",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getPlaceCountry();
-				}
-
-			});
+			"placeCity", (BiConsumer<Event, String>)Event::setPlaceCity);
+		attributeGetterFunctions.put("placeCountry", Event::getPlaceCountry);
 		attributeSetterBiConsumers.put(
-			"placeCountry",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object placeCountryObject) {
-					event.setPlaceCountry((String)placeCountryObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"mercatorX",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getMercatorX();
-				}
-
-			});
+			"placeCountry", (BiConsumer<Event, String>)Event::setPlaceCountry);
+		attributeGetterFunctions.put("mercatorX", Event::getMercatorX);
 		attributeSetterBiConsumers.put(
-			"mercatorX",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object mercatorXObject) {
-					event.setMercatorX((String)mercatorXObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"mercatorY",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getMercatorY();
-				}
-
-			});
+			"mercatorX", (BiConsumer<Event, String>)Event::setMercatorX);
+		attributeGetterFunctions.put("mercatorY", Event::getMercatorY);
 		attributeSetterBiConsumers.put(
-			"mercatorY",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object mercatorYObject) {
-					event.setMercatorY((String)mercatorYObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"access",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getAccess();
-				}
-
-			});
+			"mercatorY", (BiConsumer<Event, String>)Event::setMercatorY);
+		attributeGetterFunctions.put("access", Event::getAccess);
 		attributeSetterBiConsumers.put(
-			"access",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object accessObject) {
-					event.setAccess((String)accessObject);
-				}
-
-			});
+			"access", (BiConsumer<Event, String>)Event::setAccess);
 		attributeGetterFunctions.put(
-			"accessForDisabled",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getAccessForDisabled();
-				}
-
-			});
+			"accessForDisabled", Event::getAccessForDisabled);
 		attributeSetterBiConsumers.put(
 			"accessForDisabled",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(
-					Event event, Object accessForDisabledObject) {
-
-					event.setAccessForDisabled((String)accessForDisabledObject);
-				}
-
-			});
+			(BiConsumer<Event, String>)Event::setAccessForDisabled);
 		attributeGetterFunctions.put(
-			"accessForBlind",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getAccessForBlind();
-				}
-
-			});
+			"accessForBlind", Event::getAccessForBlind);
 		attributeSetterBiConsumers.put(
 			"accessForBlind",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object accessForBlindObject) {
-					event.setAccessForBlind((Boolean)accessForBlindObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"accessForDeaf",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getAccessForDeaf();
-				}
-
-			});
+			(BiConsumer<Event, Boolean>)Event::setAccessForBlind);
+		attributeGetterFunctions.put("accessForDeaf", Event::getAccessForDeaf);
 		attributeSetterBiConsumers.put(
 			"accessForDeaf",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object accessForDeafObject) {
-					event.setAccessForDeaf((Boolean)accessForDeafObject);
-				}
-
-			});
+			(BiConsumer<Event, Boolean>)Event::setAccessForDeaf);
 		attributeGetterFunctions.put(
-			"accessForWheelchair",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getAccessForWheelchair();
-				}
-
-			});
+			"accessForWheelchair", Event::getAccessForWheelchair);
 		attributeSetterBiConsumers.put(
 			"accessForWheelchair",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(
-					Event event, Object accessForWheelchairObject) {
-
-					event.setAccessForWheelchair(
-						(Boolean)accessForWheelchairObject);
-				}
-
-			});
+			(BiConsumer<Event, Boolean>)Event::setAccessForWheelchair);
 		attributeGetterFunctions.put(
-			"accessForElder",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getAccessForElder();
-				}
-
-			});
+			"accessForElder", Event::getAccessForElder);
 		attributeSetterBiConsumers.put(
 			"accessForElder",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object accessForElderObject) {
-					event.setAccessForElder((Boolean)accessForElderObject);
-				}
-
-			});
+			(BiConsumer<Event, Boolean>)Event::setAccessForElder);
 		attributeGetterFunctions.put(
-			"accessForDeficient",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getAccessForDeficient();
-				}
-
-			});
+			"accessForDeficient", Event::getAccessForDeficient);
 		attributeSetterBiConsumers.put(
 			"accessForDeficient",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(
-					Event event, Object accessForDeficientObject) {
-
-					event.setAccessForDeficient(
-						(Boolean)accessForDeficientObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"promoter",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getPromoter();
-				}
-
-			});
+			(BiConsumer<Event, Boolean>)Event::setAccessForDeficient);
+		attributeGetterFunctions.put("promoter", Event::getPromoter);
 		attributeSetterBiConsumers.put(
-			"promoter",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object promoterObject) {
-					event.setPromoter((String)promoterObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"phone",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getPhone();
-				}
-
-			});
+			"promoter", (BiConsumer<Event, String>)Event::setPromoter);
+		attributeGetterFunctions.put("phone", Event::getPhone);
 		attributeSetterBiConsumers.put(
-			"phone",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object phoneObject) {
-					event.setPhone((String)phoneObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"email",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getEmail();
-				}
-
-			});
+			"phone", (BiConsumer<Event, String>)Event::setPhone);
+		attributeGetterFunctions.put("email", Event::getEmail);
 		attributeSetterBiConsumers.put(
-			"email",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object emailObject) {
-					event.setEmail((String)emailObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"websiteURL",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getWebsiteURL();
-				}
-
-			});
+			"email", (BiConsumer<Event, String>)Event::setEmail);
+		attributeGetterFunctions.put("websiteURL", Event::getWebsiteURL);
 		attributeSetterBiConsumers.put(
-			"websiteURL",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object websiteURLObject) {
-					event.setWebsiteURL((String)websiteURLObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"websiteName",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getWebsiteName();
-				}
-
-			});
+			"websiteURL", (BiConsumer<Event, String>)Event::setWebsiteURL);
+		attributeGetterFunctions.put("websiteName", Event::getWebsiteName);
 		attributeSetterBiConsumers.put(
-			"websiteName",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object websiteNameObject) {
-					event.setWebsiteName((String)websiteNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"free",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getFree();
-				}
-
-			});
+			"websiteName", (BiConsumer<Event, String>)Event::setWebsiteName);
+		attributeGetterFunctions.put("free", Event::getFree);
 		attributeSetterBiConsumers.put(
-			"free",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object freeObject) {
-					event.setFree((Integer)freeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"price",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getPrice();
-				}
-
-			});
+			"free", (BiConsumer<Event, Integer>)Event::setFree);
+		attributeGetterFunctions.put("price", Event::getPrice);
 		attributeSetterBiConsumers.put(
-			"price",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object priceObject) {
-					event.setPrice((String)priceObject);
-				}
-
-			});
+			"price", (BiConsumer<Event, String>)Event::setPrice);
 		attributeGetterFunctions.put(
-			"bookingDescription",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getBookingDescription();
-				}
-
-			});
+			"bookingDescription", Event::getBookingDescription);
 		attributeSetterBiConsumers.put(
 			"bookingDescription",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(
-					Event event, Object bookingDescriptionObject) {
-
-					event.setBookingDescription(
-						(String)bookingDescriptionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"bookingURL",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getBookingURL();
-				}
-
-			});
+			(BiConsumer<Event, String>)Event::setBookingDescription);
+		attributeGetterFunctions.put("bookingURL", Event::getBookingURL);
 		attributeSetterBiConsumers.put(
-			"bookingURL",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object bookingURLObject) {
-					event.setBookingURL((String)bookingURLObject);
-				}
-
-			});
+			"bookingURL", (BiConsumer<Event, String>)Event::setBookingURL);
 		attributeGetterFunctions.put(
-			"subscriptionURL",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getSubscriptionURL();
-				}
-
-			});
+			"subscriptionURL", Event::getSubscriptionURL);
 		attributeSetterBiConsumers.put(
 			"subscriptionURL",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object subscriptionURLObject) {
-					event.setSubscriptionURL((String)subscriptionURLObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"source",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getSource();
-				}
-
-			});
+			(BiConsumer<Event, String>)Event::setSubscriptionURL);
+		attributeGetterFunctions.put("source", Event::getSource);
 		attributeSetterBiConsumers.put(
-			"source",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object sourceObject) {
-					event.setSource((String)sourceObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"idSource",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getIdSource();
-				}
-
-			});
+			"source", (BiConsumer<Event, String>)Event::setSource);
+		attributeGetterFunctions.put("idSource", Event::getIdSource);
 		attributeSetterBiConsumers.put(
-			"idSource",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object idSourceObject) {
-					event.setIdSource((String)idSourceObject);
-				}
-
-			});
+			"idSource", (BiConsumer<Event, String>)Event::setIdSource);
 		attributeGetterFunctions.put(
-			"publicationDate",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getPublicationDate();
-				}
-
-			});
+			"publicationDate", Event::getPublicationDate);
 		attributeSetterBiConsumers.put(
 			"publicationDate",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object publicationDateObject) {
-					event.setPublicationDate((Date)publicationDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"distribution",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getDistribution();
-				}
-
-			});
+			(BiConsumer<Event, Date>)Event::setPublicationDate);
+		attributeGetterFunctions.put("distribution", Event::getDistribution);
 		attributeSetterBiConsumers.put(
-			"distribution",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object distributionObject) {
-					event.setDistribution((String)distributionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"composer",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getComposer();
-				}
-
-			});
+			"distribution", (BiConsumer<Event, String>)Event::setDistribution);
+		attributeGetterFunctions.put("composer", Event::getComposer);
 		attributeSetterBiConsumers.put(
-			"composer",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object composerObject) {
-					event.setComposer((String)composerObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"concertId",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getConcertId();
-				}
-
-			});
+			"composer", (BiConsumer<Event, String>)Event::setComposer);
+		attributeGetterFunctions.put("concertId", Event::getConcertId);
 		attributeSetterBiConsumers.put(
-			"concertId",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object concertIdObject) {
-					event.setConcertId((String)concertIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"program",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getProgram();
-				}
-
-			});
+			"concertId", (BiConsumer<Event, String>)Event::setConcertId);
+		attributeGetterFunctions.put("program", Event::getProgram);
 		attributeSetterBiConsumers.put(
-			"program",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object programObject) {
-					event.setProgram((String)programObject);
-				}
-
-			});
+			"program", (BiConsumer<Event, String>)Event::setProgram);
 		attributeGetterFunctions.put(
-			"firstStartDate",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getFirstStartDate();
-				}
-
-			});
+			"firstStartDate", Event::getFirstStartDate);
 		attributeSetterBiConsumers.put(
 			"firstStartDate",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object firstStartDateObject) {
-					event.setFirstStartDate((Date)firstStartDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastEndDate",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getLastEndDate();
-				}
-
-			});
+			(BiConsumer<Event, Date>)Event::setFirstStartDate);
+		attributeGetterFunctions.put("lastEndDate", Event::getLastEndDate);
 		attributeSetterBiConsumers.put(
-			"lastEndDate",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object lastEndDateObject) {
-					event.setLastEndDate((Date)lastEndDateObject);
-				}
-
-			});
+			"lastEndDate", (BiConsumer<Event, Date>)Event::setLastEndDate);
 		attributeGetterFunctions.put(
-			"createDateSource",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getCreateDateSource();
-				}
-
-			});
+			"createDateSource", Event::getCreateDateSource);
 		attributeSetterBiConsumers.put(
 			"createDateSource",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object createDateSourceObject) {
-					event.setCreateDateSource((Date)createDateSourceObject);
-				}
-
-			});
+			(BiConsumer<Event, Date>)Event::setCreateDateSource);
 		attributeGetterFunctions.put(
-			"modifiedDateSource",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getModifiedDateSource();
-				}
-
-			});
+			"modifiedDateSource", Event::getModifiedDateSource);
 		attributeSetterBiConsumers.put(
 			"modifiedDateSource",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(
-					Event event, Object modifiedDateSourceObject) {
-
-					event.setModifiedDateSource((Date)modifiedDateSourceObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"imageId",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getImageId();
-				}
-
-			});
+			(BiConsumer<Event, Date>)Event::setModifiedDateSource);
+		attributeGetterFunctions.put("imageId", Event::getImageId);
 		attributeSetterBiConsumers.put(
-			"imageId",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object imageIdObject) {
-					event.setImageId((Long)imageIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"registration",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getRegistration();
-				}
-
-			});
+			"imageId", (BiConsumer<Event, Long>)Event::setImageId);
+		attributeGetterFunctions.put("registration", Event::getRegistration);
 		attributeSetterBiConsumers.put(
-			"registration",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object registrationObject) {
-					event.setRegistration((Boolean)registrationObject);
-				}
-
-			});
+			"registration", (BiConsumer<Event, Boolean>)Event::setRegistration);
 		attributeGetterFunctions.put(
-			"registrationStartDate",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getRegistrationStartDate();
-				}
-
-			});
+			"registrationStartDate", Event::getRegistrationStartDate);
 		attributeSetterBiConsumers.put(
 			"registrationStartDate",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(
-					Event event, Object registrationStartDateObject) {
-
-					event.setRegistrationStartDate(
-						(Date)registrationStartDateObject);
-				}
-
-			});
+			(BiConsumer<Event, Date>)Event::setRegistrationStartDate);
 		attributeGetterFunctions.put(
-			"registrationEndDate",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getRegistrationEndDate();
-				}
-
-			});
+			"registrationEndDate", Event::getRegistrationEndDate);
 		attributeSetterBiConsumers.put(
 			"registrationEndDate",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(
-					Event event, Object registrationEndDateObject) {
-
-					event.setRegistrationEndDate(
-						(Date)registrationEndDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"maxGauge",
-			new Function<Event, Object>() {
-
-				@Override
-				public Object apply(Event event) {
-					return event.getMaxGauge();
-				}
-
-			});
+			(BiConsumer<Event, Date>)Event::setRegistrationEndDate);
+		attributeGetterFunctions.put("maxGauge", Event::getMaxGauge);
 		attributeSetterBiConsumers.put(
-			"maxGauge",
-			new BiConsumer<Event, Object>() {
-
-				@Override
-				public void accept(Event event, Object maxGaugeObject) {
-					event.setMaxGauge((Long)maxGaugeObject);
-				}
-
-			});
+			"maxGauge", (BiConsumer<Event, Long>)Event::setMaxGauge);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -1772,17 +657,20 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -1793,6 +681,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setEventId(long eventId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_eventId = eventId;
 	}
 
@@ -1804,19 +696,20 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -1827,19 +720,21 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -1850,6 +745,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -1882,6 +781,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -1893,6 +796,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -1910,7 +817,9 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -1923,6 +832,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -1934,19 +847,21 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return GetterUtil.getInteger(
+			this.<Integer>getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -1957,6 +872,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1989,6 +908,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -2000,17 +923,20 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_columnBitmask |= STATUSDATE_COLUMN_BITMASK;
-
-		if (_originalStatusDate == null) {
-			_originalStatusDate = _statusDate;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_statusDate = statusDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalStatusDate() {
-		return _originalStatusDate;
+		return getColumnOriginalValue("statusDate");
 	}
 
 	@JSON
@@ -2069,10 +995,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setTitle(String title) {
-		_columnBitmask |= TITLE_COLUMN_BITMASK;
-
-		if (_originalTitle == null) {
-			_originalTitle = _title;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_title = title;
@@ -2124,8 +1048,13 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalTitle() {
-		return GetterUtil.getString(_originalTitle);
+		return getColumnOriginalValue("title");
 	}
 
 	@JSON
@@ -2184,6 +1113,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setSubtitle(String subtitle) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_subtitle = subtitle;
 	}
 
@@ -2292,6 +1225,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setDescription(String description) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_description = description;
 	}
 
@@ -2357,6 +1294,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setExternalImageURL(String externalImageURL) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_externalImageURL = externalImageURL;
 	}
 
@@ -2373,6 +1314,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setExternalImageCopyright(String externalImageCopyright) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_externalImageCopyright = externalImageCopyright;
 	}
 
@@ -2384,6 +1329,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setImageWidth(Integer imageWidth) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageWidth = imageWidth;
 	}
 
@@ -2395,6 +1344,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setImageHeight(Integer imageHeight) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageHeight = imageHeight;
 	}
 
@@ -2411,17 +1364,20 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setPlaceSIGId(String placeSIGId) {
-		_columnBitmask |= PLACESIGID_COLUMN_BITMASK;
-
-		if (_originalPlaceSIGId == null) {
-			_originalPlaceSIGId = _placeSIGId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_placeSIGId = placeSIGId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPlaceSIGId() {
-		return GetterUtil.getString(_originalPlaceSIGId);
+		return getColumnOriginalValue("placeSIGId");
 	}
 
 	@JSON
@@ -2480,6 +1436,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setPlaceName(String placeName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_placeName = placeName;
 	}
 
@@ -2545,6 +1505,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setPlaceStreetNumber(String placeStreetNumber) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_placeStreetNumber = placeStreetNumber;
 	}
 
@@ -2561,6 +1525,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setPlaceStreetName(String placeStreetName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_placeStreetName = placeStreetName;
 	}
 
@@ -2577,6 +1545,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setPlaceZipCode(String placeZipCode) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_placeZipCode = placeZipCode;
 	}
 
@@ -2593,6 +1565,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setPlaceCity(String placeCity) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_placeCity = placeCity;
 	}
 
@@ -2609,6 +1585,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setPlaceCountry(String placeCountry) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_placeCountry = placeCountry;
 	}
 
@@ -2625,6 +1605,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setMercatorX(String mercatorX) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mercatorX = mercatorX;
 	}
 
@@ -2641,6 +1625,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setMercatorY(String mercatorY) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mercatorY = mercatorY;
 	}
 
@@ -2700,6 +1688,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setAccess(String access) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_access = access;
 	}
 
@@ -2807,6 +1799,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setAccessForDisabled(String accessForDisabled) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_accessForDisabled = accessForDisabled;
 	}
 
@@ -2871,6 +1867,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setAccessForBlind(Boolean accessForBlind) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_accessForBlind = accessForBlind;
 	}
 
@@ -2882,6 +1882,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setAccessForDeaf(Boolean accessForDeaf) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_accessForDeaf = accessForDeaf;
 	}
 
@@ -2893,6 +1897,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setAccessForWheelchair(Boolean accessForWheelchair) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_accessForWheelchair = accessForWheelchair;
 	}
 
@@ -2904,6 +1912,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setAccessForElder(Boolean accessForElder) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_accessForElder = accessForElder;
 	}
 
@@ -2915,6 +1927,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setAccessForDeficient(Boolean accessForDeficient) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_accessForDeficient = accessForDeficient;
 	}
 
@@ -2931,6 +1947,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setPromoter(String promoter) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_promoter = promoter;
 	}
 
@@ -2947,6 +1967,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setPhone(String phone) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_phone = phone;
 	}
 
@@ -2963,6 +1987,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setEmail(String email) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_email = email;
 	}
 
@@ -3022,6 +2050,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setWebsiteURL(String websiteURL) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_websiteURL = websiteURL;
 	}
 
@@ -3130,6 +2162,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setWebsiteName(String websiteName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_websiteName = websiteName;
 	}
 
@@ -3190,6 +2226,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setFree(Integer free) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_free = free;
 	}
 
@@ -3249,6 +2289,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setPrice(String price) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_price = price;
 	}
 
@@ -3355,6 +2399,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setBookingDescription(String bookingDescription) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_bookingDescription = bookingDescription;
 	}
 
@@ -3426,6 +2474,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setBookingURL(String bookingURL) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_bookingURL = bookingURL;
 	}
 
@@ -3442,6 +2494,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setSubscriptionURL(String subscriptionURL) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_subscriptionURL = subscriptionURL;
 	}
 
@@ -3458,17 +2514,20 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setSource(String source) {
-		_columnBitmask |= SOURCE_COLUMN_BITMASK;
-
-		if (_originalSource == null) {
-			_originalSource = _source;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_source = source;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalSource() {
-		return GetterUtil.getString(_originalSource);
+		return getColumnOriginalValue("source");
 	}
 
 	@JSON
@@ -3484,17 +2543,20 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setIdSource(String idSource) {
-		_columnBitmask |= IDSOURCE_COLUMN_BITMASK;
-
-		if (_originalIdSource == null) {
-			_originalIdSource = _idSource;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_idSource = idSource;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalIdSource() {
-		return GetterUtil.getString(_originalIdSource);
+		return getColumnOriginalValue("idSource");
 	}
 
 	@JSON
@@ -3505,17 +2567,20 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setPublicationDate(Date publicationDate) {
-		_columnBitmask |= PUBLICATIONDATE_COLUMN_BITMASK;
-
-		if (_originalPublicationDate == null) {
-			_originalPublicationDate = _publicationDate;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publicationDate = publicationDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalPublicationDate() {
-		return _originalPublicationDate;
+		return getColumnOriginalValue("publicationDate");
 	}
 
 	@JSON
@@ -3574,6 +2639,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setDistribution(String distribution) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_distribution = distribution;
 	}
 
@@ -3639,6 +2708,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setComposer(String composer) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_composer = composer;
 	}
 
@@ -3655,6 +2728,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setConcertId(String concertId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_concertId = concertId;
 	}
 
@@ -3714,6 +2791,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setProgram(String program) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_program = program;
 	}
 
@@ -3774,6 +2855,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setFirstStartDate(Date firstStartDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_firstStartDate = firstStartDate;
 	}
 
@@ -3785,17 +2870,20 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setLastEndDate(Date lastEndDate) {
-		_columnBitmask |= LASTENDDATE_COLUMN_BITMASK;
-
-		if (_originalLastEndDate == null) {
-			_originalLastEndDate = _lastEndDate;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_lastEndDate = lastEndDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalLastEndDate() {
-		return _originalLastEndDate;
+		return getColumnOriginalValue("lastEndDate");
 	}
 
 	@JSON
@@ -3806,6 +2894,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setCreateDateSource(Date createDateSource) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDateSource = createDateSource;
 	}
 
@@ -3817,6 +2909,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setModifiedDateSource(Date modifiedDateSource) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDateSource = modifiedDateSource;
 	}
 
@@ -3828,6 +2924,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setImageId(Long imageId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageId = imageId;
 	}
 
@@ -3845,6 +2945,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setRegistration(boolean registration) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_registration = registration;
 	}
 
@@ -3856,6 +2960,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setRegistrationStartDate(Date registrationStartDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_registrationStartDate = registrationStartDate;
 	}
 
@@ -3867,6 +2975,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setRegistrationEndDate(Date registrationEndDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_registrationEndDate = registrationEndDate;
 	}
 
@@ -3878,6 +2990,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void setMaxGauge(long maxGauge) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_maxGauge = maxGauge;
 	}
 
@@ -3968,6 +3084,26 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -4377,6 +3513,117 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	}
 
 	@Override
+	public Event cloneWithOriginalValues() {
+		EventImpl eventImpl = new EventImpl();
+
+		eventImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		eventImpl.setEventId(this.<Long>getColumnOriginalValue("eventId"));
+		eventImpl.setGroupId(this.<Long>getColumnOriginalValue("groupId"));
+		eventImpl.setCompanyId(this.<Long>getColumnOriginalValue("companyId"));
+		eventImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		eventImpl.setUserName(this.<String>getColumnOriginalValue("userName"));
+		eventImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		eventImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		eventImpl.setLastPublishDate(
+			this.<Date>getColumnOriginalValue("lastPublishDate"));
+		eventImpl.setStatus(this.<Integer>getColumnOriginalValue("status"));
+		eventImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		eventImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		eventImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		eventImpl.setTitle(this.<String>getColumnOriginalValue("title"));
+		eventImpl.setSubtitle(this.<String>getColumnOriginalValue("subtitle"));
+		eventImpl.setDescription(
+			this.<String>getColumnOriginalValue("description"));
+		eventImpl.setExternalImageURL(
+			this.<String>getColumnOriginalValue("externalImageURL"));
+		eventImpl.setExternalImageCopyright(
+			this.<String>getColumnOriginalValue("externalImageCopyright"));
+		eventImpl.setImageWidth(
+			this.<Integer>getColumnOriginalValue("imageWidth"));
+		eventImpl.setImageHeight(
+			this.<Integer>getColumnOriginalValue("imageHeight"));
+		eventImpl.setPlaceSIGId(
+			this.<String>getColumnOriginalValue("placeSIGId"));
+		eventImpl.setPlaceName(
+			this.<String>getColumnOriginalValue("placeName"));
+		eventImpl.setPlaceStreetNumber(
+			this.<String>getColumnOriginalValue("placeStreetNumber"));
+		eventImpl.setPlaceStreetName(
+			this.<String>getColumnOriginalValue("placeStreetName"));
+		eventImpl.setPlaceZipCode(
+			this.<String>getColumnOriginalValue("placeZipCode"));
+		eventImpl.setPlaceCity(
+			this.<String>getColumnOriginalValue("placeCity"));
+		eventImpl.setPlaceCountry(
+			this.<String>getColumnOriginalValue("placeCountry"));
+		eventImpl.setMercatorX(
+			this.<String>getColumnOriginalValue("mercatorX"));
+		eventImpl.setMercatorY(
+			this.<String>getColumnOriginalValue("mercatorY"));
+		eventImpl.setAccess(this.<String>getColumnOriginalValue("access_"));
+		eventImpl.setAccessForDisabled(
+			this.<String>getColumnOriginalValue("accessForDisabled"));
+		eventImpl.setAccessForBlind(
+			this.<Boolean>getColumnOriginalValue("accessForBlind"));
+		eventImpl.setAccessForDeaf(
+			this.<Boolean>getColumnOriginalValue("accessForDeaf"));
+		eventImpl.setAccessForWheelchair(
+			this.<Boolean>getColumnOriginalValue("accessForWheelchair"));
+		eventImpl.setAccessForElder(
+			this.<Boolean>getColumnOriginalValue("accessForElder"));
+		eventImpl.setAccessForDeficient(
+			this.<Boolean>getColumnOriginalValue("accessForDeficient"));
+		eventImpl.setPromoter(this.<String>getColumnOriginalValue("promoter"));
+		eventImpl.setPhone(this.<String>getColumnOriginalValue("phone"));
+		eventImpl.setEmail(this.<String>getColumnOriginalValue("email"));
+		eventImpl.setWebsiteURL(
+			this.<String>getColumnOriginalValue("websiteURL"));
+		eventImpl.setWebsiteName(
+			this.<String>getColumnOriginalValue("websiteName"));
+		eventImpl.setFree(this.<Integer>getColumnOriginalValue("free"));
+		eventImpl.setPrice(this.<String>getColumnOriginalValue("price"));
+		eventImpl.setBookingDescription(
+			this.<String>getColumnOriginalValue("bookingDescription"));
+		eventImpl.setBookingURL(
+			this.<String>getColumnOriginalValue("bookingURL"));
+		eventImpl.setSubscriptionURL(
+			this.<String>getColumnOriginalValue("subscriptionURL"));
+		eventImpl.setSource(this.<String>getColumnOriginalValue("source"));
+		eventImpl.setIdSource(this.<String>getColumnOriginalValue("idSource"));
+		eventImpl.setPublicationDate(
+			this.<Date>getColumnOriginalValue("publicationDate"));
+		eventImpl.setDistribution(
+			this.<String>getColumnOriginalValue("distribution"));
+		eventImpl.setComposer(this.<String>getColumnOriginalValue("composer"));
+		eventImpl.setConcertId(
+			this.<String>getColumnOriginalValue("concertId"));
+		eventImpl.setProgram(this.<String>getColumnOriginalValue("program"));
+		eventImpl.setFirstStartDate(
+			this.<Date>getColumnOriginalValue("firstStartDate"));
+		eventImpl.setLastEndDate(
+			this.<Date>getColumnOriginalValue("lastEndDate"));
+		eventImpl.setCreateDateSource(
+			this.<Date>getColumnOriginalValue("createDateSource"));
+		eventImpl.setModifiedDateSource(
+			this.<Date>getColumnOriginalValue("modifiedDateSource"));
+		eventImpl.setImageId(this.<Long>getColumnOriginalValue("imageId"));
+		eventImpl.setRegistration(
+			this.<Boolean>getColumnOriginalValue("registration"));
+		eventImpl.setRegistrationStartDate(
+			this.<Date>getColumnOriginalValue("registrationStartDate"));
+		eventImpl.setRegistrationEndDate(
+			this.<Date>getColumnOriginalValue("registrationEndDate"));
+		eventImpl.setMaxGauge(this.<Long>getColumnOriginalValue("maxGauge"));
+
+		return eventImpl;
+	}
+
+	@Override
 	public int compareTo(Event event) {
 		int value = 0;
 
@@ -4418,11 +3665,19 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -4430,40 +3685,11 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@Override
 	public void resetOriginalValues() {
-		EventModelImpl eventModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		eventModelImpl._originalUuid = eventModelImpl._uuid;
+		_setModifiedDate = false;
 
-		eventModelImpl._originalGroupId = eventModelImpl._groupId;
-
-		eventModelImpl._setOriginalGroupId = false;
-
-		eventModelImpl._originalCompanyId = eventModelImpl._companyId;
-
-		eventModelImpl._setOriginalCompanyId = false;
-
-		eventModelImpl._setModifiedDate = false;
-
-		eventModelImpl._originalStatus = eventModelImpl._status;
-
-		eventModelImpl._setOriginalStatus = false;
-
-		eventModelImpl._originalStatusDate = eventModelImpl._statusDate;
-
-		eventModelImpl._originalTitle = eventModelImpl._title;
-
-		eventModelImpl._originalPlaceSIGId = eventModelImpl._placeSIGId;
-
-		eventModelImpl._originalSource = eventModelImpl._source;
-
-		eventModelImpl._originalIdSource = eventModelImpl._idSource;
-
-		eventModelImpl._originalPublicationDate =
-			eventModelImpl._publicationDate;
-
-		eventModelImpl._originalLastEndDate = eventModelImpl._lastEndDate;
-
-		eventModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -4925,7 +4151,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -4935,9 +4161,26 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			String attributeName = entry.getKey();
 			Function<Event, Object> attributeGetterFunction = entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Event)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Event)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -4950,52 +4193,19 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Event, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Event, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Event, Object> attributeGetterFunction = entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Event)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Event>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Event.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _eventId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -5003,15 +4213,11 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	private boolean _setModifiedDate;
 	private Date _lastPublishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
-	private Date _originalStatusDate;
 	private String _title;
 	private String _titleCurrentLanguageId;
-	private String _originalTitle;
 	private String _subtitle;
 	private String _subtitleCurrentLanguageId;
 	private String _description;
@@ -5021,7 +4227,6 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	private Integer _imageWidth;
 	private Integer _imageHeight;
 	private String _placeSIGId;
-	private String _originalPlaceSIGId;
 	private String _placeName;
 	private String _placeNameCurrentLanguageId;
 	private String _placeStreetNumber;
@@ -5055,11 +4260,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	private String _bookingURL;
 	private String _subscriptionURL;
 	private String _source;
-	private String _originalSource;
 	private String _idSource;
-	private String _originalIdSource;
 	private Date _publicationDate;
-	private Date _originalPublicationDate;
 	private String _distribution;
 	private String _distributionCurrentLanguageId;
 	private String _composer;
@@ -5068,7 +4270,6 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	private String _programCurrentLanguageId;
 	private Date _firstStartDate;
 	private Date _lastEndDate;
-	private Date _originalLastEndDate;
 	private Date _createDateSource;
 	private Date _modifiedDateSource;
 	private Long _imageId;
@@ -5076,6 +4277,251 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	private Date _registrationStartDate;
 	private Date _registrationEndDate;
 	private long _maxGauge;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Event, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Event)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("eventId", _eventId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("lastPublishDate", _lastPublishDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("subtitle", _subtitle);
+		_columnOriginalValues.put("description", _description);
+		_columnOriginalValues.put("externalImageURL", _externalImageURL);
+		_columnOriginalValues.put(
+			"externalImageCopyright", _externalImageCopyright);
+		_columnOriginalValues.put("imageWidth", _imageWidth);
+		_columnOriginalValues.put("imageHeight", _imageHeight);
+		_columnOriginalValues.put("placeSIGId", _placeSIGId);
+		_columnOriginalValues.put("placeName", _placeName);
+		_columnOriginalValues.put("placeStreetNumber", _placeStreetNumber);
+		_columnOriginalValues.put("placeStreetName", _placeStreetName);
+		_columnOriginalValues.put("placeZipCode", _placeZipCode);
+		_columnOriginalValues.put("placeCity", _placeCity);
+		_columnOriginalValues.put("placeCountry", _placeCountry);
+		_columnOriginalValues.put("mercatorX", _mercatorX);
+		_columnOriginalValues.put("mercatorY", _mercatorY);
+		_columnOriginalValues.put("access_", _access);
+		_columnOriginalValues.put("accessForDisabled", _accessForDisabled);
+		_columnOriginalValues.put("accessForBlind", _accessForBlind);
+		_columnOriginalValues.put("accessForDeaf", _accessForDeaf);
+		_columnOriginalValues.put("accessForWheelchair", _accessForWheelchair);
+		_columnOriginalValues.put("accessForElder", _accessForElder);
+		_columnOriginalValues.put("accessForDeficient", _accessForDeficient);
+		_columnOriginalValues.put("promoter", _promoter);
+		_columnOriginalValues.put("phone", _phone);
+		_columnOriginalValues.put("email", _email);
+		_columnOriginalValues.put("websiteURL", _websiteURL);
+		_columnOriginalValues.put("websiteName", _websiteName);
+		_columnOriginalValues.put("free", _free);
+		_columnOriginalValues.put("price", _price);
+		_columnOriginalValues.put("bookingDescription", _bookingDescription);
+		_columnOriginalValues.put("bookingURL", _bookingURL);
+		_columnOriginalValues.put("subscriptionURL", _subscriptionURL);
+		_columnOriginalValues.put("source", _source);
+		_columnOriginalValues.put("idSource", _idSource);
+		_columnOriginalValues.put("publicationDate", _publicationDate);
+		_columnOriginalValues.put("distribution", _distribution);
+		_columnOriginalValues.put("composer", _composer);
+		_columnOriginalValues.put("concertId", _concertId);
+		_columnOriginalValues.put("program", _program);
+		_columnOriginalValues.put("firstStartDate", _firstStartDate);
+		_columnOriginalValues.put("lastEndDate", _lastEndDate);
+		_columnOriginalValues.put("createDateSource", _createDateSource);
+		_columnOriginalValues.put("modifiedDateSource", _modifiedDateSource);
+		_columnOriginalValues.put("imageId", _imageId);
+		_columnOriginalValues.put("registration", _registration);
+		_columnOriginalValues.put(
+			"registrationStartDate", _registrationStartDate);
+		_columnOriginalValues.put("registrationEndDate", _registrationEndDate);
+		_columnOriginalValues.put("maxGauge", _maxGauge);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("access_", "access");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("eventId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("lastPublishDate", 256L);
+
+		columnBitmasks.put("status", 512L);
+
+		columnBitmasks.put("statusByUserId", 1024L);
+
+		columnBitmasks.put("statusByUserName", 2048L);
+
+		columnBitmasks.put("statusDate", 4096L);
+
+		columnBitmasks.put("title", 8192L);
+
+		columnBitmasks.put("subtitle", 16384L);
+
+		columnBitmasks.put("description", 32768L);
+
+		columnBitmasks.put("externalImageURL", 65536L);
+
+		columnBitmasks.put("externalImageCopyright", 131072L);
+
+		columnBitmasks.put("imageWidth", 262144L);
+
+		columnBitmasks.put("imageHeight", 524288L);
+
+		columnBitmasks.put("placeSIGId", 1048576L);
+
+		columnBitmasks.put("placeName", 2097152L);
+
+		columnBitmasks.put("placeStreetNumber", 4194304L);
+
+		columnBitmasks.put("placeStreetName", 8388608L);
+
+		columnBitmasks.put("placeZipCode", 16777216L);
+
+		columnBitmasks.put("placeCity", 33554432L);
+
+		columnBitmasks.put("placeCountry", 67108864L);
+
+		columnBitmasks.put("mercatorX", 134217728L);
+
+		columnBitmasks.put("mercatorY", 268435456L);
+
+		columnBitmasks.put("access_", 536870912L);
+
+		columnBitmasks.put("accessForDisabled", 1073741824L);
+
+		columnBitmasks.put("accessForBlind", 2147483648L);
+
+		columnBitmasks.put("accessForDeaf", 4294967296L);
+
+		columnBitmasks.put("accessForWheelchair", 8589934592L);
+
+		columnBitmasks.put("accessForElder", 17179869184L);
+
+		columnBitmasks.put("accessForDeficient", 34359738368L);
+
+		columnBitmasks.put("promoter", 68719476736L);
+
+		columnBitmasks.put("phone", 137438953472L);
+
+		columnBitmasks.put("email", 274877906944L);
+
+		columnBitmasks.put("websiteURL", 549755813888L);
+
+		columnBitmasks.put("websiteName", 1099511627776L);
+
+		columnBitmasks.put("free", 2199023255552L);
+
+		columnBitmasks.put("price", 4398046511104L);
+
+		columnBitmasks.put("bookingDescription", 8796093022208L);
+
+		columnBitmasks.put("bookingURL", 17592186044416L);
+
+		columnBitmasks.put("subscriptionURL", 35184372088832L);
+
+		columnBitmasks.put("source", 70368744177664L);
+
+		columnBitmasks.put("idSource", 140737488355328L);
+
+		columnBitmasks.put("publicationDate", 281474976710656L);
+
+		columnBitmasks.put("distribution", 562949953421312L);
+
+		columnBitmasks.put("composer", 1125899906842624L);
+
+		columnBitmasks.put("concertId", 2251799813685248L);
+
+		columnBitmasks.put("program", 4503599627370496L);
+
+		columnBitmasks.put("firstStartDate", 9007199254740992L);
+
+		columnBitmasks.put("lastEndDate", 18014398509481984L);
+
+		columnBitmasks.put("createDateSource", 36028797018963968L);
+
+		columnBitmasks.put("modifiedDateSource", 72057594037927936L);
+
+		columnBitmasks.put("imageId", 144115188075855872L);
+
+		columnBitmasks.put("registration", 288230376151711744L);
+
+		columnBitmasks.put("registrationStartDate", 576460752303423488L);
+
+		columnBitmasks.put("registrationEndDate", 1152921504606846976L);
+
+		columnBitmasks.put("maxGauge", 2305843009213693952L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Event _escapedModel;
 

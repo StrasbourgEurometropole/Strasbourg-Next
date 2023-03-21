@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.council.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.council.exception.NoSuchDeliberationException;
 import eu.strasbourg.service.council.model.Deliberation;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the deliberation service.
@@ -45,9 +38,6 @@ public interface DeliberationPersistence extends BasePersistence<Deliberation> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link DeliberationUtil} to access the deliberation persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Deliberation> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the deliberations where uuid = &#63;.
@@ -660,8 +650,5 @@ public interface DeliberationPersistence extends BasePersistence<Deliberation> {
 	 * @return the number of deliberations
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

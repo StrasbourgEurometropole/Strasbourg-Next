@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class PracticeServiceWrapper
 	implements PracticeService, ServiceWrapper<PracticeService> {
 
+	public PracticeServiceWrapper() {
+		this(null);
+	}
+
 	public PracticeServiceWrapper(PracticeService practiceService) {
 		_practiceService = practiceService;
 	}

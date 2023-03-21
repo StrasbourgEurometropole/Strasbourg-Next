@@ -14,18 +14,12 @@
 
 package eu.strasbourg.service.council.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.council.exception.NoSuchCouncilSessionException;
 import eu.strasbourg.service.council.model.CouncilSession;
-
-import java.io.Serializable;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.Date;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * The persistence interface for the council session service.
@@ -47,9 +41,6 @@ public interface CouncilSessionPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link CouncilSessionUtil} to access the council session persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, CouncilSession> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the council sessions where uuid = &#63;.
@@ -947,8 +938,5 @@ public interface CouncilSessionPersistence
 	 * @return the number of council sessions
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

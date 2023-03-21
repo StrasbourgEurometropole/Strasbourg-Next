@@ -14,17 +14,12 @@
 
 package eu.strasbourg.service.gtfs.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.gtfs.exception.NoSuchImportHistoricException;
 import eu.strasbourg.service.gtfs.model.ImportHistoric;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the import historic service.
@@ -46,9 +41,6 @@ public interface ImportHistoricPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link ImportHistoricUtil} to access the import historic persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, ImportHistoric> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the import historics where uuid = &#63;.
@@ -660,8 +652,5 @@ public interface ImportHistoricPersistence
 	 * @return the number of import historics
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

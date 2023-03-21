@@ -24,6 +24,7 @@ import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerRegistryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -44,6 +45,8 @@ import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -61,6 +64,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.ManifestationLocalService;
+import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.persistence.AgendaExportPeriodPersistence;
 import eu.strasbourg.service.agenda.service.persistence.AgendaExportPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CacheJsonPersistence;
@@ -79,6 +83,8 @@ import eu.strasbourg.service.agenda.service.persistence.ImportReportPersistence;
 import eu.strasbourg.service.agenda.service.persistence.ManifestationPersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.List;
 
@@ -102,7 +108,7 @@ public abstract class ManifestationLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>ManifestationLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>ManifestationLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ManifestationLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -168,6 +174,18 @@ public abstract class ManifestationLocalServiceBaseImpl
 	@Override
 	public Manifestation deleteManifestation(Manifestation manifestation) {
 		return manifestationPersistence.remove(manifestation);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return manifestationPersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -463,13 +481,30 @@ public abstract class ManifestationLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return manifestationPersistence.create(
+			((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement ManifestationLocalServiceImpl#deleteManifestation(Manifestation) to avoid orphaned data");
+		}
 
 		return manifestationLocalService.deleteManifestation(
 			(Manifestation)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<Manifestation> getBasePersistence() {
 		return manifestationPersistence;
 	}
@@ -1611,11 +1646,15 @@ public abstract class ManifestationLocalServiceBaseImpl
 		persistedModelLocalServiceRegistry.register(
 			"eu.strasbourg.service.agenda.model.Manifestation",
 			manifestationLocalService);
+
+		_setLocalServiceUtilService(manifestationLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"eu.strasbourg.service.agenda.model.Manifestation");
+
+		_setLocalServiceUtilService(null);
 	}
 
 	/**
@@ -1657,6 +1696,22 @@ public abstract class ManifestationLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		ManifestationLocalService manifestationLocalService) {
+
+		try {
+			Field field = ManifestationLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, manifestationLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1848,6 +1903,9 @@ public abstract class ManifestationLocalServiceBaseImpl
 
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		ManifestationLocalServiceBaseImpl.class);
 
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry

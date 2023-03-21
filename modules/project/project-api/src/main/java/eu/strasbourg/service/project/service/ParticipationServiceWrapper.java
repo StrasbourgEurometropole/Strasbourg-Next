@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class ParticipationServiceWrapper
 	implements ParticipationService, ServiceWrapper<ParticipationService> {
 
+	public ParticipationServiceWrapper() {
+		this(null);
+	}
+
 	public ParticipationServiceWrapper(
 		ParticipationService participationService) {
 

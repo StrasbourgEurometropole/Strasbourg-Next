@@ -84,6 +84,11 @@ public class RefreshTokenWrapper
 		}
 	}
 
+	@Override
+	public RefreshToken cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
+	}
+
 	/**
 	 * Returns the create date of this refresh token.
 	 *
@@ -207,6 +212,11 @@ public class RefreshTokenWrapper
 	@Override
 	public void setValue(String value) {
 		model.setValue(value);
+	}
+
+	@Override
+	public String toXmlString() {
+		return model.toXmlString();
 	}
 
 	@Override
