@@ -4,7 +4,7 @@ dependencies {
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
 
 	implementation project (':modules:utils')
-//	implementation project(":modules:tipi:tipi-api")
+	implementation project(":modules:tipi:tipi-api")
 	
 	
 
