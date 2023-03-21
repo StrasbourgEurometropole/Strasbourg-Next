@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class DirectionLocalServiceWrapper
 	implements DirectionLocalService, ServiceWrapper<DirectionLocalService> {
 
+	public DirectionLocalServiceWrapper() {
+		this(null);
+	}
+
 	public DirectionLocalServiceWrapper(
 		DirectionLocalService directionLocalService) {
 
@@ -74,6 +78,17 @@ public class DirectionLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _directionLocalService.createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the direction from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -118,6 +133,18 @@ public class DirectionLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _directionLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _directionLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _directionLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

@@ -14,17 +14,13 @@
 
 package eu.strasbourg.service.project.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,20 +32,11 @@ import java.util.Objects;
  * @generated
  */
 public class ParticipationWrapper
+	extends BaseModelWrapper<Participation>
 	implements ModelWrapper<Participation>, Participation {
 
 	public ParticipationWrapper(Participation participation) {
-		_participation = participation;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Participation.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Participation.class.getName();
+		super(participation);
 	}
 
 	@Override
@@ -271,15 +258,8 @@ public class ParticipationWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new ParticipationWrapper((Participation)_participation.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.project.model.Participation participation) {
-
-		return _participation.compareTo(participation);
+	public Participation cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -289,7 +269,7 @@ public class ParticipationWrapper
 	public java.util.List<eu.strasbourg.service.comment.model.Comment>
 		getApprovedComments() {
 
-		return _participation.getApprovedComments();
+		return model.getApprovedComments();
 	}
 
 	/**
@@ -297,14 +277,14 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _participation.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	@Override
 	public String getAuthorFullName()
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _participation.getAuthorFullName();
+		return model.getAuthorFullName();
 	}
 
 	/**
@@ -314,7 +294,7 @@ public class ParticipationWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _participation.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -327,7 +307,7 @@ public class ParticipationWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCityCategories() {
 
-		return _participation.getCityCategories();
+		return model.getCityCategories();
 	}
 
 	/**
@@ -337,7 +317,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _participation.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -347,7 +327,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getConsultationPlacesBody() {
-		return _participation.getConsultationPlacesBody();
+		return model.getConsultationPlacesBody();
 	}
 
 	/**
@@ -357,7 +337,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getContactLine1() {
-		return _participation.getContactLine1();
+		return model.getContactLine1();
 	}
 
 	/**
@@ -367,7 +347,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getContactLine2() {
-		return _participation.getContactLine2();
+		return model.getContactLine2();
 	}
 
 	/**
@@ -377,7 +357,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getContactName() {
-		return _participation.getContactName();
+		return model.getContactName();
 	}
 
 	/**
@@ -387,7 +367,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getContactPhoneNumber() {
-		return _participation.getContactPhoneNumber();
+		return model.getContactPhoneNumber();
 	}
 
 	/**
@@ -397,7 +377,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _participation.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -407,7 +387,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getDescriptionBody() {
-		return _participation.getDescriptionBody();
+		return model.getDescriptionBody();
 	}
 
 	/**
@@ -417,7 +397,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getDescriptionChapeau() {
-		return _participation.getDescriptionChapeau();
+		return model.getDescriptionChapeau();
 	}
 
 	/**
@@ -427,7 +407,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.like.model.Like> getDislikes() {
-		return _participation.getDislikes();
+		return model.getDislikes();
 	}
 
 	/**
@@ -440,7 +420,7 @@ public class ParticipationWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getDistrictCategories() {
 
-		return _participation.getDistrictCategories();
+		return model.getDistrictCategories();
 	}
 
 	/**
@@ -451,7 +431,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getDistrictLabel(java.util.Locale locale) {
-		return _participation.getDistrictLabel(locale);
+		return model.getDistrictLabel(locale);
 	}
 
 	/**
@@ -461,7 +441,7 @@ public class ParticipationWrapper
 	public java.util.List<eu.strasbourg.service.agenda.model.Event>
 		getEvents() {
 
-		return _participation.getEvents();
+		return model.getEvents();
 	}
 
 	/**
@@ -471,12 +451,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getEventsIds() {
-		return _participation.getEventsIds();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _participation.getExpandoBridge();
+		return model.getEventsIds();
 	}
 
 	/**
@@ -486,7 +461,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public Date getExpirationDate() {
-		return _participation.getExpirationDate();
+		return model.getExpirationDate();
 	}
 
 	/**
@@ -496,7 +471,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getExternalImageCopyright() {
-		return _participation.getExternalImageCopyright();
+		return model.getExternalImageCopyright();
 	}
 
 	/**
@@ -506,7 +481,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getExternalImageURL() {
-		return _participation.getExternalImageURL();
+		return model.getExternalImageURL();
 	}
 
 	/**
@@ -516,7 +491,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getFilesIds() {
-		return _participation.getFilesIds();
+		return model.getFilesIds();
 	}
 
 	/**
@@ -524,7 +499,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public java.util.List<String> getFilesURLs() {
-		return _participation.getFilesURLs();
+		return model.getFilesURLs();
 	}
 
 	/**
@@ -534,7 +509,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _participation.getGroupId();
+		return model.getGroupId();
 	}
 
 	@Override
@@ -542,7 +517,7 @@ public class ParticipationWrapper
 			com.liferay.portal.kernel.theme.ThemeDisplay themeDisplay)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _participation.getImageAuthorURL(themeDisplay);
+		return model.getImageAuthorURL(themeDisplay);
 	}
 
 	/**
@@ -550,7 +525,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getImageCopyright(java.util.Locale locale) {
-		return _participation.getImageCopyright(locale);
+		return model.getImageCopyright(locale);
 	}
 
 	/**
@@ -560,7 +535,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public long getImageId() {
-		return _participation.getImageId();
+		return model.getImageId();
 	}
 
 	/**
@@ -568,7 +543,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getImageURL() {
-		return _participation.getImageURL();
+		return model.getImageURL();
 	}
 
 	/**
@@ -578,7 +553,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.like.model.Like> getLikes() {
-		return _participation.getLikes();
+		return model.getLikes();
 	}
 
 	/**
@@ -590,7 +565,7 @@ public class ParticipationWrapper
 	public java.util.List<eu.strasbourg.service.like.model.Like>
 		getLikesDislikes() {
 
-		return _participation.getLikesDislikes();
+		return model.getLikesDislikes();
 	}
 
 	/**
@@ -600,7 +575,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public boolean getMediaChoice() {
-		return _participation.getMediaChoice();
+		return model.getMediaChoice();
 	}
 
 	/**
@@ -610,7 +585,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _participation.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -618,7 +593,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public int getNbApprovedComments() {
-		return _participation.getNbApprovedComments();
+		return model.getNbApprovedComments();
 	}
 
 	/**
@@ -626,7 +601,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getNbApprovedCommentsLabel() {
-		return _participation.getNbApprovedCommentsLabel();
+		return model.getNbApprovedCommentsLabel();
 	}
 
 	/**
@@ -636,7 +611,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public int getNbDislikes() {
-		return _participation.getNbDislikes();
+		return model.getNbDislikes();
 	}
 
 	/**
@@ -646,7 +621,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public int getNbLikes() {
-		return _participation.getNbLikes();
+		return model.getNbLikes();
 	}
 
 	/**
@@ -656,7 +631,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public int getNbLikesDislikes() {
-		return _participation.getNbLikesDislikes();
+		return model.getNbLikesDislikes();
 	}
 
 	/**
@@ -666,7 +641,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public long getParticipationId() {
-		return _participation.getParticipationId();
+		return model.getParticipationId();
 	}
 
 	/**
@@ -680,7 +655,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getParticipationStatus() {
-		return _participation.getParticipationStatus();
+		return model.getParticipationStatus();
 	}
 
 	/**
@@ -690,7 +665,7 @@ public class ParticipationWrapper
 	public com.liferay.asset.kernel.model.AssetCategory
 		getParticipationStatusCategory() {
 
-		return _participation.getParticipationStatusCategory();
+		return model.getParticipationStatusCategory();
 	}
 
 	/**
@@ -698,7 +673,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public java.util.List<String> getPlaceNames(java.util.Locale locale) {
-		return _participation.getPlaceNames(locale);
+		return model.getPlaceNames(locale);
 	}
 
 	/**
@@ -706,7 +681,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public java.util.List<String> getPlaceSIGIds(java.util.Locale locale) {
-		return _participation.getPlaceSIGIds(locale);
+		return model.getPlaceSIGIds(locale);
 	}
 
 	/**
@@ -716,7 +691,7 @@ public class ParticipationWrapper
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace>
 		getPlacitPlaces() {
 
-		return _participation.getPlacitPlaces();
+		return model.getPlacitPlaces();
 	}
 
 	/**
@@ -726,12 +701,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _participation.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _participation.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -739,7 +709,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
-		return _participation.getProjectCategory();
+		return model.getProjectCategory();
 	}
 
 	/**
@@ -749,7 +719,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public Date getPublicationDate() {
-		return _participation.getPublicationDate();
+		return model.getPublicationDate();
 	}
 
 	/**
@@ -759,7 +729,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public int getStatus() {
-		return _participation.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -769,7 +739,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _participation.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -779,7 +749,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _participation.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -789,7 +759,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _participation.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -799,7 +769,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _participation.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -807,7 +777,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getStatusDetailLabel() {
-		return _participation.getStatusDetailLabel();
+		return model.getStatusDetailLabel();
 	}
 
 	/**
@@ -818,7 +788,7 @@ public class ParticipationWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getTerritoryCategories() {
 
-		return _participation.getTerritoryCategories();
+		return model.getTerritoryCategories();
 	}
 
 	/**
@@ -828,7 +798,7 @@ public class ParticipationWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getThematicCategories() {
 
-		return _participation.getThematicCategories();
+		return model.getThematicCategories();
 	}
 
 	/**
@@ -836,7 +806,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getThematicsLabel(java.util.Locale locale) {
-		return _participation.getThematicsLabel(locale);
+		return model.getThematicsLabel(locale);
 	}
 
 	/**
@@ -846,7 +816,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getTitle() {
-		return _participation.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -854,7 +824,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public int getTodayExpirationDifferenceDays() {
-		return _participation.getTodayExpirationDifferenceDays();
+		return model.getTodayExpirationDifferenceDays();
 	}
 
 	/**
@@ -862,7 +832,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public int getTodayPublicationDifferenceDays() {
-		return _participation.getTodayPublicationDifferenceDays();
+		return model.getTodayPublicationDifferenceDays();
 	}
 
 	/**
@@ -870,7 +840,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getTypeCategory() {
-		return _participation.getTypeCategory();
+		return model.getTypeCategory();
 	}
 
 	/**
@@ -879,7 +849,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getTypeCategoryColor() {
-		return _participation.getTypeCategoryColor();
+		return model.getTypeCategoryColor();
 	}
 
 	/**
@@ -889,7 +859,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _participation.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -899,7 +869,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _participation.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -909,7 +879,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _participation.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -919,7 +889,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _participation.getUuid();
+		return model.getUuid();
 	}
 
 	/**
@@ -929,12 +899,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public String getVideoUrl() {
-		return _participation.getVideoUrl();
-	}
-
-	@Override
-	public int hashCode() {
-		return _participation.hashCode();
+		return model.getVideoUrl();
 	}
 
 	/**
@@ -944,12 +909,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public boolean isApproved() {
-		return _participation.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _participation.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -959,7 +919,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public boolean isDenied() {
-		return _participation.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -969,12 +929,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public boolean isDraft() {
-		return _participation.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _participation.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -984,7 +939,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public boolean isExpired() {
-		return _participation.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -994,7 +949,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public boolean isInactive() {
-		return _participation.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -1004,7 +959,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _participation.isIncomplete();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -1012,7 +967,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public boolean isJudgeable() {
-		return _participation.isJudgeable();
+		return model.isJudgeable();
 	}
 
 	/**
@@ -1022,12 +977,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public boolean isMediaChoice() {
-		return _participation.isMediaChoice();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _participation.isNew();
+		return model.isMediaChoice();
 	}
 
 	/**
@@ -1037,7 +987,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public boolean isPending() {
-		return _participation.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -1047,17 +997,12 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _participation.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_participation.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_participation.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -1067,7 +1012,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_participation.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -1077,7 +1022,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setConsultationPlacesBody(String consultationPlacesBody) {
-		_participation.setConsultationPlacesBody(consultationPlacesBody);
+		model.setConsultationPlacesBody(consultationPlacesBody);
 	}
 
 	/**
@@ -1087,7 +1032,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setContactLine1(String contactLine1) {
-		_participation.setContactLine1(contactLine1);
+		model.setContactLine1(contactLine1);
 	}
 
 	/**
@@ -1097,7 +1042,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setContactLine2(String contactLine2) {
-		_participation.setContactLine2(contactLine2);
+		model.setContactLine2(contactLine2);
 	}
 
 	/**
@@ -1107,7 +1052,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setContactName(String contactName) {
-		_participation.setContactName(contactName);
+		model.setContactName(contactName);
 	}
 
 	/**
@@ -1117,7 +1062,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setContactPhoneNumber(String contactPhoneNumber) {
-		_participation.setContactPhoneNumber(contactPhoneNumber);
+		model.setContactPhoneNumber(contactPhoneNumber);
 	}
 
 	/**
@@ -1127,7 +1072,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_participation.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -1137,7 +1082,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setDescriptionBody(String descriptionBody) {
-		_participation.setDescriptionBody(descriptionBody);
+		model.setDescriptionBody(descriptionBody);
 	}
 
 	/**
@@ -1147,7 +1092,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setDescriptionChapeau(String descriptionChapeau) {
-		_participation.setDescriptionChapeau(descriptionChapeau);
+		model.setDescriptionChapeau(descriptionChapeau);
 	}
 
 	/**
@@ -1157,24 +1102,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setEventsIds(String eventsIds) {
-		_participation.setEventsIds(eventsIds);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_participation.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_participation.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_participation.setExpandoBridgeAttributes(serviceContext);
+		model.setEventsIds(eventsIds);
 	}
 
 	/**
@@ -1184,7 +1112,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setExpirationDate(Date expirationDate) {
-		_participation.setExpirationDate(expirationDate);
+		model.setExpirationDate(expirationDate);
 	}
 
 	/**
@@ -1194,7 +1122,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setExternalImageCopyright(String externalImageCopyright) {
-		_participation.setExternalImageCopyright(externalImageCopyright);
+		model.setExternalImageCopyright(externalImageCopyright);
 	}
 
 	/**
@@ -1204,7 +1132,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setExternalImageURL(String externalImageURL) {
-		_participation.setExternalImageURL(externalImageURL);
+		model.setExternalImageURL(externalImageURL);
 	}
 
 	/**
@@ -1214,7 +1142,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setFilesIds(String filesIds) {
-		_participation.setFilesIds(filesIds);
+		model.setFilesIds(filesIds);
 	}
 
 	/**
@@ -1224,7 +1152,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_participation.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -1234,7 +1162,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setImageId(long imageId) {
-		_participation.setImageId(imageId);
+		model.setImageId(imageId);
 	}
 
 	/**
@@ -1244,7 +1172,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setMediaChoice(boolean mediaChoice) {
-		_participation.setMediaChoice(mediaChoice);
+		model.setMediaChoice(mediaChoice);
 	}
 
 	/**
@@ -1254,12 +1182,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_participation.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_participation.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -1269,7 +1192,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setParticipationId(long participationId) {
-		_participation.setParticipationId(participationId);
+		model.setParticipationId(participationId);
 	}
 
 	/**
@@ -1279,12 +1202,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_participation.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_participation.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -1294,7 +1212,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setPublicationDate(Date publicationDate) {
-		_participation.setPublicationDate(publicationDate);
+		model.setPublicationDate(publicationDate);
 	}
 
 	/**
@@ -1304,7 +1222,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setStatus(int status) {
-		_participation.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -1314,7 +1232,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_participation.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -1324,7 +1242,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_participation.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -1334,7 +1252,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_participation.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -1344,7 +1262,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_participation.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -1354,7 +1272,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setTitle(String title) {
-		_participation.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -1364,7 +1282,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_participation.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -1374,7 +1292,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_participation.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -1384,7 +1302,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_participation.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -1394,7 +1312,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_participation.setUuid(uuid);
+		model.setUuid(uuid);
 	}
 
 	/**
@@ -1404,19 +1322,7 @@ public class ParticipationWrapper
 	 */
 	@Override
 	public void setVideoUrl(String videoUrl) {
-		_participation.setVideoUrl(videoUrl);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.project.model.Participation> toCacheModel() {
-
-		return _participation.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.Participation toEscapedModel() {
-		return new ParticipationWrapper(_participation.toEscapedModel());
+		model.setVideoUrl(videoUrl);
 	}
 
 	/**
@@ -1429,73 +1335,22 @@ public class ParticipationWrapper
 			com.liferay.portal.kernel.theme.ThemeDisplay themeDisplay)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _participation.toJSON(themeDisplay);
-	}
-
-	@Override
-	public String toString() {
-		return _participation.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.Participation
-		toUnescapedModel() {
-
-		return new ParticipationWrapper(_participation.toUnescapedModel());
+		return model.toJSON(themeDisplay);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _participation.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof ParticipationWrapper)) {
-			return false;
-		}
-
-		ParticipationWrapper participationWrapper =
-			(ParticipationWrapper)object;
-
-		if (Objects.equals(
-				_participation, participationWrapper._participation)) {
-
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _participation.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Participation getWrappedModel() {
-		return _participation;
+	protected ParticipationWrapper wrap(Participation participation) {
+		return new ParticipationWrapper(participation);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _participation.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _participation.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_participation.resetOriginalValues();
-	}
-
-	private final Participation _participation;
 
 }

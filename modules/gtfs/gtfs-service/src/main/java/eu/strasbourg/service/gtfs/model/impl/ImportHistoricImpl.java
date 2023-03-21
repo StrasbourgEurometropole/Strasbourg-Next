@@ -14,28 +14,30 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.template.Template;
+import com.liferay.portal.kernel.template.TemplateConstants;
+import com.liferay.portal.kernel.template.TemplateManagerUtil;
+import com.liferay.portal.kernel.template.TemplateResource;
+import com.liferay.portal.kernel.template.URLTemplateResource;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
-
-import com.liferay.portal.kernel.template.*;
+import eu.strasbourg.service.gtfs.model.ImportHistoric;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.MailHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
-import aQute.bnd.annotation.ProviderType;
-import eu.strasbourg.service.gtfs.model.ImportHistoric;
-import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.MailHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 /**
  * The extended model implementation for the ImportHistoric service. Represents a row in the &quot;gtfs_ImportHistoric&quot; database table, with each column mapped to a property of this class.

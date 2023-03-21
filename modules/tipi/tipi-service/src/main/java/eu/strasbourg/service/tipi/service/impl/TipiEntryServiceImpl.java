@@ -14,29 +14,10 @@
 
 package eu.strasbourg.service.tipi.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.tipi.service.base.TipiEntryServiceBaseImpl;
 
 /**
- * The implementation of the tipi entry remote service.
- *
- * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.tipi.service.TipiEntryService} interface.
- *
- * <p>
- * This is a remote service. Methods of this service are expected to have security checks based on the propagated JAAS credentials because this service can be accessed remotely.
- * </p>
- *
  * @author Angelique Zunino Champougny
- * @see TipiEntryServiceBaseImpl
- * @see eu.strasbourg.service.tipi.service.TipiEntryServiceUtil
  */
-@ProviderType
 public class TipiEntryServiceImpl extends TipiEntryServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Always use {@link eu.strasbourg.service.tipi.service.TipiEntryServiceUtil} to access the tipi entry remote service.
-	 */
 }

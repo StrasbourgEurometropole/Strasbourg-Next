@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.gtfs.service.base;
 
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -27,6 +28,8 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -43,6 +46,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.gtfs.model.CacheAlertJSON;
 import eu.strasbourg.service.gtfs.service.CacheAlertJSONLocalService;
+import eu.strasbourg.service.gtfs.service.CacheAlertJSONLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.persistence.AgencyPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.AlertPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.ArretPersistence;
@@ -60,6 +64,8 @@ import eu.strasbourg.service.gtfs.service.persistence.TripFinder;
 import eu.strasbourg.service.gtfs.service.persistence.TripPersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.List;
 
@@ -83,7 +89,7 @@ public abstract class CacheAlertJSONLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>CacheAlertJSONLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.gtfs.service.CacheAlertJSONLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>CacheAlertJSONLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>CacheAlertJSONLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -149,6 +155,18 @@ public abstract class CacheAlertJSONLocalServiceBaseImpl
 	@Override
 	public CacheAlertJSON deleteCacheAlertJSON(CacheAlertJSON cacheAlertJSON) {
 		return cacheAlertJSONPersistence.remove(cacheAlertJSON);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return cacheAlertJSONPersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -302,13 +320,30 @@ public abstract class CacheAlertJSONLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return cacheAlertJSONPersistence.create(
+			((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement CacheAlertJSONLocalServiceImpl#deleteCacheAlertJSON(CacheAlertJSON) to avoid orphaned data");
+		}
 
 		return cacheAlertJSONLocalService.deleteCacheAlertJSON(
 			(CacheAlertJSON)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<CacheAlertJSON> getBasePersistence() {
 		return cacheAlertJSONPersistence;
 	}
@@ -1099,11 +1134,15 @@ public abstract class CacheAlertJSONLocalServiceBaseImpl
 		persistedModelLocalServiceRegistry.register(
 			"eu.strasbourg.service.gtfs.model.CacheAlertJSON",
 			cacheAlertJSONLocalService);
+
+		_setLocalServiceUtilService(cacheAlertJSONLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"eu.strasbourg.service.gtfs.model.CacheAlertJSON");
+
+		_setLocalServiceUtilService(null);
 	}
 
 	/**
@@ -1145,6 +1184,22 @@ public abstract class CacheAlertJSONLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		CacheAlertJSONLocalService cacheAlertJSONLocalService) {
+
+		try {
+			Field field = CacheAlertJSONLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, cacheAlertJSONLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1303,6 +1358,9 @@ public abstract class CacheAlertJSONLocalServiceBaseImpl
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		CacheAlertJSONLocalServiceBaseImpl.class);
 
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry

@@ -13,13 +13,11 @@
  */
 package eu.strasbourg.service.ejob.exception;
 
-import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Brian Wing Shun Chan
  */
-@ProviderType
 public class NoSuchOfferException extends NoSuchModelException {
 
 	public NoSuchOfferException() {
@@ -29,12 +27,12 @@ public class NoSuchOfferException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchOfferException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchOfferException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchOfferException(Throwable cause) {
-		super(cause);
+	public NoSuchOfferException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

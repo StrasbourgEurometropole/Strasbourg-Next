@@ -14,17 +14,14 @@
 
 package eu.strasbourg.service.gtfs.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.gtfs.exception.NoSuchCacheHoursJSONException;
 import eu.strasbourg.service.gtfs.model.CacheHoursJSON;
 
-import java.io.Serializable;
-
-import java.util.Map;
 import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the cache hours json service.
@@ -46,9 +43,6 @@ public interface CacheHoursJSONPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link CacheHoursJSONUtil} to access the cache hours json persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, CacheHoursJSON> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the cache hours jsons where uuid = &#63;.
@@ -662,9 +656,6 @@ public interface CacheHoursJSONPersistence
 	 * @return the number of cache hours jsons
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 	public Set<String> getCompoundPKColumnNames();
 

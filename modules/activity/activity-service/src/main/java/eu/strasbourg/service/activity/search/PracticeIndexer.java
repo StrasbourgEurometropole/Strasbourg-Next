@@ -7,7 +7,12 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.search.BaseIndexer;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.activity.model.Practice;
 import eu.strasbourg.service.activity.service.PracticeLocalServiceUtil;
@@ -56,8 +61,8 @@ public class PracticeIndexer extends BaseIndexer<Practice> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(practice.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);
+		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);*/
 
 		Map<Locale, String> fieldMap = new HashMap<Locale, String>();
 		fieldMap.put(Locale.FRANCE, "Activité de " + practice.getAssociation().getNameCurrentValue());
@@ -91,8 +96,7 @@ public class PracticeIndexer extends BaseIndexer<Practice> {
 	protected void doReindex(Practice practice) throws Exception {
 		Document document = getDocument(practice);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-				practice.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(practice.getCompanyId(), document);
 
 	}
 
@@ -124,8 +128,6 @@ public class PracticeIndexer extends BaseIndexer<Practice> {
 				}
 
 			});
-
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 

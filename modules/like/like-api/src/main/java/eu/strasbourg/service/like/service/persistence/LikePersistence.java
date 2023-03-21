@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.like.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.like.exception.NoSuchLikeException;
 import eu.strasbourg.service.like.model.Like;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the like service.
@@ -45,9 +38,6 @@ public interface LikePersistence extends BasePersistence<Like> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link LikeUtil} to access the like persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Like> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the likes where publikUserId = &#63;.

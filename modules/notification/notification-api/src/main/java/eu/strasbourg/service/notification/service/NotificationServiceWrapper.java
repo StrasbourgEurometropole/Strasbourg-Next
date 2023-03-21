@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class NotificationServiceWrapper
 	implements NotificationService, ServiceWrapper<NotificationService> {
 
+	public NotificationServiceWrapper() {
+		this(null);
+	}
+
 	public NotificationServiceWrapper(NotificationService notificationService) {
 		_notificationService = notificationService;
 	}

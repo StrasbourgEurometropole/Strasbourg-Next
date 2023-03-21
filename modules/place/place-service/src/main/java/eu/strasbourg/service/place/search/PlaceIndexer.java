@@ -1,15 +1,5 @@
 package eu.strasbourg.service.place.search;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -24,11 +14,18 @@ import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
-
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.SubPlace;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 @Component(immediate = true, service = Indexer.class)
 public class PlaceIndexer extends BaseIndexer<Place> {
@@ -70,8 +67,8 @@ public class PlaceIndexer extends BaseIndexer<Place> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 				.getFullHierarchyCategories(place.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-				assetCategories);
+		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+				assetCategories);*/
 
 		document.addText(Field.TITLE, place.getAlias(Locale.FRANCE));
 
@@ -137,8 +134,7 @@ public class PlaceIndexer extends BaseIndexer<Place> {
 	protected void doReindex(Place place) throws Exception {
 		Document document = getDocument(place);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-				place.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(place.getCompanyId(), document);
 
 	}
 
@@ -172,7 +168,6 @@ public class PlaceIndexer extends BaseIndexer<Place> {
 
 				});
 
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 

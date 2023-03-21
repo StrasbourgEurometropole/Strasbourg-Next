@@ -14,10 +14,9 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-
-import aQute.bnd.annotation.ProviderType;
 
 /**
  * The extended model implementation for the EventParticipation service. Represents a row in the &quot;agenda_EventParticipation&quot; database table, with each column mapped to a property of this class.

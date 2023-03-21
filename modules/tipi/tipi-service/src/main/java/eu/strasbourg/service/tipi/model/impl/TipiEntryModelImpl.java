@@ -16,6 +16,7 @@ package eu.strasbourg.service.tipi.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -24,26 +25,20 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
-
+import com.liferay.portal.kernel.util.StringUtil;
 import eu.strasbourg.service.tipi.model.TipiEntry;
 import eu.strasbourg.service.tipi.model.TipiEntryModel;
-import eu.strasbourg.service.tipi.model.TipiEntrySoap;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -106,71 +101,42 @@ public class TipiEntryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.tipi.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.tipi.model.TipiEntry"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.tipi.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.tipi.model.TipiEntry"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.tipi.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.tipi.model.TipiEntry"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long DATE_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ID_COLUMN_BITMASK = 4L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static TipiEntry toModel(TipiEntrySoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		TipiEntry model = new TipiEntryImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setId(soapModel.getId());
-		model.setDate(soapModel.getDate());
-		model.setTotal(soapModel.getTotal());
-		model.setPaidCount(soapModel.getPaidCount());
-		model.setRefusedCount(soapModel.getRefusedCount());
-		model.setCanceledCount(soapModel.getCanceledCount());
-		model.setType(soapModel.getType());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<TipiEntry> toModels(TipiEntrySoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<TipiEntry> models = new ArrayList<TipiEntry>(soapModels.length);
-
-		for (TipiEntrySoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.tipi.service.util.PropsUtil.get(
@@ -227,9 +193,6 @@ public class TipiEntryModelImpl
 				attributeName, attributeGetterFunction.apply((TipiEntry)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -263,34 +226,6 @@ public class TipiEntryModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, TipiEntry>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			TipiEntry.class.getClassLoader(), TipiEntry.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<TipiEntry> constructor =
-				(Constructor<TipiEntry>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<TipiEntry, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<TipiEntry, Object>>
@@ -302,172 +237,35 @@ public class TipiEntryModelImpl
 		Map<String, BiConsumer<TipiEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<TipiEntry, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<TipiEntry, Object>() {
-
-				@Override
-				public Object apply(TipiEntry tipiEntry) {
-					return tipiEntry.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", TipiEntry::getUuid);
 		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<TipiEntry, Object>() {
-
-				@Override
-				public void accept(TipiEntry tipiEntry, Object uuidObject) {
-					tipiEntry.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"id",
-			new Function<TipiEntry, Object>() {
-
-				@Override
-				public Object apply(TipiEntry tipiEntry) {
-					return tipiEntry.getId();
-				}
-
-			});
+			"uuid", (BiConsumer<TipiEntry, String>)TipiEntry::setUuid);
+		attributeGetterFunctions.put("id", TipiEntry::getId);
 		attributeSetterBiConsumers.put(
-			"id",
-			new BiConsumer<TipiEntry, Object>() {
-
-				@Override
-				public void accept(TipiEntry tipiEntry, Object idObject) {
-					tipiEntry.setId((Long)idObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"date",
-			new Function<TipiEntry, Object>() {
-
-				@Override
-				public Object apply(TipiEntry tipiEntry) {
-					return tipiEntry.getDate();
-				}
-
-			});
+			"id", (BiConsumer<TipiEntry, Long>)TipiEntry::setId);
+		attributeGetterFunctions.put("date", TipiEntry::getDate);
 		attributeSetterBiConsumers.put(
-			"date",
-			new BiConsumer<TipiEntry, Object>() {
-
-				@Override
-				public void accept(TipiEntry tipiEntry, Object dateObject) {
-					tipiEntry.setDate((Date)dateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"total",
-			new Function<TipiEntry, Object>() {
-
-				@Override
-				public Object apply(TipiEntry tipiEntry) {
-					return tipiEntry.getTotal();
-				}
-
-			});
+			"date", (BiConsumer<TipiEntry, Date>)TipiEntry::setDate);
+		attributeGetterFunctions.put("total", TipiEntry::getTotal);
 		attributeSetterBiConsumers.put(
-			"total",
-			new BiConsumer<TipiEntry, Object>() {
-
-				@Override
-				public void accept(TipiEntry tipiEntry, Object totalObject) {
-					tipiEntry.setTotal((Integer)totalObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"paidCount",
-			new Function<TipiEntry, Object>() {
-
-				@Override
-				public Object apply(TipiEntry tipiEntry) {
-					return tipiEntry.getPaidCount();
-				}
-
-			});
+			"total", (BiConsumer<TipiEntry, Integer>)TipiEntry::setTotal);
+		attributeGetterFunctions.put("paidCount", TipiEntry::getPaidCount);
 		attributeSetterBiConsumers.put(
 			"paidCount",
-			new BiConsumer<TipiEntry, Object>() {
-
-				@Override
-				public void accept(
-					TipiEntry tipiEntry, Object paidCountObject) {
-
-					tipiEntry.setPaidCount((Integer)paidCountObject);
-				}
-
-			});
+			(BiConsumer<TipiEntry, Integer>)TipiEntry::setPaidCount);
 		attributeGetterFunctions.put(
-			"refusedCount",
-			new Function<TipiEntry, Object>() {
-
-				@Override
-				public Object apply(TipiEntry tipiEntry) {
-					return tipiEntry.getRefusedCount();
-				}
-
-			});
+			"refusedCount", TipiEntry::getRefusedCount);
 		attributeSetterBiConsumers.put(
 			"refusedCount",
-			new BiConsumer<TipiEntry, Object>() {
-
-				@Override
-				public void accept(
-					TipiEntry tipiEntry, Object refusedCountObject) {
-
-					tipiEntry.setRefusedCount((Integer)refusedCountObject);
-				}
-
-			});
+			(BiConsumer<TipiEntry, Integer>)TipiEntry::setRefusedCount);
 		attributeGetterFunctions.put(
-			"canceledCount",
-			new Function<TipiEntry, Object>() {
-
-				@Override
-				public Object apply(TipiEntry tipiEntry) {
-					return tipiEntry.getCanceledCount();
-				}
-
-			});
+			"canceledCount", TipiEntry::getCanceledCount);
 		attributeSetterBiConsumers.put(
 			"canceledCount",
-			new BiConsumer<TipiEntry, Object>() {
-
-				@Override
-				public void accept(
-					TipiEntry tipiEntry, Object canceledCountObject) {
-
-					tipiEntry.setCanceledCount((Integer)canceledCountObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"type",
-			new Function<TipiEntry, Object>() {
-
-				@Override
-				public Object apply(TipiEntry tipiEntry) {
-					return tipiEntry.getType();
-				}
-
-			});
+			(BiConsumer<TipiEntry, Integer>)TipiEntry::setCanceledCount);
+		attributeGetterFunctions.put("type", TipiEntry::getType);
 		attributeSetterBiConsumers.put(
-			"type",
-			new BiConsumer<TipiEntry, Object>() {
-
-				@Override
-				public void accept(TipiEntry tipiEntry, Object typeObject) {
-					tipiEntry.setType((String)typeObject);
-				}
-
-			});
+			"type", (BiConsumer<TipiEntry, String>)TipiEntry::setType);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -488,17 +286,20 @@ public class TipiEntryModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -509,6 +310,10 @@ public class TipiEntryModelImpl
 
 	@Override
 	public void setId(long id) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_id = id;
 	}
 
@@ -520,17 +325,20 @@ public class TipiEntryModelImpl
 
 	@Override
 	public void setDate(Date date) {
-		_columnBitmask |= DATE_COLUMN_BITMASK;
-
-		if (_originalDate == null) {
-			_originalDate = _date;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_date = date;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalDate() {
-		return _originalDate;
+		return getColumnOriginalValue("date_");
 	}
 
 	@JSON
@@ -541,6 +349,10 @@ public class TipiEntryModelImpl
 
 	@Override
 	public void setTotal(int total) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_total = total;
 	}
 
@@ -552,6 +364,10 @@ public class TipiEntryModelImpl
 
 	@Override
 	public void setPaidCount(int paidCount) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_paidCount = paidCount;
 	}
 
@@ -563,6 +379,10 @@ public class TipiEntryModelImpl
 
 	@Override
 	public void setRefusedCount(int refusedCount) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_refusedCount = refusedCount;
 	}
 
@@ -574,6 +394,10 @@ public class TipiEntryModelImpl
 
 	@Override
 	public void setCanceledCount(int canceledCount) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_canceledCount = canceledCount;
 	}
 
@@ -590,10 +414,34 @@ public class TipiEntryModelImpl
 
 	@Override
 	public void setType(String type) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_type = type;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -644,6 +492,25 @@ public class TipiEntryModelImpl
 	}
 
 	@Override
+	public TipiEntry cloneWithOriginalValues() {
+		TipiEntryImpl tipiEntryImpl = new TipiEntryImpl();
+
+		tipiEntryImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		tipiEntryImpl.setId(this.<Long>getColumnOriginalValue("id_"));
+		tipiEntryImpl.setDate(this.<Date>getColumnOriginalValue("date_"));
+		tipiEntryImpl.setTotal(this.<Integer>getColumnOriginalValue("total"));
+		tipiEntryImpl.setPaidCount(
+			this.<Integer>getColumnOriginalValue("paidCount"));
+		tipiEntryImpl.setRefusedCount(
+			this.<Integer>getColumnOriginalValue("refusedCount"));
+		tipiEntryImpl.setCanceledCount(
+			this.<Integer>getColumnOriginalValue("canceledCount"));
+		tipiEntryImpl.setType(this.<String>getColumnOriginalValue("type_"));
+
+		return tipiEntryImpl;
+	}
+
+	@Override
 	public int compareTo(TipiEntry tipiEntry) {
 		long primaryKey = tipiEntry.getPrimaryKey();
 
@@ -685,11 +552,19 @@ public class TipiEntryModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -697,13 +572,9 @@ public class TipiEntryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		TipiEntryModelImpl tipiEntryModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		tipiEntryModelImpl._originalUuid = tipiEntryModelImpl._uuid;
-
-		tipiEntryModelImpl._originalDate = tipiEntryModelImpl._date;
-
-		tipiEntryModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -754,7 +625,7 @@ public class TipiEntryModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -765,9 +636,26 @@ public class TipiEntryModelImpl
 			Function<TipiEntry, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((TipiEntry)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((TipiEntry)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -780,54 +668,106 @@ public class TipiEntryModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<TipiEntry, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<TipiEntry, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<TipiEntry, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((TipiEntry)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, TipiEntry>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					TipiEntry.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _id;
 	private Date _date;
-	private Date _originalDate;
 	private int _total;
 	private int _paidCount;
 	private int _refusedCount;
 	private int _canceledCount;
 	private String _type;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<TipiEntry, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((TipiEntry)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("id_", _id);
+		_columnOriginalValues.put("date_", _date);
+		_columnOriginalValues.put("total", _total);
+		_columnOriginalValues.put("paidCount", _paidCount);
+		_columnOriginalValues.put("refusedCount", _refusedCount);
+		_columnOriginalValues.put("canceledCount", _canceledCount);
+		_columnOriginalValues.put("type_", _type);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("id_", "id");
+		attributeNames.put("date_", "date");
+		attributeNames.put("type_", "type");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("id_", 2L);
+
+		columnBitmasks.put("date_", 4L);
+
+		columnBitmasks.put("total", 8L);
+
+		columnBitmasks.put("paidCount", 16L);
+
+		columnBitmasks.put("refusedCount", 32L);
+
+		columnBitmasks.put("canceledCount", 64L);
+
+		columnBitmasks.put("type_", 128L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private TipiEntry _escapedModel;
 

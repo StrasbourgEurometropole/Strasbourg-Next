@@ -17,18 +17,12 @@ package eu.strasbourg.service.notification.service.persistence;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.notification.model.UserNotificationStatus;
 
 import java.io.Serializable;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * The persistence utility for the user notification status service. This utility wraps <code>eu.strasbourg.service.notification.service.persistence.impl.UserNotificationStatusPersistenceImpl</code> and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
@@ -657,38 +651,14 @@ public class UserNotificationStatusUtil {
 		return getPersistence().countAll();
 	}
 
-	public static Set<String> getBadColumnNames() {
-		return getPersistence().getBadColumnNames();
-	}
-
 	public static Set<String> getCompoundPKColumnNames() {
 		return getPersistence().getCompoundPKColumnNames();
 	}
 
 	public static UserNotificationStatusPersistence getPersistence() {
-		return _serviceTracker.getService();
+		return _persistence;
 	}
 
-	private static ServiceTracker
-		<UserNotificationStatusPersistence, UserNotificationStatusPersistence>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			UserNotificationStatusPersistence.class);
-
-		ServiceTracker
-			<UserNotificationStatusPersistence,
-			 UserNotificationStatusPersistence> serviceTracker =
-				new ServiceTracker
-					<UserNotificationStatusPersistence,
-					 UserNotificationStatusPersistence>(
-						 bundle.getBundleContext(),
-						 UserNotificationStatusPersistence.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile UserNotificationStatusPersistence _persistence;
 
 }

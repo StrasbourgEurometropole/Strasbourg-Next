@@ -27,6 +27,10 @@ public class BudgetSupportLocalServiceWrapper
 	implements BudgetSupportLocalService,
 			   ServiceWrapper<BudgetSupportLocalService> {
 
+	public BudgetSupportLocalServiceWrapper() {
+		this(null);
+	}
+
 	public BudgetSupportLocalServiceWrapper(
 		BudgetSupportLocalService budgetSupportLocalService) {
 
@@ -92,6 +96,17 @@ public class BudgetSupportLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _budgetSupportLocalService.createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the budget support from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -137,6 +152,18 @@ public class BudgetSupportLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _budgetSupportLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _budgetSupportLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _budgetSupportLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override
@@ -278,7 +305,7 @@ public class BudgetSupportLocalServiceWrapper
 	 * Recuperer les soutiens d'un budgte et d'un utilisateur donne
 	 *
 	 * @param budgetParticipatifId ID du budget participatif.
-	 * @param publikId ID publik de l'utilsiateur
+	 * @param publikUserId ID publik de l'utilsiateur
 	 * @return Liste des soutiens
 	 */
 	@Override

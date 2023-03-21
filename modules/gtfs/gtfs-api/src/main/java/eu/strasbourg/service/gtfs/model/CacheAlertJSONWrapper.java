@@ -14,16 +14,12 @@
 
 package eu.strasbourg.service.gtfs.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +31,11 @@ import java.util.Objects;
  * @generated
  */
 public class CacheAlertJSONWrapper
+	extends BaseModelWrapper<CacheAlertJSON>
 	implements CacheAlertJSON, ModelWrapper<CacheAlertJSON> {
 
 	public CacheAlertJSONWrapper(CacheAlertJSON cacheAlertJSON) {
-		_cacheAlertJSON = cacheAlertJSON;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return CacheAlertJSON.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return CacheAlertJSON.class.getName();
+		super(cacheAlertJSON);
 	}
 
 	@Override
@@ -98,16 +85,8 @@ public class CacheAlertJSONWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new CacheAlertJSONWrapper(
-			(CacheAlertJSON)_cacheAlertJSON.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.gtfs.model.CacheAlertJSON cacheAlertJSON) {
-
-		return _cacheAlertJSON.compareTo(cacheAlertJSON);
+	public CacheAlertJSON cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -117,7 +96,7 @@ public class CacheAlertJSONWrapper
 	 */
 	@Override
 	public long getCacheId() {
-		return _cacheAlertJSON.getCacheId();
+		return model.getCacheId();
 	}
 
 	/**
@@ -127,12 +106,7 @@ public class CacheAlertJSONWrapper
 	 */
 	@Override
 	public Date getCreationDate() {
-		return _cacheAlertJSON.getCreationDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _cacheAlertJSON.getExpandoBridge();
+		return model.getCreationDate();
 	}
 
 	/**
@@ -142,7 +116,7 @@ public class CacheAlertJSONWrapper
 	 */
 	@Override
 	public String getJsonAlert() {
-		return _cacheAlertJSON.getJsonAlert();
+		return model.getJsonAlert();
 	}
 
 	/**
@@ -152,7 +126,7 @@ public class CacheAlertJSONWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _cacheAlertJSON.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -162,12 +136,7 @@ public class CacheAlertJSONWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _cacheAlertJSON.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _cacheAlertJSON.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -177,37 +146,12 @@ public class CacheAlertJSONWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _cacheAlertJSON.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _cacheAlertJSON.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _cacheAlertJSON.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _cacheAlertJSON.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _cacheAlertJSON.isNew();
+		return model.getUuid();
 	}
 
 	@Override
 	public void persist() {
-		_cacheAlertJSON.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_cacheAlertJSON.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -217,7 +161,7 @@ public class CacheAlertJSONWrapper
 	 */
 	@Override
 	public void setCacheId(long cacheId) {
-		_cacheAlertJSON.setCacheId(cacheId);
+		model.setCacheId(cacheId);
 	}
 
 	/**
@@ -227,24 +171,7 @@ public class CacheAlertJSONWrapper
 	 */
 	@Override
 	public void setCreationDate(Date creationDate) {
-		_cacheAlertJSON.setCreationDate(creationDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_cacheAlertJSON.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_cacheAlertJSON.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_cacheAlertJSON.setExpandoBridgeAttributes(serviceContext);
+		model.setCreationDate(creationDate);
 	}
 
 	/**
@@ -254,7 +181,7 @@ public class CacheAlertJSONWrapper
 	 */
 	@Override
 	public void setJsonAlert(String jsonAlert) {
-		_cacheAlertJSON.setJsonAlert(jsonAlert);
+		model.setJsonAlert(jsonAlert);
 	}
 
 	/**
@@ -264,12 +191,7 @@ public class CacheAlertJSONWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_cacheAlertJSON.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_cacheAlertJSON.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -279,12 +201,7 @@ public class CacheAlertJSONWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_cacheAlertJSON.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_cacheAlertJSON.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -294,78 +211,17 @@ public class CacheAlertJSONWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_cacheAlertJSON.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.gtfs.model.CacheAlertJSON> toCacheModel() {
-
-		return _cacheAlertJSON.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.CacheAlertJSON toEscapedModel() {
-		return new CacheAlertJSONWrapper(_cacheAlertJSON.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _cacheAlertJSON.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.CacheAlertJSON toUnescapedModel() {
-		return new CacheAlertJSONWrapper(_cacheAlertJSON.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _cacheAlertJSON.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof CacheAlertJSONWrapper)) {
-			return false;
-		}
-
-		CacheAlertJSONWrapper cacheAlertJSONWrapper =
-			(CacheAlertJSONWrapper)object;
-
-		if (Objects.equals(
-				_cacheAlertJSON, cacheAlertJSONWrapper._cacheAlertJSON)) {
-
-			return true;
-		}
-
-		return false;
+	protected CacheAlertJSONWrapper wrap(CacheAlertJSON cacheAlertJSON) {
+		return new CacheAlertJSONWrapper(cacheAlertJSON);
 	}
-
-	@Override
-	public CacheAlertJSON getWrappedModel() {
-		return _cacheAlertJSON;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _cacheAlertJSON.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _cacheAlertJSON.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_cacheAlertJSON.resetOriginalValues();
-	}
-
-	private final CacheAlertJSON _cacheAlertJSON;
 
 }

@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.comment.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Romain Vergnais
  */
-@ProviderType
 public class NoSuchSignalementException extends NoSuchModelException {
 
 	public NoSuchSignalementException() {
@@ -30,12 +27,12 @@ public class NoSuchSignalementException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchSignalementException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchSignalementException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchSignalementException(Throwable cause) {
-		super(cause);
+	public NoSuchSignalementException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

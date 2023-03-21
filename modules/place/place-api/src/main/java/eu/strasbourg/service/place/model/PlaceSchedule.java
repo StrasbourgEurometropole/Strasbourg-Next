@@ -14,17 +14,16 @@
 
 package eu.strasbourg.service.place.model;
 
+import aQute.bnd.annotation.ProviderType;
+import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.utils.DateHelper;
+import eu.strasbourg.utils.models.Pair;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import com.liferay.portal.kernel.util.Validator;
-
-import aQute.bnd.annotation.ProviderType;
-import eu.strasbourg.utils.DateHelper;
-import eu.strasbourg.utils.models.Pair;
 
 /**
  * The extended model implementation for the Place service. Represents a row in

@@ -14,17 +14,13 @@
 
 package eu.strasbourg.service.activity.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +31,12 @@ import java.util.Objects;
  * @see Practice
  * @generated
  */
-public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
+public class PracticeWrapper
+	extends BaseModelWrapper<Practice>
+	implements ModelWrapper<Practice>, Practice {
 
 	public PracticeWrapper(Practice practice) {
-		_practice = practice;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Practice.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Practice.class.getName();
+		super(practice);
 	}
 
 	@Override
@@ -154,15 +142,8 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	}
 
 	@Override
-	public Object clone() {
-		return new PracticeWrapper((Practice)_practice.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.activity.model.Practice practice) {
-
-		return _practice.compareTo(practice);
+	public Practice cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -172,7 +153,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getAccessibilities() {
 
-		return _practice.getAccessibilities();
+		return model.getAccessibilities();
 	}
 
 	/**
@@ -180,7 +161,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _practice.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	/**
@@ -188,7 +169,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public eu.strasbourg.service.activity.model.Association getAssociation() {
-		return _practice.getAssociation();
+		return model.getAssociation();
 	}
 
 	/**
@@ -198,7 +179,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public long getAssociationId() {
-		return _practice.getAssociationId();
+		return model.getAssociationId();
 	}
 
 	/**
@@ -209,7 +190,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _practice.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -219,7 +200,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _practice.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -229,7 +210,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _practice.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -239,12 +220,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getDistricts() {
 
-		return _practice.getDistricts();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _practice.getExpandoBridge();
+		return model.getDistricts();
 	}
 
 	/**
@@ -254,7 +230,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public long getGroupId() {
-		return _practice.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -262,7 +238,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public eu.strasbourg.service.activity.model.Practice getLiveVersion() {
-		return _practice.getLiveVersion();
+		return model.getLiveVersion();
 	}
 
 	/**
@@ -272,7 +248,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _practice.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -280,7 +256,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getPractice() {
-		return _practice.getPractice();
+		return model.getPractice();
 	}
 
 	/**
@@ -290,7 +266,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public long getPracticeId() {
-		return _practice.getPracticeId();
+		return model.getPracticeId();
 	}
 
 	/**
@@ -300,12 +276,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _practice.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _practice.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -315,7 +286,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getPublics() {
 
-		return _practice.getPublics();
+		return model.getPublics();
 	}
 
 	/**
@@ -325,7 +296,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public int getStatus() {
-		return _practice.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -335,7 +306,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _practice.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -345,7 +316,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _practice.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -355,7 +326,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _practice.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -365,7 +336,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _practice.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -375,7 +346,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public long getUserId() {
-		return _practice.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -385,7 +356,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public String getUserName() {
-		return _practice.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -395,7 +366,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _practice.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -405,12 +376,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public String getUuid() {
-		return _practice.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _practice.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -420,12 +386,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _practice.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _practice.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -435,7 +396,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _practice.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -445,12 +406,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _practice.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _practice.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -460,7 +416,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _practice.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -470,7 +426,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _practice.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -480,12 +436,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _practice.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _practice.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -495,7 +446,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public boolean isPending() {
-		return _practice.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -505,12 +456,12 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _practice.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_practice.persist();
+		model.persist();
 	}
 
 	/**
@@ -520,12 +471,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public void setAssociationId(long associationId) {
-		_practice.setAssociationId(associationId);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_practice.setCachedModel(cachedModel);
+		model.setAssociationId(associationId);
 	}
 
 	/**
@@ -535,7 +481,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_practice.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -545,24 +491,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_practice.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_practice.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_practice.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_practice.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -572,7 +501,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_practice.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -582,12 +511,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_practice.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_practice.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -597,7 +521,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public void setPracticeId(long practiceId) {
-		_practice.setPracticeId(practiceId);
+		model.setPracticeId(practiceId);
 	}
 
 	/**
@@ -607,12 +531,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_practice.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_practice.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -622,7 +541,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_practice.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -632,7 +551,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_practice.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -642,7 +561,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_practice.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -652,7 +571,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_practice.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -662,7 +581,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_practice.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -672,7 +591,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_practice.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -682,7 +601,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_practice.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -692,7 +611,7 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_practice.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -702,80 +621,22 @@ public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_practice.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.activity.model.Practice> toCacheModel() {
-
-		return _practice.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.activity.model.Practice toEscapedModel() {
-		return new PracticeWrapper(_practice.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _practice.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.activity.model.Practice toUnescapedModel() {
-		return new PracticeWrapper(_practice.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _practice.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof PracticeWrapper)) {
-			return false;
-		}
-
-		PracticeWrapper practiceWrapper = (PracticeWrapper)object;
-
-		if (Objects.equals(_practice, practiceWrapper._practice)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _practice.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Practice getWrappedModel() {
-		return _practice;
+	protected PracticeWrapper wrap(Practice practice) {
+		return new PracticeWrapper(practice);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _practice.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _practice.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_practice.resetOriginalValues();
-	}
-
-	private final Practice _practice;
 
 }

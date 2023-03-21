@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.place.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.place.exception.NoSuchGoogleMyBusinessHistoricException;
 import eu.strasbourg.service.place.model.GoogleMyBusinessHistoric;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the google my business historic service.
@@ -46,9 +39,6 @@ public interface GoogleMyBusinessHistoricPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link GoogleMyBusinessHistoricUtil} to access the google my business historic persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, GoogleMyBusinessHistoric> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the google my business historics where uuid = &#63;.
@@ -664,8 +654,5 @@ public interface GoogleMyBusinessHistoricPersistence
 	 * @return the number of google my business historics
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

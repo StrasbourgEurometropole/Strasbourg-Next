@@ -17,6 +17,7 @@ package eu.strasbourg.service.notif.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -33,26 +34,23 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.notif.model.Notification;
 import eu.strasbourg.service.notif.model.NotificationModel;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -155,29 +153,53 @@ public class NotificationModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.notif.service.util.ServiceProps.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.notif.model.Notification"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.notif.service.util.ServiceProps.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.notif.model.Notification"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.notif.service.util.ServiceProps.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.notif.model.Notification"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long SERVICEID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STARTDATE_COLUMN_BITMASK = 16L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -236,9 +258,6 @@ public class NotificationModelImpl
 				attributeGetterFunction.apply((Notification)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -272,34 +291,6 @@ public class NotificationModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Notification>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Notification.class.getClassLoader(), Notification.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<Notification> constructor =
-				(Constructor<Notification>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<Notification, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Notification, Object>>
@@ -311,738 +302,148 @@ public class NotificationModelImpl
 		Map<String, BiConsumer<Notification, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Notification, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", Notification::getUuid);
 		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object uuidObject) {
-
-					notification.setUuid((String)uuidObject);
-				}
-
-			});
+			"uuid", (BiConsumer<Notification, String>)Notification::setUuid);
 		attributeGetterFunctions.put(
-			"notificationId",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getNotificationId();
-				}
-
-			});
+			"notificationId", Notification::getNotificationId);
 		attributeSetterBiConsumers.put(
 			"notificationId",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object notificationIdObject) {
-
-					notification.setNotificationId((Long)notificationIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getGroupId();
-				}
-
-			});
+			(BiConsumer<Notification, Long>)Notification::setNotificationId);
+		attributeGetterFunctions.put("groupId", Notification::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object groupIdObject) {
-
-					notification.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getCompanyId();
-				}
-
-			});
+			(BiConsumer<Notification, Long>)Notification::setGroupId);
+		attributeGetterFunctions.put("companyId", Notification::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object companyIdObject) {
-
-					notification.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getUserId();
-				}
-
-			});
+			(BiConsumer<Notification, Long>)Notification::setCompanyId);
+		attributeGetterFunctions.put("userId", Notification::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object userIdObject) {
-
-					notification.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getUserName();
-				}
-
-			});
+			"userId", (BiConsumer<Notification, Long>)Notification::setUserId);
+		attributeGetterFunctions.put("userName", Notification::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object userNameObject) {
-
-					notification.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getCreateDate();
-				}
-
-			});
+			(BiConsumer<Notification, String>)Notification::setUserName);
+		attributeGetterFunctions.put("createDate", Notification::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object createDateObject) {
-
-					notification.setCreateDate((Date)createDateObject);
-				}
-
-			});
+			(BiConsumer<Notification, Date>)Notification::setCreateDate);
 		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getModifiedDate();
-				}
-
-			});
+			"modifiedDate", Notification::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object modifiedDateObject) {
-
-					notification.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getStatus();
-				}
-
-			});
+			(BiConsumer<Notification, Date>)Notification::setModifiedDate);
+		attributeGetterFunctions.put("status", Notification::getStatus);
 		attributeSetterBiConsumers.put(
 			"status",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object statusObject) {
-
-					notification.setStatus((Integer)statusObject);
-				}
-
-			});
+			(BiConsumer<Notification, Integer>)Notification::setStatus);
 		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getStatusByUserId();
-				}
-
-			});
+			"statusByUserId", Notification::getStatusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object statusByUserIdObject) {
-
-					notification.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
+			(BiConsumer<Notification, Long>)Notification::setStatusByUserId);
 		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getStatusByUserName();
-				}
-
-			});
+			"statusByUserName", Notification::getStatusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object statusByUserNameObject) {
-
-					notification.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getStatusDate();
-				}
-
-			});
+			(BiConsumer<Notification, String>)
+				Notification::setStatusByUserName);
+		attributeGetterFunctions.put("statusDate", Notification::getStatusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object statusDateObject) {
-
-					notification.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"serviceId",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getServiceId();
-				}
-
-			});
+			(BiConsumer<Notification, Date>)Notification::setStatusDate);
+		attributeGetterFunctions.put("serviceId", Notification::getServiceId);
 		attributeSetterBiConsumers.put(
 			"serviceId",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object serviceIdObject) {
-
-					notification.setServiceId((Long)serviceIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"isAlert",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getIsAlert();
-				}
-
-			});
+			(BiConsumer<Notification, Long>)Notification::setServiceId);
+		attributeGetterFunctions.put("isAlert", Notification::getIsAlert);
 		attributeSetterBiConsumers.put(
 			"isAlert",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object isAlertObject) {
-
-					notification.setIsAlert((Integer)isAlertObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"natureId",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getNatureId();
-				}
-
-			});
+			(BiConsumer<Notification, Integer>)Notification::setIsAlert);
+		attributeGetterFunctions.put("natureId", Notification::getNatureId);
 		attributeSetterBiConsumers.put(
 			"natureId",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object natureIdObject) {
-
-					notification.setNatureId((Long)natureIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getTitle();
-				}
-
-			});
+			(BiConsumer<Notification, Long>)Notification::setNatureId);
+		attributeGetterFunctions.put("title", Notification::getTitle);
 		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object titleObject) {
-
-					notification.setTitle((String)titleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"subtitle",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getSubtitle();
-				}
-
-			});
+			"title", (BiConsumer<Notification, String>)Notification::setTitle);
+		attributeGetterFunctions.put("subtitle", Notification::getSubtitle);
 		attributeSetterBiConsumers.put(
 			"subtitle",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object subtitleObject) {
-
-					notification.setSubtitle((String)subtitleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"startDate",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getStartDate();
-				}
-
-			});
+			(BiConsumer<Notification, String>)Notification::setSubtitle);
+		attributeGetterFunctions.put("startDate", Notification::getStartDate);
 		attributeSetterBiConsumers.put(
 			"startDate",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object startDateObject) {
-
-					notification.setStartDate((Date)startDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"endDate",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getEndDate();
-				}
-
-			});
+			(BiConsumer<Notification, Date>)Notification::setStartDate);
+		attributeGetterFunctions.put("endDate", Notification::getEndDate);
 		attributeSetterBiConsumers.put(
 			"endDate",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object endDateObject) {
-
-					notification.setEndDate((Date)endDateObject);
-				}
-
-			});
+			(BiConsumer<Notification, Date>)Notification::setEndDate);
 		attributeGetterFunctions.put(
-			"broadcastDate",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getBroadcastDate();
-				}
-
-			});
+			"broadcastDate", Notification::getBroadcastDate);
 		attributeSetterBiConsumers.put(
 			"broadcastDate",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object broadcastDateObject) {
-
-					notification.setBroadcastDate((Date)broadcastDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"messageId",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getMessageId();
-				}
-
-			});
+			(BiConsumer<Notification, Date>)Notification::setBroadcastDate);
+		attributeGetterFunctions.put("messageId", Notification::getMessageId);
 		attributeSetterBiConsumers.put(
 			"messageId",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object messageIdObject) {
-
-					notification.setMessageId((Long)messageIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"content",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getContent();
-				}
-
-			});
+			(BiConsumer<Notification, Long>)Notification::setMessageId);
+		attributeGetterFunctions.put("content", Notification::getContent);
 		attributeSetterBiConsumers.put(
 			"content",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object contentObject) {
-
-					notification.setContent((String)contentObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"labelUrl",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getLabelUrl();
-				}
-
-			});
+			(BiConsumer<Notification, String>)Notification::setContent);
+		attributeGetterFunctions.put("labelUrl", Notification::getLabelUrl);
 		attributeSetterBiConsumers.put(
 			"labelUrl",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object labelUrlObject) {
-
-					notification.setLabelUrl((String)labelUrlObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"url",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getUrl();
-				}
-
-			});
+			(BiConsumer<Notification, String>)Notification::setLabelUrl);
+		attributeGetterFunctions.put("url", Notification::getUrl);
 		attributeSetterBiConsumers.put(
-			"url",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object urlObject) {
-
-					notification.setUrl((String)urlObject);
-				}
-
-			});
+			"url", (BiConsumer<Notification, String>)Notification::setUrl);
 		attributeGetterFunctions.put(
-			"typeBroadcast",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getTypeBroadcast();
-				}
-
-			});
+			"typeBroadcast", Notification::getTypeBroadcast);
 		attributeSetterBiConsumers.put(
 			"typeBroadcast",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object typeBroadcastObject) {
-
-					notification.setTypeBroadcast((Long)typeBroadcastObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"district",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getDistrict();
-				}
-
-			});
+			(BiConsumer<Notification, Long>)Notification::setTypeBroadcast);
+		attributeGetterFunctions.put("district", Notification::getDistrict);
 		attributeSetterBiConsumers.put(
 			"district",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object districtObject) {
-
-					notification.setDistrict((Long)districtObject);
-				}
-
-			});
+			(BiConsumer<Notification, Long>)Notification::setDistrict);
 		attributeGetterFunctions.put(
-			"broadcastChannels",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getBroadcastChannels();
-				}
-
-			});
+			"broadcastChannels", Notification::getBroadcastChannels);
 		attributeSetterBiConsumers.put(
 			"broadcastChannels",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object broadcastChannelsObject) {
-
-					notification.setBroadcastChannels(
-						(String)broadcastChannelsObject);
-				}
-
-			});
+			(BiConsumer<Notification, String>)
+				Notification::setBroadcastChannels);
 		attributeGetterFunctions.put(
-			"sendStatusCsmap",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getSendStatusCsmap();
-				}
-
-			});
+			"sendStatusCsmap", Notification::getSendStatusCsmap);
 		attributeSetterBiConsumers.put(
 			"sendStatusCsmap",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object sendStatusCsmapObject) {
-
-					notification.setSendStatusCsmap(
-						(Long)sendStatusCsmapObject);
-				}
-
-			});
+			(BiConsumer<Notification, Long>)Notification::setSendStatusCsmap);
 		attributeGetterFunctions.put(
-			"sendStatusTwitter",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getSendStatusTwitter();
-				}
-
-			});
+			"sendStatusTwitter", Notification::getSendStatusTwitter);
 		attributeSetterBiConsumers.put(
 			"sendStatusTwitter",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object sendStatusTwitterObject) {
-
-					notification.setSendStatusTwitter(
-						(Long)sendStatusTwitterObject);
-				}
-
-			});
+			(BiConsumer<Notification, Long>)Notification::setSendStatusTwitter);
 		attributeGetterFunctions.put(
-			"sendStatusMonst",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getSendStatusMonst();
-				}
-
-			});
+			"sendStatusMonst", Notification::getSendStatusMonst);
 		attributeSetterBiConsumers.put(
 			"sendStatusMonst",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object sendStatusMonstObject) {
-
-					notification.setSendStatusMonst(
-						(Long)sendStatusMonstObject);
-				}
-
-			});
+			(BiConsumer<Notification, Long>)Notification::setSendStatusMonst);
 		attributeGetterFunctions.put(
-			"sendStatusMail",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getSendStatusMail();
-				}
-
-			});
+			"sendStatusMail", Notification::getSendStatusMail);
 		attributeSetterBiConsumers.put(
 			"sendStatusMail",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object sendStatusMailObject) {
-
-					notification.setSendStatusMail((Long)sendStatusMailObject);
-				}
-
-			});
+			(BiConsumer<Notification, Long>)Notification::setSendStatusMail);
 		attributeGetterFunctions.put(
-			"sendStatusSegur",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getSendStatusSegur();
-				}
-
-			});
+			"sendStatusSegur", Notification::getSendStatusSegur);
 		attributeSetterBiConsumers.put(
 			"sendStatusSegur",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object sendStatusSegurObject) {
-
-					notification.setSendStatusSegur(
-						(Long)sendStatusSegurObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"isSend",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getIsSend();
-				}
-
-			});
+			(BiConsumer<Notification, Long>)Notification::setSendStatusSegur);
+		attributeGetterFunctions.put("isSend", Notification::getIsSend);
 		attributeSetterBiConsumers.put(
 			"isSend",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object isSendObject) {
-
-					notification.setIsSend((Boolean)isSendObject);
-				}
-
-			});
+			(BiConsumer<Notification, Boolean>)Notification::setIsSend);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -1062,17 +463,20 @@ public class NotificationModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -1082,6 +486,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setNotificationId(long notificationId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_notificationId = notificationId;
 	}
 
@@ -1092,19 +500,20 @@ public class NotificationModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -1114,19 +523,21 @@ public class NotificationModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -1136,6 +547,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -1167,6 +582,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -1177,6 +596,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -1193,6 +616,10 @@ public class NotificationModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -1203,6 +630,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -1213,6 +644,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1244,6 +679,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1254,6 +693,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1264,19 +707,21 @@ public class NotificationModelImpl
 
 	@Override
 	public void setServiceId(long serviceId) {
-		_columnBitmask |= SERVICEID_COLUMN_BITMASK;
-
-		if (!_setOriginalServiceId) {
-			_setOriginalServiceId = true;
-
-			_originalServiceId = _serviceId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_serviceId = serviceId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalServiceId() {
-		return _originalServiceId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("serviceId"));
 	}
 
 	@Override
@@ -1286,6 +731,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setIsAlert(int isAlert) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_isAlert = isAlert;
 	}
 
@@ -1296,6 +745,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setNatureId(long natureId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_natureId = natureId;
 	}
 
@@ -1354,6 +807,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setTitle(String title) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_title = title;
 	}
 
@@ -1458,6 +915,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setSubtitle(String subtitle) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_subtitle = subtitle;
 	}
 
@@ -1517,7 +978,9 @@ public class NotificationModelImpl
 
 	@Override
 	public void setStartDate(Date startDate) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_startDate = startDate;
 	}
@@ -1529,6 +992,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setEndDate(Date endDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_endDate = endDate;
 	}
 
@@ -1539,6 +1006,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setBroadcastDate(Date broadcastDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_broadcastDate = broadcastDate;
 	}
 
@@ -1549,6 +1020,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setMessageId(long messageId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_messageId = messageId;
 	}
 
@@ -1607,6 +1082,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setContent(String content) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_content = content;
 	}
 
@@ -1714,6 +1193,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setLabelUrl(String labelUrl) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_labelUrl = labelUrl;
 	}
 
@@ -1821,6 +1304,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setUrl(String url) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_url = url;
 	}
 
@@ -1875,6 +1362,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setTypeBroadcast(long typeBroadcast) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_typeBroadcast = typeBroadcast;
 	}
 
@@ -1885,6 +1376,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setDistrict(long district) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_district = district;
 	}
 
@@ -1900,6 +1395,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setBroadcastChannels(String broadcastChannels) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_broadcastChannels = broadcastChannels;
 	}
 
@@ -1910,6 +1409,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setSendStatusCsmap(long sendStatusCsmap) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_sendStatusCsmap = sendStatusCsmap;
 	}
 
@@ -1920,6 +1423,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setSendStatusTwitter(long sendStatusTwitter) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_sendStatusTwitter = sendStatusTwitter;
 	}
 
@@ -1930,6 +1437,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setSendStatusMonst(long sendStatusMonst) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_sendStatusMonst = sendStatusMonst;
 	}
 
@@ -1940,6 +1451,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setSendStatusMail(long sendStatusMail) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_sendStatusMail = sendStatusMail;
 	}
 
@@ -1950,6 +1465,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setSendStatusSegur(long sendStatusSegur) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_sendStatusSegur = sendStatusSegur;
 	}
 
@@ -1960,6 +1479,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setIsSend(Boolean isSend) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_isSend = isSend;
 	}
 
@@ -2050,6 +1573,26 @@ public class NotificationModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -2273,6 +1816,76 @@ public class NotificationModelImpl
 	}
 
 	@Override
+	public Notification cloneWithOriginalValues() {
+		NotificationImpl notificationImpl = new NotificationImpl();
+
+		notificationImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		notificationImpl.setNotificationId(
+			this.<Long>getColumnOriginalValue("notificationId"));
+		notificationImpl.setGroupId(
+			this.<Long>getColumnOriginalValue("groupId"));
+		notificationImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		notificationImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		notificationImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		notificationImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		notificationImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		notificationImpl.setStatus(
+			this.<Integer>getColumnOriginalValue("status"));
+		notificationImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		notificationImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		notificationImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		notificationImpl.setServiceId(
+			this.<Long>getColumnOriginalValue("serviceId"));
+		notificationImpl.setIsAlert(
+			this.<Integer>getColumnOriginalValue("isAlert"));
+		notificationImpl.setNatureId(
+			this.<Long>getColumnOriginalValue("natureId"));
+		notificationImpl.setTitle(this.<String>getColumnOriginalValue("title"));
+		notificationImpl.setSubtitle(
+			this.<String>getColumnOriginalValue("subtitle"));
+		notificationImpl.setStartDate(
+			this.<Date>getColumnOriginalValue("startDate"));
+		notificationImpl.setEndDate(
+			this.<Date>getColumnOriginalValue("endDate"));
+		notificationImpl.setBroadcastDate(
+			this.<Date>getColumnOriginalValue("broadcastDate"));
+		notificationImpl.setMessageId(
+			this.<Long>getColumnOriginalValue("messageId"));
+		notificationImpl.setContent(
+			this.<String>getColumnOriginalValue("content"));
+		notificationImpl.setLabelUrl(
+			this.<String>getColumnOriginalValue("labelUrl"));
+		notificationImpl.setUrl(this.<String>getColumnOriginalValue("url"));
+		notificationImpl.setTypeBroadcast(
+			this.<Long>getColumnOriginalValue("typeBroadcast"));
+		notificationImpl.setDistrict(
+			this.<Long>getColumnOriginalValue("district"));
+		notificationImpl.setBroadcastChannels(
+			this.<String>getColumnOriginalValue("broadcastChannels"));
+		notificationImpl.setSendStatusCsmap(
+			this.<Long>getColumnOriginalValue("sendStatusCsmap"));
+		notificationImpl.setSendStatusTwitter(
+			this.<Long>getColumnOriginalValue("sendStatusTwitter"));
+		notificationImpl.setSendStatusMonst(
+			this.<Long>getColumnOriginalValue("sendStatusMonst"));
+		notificationImpl.setSendStatusMail(
+			this.<Long>getColumnOriginalValue("sendStatusMail"));
+		notificationImpl.setSendStatusSegur(
+			this.<Long>getColumnOriginalValue("sendStatusSegur"));
+		notificationImpl.setIsSend(
+			this.<Boolean>getColumnOriginalValue("isSend"));
+
+		return notificationImpl;
+	}
+
+	@Override
 	public int compareTo(Notification notification) {
 		int value = 0;
 
@@ -2314,11 +1927,19 @@ public class NotificationModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -2326,27 +1947,11 @@ public class NotificationModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		NotificationModelImpl notificationModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		notificationModelImpl._originalUuid = notificationModelImpl._uuid;
+		_setModifiedDate = false;
 
-		notificationModelImpl._originalGroupId = notificationModelImpl._groupId;
-
-		notificationModelImpl._setOriginalGroupId = false;
-
-		notificationModelImpl._originalCompanyId =
-			notificationModelImpl._companyId;
-
-		notificationModelImpl._setOriginalCompanyId = false;
-
-		notificationModelImpl._setModifiedDate = false;
-
-		notificationModelImpl._originalServiceId =
-			notificationModelImpl._serviceId;
-
-		notificationModelImpl._setOriginalServiceId = false;
-
-		notificationModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -2529,7 +2134,7 @@ public class NotificationModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -2540,9 +2145,26 @@ public class NotificationModelImpl
 			Function<Notification, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Notification)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Notification)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -2555,53 +2177,19 @@ public class NotificationModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Notification, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Notification, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Notification, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Notification)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Notification>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Notification.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _notificationId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -2612,8 +2200,6 @@ public class NotificationModelImpl
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _serviceId;
-	private long _originalServiceId;
-	private boolean _setOriginalServiceId;
 	private int _isAlert;
 	private long _natureId;
 	private String _title;
@@ -2639,6 +2225,161 @@ public class NotificationModelImpl
 	private long _sendStatusMail;
 	private long _sendStatusSegur;
 	private Boolean _isSend;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Notification, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Notification)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("notificationId", _notificationId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("serviceId", _serviceId);
+		_columnOriginalValues.put("isAlert", _isAlert);
+		_columnOriginalValues.put("natureId", _natureId);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("subtitle", _subtitle);
+		_columnOriginalValues.put("startDate", _startDate);
+		_columnOriginalValues.put("endDate", _endDate);
+		_columnOriginalValues.put("broadcastDate", _broadcastDate);
+		_columnOriginalValues.put("messageId", _messageId);
+		_columnOriginalValues.put("content", _content);
+		_columnOriginalValues.put("labelUrl", _labelUrl);
+		_columnOriginalValues.put("url", _url);
+		_columnOriginalValues.put("typeBroadcast", _typeBroadcast);
+		_columnOriginalValues.put("district", _district);
+		_columnOriginalValues.put("broadcastChannels", _broadcastChannels);
+		_columnOriginalValues.put("sendStatusCsmap", _sendStatusCsmap);
+		_columnOriginalValues.put("sendStatusTwitter", _sendStatusTwitter);
+		_columnOriginalValues.put("sendStatusMonst", _sendStatusMonst);
+		_columnOriginalValues.put("sendStatusMail", _sendStatusMail);
+		_columnOriginalValues.put("sendStatusSegur", _sendStatusSegur);
+		_columnOriginalValues.put("isSend", _isSend);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("notificationId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("status", 256L);
+
+		columnBitmasks.put("statusByUserId", 512L);
+
+		columnBitmasks.put("statusByUserName", 1024L);
+
+		columnBitmasks.put("statusDate", 2048L);
+
+		columnBitmasks.put("serviceId", 4096L);
+
+		columnBitmasks.put("isAlert", 8192L);
+
+		columnBitmasks.put("natureId", 16384L);
+
+		columnBitmasks.put("title", 32768L);
+
+		columnBitmasks.put("subtitle", 65536L);
+
+		columnBitmasks.put("startDate", 131072L);
+
+		columnBitmasks.put("endDate", 262144L);
+
+		columnBitmasks.put("broadcastDate", 524288L);
+
+		columnBitmasks.put("messageId", 1048576L);
+
+		columnBitmasks.put("content", 2097152L);
+
+		columnBitmasks.put("labelUrl", 4194304L);
+
+		columnBitmasks.put("url", 8388608L);
+
+		columnBitmasks.put("typeBroadcast", 16777216L);
+
+		columnBitmasks.put("district", 33554432L);
+
+		columnBitmasks.put("broadcastChannels", 67108864L);
+
+		columnBitmasks.put("sendStatusCsmap", 134217728L);
+
+		columnBitmasks.put("sendStatusTwitter", 268435456L);
+
+		columnBitmasks.put("sendStatusMonst", 536870912L);
+
+		columnBitmasks.put("sendStatusMail", 1073741824L);
+
+		columnBitmasks.put("sendStatusSegur", 2147483648L);
+
+		columnBitmasks.put("isSend", 4294967296L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Notification _escapedModel;
 

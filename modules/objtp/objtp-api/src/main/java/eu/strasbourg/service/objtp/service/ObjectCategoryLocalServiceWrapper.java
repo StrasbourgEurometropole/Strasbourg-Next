@@ -27,6 +27,10 @@ public class ObjectCategoryLocalServiceWrapper
 	implements ObjectCategoryLocalService,
 			   ServiceWrapper<ObjectCategoryLocalService> {
 
+	public ObjectCategoryLocalServiceWrapper() {
+		this(null);
+	}
+
 	public ObjectCategoryLocalServiceWrapper(
 		ObjectCategoryLocalService objectCategoryLocalService) {
 
@@ -61,6 +65,17 @@ public class ObjectCategoryLocalServiceWrapper
 		createObjectCategory(String code) {
 
 		return _objectCategoryLocalService.createObjectCategory(code);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _objectCategoryLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -109,6 +124,18 @@ public class ObjectCategoryLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _objectCategoryLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _objectCategoryLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _objectCategoryLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

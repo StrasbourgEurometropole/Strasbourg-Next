@@ -14,17 +14,13 @@
 
 package eu.strasbourg.service.place.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,23 +32,14 @@ import java.util.Objects;
  * @generated
  */
 public class GoogleMyBusinessHistoricWrapper
+	extends BaseModelWrapper<GoogleMyBusinessHistoric>
 	implements GoogleMyBusinessHistoric,
 			   ModelWrapper<GoogleMyBusinessHistoric> {
 
 	public GoogleMyBusinessHistoricWrapper(
 		GoogleMyBusinessHistoric googleMyBusinessHistoric) {
 
-		_googleMyBusinessHistoric = googleMyBusinessHistoric;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return GoogleMyBusinessHistoric.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return GoogleMyBusinessHistoric.class.getName();
+		super(googleMyBusinessHistoric);
 	}
 
 	@Override
@@ -208,21 +195,12 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void addNewOperation(String operation) {
-		_googleMyBusinessHistoric.addNewOperation(operation);
+		model.addNewOperation(operation);
 	}
 
 	@Override
-	public Object clone() {
-		return new GoogleMyBusinessHistoricWrapper(
-			(GoogleMyBusinessHistoric)_googleMyBusinessHistoric.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.place.model.GoogleMyBusinessHistoric
-			googleMyBusinessHistoric) {
-
-		return _googleMyBusinessHistoric.compareTo(googleMyBusinessHistoric);
+	public GoogleMyBusinessHistoric cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -230,7 +208,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _googleMyBusinessHistoric.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	/**
@@ -241,7 +219,7 @@ public class GoogleMyBusinessHistoricWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _googleMyBusinessHistoric.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -251,7 +229,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _googleMyBusinessHistoric.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -261,7 +239,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _googleMyBusinessHistoric.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -271,7 +249,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public String getErrorDescription() {
-		return _googleMyBusinessHistoric.getErrorDescription();
+		return model.getErrorDescription();
 	}
 
 	/**
@@ -281,12 +259,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public String getErrorStackTrace() {
-		return _googleMyBusinessHistoric.getErrorStackTrace();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _googleMyBusinessHistoric.getExpandoBridge();
+		return model.getErrorStackTrace();
 	}
 
 	/**
@@ -296,7 +269,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public Date getFinishDate() {
-		return _googleMyBusinessHistoric.getFinishDate();
+		return model.getFinishDate();
 	}
 
 	/**
@@ -306,7 +279,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public long getGoogleMyBusinessHistoricId() {
-		return _googleMyBusinessHistoric.getGoogleMyBusinessHistoricId();
+		return model.getGoogleMyBusinessHistoricId();
 	}
 
 	/**
@@ -316,7 +289,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _googleMyBusinessHistoric.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -326,7 +299,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public Date getLastPublishDate() {
-		return _googleMyBusinessHistoric.getLastPublishDate();
+		return model.getLastPublishDate();
 	}
 
 	/**
@@ -336,7 +309,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _googleMyBusinessHistoric.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -346,7 +319,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public String getOperations() {
-		return _googleMyBusinessHistoric.getOperations();
+		return model.getOperations();
 	}
 
 	/**
@@ -356,12 +329,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _googleMyBusinessHistoric.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _googleMyBusinessHistoric.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -371,7 +339,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public int getResult() {
-		return _googleMyBusinessHistoric.getResult();
+		return model.getResult();
 	}
 
 	/**
@@ -381,7 +349,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public String getResultLabel() {
-		return _googleMyBusinessHistoric.getResultLabel();
+		return model.getResultLabel();
 	}
 
 	/**
@@ -391,7 +359,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public Date getStartDate() {
-		return _googleMyBusinessHistoric.getStartDate();
+		return model.getStartDate();
 	}
 
 	/**
@@ -401,7 +369,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public int getStatus() {
-		return _googleMyBusinessHistoric.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -411,7 +379,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _googleMyBusinessHistoric.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -421,7 +389,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _googleMyBusinessHistoric.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -431,7 +399,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _googleMyBusinessHistoric.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -441,7 +409,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _googleMyBusinessHistoric.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -451,7 +419,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _googleMyBusinessHistoric.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -461,7 +429,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _googleMyBusinessHistoric.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -471,7 +439,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _googleMyBusinessHistoric.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -481,12 +449,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _googleMyBusinessHistoric.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _googleMyBusinessHistoric.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -496,12 +459,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public boolean isApproved() {
-		return _googleMyBusinessHistoric.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _googleMyBusinessHistoric.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -511,7 +469,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public boolean isDenied() {
-		return _googleMyBusinessHistoric.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -521,12 +479,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public boolean isDraft() {
-		return _googleMyBusinessHistoric.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _googleMyBusinessHistoric.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -536,7 +489,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public boolean isExpired() {
-		return _googleMyBusinessHistoric.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -546,7 +499,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public boolean isInactive() {
-		return _googleMyBusinessHistoric.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -556,12 +509,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _googleMyBusinessHistoric.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _googleMyBusinessHistoric.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -571,7 +519,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public boolean isPending() {
-		return _googleMyBusinessHistoric.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -581,12 +529,12 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _googleMyBusinessHistoric.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_googleMyBusinessHistoric.persist();
+		model.persist();
 	}
 
 	/**
@@ -594,12 +542,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void sendMail() {
-		_googleMyBusinessHistoric.sendMail();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_googleMyBusinessHistoric.setCachedModel(cachedModel);
+		model.sendMail();
 	}
 
 	/**
@@ -609,7 +552,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_googleMyBusinessHistoric.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -619,7 +562,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_googleMyBusinessHistoric.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -629,7 +572,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void setErrorDescription(String errorDescription) {
-		_googleMyBusinessHistoric.setErrorDescription(errorDescription);
+		model.setErrorDescription(errorDescription);
 	}
 
 	/**
@@ -639,24 +582,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void setErrorStackTrace(String errorStackTrace) {
-		_googleMyBusinessHistoric.setErrorStackTrace(errorStackTrace);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_googleMyBusinessHistoric.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_googleMyBusinessHistoric.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_googleMyBusinessHistoric.setExpandoBridgeAttributes(serviceContext);
+		model.setErrorStackTrace(errorStackTrace);
 	}
 
 	/**
@@ -666,7 +592,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void setFinishDate(Date finishDate) {
-		_googleMyBusinessHistoric.setFinishDate(finishDate);
+		model.setFinishDate(finishDate);
 	}
 
 	/**
@@ -676,8 +602,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void setGoogleMyBusinessHistoricId(long googleMyBusinessHistoricId) {
-		_googleMyBusinessHistoric.setGoogleMyBusinessHistoricId(
-			googleMyBusinessHistoricId);
+		model.setGoogleMyBusinessHistoricId(googleMyBusinessHistoricId);
 	}
 
 	/**
@@ -687,7 +612,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_googleMyBusinessHistoric.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -697,7 +622,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
-		_googleMyBusinessHistoric.setLastPublishDate(lastPublishDate);
+		model.setLastPublishDate(lastPublishDate);
 	}
 
 	/**
@@ -707,12 +632,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_googleMyBusinessHistoric.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_googleMyBusinessHistoric.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -722,7 +642,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void setOperations(String operations) {
-		_googleMyBusinessHistoric.setOperations(operations);
+		model.setOperations(operations);
 	}
 
 	/**
@@ -732,12 +652,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_googleMyBusinessHistoric.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_googleMyBusinessHistoric.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -747,7 +662,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void setResult(int result) {
-		_googleMyBusinessHistoric.setResult(result);
+		model.setResult(result);
 	}
 
 	/**
@@ -757,7 +672,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void setStartDate(Date startDate) {
-		_googleMyBusinessHistoric.setStartDate(startDate);
+		model.setStartDate(startDate);
 	}
 
 	/**
@@ -767,7 +682,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void setStatus(int status) {
-		_googleMyBusinessHistoric.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -777,7 +692,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_googleMyBusinessHistoric.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -787,7 +702,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_googleMyBusinessHistoric.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -797,7 +712,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_googleMyBusinessHistoric.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -807,7 +722,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_googleMyBusinessHistoric.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -817,7 +732,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_googleMyBusinessHistoric.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -827,7 +742,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_googleMyBusinessHistoric.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -837,7 +752,7 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_googleMyBusinessHistoric.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -847,91 +762,24 @@ public class GoogleMyBusinessHistoricWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_googleMyBusinessHistoric.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.place.model.GoogleMyBusinessHistoric>
-			toCacheModel() {
-
-		return _googleMyBusinessHistoric.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.place.model.GoogleMyBusinessHistoric
-		toEscapedModel() {
-
-		return new GoogleMyBusinessHistoricWrapper(
-			_googleMyBusinessHistoric.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _googleMyBusinessHistoric.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.place.model.GoogleMyBusinessHistoric
-		toUnescapedModel() {
-
-		return new GoogleMyBusinessHistoricWrapper(
-			_googleMyBusinessHistoric.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _googleMyBusinessHistoric.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof GoogleMyBusinessHistoricWrapper)) {
-			return false;
-		}
-
-		GoogleMyBusinessHistoricWrapper googleMyBusinessHistoricWrapper =
-			(GoogleMyBusinessHistoricWrapper)object;
-
-		if (Objects.equals(
-				_googleMyBusinessHistoric,
-				googleMyBusinessHistoricWrapper._googleMyBusinessHistoric)) {
-
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _googleMyBusinessHistoric.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public GoogleMyBusinessHistoric getWrappedModel() {
-		return _googleMyBusinessHistoric;
-	}
+	protected GoogleMyBusinessHistoricWrapper wrap(
+		GoogleMyBusinessHistoric googleMyBusinessHistoric) {
 
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _googleMyBusinessHistoric.isEntityCacheEnabled();
+		return new GoogleMyBusinessHistoricWrapper(googleMyBusinessHistoric);
 	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _googleMyBusinessHistoric.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_googleMyBusinessHistoric.resetOriginalValues();
-	}
-
-	private final GoogleMyBusinessHistoric _googleMyBusinessHistoric;
 
 }

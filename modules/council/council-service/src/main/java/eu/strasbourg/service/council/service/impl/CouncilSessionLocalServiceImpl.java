@@ -14,12 +14,14 @@
 
 package eu.strasbourg.service.council.service.impl;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -35,7 +37,6 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.council.model.CouncilSession;
@@ -44,11 +45,18 @@ import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.service.council.service.base.CouncilSessionLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * The implementation of the council session local service.
@@ -150,8 +158,8 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 				titleMap.put(locale, councilSession.getTitle());
 				Map<Locale, String> descriptionMap = new HashMap<>();
 				descriptionMap.put(locale, StringPool.BLANK);
-				AssetCategoryLocalServiceUtil.addCategory(sc.getUserId(), sc.getScopeGroupId(), typeCategory.getCategoryId(), titleMap,
-						descriptionMap, conseil.getVocabularyId(), null, sc);
+				AssetCategoryLocalServiceUtil.addCategory(null,sc.getUserId(),sc.getScopeGroupId(),
+						typeCategory.getCategoryId(),titleMap,descriptionMap, conseil.getVocabularyId(), null, sc);
 			}
 		}
 
@@ -250,10 +258,8 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 
 		if (entry != null) {
 			// Supprime les liens avec les catégories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-						categoryId, entry.getEntryId());
-			}
+			assetEntryAssetCategoryRelLocalService.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
 			// Supprime les liens avec les étiquettes
 			long[] tagIds = AssetEntryLocalServiceUtil
@@ -388,4 +394,6 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 
 		return gregorianCalendar;
 	}
+	@Reference
+	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

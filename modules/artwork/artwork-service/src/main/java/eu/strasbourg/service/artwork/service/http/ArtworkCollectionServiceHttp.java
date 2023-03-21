@@ -38,7 +38,6 @@ package eu.strasbourg.service.artwork.service.http;
  * </p>
  *
  * @author BenjaminBini
- * @see ArtworkCollectionServiceSoap
  * @generated
  */
 public class ArtworkCollectionServiceHttp {

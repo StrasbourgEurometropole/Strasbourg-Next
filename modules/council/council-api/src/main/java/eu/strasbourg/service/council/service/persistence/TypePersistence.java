@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.council.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.council.exception.NoSuchTypeException;
 import eu.strasbourg.service.council.model.Type;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the type service.
@@ -45,9 +38,6 @@ public interface TypePersistence extends BasePersistence<Type> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link TypeUtil} to access the type persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Type> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the types where uuid = &#63;.
@@ -796,8 +786,5 @@ public interface TypePersistence extends BasePersistence<Type> {
 	 * @return the number of types
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

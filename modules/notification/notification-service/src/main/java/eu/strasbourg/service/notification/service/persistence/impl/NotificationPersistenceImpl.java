@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.notification.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,25 +25,27 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.notification.exception.NoSuchNotificationException;
 import eu.strasbourg.service.notification.model.Notification;
+import eu.strasbourg.service.notification.model.NotificationTable;
 import eu.strasbourg.service.notification.model.impl.NotificationImpl;
 import eu.strasbourg.service.notification.model.impl.NotificationModelImpl;
 import eu.strasbourg.service.notification.service.persistence.NotificationPersistence;
+import eu.strasbourg.service.notification.service.persistence.NotificationUtil;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Field;
+
 import java.sql.Timestamp;
 
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -179,7 +182,8 @@ public class NotificationPersistenceImpl
 			if ((list != null) && !list.isEmpty()) {
 				for (Notification notification : list) {
 					if ((publicationDate.getTime() <=
-							notification.getPublicationDate().getTime()) ||
+							notification.getPublicationDate(
+							).getTime()) ||
 						(status != notification.getStatus())) {
 
 						list = null;
@@ -253,10 +257,6 @@ public class NotificationPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -643,8 +643,6 @@ public class NotificationPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -767,7 +765,8 @@ public class NotificationPersistenceImpl
 			if ((list != null) && !list.isEmpty()) {
 				for (Notification notification : list) {
 					if ((expirationDate.getTime() <=
-							notification.getExpirationDate().getTime()) ||
+							notification.getExpirationDate(
+							).getTime()) ||
 						(status != notification.getStatus())) {
 
 						list = null;
@@ -841,10 +840,6 @@ public class NotificationPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1227,8 +1222,6 @@ public class NotificationPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1253,6 +1246,11 @@ public class NotificationPersistenceImpl
 
 	public NotificationPersistenceImpl() {
 		setModelClass(Notification.class);
+
+		setModelImplClass(NotificationImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(NotificationTable.INSTANCE);
 	}
 
 	/**
@@ -1263,11 +1261,10 @@ public class NotificationPersistenceImpl
 	@Override
 	public void cacheResult(Notification notification) {
 		entityCache.putResult(
-			NotificationModelImpl.ENTITY_CACHE_ENABLED, NotificationImpl.class,
-			notification.getPrimaryKey(), notification);
-
-		notification.resetOriginalValues();
+			NotificationImpl.class, notification.getPrimaryKey(), notification);
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the notifications in the entity cache if it is enabled.
@@ -1276,16 +1273,19 @@ public class NotificationPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Notification> notifications) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (notifications.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Notification notification : notifications) {
 			if (entityCache.getResult(
-					NotificationModelImpl.ENTITY_CACHE_ENABLED,
 					NotificationImpl.class, notification.getPrimaryKey()) ==
 						null) {
 
 				cacheResult(notification);
-			}
-			else {
-				notification.resetOriginalValues();
 			}
 		}
 	}
@@ -1301,9 +1301,7 @@ public class NotificationPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(NotificationImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(NotificationImpl.class);
 	}
 
 	/**
@@ -1315,35 +1313,22 @@ public class NotificationPersistenceImpl
 	 */
 	@Override
 	public void clearCache(Notification notification) {
-		entityCache.removeResult(
-			NotificationModelImpl.ENTITY_CACHE_ENABLED, NotificationImpl.class,
-			notification.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		entityCache.removeResult(NotificationImpl.class, notification);
 	}
 
 	@Override
 	public void clearCache(List<Notification> notifications) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Notification notification : notifications) {
-			entityCache.removeResult(
-				NotificationModelImpl.ENTITY_CACHE_ENABLED,
-				NotificationImpl.class, notification.getPrimaryKey());
+			entityCache.removeResult(NotificationImpl.class, notification);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(NotificationImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				NotificationModelImpl.ENTITY_CACHE_ENABLED,
-				NotificationImpl.class, primaryKey);
+			entityCache.removeResult(NotificationImpl.class, primaryKey);
 		}
 	}
 
@@ -1457,10 +1442,8 @@ public class NotificationPersistenceImpl
 		try {
 			session = openSession();
 
-			if (notification.isNew()) {
+			if (isNew) {
 				session.save(notification);
-
-				notification.setNew(false);
 			}
 			else {
 				notification = (Notification)session.merge(notification);
@@ -1473,20 +1456,12 @@ public class NotificationPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!NotificationModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-
 		entityCache.putResult(
-			NotificationModelImpl.ENTITY_CACHE_ENABLED, NotificationImpl.class,
-			notification.getPrimaryKey(), notification, false);
+			NotificationImpl.class, notification, false, true);
+
+		if (isNew) {
+			notification.setNew(false);
+		}
 
 		notification.resetOriginalValues();
 
@@ -1535,161 +1510,12 @@ public class NotificationPersistenceImpl
 	/**
 	 * Returns the notification with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the notification
-	 * @return the notification, or <code>null</code> if a notification with the primary key could not be found
-	 */
-	@Override
-	public Notification fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			NotificationModelImpl.ENTITY_CACHE_ENABLED, NotificationImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Notification notification = (Notification)serializable;
-
-		if (notification == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				notification = (Notification)session.get(
-					NotificationImpl.class, primaryKey);
-
-				if (notification != null) {
-					cacheResult(notification);
-				}
-				else {
-					entityCache.putResult(
-						NotificationModelImpl.ENTITY_CACHE_ENABLED,
-						NotificationImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					NotificationModelImpl.ENTITY_CACHE_ENABLED,
-					NotificationImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return notification;
-	}
-
-	/**
-	 * Returns the notification with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param notificationId the primary key of the notification
 	 * @return the notification, or <code>null</code> if a notification with the primary key could not be found
 	 */
 	@Override
 	public Notification fetchByPrimaryKey(long notificationId) {
 		return fetchByPrimaryKey((Serializable)notificationId);
-	}
-
-	@Override
-	public Map<Serializable, Notification> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Notification> map =
-			new HashMap<Serializable, Notification>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Notification notification = fetchByPrimaryKey(primaryKey);
-
-			if (notification != null) {
-				map.put(primaryKey, notification);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				NotificationModelImpl.ENTITY_CACHE_ENABLED,
-				NotificationImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Notification)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_NOTIFICATION_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Notification notification : (List<Notification>)query.list()) {
-				map.put(notification.getPrimaryKeyObj(), notification);
-
-				cacheResult(notification);
-
-				uncachedPrimaryKeys.remove(notification.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					NotificationModelImpl.ENTITY_CACHE_ENABLED,
-					NotificationImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -1816,10 +1642,6 @@ public class NotificationPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1865,9 +1687,6 @@ public class NotificationPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1879,6 +1698,21 @@ public class NotificationPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "notificationId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_NOTIFICATION;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return NotificationModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1887,68 +1721,79 @@ public class NotificationPersistenceImpl
 	 * Initializes the notification persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			NotificationModelImpl.ENTITY_CACHE_ENABLED,
-			NotificationModelImpl.FINDER_CACHE_ENABLED, NotificationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			NotificationModelImpl.ENTITY_CACHE_ENABLED,
-			NotificationModelImpl.FINDER_CACHE_ENABLED, NotificationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			NotificationModelImpl.ENTITY_CACHE_ENABLED,
-			NotificationModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByPublicationDateAndStatus =
 			new FinderPath(
-				NotificationModelImpl.ENTITY_CACHE_ENABLED,
-				NotificationModelImpl.FINDER_CACHE_ENABLED,
-				NotificationImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"findByPublicationDateAndStatus",
 				new String[] {
 					Date.class.getName(), Integer.class.getName(),
 					Integer.class.getName(), Integer.class.getName(),
 					OrderByComparator.class.getName()
-				});
+				},
+				new String[] {"publicationDate", "status"}, true);
 
 		_finderPathWithPaginationCountByPublicationDateAndStatus =
 			new FinderPath(
-				NotificationModelImpl.ENTITY_CACHE_ENABLED,
-				NotificationModelImpl.FINDER_CACHE_ENABLED, Long.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"countByPublicationDateAndStatus",
-				new String[] {Date.class.getName(), Integer.class.getName()});
+				new String[] {Date.class.getName(), Integer.class.getName()},
+				new String[] {"publicationDate", "status"}, false);
 
 		_finderPathWithPaginationFindByExpirationDateAndStatus = new FinderPath(
-			NotificationModelImpl.ENTITY_CACHE_ENABLED,
-			NotificationModelImpl.FINDER_CACHE_ENABLED, NotificationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findByExpirationDateAndStatus",
 			new String[] {
 				Date.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"expirationDate", "status"}, true);
 
 		_finderPathWithPaginationCountByExpirationDateAndStatus =
 			new FinderPath(
-				NotificationModelImpl.ENTITY_CACHE_ENABLED,
-				NotificationModelImpl.FINDER_CACHE_ENABLED, Long.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"countByExpirationDateAndStatus",
-				new String[] {Date.class.getName(), Integer.class.getName()});
+				new String[] {Date.class.getName(), Integer.class.getName()},
+				new String[] {"expirationDate", "status"}, false);
+
+		_setNotificationUtilPersistence(this);
 	}
 
 	public void destroy() {
+		_setNotificationUtilPersistence(null);
+
 		entityCache.removeCache(NotificationImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+	}
+
+	private void _setNotificationUtilPersistence(
+		NotificationPersistence notificationPersistence) {
+
+		try {
+			Field field = NotificationUtil.class.getDeclaredField(
+				"_persistence");
+
+			field.setAccessible(true);
+
+			field.set(null, notificationPersistence);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
+		}
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -1957,7 +1802,7 @@ public class NotificationPersistenceImpl
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
 
-	private Long _getTime(Date date) {
+	private static Long _getTime(Date date) {
 		if (date == null) {
 			return null;
 		}
@@ -1967,9 +1812,6 @@ public class NotificationPersistenceImpl
 
 	private static final String _SQL_SELECT_NOTIFICATION =
 		"SELECT notification FROM Notification notification";
-
-	private static final String _SQL_SELECT_NOTIFICATION_WHERE_PKS_IN =
-		"SELECT notification FROM Notification notification WHERE notificationId IN (";
 
 	private static final String _SQL_SELECT_NOTIFICATION_WHERE =
 		"SELECT notification FROM Notification notification WHERE ";
@@ -1990,5 +1832,10 @@ public class NotificationPersistenceImpl
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		NotificationPersistenceImpl.class);
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

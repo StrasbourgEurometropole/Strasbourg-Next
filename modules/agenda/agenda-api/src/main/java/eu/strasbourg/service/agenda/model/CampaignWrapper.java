@@ -14,17 +14,13 @@
 
 package eu.strasbourg.service.agenda.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +31,12 @@ import java.util.Objects;
  * @see Campaign
  * @generated
  */
-public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
+public class CampaignWrapper
+	extends BaseModelWrapper<Campaign>
+	implements Campaign, ModelWrapper<Campaign> {
 
 	public CampaignWrapper(Campaign campaign) {
-		_campaign = campaign;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Campaign.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Campaign.class.getName();
+		super(campaign);
 	}
 
 	@Override
@@ -204,13 +192,8 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	}
 
 	@Override
-	public Object clone() {
-		return new CampaignWrapper((Campaign)_campaign.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.agenda.model.Campaign campaign) {
-		return _campaign.compareTo(campaign);
+	public Campaign cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -219,7 +202,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void export() {
-		_campaign.export();
+		model.export();
 	}
 
 	/**
@@ -227,7 +210,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject generateExport() {
-		return _campaign.generateExport();
+		return model.generateExport();
 	}
 
 	/**
@@ -235,12 +218,12 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _campaign.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _campaign.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -250,7 +233,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public long getCampaignId() {
-		return _campaign.getCampaignId();
+		return model.getCampaignId();
 	}
 
 	/**
@@ -261,7 +244,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _campaign.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -271,7 +254,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _campaign.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -281,7 +264,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _campaign.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -291,7 +274,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public String getDefaultImageCopyright() {
-		return _campaign.getDefaultImageCopyright();
+		return model.getDefaultImageCopyright();
 	}
 
 	/**
@@ -302,7 +285,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public String getDefaultImageCopyright(java.util.Locale locale) {
-		return _campaign.getDefaultImageCopyright(locale);
+		return model.getDefaultImageCopyright(locale);
 	}
 
 	/**
@@ -316,7 +299,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	public String getDefaultImageCopyright(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _campaign.getDefaultImageCopyright(locale, useDefault);
+		return model.getDefaultImageCopyright(locale, useDefault);
 	}
 
 	/**
@@ -327,7 +310,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public String getDefaultImageCopyright(String languageId) {
-		return _campaign.getDefaultImageCopyright(languageId);
+		return model.getDefaultImageCopyright(languageId);
 	}
 
 	/**
@@ -341,17 +324,17 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	public String getDefaultImageCopyright(
 		String languageId, boolean useDefault) {
 
-		return _campaign.getDefaultImageCopyright(languageId, useDefault);
+		return model.getDefaultImageCopyright(languageId, useDefault);
 	}
 
 	@Override
 	public String getDefaultImageCopyrightCurrentLanguageId() {
-		return _campaign.getDefaultImageCopyrightCurrentLanguageId();
+		return model.getDefaultImageCopyrightCurrentLanguageId();
 	}
 
 	@Override
 	public String getDefaultImageCopyrightCurrentValue() {
-		return _campaign.getDefaultImageCopyrightCurrentValue();
+		return model.getDefaultImageCopyrightCurrentValue();
 	}
 
 	/**
@@ -361,7 +344,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getDefaultImageCopyrightMap() {
-		return _campaign.getDefaultImageCopyrightMap();
+		return model.getDefaultImageCopyrightMap();
 	}
 
 	/**
@@ -371,7 +354,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public long getDefaultImageId() {
-		return _campaign.getDefaultImageId();
+		return model.getDefaultImageId();
 	}
 
 	/**
@@ -379,12 +362,12 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public String getDefaultImageURL() {
-		return _campaign.getDefaultImageURL();
+		return model.getDefaultImageURL();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _campaign.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -394,7 +377,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public Date getEndDate() {
-		return _campaign.getEndDate();
+		return model.getEndDate();
 	}
 
 	/**
@@ -404,12 +387,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	public java.util.List<eu.strasbourg.service.agenda.model.CampaignEvent>
 		getEvents() {
 
-		return _campaign.getEvents();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _campaign.getExpandoBridge();
+		return model.getEvents();
 	}
 
 	/**
@@ -419,7 +397,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public Boolean getExportEnabled() {
-		return _campaign.getExportEnabled();
+		return model.getExportEnabled();
 	}
 
 	/**
@@ -429,7 +407,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _campaign.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -439,12 +417,12 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public Date getLastPublishDate() {
-		return _campaign.getLastPublishDate();
+		return model.getLastPublishDate();
 	}
 
 	@Override
 	public java.util.List<com.liferay.portal.kernel.model.User> getManagers() {
-		return _campaign.getManagers();
+		return model.getManagers();
 	}
 
 	/**
@@ -454,7 +432,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public String getManagersIds() {
-		return _campaign.getManagersIds();
+		return model.getManagersIds();
 	}
 
 	/**
@@ -464,7 +442,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _campaign.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -474,12 +452,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _campaign.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _campaign.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -489,7 +462,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public Date getStartDate() {
-		return _campaign.getStartDate();
+		return model.getStartDate();
 	}
 
 	/**
@@ -499,7 +472,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public int getStatus() {
-		return _campaign.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -509,7 +482,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _campaign.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -519,7 +492,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _campaign.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -529,7 +502,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _campaign.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -539,7 +512,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _campaign.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -549,7 +522,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getThemes() {
 
-		return _campaign.getThemes();
+		return model.getThemes();
 	}
 
 	/**
@@ -559,7 +532,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public String getTitle() {
-		return _campaign.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -570,7 +543,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale) {
-		return _campaign.getTitle(locale);
+		return model.getTitle(locale);
 	}
 
 	/**
@@ -582,7 +555,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale, boolean useDefault) {
-		return _campaign.getTitle(locale, useDefault);
+		return model.getTitle(locale, useDefault);
 	}
 
 	/**
@@ -593,7 +566,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public String getTitle(String languageId) {
-		return _campaign.getTitle(languageId);
+		return model.getTitle(languageId);
 	}
 
 	/**
@@ -605,17 +578,17 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public String getTitle(String languageId, boolean useDefault) {
-		return _campaign.getTitle(languageId, useDefault);
+		return model.getTitle(languageId, useDefault);
 	}
 
 	@Override
 	public String getTitleCurrentLanguageId() {
-		return _campaign.getTitleCurrentLanguageId();
+		return model.getTitleCurrentLanguageId();
 	}
 
 	@Override
 	public String getTitleCurrentValue() {
-		return _campaign.getTitleCurrentValue();
+		return model.getTitleCurrentValue();
 	}
 
 	/**
@@ -625,7 +598,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getTitleMap() {
-		return _campaign.getTitleMap();
+		return model.getTitleMap();
 	}
 
 	/**
@@ -635,7 +608,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getTypes() {
 
-		return _campaign.getTypes();
+		return model.getTypes();
 	}
 
 	/**
@@ -645,7 +618,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public long getUserId() {
-		return _campaign.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -655,7 +628,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public String getUserName() {
-		return _campaign.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -665,7 +638,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _campaign.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -675,12 +648,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public String getUuid() {
-		return _campaign.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _campaign.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -690,12 +658,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _campaign.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _campaign.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -705,7 +668,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _campaign.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -715,12 +678,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _campaign.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _campaign.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -730,7 +688,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _campaign.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -740,7 +698,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _campaign.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -750,7 +708,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _campaign.isIncomplete();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -759,12 +717,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public boolean isManagedByUser(long userId) {
-		return _campaign.isManagedByUser(userId);
-	}
-
-	@Override
-	public boolean isNew() {
-		return _campaign.isNew();
+		return model.isManagedByUser(userId);
 	}
 
 	/**
@@ -774,7 +727,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public boolean isPending() {
-		return _campaign.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -784,19 +737,19 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _campaign.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_campaign.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_campaign.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -804,12 +757,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_campaign.prepareLocalizedFieldsForImport(defaultImportLocale);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_campaign.setCachedModel(cachedModel);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -819,7 +767,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setCampaignId(long campaignId) {
-		_campaign.setCampaignId(campaignId);
+		model.setCampaignId(campaignId);
 	}
 
 	/**
@@ -829,7 +777,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_campaign.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -839,7 +787,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_campaign.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -849,7 +797,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setDefaultImageCopyright(String defaultImageCopyright) {
-		_campaign.setDefaultImageCopyright(defaultImageCopyright);
+		model.setDefaultImageCopyright(defaultImageCopyright);
 	}
 
 	/**
@@ -862,7 +810,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	public void setDefaultImageCopyright(
 		String defaultImageCopyright, java.util.Locale locale) {
 
-		_campaign.setDefaultImageCopyright(defaultImageCopyright, locale);
+		model.setDefaultImageCopyright(defaultImageCopyright, locale);
 	}
 
 	/**
@@ -877,13 +825,13 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 		String defaultImageCopyright, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_campaign.setDefaultImageCopyright(
+		model.setDefaultImageCopyright(
 			defaultImageCopyright, locale, defaultLocale);
 	}
 
 	@Override
 	public void setDefaultImageCopyrightCurrentLanguageId(String languageId) {
-		_campaign.setDefaultImageCopyrightCurrentLanguageId(languageId);
+		model.setDefaultImageCopyrightCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -895,7 +843,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	public void setDefaultImageCopyrightMap(
 		Map<java.util.Locale, String> defaultImageCopyrightMap) {
 
-		_campaign.setDefaultImageCopyrightMap(defaultImageCopyrightMap);
+		model.setDefaultImageCopyrightMap(defaultImageCopyrightMap);
 	}
 
 	/**
@@ -909,7 +857,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 		Map<java.util.Locale, String> defaultImageCopyrightMap,
 		java.util.Locale defaultLocale) {
 
-		_campaign.setDefaultImageCopyrightMap(
+		model.setDefaultImageCopyrightMap(
 			defaultImageCopyrightMap, defaultLocale);
 	}
 
@@ -920,7 +868,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setDefaultImageId(long defaultImageId) {
-		_campaign.setDefaultImageId(defaultImageId);
+		model.setDefaultImageId(defaultImageId);
 	}
 
 	/**
@@ -930,24 +878,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setEndDate(Date endDate) {
-		_campaign.setEndDate(endDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_campaign.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_campaign.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_campaign.setExpandoBridgeAttributes(serviceContext);
+		model.setEndDate(endDate);
 	}
 
 	/**
@@ -957,7 +888,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setExportEnabled(Boolean exportEnabled) {
-		_campaign.setExportEnabled(exportEnabled);
+		model.setExportEnabled(exportEnabled);
 	}
 
 	/**
@@ -967,7 +898,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_campaign.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -977,7 +908,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
-		_campaign.setLastPublishDate(lastPublishDate);
+		model.setLastPublishDate(lastPublishDate);
 	}
 
 	/**
@@ -987,7 +918,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setManagersIds(String managersIds) {
-		_campaign.setManagersIds(managersIds);
+		model.setManagersIds(managersIds);
 	}
 
 	/**
@@ -997,12 +928,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_campaign.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_campaign.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -1012,12 +938,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_campaign.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_campaign.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -1027,7 +948,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setStartDate(Date startDate) {
-		_campaign.setStartDate(startDate);
+		model.setStartDate(startDate);
 	}
 
 	/**
@@ -1037,7 +958,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_campaign.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -1047,7 +968,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_campaign.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -1057,7 +978,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_campaign.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -1067,7 +988,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_campaign.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -1077,7 +998,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_campaign.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -1087,7 +1008,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setTitle(String title) {
-		_campaign.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -1098,7 +1019,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setTitle(String title, java.util.Locale locale) {
-		_campaign.setTitle(title, locale);
+		model.setTitle(title, locale);
 	}
 
 	/**
@@ -1112,12 +1033,12 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	public void setTitle(
 		String title, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_campaign.setTitle(title, locale, defaultLocale);
+		model.setTitle(title, locale, defaultLocale);
 	}
 
 	@Override
 	public void setTitleCurrentLanguageId(String languageId) {
-		_campaign.setTitleCurrentLanguageId(languageId);
+		model.setTitleCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1127,7 +1048,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setTitleMap(Map<java.util.Locale, String> titleMap) {
-		_campaign.setTitleMap(titleMap);
+		model.setTitleMap(titleMap);
 	}
 
 	/**
@@ -1141,7 +1062,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 		Map<java.util.Locale, String> titleMap,
 		java.util.Locale defaultLocale) {
 
-		_campaign.setTitleMap(titleMap, defaultLocale);
+		model.setTitleMap(titleMap, defaultLocale);
 	}
 
 	/**
@@ -1151,7 +1072,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_campaign.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -1161,7 +1082,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_campaign.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -1171,7 +1092,7 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_campaign.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -1181,80 +1102,22 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_campaign.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.agenda.model.Campaign> toCacheModel() {
-
-		return _campaign.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.Campaign toEscapedModel() {
-		return new CampaignWrapper(_campaign.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _campaign.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.Campaign toUnescapedModel() {
-		return new CampaignWrapper(_campaign.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _campaign.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof CampaignWrapper)) {
-			return false;
-		}
-
-		CampaignWrapper campaignWrapper = (CampaignWrapper)object;
-
-		if (Objects.equals(_campaign, campaignWrapper._campaign)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _campaign.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Campaign getWrappedModel() {
-		return _campaign;
+	protected CampaignWrapper wrap(Campaign campaign) {
+		return new CampaignWrapper(campaign);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _campaign.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _campaign.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_campaign.resetOriginalValues();
-	}
-
-	private final Campaign _campaign;
 
 }

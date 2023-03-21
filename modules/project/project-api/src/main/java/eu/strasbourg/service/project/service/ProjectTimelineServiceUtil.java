@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.project.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for ProjectTimeline. This utility wraps
  * <code>eu.strasbourg.service.project.service.impl.ProjectTimelineServiceImpl</code> and is an
@@ -43,30 +39,14 @@ public class ProjectTimelineServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static ProjectTimelineService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<ProjectTimelineService, ProjectTimelineService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(ProjectTimelineService.class);
-
-		ServiceTracker<ProjectTimelineService, ProjectTimelineService>
-			serviceTracker =
-				new ServiceTracker
-					<ProjectTimelineService, ProjectTimelineService>(
-						bundle.getBundleContext(), ProjectTimelineService.class,
-						null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile ProjectTimelineService _service;
 
 }

@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.place.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.place.exception.NoSuchSlotException;
 import eu.strasbourg.service.place.model.Slot;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the slot service.
@@ -45,9 +38,6 @@ public interface SlotPersistence extends BasePersistence<Slot> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link SlotUtil} to access the slot persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Slot> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the slots where uuid = &#63;.
@@ -594,8 +584,5 @@ public interface SlotPersistence extends BasePersistence<Slot> {
 	 * @return the number of slots
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

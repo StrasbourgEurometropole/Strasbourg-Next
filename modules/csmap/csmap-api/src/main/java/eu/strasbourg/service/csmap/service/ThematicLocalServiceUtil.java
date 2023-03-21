@@ -14,9 +14,15 @@
 
 package eu.strasbourg.service.csmap.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.csmap.model.Thematic;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Provides the local service utility for Thematic. This utility wraps
@@ -48,10 +54,18 @@ public class ThematicLocalServiceUtil {
 	 * @param thematic the thematic
 	 * @return the thematic that was added
 	 */
-	public static eu.strasbourg.service.csmap.model.Thematic addThematic(
-		eu.strasbourg.service.csmap.model.Thematic thematic) {
-
+	public static Thematic addThematic(Thematic thematic) {
 		return getService().addThematic(thematic);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -60,19 +74,16 @@ public class ThematicLocalServiceUtil {
 	 * @param thematicId the primary key for the new thematic
 	 * @return the new thematic
 	 */
-	public static eu.strasbourg.service.csmap.model.Thematic createThematic(
-		long thematicId) {
-
+	public static Thematic createThematic(long thematicId) {
 		return getService().createThematic(thematicId);
 	}
 
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -88,9 +99,8 @@ public class ThematicLocalServiceUtil {
 	 * @return the thematic that was removed
 	 * @throws PortalException if a thematic with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.csmap.model.Thematic deleteThematic(
-			long thematicId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Thematic deleteThematic(long thematicId)
+		throws PortalException {
 
 		return getService().deleteThematic(thematicId);
 	}
@@ -105,15 +115,19 @@ public class ThematicLocalServiceUtil {
 	 * @param thematic the thematic
 	 * @return the thematic that was removed
 	 */
-	public static eu.strasbourg.service.csmap.model.Thematic deleteThematic(
-		eu.strasbourg.service.csmap.model.Thematic thematic) {
-
+	public static Thematic deleteThematic(Thematic thematic) {
 		return getService().deleteThematic(thematic);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -123,9 +137,7 @@ public class ThematicLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -141,9 +153,8 @@ public class ThematicLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -161,10 +172,9 @@ public class ThematicLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -176,9 +186,7 @@ public class ThematicLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -190,15 +198,13 @@ public class ThematicLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.csmap.model.Thematic fetchThematic(
-		long thematicId) {
-
+	public static Thematic fetchThematic(long thematicId) {
 		return getService().fetchThematic(thematicId);
 	}
 
@@ -227,9 +233,8 @@ public class ThematicLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -241,10 +246,7 @@ public class ThematicLocalServiceUtil {
 	 * @return the thematic
 	 * @throws PortalException if a thematic with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.csmap.model.Thematic getThematic(
-			long thematicId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Thematic getThematic(long thematicId) throws PortalException {
 		return getService().getThematic(thematicId);
 	}
 
@@ -259,9 +261,7 @@ public class ThematicLocalServiceUtil {
 	 * @param end the upper bound of the range of thematics (not inclusive)
 	 * @return the range of thematics
 	 */
-	public static java.util.List<eu.strasbourg.service.csmap.model.Thematic>
-		getThematics(int start, int end) {
-
+	public static List<Thematic> getThematics(int start, int end) {
 		return getService().getThematics(start, end);
 	}
 
@@ -284,31 +284,14 @@ public class ThematicLocalServiceUtil {
 	 * @param thematic the thematic
 	 * @return the thematic that was updated
 	 */
-	public static eu.strasbourg.service.csmap.model.Thematic updateThematic(
-		eu.strasbourg.service.csmap.model.Thematic thematic) {
-
+	public static Thematic updateThematic(Thematic thematic) {
 		return getService().updateThematic(thematic);
 	}
 
 	public static ThematicLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<ThematicLocalService, ThematicLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(ThematicLocalService.class);
-
-		ServiceTracker<ThematicLocalService, ThematicLocalService>
-			serviceTracker =
-				new ServiceTracker<ThematicLocalService, ThematicLocalService>(
-					bundle.getBundleContext(), ThematicLocalService.class,
-					null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile ThematicLocalService _service;
 
 }

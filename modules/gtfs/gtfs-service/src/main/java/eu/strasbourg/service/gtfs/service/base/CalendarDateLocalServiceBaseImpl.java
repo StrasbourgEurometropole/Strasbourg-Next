@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.gtfs.service.base;
 
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -27,6 +28,8 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -43,6 +46,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.gtfs.model.CalendarDate;
 import eu.strasbourg.service.gtfs.service.CalendarDateLocalService;
+import eu.strasbourg.service.gtfs.service.CalendarDateLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.persistence.AgencyPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.AlertPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.ArretPersistence;
@@ -60,6 +64,8 @@ import eu.strasbourg.service.gtfs.service.persistence.TripFinder;
 import eu.strasbourg.service.gtfs.service.persistence.TripPersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.List;
 
@@ -83,7 +89,7 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>CalendarDateLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.gtfs.service.CalendarDateLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>CalendarDateLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>CalendarDateLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -147,6 +153,18 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	@Override
 	public CalendarDate deleteCalendarDate(CalendarDate calendarDate) {
 		return calendarDatePersistence.remove(calendarDate);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return calendarDatePersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -298,13 +316,30 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return calendarDatePersistence.create(
+			((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement CalendarDateLocalServiceImpl#deleteCalendarDate(CalendarDate) to avoid orphaned data");
+		}
 
 		return calendarDateLocalService.deleteCalendarDate(
 			(CalendarDate)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<CalendarDate> getBasePersistence() {
 		return calendarDatePersistence;
 	}
@@ -1095,11 +1130,15 @@ public abstract class CalendarDateLocalServiceBaseImpl
 		persistedModelLocalServiceRegistry.register(
 			"eu.strasbourg.service.gtfs.model.CalendarDate",
 			calendarDateLocalService);
+
+		_setLocalServiceUtilService(calendarDateLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"eu.strasbourg.service.gtfs.model.CalendarDate");
+
+		_setLocalServiceUtilService(null);
 	}
 
 	/**
@@ -1141,6 +1180,22 @@ public abstract class CalendarDateLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		CalendarDateLocalService calendarDateLocalService) {
+
+		try {
+			Field field = CalendarDateLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, calendarDateLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1299,6 +1354,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		CalendarDateLocalServiceBaseImpl.class);
 
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry

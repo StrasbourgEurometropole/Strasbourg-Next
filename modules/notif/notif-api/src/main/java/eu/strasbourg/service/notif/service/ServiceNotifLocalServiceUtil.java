@@ -14,9 +14,15 @@
 
 package eu.strasbourg.service.notif.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.notif.model.ServiceNotif;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Provides the local service utility for ServiceNotif. This utility wraps
@@ -48,19 +54,24 @@ public class ServiceNotifLocalServiceUtil {
 	 * @param serviceNotif the service notif
 	 * @return the service notif that was added
 	 */
-	public static eu.strasbourg.service.notif.model.ServiceNotif
-		addServiceNotif(
-			eu.strasbourg.service.notif.model.ServiceNotif serviceNotif) {
-
+	public static ServiceNotif addServiceNotif(ServiceNotif serviceNotif) {
 		return getService().addServiceNotif(serviceNotif);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
 	 * Crée un service vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.notif.model.ServiceNotif
-		createService() {
-
+	public static ServiceNotif createService() {
 		return getService().createService();
 	}
 
@@ -70,19 +81,16 @@ public class ServiceNotifLocalServiceUtil {
 	 * @param serviceId the primary key for the new service notif
 	 * @return the new service notif
 	 */
-	public static eu.strasbourg.service.notif.model.ServiceNotif
-		createServiceNotif(long serviceId) {
-
+	public static ServiceNotif createServiceNotif(long serviceId) {
 		return getService().createServiceNotif(serviceId);
 	}
 
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -98,9 +106,8 @@ public class ServiceNotifLocalServiceUtil {
 	 * @return the service notif that was removed
 	 * @throws PortalException if a service notif with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.notif.model.ServiceNotif
-			deleteServiceNotif(long serviceId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ServiceNotif deleteServiceNotif(long serviceId)
+		throws PortalException {
 
 		return getService().deleteServiceNotif(serviceId);
 	}
@@ -115,16 +122,19 @@ public class ServiceNotifLocalServiceUtil {
 	 * @param serviceNotif the service notif
 	 * @return the service notif that was removed
 	 */
-	public static eu.strasbourg.service.notif.model.ServiceNotif
-		deleteServiceNotif(
-			eu.strasbourg.service.notif.model.ServiceNotif serviceNotif) {
-
+	public static ServiceNotif deleteServiceNotif(ServiceNotif serviceNotif) {
 		return getService().deleteServiceNotif(serviceNotif);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -134,9 +144,7 @@ public class ServiceNotifLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -152,9 +160,8 @@ public class ServiceNotifLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -172,10 +179,9 @@ public class ServiceNotifLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -187,9 +193,7 @@ public class ServiceNotifLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -201,15 +205,13 @@ public class ServiceNotifLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.notif.model.ServiceNotif
-		fetchServiceNotif(long serviceId) {
-
+	public static ServiceNotif fetchServiceNotif(long serviceId) {
 		return getService().fetchServiceNotif(serviceId);
 	}
 
@@ -219,14 +221,13 @@ public class ServiceNotifLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
-	public static java.util.List<eu.strasbourg.service.notif.model.ServiceNotif>
-		getByOrganisationIds(long[] organisationIds) {
+	public static List<ServiceNotif> getByOrganisationIds(
+		long[] organisationIds) {
 
 		return getService().getByOrganisationIds(organisationIds);
 	}
 
-	public static eu.strasbourg.service.notif.model.ServiceNotif getByTopic(
-			String topic)
+	public static ServiceNotif getByTopic(String topic)
 		throws eu.strasbourg.service.notif.exception.
 			NoSuchServiceNotifException {
 
@@ -252,9 +253,8 @@ public class ServiceNotifLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -266,9 +266,8 @@ public class ServiceNotifLocalServiceUtil {
 	 * @return the service notif
 	 * @throws PortalException if a service notif with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.notif.model.ServiceNotif
-			getServiceNotif(long serviceId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ServiceNotif getServiceNotif(long serviceId)
+		throws PortalException {
 
 		return getService().getServiceNotif(serviceId);
 	}
@@ -284,9 +283,7 @@ public class ServiceNotifLocalServiceUtil {
 	 * @param end the upper bound of the range of service notifs (not inclusive)
 	 * @return the range of service notifs
 	 */
-	public static java.util.List<eu.strasbourg.service.notif.model.ServiceNotif>
-		getServiceNotifs(int start, int end) {
-
+	public static List<ServiceNotif> getServiceNotifs(int start, int end) {
 		return getService().getServiceNotifs(start, end);
 	}
 
@@ -316,33 +313,14 @@ public class ServiceNotifLocalServiceUtil {
 	 * @param serviceNotif the service notif
 	 * @return the service notif that was updated
 	 */
-	public static eu.strasbourg.service.notif.model.ServiceNotif
-		updateServiceNotif(
-			eu.strasbourg.service.notif.model.ServiceNotif serviceNotif) {
-
+	public static ServiceNotif updateServiceNotif(ServiceNotif serviceNotif) {
 		return getService().updateServiceNotif(serviceNotif);
 	}
 
 	public static ServiceNotifLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<ServiceNotifLocalService, ServiceNotifLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(ServiceNotifLocalService.class);
-
-		ServiceTracker<ServiceNotifLocalService, ServiceNotifLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<ServiceNotifLocalService, ServiceNotifLocalService>(
-						bundle.getBundleContext(),
-						ServiceNotifLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile ServiceNotifLocalService _service;
 
 }

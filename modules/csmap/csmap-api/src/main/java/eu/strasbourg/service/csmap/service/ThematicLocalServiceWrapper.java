@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class ThematicLocalServiceWrapper
 	implements ServiceWrapper<ThematicLocalService>, ThematicLocalService {
 
+	public ThematicLocalServiceWrapper() {
+		this(null);
+	}
+
 	public ThematicLocalServiceWrapper(
 		ThematicLocalService thematicLocalService) {
 
@@ -47,6 +51,17 @@ public class ThematicLocalServiceWrapper
 		eu.strasbourg.service.csmap.model.Thematic thematic) {
 
 		return _thematicLocalService.addThematic(thematic);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _thematicLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -107,6 +122,18 @@ public class ThematicLocalServiceWrapper
 		eu.strasbourg.service.csmap.model.Thematic thematic) {
 
 		return _thematicLocalService.deleteThematic(thematic);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _thematicLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _thematicLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

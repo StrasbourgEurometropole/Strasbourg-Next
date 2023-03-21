@@ -17,6 +17,7 @@ package eu.strasbourg.service.project.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
@@ -29,27 +30,21 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.model.ProjectModel;
-import eu.strasbourg.service.project.model.ProjectSoap;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -141,94 +136,54 @@ public class ProjectModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.project.model.Project"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.project.model.Project"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.project.model.Project"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long TITLE_COLUMN_BITMASK = 16L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Project toModel(ProjectSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Project model = new ProjectImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setProjectId(soapModel.getProjectId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setTitle(soapModel.getTitle());
-		model.setExternalImageURL(soapModel.getExternalImageURL());
-		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
-		model.setOpacityImage(soapModel.getOpacityImage());
-		model.setDescription(soapModel.getDescription());
-		model.setDetailURL(soapModel.getDetailURL());
-		model.setBudget(soapModel.getBudget());
-		model.setLabel(soapModel.getLabel());
-		model.setDuration(soapModel.getDuration());
-		model.setPartners(soapModel.getPartners());
-		model.setContactName(soapModel.getContactName());
-		model.setContactLine1(soapModel.getContactLine1());
-		model.setContactLine2(soapModel.getContactLine2());
-		model.setContactPhoneNumber(soapModel.getContactPhoneNumber());
-		model.setImageId(soapModel.getImageId());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Project> toModels(ProjectSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Project> models = new ArrayList<Project>(soapModels.length);
-
-		for (ProjectSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.project.service.util.PropsUtil.get(
@@ -285,9 +240,6 @@ public class ProjectModelImpl
 				attributeName, attributeGetterFunction.apply((Project)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -321,33 +273,6 @@ public class ProjectModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Project>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Project.class.getClassLoader(), Project.class, ModelWrapper.class);
-
-		try {
-			Constructor<Project> constructor =
-				(Constructor<Project>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<Project, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Project, Object>>
@@ -359,558 +284,103 @@ public class ProjectModelImpl
 		Map<String, BiConsumer<Project, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Project, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", Project::getUuid);
 		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(Project project, Object uuidObject) {
-					project.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"projectId",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getProjectId();
-				}
-
-			});
+			"uuid", (BiConsumer<Project, String>)Project::setUuid);
+		attributeGetterFunctions.put("projectId", Project::getProjectId);
 		attributeSetterBiConsumers.put(
-			"projectId",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(Project project, Object projectIdObject) {
-					project.setProjectId((Long)projectIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getGroupId();
-				}
-
-			});
+			"projectId", (BiConsumer<Project, Long>)Project::setProjectId);
+		attributeGetterFunctions.put("groupId", Project::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(Project project, Object groupIdObject) {
-					project.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getCompanyId();
-				}
-
-			});
+			"groupId", (BiConsumer<Project, Long>)Project::setGroupId);
+		attributeGetterFunctions.put("companyId", Project::getCompanyId);
 		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(Project project, Object companyIdObject) {
-					project.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getUserId();
-				}
-
-			});
+			"companyId", (BiConsumer<Project, Long>)Project::setCompanyId);
+		attributeGetterFunctions.put("userId", Project::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(Project project, Object userIdObject) {
-					project.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getUserName();
-				}
-
-			});
+			"userId", (BiConsumer<Project, Long>)Project::setUserId);
+		attributeGetterFunctions.put("userName", Project::getUserName);
 		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(Project project, Object userNameObject) {
-					project.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getCreateDate();
-				}
-
-			});
+			"userName", (BiConsumer<Project, String>)Project::setUserName);
+		attributeGetterFunctions.put("createDate", Project::getCreateDate);
 		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(Project project, Object createDateObject) {
-					project.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getModifiedDate();
-				}
-
-			});
+			"createDate", (BiConsumer<Project, Date>)Project::setCreateDate);
+		attributeGetterFunctions.put("modifiedDate", Project::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(Project project, Object modifiedDateObject) {
-					project.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getStatus();
-				}
-
-			});
+			(BiConsumer<Project, Date>)Project::setModifiedDate);
+		attributeGetterFunctions.put("status", Project::getStatus);
 		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(Project project, Object statusObject) {
-					project.setStatus((Integer)statusObject);
-				}
-
-			});
+			"status", (BiConsumer<Project, Integer>)Project::setStatus);
 		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getStatusByUserId();
-				}
-
-			});
+			"statusByUserId", Project::getStatusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(
-					Project project, Object statusByUserIdObject) {
-
-					project.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
+			(BiConsumer<Project, Long>)Project::setStatusByUserId);
 		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getStatusByUserName();
-				}
-
-			});
+			"statusByUserName", Project::getStatusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(
-					Project project, Object statusByUserNameObject) {
-
-					project.setStatusByUserName((String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getStatusDate();
-				}
-
-			});
+			(BiConsumer<Project, String>)Project::setStatusByUserName);
+		attributeGetterFunctions.put("statusDate", Project::getStatusDate);
 		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(Project project, Object statusDateObject) {
-					project.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getTitle();
-				}
-
-			});
+			"statusDate", (BiConsumer<Project, Date>)Project::setStatusDate);
+		attributeGetterFunctions.put("title", Project::getTitle);
 		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(Project project, Object titleObject) {
-					project.setTitle((String)titleObject);
-				}
-
-			});
+			"title", (BiConsumer<Project, String>)Project::setTitle);
 		attributeGetterFunctions.put(
-			"externalImageURL",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getExternalImageURL();
-				}
-
-			});
+			"externalImageURL", Project::getExternalImageURL);
 		attributeSetterBiConsumers.put(
 			"externalImageURL",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(
-					Project project, Object externalImageURLObject) {
-
-					project.setExternalImageURL((String)externalImageURLObject);
-				}
-
-			});
+			(BiConsumer<Project, String>)Project::setExternalImageURL);
 		attributeGetterFunctions.put(
-			"externalImageCopyright",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getExternalImageCopyright();
-				}
-
-			});
+			"externalImageCopyright", Project::getExternalImageCopyright);
 		attributeSetterBiConsumers.put(
 			"externalImageCopyright",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(
-					Project project, Object externalImageCopyrightObject) {
-
-					project.setExternalImageCopyright(
-						(String)externalImageCopyrightObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"opacityImage",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getOpacityImage();
-				}
-
-			});
+			(BiConsumer<Project, String>)Project::setExternalImageCopyright);
+		attributeGetterFunctions.put("opacityImage", Project::getOpacityImage);
 		attributeSetterBiConsumers.put(
 			"opacityImage",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(Project project, Object opacityImageObject) {
-					project.setOpacityImage((Double)opacityImageObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"description",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getDescription();
-				}
-
-			});
+			(BiConsumer<Project, Double>)Project::setOpacityImage);
+		attributeGetterFunctions.put("description", Project::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(Project project, Object descriptionObject) {
-					project.setDescription((String)descriptionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"detailURL",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getDetailURL();
-				}
-
-			});
+			(BiConsumer<Project, String>)Project::setDescription);
+		attributeGetterFunctions.put("detailURL", Project::getDetailURL);
 		attributeSetterBiConsumers.put(
-			"detailURL",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(Project project, Object detailURLObject) {
-					project.setDetailURL((String)detailURLObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"budget",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getBudget();
-				}
-
-			});
+			"detailURL", (BiConsumer<Project, String>)Project::setDetailURL);
+		attributeGetterFunctions.put("budget", Project::getBudget);
 		attributeSetterBiConsumers.put(
-			"budget",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(Project project, Object budgetObject) {
-					project.setBudget((String)budgetObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"label",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getLabel();
-				}
-
-			});
+			"budget", (BiConsumer<Project, String>)Project::setBudget);
+		attributeGetterFunctions.put("label", Project::getLabel);
 		attributeSetterBiConsumers.put(
-			"label",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(Project project, Object labelObject) {
-					project.setLabel((String)labelObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"duration",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getDuration();
-				}
-
-			});
+			"label", (BiConsumer<Project, String>)Project::setLabel);
+		attributeGetterFunctions.put("duration", Project::getDuration);
 		attributeSetterBiConsumers.put(
-			"duration",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(Project project, Object durationObject) {
-					project.setDuration((String)durationObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"partners",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getPartners();
-				}
-
-			});
+			"duration", (BiConsumer<Project, String>)Project::setDuration);
+		attributeGetterFunctions.put("partners", Project::getPartners);
 		attributeSetterBiConsumers.put(
-			"partners",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(Project project, Object partnersObject) {
-					project.setPartners((String)partnersObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"contactName",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getContactName();
-				}
-
-			});
+			"partners", (BiConsumer<Project, String>)Project::setPartners);
+		attributeGetterFunctions.put("contactName", Project::getContactName);
 		attributeSetterBiConsumers.put(
 			"contactName",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(Project project, Object contactNameObject) {
-					project.setContactName((String)contactNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"contactLine1",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getContactLine1();
-				}
-
-			});
+			(BiConsumer<Project, String>)Project::setContactName);
+		attributeGetterFunctions.put("contactLine1", Project::getContactLine1);
 		attributeSetterBiConsumers.put(
 			"contactLine1",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(Project project, Object contactLine1Object) {
-					project.setContactLine1((String)contactLine1Object);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"contactLine2",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getContactLine2();
-				}
-
-			});
+			(BiConsumer<Project, String>)Project::setContactLine1);
+		attributeGetterFunctions.put("contactLine2", Project::getContactLine2);
 		attributeSetterBiConsumers.put(
 			"contactLine2",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(Project project, Object contactLine2Object) {
-					project.setContactLine2((String)contactLine2Object);
-				}
-
-			});
+			(BiConsumer<Project, String>)Project::setContactLine2);
 		attributeGetterFunctions.put(
-			"contactPhoneNumber",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getContactPhoneNumber();
-				}
-
-			});
+			"contactPhoneNumber", Project::getContactPhoneNumber);
 		attributeSetterBiConsumers.put(
 			"contactPhoneNumber",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(
-					Project project, Object contactPhoneNumberObject) {
-
-					project.setContactPhoneNumber(
-						(String)contactPhoneNumberObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"imageId",
-			new Function<Project, Object>() {
-
-				@Override
-				public Object apply(Project project) {
-					return project.getImageId();
-				}
-
-			});
+			(BiConsumer<Project, String>)Project::setContactPhoneNumber);
+		attributeGetterFunctions.put("imageId", Project::getImageId);
 		attributeSetterBiConsumers.put(
-			"imageId",
-			new BiConsumer<Project, Object>() {
-
-				@Override
-				public void accept(Project project, Object imageIdObject) {
-					project.setImageId((Long)imageIdObject);
-				}
-
-			});
+			"imageId", (BiConsumer<Project, Long>)Project::setImageId);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -931,17 +401,20 @@ public class ProjectModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -952,6 +425,10 @@ public class ProjectModelImpl
 
 	@Override
 	public void setProjectId(long projectId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_projectId = projectId;
 	}
 
@@ -963,19 +440,20 @@ public class ProjectModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -986,19 +464,21 @@ public class ProjectModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -1009,6 +489,10 @@ public class ProjectModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -1041,6 +525,10 @@ public class ProjectModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -1052,6 +540,10 @@ public class ProjectModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -1069,6 +561,10 @@ public class ProjectModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -1080,19 +576,21 @@ public class ProjectModelImpl
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return GetterUtil.getInteger(
+			this.<Integer>getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -1103,6 +601,10 @@ public class ProjectModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1135,6 +637,10 @@ public class ProjectModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1146,6 +652,10 @@ public class ProjectModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1162,7 +672,9 @@ public class ProjectModelImpl
 
 	@Override
 	public void setTitle(String title) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_title = title;
 	}
@@ -1180,6 +692,10 @@ public class ProjectModelImpl
 
 	@Override
 	public void setExternalImageURL(String externalImageURL) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_externalImageURL = externalImageURL;
 	}
 
@@ -1196,6 +712,10 @@ public class ProjectModelImpl
 
 	@Override
 	public void setExternalImageCopyright(String externalImageCopyright) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_externalImageCopyright = externalImageCopyright;
 	}
 
@@ -1207,6 +727,10 @@ public class ProjectModelImpl
 
 	@Override
 	public void setOpacityImage(double opacityImage) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_opacityImage = opacityImage;
 	}
 
@@ -1223,6 +747,10 @@ public class ProjectModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_description = description;
 	}
 
@@ -1239,6 +767,10 @@ public class ProjectModelImpl
 
 	@Override
 	public void setDetailURL(String detailURL) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_detailURL = detailURL;
 	}
 
@@ -1255,6 +787,10 @@ public class ProjectModelImpl
 
 	@Override
 	public void setBudget(String budget) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_budget = budget;
 	}
 
@@ -1271,6 +807,10 @@ public class ProjectModelImpl
 
 	@Override
 	public void setLabel(String label) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_label = label;
 	}
 
@@ -1287,6 +827,10 @@ public class ProjectModelImpl
 
 	@Override
 	public void setDuration(String duration) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_duration = duration;
 	}
 
@@ -1303,6 +847,10 @@ public class ProjectModelImpl
 
 	@Override
 	public void setPartners(String partners) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_partners = partners;
 	}
 
@@ -1319,6 +867,10 @@ public class ProjectModelImpl
 
 	@Override
 	public void setContactName(String contactName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_contactName = contactName;
 	}
 
@@ -1335,6 +887,10 @@ public class ProjectModelImpl
 
 	@Override
 	public void setContactLine1(String contactLine1) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_contactLine1 = contactLine1;
 	}
 
@@ -1351,6 +907,10 @@ public class ProjectModelImpl
 
 	@Override
 	public void setContactLine2(String contactLine2) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_contactLine2 = contactLine2;
 	}
 
@@ -1367,6 +927,10 @@ public class ProjectModelImpl
 
 	@Override
 	public void setContactPhoneNumber(String contactPhoneNumber) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_contactPhoneNumber = contactPhoneNumber;
 	}
 
@@ -1378,6 +942,10 @@ public class ProjectModelImpl
 
 	@Override
 	public void setImageId(long imageId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageId = imageId;
 	}
 
@@ -1468,6 +1036,26 @@ public class ProjectModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1537,6 +1125,60 @@ public class ProjectModelImpl
 	}
 
 	@Override
+	public Project cloneWithOriginalValues() {
+		ProjectImpl projectImpl = new ProjectImpl();
+
+		projectImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		projectImpl.setProjectId(
+			this.<Long>getColumnOriginalValue("projectId"));
+		projectImpl.setGroupId(this.<Long>getColumnOriginalValue("groupId"));
+		projectImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		projectImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		projectImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		projectImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		projectImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		projectImpl.setStatus(this.<Integer>getColumnOriginalValue("status"));
+		projectImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		projectImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		projectImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		projectImpl.setTitle(this.<String>getColumnOriginalValue("title"));
+		projectImpl.setExternalImageURL(
+			this.<String>getColumnOriginalValue("externalImageURL"));
+		projectImpl.setExternalImageCopyright(
+			this.<String>getColumnOriginalValue("externalImageCopyright"));
+		projectImpl.setOpacityImage(
+			this.<Double>getColumnOriginalValue("opacityImage"));
+		projectImpl.setDescription(
+			this.<String>getColumnOriginalValue("description"));
+		projectImpl.setDetailURL(
+			this.<String>getColumnOriginalValue("detailURL"));
+		projectImpl.setBudget(this.<String>getColumnOriginalValue("budget"));
+		projectImpl.setLabel(this.<String>getColumnOriginalValue("label"));
+		projectImpl.setDuration(
+			this.<String>getColumnOriginalValue("duration"));
+		projectImpl.setPartners(
+			this.<String>getColumnOriginalValue("partners"));
+		projectImpl.setContactName(
+			this.<String>getColumnOriginalValue("contactName"));
+		projectImpl.setContactLine1(
+			this.<String>getColumnOriginalValue("contactLine1"));
+		projectImpl.setContactLine2(
+			this.<String>getColumnOriginalValue("contactLine2"));
+		projectImpl.setContactPhoneNumber(
+			this.<String>getColumnOriginalValue("contactPhoneNumber"));
+		projectImpl.setImageId(this.<Long>getColumnOriginalValue("imageId"));
+
+		return projectImpl;
+	}
+
+	@Override
 	public int compareTo(Project project) {
 		int value = 0;
 
@@ -1576,11 +1218,19 @@ public class ProjectModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1588,25 +1238,11 @@ public class ProjectModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ProjectModelImpl projectModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		projectModelImpl._originalUuid = projectModelImpl._uuid;
+		_setModifiedDate = false;
 
-		projectModelImpl._originalGroupId = projectModelImpl._groupId;
-
-		projectModelImpl._setOriginalGroupId = false;
-
-		projectModelImpl._originalCompanyId = projectModelImpl._companyId;
-
-		projectModelImpl._setOriginalCompanyId = false;
-
-		projectModelImpl._setModifiedDate = false;
-
-		projectModelImpl._originalStatus = projectModelImpl._status;
-
-		projectModelImpl._setOriginalStatus = false;
-
-		projectModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1798,7 +1434,7 @@ public class ProjectModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1809,9 +1445,26 @@ public class ProjectModelImpl
 			Function<Project, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Project)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Project)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1824,61 +1477,25 @@ public class ProjectModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Project, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Project, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Project, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Project)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Project>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Project.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _projectId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
@@ -1897,6 +1514,144 @@ public class ProjectModelImpl
 	private String _contactLine2;
 	private String _contactPhoneNumber;
 	private long _imageId;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Project, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Project)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("projectId", _projectId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("externalImageURL", _externalImageURL);
+		_columnOriginalValues.put(
+			"externalImageCopyright", _externalImageCopyright);
+		_columnOriginalValues.put("opacityImage", _opacityImage);
+		_columnOriginalValues.put("description", _description);
+		_columnOriginalValues.put("detailURL", _detailURL);
+		_columnOriginalValues.put("budget", _budget);
+		_columnOriginalValues.put("label", _label);
+		_columnOriginalValues.put("duration", _duration);
+		_columnOriginalValues.put("partners", _partners);
+		_columnOriginalValues.put("contactName", _contactName);
+		_columnOriginalValues.put("contactLine1", _contactLine1);
+		_columnOriginalValues.put("contactLine2", _contactLine2);
+		_columnOriginalValues.put("contactPhoneNumber", _contactPhoneNumber);
+		_columnOriginalValues.put("imageId", _imageId);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("projectId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("status", 256L);
+
+		columnBitmasks.put("statusByUserId", 512L);
+
+		columnBitmasks.put("statusByUserName", 1024L);
+
+		columnBitmasks.put("statusDate", 2048L);
+
+		columnBitmasks.put("title", 4096L);
+
+		columnBitmasks.put("externalImageURL", 8192L);
+
+		columnBitmasks.put("externalImageCopyright", 16384L);
+
+		columnBitmasks.put("opacityImage", 32768L);
+
+		columnBitmasks.put("description", 65536L);
+
+		columnBitmasks.put("detailURL", 131072L);
+
+		columnBitmasks.put("budget", 262144L);
+
+		columnBitmasks.put("label", 524288L);
+
+		columnBitmasks.put("duration", 1048576L);
+
+		columnBitmasks.put("partners", 2097152L);
+
+		columnBitmasks.put("contactName", 4194304L);
+
+		columnBitmasks.put("contactLine1", 8388608L);
+
+		columnBitmasks.put("contactLine2", 16777216L);
+
+		columnBitmasks.put("contactPhoneNumber", 33554432L);
+
+		columnBitmasks.put("imageId", 67108864L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Project _escapedModel;
 

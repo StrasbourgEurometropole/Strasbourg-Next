@@ -14,17 +14,13 @@
 
 package eu.strasbourg.service.video.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +31,11 @@ import java.util.Objects;
  * @see Video
  * @generated
  */
-public class VideoWrapper implements ModelWrapper<Video>, Video {
+public class VideoWrapper
+	extends BaseModelWrapper<Video> implements ModelWrapper<Video>, Video {
 
 	public VideoWrapper(Video video) {
-		_video = video;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Video.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Video.class.getName();
+		super(video);
 	}
 
 	@Override
@@ -203,13 +190,8 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	}
 
 	@Override
-	public Object clone() {
-		return new VideoWrapper((Video)_video.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.video.model.Video video) {
-		return _video.compareTo(video);
+	public Video cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -217,12 +199,12 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _video.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _video.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -233,7 +215,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _video.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -244,7 +226,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 			com.liferay.asset.kernel.model.AssetCategory category)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _video.getCategoryURL(category);
+		return model.getCategoryURL(category);
 	}
 
 	/**
@@ -254,7 +236,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getChaines() {
 
-		return _video.getChaines();
+		return model.getChaines();
 	}
 
 	/**
@@ -262,7 +244,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getChannelsLabel(java.util.Locale locale) {
-		return _video.getChannelsLabel(locale);
+		return model.getChannelsLabel(locale);
 	}
 
 	/**
@@ -272,7 +254,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _video.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -282,7 +264,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getCopyright() {
-		return _video.getCopyright();
+		return model.getCopyright();
 	}
 
 	/**
@@ -293,7 +275,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getCopyright(java.util.Locale locale) {
-		return _video.getCopyright(locale);
+		return model.getCopyright(locale);
 	}
 
 	/**
@@ -305,7 +287,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getCopyright(java.util.Locale locale, boolean useDefault) {
-		return _video.getCopyright(locale, useDefault);
+		return model.getCopyright(locale, useDefault);
 	}
 
 	/**
@@ -316,7 +298,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getCopyright(String languageId) {
-		return _video.getCopyright(languageId);
+		return model.getCopyright(languageId);
 	}
 
 	/**
@@ -328,17 +310,17 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getCopyright(String languageId, boolean useDefault) {
-		return _video.getCopyright(languageId, useDefault);
+		return model.getCopyright(languageId, useDefault);
 	}
 
 	@Override
 	public String getCopyrightCurrentLanguageId() {
-		return _video.getCopyrightCurrentLanguageId();
+		return model.getCopyrightCurrentLanguageId();
 	}
 
 	@Override
 	public String getCopyrightCurrentValue() {
-		return _video.getCopyrightCurrentValue();
+		return model.getCopyrightCurrentValue();
 	}
 
 	/**
@@ -348,7 +330,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getCopyrightMap() {
-		return _video.getCopyrightMap();
+		return model.getCopyrightMap();
 	}
 
 	/**
@@ -358,12 +340,12 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _video.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _video.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -373,7 +355,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getDescription() {
-		return _video.getDescription();
+		return model.getDescription();
 	}
 
 	/**
@@ -384,7 +366,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale) {
-		return _video.getDescription(locale);
+		return model.getDescription(locale);
 	}
 
 	/**
@@ -396,7 +378,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale, boolean useDefault) {
-		return _video.getDescription(locale, useDefault);
+		return model.getDescription(locale, useDefault);
 	}
 
 	/**
@@ -407,7 +389,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getDescription(String languageId) {
-		return _video.getDescription(languageId);
+		return model.getDescription(languageId);
 	}
 
 	/**
@@ -419,17 +401,17 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getDescription(String languageId, boolean useDefault) {
-		return _video.getDescription(languageId, useDefault);
+		return model.getDescription(languageId, useDefault);
 	}
 
 	@Override
 	public String getDescriptionCurrentLanguageId() {
-		return _video.getDescriptionCurrentLanguageId();
+		return model.getDescriptionCurrentLanguageId();
 	}
 
 	@Override
 	public String getDescriptionCurrentValue() {
-		return _video.getDescriptionCurrentValue();
+		return model.getDescriptionCurrentValue();
 	}
 
 	/**
@@ -439,7 +421,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getDescriptionMap() {
-		return _video.getDescriptionMap();
+		return model.getDescriptionMap();
 	}
 
 	/**
@@ -449,7 +431,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.like.model.Like> getDislikes() {
-		return _video.getDislikes();
+		return model.getDislikes();
 	}
 
 	/**
@@ -461,7 +443,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getDistrictCategories() {
 
-		return _video.getDistrictCategories();
+		return model.getDistrictCategories();
 	}
 
 	/**
@@ -471,12 +453,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getEmbedURL(String site, String videoUrl) {
-		return _video.getEmbedURL(site, videoUrl);
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _video.getExpandoBridge();
+		return model.getEmbedURL(site, videoUrl);
 	}
 
 	/**
@@ -486,7 +463,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public long getGroupId() {
-		return _video.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -496,7 +473,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public Long getImageId() {
-		return _video.getImageId();
+		return model.getImageId();
 	}
 
 	/**
@@ -504,7 +481,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getImageURL() {
-		return _video.getImageURL();
+		return model.getImageURL();
 	}
 
 	/**
@@ -514,7 +491,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public Date getLastPublishDate() {
-		return _video.getLastPublishDate();
+		return model.getLastPublishDate();
 	}
 
 	/**
@@ -524,7 +501,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.like.model.Like> getLikes() {
-		return _video.getLikes();
+		return model.getLikes();
 	}
 
 	/**
@@ -536,7 +513,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	public java.util.List<eu.strasbourg.service.like.model.Like>
 		getLikesDislikes() {
 
-		return _video.getLikesDislikes();
+		return model.getLikesDislikes();
 	}
 
 	/**
@@ -544,7 +521,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public eu.strasbourg.service.video.model.Video getLiveVersion() {
-		return _video.getLiveVersion();
+		return model.getLiveVersion();
 	}
 
 	/**
@@ -554,7 +531,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _video.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -564,7 +541,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public int getNbDislikes() {
-		return _video.getNbDislikes();
+		return model.getNbDislikes();
 	}
 
 	/**
@@ -574,7 +551,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public int getNbLikes() {
-		return _video.getNbLikes();
+		return model.getNbLikes();
 	}
 
 	/**
@@ -584,7 +561,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public int getNbLikesDislikes() {
-		return _video.getNbLikesDislikes();
+		return model.getNbLikesDislikes();
 	}
 
 	/**
@@ -592,7 +569,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getNbViews(String site, String videoId) {
-		return _video.getNbViews(site, videoId);
+		return model.getNbViews(site, videoId);
 	}
 
 	/**
@@ -602,7 +579,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getPlayer(java.util.Locale locale) {
-		return _video.getPlayer(locale);
+		return model.getPlayer(locale);
 	}
 
 	/**
@@ -611,7 +588,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getPlayerHeaderVideo(java.util.Locale locale) {
-		return _video.getPlayerHeaderVideo(locale);
+		return model.getPlayerHeaderVideo(locale);
 	}
 
 	/**
@@ -621,12 +598,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _video.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _video.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -634,7 +606,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
-		return _video.getProjectCategory();
+		return model.getProjectCategory();
 	}
 
 	/**
@@ -644,7 +616,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getProviders() {
 
-		return _video.getProviders();
+		return model.getProviders();
 	}
 
 	/**
@@ -652,7 +624,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getProvidersLabel(java.util.Locale locale) {
-		return _video.getProvidersLabel(locale);
+		return model.getProvidersLabel(locale);
 	}
 
 	/**
@@ -662,7 +634,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public Date getPublicationDate() {
-		return _video.getPublicationDate();
+		return model.getPublicationDate();
 	}
 
 	/**
@@ -672,7 +644,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	public java.util.List<eu.strasbourg.service.video.model.VideoGallery>
 		getPublishedVideoGalleries() {
 
-		return _video.getPublishedVideoGalleries();
+		return model.getPublishedVideoGalleries();
 	}
 
 	/**
@@ -680,7 +652,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getSiteVideo(String videoUrl) {
-		return _video.getSiteVideo(videoUrl);
+		return model.getSiteVideo(videoUrl);
 	}
 
 	/**
@@ -690,7 +662,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getSource() {
-		return _video.getSource();
+		return model.getSource();
 	}
 
 	/**
@@ -701,7 +673,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getSource(java.util.Locale locale) {
-		return _video.getSource(locale);
+		return model.getSource(locale);
 	}
 
 	/**
@@ -713,7 +685,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getSource(java.util.Locale locale, boolean useDefault) {
-		return _video.getSource(locale, useDefault);
+		return model.getSource(locale, useDefault);
 	}
 
 	/**
@@ -724,7 +696,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getSource(String languageId) {
-		return _video.getSource(languageId);
+		return model.getSource(languageId);
 	}
 
 	/**
@@ -736,17 +708,17 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getSource(String languageId, boolean useDefault) {
-		return _video.getSource(languageId, useDefault);
+		return model.getSource(languageId, useDefault);
 	}
 
 	@Override
 	public String getSourceCurrentLanguageId() {
-		return _video.getSourceCurrentLanguageId();
+		return model.getSourceCurrentLanguageId();
 	}
 
 	@Override
 	public String getSourceCurrentValue() {
-		return _video.getSourceCurrentValue();
+		return model.getSourceCurrentValue();
 	}
 
 	/**
@@ -756,7 +728,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getSourceMap() {
-		return _video.getSourceMap();
+		return model.getSourceMap();
 	}
 
 	/**
@@ -766,7 +738,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public int getStatus() {
-		return _video.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -776,7 +748,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _video.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -786,7 +758,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _video.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -796,7 +768,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _video.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -806,7 +778,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _video.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -818,7 +790,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	public java.util.List<eu.strasbourg.service.video.model.Video>
 		getSuggestions(java.util.Locale locale) {
 
-		return _video.getSuggestions(locale);
+		return model.getSuggestions(locale);
 	}
 
 	/**
@@ -830,7 +802,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	public java.util.List<eu.strasbourg.service.video.model.Video>
 		getSuggestions(java.util.Locale locale, int nbSuggestions) {
 
-		return _video.getSuggestions(locale, nbSuggestions);
+		return model.getSuggestions(locale, nbSuggestions);
 	}
 
 	/**
@@ -840,7 +812,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getThematicCategories() {
 
-		return _video.getThematicCategories();
+		return model.getThematicCategories();
 	}
 
 	/**
@@ -850,7 +822,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getThemes() {
 
-		return _video.getThemes();
+		return model.getThemes();
 	}
 
 	/**
@@ -858,7 +830,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getThemesLabel(java.util.Locale locale) {
-		return _video.getThemesLabel(locale);
+		return model.getThemesLabel(locale);
 	}
 
 	/**
@@ -868,7 +840,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getTitle() {
-		return _video.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -879,7 +851,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale) {
-		return _video.getTitle(locale);
+		return model.getTitle(locale);
 	}
 
 	/**
@@ -891,7 +863,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale, boolean useDefault) {
-		return _video.getTitle(locale, useDefault);
+		return model.getTitle(locale, useDefault);
 	}
 
 	/**
@@ -902,7 +874,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getTitle(String languageId) {
-		return _video.getTitle(languageId);
+		return model.getTitle(languageId);
 	}
 
 	/**
@@ -914,17 +886,17 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getTitle(String languageId, boolean useDefault) {
-		return _video.getTitle(languageId, useDefault);
+		return model.getTitle(languageId, useDefault);
 	}
 
 	@Override
 	public String getTitleCurrentLanguageId() {
-		return _video.getTitleCurrentLanguageId();
+		return model.getTitleCurrentLanguageId();
 	}
 
 	@Override
 	public String getTitleCurrentValue() {
-		return _video.getTitleCurrentValue();
+		return model.getTitleCurrentValue();
 	}
 
 	/**
@@ -934,7 +906,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getTitleMap() {
-		return _video.getTitleMap();
+		return model.getTitleMap();
 	}
 
 	/**
@@ -942,7 +914,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getTranscriptionDownloadURL() {
-		return _video.getTranscriptionDownloadURL();
+		return model.getTranscriptionDownloadURL();
 	}
 
 	/**
@@ -952,7 +924,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public Long getTranscriptionFileId() {
-		return _video.getTranscriptionFileId();
+		return model.getTranscriptionFileId();
 	}
 
 	/**
@@ -962,7 +934,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public long getUserId() {
-		return _video.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -972,7 +944,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getUserName() {
-		return _video.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -982,7 +954,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _video.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -992,7 +964,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getUuid() {
-		return _video.getUuid();
+		return model.getUuid();
 	}
 
 	/**
@@ -1002,7 +974,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	public java.util.List<eu.strasbourg.service.video.model.VideoGallery>
 		getVideoGalleries() {
 
-		return _video.getVideoGalleries();
+		return model.getVideoGalleries();
 	}
 
 	/**
@@ -1010,7 +982,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getVideoGalleriesIds() {
-		return _video.getVideoGalleriesIds();
+		return model.getVideoGalleriesIds();
 	}
 
 	/**
@@ -1020,7 +992,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public long getVideoId() {
-		return _video.getVideoId();
+		return model.getVideoId();
 	}
 
 	/**
@@ -1028,12 +1000,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public String getVideoId(String site, String videoUrl) {
-		return _video.getVideoId(site, videoUrl);
-	}
-
-	@Override
-	public int hashCode() {
-		return _video.hashCode();
+		return model.getVideoId(site, videoUrl);
 	}
 
 	/**
@@ -1043,12 +1010,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _video.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _video.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -1058,7 +1020,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _video.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -1068,12 +1030,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _video.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _video.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -1083,7 +1040,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _video.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -1093,7 +1050,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _video.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -1103,12 +1060,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _video.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _video.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -1118,7 +1070,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public boolean isPending() {
-		return _video.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -1128,19 +1080,19 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _video.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_video.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_video.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -1148,12 +1100,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_video.prepareLocalizedFieldsForImport(defaultImportLocale);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_video.setCachedModel(cachedModel);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -1163,7 +1110,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_video.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -1173,7 +1120,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setCopyright(String copyright) {
-		_video.setCopyright(copyright);
+		model.setCopyright(copyright);
 	}
 
 	/**
@@ -1184,7 +1131,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setCopyright(String copyright, java.util.Locale locale) {
-		_video.setCopyright(copyright, locale);
+		model.setCopyright(copyright, locale);
 	}
 
 	/**
@@ -1199,12 +1146,12 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 		String copyright, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_video.setCopyright(copyright, locale, defaultLocale);
+		model.setCopyright(copyright, locale, defaultLocale);
 	}
 
 	@Override
 	public void setCopyrightCurrentLanguageId(String languageId) {
-		_video.setCopyrightCurrentLanguageId(languageId);
+		model.setCopyrightCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1214,7 +1161,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setCopyrightMap(Map<java.util.Locale, String> copyrightMap) {
-		_video.setCopyrightMap(copyrightMap);
+		model.setCopyrightMap(copyrightMap);
 	}
 
 	/**
@@ -1228,7 +1175,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 		Map<java.util.Locale, String> copyrightMap,
 		java.util.Locale defaultLocale) {
 
-		_video.setCopyrightMap(copyrightMap, defaultLocale);
+		model.setCopyrightMap(copyrightMap, defaultLocale);
 	}
 
 	/**
@@ -1238,7 +1185,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_video.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -1248,7 +1195,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setDescription(String description) {
-		_video.setDescription(description);
+		model.setDescription(description);
 	}
 
 	/**
@@ -1259,7 +1206,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setDescription(String description, java.util.Locale locale) {
-		_video.setDescription(description, locale);
+		model.setDescription(description, locale);
 	}
 
 	/**
@@ -1274,12 +1221,12 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 		String description, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_video.setDescription(description, locale, defaultLocale);
+		model.setDescription(description, locale, defaultLocale);
 	}
 
 	@Override
 	public void setDescriptionCurrentLanguageId(String languageId) {
-		_video.setDescriptionCurrentLanguageId(languageId);
+		model.setDescriptionCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1291,7 +1238,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	public void setDescriptionMap(
 		Map<java.util.Locale, String> descriptionMap) {
 
-		_video.setDescriptionMap(descriptionMap);
+		model.setDescriptionMap(descriptionMap);
 	}
 
 	/**
@@ -1305,24 +1252,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 		Map<java.util.Locale, String> descriptionMap,
 		java.util.Locale defaultLocale) {
 
-		_video.setDescriptionMap(descriptionMap, defaultLocale);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_video.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_video.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_video.setExpandoBridgeAttributes(serviceContext);
+		model.setDescriptionMap(descriptionMap, defaultLocale);
 	}
 
 	/**
@@ -1332,7 +1262,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_video.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -1342,7 +1272,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setImageId(Long imageId) {
-		_video.setImageId(imageId);
+		model.setImageId(imageId);
 	}
 
 	/**
@@ -1352,7 +1282,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
-		_video.setLastPublishDate(lastPublishDate);
+		model.setLastPublishDate(lastPublishDate);
 	}
 
 	/**
@@ -1362,12 +1292,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_video.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_video.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -1377,12 +1302,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_video.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_video.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -1392,7 +1312,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setPublicationDate(Date publicationDate) {
-		_video.setPublicationDate(publicationDate);
+		model.setPublicationDate(publicationDate);
 	}
 
 	/**
@@ -1402,7 +1322,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setSource(String source) {
-		_video.setSource(source);
+		model.setSource(source);
 	}
 
 	/**
@@ -1413,7 +1333,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setSource(String source, java.util.Locale locale) {
-		_video.setSource(source, locale);
+		model.setSource(source, locale);
 	}
 
 	/**
@@ -1428,12 +1348,12 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 		String source, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_video.setSource(source, locale, defaultLocale);
+		model.setSource(source, locale, defaultLocale);
 	}
 
 	@Override
 	public void setSourceCurrentLanguageId(String languageId) {
-		_video.setSourceCurrentLanguageId(languageId);
+		model.setSourceCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1443,7 +1363,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setSourceMap(Map<java.util.Locale, String> sourceMap) {
-		_video.setSourceMap(sourceMap);
+		model.setSourceMap(sourceMap);
 	}
 
 	/**
@@ -1457,7 +1377,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 		Map<java.util.Locale, String> sourceMap,
 		java.util.Locale defaultLocale) {
 
-		_video.setSourceMap(sourceMap, defaultLocale);
+		model.setSourceMap(sourceMap, defaultLocale);
 	}
 
 	/**
@@ -1467,7 +1387,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_video.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -1477,7 +1397,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_video.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -1487,7 +1407,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_video.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -1497,7 +1417,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_video.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -1507,7 +1427,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_video.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -1517,7 +1437,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setTitle(String title) {
-		_video.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -1528,7 +1448,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setTitle(String title, java.util.Locale locale) {
-		_video.setTitle(title, locale);
+		model.setTitle(title, locale);
 	}
 
 	/**
@@ -1542,12 +1462,12 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	public void setTitle(
 		String title, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_video.setTitle(title, locale, defaultLocale);
+		model.setTitle(title, locale, defaultLocale);
 	}
 
 	@Override
 	public void setTitleCurrentLanguageId(String languageId) {
-		_video.setTitleCurrentLanguageId(languageId);
+		model.setTitleCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1557,7 +1477,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setTitleMap(Map<java.util.Locale, String> titleMap) {
-		_video.setTitleMap(titleMap);
+		model.setTitleMap(titleMap);
 	}
 
 	/**
@@ -1571,7 +1491,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 		Map<java.util.Locale, String> titleMap,
 		java.util.Locale defaultLocale) {
 
-		_video.setTitleMap(titleMap, defaultLocale);
+		model.setTitleMap(titleMap, defaultLocale);
 	}
 
 	/**
@@ -1581,7 +1501,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setTranscriptionFileId(Long transcriptionFileId) {
-		_video.setTranscriptionFileId(transcriptionFileId);
+		model.setTranscriptionFileId(transcriptionFileId);
 	}
 
 	/**
@@ -1591,7 +1511,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_video.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -1601,7 +1521,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_video.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -1611,7 +1531,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_video.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -1621,7 +1541,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_video.setUuid(uuid);
+		model.setUuid(uuid);
 	}
 
 	/**
@@ -1631,19 +1551,7 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public void setVideoId(long videoId) {
-		_video.setVideoId(videoId);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.video.model.Video> toCacheModel() {
-
-		return _video.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.video.model.Video toEscapedModel() {
-		return new VideoWrapper(_video.toEscapedModel());
+		model.setVideoId(videoId);
 	}
 
 	/**
@@ -1651,68 +1559,22 @@ public class VideoWrapper implements ModelWrapper<Video>, Video {
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _video.toJSON();
-	}
-
-	@Override
-	public String toString() {
-		return _video.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.video.model.Video toUnescapedModel() {
-		return new VideoWrapper(_video.toUnescapedModel());
+		return model.toJSON();
 	}
 
 	@Override
 	public String toXmlString() {
-		return _video.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof VideoWrapper)) {
-			return false;
-		}
-
-		VideoWrapper videoWrapper = (VideoWrapper)object;
-
-		if (Objects.equals(_video, videoWrapper._video)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _video.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Video getWrappedModel() {
-		return _video;
+	protected VideoWrapper wrap(Video video) {
+		return new VideoWrapper(video);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _video.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _video.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_video.resetOriginalValues();
-	}
-
-	private final Video _video;
 
 }

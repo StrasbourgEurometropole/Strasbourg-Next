@@ -14,16 +14,12 @@
 
 package eu.strasbourg.service.project.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +31,11 @@ import java.util.Objects;
  * @generated
  */
 public class InitiativeHelpWrapper
+	extends BaseModelWrapper<InitiativeHelp>
 	implements InitiativeHelp, ModelWrapper<InitiativeHelp> {
 
 	public InitiativeHelpWrapper(InitiativeHelp initiativeHelp) {
-		_initiativeHelp = initiativeHelp;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return InitiativeHelp.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return InitiativeHelp.class.getName();
+		super(initiativeHelp);
 	}
 
 	@Override
@@ -126,16 +113,8 @@ public class InitiativeHelpWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new InitiativeHelpWrapper(
-			(InitiativeHelp)_initiativeHelp.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.project.model.InitiativeHelp initiativeHelp) {
-
-		return _initiativeHelp.compareTo(initiativeHelp);
+	public InitiativeHelp cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -145,7 +124,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public eu.strasbourg.service.oidc.model.PublikUser getAuthor() {
-		return _initiativeHelp.getAuthor();
+		return model.getAuthor();
 	}
 
 	/**
@@ -153,7 +132,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public String getAuthorImageURL() {
-		return _initiativeHelp.getAuthorImageURL();
+		return model.getAuthorImageURL();
 	}
 
 	/**
@@ -161,7 +140,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public String getAuthorLabel() {
-		return _initiativeHelp.getAuthorLabel();
+		return model.getAuthorLabel();
 	}
 
 	/**
@@ -171,12 +150,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _initiativeHelp.getCreateDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _initiativeHelp.getExpandoBridge();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -186,7 +160,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public String getFormatedMessage() {
-		return _initiativeHelp.getFormatedMessage();
+		return model.getFormatedMessage();
 	}
 
 	/**
@@ -196,7 +170,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _initiativeHelp.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -206,7 +180,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public boolean getHelpDisplay() {
-		return _initiativeHelp.getHelpDisplay();
+		return model.getHelpDisplay();
 	}
 
 	/**
@@ -216,7 +190,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public String getHelpTypes() {
-		return _initiativeHelp.getHelpTypes();
+		return model.getHelpTypes();
 	}
 
 	/**
@@ -227,7 +201,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public eu.strasbourg.service.project.model.Initiative getInitiative() {
-		return _initiativeHelp.getInitiative();
+		return model.getInitiative();
 	}
 
 	/**
@@ -237,7 +211,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public long getInitiativeHelpId() {
-		return _initiativeHelp.getInitiativeHelpId();
+		return model.getInitiativeHelpId();
 	}
 
 	/**
@@ -247,7 +221,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public long getInitiativeId() {
-		return _initiativeHelp.getInitiativeId();
+		return model.getInitiativeId();
 	}
 
 	/**
@@ -257,7 +231,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public String getMessage() {
-		return _initiativeHelp.getMessage();
+		return model.getMessage();
 	}
 
 	/**
@@ -267,12 +241,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _initiativeHelp.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _initiativeHelp.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -282,7 +251,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public String getPublikUserId() {
-		return _initiativeHelp.getPublikUserId();
+		return model.getPublikUserId();
 	}
 
 	/**
@@ -290,7 +259,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public String getTypesLabel() {
-		return _initiativeHelp.getTypesLabel();
+		return model.getTypesLabel();
 	}
 
 	/**
@@ -300,22 +269,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _initiativeHelp.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _initiativeHelp.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _initiativeHelp.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _initiativeHelp.isEscapedModel();
+		return model.getUuid();
 	}
 
 	/**
@@ -325,22 +279,12 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public boolean isHelpDisplay() {
-		return _initiativeHelp.isHelpDisplay();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _initiativeHelp.isNew();
+		return model.isHelpDisplay();
 	}
 
 	@Override
 	public void persist() {
-		_initiativeHelp.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_initiativeHelp.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -350,24 +294,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_initiativeHelp.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_initiativeHelp.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_initiativeHelp.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_initiativeHelp.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -377,7 +304,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_initiativeHelp.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -387,7 +314,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public void setHelpDisplay(boolean helpDisplay) {
-		_initiativeHelp.setHelpDisplay(helpDisplay);
+		model.setHelpDisplay(helpDisplay);
 	}
 
 	/**
@@ -397,7 +324,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public void setHelpTypes(String helpTypes) {
-		_initiativeHelp.setHelpTypes(helpTypes);
+		model.setHelpTypes(helpTypes);
 	}
 
 	/**
@@ -407,7 +334,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public void setInitiativeHelpId(long initiativeHelpId) {
-		_initiativeHelp.setInitiativeHelpId(initiativeHelpId);
+		model.setInitiativeHelpId(initiativeHelpId);
 	}
 
 	/**
@@ -417,7 +344,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public void setInitiativeId(long initiativeId) {
-		_initiativeHelp.setInitiativeId(initiativeId);
+		model.setInitiativeId(initiativeId);
 	}
 
 	/**
@@ -427,12 +354,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public void setMessage(String message) {
-		_initiativeHelp.setMessage(message);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_initiativeHelp.setNew(n);
+		model.setMessage(message);
 	}
 
 	/**
@@ -442,12 +364,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_initiativeHelp.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_initiativeHelp.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -457,7 +374,7 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public void setPublikUserId(String publikUserId) {
-		_initiativeHelp.setPublikUserId(publikUserId);
+		model.setPublikUserId(publikUserId);
 	}
 
 	/**
@@ -467,80 +384,17 @@ public class InitiativeHelpWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_initiativeHelp.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.project.model.InitiativeHelp> toCacheModel() {
-
-		return _initiativeHelp.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.InitiativeHelp toEscapedModel() {
-		return new InitiativeHelpWrapper(_initiativeHelp.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _initiativeHelp.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.InitiativeHelp
-		toUnescapedModel() {
-
-		return new InitiativeHelpWrapper(_initiativeHelp.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _initiativeHelp.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof InitiativeHelpWrapper)) {
-			return false;
-		}
-
-		InitiativeHelpWrapper initiativeHelpWrapper =
-			(InitiativeHelpWrapper)object;
-
-		if (Objects.equals(
-				_initiativeHelp, initiativeHelpWrapper._initiativeHelp)) {
-
-			return true;
-		}
-
-		return false;
+	protected InitiativeHelpWrapper wrap(InitiativeHelp initiativeHelp) {
+		return new InitiativeHelpWrapper(initiativeHelp);
 	}
-
-	@Override
-	public InitiativeHelp getWrappedModel() {
-		return _initiativeHelp;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _initiativeHelp.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _initiativeHelp.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_initiativeHelp.resetOriginalValues();
-	}
-
-	private final InitiativeHelp _initiativeHelp;
 
 }

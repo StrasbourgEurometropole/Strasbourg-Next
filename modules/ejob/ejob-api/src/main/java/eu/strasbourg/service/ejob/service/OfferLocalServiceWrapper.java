@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class OfferLocalServiceWrapper
 	implements OfferLocalService, ServiceWrapper<OfferLocalService> {
 
+	public OfferLocalServiceWrapper() {
+		this(null);
+	}
+
 	public OfferLocalServiceWrapper(OfferLocalService offerLocalService) {
 		_offerLocalService = offerLocalService;
 	}
@@ -67,6 +71,17 @@ public class OfferLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _offerLocalService.createOffer(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _offerLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -113,6 +128,18 @@ public class OfferLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _offerLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _offerLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _offerLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

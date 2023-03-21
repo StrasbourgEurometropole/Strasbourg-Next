@@ -14,28 +14,8 @@
 
 package eu.strasbourg.service.objtp.service.impl;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.json.JSONArray;
-import com.liferay.portal.kernel.json.JSONException;
-import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.transaction.Isolation;
-import com.liferay.portal.kernel.transaction.Transactional;
-import com.liferay.portal.kernel.util.Validator;
-
-import aQute.bnd.annotation.ProviderType;
-import eu.strasbourg.service.objtp.model.ObjectCategory;
+import org.osgi.annotation.versioning.ProviderType;
 import eu.strasbourg.service.objtp.service.base.ObjectCategoryLocalServiceBaseImpl;
-import eu.strasbourg.service.objtp.service.util.ImportReportLineObjtp;
-import eu.strasbourg.service.objtp.service.util.ImportReportObjtp;
-import eu.strasbourg.service.objtp.service.util.ImportReportStatusObjtp;
-import eu.strasbourg.utils.JSONHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 /**
  * The implementation of the object category local service.

@@ -20,6 +20,8 @@ import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
@@ -29,7 +31,10 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.strasbourg.model.Strasbourg;
 import eu.strasbourg.service.strasbourg.service.StrasbourgService;
+import eu.strasbourg.service.strasbourg.service.StrasbourgServiceUtil;
 import eu.strasbourg.service.strasbourg.service.persistence.StrasbourgPersistence;
+
+import java.lang.reflect.Field;
 
 import javax.sql.DataSource;
 
@@ -51,7 +56,7 @@ public abstract class StrasbourgServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>StrasbourgService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.strasbourg.service.StrasbourgServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>StrasbourgService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>StrasbourgServiceUtil</code>.
 	 */
 
 	/**
@@ -287,9 +292,11 @@ public abstract class StrasbourgServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
+		_setServiceUtilService(strasbourgService);
 	}
 
 	public void destroy() {
+		_setServiceUtilService(null);
 	}
 
 	/**
@@ -331,6 +338,20 @@ public abstract class StrasbourgServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setServiceUtilService(StrasbourgService strasbourgService) {
+		try {
+			Field field = StrasbourgServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, strasbourgService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -386,5 +407,8 @@ public abstract class StrasbourgServiceBaseImpl
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		StrasbourgServiceBaseImpl.class);
 
 }

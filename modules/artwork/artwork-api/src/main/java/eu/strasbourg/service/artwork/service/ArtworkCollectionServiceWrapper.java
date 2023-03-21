@@ -27,6 +27,10 @@ public class ArtworkCollectionServiceWrapper
 	implements ArtworkCollectionService,
 			   ServiceWrapper<ArtworkCollectionService> {
 
+	public ArtworkCollectionServiceWrapper() {
+		this(null);
+	}
+
 	public ArtworkCollectionServiceWrapper(
 		ArtworkCollectionService artworkCollectionService) {
 

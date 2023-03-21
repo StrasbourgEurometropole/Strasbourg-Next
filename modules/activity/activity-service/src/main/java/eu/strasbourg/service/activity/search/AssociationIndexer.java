@@ -7,11 +7,14 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.search.BaseIndexer;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
-import eu.strasbourg.service.activity.model.ActivityOrganizer;
 import eu.strasbourg.service.activity.model.Association;
-import eu.strasbourg.service.activity.service.ActivityOrganizerLocalServiceUtil;
 import eu.strasbourg.service.activity.service.AssociationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import org.osgi.service.component.annotations.Component;
@@ -56,8 +59,8 @@ public class AssociationIndexer extends BaseIndexer<Association> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(association.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);
+		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);*/
 
 		document.addLocalizedText(Field.TITLE, association.getNameMap());
 		document.addLocalizedText(Field.DESCRIPTION,
@@ -90,8 +93,8 @@ public class AssociationIndexer extends BaseIndexer<Association> {
 	protected void doReindex(Association association) throws Exception {
 		Document document = getDocument(association);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-			association.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(
+			association.getCompanyId(), document);
 
 	}
 
@@ -124,7 +127,6 @@ public class AssociationIndexer extends BaseIndexer<Association> {
 
 			});
 
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 

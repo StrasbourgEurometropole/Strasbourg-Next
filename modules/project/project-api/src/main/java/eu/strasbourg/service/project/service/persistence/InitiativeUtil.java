@@ -17,18 +17,12 @@ package eu.strasbourg.service.project.service.persistence;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.project.model.Initiative;
 
 import java.io.Serializable;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * The persistence utility for the initiative service. This utility wraps <code>eu.strasbourg.service.project.service.persistence.impl.InitiativePersistenceImpl</code> and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
@@ -1221,30 +1215,10 @@ public class InitiativeUtil {
 		return getPersistence().countAll();
 	}
 
-	public static Set<String> getBadColumnNames() {
-		return getPersistence().getBadColumnNames();
-	}
-
 	public static InitiativePersistence getPersistence() {
-		return _serviceTracker.getService();
+		return _persistence;
 	}
 
-	private static ServiceTracker<InitiativePersistence, InitiativePersistence>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(InitiativePersistence.class);
-
-		ServiceTracker<InitiativePersistence, InitiativePersistence>
-			serviceTracker =
-				new ServiceTracker
-					<InitiativePersistence, InitiativePersistence>(
-						bundle.getBundleContext(), InitiativePersistence.class,
-						null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile InitiativePersistence _persistence;
 
 }

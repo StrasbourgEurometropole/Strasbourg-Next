@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.agenda.service.base;
 
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -27,6 +28,8 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -43,6 +46,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.agenda.model.Historic;
 import eu.strasbourg.service.agenda.service.HistoricLocalService;
+import eu.strasbourg.service.agenda.service.HistoricLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.persistence.AgendaExportPeriodPersistence;
 import eu.strasbourg.service.agenda.service.persistence.AgendaExportPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CacheJsonPersistence;
@@ -61,6 +65,8 @@ import eu.strasbourg.service.agenda.service.persistence.ImportReportPersistence;
 import eu.strasbourg.service.agenda.service.persistence.ManifestationPersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.List;
 
@@ -84,7 +90,7 @@ public abstract class HistoricLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>HistoricLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.agenda.service.HistoricLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>HistoricLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>HistoricLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -148,6 +154,18 @@ public abstract class HistoricLocalServiceBaseImpl
 	@Override
 	public Historic deleteHistoric(Historic historic) {
 		return historicPersistence.remove(historic);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return historicPersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -299,12 +317,28 @@ public abstract class HistoricLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return historicPersistence.create(((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement HistoricLocalServiceImpl#deleteHistoric(Historic) to avoid orphaned data");
+		}
 
 		return historicLocalService.deleteHistoric((Historic)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<Historic> getBasePersistence() {
 		return historicPersistence;
 	}
@@ -1129,11 +1163,15 @@ public abstract class HistoricLocalServiceBaseImpl
 		persistedModelLocalServiceRegistry.register(
 			"eu.strasbourg.service.agenda.model.Historic",
 			historicLocalService);
+
+		_setLocalServiceUtilService(historicLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"eu.strasbourg.service.agenda.model.Historic");
+
+		_setLocalServiceUtilService(null);
 	}
 
 	/**
@@ -1175,6 +1213,22 @@ public abstract class HistoricLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		HistoricLocalService historicLocalService) {
+
+		try {
+			Field field = HistoricLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, historicLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1339,6 +1393,9 @@ public abstract class HistoricLocalServiceBaseImpl
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		HistoricLocalServiceBaseImpl.class);
 
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry

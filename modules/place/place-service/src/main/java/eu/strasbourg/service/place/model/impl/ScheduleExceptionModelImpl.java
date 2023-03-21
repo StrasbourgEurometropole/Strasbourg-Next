@@ -16,6 +16,7 @@ package eu.strasbourg.service.place.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.json.JSON;
@@ -27,25 +28,22 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-
 import eu.strasbourg.service.place.model.ScheduleException;
 import eu.strasbourg.service.place.model.ScheduleExceptionModel;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -120,27 +118,47 @@ public class ScheduleExceptionModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.place.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.place.model.ScheduleException"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.place.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.place.model.ScheduleException"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.place.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.place.model.ScheduleException"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PLACEID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long SUBPLACEID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long EXCEPTIONID_COLUMN_BITMASK = 8L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -199,9 +217,6 @@ public class ScheduleExceptionModelImpl
 				attributeGetterFunction.apply((ScheduleException)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -235,34 +250,6 @@ public class ScheduleExceptionModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, ScheduleException>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			ScheduleException.class.getClassLoader(), ScheduleException.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<ScheduleException> constructor =
-				(Constructor<ScheduleException>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<ScheduleException, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<ScheduleException, Object>>
@@ -277,329 +264,82 @@ public class ScheduleExceptionModelImpl
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<ScheduleException, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<ScheduleException, Object>() {
-
-				@Override
-				public Object apply(ScheduleException scheduleException) {
-					return scheduleException.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", ScheduleException::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
-			new BiConsumer<ScheduleException, Object>() {
-
-				@Override
-				public void accept(
-					ScheduleException scheduleException, Object uuidObject) {
-
-					scheduleException.setUuid((String)uuidObject);
-				}
-
-			});
+			(BiConsumer<ScheduleException, String>)ScheduleException::setUuid);
 		attributeGetterFunctions.put(
-			"exceptionId",
-			new Function<ScheduleException, Object>() {
-
-				@Override
-				public Object apply(ScheduleException scheduleException) {
-					return scheduleException.getExceptionId();
-				}
-
-			});
+			"exceptionId", ScheduleException::getExceptionId);
 		attributeSetterBiConsumers.put(
 			"exceptionId",
-			new BiConsumer<ScheduleException, Object>() {
-
-				@Override
-				public void accept(
-					ScheduleException scheduleException,
-					Object exceptionIdObject) {
-
-					scheduleException.setExceptionId((Long)exceptionIdObject);
-				}
-
-			});
+			(BiConsumer<ScheduleException, Long>)
+				ScheduleException::setExceptionId);
 		attributeGetterFunctions.put(
-			"startDate",
-			new Function<ScheduleException, Object>() {
-
-				@Override
-				public Object apply(ScheduleException scheduleException) {
-					return scheduleException.getStartDate();
-				}
-
-			});
+			"startDate", ScheduleException::getStartDate);
 		attributeSetterBiConsumers.put(
 			"startDate",
-			new BiConsumer<ScheduleException, Object>() {
-
-				@Override
-				public void accept(
-					ScheduleException scheduleException,
-					Object startDateObject) {
-
-					scheduleException.setStartDate((Date)startDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"endDate",
-			new Function<ScheduleException, Object>() {
-
-				@Override
-				public Object apply(ScheduleException scheduleException) {
-					return scheduleException.getEndDate();
-				}
-
-			});
+			(BiConsumer<ScheduleException, Date>)
+				ScheduleException::setStartDate);
+		attributeGetterFunctions.put("endDate", ScheduleException::getEndDate);
 		attributeSetterBiConsumers.put(
 			"endDate",
-			new BiConsumer<ScheduleException, Object>() {
-
-				@Override
-				public void accept(
-					ScheduleException scheduleException, Object endDateObject) {
-
-					scheduleException.setEndDate((Date)endDateObject);
-				}
-
-			});
+			(BiConsumer<ScheduleException, Date>)ScheduleException::setEndDate);
 		attributeGetterFunctions.put(
-			"openingTimes",
-			new Function<ScheduleException, Object>() {
-
-				@Override
-				public Object apply(ScheduleException scheduleException) {
-					return scheduleException.getOpeningTimes();
-				}
-
-			});
+			"openingTimes", ScheduleException::getOpeningTimes);
 		attributeSetterBiConsumers.put(
 			"openingTimes",
-			new BiConsumer<ScheduleException, Object>() {
-
-				@Override
-				public void accept(
-					ScheduleException scheduleException,
-					Object openingTimesObject) {
-
-					scheduleException.setOpeningTimes(
-						(String)openingTimesObject);
-				}
-
-			});
+			(BiConsumer<ScheduleException, String>)
+				ScheduleException::setOpeningTimes);
 		attributeGetterFunctions.put(
-			"firstComment",
-			new Function<ScheduleException, Object>() {
-
-				@Override
-				public Object apply(ScheduleException scheduleException) {
-					return scheduleException.getFirstComment();
-				}
-
-			});
+			"firstComment", ScheduleException::getFirstComment);
 		attributeSetterBiConsumers.put(
 			"firstComment",
-			new BiConsumer<ScheduleException, Object>() {
-
-				@Override
-				public void accept(
-					ScheduleException scheduleException,
-					Object firstCommentObject) {
-
-					scheduleException.setFirstComment(
-						(String)firstCommentObject);
-				}
-
-			});
+			(BiConsumer<ScheduleException, String>)
+				ScheduleException::setFirstComment);
 		attributeGetterFunctions.put(
-			"secondComment",
-			new Function<ScheduleException, Object>() {
-
-				@Override
-				public Object apply(ScheduleException scheduleException) {
-					return scheduleException.getSecondComment();
-				}
-
-			});
+			"secondComment", ScheduleException::getSecondComment);
 		attributeSetterBiConsumers.put(
 			"secondComment",
-			new BiConsumer<ScheduleException, Object>() {
-
-				@Override
-				public void accept(
-					ScheduleException scheduleException,
-					Object secondCommentObject) {
-
-					scheduleException.setSecondComment(
-						(String)secondCommentObject);
-				}
-
-			});
+			(BiConsumer<ScheduleException, String>)
+				ScheduleException::setSecondComment);
 		attributeGetterFunctions.put(
-			"thirdComment",
-			new Function<ScheduleException, Object>() {
-
-				@Override
-				public Object apply(ScheduleException scheduleException) {
-					return scheduleException.getThirdComment();
-				}
-
-			});
+			"thirdComment", ScheduleException::getThirdComment);
 		attributeSetterBiConsumers.put(
 			"thirdComment",
-			new BiConsumer<ScheduleException, Object>() {
-
-				@Override
-				public void accept(
-					ScheduleException scheduleException,
-					Object thirdCommentObject) {
-
-					scheduleException.setThirdComment(
-						(String)thirdCommentObject);
-				}
-
-			});
+			(BiConsumer<ScheduleException, String>)
+				ScheduleException::setThirdComment);
 		attributeGetterFunctions.put(
-			"fourthComment",
-			new Function<ScheduleException, Object>() {
-
-				@Override
-				public Object apply(ScheduleException scheduleException) {
-					return scheduleException.getFourthComment();
-				}
-
-			});
+			"fourthComment", ScheduleException::getFourthComment);
 		attributeSetterBiConsumers.put(
 			"fourthComment",
-			new BiConsumer<ScheduleException, Object>() {
-
-				@Override
-				public void accept(
-					ScheduleException scheduleException,
-					Object fourthCommentObject) {
-
-					scheduleException.setFourthComment(
-						(String)fourthCommentObject);
-				}
-
-			});
+			(BiConsumer<ScheduleException, String>)
+				ScheduleException::setFourthComment);
 		attributeGetterFunctions.put(
-			"fifthComment",
-			new Function<ScheduleException, Object>() {
-
-				@Override
-				public Object apply(ScheduleException scheduleException) {
-					return scheduleException.getFifthComment();
-				}
-
-			});
+			"fifthComment", ScheduleException::getFifthComment);
 		attributeSetterBiConsumers.put(
 			"fifthComment",
-			new BiConsumer<ScheduleException, Object>() {
-
-				@Override
-				public void accept(
-					ScheduleException scheduleException,
-					Object fifthCommentObject) {
-
-					scheduleException.setFifthComment(
-						(String)fifthCommentObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"comment",
-			new Function<ScheduleException, Object>() {
-
-				@Override
-				public Object apply(ScheduleException scheduleException) {
-					return scheduleException.getComment();
-				}
-
-			});
+			(BiConsumer<ScheduleException, String>)
+				ScheduleException::setFifthComment);
+		attributeGetterFunctions.put("comment", ScheduleException::getComment);
 		attributeSetterBiConsumers.put(
 			"comment",
-			new BiConsumer<ScheduleException, Object>() {
-
-				@Override
-				public void accept(
-					ScheduleException scheduleException, Object commentObject) {
-
-					scheduleException.setComment((String)commentObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"closed",
-			new Function<ScheduleException, Object>() {
-
-				@Override
-				public Object apply(ScheduleException scheduleException) {
-					return scheduleException.getClosed();
-				}
-
-			});
+			(BiConsumer<ScheduleException, String>)
+				ScheduleException::setComment);
+		attributeGetterFunctions.put("closed", ScheduleException::getClosed);
 		attributeSetterBiConsumers.put(
 			"closed",
-			new BiConsumer<ScheduleException, Object>() {
-
-				@Override
-				public void accept(
-					ScheduleException scheduleException, Object closedObject) {
-
-					scheduleException.setClosed((Boolean)closedObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"placeId",
-			new Function<ScheduleException, Object>() {
-
-				@Override
-				public Object apply(ScheduleException scheduleException) {
-					return scheduleException.getPlaceId();
-				}
-
-			});
+			(BiConsumer<ScheduleException, Boolean>)
+				ScheduleException::setClosed);
+		attributeGetterFunctions.put("placeId", ScheduleException::getPlaceId);
 		attributeSetterBiConsumers.put(
 			"placeId",
-			new BiConsumer<ScheduleException, Object>() {
-
-				@Override
-				public void accept(
-					ScheduleException scheduleException, Object placeIdObject) {
-
-					scheduleException.setPlaceId((Long)placeIdObject);
-				}
-
-			});
+			(BiConsumer<ScheduleException, Long>)ScheduleException::setPlaceId);
 		attributeGetterFunctions.put(
-			"subPlaceId",
-			new Function<ScheduleException, Object>() {
-
-				@Override
-				public Object apply(ScheduleException scheduleException) {
-					return scheduleException.getSubPlaceId();
-				}
-
-			});
+			"subPlaceId", ScheduleException::getSubPlaceId);
 		attributeSetterBiConsumers.put(
 			"subPlaceId",
-			new BiConsumer<ScheduleException, Object>() {
-
-				@Override
-				public void accept(
-					ScheduleException scheduleException,
-					Object subPlaceIdObject) {
-
-					scheduleException.setSubPlaceId((Long)subPlaceIdObject);
-				}
-
-			});
+			(BiConsumer<ScheduleException, Long>)
+				ScheduleException::setSubPlaceId);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -619,17 +359,20 @@ public class ScheduleExceptionModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -639,6 +382,10 @@ public class ScheduleExceptionModelImpl
 
 	@Override
 	public void setExceptionId(long exceptionId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_exceptionId = exceptionId;
 	}
 
@@ -649,6 +396,10 @@ public class ScheduleExceptionModelImpl
 
 	@Override
 	public void setStartDate(Date startDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_startDate = startDate;
 	}
 
@@ -659,6 +410,10 @@ public class ScheduleExceptionModelImpl
 
 	@Override
 	public void setEndDate(Date endDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_endDate = endDate;
 	}
 
@@ -674,6 +429,10 @@ public class ScheduleExceptionModelImpl
 
 	@Override
 	public void setOpeningTimes(String openingTimes) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_openingTimes = openingTimes;
 	}
 
@@ -732,6 +491,10 @@ public class ScheduleExceptionModelImpl
 
 	@Override
 	public void setFirstComment(String firstComment) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_firstComment = firstComment;
 	}
 
@@ -839,6 +602,10 @@ public class ScheduleExceptionModelImpl
 
 	@Override
 	public void setSecondComment(String secondComment) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_secondComment = secondComment;
 	}
 
@@ -946,6 +713,10 @@ public class ScheduleExceptionModelImpl
 
 	@Override
 	public void setThirdComment(String thirdComment) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_thirdComment = thirdComment;
 	}
 
@@ -1053,6 +824,10 @@ public class ScheduleExceptionModelImpl
 
 	@Override
 	public void setFourthComment(String fourthComment) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_fourthComment = fourthComment;
 	}
 
@@ -1160,6 +935,10 @@ public class ScheduleExceptionModelImpl
 
 	@Override
 	public void setFifthComment(String fifthComment) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_fifthComment = fifthComment;
 	}
 
@@ -1267,6 +1046,10 @@ public class ScheduleExceptionModelImpl
 
 	@Override
 	public void setComment(String comment) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_comment = comment;
 	}
 
@@ -1331,6 +1114,10 @@ public class ScheduleExceptionModelImpl
 
 	@Override
 	public void setClosed(boolean closed) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_closed = closed;
 	}
 
@@ -1341,19 +1128,20 @@ public class ScheduleExceptionModelImpl
 
 	@Override
 	public void setPlaceId(long placeId) {
-		_columnBitmask |= PLACEID_COLUMN_BITMASK;
-
-		if (!_setOriginalPlaceId) {
-			_setOriginalPlaceId = true;
-
-			_originalPlaceId = _placeId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_placeId = placeId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalPlaceId() {
-		return _originalPlaceId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("placeId"));
 	}
 
 	@Override
@@ -1363,22 +1151,44 @@ public class ScheduleExceptionModelImpl
 
 	@Override
 	public void setSubPlaceId(long subPlaceId) {
-		_columnBitmask |= SUBPLACEID_COLUMN_BITMASK;
-
-		if (!_setOriginalSubPlaceId) {
-			_setOriginalSubPlaceId = true;
-
-			_originalSubPlaceId = _subPlaceId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_subPlaceId = subPlaceId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalSubPlaceId() {
-		return _originalSubPlaceId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("subPlaceId"));
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1612,6 +1422,43 @@ public class ScheduleExceptionModelImpl
 	}
 
 	@Override
+	public ScheduleException cloneWithOriginalValues() {
+		ScheduleExceptionImpl scheduleExceptionImpl =
+			new ScheduleExceptionImpl();
+
+		scheduleExceptionImpl.setUuid(
+			this.<String>getColumnOriginalValue("uuid_"));
+		scheduleExceptionImpl.setExceptionId(
+			this.<Long>getColumnOriginalValue("exceptionId"));
+		scheduleExceptionImpl.setStartDate(
+			this.<Date>getColumnOriginalValue("startDate"));
+		scheduleExceptionImpl.setEndDate(
+			this.<Date>getColumnOriginalValue("endDate"));
+		scheduleExceptionImpl.setOpeningTimes(
+			this.<String>getColumnOriginalValue("openingTimes"));
+		scheduleExceptionImpl.setFirstComment(
+			this.<String>getColumnOriginalValue("firstComment"));
+		scheduleExceptionImpl.setSecondComment(
+			this.<String>getColumnOriginalValue("secondComment"));
+		scheduleExceptionImpl.setThirdComment(
+			this.<String>getColumnOriginalValue("thirdComment"));
+		scheduleExceptionImpl.setFourthComment(
+			this.<String>getColumnOriginalValue("fourthComment"));
+		scheduleExceptionImpl.setFifthComment(
+			this.<String>getColumnOriginalValue("fifthComment"));
+		scheduleExceptionImpl.setComment(
+			this.<String>getColumnOriginalValue("comment_"));
+		scheduleExceptionImpl.setClosed(
+			this.<Boolean>getColumnOriginalValue("closed"));
+		scheduleExceptionImpl.setPlaceId(
+			this.<Long>getColumnOriginalValue("placeId"));
+		scheduleExceptionImpl.setSubPlaceId(
+			this.<Long>getColumnOriginalValue("subPlaceId"));
+
+		return scheduleExceptionImpl;
+	}
+
+	@Override
 	public int compareTo(ScheduleException scheduleException) {
 		long primaryKey = scheduleException.getPrimaryKey();
 
@@ -1653,11 +1500,19 @@ public class ScheduleExceptionModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1665,22 +1520,9 @@ public class ScheduleExceptionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ScheduleExceptionModelImpl scheduleExceptionModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		scheduleExceptionModelImpl._originalUuid =
-			scheduleExceptionModelImpl._uuid;
-
-		scheduleExceptionModelImpl._originalPlaceId =
-			scheduleExceptionModelImpl._placeId;
-
-		scheduleExceptionModelImpl._setOriginalPlaceId = false;
-
-		scheduleExceptionModelImpl._originalSubPlaceId =
-			scheduleExceptionModelImpl._subPlaceId;
-
-		scheduleExceptionModelImpl._setOriginalSubPlaceId = false;
-
-		scheduleExceptionModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1787,7 +1629,7 @@ public class ScheduleExceptionModelImpl
 			attributeGetterFunctions = getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1798,9 +1640,27 @@ public class ScheduleExceptionModelImpl
 			Function<ScheduleException, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((ScheduleException)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply(
+				(ScheduleException)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1813,46 +1673,16 @@ public class ScheduleExceptionModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<ScheduleException, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<ScheduleException, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<ScheduleException, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((ScheduleException)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, ScheduleException>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					ScheduleException.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _exceptionId;
 	private Date _startDate;
 	private Date _endDate;
@@ -1871,11 +1701,106 @@ public class ScheduleExceptionModelImpl
 	private String _commentCurrentLanguageId;
 	private boolean _closed;
 	private long _placeId;
-	private long _originalPlaceId;
-	private boolean _setOriginalPlaceId;
 	private long _subPlaceId;
-	private long _originalSubPlaceId;
-	private boolean _setOriginalSubPlaceId;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<ScheduleException, Object> function =
+			_attributeGetterFunctions.get(columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((ScheduleException)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("exceptionId", _exceptionId);
+		_columnOriginalValues.put("startDate", _startDate);
+		_columnOriginalValues.put("endDate", _endDate);
+		_columnOriginalValues.put("openingTimes", _openingTimes);
+		_columnOriginalValues.put("firstComment", _firstComment);
+		_columnOriginalValues.put("secondComment", _secondComment);
+		_columnOriginalValues.put("thirdComment", _thirdComment);
+		_columnOriginalValues.put("fourthComment", _fourthComment);
+		_columnOriginalValues.put("fifthComment", _fifthComment);
+		_columnOriginalValues.put("comment_", _comment);
+		_columnOriginalValues.put("closed", _closed);
+		_columnOriginalValues.put("placeId", _placeId);
+		_columnOriginalValues.put("subPlaceId", _subPlaceId);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("comment_", "comment");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("exceptionId", 2L);
+
+		columnBitmasks.put("startDate", 4L);
+
+		columnBitmasks.put("endDate", 8L);
+
+		columnBitmasks.put("openingTimes", 16L);
+
+		columnBitmasks.put("firstComment", 32L);
+
+		columnBitmasks.put("secondComment", 64L);
+
+		columnBitmasks.put("thirdComment", 128L);
+
+		columnBitmasks.put("fourthComment", 256L);
+
+		columnBitmasks.put("fifthComment", 512L);
+
+		columnBitmasks.put("comment_", 1024L);
+
+		columnBitmasks.put("closed", 2048L);
+
+		columnBitmasks.put("placeId", 4096L);
+
+		columnBitmasks.put("subPlaceId", 8192L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private ScheduleException _escapedModel;
 

@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class PeriodLocalServiceWrapper
 	implements PeriodLocalService, ServiceWrapper<PeriodLocalService> {
 
+	public PeriodLocalServiceWrapper() {
+		this(null);
+	}
+
 	public PeriodLocalServiceWrapper(PeriodLocalService periodLocalService) {
 		_periodLocalService = periodLocalService;
 	}
@@ -72,6 +76,17 @@ public class PeriodLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _periodLocalService.createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the period with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -115,6 +130,18 @@ public class PeriodLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _periodLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _periodLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _periodLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

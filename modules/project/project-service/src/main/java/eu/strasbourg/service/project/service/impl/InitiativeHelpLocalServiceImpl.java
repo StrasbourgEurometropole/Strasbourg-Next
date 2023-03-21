@@ -14,16 +14,15 @@
 
 package eu.strasbourg.service.project.service.impl;
 
-import java.util.Date;
-import java.util.List;
-
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
-
 import eu.strasbourg.service.project.exception.NoSuchInitiativeHelpException;
 import eu.strasbourg.service.project.model.InitiativeHelp;
 import eu.strasbourg.service.project.service.base.InitiativeHelpLocalServiceBaseImpl;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * The implementation of the initiative help local service.

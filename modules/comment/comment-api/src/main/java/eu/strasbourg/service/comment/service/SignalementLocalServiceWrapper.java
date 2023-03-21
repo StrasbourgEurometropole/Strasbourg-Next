@@ -27,6 +27,10 @@ public class SignalementLocalServiceWrapper
 	implements ServiceWrapper<SignalementLocalService>,
 			   SignalementLocalService {
 
+	public SignalementLocalServiceWrapper() {
+		this(null);
+	}
+
 	public SignalementLocalServiceWrapper(
 		SignalementLocalService signalementLocalService) {
 
@@ -48,6 +52,17 @@ public class SignalementLocalServiceWrapper
 		eu.strasbourg.service.comment.model.Signalement signalement) {
 
 		return _signalementLocalService.addSignalement(signalement);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _signalementLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -123,6 +138,18 @@ public class SignalementLocalServiceWrapper
 		eu.strasbourg.service.comment.model.Signalement signalement) {
 
 		return _signalementLocalService.deleteSignalement(signalement);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _signalementLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _signalementLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

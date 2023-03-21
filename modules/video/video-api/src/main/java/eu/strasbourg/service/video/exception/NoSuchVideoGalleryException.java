@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.video.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author BenjaminBini
  */
-@ProviderType
 public class NoSuchVideoGalleryException extends NoSuchModelException {
 
 	public NoSuchVideoGalleryException() {
@@ -30,12 +27,12 @@ public class NoSuchVideoGalleryException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchVideoGalleryException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchVideoGalleryException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchVideoGalleryException(Throwable cause) {
-		super(cause);
+	public NoSuchVideoGalleryException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

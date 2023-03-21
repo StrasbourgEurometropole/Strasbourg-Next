@@ -14,15 +14,11 @@
 
 package eu.strasbourg.service.gtfs.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -33,20 +29,11 @@ import java.util.Objects;
  * @see Agency
  * @generated
  */
-public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
+public class AgencyWrapper
+	extends BaseModelWrapper<Agency> implements Agency, ModelWrapper<Agency> {
 
 	public AgencyWrapper(Agency agency) {
-		_agency = agency;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Agency.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Agency.class.getName();
+		super(agency);
 	}
 
 	@Override
@@ -117,13 +104,8 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	}
 
 	@Override
-	public Object clone() {
-		return new AgencyWrapper((Agency)_agency.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.gtfs.model.Agency agency) {
-		return _agency.compareTo(agency);
+	public Agency cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -133,7 +115,7 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	 */
 	@Override
 	public String getAgency_fare_url() {
-		return _agency.getAgency_fare_url();
+		return model.getAgency_fare_url();
 	}
 
 	/**
@@ -143,7 +125,7 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	 */
 	@Override
 	public String getAgency_lang() {
-		return _agency.getAgency_lang();
+		return model.getAgency_lang();
 	}
 
 	/**
@@ -153,7 +135,7 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	 */
 	@Override
 	public String getAgency_name() {
-		return _agency.getAgency_name();
+		return model.getAgency_name();
 	}
 
 	/**
@@ -163,7 +145,7 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	 */
 	@Override
 	public String getAgency_phone() {
-		return _agency.getAgency_phone();
+		return model.getAgency_phone();
 	}
 
 	/**
@@ -173,7 +155,7 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	 */
 	@Override
 	public String getAgency_timezone() {
-		return _agency.getAgency_timezone();
+		return model.getAgency_timezone();
 	}
 
 	/**
@@ -183,12 +165,7 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	 */
 	@Override
 	public String getAgency_url() {
-		return _agency.getAgency_url();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _agency.getExpandoBridge();
+		return model.getAgency_url();
 	}
 
 	/**
@@ -198,7 +175,7 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	 */
 	@Override
 	public long getId() {
-		return _agency.getId();
+		return model.getId();
 	}
 
 	/**
@@ -208,12 +185,7 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _agency.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _agency.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -223,32 +195,12 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	 */
 	@Override
 	public String getUuid() {
-		return _agency.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _agency.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _agency.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _agency.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _agency.isNew();
+		return model.getUuid();
 	}
 
 	@Override
 	public void persist() {
-		_agency.persist();
+		model.persist();
 	}
 
 	/**
@@ -258,7 +210,7 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	 */
 	@Override
 	public void setAgency_fare_url(String agency_fare_url) {
-		_agency.setAgency_fare_url(agency_fare_url);
+		model.setAgency_fare_url(agency_fare_url);
 	}
 
 	/**
@@ -268,7 +220,7 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	 */
 	@Override
 	public void setAgency_lang(String agency_lang) {
-		_agency.setAgency_lang(agency_lang);
+		model.setAgency_lang(agency_lang);
 	}
 
 	/**
@@ -278,7 +230,7 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	 */
 	@Override
 	public void setAgency_name(String agency_name) {
-		_agency.setAgency_name(agency_name);
+		model.setAgency_name(agency_name);
 	}
 
 	/**
@@ -288,7 +240,7 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	 */
 	@Override
 	public void setAgency_phone(String agency_phone) {
-		_agency.setAgency_phone(agency_phone);
+		model.setAgency_phone(agency_phone);
 	}
 
 	/**
@@ -298,7 +250,7 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	 */
 	@Override
 	public void setAgency_timezone(String agency_timezone) {
-		_agency.setAgency_timezone(agency_timezone);
+		model.setAgency_timezone(agency_timezone);
 	}
 
 	/**
@@ -308,29 +260,7 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	 */
 	@Override
 	public void setAgency_url(String agency_url) {
-		_agency.setAgency_url(agency_url);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_agency.setCachedModel(cachedModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_agency.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_agency.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_agency.setExpandoBridgeAttributes(serviceContext);
+		model.setAgency_url(agency_url);
 	}
 
 	/**
@@ -340,12 +270,7 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	 */
 	@Override
 	public void setId(long id) {
-		_agency.setId(id);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_agency.setNew(n);
+		model.setId(id);
 	}
 
 	/**
@@ -355,12 +280,7 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_agency.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_agency.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -370,75 +290,17 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_agency.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.gtfs.model.Agency> toCacheModel() {
-
-		return _agency.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Agency toEscapedModel() {
-		return new AgencyWrapper(_agency.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _agency.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Agency toUnescapedModel() {
-		return new AgencyWrapper(_agency.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _agency.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof AgencyWrapper)) {
-			return false;
-		}
-
-		AgencyWrapper agencyWrapper = (AgencyWrapper)object;
-
-		if (Objects.equals(_agency, agencyWrapper._agency)) {
-			return true;
-		}
-
-		return false;
+	protected AgencyWrapper wrap(Agency agency) {
+		return new AgencyWrapper(agency);
 	}
-
-	@Override
-	public Agency getWrappedModel() {
-		return _agency;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _agency.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _agency.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_agency.resetOriginalValues();
-	}
-
-	private final Agency _agency;
 
 }

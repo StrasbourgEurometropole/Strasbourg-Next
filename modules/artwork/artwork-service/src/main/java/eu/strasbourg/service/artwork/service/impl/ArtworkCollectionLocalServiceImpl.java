@@ -14,13 +14,8 @@
 
 package eu.strasbourg.service.artwork.service.impl;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.LongStream;
-
+import org.osgi.annotation.versioning.ProviderType;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -44,11 +39,17 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.artwork.model.Artwork;
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
 import eu.strasbourg.service.artwork.service.base.ArtworkCollectionLocalServiceBaseImpl;
+import org.osgi.service.component.annotations.Reference;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.LongStream;
 
 /**
  * The implementation of the artworkCollection local service.
@@ -56,7 +57,7 @@ import eu.strasbourg.service.artwork.service.base.ArtworkCollectionLocalServiceB
  * <p>
  * All custom service methods should be put in this class. Whenever methods are
  * added, rerun ServiceBuilder to copy their definitions into the
- * {@link eu.strasbourg.service.artworkCollection.service.ArtworkCollectionLocalService}
+ * {@link eu.strasbourg.service.artwork.service.ArtworkCollectionLocalService}
  * interface.
  *
  * <p>
@@ -67,7 +68,7 @@ import eu.strasbourg.service.artwork.service.base.ArtworkCollectionLocalServiceB
  *
  * @author BenjaminBini
  * @see ArtworkCollectionLocalServiceBaseImpl
- * @see eu.strasbourg.service.artworkCollection.service.ArtworkCollectionLocalServiceUtil
+ * @see eu.strasbourg.service.artwork.service.ArtworkCollectionLocalServiceUtil
  */
 @ProviderType
 public class ArtworkCollectionLocalServiceImpl
@@ -241,10 +242,8 @@ public class ArtworkCollectionLocalServiceImpl
 			.getEntry(ArtworkCollection.class.getName(), artworkCollectionId);
 
 		// Supprime le lien avec les catégories
-		for (long categoryId : entry.getCategoryIds()) {
-			this.assetEntryLocalService
-				.deleteAssetCategoryAssetEntry(categoryId, entry.getEntryId());
-		}
+		assetEntryAssetCategoryRelLocalService.
+				deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
 		// Supprime le lien avec les tags
 		long[] tagsIds = this.assetEntryLocalService
@@ -363,4 +362,6 @@ public class ArtworkCollectionLocalServiceImpl
 			.nullSafeGetIndexer(ArtworkCollection.class);
 		return indexer.search(searchContext);
 	}
+	@Reference
+	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

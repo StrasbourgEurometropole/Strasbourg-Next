@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.edition.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for Edition. This utility wraps
  * <code>eu.strasbourg.service.edition.service.impl.EditionServiceImpl</code> and is an
@@ -43,27 +39,14 @@ public class EditionServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static EditionService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<EditionService, EditionService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(EditionService.class);
-
-		ServiceTracker<EditionService, EditionService> serviceTracker =
-			new ServiceTracker<EditionService, EditionService>(
-				bundle.getBundleContext(), EditionService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile EditionService _service;
 
 }

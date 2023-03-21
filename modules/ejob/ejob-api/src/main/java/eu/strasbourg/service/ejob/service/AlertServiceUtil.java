@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.ejob.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for Alert. This utility wraps
  * <code>eu.strasbourg.service.ejob.service.impl.AlertServiceImpl</code> and is an
@@ -42,7 +38,8 @@ public class AlertServiceUtil {
 	 * Créer une alerte à un utilisateur
 	 */
 	public static com.liferay.portal.kernel.json.JSONObject addAlert(
-		String name, String categoriesId, String keyword, String languageId) {
+		java.lang.String name, java.lang.String categoriesId,
+		java.lang.String keyword, java.lang.String languageId) {
 
 		return getService().addAlert(name, categoriesId, keyword, languageId);
 	}
@@ -52,26 +49,14 @@ public class AlertServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static AlertService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<AlertService, AlertService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(AlertService.class);
-
-		ServiceTracker<AlertService, AlertService> serviceTracker =
-			new ServiceTracker<AlertService, AlertService>(
-				bundle.getBundleContext(), AlertService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile AlertService _service;
 
 }

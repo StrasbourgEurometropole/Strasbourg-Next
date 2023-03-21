@@ -14,18 +14,12 @@
 
 package eu.strasbourg.service.ejob.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.ejob.exception.NoSuchOfferException;
 import eu.strasbourg.service.ejob.model.Offer;
-
-import java.io.Serializable;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.Date;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * The persistence interface for the offer service.
@@ -46,9 +40,6 @@ public interface OfferPersistence extends BasePersistence<Offer> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link OfferUtil} to access the offer persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Offer> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the offers where uuid = &#63;.
@@ -988,8 +979,5 @@ public interface OfferPersistence extends BasePersistence<Offer> {
 	 * @return the number of offers
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

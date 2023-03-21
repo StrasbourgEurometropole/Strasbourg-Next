@@ -20,6 +20,8 @@ import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
@@ -29,6 +31,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.agenda.model.EventParticipation;
 import eu.strasbourg.service.agenda.service.EventParticipationService;
+import eu.strasbourg.service.agenda.service.EventParticipationServiceUtil;
 import eu.strasbourg.service.agenda.service.persistence.AgendaExportPeriodPersistence;
 import eu.strasbourg.service.agenda.service.persistence.AgendaExportPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CacheJsonPersistence;
@@ -45,6 +48,8 @@ import eu.strasbourg.service.agenda.service.persistence.HistoricPersistence;
 import eu.strasbourg.service.agenda.service.persistence.ImportReportLinePersistence;
 import eu.strasbourg.service.agenda.service.persistence.ImportReportPersistence;
 import eu.strasbourg.service.agenda.service.persistence.ManifestationPersistence;
+
+import java.lang.reflect.Field;
 
 import javax.sql.DataSource;
 
@@ -66,7 +71,7 @@ public abstract class EventParticipationServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>EventParticipationService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.agenda.service.EventParticipationServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>EventParticipationService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>EventParticipationServiceUtil</code>.
 	 */
 
 	/**
@@ -1034,9 +1039,11 @@ public abstract class EventParticipationServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
+		_setServiceUtilService(eventParticipationService);
 	}
 
 	public void destroy() {
+		_setServiceUtilService(null);
 	}
 
 	/**
@@ -1079,6 +1086,22 @@ public abstract class EventParticipationServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setServiceUtilService(
+		EventParticipationService eventParticipationService) {
+
+		try {
+			Field field = EventParticipationServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, eventParticipationService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1295,5 +1318,8 @@ public abstract class EventParticipationServiceBaseImpl
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		EventParticipationServiceBaseImpl.class);
 
 }

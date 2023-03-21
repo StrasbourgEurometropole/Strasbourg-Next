@@ -3,8 +3,6 @@ package eu.strasbourg.service.activity.model;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import eu.strasbourg.service.activity.model.ActivityCourseSchedule;
-
 /**
  * Classe facilitant l'affichage des cours d'un lieu
  * Lieu > Périodes > Cours > Horaires

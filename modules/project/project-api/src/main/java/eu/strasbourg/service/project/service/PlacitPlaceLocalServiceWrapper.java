@@ -27,6 +27,10 @@ public class PlacitPlaceLocalServiceWrapper
 	implements PlacitPlaceLocalService,
 			   ServiceWrapper<PlacitPlaceLocalService> {
 
+	public PlacitPlaceLocalServiceWrapper() {
+		this(null);
+	}
+
 	public PlacitPlaceLocalServiceWrapper(
 		PlacitPlaceLocalService placitPlaceLocalService) {
 
@@ -48,6 +52,17 @@ public class PlacitPlaceLocalServiceWrapper
 		eu.strasbourg.service.project.model.PlacitPlace placitPlace) {
 
 		return _placitPlaceLocalService.addPlacitPlace(placitPlace);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _placitPlaceLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -119,6 +134,18 @@ public class PlacitPlaceLocalServiceWrapper
 		eu.strasbourg.service.project.model.PlacitPlace placitPlace) {
 
 		return _placitPlaceLocalService.deletePlacitPlace(placitPlace);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _placitPlaceLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _placitPlaceLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

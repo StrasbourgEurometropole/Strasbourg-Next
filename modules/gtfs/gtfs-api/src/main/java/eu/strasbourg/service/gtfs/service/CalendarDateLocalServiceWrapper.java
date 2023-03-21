@@ -27,6 +27,10 @@ public class CalendarDateLocalServiceWrapper
 	implements CalendarDateLocalService,
 			   ServiceWrapper<CalendarDateLocalService> {
 
+	public CalendarDateLocalServiceWrapper() {
+		this(null);
+	}
+
 	public CalendarDateLocalServiceWrapper(
 		CalendarDateLocalService calendarDateLocalService) {
 
@@ -87,6 +91,17 @@ public class CalendarDateLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _calendarDateLocalService.createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the calendar date from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -131,6 +146,18 @@ public class CalendarDateLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _calendarDateLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _calendarDateLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _calendarDateLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

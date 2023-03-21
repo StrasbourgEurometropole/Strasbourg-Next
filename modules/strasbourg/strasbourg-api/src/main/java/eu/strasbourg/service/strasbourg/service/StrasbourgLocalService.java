@@ -14,8 +14,7 @@
 
 package eu.strasbourg.service.strasbourg.service;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -38,6 +37,8 @@ import java.io.Serializable;
 
 import java.util.List;
 
+import org.osgi.annotation.versioning.ProviderType;
+
 /**
  * Provides the local service interface for Strasbourg. Methods of this
  * service will not have security checks based on the propagated JAAS
@@ -59,7 +60,7 @@ public interface StrasbourgLocalService
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link StrasbourgLocalServiceUtil} to access the strasbourg local service. Add custom service methods to <code>eu.strasbourg.service.strasbourg.service.impl.StrasbourgLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.strasbourg.service.impl.StrasbourgLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the strasbourg local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link StrasbourgLocalServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**
@@ -74,6 +75,12 @@ public interface StrasbourgLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public Strasbourg addStrasbourg(Strasbourg strasbourg);
+
+	/**
+	 * @throws PortalException
+	 */
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException;
 
 	/**
 	 * Creates a new strasbourg with the primary key. Does not add the strasbourg to the database.
@@ -117,6 +124,12 @@ public interface StrasbourgLocalService
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	public Strasbourg deleteStrasbourg(Strasbourg strasbourg);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> T dslQuery(DSLQuery dslQuery);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int dslQueryCount(DSLQuery dslQuery);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();

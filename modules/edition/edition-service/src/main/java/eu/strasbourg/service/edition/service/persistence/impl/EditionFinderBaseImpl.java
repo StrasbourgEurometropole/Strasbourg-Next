@@ -18,11 +18,8 @@ import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
-
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.service.persistence.EditionPersistence;
-
-import java.lang.reflect.Field;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,19 +38,7 @@ public class EditionFinderBaseImpl extends BasePersistenceImpl<Edition> {
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 	}
 
 	@Override

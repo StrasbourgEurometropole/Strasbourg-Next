@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class CommentLocalServiceWrapper
 	implements CommentLocalService, ServiceWrapper<CommentLocalService> {
 
+	public CommentLocalServiceWrapper() {
+		this(null);
+	}
+
 	public CommentLocalServiceWrapper(CommentLocalService commentLocalService) {
 		_commentLocalService = commentLocalService;
 	}
@@ -73,6 +77,17 @@ public class CommentLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _commentLocalService.createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the comment from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -117,6 +132,18 @@ public class CommentLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _commentLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _commentLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _commentLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

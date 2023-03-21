@@ -14,11 +14,11 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import java.util.List;
-
-import aQute.bnd.annotation.ProviderType;
+import org.osgi.annotation.versioning.ProviderType;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
+
+import java.util.List;
 
 /**
  * The extended model implementation for the Price service. Represents a row in the &quot;place_Price&quot; database table, with each column mapped to a property of this class.

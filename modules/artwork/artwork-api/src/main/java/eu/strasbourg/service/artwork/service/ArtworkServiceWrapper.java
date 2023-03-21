@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class ArtworkServiceWrapper
 	implements ArtworkService, ServiceWrapper<ArtworkService> {
 
+	public ArtworkServiceWrapper() {
+		this(null);
+	}
+
 	public ArtworkServiceWrapper(ArtworkService artworkService) {
 		_artworkService = artworkService;
 	}

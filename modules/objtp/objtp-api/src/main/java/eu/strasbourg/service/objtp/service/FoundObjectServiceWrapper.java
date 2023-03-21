@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class FoundObjectServiceWrapper
 	implements FoundObjectService, ServiceWrapper<FoundObjectService> {
 
+	public FoundObjectServiceWrapper() {
+		this(null);
+	}
+
 	public FoundObjectServiceWrapper(FoundObjectService foundObjectService) {
 		_foundObjectService = foundObjectService;
 	}

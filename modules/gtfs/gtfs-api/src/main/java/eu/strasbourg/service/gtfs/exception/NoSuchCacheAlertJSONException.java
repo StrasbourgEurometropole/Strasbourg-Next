@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.gtfs.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Cedric Henry
  */
-@ProviderType
 public class NoSuchCacheAlertJSONException extends NoSuchModelException {
 
 	public NoSuchCacheAlertJSONException() {
@@ -30,12 +27,12 @@ public class NoSuchCacheAlertJSONException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchCacheAlertJSONException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchCacheAlertJSONException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchCacheAlertJSONException(Throwable cause) {
-		super(cause);
+	public NoSuchCacheAlertJSONException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

@@ -27,6 +27,10 @@ public class PublicHolidayLocalServiceWrapper
 	implements PublicHolidayLocalService,
 			   ServiceWrapper<PublicHolidayLocalService> {
 
+	public PublicHolidayLocalServiceWrapper() {
+		this(null);
+	}
+
 	public PublicHolidayLocalServiceWrapper(
 		PublicHolidayLocalService publicHolidayLocalService) {
 
@@ -48,6 +52,17 @@ public class PublicHolidayLocalServiceWrapper
 		eu.strasbourg.service.place.model.PublicHoliday publicHoliday) {
 
 		return _publicHolidayLocalService.addPublicHoliday(publicHoliday);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _publicHolidayLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -119,6 +134,18 @@ public class PublicHolidayLocalServiceWrapper
 		eu.strasbourg.service.place.model.PublicHoliday publicHoliday) {
 
 		return _publicHolidayLocalService.deletePublicHoliday(publicHoliday);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _publicHolidayLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _publicHolidayLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override
@@ -255,34 +282,6 @@ public class PublicHolidayLocalServiceWrapper
 	}
 
 	/**
-	 * Returns a range of all the public holidaies.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.PublicHolidayModelImpl</code>.
-	 * </p>
-	 *
-	 * @param start the lower bound of the range of public holidaies
-	 * @param end the upper bound of the range of public holidaies (not inclusive)
-	 * @return the range of public holidaies
-	 */
-	@Override
-	public java.util.List<eu.strasbourg.service.place.model.PublicHoliday>
-		getPublicHolidaies(int start, int end) {
-
-		return _publicHolidayLocalService.getPublicHolidaies(start, end);
-	}
-
-	/**
-	 * Returns the number of public holidaies.
-	 *
-	 * @return the number of public holidaies
-	 */
-	@Override
-	public int getPublicHolidaiesCount() {
-		return _publicHolidayLocalService.getPublicHolidaiesCount();
-	}
-
-	/**
 	 * Returns the public holiday with the primary key.
 	 *
 	 * @param publicHolidayId the primary key of the public holiday
@@ -295,6 +294,34 @@ public class PublicHolidayLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _publicHolidayLocalService.getPublicHoliday(publicHolidayId);
+	}
+
+	/**
+	 * Returns a range of all the public holidays.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.PublicHolidayModelImpl</code>.
+	 * </p>
+	 *
+	 * @param start the lower bound of the range of public holidays
+	 * @param end the upper bound of the range of public holidays (not inclusive)
+	 * @return the range of public holidays
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.PublicHoliday>
+		getPublicHolidays(int start, int end) {
+
+		return _publicHolidayLocalService.getPublicHolidays(start, end);
+	}
+
+	/**
+	 * Returns the number of public holidays.
+	 *
+	 * @return the number of public holidays
+	 */
+	@Override
+	public int getPublicHolidaysCount() {
+		return _publicHolidayLocalService.getPublicHolidaysCount();
 	}
 
 	/**

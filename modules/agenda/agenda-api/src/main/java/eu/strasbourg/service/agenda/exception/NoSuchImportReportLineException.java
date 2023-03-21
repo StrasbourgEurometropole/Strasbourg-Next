@@ -11,17 +11,13 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-
 package eu.strasbourg.service.agenda.exception;
-
-import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author BenjaminBini
  */
-@ProviderType
 public class NoSuchImportReportLineException extends NoSuchModelException {
 
 	public NoSuchImportReportLineException() {
@@ -31,12 +27,12 @@ public class NoSuchImportReportLineException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchImportReportLineException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchImportReportLineException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchImportReportLineException(Throwable cause) {
-		super(cause);
+	public NoSuchImportReportLineException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

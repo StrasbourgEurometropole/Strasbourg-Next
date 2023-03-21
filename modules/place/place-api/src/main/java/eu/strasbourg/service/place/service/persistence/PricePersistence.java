@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.place.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.place.exception.NoSuchPriceException;
 import eu.strasbourg.service.place.model.Price;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the price service.
@@ -45,9 +38,6 @@ public interface PricePersistence extends BasePersistence<Price> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link PriceUtil} to access the price persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Price> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the prices where uuid = &#63;.
@@ -308,8 +298,5 @@ public interface PricePersistence extends BasePersistence<Price> {
 	 * @return the number of prices
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

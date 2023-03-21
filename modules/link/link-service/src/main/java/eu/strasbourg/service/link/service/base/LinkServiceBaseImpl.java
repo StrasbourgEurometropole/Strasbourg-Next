@@ -23,6 +23,8 @@ import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
@@ -32,7 +34,10 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.link.model.Link;
 import eu.strasbourg.service.link.service.LinkService;
+import eu.strasbourg.service.link.service.LinkServiceUtil;
 import eu.strasbourg.service.link.service.persistence.LinkPersistence;
+
+import java.lang.reflect.Field;
 
 import javax.sql.DataSource;
 
@@ -53,7 +58,7 @@ public abstract class LinkServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>LinkService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.link.service.LinkServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>LinkService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>LinkServiceUtil</code>.
 	 */
 
 	/**
@@ -459,9 +464,11 @@ public abstract class LinkServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
+		_setServiceUtilService(linkService);
 	}
 
 	public void destroy() {
+		_setServiceUtilService(null);
 	}
 
 	/**
@@ -503,6 +510,19 @@ public abstract class LinkServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setServiceUtilService(LinkService linkService) {
+		try {
+			Field field = LinkServiceUtil.class.getDeclaredField("_service");
+
+			field.setAccessible(true);
+
+			field.set(null, linkService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -596,5 +616,8 @@ public abstract class LinkServiceBaseImpl
 
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		LinkServiceBaseImpl.class);
 
 }

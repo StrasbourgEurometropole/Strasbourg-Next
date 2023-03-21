@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -26,9 +24,7 @@ import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
-
-import eu.strasbourg.service.council.model.*;
-import eu.strasbourg.service.council.service.*;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * Provides the remote service interface for Deliberation. Methods of this
@@ -58,7 +54,7 @@ public interface DeliberationService extends BaseService {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link DeliberationServiceUtil} to access the deliberation remote service. Add custom service methods to <code>eu.strasbourg.service.council.service.impl.DeliberationServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.council.service.impl.DeliberationServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the deliberation remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link DeliberationServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**

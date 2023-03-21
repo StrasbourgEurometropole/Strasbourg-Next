@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.project.service.impl;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
@@ -54,6 +55,7 @@ import eu.strasbourg.service.project.service.base.PetitionLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.FriendlyURLs;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -259,11 +261,8 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
 
         if (entry != null) {
             // Delete the link with categories
-            for (long categoryId : entry.getCategoryIds()) {
-                this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-                        categoryId, entry.getEntryId());
-            }
-
+            assetEntryAssetCategoryRelLocalService.
+                    deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
             // Delete the link with tags
             long[] tagIds = AssetEntryLocalServiceUtil
                     .getAssetTagPrimaryKeys(entry.getEntryId());
@@ -501,4 +500,6 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
                 .filter(PetitionModel::isApproved)
                 .collect(Collectors.toList());
     }
+    @Reference
+    private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

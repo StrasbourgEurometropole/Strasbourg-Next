@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.like.service.base;
 
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -27,6 +28,8 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -43,9 +46,12 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.service.LikeLocalService;
+import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 import eu.strasbourg.service.like.service.persistence.LikePersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.List;
 
@@ -69,7 +75,7 @@ public abstract class LikeLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>LikeLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.like.service.LikeLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>LikeLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>LikeLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -133,6 +139,18 @@ public abstract class LikeLocalServiceBaseImpl
 	@Override
 	public Like deleteLike(Like like) {
 		return likePersistence.remove(like);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return likePersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -281,12 +299,28 @@ public abstract class LikeLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return likePersistence.create(((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement LikeLocalServiceImpl#deleteLike(Like) to avoid orphaned data");
+		}
 
 		return likeLocalService.deleteLike((Like)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<Like> getBasePersistence() {
 		return likePersistence;
 	}
@@ -511,11 +545,15 @@ public abstract class LikeLocalServiceBaseImpl
 	public void afterPropertiesSet() {
 		persistedModelLocalServiceRegistry.register(
 			"eu.strasbourg.service.like.model.Like", likeLocalService);
+
+		_setLocalServiceUtilService(likeLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"eu.strasbourg.service.like.model.Like");
+
+		_setLocalServiceUtilService(null);
 	}
 
 	/**
@@ -560,6 +598,22 @@ public abstract class LikeLocalServiceBaseImpl
 		}
 	}
 
+	private void _setLocalServiceUtilService(
+		LikeLocalService likeLocalService) {
+
+		try {
+			Field field = LikeLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, likeLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
+		}
+	}
+
 	@BeanReference(type = LikeLocalService.class)
 	protected LikeLocalService likeLocalService;
 
@@ -595,6 +649,9 @@ public abstract class LikeLocalServiceBaseImpl
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		LikeLocalServiceBaseImpl.class);
 
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry

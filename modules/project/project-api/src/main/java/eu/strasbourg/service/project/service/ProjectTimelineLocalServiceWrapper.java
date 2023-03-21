@@ -27,6 +27,10 @@ public class ProjectTimelineLocalServiceWrapper
 	implements ProjectTimelineLocalService,
 			   ServiceWrapper<ProjectTimelineLocalService> {
 
+	public ProjectTimelineLocalServiceWrapper() {
+		this(null);
+	}
+
 	public ProjectTimelineLocalServiceWrapper(
 		ProjectTimelineLocalService projectTimelineLocalService) {
 
@@ -50,6 +54,17 @@ public class ProjectTimelineLocalServiceWrapper
 				projectTimeline) {
 
 		return _projectTimelineLocalService.addProjectTimeline(projectTimeline);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _projectTimelineLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -127,6 +142,18 @@ public class ProjectTimelineLocalServiceWrapper
 
 		return _projectTimelineLocalService.deleteProjectTimeline(
 			projectTimeline);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _projectTimelineLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _projectTimelineLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

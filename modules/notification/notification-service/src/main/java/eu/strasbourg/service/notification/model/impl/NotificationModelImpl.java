@@ -16,6 +16,7 @@ package eu.strasbourg.service.notification.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.json.JSON;
@@ -27,28 +28,22 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-
 import eu.strasbourg.service.notification.model.Notification;
 import eu.strasbourg.service.notification.model.NotificationModel;
-import eu.strasbourg.service.notification.model.NotificationSoap;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -120,77 +115,48 @@ public class NotificationModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.notification.service.util.ServiceProps.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.notification.model.Notification"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.notification.service.util.ServiceProps.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.notification.model.Notification"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.notification.service.util.ServiceProps.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.notification.model.Notification"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long EXPIRATIONDATE_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long NOTIFICATIONID_COLUMN_BITMASK = 8L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Notification toModel(NotificationSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Notification model = new NotificationImpl();
-
-		model.setNotificationId(soapModel.getNotificationId());
-		model.setTitle(soapModel.getTitle());
-		model.setDescription(soapModel.getDescription());
-		model.setUrl(soapModel.getUrl());
-		model.setAutomatic(soapModel.isAutomatic());
-		model.setSingleUser(soapModel.isSingleUser());
-		model.setSingleUserId(soapModel.getSingleUserId());
-		model.setPublicationDate(soapModel.getPublicationDate());
-		model.setExpirationDate(soapModel.getExpirationDate());
-		model.setStatus(soapModel.getStatus());
-		model.setTypeId(soapModel.getTypeId());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Notification> toModels(NotificationSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Notification> models = new ArrayList<Notification>(
-			soapModels.length);
-
-		for (NotificationSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.notification.service.util.ServiceProps.get(
@@ -248,9 +214,6 @@ public class NotificationModelImpl
 				attributeGetterFunction.apply((Notification)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -284,34 +247,6 @@ public class NotificationModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Notification>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Notification.class.getClassLoader(), Notification.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<Notification> constructor =
-				(Constructor<Notification>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<Notification, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Notification, Object>>
@@ -324,248 +259,51 @@ public class NotificationModelImpl
 			new LinkedHashMap<String, BiConsumer<Notification, ?>>();
 
 		attributeGetterFunctions.put(
-			"notificationId",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getNotificationId();
-				}
-
-			});
+			"notificationId", Notification::getNotificationId);
 		attributeSetterBiConsumers.put(
 			"notificationId",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object notificationIdObject) {
-
-					notification.setNotificationId((Long)notificationIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getTitle();
-				}
-
-			});
+			(BiConsumer<Notification, Long>)Notification::setNotificationId);
+		attributeGetterFunctions.put("title", Notification::getTitle);
 		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object titleObject) {
-
-					notification.setTitle((String)titleObject);
-				}
-
-			});
+			"title", (BiConsumer<Notification, String>)Notification::setTitle);
 		attributeGetterFunctions.put(
-			"description",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getDescription();
-				}
-
-			});
+			"description", Notification::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object descriptionObject) {
-
-					notification.setDescription((String)descriptionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"url",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getUrl();
-				}
-
-			});
+			(BiConsumer<Notification, String>)Notification::setDescription);
+		attributeGetterFunctions.put("url", Notification::getUrl);
 		attributeSetterBiConsumers.put(
-			"url",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object urlObject) {
-
-					notification.setUrl((String)urlObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"automatic",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getAutomatic();
-				}
-
-			});
+			"url", (BiConsumer<Notification, String>)Notification::setUrl);
+		attributeGetterFunctions.put("automatic", Notification::getAutomatic);
 		attributeSetterBiConsumers.put(
 			"automatic",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object automaticObject) {
-
-					notification.setAutomatic((Boolean)automaticObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"singleUser",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getSingleUser();
-				}
-
-			});
+			(BiConsumer<Notification, Boolean>)Notification::setAutomatic);
+		attributeGetterFunctions.put("singleUser", Notification::getSingleUser);
 		attributeSetterBiConsumers.put(
 			"singleUser",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object singleUserObject) {
-
-					notification.setSingleUser((Boolean)singleUserObject);
-				}
-
-			});
+			(BiConsumer<Notification, Boolean>)Notification::setSingleUser);
 		attributeGetterFunctions.put(
-			"singleUserId",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getSingleUserId();
-				}
-
-			});
+			"singleUserId", Notification::getSingleUserId);
 		attributeSetterBiConsumers.put(
 			"singleUserId",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object singleUserIdObject) {
-
-					notification.setSingleUserId((String)singleUserIdObject);
-				}
-
-			});
+			(BiConsumer<Notification, String>)Notification::setSingleUserId);
 		attributeGetterFunctions.put(
-			"publicationDate",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getPublicationDate();
-				}
-
-			});
+			"publicationDate", Notification::getPublicationDate);
 		attributeSetterBiConsumers.put(
 			"publicationDate",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object publicationDateObject) {
-
-					notification.setPublicationDate(
-						(Date)publicationDateObject);
-				}
-
-			});
+			(BiConsumer<Notification, Date>)Notification::setPublicationDate);
 		attributeGetterFunctions.put(
-			"expirationDate",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getExpirationDate();
-				}
-
-			});
+			"expirationDate", Notification::getExpirationDate);
 		attributeSetterBiConsumers.put(
 			"expirationDate",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object expirationDateObject) {
-
-					notification.setExpirationDate((Date)expirationDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getStatus();
-				}
-
-			});
+			(BiConsumer<Notification, Date>)Notification::setExpirationDate);
+		attributeGetterFunctions.put("status", Notification::getStatus);
 		attributeSetterBiConsumers.put(
 			"status",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object statusObject) {
-
-					notification.setStatus((Integer)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"typeId",
-			new Function<Notification, Object>() {
-
-				@Override
-				public Object apply(Notification notification) {
-					return notification.getTypeId();
-				}
-
-			});
+			(BiConsumer<Notification, Integer>)Notification::setStatus);
+		attributeGetterFunctions.put("typeId", Notification::getTypeId);
 		attributeSetterBiConsumers.put(
-			"typeId",
-			new BiConsumer<Notification, Object>() {
-
-				@Override
-				public void accept(
-					Notification notification, Object typeIdObject) {
-
-					notification.setTypeId((Long)typeIdObject);
-				}
-
-			});
+			"typeId", (BiConsumer<Notification, Long>)Notification::setTypeId);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -581,6 +319,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setNotificationId(long notificationId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_notificationId = notificationId;
 	}
 
@@ -640,6 +382,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setTitle(String title) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_title = title;
 	}
 
@@ -745,6 +491,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_description = description;
 	}
 
@@ -810,6 +560,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setUrl(String url) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_url = url;
 	}
 
@@ -827,6 +581,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setAutomatic(boolean automatic) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_automatic = automatic;
 	}
 
@@ -844,6 +602,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setSingleUser(boolean singleUser) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_singleUser = singleUser;
 	}
 
@@ -860,6 +622,10 @@ public class NotificationModelImpl
 
 	@Override
 	public void setSingleUserId(String singleUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_singleUserId = singleUserId;
 	}
 
@@ -871,17 +637,20 @@ public class NotificationModelImpl
 
 	@Override
 	public void setPublicationDate(Date publicationDate) {
-		_columnBitmask |= PUBLICATIONDATE_COLUMN_BITMASK;
-
-		if (_originalPublicationDate == null) {
-			_originalPublicationDate = _publicationDate;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publicationDate = publicationDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalPublicationDate() {
-		return _originalPublicationDate;
+		return getColumnOriginalValue("publicationDate");
 	}
 
 	@JSON
@@ -892,17 +661,20 @@ public class NotificationModelImpl
 
 	@Override
 	public void setExpirationDate(Date expirationDate) {
-		_columnBitmask |= EXPIRATIONDATE_COLUMN_BITMASK;
-
-		if (_originalExpirationDate == null) {
-			_originalExpirationDate = _expirationDate;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_expirationDate = expirationDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalExpirationDate() {
-		return _originalExpirationDate;
+		return getColumnOriginalValue("expirationDate");
 	}
 
 	@JSON
@@ -913,19 +685,21 @@ public class NotificationModelImpl
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return GetterUtil.getInteger(
+			this.<Integer>getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -936,10 +710,34 @@ public class NotificationModelImpl
 
 	@Override
 	public void setTypeId(long typeId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_typeId = typeId;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1081,6 +879,33 @@ public class NotificationModelImpl
 	}
 
 	@Override
+	public Notification cloneWithOriginalValues() {
+		NotificationImpl notificationImpl = new NotificationImpl();
+
+		notificationImpl.setNotificationId(
+			this.<Long>getColumnOriginalValue("notificationId"));
+		notificationImpl.setTitle(this.<String>getColumnOriginalValue("title"));
+		notificationImpl.setDescription(
+			this.<String>getColumnOriginalValue("description"));
+		notificationImpl.setUrl(this.<String>getColumnOriginalValue("url"));
+		notificationImpl.setAutomatic(
+			this.<Boolean>getColumnOriginalValue("automatic"));
+		notificationImpl.setSingleUser(
+			this.<Boolean>getColumnOriginalValue("singleUser"));
+		notificationImpl.setSingleUserId(
+			this.<String>getColumnOriginalValue("singleUserId"));
+		notificationImpl.setPublicationDate(
+			this.<Date>getColumnOriginalValue("publicationDate"));
+		notificationImpl.setExpirationDate(
+			this.<Date>getColumnOriginalValue("expirationDate"));
+		notificationImpl.setStatus(
+			this.<Integer>getColumnOriginalValue("status"));
+		notificationImpl.setTypeId(this.<Long>getColumnOriginalValue("typeId"));
+
+		return notificationImpl;
+	}
+
+	@Override
 	public int compareTo(Notification notification) {
 		long primaryKey = notification.getPrimaryKey();
 
@@ -1122,11 +947,19 @@ public class NotificationModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1134,19 +967,9 @@ public class NotificationModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		NotificationModelImpl notificationModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		notificationModelImpl._originalPublicationDate =
-			notificationModelImpl._publicationDate;
-
-		notificationModelImpl._originalExpirationDate =
-			notificationModelImpl._expirationDate;
-
-		notificationModelImpl._originalStatus = notificationModelImpl._status;
-
-		notificationModelImpl._setOriginalStatus = false;
-
-		notificationModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1223,7 +1046,7 @@ public class NotificationModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1234,9 +1057,26 @@ public class NotificationModelImpl
 			Function<Notification, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Notification)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Notification)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1249,41 +1089,12 @@ public class NotificationModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Notification, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Notification, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Notification, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Notification)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Notification>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Notification.class, ModelWrapper.class);
 
 	}
 
@@ -1297,13 +1108,86 @@ public class NotificationModelImpl
 	private boolean _singleUser;
 	private String _singleUserId;
 	private Date _publicationDate;
-	private Date _originalPublicationDate;
 	private Date _expirationDate;
-	private Date _originalExpirationDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _typeId;
+
+	public <T> T getColumnValue(String columnName) {
+		Function<Notification, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Notification)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("notificationId", _notificationId);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("description", _description);
+		_columnOriginalValues.put("url", _url);
+		_columnOriginalValues.put("automatic", _automatic);
+		_columnOriginalValues.put("singleUser", _singleUser);
+		_columnOriginalValues.put("singleUserId", _singleUserId);
+		_columnOriginalValues.put("publicationDate", _publicationDate);
+		_columnOriginalValues.put("expirationDate", _expirationDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("typeId", _typeId);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("notificationId", 1L);
+
+		columnBitmasks.put("title", 2L);
+
+		columnBitmasks.put("description", 4L);
+
+		columnBitmasks.put("url", 8L);
+
+		columnBitmasks.put("automatic", 16L);
+
+		columnBitmasks.put("singleUser", 32L);
+
+		columnBitmasks.put("singleUserId", 64L);
+
+		columnBitmasks.put("publicationDate", 128L);
+
+		columnBitmasks.put("expirationDate", 256L);
+
+		columnBitmasks.put("status", 512L);
+
+		columnBitmasks.put("typeId", 1024L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Notification _escapedModel;
 

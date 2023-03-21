@@ -17,6 +17,7 @@ package eu.strasbourg.service.gtfs.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -28,24 +29,21 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.gtfs.model.ImportHistoric;
 import eu.strasbourg.service.gtfs.model.ImportHistoricModel;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -126,27 +124,47 @@ public class ImportHistoricModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.gtfs.model.ImportHistoric"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.gtfs.model.ImportHistoric"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.gtfs.model.ImportHistoric"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long IMPORTHISTORICID_COLUMN_BITMASK = 8L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -205,9 +223,6 @@ public class ImportHistoricModelImpl
 				attributeGetterFunction.apply((ImportHistoric)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -241,34 +256,6 @@ public class ImportHistoricModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, ImportHistoric>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			ImportHistoric.class.getClassLoader(), ImportHistoric.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<ImportHistoric> constructor =
-				(Constructor<ImportHistoric>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<ImportHistoric, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<ImportHistoric, Object>>
@@ -280,434 +267,99 @@ public class ImportHistoricModelImpl
 		Map<String, BiConsumer<ImportHistoric, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<ImportHistoric, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<ImportHistoric, Object>() {
-
-				@Override
-				public Object apply(ImportHistoric importHistoric) {
-					return importHistoric.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", ImportHistoric::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
-			new BiConsumer<ImportHistoric, Object>() {
-
-				@Override
-				public void accept(
-					ImportHistoric importHistoric, Object uuidObject) {
-
-					importHistoric.setUuid((String)uuidObject);
-				}
-
-			});
+			(BiConsumer<ImportHistoric, String>)ImportHistoric::setUuid);
 		attributeGetterFunctions.put(
-			"importHistoricId",
-			new Function<ImportHistoric, Object>() {
-
-				@Override
-				public Object apply(ImportHistoric importHistoric) {
-					return importHistoric.getImportHistoricId();
-				}
-
-			});
+			"importHistoricId", ImportHistoric::getImportHistoricId);
 		attributeSetterBiConsumers.put(
 			"importHistoricId",
-			new BiConsumer<ImportHistoric, Object>() {
-
-				@Override
-				public void accept(
-					ImportHistoric importHistoric,
-					Object importHistoricIdObject) {
-
-					importHistoric.setImportHistoricId(
-						(Long)importHistoricIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<ImportHistoric, Object>() {
-
-				@Override
-				public Object apply(ImportHistoric importHistoric) {
-					return importHistoric.getGroupId();
-				}
-
-			});
+			(BiConsumer<ImportHistoric, Long>)
+				ImportHistoric::setImportHistoricId);
+		attributeGetterFunctions.put("groupId", ImportHistoric::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
-			new BiConsumer<ImportHistoric, Object>() {
-
-				@Override
-				public void accept(
-					ImportHistoric importHistoric, Object groupIdObject) {
-
-					importHistoric.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<ImportHistoric, Object>() {
-
-				@Override
-				public Object apply(ImportHistoric importHistoric) {
-					return importHistoric.getCompanyId();
-				}
-
-			});
+			(BiConsumer<ImportHistoric, Long>)ImportHistoric::setGroupId);
+		attributeGetterFunctions.put("companyId", ImportHistoric::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
-			new BiConsumer<ImportHistoric, Object>() {
-
-				@Override
-				public void accept(
-					ImportHistoric importHistoric, Object companyIdObject) {
-
-					importHistoric.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<ImportHistoric, Object>() {
-
-				@Override
-				public Object apply(ImportHistoric importHistoric) {
-					return importHistoric.getUserId();
-				}
-
-			});
+			(BiConsumer<ImportHistoric, Long>)ImportHistoric::setCompanyId);
+		attributeGetterFunctions.put("userId", ImportHistoric::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
-			new BiConsumer<ImportHistoric, Object>() {
-
-				@Override
-				public void accept(
-					ImportHistoric importHistoric, Object userIdObject) {
-
-					importHistoric.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<ImportHistoric, Object>() {
-
-				@Override
-				public Object apply(ImportHistoric importHistoric) {
-					return importHistoric.getUserName();
-				}
-
-			});
+			(BiConsumer<ImportHistoric, Long>)ImportHistoric::setUserId);
+		attributeGetterFunctions.put("userName", ImportHistoric::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
-			new BiConsumer<ImportHistoric, Object>() {
-
-				@Override
-				public void accept(
-					ImportHistoric importHistoric, Object userNameObject) {
-
-					importHistoric.setUserName((String)userNameObject);
-				}
-
-			});
+			(BiConsumer<ImportHistoric, String>)ImportHistoric::setUserName);
 		attributeGetterFunctions.put(
-			"createDate",
-			new Function<ImportHistoric, Object>() {
-
-				@Override
-				public Object apply(ImportHistoric importHistoric) {
-					return importHistoric.getCreateDate();
-				}
-
-			});
+			"createDate", ImportHistoric::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
-			new BiConsumer<ImportHistoric, Object>() {
-
-				@Override
-				public void accept(
-					ImportHistoric importHistoric, Object createDateObject) {
-
-					importHistoric.setCreateDate((Date)createDateObject);
-				}
-
-			});
+			(BiConsumer<ImportHistoric, Date>)ImportHistoric::setCreateDate);
 		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<ImportHistoric, Object>() {
-
-				@Override
-				public Object apply(ImportHistoric importHistoric) {
-					return importHistoric.getModifiedDate();
-				}
-
-			});
+			"modifiedDate", ImportHistoric::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<ImportHistoric, Object>() {
-
-				@Override
-				public void accept(
-					ImportHistoric importHistoric, Object modifiedDateObject) {
-
-					importHistoric.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<ImportHistoric, Object>() {
-
-				@Override
-				public Object apply(ImportHistoric importHistoric) {
-					return importHistoric.getStatus();
-				}
-
-			});
+			(BiConsumer<ImportHistoric, Date>)ImportHistoric::setModifiedDate);
+		attributeGetterFunctions.put("status", ImportHistoric::getStatus);
 		attributeSetterBiConsumers.put(
 			"status",
-			new BiConsumer<ImportHistoric, Object>() {
-
-				@Override
-				public void accept(
-					ImportHistoric importHistoric, Object statusObject) {
-
-					importHistoric.setStatus((Integer)statusObject);
-				}
-
-			});
+			(BiConsumer<ImportHistoric, Integer>)ImportHistoric::setStatus);
 		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<ImportHistoric, Object>() {
-
-				@Override
-				public Object apply(ImportHistoric importHistoric) {
-					return importHistoric.getStatusByUserId();
-				}
-
-			});
+			"statusByUserId", ImportHistoric::getStatusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
-			new BiConsumer<ImportHistoric, Object>() {
-
-				@Override
-				public void accept(
-					ImportHistoric importHistoric,
-					Object statusByUserIdObject) {
-
-					importHistoric.setStatusByUserId(
-						(Long)statusByUserIdObject);
-				}
-
-			});
+			(BiConsumer<ImportHistoric, Long>)
+				ImportHistoric::setStatusByUserId);
 		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<ImportHistoric, Object>() {
-
-				@Override
-				public Object apply(ImportHistoric importHistoric) {
-					return importHistoric.getStatusByUserName();
-				}
-
-			});
+			"statusByUserName", ImportHistoric::getStatusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
-			new BiConsumer<ImportHistoric, Object>() {
-
-				@Override
-				public void accept(
-					ImportHistoric importHistoric,
-					Object statusByUserNameObject) {
-
-					importHistoric.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
+			(BiConsumer<ImportHistoric, String>)
+				ImportHistoric::setStatusByUserName);
 		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<ImportHistoric, Object>() {
-
-				@Override
-				public Object apply(ImportHistoric importHistoric) {
-					return importHistoric.getStatusDate();
-				}
-
-			});
+			"statusDate", ImportHistoric::getStatusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
-			new BiConsumer<ImportHistoric, Object>() {
-
-				@Override
-				public void accept(
-					ImportHistoric importHistoric, Object statusDateObject) {
-
-					importHistoric.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"result",
-			new Function<ImportHistoric, Object>() {
-
-				@Override
-				public Object apply(ImportHistoric importHistoric) {
-					return importHistoric.getResult();
-				}
-
-			});
+			(BiConsumer<ImportHistoric, Date>)ImportHistoric::setStatusDate);
+		attributeGetterFunctions.put("result", ImportHistoric::getResult);
 		attributeSetterBiConsumers.put(
 			"result",
-			new BiConsumer<ImportHistoric, Object>() {
-
-				@Override
-				public void accept(
-					ImportHistoric importHistoric, Object resultObject) {
-
-					importHistoric.setResult((Integer)resultObject);
-				}
-
-			});
+			(BiConsumer<ImportHistoric, Integer>)ImportHistoric::setResult);
 		attributeGetterFunctions.put(
-			"operations",
-			new Function<ImportHistoric, Object>() {
-
-				@Override
-				public Object apply(ImportHistoric importHistoric) {
-					return importHistoric.getOperations();
-				}
-
-			});
+			"operations", ImportHistoric::getOperations);
 		attributeSetterBiConsumers.put(
 			"operations",
-			new BiConsumer<ImportHistoric, Object>() {
-
-				@Override
-				public void accept(
-					ImportHistoric importHistoric, Object operationsObject) {
-
-					importHistoric.setOperations((String)operationsObject);
-				}
-
-			});
+			(BiConsumer<ImportHistoric, String>)ImportHistoric::setOperations);
 		attributeGetterFunctions.put(
-			"errorDescription",
-			new Function<ImportHistoric, Object>() {
-
-				@Override
-				public Object apply(ImportHistoric importHistoric) {
-					return importHistoric.getErrorDescription();
-				}
-
-			});
+			"errorDescription", ImportHistoric::getErrorDescription);
 		attributeSetterBiConsumers.put(
 			"errorDescription",
-			new BiConsumer<ImportHistoric, Object>() {
-
-				@Override
-				public void accept(
-					ImportHistoric importHistoric,
-					Object errorDescriptionObject) {
-
-					importHistoric.setErrorDescription(
-						(String)errorDescriptionObject);
-				}
-
-			});
+			(BiConsumer<ImportHistoric, String>)
+				ImportHistoric::setErrorDescription);
 		attributeGetterFunctions.put(
-			"errorStackTrace",
-			new Function<ImportHistoric, Object>() {
-
-				@Override
-				public Object apply(ImportHistoric importHistoric) {
-					return importHistoric.getErrorStackTrace();
-				}
-
-			});
+			"errorStackTrace", ImportHistoric::getErrorStackTrace);
 		attributeSetterBiConsumers.put(
 			"errorStackTrace",
-			new BiConsumer<ImportHistoric, Object>() {
-
-				@Override
-				public void accept(
-					ImportHistoric importHistoric,
-					Object errorStackTraceObject) {
-
-					importHistoric.setErrorStackTrace(
-						(String)errorStackTraceObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"startDate",
-			new Function<ImportHistoric, Object>() {
-
-				@Override
-				public Object apply(ImportHistoric importHistoric) {
-					return importHistoric.getStartDate();
-				}
-
-			});
+			(BiConsumer<ImportHistoric, String>)
+				ImportHistoric::setErrorStackTrace);
+		attributeGetterFunctions.put("startDate", ImportHistoric::getStartDate);
 		attributeSetterBiConsumers.put(
 			"startDate",
-			new BiConsumer<ImportHistoric, Object>() {
-
-				@Override
-				public void accept(
-					ImportHistoric importHistoric, Object startDateObject) {
-
-					importHistoric.setStartDate((Date)startDateObject);
-				}
-
-			});
+			(BiConsumer<ImportHistoric, Date>)ImportHistoric::setStartDate);
 		attributeGetterFunctions.put(
-			"finishDate",
-			new Function<ImportHistoric, Object>() {
-
-				@Override
-				public Object apply(ImportHistoric importHistoric) {
-					return importHistoric.getFinishDate();
-				}
-
-			});
+			"finishDate", ImportHistoric::getFinishDate);
 		attributeSetterBiConsumers.put(
 			"finishDate",
-			new BiConsumer<ImportHistoric, Object>() {
-
-				@Override
-				public void accept(
-					ImportHistoric importHistoric, Object finishDateObject) {
-
-					importHistoric.setFinishDate((Date)finishDateObject);
-				}
-
-			});
+			(BiConsumer<ImportHistoric, Date>)ImportHistoric::setFinishDate);
 		attributeGetterFunctions.put(
-			"gtfsFileHash",
-			new Function<ImportHistoric, Object>() {
-
-				@Override
-				public Object apply(ImportHistoric importHistoric) {
-					return importHistoric.getGtfsFileHash();
-				}
-
-			});
+			"gtfsFileHash", ImportHistoric::getGtfsFileHash);
 		attributeSetterBiConsumers.put(
 			"gtfsFileHash",
-			new BiConsumer<ImportHistoric, Object>() {
-
-				@Override
-				public void accept(
-					ImportHistoric importHistoric, Object gtfsFileHashObject) {
-
-					importHistoric.setGtfsFileHash((String)gtfsFileHashObject);
-				}
-
-			});
+			(BiConsumer<ImportHistoric, String>)
+				ImportHistoric::setGtfsFileHash);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -727,17 +379,20 @@ public class ImportHistoricModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -747,7 +402,9 @@ public class ImportHistoricModelImpl
 
 	@Override
 	public void setImportHistoricId(long importHistoricId) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_importHistoricId = importHistoricId;
 	}
@@ -759,19 +416,20 @@ public class ImportHistoricModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -781,19 +439,21 @@ public class ImportHistoricModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -803,6 +463,10 @@ public class ImportHistoricModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -834,6 +498,10 @@ public class ImportHistoricModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -844,6 +512,10 @@ public class ImportHistoricModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -860,6 +532,10 @@ public class ImportHistoricModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -870,6 +546,10 @@ public class ImportHistoricModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -880,6 +560,10 @@ public class ImportHistoricModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -911,6 +595,10 @@ public class ImportHistoricModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -921,6 +609,10 @@ public class ImportHistoricModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -931,6 +623,10 @@ public class ImportHistoricModelImpl
 
 	@Override
 	public void setResult(int result) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_result = result;
 	}
 
@@ -946,6 +642,10 @@ public class ImportHistoricModelImpl
 
 	@Override
 	public void setOperations(String operations) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_operations = operations;
 	}
 
@@ -961,6 +661,10 @@ public class ImportHistoricModelImpl
 
 	@Override
 	public void setErrorDescription(String errorDescription) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_errorDescription = errorDescription;
 	}
 
@@ -976,6 +680,10 @@ public class ImportHistoricModelImpl
 
 	@Override
 	public void setErrorStackTrace(String errorStackTrace) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_errorStackTrace = errorStackTrace;
 	}
 
@@ -986,6 +694,10 @@ public class ImportHistoricModelImpl
 
 	@Override
 	public void setStartDate(Date startDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_startDate = startDate;
 	}
 
@@ -996,6 +708,10 @@ public class ImportHistoricModelImpl
 
 	@Override
 	public void setFinishDate(Date finishDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_finishDate = finishDate;
 	}
 
@@ -1011,6 +727,10 @@ public class ImportHistoricModelImpl
 
 	@Override
 	public void setGtfsFileHash(String gtfsFileHash) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_gtfsFileHash = gtfsFileHash;
 	}
 
@@ -1101,6 +821,26 @@ public class ImportHistoricModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1162,6 +902,52 @@ public class ImportHistoricModelImpl
 	}
 
 	@Override
+	public ImportHistoric cloneWithOriginalValues() {
+		ImportHistoricImpl importHistoricImpl = new ImportHistoricImpl();
+
+		importHistoricImpl.setUuid(
+			this.<String>getColumnOriginalValue("uuid_"));
+		importHistoricImpl.setImportHistoricId(
+			this.<Long>getColumnOriginalValue("importHistoricId"));
+		importHistoricImpl.setGroupId(
+			this.<Long>getColumnOriginalValue("groupId"));
+		importHistoricImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		importHistoricImpl.setUserId(
+			this.<Long>getColumnOriginalValue("userId"));
+		importHistoricImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		importHistoricImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		importHistoricImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		importHistoricImpl.setStatus(
+			this.<Integer>getColumnOriginalValue("status"));
+		importHistoricImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		importHistoricImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		importHistoricImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		importHistoricImpl.setResult(
+			this.<Integer>getColumnOriginalValue("result"));
+		importHistoricImpl.setOperations(
+			this.<String>getColumnOriginalValue("operations"));
+		importHistoricImpl.setErrorDescription(
+			this.<String>getColumnOriginalValue("errorDescription"));
+		importHistoricImpl.setErrorStackTrace(
+			this.<String>getColumnOriginalValue("errorStackTrace"));
+		importHistoricImpl.setStartDate(
+			this.<Date>getColumnOriginalValue("startDate"));
+		importHistoricImpl.setFinishDate(
+			this.<Date>getColumnOriginalValue("finishDate"));
+		importHistoricImpl.setGtfsFileHash(
+			this.<String>getColumnOriginalValue("gtfsFileHash"));
+
+		return importHistoricImpl;
+	}
+
+	@Override
 	public int compareTo(ImportHistoric importHistoric) {
 		int value = 0;
 
@@ -1211,11 +997,19 @@ public class ImportHistoricModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1223,23 +1017,11 @@ public class ImportHistoricModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ImportHistoricModelImpl importHistoricModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		importHistoricModelImpl._originalUuid = importHistoricModelImpl._uuid;
+		_setModifiedDate = false;
 
-		importHistoricModelImpl._originalGroupId =
-			importHistoricModelImpl._groupId;
-
-		importHistoricModelImpl._setOriginalGroupId = false;
-
-		importHistoricModelImpl._originalCompanyId =
-			importHistoricModelImpl._companyId;
-
-		importHistoricModelImpl._setOriginalCompanyId = false;
-
-		importHistoricModelImpl._setModifiedDate = false;
-
-		importHistoricModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1371,7 +1153,7 @@ public class ImportHistoricModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1382,9 +1164,26 @@ public class ImportHistoricModelImpl
 			Function<ImportHistoric, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((ImportHistoric)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((ImportHistoric)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1397,53 +1196,19 @@ public class ImportHistoricModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<ImportHistoric, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<ImportHistoric, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<ImportHistoric, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((ImportHistoric)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, ImportHistoric>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					ImportHistoric.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _importHistoricId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1460,6 +1225,119 @@ public class ImportHistoricModelImpl
 	private Date _startDate;
 	private Date _finishDate;
 	private String _gtfsFileHash;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<ImportHistoric, Object> function =
+			_attributeGetterFunctions.get(columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((ImportHistoric)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("importHistoricId", _importHistoricId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("result", _result);
+		_columnOriginalValues.put("operations", _operations);
+		_columnOriginalValues.put("errorDescription", _errorDescription);
+		_columnOriginalValues.put("errorStackTrace", _errorStackTrace);
+		_columnOriginalValues.put("startDate", _startDate);
+		_columnOriginalValues.put("finishDate", _finishDate);
+		_columnOriginalValues.put("gtfsFileHash", _gtfsFileHash);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("importHistoricId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("status", 256L);
+
+		columnBitmasks.put("statusByUserId", 512L);
+
+		columnBitmasks.put("statusByUserName", 1024L);
+
+		columnBitmasks.put("statusDate", 2048L);
+
+		columnBitmasks.put("result", 4096L);
+
+		columnBitmasks.put("operations", 8192L);
+
+		columnBitmasks.put("errorDescription", 16384L);
+
+		columnBitmasks.put("errorStackTrace", 32768L);
+
+		columnBitmasks.put("startDate", 65536L);
+
+		columnBitmasks.put("finishDate", 131072L);
+
+		columnBitmasks.put("gtfsFileHash", 262144L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private ImportHistoric _escapedModel;
 

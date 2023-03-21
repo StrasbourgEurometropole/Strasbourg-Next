@@ -14,16 +14,15 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
-import java.util.List;
-
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.base.ManifestationServiceBaseImpl;
+
+import java.util.List;
 
 /**
  * The implementation of the manifestation remote service.

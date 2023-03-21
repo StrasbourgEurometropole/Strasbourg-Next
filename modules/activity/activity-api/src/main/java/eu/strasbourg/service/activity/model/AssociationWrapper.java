@@ -14,17 +14,13 @@
 
 package eu.strasbourg.service.activity.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,20 +32,11 @@ import java.util.Objects;
  * @generated
  */
 public class AssociationWrapper
+	extends BaseModelWrapper<Association>
 	implements Association, ModelWrapper<Association> {
 
 	public AssociationWrapper(Association association) {
-		_association = association;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Association.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Association.class.getName();
+		super(association);
 	}
 
 	@Override
@@ -198,15 +185,8 @@ public class AssociationWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new AssociationWrapper((Association)_association.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.activity.model.Association association) {
-
-		return _association.compareTo(association);
+	public Association cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -214,7 +194,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _association.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	/**
@@ -224,12 +204,12 @@ public class AssociationWrapper
 	 */
 	@Override
 	public long getAssociationId() {
-		return _association.getAssociationId();
+		return model.getAssociationId();
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _association.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -240,7 +220,7 @@ public class AssociationWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _association.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -250,7 +230,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _association.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -260,17 +240,12 @@ public class AssociationWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _association.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _association.getDefaultLanguageId();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _association.getExpandoBridge();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -280,7 +255,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getFacebookURL() {
-		return _association.getFacebookURL();
+		return model.getFacebookURL();
 	}
 
 	/**
@@ -291,7 +266,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getFacebookURL(java.util.Locale locale) {
-		return _association.getFacebookURL(locale);
+		return model.getFacebookURL(locale);
 	}
 
 	/**
@@ -303,7 +278,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getFacebookURL(java.util.Locale locale, boolean useDefault) {
-		return _association.getFacebookURL(locale, useDefault);
+		return model.getFacebookURL(locale, useDefault);
 	}
 
 	/**
@@ -314,7 +289,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getFacebookURL(String languageId) {
-		return _association.getFacebookURL(languageId);
+		return model.getFacebookURL(languageId);
 	}
 
 	/**
@@ -326,17 +301,17 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getFacebookURL(String languageId, boolean useDefault) {
-		return _association.getFacebookURL(languageId, useDefault);
+		return model.getFacebookURL(languageId, useDefault);
 	}
 
 	@Override
 	public String getFacebookURLCurrentLanguageId() {
-		return _association.getFacebookURLCurrentLanguageId();
+		return model.getFacebookURLCurrentLanguageId();
 	}
 
 	@Override
 	public String getFacebookURLCurrentValue() {
-		return _association.getFacebookURLCurrentValue();
+		return model.getFacebookURLCurrentValue();
 	}
 
 	/**
@@ -346,7 +321,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getFacebookURLMap() {
-		return _association.getFacebookURLMap();
+		return model.getFacebookURLMap();
 	}
 
 	/**
@@ -356,7 +331,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _association.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -364,7 +339,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public eu.strasbourg.service.activity.model.Association getLiveVersion() {
-		return _association.getLiveVersion();
+		return model.getLiveVersion();
 	}
 
 	/**
@@ -374,7 +349,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getMail() {
-		return _association.getMail();
+		return model.getMail();
 	}
 
 	/**
@@ -384,7 +359,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _association.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -394,7 +369,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getName() {
-		return _association.getName();
+		return model.getName();
 	}
 
 	/**
@@ -405,7 +380,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getName(java.util.Locale locale) {
-		return _association.getName(locale);
+		return model.getName(locale);
 	}
 
 	/**
@@ -417,7 +392,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getName(java.util.Locale locale, boolean useDefault) {
-		return _association.getName(locale, useDefault);
+		return model.getName(locale, useDefault);
 	}
 
 	/**
@@ -428,7 +403,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getName(String languageId) {
-		return _association.getName(languageId);
+		return model.getName(languageId);
 	}
 
 	/**
@@ -440,17 +415,17 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getName(String languageId, boolean useDefault) {
-		return _association.getName(languageId, useDefault);
+		return model.getName(languageId, useDefault);
 	}
 
 	@Override
 	public String getNameCurrentLanguageId() {
-		return _association.getNameCurrentLanguageId();
+		return model.getNameCurrentLanguageId();
 	}
 
 	@Override
 	public String getNameCurrentValue() {
-		return _association.getNameCurrentValue();
+		return model.getNameCurrentValue();
 	}
 
 	/**
@@ -460,7 +435,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getNameMap() {
-		return _association.getNameMap();
+		return model.getNameMap();
 	}
 
 	/**
@@ -470,7 +445,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getOthersInformations() {
-		return _association.getOthersInformations();
+		return model.getOthersInformations();
 	}
 
 	/**
@@ -481,7 +456,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getOthersInformations(java.util.Locale locale) {
-		return _association.getOthersInformations(locale);
+		return model.getOthersInformations(locale);
 	}
 
 	/**
@@ -495,7 +470,7 @@ public class AssociationWrapper
 	public String getOthersInformations(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _association.getOthersInformations(locale, useDefault);
+		return model.getOthersInformations(locale, useDefault);
 	}
 
 	/**
@@ -506,7 +481,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getOthersInformations(String languageId) {
-		return _association.getOthersInformations(languageId);
+		return model.getOthersInformations(languageId);
 	}
 
 	/**
@@ -518,17 +493,17 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getOthersInformations(String languageId, boolean useDefault) {
-		return _association.getOthersInformations(languageId, useDefault);
+		return model.getOthersInformations(languageId, useDefault);
 	}
 
 	@Override
 	public String getOthersInformationsCurrentLanguageId() {
-		return _association.getOthersInformationsCurrentLanguageId();
+		return model.getOthersInformationsCurrentLanguageId();
 	}
 
 	@Override
 	public String getOthersInformationsCurrentValue() {
-		return _association.getOthersInformationsCurrentValue();
+		return model.getOthersInformationsCurrentValue();
 	}
 
 	/**
@@ -538,7 +513,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getOthersInformationsMap() {
-		return _association.getOthersInformationsMap();
+		return model.getOthersInformationsMap();
 	}
 
 	/**
@@ -548,7 +523,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getPhone() {
-		return _association.getPhone();
+		return model.getPhone();
 	}
 
 	/**
@@ -558,7 +533,7 @@ public class AssociationWrapper
 	public java.util.List<eu.strasbourg.service.activity.model.Practice>
 		getPractices() {
 
-		return _association.getPractices();
+		return model.getPractices();
 	}
 
 	/**
@@ -569,7 +544,7 @@ public class AssociationWrapper
 		<eu.strasbourg.service.activity.model.PracticeCategories>
 			getPracticesCategories() {
 
-		return _association.getPracticesCategories();
+		return model.getPracticesCategories();
 	}
 
 	/**
@@ -579,7 +554,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getPresentation() {
-		return _association.getPresentation();
+		return model.getPresentation();
 	}
 
 	/**
@@ -590,7 +565,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getPresentation(java.util.Locale locale) {
-		return _association.getPresentation(locale);
+		return model.getPresentation(locale);
 	}
 
 	/**
@@ -602,7 +577,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getPresentation(java.util.Locale locale, boolean useDefault) {
-		return _association.getPresentation(locale, useDefault);
+		return model.getPresentation(locale, useDefault);
 	}
 
 	/**
@@ -613,7 +588,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getPresentation(String languageId) {
-		return _association.getPresentation(languageId);
+		return model.getPresentation(languageId);
 	}
 
 	/**
@@ -625,17 +600,17 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getPresentation(String languageId, boolean useDefault) {
-		return _association.getPresentation(languageId, useDefault);
+		return model.getPresentation(languageId, useDefault);
 	}
 
 	@Override
 	public String getPresentationCurrentLanguageId() {
-		return _association.getPresentationCurrentLanguageId();
+		return model.getPresentationCurrentLanguageId();
 	}
 
 	@Override
 	public String getPresentationCurrentValue() {
-		return _association.getPresentationCurrentValue();
+		return model.getPresentationCurrentValue();
 	}
 
 	/**
@@ -645,7 +620,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getPresentationMap() {
-		return _association.getPresentationMap();
+		return model.getPresentationMap();
 	}
 
 	/**
@@ -655,12 +630,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _association.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _association.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -670,7 +640,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getSiteURL() {
-		return _association.getSiteURL();
+		return model.getSiteURL();
 	}
 
 	/**
@@ -681,7 +651,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getSiteURL(java.util.Locale locale) {
-		return _association.getSiteURL(locale);
+		return model.getSiteURL(locale);
 	}
 
 	/**
@@ -693,7 +663,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getSiteURL(java.util.Locale locale, boolean useDefault) {
-		return _association.getSiteURL(locale, useDefault);
+		return model.getSiteURL(locale, useDefault);
 	}
 
 	/**
@@ -704,7 +674,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getSiteURL(String languageId) {
-		return _association.getSiteURL(languageId);
+		return model.getSiteURL(languageId);
 	}
 
 	/**
@@ -716,17 +686,17 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getSiteURL(String languageId, boolean useDefault) {
-		return _association.getSiteURL(languageId, useDefault);
+		return model.getSiteURL(languageId, useDefault);
 	}
 
 	@Override
 	public String getSiteURLCurrentLanguageId() {
-		return _association.getSiteURLCurrentLanguageId();
+		return model.getSiteURLCurrentLanguageId();
 	}
 
 	@Override
 	public String getSiteURLCurrentValue() {
-		return _association.getSiteURLCurrentValue();
+		return model.getSiteURLCurrentValue();
 	}
 
 	/**
@@ -736,7 +706,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getSiteURLMap() {
-		return _association.getSiteURLMap();
+		return model.getSiteURLMap();
 	}
 
 	/**
@@ -746,7 +716,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public int getStatus() {
-		return _association.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -756,7 +726,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _association.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -766,7 +736,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _association.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -776,7 +746,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _association.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -786,7 +756,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _association.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -796,7 +766,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _association.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -806,7 +776,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _association.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -816,7 +786,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _association.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -826,12 +796,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _association.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _association.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -841,12 +806,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public boolean isApproved() {
-		return _association.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _association.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -856,7 +816,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public boolean isDenied() {
-		return _association.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -866,12 +826,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public boolean isDraft() {
-		return _association.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _association.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -881,7 +836,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public boolean isExpired() {
-		return _association.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -891,7 +846,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public boolean isInactive() {
-		return _association.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -901,12 +856,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _association.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _association.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -916,7 +866,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public boolean isPending() {
-		return _association.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -926,19 +876,19 @@ public class AssociationWrapper
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _association.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_association.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_association.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -946,7 +896,7 @@ public class AssociationWrapper
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_association.prepareLocalizedFieldsForImport(defaultImportLocale);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -956,12 +906,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setAssociationId(long associationId) {
-		_association.setAssociationId(associationId);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_association.setCachedModel(cachedModel);
+		model.setAssociationId(associationId);
 	}
 
 	/**
@@ -971,7 +916,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_association.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -981,24 +926,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_association.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_association.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_association.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_association.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -1008,7 +936,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setFacebookURL(String facebookURL) {
-		_association.setFacebookURL(facebookURL);
+		model.setFacebookURL(facebookURL);
 	}
 
 	/**
@@ -1019,7 +947,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setFacebookURL(String facebookURL, java.util.Locale locale) {
-		_association.setFacebookURL(facebookURL, locale);
+		model.setFacebookURL(facebookURL, locale);
 	}
 
 	/**
@@ -1034,12 +962,12 @@ public class AssociationWrapper
 		String facebookURL, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_association.setFacebookURL(facebookURL, locale, defaultLocale);
+		model.setFacebookURL(facebookURL, locale, defaultLocale);
 	}
 
 	@Override
 	public void setFacebookURLCurrentLanguageId(String languageId) {
-		_association.setFacebookURLCurrentLanguageId(languageId);
+		model.setFacebookURLCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1051,7 +979,7 @@ public class AssociationWrapper
 	public void setFacebookURLMap(
 		Map<java.util.Locale, String> facebookURLMap) {
 
-		_association.setFacebookURLMap(facebookURLMap);
+		model.setFacebookURLMap(facebookURLMap);
 	}
 
 	/**
@@ -1065,7 +993,7 @@ public class AssociationWrapper
 		Map<java.util.Locale, String> facebookURLMap,
 		java.util.Locale defaultLocale) {
 
-		_association.setFacebookURLMap(facebookURLMap, defaultLocale);
+		model.setFacebookURLMap(facebookURLMap, defaultLocale);
 	}
 
 	/**
@@ -1075,7 +1003,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_association.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -1085,7 +1013,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setMail(String mail) {
-		_association.setMail(mail);
+		model.setMail(mail);
 	}
 
 	/**
@@ -1095,7 +1023,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_association.setModifiedDate(modifiedDate);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -1105,7 +1033,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setName(String name) {
-		_association.setName(name);
+		model.setName(name);
 	}
 
 	/**
@@ -1116,7 +1044,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setName(String name, java.util.Locale locale) {
-		_association.setName(name, locale);
+		model.setName(name, locale);
 	}
 
 	/**
@@ -1130,12 +1058,12 @@ public class AssociationWrapper
 	public void setName(
 		String name, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_association.setName(name, locale, defaultLocale);
+		model.setName(name, locale, defaultLocale);
 	}
 
 	@Override
 	public void setNameCurrentLanguageId(String languageId) {
-		_association.setNameCurrentLanguageId(languageId);
+		model.setNameCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1145,7 +1073,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setNameMap(Map<java.util.Locale, String> nameMap) {
-		_association.setNameMap(nameMap);
+		model.setNameMap(nameMap);
 	}
 
 	/**
@@ -1158,12 +1086,7 @@ public class AssociationWrapper
 	public void setNameMap(
 		Map<java.util.Locale, String> nameMap, java.util.Locale defaultLocale) {
 
-		_association.setNameMap(nameMap, defaultLocale);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_association.setNew(n);
+		model.setNameMap(nameMap, defaultLocale);
 	}
 
 	/**
@@ -1173,7 +1096,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setOthersInformations(String othersInformations) {
-		_association.setOthersInformations(othersInformations);
+		model.setOthersInformations(othersInformations);
 	}
 
 	/**
@@ -1186,7 +1109,7 @@ public class AssociationWrapper
 	public void setOthersInformations(
 		String othersInformations, java.util.Locale locale) {
 
-		_association.setOthersInformations(othersInformations, locale);
+		model.setOthersInformations(othersInformations, locale);
 	}
 
 	/**
@@ -1201,13 +1124,12 @@ public class AssociationWrapper
 		String othersInformations, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_association.setOthersInformations(
-			othersInformations, locale, defaultLocale);
+		model.setOthersInformations(othersInformations, locale, defaultLocale);
 	}
 
 	@Override
 	public void setOthersInformationsCurrentLanguageId(String languageId) {
-		_association.setOthersInformationsCurrentLanguageId(languageId);
+		model.setOthersInformationsCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1219,7 +1141,7 @@ public class AssociationWrapper
 	public void setOthersInformationsMap(
 		Map<java.util.Locale, String> othersInformationsMap) {
 
-		_association.setOthersInformationsMap(othersInformationsMap);
+		model.setOthersInformationsMap(othersInformationsMap);
 	}
 
 	/**
@@ -1233,8 +1155,7 @@ public class AssociationWrapper
 		Map<java.util.Locale, String> othersInformationsMap,
 		java.util.Locale defaultLocale) {
 
-		_association.setOthersInformationsMap(
-			othersInformationsMap, defaultLocale);
+		model.setOthersInformationsMap(othersInformationsMap, defaultLocale);
 	}
 
 	/**
@@ -1244,7 +1165,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setPhone(String phone) {
-		_association.setPhone(phone);
+		model.setPhone(phone);
 	}
 
 	/**
@@ -1254,7 +1175,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setPresentation(String presentation) {
-		_association.setPresentation(presentation);
+		model.setPresentation(presentation);
 	}
 
 	/**
@@ -1265,7 +1186,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setPresentation(String presentation, java.util.Locale locale) {
-		_association.setPresentation(presentation, locale);
+		model.setPresentation(presentation, locale);
 	}
 
 	/**
@@ -1280,12 +1201,12 @@ public class AssociationWrapper
 		String presentation, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_association.setPresentation(presentation, locale, defaultLocale);
+		model.setPresentation(presentation, locale, defaultLocale);
 	}
 
 	@Override
 	public void setPresentationCurrentLanguageId(String languageId) {
-		_association.setPresentationCurrentLanguageId(languageId);
+		model.setPresentationCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1297,7 +1218,7 @@ public class AssociationWrapper
 	public void setPresentationMap(
 		Map<java.util.Locale, String> presentationMap) {
 
-		_association.setPresentationMap(presentationMap);
+		model.setPresentationMap(presentationMap);
 	}
 
 	/**
@@ -1311,7 +1232,7 @@ public class AssociationWrapper
 		Map<java.util.Locale, String> presentationMap,
 		java.util.Locale defaultLocale) {
 
-		_association.setPresentationMap(presentationMap, defaultLocale);
+		model.setPresentationMap(presentationMap, defaultLocale);
 	}
 
 	/**
@@ -1321,12 +1242,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_association.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_association.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -1336,7 +1252,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setSiteURL(String siteURL) {
-		_association.setSiteURL(siteURL);
+		model.setSiteURL(siteURL);
 	}
 
 	/**
@@ -1347,7 +1263,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setSiteURL(String siteURL, java.util.Locale locale) {
-		_association.setSiteURL(siteURL, locale);
+		model.setSiteURL(siteURL, locale);
 	}
 
 	/**
@@ -1362,12 +1278,12 @@ public class AssociationWrapper
 		String siteURL, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_association.setSiteURL(siteURL, locale, defaultLocale);
+		model.setSiteURL(siteURL, locale, defaultLocale);
 	}
 
 	@Override
 	public void setSiteURLCurrentLanguageId(String languageId) {
-		_association.setSiteURLCurrentLanguageId(languageId);
+		model.setSiteURLCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1377,7 +1293,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setSiteURLMap(Map<java.util.Locale, String> siteURLMap) {
-		_association.setSiteURLMap(siteURLMap);
+		model.setSiteURLMap(siteURLMap);
 	}
 
 	/**
@@ -1391,7 +1307,7 @@ public class AssociationWrapper
 		Map<java.util.Locale, String> siteURLMap,
 		java.util.Locale defaultLocale) {
 
-		_association.setSiteURLMap(siteURLMap, defaultLocale);
+		model.setSiteURLMap(siteURLMap, defaultLocale);
 	}
 
 	/**
@@ -1401,7 +1317,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setStatus(int status) {
-		_association.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -1411,7 +1327,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_association.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -1421,7 +1337,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_association.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -1431,7 +1347,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_association.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -1441,7 +1357,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_association.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -1451,7 +1367,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_association.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -1461,7 +1377,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_association.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -1471,7 +1387,7 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_association.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -1481,80 +1397,22 @@ public class AssociationWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_association.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.activity.model.Association> toCacheModel() {
-
-		return _association.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.activity.model.Association toEscapedModel() {
-		return new AssociationWrapper(_association.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _association.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.activity.model.Association toUnescapedModel() {
-		return new AssociationWrapper(_association.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _association.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof AssociationWrapper)) {
-			return false;
-		}
-
-		AssociationWrapper associationWrapper = (AssociationWrapper)object;
-
-		if (Objects.equals(_association, associationWrapper._association)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _association.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Association getWrappedModel() {
-		return _association;
+	protected AssociationWrapper wrap(Association association) {
+		return new AssociationWrapper(association);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _association.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _association.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_association.resetOriginalValues();
-	}
-
-	private final Association _association;
 
 }

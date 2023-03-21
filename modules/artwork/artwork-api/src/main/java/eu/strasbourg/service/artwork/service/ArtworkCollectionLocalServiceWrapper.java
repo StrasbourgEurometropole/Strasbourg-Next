@@ -27,6 +27,10 @@ public class ArtworkCollectionLocalServiceWrapper
 	implements ArtworkCollectionLocalService,
 			   ServiceWrapper<ArtworkCollectionLocalService> {
 
+	public ArtworkCollectionLocalServiceWrapper() {
+		this(null);
+	}
+
 	public ArtworkCollectionLocalServiceWrapper(
 		ArtworkCollectionLocalService artworkCollectionLocalService) {
 
@@ -119,6 +123,18 @@ public class ArtworkCollectionLocalServiceWrapper
 		return _artworkCollectionLocalService.createArtworkCollection(sc);
 	}
 
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _artworkCollectionLocalService.createPersistedModel(
+			primaryKeyObj);
+	}
+
 	@Override
 	public void deleteArtworkArtworkCollection(
 		long artworkId,
@@ -205,6 +221,18 @@ public class ArtworkCollectionLocalServiceWrapper
 
 		return _artworkCollectionLocalService.deletePersistedModel(
 			persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _artworkCollectionLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _artworkCollectionLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

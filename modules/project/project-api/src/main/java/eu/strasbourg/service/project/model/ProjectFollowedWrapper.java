@@ -14,16 +14,12 @@
 
 package eu.strasbourg.service.project.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +31,11 @@ import java.util.Objects;
  * @generated
  */
 public class ProjectFollowedWrapper
+	extends BaseModelWrapper<ProjectFollowed>
 	implements ModelWrapper<ProjectFollowed>, ProjectFollowed {
 
 	public ProjectFollowedWrapper(ProjectFollowed projectFollowed) {
-		_projectFollowed = projectFollowed;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return ProjectFollowed.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return ProjectFollowed.class.getName();
+		super(projectFollowed);
 	}
 
 	@Override
@@ -98,16 +85,8 @@ public class ProjectFollowedWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new ProjectFollowedWrapper(
-			(ProjectFollowed)_projectFollowed.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.project.model.ProjectFollowed projectFollowed) {
-
-		return _projectFollowed.compareTo(projectFollowed);
+	public ProjectFollowed cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -117,12 +96,7 @@ public class ProjectFollowedWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _projectFollowed.getCreateDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _projectFollowed.getExpandoBridge();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -132,7 +106,7 @@ public class ProjectFollowedWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _projectFollowed.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -142,12 +116,7 @@ public class ProjectFollowedWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _projectFollowed.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _projectFollowed.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -157,7 +126,7 @@ public class ProjectFollowedWrapper
 	 */
 	@Override
 	public long getProjectFollowedId() {
-		return _projectFollowed.getProjectFollowedId();
+		return model.getProjectFollowedId();
 	}
 
 	/**
@@ -167,7 +136,7 @@ public class ProjectFollowedWrapper
 	 */
 	@Override
 	public long getProjectId() {
-		return _projectFollowed.getProjectId();
+		return model.getProjectId();
 	}
 
 	/**
@@ -177,37 +146,12 @@ public class ProjectFollowedWrapper
 	 */
 	@Override
 	public String getPublikUserId() {
-		return _projectFollowed.getPublikUserId();
-	}
-
-	@Override
-	public int hashCode() {
-		return _projectFollowed.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _projectFollowed.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _projectFollowed.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _projectFollowed.isNew();
+		return model.getPublikUserId();
 	}
 
 	@Override
 	public void persist() {
-		_projectFollowed.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_projectFollowed.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -217,24 +161,7 @@ public class ProjectFollowedWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_projectFollowed.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_projectFollowed.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_projectFollowed.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_projectFollowed.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -244,12 +171,7 @@ public class ProjectFollowedWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_projectFollowed.setGroupId(groupId);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_projectFollowed.setNew(n);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -259,12 +181,7 @@ public class ProjectFollowedWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_projectFollowed.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_projectFollowed.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -274,7 +191,7 @@ public class ProjectFollowedWrapper
 	 */
 	@Override
 	public void setProjectFollowedId(long projectFollowedId) {
-		_projectFollowed.setProjectFollowedId(projectFollowedId);
+		model.setProjectFollowedId(projectFollowedId);
 	}
 
 	/**
@@ -284,7 +201,7 @@ public class ProjectFollowedWrapper
 	 */
 	@Override
 	public void setProjectId(long projectId) {
-		_projectFollowed.setProjectId(projectId);
+		model.setProjectId(projectId);
 	}
 
 	/**
@@ -294,82 +211,17 @@ public class ProjectFollowedWrapper
 	 */
 	@Override
 	public void setPublikUserId(String publikUserId) {
-		_projectFollowed.setPublikUserId(publikUserId);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.project.model.ProjectFollowed> toCacheModel() {
-
-		return _projectFollowed.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.ProjectFollowed
-		toEscapedModel() {
-
-		return new ProjectFollowedWrapper(_projectFollowed.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _projectFollowed.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.ProjectFollowed
-		toUnescapedModel() {
-
-		return new ProjectFollowedWrapper(_projectFollowed.toUnescapedModel());
+		model.setPublikUserId(publikUserId);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _projectFollowed.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof ProjectFollowedWrapper)) {
-			return false;
-		}
-
-		ProjectFollowedWrapper projectFollowedWrapper =
-			(ProjectFollowedWrapper)object;
-
-		if (Objects.equals(
-				_projectFollowed, projectFollowedWrapper._projectFollowed)) {
-
-			return true;
-		}
-
-		return false;
+	protected ProjectFollowedWrapper wrap(ProjectFollowed projectFollowed) {
+		return new ProjectFollowedWrapper(projectFollowed);
 	}
-
-	@Override
-	public ProjectFollowed getWrappedModel() {
-		return _projectFollowed;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _projectFollowed.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _projectFollowed.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_projectFollowed.resetOriginalValues();
-	}
-
-	private final ProjectFollowed _projectFollowed;
 
 }

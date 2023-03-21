@@ -14,10 +14,9 @@
 
 package eu.strasbourg.service.place.service.impl;
 
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.place.model.PublicHoliday;
 import eu.strasbourg.service.place.service.base.PublicHolidayLocalServiceBaseImpl;
 

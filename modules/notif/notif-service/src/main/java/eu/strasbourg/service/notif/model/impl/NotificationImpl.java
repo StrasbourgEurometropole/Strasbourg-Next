@@ -14,26 +14,8 @@
 
 package eu.strasbourg.service.notif.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 /**
- * The extended model implementation for the Notification service. Represents a row in the &quot;notif_Notification&quot; database table, with each column mapped to a property of this class.
- *
- * <p>
- * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the <code>eu.strasbourg.service.notif.model.Notification<code> interface.
- * </p>
- *
  * @author Brian Wing Shun Chan
  */
-@ProviderType
 public class NotificationImpl extends NotificationBaseImpl {
-
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. All methods that expect a notification model instance should use the {@link eu.strasbourg.service.notif.model.Notification} interface instead.
-	 */
-	public NotificationImpl() {
-	}
-
 }

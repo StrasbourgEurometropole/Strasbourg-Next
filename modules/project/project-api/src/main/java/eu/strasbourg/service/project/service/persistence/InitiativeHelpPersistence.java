@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.project.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.project.exception.NoSuchInitiativeHelpException;
 import eu.strasbourg.service.project.model.InitiativeHelp;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the initiative help service.
@@ -46,9 +39,6 @@ public interface InitiativeHelpPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link InitiativeHelpUtil} to access the initiative help persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, InitiativeHelp> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the initiative helps where uuid = &#63;.
@@ -703,8 +693,5 @@ public interface InitiativeHelpPersistence
 	 * @return the number of initiative helps
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class ActivityServiceWrapper
 	implements ActivityService, ServiceWrapper<ActivityService> {
 
+	public ActivityServiceWrapper() {
+		this(null);
+	}
+
 	public ActivityServiceWrapper(ActivityService activityService) {
 		_activityService = activityService;
 	}

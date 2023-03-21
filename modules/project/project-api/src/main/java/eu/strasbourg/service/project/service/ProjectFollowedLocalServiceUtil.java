@@ -14,9 +14,15 @@
 
 package eu.strasbourg.service.project.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.project.model.ProjectFollowed;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Provides the local service utility for ProjectFollowed. This utility wraps
@@ -48,20 +54,26 @@ public class ProjectFollowedLocalServiceUtil {
 	 * @param projectFollowed the project followed
 	 * @return the project followed that was added
 	 */
-	public static eu.strasbourg.service.project.model.ProjectFollowed
-		addProjectFollowed(
-			eu.strasbourg.service.project.model.ProjectFollowed
-				projectFollowed) {
+	public static ProjectFollowed addProjectFollowed(
+		ProjectFollowed projectFollowed) {
 
 		return getService().addProjectFollowed(projectFollowed);
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Cree un nouveau follower a un projet
 	 */
-	public static eu.strasbourg.service.project.model.ProjectFollowed
-		createProjectFollowed() {
-
+	public static ProjectFollowed createProjectFollowed() {
 		return getService().createProjectFollowed();
 	}
 
@@ -71,8 +83,8 @@ public class ProjectFollowedLocalServiceUtil {
 	 * @param projectFollowedId the primary key for the new project followed
 	 * @return the new project followed
 	 */
-	public static eu.strasbourg.service.project.model.ProjectFollowed
-		createProjectFollowed(long projectFollowedId) {
+	public static ProjectFollowed createProjectFollowed(
+		long projectFollowedId) {
 
 		return getService().createProjectFollowed(projectFollowedId);
 	}
@@ -80,10 +92,9 @@ public class ProjectFollowedLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -99,9 +110,8 @@ public class ProjectFollowedLocalServiceUtil {
 	 * @return the project followed that was removed
 	 * @throws PortalException if a project followed with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.ProjectFollowed
-			deleteProjectFollowed(long projectFollowedId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ProjectFollowed deleteProjectFollowed(long projectFollowedId)
+		throws PortalException {
 
 		return getService().deleteProjectFollowed(projectFollowedId);
 	}
@@ -116,17 +126,21 @@ public class ProjectFollowedLocalServiceUtil {
 	 * @param projectFollowed the project followed
 	 * @return the project followed that was removed
 	 */
-	public static eu.strasbourg.service.project.model.ProjectFollowed
-		deleteProjectFollowed(
-			eu.strasbourg.service.project.model.ProjectFollowed
-				projectFollowed) {
+	public static ProjectFollowed deleteProjectFollowed(
+		ProjectFollowed projectFollowed) {
 
 		return getService().deleteProjectFollowed(projectFollowed);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -136,9 +150,7 @@ public class ProjectFollowedLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -154,9 +166,8 @@ public class ProjectFollowedLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -174,10 +185,9 @@ public class ProjectFollowedLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -189,9 +199,7 @@ public class ProjectFollowedLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -203,15 +211,13 @@ public class ProjectFollowedLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.project.model.ProjectFollowed
-		fetchProjectFollowed(long projectFollowedId) {
-
+	public static ProjectFollowed fetchProjectFollowed(long projectFollowedId) {
 		return getService().fetchProjectFollowed(projectFollowedId);
 	}
 
@@ -224,28 +230,22 @@ public class ProjectFollowedLocalServiceUtil {
 	/**
 	 * Retourne la liste des likes/dislikes d'un evenement
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.ProjectFollowed> getByProjectId(
-			long projectId) {
-
+	public static List<ProjectFollowed> getByProjectId(long projectId) {
 		return getService().getByProjectId(projectId);
 	}
 
 	/**
 	 * Retourne tous les projets suivis par un utilisateur
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.ProjectFollowed> getByPublikId(
-			String publikId) {
-
+	public static List<ProjectFollowed> getByPublikId(String publikId) {
 		return getService().getByPublikId(publikId);
 	}
 
 	/**
 	 * Retourne le suivi d'un utilisateur et d'un projet donné
 	 */
-	public static eu.strasbourg.service.project.model.ProjectFollowed
-		getByPublikUserIdAndProjectId(String publikUserId, long projectId) {
+	public static ProjectFollowed getByPublikUserIdAndProjectId(
+		String publikUserId, long projectId) {
 
 		return getService().getByPublikUserIdAndProjectId(
 			publikUserId, projectId);
@@ -270,9 +270,8 @@ public class ProjectFollowedLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -284,9 +283,8 @@ public class ProjectFollowedLocalServiceUtil {
 	 * @return the project followed
 	 * @throws PortalException if a project followed with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.ProjectFollowed
-			getProjectFollowed(long projectFollowedId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ProjectFollowed getProjectFollowed(long projectFollowedId)
+		throws PortalException {
 
 		return getService().getProjectFollowed(projectFollowedId);
 	}
@@ -302,9 +300,8 @@ public class ProjectFollowedLocalServiceUtil {
 	 * @param end the upper bound of the range of project followeds (not inclusive)
 	 * @return the range of project followeds
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.ProjectFollowed>
-			getProjectFolloweds(int start, int end) {
+	public static List<ProjectFollowed> getProjectFolloweds(
+		int start, int end) {
 
 		return getService().getProjectFolloweds(start, end);
 	}
@@ -328,36 +325,16 @@ public class ProjectFollowedLocalServiceUtil {
 	 * @param projectFollowed the project followed
 	 * @return the project followed that was updated
 	 */
-	public static eu.strasbourg.service.project.model.ProjectFollowed
-		updateProjectFollowed(
-			eu.strasbourg.service.project.model.ProjectFollowed
-				projectFollowed) {
+	public static ProjectFollowed updateProjectFollowed(
+		ProjectFollowed projectFollowed) {
 
 		return getService().updateProjectFollowed(projectFollowed);
 	}
 
 	public static ProjectFollowedLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<ProjectFollowedLocalService, ProjectFollowedLocalService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			ProjectFollowedLocalService.class);
-
-		ServiceTracker<ProjectFollowedLocalService, ProjectFollowedLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<ProjectFollowedLocalService, ProjectFollowedLocalService>(
-						bundle.getBundleContext(),
-						ProjectFollowedLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile ProjectFollowedLocalService _service;
 
 }

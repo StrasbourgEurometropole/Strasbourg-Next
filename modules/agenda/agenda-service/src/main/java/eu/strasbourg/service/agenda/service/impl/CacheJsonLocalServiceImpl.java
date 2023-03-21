@@ -14,19 +14,9 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import eu.strasbourg.service.agenda.exception.NoSuchCacheJsonException;
 import eu.strasbourg.service.agenda.model.CacheJson;
-import eu.strasbourg.service.agenda.model.CsmapCacheJson;
-import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.base.CacheJsonLocalServiceBaseImpl;
-import eu.strasbourg.service.place.model.Place;
-import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 
-import java.util.Date;
 import java.util.List;
 
 /**

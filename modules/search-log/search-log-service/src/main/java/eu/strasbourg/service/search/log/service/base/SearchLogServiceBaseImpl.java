@@ -20,18 +20,21 @@ import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.search.log.model.SearchLog;
 import eu.strasbourg.service.search.log.service.SearchLogService;
+import eu.strasbourg.service.search.log.service.SearchLogServiceUtil;
 import eu.strasbourg.service.search.log.service.persistence.SearchLogPersistence;
 
 import javax.sql.DataSource;
+import java.lang.reflect.Field;
 
 /**
  * Provides the base implementation for the search log remote service.
@@ -51,7 +54,7 @@ public abstract class SearchLogServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>SearchLogService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.search.log.service.SearchLogServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>SearchLogService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>SearchLogServiceUtil</code>.
 	 */
 
 	/**
@@ -287,9 +290,11 @@ public abstract class SearchLogServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
+		_setServiceUtilService(searchLogService);
 	}
 
 	public void destroy() {
+		_setServiceUtilService(null);
 	}
 
 	/**
@@ -331,6 +336,20 @@ public abstract class SearchLogServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setServiceUtilService(SearchLogService searchLogService) {
+		try {
+			Field field = SearchLogServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, searchLogService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -386,5 +405,8 @@ public abstract class SearchLogServiceBaseImpl
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		SearchLogServiceBaseImpl.class);
 
 }

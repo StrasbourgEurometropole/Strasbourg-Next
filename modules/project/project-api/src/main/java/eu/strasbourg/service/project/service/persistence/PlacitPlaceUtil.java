@@ -17,18 +17,12 @@ package eu.strasbourg.service.project.service.persistence;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.project.model.PlacitPlace;
 
 import java.io.Serializable;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * The persistence utility for the placit place service. This utility wraps <code>eu.strasbourg.service.project.service.persistence.impl.PlacitPlacePersistenceImpl</code> and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
@@ -1905,30 +1899,10 @@ public class PlacitPlaceUtil {
 		return getPersistence().countAll();
 	}
 
-	public static Set<String> getBadColumnNames() {
-		return getPersistence().getBadColumnNames();
-	}
-
 	public static PlacitPlacePersistence getPersistence() {
-		return _serviceTracker.getService();
+		return _persistence;
 	}
 
-	private static ServiceTracker
-		<PlacitPlacePersistence, PlacitPlacePersistence> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(PlacitPlacePersistence.class);
-
-		ServiceTracker<PlacitPlacePersistence, PlacitPlacePersistence>
-			serviceTracker =
-				new ServiceTracker
-					<PlacitPlacePersistence, PlacitPlacePersistence>(
-						bundle.getBundleContext(), PlacitPlacePersistence.class,
-						null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile PlacitPlacePersistence _persistence;
 
 }

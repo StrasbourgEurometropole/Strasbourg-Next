@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.council.service.impl;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
@@ -43,9 +44,14 @@ import eu.strasbourg.service.council.service.VoteLocalServiceUtil;
 import eu.strasbourg.service.council.service.base.DeliberationLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -200,12 +206,9 @@ public class DeliberationLocalServiceImpl extends DeliberationLocalServiceBaseIm
 
         if (entry != null) {
             // Supprime les liens avec les catégories
-            for (long categoryId : entry.getCategoryIds()) {
-                this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-                        categoryId, entry.getEntryId());
-            }
-
-            // Supprime les liens avec les étiquettes
+            assetEntryAssetCategoryRelLocalService.
+                    deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
+           // Supprime les liens avec les étiquettes
             long[] tagIds = AssetEntryLocalServiceUtil
                     .getAssetTagPrimaryKeys(entry.getEntryId());
             for (long tagId : tagIds) {
@@ -358,4 +361,6 @@ public class DeliberationLocalServiceImpl extends DeliberationLocalServiceBaseIm
         else if (stageCategory != null)
             serviceContext.setAssetCategoryIds(new long[]{stageCategory.getCategoryId()});
     }
+    @Reference
+    private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

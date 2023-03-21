@@ -16,7 +16,6 @@ package eu.strasbourg.service.csmap.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
-
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
@@ -96,5 +95,12 @@ public interface PlaceCategoriesModel extends BaseModel<PlaceCategories> {
 	 * @param categoriesIds the categories IDs of this place categories
 	 */
 	public void setCategoriesIds(String categoriesIds);
+
+	@Override
+	public PlaceCategories cloneWithOriginalValues();
+
+	public default String toXmlString() {
+		return null;
+	}
 
 }

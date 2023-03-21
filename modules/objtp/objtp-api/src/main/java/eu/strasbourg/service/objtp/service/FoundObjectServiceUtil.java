@@ -14,9 +14,7 @@
 
 package eu.strasbourg.service.objtp.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.portal.kernel.exception.PortalException;
 
 /**
  * Provides the remote service utility for FoundObject. This utility wraps
@@ -45,7 +43,7 @@ public class FoundObjectServiceUtil {
 	 */
 	public static com.liferay.portal.kernel.json.JSONArray
 			getFoundObjectByCategoryCode(String codeCategory)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getFoundObjectByCategoryCode(codeCategory);
 	}
@@ -60,22 +58,9 @@ public class FoundObjectServiceUtil {
 	}
 
 	public static FoundObjectService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<FoundObjectService, FoundObjectService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(FoundObjectService.class);
-
-		ServiceTracker<FoundObjectService, FoundObjectService> serviceTracker =
-			new ServiceTracker<FoundObjectService, FoundObjectService>(
-				bundle.getBundleContext(), FoundObjectService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile FoundObjectService _service;
 
 }

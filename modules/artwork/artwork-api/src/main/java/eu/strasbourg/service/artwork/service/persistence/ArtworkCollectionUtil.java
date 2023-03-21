@@ -17,18 +17,12 @@ package eu.strasbourg.service.artwork.service.persistence;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
 
 import java.io.Serializable;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * The persistence utility for the artwork collection service. This utility wraps <code>eu.strasbourg.service.artwork.service.persistence.impl.ArtworkCollectionPersistenceImpl</code> and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
@@ -1082,34 +1076,10 @@ public class ArtworkCollectionUtil {
 		getPersistence().setArtworks(pk, artworks);
 	}
 
-	public static Set<String> getBadColumnNames() {
-		return getPersistence().getBadColumnNames();
-	}
-
 	public static ArtworkCollectionPersistence getPersistence() {
-		return _serviceTracker.getService();
+		return _persistence;
 	}
 
-	private static ServiceTracker
-		<ArtworkCollectionPersistence, ArtworkCollectionPersistence>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			ArtworkCollectionPersistence.class);
-
-		ServiceTracker
-			<ArtworkCollectionPersistence, ArtworkCollectionPersistence>
-				serviceTracker =
-					new ServiceTracker
-						<ArtworkCollectionPersistence,
-						 ArtworkCollectionPersistence>(
-							 bundle.getBundleContext(),
-							 ArtworkCollectionPersistence.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile ArtworkCollectionPersistence _persistence;
 
 }

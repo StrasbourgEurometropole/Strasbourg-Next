@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.activity.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for Association. This utility wraps
  * <code>eu.strasbourg.service.activity.service.impl.AssociationServiceImpl</code> and is an
@@ -43,27 +39,14 @@ public class AssociationServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static AssociationService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<AssociationService, AssociationService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(AssociationService.class);
-
-		ServiceTracker<AssociationService, AssociationService> serviceTracker =
-			new ServiceTracker<AssociationService, AssociationService>(
-				bundle.getBundleContext(), AssociationService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile AssociationService _service;
 
 }

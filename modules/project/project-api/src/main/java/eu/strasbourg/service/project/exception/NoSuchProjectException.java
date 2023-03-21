@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.project.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Cedric Henry
  */
-@ProviderType
 public class NoSuchProjectException extends NoSuchModelException {
 
 	public NoSuchProjectException() {
@@ -30,12 +27,12 @@ public class NoSuchProjectException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchProjectException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchProjectException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchProjectException(Throwable cause) {
-		super(cause);
+	public NoSuchProjectException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

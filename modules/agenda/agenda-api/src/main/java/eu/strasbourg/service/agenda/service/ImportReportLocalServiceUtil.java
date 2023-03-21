@@ -14,9 +14,17 @@
 
 package eu.strasbourg.service.agenda.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.agenda.model.ImportReport;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for ImportReport. This utility wraps
@@ -48,20 +56,14 @@ public class ImportReportLocalServiceUtil {
 	 * @param importReport the import report
 	 * @return the import report that was added
 	 */
-	public static eu.strasbourg.service.agenda.model.ImportReport
-		addImportReport(
-			eu.strasbourg.service.agenda.model.ImportReport importReport) {
-
+	public static ImportReport addImportReport(ImportReport importReport) {
 		return getService().addImportReport(importReport);
 	}
 
 	/**
 	 * Crée une édition vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.agenda.model.ImportReport
-			createImportReport()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static ImportReport createImportReport() throws PortalException {
 		return getService().createImportReport();
 	}
 
@@ -71,10 +73,18 @@ public class ImportReportLocalServiceUtil {
 	 * @param reportId the primary key for the new import report
 	 * @return the new import report
 	 */
-	public static eu.strasbourg.service.agenda.model.ImportReport
-		createImportReport(long reportId) {
-
+	public static ImportReport createImportReport(long reportId) {
 		return getService().createImportReport(reportId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -87,10 +97,7 @@ public class ImportReportLocalServiceUtil {
 	 * @param importReport the import report
 	 * @return the import report that was removed
 	 */
-	public static eu.strasbourg.service.agenda.model.ImportReport
-		deleteImportReport(
-			eu.strasbourg.service.agenda.model.ImportReport importReport) {
-
+	public static ImportReport deleteImportReport(ImportReport importReport) {
 		return getService().deleteImportReport(importReport);
 	}
 
@@ -105,9 +112,8 @@ public class ImportReportLocalServiceUtil {
 	 * @return the import report that was removed
 	 * @throws PortalException if a import report with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.agenda.model.ImportReport
-			deleteImportReport(long reportId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ImportReport deleteImportReport(long reportId)
+		throws PortalException {
 
 		return getService().deleteImportReport(reportId);
 	}
@@ -115,17 +121,22 @@ public class ImportReportLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -135,9 +146,7 @@ public class ImportReportLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -153,9 +162,8 @@ public class ImportReportLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -173,10 +181,9 @@ public class ImportReportLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -188,9 +195,7 @@ public class ImportReportLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -202,15 +207,13 @@ public class ImportReportLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.agenda.model.ImportReport
-		fetchImportReport(long reportId) {
-
+	public static ImportReport fetchImportReport(long reportId) {
 		return getService().fetchImportReport(reportId);
 	}
 
@@ -227,9 +230,8 @@ public class ImportReportLocalServiceUtil {
 	 * @return the import report
 	 * @throws PortalException if a import report with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.agenda.model.ImportReport
-			getImportReport(long reportId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ImportReport getImportReport(long reportId)
+		throws PortalException {
 
 		return getService().getImportReport(reportId);
 	}
@@ -245,10 +247,7 @@ public class ImportReportLocalServiceUtil {
 	 * @param end the upper bound of the range of import reports (not inclusive)
 	 * @return the range of import reports
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.ImportReport> getImportReports(
-			int start, int end) {
-
+	public static List<ImportReport> getImportReports(int start, int end) {
 		return getService().getImportReports(start, end);
 	}
 
@@ -280,16 +279,14 @@ public class ImportReportLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
 
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.ImportReportLine> getReportLines(
-			eu.strasbourg.service.agenda.model.ImportReport report) {
+	public static List<eu.strasbourg.service.agenda.model.ImportReportLine>
+		getReportLines(ImportReport report) {
 
 		return getService().getReportLines(report);
 	}
@@ -311,33 +308,14 @@ public class ImportReportLocalServiceUtil {
 	 * @param importReport the import report
 	 * @return the import report that was updated
 	 */
-	public static eu.strasbourg.service.agenda.model.ImportReport
-		updateImportReport(
-			eu.strasbourg.service.agenda.model.ImportReport importReport) {
-
+	public static ImportReport updateImportReport(ImportReport importReport) {
 		return getService().updateImportReport(importReport);
 	}
 
 	public static ImportReportLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<ImportReportLocalService, ImportReportLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(ImportReportLocalService.class);
-
-		ServiceTracker<ImportReportLocalService, ImportReportLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<ImportReportLocalService, ImportReportLocalService>(
-						bundle.getBundleContext(),
-						ImportReportLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile ImportReportLocalService _service;
 
 }

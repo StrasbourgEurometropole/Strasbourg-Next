@@ -14,10 +14,9 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.CampaignEventStatus;
 import eu.strasbourg.service.agenda.service.CampaignEventStatusLocalServiceUtil;
 

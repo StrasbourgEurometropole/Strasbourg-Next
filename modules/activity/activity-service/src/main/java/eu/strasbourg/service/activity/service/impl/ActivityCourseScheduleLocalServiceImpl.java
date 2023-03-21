@@ -14,12 +14,8 @@
 
 package eu.strasbourg.service.activity.service.impl;
 
-import java.time.LocalTime;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.LongStream;
-
+import org.osgi.annotation.versioning.ProviderType;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -40,10 +36,15 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.activity.model.ActivityCourseSchedule;
 import eu.strasbourg.service.activity.service.base.ActivityCourseScheduleLocalServiceBaseImpl;
+import org.osgi.service.component.annotations.Reference;
+
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.LongStream;
 
 /**
  * The implementation of the activity course schedule local service.
@@ -167,10 +168,8 @@ public class ActivityCourseScheduleLocalServiceImpl
 
 		if (entry != null) {
 			// Supprime le lien avec les catégories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-					categoryId, entry.getEntryId());
-			}
+			assetEntryAssetCategoryRelLocalService.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
 			// Supprime le lien avec les tags
 			long[] tagIds = AssetEntryLocalServiceUtil
@@ -340,4 +339,6 @@ public class ActivityCourseScheduleLocalServiceImpl
 
 		return schedules;
 	}
+	@Reference
+	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

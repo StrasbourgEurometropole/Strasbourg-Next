@@ -138,6 +138,11 @@ public class AgendaWrapper
 		}
 	}
 
+	@Override
+	public Agenda cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
+	}
+
 	/**
 	 * Returns the agenda ID of this agenda.
 	 *
@@ -814,6 +819,11 @@ public class AgendaWrapper
 	@Override
 	public void setUuid(String uuid) {
 		model.setUuid(uuid);
+	}
+
+	@Override
+	public String toXmlString() {
+		return model.toXmlString();
 	}
 
 	@Override

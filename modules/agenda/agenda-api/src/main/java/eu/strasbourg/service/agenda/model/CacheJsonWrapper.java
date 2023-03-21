@@ -14,16 +14,12 @@
 
 package eu.strasbourg.service.agenda.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -34,20 +30,12 @@ import java.util.Objects;
  * @see CacheJson
  * @generated
  */
-public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
+public class CacheJsonWrapper
+	extends BaseModelWrapper<CacheJson>
+	implements CacheJson, ModelWrapper<CacheJson> {
 
 	public CacheJsonWrapper(CacheJson cacheJson) {
-		_cacheJson = cacheJson;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return CacheJson.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return CacheJson.class.getName();
+		super(cacheJson);
 	}
 
 	@Override
@@ -97,15 +85,8 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	}
 
 	@Override
-	public Object clone() {
-		return new CacheJsonWrapper((CacheJson)_cacheJson.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.agenda.model.CacheJson cacheJson) {
-
-		return _cacheJson.compareTo(cacheJson);
+	public CacheJson cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -115,7 +96,7 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	 */
 	@Override
 	public Date getCreateEvent() {
-		return _cacheJson.getCreateEvent();
+		return model.getCreateEvent();
 	}
 
 	/**
@@ -125,12 +106,7 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	 */
 	@Override
 	public long getEventId() {
-		return _cacheJson.getEventId();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _cacheJson.getExpandoBridge();
+		return model.getEventId();
 	}
 
 	/**
@@ -140,7 +116,7 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	 */
 	@Override
 	public boolean getIsApproved() {
-		return _cacheJson.getIsApproved();
+		return model.getIsApproved();
 	}
 
 	/**
@@ -150,7 +126,7 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	 */
 	@Override
 	public String getJsonEvent() {
-		return _cacheJson.getJsonEvent();
+		return model.getJsonEvent();
 	}
 
 	/**
@@ -160,7 +136,7 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	 */
 	@Override
 	public Date getModifiedEvent() {
-		return _cacheJson.getModifiedEvent();
+		return model.getModifiedEvent();
 	}
 
 	/**
@@ -170,27 +146,7 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _cacheJson.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _cacheJson.getPrimaryKeyObj();
-	}
-
-	@Override
-	public int hashCode() {
-		return _cacheJson.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _cacheJson.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _cacheJson.isEscapedModel();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -200,22 +156,12 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	 */
 	@Override
 	public boolean isIsApproved() {
-		return _cacheJson.isIsApproved();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _cacheJson.isNew();
+		return model.isIsApproved();
 	}
 
 	@Override
 	public void persist() {
-		_cacheJson.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_cacheJson.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -225,7 +171,7 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	 */
 	@Override
 	public void setCreateEvent(Date createEvent) {
-		_cacheJson.setCreateEvent(createEvent);
+		model.setCreateEvent(createEvent);
 	}
 
 	/**
@@ -235,24 +181,7 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	 */
 	@Override
 	public void setEventId(long eventId) {
-		_cacheJson.setEventId(eventId);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_cacheJson.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_cacheJson.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_cacheJson.setExpandoBridgeAttributes(serviceContext);
+		model.setEventId(eventId);
 	}
 
 	/**
@@ -262,7 +191,7 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	 */
 	@Override
 	public void setIsApproved(boolean isApproved) {
-		_cacheJson.setIsApproved(isApproved);
+		model.setIsApproved(isApproved);
 	}
 
 	/**
@@ -272,7 +201,7 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	 */
 	@Override
 	public void setJsonEvent(String jsonEvent) {
-		_cacheJson.setJsonEvent(jsonEvent);
+		model.setJsonEvent(jsonEvent);
 	}
 
 	/**
@@ -282,12 +211,7 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	 */
 	@Override
 	public void setModifiedEvent(Date modifiedEvent) {
-		_cacheJson.setModifiedEvent(modifiedEvent);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_cacheJson.setNew(n);
+		model.setModifiedEvent(modifiedEvent);
 	}
 
 	/**
@@ -297,80 +221,17 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_cacheJson.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_cacheJson.setPrimaryKeyObj(primaryKeyObj);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.agenda.model.CacheJson> toCacheModel() {
-
-		return _cacheJson.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.CacheJson toEscapedModel() {
-		return new CacheJsonWrapper(_cacheJson.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _cacheJson.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.CacheJson toUnescapedModel() {
-		return new CacheJsonWrapper(_cacheJson.toUnescapedModel());
+		model.setPrimaryKey(primaryKey);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _cacheJson.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof CacheJsonWrapper)) {
-			return false;
-		}
-
-		CacheJsonWrapper cacheJsonWrapper = (CacheJsonWrapper)object;
-
-		if (Objects.equals(_cacheJson, cacheJsonWrapper._cacheJson)) {
-			return true;
-		}
-
-		return false;
+	protected CacheJsonWrapper wrap(CacheJson cacheJson) {
+		return new CacheJsonWrapper(cacheJson);
 	}
-
-	@Override
-	public CacheJson getWrappedModel() {
-		return _cacheJson;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _cacheJson.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _cacheJson.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_cacheJson.resetOriginalValues();
-	}
-
-	private final CacheJson _cacheJson;
 
 }

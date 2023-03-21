@@ -47,7 +47,6 @@ import eu.strasbourg.service.activity.service.ActivityServiceUtil;
  * </p>
  *
  * @author Brian Wing Shun Chan
- * @see ActivityServiceSoap
  * @generated
  */
 public class ActivityServiceHttp {

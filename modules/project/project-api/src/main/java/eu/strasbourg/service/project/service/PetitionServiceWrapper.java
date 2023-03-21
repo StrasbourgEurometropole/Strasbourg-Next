@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class PetitionServiceWrapper
 	implements PetitionService, ServiceWrapper<PetitionService> {
 
+	public PetitionServiceWrapper() {
+		this(null);
+	}
+
 	public PetitionServiceWrapper(PetitionService petitionService) {
 		_petitionService = petitionService;
 	}

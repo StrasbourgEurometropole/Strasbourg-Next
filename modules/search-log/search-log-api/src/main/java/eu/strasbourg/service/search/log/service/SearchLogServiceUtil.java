@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.search.log.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for SearchLog. This utility wraps
  * <code>eu.strasbourg.service.search.log.service.impl.SearchLogServiceImpl</code> and is an
@@ -43,27 +39,14 @@ public class SearchLogServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static SearchLogService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<SearchLogService, SearchLogService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(SearchLogService.class);
-
-		ServiceTracker<SearchLogService, SearchLogService> serviceTracker =
-			new ServiceTracker<SearchLogService, SearchLogService>(
-				bundle.getBundleContext(), SearchLogService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile SearchLogService _service;
 
 }
