@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 
-//import eu.strasbourg.service.tipi.service.TipiEntryLocalService;
+import eu.strasbourg.service.tipi.service.TipiEntryLocalService;
 
 @Component(
 	immediate = true,
@@ -54,16 +54,16 @@ public class TipiCallbackPortlet extends MVCPortlet {
 			Date date = Date.from(transactionDate
 				.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-//			_tipiEntryLocalService.addPayment(date, objet, status, price);
+			_tipiEntryLocalService.addPayment(date, objet, status, price);
 		}
 		super.render(renderRequest, renderResponse);
 	}
-//	private TipiEntryLocalService _tipiEntryLocalService;
-//
-//	@Reference(unbind = "-")
-//	protected void setTipiEntryLocalService(
-//			TipiEntryLocalService tipiEntryLocalService) {
-//
-//		_tipiEntryLocalService = tipiEntryLocalService;
-//	}
+	private TipiEntryLocalService _tipiEntryLocalService;
+
+	@Reference(unbind = "-")
+	protected void setTipiEntryLocalService(
+			TipiEntryLocalService tipiEntryLocalService) {
+
+		_tipiEntryLocalService = tipiEntryLocalService;
+	}
 }
