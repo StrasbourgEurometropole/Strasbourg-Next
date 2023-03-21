@@ -3,10 +3,7 @@ package eu.strasbourg.service.office.exporter.impl;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalService;
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.ResourceBundleUtil;
-import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.*;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.agenda.model.Campaign;
 import eu.strasbourg.service.agenda.model.CampaignEvent;
@@ -219,7 +216,7 @@ public class CampaignDocxExporterImpl implements CampaignDocxExporter {
 			paragraph.setIndentationLeft(200);
 			XWPFRun fieldRun = paragraph.createRun();
 			fieldRun.setFontSize(12);
-			String text  = HtmlUtil.render(entry.getValue());
+			String text  = HtmlParserUtil.render(entry.getValue());
 			fieldRun.setText(entry.getKey().getLanguage() + " : " + text);
 		}
 		if (fieldValue.size() == 0) {
