@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class StrasbourgLocalServiceWrapper
 	implements ServiceWrapper<StrasbourgLocalService>, StrasbourgLocalService {
 
+	public StrasbourgLocalServiceWrapper() {
+		this(null);
+	}
+
 	public StrasbourgLocalServiceWrapper(
 		StrasbourgLocalService strasbourgLocalService) {
 
@@ -47,6 +51,17 @@ public class StrasbourgLocalServiceWrapper
 		eu.strasbourg.service.strasbourg.model.Strasbourg strasbourg) {
 
 		return _strasbourgLocalService.addStrasbourg(strasbourg);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _strasbourgLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -107,6 +122,18 @@ public class StrasbourgLocalServiceWrapper
 		eu.strasbourg.service.strasbourg.model.Strasbourg strasbourg) {
 
 		return _strasbourgLocalService.deleteStrasbourg(strasbourg);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _strasbourgLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _strasbourgLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

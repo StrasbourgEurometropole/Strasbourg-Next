@@ -14,29 +14,28 @@
 
 package eu.strasbourg.service.notification.model.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
-
+import com.liferay.portal.kernel.util.StringUtil;
 import eu.strasbourg.service.notification.model.UserNotificationChannel;
 import eu.strasbourg.service.notification.model.UserNotificationChannelModel;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationChannelPK;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -93,23 +92,34 @@ public class UserNotificationChannelModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.notification.service.util.ServiceProps.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.notification.model.UserNotificationChannel"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.notification.service.util.ServiceProps.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.notification.model.UserNotificationChannel"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.notification.service.util.ServiceProps.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.notification.model.UserNotificationChannel"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long CHANNELID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLIKUSERID_COLUMN_BITMASK = 2L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -169,9 +179,6 @@ public class UserNotificationChannelModelImpl
 				attributeGetterFunction.apply((UserNotificationChannel)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -206,34 +213,6 @@ public class UserNotificationChannelModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, UserNotificationChannel>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			UserNotificationChannel.class.getClassLoader(),
-			UserNotificationChannel.class, ModelWrapper.class);
-
-		try {
-			Constructor<UserNotificationChannel> constructor =
-				(Constructor<UserNotificationChannel>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<UserNotificationChannel, Object>>
 		_attributeGetterFunctions;
 	private static final Map
@@ -251,56 +230,17 @@ public class UserNotificationChannelModelImpl
 					<String, BiConsumer<UserNotificationChannel, ?>>();
 
 		attributeGetterFunctions.put(
-			"publikUserId",
-			new Function<UserNotificationChannel, Object>() {
-
-				@Override
-				public Object apply(
-					UserNotificationChannel userNotificationChannel) {
-
-					return userNotificationChannel.getPublikUserId();
-				}
-
-			});
+			"publikUserId", UserNotificationChannel::getPublikUserId);
 		attributeSetterBiConsumers.put(
 			"publikUserId",
-			new BiConsumer<UserNotificationChannel, Object>() {
-
-				@Override
-				public void accept(
-					UserNotificationChannel userNotificationChannel,
-					Object publikUserIdObject) {
-
-					userNotificationChannel.setPublikUserId(
-						(String)publikUserIdObject);
-				}
-
-			});
+			(BiConsumer<UserNotificationChannel, String>)
+				UserNotificationChannel::setPublikUserId);
 		attributeGetterFunctions.put(
-			"channelId",
-			new Function<UserNotificationChannel, Object>() {
-
-				@Override
-				public Object apply(
-					UserNotificationChannel userNotificationChannel) {
-
-					return userNotificationChannel.getChannelId();
-				}
-
-			});
+			"channelId", UserNotificationChannel::getChannelId);
 		attributeSetterBiConsumers.put(
 			"channelId",
-			new BiConsumer<UserNotificationChannel, Object>() {
-
-				@Override
-				public void accept(
-					UserNotificationChannel userNotificationChannel,
-					Object channelIdObject) {
-
-					userNotificationChannel.setChannelId((Long)channelIdObject);
-				}
-
-			});
+			(BiConsumer<UserNotificationChannel, Long>)
+				UserNotificationChannel::setChannelId);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -320,17 +260,20 @@ public class UserNotificationChannelModelImpl
 
 	@Override
 	public void setPublikUserId(String publikUserId) {
-		_columnBitmask |= PUBLIKUSERID_COLUMN_BITMASK;
-
-		if (_originalPublikUserId == null) {
-			_originalPublikUserId = _publikUserId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publikUserId = publikUserId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPublikUserId() {
-		return GetterUtil.getString(_originalPublikUserId);
+		return getColumnOriginalValue("publikUserId");
 	}
 
 	@Override
@@ -340,22 +283,44 @@ public class UserNotificationChannelModelImpl
 
 	@Override
 	public void setChannelId(long channelId) {
-		_columnBitmask |= CHANNELID_COLUMN_BITMASK;
-
-		if (!_setOriginalChannelId) {
-			_setOriginalChannelId = true;
-
-			_originalChannelId = _channelId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_channelId = channelId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalChannelId() {
-		return _originalChannelId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("channelId"));
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -383,6 +348,19 @@ public class UserNotificationChannelModelImpl
 		userNotificationChannelImpl.setChannelId(getChannelId());
 
 		userNotificationChannelImpl.resetOriginalValues();
+
+		return userNotificationChannelImpl;
+	}
+
+	@Override
+	public UserNotificationChannel cloneWithOriginalValues() {
+		UserNotificationChannelImpl userNotificationChannelImpl =
+			new UserNotificationChannelImpl();
+
+		userNotificationChannelImpl.setPublikUserId(
+			this.<String>getColumnOriginalValue("publikUserId"));
+		userNotificationChannelImpl.setChannelId(
+			this.<Long>getColumnOriginalValue("channelId"));
 
 		return userNotificationChannelImpl;
 	}
@@ -424,11 +402,19 @@ public class UserNotificationChannelModelImpl
 		return getPrimaryKey().hashCode();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -436,18 +422,9 @@ public class UserNotificationChannelModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		UserNotificationChannelModelImpl userNotificationChannelModelImpl =
-			this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		userNotificationChannelModelImpl._originalPublikUserId =
-			userNotificationChannelModelImpl._publikUserId;
-
-		userNotificationChannelModelImpl._originalChannelId =
-			userNotificationChannelModelImpl._channelId;
-
-		userNotificationChannelModelImpl._setOriginalChannelId = false;
-
-		userNotificationChannelModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -477,7 +454,7 @@ public class UserNotificationChannelModelImpl
 			attributeGetterFunctions = getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -488,10 +465,27 @@ public class UserNotificationChannelModelImpl
 			Function<UserNotificationChannel, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(
-				attributeGetterFunction.apply((UserNotificationChannel)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply(
+				(UserNotificationChannel)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -504,52 +498,68 @@ public class UserNotificationChannelModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<UserNotificationChannel, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<UserNotificationChannel, Object>>
-				entry : attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<UserNotificationChannel, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(
-				attributeGetterFunction.apply((UserNotificationChannel)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function
 			<InvocationHandler, UserNotificationChannel>
 				_escapedModelProxyProviderFunction =
-					_getProxyProviderFunction();
+					ProxyUtil.getProxyProviderFunction(
+						UserNotificationChannel.class, ModelWrapper.class);
 
 	}
 
 	private String _publikUserId;
-	private String _originalPublikUserId;
 	private long _channelId;
-	private long _originalChannelId;
-	private boolean _setOriginalChannelId;
+
+	public <T> T getColumnValue(String columnName) {
+		Function<UserNotificationChannel, Object> function =
+			_attributeGetterFunctions.get(columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((UserNotificationChannel)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("publikUserId", _publikUserId);
+		_columnOriginalValues.put("channelId", _channelId);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("publikUserId", 1L);
+
+		columnBitmasks.put("channelId", 2L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private UserNotificationChannel _escapedModel;
 

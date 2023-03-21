@@ -23,6 +23,8 @@ import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
@@ -32,6 +34,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.agenda.model.AgendaExport;
 import eu.strasbourg.service.agenda.service.AgendaExportService;
+import eu.strasbourg.service.agenda.service.AgendaExportServiceUtil;
 import eu.strasbourg.service.agenda.service.persistence.AgendaExportPeriodPersistence;
 import eu.strasbourg.service.agenda.service.persistence.AgendaExportPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CacheJsonPersistence;
@@ -48,6 +51,8 @@ import eu.strasbourg.service.agenda.service.persistence.HistoricPersistence;
 import eu.strasbourg.service.agenda.service.persistence.ImportReportLinePersistence;
 import eu.strasbourg.service.agenda.service.persistence.ImportReportPersistence;
 import eu.strasbourg.service.agenda.service.persistence.ManifestationPersistence;
+
+import java.lang.reflect.Field;
 
 import javax.sql.DataSource;
 
@@ -69,7 +74,7 @@ public abstract class AgendaExportServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>AgendaExportService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.agenda.service.AgendaExportServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>AgendaExportService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>AgendaExportServiceUtil</code>.
 	 */
 
 	/**
@@ -1210,9 +1215,11 @@ public abstract class AgendaExportServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
+		_setServiceUtilService(agendaExportService);
 	}
 
 	public void destroy() {
+		_setServiceUtilService(null);
 	}
 
 	/**
@@ -1254,6 +1261,22 @@ public abstract class AgendaExportServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setServiceUtilService(
+		AgendaExportService agendaExportService) {
+
+		try {
+			Field field = AgendaExportServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, agendaExportService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1508,5 +1531,8 @@ public abstract class AgendaExportServiceBaseImpl
 
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		AgendaExportServiceBaseImpl.class);
 
 }

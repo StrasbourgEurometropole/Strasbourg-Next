@@ -14,15 +14,11 @@
 
 package eu.strasbourg.service.objtp.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -34,20 +30,11 @@ import java.util.Objects;
  * @generated
  */
 public class ObjectCategoryWrapper
+	extends BaseModelWrapper<ObjectCategory>
 	implements ModelWrapper<ObjectCategory>, ObjectCategory {
 
 	public ObjectCategoryWrapper(ObjectCategory objectCategory) {
-		_objectCategory = objectCategory;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return ObjectCategory.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return ObjectCategory.class.getName();
+		super(objectCategory);
 	}
 
 	@Override
@@ -76,16 +63,8 @@ public class ObjectCategoryWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new ObjectCategoryWrapper(
-			(ObjectCategory)_objectCategory.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.objtp.model.ObjectCategory objectCategory) {
-
-		return _objectCategory.compareTo(objectCategory);
+	public ObjectCategory cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -95,12 +74,7 @@ public class ObjectCategoryWrapper
 	 */
 	@Override
 	public String getCode() {
-		return _objectCategory.getCode();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _objectCategory.getExpandoBridge();
+		return model.getCode();
 	}
 
 	/**
@@ -110,7 +84,7 @@ public class ObjectCategoryWrapper
 	 */
 	@Override
 	public String getName() {
-		return _objectCategory.getName();
+		return model.getName();
 	}
 
 	/**
@@ -120,42 +94,12 @@ public class ObjectCategoryWrapper
 	 */
 	@Override
 	public String getPrimaryKey() {
-		return _objectCategory.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _objectCategory.getPrimaryKeyObj();
-	}
-
-	@Override
-	public int hashCode() {
-		return _objectCategory.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _objectCategory.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _objectCategory.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _objectCategory.isNew();
+		return model.getPrimaryKey();
 	}
 
 	@Override
 	public void persist() {
-		_objectCategory.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_objectCategory.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -165,24 +109,7 @@ public class ObjectCategoryWrapper
 	 */
 	@Override
 	public void setCode(String code) {
-		_objectCategory.setCode(code);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_objectCategory.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_objectCategory.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_objectCategory.setExpandoBridgeAttributes(serviceContext);
+		model.setCode(code);
 	}
 
 	/**
@@ -192,12 +119,7 @@ public class ObjectCategoryWrapper
 	 */
 	@Override
 	public void setName(String name) {
-		_objectCategory.setName(name);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_objectCategory.setNew(n);
+		model.setName(name);
 	}
 
 	/**
@@ -207,83 +129,17 @@ public class ObjectCategoryWrapper
 	 */
 	@Override
 	public void setPrimaryKey(String primaryKey) {
-		_objectCategory.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_objectCategory.setPrimaryKeyObj(primaryKeyObj);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.objtp.model.ObjectCategory> toCacheModel() {
-
-		return _objectCategory.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.objtp.model.ObjectCategory toEscapedModel() {
-		return new ObjectCategoryWrapper(_objectCategory.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _objectCategory.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.objtp.model.ObjectCategory toUnescapedModel() {
-		return new ObjectCategoryWrapper(_objectCategory.toUnescapedModel());
+		model.setPrimaryKey(primaryKey);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _objectCategory.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof ObjectCategoryWrapper)) {
-			return false;
-		}
-
-		ObjectCategoryWrapper objectCategoryWrapper =
-			(ObjectCategoryWrapper)object;
-
-		if (Objects.equals(
-				_objectCategory, objectCategoryWrapper._objectCategory)) {
-
-			return true;
-		}
-
-		return false;
+	protected ObjectCategoryWrapper wrap(ObjectCategory objectCategory) {
+		return new ObjectCategoryWrapper(objectCategory);
 	}
-
-	@Override
-	public ObjectCategory getWrappedModel() {
-		return _objectCategory;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _objectCategory.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _objectCategory.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_objectCategory.resetOriginalValues();
-	}
-
-	private final ObjectCategory _objectCategory;
 
 }

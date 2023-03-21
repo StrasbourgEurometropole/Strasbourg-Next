@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class OfficialServiceWrapper
 	implements OfficialService, ServiceWrapper<OfficialService> {
 
+	public OfficialServiceWrapper() {
+		this(null);
+	}
+
 	public OfficialServiceWrapper(OfficialService officialService) {
 		_officialService = officialService;
 	}

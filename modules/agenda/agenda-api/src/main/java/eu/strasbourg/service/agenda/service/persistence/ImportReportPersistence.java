@@ -14,17 +14,12 @@
 
 package eu.strasbourg.service.agenda.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.agenda.exception.NoSuchImportReportException;
 import eu.strasbourg.service.agenda.model.ImportReport;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the import report service.
@@ -45,9 +40,6 @@ public interface ImportReportPersistence extends BasePersistence<ImportReport> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link ImportReportUtil} to access the import report persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, ImportReport> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the import reports where uuid = &#63;.
@@ -311,8 +303,5 @@ public interface ImportReportPersistence extends BasePersistence<ImportReport> {
 	 * @return the number of import reports
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

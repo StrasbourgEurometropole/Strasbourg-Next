@@ -53,8 +53,8 @@ public class BudgetParticipatifIndexer extends BaseIndexer<BudgetParticipatif> {
         List<AssetCategory> assetCategories = AssetVocabularyHelper
                 .getFullHierarchyCategories(budget.getCategories());
         document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-        addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-                assetCategories);
+        /*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+                assetCategories);*/
 
         Map<Locale, String> titleFieldMap = new HashMap<>();
         titleFieldMap.put(Locale.FRANCE, budget.getTitle());
@@ -98,8 +98,7 @@ public class BudgetParticipatifIndexer extends BaseIndexer<BudgetParticipatif> {
     protected void doReindex(BudgetParticipatif budget) throws Exception {
         Document document = getDocument(budget);
 
-        IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-                budget.getCompanyId(), document, isCommitImmediately());
+        IndexWriterHelperUtil.updateDocument(budget.getCompanyId(), document);
 
     }
 
@@ -122,7 +121,6 @@ public class BudgetParticipatifIndexer extends BaseIndexer<BudgetParticipatif> {
                     }
                 });
 
-        indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
         indexableActionableDynamicQuery.performActions();
     }
 

@@ -14,17 +14,13 @@
 
 package eu.strasbourg.service.project.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,20 +32,11 @@ import java.util.Objects;
  * @generated
  */
 public class BudgetSupportWrapper
+	extends BaseModelWrapper<BudgetSupport>
 	implements BudgetSupport, ModelWrapper<BudgetSupport> {
 
 	public BudgetSupportWrapper(BudgetSupport budgetSupport) {
-		_budgetSupport = budgetSupport;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return BudgetSupport.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return BudgetSupport.class.getName();
+		super(budgetSupport);
 	}
 
 	@Override
@@ -213,15 +200,8 @@ public class BudgetSupportWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new BudgetSupportWrapper((BudgetSupport)_budgetSupport.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.project.model.BudgetSupport budgetSupport) {
-
-		return _budgetSupport.compareTo(budgetSupport);
+	public BudgetSupport cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -231,7 +211,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public long getBudgetParticipatifId() {
-		return _budgetSupport.getBudgetParticipatifId();
+		return model.getBudgetParticipatifId();
 	}
 
 	/**
@@ -241,7 +221,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public long getBudgetSupportId() {
-		return _budgetSupport.getBudgetSupportId();
+		return model.getBudgetSupportId();
 	}
 
 	/**
@@ -251,7 +231,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public String getCitoyenAddress() {
-		return _budgetSupport.getCitoyenAddress();
+		return model.getCitoyenAddress();
 	}
 
 	/**
@@ -261,7 +241,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public Date getCitoyenBirthday() {
-		return _budgetSupport.getCitoyenBirthday();
+		return model.getCitoyenBirthday();
 	}
 
 	/**
@@ -271,7 +251,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public String getCitoyenCity() {
-		return _budgetSupport.getCitoyenCity();
+		return model.getCitoyenCity();
 	}
 
 	/**
@@ -281,7 +261,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public String getCitoyenFirstname() {
-		return _budgetSupport.getCitoyenFirstname();
+		return model.getCitoyenFirstname();
 	}
 
 	/**
@@ -291,7 +271,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public String getCitoyenLastName() {
-		return _budgetSupport.getCitoyenLastName();
+		return model.getCitoyenLastName();
 	}
 
 	/**
@@ -301,7 +281,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public String getCitoyenMail() {
-		return _budgetSupport.getCitoyenMail();
+		return model.getCitoyenMail();
 	}
 
 	/**
@@ -311,7 +291,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public String getCitoyenMobilePhone() {
-		return _budgetSupport.getCitoyenMobilePhone();
+		return model.getCitoyenMobilePhone();
 	}
 
 	/**
@@ -321,7 +301,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public String getCitoyenPhone() {
-		return _budgetSupport.getCitoyenPhone();
+		return model.getCitoyenPhone();
 	}
 
 	/**
@@ -331,7 +311,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public long getCitoyenPostalCode() {
-		return _budgetSupport.getCitoyenPostalCode();
+		return model.getCitoyenPostalCode();
 	}
 
 	/**
@@ -341,7 +321,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _budgetSupport.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -351,12 +331,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _budgetSupport.getCreateDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _budgetSupport.getExpandoBridge();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -366,7 +341,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _budgetSupport.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -376,7 +351,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _budgetSupport.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -386,12 +361,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _budgetSupport.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _budgetSupport.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -401,7 +371,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public String getPublikUserId() {
-		return _budgetSupport.getPublikUserId();
+		return model.getPublikUserId();
 	}
 
 	/**
@@ -411,7 +381,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public int getStatus() {
-		return _budgetSupport.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -421,7 +391,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _budgetSupport.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -431,7 +401,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _budgetSupport.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -441,7 +411,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _budgetSupport.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -451,7 +421,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _budgetSupport.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -461,12 +431,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _budgetSupport.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _budgetSupport.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -476,12 +441,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public boolean isApproved() {
-		return _budgetSupport.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _budgetSupport.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -491,7 +451,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public boolean isDenied() {
-		return _budgetSupport.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -501,12 +461,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public boolean isDraft() {
-		return _budgetSupport.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _budgetSupport.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -516,7 +471,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public boolean isExpired() {
-		return _budgetSupport.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -526,7 +481,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public boolean isInactive() {
-		return _budgetSupport.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -536,12 +491,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _budgetSupport.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _budgetSupport.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -551,7 +501,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public boolean isPending() {
-		return _budgetSupport.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -561,12 +511,12 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _budgetSupport.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_budgetSupport.persist();
+		model.persist();
 	}
 
 	/**
@@ -576,7 +526,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public void setBudgetParticipatifId(long budgetParticipatifId) {
-		_budgetSupport.setBudgetParticipatifId(budgetParticipatifId);
+		model.setBudgetParticipatifId(budgetParticipatifId);
 	}
 
 	/**
@@ -586,12 +536,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public void setBudgetSupportId(long budgetSupportId) {
-		_budgetSupport.setBudgetSupportId(budgetSupportId);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_budgetSupport.setCachedModel(cachedModel);
+		model.setBudgetSupportId(budgetSupportId);
 	}
 
 	/**
@@ -601,7 +546,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public void setCitoyenAddress(String citoyenAddress) {
-		_budgetSupport.setCitoyenAddress(citoyenAddress);
+		model.setCitoyenAddress(citoyenAddress);
 	}
 
 	/**
@@ -611,7 +556,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public void setCitoyenBirthday(Date citoyenBirthday) {
-		_budgetSupport.setCitoyenBirthday(citoyenBirthday);
+		model.setCitoyenBirthday(citoyenBirthday);
 	}
 
 	/**
@@ -621,7 +566,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public void setCitoyenCity(String citoyenCity) {
-		_budgetSupport.setCitoyenCity(citoyenCity);
+		model.setCitoyenCity(citoyenCity);
 	}
 
 	/**
@@ -631,7 +576,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public void setCitoyenFirstname(String citoyenFirstname) {
-		_budgetSupport.setCitoyenFirstname(citoyenFirstname);
+		model.setCitoyenFirstname(citoyenFirstname);
 	}
 
 	/**
@@ -641,7 +586,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public void setCitoyenLastName(String citoyenLastName) {
-		_budgetSupport.setCitoyenLastName(citoyenLastName);
+		model.setCitoyenLastName(citoyenLastName);
 	}
 
 	/**
@@ -651,7 +596,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public void setCitoyenMail(String citoyenMail) {
-		_budgetSupport.setCitoyenMail(citoyenMail);
+		model.setCitoyenMail(citoyenMail);
 	}
 
 	/**
@@ -661,7 +606,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public void setCitoyenMobilePhone(String citoyenMobilePhone) {
-		_budgetSupport.setCitoyenMobilePhone(citoyenMobilePhone);
+		model.setCitoyenMobilePhone(citoyenMobilePhone);
 	}
 
 	/**
@@ -671,7 +616,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public void setCitoyenPhone(String citoyenPhone) {
-		_budgetSupport.setCitoyenPhone(citoyenPhone);
+		model.setCitoyenPhone(citoyenPhone);
 	}
 
 	/**
@@ -681,7 +626,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public void setCitoyenPostalCode(long citoyenPostalCode) {
-		_budgetSupport.setCitoyenPostalCode(citoyenPostalCode);
+		model.setCitoyenPostalCode(citoyenPostalCode);
 	}
 
 	/**
@@ -691,7 +636,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_budgetSupport.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -701,24 +646,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_budgetSupport.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_budgetSupport.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_budgetSupport.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_budgetSupport.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -728,7 +656,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_budgetSupport.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -738,12 +666,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_budgetSupport.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_budgetSupport.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -753,12 +676,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_budgetSupport.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_budgetSupport.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -768,7 +686,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public void setPublikUserId(String publikUserId) {
-		_budgetSupport.setPublikUserId(publikUserId);
+		model.setPublikUserId(publikUserId);
 	}
 
 	/**
@@ -778,7 +696,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public void setStatus(int status) {
-		_budgetSupport.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -788,7 +706,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_budgetSupport.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -798,7 +716,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_budgetSupport.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -808,7 +726,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_budgetSupport.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -818,7 +736,7 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_budgetSupport.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -828,85 +746,22 @@ public class BudgetSupportWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_budgetSupport.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.project.model.BudgetSupport> toCacheModel() {
-
-		return _budgetSupport.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.BudgetSupport toEscapedModel() {
-		return new BudgetSupportWrapper(_budgetSupport.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _budgetSupport.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.BudgetSupport
-		toUnescapedModel() {
-
-		return new BudgetSupportWrapper(_budgetSupport.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _budgetSupport.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof BudgetSupportWrapper)) {
-			return false;
-		}
-
-		BudgetSupportWrapper budgetSupportWrapper =
-			(BudgetSupportWrapper)object;
-
-		if (Objects.equals(
-				_budgetSupport, budgetSupportWrapper._budgetSupport)) {
-
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _budgetSupport.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public BudgetSupport getWrappedModel() {
-		return _budgetSupport;
+	protected BudgetSupportWrapper wrap(BudgetSupport budgetSupport) {
+		return new BudgetSupportWrapper(budgetSupport);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _budgetSupport.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _budgetSupport.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_budgetSupport.resetOriginalValues();
-	}
-
-	private final BudgetSupport _budgetSupport;
 
 }

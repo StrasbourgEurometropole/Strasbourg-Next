@@ -14,14 +14,13 @@
 
 package eu.strasbourg.service.place.service.impl;
 
-import java.util.List;
-
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.place.model.ScheduleException;
 import eu.strasbourg.service.place.service.base.ScheduleExceptionLocalServiceBaseImpl;
+
+import java.util.List;
 
 /**
  * The implementation of the schedule exception local service.

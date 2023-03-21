@@ -27,6 +27,10 @@ public class CampaignEventStatusLocalServiceWrapper
 	implements CampaignEventStatusLocalService,
 			   ServiceWrapper<CampaignEventStatusLocalService> {
 
+	public CampaignEventStatusLocalServiceWrapper() {
+		this(null);
+	}
+
 	public CampaignEventStatusLocalServiceWrapper(
 		CampaignEventStatusLocalService campaignEventStatusLocalService) {
 
@@ -79,6 +83,18 @@ public class CampaignEventStatusLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _campaignEventStatusLocalService.createPersistedModel(
+			primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the campaign event status from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -128,6 +144,18 @@ public class CampaignEventStatusLocalServiceWrapper
 
 		return _campaignEventStatusLocalService.deletePersistedModel(
 			persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _campaignEventStatusLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _campaignEventStatusLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

@@ -17,23 +17,7 @@ package eu.strasbourg.service.activity.service.impl;
 import eu.strasbourg.service.activity.service.base.PracticeServiceBaseImpl;
 
 /**
- * The implementation of the practice remote service.
- *
- * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.activity.service.PracticeService} interface.
- *
- * <p>
- * This is a remote service. Methods of this service are expected to have security checks based on the propagated JAAS credentials because this service can be accessed remotely.
- * </p>
- *
  * @author Brian Wing Shun Chan
- * @see PracticeServiceBaseImpl
- * @see eu.strasbourg.service.activity.service.PracticeServiceUtil
  */
 public class PracticeServiceImpl extends PracticeServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Always use {@link eu.strasbourg.service.activity.service.PracticeServiceUtil} to access the practice remote service.
-	 */
 }

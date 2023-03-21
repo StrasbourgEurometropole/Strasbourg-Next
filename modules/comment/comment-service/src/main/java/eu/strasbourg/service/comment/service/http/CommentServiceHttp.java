@@ -38,7 +38,6 @@ package eu.strasbourg.service.comment.service.http;
  * </p>
  *
  * @author Romain Vergnais
- * @see CommentServiceSoap
  * @generated
  */
 public class CommentServiceHttp {

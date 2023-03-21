@@ -23,15 +23,17 @@ import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.service.council.service.TypeService;
+import eu.strasbourg.service.council.service.TypeServiceUtil;
 import eu.strasbourg.service.council.service.persistence.CouncilSessionPersistence;
 import eu.strasbourg.service.council.service.persistence.DeliberationPersistence;
 import eu.strasbourg.service.council.service.persistence.OfficialPersistence;
@@ -41,6 +43,7 @@ import eu.strasbourg.service.council.service.persistence.TypePersistence;
 import eu.strasbourg.service.council.service.persistence.VotePersistence;
 
 import javax.sql.DataSource;
+import java.lang.reflect.Field;
 
 /**
  * Provides the base implementation for the type remote service.
@@ -59,7 +62,7 @@ public abstract class TypeServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>TypeService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.council.service.TypeServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>TypeService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>TypeServiceUtil</code>.
 	 */
 
 	/**
@@ -767,9 +770,11 @@ public abstract class TypeServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
+		_setServiceUtilService(typeService);
 	}
 
 	public void destroy() {
+		_setServiceUtilService(null);
 	}
 
 	/**
@@ -811,6 +816,19 @@ public abstract class TypeServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setServiceUtilService(TypeService typeService) {
+		try {
+			Field field = TypeServiceUtil.class.getDeclaredField("_service");
+
+			field.setAccessible(true);
+
+			field.set(null, typeService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -971,5 +989,8 @@ public abstract class TypeServiceBaseImpl
 
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		TypeServiceBaseImpl.class);
 
 }

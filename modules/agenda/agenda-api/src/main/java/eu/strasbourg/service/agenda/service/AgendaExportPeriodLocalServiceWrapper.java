@@ -27,6 +27,10 @@ public class AgendaExportPeriodLocalServiceWrapper
 	implements AgendaExportPeriodLocalService,
 			   ServiceWrapper<AgendaExportPeriodLocalService> {
 
+	public AgendaExportPeriodLocalServiceWrapper() {
+		this(null);
+	}
+
 	public AgendaExportPeriodLocalServiceWrapper(
 		AgendaExportPeriodLocalService agendaExportPeriodLocalService) {
 
@@ -79,6 +83,18 @@ public class AgendaExportPeriodLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _agendaExportPeriodLocalService.createPersistedModel(
+			primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the agenda export period from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -128,6 +144,18 @@ public class AgendaExportPeriodLocalServiceWrapper
 
 		return _agendaExportPeriodLocalService.deletePersistedModel(
 			persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _agendaExportPeriodLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _agendaExportPeriodLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

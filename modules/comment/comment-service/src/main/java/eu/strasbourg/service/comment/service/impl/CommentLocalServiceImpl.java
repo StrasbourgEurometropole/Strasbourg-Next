@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.comment.service.impl;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -37,6 +38,7 @@ import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import eu.strasbourg.service.comment.service.base.CommentLocalServiceBaseImpl;
 import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -254,11 +256,8 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
 
 		if (entry != null) {
 			// Supprime lien avec les catégories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-					categoryId, entry.getEntryId());
-			}
-
+			assetEntryAssetCategoryRelLocalService.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Supprime lien avec les tags
 			long[] tagsIds = this.assetEntryLocalService
 				.getAssetTagPrimaryKeys(entry.getEntryId());
@@ -364,5 +363,6 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
 
         return commentPersistence.countWithDynamicQuery(dynamicQuery);
     }
-
+	@Reference
+	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

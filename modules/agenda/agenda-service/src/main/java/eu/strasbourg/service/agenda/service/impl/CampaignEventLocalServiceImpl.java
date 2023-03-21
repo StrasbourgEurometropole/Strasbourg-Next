@@ -14,15 +14,12 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
-import java.util.List;
-
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.CampaignEvent;
 import eu.strasbourg.service.agenda.model.CampaignEventStatus;
 import eu.strasbourg.service.agenda.model.EventPeriod;
@@ -30,13 +27,15 @@ import eu.strasbourg.service.agenda.service.CampaignEventStatusLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.base.CampaignEventLocalServiceBaseImpl;
 
+import java.util.List;
+
 /**
  * The implementation of the campaignEvent local service.
  *
  * <p>
  * All custom service methods should be put in this class. Whenever methods are
  * added, rerun ServiceBuilder to copy their definitions into the
- * {@link eu.strasbourg.service.campaignEvent.service.CampaignEventLocalService}
+ * {@link eu.strasbourg.service.agenda.service.CampaignEventLocalService}
  * interface.
  *
  * <p>
@@ -47,7 +46,7 @@ import eu.strasbourg.service.agenda.service.base.CampaignEventLocalServiceBaseIm
  *
  * @author BenjaminBini
  * @see CampaignEventLocalServiceBaseImpl
- * @see eu.strasbourg.service.campaignEvent.service.CampaignEventLocalServiceUtil
+ * @see eu.strasbourg.service.agenda.service.CampaignEventLocalServiceUtil
  */
 @ProviderType
 public class CampaignEventLocalServiceImpl

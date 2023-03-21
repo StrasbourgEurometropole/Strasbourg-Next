@@ -3,7 +3,6 @@ package eu.strasbourg.service.place;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.OccupationState;

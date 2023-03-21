@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.edition.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for EditionGallery. This utility wraps
  * <code>eu.strasbourg.service.edition.service.impl.EditionGalleryServiceImpl</code> and is an
@@ -43,30 +39,14 @@ public class EditionGalleryServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static EditionGalleryService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<EditionGalleryService, EditionGalleryService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(EditionGalleryService.class);
-
-		ServiceTracker<EditionGalleryService, EditionGalleryService>
-			serviceTracker =
-				new ServiceTracker
-					<EditionGalleryService, EditionGalleryService>(
-						bundle.getBundleContext(), EditionGalleryService.class,
-						null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile EditionGalleryService _service;
 
 }

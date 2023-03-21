@@ -83,6 +83,11 @@ public class ThematicWrapper
 		}
 	}
 
+	@Override
+	public Thematic cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
+	}
+
 	/**
 	 * Returns the favorite of this thematic.
 	 *
@@ -206,6 +211,11 @@ public class ThematicWrapper
 	@Override
 	public void setUuid(String uuid) {
 		model.setUuid(uuid);
+	}
+
+	@Override
+	public String toXmlString() {
+		return model.toXmlString();
 	}
 
 	@Override

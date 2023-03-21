@@ -17,13 +17,12 @@ package eu.strasbourg.service.project.model.impl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.StringUtil;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.constants.InitiativeHelpTypes;
 import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The extended model implementation for the InitiativeHelp service. Represents a row in the &quot;project_InitiativeHelp&quot; database table, with each column mapped to a property of this class.

@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class ActivityCourseServiceWrapper
 	implements ActivityCourseService, ServiceWrapper<ActivityCourseService> {
 
+	public ActivityCourseServiceWrapper() {
+		this(null);
+	}
+
 	public ActivityCourseServiceWrapper(
 		ActivityCourseService activityCourseService) {
 

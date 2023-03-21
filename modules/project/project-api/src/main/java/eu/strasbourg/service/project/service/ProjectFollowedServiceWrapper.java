@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class ProjectFollowedServiceWrapper
 	implements ProjectFollowedService, ServiceWrapper<ProjectFollowedService> {
 
+	public ProjectFollowedServiceWrapper() {
+		this(null);
+	}
+
 	public ProjectFollowedServiceWrapper(
 		ProjectFollowedService projectFollowedService) {
 

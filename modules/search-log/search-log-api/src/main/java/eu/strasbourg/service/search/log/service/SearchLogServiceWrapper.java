@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class SearchLogServiceWrapper
 	implements SearchLogService, ServiceWrapper<SearchLogService> {
 
+	public SearchLogServiceWrapper() {
+		this(null);
+	}
+
 	public SearchLogServiceWrapper(SearchLogService searchLogService) {
 		_searchLogService = searchLogService;
 	}

@@ -14,16 +14,12 @@
 
 package eu.strasbourg.service.gtfs.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -34,20 +30,12 @@ import java.util.Objects;
  * @see Calendar
  * @generated
  */
-public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
+public class CalendarWrapper
+	extends BaseModelWrapper<Calendar>
+	implements Calendar, ModelWrapper<Calendar> {
 
 	public CalendarWrapper(Calendar calendar) {
-		_calendar = calendar;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Calendar.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Calendar.class.getName();
+		super(calendar);
 	}
 
 	@Override
@@ -146,13 +134,8 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	}
 
 	@Override
-	public Object clone() {
-		return new CalendarWrapper((Calendar)_calendar.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.gtfs.model.Calendar calendar) {
-		return _calendar.compareTo(calendar);
+	public Calendar cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -162,12 +145,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public Date getEnd_date() {
-		return _calendar.getEnd_date();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _calendar.getExpandoBridge();
+		return model.getEnd_date();
 	}
 
 	/**
@@ -177,7 +155,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public boolean getFriday() {
-		return _calendar.getFriday();
+		return model.getFriday();
 	}
 
 	/**
@@ -187,7 +165,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public long getId() {
-		return _calendar.getId();
+		return model.getId();
 	}
 
 	/**
@@ -197,7 +175,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public boolean getMonday() {
-		return _calendar.getMonday();
+		return model.getMonday();
 	}
 
 	/**
@@ -207,12 +185,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _calendar.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _calendar.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -222,7 +195,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public boolean getSaturday() {
-		return _calendar.getSaturday();
+		return model.getSaturday();
 	}
 
 	/**
@@ -232,7 +205,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public String getService_id() {
-		return _calendar.getService_id();
+		return model.getService_id();
 	}
 
 	/**
@@ -242,7 +215,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public Date getStart_date() {
-		return _calendar.getStart_date();
+		return model.getStart_date();
 	}
 
 	/**
@@ -252,7 +225,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public boolean getSunday() {
-		return _calendar.getSunday();
+		return model.getSunday();
 	}
 
 	/**
@@ -262,7 +235,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public boolean getThursday() {
-		return _calendar.getThursday();
+		return model.getThursday();
 	}
 
 	/**
@@ -272,7 +245,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public boolean getTuesday() {
-		return _calendar.getTuesday();
+		return model.getTuesday();
 	}
 
 	/**
@@ -282,7 +255,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public String getUuid() {
-		return _calendar.getUuid();
+		return model.getUuid();
 	}
 
 	/**
@@ -292,22 +265,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public boolean getWednesday() {
-		return _calendar.getWednesday();
-	}
-
-	@Override
-	public int hashCode() {
-		return _calendar.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _calendar.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _calendar.isEscapedModel();
+		return model.getWednesday();
 	}
 
 	/**
@@ -317,7 +275,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public boolean isFriday() {
-		return _calendar.isFriday();
+		return model.isFriday();
 	}
 
 	/**
@@ -327,12 +285,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public boolean isMonday() {
-		return _calendar.isMonday();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _calendar.isNew();
+		return model.isMonday();
 	}
 
 	/**
@@ -342,7 +295,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public boolean isSaturday() {
-		return _calendar.isSaturday();
+		return model.isSaturday();
 	}
 
 	/**
@@ -352,7 +305,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public boolean isSunday() {
-		return _calendar.isSunday();
+		return model.isSunday();
 	}
 
 	/**
@@ -362,7 +315,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public boolean isThursday() {
-		return _calendar.isThursday();
+		return model.isThursday();
 	}
 
 	/**
@@ -372,7 +325,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public boolean isTuesday() {
-		return _calendar.isTuesday();
+		return model.isTuesday();
 	}
 
 	/**
@@ -382,17 +335,12 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public boolean isWednesday() {
-		return _calendar.isWednesday();
+		return model.isWednesday();
 	}
 
 	@Override
 	public void persist() {
-		_calendar.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_calendar.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -402,24 +350,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public void setEnd_date(Date end_date) {
-		_calendar.setEnd_date(end_date);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_calendar.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_calendar.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_calendar.setExpandoBridgeAttributes(serviceContext);
+		model.setEnd_date(end_date);
 	}
 
 	/**
@@ -429,7 +360,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public void setFriday(boolean friday) {
-		_calendar.setFriday(friday);
+		model.setFriday(friday);
 	}
 
 	/**
@@ -439,7 +370,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public void setId(long id) {
-		_calendar.setId(id);
+		model.setId(id);
 	}
 
 	/**
@@ -449,12 +380,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public void setMonday(boolean monday) {
-		_calendar.setMonday(monday);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_calendar.setNew(n);
+		model.setMonday(monday);
 	}
 
 	/**
@@ -464,12 +390,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_calendar.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_calendar.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -479,7 +400,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public void setSaturday(boolean saturday) {
-		_calendar.setSaturday(saturday);
+		model.setSaturday(saturday);
 	}
 
 	/**
@@ -489,7 +410,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public void setService_id(String service_id) {
-		_calendar.setService_id(service_id);
+		model.setService_id(service_id);
 	}
 
 	/**
@@ -499,7 +420,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public void setStart_date(Date start_date) {
-		_calendar.setStart_date(start_date);
+		model.setStart_date(start_date);
 	}
 
 	/**
@@ -509,7 +430,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public void setSunday(boolean sunday) {
-		_calendar.setSunday(sunday);
+		model.setSunday(sunday);
 	}
 
 	/**
@@ -519,7 +440,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public void setThursday(boolean thursday) {
-		_calendar.setThursday(thursday);
+		model.setThursday(thursday);
 	}
 
 	/**
@@ -529,7 +450,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public void setTuesday(boolean tuesday) {
-		_calendar.setTuesday(tuesday);
+		model.setTuesday(tuesday);
 	}
 
 	/**
@@ -539,7 +460,7 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_calendar.setUuid(uuid);
+		model.setUuid(uuid);
 	}
 
 	/**
@@ -549,75 +470,17 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	 */
 	@Override
 	public void setWednesday(boolean wednesday) {
-		_calendar.setWednesday(wednesday);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.gtfs.model.Calendar> toCacheModel() {
-
-		return _calendar.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Calendar toEscapedModel() {
-		return new CalendarWrapper(_calendar.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _calendar.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Calendar toUnescapedModel() {
-		return new CalendarWrapper(_calendar.toUnescapedModel());
+		model.setWednesday(wednesday);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _calendar.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof CalendarWrapper)) {
-			return false;
-		}
-
-		CalendarWrapper calendarWrapper = (CalendarWrapper)object;
-
-		if (Objects.equals(_calendar, calendarWrapper._calendar)) {
-			return true;
-		}
-
-		return false;
+	protected CalendarWrapper wrap(Calendar calendar) {
+		return new CalendarWrapper(calendar);
 	}
-
-	@Override
-	public Calendar getWrappedModel() {
-		return _calendar;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _calendar.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _calendar.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_calendar.resetOriginalValues();
-	}
-
-	private final Calendar _calendar;
 
 }

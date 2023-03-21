@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.agenda.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author BenjaminBini
  */
-@ProviderType
 public class NoSuchCsmapCacheJsonException extends NoSuchModelException {
 
 	public NoSuchCsmapCacheJsonException() {
@@ -30,12 +27,12 @@ public class NoSuchCsmapCacheJsonException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchCsmapCacheJsonException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchCsmapCacheJsonException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchCsmapCacheJsonException(Throwable cause) {
-		super(cause);
+	public NoSuchCsmapCacheJsonException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

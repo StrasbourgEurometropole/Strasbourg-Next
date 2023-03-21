@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.project.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for Initiative. This utility wraps
  * <code>eu.strasbourg.service.project.service.impl.InitiativeServiceImpl</code> and is an
@@ -43,27 +39,14 @@ public class InitiativeServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static InitiativeService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<InitiativeService, InitiativeService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(InitiativeService.class);
-
-		ServiceTracker<InitiativeService, InitiativeService> serviceTracker =
-			new ServiceTracker<InitiativeService, InitiativeService>(
-				bundle.getBundleContext(), InitiativeService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile InitiativeService _service;
 
 }

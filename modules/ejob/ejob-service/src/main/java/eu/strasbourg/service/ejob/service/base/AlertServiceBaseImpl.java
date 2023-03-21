@@ -23,19 +23,22 @@ import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.ejob.model.Alert;
 import eu.strasbourg.service.ejob.service.AlertService;
+import eu.strasbourg.service.ejob.service.AlertServiceUtil;
 import eu.strasbourg.service.ejob.service.persistence.AlertPersistence;
 import eu.strasbourg.service.ejob.service.persistence.OfferPersistence;
 
 import javax.sql.DataSource;
+import java.lang.reflect.Field;
 
 /**
  * Provides the base implementation for the alert remote service.
@@ -54,7 +57,7 @@ public abstract class AlertServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>AlertService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.ejob.service.AlertServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>AlertService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>AlertServiceUtil</code>.
 	 */
 
 	/**
@@ -522,9 +525,11 @@ public abstract class AlertServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
+		_setServiceUtilService(alertService);
 	}
 
 	public void destroy() {
+		_setServiceUtilService(null);
 	}
 
 	/**
@@ -566,6 +571,19 @@ public abstract class AlertServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setServiceUtilService(AlertService alertService) {
+		try {
+			Field field = AlertServiceUtil.class.getDeclaredField("_service");
+
+			field.setAccessible(true);
+
+			field.set(null, alertService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -671,5 +689,8 @@ public abstract class AlertServiceBaseImpl
 
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		AlertServiceBaseImpl.class);
 
 }

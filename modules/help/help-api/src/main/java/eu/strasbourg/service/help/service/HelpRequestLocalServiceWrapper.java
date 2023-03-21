@@ -27,6 +27,10 @@ public class HelpRequestLocalServiceWrapper
 	implements HelpRequestLocalService,
 			   ServiceWrapper<HelpRequestLocalService> {
 
+	public HelpRequestLocalServiceWrapper() {
+		this(null);
+	}
+
 	public HelpRequestLocalServiceWrapper(
 		HelpRequestLocalService helpRequestLocalService) {
 
@@ -77,6 +81,17 @@ public class HelpRequestLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _helpRequestLocalService.createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the help request from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -121,6 +136,18 @@ public class HelpRequestLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _helpRequestLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _helpRequestLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _helpRequestLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

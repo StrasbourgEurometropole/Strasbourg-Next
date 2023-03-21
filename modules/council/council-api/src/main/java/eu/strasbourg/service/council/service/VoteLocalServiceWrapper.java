@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class VoteLocalServiceWrapper
 	implements ServiceWrapper<VoteLocalService>, VoteLocalService {
 
+	public VoteLocalServiceWrapper() {
+		this(null);
+	}
+
 	public VoteLocalServiceWrapper(VoteLocalService voteLocalService) {
 		_voteLocalService = voteLocalService;
 	}
@@ -45,6 +49,17 @@ public class VoteLocalServiceWrapper
 		eu.strasbourg.service.council.model.Vote vote) {
 
 		return _voteLocalService.addVote(vote);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _voteLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -116,6 +131,18 @@ public class VoteLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _voteLocalService.deleteVote(votePK);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _voteLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _voteLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

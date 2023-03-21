@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.project.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for Signataire. This utility wraps
  * <code>eu.strasbourg.service.project.service.impl.SignataireServiceImpl</code> and is an
@@ -43,27 +39,14 @@ public class SignataireServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static SignataireService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<SignataireService, SignataireService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(SignataireService.class);
-
-		ServiceTracker<SignataireService, SignataireService> serviceTracker =
-			new ServiceTracker<SignataireService, SignataireService>(
-				bundle.getBundleContext(), SignataireService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile SignataireService _service;
 
 }

@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.project.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.project.exception.NoSuchProjectFollowedException;
 import eu.strasbourg.service.project.model.ProjectFollowed;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the project followed service.
@@ -46,9 +39,6 @@ public interface ProjectFollowedPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link ProjectFollowedUtil} to access the project followed persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, ProjectFollowed> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the project followeds where publikUserId = &#63;.

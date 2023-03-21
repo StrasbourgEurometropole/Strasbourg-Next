@@ -14,8 +14,7 @@
 
 package eu.strasbourg.service.notification.service;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -38,6 +37,8 @@ import java.io.Serializable;
 
 import java.util.List;
 
+import org.osgi.annotation.versioning.ProviderType;
+
 /**
  * Provides the local service interface for UserNotificationChannel. Methods of this
  * service will not have security checks based on the propagated JAAS
@@ -59,7 +60,7 @@ public interface UserNotificationChannelLocalService
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link UserNotificationChannelLocalServiceUtil} to access the user notification channel local service. Add custom service methods to <code>eu.strasbourg.service.notification.service.impl.UserNotificationChannelLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.notification.service.impl.UserNotificationChannelLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the user notification channel local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link UserNotificationChannelLocalServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**
@@ -75,6 +76,12 @@ public interface UserNotificationChannelLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public UserNotificationChannel addUserNotificationChannel(
 		UserNotificationChannel userNotificationChannel);
+
+	/**
+	 * @throws PortalException
+	 */
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException;
 
 	/**
 	 * Creates a new user notification channel with the primary key. Does not add the user notification channel to the database.
@@ -122,6 +129,12 @@ public interface UserNotificationChannelLocalService
 	public UserNotificationChannel deleteUserNotificationChannel(
 			UserNotificationChannelPK userNotificationChannelPK)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> T dslQuery(DSLQuery dslQuery);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int dslQueryCount(DSLQuery dslQuery);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();

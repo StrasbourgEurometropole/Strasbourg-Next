@@ -27,6 +27,10 @@ public class OfficialTypeCouncilLocalServiceWrapper
 	implements OfficialTypeCouncilLocalService,
 			   ServiceWrapper<OfficialTypeCouncilLocalService> {
 
+	public OfficialTypeCouncilLocalServiceWrapper() {
+		this(null);
+	}
+
 	public OfficialTypeCouncilLocalServiceWrapper(
 		OfficialTypeCouncilLocalService officialTypeCouncilLocalService) {
 
@@ -83,6 +87,18 @@ public class OfficialTypeCouncilLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _officialTypeCouncilLocalService.createPersistedModel(
+			primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the official type council from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -134,6 +150,18 @@ public class OfficialTypeCouncilLocalServiceWrapper
 
 		return _officialTypeCouncilLocalService.deletePersistedModel(
 			persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _officialTypeCouncilLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _officialTypeCouncilLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

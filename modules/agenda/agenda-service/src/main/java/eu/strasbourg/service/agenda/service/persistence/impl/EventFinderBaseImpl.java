@@ -22,8 +22,6 @@ import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.persistence.EventPersistence;
 
-import java.lang.reflect.Field;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -42,19 +40,7 @@ public class EventFinderBaseImpl extends BasePersistenceImpl<Event> {
 		dbColumnNames.put("uuid", "uuid_");
 		dbColumnNames.put("access", "access_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 	}
 
 	@Override

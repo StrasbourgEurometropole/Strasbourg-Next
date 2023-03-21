@@ -14,17 +14,13 @@
 
 package eu.strasbourg.service.agenda.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,20 +32,11 @@ import java.util.Objects;
  * @generated
  */
 public class AgendaExportWrapper
+	extends BaseModelWrapper<AgendaExport>
 	implements AgendaExport, ModelWrapper<AgendaExport> {
 
 	public AgendaExportWrapper(AgendaExport agendaExport) {
-		_agendaExport = agendaExport;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return AgendaExport.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return AgendaExport.class.getName();
+		super(agendaExport);
 	}
 
 	@Override
@@ -197,15 +184,8 @@ public class AgendaExportWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new AgendaExportWrapper((AgendaExport)_agendaExport.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.agenda.model.AgendaExport agendaExport) {
-
-		return _agendaExport.compareTo(agendaExport);
+	public AgendaExport cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -215,7 +195,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public long getAgendaExportId() {
-		return _agendaExport.getAgendaExportId();
+		return model.getAgendaExportId();
 	}
 
 	/**
@@ -226,7 +206,7 @@ public class AgendaExportWrapper
 	public java.util.List<eu.strasbourg.service.agenda.model.AgendaExportPeriod>
 		getAgendaExportPeriods() {
 
-		return _agendaExport.getAgendaExportPeriods();
+		return model.getAgendaExportPeriods();
 	}
 
 	/**
@@ -236,7 +216,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public String getAggregations() {
-		return _agendaExport.getAggregations();
+		return model.getAggregations();
 	}
 
 	/**
@@ -244,12 +224,12 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _agendaExport.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _agendaExport.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -260,7 +240,7 @@ public class AgendaExportWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _agendaExport.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -270,7 +250,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _agendaExport.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -280,12 +260,12 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _agendaExport.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _agendaExport.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -295,12 +275,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public String getEventCategories() {
-		return _agendaExport.getEventCategories();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _agendaExport.getExpandoBridge();
+		return model.getEventCategories();
 	}
 
 	/**
@@ -310,7 +285,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public String getExportFormat() {
-		return _agendaExport.getExportFormat();
+		return model.getExportFormat();
 	}
 
 	/**
@@ -320,7 +295,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _agendaExport.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -330,7 +305,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public String getLanguage() {
-		return _agendaExport.getLanguage();
+		return model.getLanguage();
 	}
 
 	/**
@@ -340,7 +315,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public Date getLastPublishDate() {
-		return _agendaExport.getLastPublishDate();
+		return model.getLastPublishDate();
 	}
 
 	/**
@@ -350,7 +325,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _agendaExport.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -360,12 +335,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _agendaExport.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _agendaExport.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -375,7 +345,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public int getStatus() {
-		return _agendaExport.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -385,7 +355,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _agendaExport.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -395,7 +365,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _agendaExport.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -405,7 +375,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _agendaExport.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -415,7 +385,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _agendaExport.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -425,7 +395,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public long getTemplateId() {
-		return _agendaExport.getTemplateId();
+		return model.getTemplateId();
 	}
 
 	/**
@@ -435,7 +405,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public String getTitle() {
-		return _agendaExport.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -446,7 +416,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale) {
-		return _agendaExport.getTitle(locale);
+		return model.getTitle(locale);
 	}
 
 	/**
@@ -458,7 +428,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale, boolean useDefault) {
-		return _agendaExport.getTitle(locale, useDefault);
+		return model.getTitle(locale, useDefault);
 	}
 
 	/**
@@ -469,7 +439,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public String getTitle(String languageId) {
-		return _agendaExport.getTitle(languageId);
+		return model.getTitle(languageId);
 	}
 
 	/**
@@ -481,17 +451,17 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public String getTitle(String languageId, boolean useDefault) {
-		return _agendaExport.getTitle(languageId, useDefault);
+		return model.getTitle(languageId, useDefault);
 	}
 
 	@Override
 	public String getTitleCurrentLanguageId() {
-		return _agendaExport.getTitleCurrentLanguageId();
+		return model.getTitleCurrentLanguageId();
 	}
 
 	@Override
 	public String getTitleCurrentValue() {
-		return _agendaExport.getTitleCurrentValue();
+		return model.getTitleCurrentValue();
 	}
 
 	/**
@@ -501,7 +471,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getTitleMap() {
-		return _agendaExport.getTitleMap();
+		return model.getTitleMap();
 	}
 
 	/**
@@ -511,7 +481,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _agendaExport.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -521,7 +491,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _agendaExport.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -531,7 +501,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _agendaExport.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -541,12 +511,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _agendaExport.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _agendaExport.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -556,12 +521,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public boolean isApproved() {
-		return _agendaExport.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _agendaExport.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -571,7 +531,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public boolean isDenied() {
-		return _agendaExport.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -581,12 +541,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public boolean isDraft() {
-		return _agendaExport.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _agendaExport.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -596,7 +551,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public boolean isExpired() {
-		return _agendaExport.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -606,7 +561,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public boolean isInactive() {
-		return _agendaExport.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -616,12 +571,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _agendaExport.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _agendaExport.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -631,7 +581,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public boolean isPending() {
-		return _agendaExport.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -641,19 +591,19 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _agendaExport.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_agendaExport.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_agendaExport.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -661,7 +611,7 @@ public class AgendaExportWrapper
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_agendaExport.prepareLocalizedFieldsForImport(defaultImportLocale);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -671,7 +621,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setAgendaExportId(long agendaExportId) {
-		_agendaExport.setAgendaExportId(agendaExportId);
+		model.setAgendaExportId(agendaExportId);
 	}
 
 	/**
@@ -681,12 +631,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setAggregations(String aggregations) {
-		_agendaExport.setAggregations(aggregations);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_agendaExport.setCachedModel(cachedModel);
+		model.setAggregations(aggregations);
 	}
 
 	/**
@@ -696,7 +641,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_agendaExport.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -706,7 +651,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_agendaExport.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -716,24 +661,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setEventCategories(String eventCategories) {
-		_agendaExport.setEventCategories(eventCategories);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_agendaExport.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_agendaExport.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_agendaExport.setExpandoBridgeAttributes(serviceContext);
+		model.setEventCategories(eventCategories);
 	}
 
 	/**
@@ -743,7 +671,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setExportFormat(String exportFormat) {
-		_agendaExport.setExportFormat(exportFormat);
+		model.setExportFormat(exportFormat);
 	}
 
 	/**
@@ -753,7 +681,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_agendaExport.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -763,7 +691,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setLanguage(String language) {
-		_agendaExport.setLanguage(language);
+		model.setLanguage(language);
 	}
 
 	/**
@@ -773,7 +701,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
-		_agendaExport.setLastPublishDate(lastPublishDate);
+		model.setLastPublishDate(lastPublishDate);
 	}
 
 	/**
@@ -783,12 +711,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_agendaExport.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_agendaExport.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -798,12 +721,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_agendaExport.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_agendaExport.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -813,7 +731,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setStatus(int status) {
-		_agendaExport.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -823,7 +741,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_agendaExport.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -833,7 +751,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_agendaExport.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -843,7 +761,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_agendaExport.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -853,7 +771,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_agendaExport.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -863,7 +781,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setTemplateId(long templateId) {
-		_agendaExport.setTemplateId(templateId);
+		model.setTemplateId(templateId);
 	}
 
 	/**
@@ -873,7 +791,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setTitle(String title) {
-		_agendaExport.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -884,7 +802,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setTitle(String title, java.util.Locale locale) {
-		_agendaExport.setTitle(title, locale);
+		model.setTitle(title, locale);
 	}
 
 	/**
@@ -898,12 +816,12 @@ public class AgendaExportWrapper
 	public void setTitle(
 		String title, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_agendaExport.setTitle(title, locale, defaultLocale);
+		model.setTitle(title, locale, defaultLocale);
 	}
 
 	@Override
 	public void setTitleCurrentLanguageId(String languageId) {
-		_agendaExport.setTitleCurrentLanguageId(languageId);
+		model.setTitleCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -913,7 +831,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setTitleMap(Map<java.util.Locale, String> titleMap) {
-		_agendaExport.setTitleMap(titleMap);
+		model.setTitleMap(titleMap);
 	}
 
 	/**
@@ -927,7 +845,7 @@ public class AgendaExportWrapper
 		Map<java.util.Locale, String> titleMap,
 		java.util.Locale defaultLocale) {
 
-		_agendaExport.setTitleMap(titleMap, defaultLocale);
+		model.setTitleMap(titleMap, defaultLocale);
 	}
 
 	/**
@@ -937,7 +855,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_agendaExport.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -947,7 +865,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_agendaExport.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -957,7 +875,7 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_agendaExport.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -967,80 +885,22 @@ public class AgendaExportWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_agendaExport.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.agenda.model.AgendaExport> toCacheModel() {
-
-		return _agendaExport.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.AgendaExport toEscapedModel() {
-		return new AgendaExportWrapper(_agendaExport.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _agendaExport.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.AgendaExport toUnescapedModel() {
-		return new AgendaExportWrapper(_agendaExport.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _agendaExport.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof AgendaExportWrapper)) {
-			return false;
-		}
-
-		AgendaExportWrapper agendaExportWrapper = (AgendaExportWrapper)object;
-
-		if (Objects.equals(_agendaExport, agendaExportWrapper._agendaExport)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _agendaExport.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public AgendaExport getWrappedModel() {
-		return _agendaExport;
+	protected AgendaExportWrapper wrap(AgendaExport agendaExport) {
+		return new AgendaExportWrapper(agendaExport);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _agendaExport.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _agendaExport.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_agendaExport.resetOriginalValues();
-	}
-
-	private final AgendaExport _agendaExport;
 
 }

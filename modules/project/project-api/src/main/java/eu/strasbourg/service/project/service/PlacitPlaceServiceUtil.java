@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.project.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for PlacitPlace. This utility wraps
  * <code>eu.strasbourg.service.project.service.impl.PlacitPlaceServiceImpl</code> and is an
@@ -43,27 +39,14 @@ public class PlacitPlaceServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static PlacitPlaceService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<PlacitPlaceService, PlacitPlaceService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(PlacitPlaceService.class);
-
-		ServiceTracker<PlacitPlaceService, PlacitPlaceService> serviceTracker =
-			new ServiceTracker<PlacitPlaceService, PlacitPlaceService>(
-				bundle.getBundleContext(), PlacitPlaceService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile PlacitPlaceService _service;
 
 }

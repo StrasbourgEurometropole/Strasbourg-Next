@@ -14,17 +14,13 @@
 
 package eu.strasbourg.service.artwork.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,20 +32,11 @@ import java.util.Objects;
  * @generated
  */
 public class ArtworkCollectionWrapper
+	extends BaseModelWrapper<ArtworkCollection>
 	implements ArtworkCollection, ModelWrapper<ArtworkCollection> {
 
 	public ArtworkCollectionWrapper(ArtworkCollection artworkCollection) {
-		_artworkCollection = artworkCollection;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return ArtworkCollection.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return ArtworkCollection.class.getName();
+		super(artworkCollection);
 	}
 
 	@Override
@@ -183,17 +170,8 @@ public class ArtworkCollectionWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new ArtworkCollectionWrapper(
-			(ArtworkCollection)_artworkCollection.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.artwork.model.ArtworkCollection
-			artworkCollection) {
-
-		return _artworkCollection.compareTo(artworkCollection);
+	public ArtworkCollection cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -203,7 +181,7 @@ public class ArtworkCollectionWrapper
 	public java.util.List<eu.strasbourg.service.artwork.model.Artwork>
 		getArtworks() {
 
-		return _artworkCollection.getArtworks();
+		return model.getArtworks();
 	}
 
 	/**
@@ -211,7 +189,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getArtworksIds() {
-		return _artworkCollection.getArtworksIds();
+		return model.getArtworksIds();
 	}
 
 	/**
@@ -219,12 +197,12 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _artworkCollection.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _artworkCollection.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -235,7 +213,7 @@ public class ArtworkCollectionWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _artworkCollection.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -245,7 +223,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public long getCollectionId() {
-		return _artworkCollection.getCollectionId();
+		return model.getCollectionId();
 	}
 
 	/**
@@ -255,7 +233,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _artworkCollection.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -265,7 +243,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getContributors() {
-		return _artworkCollection.getContributors();
+		return model.getContributors();
 	}
 
 	/**
@@ -276,7 +254,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getContributors(java.util.Locale locale) {
-		return _artworkCollection.getContributors(locale);
+		return model.getContributors(locale);
 	}
 
 	/**
@@ -288,7 +266,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getContributors(java.util.Locale locale, boolean useDefault) {
-		return _artworkCollection.getContributors(locale, useDefault);
+		return model.getContributors(locale, useDefault);
 	}
 
 	/**
@@ -299,7 +277,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getContributors(String languageId) {
-		return _artworkCollection.getContributors(languageId);
+		return model.getContributors(languageId);
 	}
 
 	/**
@@ -311,17 +289,17 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getContributors(String languageId, boolean useDefault) {
-		return _artworkCollection.getContributors(languageId, useDefault);
+		return model.getContributors(languageId, useDefault);
 	}
 
 	@Override
 	public String getContributorsCurrentLanguageId() {
-		return _artworkCollection.getContributorsCurrentLanguageId();
+		return model.getContributorsCurrentLanguageId();
 	}
 
 	@Override
 	public String getContributorsCurrentValue() {
-		return _artworkCollection.getContributorsCurrentValue();
+		return model.getContributorsCurrentValue();
 	}
 
 	/**
@@ -331,7 +309,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getContributorsMap() {
-		return _artworkCollection.getContributorsMap();
+		return model.getContributorsMap();
 	}
 
 	/**
@@ -341,12 +319,12 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _artworkCollection.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _artworkCollection.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -356,7 +334,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getDescription() {
-		return _artworkCollection.getDescription();
+		return model.getDescription();
 	}
 
 	/**
@@ -367,7 +345,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale) {
-		return _artworkCollection.getDescription(locale);
+		return model.getDescription(locale);
 	}
 
 	/**
@@ -379,7 +357,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale, boolean useDefault) {
-		return _artworkCollection.getDescription(locale, useDefault);
+		return model.getDescription(locale, useDefault);
 	}
 
 	/**
@@ -390,7 +368,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getDescription(String languageId) {
-		return _artworkCollection.getDescription(languageId);
+		return model.getDescription(languageId);
 	}
 
 	/**
@@ -402,17 +380,17 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getDescription(String languageId, boolean useDefault) {
-		return _artworkCollection.getDescription(languageId, useDefault);
+		return model.getDescription(languageId, useDefault);
 	}
 
 	@Override
 	public String getDescriptionCurrentLanguageId() {
-		return _artworkCollection.getDescriptionCurrentLanguageId();
+		return model.getDescriptionCurrentLanguageId();
 	}
 
 	@Override
 	public String getDescriptionCurrentValue() {
-		return _artworkCollection.getDescriptionCurrentValue();
+		return model.getDescriptionCurrentValue();
 	}
 
 	/**
@@ -422,12 +400,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getDescriptionMap() {
-		return _artworkCollection.getDescriptionMap();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _artworkCollection.getExpandoBridge();
+		return model.getDescriptionMap();
 	}
 
 	/**
@@ -437,7 +410,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _artworkCollection.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -445,7 +418,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getImageCopyright(java.util.Locale locale) {
-		return _artworkCollection.getImageCopyright(locale);
+		return model.getImageCopyright(locale);
 	}
 
 	/**
@@ -455,7 +428,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public Long getImageId() {
-		return _artworkCollection.getImageId();
+		return model.getImageId();
 	}
 
 	/**
@@ -463,7 +436,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getImageURL() {
-		return _artworkCollection.getImageURL();
+		return model.getImageURL();
 	}
 
 	/**
@@ -473,7 +446,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public Date getLastPublishDate() {
-		return _artworkCollection.getLastPublishDate();
+		return model.getLastPublishDate();
 	}
 
 	/**
@@ -483,7 +456,7 @@ public class ArtworkCollectionWrapper
 	public eu.strasbourg.service.artwork.model.ArtworkCollection
 		getLiveVersion() {
 
-		return _artworkCollection.getLiveVersion();
+		return model.getLiveVersion();
 	}
 
 	/**
@@ -493,7 +466,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _artworkCollection.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -503,12 +476,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _artworkCollection.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _artworkCollection.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -518,7 +486,7 @@ public class ArtworkCollectionWrapper
 	public java.util.List<eu.strasbourg.service.artwork.model.Artwork>
 		getPublishedArtworks() {
 
-		return _artworkCollection.getPublishedArtworks();
+		return model.getPublishedArtworks();
 	}
 
 	/**
@@ -526,7 +494,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getSourceCSSClass() {
-		return _artworkCollection.getSourceCSSClass();
+		return model.getSourceCSSClass();
 	}
 
 	/**
@@ -536,7 +504,7 @@ public class ArtworkCollectionWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getSources() {
 
-		return _artworkCollection.getSources();
+		return model.getSources();
 	}
 
 	/**
@@ -546,7 +514,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public int getStatus() {
-		return _artworkCollection.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -556,7 +524,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _artworkCollection.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -566,7 +534,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _artworkCollection.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -576,7 +544,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _artworkCollection.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -586,7 +554,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _artworkCollection.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -596,7 +564,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getTitle() {
-		return _artworkCollection.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -607,7 +575,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale) {
-		return _artworkCollection.getTitle(locale);
+		return model.getTitle(locale);
 	}
 
 	/**
@@ -619,7 +587,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale, boolean useDefault) {
-		return _artworkCollection.getTitle(locale, useDefault);
+		return model.getTitle(locale, useDefault);
 	}
 
 	/**
@@ -630,7 +598,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getTitle(String languageId) {
-		return _artworkCollection.getTitle(languageId);
+		return model.getTitle(languageId);
 	}
 
 	/**
@@ -642,17 +610,17 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getTitle(String languageId, boolean useDefault) {
-		return _artworkCollection.getTitle(languageId, useDefault);
+		return model.getTitle(languageId, useDefault);
 	}
 
 	@Override
 	public String getTitleCurrentLanguageId() {
-		return _artworkCollection.getTitleCurrentLanguageId();
+		return model.getTitleCurrentLanguageId();
 	}
 
 	@Override
 	public String getTitleCurrentValue() {
-		return _artworkCollection.getTitleCurrentValue();
+		return model.getTitleCurrentValue();
 	}
 
 	/**
@@ -662,7 +630,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getTitleMap() {
-		return _artworkCollection.getTitleMap();
+		return model.getTitleMap();
 	}
 
 	/**
@@ -672,7 +640,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _artworkCollection.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -682,7 +650,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _artworkCollection.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -692,7 +660,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _artworkCollection.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -702,12 +670,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _artworkCollection.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _artworkCollection.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -717,12 +680,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public boolean isApproved() {
-		return _artworkCollection.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _artworkCollection.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -732,7 +690,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public boolean isDenied() {
-		return _artworkCollection.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -742,12 +700,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public boolean isDraft() {
-		return _artworkCollection.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _artworkCollection.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -757,7 +710,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public boolean isExpired() {
-		return _artworkCollection.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -767,7 +720,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public boolean isInactive() {
-		return _artworkCollection.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -777,12 +730,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _artworkCollection.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _artworkCollection.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -792,7 +740,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public boolean isPending() {
-		return _artworkCollection.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -802,19 +750,19 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _artworkCollection.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_artworkCollection.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_artworkCollection.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -822,12 +770,7 @@ public class ArtworkCollectionWrapper
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_artworkCollection.prepareLocalizedFieldsForImport(defaultImportLocale);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_artworkCollection.setCachedModel(cachedModel);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -837,7 +780,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setCollectionId(long collectionId) {
-		_artworkCollection.setCollectionId(collectionId);
+		model.setCollectionId(collectionId);
 	}
 
 	/**
@@ -847,7 +790,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_artworkCollection.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -857,7 +800,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setContributors(String contributors) {
-		_artworkCollection.setContributors(contributors);
+		model.setContributors(contributors);
 	}
 
 	/**
@@ -868,7 +811,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setContributors(String contributors, java.util.Locale locale) {
-		_artworkCollection.setContributors(contributors, locale);
+		model.setContributors(contributors, locale);
 	}
 
 	/**
@@ -883,12 +826,12 @@ public class ArtworkCollectionWrapper
 		String contributors, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_artworkCollection.setContributors(contributors, locale, defaultLocale);
+		model.setContributors(contributors, locale, defaultLocale);
 	}
 
 	@Override
 	public void setContributorsCurrentLanguageId(String languageId) {
-		_artworkCollection.setContributorsCurrentLanguageId(languageId);
+		model.setContributorsCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -900,7 +843,7 @@ public class ArtworkCollectionWrapper
 	public void setContributorsMap(
 		Map<java.util.Locale, String> contributorsMap) {
 
-		_artworkCollection.setContributorsMap(contributorsMap);
+		model.setContributorsMap(contributorsMap);
 	}
 
 	/**
@@ -914,7 +857,7 @@ public class ArtworkCollectionWrapper
 		Map<java.util.Locale, String> contributorsMap,
 		java.util.Locale defaultLocale) {
 
-		_artworkCollection.setContributorsMap(contributorsMap, defaultLocale);
+		model.setContributorsMap(contributorsMap, defaultLocale);
 	}
 
 	/**
@@ -924,7 +867,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_artworkCollection.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -934,7 +877,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setDescription(String description) {
-		_artworkCollection.setDescription(description);
+		model.setDescription(description);
 	}
 
 	/**
@@ -945,7 +888,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setDescription(String description, java.util.Locale locale) {
-		_artworkCollection.setDescription(description, locale);
+		model.setDescription(description, locale);
 	}
 
 	/**
@@ -960,12 +903,12 @@ public class ArtworkCollectionWrapper
 		String description, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_artworkCollection.setDescription(description, locale, defaultLocale);
+		model.setDescription(description, locale, defaultLocale);
 	}
 
 	@Override
 	public void setDescriptionCurrentLanguageId(String languageId) {
-		_artworkCollection.setDescriptionCurrentLanguageId(languageId);
+		model.setDescriptionCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -977,7 +920,7 @@ public class ArtworkCollectionWrapper
 	public void setDescriptionMap(
 		Map<java.util.Locale, String> descriptionMap) {
 
-		_artworkCollection.setDescriptionMap(descriptionMap);
+		model.setDescriptionMap(descriptionMap);
 	}
 
 	/**
@@ -991,24 +934,7 @@ public class ArtworkCollectionWrapper
 		Map<java.util.Locale, String> descriptionMap,
 		java.util.Locale defaultLocale) {
 
-		_artworkCollection.setDescriptionMap(descriptionMap, defaultLocale);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_artworkCollection.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_artworkCollection.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_artworkCollection.setExpandoBridgeAttributes(serviceContext);
+		model.setDescriptionMap(descriptionMap, defaultLocale);
 	}
 
 	/**
@@ -1018,7 +944,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_artworkCollection.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -1028,7 +954,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setImageId(Long imageId) {
-		_artworkCollection.setImageId(imageId);
+		model.setImageId(imageId);
 	}
 
 	/**
@@ -1038,7 +964,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
-		_artworkCollection.setLastPublishDate(lastPublishDate);
+		model.setLastPublishDate(lastPublishDate);
 	}
 
 	/**
@@ -1048,12 +974,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_artworkCollection.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_artworkCollection.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -1063,12 +984,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_artworkCollection.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_artworkCollection.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -1078,7 +994,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setStatus(int status) {
-		_artworkCollection.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -1088,7 +1004,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_artworkCollection.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -1098,7 +1014,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_artworkCollection.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -1108,7 +1024,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_artworkCollection.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -1118,7 +1034,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_artworkCollection.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -1128,7 +1044,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setTitle(String title) {
-		_artworkCollection.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -1139,7 +1055,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setTitle(String title, java.util.Locale locale) {
-		_artworkCollection.setTitle(title, locale);
+		model.setTitle(title, locale);
 	}
 
 	/**
@@ -1153,12 +1069,12 @@ public class ArtworkCollectionWrapper
 	public void setTitle(
 		String title, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_artworkCollection.setTitle(title, locale, defaultLocale);
+		model.setTitle(title, locale, defaultLocale);
 	}
 
 	@Override
 	public void setTitleCurrentLanguageId(String languageId) {
-		_artworkCollection.setTitleCurrentLanguageId(languageId);
+		model.setTitleCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1168,7 +1084,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setTitleMap(Map<java.util.Locale, String> titleMap) {
-		_artworkCollection.setTitleMap(titleMap);
+		model.setTitleMap(titleMap);
 	}
 
 	/**
@@ -1182,7 +1098,7 @@ public class ArtworkCollectionWrapper
 		Map<java.util.Locale, String> titleMap,
 		java.util.Locale defaultLocale) {
 
-		_artworkCollection.setTitleMap(titleMap, defaultLocale);
+		model.setTitleMap(titleMap, defaultLocale);
 	}
 
 	/**
@@ -1192,7 +1108,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_artworkCollection.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -1202,7 +1118,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_artworkCollection.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -1212,7 +1128,7 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_artworkCollection.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -1222,90 +1138,24 @@ public class ArtworkCollectionWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_artworkCollection.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.artwork.model.ArtworkCollection> toCacheModel() {
-
-		return _artworkCollection.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.artwork.model.ArtworkCollection
-		toEscapedModel() {
-
-		return new ArtworkCollectionWrapper(
-			_artworkCollection.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _artworkCollection.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.artwork.model.ArtworkCollection
-		toUnescapedModel() {
-
-		return new ArtworkCollectionWrapper(
-			_artworkCollection.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _artworkCollection.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof ArtworkCollectionWrapper)) {
-			return false;
-		}
-
-		ArtworkCollectionWrapper artworkCollectionWrapper =
-			(ArtworkCollectionWrapper)object;
-
-		if (Objects.equals(
-				_artworkCollection,
-				artworkCollectionWrapper._artworkCollection)) {
-
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _artworkCollection.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public ArtworkCollection getWrappedModel() {
-		return _artworkCollection;
-	}
+	protected ArtworkCollectionWrapper wrap(
+		ArtworkCollection artworkCollection) {
 
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _artworkCollection.isEntityCacheEnabled();
+		return new ArtworkCollectionWrapper(artworkCollection);
 	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _artworkCollection.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_artworkCollection.resetOriginalValues();
-	}
-
-	private final ArtworkCollection _artworkCollection;
 
 }

@@ -28,23 +28,22 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-
 import eu.strasbourg.service.csmap.model.Agenda;
 import eu.strasbourg.service.csmap.model.AgendaModel;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -116,20 +115,43 @@ public class AgendaModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ISACTIVE_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ISPRINCIPAL_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long AGENDAID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
-		_entityCacheEnabled = entityCacheEnabled;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public static void setFinderCacheEnabled(boolean finderCacheEnabled) {
-		_finderCacheEnabled = finderCacheEnabled;
 	}
 
 	public AgendaModelImpl() {
@@ -182,9 +204,6 @@ public class AgendaModelImpl
 				attributeName, attributeGetterFunction.apply((Agenda)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -214,33 +233,6 @@ public class AgendaModelImpl
 		getAttributeSetterBiConsumers() {
 
 		return _attributeSetterBiConsumers;
-	}
-
-	private static Function<InvocationHandler, Agenda>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Agenda.class.getClassLoader(), Agenda.class, ModelWrapper.class);
-
-		try {
-			Constructor<Agenda> constructor =
-				(Constructor<Agenda>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
 	}
 
 	private static final Map<String, Function<Agenda, Object>>
@@ -317,17 +309,20 @@ public class AgendaModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -337,6 +332,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setAgendaId(long agendaId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_agendaId = agendaId;
 	}
 
@@ -395,6 +394,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setTitle(String title) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_title = title;
 	}
 
@@ -500,6 +503,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setEditorialTitle(String editorialTitle) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_editorialTitle = editorialTitle;
 	}
 
@@ -607,6 +614,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setSubtitle(String subtitle) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_subtitle = subtitle;
 	}
 
@@ -666,6 +677,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setImageId(Long imageId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageId = imageId;
 	}
 
@@ -676,19 +691,21 @@ public class AgendaModelImpl
 
 	@Override
 	public void setIsPrincipal(Boolean isPrincipal) {
-		_columnBitmask |= ISPRINCIPAL_COLUMN_BITMASK;
-
-		if (!_setOriginalIsPrincipal) {
-			_setOriginalIsPrincipal = true;
-
-			_originalIsPrincipal = _isPrincipal;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_isPrincipal = isPrincipal;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Boolean getOriginalIsPrincipal() {
-		return _originalIsPrincipal;
+		return GetterUtil.getBoolean(
+			this.<Boolean>getColumnOriginalValue("isPrincipal"));
 	}
 
 	@Override
@@ -698,19 +715,21 @@ public class AgendaModelImpl
 
 	@Override
 	public void setIsActive(Boolean isActive) {
-		_columnBitmask |= ISACTIVE_COLUMN_BITMASK;
-
-		if (!_setOriginalIsActive) {
-			_setOriginalIsActive = true;
-
-			_originalIsActive = _isActive;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_isActive = isActive;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Boolean getOriginalIsActive() {
-		return _originalIsActive;
+		return GetterUtil.getBoolean(
+			this.<Boolean>getColumnOriginalValue("isActive"));
 	}
 
 	@Override
@@ -725,6 +744,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setCampaignsIds(String campaignsIds) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_campaignsIds = campaignsIds;
 	}
 
@@ -740,6 +763,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setThemesIds(String themesIds) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_themesIds = themesIds;
 	}
 
@@ -755,6 +782,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setTypesIds(String typesIds) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_typesIds = typesIds;
 	}
 
@@ -770,6 +801,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setTerritoriesIds(String territoriesIds) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_territoriesIds = territoriesIds;
 	}
 
@@ -785,10 +820,34 @@ public class AgendaModelImpl
 
 	@Override
 	public void setTags(String tags) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_tags = tags;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -953,6 +1012,33 @@ public class AgendaModelImpl
 	}
 
 	@Override
+	public Agenda cloneWithOriginalValues() {
+		AgendaImpl agendaImpl = new AgendaImpl();
+
+		agendaImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		agendaImpl.setAgendaId(this.<Long>getColumnOriginalValue("agendaId"));
+		agendaImpl.setTitle(this.<String>getColumnOriginalValue("title"));
+		agendaImpl.setEditorialTitle(
+			this.<String>getColumnOriginalValue("editorialTitle"));
+		agendaImpl.setSubtitle(this.<String>getColumnOriginalValue("subtitle"));
+		agendaImpl.setImageId(this.<Long>getColumnOriginalValue("imageId"));
+		agendaImpl.setIsPrincipal(
+			this.<Boolean>getColumnOriginalValue("isPrincipal"));
+		agendaImpl.setIsActive(
+			this.<Boolean>getColumnOriginalValue("isActive"));
+		agendaImpl.setCampaignsIds(
+			this.<String>getColumnOriginalValue("campaignsIds"));
+		agendaImpl.setThemesIds(
+			this.<String>getColumnOriginalValue("themesIds"));
+		agendaImpl.setTypesIds(this.<String>getColumnOriginalValue("typesIds"));
+		agendaImpl.setTerritoriesIds(
+			this.<String>getColumnOriginalValue("territoriesIds"));
+		agendaImpl.setTags(this.<String>getColumnOriginalValue("tags"));
+
+		return agendaImpl;
+	}
+
+	@Override
 	public int compareTo(Agenda agenda) {
 		long primaryKey = agenda.getPrimaryKey();
 
@@ -994,31 +1080,29 @@ public class AgendaModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
-		return _entityCacheEnabled;
+		return true;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
-		return _finderCacheEnabled;
+		return true;
 	}
 
 	@Override
 	public void resetOriginalValues() {
-		AgendaModelImpl agendaModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		agendaModelImpl._originalUuid = agendaModelImpl._uuid;
-
-		agendaModelImpl._originalIsPrincipal = agendaModelImpl._isPrincipal;
-
-		agendaModelImpl._setOriginalIsPrincipal = false;
-
-		agendaModelImpl._originalIsActive = agendaModelImpl._isActive;
-
-		agendaModelImpl._setOriginalIsActive = false;
-
-		agendaModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1126,7 +1210,7 @@ public class AgendaModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1136,9 +1220,26 @@ public class AgendaModelImpl
 			String attributeName = entry.getKey();
 			Function<Agenda, Object> attributeGetterFunction = entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Agenda)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Agenda)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1151,48 +1252,16 @@ public class AgendaModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Agenda, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Agenda, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Agenda, Object> attributeGetterFunction = entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Agenda)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Agenda>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Agenda.class, ModelWrapper.class);
 
 	}
 
-	private static boolean _entityCacheEnabled;
-	private static boolean _finderCacheEnabled;
-
 	private String _uuid;
-	private String _originalUuid;
 	private long _agendaId;
 	private String _title;
 	private String _titleCurrentLanguageId;
@@ -1202,16 +1271,107 @@ public class AgendaModelImpl
 	private String _subtitleCurrentLanguageId;
 	private Long _imageId;
 	private Boolean _isPrincipal;
-	private Boolean _originalIsPrincipal;
-	private boolean _setOriginalIsPrincipal;
 	private Boolean _isActive;
-	private Boolean _originalIsActive;
-	private boolean _setOriginalIsActive;
 	private String _campaignsIds;
 	private String _themesIds;
 	private String _typesIds;
 	private String _territoriesIds;
 	private String _tags;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Agenda, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Agenda)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("agendaId", _agendaId);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("editorialTitle", _editorialTitle);
+		_columnOriginalValues.put("subtitle", _subtitle);
+		_columnOriginalValues.put("imageId", _imageId);
+		_columnOriginalValues.put("isPrincipal", _isPrincipal);
+		_columnOriginalValues.put("isActive", _isActive);
+		_columnOriginalValues.put("campaignsIds", _campaignsIds);
+		_columnOriginalValues.put("themesIds", _themesIds);
+		_columnOriginalValues.put("typesIds", _typesIds);
+		_columnOriginalValues.put("territoriesIds", _territoriesIds);
+		_columnOriginalValues.put("tags", _tags);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("agendaId", 2L);
+
+		columnBitmasks.put("title", 4L);
+
+		columnBitmasks.put("editorialTitle", 8L);
+
+		columnBitmasks.put("subtitle", 16L);
+
+		columnBitmasks.put("imageId", 32L);
+
+		columnBitmasks.put("isPrincipal", 64L);
+
+		columnBitmasks.put("isActive", 128L);
+
+		columnBitmasks.put("campaignsIds", 256L);
+
+		columnBitmasks.put("themesIds", 512L);
+
+		columnBitmasks.put("typesIds", 1024L);
+
+		columnBitmasks.put("territoriesIds", 2048L);
+
+		columnBitmasks.put("tags", 4096L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Agenda _escapedModel;
 

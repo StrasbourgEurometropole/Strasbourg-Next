@@ -14,9 +14,7 @@
 
 package eu.strasbourg.service.ejob.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.portal.kernel.exception.PortalException;
 
 /**
  * Provides the remote service utility for Offer. This utility wraps
@@ -47,7 +45,7 @@ public class OfferServiceUtil {
 
 	public static com.liferay.portal.kernel.json.JSONObject getOffer(
 			String publicationId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getOffer(publicationId);
 	}
@@ -62,21 +60,9 @@ public class OfferServiceUtil {
 	}
 
 	public static OfferService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<OfferService, OfferService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(OfferService.class);
-
-		ServiceTracker<OfferService, OfferService> serviceTracker =
-			new ServiceTracker<OfferService, OfferService>(
-				bundle.getBundleContext(), OfferService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile OfferService _service;
 
 }

@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class SlotLocalServiceWrapper
 	implements ServiceWrapper<SlotLocalService>, SlotLocalService {
 
+	public SlotLocalServiceWrapper() {
+		this(null);
+	}
+
 	public SlotLocalServiceWrapper(SlotLocalService slotLocalService) {
 		_slotLocalService = slotLocalService;
 	}
@@ -45,6 +49,17 @@ public class SlotLocalServiceWrapper
 		eu.strasbourg.service.place.model.Slot slot) {
 
 		return _slotLocalService.addSlot(slot);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _slotLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -113,6 +128,18 @@ public class SlotLocalServiceWrapper
 		eu.strasbourg.service.place.model.Slot slot) {
 
 		return _slotLocalService.deleteSlot(slot);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _slotLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _slotLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

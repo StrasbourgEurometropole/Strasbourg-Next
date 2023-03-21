@@ -14,9 +14,16 @@
 
 package eu.strasbourg.service.comment.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.comment.model.Comment;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for Comment. This utility wraps
@@ -48,9 +55,7 @@ public class CommentLocalServiceUtil {
 	 * @param comment the comment
 	 * @return the comment that was added
 	 */
-	public static eu.strasbourg.service.comment.model.Comment addComment(
-		eu.strasbourg.service.comment.model.Comment comment) {
-
+	public static Comment addComment(Comment comment) {
 		return getService().addComment(comment);
 	}
 
@@ -60,21 +65,29 @@ public class CommentLocalServiceUtil {
 	 * @param commentId the primary key for the new comment
 	 * @return the new comment
 	 */
-	public static eu.strasbourg.service.comment.model.Comment createComment(
-		long commentId) {
-
+	public static Comment createComment(long commentId) {
 		return getService().createComment(commentId);
 	}
 
 	/**
 	 * Crée un commentaire vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.comment.model.Comment createComment(
+	public static Comment createComment(
 			String userPublikId,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().createComment(userPublikId, sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -87,9 +100,7 @@ public class CommentLocalServiceUtil {
 	 * @param comment the comment
 	 * @return the comment that was removed
 	 */
-	public static eu.strasbourg.service.comment.model.Comment deleteComment(
-		eu.strasbourg.service.comment.model.Comment comment) {
-
+	public static Comment deleteComment(Comment comment) {
 		return getService().deleteComment(comment);
 	}
 
@@ -104,27 +115,29 @@ public class CommentLocalServiceUtil {
 	 * @return the comment that was removed
 	 * @throws PortalException if a comment with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.comment.model.Comment deleteComment(
-			long commentId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Comment deleteComment(long commentId) throws PortalException {
 		return getService().deleteComment(commentId);
 	}
 
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -134,9 +147,7 @@ public class CommentLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -152,9 +163,8 @@ public class CommentLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -172,10 +182,9 @@ public class CommentLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -187,9 +196,7 @@ public class CommentLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -201,15 +208,13 @@ public class CommentLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.comment.model.Comment fetchComment(
-		long commentId) {
-
+	public static Comment fetchComment(long commentId) {
 		return getService().fetchComment(commentId);
 	}
 
@@ -220,8 +225,8 @@ public class CommentLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching comment, or <code>null</code> if a matching comment could not be found
 	 */
-	public static eu.strasbourg.service.comment.model.Comment
-		fetchCommentByUuidAndGroupId(String uuid, long groupId) {
+	public static Comment fetchCommentByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchCommentByUuidAndGroupId(uuid, groupId);
 	}
@@ -229,8 +234,8 @@ public class CommentLocalServiceUtil {
 	/**
 	 * Recherche par mot clés
 	 */
-	public static java.util.List<eu.strasbourg.service.comment.model.Comment>
-		findByKeyword(String keyword, long groupId, int start, int end) {
+	public static List<Comment> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -251,7 +256,7 @@ public class CommentLocalServiceUtil {
 	/**
 	 * Renvoie la liste des vocabulaires rattachés à un commentaire
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -260,17 +265,15 @@ public class CommentLocalServiceUtil {
 	/**
 	 * Retourne tous les commentaires d'un asset entry
 	 */
-	public static java.util.List<eu.strasbourg.service.comment.model.Comment>
-		getByAssetEntry(long assetEntryId, int status) {
-
+	public static List<Comment> getByAssetEntry(long assetEntryId, int status) {
 		return getService().getByAssetEntry(assetEntryId, status);
 	}
 
 	/**
 	 * Retourne tous les commentaires d'un asset entry
 	 */
-	public static java.util.List<eu.strasbourg.service.comment.model.Comment>
-		getByAssetEntryAndLevel(long assetEntryId, int level, int status) {
+	public static List<Comment> getByAssetEntryAndLevel(
+		long assetEntryId, int level, int status) {
 
 		return getService().getByAssetEntryAndLevel(
 			assetEntryId, level, status);
@@ -279,17 +282,15 @@ public class CommentLocalServiceUtil {
 	/**
 	 * Retourne tous les commentaires d'un groupe
 	 */
-	public static java.util.List<eu.strasbourg.service.comment.model.Comment>
-		getByGroupId(long groupId) {
-
+	public static List<Comment> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
 	/**
 	 * Retourne tous les commentaires d'un commentaire parent
 	 */
-	public static java.util.List<eu.strasbourg.service.comment.model.Comment>
-		getByParentCommentId(long parentCommentId, int status) {
+	public static List<Comment> getByParentCommentId(
+		long parentCommentId, int status) {
 
 		return getService().getByParentCommentId(parentCommentId, status);
 	}
@@ -297,9 +298,7 @@ public class CommentLocalServiceUtil {
 	/**
 	 * Retourne tous les commentaires d'un utilisateur
 	 */
-	public static java.util.List<eu.strasbourg.service.comment.model.Comment>
-		getByPublikId(String publikId) {
-
+	public static List<Comment> getByPublikId(String publikId) {
 		return getService().getByPublikId(publikId);
 	}
 
@@ -310,10 +309,7 @@ public class CommentLocalServiceUtil {
 	 * @return the comment
 	 * @throws PortalException if a comment with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.comment.model.Comment getComment(
-			long commentId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Comment getComment(long commentId) throws PortalException {
 		return getService().getComment(commentId);
 	}
 
@@ -325,9 +321,8 @@ public class CommentLocalServiceUtil {
 	 * @return the matching comment
 	 * @throws PortalException if a matching comment could not be found
 	 */
-	public static eu.strasbourg.service.comment.model.Comment
-			getCommentByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Comment getCommentByUuidAndGroupId(String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getCommentByUuidAndGroupId(uuid, groupId);
 	}
@@ -343,9 +338,7 @@ public class CommentLocalServiceUtil {
 	 * @param end the upper bound of the range of comments (not inclusive)
 	 * @return the range of comments
 	 */
-	public static java.util.List<eu.strasbourg.service.comment.model.Comment>
-		getComments(int start, int end) {
-
+	public static List<Comment> getComments(int start, int end) {
 		return getService().getComments(start, end);
 	}
 
@@ -356,8 +349,8 @@ public class CommentLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching comments, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.comment.model.Comment>
-		getCommentsByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<Comment> getCommentsByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getCommentsByUuidAndCompanyId(uuid, companyId);
 	}
@@ -372,12 +365,9 @@ public class CommentLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching comments, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.comment.model.Comment>
-		getCommentsByUuidAndCompanyId(
-			String uuid, long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<eu.strasbourg.service.comment.model.Comment>
-					orderByComparator) {
+	public static List<Comment> getCommentsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Comment> orderByComparator) {
 
 		return getService().getCommentsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -419,9 +409,8 @@ public class CommentLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -439,10 +428,7 @@ public class CommentLocalServiceUtil {
 	/**
 	 * Supprime un lien
 	 */
-	public static eu.strasbourg.service.comment.model.Comment removeComment(
-			long commentId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Comment removeComment(long commentId) throws PortalException {
 		return getService().removeComment(commentId);
 	}
 
@@ -456,9 +442,7 @@ public class CommentLocalServiceUtil {
 	 * @param comment the comment
 	 * @return the comment that was updated
 	 */
-	public static eu.strasbourg.service.comment.model.Comment updateComment(
-		eu.strasbourg.service.comment.model.Comment comment) {
-
+	public static Comment updateComment(Comment comment) {
 		return getService().updateComment(comment);
 	}
 
@@ -467,10 +451,10 @@ public class CommentLocalServiceUtil {
 	 *
 	 * @throws IOException
 	 */
-	public static eu.strasbourg.service.comment.model.Comment updateComment(
-			eu.strasbourg.service.comment.model.Comment comment,
+	public static Comment updateComment(
+			Comment comment,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().updateComment(comment, sc);
 	}
@@ -478,9 +462,8 @@ public class CommentLocalServiceUtil {
 	/**
 	 * Met à jour le statut du projet "manuellement" (pas via le workflow)
 	 */
-	public static void updateStatus(
-			eu.strasbourg.service.comment.model.Comment comment, int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static void updateStatus(Comment comment, int status)
+		throws PortalException {
 
 		getService().updateStatus(comment, status);
 	}
@@ -488,34 +471,20 @@ public class CommentLocalServiceUtil {
 	/**
 	 * Met à jour le statut du projet par le framework workflow
 	 */
-	public static eu.strasbourg.service.comment.model.Comment updateStatus(
+	public static Comment updateStatus(
 			long userId, long entryId, int status,
 			com.liferay.portal.kernel.service.ServiceContext sc,
-			java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, entryId, status, sc, workflowContext);
 	}
 
 	public static CommentLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<CommentLocalService, CommentLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(CommentLocalService.class);
-
-		ServiceTracker<CommentLocalService, CommentLocalService>
-			serviceTracker =
-				new ServiceTracker<CommentLocalService, CommentLocalService>(
-					bundle.getBundleContext(), CommentLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile CommentLocalService _service;
 
 }

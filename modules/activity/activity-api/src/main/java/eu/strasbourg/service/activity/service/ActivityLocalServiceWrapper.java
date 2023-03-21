@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class ActivityLocalServiceWrapper
 	implements ActivityLocalService, ServiceWrapper<ActivityLocalService> {
 
+	public ActivityLocalServiceWrapper() {
+		this(null);
+	}
+
 	public ActivityLocalServiceWrapper(
 		ActivityLocalService activityLocalService) {
 
@@ -74,6 +78,17 @@ public class ActivityLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _activityLocalService.createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the activity from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -118,6 +133,18 @@ public class ActivityLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _activityLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _activityLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _activityLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

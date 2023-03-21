@@ -14,17 +14,13 @@
 
 package eu.strasbourg.service.council.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +31,12 @@ import java.util.Objects;
  * @see Official
  * @generated
  */
-public class OfficialWrapper implements ModelWrapper<Official>, Official {
+public class OfficialWrapper
+	extends BaseModelWrapper<Official>
+	implements ModelWrapper<Official>, Official {
 
 	public OfficialWrapper(Official official) {
-		_official = official;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Official.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Official.class.getName();
+		super(official);
 	}
 
 	@Override
@@ -190,15 +178,8 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	}
 
 	@Override
-	public Object clone() {
-		return new OfficialWrapper((Official)_official.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.council.model.Official official) {
-
-		return _official.compareTo(official);
+	public Official cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -206,7 +187,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _official.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	/**
@@ -216,7 +197,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _official.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -226,7 +207,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _official.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -236,7 +217,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	public java.util.List<eu.strasbourg.service.council.model.Type>
 		getCouncilTypes() {
 
-		return _official.getCouncilTypes();
+		return model.getCouncilTypes();
 	}
 
 	/**
@@ -244,7 +225,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getCouncilTypesIds() {
-		return _official.getCouncilTypesIds();
+		return model.getCouncilTypesIds();
 	}
 
 	/**
@@ -254,7 +235,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _official.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -264,12 +245,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getEmail() {
-		return _official.getEmail();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _official.getExpandoBridge();
+		return model.getEmail();
 	}
 
 	/**
@@ -279,7 +255,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getFirstname() {
-		return _official.getFirstname();
+		return model.getFirstname();
 	}
 
 	/**
@@ -287,7 +263,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getFullName() {
-		return _official.getFullName();
+		return model.getFullName();
 	}
 
 	/**
@@ -297,7 +273,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public long getGroupId() {
-		return _official.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -307,7 +283,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public boolean getIsActive() {
-		return _official.getIsActive();
+		return model.getIsActive();
 	}
 
 	/**
@@ -317,7 +293,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public Date getLastActivity() {
-		return _official.getLastActivity();
+		return model.getLastActivity();
 	}
 
 	/**
@@ -327,7 +303,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getLastname() {
-		return _official.getLastname();
+		return model.getLastname();
 	}
 
 	/**
@@ -337,7 +313,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getLastSignInDeviceInfo() {
-		return _official.getLastSignInDeviceInfo();
+		return model.getLastSignInDeviceInfo();
 	}
 
 	/**
@@ -347,7 +323,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _official.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -357,7 +333,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public long getOfficialId() {
-		return _official.getOfficialId();
+		return model.getOfficialId();
 	}
 
 	/**
@@ -367,12 +343,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _official.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _official.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -382,7 +353,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public int getStatus() {
-		return _official.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -392,7 +363,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _official.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -402,7 +373,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _official.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -412,7 +383,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _official.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -422,7 +393,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _official.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -432,7 +403,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public long getUserId() {
-		return _official.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -442,7 +413,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getUserName() {
-		return _official.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -452,7 +423,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _official.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -462,12 +433,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getUuid() {
-		return _official.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _official.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -477,12 +443,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _official.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _official.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -492,7 +453,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public boolean isConnected() {
-		return _official.isConnected();
+		return model.isConnected();
 	}
 
 	/**
@@ -502,7 +463,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _official.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -512,12 +473,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _official.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _official.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -527,7 +483,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _official.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -537,7 +493,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _official.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -547,7 +503,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _official.isIncomplete();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -557,12 +513,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public boolean isIsActive() {
-		return _official.isIsActive();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _official.isNew();
+		return model.isIsActive();
 	}
 
 	/**
@@ -570,7 +521,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public boolean isNotedAbsent(long councilSessionId) {
-		return _official.isNotedAbsent(councilSessionId);
+		return model.isNotedAbsent(councilSessionId);
 	}
 
 	/**
@@ -580,7 +531,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public boolean isPending() {
-		return _official.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -590,17 +541,12 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _official.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_official.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_official.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -610,7 +556,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_official.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -620,7 +566,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_official.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -630,24 +576,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setEmail(String email) {
-		_official.setEmail(email);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_official.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_official.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_official.setExpandoBridgeAttributes(serviceContext);
+		model.setEmail(email);
 	}
 
 	/**
@@ -657,7 +586,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setFirstname(String firstname) {
-		_official.setFirstname(firstname);
+		model.setFirstname(firstname);
 	}
 
 	/**
@@ -667,7 +596,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_official.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -677,7 +606,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setIsActive(boolean isActive) {
-		_official.setIsActive(isActive);
+		model.setIsActive(isActive);
 	}
 
 	/**
@@ -687,7 +616,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setLastActivity(Date lastActivity) {
-		_official.setLastActivity(lastActivity);
+		model.setLastActivity(lastActivity);
 	}
 
 	/**
@@ -697,7 +626,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setLastname(String lastname) {
-		_official.setLastname(lastname);
+		model.setLastname(lastname);
 	}
 
 	/**
@@ -707,7 +636,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setLastSignInDeviceInfo(String lastSignInDeviceInfo) {
-		_official.setLastSignInDeviceInfo(lastSignInDeviceInfo);
+		model.setLastSignInDeviceInfo(lastSignInDeviceInfo);
 	}
 
 	/**
@@ -717,12 +646,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_official.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_official.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -732,7 +656,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setOfficialId(long officialId) {
-		_official.setOfficialId(officialId);
+		model.setOfficialId(officialId);
 	}
 
 	/**
@@ -742,12 +666,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_official.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_official.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -757,7 +676,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_official.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -767,7 +686,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_official.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -777,7 +696,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_official.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -787,7 +706,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_official.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -797,7 +716,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_official.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -807,7 +726,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_official.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -817,7 +736,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_official.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -827,7 +746,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_official.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -837,19 +756,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_official.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.council.model.Official> toCacheModel() {
-
-		return _official.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.council.model.Official toEscapedModel() {
-		return new OfficialWrapper(_official.toEscapedModel());
+		model.setUuid(uuid);
 	}
 
 	/**
@@ -857,68 +764,22 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _official.toJSON();
-	}
-
-	@Override
-	public String toString() {
-		return _official.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.council.model.Official toUnescapedModel() {
-		return new OfficialWrapper(_official.toUnescapedModel());
+		return model.toJSON();
 	}
 
 	@Override
 	public String toXmlString() {
-		return _official.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof OfficialWrapper)) {
-			return false;
-		}
-
-		OfficialWrapper officialWrapper = (OfficialWrapper)object;
-
-		if (Objects.equals(_official, officialWrapper._official)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _official.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Official getWrappedModel() {
-		return _official;
+	protected OfficialWrapper wrap(Official official) {
+		return new OfficialWrapper(official);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _official.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _official.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_official.resetOriginalValues();
-	}
-
-	private final Official _official;
 
 }

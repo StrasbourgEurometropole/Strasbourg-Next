@@ -47,7 +47,6 @@ import eu.strasbourg.service.agenda.service.AgendaExportServiceUtil;
  * </p>
  *
  * @author BenjaminBini
- * @see AgendaExportServiceSoap
  * @generated
  */
 public class AgendaExportServiceHttp {

@@ -239,6 +239,11 @@ public class HelpProposalWrapper
 		}
 	}
 
+	@Override
+	public HelpProposal cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
+	}
+
 	/**
 	 * Retourne la catégorie statut activite proposition d'aide de l'aide
 	 */
@@ -1718,6 +1723,11 @@ public class HelpProposalWrapper
 		java.util.Locale locale) {
 
 		return model.toJSON(locale);
+	}
+
+	@Override
+	public String toXmlString() {
+		return model.toXmlString();
 	}
 
 	@Override

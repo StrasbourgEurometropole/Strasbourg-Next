@@ -14,9 +14,7 @@
 
 package eu.strasbourg.service.interest.model.impl;
 
-import java.util.List;
-import java.util.Locale;
-
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
@@ -24,11 +22,12 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-
-import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.interest.model.Interest;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+
+import java.util.List;
+import java.util.Locale;
 
 /**
  * The extended model implementation for the Interest service. Represents a row in the &quot;interest_Interest&quot; database table, with each column mapped to a property of this class.

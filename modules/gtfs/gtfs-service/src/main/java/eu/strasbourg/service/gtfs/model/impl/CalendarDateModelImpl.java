@@ -16,6 +16,7 @@ package eu.strasbourg.service.gtfs.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -23,23 +24,20 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
-
+import com.liferay.portal.kernel.util.StringUtil;
 import eu.strasbourg.service.gtfs.model.CalendarDate;
 import eu.strasbourg.service.gtfs.model.CalendarDateModel;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -98,25 +96,40 @@ public class CalendarDateModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.gtfs.model.CalendarDate"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.gtfs.model.CalendarDate"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.gtfs.model.CalendarDate"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long DATE_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long SERVICE_ID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 4L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -175,9 +188,6 @@ public class CalendarDateModelImpl
 				attributeGetterFunction.apply((CalendarDate)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -211,34 +221,6 @@ public class CalendarDateModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, CalendarDate>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			CalendarDate.class.getClassLoader(), CalendarDate.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<CalendarDate> constructor =
-				(Constructor<CalendarDate>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<CalendarDate, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<CalendarDate, Object>>
@@ -250,115 +232,24 @@ public class CalendarDateModelImpl
 		Map<String, BiConsumer<CalendarDate, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<CalendarDate, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<CalendarDate, Object>() {
-
-				@Override
-				public Object apply(CalendarDate calendarDate) {
-					return calendarDate.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", CalendarDate::getUuid);
 		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<CalendarDate, Object>() {
-
-				@Override
-				public void accept(
-					CalendarDate calendarDate, Object uuidObject) {
-
-					calendarDate.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"id",
-			new Function<CalendarDate, Object>() {
-
-				@Override
-				public Object apply(CalendarDate calendarDate) {
-					return calendarDate.getId();
-				}
-
-			});
+			"uuid", (BiConsumer<CalendarDate, String>)CalendarDate::setUuid);
+		attributeGetterFunctions.put("id", CalendarDate::getId);
 		attributeSetterBiConsumers.put(
-			"id",
-			new BiConsumer<CalendarDate, Object>() {
-
-				@Override
-				public void accept(CalendarDate calendarDate, Object idObject) {
-					calendarDate.setId((Long)idObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"service_id",
-			new Function<CalendarDate, Object>() {
-
-				@Override
-				public Object apply(CalendarDate calendarDate) {
-					return calendarDate.getService_id();
-				}
-
-			});
+			"id", (BiConsumer<CalendarDate, Long>)CalendarDate::setId);
+		attributeGetterFunctions.put("service_id", CalendarDate::getService_id);
 		attributeSetterBiConsumers.put(
 			"service_id",
-			new BiConsumer<CalendarDate, Object>() {
-
-				@Override
-				public void accept(
-					CalendarDate calendarDate, Object service_idObject) {
-
-					calendarDate.setService_id((String)service_idObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"date",
-			new Function<CalendarDate, Object>() {
-
-				@Override
-				public Object apply(CalendarDate calendarDate) {
-					return calendarDate.getDate();
-				}
-
-			});
+			(BiConsumer<CalendarDate, String>)CalendarDate::setService_id);
+		attributeGetterFunctions.put("date", CalendarDate::getDate);
 		attributeSetterBiConsumers.put(
-			"date",
-			new BiConsumer<CalendarDate, Object>() {
-
-				@Override
-				public void accept(
-					CalendarDate calendarDate, Object dateObject) {
-
-					calendarDate.setDate((Date)dateObject);
-				}
-
-			});
+			"date", (BiConsumer<CalendarDate, Date>)CalendarDate::setDate);
 		attributeGetterFunctions.put(
-			"exception_type",
-			new Function<CalendarDate, Object>() {
-
-				@Override
-				public Object apply(CalendarDate calendarDate) {
-					return calendarDate.getException_type();
-				}
-
-			});
+			"exception_type", CalendarDate::getException_type);
 		attributeSetterBiConsumers.put(
 			"exception_type",
-			new BiConsumer<CalendarDate, Object>() {
-
-				@Override
-				public void accept(
-					CalendarDate calendarDate, Object exception_typeObject) {
-
-					calendarDate.setException_type(
-						(Integer)exception_typeObject);
-				}
-
-			});
+			(BiConsumer<CalendarDate, Integer>)CalendarDate::setException_type);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -378,17 +269,20 @@ public class CalendarDateModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -398,6 +292,10 @@ public class CalendarDateModelImpl
 
 	@Override
 	public void setId(long id) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_id = id;
 	}
 
@@ -413,17 +311,20 @@ public class CalendarDateModelImpl
 
 	@Override
 	public void setService_id(String service_id) {
-		_columnBitmask = -1L;
-
-		if (_originalService_id == null) {
-			_originalService_id = _service_id;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_service_id = service_id;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalService_id() {
-		return GetterUtil.getString(_originalService_id);
+		return getColumnOriginalValue("service_id");
 	}
 
 	@Override
@@ -433,17 +334,20 @@ public class CalendarDateModelImpl
 
 	@Override
 	public void setDate(Date date) {
-		_columnBitmask |= DATE_COLUMN_BITMASK;
-
-		if (_originalDate == null) {
-			_originalDate = _date;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_date = date;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalDate() {
-		return _originalDate;
+		return getColumnOriginalValue("date_");
 	}
 
 	@Override
@@ -453,10 +357,34 @@ public class CalendarDateModelImpl
 
 	@Override
 	public void setException_type(int exception_type) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_exception_type = exception_type;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -504,6 +432,21 @@ public class CalendarDateModelImpl
 	}
 
 	@Override
+	public CalendarDate cloneWithOriginalValues() {
+		CalendarDateImpl calendarDateImpl = new CalendarDateImpl();
+
+		calendarDateImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		calendarDateImpl.setId(this.<Long>getColumnOriginalValue("id_"));
+		calendarDateImpl.setService_id(
+			this.<String>getColumnOriginalValue("service_id"));
+		calendarDateImpl.setDate(this.<Date>getColumnOriginalValue("date_"));
+		calendarDateImpl.setException_type(
+			this.<Integer>getColumnOriginalValue("exception_type"));
+
+		return calendarDateImpl;
+	}
+
+	@Override
 	public int compareTo(CalendarDate calendarDate) {
 		int value = 0;
 
@@ -543,11 +486,19 @@ public class CalendarDateModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -555,16 +506,9 @@ public class CalendarDateModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		CalendarDateModelImpl calendarDateModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		calendarDateModelImpl._originalUuid = calendarDateModelImpl._uuid;
-
-		calendarDateModelImpl._originalService_id =
-			calendarDateModelImpl._service_id;
-
-		calendarDateModelImpl._originalDate = calendarDateModelImpl._date;
-
-		calendarDateModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -610,7 +554,7 @@ public class CalendarDateModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -621,9 +565,26 @@ public class CalendarDateModelImpl
 			Function<CalendarDate, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((CalendarDate)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((CalendarDate)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -636,52 +597,93 @@ public class CalendarDateModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<CalendarDate, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<CalendarDate, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<CalendarDate, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((CalendarDate)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, CalendarDate>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					CalendarDate.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _id;
 	private String _service_id;
-	private String _originalService_id;
 	private Date _date;
-	private Date _originalDate;
 	private int _exception_type;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<CalendarDate, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((CalendarDate)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("id_", _id);
+		_columnOriginalValues.put("service_id", _service_id);
+		_columnOriginalValues.put("date_", _date);
+		_columnOriginalValues.put("exception_type", _exception_type);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("id_", "id");
+		attributeNames.put("date_", "date");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("id_", 2L);
+
+		columnBitmasks.put("service_id", 4L);
+
+		columnBitmasks.put("date_", 8L);
+
+		columnBitmasks.put("exception_type", 16L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private CalendarDate _escapedModel;
 

@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class TypeServiceWrapper
 	implements ServiceWrapper<TypeService>, TypeService {
 
+	public TypeServiceWrapper() {
+		this(null);
+	}
+
 	public TypeServiceWrapper(TypeService typeService) {
 		_typeService = typeService;
 	}

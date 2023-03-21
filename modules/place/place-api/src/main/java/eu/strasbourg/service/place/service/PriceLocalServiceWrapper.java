@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class PriceLocalServiceWrapper
 	implements PriceLocalService, ServiceWrapper<PriceLocalService> {
 
+	public PriceLocalServiceWrapper() {
+		this(null);
+	}
+
 	public PriceLocalServiceWrapper(PriceLocalService priceLocalService) {
 		_priceLocalService = priceLocalService;
 	}
@@ -45,6 +49,17 @@ public class PriceLocalServiceWrapper
 		eu.strasbourg.service.place.model.Price price) {
 
 		return _priceLocalService.addPrice(price);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _priceLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -113,6 +128,18 @@ public class PriceLocalServiceWrapper
 		eu.strasbourg.service.place.model.Price price) {
 
 		return _priceLocalService.deletePrice(price);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _priceLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _priceLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

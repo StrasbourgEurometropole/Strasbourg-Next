@@ -24,6 +24,7 @@ import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerRegistryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -44,6 +45,8 @@ import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -61,11 +64,14 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.edition.service.EditionGalleryLocalService;
+import eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil;
 import eu.strasbourg.service.edition.service.persistence.EditionFinder;
 import eu.strasbourg.service.edition.service.persistence.EditionGalleryPersistence;
 import eu.strasbourg.service.edition.service.persistence.EditionPersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.List;
 
@@ -89,7 +95,7 @@ public abstract class EditionGalleryLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>EditionGalleryLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>EditionGalleryLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>EditionGalleryLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -155,6 +161,18 @@ public abstract class EditionGalleryLocalServiceBaseImpl
 	@Override
 	public EditionGallery deleteEditionGallery(EditionGallery editionGallery) {
 		return editionGalleryPersistence.remove(editionGallery);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return editionGalleryPersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -449,13 +467,30 @@ public abstract class EditionGalleryLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return editionGalleryPersistence.create(
+			((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement EditionGalleryLocalServiceImpl#deleteEditionGallery(EditionGallery) to avoid orphaned data");
+		}
 
 		return editionGalleryLocalService.deleteEditionGallery(
 			(EditionGallery)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<EditionGallery> getBasePersistence() {
 		return editionGalleryPersistence;
 	}
@@ -1061,11 +1096,15 @@ public abstract class EditionGalleryLocalServiceBaseImpl
 		persistedModelLocalServiceRegistry.register(
 			"eu.strasbourg.service.edition.model.EditionGallery",
 			editionGalleryLocalService);
+
+		_setLocalServiceUtilService(editionGalleryLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"eu.strasbourg.service.edition.model.EditionGallery");
+
+		_setLocalServiceUtilService(null);
 	}
 
 	/**
@@ -1107,6 +1146,22 @@ public abstract class EditionGalleryLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		EditionGalleryLocalService editionGalleryLocalService) {
+
+		try {
+			Field field = EditionGalleryLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, editionGalleryLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1184,6 +1239,9 @@ public abstract class EditionGalleryLocalServiceBaseImpl
 
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		EditionGalleryLocalServiceBaseImpl.class);
 
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry

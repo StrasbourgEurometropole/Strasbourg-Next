@@ -38,7 +38,6 @@ package eu.strasbourg.service.edition.service.http;
  * </p>
  *
  * @author BenjaminBini
- * @see EditionGalleryServiceSoap
  * @generated
  */
 public class EditionGalleryServiceHttp {

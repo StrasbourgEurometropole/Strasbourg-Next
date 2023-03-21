@@ -14,8 +14,7 @@
 
 package eu.strasbourg.service.place.service;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -36,6 +35,8 @@ import java.io.Serializable;
 
 import java.util.Date;
 import java.util.List;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * Provides the local service interface for CsmapCacheJson. Methods of this
@@ -58,7 +59,7 @@ public interface CsmapCacheJsonLocalService
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link CsmapCacheJsonLocalServiceUtil} to access the csmap cache json local service. Add custom service methods to <code>eu.strasbourg.service.place.service.impl.CsmapCacheJsonLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.place.service.impl.CsmapCacheJsonLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the csmap cache json local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link CsmapCacheJsonLocalServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**
@@ -82,6 +83,12 @@ public interface CsmapCacheJsonLocalService
 	 */
 	@Transactional(enabled = false)
 	public CsmapCacheJson createCsmapCacheJson(String sigId);
+
+	/**
+	 * @throws PortalException
+	 */
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException;
 
 	/**
 	 * Deletes the csmap cache json from the database. Also notifies the appropriate model listeners.
@@ -117,6 +124,12 @@ public interface CsmapCacheJsonLocalService
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> T dslQuery(DSLQuery dslQuery);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int dslQueryCount(DSLQuery dslQuery);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();

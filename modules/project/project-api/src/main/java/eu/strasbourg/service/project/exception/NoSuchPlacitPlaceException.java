@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.project.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Cedric Henry
  */
-@ProviderType
 public class NoSuchPlacitPlaceException extends NoSuchModelException {
 
 	public NoSuchPlacitPlaceException() {
@@ -30,12 +27,12 @@ public class NoSuchPlacitPlaceException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchPlacitPlaceException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchPlacitPlaceException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchPlacitPlaceException(Throwable cause) {
-		super(cause);
+	public NoSuchPlacitPlaceException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

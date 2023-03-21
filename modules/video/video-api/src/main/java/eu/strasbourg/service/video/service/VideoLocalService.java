@@ -14,10 +14,9 @@
 
 package eu.strasbourg.service.video.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
@@ -46,6 +45,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import org.osgi.annotation.versioning.ProviderType;
+
 /**
  * Provides the local service interface for Video. Methods of this
  * service will not have security checks based on the propagated JAAS
@@ -67,7 +68,7 @@ public interface VideoLocalService
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link VideoLocalServiceUtil} to access the video local service. Add custom service methods to <code>eu.strasbourg.service.video.service.impl.VideoLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.video.service.impl.VideoLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the video local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link VideoLocalServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**
@@ -98,6 +99,12 @@ public interface VideoLocalService
 	public void checkVideos() throws PortalException;
 
 	public void clearVideoGalleryVideos(long galleryId);
+
+	/**
+	 * @throws PortalException
+	 */
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException;
 
 	/**
 	 * Creates a new video with the primary key. Does not add the video to the database.
@@ -154,6 +161,12 @@ public interface VideoLocalService
 	public void deleteVideoGalleryVideos(long galleryId, List<Video> videos);
 
 	public void deleteVideoGalleryVideos(long galleryId, long[] videoIds);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> T dslQuery(DSLQuery dslQuery);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int dslQueryCount(DSLQuery dslQuery);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();

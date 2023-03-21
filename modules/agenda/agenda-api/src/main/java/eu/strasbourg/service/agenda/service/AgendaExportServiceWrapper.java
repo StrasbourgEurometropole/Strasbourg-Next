@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class AgendaExportServiceWrapper
 	implements AgendaExportService, ServiceWrapper<AgendaExportService> {
 
+	public AgendaExportServiceWrapper() {
+		this(null);
+	}
+
 	public AgendaExportServiceWrapper(AgendaExportService agendaExportService) {
 		_agendaExportService = agendaExportService;
 	}

@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class SignataireLocalServiceWrapper
 	implements ServiceWrapper<SignataireLocalService>, SignataireLocalService {
 
+	public SignataireLocalServiceWrapper() {
+		this(null);
+	}
+
 	public SignataireLocalServiceWrapper(
 		SignataireLocalService signataireLocalService) {
 
@@ -82,6 +86,17 @@ public class SignataireLocalServiceWrapper
 	public void createFakeSignataire(long petitionId, int nombreCreation) {
 		_signataireLocalService.createFakeSignataire(
 			petitionId, nombreCreation);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _signataireLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -155,6 +170,18 @@ public class SignataireLocalServiceWrapper
 		eu.strasbourg.service.project.model.Signataire signataire) {
 
 		return _signataireLocalService.deleteSignataire(signataire);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _signataireLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _signataireLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

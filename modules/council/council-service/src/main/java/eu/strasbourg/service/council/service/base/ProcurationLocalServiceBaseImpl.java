@@ -21,6 +21,7 @@ import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerRegistryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -40,6 +41,8 @@ import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -54,9 +57,9 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.council.model.Procuration;
 import eu.strasbourg.service.council.service.ProcurationLocalService;
+import eu.strasbourg.service.council.service.ProcurationLocalServiceUtil;
 import eu.strasbourg.service.council.service.persistence.CouncilSessionPersistence;
 import eu.strasbourg.service.council.service.persistence.DeliberationPersistence;
 import eu.strasbourg.service.council.service.persistence.OfficialPersistence;
@@ -65,11 +68,10 @@ import eu.strasbourg.service.council.service.persistence.ProcurationPersistence;
 import eu.strasbourg.service.council.service.persistence.TypePersistence;
 import eu.strasbourg.service.council.service.persistence.VotePersistence;
 
-import java.io.Serializable;
-
-import java.util.List;
-
 import javax.sql.DataSource;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * Provides the base implementation for the procuration local service.
@@ -89,7 +91,7 @@ public abstract class ProcurationLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>ProcurationLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.council.service.ProcurationLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>ProcurationLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ProcurationLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -155,6 +157,18 @@ public abstract class ProcurationLocalServiceBaseImpl
 	@Override
 	public Procuration deleteProcuration(Procuration procuration) {
 		return procurationPersistence.remove(procuration);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return procurationPersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -424,13 +438,29 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return procurationPersistence.create(((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement ProcurationLocalServiceImpl#deleteProcuration(Procuration) to avoid orphaned data");
+		}
 
 		return procurationLocalService.deleteProcuration(
 			(Procuration)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<Procuration> getBasePersistence() {
 		return procurationPersistence;
 	}
@@ -962,11 +992,15 @@ public abstract class ProcurationLocalServiceBaseImpl
 		persistedModelLocalServiceRegistry.register(
 			"eu.strasbourg.service.council.model.Procuration",
 			procurationLocalService);
+
+		_setLocalServiceUtilService(procurationLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"eu.strasbourg.service.council.model.Procuration");
+
+		_setLocalServiceUtilService(null);
 	}
 
 	/**
@@ -1008,6 +1042,22 @@ public abstract class ProcurationLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		ProcurationLocalService procurationLocalService) {
+
+		try {
+			Field field = ProcurationLocalServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, procurationLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1101,6 +1151,9 @@ public abstract class ProcurationLocalServiceBaseImpl
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		ProcurationLocalServiceBaseImpl.class);
 
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry

@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.favorite.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -26,29 +27,28 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
-
 import eu.strasbourg.service.favorite.exception.NoSuchFavoriteException;
 import eu.strasbourg.service.favorite.model.Favorite;
+import eu.strasbourg.service.favorite.model.FavoriteTable;
 import eu.strasbourg.service.favorite.model.impl.FavoriteImpl;
 import eu.strasbourg.service.favorite.model.impl.FavoriteModelImpl;
 import eu.strasbourg.service.favorite.service.persistence.FavoritePersistence;
+import eu.strasbourg.service.favorite.service.persistence.FavoriteUtil;
 
 import java.io.Serializable;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
-
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -254,10 +254,6 @@ public class FavoritePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -610,8 +606,6 @@ public class FavoritePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -826,11 +820,6 @@ public class FavoritePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByAllAttributes, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -949,8 +938,6 @@ public class FavoritePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1147,10 +1134,6 @@ public class FavoritePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1503,8 +1486,6 @@ public class FavoritePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1752,10 +1733,6 @@ public class FavoritePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2231,8 +2208,6 @@ public class FavoritePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2272,21 +2247,14 @@ public class FavoritePersistenceImpl
 
 		dbColumnNames.put("order", "order_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(Favorite.class);
+
+		setModelImplClass(FavoriteImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(FavoriteTable.INSTANCE);
 	}
 
 	/**
@@ -2297,8 +2265,7 @@ public class FavoritePersistenceImpl
 	@Override
 	public void cacheResult(Favorite favorite) {
 		entityCache.putResult(
-			FavoriteModelImpl.ENTITY_CACHE_ENABLED, FavoriteImpl.class,
-			favorite.getPrimaryKey(), favorite);
+			FavoriteImpl.class, favorite.getPrimaryKey(), favorite);
 
 		finderCache.putResult(
 			_finderPathFetchByAllAttributes,
@@ -2307,9 +2274,9 @@ public class FavoritePersistenceImpl
 				favorite.getTypeId(), favorite.getEntityId()
 			},
 			favorite);
-
-		favorite.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the favorites in the entity cache if it is enabled.
@@ -2318,15 +2285,18 @@ public class FavoritePersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Favorite> favorites) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (favorites.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Favorite favorite : favorites) {
 			if (entityCache.getResult(
-					FavoriteModelImpl.ENTITY_CACHE_ENABLED, FavoriteImpl.class,
-					favorite.getPrimaryKey()) == null) {
+					FavoriteImpl.class, favorite.getPrimaryKey()) == null) {
 
 				cacheResult(favorite);
-			}
-			else {
-				favorite.resetOriginalValues();
 			}
 		}
 	}
@@ -2342,9 +2312,7 @@ public class FavoritePersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(FavoriteImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(FavoriteImpl.class);
 	}
 
 	/**
@@ -2356,39 +2324,22 @@ public class FavoritePersistenceImpl
 	 */
 	@Override
 	public void clearCache(Favorite favorite) {
-		entityCache.removeResult(
-			FavoriteModelImpl.ENTITY_CACHE_ENABLED, FavoriteImpl.class,
-			favorite.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((FavoriteModelImpl)favorite, true);
+		entityCache.removeResult(FavoriteImpl.class, favorite);
 	}
 
 	@Override
 	public void clearCache(List<Favorite> favorites) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Favorite favorite : favorites) {
-			entityCache.removeResult(
-				FavoriteModelImpl.ENTITY_CACHE_ENABLED, FavoriteImpl.class,
-				favorite.getPrimaryKey());
-
-			clearUniqueFindersCache((FavoriteModelImpl)favorite, true);
+			entityCache.removeResult(FavoriteImpl.class, favorite);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(FavoriteImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				FavoriteModelImpl.ENTITY_CACHE_ENABLED, FavoriteImpl.class,
-				primaryKey);
+			entityCache.removeResult(FavoriteImpl.class, primaryKey);
 		}
 	}
 
@@ -2401,38 +2352,9 @@ public class FavoritePersistenceImpl
 		};
 
 		finderCache.putResult(
-			_finderPathCountByAllAttributes, args, Long.valueOf(1), false);
+			_finderPathCountByAllAttributes, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathFetchByAllAttributes, args, favoriteModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		FavoriteModelImpl favoriteModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				favoriteModelImpl.getPublikUserId(),
-				favoriteModelImpl.getTitle(), favoriteModelImpl.getTypeId(),
-				favoriteModelImpl.getEntityId()
-			};
-
-			finderCache.removeResult(_finderPathCountByAllAttributes, args);
-			finderCache.removeResult(_finderPathFetchByAllAttributes, args);
-		}
-
-		if ((favoriteModelImpl.getColumnBitmask() &
-			 _finderPathFetchByAllAttributes.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				favoriteModelImpl.getOriginalPublikUserId(),
-				favoriteModelImpl.getOriginalTitle(),
-				favoriteModelImpl.getOriginalTypeId(),
-				favoriteModelImpl.getOriginalEntityId()
-			};
-
-			finderCache.removeResult(_finderPathCountByAllAttributes, args);
-			finderCache.removeResult(_finderPathFetchByAllAttributes, args);
-		}
+			_finderPathFetchByAllAttributes, args, favoriteModelImpl);
 	}
 
 	/**
@@ -2559,23 +2481,23 @@ public class FavoritePersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (favorite.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				favorite.setCreateDate(now);
+				favorite.setCreateDate(date);
 			}
 			else {
-				favorite.setCreateDate(serviceContext.getCreateDate(now));
+				favorite.setCreateDate(serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!favoriteModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				favorite.setModifiedDate(now);
+				favorite.setModifiedDate(date);
 			}
 			else {
-				favorite.setModifiedDate(serviceContext.getModifiedDate(now));
+				favorite.setModifiedDate(serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -2584,10 +2506,8 @@ public class FavoritePersistenceImpl
 		try {
 			session = openSession();
 
-			if (favorite.isNew()) {
+			if (isNew) {
 				session.save(favorite);
-
-				favorite.setNew(false);
 			}
 			else {
 				favorite = (Favorite)session.merge(favorite);
@@ -2600,128 +2520,14 @@ public class FavoritePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!FavoriteModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {favoriteModelImpl.getPublikUserId()};
-
-			finderCache.removeResult(_finderPathCountByPublikUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPublikUserId, args);
-
-			args = new Object[] {
-				favoriteModelImpl.getEntityId(), favoriteModelImpl.getTypeId()
-			};
-
-			finderCache.removeResult(_finderPathCountByEntityIdAndTypeId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByEntityIdAndTypeId, args);
-
-			args = new Object[] {
-				favoriteModelImpl.getTypeId(), favoriteModelImpl.getEntityId(),
-				favoriteModelImpl.getPublikUserId(),
-				favoriteModelImpl.getContent()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByTypeIdAndEntityIdAndPublikUserIdAndContent,
-				args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByTypeIdAndEntityIdAndPublikUserIdAndContent,
-				args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((favoriteModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPublikUserId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					favoriteModelImpl.getOriginalPublikUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPublikUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikUserId, args);
-
-				args = new Object[] {favoriteModelImpl.getPublikUserId()};
-
-				finderCache.removeResult(_finderPathCountByPublikUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikUserId, args);
-			}
-
-			if ((favoriteModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByEntityIdAndTypeId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					favoriteModelImpl.getOriginalEntityId(),
-					favoriteModelImpl.getOriginalTypeId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByEntityIdAndTypeId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByEntityIdAndTypeId, args);
-
-				args = new Object[] {
-					favoriteModelImpl.getEntityId(),
-					favoriteModelImpl.getTypeId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByEntityIdAndTypeId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByEntityIdAndTypeId, args);
-			}
-
-			if ((favoriteModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByTypeIdAndEntityIdAndPublikUserIdAndContent.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					favoriteModelImpl.getOriginalTypeId(),
-					favoriteModelImpl.getOriginalEntityId(),
-					favoriteModelImpl.getOriginalPublikUserId(),
-					favoriteModelImpl.getOriginalContent()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByTypeIdAndEntityIdAndPublikUserIdAndContent,
-					args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByTypeIdAndEntityIdAndPublikUserIdAndContent,
-					args);
-
-				args = new Object[] {
-					favoriteModelImpl.getTypeId(),
-					favoriteModelImpl.getEntityId(),
-					favoriteModelImpl.getPublikUserId(),
-					favoriteModelImpl.getContent()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByTypeIdAndEntityIdAndPublikUserIdAndContent,
-					args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByTypeIdAndEntityIdAndPublikUserIdAndContent,
-					args);
-			}
-		}
-
 		entityCache.putResult(
-			FavoriteModelImpl.ENTITY_CACHE_ENABLED, FavoriteImpl.class,
-			favorite.getPrimaryKey(), favorite, false);
+			FavoriteImpl.class, favoriteModelImpl, false, true);
 
-		clearUniqueFindersCache(favoriteModelImpl, false);
 		cacheUniqueFindersCache(favoriteModelImpl);
+
+		if (isNew) {
+			favorite.setNew(false);
+		}
 
 		favorite.resetOriginalValues();
 
@@ -2770,160 +2576,12 @@ public class FavoritePersistenceImpl
 	/**
 	 * Returns the favorite with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the favorite
-	 * @return the favorite, or <code>null</code> if a favorite with the primary key could not be found
-	 */
-	@Override
-	public Favorite fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			FavoriteModelImpl.ENTITY_CACHE_ENABLED, FavoriteImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Favorite favorite = (Favorite)serializable;
-
-		if (favorite == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				favorite = (Favorite)session.get(
-					FavoriteImpl.class, primaryKey);
-
-				if (favorite != null) {
-					cacheResult(favorite);
-				}
-				else {
-					entityCache.putResult(
-						FavoriteModelImpl.ENTITY_CACHE_ENABLED,
-						FavoriteImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					FavoriteModelImpl.ENTITY_CACHE_ENABLED, FavoriteImpl.class,
-					primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return favorite;
-	}
-
-	/**
-	 * Returns the favorite with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param favoriteId the primary key of the favorite
 	 * @return the favorite, or <code>null</code> if a favorite with the primary key could not be found
 	 */
 	@Override
 	public Favorite fetchByPrimaryKey(long favoriteId) {
 		return fetchByPrimaryKey((Serializable)favoriteId);
-	}
-
-	@Override
-	public Map<Serializable, Favorite> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Favorite> map = new HashMap<Serializable, Favorite>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Favorite favorite = fetchByPrimaryKey(primaryKey);
-
-			if (favorite != null) {
-				map.put(primaryKey, favorite);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				FavoriteModelImpl.ENTITY_CACHE_ENABLED, FavoriteImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Favorite)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_FAVORITE_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Favorite favorite : (List<Favorite>)query.list()) {
-				map.put(favorite.getPrimaryKeyObj(), favorite);
-
-				cacheResult(favorite);
-
-				uncachedPrimaryKeys.remove(favorite.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					FavoriteModelImpl.ENTITY_CACHE_ENABLED, FavoriteImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3050,10 +2708,6 @@ public class FavoritePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3099,9 +2753,6 @@ public class FavoritePersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3118,6 +2769,21 @@ public class FavoritePersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "favoriteId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_FAVORITE;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return FavoriteModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -3126,97 +2792,79 @@ public class FavoritePersistenceImpl
 	 * Initializes the favorite persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			FavoriteModelImpl.ENTITY_CACHE_ENABLED,
-			FavoriteModelImpl.FINDER_CACHE_ENABLED, FavoriteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			FavoriteModelImpl.ENTITY_CACHE_ENABLED,
-			FavoriteModelImpl.FINDER_CACHE_ENABLED, FavoriteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			FavoriteModelImpl.ENTITY_CACHE_ENABLED,
-			FavoriteModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByPublikUserId = new FinderPath(
-			FavoriteModelImpl.ENTITY_CACHE_ENABLED,
-			FavoriteModelImpl.FINDER_CACHE_ENABLED, FavoriteImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikUserId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"publikUserId"}, true);
 
 		_finderPathWithoutPaginationFindByPublikUserId = new FinderPath(
-			FavoriteModelImpl.ENTITY_CACHE_ENABLED,
-			FavoriteModelImpl.FINDER_CACHE_ENABLED, FavoriteImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikUserId",
 			new String[] {String.class.getName()},
-			FavoriteModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
+			new String[] {"publikUserId"}, true);
 
 		_finderPathCountByPublikUserId = new FinderPath(
-			FavoriteModelImpl.ENTITY_CACHE_ENABLED,
-			FavoriteModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikUserId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()},
+			new String[] {"publikUserId"}, false);
 
 		_finderPathFetchByAllAttributes = new FinderPath(
-			FavoriteModelImpl.ENTITY_CACHE_ENABLED,
-			FavoriteModelImpl.FINDER_CACHE_ENABLED, FavoriteImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByAllAttributes",
 			new String[] {
 				String.class.getName(), String.class.getName(),
 				Long.class.getName(), Long.class.getName()
 			},
-			FavoriteModelImpl.PUBLIKUSERID_COLUMN_BITMASK |
-			FavoriteModelImpl.TITLE_COLUMN_BITMASK |
-			FavoriteModelImpl.TYPEID_COLUMN_BITMASK |
-			FavoriteModelImpl.ENTITYID_COLUMN_BITMASK);
+			new String[] {"publikUserId", "title", "typeId", "entityId"}, true);
 
 		_finderPathCountByAllAttributes = new FinderPath(
-			FavoriteModelImpl.ENTITY_CACHE_ENABLED,
-			FavoriteModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAllAttributes",
 			new String[] {
 				String.class.getName(), String.class.getName(),
 				Long.class.getName(), Long.class.getName()
-			});
+			},
+			new String[] {"publikUserId", "title", "typeId", "entityId"},
+			false);
 
 		_finderPathWithPaginationFindByEntityIdAndTypeId = new FinderPath(
-			FavoriteModelImpl.ENTITY_CACHE_ENABLED,
-			FavoriteModelImpl.FINDER_CACHE_ENABLED, FavoriteImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByEntityIdAndTypeId",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"entityId", "typeId"}, true);
 
 		_finderPathWithoutPaginationFindByEntityIdAndTypeId = new FinderPath(
-			FavoriteModelImpl.ENTITY_CACHE_ENABLED,
-			FavoriteModelImpl.FINDER_CACHE_ENABLED, FavoriteImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByEntityIdAndTypeId",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			FavoriteModelImpl.ENTITYID_COLUMN_BITMASK |
-			FavoriteModelImpl.TYPEID_COLUMN_BITMASK);
+			new String[] {"entityId", "typeId"}, true);
 
 		_finderPathCountByEntityIdAndTypeId = new FinderPath(
-			FavoriteModelImpl.ENTITY_CACHE_ENABLED,
-			FavoriteModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByEntityIdAndTypeId",
-			new String[] {Long.class.getName(), Long.class.getName()});
+			new String[] {Long.class.getName(), Long.class.getName()},
+			new String[] {"entityId", "typeId"}, false);
 
 		_finderPathWithPaginationFindByTypeIdAndEntityIdAndPublikUserIdAndContent =
 			new FinderPath(
-				FavoriteModelImpl.ENTITY_CACHE_ENABLED,
-				FavoriteModelImpl.FINDER_CACHE_ENABLED, FavoriteImpl.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"findByTypeIdAndEntityIdAndPublikUserIdAndContent",
 				new String[] {
@@ -3224,40 +2872,54 @@ public class FavoritePersistenceImpl
 					String.class.getName(), String.class.getName(),
 					Integer.class.getName(), Integer.class.getName(),
 					OrderByComparator.class.getName()
-				});
+				},
+				new String[] {"typeId", "entityId", "publikUserId", "content"},
+				true);
 
 		_finderPathWithoutPaginationFindByTypeIdAndEntityIdAndPublikUserIdAndContent =
 			new FinderPath(
-				FavoriteModelImpl.ENTITY_CACHE_ENABLED,
-				FavoriteModelImpl.FINDER_CACHE_ENABLED, FavoriteImpl.class,
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByTypeIdAndEntityIdAndPublikUserIdAndContent",
 				new String[] {
 					Long.class.getName(), Long.class.getName(),
 					String.class.getName(), String.class.getName()
 				},
-				FavoriteModelImpl.TYPEID_COLUMN_BITMASK |
-				FavoriteModelImpl.ENTITYID_COLUMN_BITMASK |
-				FavoriteModelImpl.PUBLIKUSERID_COLUMN_BITMASK |
-				FavoriteModelImpl.CONTENT_COLUMN_BITMASK);
+				new String[] {"typeId", "entityId", "publikUserId", "content"},
+				true);
 
 		_finderPathCountByTypeIdAndEntityIdAndPublikUserIdAndContent =
 			new FinderPath(
-				FavoriteModelImpl.ENTITY_CACHE_ENABLED,
-				FavoriteModelImpl.FINDER_CACHE_ENABLED, Long.class,
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"countByTypeIdAndEntityIdAndPublikUserIdAndContent",
 				new String[] {
 					Long.class.getName(), Long.class.getName(),
 					String.class.getName(), String.class.getName()
-				});
+				},
+				new String[] {"typeId", "entityId", "publikUserId", "content"},
+				false);
+
+		_setFavoriteUtilPersistence(this);
 	}
 
 	public void destroy() {
+		_setFavoriteUtilPersistence(null);
+
 		entityCache.removeCache(FavoriteImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+	}
+
+	private void _setFavoriteUtilPersistence(
+		FavoritePersistence favoritePersistence) {
+
+		try {
+			Field field = FavoriteUtil.class.getDeclaredField("_persistence");
+
+			field.setAccessible(true);
+
+			field.set(null, favoritePersistence);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
+		}
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -3268,9 +2930,6 @@ public class FavoritePersistenceImpl
 
 	private static final String _SQL_SELECT_FAVORITE =
 		"SELECT favorite FROM Favorite favorite";
-
-	private static final String _SQL_SELECT_FAVORITE_WHERE_PKS_IN =
-		"SELECT favorite FROM Favorite favorite WHERE favoriteId IN (";
 
 	private static final String _SQL_SELECT_FAVORITE_WHERE =
 		"SELECT favorite FROM Favorite favorite WHERE ";
@@ -3294,5 +2953,10 @@ public class FavoritePersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"order"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

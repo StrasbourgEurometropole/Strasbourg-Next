@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.notification.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author BenjaminBini
  */
-@ProviderType
 public class NoSuchUserNotificationTypeException extends NoSuchModelException {
 
 	public NoSuchUserNotificationTypeException() {
@@ -30,12 +27,12 @@ public class NoSuchUserNotificationTypeException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchUserNotificationTypeException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchUserNotificationTypeException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchUserNotificationTypeException(Throwable cause) {
-		super(cause);
+	public NoSuchUserNotificationTypeException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

@@ -47,7 +47,6 @@ import eu.strasbourg.service.agenda.service.ManifestationServiceUtil;
  * </p>
  *
  * @author BenjaminBini
- * @see ManifestationServiceSoap
  * @generated
  */
 public class ManifestationServiceHttp {

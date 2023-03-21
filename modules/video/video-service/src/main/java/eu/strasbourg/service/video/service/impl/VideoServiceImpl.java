@@ -14,10 +14,9 @@
 
 package eu.strasbourg.service.video.service.impl;
 
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.base.VideoServiceBaseImpl;
 

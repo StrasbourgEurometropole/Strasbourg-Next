@@ -70,6 +70,11 @@ public class BaseNonceWrapper
 		}
 	}
 
+	@Override
+	public BaseNonce cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
+	}
+
 	/**
 	 * Returns the base nonce ID of this base nonce.
 	 *
@@ -153,6 +158,11 @@ public class BaseNonceWrapper
 	@Override
 	public void setValue(String value) {
 		model.setValue(value);
+	}
+
+	@Override
+	public String toXmlString() {
+		return model.toXmlString();
 	}
 
 	@Override

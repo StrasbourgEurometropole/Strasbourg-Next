@@ -16,6 +16,7 @@ package eu.strasbourg.service.gtfs.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -23,22 +24,20 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
-
+import com.liferay.portal.kernel.util.StringUtil;
 import eu.strasbourg.service.gtfs.model.Route;
 import eu.strasbourg.service.gtfs.model.RouteModel;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -101,23 +100,34 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.gtfs.model.Route"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.gtfs.model.Route"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.gtfs.model.Route"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ROUTE_ID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 2L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -174,9 +184,6 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 				attributeName, attributeGetterFunction.apply((Route)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -207,33 +214,6 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Route>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Route.class.getClassLoader(), Route.class, ModelWrapper.class);
-
-		try {
-			Constructor<Route> constructor =
-				(Constructor<Route>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<Route, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Route, Object>>
@@ -245,186 +225,39 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 		Map<String, BiConsumer<Route, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Route, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Route, Object>() {
-
-				@Override
-				public Object apply(Route route) {
-					return route.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", Route::getUuid);
 		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Route, Object>() {
-
-				@Override
-				public void accept(Route route, Object uuidObject) {
-					route.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"id",
-			new Function<Route, Object>() {
-
-				@Override
-				public Object apply(Route route) {
-					return route.getId();
-				}
-
-			});
+			"uuid", (BiConsumer<Route, String>)Route::setUuid);
+		attributeGetterFunctions.put("id", Route::getId);
 		attributeSetterBiConsumers.put(
-			"id",
-			new BiConsumer<Route, Object>() {
-
-				@Override
-				public void accept(Route route, Object idObject) {
-					route.setId((Long)idObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"route_id",
-			new Function<Route, Object>() {
-
-				@Override
-				public Object apply(Route route) {
-					return route.getRoute_id();
-				}
-
-			});
+			"id", (BiConsumer<Route, Long>)Route::setId);
+		attributeGetterFunctions.put("route_id", Route::getRoute_id);
 		attributeSetterBiConsumers.put(
-			"route_id",
-			new BiConsumer<Route, Object>() {
-
-				@Override
-				public void accept(Route route, Object route_idObject) {
-					route.setRoute_id((String)route_idObject);
-				}
-
-			});
+			"route_id", (BiConsumer<Route, String>)Route::setRoute_id);
 		attributeGetterFunctions.put(
-			"route_short_name",
-			new Function<Route, Object>() {
-
-				@Override
-				public Object apply(Route route) {
-					return route.getRoute_short_name();
-				}
-
-			});
+			"route_short_name", Route::getRoute_short_name);
 		attributeSetterBiConsumers.put(
 			"route_short_name",
-			new BiConsumer<Route, Object>() {
-
-				@Override
-				public void accept(Route route, Object route_short_nameObject) {
-					route.setRoute_short_name((String)route_short_nameObject);
-				}
-
-			});
+			(BiConsumer<Route, String>)Route::setRoute_short_name);
 		attributeGetterFunctions.put(
-			"route_long_name",
-			new Function<Route, Object>() {
-
-				@Override
-				public Object apply(Route route) {
-					return route.getRoute_long_name();
-				}
-
-			});
+			"route_long_name", Route::getRoute_long_name);
 		attributeSetterBiConsumers.put(
 			"route_long_name",
-			new BiConsumer<Route, Object>() {
-
-				@Override
-				public void accept(Route route, Object route_long_nameObject) {
-					route.setRoute_long_name((String)route_long_nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"route_desc",
-			new Function<Route, Object>() {
-
-				@Override
-				public Object apply(Route route) {
-					return route.getRoute_desc();
-				}
-
-			});
+			(BiConsumer<Route, String>)Route::setRoute_long_name);
+		attributeGetterFunctions.put("route_desc", Route::getRoute_desc);
 		attributeSetterBiConsumers.put(
-			"route_desc",
-			new BiConsumer<Route, Object>() {
-
-				@Override
-				public void accept(Route route, Object route_descObject) {
-					route.setRoute_desc((String)route_descObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"route_type",
-			new Function<Route, Object>() {
-
-				@Override
-				public Object apply(Route route) {
-					return route.getRoute_type();
-				}
-
-			});
+			"route_desc", (BiConsumer<Route, String>)Route::setRoute_desc);
+		attributeGetterFunctions.put("route_type", Route::getRoute_type);
 		attributeSetterBiConsumers.put(
-			"route_type",
-			new BiConsumer<Route, Object>() {
-
-				@Override
-				public void accept(Route route, Object route_typeObject) {
-					route.setRoute_type((Integer)route_typeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"route_color",
-			new Function<Route, Object>() {
-
-				@Override
-				public Object apply(Route route) {
-					return route.getRoute_color();
-				}
-
-			});
+			"route_type", (BiConsumer<Route, Integer>)Route::setRoute_type);
+		attributeGetterFunctions.put("route_color", Route::getRoute_color);
 		attributeSetterBiConsumers.put(
-			"route_color",
-			new BiConsumer<Route, Object>() {
-
-				@Override
-				public void accept(Route route, Object route_colorObject) {
-					route.setRoute_color((String)route_colorObject);
-				}
-
-			});
+			"route_color", (BiConsumer<Route, String>)Route::setRoute_color);
 		attributeGetterFunctions.put(
-			"route_text_color",
-			new Function<Route, Object>() {
-
-				@Override
-				public Object apply(Route route) {
-					return route.getRoute_text_color();
-				}
-
-			});
+			"route_text_color", Route::getRoute_text_color);
 		attributeSetterBiConsumers.put(
 			"route_text_color",
-			new BiConsumer<Route, Object>() {
-
-				@Override
-				public void accept(Route route, Object route_text_colorObject) {
-					route.setRoute_text_color((String)route_text_colorObject);
-				}
-
-			});
+			(BiConsumer<Route, String>)Route::setRoute_text_color);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -444,17 +277,20 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -464,6 +300,10 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 
 	@Override
 	public void setId(long id) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_id = id;
 	}
 
@@ -479,17 +319,20 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 
 	@Override
 	public void setRoute_id(String route_id) {
-		_columnBitmask = -1L;
-
-		if (_originalRoute_id == null) {
-			_originalRoute_id = _route_id;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_route_id = route_id;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalRoute_id() {
-		return GetterUtil.getString(_originalRoute_id);
+		return getColumnOriginalValue("route_id");
 	}
 
 	@Override
@@ -504,6 +347,10 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 
 	@Override
 	public void setRoute_short_name(String route_short_name) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_route_short_name = route_short_name;
 	}
 
@@ -519,6 +366,10 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 
 	@Override
 	public void setRoute_long_name(String route_long_name) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_route_long_name = route_long_name;
 	}
 
@@ -534,6 +385,10 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 
 	@Override
 	public void setRoute_desc(String route_desc) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_route_desc = route_desc;
 	}
 
@@ -544,6 +399,10 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 
 	@Override
 	public void setRoute_type(int route_type) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_route_type = route_type;
 	}
 
@@ -559,6 +418,10 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 
 	@Override
 	public void setRoute_color(String route_color) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_route_color = route_color;
 	}
 
@@ -574,10 +437,34 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 
 	@Override
 	public void setRoute_text_color(String route_text_color) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_route_text_color = route_text_color;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -629,6 +516,29 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 	}
 
 	@Override
+	public Route cloneWithOriginalValues() {
+		RouteImpl routeImpl = new RouteImpl();
+
+		routeImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		routeImpl.setId(this.<Long>getColumnOriginalValue("id_"));
+		routeImpl.setRoute_id(this.<String>getColumnOriginalValue("route_id"));
+		routeImpl.setRoute_short_name(
+			this.<String>getColumnOriginalValue("route_short_name"));
+		routeImpl.setRoute_long_name(
+			this.<String>getColumnOriginalValue("route_long_name"));
+		routeImpl.setRoute_desc(
+			this.<String>getColumnOriginalValue("route_desc"));
+		routeImpl.setRoute_type(
+			this.<Integer>getColumnOriginalValue("route_type"));
+		routeImpl.setRoute_color(
+			this.<String>getColumnOriginalValue("route_color"));
+		routeImpl.setRoute_text_color(
+			this.<String>getColumnOriginalValue("route_text_color"));
+
+		return routeImpl;
+	}
+
+	@Override
 	public int compareTo(Route route) {
 		int value = 0;
 
@@ -668,11 +578,19 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -680,13 +598,9 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 
 	@Override
 	public void resetOriginalValues() {
-		RouteModelImpl routeModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		routeModelImpl._originalUuid = routeModelImpl._uuid;
-
-		routeModelImpl._originalRoute_id = routeModelImpl._route_id;
-
-		routeModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -762,7 +676,7 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -772,9 +686,26 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 			String attributeName = entry.getKey();
 			Function<Route, Object> attributeGetterFunction = entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Route)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Route)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -787,54 +718,108 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Route, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Route, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Route, Object> attributeGetterFunction = entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Route)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Route>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Route.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _id;
 	private String _route_id;
-	private String _originalRoute_id;
 	private String _route_short_name;
 	private String _route_long_name;
 	private String _route_desc;
 	private int _route_type;
 	private String _route_color;
 	private String _route_text_color;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Route, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Route)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("id_", _id);
+		_columnOriginalValues.put("route_id", _route_id);
+		_columnOriginalValues.put("route_short_name", _route_short_name);
+		_columnOriginalValues.put("route_long_name", _route_long_name);
+		_columnOriginalValues.put("route_desc", _route_desc);
+		_columnOriginalValues.put("route_type", _route_type);
+		_columnOriginalValues.put("route_color", _route_color);
+		_columnOriginalValues.put("route_text_color", _route_text_color);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("id_", "id");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("id_", 2L);
+
+		columnBitmasks.put("route_id", 4L);
+
+		columnBitmasks.put("route_short_name", 8L);
+
+		columnBitmasks.put("route_long_name", 16L);
+
+		columnBitmasks.put("route_desc", 32L);
+
+		columnBitmasks.put("route_type", 64L);
+
+		columnBitmasks.put("route_color", 128L);
+
+		columnBitmasks.put("route_text_color", 256L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Route _escapedModel;
 

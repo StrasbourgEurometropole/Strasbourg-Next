@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class ArretLocalServiceWrapper
 	implements ArretLocalService, ServiceWrapper<ArretLocalService> {
 
+	public ArretLocalServiceWrapper() {
+		this(null);
+	}
+
 	public ArretLocalServiceWrapper(ArretLocalService arretLocalService) {
 		_arretLocalService = arretLocalService;
 	}
@@ -67,6 +71,17 @@ public class ArretLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _arretLocalService.createArret(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _arretLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -113,6 +128,18 @@ public class ArretLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _arretLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _arretLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _arretLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

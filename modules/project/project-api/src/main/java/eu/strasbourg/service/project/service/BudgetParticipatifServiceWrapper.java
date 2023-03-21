@@ -27,6 +27,10 @@ public class BudgetParticipatifServiceWrapper
 	implements BudgetParticipatifService,
 			   ServiceWrapper<BudgetParticipatifService> {
 
+	public BudgetParticipatifServiceWrapper() {
+		this(null);
+	}
+
 	public BudgetParticipatifServiceWrapper(
 		BudgetParticipatifService budgetParticipatifService) {
 

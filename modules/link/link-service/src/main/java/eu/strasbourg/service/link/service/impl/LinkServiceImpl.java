@@ -14,8 +14,7 @@
 
 package eu.strasbourg.service.link.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import org.osgi.annotation.versioning.ProviderType;
 import eu.strasbourg.service.link.service.base.LinkServiceBaseImpl;
 
 /**

@@ -14,9 +14,17 @@
 
 package eu.strasbourg.service.agenda.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.agenda.model.CampaignEventStatus;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for CampaignEventStatus. This utility wraps
@@ -48,10 +56,8 @@ public class CampaignEventStatusLocalServiceUtil {
 	 * @param campaignEventStatus the campaign event status
 	 * @return the campaign event status that was added
 	 */
-	public static eu.strasbourg.service.agenda.model.CampaignEventStatus
-		addCampaignEventStatus(
-			eu.strasbourg.service.agenda.model.CampaignEventStatus
-				campaignEventStatus) {
+	public static CampaignEventStatus addCampaignEventStatus(
+		CampaignEventStatus campaignEventStatus) {
 
 		return getService().addCampaignEventStatus(campaignEventStatus);
 	}
@@ -59,9 +65,8 @@ public class CampaignEventStatusLocalServiceUtil {
 	/**
 	 * Crée une édition vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.agenda.model.CampaignEventStatus
-			createCampaignEventStatus()
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static CampaignEventStatus createCampaignEventStatus()
+		throws PortalException {
 
 		return getService().createCampaignEventStatus();
 	}
@@ -72,10 +77,18 @@ public class CampaignEventStatusLocalServiceUtil {
 	 * @param statusId the primary key for the new campaign event status
 	 * @return the new campaign event status
 	 */
-	public static eu.strasbourg.service.agenda.model.CampaignEventStatus
-		createCampaignEventStatus(long statusId) {
-
+	public static CampaignEventStatus createCampaignEventStatus(long statusId) {
 		return getService().createCampaignEventStatus(statusId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -88,10 +101,8 @@ public class CampaignEventStatusLocalServiceUtil {
 	 * @param campaignEventStatus the campaign event status
 	 * @return the campaign event status that was removed
 	 */
-	public static eu.strasbourg.service.agenda.model.CampaignEventStatus
-		deleteCampaignEventStatus(
-			eu.strasbourg.service.agenda.model.CampaignEventStatus
-				campaignEventStatus) {
+	public static CampaignEventStatus deleteCampaignEventStatus(
+		CampaignEventStatus campaignEventStatus) {
 
 		return getService().deleteCampaignEventStatus(campaignEventStatus);
 	}
@@ -107,9 +118,8 @@ public class CampaignEventStatusLocalServiceUtil {
 	 * @return the campaign event status that was removed
 	 * @throws PortalException if a campaign event status with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.agenda.model.CampaignEventStatus
-			deleteCampaignEventStatus(long statusId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static CampaignEventStatus deleteCampaignEventStatus(long statusId)
+		throws PortalException {
 
 		return getService().deleteCampaignEventStatus(statusId);
 	}
@@ -117,17 +127,22 @@ public class CampaignEventStatusLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -137,9 +152,7 @@ public class CampaignEventStatusLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -155,9 +168,8 @@ public class CampaignEventStatusLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -175,10 +187,9 @@ public class CampaignEventStatusLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -190,9 +201,7 @@ public class CampaignEventStatusLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -204,15 +213,13 @@ public class CampaignEventStatusLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.agenda.model.CampaignEventStatus
-		fetchCampaignEventStatus(long statusId) {
-
+	public static CampaignEventStatus fetchCampaignEventStatus(long statusId) {
 		return getService().fetchCampaignEventStatus(statusId);
 	}
 
@@ -225,9 +232,8 @@ public class CampaignEventStatusLocalServiceUtil {
 	/**
 	 * Retourne les statuts d'un événement
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.CampaignEventStatus>
-			getByCampaignEvent(long campaignEventId) {
+	public static List<CampaignEventStatus> getByCampaignEvent(
+		long campaignEventId) {
 
 		return getService().getByCampaignEvent(campaignEventId);
 	}
@@ -239,9 +245,8 @@ public class CampaignEventStatusLocalServiceUtil {
 	 * @return the campaign event status
 	 * @throws PortalException if a campaign event status with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.agenda.model.CampaignEventStatus
-			getCampaignEventStatus(long statusId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static CampaignEventStatus getCampaignEventStatus(long statusId)
+		throws PortalException {
 
 		return getService().getCampaignEventStatus(statusId);
 	}
@@ -257,9 +262,8 @@ public class CampaignEventStatusLocalServiceUtil {
 	 * @param end the upper bound of the range of campaign event statuses (not inclusive)
 	 * @return the range of campaign event statuses
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.CampaignEventStatus>
-			getCampaignEventStatuses(int start, int end) {
+	public static List<CampaignEventStatus> getCampaignEventStatuses(
+		int start, int end) {
 
 		return getService().getCampaignEventStatuses(start, end);
 	}
@@ -292,9 +296,8 @@ public class CampaignEventStatusLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -309,38 +312,16 @@ public class CampaignEventStatusLocalServiceUtil {
 	 * @param campaignEventStatus the campaign event status
 	 * @return the campaign event status that was updated
 	 */
-	public static eu.strasbourg.service.agenda.model.CampaignEventStatus
-		updateCampaignEventStatus(
-			eu.strasbourg.service.agenda.model.CampaignEventStatus
-				campaignEventStatus) {
+	public static CampaignEventStatus updateCampaignEventStatus(
+		CampaignEventStatus campaignEventStatus) {
 
 		return getService().updateCampaignEventStatus(campaignEventStatus);
 	}
 
 	public static CampaignEventStatusLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<CampaignEventStatusLocalService, CampaignEventStatusLocalService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			CampaignEventStatusLocalService.class);
-
-		ServiceTracker
-			<CampaignEventStatusLocalService, CampaignEventStatusLocalService>
-				serviceTracker =
-					new ServiceTracker
-						<CampaignEventStatusLocalService,
-						 CampaignEventStatusLocalService>(
-							 bundle.getBundleContext(),
-							 CampaignEventStatusLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile CampaignEventStatusLocalService _service;
 
 }

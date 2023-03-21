@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.council.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Brian Wing Shun Chan
  */
-@ProviderType
 public class NoSuchCouncilSessionException extends NoSuchModelException {
 
 	public NoSuchCouncilSessionException() {
@@ -30,12 +27,12 @@ public class NoSuchCouncilSessionException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchCouncilSessionException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchCouncilSessionException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchCouncilSessionException(Throwable cause) {
-		super(cause);
+	public NoSuchCouncilSessionException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

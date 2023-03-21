@@ -61,8 +61,8 @@ public class AlertIndexer extends BaseIndexer<Alert> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(alert.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);
+		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);*/
 		
 		document.addText(Field.TITLE, alert.getName());
 		document.addText(Field.DESCRIPTION,alert.getName());
@@ -95,8 +95,7 @@ public class AlertIndexer extends BaseIndexer<Alert> {
 	protected void doReindex(Alert alert) throws Exception {
 		Document document = getDocument(alert);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-				alert.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(alert.getCompanyId(), document);
 
 	}
 
@@ -129,7 +128,6 @@ public class AlertIndexer extends BaseIndexer<Alert> {
 
 			});
 
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 

@@ -16,6 +16,7 @@ package eu.strasbourg.service.gtfs.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -23,22 +24,20 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
-
+import com.liferay.portal.kernel.util.StringUtil;
 import eu.strasbourg.service.gtfs.model.Trip;
 import eu.strasbourg.service.gtfs.model.TripModel;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -98,27 +97,46 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.gtfs.model.Trip"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.gtfs.model.Trip"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.gtfs.model.Trip"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ROUTE_ID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long SERVICE_ID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long TRIP_ID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 8L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -175,9 +193,6 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 				attributeName, attributeGetterFunction.apply((Trip)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -208,33 +223,6 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Trip>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Trip.class.getClassLoader(), Trip.class, ModelWrapper.class);
-
-		try {
-			Constructor<Trip> constructor =
-				(Constructor<Trip>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<Trip, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<Trip, Object>>
@@ -246,166 +234,30 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 		Map<String, BiConsumer<Trip, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Trip, ?>>();
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Trip, Object>() {
-
-				@Override
-				public Object apply(Trip trip) {
-					return trip.getUuid();
-				}
-
-			});
+		attributeGetterFunctions.put("uuid", Trip::getUuid);
 		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Trip, Object>() {
-
-				@Override
-				public void accept(Trip trip, Object uuidObject) {
-					trip.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"id",
-			new Function<Trip, Object>() {
-
-				@Override
-				public Object apply(Trip trip) {
-					return trip.getId();
-				}
-
-			});
+			"uuid", (BiConsumer<Trip, String>)Trip::setUuid);
+		attributeGetterFunctions.put("id", Trip::getId);
 		attributeSetterBiConsumers.put(
-			"id",
-			new BiConsumer<Trip, Object>() {
-
-				@Override
-				public void accept(Trip trip, Object idObject) {
-					trip.setId((Long)idObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"route_id",
-			new Function<Trip, Object>() {
-
-				@Override
-				public Object apply(Trip trip) {
-					return trip.getRoute_id();
-				}
-
-			});
+			"id", (BiConsumer<Trip, Long>)Trip::setId);
+		attributeGetterFunctions.put("route_id", Trip::getRoute_id);
 		attributeSetterBiConsumers.put(
-			"route_id",
-			new BiConsumer<Trip, Object>() {
-
-				@Override
-				public void accept(Trip trip, Object route_idObject) {
-					trip.setRoute_id((String)route_idObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"service_id",
-			new Function<Trip, Object>() {
-
-				@Override
-				public Object apply(Trip trip) {
-					return trip.getService_id();
-				}
-
-			});
+			"route_id", (BiConsumer<Trip, String>)Trip::setRoute_id);
+		attributeGetterFunctions.put("service_id", Trip::getService_id);
 		attributeSetterBiConsumers.put(
-			"service_id",
-			new BiConsumer<Trip, Object>() {
-
-				@Override
-				public void accept(Trip trip, Object service_idObject) {
-					trip.setService_id((String)service_idObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"trip_id",
-			new Function<Trip, Object>() {
-
-				@Override
-				public Object apply(Trip trip) {
-					return trip.getTrip_id();
-				}
-
-			});
+			"service_id", (BiConsumer<Trip, String>)Trip::setService_id);
+		attributeGetterFunctions.put("trip_id", Trip::getTrip_id);
 		attributeSetterBiConsumers.put(
-			"trip_id",
-			new BiConsumer<Trip, Object>() {
-
-				@Override
-				public void accept(Trip trip, Object trip_idObject) {
-					trip.setTrip_id((String)trip_idObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"trip_headsign",
-			new Function<Trip, Object>() {
-
-				@Override
-				public Object apply(Trip trip) {
-					return trip.getTrip_headsign();
-				}
-
-			});
+			"trip_id", (BiConsumer<Trip, String>)Trip::setTrip_id);
+		attributeGetterFunctions.put("trip_headsign", Trip::getTrip_headsign);
 		attributeSetterBiConsumers.put(
-			"trip_headsign",
-			new BiConsumer<Trip, Object>() {
-
-				@Override
-				public void accept(Trip trip, Object trip_headsignObject) {
-					trip.setTrip_headsign((String)trip_headsignObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"direction_id",
-			new Function<Trip, Object>() {
-
-				@Override
-				public Object apply(Trip trip) {
-					return trip.getDirection_id();
-				}
-
-			});
+			"trip_headsign", (BiConsumer<Trip, String>)Trip::setTrip_headsign);
+		attributeGetterFunctions.put("direction_id", Trip::getDirection_id);
 		attributeSetterBiConsumers.put(
-			"direction_id",
-			new BiConsumer<Trip, Object>() {
-
-				@Override
-				public void accept(Trip trip, Object direction_idObject) {
-					trip.setDirection_id((Boolean)direction_idObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"block_id",
-			new Function<Trip, Object>() {
-
-				@Override
-				public Object apply(Trip trip) {
-					return trip.getBlock_id();
-				}
-
-			});
+			"direction_id", (BiConsumer<Trip, Boolean>)Trip::setDirection_id);
+		attributeGetterFunctions.put("block_id", Trip::getBlock_id);
 		attributeSetterBiConsumers.put(
-			"block_id",
-			new BiConsumer<Trip, Object>() {
-
-				@Override
-				public void accept(Trip trip, Object block_idObject) {
-					trip.setBlock_id((String)block_idObject);
-				}
-
-			});
+			"block_id", (BiConsumer<Trip, String>)Trip::setBlock_id);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -425,17 +277,20 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -445,6 +300,10 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 
 	@Override
 	public void setId(long id) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_id = id;
 	}
 
@@ -460,17 +319,20 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 
 	@Override
 	public void setRoute_id(String route_id) {
-		_columnBitmask |= ROUTE_ID_COLUMN_BITMASK;
-
-		if (_originalRoute_id == null) {
-			_originalRoute_id = _route_id;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_route_id = route_id;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalRoute_id() {
-		return GetterUtil.getString(_originalRoute_id);
+		return getColumnOriginalValue("route_id");
 	}
 
 	@Override
@@ -485,17 +347,20 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 
 	@Override
 	public void setService_id(String service_id) {
-		_columnBitmask |= SERVICE_ID_COLUMN_BITMASK;
-
-		if (_originalService_id == null) {
-			_originalService_id = _service_id;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_service_id = service_id;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalService_id() {
-		return GetterUtil.getString(_originalService_id);
+		return getColumnOriginalValue("service_id");
 	}
 
 	@Override
@@ -510,17 +375,20 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 
 	@Override
 	public void setTrip_id(String trip_id) {
-		_columnBitmask = -1L;
-
-		if (_originalTrip_id == null) {
-			_originalTrip_id = _trip_id;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_trip_id = trip_id;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalTrip_id() {
-		return GetterUtil.getString(_originalTrip_id);
+		return getColumnOriginalValue("trip_id");
 	}
 
 	@Override
@@ -535,6 +403,10 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 
 	@Override
 	public void setTrip_headsign(String trip_headsign) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_trip_headsign = trip_headsign;
 	}
 
@@ -550,6 +422,10 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 
 	@Override
 	public void setDirection_id(boolean direction_id) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_direction_id = direction_id;
 	}
 
@@ -565,10 +441,34 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 
 	@Override
 	public void setBlock_id(String block_id) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_block_id = block_id;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -619,6 +519,25 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 	}
 
 	@Override
+	public Trip cloneWithOriginalValues() {
+		TripImpl tripImpl = new TripImpl();
+
+		tripImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		tripImpl.setId(this.<Long>getColumnOriginalValue("id_"));
+		tripImpl.setRoute_id(this.<String>getColumnOriginalValue("route_id"));
+		tripImpl.setService_id(
+			this.<String>getColumnOriginalValue("service_id"));
+		tripImpl.setTrip_id(this.<String>getColumnOriginalValue("trip_id"));
+		tripImpl.setTrip_headsign(
+			this.<String>getColumnOriginalValue("trip_headsign"));
+		tripImpl.setDirection_id(
+			this.<Boolean>getColumnOriginalValue("direction_id"));
+		tripImpl.setBlock_id(this.<String>getColumnOriginalValue("block_id"));
+
+		return tripImpl;
+	}
+
+	@Override
 	public int compareTo(Trip trip) {
 		int value = 0;
 
@@ -658,11 +577,19 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -670,17 +597,9 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 
 	@Override
 	public void resetOriginalValues() {
-		TripModelImpl tripModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		tripModelImpl._originalUuid = tripModelImpl._uuid;
-
-		tripModelImpl._originalRoute_id = tripModelImpl._route_id;
-
-		tripModelImpl._originalService_id = tripModelImpl._service_id;
-
-		tripModelImpl._originalTrip_id = tripModelImpl._trip_id;
-
-		tripModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -748,7 +667,7 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -758,9 +677,26 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 			String attributeName = entry.getKey();
 			Function<Trip, Object> attributeGetterFunction = entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Trip)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Trip)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -773,55 +709,104 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Trip, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Trip, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Trip, Object> attributeGetterFunction = entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Trip)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Trip>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Trip.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _id;
 	private String _route_id;
-	private String _originalRoute_id;
 	private String _service_id;
-	private String _originalService_id;
 	private String _trip_id;
-	private String _originalTrip_id;
 	private String _trip_headsign;
 	private boolean _direction_id;
 	private String _block_id;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Trip, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Trip)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("id_", _id);
+		_columnOriginalValues.put("route_id", _route_id);
+		_columnOriginalValues.put("service_id", _service_id);
+		_columnOriginalValues.put("trip_id", _trip_id);
+		_columnOriginalValues.put("trip_headsign", _trip_headsign);
+		_columnOriginalValues.put("direction_id", _direction_id);
+		_columnOriginalValues.put("block_id", _block_id);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("id_", "id");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("id_", 2L);
+
+		columnBitmasks.put("route_id", 4L);
+
+		columnBitmasks.put("service_id", 8L);
+
+		columnBitmasks.put("trip_id", 16L);
+
+		columnBitmasks.put("trip_headsign", 32L);
+
+		columnBitmasks.put("direction_id", 64L);
+
+		columnBitmasks.put("block_id", 128L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Trip _escapedModel;
 

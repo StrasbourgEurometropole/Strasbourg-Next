@@ -14,16 +14,11 @@
 
 package eu.strasbourg.service.council.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.council.exception.NoSuchOfficialTypeCouncilException;
 import eu.strasbourg.service.council.model.OfficialTypeCouncil;
+import org.osgi.annotation.versioning.ProviderType;
 
-import java.io.Serializable;
-
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -46,9 +41,6 @@ public interface OfficialTypeCouncilPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link OfficialTypeCouncilUtil} to access the official type council persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, OfficialTypeCouncil> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the official type councils where uuid = &#63;.
@@ -875,9 +867,6 @@ public interface OfficialTypeCouncilPersistence
 	 * @return the number of official type councils
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 	public Set<String> getCompoundPKColumnNames();
 

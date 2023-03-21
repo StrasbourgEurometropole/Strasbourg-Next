@@ -38,7 +38,6 @@ package eu.strasbourg.service.edition.service.http;
  * </p>
  *
  * @author BenjaminBini
- * @see EditionServiceSoap
  * @generated
  */
 public class EditionServiceHttp {

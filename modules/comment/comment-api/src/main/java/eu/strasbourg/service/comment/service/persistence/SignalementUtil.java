@@ -17,18 +17,12 @@ package eu.strasbourg.service.comment.service.persistence;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.comment.model.Signalement;
 
 import java.io.Serializable;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * The persistence utility for the signalement service. This utility wraps <code>eu.strasbourg.service.comment.service.persistence.impl.SignalementPersistenceImpl</code> and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
@@ -1205,30 +1199,10 @@ public class SignalementUtil {
 		return getPersistence().countAll();
 	}
 
-	public static Set<String> getBadColumnNames() {
-		return getPersistence().getBadColumnNames();
-	}
-
 	public static SignalementPersistence getPersistence() {
-		return _serviceTracker.getService();
+		return _persistence;
 	}
 
-	private static ServiceTracker
-		<SignalementPersistence, SignalementPersistence> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(SignalementPersistence.class);
-
-		ServiceTracker<SignalementPersistence, SignalementPersistence>
-			serviceTracker =
-				new ServiceTracker
-					<SignalementPersistence, SignalementPersistence>(
-						bundle.getBundleContext(), SignalementPersistence.class,
-						null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile SignalementPersistence _persistence;
 
 }

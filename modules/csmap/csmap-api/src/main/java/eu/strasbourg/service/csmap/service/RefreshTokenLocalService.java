@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.csmap.service;
 
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -30,15 +31,12 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
-
 import eu.strasbourg.service.csmap.exception.NoSuchRefreshTokenException;
 import eu.strasbourg.service.csmap.model.RefreshToken;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.io.Serializable;
-
 import java.util.List;
-
-import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * Provides the local service interface for RefreshToken. Methods of this
@@ -61,7 +59,7 @@ public interface RefreshTokenLocalService
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link RefreshTokenLocalServiceUtil} to access the refresh token local service. Add custom service methods to <code>eu.strasbourg.service.csmap.service.impl.RefreshTokenLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.csmap.service.impl.RefreshTokenLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the refresh token local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link RefreshTokenLocalServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**
@@ -76,6 +74,12 @@ public interface RefreshTokenLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public RefreshToken addRefreshToken(RefreshToken refreshToken);
+
+	/**
+	 * @throws PortalException
+	 */
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException;
 
 	/**
 	 * Creates a new refresh token with the primary key. Does not add the refresh token to the database.
@@ -125,6 +129,12 @@ public interface RefreshTokenLocalService
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	public RefreshToken deleteRefreshToken(RefreshToken refreshToken);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> T dslQuery(DSLQuery dslQuery);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int dslQueryCount(DSLQuery dslQuery);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();

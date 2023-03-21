@@ -14,16 +14,12 @@
 
 package eu.strasbourg.service.place.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -34,20 +30,12 @@ import java.util.Objects;
  * @see Historic
  * @generated
  */
-public class HistoricWrapper implements Historic, ModelWrapper<Historic> {
+public class HistoricWrapper
+	extends BaseModelWrapper<Historic>
+	implements Historic, ModelWrapper<Historic> {
 
 	public HistoricWrapper(Historic historic) {
-		_historic = historic;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Historic.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Historic.class.getName();
+		super(historic);
 	}
 
 	@Override
@@ -90,18 +78,8 @@ public class HistoricWrapper implements Historic, ModelWrapper<Historic> {
 	}
 
 	@Override
-	public Object clone() {
-		return new HistoricWrapper((Historic)_historic.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.place.model.Historic historic) {
-		return _historic.compareTo(historic);
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _historic.getExpandoBridge();
+	public Historic cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -111,7 +89,7 @@ public class HistoricWrapper implements Historic, ModelWrapper<Historic> {
 	 */
 	@Override
 	public String getName() {
-		return _historic.getName();
+		return model.getName();
 	}
 
 	/**
@@ -121,12 +99,7 @@ public class HistoricWrapper implements Historic, ModelWrapper<Historic> {
 	 */
 	@Override
 	public String getPrimaryKey() {
-		return _historic.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _historic.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -136,7 +109,7 @@ public class HistoricWrapper implements Historic, ModelWrapper<Historic> {
 	 */
 	@Override
 	public String getSigId() {
-		return _historic.getSigId();
+		return model.getSigId();
 	}
 
 	/**
@@ -146,7 +119,7 @@ public class HistoricWrapper implements Historic, ModelWrapper<Historic> {
 	 */
 	@Override
 	public Date getSuppressionDate() {
-		return _historic.getSuppressionDate();
+		return model.getSuppressionDate();
 	}
 
 	/**
@@ -156,54 +129,12 @@ public class HistoricWrapper implements Historic, ModelWrapper<Historic> {
 	 */
 	@Override
 	public String getUuid() {
-		return _historic.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _historic.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _historic.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _historic.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _historic.isNew();
+		return model.getUuid();
 	}
 
 	@Override
 	public void persist() {
-		_historic.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_historic.setCachedModel(cachedModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_historic.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_historic.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_historic.setExpandoBridgeAttributes(serviceContext);
+		model.persist();
 	}
 
 	/**
@@ -213,12 +144,7 @@ public class HistoricWrapper implements Historic, ModelWrapper<Historic> {
 	 */
 	@Override
 	public void setName(String name) {
-		_historic.setName(name);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_historic.setNew(n);
+		model.setName(name);
 	}
 
 	/**
@@ -228,12 +154,7 @@ public class HistoricWrapper implements Historic, ModelWrapper<Historic> {
 	 */
 	@Override
 	public void setPrimaryKey(String primaryKey) {
-		_historic.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_historic.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -243,7 +164,7 @@ public class HistoricWrapper implements Historic, ModelWrapper<Historic> {
 	 */
 	@Override
 	public void setSigId(String sigId) {
-		_historic.setSigId(sigId);
+		model.setSigId(sigId);
 	}
 
 	/**
@@ -253,7 +174,7 @@ public class HistoricWrapper implements Historic, ModelWrapper<Historic> {
 	 */
 	@Override
 	public void setSuppressionDate(Date suppressionDate) {
-		_historic.setSuppressionDate(suppressionDate);
+		model.setSuppressionDate(suppressionDate);
 	}
 
 	/**
@@ -263,75 +184,17 @@ public class HistoricWrapper implements Historic, ModelWrapper<Historic> {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_historic.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.place.model.Historic> toCacheModel() {
-
-		return _historic.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.place.model.Historic toEscapedModel() {
-		return new HistoricWrapper(_historic.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _historic.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.place.model.Historic toUnescapedModel() {
-		return new HistoricWrapper(_historic.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _historic.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof HistoricWrapper)) {
-			return false;
-		}
-
-		HistoricWrapper historicWrapper = (HistoricWrapper)object;
-
-		if (Objects.equals(_historic, historicWrapper._historic)) {
-			return true;
-		}
-
-		return false;
+	protected HistoricWrapper wrap(Historic historic) {
+		return new HistoricWrapper(historic);
 	}
-
-	@Override
-	public Historic getWrappedModel() {
-		return _historic;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _historic.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _historic.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_historic.resetOriginalValues();
-	}
-
-	private final Historic _historic;
 
 }

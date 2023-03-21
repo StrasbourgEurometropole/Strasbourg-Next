@@ -38,7 +38,6 @@ package eu.strasbourg.service.video.service.http;
  * </p>
  *
  * @author BenjaminBini
- * @see VideoGalleryServiceSoap
  * @generated
  */
 public class VideoGalleryServiceHttp {

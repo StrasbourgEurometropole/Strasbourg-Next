@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.agenda.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for EventParticipation. This utility wraps
  * <code>eu.strasbourg.service.agenda.service.impl.EventParticipationServiceImpl</code> and is an
@@ -61,7 +57,7 @@ public class EventParticipationServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
@@ -69,7 +65,7 @@ public class EventParticipationServiceUtil {
 	 * Retourne les participation d'evenement d'un utilisateur
 	 */
 	public static com.liferay.portal.kernel.json.JSONObject
-		getUserEventParticipations(String userId) {
+		getUserEventParticipations(java.lang.String userId) {
 
 		return getService().getUserEventParticipations(userId);
 	}
@@ -84,26 +80,9 @@ public class EventParticipationServiceUtil {
 	}
 
 	public static EventParticipationService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<EventParticipationService, EventParticipationService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			EventParticipationService.class);
-
-		ServiceTracker<EventParticipationService, EventParticipationService>
-			serviceTracker =
-				new ServiceTracker
-					<EventParticipationService, EventParticipationService>(
-						bundle.getBundleContext(),
-						EventParticipationService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile EventParticipationService _service;
 
 }

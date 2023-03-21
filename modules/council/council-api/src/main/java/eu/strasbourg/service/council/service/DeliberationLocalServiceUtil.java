@@ -14,9 +14,16 @@
 
 package eu.strasbourg.service.council.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import eu.strasbourg.service.council.model.Deliberation;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for Deliberation. This utility wraps
@@ -48,10 +55,7 @@ public class DeliberationLocalServiceUtil {
 	 * @param deliberation the deliberation
 	 * @return the deliberation that was added
 	 */
-	public static eu.strasbourg.service.council.model.Deliberation
-		addDeliberation(
-			eu.strasbourg.service.council.model.Deliberation deliberation) {
-
+	public static Deliberation addDeliberation(Deliberation deliberation) {
 		return getService().addDeliberation(deliberation);
 	}
 
@@ -61,21 +65,28 @@ public class DeliberationLocalServiceUtil {
 	 * @param deliberationId the primary key for the new deliberation
 	 * @return the new deliberation
 	 */
-	public static eu.strasbourg.service.council.model.Deliberation
-		createDeliberation(long deliberationId) {
-
+	public static Deliberation createDeliberation(long deliberationId) {
 		return getService().createDeliberation(deliberationId);
 	}
 
 	/**
 	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.council.model.Deliberation
-			createDeliberation(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Deliberation createDeliberation(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().createDeliberation(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -88,10 +99,7 @@ public class DeliberationLocalServiceUtil {
 	 * @param deliberation the deliberation
 	 * @return the deliberation that was removed
 	 */
-	public static eu.strasbourg.service.council.model.Deliberation
-		deleteDeliberation(
-			eu.strasbourg.service.council.model.Deliberation deliberation) {
-
+	public static Deliberation deleteDeliberation(Deliberation deliberation) {
 		return getService().deleteDeliberation(deliberation);
 	}
 
@@ -106,9 +114,8 @@ public class DeliberationLocalServiceUtil {
 	 * @return the deliberation that was removed
 	 * @throws PortalException if a deliberation with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.council.model.Deliberation
-			deleteDeliberation(long deliberationId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Deliberation deleteDeliberation(long deliberationId)
+		throws PortalException {
 
 		return getService().deleteDeliberation(deliberationId);
 	}
@@ -116,17 +123,22 @@ public class DeliberationLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -136,9 +148,7 @@ public class DeliberationLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -154,9 +164,8 @@ public class DeliberationLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -174,10 +183,9 @@ public class DeliberationLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -189,9 +197,7 @@ public class DeliberationLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -203,15 +209,13 @@ public class DeliberationLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.council.model.Deliberation
-		fetchDeliberation(long deliberationId) {
-
+	public static Deliberation fetchDeliberation(long deliberationId) {
 		return getService().fetchDeliberation(deliberationId);
 	}
 
@@ -222,8 +226,8 @@ public class DeliberationLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching deliberation, or <code>null</code> if a matching deliberation could not be found
 	 */
-	public static eu.strasbourg.service.council.model.Deliberation
-		fetchDeliberationByUuidAndGroupId(String uuid, long groupId) {
+	public static Deliberation fetchDeliberationByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchDeliberationByUuidAndGroupId(uuid, groupId);
 	}
@@ -231,9 +235,8 @@ public class DeliberationLocalServiceUtil {
 	/**
 	 * Recherche par ID de CouncilSession
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.council.model.Deliberation>
-			findByCouncilSessionId(long councilSessionId) {
+	public static List<Deliberation> findByCouncilSessionId(
+		long councilSessionId) {
 
 		return getService().findByCouncilSessionId(councilSessionId);
 	}
@@ -251,9 +254,8 @@ public class DeliberationLocalServiceUtil {
 	 * @return the deliberation
 	 * @throws PortalException if a deliberation with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.council.model.Deliberation
-			getDeliberation(long deliberationId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Deliberation getDeliberation(long deliberationId)
+		throws PortalException {
 
 		return getService().getDeliberation(deliberationId);
 	}
@@ -266,9 +268,9 @@ public class DeliberationLocalServiceUtil {
 	 * @return the matching deliberation
 	 * @throws PortalException if a matching deliberation could not be found
 	 */
-	public static eu.strasbourg.service.council.model.Deliberation
-			getDeliberationByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Deliberation getDeliberationByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getDeliberationByUuidAndGroupId(uuid, groupId);
 	}
@@ -284,10 +286,7 @@ public class DeliberationLocalServiceUtil {
 	 * @param end the upper bound of the range of deliberations (not inclusive)
 	 * @return the range of deliberations
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.council.model.Deliberation> getDeliberations(
-			int start, int end) {
-
+	public static List<Deliberation> getDeliberations(int start, int end) {
 		return getService().getDeliberations(start, end);
 	}
 
@@ -298,9 +297,8 @@ public class DeliberationLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching deliberations, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.council.model.Deliberation>
-			getDeliberationsByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<Deliberation> getDeliberationsByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getDeliberationsByUuidAndCompanyId(uuid, companyId);
 	}
@@ -315,13 +313,9 @@ public class DeliberationLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching deliberations, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.council.model.Deliberation>
-			getDeliberationsByUuidAndCompanyId(
-				String uuid, long companyId, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<eu.strasbourg.service.council.model.Deliberation>
-						orderByComparator) {
+	public static List<Deliberation> getDeliberationsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Deliberation> orderByComparator) {
 
 		return getService().getDeliberationsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -363,9 +357,8 @@ public class DeliberationLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -375,11 +368,11 @@ public class DeliberationLocalServiceUtil {
 	 * Création ou mise à jour ou suppression en base de données
 	 */
 	public static String importData(
-			java.util.List<java.util.Map<String, String>> recordsMapList,
+			List<Map<String, String>> recordsMapList,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext,
 			long councilSessionId,
 			com.liferay.portal.kernel.theme.ThemeDisplay themeDisplay)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().importData(
 			recordsMapList, serviceContext, councilSessionId, themeDisplay);
@@ -388,9 +381,8 @@ public class DeliberationLocalServiceUtil {
 	/**
 	 * Supprime une entité
 	 */
-	public static eu.strasbourg.service.council.model.Deliberation
-			removeDeliberation(long deliberationId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Deliberation removeDeliberation(long deliberationId)
+		throws PortalException {
 
 		return getService().removeDeliberation(deliberationId);
 	}
@@ -405,21 +397,17 @@ public class DeliberationLocalServiceUtil {
 	 * @param deliberation the deliberation
 	 * @return the deliberation that was updated
 	 */
-	public static eu.strasbourg.service.council.model.Deliberation
-		updateDeliberation(
-			eu.strasbourg.service.council.model.Deliberation deliberation) {
-
+	public static Deliberation updateDeliberation(Deliberation deliberation) {
 		return getService().updateDeliberation(deliberation);
 	}
 
 	/**
 	 * Met à jour une entité et l'enregistre en base de données
 	 */
-	public static eu.strasbourg.service.council.model.Deliberation
-			updateDeliberation(
-				eu.strasbourg.service.council.model.Deliberation deliberation,
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Deliberation updateDeliberation(
+			Deliberation deliberation,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateDeliberation(deliberation, sc);
 	}
@@ -427,10 +415,8 @@ public class DeliberationLocalServiceUtil {
 	/**
 	 * Met à jour le statut de l'entité "manuellement" (pas via le workflow)
 	 */
-	public static void updateStatus(
-			eu.strasbourg.service.council.model.Deliberation deliberation,
-			int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static void updateStatus(Deliberation deliberation, int status)
+		throws PortalException {
 
 		getService().updateStatus(deliberation, status);
 	}
@@ -438,36 +424,20 @@ public class DeliberationLocalServiceUtil {
 	/**
 	 * Met à jour le statut de l'entité par le framework workflow
 	 */
-	public static eu.strasbourg.service.council.model.Deliberation updateStatus(
+	public static Deliberation updateStatus(
 			long userId, long entryId, int status,
 			com.liferay.portal.kernel.service.ServiceContext sc,
-			java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, entryId, status, sc, workflowContext);
 	}
 
 	public static DeliberationLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<DeliberationLocalService, DeliberationLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(DeliberationLocalService.class);
-
-		ServiceTracker<DeliberationLocalService, DeliberationLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<DeliberationLocalService, DeliberationLocalService>(
-						bundle.getBundleContext(),
-						DeliberationLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile DeliberationLocalService _service;
 
 }

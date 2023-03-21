@@ -1,13 +1,8 @@
 package eu.strasbourg.service.favorite.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.portal.kernel.model.Layout;
-
 import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.service.activity.model.ActivityCourse;
 import eu.strasbourg.service.agenda.model.Event;
@@ -17,6 +12,10 @@ import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.video.model.Video;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public enum FavoriteType {
 	PLACE(1, "PLACE", Place.class, true, true),

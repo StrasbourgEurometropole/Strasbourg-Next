@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class PlaceServiceWrapper
 	implements PlaceService, ServiceWrapper<PlaceService> {
 
+	public PlaceServiceWrapper() {
+		this(null);
+	}
+
 	public PlaceServiceWrapper(PlaceService placeService) {
 		_placeService = placeService;
 	}

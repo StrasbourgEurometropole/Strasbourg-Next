@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class PublikUserLocalServiceWrapper
 	implements PublikUserLocalService, ServiceWrapper<PublikUserLocalService> {
 
+	public PublikUserLocalServiceWrapper() {
+		this(null);
+	}
+
 	public PublikUserLocalServiceWrapper(
 		PublikUserLocalService publikUserLocalService) {
 
@@ -61,6 +65,17 @@ public class PublikUserLocalServiceWrapper
 		eu.strasbourg.service.oidc.model.PublikUser publikUser) {
 
 		_publikUserLocalService.anonymisedUserPlacit(anonymUser, publikUser);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _publikUserLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	@Override
@@ -126,6 +141,18 @@ public class PublikUserLocalServiceWrapper
 		eu.strasbourg.service.oidc.model.PublikUser publikUser) {
 
 		return _publikUserLocalService.deletePublikUser(publikUser);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _publikUserLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _publikUserLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

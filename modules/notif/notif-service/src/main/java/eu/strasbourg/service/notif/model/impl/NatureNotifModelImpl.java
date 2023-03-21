@@ -16,6 +16,7 @@ package eu.strasbourg.service.notif.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.json.JSON;
@@ -27,24 +28,22 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-
 import eu.strasbourg.service.notif.model.NatureNotif;
 import eu.strasbourg.service.notif.model.NatureNotifModel;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-
+import java.sql.Blob;
 import java.sql.Types;
-
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -102,23 +101,35 @@ public class NatureNotifModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.notif.service.util.ServiceProps.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.notif.model.NatureNotif"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.notif.service.util.ServiceProps.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.notif.model.NatureNotif"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.notif.service.util.ServiceProps.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.notif.model.NatureNotif"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long SERVICEID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long NATUREID_COLUMN_BITMASK = 2L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -177,9 +188,6 @@ public class NatureNotifModelImpl
 				attributeGetterFunction.apply((NatureNotif)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -213,34 +221,6 @@ public class NatureNotifModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, NatureNotif>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			NatureNotif.class.getClassLoader(), NatureNotif.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<NatureNotif> constructor =
-				(Constructor<NatureNotif>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<NatureNotif, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<NatureNotif, Object>>
@@ -252,70 +232,17 @@ public class NatureNotifModelImpl
 		Map<String, BiConsumer<NatureNotif, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<NatureNotif, ?>>();
 
-		attributeGetterFunctions.put(
-			"natureId",
-			new Function<NatureNotif, Object>() {
-
-				@Override
-				public Object apply(NatureNotif natureNotif) {
-					return natureNotif.getNatureId();
-				}
-
-			});
+		attributeGetterFunctions.put("natureId", NatureNotif::getNatureId);
 		attributeSetterBiConsumers.put(
 			"natureId",
-			new BiConsumer<NatureNotif, Object>() {
-
-				@Override
-				public void accept(
-					NatureNotif natureNotif, Object natureIdObject) {
-
-					natureNotif.setNatureId((Long)natureIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"serviceId",
-			new Function<NatureNotif, Object>() {
-
-				@Override
-				public Object apply(NatureNotif natureNotif) {
-					return natureNotif.getServiceId();
-				}
-
-			});
+			(BiConsumer<NatureNotif, Long>)NatureNotif::setNatureId);
+		attributeGetterFunctions.put("serviceId", NatureNotif::getServiceId);
 		attributeSetterBiConsumers.put(
 			"serviceId",
-			new BiConsumer<NatureNotif, Object>() {
-
-				@Override
-				public void accept(
-					NatureNotif natureNotif, Object serviceIdObject) {
-
-					natureNotif.setServiceId((Long)serviceIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<NatureNotif, Object>() {
-
-				@Override
-				public Object apply(NatureNotif natureNotif) {
-					return natureNotif.getName();
-				}
-
-			});
+			(BiConsumer<NatureNotif, Long>)NatureNotif::setServiceId);
+		attributeGetterFunctions.put("name", NatureNotif::getName);
 		attributeSetterBiConsumers.put(
-			"name",
-			new BiConsumer<NatureNotif, Object>() {
-
-				@Override
-				public void accept(NatureNotif natureNotif, Object nameObject) {
-					natureNotif.setName((String)nameObject);
-				}
-
-			});
+			"name", (BiConsumer<NatureNotif, String>)NatureNotif::setName);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -330,6 +257,10 @@ public class NatureNotifModelImpl
 
 	@Override
 	public void setNatureId(long natureId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_natureId = natureId;
 	}
 
@@ -340,19 +271,21 @@ public class NatureNotifModelImpl
 
 	@Override
 	public void setServiceId(long serviceId) {
-		_columnBitmask |= SERVICEID_COLUMN_BITMASK;
-
-		if (!_setOriginalServiceId) {
-			_setOriginalServiceId = true;
-
-			_originalServiceId = _serviceId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_serviceId = serviceId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalServiceId() {
-		return _originalServiceId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("serviceId"));
 	}
 
 	@Override
@@ -410,6 +343,10 @@ public class NatureNotifModelImpl
 
 	@Override
 	public void setName(String name) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_name = name;
 	}
 
@@ -458,6 +395,26 @@ public class NatureNotifModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -569,6 +526,19 @@ public class NatureNotifModelImpl
 	}
 
 	@Override
+	public NatureNotif cloneWithOriginalValues() {
+		NatureNotifImpl natureNotifImpl = new NatureNotifImpl();
+
+		natureNotifImpl.setNatureId(
+			this.<Long>getColumnOriginalValue("natureId"));
+		natureNotifImpl.setServiceId(
+			this.<Long>getColumnOriginalValue("serviceId"));
+		natureNotifImpl.setName(this.<String>getColumnOriginalValue("name"));
+
+		return natureNotifImpl;
+	}
+
+	@Override
 	public int compareTo(NatureNotif natureNotif) {
 		long primaryKey = natureNotif.getPrimaryKey();
 
@@ -610,11 +580,19 @@ public class NatureNotifModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -622,14 +600,9 @@ public class NatureNotifModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		NatureNotifModelImpl natureNotifModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		natureNotifModelImpl._originalServiceId =
-			natureNotifModelImpl._serviceId;
-
-		natureNotifModelImpl._setOriginalServiceId = false;
-
-		natureNotifModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -658,7 +631,7 @@ public class NatureNotifModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -669,9 +642,26 @@ public class NatureNotifModelImpl
 			Function<NatureNotif, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((NatureNotif)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((NatureNotif)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -684,50 +674,72 @@ public class NatureNotifModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<NatureNotif, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<NatureNotif, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<NatureNotif, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((NatureNotif)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, NatureNotif>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					NatureNotif.class, ModelWrapper.class);
 
 	}
 
 	private long _natureId;
 	private long _serviceId;
-	private long _originalServiceId;
-	private boolean _setOriginalServiceId;
 	private String _name;
 	private String _nameCurrentLanguageId;
+
+	public <T> T getColumnValue(String columnName) {
+		Function<NatureNotif, Object> function = _attributeGetterFunctions.get(
+			columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((NatureNotif)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("natureId", _natureId);
+		_columnOriginalValues.put("serviceId", _serviceId);
+		_columnOriginalValues.put("name", _name);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("natureId", 1L);
+
+		columnBitmasks.put("serviceId", 2L);
+
+		columnBitmasks.put("name", 4L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private NatureNotif _escapedModel;
 

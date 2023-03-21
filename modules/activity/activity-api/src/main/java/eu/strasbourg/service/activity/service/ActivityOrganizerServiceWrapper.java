@@ -27,6 +27,10 @@ public class ActivityOrganizerServiceWrapper
 	implements ActivityOrganizerService,
 			   ServiceWrapper<ActivityOrganizerService> {
 
+	public ActivityOrganizerServiceWrapper() {
+		this(null);
+	}
+
 	public ActivityOrganizerServiceWrapper(
 		ActivityOrganizerService activityOrganizerService) {
 

@@ -27,6 +27,10 @@ public class ManifestationLocalServiceWrapper
 	implements ManifestationLocalService,
 			   ServiceWrapper<ManifestationLocalService> {
 
+	public ManifestationLocalServiceWrapper() {
+		this(null);
+	}
+
 	public ManifestationLocalServiceWrapper(
 		ManifestationLocalService manifestationLocalService) {
 
@@ -121,6 +125,17 @@ public class ManifestationLocalServiceWrapper
 		return _manifestationLocalService.createManifestation(sc);
 	}
 
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _manifestationLocalService.createPersistedModel(primaryKeyObj);
+	}
+
 	@Override
 	public void deleteEventManifestation(long eventId, long manifestationId) {
 		_manifestationLocalService.deleteEventManifestation(
@@ -209,6 +224,18 @@ public class ManifestationLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _manifestationLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _manifestationLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _manifestationLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

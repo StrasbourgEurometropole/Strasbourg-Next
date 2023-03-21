@@ -14,9 +14,7 @@
 
 package eu.strasbourg.service.notification.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.portal.kernel.exception.PortalException;
 
 /**
  * Provides the remote service utility for Notification. This utility wraps
@@ -71,7 +69,7 @@ public class NotificationServiceUtil {
 	 * Retourne la liste des types de notifications
 	 */
 	public static com.liferay.portal.kernel.json.JSONObject getTypes()
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getTypes();
 	}
@@ -106,23 +104,9 @@ public class NotificationServiceUtil {
 	}
 
 	public static NotificationService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<NotificationService, NotificationService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(NotificationService.class);
-
-		ServiceTracker<NotificationService, NotificationService>
-			serviceTracker =
-				new ServiceTracker<NotificationService, NotificationService>(
-					bundle.getBundleContext(), NotificationService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile NotificationService _service;
 
 }

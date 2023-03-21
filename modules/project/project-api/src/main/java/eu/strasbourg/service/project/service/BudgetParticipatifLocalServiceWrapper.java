@@ -27,6 +27,10 @@ public class BudgetParticipatifLocalServiceWrapper
 	implements BudgetParticipatifLocalService,
 			   ServiceWrapper<BudgetParticipatifLocalService> {
 
+	public BudgetParticipatifLocalServiceWrapper() {
+		this(null);
+	}
+
 	public BudgetParticipatifLocalServiceWrapper(
 		BudgetParticipatifLocalService budgetParticipatifLocalService) {
 
@@ -92,6 +96,18 @@ public class BudgetParticipatifLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _budgetParticipatifLocalService.createPersistedModel(
+			primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the budget participatif from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -141,6 +157,18 @@ public class BudgetParticipatifLocalServiceWrapper
 
 		return _budgetParticipatifLocalService.deletePersistedModel(
 			persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _budgetParticipatifLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _budgetParticipatifLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

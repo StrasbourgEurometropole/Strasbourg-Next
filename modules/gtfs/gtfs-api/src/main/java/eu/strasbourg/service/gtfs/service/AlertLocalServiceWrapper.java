@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class AlertLocalServiceWrapper
 	implements AlertLocalService, ServiceWrapper<AlertLocalService> {
 
+	public AlertLocalServiceWrapper() {
+		this(null);
+	}
+
 	public AlertLocalServiceWrapper(AlertLocalService alertLocalService) {
 		_alertLocalService = alertLocalService;
 	}
@@ -67,6 +71,17 @@ public class AlertLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _alertLocalService.createAlert(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _alertLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -113,6 +128,18 @@ public class AlertLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _alertLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _alertLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _alertLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

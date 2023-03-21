@@ -14,15 +14,11 @@
 
 package eu.strasbourg.service.notification.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -34,22 +30,13 @@ import java.util.Objects;
  * @generated
  */
 public class UserNotificationStatusWrapper
+	extends BaseModelWrapper<UserNotificationStatus>
 	implements ModelWrapper<UserNotificationStatus>, UserNotificationStatus {
 
 	public UserNotificationStatusWrapper(
 		UserNotificationStatus userNotificationStatus) {
 
-		_userNotificationStatus = userNotificationStatus;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return UserNotificationStatus.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return UserNotificationStatus.class.getName();
+		super(userNotificationStatus);
 	}
 
 	@Override
@@ -85,29 +72,15 @@ public class UserNotificationStatusWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new UserNotificationStatusWrapper(
-			(UserNotificationStatus)_userNotificationStatus.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.notification.model.UserNotificationStatus
-			userNotificationStatus) {
-
-		return _userNotificationStatus.compareTo(userNotificationStatus);
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _userNotificationStatus.getExpandoBridge();
+	public UserNotificationStatus cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	@Override
 	public eu.strasbourg.service.notification.model.Notification
 		getNotification() {
 
-		return _userNotificationStatus.getNotification();
+		return model.getNotification();
 	}
 
 	/**
@@ -117,7 +90,7 @@ public class UserNotificationStatusWrapper
 	 */
 	@Override
 	public long getNotificationId() {
-		return _userNotificationStatus.getNotificationId();
+		return model.getNotificationId();
 	}
 
 	/**
@@ -129,12 +102,7 @@ public class UserNotificationStatusWrapper
 	public eu.strasbourg.service.notification.service.persistence.
 		UserNotificationStatusPK getPrimaryKey() {
 
-		return _userNotificationStatus.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _userNotificationStatus.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -144,7 +112,7 @@ public class UserNotificationStatusWrapper
 	 */
 	@Override
 	public String getPublikUserId() {
-		return _userNotificationStatus.getPublikUserId();
+		return model.getPublikUserId();
 	}
 
 	/**
@@ -154,27 +122,7 @@ public class UserNotificationStatusWrapper
 	 */
 	@Override
 	public boolean getRead() {
-		return _userNotificationStatus.getRead();
-	}
-
-	@Override
-	public int hashCode() {
-		return _userNotificationStatus.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _userNotificationStatus.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _userNotificationStatus.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _userNotificationStatus.isNew();
+		return model.getRead();
 	}
 
 	/**
@@ -184,39 +132,12 @@ public class UserNotificationStatusWrapper
 	 */
 	@Override
 	public boolean isRead() {
-		return _userNotificationStatus.isRead();
+		return model.isRead();
 	}
 
 	@Override
 	public void persist() {
-		_userNotificationStatus.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_userNotificationStatus.setCachedModel(cachedModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_userNotificationStatus.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_userNotificationStatus.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_userNotificationStatus.setExpandoBridgeAttributes(serviceContext);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_userNotificationStatus.setNew(n);
+		model.persist();
 	}
 
 	/**
@@ -226,7 +147,7 @@ public class UserNotificationStatusWrapper
 	 */
 	@Override
 	public void setNotificationId(long notificationId) {
-		_userNotificationStatus.setNotificationId(notificationId);
+		model.setNotificationId(notificationId);
 	}
 
 	/**
@@ -239,12 +160,7 @@ public class UserNotificationStatusWrapper
 		eu.strasbourg.service.notification.service.persistence.
 			UserNotificationStatusPK primaryKey) {
 
-		_userNotificationStatus.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_userNotificationStatus.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -254,7 +170,7 @@ public class UserNotificationStatusWrapper
 	 */
 	@Override
 	public void setPublikUserId(String publikUserId) {
-		_userNotificationStatus.setPublikUserId(publikUserId);
+		model.setPublikUserId(publikUserId);
 	}
 
 	/**
@@ -264,23 +180,7 @@ public class UserNotificationStatusWrapper
 	 */
 	@Override
 	public void setRead(boolean read) {
-		_userNotificationStatus.setRead(read);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.notification.model.UserNotificationStatus>
-			toCacheModel() {
-
-		return _userNotificationStatus.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.notification.model.UserNotificationStatus
-		toEscapedModel() {
-
-		return new UserNotificationStatusWrapper(
-			_userNotificationStatus.toEscapedModel());
+		model.setRead(read);
 	}
 
 	/**
@@ -288,70 +188,19 @@ public class UserNotificationStatusWrapper
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _userNotificationStatus.toJSON();
-	}
-
-	@Override
-	public String toString() {
-		return _userNotificationStatus.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.notification.model.UserNotificationStatus
-		toUnescapedModel() {
-
-		return new UserNotificationStatusWrapper(
-			_userNotificationStatus.toUnescapedModel());
+		return model.toJSON();
 	}
 
 	@Override
 	public String toXmlString() {
-		return _userNotificationStatus.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
+	protected UserNotificationStatusWrapper wrap(
+		UserNotificationStatus userNotificationStatus) {
 
-		if (!(object instanceof UserNotificationStatusWrapper)) {
-			return false;
-		}
-
-		UserNotificationStatusWrapper userNotificationStatusWrapper =
-			(UserNotificationStatusWrapper)object;
-
-		if (Objects.equals(
-				_userNotificationStatus,
-				userNotificationStatusWrapper._userNotificationStatus)) {
-
-			return true;
-		}
-
-		return false;
+		return new UserNotificationStatusWrapper(userNotificationStatus);
 	}
-
-	@Override
-	public UserNotificationStatus getWrappedModel() {
-		return _userNotificationStatus;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _userNotificationStatus.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _userNotificationStatus.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_userNotificationStatus.resetOriginalValues();
-	}
-
-	private final UserNotificationStatus _userNotificationStatus;
 
 }

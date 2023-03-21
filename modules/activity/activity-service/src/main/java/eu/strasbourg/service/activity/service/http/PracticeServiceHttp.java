@@ -38,7 +38,6 @@ package eu.strasbourg.service.activity.service.http;
  * </p>
  *
  * @author Brian Wing Shun Chan
- * @see PracticeServiceSoap
  * @generated
  */
 public class PracticeServiceHttp {

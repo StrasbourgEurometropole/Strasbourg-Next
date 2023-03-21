@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class EditionServiceWrapper
 	implements EditionService, ServiceWrapper<EditionService> {
 
+	public EditionServiceWrapper() {
+		this(null);
+	}
+
 	public EditionServiceWrapper(EditionService editionService) {
 		_editionService = editionService;
 	}

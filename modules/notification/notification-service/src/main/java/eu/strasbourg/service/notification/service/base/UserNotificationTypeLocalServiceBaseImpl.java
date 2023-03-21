@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.notification.service.base;
 
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -24,6 +25,8 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -40,6 +43,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.notification.model.UserNotificationType;
 import eu.strasbourg.service.notification.service.UserNotificationTypeLocalService;
+import eu.strasbourg.service.notification.service.UserNotificationTypeLocalServiceUtil;
 import eu.strasbourg.service.notification.service.persistence.NotificationPersistence;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationChannelPersistence;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationStatusPersistence;
@@ -47,6 +51,8 @@ import eu.strasbourg.service.notification.service.persistence.UserNotificationTy
 import eu.strasbourg.service.notification.service.persistence.UserNotificationTypePersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.Field;
 
 import java.util.List;
 
@@ -70,7 +76,7 @@ public abstract class UserNotificationTypeLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>UserNotificationTypeLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.notification.service.UserNotificationTypeLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>UserNotificationTypeLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>UserNotificationTypeLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -143,6 +149,18 @@ public abstract class UserNotificationTypeLocalServiceBaseImpl
 		UserNotificationType userNotificationType) {
 
 		return userNotificationTypePersistence.remove(userNotificationType);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return userNotificationTypePersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -262,13 +280,30 @@ public abstract class UserNotificationTypeLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return userNotificationTypePersistence.create(
+			(UserNotificationTypePK)primaryKeyObj);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement UserNotificationTypeLocalServiceImpl#deleteUserNotificationType(UserNotificationType) to avoid orphaned data");
+		}
 
 		return userNotificationTypeLocalService.deleteUserNotificationType(
 			(UserNotificationType)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<UserNotificationType> getBasePersistence() {
 		return userNotificationTypePersistence;
 	}
@@ -648,11 +683,15 @@ public abstract class UserNotificationTypeLocalServiceBaseImpl
 		persistedModelLocalServiceRegistry.register(
 			"eu.strasbourg.service.notification.model.UserNotificationType",
 			userNotificationTypeLocalService);
+
+		_setLocalServiceUtilService(userNotificationTypeLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"eu.strasbourg.service.notification.model.UserNotificationType");
+
+		_setLocalServiceUtilService(null);
 	}
 
 	/**
@@ -695,6 +734,23 @@ public abstract class UserNotificationTypeLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setLocalServiceUtilService(
+		UserNotificationTypeLocalService userNotificationTypeLocalService) {
+
+		try {
+			Field field =
+				UserNotificationTypeLocalServiceUtil.class.getDeclaredField(
+					"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, userNotificationTypeLocalService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -763,6 +819,9 @@ public abstract class UserNotificationTypeLocalServiceBaseImpl
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		UserNotificationTypeLocalServiceBaseImpl.class);
 
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry

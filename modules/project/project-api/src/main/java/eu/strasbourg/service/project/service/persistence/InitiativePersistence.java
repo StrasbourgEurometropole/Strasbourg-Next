@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.project.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.project.exception.NoSuchInitiativeException;
 import eu.strasbourg.service.project.model.Initiative;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the initiative service.
@@ -45,9 +38,6 @@ public interface InitiativePersistence extends BasePersistence<Initiative> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link InitiativeUtil} to access the initiative persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Initiative> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the initiatives where uuid = &#63;.
@@ -956,8 +946,5 @@ public interface InitiativePersistence extends BasePersistence<Initiative> {
 	 * @return the number of initiatives
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

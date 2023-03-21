@@ -27,6 +27,10 @@ public class DeliberationLocalServiceWrapper
 	implements DeliberationLocalService,
 			   ServiceWrapper<DeliberationLocalService> {
 
+	public DeliberationLocalServiceWrapper() {
+		this(null);
+	}
+
 	public DeliberationLocalServiceWrapper(
 		DeliberationLocalService deliberationLocalService) {
 
@@ -75,6 +79,17 @@ public class DeliberationLocalServiceWrapper
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _deliberationLocalService.createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Deletes the deliberation from the database. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -119,6 +134,18 @@ public class DeliberationLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _deliberationLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _deliberationLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _deliberationLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

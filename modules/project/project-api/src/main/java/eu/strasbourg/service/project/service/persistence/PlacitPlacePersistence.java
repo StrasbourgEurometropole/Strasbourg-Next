@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.project.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.project.exception.NoSuchPlacitPlaceException;
 import eu.strasbourg.service.project.model.PlacitPlace;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the placit place service.
@@ -45,9 +38,6 @@ public interface PlacitPlacePersistence extends BasePersistence<PlacitPlace> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link PlacitPlaceUtil} to access the placit place persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, PlacitPlace> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the placit places where uuid = &#63;.
@@ -1519,8 +1509,5 @@ public interface PlacitPlacePersistence extends BasePersistence<PlacitPlace> {
 	 * @return the number of placit places
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

@@ -14,17 +14,14 @@
 
 package eu.strasbourg.service.interest.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.interest.exception.NoSuchUserInterestException;
 import eu.strasbourg.service.interest.model.UserInterest;
 
-import java.io.Serializable;
-
-import java.util.Map;
 import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the user interest service.
@@ -45,9 +42,6 @@ public interface UserInterestPersistence extends BasePersistence<UserInterest> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link UserInterestUtil} to access the user interest persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, UserInterest> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the user interests where interestId = &#63;.

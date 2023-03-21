@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class CommentServiceWrapper
 	implements CommentService, ServiceWrapper<CommentService> {
 
+	public CommentServiceWrapper() {
+		this(null);
+	}
+
 	public CommentServiceWrapper(CommentService commentService) {
 		_commentService = commentService;
 	}

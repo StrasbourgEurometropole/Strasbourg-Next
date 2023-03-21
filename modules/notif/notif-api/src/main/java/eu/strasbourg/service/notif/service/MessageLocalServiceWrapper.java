@@ -26,6 +26,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class MessageLocalServiceWrapper
 	implements MessageLocalService, ServiceWrapper<MessageLocalService> {
 
+	public MessageLocalServiceWrapper() {
+		this(null);
+	}
+
 	public MessageLocalServiceWrapper(MessageLocalService messageLocalService) {
 		_messageLocalService = messageLocalService;
 	}
@@ -66,6 +70,17 @@ public class MessageLocalServiceWrapper
 		long messageId) {
 
 		return _messageLocalService.createMessage(messageId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _messageLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -113,6 +128,18 @@ public class MessageLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _messageLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _messageLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _messageLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

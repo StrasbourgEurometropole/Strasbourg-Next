@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.favorite.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author BenjaminBini
  */
-@ProviderType
 public class NoSuchFavoriteException extends NoSuchModelException {
 
 	public NoSuchFavoriteException() {
@@ -30,12 +27,12 @@ public class NoSuchFavoriteException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchFavoriteException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchFavoriteException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchFavoriteException(Throwable cause) {
-		super(cause);
+	public NoSuchFavoriteException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

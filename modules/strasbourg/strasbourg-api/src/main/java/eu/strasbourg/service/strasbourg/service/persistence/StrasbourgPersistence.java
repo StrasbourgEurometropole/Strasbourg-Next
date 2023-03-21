@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.strasbourg.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.strasbourg.exception.NoSuchStrasbourgException;
 import eu.strasbourg.service.strasbourg.model.Strasbourg;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the strasbourg service.
@@ -45,9 +38,6 @@ public interface StrasbourgPersistence extends BasePersistence<Strasbourg> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link StrasbourgUtil} to access the strasbourg persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Strasbourg> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the strasbourgs where uuid = &#63;.
@@ -310,8 +300,5 @@ public interface StrasbourgPersistence extends BasePersistence<Strasbourg> {
 	 * @return the number of strasbourgs
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

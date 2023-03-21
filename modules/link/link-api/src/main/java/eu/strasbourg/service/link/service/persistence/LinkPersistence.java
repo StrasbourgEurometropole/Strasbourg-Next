@@ -14,17 +14,10 @@
 
 package eu.strasbourg.service.link.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
-
 import eu.strasbourg.service.link.exception.NoSuchLinkException;
 import eu.strasbourg.service.link.model.Link;
-
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the link service.
@@ -45,9 +38,6 @@ public interface LinkPersistence extends BasePersistence<Link> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link LinkUtil} to access the link persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Link> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the links where uuid = &#63;.
@@ -654,8 +644,5 @@ public interface LinkPersistence extends BasePersistence<Link> {
 	 * @return the number of links
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

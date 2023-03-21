@@ -27,6 +27,10 @@ public class NatureNotifLocalServiceWrapper
 	implements NatureNotifLocalService,
 			   ServiceWrapper<NatureNotifLocalService> {
 
+	public NatureNotifLocalServiceWrapper() {
+		this(null);
+	}
+
 	public NatureNotifLocalServiceWrapper(
 		NatureNotifLocalService natureNotifLocalService) {
 
@@ -69,6 +73,17 @@ public class NatureNotifLocalServiceWrapper
 		long natureId) {
 
 		return _natureNotifLocalService.createNatureNotif(natureId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _natureNotifLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -116,6 +131,18 @@ public class NatureNotifLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _natureNotifLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _natureNotifLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _natureNotifLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

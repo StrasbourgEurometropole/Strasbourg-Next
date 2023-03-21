@@ -47,7 +47,6 @@ import eu.strasbourg.service.agenda.service.EventServiceUtil;
  * </p>
  *
  * @author BenjaminBini
- * @see EventServiceSoap
  * @generated
  */
 public class EventServiceHttp {
