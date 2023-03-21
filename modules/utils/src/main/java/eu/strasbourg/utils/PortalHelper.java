@@ -1,5 +1,7 @@
 package eu.strasbourg.utils;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -9,6 +11,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class PortalHelper {
+    private static final Log log = LogFactoryUtil.getLog(PortalHelper.class.getName());
 
     public static String getHomeURL(ThemeDisplay themeDisplay) {
         String home = "";
@@ -38,6 +41,13 @@ public class PortalHelper {
         return home;
     }
 
+    /**
+     * Retourne le virtualHostname du group dans la langue voulue
+     *
+     * @param group de type Group
+     * @param languageId (ex : "fr_FR")
+     * @return String virtualHostname
+     */
     public static String getVirtualHostname(Group group, String languageId)  {
         String virtualHostName = null;
         try {
@@ -47,7 +57,7 @@ public class PortalHelper {
                     .findFirst().map(Map.Entry::getKey)
                     .orElse(null);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
         return virtualHostName;
     }

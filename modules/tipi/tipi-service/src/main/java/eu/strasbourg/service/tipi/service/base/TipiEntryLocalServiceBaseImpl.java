@@ -43,15 +43,19 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.tipi.model.TipiEntry;
 import eu.strasbourg.service.tipi.service.TipiEntryLocalService;
 import eu.strasbourg.service.tipi.service.TipiEntryLocalServiceUtil;
 import eu.strasbourg.service.tipi.service.persistence.TipiEntryPersistence;
 
-import javax.sql.DataSource;
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
+
 import java.util.List;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the tipi entry local service.

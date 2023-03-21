@@ -60,6 +60,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.gtfs.model.Ligne;
 import eu.strasbourg.service.gtfs.service.LigneLocalService;
 import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
@@ -79,10 +80,13 @@ import eu.strasbourg.service.gtfs.service.persistence.StopTimePersistence;
 import eu.strasbourg.service.gtfs.service.persistence.TripFinder;
 import eu.strasbourg.service.gtfs.service.persistence.TripPersistence;
 
-import javax.sql.DataSource;
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
+
 import java.util.List;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the ligne local service.

@@ -14,7 +14,6 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
@@ -36,6 +35,7 @@ import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.ArrayList;
 import java.util.Arrays;

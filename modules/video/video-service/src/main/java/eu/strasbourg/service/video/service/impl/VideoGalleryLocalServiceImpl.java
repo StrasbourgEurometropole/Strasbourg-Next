@@ -14,7 +14,8 @@
 
 package eu.strasbourg.service.video.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -44,6 +45,7 @@ import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.model.VideoGallery;
 import eu.strasbourg.service.video.service.base.VideoGalleryLocalServiceBaseImpl;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -277,11 +279,8 @@ public class VideoGalleryLocalServiceImpl
 		if (entry != null) {
 
 			// Supprime le lien avec les catégories
-			long[] categoryIds = entry.getCategoryIds();
-			for (int i = 0; i < categoryIds.length; i++) {
-				AssetEntryLocalServiceUtil.deleteAssetCategoryAssetEntry(
-					categoryIds[i], entry.getEntryId());
-			}
+			assetEntryAssetCategoryRelLocalService.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
 			// Supprime le lien avec les tags
 			long[] tagIds = AssetEntryLocalServiceUtil
@@ -408,4 +407,7 @@ public class VideoGalleryLocalServiceImpl
 	}
 
 	private final Log _log = LogFactoryUtil.getLog("strasbourg");
+
+	@Reference
+	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

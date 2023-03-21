@@ -34,12 +34,15 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
+
 import eu.strasbourg.service.oidc.model.AnonymisationHistoric;
-import org.osgi.annotation.versioning.ProviderType;
 
 import java.io.Serializable;
+
 import java.util.List;
 import java.util.Map;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * Provides the local service interface for AnonymisationHistoric. Methods of this
@@ -378,8 +381,6 @@ public interface AnonymisationHistoricLocalService
 
 	/**
 	 * Met à jour une entree d'anonymisation et l'enregistre en base de données
-	 *
-	 * @throws IOException
 	 */
 	public AnonymisationHistoric updateAnonymisationHistoric(
 			AnonymisationHistoric anonymisationHistoric, ServiceContext sc)

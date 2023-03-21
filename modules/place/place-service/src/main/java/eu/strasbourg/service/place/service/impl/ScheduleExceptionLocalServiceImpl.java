@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.place.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
 import eu.strasbourg.service.place.model.ScheduleException;

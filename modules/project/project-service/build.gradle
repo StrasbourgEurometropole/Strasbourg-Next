@@ -1,22 +1,17 @@
 dependencies {
 
-	compileOnly group: "javax.portlet", name: "portlet-api"
-
-	compileOnly group: "javax.servlet", name: "javax.servlet-api"
-
-	compileOnly group: "javax.portlet", name: "portlet-api"
-
 	compileOnly group: "javax.servlet", name: "javax.servlet-api"
 
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
 
-	compile project(":modules:project:project-api")
-	compile project(":modules:agenda:agenda-api")
-	compile project(":modules:place:place-api")
-	compile project(":modules:like:like-api")
-	compile project(":modules:comment:comment-api")
-	compile project(":modules:adict")
-	compile project (':modules:utils')
+	implementation project(":modules:project:project-api")
+	implementation project(":modules:agenda:agenda-api")
+	implementation project(":modules:place:place-api")
+	implementation project(":modules:like:like-api")
+	implementation project(":modules:comment:comment-api")
+	implementation project(":modules:adict")
+	implementation project (':modules:utils')
+	implementation project (':modules:oidc:oidc-api')
 }
 
 buildService {

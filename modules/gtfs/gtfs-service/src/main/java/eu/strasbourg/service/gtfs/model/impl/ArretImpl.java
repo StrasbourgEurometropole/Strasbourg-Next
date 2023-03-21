@@ -14,7 +14,8 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.utils.PortalHelper;
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -210,7 +211,7 @@ public class ArretImpl extends ArretBaseImpl {
 		}
 		if (group != null) {
 			String url = "";
-			String virtualHostName = group.getPublicLayoutSet().getVirtualHostname();
+			String virtualHostName=PortalHelper.getVirtualHostname(group, Locale.FRANCE.getLanguage());
 			if (virtualHostName.isEmpty()) {
 				url = "/web" + group.getFriendlyURL() + "/";
 			} else {

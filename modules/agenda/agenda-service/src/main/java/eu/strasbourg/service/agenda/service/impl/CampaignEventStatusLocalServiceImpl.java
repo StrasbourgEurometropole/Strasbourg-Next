@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.portal.kernel.exception.PortalException;
 import eu.strasbourg.service.agenda.model.CampaignEventStatus;
 import eu.strasbourg.service.agenda.service.base.CampaignEventStatusLocalServiceBaseImpl;

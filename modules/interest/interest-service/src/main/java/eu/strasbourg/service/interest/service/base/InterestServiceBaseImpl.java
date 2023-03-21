@@ -30,14 +30,16 @@ import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.interest.model.Interest;
 import eu.strasbourg.service.interest.service.InterestService;
 import eu.strasbourg.service.interest.service.InterestServiceUtil;
 import eu.strasbourg.service.interest.service.persistence.InterestPersistence;
 import eu.strasbourg.service.interest.service.persistence.UserInterestPersistence;
 
-import javax.sql.DataSource;
 import java.lang.reflect.Field;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the interest remote service.

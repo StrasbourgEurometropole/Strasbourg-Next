@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.artwork.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.category.property.model.AssetCategoryProperty;
 import com.liferay.asset.category.property.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;

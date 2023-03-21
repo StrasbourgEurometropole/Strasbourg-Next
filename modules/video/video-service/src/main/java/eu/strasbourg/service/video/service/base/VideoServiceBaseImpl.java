@@ -31,14 +31,16 @@ import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoService;
 import eu.strasbourg.service.video.service.VideoServiceUtil;
 import eu.strasbourg.service.video.service.persistence.VideoGalleryPersistence;
 import eu.strasbourg.service.video.service.persistence.VideoPersistence;
 
-import javax.sql.DataSource;
 import java.lang.reflect.Field;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the video remote service.

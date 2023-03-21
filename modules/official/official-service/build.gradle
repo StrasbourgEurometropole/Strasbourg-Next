@@ -1,12 +1,7 @@
 dependencies {
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
-	compileOnly group: "javax.portlet", name: "portlet-api"
-
-	compileOnly group: "javax.servlet", name: "javax.servlet-api"
-
-
-	compile project (':modules:utils')
-	compile project(":modules:official:official-api")
+	implementation project (':modules:utils')
+	implementation project(":modules:official:official-api")
 }
 
 buildService {

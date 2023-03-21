@@ -43,6 +43,7 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.interest.model.UserInterest;
 import eu.strasbourg.service.interest.service.UserInterestLocalService;
 import eu.strasbourg.service.interest.service.UserInterestLocalServiceUtil;
@@ -50,10 +51,13 @@ import eu.strasbourg.service.interest.service.persistence.InterestPersistence;
 import eu.strasbourg.service.interest.service.persistence.UserInterestPK;
 import eu.strasbourg.service.interest.service.persistence.UserInterestPersistence;
 
-import javax.sql.DataSource;
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
+
 import java.util.List;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the user interest local service.

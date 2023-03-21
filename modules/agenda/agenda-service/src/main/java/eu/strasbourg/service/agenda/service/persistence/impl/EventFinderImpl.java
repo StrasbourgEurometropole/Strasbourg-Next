@@ -1,6 +1,5 @@
 package eu.strasbourg.service.agenda.service.persistence.impl;
 
-import aQute.bnd.component.annotations.Reference;
 import com.liferay.portal.dao.orm.custom.sql.CustomSQL;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;

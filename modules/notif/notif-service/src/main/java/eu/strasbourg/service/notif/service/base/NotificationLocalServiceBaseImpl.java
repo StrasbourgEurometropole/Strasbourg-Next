@@ -60,6 +60,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.notif.model.Notification;
 import eu.strasbourg.service.notif.service.NotificationLocalService;
 import eu.strasbourg.service.notif.service.NotificationLocalServiceUtil;
@@ -68,10 +69,13 @@ import eu.strasbourg.service.notif.service.persistence.NatureNotifPersistence;
 import eu.strasbourg.service.notif.service.persistence.NotificationPersistence;
 import eu.strasbourg.service.notif.service.persistence.ServiceNotifPersistence;
 
-import javax.sql.DataSource;
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
+
 import java.util.List;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the notification local service.

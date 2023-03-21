@@ -14,15 +14,14 @@
 
 package eu.strasbourg.service.project.service.impl;
 
-import java.util.List;
-
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
-
 import eu.strasbourg.service.project.exception.NoSuchBudgetSupportException;
 import eu.strasbourg.service.project.model.BudgetSupport;
 import eu.strasbourg.service.project.service.base.BudgetSupportLocalServiceBaseImpl;
+
+import java.util.List;
 
 /**
  * The implementation of the budget support local service.

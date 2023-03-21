@@ -96,7 +96,7 @@ public class CommentIndexer extends BaseIndexer<Comment> {
 		long[] assetCategorIds = AssetVocabularyHelper.getFullHierarchyCategoriesIds(comment.getCategories());
 		List<AssetCategory> assetCategories = AssetVocabularyHelper.getFullHierarchyCategories(comment.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS,assetCategorIds);
-		addSearchAssetCategoryTitles(document,Field.ASSET_CATEGORY_TITLES,assetCategories);
+		//addSearchAssetCategoryTitles(document,Field.ASSET_CATEGORY_TITLES,assetCategories);
 		document.addNumber(Field.STATUS, comment.getStatus());
 		document.addNumber("reportings", comment.getCountSignalements());
 		document.addTextSortable(Field.USER_NAME,comment.getUserName());

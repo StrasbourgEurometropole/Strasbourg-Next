@@ -15,11 +15,13 @@
 package eu.strasbourg.service.notification.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.notification.exception.NoSuchNotificationException;
 import eu.strasbourg.service.notification.model.Notification;
-import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.Date;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the notification service.

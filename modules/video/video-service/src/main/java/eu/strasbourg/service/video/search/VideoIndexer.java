@@ -59,8 +59,8 @@ public class VideoIndexer extends BaseIndexer<Video> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(video.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);
+		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);*/
 		
 		document.addLocalizedText(Field.TITLE, video.getTitleMap());
 		document.addLocalizedText(Field.DESCRIPTION,
@@ -93,8 +93,7 @@ public class VideoIndexer extends BaseIndexer<Video> {
 	protected void doReindex(Video video) throws Exception {
 		Document document = getDocument(video);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-			video.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(video.getCompanyId(), document);
 
 	}
 
@@ -127,7 +126,6 @@ public class VideoIndexer extends BaseIndexer<Video> {
 
 			});
 
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 

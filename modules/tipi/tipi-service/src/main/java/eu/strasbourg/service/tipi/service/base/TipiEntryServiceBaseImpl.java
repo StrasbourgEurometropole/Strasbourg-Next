@@ -28,13 +28,15 @@ import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.tipi.model.TipiEntry;
 import eu.strasbourg.service.tipi.service.TipiEntryService;
 import eu.strasbourg.service.tipi.service.TipiEntryServiceUtil;
 import eu.strasbourg.service.tipi.service.persistence.TipiEntryPersistence;
 
-import javax.sql.DataSource;
 import java.lang.reflect.Field;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the tipi entry remote service.

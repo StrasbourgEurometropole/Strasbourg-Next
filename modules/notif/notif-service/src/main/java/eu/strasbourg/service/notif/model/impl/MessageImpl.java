@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.notif.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The extended model implementation for the Message service. Represents a row in the &quot;notif_Message&quot; database table, with each column mapped to a property of this class.

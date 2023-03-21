@@ -31,13 +31,15 @@ import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.link.model.Link;
 import eu.strasbourg.service.link.service.LinkService;
 import eu.strasbourg.service.link.service.LinkServiceUtil;
 import eu.strasbourg.service.link.service.persistence.LinkPersistence;
 
-import javax.sql.DataSource;
 import java.lang.reflect.Field;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the link remote service.

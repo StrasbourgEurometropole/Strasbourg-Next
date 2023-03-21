@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import org.osgi.annotation.versioning.ProviderType;
 import eu.strasbourg.utils.DateHelper;
 
 import java.util.Locale;

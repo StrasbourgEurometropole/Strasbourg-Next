@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.portal.kernel.util.StringUtil;
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.Place;
@@ -132,7 +132,7 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 	 */
 	@Override
 	public List<PublicHoliday> getPublicHolidays() {
-		return PublicHolidayLocalServiceUtil.getPublicHolidaies(-1, -1);
+		return PublicHolidayLocalServiceUtil.getPublicHolidays(-1, -1);
 	}
 
 	/**
@@ -325,7 +325,7 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 	 * Retourne les PlaceSchedule des exceptions d'ouverture à partir du lundi
 	 * de la semaine en cours
 	 * 
-	 * @param surPériode
+	 * @param surPeriode
 	 *            (false = horaires d'une journée uniquement , true = horaires
 	 *            sur une semaine)
 	 */

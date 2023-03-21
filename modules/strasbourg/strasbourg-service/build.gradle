@@ -1,14 +1,12 @@
 dependencies {
 
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
-	compileOnly group: "javax.portlet", name: "portlet-api"
-	compileOnly group: "javax.servlet", name: "javax.servlet-api"
 
-	compile project(":modules:strasbourg:strasbourg-api")
-	compile project(":modules:adict")
-	compile project (':modules:open-data')
-	compile project(":modules:poi-service")
-	compile project (":modules:utils")
+	implementation project(":modules:strasbourg:strasbourg-api")
+	implementation project(":modules:adict")
+	implementation project (':modules:open-data')
+	implementation project(":modules:poi-service")
+	implementation project (":modules:utils")
 }
 
 buildService {

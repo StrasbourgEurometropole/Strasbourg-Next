@@ -15,11 +15,13 @@
 package eu.strasbourg.service.interest.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.interest.exception.NoSuchUserInterestException;
 import eu.strasbourg.service.interest.model.UserInterest;
-import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the user interest service.
