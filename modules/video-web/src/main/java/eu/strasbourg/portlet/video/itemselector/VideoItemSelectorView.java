@@ -1,22 +1,5 @@
 package eu.strasbourg.portlet.video.itemselector;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-
-import javax.portlet.PortletURL;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
-import com.liferay.frontend.taglib.servlet.taglib.ManagementBarFilterItem;
 import com.liferay.item.selector.ItemSelectorReturnType;
 import com.liferay.item.selector.ItemSelectorView;
 import com.liferay.item.selector.criteria.URLItemSelectorReturnType;
@@ -26,11 +9,22 @@ import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import javax.portlet.PortletURL;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 @Component(property = { "item.selector.view.order:Integer=200" }, service = ItemSelectorView.class)
 public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelectorCriterion> {
@@ -106,9 +100,9 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 		servletRequest.setAttribute("itemSelectedEventName", itemSelectedEventName);
 		servletRequest.setAttribute("multiple", multiple);
 
-		List<ManagementBarFilterItem> groupFilterItems = getGroupFilterItems(portletURL, themeDisplay.getCompanyId(),
+		/*List<ManagementBarFilterItem> groupFilterItems = getGroupFilterItems(portletURL, themeDisplay.getCompanyId(),
 				filterGroupId);
-		servletRequest.setAttribute("groupFilterItems", groupFilterItems);
+		servletRequest.setAttribute("groupFilterItems", groupFilterItems);*/
 		Group filterGroup = GroupLocalServiceUtil.fetchGroup(filterGroupId);
 		if (filterGroup != null) {
 			servletRequest.setAttribute("filterGroupName", filterGroup.getName(Locale.FRANCE));
@@ -121,7 +115,7 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 		requestDispatcher.include(servletRequest, servletResponse);
 	}
 
-	private List<ManagementBarFilterItem> getGroupFilterItems(PortletURL portletURL, long currentCompanyId,
+	/*private List<ManagementBarFilterItem> getGroupFilterItems(PortletURL portletURL, long currentCompanyId,
 			long filterGroupId) {
 		List<Group> groups = GroupLocalServiceUtil.getCompanyGroups(currentCompanyId, -1, -1);
 		List<ManagementBarFilterItem> items = new ArrayList<>();
@@ -138,6 +132,6 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 			portletURL.setParameter("filterGroupId", String.valueOf(filterGroupId));
 		}
 		return items;
-	}
+	}*/
 
 }
