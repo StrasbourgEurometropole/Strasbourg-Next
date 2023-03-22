@@ -1,4 +1,4 @@
-<%@include file="/official/official-init.jsp" %>
+<%@include file="/official-web/official-init.jsp" %>
 
 Detail official : ${entry.getLastName()}
 

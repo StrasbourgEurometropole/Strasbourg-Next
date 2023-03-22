@@ -1,4 +1,4 @@
-<%@include file="/official/official-init.jsp" %>
+<%@include file="/official-web/official-init.jsp" %>
 
 <liferay-portlet:renderURL plid="${fromSearchPortlet ? classNameLayoutId[entry.modelClassName] : 0 }" var="detailURL" portletName="${detailPortletName}">
 	<liferay-portlet:param name="classPK" value="${entry.officialId}" />
