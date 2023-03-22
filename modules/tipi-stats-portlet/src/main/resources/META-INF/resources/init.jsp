@@ -4,8 +4,6 @@
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
-<%@ taglib uri="http://strasbourg.eu/tld/picker" prefix="strasbourg-picker" %>
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
