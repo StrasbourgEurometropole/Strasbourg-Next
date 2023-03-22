@@ -3,6 +3,6 @@ dependencies {
 	compileOnly group: "org.osgi", name: "org.osgi.core"
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
 
-	compile project (':modules:utils')
-	compile project (':modules:place:place-api')
+	implementation project (':modules:utils')
+	implementation project (':modules:place:place-api')
 }

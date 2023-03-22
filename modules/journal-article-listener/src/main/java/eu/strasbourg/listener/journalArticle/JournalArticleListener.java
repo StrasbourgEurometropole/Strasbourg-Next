@@ -40,12 +40,13 @@ public class JournalArticleListener extends BaseModelListener<JournalArticle>
 	 *  Aussi dans le cas où on clique sur "Enregistrer et dépublier", ça déprécie aussi les anciennes versions
 	 */
 	@Override
-	public void onAfterUpdate(JournalArticle model) throws ModelListenerException {
-		
+	public void onAfterUpdate(JournalArticle originalModel, JournalArticle model)
+			throws ModelListenerException {
+
 		depreciateJournalArticleHistory(model);			
 		deleteFavorite(model);
 			
-		super.onAfterUpdate(model);
+		super.onAfterUpdate(originalModel, model);
 	}
 	
 	/**

@@ -1,8 +1,6 @@
 
 dependencies {
-	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
-	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
-	compileOnly group: "com.liferay", name: "com.liferay.document.library.api"
+	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
 
-	compile project (":modules:utils")
+	implementation project (":modules:utils")
 }

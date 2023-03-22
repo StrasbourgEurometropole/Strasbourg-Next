@@ -5,10 +5,10 @@ import java.util.ResourceBundle;
 
 import org.osgi.service.component.annotations.Reference;
 
-import com.liferay.portal.kernel.util.AggregateResourceBundleLoader;
-import com.liferay.portal.kernel.util.CacheResourceBundleLoader;
-import com.liferay.portal.kernel.util.ClassResourceBundleLoader;
-import com.liferay.portal.kernel.util.ResourceBundleLoader;
+import com.liferay.portal.kernel.resource.bundle.AggregateResourceBundleLoader;
+import com.liferay.portal.kernel.resource.bundle.CacheResourceBundleLoader;
+import com.liferay.portal.kernel.resource.bundle.ClassResourceBundleLoader;
+import com.liferay.portal.kernel.resource.bundle.ResourceBundleLoader;
 
 
 public class LoginResourceBundleLoaderComponent
