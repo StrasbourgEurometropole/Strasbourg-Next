@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.validation.portlet;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -8,6 +9,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import eu.strasbourg.utils.PortalHelper;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.model.Group;
@@ -78,7 +80,7 @@ public class ValidationWebPortlet extends MVCPortlet {
 
 	public String getVirtualHostName() {
 		Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(this.themeDisplay.getCompanyId(), "/strasbourg.eu");
-		return group.getPublicLayoutSet().getVirtualHostname();
+		return PortalHelper.getVirtualHostname(group, Locale.FRANCE.getLanguage());
 	}
 
 }

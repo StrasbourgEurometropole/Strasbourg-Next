@@ -11,6 +11,7 @@ import eu.strasbourg.portlet.mediatheque.configuration.MediathequeConfiguration;
 import eu.strasbourg.portlet.mediatheque.dissociate.DissociateResponse;
 import eu.strasbourg.portlet.mediatheque.dissociate.DissociateWebService;
 import eu.strasbourg.portlet.mediatheque.mapping.MediathequeMapping;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
@@ -204,7 +205,7 @@ public class MediathequeDisplayContext {
 	}
 
 	public String getVirtualHostName() {
-		return themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname();
+		return PortalHelper.getVirtualHostname(themeDisplay.getScopeGroup(), themeDisplay.getLanguageId());
 	}
 
 	// Récupération de l'id utilisateur
