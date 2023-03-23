@@ -111,8 +111,8 @@ public class ObjtpDisplayContext {
 			searchContainer = new SearchContainer<FoundObject>(request, iteratorURL, null,
 					"no-entries-were-found");
 			searchContainer.setDelta(this.getDelta());
-			searchContainer.setTotal(this.getCount());
-			searchContainer.setResults(this.getObjectsFilter());
+			searchContainer.setResultsAndTotal(()->this.getObjectsFilter(),this.getCount());
+
 		}
 		return searchContainer;
 	}
