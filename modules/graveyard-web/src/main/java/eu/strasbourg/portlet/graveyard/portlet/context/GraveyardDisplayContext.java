@@ -1,20 +1,6 @@
 package eu.strasbourg.portlet.graveyard.portlet.context;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.portlet.PortletException;
-import javax.portlet.PortletURL;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
-
+import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -28,14 +14,27 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.portlet.graveyard.portlet.DefuntDTO;
 import eu.strasbourg.portlet.graveyard.portlet.GraveyardResponse;
 import eu.strasbourg.portlet.graveyard.portlet.GraveyardWebServiceClient;
 import eu.strasbourg.portlet.graveyard.portlet.configuration.GraveyardConfiguration;
 import eu.strasbourg.portlet.graveyard.portlet.mapping.GraveyardMapping;
 import eu.strasbourg.utils.Pager;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.UriHelper;
+
+import javax.portlet.PortletException;
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class GraveyardDisplayContext {
 
@@ -200,7 +199,7 @@ public class GraveyardDisplayContext {
 
 	public String getVirtualHostName() {
 		Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(this.themeDisplay.getCompanyId(), "/strasbourg.eu");
-		return group.getPublicLayoutSet().getVirtualHostname();
+		return PortalHelper.getVirtualHostname(group,this.themeDisplay.getLanguageId());
 	}
 
 	/**
@@ -256,8 +255,8 @@ public class GraveyardDisplayContext {
 			iteratorURL.setParameters(parameterMap);
 			searchContainer = new SearchContainer<DefuntDTO>(request, iteratorURL, null, "no-entries-were-found");
 			searchContainer.setDelta(this.getDelta());
-			searchContainer.setTotal(this.getResultCount());
-			searchContainer.setResults(this.defunts);
+			searchContainer.setResultsAndTotal(() ->this.defunts,this.getResultCount());
+
 		}
 		return searchContainer;
 	}
