@@ -113,7 +113,7 @@ public class DDMFormInstanceRecordListener extends BaseModelListener<DDMFormInst
 	}
 
 	@Override
-	public void onAfterUpdate(DDMFormInstanceRecord form) {
+	public void onAfterUpdate(DDMFormInstanceRecord originalForm, DDMFormInstanceRecord form) {
 
 		// Check statut de remplissage du formulaire : 0 = rempli et valide
 		try {

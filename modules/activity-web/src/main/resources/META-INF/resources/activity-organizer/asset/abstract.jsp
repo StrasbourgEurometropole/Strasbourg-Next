@@ -1,4 +1,4 @@
-<%@include file="/activity-organizer/activity-organizer-init.jsp" %>
+<%@include file="/activity-organizer/activity-init.jsp" %>
 
 <liferay-portlet:renderURL plid="${fromSearchPortlet ? classNameLayoutId[entry.modelClassName] : 0 }" var="detailURL" portletName="${detailPortletName}">
 	<liferay-portlet:param name="classPK" value="${entry.activityOrganizerId}" />

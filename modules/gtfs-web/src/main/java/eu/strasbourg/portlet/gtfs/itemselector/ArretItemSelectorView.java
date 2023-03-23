@@ -8,11 +8,10 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import eu.strasbourg.service.gtfs.model.Arret;
+import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.PortletURL;
 import javax.servlet.RequestDispatcher;
@@ -20,12 +19,10 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
-import eu.strasbourg.service.gtfs.model.Arret;
-import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 @Component(
 	property = { "item.selector.view.order:Integer=200" },
@@ -61,11 +58,6 @@ private ServletContext _servletContext;
 	@Override
 	public String getTitle(Locale locale) {
 		return "Arrets";
-	}
-
-	@Override
-	public boolean isShowSearch() {
-		return true;
 	}
 
 	@Override

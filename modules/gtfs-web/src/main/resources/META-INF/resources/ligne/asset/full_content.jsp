@@ -1,4 +1,4 @@
-<%@include file="/petition/petition-init.jsp" %>
+<%@include file="/ligne/ligne-init.jsp" %>
 
 Detail lien : ${entry.getTitle(locale)}
 

@@ -1,22 +1,22 @@
 package eu.strasbourg.service.social.impl.dailymotion;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import com.liferay.portal.kernel.cache.MultiVMPoolUtil;
+import com.liferay.portal.kernel.cache.PortalCacheHelperUtil;
+import com.liferay.portal.kernel.cache.PortalCacheManagerNames;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-
 import eu.strasbourg.service.social.SocialPost;
 import eu.strasbourg.service.social.impl.SocialMedia;
 import eu.strasbourg.service.social.instagram.DailymotionThumbnailRatio;
 import eu.strasbourg.utils.JSONHelper;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class DailymotionClient {
 
@@ -25,10 +25,10 @@ public class DailymotionClient {
 	public static List<SocialPost> getDailymotionVideos(String accountId,
 		int count, DailymotionThumbnailRatio ratio) {
 
-		Object timelineFromCache = MultiVMPoolUtil
-			.getPortalCache("dailymotion_cache").get(accountId);
-		Object lastTimelineUpdate = MultiVMPoolUtil
-			.getPortalCache("dailymotion_cache").get(accountId + "_last_update");
+		Object timelineFromCache = PortalCacheHelperUtil
+				.getPortalCache(PortalCacheManagerNames.MULTI_VM, "dailymotion_cache").get(accountId);
+		Object lastTimelineUpdate = PortalCacheHelperUtil
+			.getPortalCache(PortalCacheManagerNames.MULTI_VM, "dailymotion_cache").get(accountId + "_last_update");
 		if (timelineFromCache != null && lastTimelineUpdate != null) {
 			long now = new Date().getTime();
 			long timeBeforeNextUpdate = 100
@@ -74,12 +74,12 @@ public class DailymotionClient {
 			log.error(e);
 		}
 
-		MultiVMPoolUtil.getPortalCache("dailymotion_cache").remove(accountId);
-		MultiVMPoolUtil.getPortalCache("dailymotion_cache")
+		PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM, "dailymotion_cache").remove(accountId);
+		PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM, "dailymotion_cache")
 			.remove(accountId + "_last_update");
-		MultiVMPoolUtil.getPortalCache("dailymotion_cache").put(accountId,
+		PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM, "dailymotion_cache").put(accountId,
 			(Serializable) videos);
-		MultiVMPoolUtil.getPortalCache("dailymotion_cache")
+		PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM, "dailymotion_cache")
 			.put(accountId + "_last_update", new Date().getTime());
 
 		return videos;
