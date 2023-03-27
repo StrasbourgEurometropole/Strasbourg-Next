@@ -63,6 +63,7 @@ import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
@@ -245,7 +246,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 						//de préfiltrer sur la catégorie pour une seule entité en particuler
 						if(document.get(Field.ENTRY_CLASS_NAME).equals("eu.strasbourg.service.project.model.BudgetParticipatif") &&
 								(activePhaseCategory == null ||
-										!hasAssetCategoryAssetEntry(entry.getEntryId(), activePhaseCategory.getCategoryId()))) {
+										!AssetVocabularyHelper.hasAssetCategoryAssetEntry(entry.getEntryId(), activePhaseCategory.getCategoryId()))) {
 							entry = null;
 						}
 						
@@ -527,15 +528,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		
 		return SessionParamUtil.getString(originalRequest, "publik_internal_id");
 	}
-	private boolean hasAssetCategoryAssetEntry(long assetEntryId,long assetCategoryId){
-		List<AssetEntryAssetCategoryRel> assetEntryAssetCategoryRels=assetEntryAssetCategoryRelLocalService
-				.getAssetEntryAssetCategoryRelsByAssetEntryId(assetEntryId);
-		return assetEntryAssetCategoryRels.stream().filter(a -> a.getAssetCategoryId() == assetCategoryId).count() > 0;
-	}
-	
-	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
-	@Reference
-	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 	
 }
