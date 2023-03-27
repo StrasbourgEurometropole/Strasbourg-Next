@@ -1,27 +1,12 @@
 package eu.strasbourg.portlet.dashboard.portlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
-import com.liferay.portal.kernel.model.Group;
-import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
-import eu.strasbourg.utils.PortletHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.portlet.dashboard.utils.DashBoardUtils;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
@@ -39,9 +24,22 @@ import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.utils.LayoutHelperImpl;
+import eu.strasbourg.utils.PortalHelper;
+import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.PublikApiClient;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.GlobalConstants;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author alexandre.quere
@@ -170,7 +168,8 @@ public class DashboardPortlet extends MVCPortlet {
         }
 
         group = GroupLocalServiceUtil.fetchFriendlyURLGroup(themeDisplay.getCompanyId(), "/participer");
-        request.setAttribute("virtualParticiperHostName", group.getPublicLayoutSet().getVirtualHostname());
+        String virtualHostName = PortalHelper.getVirtualHostname(group,themeDisplay.getLanguageId());
+        request.setAttribute("virtualParticiperHostName",virtualHostName);
 
         include("/" + template + ".jsp", request, response);
     }
