@@ -1,5 +1,7 @@
 package eu.strasbourg.portlet.dynamic_search_asset;
 
+import com.liferay.asset.entry.rel.model.AssetEntryAssetCategoryRel;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
@@ -64,6 +66,7 @@ import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -242,7 +245,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 						//de préfiltrer sur la catégorie pour une seule entité en particuler
 						if(document.get(Field.ENTRY_CLASS_NAME).equals("eu.strasbourg.service.project.model.BudgetParticipatif") &&
 								(activePhaseCategory == null ||
-										!AssetCategoryLocalServiceUtil.hasAssetEntryAssetCategory(entry.getEntryId(), activePhaseCategory.getCategoryId()))) {
+										!hasAssetCategoryAssetEntry(entry.getEntryId(), activePhaseCategory.getCategoryId()))) {
 							entry = null;
 						}
 						
@@ -524,7 +527,15 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		
 		return SessionParamUtil.getString(originalRequest, "publik_internal_id");
 	}
+	private boolean hasAssetCategoryAssetEntry(long assetEntryId,long assetCategoryId){
+		List<AssetEntryAssetCategoryRel> assetEntryAssetCategoryRels=assetEntryAssetCategoryRelLocalService
+				.getAssetEntryAssetCategoryRelsByAssetEntryId(assetEntryId);
+		return assetEntryAssetCategoryRels.stream().filter(a -> a.getAssetCategoryId() == assetCategoryId).count() > 0;
+	}
 	
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+
+	@Reference
+	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 	
 }
