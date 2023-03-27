@@ -19,28 +19,30 @@
 <liferay-util:dynamic-include key="com.liferay.asset.publisher.web#/view_content.jsp#pre" />
 
 <%
-AssetPublisherViewContentDisplayContext assetPublisherViewContentDisplayContext = new AssetPublisherViewContentDisplayContext(renderRequest, assetPublisherDisplayContext.isEnablePermissions());
-if (Validator.isNotNull(assetPublisherViewContentDisplayContext.getReturnToFullPageURL())) {
-	portletDisplay.setURLBack(assetPublisherViewContentDisplayContext.getReturnToFullPageURL());
-}
+	AssetPublisherViewContentDisplayContext assetPublisherViewContentDisplayContext = new AssetPublisherViewContentDisplayContext(renderRequest, assetPublisherDisplayContext.isEnablePermissions());
+	if (Validator.isNotNull(assetPublisherViewContentDisplayContext.getReturnToFullPageURL())) {
+		portletDisplay.setURLBack(assetPublisherViewContentDisplayContext.getReturnToFullPageURL());
+	}
 %>
 
 <c:choose>
 	<c:when test="<%= assetPublisherViewContentDisplayContext.isAssetEntryVisible() %>">
 
 		<%
-		AssetEntry assetEntry = assetPublisherViewContentDisplayContext.getAssetEntry();
-		AssetRenderer<?> assetRenderer = assetPublisherViewContentDisplayContext.getAssetRenderer();
-		request.setAttribute("view.jsp-assetEntry", assetEntry);
-		request.setAttribute("view.jsp-assetRenderer", assetRenderer);
-		request.setAttribute("view.jsp-assetRendererFactory", assetPublisherViewContentDisplayContext.getAssetRendererFactory());
-		request.setAttribute("view.jsp-print", assetPublisherViewContentDisplayContext.getPrint());
-		request.setAttribute("view.jsp-showBackURL", assetPublisherViewContentDisplayContext.isShowBackURL());
-		PortalUtil.addPortletBreadcrumbEntry(request, assetRenderer.getTitle(locale), currentURL);
-		String summary = StringUtil.shorten(assetRenderer.getSummary(liferayPortletRequest, liferayPortletResponse), assetPublisherDisplayContext.getAbstractLength());
-		PortalUtil.setPageDescription(summary, request);
-		PortalUtil.setPageKeywords(assetHelper.getAssetKeywords(assetEntry.getClassName(), assetEntry.getClassPK()), request);
-		PortalUtil.setPageTitle(assetRenderer.getTitle(locale), request);
+			AssetEntry assetEntry = assetPublisherViewContentDisplayContext.getAssetEntry();
+			AssetRenderer<?> assetRenderer = assetPublisherViewContentDisplayContext.getAssetRenderer();
+			request.setAttribute("view.jsp-assetEntry", assetEntry);
+			request.setAttribute("view.jsp-assetRenderer", assetRenderer);
+			request.setAttribute("view.jsp-assetRendererFactory", assetPublisherViewContentDisplayContext.getAssetRendererFactory());
+			request.setAttribute("view.jsp-print", assetPublisherViewContentDisplayContext.getPrint());
+			request.setAttribute("view.jsp-showBackURL", assetPublisherViewContentDisplayContext.isShowBackURL());
+			PortalUtil.addPortletBreadcrumbEntry(request, assetRenderer.getTitle(locale), currentURL);
+			if (Validator.isNull(request.getAttribute(WebKeys.PAGE_DESCRIPTION))) {
+				String summary = StringUtil.shorten(assetRenderer.getSummary(liferayPortletRequest, liferayPortletResponse), assetPublisherDisplayContext.getAbstractLength());
+				PortalUtil.setPageDescription(summary, request);
+			}
+			PortalUtil.setPageKeywords(assetHelper.getAssetKeywords(assetEntry.getClassName(), assetEntry.getClassPK(), locale), request);
+			PortalUtil.setPageTitle(assetRenderer.getTitle(locale), request);
 		%>
 
 		<liferay-util:include page="/view_asset_entry_full_content.jsp" servletContext="<%= application %>" />
@@ -49,5 +51,6 @@ if (Validator.isNotNull(assetPublisherViewContentDisplayContext.getReturnToFullP
 		<liferay-util:include page="/error.jsp" servletContext="<%= application %>" />
 	</c:otherwise>
 </c:choose>
-
+<!--  Modification SULLY-GROUP
+ Suppression du script qui scroll sur la page -->
 <liferay-util:dynamic-include key="com.liferay.asset.publisher.web#/view_content.jsp#post" />
