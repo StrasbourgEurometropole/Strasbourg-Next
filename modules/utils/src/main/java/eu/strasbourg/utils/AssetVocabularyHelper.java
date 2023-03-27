@@ -1,5 +1,7 @@
 package eu.strasbourg.utils;
 
+import com.liferay.asset.entry.rel.model.AssetEntryAssetCategoryRel;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -859,6 +861,19 @@ public class AssetVocabularyHelper {
 		}
 		return assetCategory;
 	}
+	/**
+	 * Créer pour remplacer la fct Deprecated AssetEntryLocalServiceUtil.hasAssetCategoryAssetEntry,
+	 * et qui permet de vérifier s'il y a un lien entre assetEntry et l'assetCategorie
+	 *
+	 */
+	public static boolean hasAssetCategoryAssetEntry(long assetEntryId,long assetCategoryId){
+		List<AssetEntryAssetCategoryRel> assetEntryAssetCategoryRels=assetEntryAssetCategoryRelLocalService
+				.getAssetEntryAssetCategoryRelsByAssetEntryId(assetEntryId);
+		return assetEntryAssetCategoryRels.stream().filter(a -> a.getAssetCategoryId() == assetCategoryId).count() > 0;
+	}
+
+	@Reference
+	private static AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 
 	private static Log _log = LogFactoryUtil.getLog("AssetVocabularyHelper");
 }

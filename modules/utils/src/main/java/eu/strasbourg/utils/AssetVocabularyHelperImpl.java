@@ -112,5 +112,13 @@ public class AssetVocabularyHelperImpl implements AssetVocabularyHelperService {
 	public List<AssetCategory> getSortedCategories(String vocabulary, long groupId) {
 		return AssetVocabularyHelper.getSortedCategories(vocabulary, groupId);
 	}
-
+	/**
+	 * Créer pour remplacer la fct Deprecated AssetEntryLocalServiceUtil.hasAssetCategoryAssetEntry,
+	 * et qui permet de vérifier s'il y a un lien entre assetEntry et l'assetCategorie
+	 *
+	 */
+	@Override
+	public boolean hasAssetCategoryAssetEntry(long assetEntryId,long assetCategoryId){
+		return AssetVocabularyHelper.hasAssetCategoryAssetEntry(assetEntryId,assetCategoryId);
+	}
 }
