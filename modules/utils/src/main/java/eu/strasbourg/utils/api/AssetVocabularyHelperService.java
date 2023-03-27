@@ -95,4 +95,12 @@ public interface AssetVocabularyHelperService {
 	 * chaque catégorie
 	 */
 	List<AssetCategory> getSortedCategories(String vocabulary, long groupId);
+
+
+    /**
+     * Créer pour remplacer la fct Deprecated AssetEntryLocalServiceUtil.hasAssetCategoryAssetEntry,
+     * et qui permet de vérifier s'il y a un lien entre assetEntry et l'assetCategorie
+     *
+     */
+    boolean hasAssetCategoryAssetEntry(long assetEntryId,long assetCategoryId);
 }

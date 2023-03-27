@@ -355,7 +355,7 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
         budgetsParticipatifs = budgetsParticipatifs
         		.stream()
         		.filter(budgetParticipatif -> budgetParticipatif.getStatus() == 0
-        		&& hasAssetCategoryAssetEntry(phase.getCategoryId() ,budgetParticipatif.getAssetEntry().getEntryId()))
+        		&& AssetVocabularyHelper.hasAssetCategoryAssetEntry(phase.getCategoryId() ,budgetParticipatif.getAssetEntry().getEntryId()))
         		.collect(Collectors.toList());
         
         // Creation du comparateur
@@ -388,8 +388,8 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
         //Filtre les BP de la phase passee en parametre
         budgetsParticipatifs = budgetsParticipatifs
         		.stream()
-        		.filter(bp -> hasAssetCategoryAssetEntry(phase.getCategoryId() ,bp.getAssetEntry().getEntryId()))
-        		.collect((Collectors.toList()));
+        		.filter(bp -> AssetVocabularyHelper.hasAssetCategoryAssetEntry(phase.getCategoryId()
+                        ,bp.getAssetEntry().getEntryId())).collect((Collectors.toList()));
         
         // Creation du comparateur
         Comparator<BudgetParticipatif> reversedMostSupportedComparator = Comparator
@@ -451,8 +451,8 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
         //Filtre les BP de la phase passee en parametre
         budgetsParticipatifs = budgetsParticipatifs
         		.stream()
-        		.filter(bp -> hasAssetCategoryAssetEntry(phase.getCategoryId() ,bp.getAssetEntry().getEntryId()))
-        		.collect((Collectors.toList()));
+        		.filter(bp -> AssetVocabularyHelper.hasAssetCategoryAssetEntry(phase.getCategoryId() ,
+                        bp.getAssetEntry().getEntryId())).collect((Collectors.toList()));
         
         
         // Si la longueur de liste est inferieur a la taille voulu, aucun besoin de la couper
@@ -666,18 +666,6 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
     public List<BudgetParticipatif> getByPublikUserID(String publikId){
         return budgetParticipatifPersistence.findByPublikId(publikId);
     }
-
-    /**
-     * Créer pour remplacer la fct Deprecated AssetEntryLocalServiceUtil.hasAssetCategoryAssetEntry,
-     * et qui permet de vérifier s'il y a un lien entre assetEntry et l'assetCategorie
-     *
-     */
-    private boolean hasAssetCategoryAssetEntry(long assetEntryId,long assetCategoryId){
-        List<AssetEntryAssetCategoryRel> assetEntryAssetCategoryRels=assetEntryAssetCategoryRelLocalService
-                .getAssetEntryAssetCategoryRelsByAssetEntryId(assetEntryId);
-        return assetEntryAssetCategoryRels.stream().filter(a -> a.getAssetCategoryId() == assetCategoryId).count() > 0;
-    }
-
     @Reference
     private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }
