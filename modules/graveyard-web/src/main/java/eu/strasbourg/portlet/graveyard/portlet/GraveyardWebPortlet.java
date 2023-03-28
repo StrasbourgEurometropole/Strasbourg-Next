@@ -1,19 +1,16 @@
 package eu.strasbourg.portlet.graveyard.portlet;
 
-import java.io.IOException;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.util.ParamUtil;
+import eu.strasbourg.portlet.graveyard.portlet.context.GraveyardDisplayContext;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import org.osgi.service.component.annotations.Component;
-
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.util.ParamUtil;
-
-import eu.strasbourg.portlet.graveyard.portlet.context.GraveyardDisplayContext;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import java.io.IOException;
 
 /**
  * @author angelique.champougny

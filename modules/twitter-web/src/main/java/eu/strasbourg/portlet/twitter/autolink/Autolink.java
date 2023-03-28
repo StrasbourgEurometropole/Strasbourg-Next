@@ -1,10 +1,10 @@
 package eu.strasbourg.portlet.twitter.autolink;
 
+import eu.strasbourg.portlet.twitter.autolink.Extractor.Entity;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import eu.strasbourg.portlet.twitter.autolink.Extractor.Entity;
 
 /**
  * A class for adding HTML links to hashtag, username and list references in Tweet text.

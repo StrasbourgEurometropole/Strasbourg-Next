@@ -1,28 +1,25 @@
 package eu.strasbourg.portlet.activity;
 
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
-import java.io.IOException;
-import java.util.ArrayList;
+import eu.strasbourg.portlet.activity.configuration.SearchActivityConfiguration;
+import eu.strasbourg.portlet.activity.display.context.SearchActivityDisplayContext;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.PortletPreferences;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import org.osgi.service.component.annotations.Component;
-
-import eu.strasbourg.portlet.activity.configuration.SearchActivityConfiguration;
-import eu.strasbourg.portlet.activity.display.context.SearchActivityDisplayContext;
+import java.io.IOException;
+import java.util.ArrayList;
 
 @Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=false", "com.liferay.portlet.single-page-application=false",

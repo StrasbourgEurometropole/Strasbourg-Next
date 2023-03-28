@@ -1,5 +1,11 @@
 package eu.strasbourg.portlet.graveyard.portlet;
 
+import com.liferay.portal.kernel.json.JSONException;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.utils.PasserelleHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -7,13 +13,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import com.liferay.portal.kernel.json.JSONException;
-import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.util.Validator;
-
-import eu.strasbourg.utils.PasserelleHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 public class GraveyardWebServiceClient {
 

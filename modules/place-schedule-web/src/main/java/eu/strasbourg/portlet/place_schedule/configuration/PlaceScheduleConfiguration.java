@@ -1,8 +1,7 @@
 package eu.strasbourg.portlet.place_schedule.configuration;
 
-import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
-
 import aQute.bnd.annotation.metatype.Meta;
+import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
 
 @ExtendedObjectClassDefinition(category = "Strasbourg", scope = ExtendedObjectClassDefinition.Scope.PORTLET_INSTANCE)
 @Meta.OCD(id = "eu.strasbourg.portlet.place_schedule.configuration.PlaceScheduleConfiguration", localization = "content/Language", name = "portlet.place_schedule.configuration.name")

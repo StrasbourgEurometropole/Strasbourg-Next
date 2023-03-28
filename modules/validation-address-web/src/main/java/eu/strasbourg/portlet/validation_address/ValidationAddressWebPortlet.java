@@ -1,22 +1,18 @@
 package eu.strasbourg.portlet.validation_address;
 
-import java.io.IOException;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.service.adict.AdictService;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.WebKeys;
-
-import eu.strasbourg.service.adict.AdictService;
-import eu.strasbourg.utils.PortletHelper;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import java.io.IOException;
 
 /**
  * @author angelique.champougny

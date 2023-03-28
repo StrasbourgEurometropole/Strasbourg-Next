@@ -1,6 +1,5 @@
 package eu.strasbourg.portlet.association;
 
-import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.search.log.model.SearchLog;

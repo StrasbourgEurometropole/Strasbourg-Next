@@ -1,26 +1,6 @@
 package eu.strasbourg.portlet.favorites.display.context;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletURL;
-import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
-
 import com.liferay.portal.kernel.dao.search.SearchContainer;
-import com.liferay.portal.kernel.json.JSONArray;
-import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -31,7 +11,6 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.portlet.favorites.configuration.FavoritesConfiguration;
 import eu.strasbourg.portlet.favorites.display.FavoriteDisplay;
 import eu.strasbourg.service.favorite.model.Favorite;
@@ -40,6 +19,21 @@ import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
 import eu.strasbourg.utils.Pager;
 import eu.strasbourg.utils.PortletHelper;
+
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
+import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class FavoritesDisplayContext {
 
@@ -243,8 +237,7 @@ public class FavoritesDisplayContext {
 			searchContainer = new SearchContainer<FavoriteDisplay>(request, iteratorURL, null,
 					"no-entries-were-found");
 			searchContainer.setDelta(this.getDelta());
-			searchContainer.setTotal(this.getCount());
-			searchContainer.setResults(this.getFavorites());
+			searchContainer.setResultsAndTotal(()->this.getFavorites(),this.getCount());
 		}
 		return searchContainer;
 	}

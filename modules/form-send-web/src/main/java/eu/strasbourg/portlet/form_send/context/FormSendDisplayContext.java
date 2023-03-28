@@ -431,8 +431,7 @@ public class FormSendDisplayContext {
             searchContainer = new SearchContainer<DDMFormInstanceRecord>(request, iteratorURL, null,
                     "no-entries-were-found");
             searchContainer.setDelta(this.getDelta());
-            searchContainer.setTotal(this.records.size());
-            searchContainer.setResults(this.records);
+            searchContainer.setResultsAndTotal(()->this.records,this.records.size());
         }
         return searchContainer;
     }
