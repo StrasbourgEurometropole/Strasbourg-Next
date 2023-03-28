@@ -16,21 +16,6 @@ import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import javax.portlet.PortletURL;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
 import eu.strasbourg.portlet.activity.configuration.SearchActivityConfiguration;
 import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.service.activity.model.ActivityCourse;
@@ -46,6 +31,19 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.Pager;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.group.GroupHelper;
+
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SearchActivityDisplayContext {
 
@@ -354,8 +352,7 @@ public class SearchActivityDisplayContext {
 			searchContainer = new SearchContainer<Map.Entry<Activity, List<ActivityCourse>>>(request, iteratorURL, null,
 					"no-entries-were-found");
 			searchContainer.setDelta(this.getDelta());
-			searchContainer.setTotal(this.getResultCount());
-			searchContainer.setResults(results);
+			searchContainer.setResultsAndTotal(()->results,this.getResultCount());
 		}
 		return searchContainer;
 	}
