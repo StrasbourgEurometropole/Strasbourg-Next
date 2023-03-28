@@ -3,7 +3,9 @@ package eu.strasbourg.portlet.map;
 import com.liferay.asset.kernel.model.AssetCategory;
 import eu.strasbourg.service.interest.model.Interest;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Correspond à la liste des CI d'un type
