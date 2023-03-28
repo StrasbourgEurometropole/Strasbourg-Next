@@ -1,14 +1,5 @@
 package eu.strasbourg.portlet.agenda.portlet.display.context;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import javax.portlet.PortletURL;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
@@ -19,7 +10,6 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.agenda.model.Campaign;
 import eu.strasbourg.service.agenda.model.CampaignEvent;
 import eu.strasbourg.service.agenda.model.Event;
@@ -28,6 +18,14 @@ import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.display.context.BaseDisplayContext;
+
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class ViewCampaignEventsDisplayContext extends BaseDisplayContext {
 
@@ -245,7 +243,7 @@ public class ViewCampaignEventsDisplayContext extends BaseDisplayContext {
 					this.getThemeId(), this.getTypeId(), this.getCampaignId(), this.getStatusId(),
 					this._themeDisplay.getUserId(),
 					this._themeDisplay.getScopeGroupId());
-			this.getSearchContainer().setTotal((int) total);
+			this.getSearchContainer().setResultsAndTotal(null,(int) total);
 		}
 		return _campaignEvents;
 	}
