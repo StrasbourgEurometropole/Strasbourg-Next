@@ -4,8 +4,10 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.publik_user.display.context.PublikUserDisplayContext;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -14,6 +16,7 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * @author angelique.champougny
@@ -45,7 +48,8 @@ public class PublikUserPortlet extends MVCPortlet {
 
 			// Recuperation de l'URL de "base" du site
 			String homeURL = "/";
-			if (themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname().isEmpty() || themeDisplay.getScopeGroup().isStagingGroup()) {
+			String virtualHostname = PortalHelper.getVirtualHostname( themeDisplay.getLayout().getGroup(), themeDisplay.getLanguageId());
+			if ( Validator.isNull(virtualHostname) || themeDisplay.getScopeGroup().isStagingGroup()) {
 				homeURL = "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL() + "/";
 			}
 			renderRequest.setAttribute("homeURL", homeURL);

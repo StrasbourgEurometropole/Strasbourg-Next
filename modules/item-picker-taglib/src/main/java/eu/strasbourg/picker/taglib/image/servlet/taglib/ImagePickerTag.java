@@ -1,22 +1,20 @@
 
 package eu.strasbourg.picker.taglib.image.servlet.taglib;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.portlet.PortletURL;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.PageContext;
-
 import com.liferay.item.selector.ItemSelectorReturnType;
 import com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType;
 import com.liferay.item.selector.criteria.image.criterion.ImageItemSelectorCriterion;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.taglib.util.IncludeTag;
-
 import eu.strasbourg.picker.taglib.FileObject;
 import eu.strasbourg.picker.taglib.image.internal.servlet.ServletContextUtil;
+
+import javax.portlet.PortletURL;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.PageContext;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Benjamin Bini

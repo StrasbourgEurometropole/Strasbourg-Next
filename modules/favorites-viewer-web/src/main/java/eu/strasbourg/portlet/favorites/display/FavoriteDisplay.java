@@ -1,7 +1,5 @@
 package eu.strasbourg.portlet.favorites.display;
 
-import java.util.List;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -11,7 +9,6 @@ import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.service.activity.model.ActivityCourse;
 import eu.strasbourg.service.agenda.model.Event;
@@ -24,6 +21,8 @@ import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+
+import java.util.List;
 
 /**
  * @author jeremy.zwickert

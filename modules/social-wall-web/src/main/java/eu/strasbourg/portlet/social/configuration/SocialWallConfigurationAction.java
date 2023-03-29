@@ -6,10 +6,11 @@ import javax.portlet.PortletConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.liferay.portal.kernel.cache.PortalCacheHelperUtil;
+import com.liferay.portal.kernel.cache.PortalCacheManagerNames;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 
-import com.liferay.portal.kernel.cache.MultiVMPoolUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -54,22 +55,24 @@ public class SocialWallConfigurationAction extends DefaultConfigurationAction {
 		
 		String template = ParamUtil.getString(actionRequest,  "template");
 		setPreference(actionRequest, "template", template);
-		
-		MultiVMPoolUtil.getPortalCache("twitter_cache").remove(twitterAccount);
-		MultiVMPoolUtil.getPortalCache("twitter_cache")
-			.remove(twitterAccount + "_last_update");
-		
-		MultiVMPoolUtil.getPortalCache("dailymotion_cache").remove(dailymotionAccountId);
-		MultiVMPoolUtil.getPortalCache("dailymotion_cache")
-			.remove(dailymotionAccountId + "_last_update");
 
-		MultiVMPoolUtil.getPortalCache("instagram_cache").remove(instagramToken);
-		MultiVMPoolUtil.getPortalCache("instagram_cache")
-			.remove(instagramToken + "_last_update");
+		PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM,
+				"twitter_cache").remove(twitterAccount);
+		PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM,
+						"twitter_cache").remove(twitterAccount + "_last_update");
+		PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM,
+				"dailymotion_cache").remove(dailymotionAccountId);
+		PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM,
+						"dailymotion_cache").remove(dailymotionAccountId + "_last_update");
+		PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM,
+				"instagram_cache").remove(instagramToken);
+		PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM,
+						"instagram_cache").remove(instagramToken + "_last_update");
+		PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM,
+				"facebook_cache").remove(facebookToken);
 
-		MultiVMPoolUtil.getPortalCache("facebook_cache").remove(facebookToken);
-		MultiVMPoolUtil.getPortalCache("facebook_cache")
-			.remove(facebookToken + "_last_update");
+		PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM,
+						"facebook_cache").remove(facebookToken + "_last_update");
 		
 
 		super.processAction(portletConfig, actionRequest, actionResponse);

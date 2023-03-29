@@ -1,16 +1,14 @@
 package eu.strasbourg.portlet.comment.asset;
 
-import java.util.Locale;
+import com.liferay.asset.kernel.model.BaseJSPAssetRenderer;
+import eu.strasbourg.service.comment.model.Signalement;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.liferay.asset.kernel.model.BaseJSPAssetRenderer;
-
-import eu.strasbourg.service.comment.model.Signalement;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import java.util.Locale;
 
 public class SignalementAssetRenderer extends BaseJSPAssetRenderer<Signalement> {
 	

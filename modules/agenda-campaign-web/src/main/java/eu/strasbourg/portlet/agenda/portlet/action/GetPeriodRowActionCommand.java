@@ -1,14 +1,12 @@
 package eu.strasbourg.portlet.agenda.portlet.action;
 
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
-
-import org.osgi.service.component.annotations.Component;
-
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
-
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
 	immediate = true,
