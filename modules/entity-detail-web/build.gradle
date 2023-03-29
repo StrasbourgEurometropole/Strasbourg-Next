@@ -3,6 +3,5 @@ dependencies {
 	compileOnly group: "jstl", name: "jstl"
 
 	implementation project (':modules:place:place-api')
-	implementation project (':modules:ejob:ejob-api')
 	implementation project (':modules:utils')
 }
