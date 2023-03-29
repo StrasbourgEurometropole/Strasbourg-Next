@@ -10,12 +10,12 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.Pager;
+import eu.strasbourg.utils.PortalHelper;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PublikUserDisplayContext {
 
@@ -23,7 +23,7 @@ public class PublikUserDisplayContext {
      * Retourne l'URL de la page d'accueil
      */
     public String getHomeURL() {
-        if (this._themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname() != null
+        if (Validator.isNotNull(PortalHelper.getVirtualHostname(_themeDisplay.getScopeGroup(),_themeDisplay.getLanguageId()))
                 || this._themeDisplay.getScopeGroup().isStagingGroup()) {
             return "/web" + this._themeDisplay.getScopeGroup().getFriendlyURL() + "/";
         } else {
@@ -59,7 +59,7 @@ public class PublikUserDisplayContext {
     private void initEntries() throws PortalException {
         // On récupère tous les publikUser qui ont signé le pacte
         this._publikUsers = PublikUserLocalServiceUtil.getByPactSignatureAndPactDisplay();
-        this.getSearchContainer().setTotal(this._publikUsers.size());
+        this.getSearchContainer().setResultsAndTotal(null,this._publikUsers.size());
     }
 
     /**

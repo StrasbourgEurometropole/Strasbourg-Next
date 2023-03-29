@@ -1,8 +1,7 @@
 package eu.strasbourg.portlet.dynamic_search_asset.configuration;
 
-import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
-
 import aQute.bnd.annotation.metatype.Meta;
+import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
 
 @ExtendedObjectClassDefinition(
 	category = "Strasbourg",

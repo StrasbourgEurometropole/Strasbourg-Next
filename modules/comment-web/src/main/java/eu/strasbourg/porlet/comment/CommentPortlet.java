@@ -1,8 +1,8 @@
 package eu.strasbourg.porlet.comment;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
@@ -286,8 +286,9 @@ public class CommentPortlet extends MVCPortlet {
         // Ajout des inforamtions du signalement
         signalement.setPublikId(userPublikId);
         signalement.setCommentId(commentId);
-        
-        AssetCategoryLocalServiceUtil.addAssetEntryAssetCategory(signalement.getSignalementId(), categoryId);
+
+		assetEntryAssetCategoryRelLocalService
+				.addAssetEntryAssetCategoryRel(signalement.getSignalementId(), categoryId);
         SignalementLocalServiceUtil.updateSignalement(signalement,sc);
         
         response.sendRedirect(redirectURL  + "#" + commentId);
@@ -499,8 +500,11 @@ public class CommentPortlet extends MVCPortlet {
 	protected void setCommentLocalService(CommentLocalService commentLocalService) {
 		_commentLocalService = commentLocalService;
 	}
+	@Reference
+	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 
 	private CommentLocalService _commentLocalService;
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+
 }

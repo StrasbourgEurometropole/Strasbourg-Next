@@ -1,25 +1,16 @@
 package eu.strasbourg.portlet.agenda.portlet;
 
-import java.io.IOException;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.util.ParamUtil;
+import eu.strasbourg.portlet.agenda.portlet.display.context.EditCampaignEventDisplayContext;
+import eu.strasbourg.portlet.agenda.portlet.display.context.ViewCampaignEventsDisplayContext;
+import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-
-import org.osgi.service.component.annotations.Component;
-
-import com.liferay.portal.kernel.json.JSONException;
-import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.util.ParamUtil;
-
-import eu.strasbourg.portlet.agenda.portlet.display.context.EditCampaignEventDisplayContext;
-import eu.strasbourg.portlet.agenda.portlet.display.context.ViewCampaignEventsDisplayContext;
-import eu.strasbourg.utils.JSONHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
+import java.io.IOException;
 
 @Component(
 	immediate = true,

@@ -1,18 +1,6 @@
 
 package eu.strasbourg.picker.taglib.file.servlet.taglib;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
-import javax.portlet.PortletURL;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.PageContext;
-
 import com.liferay.item.selector.ItemSelectorReturnType;
 import com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType;
 import com.liferay.item.selector.criteria.file.criterion.FileItemSelectorCriterion;
@@ -24,9 +12,20 @@ import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.taglib.util.IncludeTag;
-
 import eu.strasbourg.picker.taglib.FileObject;
 import eu.strasbourg.picker.taglib.file.internal.servlet.ServletContextUtil;
+
+import javax.portlet.PortletURL;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.PageContext;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * @author Benjamin Bini
@@ -64,8 +63,7 @@ public class FilePickerTag extends IncludeTag {
 	@Override
 	public void setPageContext(PageContext pageContext) {
 		super.setPageContext(pageContext);
-
-		servletContext = ServletContextUtil.getServletContext();
+		setServletContext(ServletContextUtil.getServletContext());
 	}
 
 	@Override

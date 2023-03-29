@@ -17,7 +17,6 @@ import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.service.council.service.DeliberationServiceUtil;
 import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
-import eu.strasbourg.service.council.service.TypeLocalServiceUtil;
 import eu.strasbourg.utils.LayoutHelper;
 
 import javax.portlet.PortletPreferences;
@@ -26,7 +25,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.util.*;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class CouncilDisplayContext {
