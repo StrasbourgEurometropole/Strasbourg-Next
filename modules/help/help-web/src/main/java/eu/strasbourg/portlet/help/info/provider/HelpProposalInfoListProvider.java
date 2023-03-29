@@ -1,8 +1,9 @@
 package eu.strasbourg.portlet.help.info.provider;
 
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.info.list.provider.InfoListProvider;
-import com.liferay.info.list.provider.InfoListProviderContext;
+import com.liferay.info.collection.provider.CollectionQuery;
+import com.liferay.info.collection.provider.InfoCollectionProvider;
+import com.liferay.info.pagination.InfoPage;
 import com.liferay.info.pagination.Pagination;
 import com.liferay.info.sort.Sort;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
@@ -22,10 +23,32 @@ import java.util.List;
 import java.util.Locale;
 
 
-@Component(service = InfoListProvider.class)
-public class HelpProposalInfoListProvider implements InfoListProvider<AssetEntry> {
+@Component(service = InfoCollectionProvider.class)
+public class HelpProposalInfoListProvider implements InfoCollectionProvider<AssetEntry> {
 
     @Override
+    public InfoPage<AssetEntry> getCollectionInfoPage(CollectionQuery collectionQuery) {
+
+        // Recuperer l'utilisateur publik courant.
+        HttpServletRequest  request = ServiceContextThreadLocal.getServiceContext().getRequest();
+        boolean isLoggedIn = SessionParamUtil.getBoolean(request, "publik_logged_in");
+        String currentPublikUserId = "";
+        if (isLoggedIn) {
+            currentPublikUserId = SessionParamUtil.getString(request, "publik_internal_id");
+        }
+
+        // Recuperer les propositions d'aides pour cet utilisateur
+        List<AssetEntry> helpProposalsAssets = new ArrayList<>();
+        if (!currentPublikUserId.equals(""))
+        {
+            List<HelpProposal> helpProposals = _helProposalLocalService.getByPublikID(currentPublikUserId);
+            for (HelpProposal helpProposal: helpProposals) {
+                helpProposalsAssets.add(helpProposal.getAssetEntry());
+            }
+        }
+        return InfoPage.of(helpProposalsAssets);
+    }
+   /* @Override
     public List<AssetEntry> getInfoList(InfoListProviderContext infoListProviderContext) {
 
         // Recuperer l'utilisateur publik courant.
@@ -47,23 +70,23 @@ public class HelpProposalInfoListProvider implements InfoListProvider<AssetEntry
         }
 
         return helpProposalsAssets;
-    }
+    }*/
 
-    @Override
+   /* @Override
     public List<AssetEntry> getInfoList(
             InfoListProviderContext infoListProviderContext, Pagination pagination,
             Sort sort) {
 
 
         return getInfoList(infoListProviderContext);
-    }
+    }*/
 
 
 
-    @Override
+   /* @Override
     public int getInfoListCount(InfoListProviderContext infoListProviderContext) {
         return getInfoList(infoListProviderContext).size();
-    }
+    }*/
 
     @Override
     public String getLabel(Locale locale) {
@@ -76,4 +99,4 @@ public class HelpProposalInfoListProvider implements InfoListProvider<AssetEntry
     @Reference
     PublikUserLocalService _publikUserLocalService;
 
-}
+   }
