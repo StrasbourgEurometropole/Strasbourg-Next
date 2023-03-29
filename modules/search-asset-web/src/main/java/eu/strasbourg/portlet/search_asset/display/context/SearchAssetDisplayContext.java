@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portlet.asset.model.impl.AssetEntryImpl;
 import eu.strasbourg.portlet.search_asset.configuration.SearchAssetConfiguration;
 import eu.strasbourg.portlet.search_asset.constants.OfficialsConstants;
-import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.search.log.model.SearchLog;
 import eu.strasbourg.service.search.log.service.SearchLogLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -562,11 +561,8 @@ public class SearchAssetDisplayContext {
 		String sortFieldFromParam = ParamUtil.getString(this._request, "sortFieldAndType");
 		if (Validator.isNull(sortFieldFromParam)) {
 			if (Validator.isNull(this.getKeywords())) {
-				if(this._configuration.assetClassNames().contains(Offer.class.getName()))
-					return "endDate_Number_sortable";
-				else
-					return Validator.isNotNull(this._configuration.defaultSortField())
-						? this._configuration.defaultSortField() : "modified_sortable";
+				return Validator.isNotNull(this._configuration.defaultSortField())
+					? this._configuration.defaultSortField() : "modified_sortable";
 			} else {
 				return "_score";
 			}
@@ -585,9 +581,6 @@ public class SearchAssetDisplayContext {
 		} else {
 			String sortTypeFromParam = ParamUtil.getString(this._request, "sortFieldAndType");
 			if (Validator.isNull(sortTypeFromParam)) {
-				if(this._configuration.assetClassNames().contains(Offer.class.getName()))
-					return "asc";
-				else
 				return Validator.isNotNull(this._configuration.defaultSortType())
 						? this._configuration.defaultSortType() : "desc";
 			} else {
