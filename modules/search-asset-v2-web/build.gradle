@@ -9,6 +9,7 @@ dependencies {
 	compileOnly group: 'com.itextpdf', name: 'html2pdf', version: '2.1.0'
 	compileOnly group: 'com.itextpdf', name: 'styled-xml-parser', version: '7.1.3'
 	compileOnly group: 'com.itextpdf', name: 'svg', version: '7.1.3'
+	compileOnly group: "com.liferay", name: "com.liferay.portal.configuration.metatype", version: "2.0.0"
 	compileOnly group: "jstl", name: "jstl"
 
 	compileOnly group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.49'
@@ -29,4 +30,5 @@ dependencies {
 	implementation project (':modules:place:place-api')
 	implementation project (':modules:project:project-api')
 	implementation project (':modules:help:help-api')
+	implementation project (':modules:oidc:oidc-api')
 }
