@@ -380,11 +380,11 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
 
             // Ajout du fichier
             FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
-                    sc.getUserId(), folder.getRepositoryId(),
+                    null, sc.getUserId(), folder.getRepositoryId(),
                     folder.getFolderId(), photoFile.getName(),
                     MimeTypesUtil.getContentType(photoFile),
-                    photoFile.getName(), budgetParticipatif.getTitle(),
-                    "", imageBytes, sc);
+                    photoFile.getName(), "", budgetParticipatif.getTitle(),
+                    "", imageBytes, null, null, sc);
 
             // Lien de l'image a l'entite
             budgetParticipatif.setImageId(fileEntry.getFileEntryId());
@@ -461,11 +461,11 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                     FileEntryHelper.logFileInfo(file);
 
                     fileEntry = DLAppLocalServiceUtil.addFileEntry(
-                            sc.getUserId(), folder.getRepositoryId(),
+                            null, sc.getUserId(), folder.getRepositoryId(),
                             folder.getFolderId(), name,
                             MimeTypesUtil.getContentType(file),
-                            name, budgetParticipatif.getTitle(),
-                            "", imageBytes, sc);
+                            name, "", budgetParticipatif.getTitle(),
+                            "", imageBytes, null, null, sc);
                 }catch(Exception e) {
                     fileEntry = DLAppLocalServiceUtil.getFileEntry(
                             themeDisplay.getScopeGroupId(), folder.getFolderId(), name);

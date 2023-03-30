@@ -307,11 +307,11 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
                                 									"Uploads");
                 // Ajout du fichier
                 FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
-                        sc.getUserId(), folder.getRepositoryId(),
+                        null, sc.getUserId(), folder.getRepositoryId(),
                         folder.getFolderId(), photo.getName(),
                         MimeTypesUtil.getContentType(photo),
-                        photo.getName(), initiative.getTitle(),
-                        "", imageBytes, sc);
+                        photo.getName(), "", initiative.getTitle(),
+                        "", imageBytes, null, null, sc);
                 // Lien de l'image a l'entite
                 initiative.setImageId(fileEntry.getFileEntryId());
                 
