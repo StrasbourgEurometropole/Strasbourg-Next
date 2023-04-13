@@ -10,7 +10,7 @@
 		"screenshot": "",
 		"rubySass": true,
 		"templateLanguage": "ftl",
-		"version": "7.2",
+		"version": "7.4",
 		"fontAwesome": false
 	},
 	"devDependencies": {
