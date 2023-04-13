@@ -37,9 +37,9 @@ import eu.strasbourg.service.interest.model.Interest;
 import eu.strasbourg.service.interest.service.InterestLocalServiceUtil;
 import eu.strasbourg.utils.AssetPublisherTemplateHelper;
 import eu.strasbourg.utils.JournalArticleHelper;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.SearchHelper;
-import eu.strasbourg.utils.UriHelper;
 
 import javax.portlet.RenderRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -427,7 +427,8 @@ public class InterestViewerDisplayContext {
 
 	public String getVirtualHostName() {
 		Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(this.themeDisplay.getCompanyId(), "/strasbourg.eu");
-		return group.getPublicLayoutSet().getVirtualHostname();
+
+		return PortalHelper.getVirtualHostname(group,this.themeDisplay.getLanguageId());
 	}
 
 	private List<AssetVocabulary> getJournalArticleVocabularies() {

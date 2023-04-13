@@ -18,7 +18,6 @@ dependencies {
 	implementation project (':modules:comment:comment-api')
 	implementation project (':modules:project:project-api')
 	implementation project (':modules:council:council-api')
-	implementation project (':modules:ejob:ejob-api')
 	implementation project (':modules:like:like-api')
 	implementation project (':modules:utils')
 }

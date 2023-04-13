@@ -27,6 +27,7 @@ import eu.strasbourg.service.activity.service.PracticeLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.Pager;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
@@ -204,7 +205,7 @@ public class SearchAssociationDisplayContext {
             }
             // on tri les associations par nom
             results.sort(Comparator.comparing(AssetEntry::getTitle));
-            this.getSearchContainer().setTotal(results.size());
+            this.getSearchContainer().setResultsAndTotal(null,results.size());
         }
 
         int start = this._searchContainer.getStart();
@@ -442,7 +443,8 @@ public class SearchAssociationDisplayContext {
      * Retourne l'URL de la page d'accueil
      */
     public String getHomeURL() {
-        if (this._themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname() != null
+        String virtualHostName= PortalHelper.getVirtualHostname(this._themeDisplay.getScopeGroup(),this._themeDisplay.getLanguageId());
+        if (Validator.isNotNull(virtualHostName)
                 || this._themeDisplay.getScopeGroup().isStagingGroup()) {
             return "/web" + this._themeDisplay.getScopeGroup().getFriendlyURL() + "/";
         } else {

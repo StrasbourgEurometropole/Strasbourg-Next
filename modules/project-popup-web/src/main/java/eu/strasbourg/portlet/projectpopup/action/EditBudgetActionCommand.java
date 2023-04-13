@@ -250,11 +250,11 @@ public class EditBudgetActionCommand implements MVCActionCommand {
                                 									"uploads");
                 // Ajout du fichier
                 FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
-                        sc.getUserId(), folder.getRepositoryId(),
+                        null, sc.getUserId(), folder.getRepositoryId(),
                         folder.getFolderId(), budgetPhoto.getName(),
                         MimeTypesUtil.getContentType(budgetPhoto),
-                        budgetPhoto.getName(), title,
-                        "", imageBytes, sc);
+                        budgetPhoto.getName(), "", title,
+                        "", imageBytes, null, null, sc);
                 // Lien de l'image a l'entite
                 budgetParticipatif.setImageId(fileEntry.getFileEntryId());
                 
@@ -346,11 +346,11 @@ public class EditBudgetActionCommand implements MVCActionCommand {
                                 FileEntry fileEntry;
                                 try {
                                     fileEntry = DLAppLocalServiceUtil.addFileEntry(
-                                            sc.getUserId(), folder.getRepositoryId(),
+                                            null, sc.getUserId(), folder.getRepositoryId(),
                                             folder.getFolderId(), name,
                                             MimeTypesUtil.getContentType(file),
-                                            name, title,
-                                            "", imageBytes, sc);
+                                            name, "", title,
+                                            "", imageBytes, null, null, sc);
                                 }catch(Exception e) {
                                     fileEntry = DLAppLocalServiceUtil.getFileEntry(
                                             themeDisplay.getScopeGroupId(), folder.getFolderId(), name);

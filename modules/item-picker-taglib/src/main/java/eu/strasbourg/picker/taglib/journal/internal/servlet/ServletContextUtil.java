@@ -1,14 +1,13 @@
 package eu.strasbourg.picker.taglib.journal.internal.servlet;
 
 
-import javax.servlet.ServletContext;
-
+import com.liferay.item.selector.ItemSelector;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
-import com.liferay.item.selector.ItemSelector;
+import javax.servlet.ServletContext;
 
 /**
  * @author Benjamin Bini

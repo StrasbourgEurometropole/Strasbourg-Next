@@ -39,6 +39,7 @@ import eu.strasbourg.service.search.log.model.SearchLog;
 import eu.strasbourg.service.search.log.service.SearchLogLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.Pager;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.SearchHelperV2;
 import eu.strasbourg.utils.StringHelper;
 import org.osgi.framework.Bundle;
@@ -536,7 +537,7 @@ public class SearchAssetDisplayContext {
 					}
 				}
 			}
-			this.getSearchContainer().setTotal((int) this._searchHits.getTotalHits());
+			this.getSearchContainer().setResultsAndTotal(null,(int) this._searchHits.getTotalHits());
 		}
 
 		this._entries = results;
@@ -1001,7 +1002,9 @@ public class SearchAssetDisplayContext {
 	 * Retourne l'URL de la page d'accueil
 	 */
 	public String getHomeURL() {
-		if (this._themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname() != null
+		String virtualHostName= PortalHelper.getVirtualHostname(this._themeDisplay.getScopeGroup(),
+				this._themeDisplay.getLanguageId());
+		if (Validator.isNotNull(virtualHostName)
 				|| this._themeDisplay.getScopeGroup().isStagingGroup()) {
 			return "/web" + this._themeDisplay.getScopeGroup().getFriendlyURL() + "/";
 		} else {

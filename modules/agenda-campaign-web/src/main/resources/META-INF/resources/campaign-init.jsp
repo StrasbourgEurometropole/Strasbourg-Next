@@ -11,8 +11,6 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@ taglib uri="http://liferay.com/tld/frontend" prefix="liferay-frontend" %>
 
-<%@ taglib uri="http://strasbourg.eu/tld/picker" prefix="strasbourg-picker" %>
-
 <%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState" %>
 
 <liferay-theme:defineObjects />

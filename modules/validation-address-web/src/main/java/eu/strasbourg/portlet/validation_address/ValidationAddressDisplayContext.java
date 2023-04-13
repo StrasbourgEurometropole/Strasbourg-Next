@@ -1,23 +1,21 @@
 package eu.strasbourg.portlet.validation_address;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.portlet.PortletRequest;
-import javax.servlet.http.HttpServletRequest;
-
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
-
 import eu.strasbourg.service.adict.AdictService;
 import eu.strasbourg.service.adict.Street;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+
+import javax.portlet.PortletRequest;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ValidationAddressDisplayContext {
 
