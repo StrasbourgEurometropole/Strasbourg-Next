@@ -59,7 +59,7 @@ public class PublikUserDisplayContext {
     private void initEntries() throws PortalException {
         // On récupère tous les publikUser qui ont signé le pacte
         this._publikUsers = PublikUserLocalServiceUtil.getByPactSignatureAndPactDisplay();
-        this.getSearchContainer().setResultsAndTotal(null,this._publikUsers.size());
+        this.getSearchContainer().setResultsAndTotal(this._publikUsers);
     }
 
     /**
