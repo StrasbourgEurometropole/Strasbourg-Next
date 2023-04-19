@@ -205,7 +205,7 @@ public class SearchAssociationDisplayContext {
             }
             // on tri les associations par nom
             results.sort(Comparator.comparing(AssetEntry::getTitle));
-            this.getSearchContainer().setResultsAndTotal(null,results.size());
+            this.getSearchContainer().setResultsAndTotal(results);
         }
 
         int start = this._searchContainer.getStart();
