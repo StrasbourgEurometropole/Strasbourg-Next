@@ -38,7 +38,8 @@ import eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration;
 		"javax.portlet.name=" + StrasbourgPortletKeys.PAGE_HEADER_WEB,
 		"javax.portlet.init-param.view-template=/page-header-view.jsp",
 		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user" },
+		"javax.portlet.security-role-ref=power-user,user",
+			"javax.portlet.version=3.0"},
 	service = Portlet.class)
 public class PageHeaderPortlet extends MVCPortlet {
 
