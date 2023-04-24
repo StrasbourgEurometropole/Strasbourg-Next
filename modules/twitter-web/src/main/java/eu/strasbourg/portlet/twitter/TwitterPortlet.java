@@ -29,7 +29,8 @@ import java.util.List;
 			"javax.portlet.init-param.config-template=/configuration/twitter-configuration.jsp",
 			"javax.portlet.name=" + StrasbourgPortletKeys.TWITTER_WEB,
 		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user" },
+		"javax.portlet.security-role-ref=power-user,user",
+			"javax.portlet.version=3.0"},
 	service = Portlet.class)
 public class TwitterPortlet extends MVCPortlet {
 
