@@ -537,7 +537,7 @@ public class SearchAssetDisplayContext {
 					}
 				}
 			}
-			this.getSearchContainer().setResultsAndTotal(null,(int) this._searchHits.getTotalHits());
+			this.getSearchContainer().setResultsAndTotal(results);
 		}
 
 		this._entries = results;
