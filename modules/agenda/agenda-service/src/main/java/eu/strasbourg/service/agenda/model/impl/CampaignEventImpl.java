@@ -689,15 +689,6 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		// Inscription
 		if(this.getRegistration()){
 			JSONObject jsonRegistration = JSONFactoryUtil.createJSONObject();
-			jsonRegistration.put("maxGauge", this.getMaxGauge());
-			LocalDate startDate = this.getRegistrationStartDate().toInstant()
-					.atZone(ZoneId.systemDefault())
-					.toLocalDate();
-			LocalDate endDate = this.getRegistrationEndDate().toInstant()
-					.atZone(ZoneId.systemDefault())
-					.toLocalDate();
-			jsonRegistration.put("startDate", startDate);
-			jsonRegistration.put("endDate", endDate);
 			jsonEvent.put("registration", jsonRegistration);
 		}
 

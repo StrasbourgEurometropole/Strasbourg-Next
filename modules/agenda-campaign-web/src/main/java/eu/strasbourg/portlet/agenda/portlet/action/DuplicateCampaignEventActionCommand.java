@@ -141,9 +141,6 @@ public class DuplicateCampaignEventActionCommand implements MVCActionCommand {
 		newEvent.setPrice(event.getPrice());
 
 		newEvent.setRegistration(event.getRegistration());
-		newEvent.setRegistrationStartDate(event.getRegistrationStartDate());
-		newEvent.setRegistrationEndDate(event.getRegistrationEndDate());
-		newEvent.setMaxGauge(event.getMaxGauge());
 
 		newEvent.setCampaignId(event.getCampaignId());
 		newEvent.setThemesIds(event.getThemesIds());
