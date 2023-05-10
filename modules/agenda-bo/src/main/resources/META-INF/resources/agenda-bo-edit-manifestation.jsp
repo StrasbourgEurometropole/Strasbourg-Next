@@ -18,7 +18,7 @@
 </liferay-portlet:actionURL>
 
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form action="${saveManifestationURL}" method="post" name="fm">
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="description-error" message="description-error" />
@@ -31,7 +31,7 @@
 
 		<aui:model-context bean="${dc.manifestation}"
 			model="<%=Manifestation.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="manifestationId" type="hidden" />
 
 			<aui:fieldset collapsed="false" collapsible="true"
@@ -132,7 +132,7 @@
 				<aui:input name="publicationDate" />
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 		
 		<aui:button-row>
 			<c:if test="${(dc.hasPermission('ADD_EVENT_GALLERY') and empty dc.manifestation or dc.hasPermission('EDIT_EVENT_GALLERY') and not empty dc.manifestation) and empty themeDisplay.scopeGroup.getStagingGroup()}">

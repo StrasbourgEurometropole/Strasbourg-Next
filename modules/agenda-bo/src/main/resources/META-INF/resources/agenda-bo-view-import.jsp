@@ -8,7 +8,7 @@
 	<portlet:param name="tab" value="import" />
 </liferay-portlet:actionURL>
 
-<div class="container-fluid-1280 main-content-body">	
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
 		<h2>10 derniers imports</h2>
 		<liferay-ui:search-container id="campaignsSearchContainer">
@@ -16,8 +16,7 @@
 
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.agenda.model.ImportReport"
-				modelVar="report" keyProperty="reportId"
-				rowIdProperty="reportId">
+				modelVar="report" keyProperty="reportId">
 				
 				<liferay-ui:search-container-column-text name="provider">
 					${report.provider}

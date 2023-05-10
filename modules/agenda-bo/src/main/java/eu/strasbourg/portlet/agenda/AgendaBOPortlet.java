@@ -36,7 +36,7 @@ import eu.strasbourg.utils.StrasbourgPropsUtil;
 		"com.liferay.portlet.header-portlet-css=/css/vendors/daterangepicker.css",
 		"com.liferay.portlet.header-portlet-css=/css/agenda-bo-main.css",
 		"com.liferay.portlet.single-page-application=false",
-		"javax.portlet.init-param.template-path=/",
+		"javax.portlet.init-param.template-path=/META-INF/resources/",
 		"javax.portlet.init-param.view-template=/agenda-bo-view.jsp",
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user" },

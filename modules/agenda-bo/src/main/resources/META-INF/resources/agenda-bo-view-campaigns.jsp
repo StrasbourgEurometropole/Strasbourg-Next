@@ -56,7 +56,7 @@
 		</liferay-frontend:management-bar-action-buttons>
 </liferay-frontend:management-bar>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
 		<aui:input type="hidden" name="selectionIds" />
 		<liferay-ui:search-container id="campaignsSearchContainer"
@@ -65,8 +65,7 @@
 
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.agenda.model.Campaign"
-				modelVar="campaign" keyProperty="campaignId"
-				rowIdProperty="campaignId">
+				modelVar="campaign" keyProperty="campaignId">
 				<liferay-portlet:renderURL varImpl="editCampaignURL">
 					<portlet:param name="cmd" value="editCampaign" />
 					<portlet:param name="campaignId" value="${campaign.campaignId}" />
