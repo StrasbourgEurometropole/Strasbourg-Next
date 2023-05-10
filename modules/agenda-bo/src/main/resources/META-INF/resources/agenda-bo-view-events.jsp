@@ -14,7 +14,7 @@
 <liferay-portlet:renderURL varImpl="addEventURL">
 	<portlet:param name="cmd" value="editEvent" />
 	<portlet:param name="mvcPath" value="/agenda-bo-edit-event.jsp" />
-	<portlet:param name="returnURL" value="${eventsURL}" />
+	<portlet:param name="backURL" value="${eventsURL}" />
 </liferay-portlet:renderURL>
 
 <liferay-frontend:management-bar includeCheckBox="true"
@@ -67,7 +67,7 @@
 				<liferay-portlet:renderURL varImpl="editEventURL">
 					<portlet:param name="cmd" value="editEvent" />
 					<portlet:param name="eventId" value="${event.eventId}" />
-					<portlet:param name="returnURL" value="${eventsURL}" />
+					<portlet:param name="backURL" value="${eventsURL}" />
 					<portlet:param name="mvcPath" value="/agenda-bo-edit-event.jsp" />
 				</liferay-portlet:renderURL>
 
@@ -101,37 +101,10 @@
 				</liferay-ui:search-container-column-text>
 
 				<liferay-ui:search-container-column-text>
-					<liferay-ui:icon-menu markupView="lexicon">
-						<c:if test="${dc.hasPermission('EDIT_EVENT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="edit" url="${editEventURL}" />
-						</c:if>
-						
-						<liferay-portlet:resourceURL id="exportEventParticipationsXlsx"
-							var="exportEventParticipationsXlsxURL">
-							<portlet:param name="eventId" value="${event.eventId}" />
-						</liferay-portlet:resourceURL>
-						<liferay-ui:icon message="export-xlsx-participations" url="${exportEventParticipationsXlsxURL}" />
-
-						<liferay-portlet:actionURL name="duplicateEvent"
-							var="duplicateEventURL">
-							<portlet:param name="cmd" value="duplicateEvent" />
-							<portlet:param name="tab" value="events" />
-							<portlet:param name="eventId" value="${event.eventId}" />
-						</liferay-portlet:actionURL>
-						<c:if test="${dc.hasPermission('ADD_EVENT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="duplicate" url="${duplicateEventURL}" />
-						</c:if>
-
-						<liferay-portlet:actionURL name="deleteEvent"
-							var="deleteEventURL">
-							<portlet:param name="cmd" value="deleteEvent" />
-							<portlet:param name="tab" value="events" />
-							<portlet:param name="eventId" value="${event.eventId}" />
-						</liferay-portlet:actionURL>
-						<c:if test="${dc.hasPermission('DELETE_EVENT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="delete" url="${deleteEventURL}" />
-						</c:if>
-					</liferay-ui:icon-menu>
+					<clay:dropdown-actions
+							aria-label="<liferay-ui:message key='show-actions' />"
+							dropdownItems="${dc.getActionsEvent(event).getActionDropdownItems()}"
+					/>
 				</liferay-ui:search-container-column-text>
 
 			</liferay-ui:search-container-row>

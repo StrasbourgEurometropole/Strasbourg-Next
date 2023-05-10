@@ -1,33 +1,31 @@
 package eu.strasbourg.portlet.agenda;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
-import eu.strasbourg.portlet.agenda.display.context.NavigationBarDisplayContext;
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.portlet.agenda.display.context.EditCampaignDisplayContext;
 import eu.strasbourg.portlet.agenda.display.context.EditEventDisplayContext;
 import eu.strasbourg.portlet.agenda.display.context.EditManifestationDisplayContext;
+import eu.strasbourg.portlet.agenda.display.context.NavigationBarDisplayContext;
 import eu.strasbourg.portlet.agenda.display.context.ViewCampaignsDisplayContext;
 import eu.strasbourg.portlet.agenda.display.context.ViewEventsDisplayContext;
 import eu.strasbourg.portlet.agenda.display.context.ViewManifestationsDisplayContext;
 import eu.strasbourg.service.agenda.model.ImportReport;
 import eu.strasbourg.service.agenda.service.ImportReportLocalServiceUtil;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component(
 	immediate = true,
@@ -47,6 +45,10 @@ public class AgendaBOPortlet extends MVCPortlet {
 	public static final String MANIFS = "manifestations";
 	public static final String IMPORT = "import";
 	public static final String CAMPAIGNS = "campaigns";
+	public static final String EDIT_EVENT = "editEvent";
+	public static final String EDIT_MANIF = "editManifestation";
+	public static final String EDIT_CAMPAIGN = "editCampaign";
+	public static final String URL_PARAM_CMD = "cmd";
 
 	@Override
 	public void render(RenderRequest renderRequest,
@@ -57,58 +59,54 @@ public class AgendaBOPortlet extends MVCPortlet {
 
 		NavigationBarDisplayContext navigationDC = new NavigationBarDisplayContext(renderRequest, renderResponse);
 		renderRequest.setAttribute("navigationDC", navigationDC);
+		String selectedCmd = Optional
+				.ofNullable(ParamUtil.getString(renderRequest, URL_PARAM_CMD))
+				.filter(Validator::isNotNull)
+				.orElse(null);
 		switch (navigationDC.getSelectedTab()) {
 			case MANIFS:
-				ViewManifestationsDisplayContext manifsDC = new ViewManifestationsDisplayContext(renderRequest, renderResponse);
-				renderRequest.setAttribute("dc", manifsDC);
+				if(Validator.isNotNull(selectedCmd) && selectedCmd.equals(EDIT_MANIF)){
+					EditManifestationDisplayContext dc = new EditManifestationDisplayContext(renderRequest, renderResponse);
+					renderRequest.setAttribute("dc", dc);
+				} else {
+					ViewManifestationsDisplayContext dc = new ViewManifestationsDisplayContext(renderRequest, renderResponse);
+					renderRequest.setAttribute("dc", dc);
+				}
 				break;
 
 			case CAMPAIGNS:
-				ViewCampaignsDisplayContext campaignsDC = new ViewCampaignsDisplayContext(renderRequest, renderResponse);
-				renderRequest.setAttribute("dc", campaignsDC);
+				if(Validator.isNotNull(selectedCmd) && selectedCmd.equals(EDIT_CAMPAIGN)){
+					EditCampaignDisplayContext dc = new EditCampaignDisplayContext(renderRequest, renderResponse);
+					renderRequest.setAttribute("dc", dc);
+				} else {
+					ViewCampaignsDisplayContext dc = new ViewCampaignsDisplayContext(renderRequest, renderResponse);
+					renderRequest.setAttribute("dc", dc);
+				}
 				break;
 
 			case EVENTS:
 			case IMPORT:
 			default:
-				ViewEventsDisplayContext eventsDC = new ViewEventsDisplayContext(renderRequest, renderResponse);
-				renderRequest.setAttribute("dc", eventsDC);
+				if(Validator.isNotNull(selectedCmd) && selectedCmd.equals(EDIT_EVENT)){
+					EditEventDisplayContext dc = new EditEventDisplayContext(renderRequest, renderResponse);
+					renderRequest.setAttribute("dc", dc);
+				} else {
+					ViewEventsDisplayContext dc = new ViewEventsDisplayContext(renderRequest, renderResponse);
+					renderRequest.setAttribute("dc", dc);
+				}
 				break;
 		}
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
-		String cmd = ParamUtil.getString(renderRequest, "cmd");
-		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
-		
 		renderResponse.setTitle("Events");
 
 		// If we are on an "add" page, we set a return URL and show the "back"
 		// button
-		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
-		boolean showBackButton = Validator.isNotNull(returnURL);
+		String backURL = ParamUtil.getString(renderRequest, "backURL");
+		boolean showBackButton = Validator.isNotNull(backURL);
 		if (showBackButton) {
 			portletDisplay.setShowBackIcon(true);
-			portletDisplay.setURLBack(returnURL.toString());
-		}
-
-		// If we are on the Event event page, we add the corresponding
-		// display context
-		if (cmd.equals("editEvent") || mvcPath.equals("/agenda-bo-edit-event.jsp")) {
-			EditEventDisplayContext dc = new EditEventDisplayContext(
-				renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("editManifestation") || mvcPath.equals("/agenda-bo-edit-manifestation.jsp")) {
-			EditManifestationDisplayContext dc = new EditManifestationDisplayContext(
-				renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("editCampaign") || mvcPath.equals("/agenda-bo-edit-campaign.jsp")) {
-			EditCampaignDisplayContext dc = new EditCampaignDisplayContext(
-				renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-		} else { // Else, we are on the event list page
-			ViewEventsDisplayContext dc = new ViewEventsDisplayContext(
-				renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
+			portletDisplay.setURLBack(backURL.toString());
 		}
 
 		// Le dossier d'import des événements

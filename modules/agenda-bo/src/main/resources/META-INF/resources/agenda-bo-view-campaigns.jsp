@@ -14,7 +14,7 @@
 <liferay-portlet:renderURL varImpl="addCampaignURL">
 	<portlet:param name="cmd" value="editCampaign" />
 	<portlet:param name="mvcPath" value="/agenda-bo-edit-campaign.jsp" />
-	<portlet:param name="returnURL" value="${campaignsURL}" />
+	<portlet:param name="backURL" value="${campaignsURL}" />
 </liferay-portlet:renderURL>
 
 <liferay-frontend:management-bar includeCheckBox="true"
@@ -70,7 +70,7 @@
 				<liferay-portlet:renderURL varImpl="editCampaignURL">
 					<portlet:param name="cmd" value="editCampaign" />
 					<portlet:param name="campaignId" value="${campaign.campaignId}" />
-					<portlet:param name="returnURL" value="${campaignsURL}" />
+					<portlet:param name="backURL" value="${campaignsURL}" />
 					<portlet:param name="mvcPath" value="/agenda-bo-edit-campaign.jsp" />
 				</liferay-portlet:renderURL>
 
@@ -103,43 +103,10 @@
 				</liferay-ui:search-container-column-text>
 
 				<liferay-ui:search-container-column-text>
-					<liferay-ui:icon-menu markupView="lexicon">
-						<c:if
-							test="${dc.hasPermission('EDIT_CAMPAIGN') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="edit" url="${editCampaignURL}" />
-						</c:if>
-
-						<liferay-portlet:actionURL name="deleteCampaign"
-							var="deleteCampaignURL">
-							<portlet:param name="cmd" value="deleteCampaign" />
-							<portlet:param name="tab" value="campaigns" />
-							<portlet:param name="campaignId" value="${campaign.campaignId}" />
-						</liferay-portlet:actionURL>
-						<c:if
-							test="${dc.hasPermission('DELETE_CAMPAIGN') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="delete" url="${deleteCampaignURL}" />
-						</c:if>
-
-						<liferay-portlet:actionURL name="exportJsonToFolder"
-							var="exportJsonToFolderURL">
-							<portlet:param name="cmd" value="exportJsonToFolder" />
-							<portlet:param name="tab" value="campaigns" />
-							<portlet:param name="campaignId" value="${campaign.campaignId}" />
-						</liferay-portlet:actionURL>
-						<liferay-ui:icon message="export-json-to-folder" url="${exportJsonToFolderURL}" />
-						
-						<liferay-portlet:resourceURL id="exportJson"
-							var="exportJsonURL">
-							<portlet:param name="campaignId" value="${campaign.campaignId}" />
-						</liferay-portlet:resourceURL>
-						<liferay-ui:icon message="export-json" url="${exportJsonURL}" />
-						
-						<liferay-portlet:resourceURL id="exportDocx"
-							var="exportDocxURL">
-							<portlet:param name="campaignId" value="${campaign.campaignId}" />
-						</liferay-portlet:resourceURL>
-						<liferay-ui:icon message="export-docx" url="${exportDocxURL}" />
-					</liferay-ui:icon-menu>
+					<clay:dropdown-actions
+							aria-label="<liferay-ui:message key='show-actions' />"
+							dropdownItems="${dc.getActionsXXX(campaign).getActionDropdownItems()}"
+					/>
 				</liferay-ui:search-container-column-text>
 
 			</liferay-ui:search-container-row>

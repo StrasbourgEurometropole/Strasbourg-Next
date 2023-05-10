@@ -12,6 +12,7 @@ import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.util.GetterUtil;
 
+import eu.strasbourg.portlet.agenda.util.EventActionDropdownItemsProvider;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -41,6 +42,16 @@ public class ViewEventsDisplayContext extends ViewListBaseDisplayContext<Event> 
 			this._events = results;
 		}
 		return this._events;
+	}
+
+	/**
+	 * Retourne le dropdownItemsProvider de l'event
+	 *
+	 * @return EventActionDropdownItemsProvider
+	 */
+	public EventActionDropdownItemsProvider getActionsEvent(Event event) {
+		return new EventActionDropdownItemsProvider(event, this._request,
+				this._response);
 	}
 
 	/**

@@ -14,7 +14,7 @@
 <liferay-portlet:renderURL varImpl="addManifestationURL">
 	<portlet:param name="cmd" value="editManifestation" />
 	<portlet:param name="mvcPath" value="/agenda-bo-edit-manifestation.jsp" />
-	<portlet:param name="returnURL" value="${manifestationsURL}" />
+	<portlet:param name="backURL" value="${manifestationsURL}" />
 </liferay-portlet:renderURL>
 
 <liferay-frontend:management-bar includeCheckBox="true"
@@ -68,7 +68,7 @@
 				<liferay-portlet:renderURL varImpl="editManifestationURL">
 					<portlet:param name="cmd" value="editManifestation" />
 					<portlet:param name="manifestationId" value="${manifestation.manifestationId}" />
-					<portlet:param name="returnURL" value="${manifestationsURL}" />
+					<portlet:param name="backURL" value="${manifestationsURL}" />
 					<portlet:param name="mvcPath" value="/agenda-bo-edit-manifestation.jsp" />
 				</liferay-portlet:renderURL>
 
@@ -102,21 +102,10 @@
 				</liferay-ui:search-container-column-text>
 
 				<liferay-ui:search-container-column-text>
-					<liferay-ui:icon-menu markupView="lexicon">
-						<c:if test="${dc.hasPermission('EDIT_EVENT_GALLERY') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="edit" url="${editManifestationURL}" />
-						</c:if>
-
-						<liferay-portlet:actionURL name="deleteManifestation"
-							var="deleteManifestationURL">
-							<portlet:param name="cmd" value="deleteManifestation" />
-							<portlet:param name="tab" value="manifestations" />
-							<portlet:param name="manifestationId" value="${manifestation.manifestationId}" />
-						</liferay-portlet:actionURL>
-						<c:if test="${dc.hasPermission('DELETE_EVENT_GALLERY') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="delete" url="${deleteManifestationURL}" />
-						</c:if>
-					</liferay-ui:icon-menu>
+					<clay:dropdown-actions
+							aria-label="<liferay-ui:message key='show-actions' />"
+							dropdownItems="${dc.getActionsManif(manifestation).getActionDropdownItems()}"
+					/>
 				</liferay-ui:search-container-column-text>
 
 			</liferay-ui:search-container-row>

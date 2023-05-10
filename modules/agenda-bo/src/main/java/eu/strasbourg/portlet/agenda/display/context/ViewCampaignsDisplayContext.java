@@ -12,6 +12,7 @@ import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.util.GetterUtil;
 
+import eu.strasbourg.portlet.agenda.util.CampaignActionDropdownItemsProvider;
 import eu.strasbourg.service.agenda.model.Campaign;
 import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -44,6 +45,17 @@ public class ViewCampaignsDisplayContext extends ViewListBaseDisplayContext<Camp
 			this._campaigns = results;
 		}
 		return this._campaigns;
+	}
+
+	/**
+	 * Retourne le dropdownItemsProvider de l’entité
+	 *
+	 * @return CampaignActionDropdownItemsProvider
+	 */
+	@SuppressWarnings("unused")
+	public CampaignActionDropdownItemsProvider getActionsManif(Campaign campaign) {
+		return new CampaignActionDropdownItemsProvider(campaign, this._request,
+				this._response);
 	}
 	
 	@Override
