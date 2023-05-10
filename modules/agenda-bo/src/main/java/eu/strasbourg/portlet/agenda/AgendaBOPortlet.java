@@ -9,6 +9,7 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import eu.strasbourg.portlet.agenda.display.context.NavigationBarDisplayContext;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -37,11 +38,15 @@ import eu.strasbourg.utils.StrasbourgPropsUtil;
 		"com.liferay.portlet.header-portlet-css=/css/agenda-bo-main.css",
 		"com.liferay.portlet.single-page-application=false",
 		"javax.portlet.init-param.template-path=/META-INF/resources/",
-		"javax.portlet.init-param.view-template=/agenda-bo-view.jsp",
+		"javax.portlet.init-param.view-template=/agenda-bo-view-events.jsp",
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user" },
 	service = Portlet.class)
 public class AgendaBOPortlet extends MVCPortlet {
+	public static final String EVENTS = "events";
+	public static final String MANIFS = "manifestations";
+	public static final String IMPORT = "import";
+	public static final String CAMPAIGNS = "campaigns";
 
 	@Override
 	public void render(RenderRequest renderRequest,
@@ -49,10 +54,30 @@ public class AgendaBOPortlet extends MVCPortlet {
 
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest
 			.getAttribute(WebKeys.THEME_DISPLAY);
+
+		NavigationBarDisplayContext navigationDC = new NavigationBarDisplayContext(renderRequest, renderResponse);
+		renderRequest.setAttribute("navigationDC", navigationDC);
+		switch (navigationDC.getSelectedTab()) {
+			case MANIFS:
+				ViewManifestationsDisplayContext manifsDC = new ViewManifestationsDisplayContext(renderRequest, renderResponse);
+				renderRequest.setAttribute("dc", manifsDC);
+				break;
+
+			case CAMPAIGNS:
+				ViewCampaignsDisplayContext campaignsDC = new ViewCampaignsDisplayContext(renderRequest, renderResponse);
+				renderRequest.setAttribute("dc", campaignsDC);
+				break;
+
+			case EVENTS:
+			case IMPORT:
+			default:
+				ViewEventsDisplayContext eventsDC = new ViewEventsDisplayContext(renderRequest, renderResponse);
+				renderRequest.setAttribute("dc", eventsDC);
+				break;
+		}
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
 		String cmd = ParamUtil.getString(renderRequest, "cmd");
-		String tab = ParamUtil.getString(renderRequest, "tab");
 		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 		
 		renderResponse.setTitle("Events");
@@ -78,14 +103,6 @@ public class AgendaBOPortlet extends MVCPortlet {
 			renderRequest.setAttribute("dc", dc);
 		} else if (cmd.equals("editCampaign") || mvcPath.equals("/agenda-bo-edit-campaign.jsp")) {
 			EditCampaignDisplayContext dc = new EditCampaignDisplayContext(
-				renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-		} else if (tab.equals("manifestations")) {
-			ViewManifestationsDisplayContext dc = new ViewManifestationsDisplayContext(
-				renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-		} else if (tab.equals("campaigns")) {
-			ViewCampaignsDisplayContext dc = new ViewCampaignsDisplayContext(
 				renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		} else { // Else, we are on the event list page

@@ -1,4 +1,5 @@
 <%@ include file="/agenda-bo-init.jsp"%>
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 
 <liferay-portlet:renderURL varImpl="eventsURL">
 	<portlet:param name="tab" value="events" />
