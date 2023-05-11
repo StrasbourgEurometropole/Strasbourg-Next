@@ -4,6 +4,7 @@
 <liferay-portlet:actionURL name="deleteManifestation" var="deleteManifestationURL">
 	<portlet:param name="cmd" value="deleteManifestation" />
 	<portlet:param name="tab" value="manifestations" />
+	<portlet:param name="mvcPath" value="/agenda-bo-view-manifestations.jsp" />
 	<portlet:param name="manifestationId"
 		value="${not empty dc.manifestation ? dc.manifestation.manifestationId : ''}" />
 </liferay-portlet:actionURL>

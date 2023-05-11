@@ -4,6 +4,7 @@
 <liferay-portlet:actionURL name="deleteEvent" var="deleteEventURL">
 	<portlet:param name="cmd" value="deleteEvent" />
 	<portlet:param name="tab" value="events" />
+	<portlet:param name="mvcPath" value="/agenda-bo-view-events.jsp" />
 	<portlet:param name="eventId"
 		value="${not empty dc.event ? dc.event.eventId : ''}" />
 </liferay-portlet:actionURL>

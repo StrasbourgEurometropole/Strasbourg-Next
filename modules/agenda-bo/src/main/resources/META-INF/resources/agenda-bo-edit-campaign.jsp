@@ -4,6 +4,7 @@
 <liferay-portlet:actionURL name="deleteCampaign" var="deleteCampaignURL">
 	<portlet:param name="cmd" value="deleteCampaign" />
 	<portlet:param name="tab" value="campaigns" />
+	<portlet:param name="mvcPath" value="/agenda-bo-view-campaigns.jsp" />
 	<portlet:param name="campaignId"
 		value="${not empty dc.campaign ? dc.campaign.campaignId : ''}" />
 </liferay-portlet:actionURL>
