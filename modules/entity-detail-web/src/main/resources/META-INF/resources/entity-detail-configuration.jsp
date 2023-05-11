@@ -17,23 +17,24 @@
     <div class="portlet-configuration-body-content">
         <div class="container-fluid-1280">
 
-            <aui:fieldset-group markupView="lexicon">
+            <div class="sheet">
+                <div class="panel-group panel-group-flush">
 
-                <aui:fieldset>
-                    <aui:select label="asset-type" name="className">
-                        <c:forEach var="currentClassName" items="${classNames}" varStatus="cnStatus">
-                            <aui:option value="${currentClassName}" selected="${currentClassName eq className}">${classNamesLabels[cnStatus.index]}</aui:option>
-                        </c:forEach>
-                    </aui:select>
-                </aui:fieldset>
+                    <aui:fieldset>
+                        <aui:select label="asset-type" name="className">
+                            <c:forEach var="currentClassName" items="${classNames}" varStatus="cnStatus">
+                                <aui:option value="${currentClassName}" selected="${currentClassName eq className}">${classNamesLabels[cnStatus.index]}</aui:option>
+                            </c:forEach>
+                        </aui:select>
+                    </aui:fieldset>
 
-                <div id="asset-and-adt-selection">
-                    <c:if test="${not empty className}">
-                        <%@include file="/entity-detail-configuration-selectors.jsp" %>
-                    </c:if>
+                    <div id="asset-and-adt-selection">
+                        <c:if test="${not empty className}">
+                            <%@include file="/entity-detail-configuration-selectors.jsp" %>
+                        </c:if>
+                    </div>
                 </div>
-
-            </aui:fieldset-group>
+            </div>
         </div>
     </div>
 

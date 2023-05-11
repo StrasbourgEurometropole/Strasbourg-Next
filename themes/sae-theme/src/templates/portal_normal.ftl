@@ -13,7 +13,7 @@
       <#assign websiteUrl = "//www.de.strasbourg.eu" />
     </#if>
 </#if>
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
   <#assign homeURL = "/web${layout.group.friendlyURL}" />
 <#else>
   <#assign homeURL = "" />
@@ -129,7 +129,7 @@
             <img src="${images_folder}/pre-header/logo.png" alt="Strasbourg.eu" />
           </a>
           <ul>
-            <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+            <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
               <#assign currURL = "/web${layout.group.friendlyURL}" />
             <#else>
               <#assign currURL = "" />

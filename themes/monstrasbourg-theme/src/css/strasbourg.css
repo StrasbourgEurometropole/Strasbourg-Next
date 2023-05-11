@@ -13231,10 +13231,6 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
   display: block !important;
 }
 
-.mseu .has-control-menu .header {
-  top: 66px;
-}
-
 .portlet .portlet-title-text {
   display: none;
 }
@@ -13551,10 +13547,6 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
 }
 .mseu .no-js .collapsing-box {
   display: block !important;
-}
-
-.mseu .has-control-menu .header {
-  top: 66px;
 }
 
 .portlet .portlet-title-text {

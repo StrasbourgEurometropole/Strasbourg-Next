@@ -15,14 +15,14 @@
 
     <div class="portlet-configuration-body-content">
         <div class="container-fluid-1280">
-            <aui:fieldset-group markupView="lexicon">
-
-                <aui:fieldset id="twitter" label="twitter">
-                    <aui:input type="text" name="twitterAccount" value="${twitterAccount}" label="tw.twitter-account" />
-                    <aui:input type="number" name="tweetCount" value="${tweetCount}" label="tw.tweet-count" />
-                </aui:fieldset>
-
-            </aui:fieldset-group>
+            <div class="sheet">
+                <div class="panel-group panel-group-flush">
+                    <aui:fieldset id="twitter" label="twitter">
+                        <aui:input type="text" name="twitterAccount" value="${twitterAccount}" label="tw.twitter-account" />
+                        <aui:input type="number" name="tweetCount" value="${tweetCount}" label="tw.tweet-count" />
+                    </aui:fieldset>
+                </div>
+            </div>
         </div>
     </div>
 

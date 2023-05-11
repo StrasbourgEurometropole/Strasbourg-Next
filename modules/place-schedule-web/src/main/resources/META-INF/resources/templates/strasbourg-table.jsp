@@ -2,7 +2,7 @@
 <jsp:useBean id="now" class="java.util.Date" />
 <fmt:setLocale value="${locale}" />
 <c:choose>
-	<c:when test="${empty themeDisplay.scopeGroup.publicLayoutSet.virtualHostname or themeDisplay.scopeGroup.isStagingGroup()}">
+	<c:when test="${empty themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames or themeDisplay.scopeGroup.isStagingGroup()}">
 		<c:set var="homeURL" value="/web${layout.group.friendlyURL}/" />
 	</c:when>
 	<c:otherwise>

@@ -24,7 +24,8 @@ import java.io.IOException;
 		"com.liferay.portlet.footer-portlet-javascript=/js/main.js",
 		"com.liferay.portlet.header-portlet-css=/css/main.css",
 		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
+		"javax.portlet.security-role-ref=power-user,user",
+		"javax.portlet.version=3.0"}, service = Portlet.class)
 public class TipiPortlet extends MVCPortlet {
 
 	@Override
