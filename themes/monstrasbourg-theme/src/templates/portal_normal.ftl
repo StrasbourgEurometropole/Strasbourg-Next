@@ -5,7 +5,7 @@
 <html class="${root_css_class} mseu" dir="<@liferay.language key="lang.dir" />" lang="${w3c_language_id}">
 
 <head>
-    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
       <#assign homeURL = "/web${layout.group.friendlyURL}/" />
     <#else>
       <#assign homeURL = "/" />

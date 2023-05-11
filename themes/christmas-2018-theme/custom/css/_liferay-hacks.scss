@@ -18,20 +18,6 @@ body{
   }
 }
 
-.has-control-menu #mns-header {
-  margin-top: 56px;
-  @include mobile {
-      margin-top: 45px;
-    }
-}
-
-.has-control-menu #mns-header .mns-nav.mns-nav-scroll {
-  margin-top: 56px;
-  @include mobile {
-      margin-top: 45px;
-    }
-}
-
 h2.portlet-title-text {
   display: none;
 }

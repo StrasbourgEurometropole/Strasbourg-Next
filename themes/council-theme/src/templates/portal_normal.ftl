@@ -33,7 +33,7 @@
 
 
   <script>
-    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
       <#assign homeURL = "/web${layout.group.friendlyURL}/" />
     <#else>
       <#assign homeURL = "/" />
@@ -77,8 +77,9 @@
     <#else>
       ${portletDisplay.recycle()}
       ${portletDisplay.setTitle(the_title)}
-      <@liferay_theme["wrap-portlet"] page="portlet.ftl" />
-      <@liferay_util["include"] page=content_include />
+      <@liferay_theme["wrap-portlet"] page="portlet.ftl">
+        <@liferay_util["include"] page=content_include />
+      </@>
     </#if>
     
     

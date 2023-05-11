@@ -1,18 +1,18 @@
 /* ---------- Main ---------- */
 
 .aui-state-default {
-	background: #D4D4D4 url(../images/portlet/header_bg.png) repeat-x 0 0;
+	background: #D4D4D4 url(src/images/portlet/header_bg.png) repeat-x 0 0;
 	border: 1px solid;
 	border-color: #C8C9CA #9E9E9E #9E9E9E #C8C9CA;
 }
 
 .aui-state-hover {
-	background: #B9CED9 url(../images/application/state_hover_bg.png) repeat-x 0 0;
+	background: #B9CED9 url(src/images/application/state_hover_bg.png) repeat-x 0 0;
 	border-color: #627782;
 }
 
 .aui-state-active {
-	background: #EBEBEB url(../images/application/state_active_bg.png) repeat-x 0 0;
+	background: #EBEBEB url(src/images/application/state_active_bg.png) repeat-x 0 0;
 	border-color: #555;
 }
 
@@ -26,14 +26,14 @@
 }
 
 .results-header .sort-column .result-column-name {
-	background: url(../images/arrows/05_up.png) no-repeat 100% 50%;
+	background: url(src/images/arrows/05_up.png) no-repeat 100% 50%;
 	display: inline-block;
 	font-style: italic;
 	padding-right: 15px;
 }
 
 .results-header .sort-desc .result-column-name {
-	background-image: url(../images/arrows/05_down.png);
+	background-image: url(src/images/arrows/05_down.png);
 }
 
 .results-row td {
@@ -104,7 +104,7 @@
 }
 
 .aui-proxy.not-intersecting .forbidden-action {
-	background: url(../images/application/forbidden_action.png) no-repeat;
+	background: url(src/images/application/forbidden_action.png) no-repeat;
 	display: block;
 	height: 32px;
 	position: absolute;
@@ -254,7 +254,7 @@
 }
 
 .aui-underlay-content {
-	background: #F4F3F3 url(../images/common/message_panel_shadow.png) repeat-x 0 0;
+	background: #F4F3F3 url(src/images/common/message_panel_shadow.png) repeat-x 0 0;
 	border: 0 solid #AEAFB1;
 	border-width: 0 1px 1px;
 }
@@ -331,7 +331,7 @@
 }
 
 .aui-panel-hd {
-	background: #C0C2C5 url(../images/application/panel_header_bg.png) repeat-x 0 0;
+	background: #C0C2C5 url(src/images/application/panel_header_bg.png) repeat-x 0 0;
 	border: 1px solid;
 	border-color: #C8C9CA #AEB2B8 #AEB2B8 #C8C9CA;
 	padding-left: 10px;
@@ -341,7 +341,7 @@
 /* ---------- Menus ---------- */
 
 .lfr-actions.portlet-options .lfr-trigger strong span, .visible.portlet-options .lfr-trigger strong span {
-	background-image: url(../images/portlet/options.png);
+	background-image: url(src/images/portlet/options.png);
 }
 
 .lfr-actions.portlet-options:hover, .lfr-actions.portlet-options:hover ul {
@@ -375,7 +375,7 @@
 }
 
 .aui-menu-content, .lfr-menu-list ul {
-	background: #CCC9C9 url(../images/application/menu_bg.png) repeat-x 0 0;
+	background: #CCC9C9 url(src/images/application/menu_bg.png) repeat-x 0 0;
 	border: 1px solid;
 	border-color: #AEAFB1 #777879 #777879 #AEAFB1;
 	padding: 2px 0;
@@ -448,7 +448,7 @@
 }
 
 .aui-toolbar-separator {
-	background: url(../images/dockbar/separator.png) no-repeat 100% 50%;
+	background: url(src/images/dockbar/separator.png) no-repeat 100% 50%;
 	border-width: 0;
 	cursor: default;
 	font-size: 1px;
@@ -466,7 +466,7 @@
 }
 
 .aui-loadingmask-message {
-	background: #D4D4D4 url(../images/portlet/header_bg.png) repeat-x 0 0;
+	background: #D4D4D4 url(src/images/portlet/header_bg.png) repeat-x 0 0;
 }
 
 /* ---------- Tree View ---------- */

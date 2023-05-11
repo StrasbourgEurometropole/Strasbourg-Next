@@ -3,15 +3,14 @@
 var gulp = require('gulp');
 var liferayThemeTasks = require('liferay-theme-tasks');
 var plugins = require('gulp-load-plugins')();
+var sass = require('gulp-sass')(require('sass'));
 var del = require('del');
-var runSequence = require('run-sequence').use(gulp);
+var runSequence = require('gulp4-run-sequence');
 
 liferayThemeTasks.registerTasks({
   gulp: gulp,
   hookFn: function(gulp) {
     gulp.task('build:r2', function(done) {
-      const plugins = require('gulp-load-plugins')();
-  
       return gulp
         .src(['./build/css/*.css','!./build/css/*_rtl.css'])
     });
@@ -39,7 +38,7 @@ gulp.task('css', function () {
     var destination = './src/css/';
 
     return gulp.src(source + '/style.scss')
-    .pipe(plugins.sass({outputStyle: 'compressed'}))
+    .pipe(sass({outputStyle: 'compressed'}))
     .pipe(plugins.autoprefixer())
     .pipe(gulp.dest(destination));
 });

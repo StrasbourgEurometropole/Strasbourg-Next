@@ -34,7 +34,8 @@ import java.util.List;
 		"javax.portlet.init-param.view-template=/demarches-view.jsp",
 		"javax.portlet.init-param.config-template=/configuration/demarches-configuration.jsp",
 		"javax.portlet.name=" + StrasbourgPortletKeys.DEMARCHES_WEB, "javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
+		"javax.portlet.security-role-ref=power-user,user" ,
+		"javax.portlet.version=3.0"}, service = Portlet.class)
 public class DemarchesWebPortlet extends MVCPortlet {
 
 	@Override
