@@ -1,10 +1,6 @@
 <%@ include file="/agenda-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.agenda.model.Campaign"%>
 
-<liferay-portlet:renderURL varImpl="campaignsURL">
-	<portlet:param name="tab" value="campaigns" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deleteCampaign" var="deleteCampaignURL">
 	<portlet:param name="cmd" value="deleteCampaign" />
 	<portlet:param name="tab" value="campaigns" />
@@ -133,10 +129,7 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
 					value="delete" />
 			</c:if>
-			<liferay-portlet:renderURL varImpl="cancelURL">
-				<liferay-portlet:param name="tab" value="campaigns" />
-			</liferay-portlet:renderURL>
-			<aui:button cssClass="btn-lg" href="${cancelURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
 		</aui:button-row>
 	</aui:form>
 </div>

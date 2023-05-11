@@ -1,14 +1,22 @@
 package eu.strasbourg.portlet.agenda;
 
+import com.liferay.item.selector.ItemSelector;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
+import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.agenda.display.context.EditCampaignDisplayContext;
 import eu.strasbourg.portlet.agenda.display.context.EditEventDisplayContext;
 import eu.strasbourg.portlet.agenda.display.context.EditManifestationDisplayContext;
+import eu.strasbourg.portlet.agenda.display.context.ManagementCampaignsToolBarDisplayContext;
+import eu.strasbourg.portlet.agenda.display.context.ManagementEventsToolBarDisplayContext;
+import eu.strasbourg.portlet.agenda.display.context.ManagementManifsToolBarDisplayContext;
 import eu.strasbourg.portlet.agenda.display.context.NavigationBarDisplayContext;
 import eu.strasbourg.portlet.agenda.display.context.ViewCampaignsDisplayContext;
 import eu.strasbourg.portlet.agenda.display.context.ViewEventsDisplayContext;
@@ -17,11 +25,13 @@ import eu.strasbourg.service.agenda.model.ImportReport;
 import eu.strasbourg.service.agenda.service.ImportReportLocalServiceUtil;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -48,6 +58,9 @@ public class AgendaBOPortlet extends MVCPortlet {
 	public static final String EDIT_EVENT = "editEvent";
 	public static final String EDIT_MANIF = "editManifestation";
 	public static final String EDIT_CAMPAIGN = "editCampaign";
+	public static final String SAVE_EVENT = "saveEvent";
+	public static final String SAVE_MANIF = "saveManifestation";
+	public static final String SAVE_CAMPAIGN = "saveCampaign";
 	public static final String URL_PARAM_CMD = "cmd";
 
 	@Override
@@ -57,44 +70,62 @@ public class AgendaBOPortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest
 			.getAttribute(WebKeys.THEME_DISPLAY);
 
-		NavigationBarDisplayContext navigationDC = new NavigationBarDisplayContext(renderRequest, renderResponse);
-		renderRequest.setAttribute("navigationDC", navigationDC);
-		String selectedCmd = Optional
-				.ofNullable(ParamUtil.getString(renderRequest, URL_PARAM_CMD))
-				.filter(Validator::isNotNull)
-				.orElse(null);
-		switch (navigationDC.getSelectedTab()) {
-			case MANIFS:
-				if(Validator.isNotNull(selectedCmd) && selectedCmd.equals(EDIT_MANIF)){
-					EditManifestationDisplayContext dc = new EditManifestationDisplayContext(renderRequest, renderResponse);
-					renderRequest.setAttribute("dc", dc);
-				} else {
-					ViewManifestationsDisplayContext dc = new ViewManifestationsDisplayContext(renderRequest, renderResponse);
-					renderRequest.setAttribute("dc", dc);
-				}
-				break;
+		try {
+			NavigationBarDisplayContext navigationDC = new NavigationBarDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("navigationDC", navigationDC);
+			String selectedCmd = Optional
+					.ofNullable(ParamUtil.getString(renderRequest, URL_PARAM_CMD))
+					.filter(Validator::isNotNull)
+					.orElse(null);
+			HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(renderRequest);
+			switch (navigationDC.getSelectedTab()) {
+				case MANIFS:
+					if (Validator.isNotNull(selectedCmd) && selectedCmd.equals(EDIT_MANIF)) {
+						EditManifestationDisplayContext dc = new EditManifestationDisplayContext(renderRequest, renderResponse);
+						renderRequest.setAttribute("dc", dc);
+					} else {
+						ViewManifestationsDisplayContext dc = new ViewManifestationsDisplayContext(renderRequest, renderResponse, _itemSelector);
+						ManagementManifsToolBarDisplayContext managementDC = new ManagementManifsToolBarDisplayContext(
+								servletRequest, (LiferayPortletRequest) renderRequest,
+								(LiferayPortletResponse) renderResponse, dc);
+						renderRequest.setAttribute("managementDC", managementDC);
+						renderRequest.setAttribute("dc", dc);
+					}
+					break;
 
-			case CAMPAIGNS:
-				if(Validator.isNotNull(selectedCmd) && selectedCmd.equals(EDIT_CAMPAIGN)){
-					EditCampaignDisplayContext dc = new EditCampaignDisplayContext(renderRequest, renderResponse);
-					renderRequest.setAttribute("dc", dc);
-				} else {
-					ViewCampaignsDisplayContext dc = new ViewCampaignsDisplayContext(renderRequest, renderResponse);
-					renderRequest.setAttribute("dc", dc);
-				}
-				break;
+				case CAMPAIGNS:
+					if (Validator.isNotNull(selectedCmd) && selectedCmd.equals(EDIT_CAMPAIGN)) {
+						EditCampaignDisplayContext dc = new EditCampaignDisplayContext(renderRequest, renderResponse);
+						renderRequest.setAttribute("dc", dc);
+					} else {
+						ViewCampaignsDisplayContext dc = new ViewCampaignsDisplayContext(renderRequest, renderResponse);
+						ManagementCampaignsToolBarDisplayContext managementDC = new ManagementCampaignsToolBarDisplayContext(
+								servletRequest, (LiferayPortletRequest) renderRequest,
+								(LiferayPortletResponse) renderResponse, dc);
+						renderRequest.setAttribute("managementDC", managementDC);
+						renderRequest.setAttribute("dc", dc);
+					}
+					break;
 
-			case EVENTS:
-			case IMPORT:
-			default:
-				if(Validator.isNotNull(selectedCmd) && selectedCmd.equals(EDIT_EVENT)){
-					EditEventDisplayContext dc = new EditEventDisplayContext(renderRequest, renderResponse);
-					renderRequest.setAttribute("dc", dc);
-				} else {
-					ViewEventsDisplayContext dc = new ViewEventsDisplayContext(renderRequest, renderResponse);
-					renderRequest.setAttribute("dc", dc);
-				}
-				break;
+				case IMPORT:
+				case EVENTS:
+				default:
+					if (Validator.isNotNull(selectedCmd) && selectedCmd.equals(EDIT_EVENT)) {
+						EditEventDisplayContext dc = new EditEventDisplayContext(renderRequest, renderResponse);
+						renderRequest.setAttribute("dc", dc);
+					} else {
+						ViewEventsDisplayContext dc = new ViewEventsDisplayContext(renderRequest, renderResponse, _itemSelector);
+						ManagementEventsToolBarDisplayContext managementDC = new ManagementEventsToolBarDisplayContext(
+								servletRequest, (LiferayPortletRequest) renderRequest,
+								(LiferayPortletResponse) renderResponse, dc);
+						renderRequest.setAttribute("dc", dc);
+						renderRequest.setAttribute("managementDC", managementDC);
+					}
+					break;
+			}
+
+		} catch (PortalException e) {
+			e.printStackTrace();
 		}
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
@@ -126,4 +157,7 @@ public class AgendaBOPortlet extends MVCPortlet {
 
 		super.render(renderRequest, renderResponse);
 	}
+
+	@Reference
+	private ItemSelector _itemSelector;
 }

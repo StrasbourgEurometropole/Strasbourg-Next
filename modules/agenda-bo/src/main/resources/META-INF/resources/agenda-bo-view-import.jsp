@@ -1,10 +1,6 @@
 <%@ include file="/agenda-bo-init.jsp"%>
 <clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 
-<liferay-portlet:renderURL varImpl="importURL">
-	<portlet:param name="tab" value="import" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="startImport" var="startImportURL">
 	<portlet:param name="tab" value="import" />
 </liferay-portlet:actionURL>

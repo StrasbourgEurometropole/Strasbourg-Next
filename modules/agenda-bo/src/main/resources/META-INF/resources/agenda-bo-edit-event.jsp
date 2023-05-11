@@ -1,10 +1,6 @@
 <%@ include file="/agenda-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.agenda.model.Event"%>
 
-<liferay-portlet:renderURL varImpl="eventsURL">
-	<portlet:param name="tab" value="events" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deleteEvent" var="deleteEventURL">
 	<portlet:param name="cmd" value="deleteEvent" />
 	<portlet:param name="tab" value="events" />
