@@ -3,6 +3,7 @@
 
 <liferay-portlet:renderURL varImpl="campaignsURL">
 	<portlet:param name="tab" value="campaigns" />
+	<portlet:param name="mvcPath" value="/agenda-bo-view-campaigns.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
@@ -76,6 +77,7 @@
 	var="deleteSelectionURL">
 	<portlet:param name="cmd" value="delete" />
 	<portlet:param name="tab" value="campaigns" />
+	<portlet:param name="mvcPath" value="/agenda-bo-view-campaigns.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
@@ -85,6 +87,7 @@
 	var="publishSelectionURL">
 	<portlet:param name="cmd" value="publish" />
 	<portlet:param name="tab" value="campaigns" />
+	<portlet:param name="mvcPath" value="/agenda-bo-view-campaigns.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
@@ -94,6 +97,7 @@
 	var="unpublishSelectionURL">
 	<portlet:param name="cmd" value="unpublish" />
 	<portlet:param name="tab" value="campaigns" />
+	<portlet:param name="mvcPath" value="/agenda-bo-view-campaigns.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />

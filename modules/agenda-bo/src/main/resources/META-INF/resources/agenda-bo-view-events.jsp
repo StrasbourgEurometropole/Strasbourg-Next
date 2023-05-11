@@ -3,6 +3,7 @@
 
 <liferay-portlet:renderURL varImpl="eventsURL">
 	<portlet:param name="tab" value="events" />
+	<portlet:param name="mvcPath" value="/agenda-bo-view-events.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<%--	TODO Il faudra remettre le filtre par vocabulaire
@@ -90,6 +91,7 @@
 	var="deleteSelectionURL">
 	<portlet:param name="cmd" value="delete" />
 	<portlet:param name="tab" value="events" />
+	<portlet:param name="mvcPath" value="/agenda-bo-view-events.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<%--	TODO Il faudra remettre le filtre par vocabulaire
@@ -102,6 +104,7 @@
 	var="publishSelectionURL">
 	<portlet:param name="cmd" value="publish" />
 	<portlet:param name="tab" value="events" />
+	<portlet:param name="mvcPath" value="/agenda-bo-view-events.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<%--	TODO Il faudra remettre le filtre par vocabulaire
@@ -114,6 +117,7 @@
 	var="unpublishSelectionURL">
 	<portlet:param name="cmd" value="unpublish" />
 	<portlet:param name="tab" value="events" />
+	<portlet:param name="mvcPath" value="/agenda-bo-view-events.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<%--	TODO Il faudra remettre le filtre par vocabulaire
@@ -124,6 +128,7 @@
 </liferay-portlet:actionURL>
 <liferay-portlet:renderURL varImpl="filterSelectionURL">
 	<portlet:param name="tab" value="events" />
+	<portlet:param name="mvcPath" value="/agenda-bo-view-events.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />

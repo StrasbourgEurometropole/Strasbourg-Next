@@ -3,6 +3,7 @@
 
 <liferay-portlet:actionURL name="startImport" var="startImportURL">
 	<portlet:param name="tab" value="import" />
+	<portlet:param name="mvcPath" value="/agenda-bo-view-import.jsp" />
 </liferay-portlet:actionURL>
 
 <div class="container-fluid container-fluid-max-xl main-content-body">
