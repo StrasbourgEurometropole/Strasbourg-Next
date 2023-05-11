@@ -116,6 +116,7 @@ public class EventActionDropdownItemsProvider {
                             .setMVCPath("/agenda-bo-edit-event.jsp")
                             .setCMD("editEvent")
                             .setBackURL(_themeDisplay.getURLCurrent())
+                            .setParameter("tab", "events")
                             .setParameter("eventId", _event.getEventId())
                             .buildString()
             );
@@ -150,6 +151,7 @@ public class EventActionDropdownItemsProvider {
                             .setActionName("duplicateEvent")
                             .setMVCPath("/agenda-bo-view-events.jsp")
                             .setBackURL(_themeDisplay.getURLCurrent())
+                            .setParameter("tab", "events")
                             .setParameter("eventId", _event.getEventId())
                             .buildString()
             );
@@ -168,6 +170,7 @@ public class EventActionDropdownItemsProvider {
                             .setActionName("deleteEvent")
                             .setMVCPath("/agenda-bo-view-events.jsp")
                             .setBackURL(_themeDisplay.getURLCurrent())
+                            .setParameter("tab", "events")
                             .setParameter("eventId", _event.getEventId())
                             .buildString()
             );

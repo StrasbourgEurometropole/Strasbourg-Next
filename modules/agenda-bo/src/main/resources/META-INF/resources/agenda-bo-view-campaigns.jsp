@@ -61,7 +61,7 @@
 				<liferay-ui:search-container-column-text>
 					<clay:dropdown-actions
 							aria-label="<liferay-ui:message key='show-actions' />"
-							dropdownItems="${dc.getActionsXXX(campaign).getActionDropdownItems()}"
+							dropdownItems="${dc.getActionsCampaign(campaign).getActionDropdownItems()}"
 					/>
 				</liferay-ui:search-container-column-text>
 

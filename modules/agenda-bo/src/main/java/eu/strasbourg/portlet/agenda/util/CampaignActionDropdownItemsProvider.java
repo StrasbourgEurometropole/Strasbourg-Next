@@ -122,6 +122,7 @@ public class CampaignActionDropdownItemsProvider {
                             .setMVCPath("/agenda-bo-edit-campaign.jsp")
                             .setCMD("editCampaign")
                             .setBackURL(_themeDisplay.getURLCurrent())
+                            .setParameter("tab", "campaigns")
                             .setParameter("campaignId", _campaign.getCampaignId())
                             .buildString()
             );
@@ -138,7 +139,9 @@ public class CampaignActionDropdownItemsProvider {
             dropdownItem.setHref(
                     PortletURLBuilder.createActionURL(_response)
                             .setActionName("deleteCampaign")
+                            .setMVCPath("/agenda-bo-view-campaigns.jsp")
                             .setBackURL(_themeDisplay.getURLCurrent())
+                            .setParameter("tab", "campaigns")
                             .setParameter("campaignId", _campaign.getCampaignId())
                             .buildString()
             );
@@ -155,7 +158,9 @@ public class CampaignActionDropdownItemsProvider {
             dropdownItem.setHref(
                     PortletURLBuilder.createActionURL(_response)
                             .setActionName("exportJsonToFolder")
+                            .setMVCPath("/agenda-bo-view-campaigns.jsp")
                             .setBackURL(_themeDisplay.getURLCurrent())
+                            .setParameter("tab", "campaigns")
                             .setParameter("campaignId", _campaign.getCampaignId())
                             .buildString()
             );

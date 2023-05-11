@@ -10,8 +10,8 @@
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveCampaign" varImpl="saveCampaignURL">
-	<portlet:param name="cmd" value="saveCampaign" />
 	<portlet:param name="tab" value="campaigns" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 
@@ -130,7 +130,7 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
 					value="delete" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 	</aui:form>
 </div>

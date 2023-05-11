@@ -34,8 +34,9 @@ import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static eu.strasbourg.portlet.agenda.constants.agendaConstants.*;
 
 @Component(
 	immediate = true,
@@ -51,17 +52,6 @@ import java.util.stream.Collectors;
 		"javax.portlet.security-role-ref=power-user,user" },
 	service = Portlet.class)
 public class AgendaBOPortlet extends MVCPortlet {
-	public static final String EVENTS = "events";
-	public static final String MANIFS = "manifestations";
-	public static final String IMPORT = "import";
-	public static final String CAMPAIGNS = "campaigns";
-	public static final String EDIT_EVENT = "editEvent";
-	public static final String EDIT_MANIF = "editManifestation";
-	public static final String EDIT_CAMPAIGN = "editCampaign";
-	public static final String SAVE_EVENT = "saveEvent";
-	public static final String SAVE_MANIF = "saveManifestation";
-	public static final String SAVE_CAMPAIGN = "saveCampaign";
-	public static final String URL_PARAM_CMD = "cmd";
 
 	@Override
 	public void render(RenderRequest renderRequest,
@@ -73,14 +63,10 @@ public class AgendaBOPortlet extends MVCPortlet {
 		try {
 			NavigationBarDisplayContext navigationDC = new NavigationBarDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("navigationDC", navigationDC);
-			String selectedCmd = Optional
-					.ofNullable(ParamUtil.getString(renderRequest, URL_PARAM_CMD))
-					.filter(Validator::isNotNull)
-					.orElse(null);
 			HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(renderRequest);
 			switch (navigationDC.getSelectedTab()) {
 				case MANIFS:
-					if (Validator.isNotNull(selectedCmd) && selectedCmd.equals(EDIT_MANIF)) {
+					if (navigationDC.getSelectedCmd().equals(EDIT_MANIF) || navigationDC.getSelectedCmd().equals(SAVE_MANIF)) {
 						EditManifestationDisplayContext dc = new EditManifestationDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
@@ -94,7 +80,7 @@ public class AgendaBOPortlet extends MVCPortlet {
 					break;
 
 				case CAMPAIGNS:
-					if (Validator.isNotNull(selectedCmd) && selectedCmd.equals(EDIT_CAMPAIGN)) {
+					if (navigationDC.getSelectedCmd().equals(EDIT_CAMPAIGN) ||navigationDC.getSelectedCmd().equals(SAVE_CAMPAIGN)) {
 						EditCampaignDisplayContext dc = new EditCampaignDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
@@ -110,7 +96,7 @@ public class AgendaBOPortlet extends MVCPortlet {
 				case IMPORT:
 				case EVENTS:
 				default:
-					if (Validator.isNotNull(selectedCmd) && selectedCmd.equals(EDIT_EVENT)) {
+					if (navigationDC.getSelectedCmd().equals(EDIT_EVENT) || navigationDC.getSelectedCmd().equals(SAVE_EVENT)) {
 						EditEventDisplayContext dc = new EditEventDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {

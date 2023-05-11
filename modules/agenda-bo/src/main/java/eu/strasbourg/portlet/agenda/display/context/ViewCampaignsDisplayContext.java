@@ -1,14 +1,5 @@
 package eu.strasbourg.portlet.agenda.display.context;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.portlet.PortletURL;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
-
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -20,7 +11,6 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
-
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -29,8 +19,14 @@ import eu.strasbourg.portlet.agenda.util.CampaignActionDropdownItemsProvider;
 import eu.strasbourg.service.agenda.model.Campaign;
 import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
 import eu.strasbourg.utils.SearchHelper;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
+
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class ViewCampaignsDisplayContext {
 
@@ -51,7 +47,7 @@ public class ViewCampaignsDisplayContext {
 	 * @return CampaignActionDropdownItemsProvider
 	 */
 	@SuppressWarnings("unused")
-	public CampaignActionDropdownItemsProvider getActionsManif(Campaign campaign) {
+	public CampaignActionDropdownItemsProvider getActionsCampaign(Campaign campaign) {
 		return new CampaignActionDropdownItemsProvider(campaign, this._request,
 				this._response);
 	}

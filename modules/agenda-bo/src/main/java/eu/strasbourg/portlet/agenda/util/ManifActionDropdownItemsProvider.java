@@ -89,6 +89,7 @@ public class ManifActionDropdownItemsProvider {
                             .setMVCPath("/agenda-bo-edit-manifestation.jsp")
                             .setCMD("editManifestation")
                             .setBackURL(_themeDisplay.getURLCurrent())
+                            .setParameter("tab", "manifestations")
                             .setParameter("manifestationId", _manif.getManifestationId())
                             .buildString()
             );
@@ -105,7 +106,9 @@ public class ManifActionDropdownItemsProvider {
             dropdownItem.setHref(
                     PortletURLBuilder.createActionURL(_response)
                             .setActionName("deleteManifestation")
+                            .setMVCPath("/agenda-bo-view-manifestations.jsp")
                             .setBackURL(_themeDisplay.getURLCurrent())
+                            .setParameter("tab", "manifestations")
                             .setParameter("manifestationId", _manif.getManifestationId())
                             .buildString()
             );
