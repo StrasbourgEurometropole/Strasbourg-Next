@@ -1,9 +1,9 @@
 {
   "LiferayTheme": {
-    "deployPath": "C:/liferay/ems-workspace/liferay-workspace/bundles/deploy",
-    "themeName": "plateforme-citoyenne-theme",
-    "appServerPathTheme": "C:/liferay/ems-workspace/liferay-workspace/bundles/tomcat-9.0.17.zip/webapps/plateforme-citoyenne-theme",
+    "appServerPath": "C:/liferay/74-workspace/Strasbourg-Next/bundles/tomcat-9.0.68",
+    "deployPath": "C:/liferay/74-workspace/Strasbourg-Next/bundles/deploy",
     "deployed": true,
-    "appServerPath": "C:/liferay/ems-workspace/liferay-workspace/bundles/tomcat-9.0.17.zip"
+    "deploymentStrategy": "LocalAppServer",
+    "url": "http://localhost:8080"
   }
 }

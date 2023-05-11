@@ -3,16 +3,16 @@
   "version": "0.0.1",
   "devDependencies": {
     "grunt-ftpush": "^0.3.3",
-    "gulp": "latest",
-    "gulp-autoprefixer": "latest",
-    "gulp-concat": "latest",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^8.0.0",
+    "gulp-concat": "^2.6.1",
     "gulp-deploy-ftp": "^1.0.1",
-    "gulp-load-plugins": "latest",
+    "gulp-load-plugins": "^2.0.8",
     "gulp-notify": "latest",
-    "gulp-rename": "latest",
+    "gulp-rename": "^2.0.0",
     "gulp-sass": "^4.1.1",
     "gulp-tinypng": "latest",
-    "gulp-uglify": "latest",
+    "gulp-uglify": "^3.0.2",
     "gulp-util": "^3.0.8",
     "vinyl-ftp": "^0.6.0"
   }

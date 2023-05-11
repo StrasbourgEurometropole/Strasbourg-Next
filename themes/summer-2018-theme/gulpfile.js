@@ -2,34 +2,35 @@
 
 var gulp = require('gulp');
 var liferayThemeTasks = require('liferay-theme-tasks');
+var sass = require('gulp-sass')(require('sass'));
 var plugins = require('gulp-load-plugins')({
-    rename: {
-        'gulp-clean-css': 'cleancss',
-        'gulp-sass-import-json': 'jsonToSass',
-        'gulp-ruby-sass': 'rubysass',
-        'gulp-require-tasks': 'requireTask',
-        'gulp-ext-replace': 'extReplace',
-        'gulp-sass-glob': 'globs'
-    }
+	rename: {
+		'gulp-clean-css': 'cleancss',
+		'gulp-sass-import-json': 'jsonToSass',
+		'gulp-ruby-sass': 'rubysass',
+		'gulp-require-tasks': 'requireTask',
+		'gulp-ext-replace': 'extReplace',
+		'gulp-sass-glob': 'globs'
+	}
 });
 var rename = require('gulp-rename');
 var del = require('del');
-var runSequence = require('run-sequence').use(gulp);
+var runSequence = require('gulp4-run-sequence');
 
 liferayThemeTasks.registerTasks({
-  gulp: gulp,
-  hookFn: function(gulp) {
-    gulp.task('build:r2', function(done) {
-      const plugins = require('gulp-load-plugins')();
-  
-      return gulp
-        .src(['./build/css/*.css','!./build/css/*_rtl.css'])
-    });
+	gulp: gulp,
+	hookFn: function(gulp) {
+		gulp.task('build:r2', function(done) {
+			const plugins = require('gulp-load-plugins')();
 
-    gulp.hook('after:build:move-compiled-css', function(done) {
-        runSequence('remove-maps', 'remove-scss', 'remove-node-modules', done);
-    })
-  }
+			return gulp
+				.src(['./build/css/*.css','!./build/css/*_rtl.css'])
+		});
+
+		gulp.hook('after:build:move-compiled-css', function(done) {
+			runSequence('remove-maps', 'remove-scss', 'remove-node-modules', done);
+		})
+	}
 });
 
 gulp.task('remove-maps', cb => {
@@ -45,23 +46,23 @@ gulp.task('remove-node-modules', cb => {
 });
 
 gulp.task('css', function () {
-    var source = './custom/css/';
-    var destination = './src/css/';
+	var source = './custom/css/';
+	var destination = './src/css/';
 
-    return gulp.src([source + '/t_main.scss', source + 'override/*.scss'])
-    .pipe(plugins.sass({outputStyle: 'compressed'}))
-    .pipe(plugins.autoprefixer())
-    .pipe(gulp.dest(destination));
+	return gulp.src([source + '/t_main.scss', source + 'override/*.scss'])
+		.pipe(sass({outputStyle: 'compressed'}))
+		.pipe(plugins.autoprefixer())
+		.pipe(gulp.dest(destination));
 });
 
 gulp.task('js', function () {
-    var source = './custom/js/';
-    var destination = './src/js/';
+	var source = './custom/js/';
+	var destination = './src/js/';
 
-    return gulp.src([source + 'libs/*.js', source + '_t_*.js', source + 'override/*.js'])
-    .pipe(plugins.concat('./t_main.js'))
-    .pipe(gulp.dest(destination + './'))
-    .pipe(plugins.uglify())
-    .pipe(plugins.rename({suffix: '.min'}))
-    .pipe(gulp.dest(destination));
+	return gulp.src([source + 'libs/*.js', source + '_t_*.js', source + 'override/*.js'])
+		.pipe(plugins.concat('./t_main.js'))
+		.pipe(gulp.dest(destination + './'))
+		.pipe(plugins.uglify())
+		.pipe(plugins.rename({suffix: '.min'}))
+		.pipe(gulp.dest(destination));
 });
