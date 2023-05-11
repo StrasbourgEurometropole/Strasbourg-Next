@@ -29,6 +29,7 @@
 					<portlet:param name="eventId" value="${event.eventId}" />
 					<portlet:param name="backURL" value="${eventsURL}" />
 					<portlet:param name="mvcPath" value="/agenda-bo-edit-event.jsp" />
+					<portlet:param name="tab" value="events" />
 				</liferay-portlet:renderURL>
 
 				<liferay-ui:search-container-column-text>
@@ -122,6 +123,7 @@
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>
 <liferay-portlet:renderURL varImpl="filterSelectionURL">
+	<portlet:param name="tab" value="events" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />

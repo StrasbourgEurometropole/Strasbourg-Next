@@ -13,15 +13,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import static eu.strasbourg.portlet.agenda.constants.agendaConstants.*;
+
 public class NavigationBarDisplayContext {
-    public static final String[] EVENTS = {"events", "/agenda-bo-view-events.jsp"};
-    public static final String[] MANIFS = {"manifestations", "/agenda-bo-view-manifestations.jsp"};
-    public static final String[] IMPORT = {"import", "/agenda-bo-view-import.jsp"};
-    public static final String[] CAMPAIGNS = {"campaigns", "/agenda-bo-view-campaigns.jsp"};
-    public static final String URL_PARAM_TAB = "tab";
-    public static final String URL_PARAM_MVCPATH = "mvcPath";
     private final RenderResponse response;
     private final String selectedTab;
+    private final String selectedCmd;
     private final String selectedMvcPath;
     private ResourceBundle bundle = ResourceBundleUtil.getBundle("content.Language",
             this.getClass().getClassLoader());
@@ -37,7 +34,7 @@ public class NavigationBarDisplayContext {
         this.selectedMvcPath = Optional
                 .ofNullable(ParamUtil.getString(request, URL_PARAM_MVCPATH))
                 .filter(Validator::isNotNull)
-                .orElse(EVENTS[1]);
+                .orElse(EVENTS_PATH);
     }
 
     public String getSelectedTab() {
@@ -53,26 +50,26 @@ public class NavigationBarDisplayContext {
 
         NavigationItem events = new NavigationItem();
         events.setLabel(LanguageUtil.get(bundle, "events"));
-        events.setActive(this.selectedTab.equals(EVENTS[0]));
-        events.setHref(this.response.createRenderURL(), URL_PARAM_TAB, EVENTS[0], URL_PARAM_MVCPATH, EVENTS[1]);
+        events.setActive(this.selectedTab.equals(EVENTS));
+        events.setHref(this.response.createRenderURL(), URL_PARAM_TAB, EVENTS, URL_PARAM_MVCPATH, EVENTS_PATH);
         navigationItems.add(events);
 
         NavigationItem manifs = new NavigationItem();
         manifs.setLabel(LanguageUtil.get(bundle, "manifestations"));
-        manifs.setActive(this.selectedTab.equals(MANIFS[0]));
-        manifs.setHref(this.response.createRenderURL(), URL_PARAM_TAB, MANIFS[0], URL_PARAM_MVCPATH, MANIFS[1]);
+        manifs.setActive(this.selectedTab.equals(MANIFS));
+        manifs.setHref(this.response.createRenderURL(), URL_PARAM_TAB, MANIFS, URL_PARAM_MVCPATH, MANIFS_PATH);
         navigationItems.add(manifs);
 
         NavigationItem importation = new NavigationItem();
         importation.setLabel(LanguageUtil.get(bundle, "import"));
-        importation.setActive(this.selectedTab.equals(IMPORT[0]));
-        importation.setHref(this.response.createRenderURL(), URL_PARAM_TAB, IMPORT[0], URL_PARAM_MVCPATH, IMPORT[1]);
+        importation.setActive(this.selectedTab.equals(IMPORT));
+        importation.setHref(this.response.createRenderURL(), URL_PARAM_TAB, IMPORT, URL_PARAM_MVCPATH, IMPORT_PATH);
         navigationItems.add(importation);
 
         NavigationItem campaign = new NavigationItem();
         campaign.setLabel(LanguageUtil.get(bundle, "campaigns"));
-        campaign.setActive(this.selectedTab.equals(CAMPAIGNS[0]));
-        campaign.setHref(this.response.createRenderURL(), URL_PARAM_TAB, CAMPAIGNS[0], URL_PARAM_MVCPATH, CAMPAIGNS[1]);
+        campaign.setActive(this.selectedTab.equals(CAMPAIGNS));
+        campaign.setHref(this.response.createRenderURL(), URL_PARAM_TAB, CAMPAIGNS, URL_PARAM_MVCPATH, CAMPAIGNS_PATH);
         navigationItems.add(campaign);
 
         return navigationItems;

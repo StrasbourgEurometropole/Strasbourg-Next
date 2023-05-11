@@ -26,6 +26,7 @@
 					<portlet:param name="campaignId" value="${campaign.campaignId}" />
 					<portlet:param name="backURL" value="${campaignsURL}" />
 					<portlet:param name="mvcPath" value="/agenda-bo-edit-campaign.jsp" />
+					<portlet:param name="tab" value="campaigns" />
 				</liferay-portlet:renderURL>
 
 				<liferay-ui:search-container-column-text cssClass="content-column"

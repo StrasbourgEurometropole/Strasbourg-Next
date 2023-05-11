@@ -29,6 +29,7 @@
 					<portlet:param name="manifestationId" value="${manifestation.manifestationId}" />
 					<portlet:param name="backURL" value="${manifestationsURL}" />
 					<portlet:param name="mvcPath" value="/agenda-bo-edit-manifestation.jsp" />
+					<portlet:param name="tab" value="manifestations" />
 				</liferay-portlet:renderURL>
 
 				<liferay-ui:search-container-column-text>
@@ -112,6 +113,7 @@
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>
 <liferay-portlet:renderURL varImpl="filterSelectionURL">
+	<portlet:param name="tab" value="manifestations" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />

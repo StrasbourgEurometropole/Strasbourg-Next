@@ -10,6 +10,7 @@
 
 <liferay-portlet:actionURL name="saveEvent" varImpl="saveEventURL">
 	<portlet:param name="cmd" value="saveEvent" />
+	<portlet:param name="tab" value="events" />
 </liferay-portlet:actionURL>
 
 <div class="container-fluid container-fluid-max-xl main-content-body">
