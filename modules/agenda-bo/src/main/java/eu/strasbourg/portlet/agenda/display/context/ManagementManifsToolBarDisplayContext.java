@@ -240,6 +240,7 @@ public class ManagementManifsToolBarDisplayContext extends SearchContainerManage
 
                     dropdownItem.setHref(
                             liferayPortletResponse.createRenderURL(),
+                            "tab", "manifestations",
                             "cmd", "editManifestation",
                             "mvcPath", "/agenda-bo-edit-manifestation.jsp",
                             "backURL", themeDisplay.getURLCurrent());

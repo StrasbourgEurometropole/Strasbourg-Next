@@ -75,7 +75,7 @@ public class ViewCampaignsDisplayContext {
 			_searchContainer.setOrderByCol(getOrderByCol());
 			_searchContainer.setOrderByType(getOrderByType());
 			try {
-				getHits(_themeDisplay.getCompanyGroupId());
+				getHits(this._themeDisplay.getScopeGroupId());
 			} catch (PortalException e) {
 				throw new RuntimeException(e);
 			}

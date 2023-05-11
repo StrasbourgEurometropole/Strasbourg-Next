@@ -240,6 +240,7 @@ public class ManagementEventsToolBarDisplayContext extends SearchContainerManage
 
                     dropdownItem.setHref(
                             liferayPortletResponse.createRenderURL(),
+                            "tab", "events",
                             "cmd", "editEvent",
                             "mvcPath", "/agenda-bo-edit-event.jsp",
                             "backURL", themeDisplay.getURLCurrent());

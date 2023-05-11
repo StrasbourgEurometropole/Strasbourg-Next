@@ -169,6 +169,7 @@ public class ManagementCampaignsToolBarDisplayContext extends SearchContainerMan
 
                     dropdownItem.setHref(
                             liferayPortletResponse.createRenderURL(),
+                            "tab", "campaigns",
                             "cmd", "editCampaign",
                             "mvcPath", "/agenda-bo-edit-campaign.jsp",
                             "backURL", themeDisplay.getURLCurrent());
