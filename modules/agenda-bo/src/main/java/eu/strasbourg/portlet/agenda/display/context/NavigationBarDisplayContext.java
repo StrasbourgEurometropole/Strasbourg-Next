@@ -30,17 +30,25 @@ public class NavigationBarDisplayContext {
         this.selectedTab = Optional
                 .ofNullable(ParamUtil.getString(request, URL_PARAM_TAB))
                 .filter(Validator::isNotNull)
-                .orElse(EVENTS[0]);
+                .orElse(EVENTS);
+        this.selectedCmd = Optional
+                .ofNullable(ParamUtil.getString(request, URL_PARAM_CMD))
+                .filter(Validator::isNotNull)
+                .orElse("");
         this.selectedMvcPath = Optional
                 .ofNullable(ParamUtil.getString(request, URL_PARAM_MVCPATH))
                 .filter(Validator::isNotNull)
-                .orElse(EVENTS_PATH);
+                .orElse("");
     }
 
     public String getSelectedTab() {
         return selectedTab;
     }
-
+    @SuppressWarnings("unused")
+    public String getSelectedCmd() {
+        return selectedCmd;
+    }
+    @SuppressWarnings("unused")
     public String getSelectedMvcPath() {
         return selectedMvcPath;
     }
