@@ -75,7 +75,8 @@ import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 		"javax.portlet.init-param.view-template=/comments-view.jsp",
 		"javax.portlet.name=" + StrasbourgPortletKeys.COMMENT_WEB,
         "javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user"
+		"javax.portlet.security-role-ref=power-user,user",
+			"javax.portlet.version=3.0"
 	},
     service = Portlet.class
 )

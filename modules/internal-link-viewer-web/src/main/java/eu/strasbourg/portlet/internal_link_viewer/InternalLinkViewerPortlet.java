@@ -33,7 +33,8 @@ import java.util.List;
 		"javax.portlet.init-param.config-template=/internal-link-configuration.jsp",
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.name=" + StrasbourgPortletKeys.INTERNAL_LINK_VIEWER_WEB,
-		"javax.portlet.security-role-ref=power-user,user" },
+		"javax.portlet.security-role-ref=power-user,user",
+			"javax.portlet.version=3.0"},
 	service = Portlet.class)
 public class InternalLinkViewerPortlet extends MVCPortlet {
 

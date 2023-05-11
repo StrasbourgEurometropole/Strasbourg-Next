@@ -305,11 +305,11 @@ a.btn-more:hover {
 }
 /* line 51, ../sass/partials/_pager.scss */
 .pager a.nav.nav-prev {
-  background-image: url("../images/small_white_arrow_previous.png");
+  background-image: url("src/images/small_white_arrow_previous.png");
 }
 /* line 54, ../sass/partials/_pager.scss */
 .pager a.nav.nav-next {
-  background-image: url("../images/small_white_arrow_next.png");
+  background-image: url("src/images/small_white_arrow_next.png");
 }
 /* line 57, ../sass/partials/_pager.scss */
 .pager a.nav:hover {
@@ -510,7 +510,7 @@ a.btn-more:hover {
   height: 40px;
   margin: 20px auto;
   cursor: pointer;
-  background: url(../images/back_to_top.png) bottom;
+  background: url(src/images/back_to_top.png) bottom;
   -moz-transition-property: all;
   -o-transition-property: all;
   -webkit-transition-property: all;

@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
-<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel 7.2.0//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_7_2_0.dtd">
+<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel 7.4.0//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_7_4_0.dtd">
 
 <look-and-feel>
 	<compatibility>
-		<version>7.2.0+</version>
+		<version>7.4.0+</version>
 	</compatibility>
-	<theme id="ond" name="Oeuvre Notre-Dame">
+	<theme id="ond-theme" name="ond-theme">
 		<template-extension>ftl</template-extension>
 		<portlet-decorator id="barebone" name="Barebone">
 			<default-portlet-decorator>true</default-portlet-decorator>

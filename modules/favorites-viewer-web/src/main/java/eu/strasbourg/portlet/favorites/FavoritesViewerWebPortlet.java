@@ -32,7 +32,8 @@ import java.io.IOException;
 		"javax.portlet.name=" + StrasbourgPortletKeys.FAVORITES_VIEWER_WEB,
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user",
-		"javax.portlet.init-param.add-process-action-success-action=false"
+		"javax.portlet.init-param.add-process-action-success-action=false",
+			"javax.portlet.version=3.0"
 	},
 	service = Portlet.class
 )
