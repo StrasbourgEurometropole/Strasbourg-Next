@@ -22,7 +22,6 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.service.ejob.service.OfferService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -56,8 +55,6 @@ public class EntityDetailExportActionCommand implements MVCActionCommand {
 			Long entityId = ParamUtil.getLong(request, "entityId");
 
 			String titrePortlet = "";
-			if(type.equals("offer"))
-				titrePortlet = this._offerService.exportOffer(entityId, locale, baos);
 
 			// ouverture du PDF dans le navigateur
 			HttpServletResponse httpResponse = PortalUtil.getHttpServletResponse(response);
@@ -78,15 +75,6 @@ public class EntityDetailExportActionCommand implements MVCActionCommand {
 		}
 
 		return true;
-	}
-
-	private OfferService _offerService;
-
-	@Reference(unbind = "-")
-	protected void setOfferService(
-			OfferService offerService) {
-
-		_offerService = offerService;
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
