@@ -78,6 +78,7 @@ public class SaveEditionActionCommand implements MVCActionCommand {
 				response.setRenderParameter("returnURL", returnURL.toString());
 				response.setRenderParameter("mvcPath",
 						"/edition-bo-edit-edition.jsp");
+				response.setRenderParameter("cmd", "saveEdition");
 				return false;
 			}
 

@@ -77,6 +77,7 @@ public class SaveGalleryActionCommand implements MVCActionCommand {
 				response.setRenderParameter("returnURL", returnURL.toString());
 				response.setRenderParameter("mvcPath",
 						"/edition-bo-edit-gallery.jsp");
+				response.setRenderParameter("cmd", "saveGallery");
 				return false;
 			}
 
