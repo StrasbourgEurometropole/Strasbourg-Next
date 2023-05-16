@@ -7,14 +7,14 @@
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 	<portlet:param name="tab" value="galleries" />
-	<portlet:param name="mvcPath" value="/edition-bo-view-galleries.jsp" />
+
 </liferay-portlet:renderURL>
 
 <liferay-portlet:renderURL varImpl="addGalleryURL">
 	<portlet:param name="cmd" value="editGallery" />
 	<portlet:param name="tab" value="galleries" />
 	<portlet:param name="mvcPath" value="/edition-bo-edit-gallery.jsp" />
-	<portlet:param name="returnURL" value="${galleriesURL}" />
+	<portlet:param name="backURL" value="${galleriesURL}" />
 </liferay-portlet:renderURL>
 
 <clay:management-toolbar
@@ -32,7 +32,7 @@
 				<liferay-portlet:renderURL varImpl="editGalleryURL">
 					<portlet:param name="cmd" value="editGallery" />
 					<portlet:param name="galleryId" value="${gallery.galleryId}" />
-					<portlet:param name="returnURL" value="${galleriesURL}" />
+					<portlet:param name="backURL" value="${galleriesURL}" />
 					<portlet:param name="mvcPath" value="/edition-bo-edit-gallery.jsp" />
 					<portlet:param name="tab" value="galleries" />
 				</liferay-portlet:renderURL>
@@ -82,9 +82,6 @@
 		</liferay-ui:search-container>
 	</aui:form>
 </div>
-
-<c:if test="${dc.hasPermission('ADD_EDITION_GALLERY') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-</c:if>
 
 <liferay-portlet:actionURL name="selectionAction"
 	var="deleteSelectionURL">
@@ -165,7 +162,7 @@
 					);
 				}
 			},
-			selectEditionName: '<portlet:namespace />selectAssetCategory',
+			selectGalleryName: '<portlet:namespace />selectAssetCategory',
 			title: Liferay.Language.get('select-category'),
 			url: '${dc.getSelectCategoriesByVocabularyIdURL(vocabularyId)}'
 		} )

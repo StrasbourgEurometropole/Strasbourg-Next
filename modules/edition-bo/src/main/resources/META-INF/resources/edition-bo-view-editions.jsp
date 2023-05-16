@@ -2,20 +2,20 @@
 <clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 
 <liferay-portlet:renderURL varImpl="editionsURL">
-	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
-	<portlet:param name="orderByType" value="${dc.orderByType}" />
-
-	<portlet:param name="keywords" value="${dc.keywords}" />
-	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 	<portlet:param name="tab" value="editions" />
 	<portlet:param name="mvcPath" value="/edition-bo-view-editions.jsp" />
+	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
+	<portlet:param name="orderByType" value="${dc.orderByType}" />
+	<portlet:param name="keywords" value="${dc.keywords}" />
+	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
+
 
 <liferay-portlet:renderURL varImpl="addEditionURL">
 	<portlet:param name="cmd" value="editEdition" />
 	<portlet:param name="tab" value="editions" />
 	<portlet:param name="mvcPath" value="/edition-bo-edit-edition.jsp" />
-	<portlet:param name="returnURL" value="${editionsURL}" />
+	<portlet:param name="backURL" value="${editionsURL}" />
 </liferay-portlet:renderURL>
 
 <clay:management-toolbar
@@ -33,7 +33,7 @@
 				<liferay-portlet:renderURL varImpl="editEditionURL">
 					<portlet:param name="cmd" value="editEdition" />
 					<portlet:param name="editionId" value="${edition.editionId}" />
-					<portlet:param name="returnURL" value="${editionsURL}" />
+					<portlet:param name="backURL" value="${editionsURL}" />
 					<portlet:param name="mvcPath" value="/edition-bo-edit-edition.jsp" />
 					<portlet:param name="tab" value="editions" />
 				</liferay-portlet:renderURL>
@@ -82,22 +82,18 @@
 	</aui:form>
 </div>
 
-<c:if
-	test="${dc.hasPermission('ADD_EDITION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-
-</c:if>
-
-
 <liferay-portlet:actionURL name="selectionAction"
 	var="deleteSelectionURL">
 	<portlet:param name="cmd" value="delete" />
 	<portlet:param name="tab" value="editions" />
+	<portlet:param name="mvcPath" value="/edition-bo-view-editions.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>
+
+
 <liferay-portlet:actionURL name="selectionAction"
 	var="publishSelectionURL">
 	<portlet:param name="cmd" value="publish" />
@@ -105,7 +101,6 @@
 	<portlet:param name="mvcPath" value="/edition-bo-view-editions.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>
@@ -116,7 +111,6 @@
 	<portlet:param name="mvcPath" value="/edition-bo-view-editions.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>

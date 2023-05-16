@@ -14,7 +14,6 @@ import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
@@ -183,7 +182,7 @@ public class ManagementGalleriesToolBarDisplayContext extends SearchContainerMan
      */
     @Override
     protected String[] getOrderByKeys() {
-        return new String[] { "title", "modified-date", "publication-date", "status" };
+        return new String[] { "modified-date", "publication-date","title", "status" };
     }
 
 
@@ -234,11 +233,10 @@ public class ManagementGalleriesToolBarDisplayContext extends SearchContainerMan
 
                     dropdownItem.setHref(
                             liferayPortletResponse.createRenderURL(),
-                            "tab", "editions",
-                            "cmd", "editEdition",
-                            "mvcPath", "/edition-bo-edit-edition.jsp",
+                            "tab", "galleries",
+                            "cmd", "editGallery",
+                            "mvcPath", "/edition-bo-edit-gallery.jsp",
                             "backURL", themeDisplay.getURLCurrent());
-
                     dropdownItem.setLabel(
                             LanguageUtil.get(httpServletRequest, "add"));
                 }
@@ -266,7 +264,7 @@ public class ManagementGalleriesToolBarDisplayContext extends SearchContainerMan
 
 
     /**
-     * Get Event Vocabularies
+     * Get EditionGallery Vocabularies
      */
     protected List<AssetVocabulary> getGalleryVocabularies() {
         if(_vocabularies == null) {
@@ -275,9 +273,9 @@ public class ManagementGalleriesToolBarDisplayContext extends SearchContainerMan
                             WebKeys.THEME_DISPLAY);
             long companyGroupId = themeDisplay.getCompanyGroupId();
             long classNameId = ClassNameLocalServiceUtil.getClassNameId(EditionGallery.class);
-            List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
-                    .getAssetVocabularies(-1, -1).stream()
-                    .filter(v -> v.getGroupId() == companyGroupId && LongStream.of(v.getSelectedClassNameIds())
+            long scopeGroupId = themeDisplay.getScopeGroupId();
+            List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getAssetVocabularies(-1, -1).stream()
+                    .filter(v -> (v.getGroupId() == companyGroupId || v.getGroupId() == scopeGroupId) && LongStream.of(v.getSelectedClassNameIds())
                             .anyMatch(c -> c == classNameId))
                     .collect(Collectors.toList());
             _vocabularies = vocabularies;

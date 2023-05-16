@@ -1,14 +1,5 @@
 package eu.strasbourg.portlet.edition.display.context;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.portlet.PortletURL;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
-
 import com.liferay.asset.categories.item.selector.AssetCategoryTreeNodeItemSelectorReturnType;
 import com.liferay.asset.categories.item.selector.criterion.AssetCategoryTreeNodeItemSelectorCriterion;
 import com.liferay.item.selector.ItemSelector;
@@ -26,6 +17,15 @@ import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.service.EditionLocalServiceUtil;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class ViewEditionsDisplayContext {
@@ -209,8 +209,7 @@ public class ViewEditionsDisplayContext {
 				RequestBackedPortletURLFactoryUtil.create(_request);
 		AssetCategoryTreeNodeItemSelectorCriterion categoryTreeNodeItemSelectorCriterion =
 				new AssetCategoryTreeNodeItemSelectorCriterion();
-//		categoryTreeNodeItemSelectorCriterion.setClassNameId(
-//				PortalUtil.getClassNameId(JournalArticle.class));
+
 		categoryTreeNodeItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
 				new AssetCategoryTreeNodeItemSelectorReturnType());
 

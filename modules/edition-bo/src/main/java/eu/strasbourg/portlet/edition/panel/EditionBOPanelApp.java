@@ -1,12 +1,10 @@
 package eu.strasbourg.portlet.edition.panel;
 
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.application.list.BasePanelApp;
 import com.liferay.application.list.PanelApp;
 import com.liferay.application.list.constants.PanelCategoryKeys;
-
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
 
 @Component(
     immediate = true,

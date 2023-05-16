@@ -56,18 +56,18 @@ public class NavigationBarDisplayContext {
     public List<NavigationItem> getNavigationItems() {
         List<NavigationItem> navigationItems = new ArrayList<>();
 
-        NavigationItem events = new NavigationItem();
-        events.setLabel(LanguageUtil.get(bundle, "editions"));
-        events.setActive(this.selectedTab.equals(EDITIONS));
-        events.setHref(this.response.createRenderURL(), URL_PARAM_TAB, EDITIONS, URL_PARAM_MVCPATH, EDITIONS_PATH);
-        navigationItems.add(events);
+        NavigationItem editions = new NavigationItem();
+        editions.setLabel(LanguageUtil.get(bundle, "editions"));
+       editions.setActive(this.selectedTab.equals(EDITIONS));
+        editions.setHref(this.response.createRenderURL(), URL_PARAM_TAB, EDITIONS, URL_PARAM_MVCPATH, EDITIONS_PATH);
+        navigationItems.add(editions);
 
 
-        NavigationItem campaign = new NavigationItem();
-        campaign.setLabel(LanguageUtil.get(bundle, "galleries"));
-        campaign.setActive(this.selectedTab.equals(GALERIES));
-        campaign.setHref(this.response.createRenderURL(), URL_PARAM_TAB, GALERIES, URL_PARAM_MVCPATH, GALERIES_PATH);
-        navigationItems.add(campaign);
+        NavigationItem gallery = new NavigationItem();
+        gallery.setLabel(LanguageUtil.get(bundle, "galleries"));
+        gallery.setActive(this.selectedTab.equals(GALERIES));
+        gallery.setHref(this.response.createRenderURL(), URL_PARAM_TAB, GALERIES, URL_PARAM_MVCPATH, GALERIES_PATH);
+        navigationItems.add(gallery);
 
         return navigationItems;
     }

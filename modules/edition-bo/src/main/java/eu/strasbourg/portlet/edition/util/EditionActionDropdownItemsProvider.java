@@ -11,9 +11,9 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.portlet.ResourceURL;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -49,7 +49,7 @@ public class EditionActionDropdownItemsProvider {
     private UnsafeConsumer<DropdownItem, Exception> _getEditActionUnsafeConsumer() {
 
         return dropdownItem -> {
-            dropdownItem.setHref(PortletURLBuilder.createRenderURL(_response).setMVCPath("/edition-bo-edit-edition.jsp").setCMD("editEdition").setBackURL(_themeDisplay.getURLCurrent()).setParameter("tab", "editions").setParameter("editId", _edition.getEditionId()).buildString());
+            dropdownItem.setHref(PortletURLBuilder.createRenderURL(_response).setMVCPath("/edition-bo-edit-edition.jsp").setCMD("editEdition").setBackURL(_themeDisplay.getURLCurrent()).setParameter("tab", "editions").setParameter("editionId", _edition.getEditionId()).buildString());
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "edit"));
         };
     }
@@ -60,7 +60,7 @@ public class EditionActionDropdownItemsProvider {
     private UnsafeConsumer<DropdownItem, Exception> _getDeleteActionUnsafeConsumer() {
 
         return dropdownItem -> {
-            dropdownItem.setHref(PortletURLBuilder.createActionURL(_response).setActionName("deleteEdition").setMVCPath("/edition-bo-view-editions.jsp").setBackURL(_themeDisplay.getURLCurrent()).setParameter("tab", "editions").setParameter("editId", _edition.getEditionId()).buildString());
+            dropdownItem.setHref(PortletURLBuilder.createActionURL(_response).setActionName("deleteEdition").setMVCPath("/edition-bo-view-editions.jsp").setBackURL(_themeDisplay.getURLCurrent()).setParameter("tab", "editions").setParameter("editionId", _edition.getEditionId()).buildString());
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "delete"));
         };
     }

@@ -1,10 +1,6 @@
 <%@ include file="/edition-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.edition.model.Edition"%>
 
-<liferay-portlet:renderURL varImpl="editionsURL">
-	<portlet:param name="tab" value="editions" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deleteEdition" var="deleteEditionURL">
 	<portlet:param name="cmd" value="deleteEdition" />
 	<portlet:param name="tab" value="editions" />

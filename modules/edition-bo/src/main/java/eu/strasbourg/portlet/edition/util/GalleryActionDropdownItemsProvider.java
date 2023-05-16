@@ -47,7 +47,11 @@ public class GalleryActionDropdownItemsProvider {
     private UnsafeConsumer<DropdownItem, Exception> _getEditActionUnsafeConsumer() {
 
         return dropdownItem -> {
-            dropdownItem.setHref(PortletURLBuilder.createRenderURL(_response).setMVCPath("/edition-bo-edit-gallery.jsp").setCMD("editGallery").setBackURL(_themeDisplay.getURLCurrent()).setParameter("tab", "galleries").setParameter("editId", _gallery.getGalleryId()).buildString());
+            dropdownItem.setHref(PortletURLBuilder.createRenderURL(_response)
+                    .setMVCPath("/edition-bo-edit-gallery.jsp").setCMD("editGallery")
+                    .setBackURL(_themeDisplay.getURLCurrent())
+                    .setParameter("tab", "galleries")
+                    .setParameter("galleryId", _gallery.getGalleryId()).buildString());
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "edit"));
         };
     }
@@ -58,7 +62,10 @@ public class GalleryActionDropdownItemsProvider {
     private UnsafeConsumer<DropdownItem, Exception> _getDeleteActionUnsafeConsumer() {
 
         return dropdownItem -> {
-            dropdownItem.setHref(PortletURLBuilder.createActionURL(_response).setActionName("deleteGallery").setMVCPath("/edition-bo-view-galleries.jsp").setBackURL(_themeDisplay.getURLCurrent()).setParameter("tab", "galleries").setParameter("editId",  _gallery.getGalleryId()).buildString());
+            dropdownItem.setHref(PortletURLBuilder.createActionURL(_response)
+                    .setActionName("deleteGallery").setMVCPath("/edition-bo-view-galleries.jsp")
+                    .setBackURL(_themeDisplay.getURLCurrent()).setParameter("tab", "galleries")
+                    .setParameter("galleryId",  _gallery.getGalleryId()).buildString());
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "delete"));
         };
     }

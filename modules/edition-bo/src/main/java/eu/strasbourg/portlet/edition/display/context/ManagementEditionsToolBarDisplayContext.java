@@ -182,7 +182,7 @@ public class ManagementEditionsToolBarDisplayContext extends SearchContainerMana
      */
     @Override
     protected String[] getOrderByKeys() {
-        return new String[] { "title", "modified-date", "publication-date", "status" };
+        return new String[] {  "modified-date", "publication-date","title", "status" };
     }
 
 
@@ -274,15 +274,16 @@ public class ManagementEditionsToolBarDisplayContext extends SearchContainerMana
                             WebKeys.THEME_DISPLAY);
             long companyGroupId = themeDisplay.getCompanyGroupId();
             long classNameId = ClassNameLocalServiceUtil.getClassNameId(Edition.class);
-            List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
-                    .getAssetVocabularies(-1, -1).stream()
-                    .filter(v -> v.getGroupId() == companyGroupId && LongStream.of(v.getSelectedClassNameIds())
+            long scopeGroupId = themeDisplay.getScopeGroupId();
+            List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getAssetVocabularies(-1, -1).stream()
+                    .filter(v -> (v.getGroupId() == companyGroupId || v.getGroupId() == scopeGroupId) && LongStream.of(v.getSelectedClassNameIds())
                             .anyMatch(c -> c == classNameId))
                     .collect(Collectors.toList());
             _vocabularies = vocabularies;
         }
 
-        return _vocabularies;
+
+            return _vocabularies;
     }
 
     private final ViewEditionsDisplayContext _viewEditionsDisplayContext;
