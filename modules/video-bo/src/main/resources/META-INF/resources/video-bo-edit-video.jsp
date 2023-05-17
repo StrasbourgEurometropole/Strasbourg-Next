@@ -1,9 +1,6 @@
 <%@ include file="/video-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.video.model.Video"%>
-
-<liferay-portlet:renderURL varImpl="videosURL">
-	<portlet:param name="tab" value="videos" />
-</liferay-portlet:renderURL>
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 
 <liferay-portlet:actionURL name="deleteVideo" var="deleteVideoURL">
 	<portlet:param name="cmd" value="deleteVideo" />
@@ -16,7 +13,7 @@
 	<portlet:param name="cmd" value="saveVideo" />
 </liferay-portlet:actionURL>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="url-error" message="url-error" />
 	<liferay-ui:error key="image-error" message="image-error" />
@@ -28,7 +25,7 @@
 			id="translationManager" />
 
 		<aui:model-context bean="${dc.video}" model="<%=Video.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="videoId" type="hidden" />
 
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>"
@@ -108,7 +105,7 @@
 				<aui:input name="publicationDate" />
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 
 		<aui:button-row>
 			<c:if test="${(dc.hasPermission('ADD_VIDEO') and empty dc.video or dc.hasPermission('EDIT_VIDEO') and not empty dc.video) and empty themeDisplay.scopeGroup.getStagingGroup()}">
@@ -127,7 +124,7 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
 					value="delete" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 
 	</aui:form>

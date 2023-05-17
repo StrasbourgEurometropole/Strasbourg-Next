@@ -1,5 +1,5 @@
 <%@ include file="/video-bo-init.jsp"%>
-
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 <liferay-portlet:renderURL varImpl="videosURL">
 	<portlet:param name="tab" value="videos" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
@@ -13,7 +13,7 @@
 <liferay-portlet:renderURL varImpl="addVideoURL">
 	<portlet:param name="cmd" value="editVideo" />
 	<portlet:param name="mvcPath" value="/video-bo-edit-video.jsp" />
-	<portlet:param name="returnURL" value="${videosURL}" />
+	<portlet:param name="backURL" value="${videosURL}" />
 </liferay-portlet:renderURL>
 
 <liferay-frontend:management-bar includeCheckBox="true"
@@ -54,7 +54,7 @@
 		</liferay-frontend:management-bar-action-buttons>
 </liferay-frontend:management-bar>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
 		<aui:input type="hidden" name="selectionIds" />
 		<liferay-ui:search-container id="videosSearchContainer"
@@ -63,11 +63,11 @@
 
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.video.model.Video"
-				modelVar="video" keyProperty="videoId" rowIdProperty="videoId">
+				modelVar="video" keyProperty="videoId">
 				<liferay-portlet:renderURL varImpl="editVideoURL">
 					<portlet:param name="cmd" value="editVideo" />
 					<portlet:param name="videoId" value="${video.videoId}" />
-					<portlet:param name="returnURL" value="${videosURL}" />
+					<portlet:param name="backURL" value="${videosURL}" />
 					<portlet:param name="mvcPath" value="/video-bo-edit-video.jsp" />
 				</liferay-portlet:renderURL>
 
