@@ -71,10 +71,11 @@ public class SaveGalleryActionCommand implements MVCActionCommand {
 						PortletRequest.RENDER_PHASE);
 				returnURL.setParameter("tab", request.getParameter("tab"));
 
-				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("backURL", returnURL.toString());
+				response.setRenderParameter("cmd", "saveGallery");
 				response.setRenderParameter("mvcPath",
 						"/edition-bo-edit-gallery.jsp");
-				response.setRenderParameter("cmd", "saveGallery");
+
 				return false;
 			}
 
@@ -125,6 +126,7 @@ public class SaveGalleryActionCommand implements MVCActionCommand {
 
 			_editionGalleryLocalService.updateEditionGallery(editionGallery,
 				sc);
+			response.setRenderParameter("mvcPath", "/edition-bo-view-galleries.jsp");
 		} catch (PortalException e) {
 			_log.error(e);
 		}

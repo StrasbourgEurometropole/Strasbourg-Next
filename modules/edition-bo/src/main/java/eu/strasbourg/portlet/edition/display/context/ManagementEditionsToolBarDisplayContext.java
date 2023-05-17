@@ -182,7 +182,7 @@ public class ManagementEditionsToolBarDisplayContext extends SearchContainerMana
      */
     @Override
     protected String[] getOrderByKeys() {
-        return new String[] {  "modified-date", "publication-date","title", "status" };
+        return new String[] { "publication-date", "modified-date","status","title" };
     }
 
 
