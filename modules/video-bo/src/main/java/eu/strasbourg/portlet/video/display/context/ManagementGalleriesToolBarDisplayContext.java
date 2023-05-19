@@ -109,14 +109,6 @@ public class ManagementGalleriesToolBarDisplayContext extends SearchContainerMan
         return DropdownItemListBuilder
                 .addGroup(
                         dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(
-                                    getFilterVocabularyDropdownItems());
-                            dropdownGroupItem.setLabel(
-                                    LanguageUtil.get(httpServletRequest, "filter-by"));
-                        }
-                )
-                .addGroup(
-                        dropdownGroupItem -> {
                             dropdownGroupItem.setDropdownItems(getOrderByDropdownItems());
                             dropdownGroupItem.setLabel(
                                     LanguageUtil.get(httpServletRequest, "order-by")
@@ -129,53 +121,8 @@ public class ManagementGalleriesToolBarDisplayContext extends SearchContainerMan
     /**
      * Add filtering options to Vocabulary
      */
-    protected List<DropdownItem> getFilterVocabularyDropdownItems() {
-        List<DropdownItem> filterVocabularyDropdownItems = new DropdownItemList();
 
-        for (AssetVocabulary vocabulary : getGalleryVocabularies()) {
-            filterVocabularyDropdownItems.add(
-                    DropdownItemBuilder
-                            .setActive(_viewGalleriesDisplayContext.hasVocabulary(vocabulary.getName()))
-                            .setHref("javascript:getCategoriesByVocabulary("+vocabulary.getVocabularyId()+");")
-                            .setLabel(vocabulary.getName())
-                            .build()
-            );
-        }
 
-        return filterVocabularyDropdownItems;
-    }
-
-    /**
-     * Sets the search container’s filter labels to display
-     */
-    // TODO : A revoir car pas testé ni fini
-    @Override
-    public List<LabelItem> getFilterLabelItems() {
-        Map<String, String> categVocabulariesSelected = _viewGalleriesDisplayContext.getCategVocabularies();
-        LabelItemListBuilder.LabelItemListWrapper vocabulariesLabelItems = new LabelItemListBuilder.LabelItemListWrapper();
-
-        for (AssetVocabulary vocabulary : getGalleryVocabularies()) {
-            vocabulariesLabelItems.add(
-                    () -> categVocabulariesSelected.keySet().contains(vocabulary.getName()),
-                    labelItem -> {
-                        labelItem.putData(
-                                "removeLabelURL",
-                                PortletURLBuilder.create(
-                                                PortletURLUtil.clone(currentURLObj, liferayPortletResponse))
-                                        .setParameter(vocabulary.getName(), "")
-                                        .buildString());
-
-                        labelItem.setCloseable(true);
-
-                        String categ = categVocabulariesSelected.get(vocabulary.getName());
-
-                        labelItem.setLabel(vocabulary.getName() + ": " + categ);
-                    }
-            );
-        }
-
-        return vocabulariesLabelItems.build();
-    }
 
     /**
      * Fields that can be sorted

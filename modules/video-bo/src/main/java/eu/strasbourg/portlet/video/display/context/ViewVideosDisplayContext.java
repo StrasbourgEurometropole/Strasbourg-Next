@@ -40,7 +40,7 @@ public class ViewVideosDisplayContext {
 	}
 
 	/**
-	 * Retourne le dropdownItemsProvider d'édition
+	 * Retourne le dropdownItemsProvider vidéo
 	 *
 	 * @return VideoActionDropdownItemsProvider
 	 */
@@ -225,7 +225,7 @@ public class ViewVideosDisplayContext {
 	}
 
 	/**
-	 * Retourne la liste des éditions correspondant à la recherche lancée en ignorant la pagination
+	 * Retourne la liste des videos correspondant à la recherche lancée en ignorant la pagination
 	 */
 	private List<Video> getAllVideos() throws PortalException {
 		Hits hits = getAllHits(this._themeDisplay.getCompanyGroupId());
@@ -252,6 +252,7 @@ public class ViewVideosDisplayContext {
 			StrasbourgPortletKeys.VIDEO_BO, StrasbourgPortletKeys.VIDEO_BO,
 			actionId);
 	}
+
 	/**
 	 * Retourne tous les Hits de recherche
 	 */

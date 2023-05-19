@@ -1,17 +1,17 @@
 <%@ include file="/video-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.video.model.VideoGallery"%>
-<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 
 <liferay-portlet:actionURL name="deleteGallery" var="deleteGalleryURL">
 	<portlet:param name="cmd" value="deleteGallery" />
 	<portlet:param name="tab" value="galleries" />
+	<portlet:param name="mvcPath" value="/video-bo-view-galleries.jsp" />
 	<portlet:param name="galleryId"
 		value="${not empty dc.videoGallery ? dc.videoGallery.galleryId : ''}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveGallery" varImpl="saveGalleryURL">
-	<portlet:param name="cmd" value="saveGallery" />
 	<portlet:param name="tab" value="galleries" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 

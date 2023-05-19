@@ -266,7 +266,7 @@ public class ManagementVideosToolBarDisplayContext extends SearchContainerManage
 
 
     /**
-     * Get Event Vocabularies
+     * Get Video Vocabularies
      */
     protected List<AssetVocabulary> getVideoVocabularies() {
         if(_vocabularies == null) {

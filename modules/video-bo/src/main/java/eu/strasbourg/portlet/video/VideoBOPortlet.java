@@ -76,39 +76,21 @@ public class VideoBOPortlet extends MVCPortlet {
 					}
 					break;
 			}
+
 		}catch (PortalException e) {
 			e.printStackTrace();
 		}
 
-
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
-
-		String cmd = ParamUtil.getString(renderRequest, "cmd");
-		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 
 		renderResponse.setTitle("Videos");
 
 		// On affiche un bouton retour si on se trouve sur une page d'édition
-		String returnURL = ParamUtil.getString(renderRequest, "backURL");
-		boolean showBackButton = Validator.isNotNull(returnURL);
+		String backURL = ParamUtil.getString(renderRequest, "backURL");
+		boolean showBackButton = Validator.isNotNull(backURL);
 		if (showBackButton) {
 			portletDisplay.setShowBackIcon(true);
-			portletDisplay.setURLBack(returnURL);
-		}
-
-		// On set le displayContext selon la page sur laquelle on se trouve
-		if (cmd.equals("editVideo") || mvcPath.equals("/video-bo-edit-video.jsp")) {
-			EditVideoDisplayContext dc = new EditVideoDisplayContext(
-				renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("editGallery") || mvcPath.equals("/video-bo-edit-gallery.jsp")) {
-			EditGalleryDisplayContext dc = new EditGalleryDisplayContext(
-				renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-		} else { // Else, we are on the video list page
-			ViewVideosDisplayContext dc = new ViewVideosDisplayContext(
-				renderRequest, renderResponse,_itemSelector);
-			renderRequest.setAttribute("dc", dc);
+			portletDisplay.setURLBack(backURL);
 		}
 
 		super.render(renderRequest, renderResponse);

@@ -10,7 +10,7 @@
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveVideo" varImpl="saveVideoURL">
-	<portlet:param name="cmd" value="saveVideo" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <div class="container-fluid container-fluid-max-xl main-content-body">

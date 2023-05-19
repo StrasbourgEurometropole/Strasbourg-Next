@@ -49,9 +49,7 @@ public class VideoActionDropdownItemsProvider {
     private UnsafeConsumer<DropdownItem, Exception> _getEditActionUnsafeConsumer() {
 
         return dropdownItem -> {
-            dropdownItem.setHref(PortletURLBuilder.createRenderURL(_response).setMVCPath("/video-bo-edit-video.jsp")
-                    .setCMD("editVideo").setBackURL(_themeDisplay.getURLCurrent()).setParameter("tab", "videos")
-                    .setParameter("videoId", _video.getVideoId()).buildString());
+            dropdownItem.setHref(PortletURLBuilder.createRenderURL(_response).setMVCPath("/video-bo-edit-video.jsp").setCMD("editVideo").setBackURL(_themeDisplay.getURLCurrent()).setParameter("tab", "videos").setParameter("videoId", _video.getVideoId()).buildString());
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "edit"));
         };
     }
@@ -62,9 +60,7 @@ public class VideoActionDropdownItemsProvider {
     private UnsafeConsumer<DropdownItem, Exception> _getDeleteActionUnsafeConsumer() {
 
         return dropdownItem -> {
-            dropdownItem.setHref(PortletURLBuilder.createActionURL(_response).setActionName("deleteVideo")
-                    .setMVCPath("/video-bo-view-videos.jsp").setBackURL(_themeDisplay.getURLCurrent())
-                    .setParameter("tab", "videos").setParameter("videoId", _video.getVideoId()).buildString());
+            dropdownItem.setHref(PortletURLBuilder.createActionURL(_response).setActionName("deleteVideo").setMVCPath("/video-bo-view-videos.jsp").setBackURL(_themeDisplay.getURLCurrent()).setParameter("tab", "videos").setParameter("videoId", _video.getVideoId()).buildString());
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "delete"));
         };
     }

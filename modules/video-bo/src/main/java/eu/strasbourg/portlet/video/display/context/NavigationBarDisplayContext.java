@@ -26,7 +26,7 @@ public class NavigationBarDisplayContext {
 
     public NavigationBarDisplayContext(RenderRequest request, RenderResponse response) {
         this.response = response;
-        // onglet par défaut -> EVENTS
+        // onglet par défaut -> VIDEOS
         this.selectedTab = Optional
                 .ofNullable(ParamUtil.getString(request, URL_PARAM_TAB))
                 .filter(Validator::isNotNull)
@@ -56,11 +56,11 @@ public class NavigationBarDisplayContext {
     public List<NavigationItem> getNavigationItems() {
         List<NavigationItem> navigationItems = new ArrayList<>();
 
-        NavigationItem editions = new NavigationItem();
-        editions.setLabel(LanguageUtil.get(bundle, "editions"));
-       editions.setActive(this.selectedTab.equals(VIDEOS));
-        editions.setHref(this.response.createRenderURL(), URL_PARAM_TAB, VIDEOS, URL_PARAM_MVCPATH, VIDEOS_PATH);
-        navigationItems.add(editions);
+        NavigationItem videos = new NavigationItem();
+        videos.setLabel(LanguageUtil.get(bundle, "videos"));
+        videos.setActive(this.selectedTab.equals(VIDEOS));
+        videos.setHref(this.response.createRenderURL(), URL_PARAM_TAB, VIDEOS, URL_PARAM_MVCPATH, VIDEOS_PATH);
+        navigationItems.add(videos);
 
 
         NavigationItem gallery = new NavigationItem();
