@@ -26,7 +26,7 @@ public class NavigationBarDisplayContext {
 
     public NavigationBarDisplayContext(RenderRequest request, RenderResponse response) {
         this.response = response;
-        // onglet par défaut -> EVENTS
+        // onglet par défaut -> EDITIONS
         this.selectedTab = Optional
                 .ofNullable(ParamUtil.getString(request, URL_PARAM_TAB))
                 .filter(Validator::isNotNull)

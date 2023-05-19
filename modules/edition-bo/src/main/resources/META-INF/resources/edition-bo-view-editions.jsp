@@ -152,7 +152,6 @@
 		Liferay.Util.openSelectionModal(
 		{
 			onSelect: function (selectedItem) {
-			console.log("test : " + selectedItem.value);
 			alert("category : " + selectedItem.value.title);
 			if (selectedItem) {
 				const itemValue = selectedItem.value;

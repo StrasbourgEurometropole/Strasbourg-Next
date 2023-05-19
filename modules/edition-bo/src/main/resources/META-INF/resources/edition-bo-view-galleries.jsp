@@ -114,13 +114,14 @@
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>
 <liferay-portlet:renderURL varImpl="filterSelectionURL">
-	<portlet:param name="tab" value="editions" />
-	<portlet:param name="mvcPath" value="/edition-bo-view-editions.jsp" />
+	<portlet:param name="tab" value="galleries" />
+	<portlet:param name="mvcPath" value="/edition-bo-view-galleries.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
+
 <aui:script>
 	var form = document.querySelector("[name='<portlet:namespace />fm']");
 

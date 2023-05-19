@@ -39,16 +39,7 @@ public class ViewEditionsDisplayContext {
 		_itemSelector = itemSelector;
 	}
 
-	/**
-	 * Retourne le dropdownItemsProvider d'édition
-	 *
-	 * @return EditionActionDropdownItemsProvider
-	 */
-	@SuppressWarnings("unused")
-	public EditionActionDropdownItemsProvider getActionsEdition(Edition edition) {
-		return new EditionActionDropdownItemsProvider(edition, _request,
-				_response);
-	}
+
 	/**
 	 * Wrapper autour du permission checker pour les permissions de module
 	 */
@@ -64,10 +55,11 @@ public class ViewEditionsDisplayContext {
 	 * @return EditionActionDropdownItemsProvider
 	 */
 	@SuppressWarnings("unused")
-	public EditionActionDropdownItemsProvider getActionsEvent(Edition edition) {
+	public EditionActionDropdownItemsProvider getActionsEdition(Edition edition) {
 		return new EditionActionDropdownItemsProvider(edition, _request,
 				_response);
 	}
+
 	/**
 	 * Retourne le searchContainer des editions
 	 *

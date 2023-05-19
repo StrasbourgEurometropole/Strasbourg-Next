@@ -9,7 +9,6 @@
 		value="${not empty dc.editionGallery ? dc.editionGallery.galleryId : ''}" />
 </liferay-portlet:actionURL>
 
-
 <liferay-portlet:actionURL name="saveGallery" varImpl="saveGalleryURL">
 	<portlet:param name="tab" value="galleries" />
 	<portlet:param name="backURL" value="${param.backURL}" />

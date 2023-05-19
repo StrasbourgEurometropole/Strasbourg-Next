@@ -265,7 +265,7 @@ public class ManagementEditionsToolBarDisplayContext extends SearchContainerMana
 
 
     /**
-     * Get Event Vocabularies
+     * Get Editions Vocabularies
      */
     protected List<AssetVocabulary> getEditionVocabularies() {
         if(_vocabularies == null) {

@@ -64,7 +64,7 @@ public class ViewGalleriesDisplayContext {
 	/**
 	 * Retourne le searchContainer des galleries
 	 *
-	 * @return SearchContainer<Event>
+	 * @return SearchContainer<Edition>
 	 */
 	public SearchContainer<EditionGallery> getSearchContainer() {
 

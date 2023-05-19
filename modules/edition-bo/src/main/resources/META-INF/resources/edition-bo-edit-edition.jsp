@@ -50,7 +50,7 @@
 								var validate = $('#_eu_strasbourg_portlet_edition_EditionBOPortlet_description_fr_FR').val().length > 0;
 								if (!validate) {
 									$("#_eu_strasbourg_portlet_edition_EditionBOPortlet_descriptionEditorContainer").get(0).scrollIntoView();
-									event.preventDefault();
+									edition.preventDefault();
 								}
 								return validate;
 							}
@@ -112,7 +112,7 @@
 								    if ($(fieldContent).find('.icon-asterisk').length > 0
 								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
 								    	validated = false;
-                                        event.preventDefault();
+                                        edition.preventDefault();
 								    	break;
 								    }
 								}

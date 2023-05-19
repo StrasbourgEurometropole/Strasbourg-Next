@@ -87,11 +87,11 @@ public class EditionBOPortlet extends MVCPortlet {
 
 		// If we are on an "add" page, we set a return URL and show the "back"
 		// button
-		String returnURL = ParamUtil.getString(renderRequest, "backURL");
-		boolean showBackButton = Validator.isNotNull(returnURL);
+		String backURL = ParamUtil.getString(renderRequest, "backURL");
+		boolean showBackButton = Validator.isNotNull(backURL);
 		if (showBackButton) {
 			portletDisplay.setShowBackIcon(true);
-			portletDisplay.setURLBack(returnURL.toString());
+			portletDisplay.setURLBack(backURL.toString());
 		}
 		super.render(renderRequest, renderResponse);
 	}
