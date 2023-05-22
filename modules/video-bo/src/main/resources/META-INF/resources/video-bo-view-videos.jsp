@@ -188,7 +188,8 @@
 					}
 				},
 				selectVideoName: '<portlet:namespace />selectAssetCategory',
-				title: Liferay.Language.get('select-category')
+				title: Liferay.Language.get('select-category'),
+				url: '${dc.getSelectCategoriesByVocabularyIdURL(vocabularyId)}'
 			}
 		)
 	}

@@ -22,6 +22,8 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import org.osgi.service.component.annotations.Reference;
+
 import static eu.strasbourg.portlet.video.constants.VideoConstants.*;
 
 @Component(
@@ -96,5 +98,6 @@ public class VideoBOPortlet extends MVCPortlet {
 		super.render(renderRequest, renderResponse);
 
 	}
+	@Reference
 	private ItemSelector _itemSelector;
 }
