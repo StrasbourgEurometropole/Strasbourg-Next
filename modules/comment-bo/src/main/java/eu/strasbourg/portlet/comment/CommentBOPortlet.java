@@ -1,20 +1,27 @@
 package eu.strasbourg.portlet.comment;
 
+import com.liferay.item.selector.ItemSelector;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
+import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.portlet.comment.display.context.EditCommentDisplayContext;
-import eu.strasbourg.portlet.comment.display.context.ViewCommentDisplayContext;
-import eu.strasbourg.portlet.comment.display.context.ViewSignalementDisplayContext;
+import eu.strasbourg.portlet.comment.display.context.*;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import static eu.strasbourg.portlet.comment.constants.CommentConstants.*;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
@@ -28,8 +35,8 @@ import java.io.IOException;
                 "com.liferay.portlet.footer-portlet-javascript=/js/comment-bo-main.js",
                 "com.liferay.portlet.header-portlet-css=/css/comment-bo-main.css",
                 "com.liferay.portlet.single-page-application=false",
-                "javax.portlet.init-param.template-path=/",
-                "javax.portlet.init-param.view-template=/comment-bo-view.jsp",
+                "javax.portlet.init-param.template-path=/META-INF/resources/",
+                "javax.portlet.init-param.view-template=/comment-bo-view-comments.jsp",
                 "javax.portlet.resource-bundle=content.Language",
                 "javax.portlet.security-role-ref=power-user,user"
         },
@@ -41,33 +48,54 @@ public class CommentBOPortlet extends MVCPortlet{
     public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
         ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
         PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
+        try {
+            NavigationBarDisplayContext navigationDC = new NavigationBarDisplayContext(renderRequest, renderResponse);
+            renderRequest.setAttribute("navigationDC", navigationDC);
+            HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(renderRequest);
+            switch (navigationDC.getSelectedTab()) {
+                case SIGNALEMENTS:
+                    if (navigationDC.getSelectedCmd().equals(EDIT_COMMENT)) {
+                        EditCommentDisplayContext dc = new EditCommentDisplayContext(renderRequest, renderResponse);
+                        renderRequest.setAttribute("dc", dc);
+                    } else {
+                       ViewSignalementDisplayContext dc = new ViewSignalementDisplayContext(renderRequest, renderResponse,_itemSelector);
+                        renderRequest.setAttribute("dc", dc);
+                       ManagementSignalementsToolBarDisplayContext managementDC=new ManagementSignalementsToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
+                          (LiferayPortletResponse) renderResponse, dc);
+                        renderRequest.setAttribute("dc", dc);
+                        renderRequest.setAttribute("managementDC", managementDC);
+                    }
+                    break;
+                case COMMENTS:
+                default:
+                    if (navigationDC.getSelectedCmd().equals(EDIT_COMMENT) || navigationDC.getSelectedCmd().equals(SAVE_COMMENT)) {
+                        EditCommentDisplayContext dc = new EditCommentDisplayContext(renderRequest, renderResponse);
+                        renderRequest.setAttribute("dc", dc);
+                    } else {
+                        ViewCommentDisplayContext dc = new ViewCommentDisplayContext(renderRequest, renderResponse,_itemSelector);
+                        ManagementCommentsToolBarDisplayContext managementDC=new ManagementCommentsToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
+                            (LiferayPortletResponse) renderResponse, dc);
+                        renderRequest.setAttribute("dc", dc);
+                        renderRequest.setAttribute("managementDC", managementDC);
+                    }
+                    break;
+            }
 
-        String cmd = ParamUtil.getString(renderRequest, "cmd");
-        String tab = ParamUtil.getString(renderRequest,"tab");
-        String mvcPath = ParamUtil.getString(renderRequest,"mvcPath");
+        }catch (PortalException e) {
+            e.printStackTrace();
+        }
 
         //si on est sur la page d'ajout, on affiche bien évidemment un lien de retour
-        String returnURL = ParamUtil.getString(renderRequest,"returnURL");
-        boolean showBackButton = Validator.isNotNull(returnURL);
+        String backURL = ParamUtil.getString(renderRequest,"backURL");
+        boolean showBackButton = Validator.isNotNull(backURL);
         if (showBackButton){
             portletDisplay.setShowBackIcon(true);
-            portletDisplay.setURLBack(returnURL);
+            portletDisplay.setURLBack(backURL);
         }
 
-        //on set le displayContext selon la page sur laquelle on est
-        if (cmd.equals("editComment") || mvcPath.equals("/comment-bo-edit-comment.jsp")){
-            EditCommentDisplayContext dc = new EditCommentDisplayContext(renderRequest,renderResponse);
-            renderRequest.setAttribute("dc",dc);
-        } else if (tab.equals("reportings")){
-            ViewSignalementDisplayContext dc = new ViewSignalementDisplayContext(renderRequest, renderResponse);
-            renderRequest.setAttribute("dc", dc);
-        }
-        else {
-            ViewCommentDisplayContext dc = new ViewCommentDisplayContext(renderRequest,renderResponse);
-            renderRequest.setAttribute("dc",dc);
-        }
         renderRequest.setAttribute("isAdmin",themeDisplay.getPermissionChecker().isOmniadmin());
         super.render(renderRequest, renderResponse);
     }
-
+    @Reference
+    private ItemSelector _itemSelector;
 }
