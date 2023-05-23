@@ -16,11 +16,13 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
  */
 @Component(
 		immediate = true,
-		property = { "com.liferay.portlet.instanceable=false",
+		property = {
+			"javax.portlet.version=3.0",
+			"com.liferay.portlet.instanceable=false",
 			"com.liferay.portlet.footer-portlet-javascript=/js/objtp-bo-main.js",
 			"com.liferay.portlet.header-portlet-css=/css/objtp-bo-main.css",
 			"com.liferay.portlet.single-page-application=false",
-			"javax.portlet.init-param.template-path=/",
+			"javax.portlet.init-param.template-path=/META-INF/resources/",
 			"javax.portlet.init-param.view-template=/objtp-bo-view.jsp",
 			"javax.portlet.resource-bundle=content.Language",
 			"javax.portlet.security-role-ref=power-user,user" },
