@@ -1,22 +1,19 @@
 <%@ include file="/link-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.link.model.Link"%>
 
-<liferay-portlet:renderURL varImpl="linksURL">
-	<portlet:param name="tab" value="links" />
-</liferay-portlet:renderURL>
 
 <liferay-portlet:actionURL name="deleteLink" var="deleteLinkURL">
 	<portlet:param name="cmd" value="deleteLink" />
 	<portlet:param name="tab" value="links" />
+	<portlet:param name="mvcPath" value="/link-bo-view-links.jsp" />
 	<portlet:param name="linkId"
 		value="${not empty dc.link ? dc.link.linkId : ''}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveLink" varImpl="saveLinkURL">
-	<portlet:param name="cmd" value="saveLink" />
 </liferay-portlet:actionURL>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="need-url-error" message="need-url-error" />
 	<liferay-ui:error key="infobulle-error" message="infobulle-error" />
@@ -27,7 +24,7 @@
 			id="translationManager" />
 
 		<aui:model-context bean="${dc.link}" model="<%=Link.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="linkId" type="hidden" />
 
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>"
@@ -73,7 +70,7 @@
 
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 
 		<aui:button-row>
 			<aui:input type="hidden" name="workflowAction" value="" />
@@ -92,7 +89,7 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
 					value="delete" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 
 	</aui:form>
