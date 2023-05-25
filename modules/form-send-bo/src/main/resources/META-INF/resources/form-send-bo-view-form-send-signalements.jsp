@@ -1,5 +1,5 @@
 <%@ include file="/form-send-bo-init.jsp"%>
-
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 <%-- URL : definit le lien de retour --%>
 <liferay-portlet:renderURL varImpl="formsURL">
 	<portlet:param name="tab" value="forms" />
@@ -13,31 +13,22 @@
 	<portlet:param name="keywords" value="${dc.keywords}" />
     <portlet:param name="formInstanceId" value="${formInstanceId}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
-    <portlet:param name="returnURL" value="${formsURL}" />
+    <portlet:param name="backURL" value="${formsURL}" />
 </liferay-portlet:renderURL>
 
 <%-- Composant : barre de filtres et de gestion des entite --%>
-<liferay-frontend:management-bar includeCheckBox="false" searchContainerId="signalementsSearchContainer">
-
-		<%-- Composant : partie filtres et selection --%>
-		<liferay-frontend:management-bar-filters>
-			<liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
-				orderByType="${dc.orderByType}"
-				orderColumns='<%= new String[] {"modified-date"} %>'
-				portletURL="${viewReportingsURL}" />
-		</liferay-frontend:management-bar-filters>
-</liferay-frontend:management-bar>
+<clay:management-toolbar
+		managementToolbarDisplayContext="${managementDC}"
+/>
 
 <%-- Composant : tableau de visualisation des entites --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
 		<liferay-ui:search-container id="signalementsSearchContainer"
 			searchContainer="${dc.searchContainer}">
-			<liferay-ui:search-container-results results="${dc.signalements}" />
-
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement" modelVar="signalement"
-				keyProperty="signalementId" rowIdProperty="signalementId">
+				keyProperty="signalementId" >
 
 				<%-- Colonne : debut de la réponse--%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
@@ -63,7 +54,7 @@
                             <portlet:param name="cmd" value="showResponse" />
                             <portlet:param name="formSendRecordFieldId" value="${signalement.formSendRecordFieldId}" />
                             <portlet:param name="formInstanceId" value="${formInstanceId}" />
-                            <portlet:param name="returnURL" value="${formsURL}" />
+                            <portlet:param name="backURL" value="${formsURL}" />
                         </liferay-portlet:renderURL>
 
                         <%-- Colonne : approuver la réponse --%>
@@ -77,7 +68,7 @@
                             <portlet:param name="cmd" value="hideResponse" />
                             <portlet:param name="formSendRecordFieldId" value="${signalement.formSendRecordFieldId}" />
                             <portlet:param name="formInstanceId" value="${formInstanceId}" />
-                            <portlet:param name="returnURL" value="${formsURL}" />
+                            <portlet:param name="backURL" value="${formsURL}" />
                         </liferay-portlet:renderURL>
 
                         <%-- Colonne : cacher la réponse --%>

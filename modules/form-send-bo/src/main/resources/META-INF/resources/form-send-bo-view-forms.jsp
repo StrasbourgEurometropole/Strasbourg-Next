@@ -1,5 +1,5 @@
 <%@ include file="/form-send-bo-init.jsp"%>
-
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 <%-- URL : definit le lien avec les parametres de recherche des entites--%>
 <liferay-portlet:renderURL varImpl="formsURL">
 	<portlet:param name="tab" value="forms" />
@@ -7,6 +7,7 @@
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="mvcPath" value="/form-send-bo-view-forms.jsp" />
 </liferay-portlet:renderURL>
 
 <!-- Declaration de l'URL de recherche dans le listing de l'entite courrante -->
@@ -17,28 +18,13 @@
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="mvcPath" value="/form-send-bo-view-forms.jsp" />
 </liferay-portlet:renderURL>
 
-<!-- Barre de navigation -->
-<aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
-	<!-- Liste des onglet -->
-	<aui:nav cssClass="navbar-nav">
-		<aui:nav-item href="${formsURL}" label="forms"
-			selected="${tab eq 'forms'}" />
-	</aui:nav>
-</aui:nav-bar>
-
 <%-- Composant : barre de filtres et de gestion des entite --%>
-<liferay-frontend:management-bar includeCheckBox="false" searchContainerId="formsSearchContainer">
-		<%-- Composant : partie filtres et selection --%>
-		<liferay-frontend:management-bar-filters>
-			<liferay-frontend:management-bar-sort
-			    orderByCol="${dc.orderByCol}"
-				orderByType="${dc.orderByType}"
-				orderColumns='<%= new String[] {"modified-date"} %>'
-                portletURL="${formsURL}" />
-		</liferay-frontend:management-bar-filters>
-</liferay-frontend:management-bar>
+<clay:management-toolbar
+		managementToolbarDisplayContext="${managementDC}"
+/>
 
 <%-- Composant : tableau de visualisation des entites --%>
 <div class="container-fluid-1280 main-content-body">
@@ -46,17 +32,17 @@
 		<liferay-ui:search-container id="formsSearchContainer"
 			searchContainer="${dc.searchContainer}">
 
-			<liferay-ui:search-container-results results="${dc.forms}" />
 
 			<liferay-ui:search-container-row
 				className="com.liferay.dynamic.data.mapping.model.DDMFormInstance" modelVar="ddmFormInstance"
-				keyProperty="formInstanceId" rowIdProperty="formInstanceId">
+				keyProperty="formInstanceId" >
 
 				<%-- URL : definit le lien vers la page d'edition de l'entite selectionnee --%>
 				<liferay-portlet:renderURL varImpl="viewFormSendsURL">
 	                <portlet:param name="tab" value="viewFormSends" />
+					<portlet:param name="formInstanceName" value="${ddmFormInstance.getName(locale)}" />
 					<portlet:param name="formInstanceId" value="${ddmFormInstance.formInstanceId}" />
-					<portlet:param name="returnURL" value="${formsURL}" />
+					<portlet:param name="backURL" value="${formsURL}" />
 					<portlet:param name="mvcPath" value="/form-send-bo-view-form-send.jsp" />
 				</liferay-portlet:renderURL>
 

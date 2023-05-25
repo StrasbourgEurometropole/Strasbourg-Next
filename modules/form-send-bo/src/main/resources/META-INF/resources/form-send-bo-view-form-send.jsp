@@ -16,8 +16,9 @@
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
     <portlet:param name="formInstanceId" value="${formInstanceId}" />
+	<portlet:param name="formInstanceId" value="${formInstanceId}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
-    <portlet:param name="returnURL" value="${formsURL}" />
+    <portlet:param name="backURL" value="${formsURL}" />
 </liferay-portlet:renderURL>
 <liferay-portlet:renderURL var="viewReportingsURL">
 	<portlet:param name="tab" value="viewReportings" />
@@ -26,7 +27,7 @@
 	<portlet:param name="keywords" value="${dc.keywords}" />
     <portlet:param name="formInstanceId" value="${formInstanceId}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
-    <portlet:param name="returnURL" value="${formsURL}" />
+    <portlet:param name="backURL" value="${formsURL}" />
 </liferay-portlet:renderURL>
 
 <!-- Declaration de l'URL de recherche dans le listing de l'entite courrante -->
@@ -37,19 +38,12 @@
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
     <portlet:param name="formInstanceId" value="${formInstanceId}" />
-    <portlet:param name="returnURL" value="${formsURL}" />
+    <portlet:param name="backURL" value="${formsURL}" />
 </liferay-portlet:renderURL>
 
 <!-- Barre de navigation -->
-<aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
-	<!-- Liste des onglet -->
-	<aui:nav cssClass="navbar-nav">
-		<aui:nav-item href="${viewFormSendsURL}" label="${formInstanceName}"
-			selected="${tab eq 'viewFormSends'}" />
-		<aui:nav-item href="${viewReportingsURL}" label="reportings"
-			selected="${tab eq 'viewReportings'}" />
-	</aui:nav>
-</aui:nav-bar>
+
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationUnderItems}'/>
 
 <!-- Corps de la page et selection du listing a afficher -->
 <c:choose>
