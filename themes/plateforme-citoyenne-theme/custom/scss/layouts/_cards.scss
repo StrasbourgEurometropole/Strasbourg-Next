@@ -434,8 +434,8 @@
 
 		.pro-number-comm, .pro-info-top-right {
 			position: absolute;
-			top: 20px;
-			right: 20px;
+			top: 75px;
+			left: 20px;
 			width: auto;
 			text-align: right;
 			@include mobile {
@@ -641,6 +641,8 @@
 .pro-bloc-actu {
 	position: relative;
 	display: block;
+	border: 1px solid #D6D6D6;
+	background-color: $c_white;
 	@include tablet_portrait {
 		margin-bottom: 20px;
 	}
@@ -654,113 +656,8 @@
 		@include addTransitionCurve();
 	}
 	&:hover, &:focus {
-		&:before {
-			top: 0;
-			left: -20px;
-			right: -20px;
-			bottom: 0;
-			opacity: 1;
-			z-index: 10;
-			visibility: visible;
-		}
-		> .img {
-			z-index: 20;
-			top: -20px;
-			left: -20px;
-			right: -20px;
-			width: calc(100% + 40px);
-			height: calc(100% + 20px);
-			margin-bottom: -20px;
-			figure {
-				height: 194px;
-				img {
-					opacity: 0.7 !important;
-				}
-			}
-			> span {
-				opacity: 1;
-				left: 20px;
-			}
-			&.pro-no-photo {
-				height: 194px;
-				width: calc(100% + 40px);
-			}
-		}
-		> .content {
-			&:after {
-				left: -20px;
-				right: -20px;
-				width: calc(100% + 40px);
-				opacity: 1;
-			}
-			.link {
-				&:after {
-					opacity: 1;
-				}
-			}
-		}
-
-		.no-hover &, .ie & {
-			&:before {
-				top: 0;
-				left: 0;
-				right: 0;
-				bottom: 0;
-				opacity: 0;
-				z-index: 10;
-				visibility: hidden;
-			}
-			> .img {
-				z-index: 20;
-				top: 0;
-				left: 0;
-				right: 0;
-				width: 100%;
-				height: 100%;
-				margin-bottom: 0;
-				figure {
-					height: 174px;
-					img {
-						opacity: 0.7 !important;
-					}
-					figcaption {
-						display: none;
-					}
-				}
-				> span {
-					opacity: 0;
-					left: 20px;
-				}
-				&.pro-no-photo {
-					height: 174px;
-					width: 100%;
-				}
-			}
-			> .content {
-				&:after {
-					left: 0;
-					right: 0;
-					width: 100%;
-					opacity: 0;
-				}
-				.link {
-					&:after {
-						opacity: 0;
-					}
-				}
-			}
-		}
-
-		.ie & {
-			> .content {
-				&:after {
-					left: 0;
-					right: 0;
-					width: 100%;
-					opacity: 1;
-				}
-			}
-		}
+		box-shadow: 0px 20px 40px 0px rgba(0, 0, 0, 0.2);
+		@include addTransitionCurve();
 	}
 
 	> .img {
@@ -801,7 +698,7 @@
 
 	> .content {
 		position: relative;
-		padding: 15px 0;
+		padding: 15px;
 		z-index: 20;
 		@include addTransitionCurve();
 		&:after {
@@ -828,11 +725,14 @@
 			text-overflow: ellipsis;
 			white-space: nowrap;
 		}
+		.actu-location {
+			display: block;
+		}
 		h3 {
 			@include ft($f_hx, 1.250em, 700, $c_txt, 1.200em);
 			text-transform: uppercase;
 			margin-bottom: 10px;
-			height: 48px;
+			height: 72px;
 			overflow: hidden;
 			@include mobile {
 				font-size: 22px;
@@ -844,6 +744,7 @@
 			margin-bottom: 10px;
 			height: 48px;
 			overflow: hidden;
+			font-size: small;
 		}
 		.link {
 			@include ft($f_txt, $s_p, 700, $c_txt, 1.200em);
@@ -1124,72 +1025,6 @@
 	display: block;
 	z-index: 100;
 
-	&.pro-theme-violet, &.pro-theme-information {
-		> * {
-			&:before {
-				background: $c_violet;
-			}
-		}
-
-		.pro-info-top-right {
-			.pro-encart-theme {
-				background: $c_violet;
-			}
-		}
-	}
-
-	&.pro-theme-orange, &.pro-theme-consultation {
-		> * {
-			&:before {
-				background: $c_orange;
-			}
-		}
-		.pro-info-top-right {
-			.pro-encart-theme {
-				background: $c_orange;
-			}
-		}
-	}
-
-	&.pro-theme-rouge, &.pro-theme-concertation {
-		> * {
-			&:before {
-				background: $c_rouge;
-			}
-		}
-		.pro-info-top-right {
-			.pro-encart-theme {
-				background: $c_rouge;
-			}
-		}
-	}
-
-	&.pro-theme-vert, &.pro-theme-co-construire {
-		> * {
-			&:before {
-				background: $c_vert;
-			}
-		}
-		.pro-info-top-right {
-			.pro-encart-theme {
-				background: $c_vert;
-			}
-		}
-	}
-
-	&.pro-theme-brun, &.pro-theme-enquete-publique {
-		> * {
-			&:before {
-				background: $c_brun;
-			}
-		}
-		.pro-info-top-right {
-			.pro-encart-theme {
-				background: $c_brun;
-			}
-		}
-	}
-
 	&:hover {
 		cursor: pointer;
 		> * {
@@ -1211,26 +1046,13 @@
 		position: relative;
 		display: block;
 		border: 1px solid rgba($c_dark, 0.25);
-		border-radius: 4px;
 		@include addTransition();
-		&:before {
-			content: '';
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			left: 0;
-			width: 10px;
-			height: 100%;
-			z-index: 200;
-			background: $c_main;
-			border-top-left-radius: 4px;
-			border-bottom-left-radius: 4px;
-		}
 	}
 
 	.pro-header-participation {
-		margin-bottom: 20px;
-		padding: 20px 20px 0 20px;
+		margin-bottom: 50px;
+		padding: 10px;
+		border-bottom: 1px dashed rgba($c_dark, 0.25);;
 		figure {
 			float: left;
 			width: 40px;
@@ -1260,8 +1082,8 @@
 
 		.pro-number-comm, .pro-info-top-right {
 			position: absolute;
-			top: 20px;
-			right: 20px;
+			top: 75px;
+			left: 20px;
 			width: auto;
 			text-align: right;
 			@include clearfix();
@@ -1384,7 +1206,7 @@
 			@include ft($f_hx, 1.250em, 700, $c_txt, 1.250em);
 			text-transform: uppercase;
 			margin: 0 0 5px 0;
-			height: 50px;
+			height: 75px;
 			overflow: hidden;
 			@include mobile {
 				font-size: 22px;
@@ -2239,7 +2061,15 @@
 	border: 1px solid rgba($c_dark, 0.25);
 	border-radius: 4px;
 	background: $c_white;
+	width: 100% !important; ;
 	@include addTransition();
+.pro-header-budget {
+	position: absolute !important;
+	top: 0;
+	color: white;
+}
+
+
 
 	&:hover {
 		cursor: pointer;
@@ -2285,25 +2115,25 @@
 	}
 
 	> figure {
-		position: absolute;
+		position: relative;
+		width: 100% !important;
+		height: 200px;
 		top: 0;
 		left: 0;
 		bottom: 0;
-		width: 155px !important;
-		height: calc(100% - 70px);
-		@include mobile{
-			position: relative;
-			width: 100% !important;
-			height: 150px;
+		&:after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: linear-gradient(to top, transparent 0%, rgba(0,0,0,0.5) 90%);
 		}
 		& ~ .pro-header-budget, & ~ .pro-content-budget {
 			position: relative;
-			width: calc(100% - 155px);
-			left: 155px;
-			@include mobile{
-				width: 100%;
-				left: 0;
-			}
+			width: 100%;
+			left: 0;
 			.pro-encart-theme {
 				max-width: 70px;
 				overflow: hidden;
@@ -2363,14 +2193,13 @@
 
 	.pro-header-budget {
 		margin-bottom: 10px;
-		padding: 15px 20px 0 20px;
+		padding: 15px;
 		border-top-left-radius: 4px;
 		border-top-right-radius: 4px;
 
 		.pro-number-comm, .pro-info-top-right {
 			position: absolute;
-			top: 20px;
-			right: 20px;
+			bottom: -145px;
 			width: auto;
 			text-align: right;
 			@include clearfix();
@@ -2467,7 +2296,7 @@
 			}
 		}
 		p {
-			@include ft($f_txt, 0.750em, 400, $c_txt, 1.533em);
+			@include ft($f_txt, 0.750em, 400, $c_white, 1.533em);
 			display: inline-block;
 			width: calc(100% - 70px);
 			margin-bottom: 0;
@@ -2518,7 +2347,7 @@
 	}
 
 	.pro-content-budget {
-		padding: 0 20px 15px 20px;
+		padding: 25px 15px 15px 15px;
 		position: relative;
 
 		.pro-wrapper-meta {

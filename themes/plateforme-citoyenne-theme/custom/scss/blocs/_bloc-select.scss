@@ -1,6 +1,6 @@
 .pro-bloc-select {
 	position: relative;
-	padding: 90px 0 60px 0;
+	padding: 50px 0 60px 0;
 	overflow: hidden;
 	@include mobile {
 		padding: 20px 0 0 0;
@@ -8,13 +8,8 @@
 	> * {
 		position: relative;
 	}
-	.pro-btn {
-		position: absolute;
-		right: 0;
-		bottom: 0;
-		@include tablet_portrait {
-			position: relative;
-		}
+	&.pro-bloc-slider .owl-cards .owl-stage-outer .owl-item {
+		width: 435px !important;
 	}
 
 	.pro-intro {

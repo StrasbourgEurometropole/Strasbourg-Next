@@ -2,6 +2,53 @@
 .portlet {
   margin-bottom: 0;
 }
+.autofit-float.autofit-row.portlet-header {
+  margin-bottom: 0 !important; }
+
+@function random-color() {
+  @return rgb(random(256), random(256), random(256));
+}
+
+$colors: #ffffff, #ffffff, #ffffff, #EBECEE, #F37021, #ffffff, #EBECEE, #8DC63F;
+
+@for $i from 1 through 8 {
+  .portlet-asset-publisher:nth-child(#{$i}) {
+    background-color: nth($colors, $i);
+  }
+}
+
+  .portlet-asset-publisher {
+    position: relative;
+    z-index: 1;
+    &:before {
+      content: '';
+      display: block;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      left: 0;
+      background: inherit;
+      transform: skew(0, -1deg);
+      transform-origin: top left;
+    }
+
+    &:after {
+      content: '';
+      display: block;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      left: 0;
+      background: inherit;
+      transform: skew(0, -1deg);
+      transform-origin: bottom right;
+    }
+  }
+
 
 //Idem pour les bordures
 .portlet-content-editable {

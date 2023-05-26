@@ -1,5 +1,5 @@
 main {
-	padding-top: 169px;
+	padding-top: 137px;
 	@include tablet_portrait {
 		padding-top: 122px;
 	}
@@ -17,7 +17,7 @@ main {
 }
 
 #pro-header {
-	background: $c_white;
+	background: $c_nav;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -242,8 +242,8 @@ main {
 	// HEADER TOP PAGE
 	// ==========================================================================
 	.pro-top-header {
-		height: 48px;
-		background: #2d2d2d;
+		height: 72px;
+		background: #171C22;
 		@include addTransitionCurve();
 		@include tablet_portrait {
 			display: block;
@@ -256,6 +256,7 @@ main {
 			border: none;
 		}
 		.container {
+			padding: 12px;
 			@include tablet_portrait {
 				position: absolute;
 				bottom: 100px;
@@ -280,8 +281,13 @@ main {
 			}
 			.pro-right {
 				float: right;
+				display: flex;
+				flex-direction: row;
 				@include tablet_portrait {
 					float: none;
+				}
+				a {
+					order: 2;
 				}
 				> * {
 					float: left;
@@ -396,6 +402,7 @@ main {
 	// HEADER PRINCIPAL DU SITE
 	// ==========================================================================
 	.pro-header {
+		background-color: #20272F;
 		@media (min-width: 993px){
 			position: relative;
 		}
@@ -614,7 +621,7 @@ main {
 							}
 						}
 						a {
-							@include ft($f_hx, $s_link, 700, $c_txt, 1.333em);
+							@include ft($f_hx, $s_link, 700, $c_white, 1.333em);
 							text-transform: uppercase;
 							display: block;
 							padding: 0 15px;
@@ -722,7 +729,7 @@ main {
 					display: inline-block;
 					vertical-align: middle;
 					a {
-						color: $c_txt;
+						color: $c_white;
 						padding: 0 8px;
 						font-size: 1.4em;
 						@include addTransitionCurve();

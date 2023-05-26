@@ -8,8 +8,9 @@
 	}
 	.pro-btn {
 		position: absolute;
-		right: 15px;
+		right: 100px;
 		top: 15px;
+		background-color: #171C22;
 		@include tablet_portrait {
 			position: relative;
 			top: 0;
@@ -30,6 +31,9 @@
 			font-size: 1.500em;
 			line-height: 1.5em;
 		}
+
+
+
 	}
 
 	.owl-cards {
@@ -127,17 +131,17 @@
 				border-color: $c_txt;
 				border: none;
 				box-shadow: none;
-				width: 44px;
-				height: 44px;
+				width: 22px;
+				height: 22px;
 				transform: none;
 				margin-top: -22px;
 				@include addTransition();
 				span {
-					font-size: 40px;
+					font-size: 20px;
 					position: absolute;
 					left: 0;
 					top: 0;
-					line-height: 40px;
+					line-height: 20px;
 					text-align: left;
 					@include addTransition();
 				}
@@ -147,31 +151,38 @@
 					}
 				}
 				&.disabled {
-					opacity: 0;
+					opacity: 10%;
 				}
 			}
 			.owl-prev {
-				left: 0;
-				top: 150px;
+				top: -43px;
+				right: 55px;
+				left: auto;
 				span {
-					right: 3px;
+					border: 1px solid #D9D9D9;
+					padding: 15px 17px;
 				}
 			}
 			.owl-next {
 				right: 0;
-				top: 150px;
+				top: -43px;
 				span {
-					text-align: right;
-					right: 0;
+					border: 1px solid #D9D9D9;
+					padding: 15px 17px;
 				}
 			}
 		}
 		.owl-dots {
 			position: relative;
+			text-align: left;
 			z-index: -1;
 		}
 	}
-
+	&.pro-slider-event:first-child {
+		h2 {
+			color: white;
+		}
+	}
 	&.pro-slider-event {
 		padding: 20px 0 40px 0;
 
@@ -248,11 +259,7 @@
 
 			}
 		}
-		.owl-nav {
-			.owl-prev, .owl-next {
-				top: 50%;
-			}
-		}
+
 		.owl-dots {
 			display: block;
 			position: relative;
@@ -260,10 +267,28 @@
 
 	}
 
+	&#pro-link-projet {
+		h2:first-child {
+			color: white;
+		}
+	}
+
 	&.pro-slider-participation {
 		padding: 20px 0 70px 0;
-		background: #edf0f2;
 		margin-top: 20px;
+		.pro-listing-count {
+			color: black !important;
+			font-weight: lighter;
+		}
+
+		.pro-listing-strasbourg {
+				color: #F37021;
+		}
+
+		.pro-listing-ems {
+				color: #00AEEF;
+		}
+
 		.container > * {
 			@include mobile {
 				padding: 0;
@@ -352,20 +377,6 @@
 
 			}
 		}
-		.owl-nav {
-			.owl-prev {
-				top: 50%;
-				left: 0;
 
-			}
-			.owl-next {
-				top: 50%;
-				right: 0;
-			}
-		}
-		.owl-dots {
-			display: block;
-			position: relative;
-		}
 	}
 }
