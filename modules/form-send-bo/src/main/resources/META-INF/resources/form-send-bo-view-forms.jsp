@@ -20,23 +20,18 @@
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 	<portlet:param name="mvcPath" value="/form-send-bo-view-forms.jsp" />
 </liferay-portlet:renderURL>
-
 <%-- Composant : barre de filtres et de gestion des entite --%>
 <clay:management-toolbar
 		managementToolbarDisplayContext="${managementDC}"
 />
-
 <%-- Composant : tableau de visualisation des entites --%>
 <div class="container-fluid-1280 main-content-body">
 	<aui:form method="post" name="fm">
 		<liferay-ui:search-container id="formsSearchContainer"
 			searchContainer="${dc.searchContainer}">
-
-
 			<liferay-ui:search-container-row
 				className="com.liferay.dynamic.data.mapping.model.DDMFormInstance" modelVar="ddmFormInstance"
 				keyProperty="formInstanceId" >
-
 				<%-- URL : definit le lien vers la page d'edition de l'entite selectionnee --%>
 				<liferay-portlet:renderURL varImpl="viewFormSendsURL">
 	                <portlet:param name="tab" value="viewFormSends" />

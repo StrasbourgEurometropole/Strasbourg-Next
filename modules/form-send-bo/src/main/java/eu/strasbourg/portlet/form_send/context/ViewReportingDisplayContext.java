@@ -3,9 +3,7 @@ package eu.strasbourg.portlet.form_send.context;
 import com.liferay.asset.categories.item.selector.AssetCategoryTreeNodeItemSelectorReturnType;
 import com.liferay.asset.categories.item.selector.criterion.AssetCategoryTreeNodeItemSelectorCriterion;
 import com.liferay.dynamic.data.mapping.model.DDMContent;
-import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
 import com.liferay.dynamic.data.mapping.service.DDMContentLocalServiceUtil;
-import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordLocalServiceUtil;
 import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
@@ -49,7 +47,7 @@ public class ViewReportingDisplayContext {
         _itemSelector=itemSelector;
     }
 
-    public List<FormSendRecordFieldSignalement> getAllSignalements() {
+    /*public List<FormSendRecordFieldSignalement> getAllSignalements() {
         if (this._allSignalements == null) {
             List<FormSendRecordFieldSignalement> signalementList = new ArrayList<FormSendRecordFieldSignalement>();
             long formInstanceId = ParamUtil.getLong(_request,"formInstanceId");
@@ -79,9 +77,8 @@ public class ViewReportingDisplayContext {
             }
         }
         return this._allSignalements;
-    }
-
-    public List<FormSendRecordFieldSignalement> getSignalements() {
+    }*/
+   /* public List<FormSendRecordFieldSignalement> getSignalements() {
 
         //TODO pour la pagination
 //        if (this._signalements == null) {
@@ -118,7 +115,7 @@ public class ViewReportingDisplayContext {
 //        return this._signalements;
 
         return this._allSignalements;
-    }
+    }*/
 
     /**
      * Retourne le searchContainer
@@ -179,7 +176,6 @@ public class ViewReportingDisplayContext {
                                     results.add(form);
                             }
                         }
-
                         return results;
                     }, _hits.getLength()
             );
@@ -265,21 +261,6 @@ public class ViewReportingDisplayContext {
         return _categVocabularies;
     }
 
-    @SuppressWarnings("unused")
-    public String getSelectCategoriesByVocabularyIdURL(long vocabularyId) {
-        RequestBackedPortletURLFactory requestBackedPortletURLFactory =
-                RequestBackedPortletURLFactoryUtil.create(_request);
-        AssetCategoryTreeNodeItemSelectorCriterion categoryTreeNodeItemSelectorCriterion =
-                new AssetCategoryTreeNodeItemSelectorCriterion();
-        categoryTreeNodeItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-                new AssetCategoryTreeNodeItemSelectorReturnType());
-
-        return String.valueOf(
-                _itemSelector.getItemSelectorURL(
-                        requestBackedPortletURLFactory,
-                        _response.getNamespace() + "selectAssetCategory",
-                        categoryTreeNodeItemSelectorCriterion));
-    }
     /**
      * Renvoie la colonne sur laquelle on fait le tri
      *

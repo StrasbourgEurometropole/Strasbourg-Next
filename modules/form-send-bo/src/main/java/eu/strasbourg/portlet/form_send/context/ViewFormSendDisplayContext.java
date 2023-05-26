@@ -34,6 +34,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ViewFormSendDisplayContext {
 
@@ -197,26 +198,11 @@ public class ViewFormSendDisplayContext {
             _searchContainer.setOrderByCol(getOrderByCol());
             _searchContainer.setOrderByType(getOrderByType());
             try {
-                getHits(this._themeDisplay.getScopeGroupId());
+                getHits();
             } catch (PortalException e) {
                 throw new RuntimeException(e);
             }
-            _searchContainer.setResultsAndTotal(
-                    () -> {
-                        // Création de la liste d'objet
-                        List<DDMFormInstanceRecord> results = new ArrayList<>();
-                        if (_hits != null) {
-                            for (Document document : _hits.getDocs()) {
-                                DDMFormInstanceRecord form = DDMFormInstanceRecordLocalServiceUtil.
-                                        fetchDDMFormInstanceRecord(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-                                if (form!= null)
-                                    results.add(form);
-                            }
-                        }
-
-                        return results;
-                    }, _hits.getLength()
-            );
+            _searchContainer.setResultsAndTotal(_allFormSends);
         }
         _searchContainer.setRowChecker(new EmptyOnClickRowChecker(_response));
         return _searchContainer;
@@ -232,18 +218,20 @@ public class ViewFormSendDisplayContext {
                 _response);
     }
 
-    private void getHits(long groupId) throws PortalException {
-        HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(_request);
-        SearchContext searchContext = SearchContextFactory.getInstance(servletRequest);
+    private void getHits() throws PortalException {
 
-        // Recherche des hits
-        String keywords = ParamUtil.getString(servletRequest, "keywords");
-        _hits = SearchHelper.getBOSearchHits(searchContext,
-                getSearchContainer().getStart(),
-                getSearchContainer().getEnd(), DDMFormInstanceRecord.class.getName(), groupId,
-                "", keywords,
-                getOrderByColSearchField(),
-                "desc".equals(getOrderByType()));
+        List<DDMFormInstanceRecord> recordList = DDMFormInstanceRecordLocalServiceUtil.getDDMFormInstanceRecords(-1,-1);
+
+        // ne garde que les formulaires envoyé du formulaire choisi
+        long formInstanceId = ParamUtil.getLong(_request,"formInstanceId");
+
+        recordList = recordList.stream().filter(r -> r.getFormInstanceId() == formInstanceId).collect(Collectors.toList());
+
+        //effectue le tri
+        recordList.sort((r1, r2) -> r1.getModifiedDate().compareTo(r2.getModifiedDate()));
+        if("desc".equals(this.getOrderByType()))
+            Collections.reverse(recordList);
+        _allFormSends=recordList;
     }
 
     public String getOrderByColSearchField() {
@@ -313,7 +301,6 @@ public class ViewFormSendDisplayContext {
         }
         return _keywords;
     }
-    private Hits _hits;
     protected SearchContainer <DDMFormInstanceRecord> _searchContainer;
     private Map<String, String> _categVocabularies;
     private String _keywords;
@@ -322,8 +309,6 @@ public class ViewFormSendDisplayContext {
     protected ThemeDisplay _themeDisplay;
     private final HttpServletRequest _httpServletRequest;
     private final ItemSelector _itemSelector;
-
-
     private List<DDMFormInstanceRecord> _allFormSends;
     private Map<String, String[]> _texteAreaFields;
 }
