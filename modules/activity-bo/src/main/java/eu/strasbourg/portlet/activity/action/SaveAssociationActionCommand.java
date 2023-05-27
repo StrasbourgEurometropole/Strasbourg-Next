@@ -85,14 +85,15 @@ public class SaveAssociationActionCommand extends BaseMVCActionCommand {
 			// Si pas valide : on reste sur la page d'édition
 			PortalUtil.copyRequestParameters(request, response);
 
-			PortletURL returnURL = PortletURLFactoryUtil.create(request,
+			PortletURL backURL = PortletURLFactoryUtil.create(request,
 				portletName, themeDisplay.getPlid(),
 				PortletRequest.RENDER_PHASE);
-			returnURL.setParameter("tab", request.getParameter("tab"));
+			backURL.setParameter("tab", request.getParameter("tab"));
 
-			response.setRenderParameter("returnURL", returnURL.toString());
+			response.setRenderParameter("backURL", backURL.toString());
 			response.setRenderParameter("mvcPath",
 				"/activity-bo-edit-association.jsp");
+			response.setRenderParameter("cmd", "saveAssociation");
 			return;
 		}
 
