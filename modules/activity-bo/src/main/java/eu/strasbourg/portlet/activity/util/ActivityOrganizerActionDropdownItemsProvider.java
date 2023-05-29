@@ -37,16 +37,12 @@ public class ActivityOrganizerActionDropdownItemsProvider {
     }
 
     /**
-     * The list of dropdown items to display for all event
+     * The list of dropdown items to display for all activity
      */
     public List<DropdownItem> getActionDropdownItems() {
 
         boolean hasUpdatePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
                 StrasbourgPortletKeys.ACTIVITY_BO, StrasbourgPortletKeys.ACTIVITY_BO, "EDIT_ACTIVITY_ORGANIZER")
-                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
-
-        boolean hasAddPermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.ACTIVITY_BO, StrasbourgPortletKeys.ACTIVITY_BO, "ADD_ACTIVITY_ORGANIZER")
                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 
         boolean hasDeletePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
@@ -55,18 +51,6 @@ public class ActivityOrganizerActionDropdownItemsProvider {
 
         return DropdownItemListBuilder
 
-                .addGroup(
-                        dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(
-                                    DropdownItemListBuilder
-                                            .add(
-                                                    () -> hasAddPermission,
-                                                    _getCopyActionUnsafeConsumer()
-                                            )
-                                            .build()
-                            );
-                        }
-                )
                 .addGroup(
                         dropdownGroupItem -> {
                             dropdownGroupItem.setDropdownItems(

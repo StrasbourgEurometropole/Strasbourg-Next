@@ -42,30 +42,11 @@ public class ViewActivitiesDisplayContext {
 		_itemSelector=itemSelector;
 	}
 
-	/*public List<Activity> getActivities() throws PortalException {
-		if (this._activities == null) {
-			Hits hits = getHits(this._themeDisplay.getScopeGroupId());
-
-			// Création de la liste d'objet
-			List<Activity> results = new ArrayList<Activity>();
-			if (hits != null) {
-				for (Document document : hits.getDocs()) {
-					Activity activity = ActivityLocalServiceUtil.fetchActivity(
-						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-					if (activity != null) {
-						results.add(activity);
-					}
-				}
-			}
-			this._activities = results;
-		}
-		return this._activities;
-	}*/
 
 	/**
-	 * Retourne le dropdownItemsProvider de official
+	 * Retourne le dropdownItemsProvider de activity
 	 *
-	 * @return officialActionDropdownItemsProvider
+	 * @return activityActionDropdownItemsProvider
 	 */
 	@SuppressWarnings("unused")
 	public ActivityActionDropdownItemsProvider getActionsActivity(Activity activity) {
@@ -75,9 +56,9 @@ public class ViewActivitiesDisplayContext {
 
 	/**
 	 * Wrapper autour du permission checker pour les permissions de module
-	 * Retourne le searchContainer des élus
+	 * Retourne le searchContainer
 	 *
-	 * @return SearchContainer<Official>
+	 * @return SearchContainer<activity>
 	 */
 	public SearchContainer<Activity> getSearchContainer() {
 

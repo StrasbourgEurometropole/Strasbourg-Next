@@ -66,9 +66,9 @@ public class ViewActivityCoursesDisplayContext {
 	}*/
 
 	/**
-	 * Retourne le dropdownItemsProvider de official
+	 * Retourne le dropdownItemsProvider de activityCourse
 	 *
-	 * @return officialActionDropdownItemsProvider
+	 * @return activityCourseActionDropdownItemsProvider
 	 */
 	@SuppressWarnings("unused")
 	public ActivityCourseActionDropdownItemsProvider getActionsActivityCourse(ActivityCourse activityCourse) {
@@ -78,9 +78,8 @@ public class ViewActivityCoursesDisplayContext {
 
 	/**
 	 * Wrapper autour du permission checker pour les permissions de module
-	 * Retourne le searchContainer des élus
+	 * Retourne le searchContainer
 	 *
-	 * @return SearchContainer<Official>
 	 */
 	public SearchContainer<ActivityCourse> getSearchContainer() {
 
@@ -110,9 +109,10 @@ public class ViewActivityCoursesDisplayContext {
 						List<ActivityCourse> results = new ArrayList<>();
 						if (_hits != null) {
 							for (Document document : _hits.getDocs()) {
-								ActivityCourse activity = ActivityCourseLocalServiceUtil.fetchActivityCourse(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-								if (activity!= null)
-									results.add(activity);
+								ActivityCourse activityCourse = ActivityCourseLocalServiceUtil.fetchActivityCourse(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+								if (activityCourse!= null) {
+									results.add(activityCourse);
+								}
 							}
 						}
 

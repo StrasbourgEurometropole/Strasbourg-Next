@@ -6,6 +6,7 @@
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="mvcPath" value="/activity-bo-view-associations.jsp" />
 </liferay-portlet:renderURL>
 
 <liferay-portlet:renderURL varImpl="addAssociationURL">
@@ -19,10 +20,8 @@
 />
 <div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
-		<aui:input type="hidden" name="selectionIds" />
 		<liferay-ui:search-container id="activitiesSearchContainer"
 			searchContainer="${dc.searchContainer}">
-			<liferay-ui:search-container-results results="${dc.associations}" />
 
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.activity.model.Association"
@@ -52,9 +51,12 @@
 					<aui:workflow-status markupView="lexicon" showIcon="false"
 						showLabel="false" status="${association.status}" />
 				</liferay-ui:search-container-column-text>
-
-
-
+				<liferay-ui:search-container-column-text>
+					<clay:dropdown-actions
+							aria-label="<liferay-ui:message key='show-actions' />"
+							dropdownItems="${dc.getActionsAssociation(association).getActionDropdownItems()}"
+					/>
+				</liferay-ui:search-container-column-text>
 			</liferay-ui:search-container-row>
 
 			<liferay-ui:search-iterator paginate="true" displayStyle="list"
@@ -63,69 +65,55 @@
 	</aui:form>
 </div>
 
-
-
 <liferay-portlet:actionURL name="selectionAction"
 	var="deleteSelectionURL">
 	<portlet:param name="cmd" value="delete" />
 	<portlet:param name="tab" value="associations" />
+	<portlet:param name="mvcPath" value="/activity-bo-view-associations.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>
+
 <liferay-portlet:actionURL name="selectionAction"
 	var="publishSelectionURL">
 	<portlet:param name="cmd" value="publish" />
-	<portlet:param name="tab" value="associations" />
+	<portlet:param name="tab" value="n" />
+	<portlet:param name="mvcPath" value="/activity-bo-view-associations.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>
+
 <liferay-portlet:actionURL name="selectionAction"
 	var="unpublishSelectionURL">
 	<portlet:param name="cmd" value="unpublish" />
 	<portlet:param name="tab" value="associations" />
+	<portlet:param name="mvcPath" value="/activity-bo-view-associations.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>
 
 <aui:script>
-	function <portlet:namespace />deleteSelection() {
+	var form = document.querySelector("[name='<portlet:namespace />fm']");
+	function deleteSelection() {
 		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-entries" />')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
-			var selectionIdsInput = document
-					.getElementsByName('<portlet:namespace />selectionIds')[0];
-			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-					'<portlet:namespace />allRowIds');
 
 			submitForm(form, '${deleteSelectionURL}');
 		}
 	}
-	function <portlet:namespace />publishSelection() {
+	function publishSelection() {
 		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-publish-selected-entries" />')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
-			var selectionIdsInput = document
-					.getElementsByName('<portlet:namespace />selectionIds')[0];
-			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-					'<portlet:namespace />allRowIds');
 
 			submitForm(form, '${publishSelectionURL}');
 		}
 	}
-	function <portlet:namespace />unpublishSelection() {
+	function unpublishSelection() {
 		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-unpublish-selected-entries" />')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
-			var selectionIdsInput = document
-					.getElementsByName('<portlet:namespace />selectionIds')[0];
-			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-					'<portlet:namespace />allRowIds');
 
 			submitForm(form, '${unpublishSelectionURL}');
 		}

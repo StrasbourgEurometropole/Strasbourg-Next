@@ -67,9 +67,8 @@ public class ViewActivityOrganizersDisplayContext {
 		return this.activityOrganizers;
 	}*/
 	/**
-	 * Retourne le dropdownItemsProvider de official
+	 * Retourne le dropdownItemsProvider de activityCourse
 	 *
-	 * @return officialActionDropdownItemsProvider
 	 */
 	@SuppressWarnings("unused")
 	public ActivityOrganizerActionDropdownItemsProvider getActionsActivityOrganizer(ActivityOrganizer activityOrganizer) {
@@ -79,9 +78,8 @@ public class ViewActivityOrganizersDisplayContext {
 
 	/**
 	 * Wrapper autour du permission checker pour les permissions de module
-	 * Retourne le searchContainer des élus
+	 * Retourne le searchContainer
 	 *
-	 * @return SearchContainer<Official>
 	 */
 	public SearchContainer<ActivityOrganizer> getSearchContainer() {
 
@@ -112,8 +110,9 @@ public class ViewActivityOrganizersDisplayContext {
 						if (_hits != null) {
 							for (Document document : _hits.getDocs()) {
 								ActivityOrganizer activityOrganizer = ActivityOrganizerLocalServiceUtil.fetchActivityOrganizer(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-								if (activityOrganizer!= null)
+								if (activityOrganizer!= null) {
 									results.add(activityOrganizer);
+								}
 							}
 						}
 

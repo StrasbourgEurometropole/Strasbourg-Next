@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * @author AZC
+ * @author BMA
  */
 public class AssociationActionDropdownItemsProvider {
 
@@ -37,7 +37,7 @@ public class AssociationActionDropdownItemsProvider {
     }
 
     /**
-     * The list of dropdown items to display for all manif
+     * The list of dropdown items to display for all association
      */
     public List<DropdownItem> getActionDropdownItems() {
 

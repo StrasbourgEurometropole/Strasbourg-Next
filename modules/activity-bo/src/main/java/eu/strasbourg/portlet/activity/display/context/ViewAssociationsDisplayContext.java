@@ -46,9 +46,8 @@ public class ViewAssociationsDisplayContext{
 	}
 
 	/**
-	 * Retourne le dropdownItemsProvider de official
+	 * Retourne le dropdownItemsProvider de association
 	 *
-	 * @return officialActionDropdownItemsProvider
 	 */
 	@SuppressWarnings("unused")
 	public AssociationActionDropdownItemsProvider getActionsAssociation(Association association) {
@@ -58,9 +57,8 @@ public class ViewAssociationsDisplayContext{
 
 	/**
 	 * Wrapper autour du permission checker pour les permissions de module
-	 * Retourne le searchContainer des élus
+	 * Retourne le searchContainer
 	 *
-	 * @return SearchContainer<Official>
 	 */
 	public SearchContainer<Association> getSearchContainer() {
 
@@ -91,8 +89,9 @@ public class ViewAssociationsDisplayContext{
 						if (_hits != null) {
 							for (Document document : _hits.getDocs()) {
 								Association association = AssociationLocalServiceUtil.fetchAssociation(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-								if (association!= null)
+								if (association!= null) {
 									results.add(association);
+								}
 							}
 						}
 

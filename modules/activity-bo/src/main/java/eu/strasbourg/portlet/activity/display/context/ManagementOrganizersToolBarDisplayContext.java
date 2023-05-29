@@ -110,6 +110,14 @@ public class ManagementOrganizersToolBarDisplayContext extends SearchContainerMa
         return DropdownItemListBuilder
                 .addGroup(
                         dropdownGroupItem -> {
+                            dropdownGroupItem.setDropdownItems(
+                                    getFilterVocabularyDropdownItems());
+                            dropdownGroupItem.setLabel(
+                                    LanguageUtil.get(httpServletRequest, "filter-by"));
+                        }
+                )
+                .addGroup(
+                        dropdownGroupItem -> {
                             dropdownGroupItem.setDropdownItems(getOrderByDropdownItems());
                             dropdownGroupItem.setLabel(
                                     LanguageUtil.get(httpServletRequest, "order-by")
@@ -263,9 +271,10 @@ public class ManagementOrganizersToolBarDisplayContext extends SearchContainerMa
                             WebKeys.THEME_DISPLAY);
             long companyGroupId = themeDisplay.getCompanyGroupId();
             long classNameId = ClassNameLocalServiceUtil.getClassNameId(ActivityOrganizer.class);
+            long scopeGroupId = themeDisplay.getScopeGroupId();
             List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
                     .getAssetVocabularies(-1, -1).stream()
-                    .filter(v -> v.getGroupId() == companyGroupId && LongStream.of(v.getSelectedClassNameIds())
+                    .filter(v -> (v.getGroupId() == companyGroupId || v.getGroupId() == scopeGroupId) && LongStream.of(v.getSelectedClassNameIds())
                             .anyMatch(c -> c == classNameId))
                     .collect(Collectors.toList());
             _vocabularies = vocabularies;

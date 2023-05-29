@@ -1,13 +1,10 @@
 <%@ include file="/activity-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.activity.model.Activity"%>
 
-<liferay-portlet:renderURL varImpl="activitiesURL">
-	<portlet:param name="tab" value="activities" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deleteActivity" var="deleteActivityURL">
 	<portlet:param name="cmd" value="deleteActivity" />
 	<portlet:param name="tab" value="activities" />
+	<portlet:param name="mvcPath" value="/activity-bo-view-activities.jsp" />
 	<portlet:param name="activityId"
 		value="${not empty dc.activity ? dc.activity.activityId : ''}" />
 </liferay-portlet:actionURL>
@@ -16,7 +13,7 @@
 	<portlet:param name="cmd" value="saveActivity" />
 </liferay-portlet:actionURL>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<liferay-ui:error key="title-error" message="title-error" />
 	
 	<aui:form action="${saveActivityURL}" method="post" name="fm">
@@ -25,7 +22,7 @@
 			id="translationManager" />
 
 		<aui:model-context bean="${dc.activity}" model="<%=Activity.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="activityId" type="hidden" />
 
 			<aui:fieldset collapsed="true" collapsible="true"
@@ -82,7 +79,7 @@
 				
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 		
 		<aui:button-row>
 			<c:if test="${(dc.hasPermission('ADD_ACTIVITY') and empty dc.activity or dc.hasPermission('EDIT_ACTIVITY') and not empty dc.activity) and empty themeDisplay.scopeGroup.getStagingGroup()}">
@@ -96,7 +93,7 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
 					value="delete" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 
 	</aui:form>

@@ -202,6 +202,5 @@ public class ManagementAssociationsToolBarDisplayContext extends SearchContainer
 
     private final ViewAssociationsDisplayContext _viewAssociationsDisplayContext;
     private final ThemeDisplay _themeDisplay;
-    private List<AssetVocabulary> _vocabularies;
 
 }

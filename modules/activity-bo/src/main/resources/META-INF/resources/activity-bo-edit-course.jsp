@@ -1,13 +1,10 @@
 <%@ include file="/activity-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.activity.model.ActivityCourse"%>
 
-<liferay-portlet:renderURL varImpl="activityCoursesURL">
-	<portlet:param name="tab" value="activityCourses" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deleteActivityCourse" var="deleteActivityCourseURL">
 	<portlet:param name="cmd" value="deleteActivityCourse" />
 	<portlet:param name="tab" value="activityCourses" />
+	<portlet:param name="mvcPath" value="/activity-bo-view-courses.jsp" />
 	<portlet:param name="activityCourseId"
 		value="${not empty dc.activityCourse ? dc.activityCourse.activityCourseId : ''}" />
 </liferay-portlet:actionURL>
@@ -17,7 +14,7 @@
 	<portlet:param name="tab" value="activityCourses" />
 </liferay-portlet:actionURL>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<liferay-ui:error key="name-error" message="name-error" />
 	<liferay-ui:error key="activity-error" message="activity-error" />
 	<liferay-ui:error key="service-error" message="service-error" />
@@ -29,8 +26,8 @@
 			id="translationManager" />
 
 		<aui:model-context bean="${dc.activityCourse}" model="<%=ActivityCourse.class %>" />
-		<aui:fieldset-group markupView="lexicon">
-			<aui:input name="activityCourseId" type="hidden" />
+		<div class="sheet"><div class="panel-group panel-group-flush">
+		<aui:input name="activityCourseId" type="hidden" />
 	
 			<!-- Section généralités -->
 			<aui:fieldset collapsed="true" collapsible="true"
@@ -152,7 +149,7 @@
 				</div>
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 
 		<aui:button-row>
 			<c:if test="${(dc.hasPermission('ADD_ACTIVITY_COURSE') and empty dc.activityCourse or dc.hasPermission('EDIT_ACTIVITY_COURSE') and not empty dc.activityCourse) and empty themeDisplay.scopeGroup.getStagingGroup()}">
@@ -166,7 +163,7 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
 					value="delete" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 
 	</aui:form>

@@ -26,7 +26,6 @@ public class NavigationBarDisplayContext {
 
     public NavigationBarDisplayContext(RenderRequest request, RenderResponse response) {
         this.response = response;
-        // onglet par défaut -> EVENTS
         this.selectedTab = Optional
                 .ofNullable(ParamUtil.getString(request, URL_PARAM_TAB))
                 .filter(Validator::isNotNull)
@@ -56,29 +55,29 @@ public class NavigationBarDisplayContext {
     public List<NavigationItem> getNavigationItems() {
         List<NavigationItem> navigationItems = new ArrayList<>();
 
-        NavigationItem events = new NavigationItem();
-        events.setLabel(LanguageUtil.get(bundle, "activities"));
-        events.setActive(this.selectedTab.equals(ACTIVITIES));
-        events.setHref(this.response.createRenderURL(), URL_PARAM_TAB, ACTIVITIES, URL_PARAM_MVCPATH, ACTIVITIES_PATH);
-        navigationItems.add(events);
+        NavigationItem activities = new NavigationItem();
+        activities.setLabel(LanguageUtil.get(bundle, "activities"));
+        activities.setActive(this.selectedTab.equals(ACTIVITIES));
+        activities.setHref(this.response.createRenderURL(), URL_PARAM_TAB, ACTIVITIES, URL_PARAM_MVCPATH, ACTIVITIES_PATH);
+        navigationItems.add(activities);
 
-        NavigationItem manifs = new NavigationItem();
-        manifs.setLabel(LanguageUtil.get(bundle, "activity-courses"));
-        manifs.setActive(this.selectedTab.equals(COURSES));
-        manifs.setHref(this.response.createRenderURL(), URL_PARAM_TAB, COURSES, URL_PARAM_MVCPATH, COURSES_PATH);
-        navigationItems.add(manifs);
+        NavigationItem courses = new NavigationItem();
+        courses.setLabel(LanguageUtil.get(bundle, "activity-courses"));
+        courses.setActive(this.selectedTab.equals(COURSES));
+        courses.setHref(this.response.createRenderURL(), URL_PARAM_TAB, COURSES, URL_PARAM_MVCPATH, COURSES_PATH);
+        navigationItems.add(courses);
 
-        NavigationItem importation = new NavigationItem();
-        importation.setLabel(LanguageUtil.get(bundle, "activity-organizers"));
-        importation.setActive(this.selectedTab.equals(ORGANIZERS));
-        importation.setHref(this.response.createRenderURL(), URL_PARAM_TAB, ORGANIZERS, URL_PARAM_MVCPATH, ORGANIZERS_PATH);
-        navigationItems.add(importation);
+        NavigationItem organizers = new NavigationItem();
+        organizers.setLabel(LanguageUtil.get(bundle, "activity-organizers"));
+        organizers.setActive(this.selectedTab.equals(ORGANIZERS));
+        organizers.setHref(this.response.createRenderURL(), URL_PARAM_TAB, ORGANIZERS, URL_PARAM_MVCPATH, ORGANIZERS_PATH);
+        navigationItems.add(organizers);
 
-        NavigationItem campaign = new NavigationItem();
-        campaign.setLabel(LanguageUtil.get(bundle, "associations"));
-        campaign.setActive(this.selectedTab.equals(ASSOCIATIONS));
-        campaign.setHref(this.response.createRenderURL(), URL_PARAM_TAB, ASSOCIATIONS, URL_PARAM_MVCPATH, ASSOCIATIONS_PATH);
-        navigationItems.add(campaign);
+        NavigationItem associations = new NavigationItem();
+        associations.setLabel(LanguageUtil.get(bundle, "associations"));
+        associations.setActive(this.selectedTab.equals(ASSOCIATIONS));
+        associations.setHref(this.response.createRenderURL(), URL_PARAM_TAB, ASSOCIATIONS, URL_PARAM_MVCPATH, ASSOCIATIONS_PATH);
+        navigationItems.add(associations);
 
         return navigationItems;
     }

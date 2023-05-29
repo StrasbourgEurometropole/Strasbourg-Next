@@ -36,6 +36,7 @@ public class ManagementActivitiesToolBarDisplayContext extends SearchContainerMa
 
         _themeDisplay = (ThemeDisplay)liferayPortletRequest.getAttribute(
                 WebKeys.THEME_DISPLAY);
+
     }
 
     /**
@@ -148,7 +149,6 @@ public class ManagementActivitiesToolBarDisplayContext extends SearchContainerMa
     /**
      * Sets the search container’s filter labels to display
      */
-    // TODO : A revoir car pas testé ni fini
     @Override
     public List<LabelItem> getFilterLabelItems() {
         Map<String, String> categVocabulariesSelected = _viewActivitiesDisplayContext.getCategVocabularies();
@@ -274,9 +274,10 @@ public class ManagementActivitiesToolBarDisplayContext extends SearchContainerMa
                             WebKeys.THEME_DISPLAY);
             long companyGroupId = themeDisplay.getCompanyGroupId();
             long classNameId = ClassNameLocalServiceUtil.getClassNameId(Activity.class);
+            long scopeGroupId = themeDisplay.getScopeGroupId();
             List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
                     .getAssetVocabularies(-1, -1).stream()
-                    .filter(v -> v.getGroupId() == companyGroupId && LongStream.of(v.getSelectedClassNameIds())
+                    .filter(v -> (v.getGroupId() == companyGroupId || v.getGroupId() == scopeGroupId) && LongStream.of(v.getSelectedClassNameIds())
                             .anyMatch(c -> c == classNameId))
                     .collect(Collectors.toList());
             _vocabularies = vocabularies;
