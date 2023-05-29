@@ -72,6 +72,7 @@ public class SaveArretActionCommand implements MVCActionCommand {
 				response.setRenderParameter("returnURL", returnURL.toString());
 				response.setRenderParameter("mvcPath",
 						"/gtfs-bo-edit-arret.jsp");
+				response.setRenderParameter("cmd", "saveArret");
 				return false;
 			}
 

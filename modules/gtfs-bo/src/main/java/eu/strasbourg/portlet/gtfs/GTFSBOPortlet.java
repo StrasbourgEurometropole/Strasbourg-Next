@@ -1,6 +1,10 @@
 package eu.strasbourg.portlet.gtfs;
 
+import com.liferay.item.selector.ItemSelector;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
+import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -8,20 +12,18 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
-import java.io.IOException;
+import eu.strasbourg.portlet.gtfs.display.context.*;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
-import eu.strasbourg.portlet.gtfs.display.context.EditArretDisplayContext;
-import eu.strasbourg.portlet.gtfs.display.context.ViewArretsDisplayContext;
-import org.osgi.service.component.annotations.Component;
-
-import eu.strasbourg.portlet.gtfs.display.context.EditImportHistoricDisplayContext;
-import eu.strasbourg.portlet.gtfs.display.context.ViewImportHistoricsDisplayContext;
+import static eu.strasbourg.portlet.gtfs.constants.GtfsConstants.*;
 
 /**
  * @author cedric.henry
@@ -29,12 +31,13 @@ import eu.strasbourg.portlet.gtfs.display.context.ViewImportHistoricsDisplayCont
 @Component(
 	immediate = true,
 	property = {
+			"javax.portlet.version=3.0",
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/gtfs-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/gtfs-bo-main.css",
 		"com.liferay.portlet.single-page-application=false",
-		"javax.portlet.init-param.template-path=/",
-		"javax.portlet.init-param.view-template=/gtfs-bo-view.jsp",
+			"javax.portlet.init-param.template-path=/META-INF/resources/",
+			"javax.portlet.init-param.view-template=/gtfs-bo-view-arrets.jsp",
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user"
 	},
@@ -51,8 +54,7 @@ public class GTFSBOPortlet extends MVCPortlet {
 		
 		// Recuperation des données de la requete de page
 		String cmd = ParamUtil.getString(renderRequest, "cmd");
-		String tab = ParamUtil.getString(renderRequest, "tab");
-		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
+
 		String title = PortalUtil.getPortletTitle(renderRequest);
 		
 		// Si on est sur la page d'ajout, on affiche un lien de retour
@@ -62,28 +64,38 @@ public class GTFSBOPortlet extends MVCPortlet {
 			portletDisplay.setShowBackIcon(true);
 			portletDisplay.setURLBack(returnURL.toString());
 		}
-		
-		// On set le displayContext selon la page sur laquelle on est
-		if (cmd.equals("editImportHistoric") || mvcPath.equals("/gtfs-bo-edit-import-historic.jsp")) {
-			EditImportHistoricDisplayContext dc = new EditImportHistoricDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-			title = "import-historics";
-		} else if (cmd.equals("editArret") || mvcPath.equals("/gtfs-bo-edit-arret.jsp")) {
-			EditArretDisplayContext dc = new EditArretDisplayContext(
-					renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-			title = "arrets";
-		} else if (tab.equals("import-historics")) {
-			ViewImportHistoricsDisplayContext dc = new ViewImportHistoricsDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-			title = "import-historics";
-		} else { // Else, we are on the import project list page
-			ViewArretsDisplayContext dc = new ViewArretsDisplayContext(
-					renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-			title = "arrets";
-		}
 
+		try {
+			NavigationBarDisplayContext navigationDC = new NavigationBarDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("navigationDC", navigationDC);
+			HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(renderRequest);
+			switch (navigationDC.getSelectedTab()) {
+				case IMPORT_HISTORICS:
+					if (navigationDC.getSelectedCmd().equals(EDIT_IMPORT_HISTORIC)) {
+						EditImportHistoricDisplayContext  dc = new EditImportHistoricDisplayContext(renderRequest, renderResponse);
+						renderRequest.setAttribute("dc", dc);
+					} else {
+						ViewImportHistoricsDisplayContext dc = new ViewImportHistoricsDisplayContext(renderRequest, renderResponse,_itemSelector);
+						renderRequest.setAttribute("dc", dc);
+					}
+					break;
+				case ARRETS:
+				default:
+					if (navigationDC.getSelectedCmd().equals(EDIT_ARRET) || navigationDC.getSelectedCmd().equals(SAVE_ARRET)) {
+						EditArretDisplayContext dc = new EditArretDisplayContext(renderRequest, renderResponse);
+						renderRequest.setAttribute("dc", dc);
+					} else {
+						ViewArretsDisplayContext dc = new ViewArretsDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ManagementArretsToolBarDisplayContext managementDC = new ManagementArretsToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
+								(LiferayPortletResponse) renderResponse, dc);
+						renderRequest.setAttribute("dc", dc);
+						renderRequest.setAttribute("managementDC", managementDC);
+					}
+					break;
+			}
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
 		// Admin ou pas
 		renderRequest.setAttribute("isAdmin", themeDisplay.getPermissionChecker().isOmniadmin());
 		
@@ -92,5 +104,6 @@ public class GTFSBOPortlet extends MVCPortlet {
 		title = LanguageUtil.get(PortalUtil.getHttpServletRequest(renderRequest), title);
 		renderResponse.setTitle(title);
 	}
-	
+	@Reference
+	private ItemSelector _itemSelector;
 }

@@ -7,7 +7,6 @@
 </liferay-portlet:renderURL>
 
 <liferay-portlet:actionURL name="saveArret" varImpl="saveArretURL">
-	<portlet:param name="cmd" value="saveArret" />
 	<portlet:param name="tab" value="arrets" />
 </liferay-portlet:actionURL>
 
