@@ -58,11 +58,11 @@ public class GTFSBOPortlet extends MVCPortlet {
 		String title = PortalUtil.getPortletTitle(renderRequest);
 		
 		// Si on est sur la page d'ajout, on affiche un lien de retour
-		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
-		boolean showBackButton = Validator.isNotNull(returnURL);
+		String backURL = ParamUtil.getString(renderRequest, "backURL");
+		boolean showBackButton = Validator.isNotNull(backURL);
 		if (showBackButton) {
 			portletDisplay.setShowBackIcon(true);
-			portletDisplay.setURLBack(returnURL.toString());
+			portletDisplay.setURLBack(backURL.toString());
 		}
 
 		try {

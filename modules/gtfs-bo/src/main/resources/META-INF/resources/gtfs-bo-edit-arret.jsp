@@ -1,17 +1,12 @@
 <%@page import="java.util.Date"%>
+<%@ page import="eu.strasbourg.service.gtfs.model.Arret" %>
 <%@ include file="/gtfs-bo-init.jsp"%>
-<%@page import="eu.strasbourg.service.gtfs.model.Arret"%>
-
-<liferay-portlet:renderURL varImpl="arretsURL">
-	<portlet:param name="tab" value="arrets" />
-</liferay-portlet:renderURL>
 
 <liferay-portlet:actionURL name="saveArret" varImpl="saveArretURL">
 	<portlet:param name="tab" value="arrets" />
 </liferay-portlet:actionURL>
-
-<div class="container-fluid-1280 main-content-body">
-	<liferay-ui:error key="start-date-error" message="start-date-error" />
+<div class="container-fluid container-fluid-max-xl main-content-body">
+<liferay-ui:error key="start-date-error" message="start-date-error" />
 	<liferay-ui:error key="end-date-error" message="end-date-error" />
 	<liferay-ui:error key="period-date-error" message="period-date-error" />
 	<liferay-ui:error key="ligne-error" message="ligne-error" />
@@ -23,8 +18,8 @@
 			id="translationManager" />
 
 		<aui:model-context bean="${dc.arret}" model="<%=Arret.class %>" />
-		<aui:fieldset-group markupView="lexicon">
-			<aui:input name="arretId" type="hidden" />
+		<div class="sheet"><div class="panel-group panel-group-flush">
+		<aui:input name="arretId" type="hidden" />
 
 			<!-- Informations générale -->
 			<aui:fieldset collapsed="false" collapsible="true"
@@ -156,7 +151,7 @@
 					
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 
 		<aui:button-row>
 			<aui:input type="hidden" name="workflowAction" value="" />
@@ -171,7 +166,7 @@
 							value="save-as-draft" />
 				</c:if>
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 
 	</aui:form>

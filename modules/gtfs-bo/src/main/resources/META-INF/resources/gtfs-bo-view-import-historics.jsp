@@ -24,7 +24,7 @@
 				<liferay-portlet:renderURL varImpl="editImportHistoricURL">
 					<portlet:param name="cmd" value="editImportHistoric" />
 					<portlet:param name="importHistoricId" value="${importHistoric.importHistoricId}" />
-					<portlet:param name="returnURL" value="${importHistoricsURL}" />
+					<portlet:param name="backURL" value="${importHistoricsURL}" />
 					<portlet:param name="mvcPath" value="/gtfs-bo-edit-import-historic.jsp" />
 				</liferay-portlet:renderURL>
 
