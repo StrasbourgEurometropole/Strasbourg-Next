@@ -3,10 +3,7 @@
 <c:set var="tab" value="${not empty param.tab ? param.tab : 'viewFormSends' }" />
 
 <!-- Corps de la page et selection du listing a afficher -->
-<%-- URL : definit le lien de retour --%>
-<liferay-portlet:renderURL varImpl="formsURL">
-	<portlet:param name="tab" value="forms" />
-</liferay-portlet:renderURL>
+
 
 
 <%-- URL : definit le lien avec les parametres de recherche des entites--%>

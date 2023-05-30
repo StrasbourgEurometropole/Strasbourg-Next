@@ -1,10 +1,4 @@
 <%@ include file="/form-send-bo-init.jsp"%>
-<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
-<%-- URL : definit le lien de retour --%>
-<liferay-portlet:renderURL varImpl="formsURL">
-	<portlet:param name="tab" value="forms" />
-</liferay-portlet:renderURL>
-
 <%-- URL : definit le lien avec les parametres de recherche des entites--%>
 <liferay-portlet:renderURL varImpl="viewReportingsURL">
 	<portlet:param name="tab" value="viewReportings" />

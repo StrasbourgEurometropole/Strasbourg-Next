@@ -70,25 +70,23 @@ public class FormSendBOPortlet extends MVCPortlet {
 						ManagementFormsSendToolBarDisplayContext managementDC = new ManagementFormsSendToolBarDisplayContext
 								(servletRequest,(LiferayPortletRequest) renderRequest,
 										(LiferayPortletResponse) renderResponse, dc);
+						renderRequest.setAttribute("formInstanceName",formInstanceName);
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
 					break;
-				case SIGNALEMENTS:
-					if (navigationDC.getSelectedCmd().equals(EDIT_FORM_SEND) || navigationDC.getSelectedCmd().equals(SAVE_FORM_SEND)) {
-						EditFormSendDisplayContext dc = new EditFormSendDisplayContext(renderRequest, renderResponse);
-						renderRequest.setAttribute("dc", dc);
-					} else {
-						ViewFormSendDisplayContext dc = new ViewFormSendDisplayContext(renderRequest, renderResponse,_itemSelector);
-						ManagementFormsSendToolBarDisplayContext managementDC = new ManagementFormsSendToolBarDisplayContext
-								(servletRequest,(LiferayPortletRequest) renderRequest,
-										(LiferayPortletResponse) renderResponse, dc);
-						renderRequest.setAttribute("dc", dc);
-						renderRequest.setAttribute("managementDC", managementDC);
-					}
+				case SIGNALEMENTS: {
+					String formInstanceName = (String) renderRequest.getAttribute("formInstanceName");
+					navigationDC.setLibele(formInstanceName);
+					ViewFormSendDisplayContext dc = new ViewFormSendDisplayContext(renderRequest, renderResponse, _itemSelector);
+					ManagementFormsSendToolBarDisplayContext managementDC = new ManagementFormsSendToolBarDisplayContext
+							(servletRequest, (LiferayPortletRequest) renderRequest,
+									(LiferayPortletResponse) renderResponse, dc);
+					renderRequest.setAttribute("dc", dc);
+					renderRequest.setAttribute("managementDC", managementDC);
 					break;
-
-				default:
+				}
+				case FORMS: {
 					ViewFormDisplayContext dc = new ViewFormDisplayContext(renderRequest, renderResponse, _itemSelector);
 					ManagementFormsToolBarDisplayContext managementDC = new ManagementFormsToolBarDisplayContext
 							(servletRequest, (LiferayPortletRequest) renderRequest,
@@ -96,6 +94,7 @@ public class FormSendBOPortlet extends MVCPortlet {
 					renderRequest.setAttribute("dc", dc);
 					renderRequest.setAttribute("managementDC", managementDC);
 					break;
+				}
 			}
 
 		} catch (PortalException e) {

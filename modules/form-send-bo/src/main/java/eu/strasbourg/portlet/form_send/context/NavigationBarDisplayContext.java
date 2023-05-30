@@ -69,17 +69,17 @@ public class NavigationBarDisplayContext {
         List<NavigationItem> navigationItems = new ArrayList<>();
 
 
-        NavigationItem importation = new NavigationItem();
-        importation.setLabel(getLibele());
-        importation.setActive(this.selectedTab.equals(RECORDS));
-        importation.setHref(this.response.createRenderURL(), URL_PARAM_TAB, RECORDS, URL_PARAM_MVCPATH, RECORDS_PATH);
-        navigationItems.add(importation);
+        NavigationItem records = new NavigationItem();
+        records.setLabel(getLibele());
+        records.setActive(this.selectedTab.equals(RECORDS));
+        records.setHref(this.response.createRenderURL(), URL_PARAM_TAB, RECORDS, URL_PARAM_MVCPATH, RECORDS_PATH);
+        navigationItems.add(records);
 
-        NavigationItem campaign = new NavigationItem();
-        campaign.setLabel(LanguageUtil.get(bundle, "reportings"));
-        campaign.setActive(this.selectedTab.equals(SIGNALEMENTS));
-        campaign.setHref(this.response.createRenderURL(), URL_PARAM_TAB, SIGNALEMENTS, URL_PARAM_MVCPATH,SIGNALEMENTS_PATH);
-        navigationItems.add(campaign);
+        NavigationItem signalement = new NavigationItem();
+        signalement.setLabel(LanguageUtil.get(bundle, "reportings"));
+        signalement.setActive(this.selectedTab.equals(SIGNALEMENTS));
+        signalement.setHref(this.response.createRenderURL(), URL_PARAM_TAB, SIGNALEMENTS, URL_PARAM_MVCPATH,SIGNALEMENTS_PATH);
+        navigationItems.add(signalement);
 
         return navigationItems;
     }

@@ -248,21 +248,6 @@ public class ManagementFormSendSignalementsToolBarDisplayContext extends SearchC
     /**
      * Add menu visibility
      */
-    @Override
-    public Boolean isShowCreationMenu() {
-        ThemeDisplay themeDisplay =
-                (ThemeDisplay)httpServletRequest.getAttribute(
-                        WebKeys.THEME_DISPLAY);
-
-        Group group = themeDisplay.getScopeGroup();
-        if(_themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.FORM_SEND_BO, StrasbourgPortletKeys.FORM_SEND_BO, "ADD_FORM_SEND") &&
-                group.getStagingGroup() == null){
-            return true;
-        }
-        return false;
-
-    }
 
 
     /**

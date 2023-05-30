@@ -37,11 +37,6 @@ public class ManagementFormsToolBarDisplayContext extends SearchContainerManagem
                 WebKeys.THEME_DISPLAY);
     }
 
-    /**
-     * The list of dropdown items to display when a result is checked
-     * or the master checkbox in the Management Toolbar is checked
-     */
-
 
     /**
      * The ID of the search container connected to the Management Toolbar
@@ -110,50 +105,6 @@ public class ManagementFormsToolBarDisplayContext extends SearchContainerManagem
         return "fm1";
     }
 
-
-
-    /**
-     * creates an add menu button
-     */
-    @Override
-    public CreationMenu getCreationMenu() {
-        return CreationMenuBuilder.addPrimaryDropdownItem(
-                dropdownItem -> {
-                    ThemeDisplay themeDisplay =
-                            (ThemeDisplay)httpServletRequest.getAttribute(
-                                    WebKeys.THEME_DISPLAY);
-
-                    dropdownItem.setHref(
-                            liferayPortletResponse.createRenderURL(),
-                            "tab", "forms",
-                            "cmd", "editForm",
-                            "mvcPath", "/form-send-bo-edit-form-send.jsp",
-                            "backURL", themeDisplay.getURLCurrent());
-
-                    dropdownItem.setLabel(
-                            LanguageUtil.get(httpServletRequest, "add"));
-                }
-        ).build();
-    }
-
-    /**
-     * Add menu visibility
-     */
-    @Override
-    public Boolean isShowCreationMenu() {
-        ThemeDisplay themeDisplay =
-                (ThemeDisplay)httpServletRequest.getAttribute(
-                        WebKeys.THEME_DISPLAY);
-
-        Group group = themeDisplay.getScopeGroup();
-        if(_themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.FORM_SEND_BO, StrasbourgPortletKeys.FORM_SEND_BO, "ADD_FORM") &&
-                group.getStagingGroup() == null){
-            return true;
-        }
-        return false;
-
-    }
 
 
     /**

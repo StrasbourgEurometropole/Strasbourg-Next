@@ -25,7 +25,7 @@
 		managementToolbarDisplayContext="${managementDC}"
 />
 <%-- Composant : tableau de visualisation des entites --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
 		<liferay-ui:search-container id="formsSearchContainer"
 			searchContainer="${dc.searchContainer}">
