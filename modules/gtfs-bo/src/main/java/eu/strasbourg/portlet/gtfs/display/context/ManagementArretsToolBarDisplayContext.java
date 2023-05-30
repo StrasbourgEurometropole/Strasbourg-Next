@@ -265,7 +265,7 @@ public class ManagementArretsToolBarDisplayContext extends SearchContainerManage
 
 
     /**
-     * Get Event Vocabularies
+     * Get Arret Vocabularies
      */
     protected List<AssetVocabulary> getArretVocabularies() {
         if(_vocabularies == null) {

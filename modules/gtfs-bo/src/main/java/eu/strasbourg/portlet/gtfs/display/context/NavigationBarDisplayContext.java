@@ -56,17 +56,17 @@ public class NavigationBarDisplayContext {
     public List<NavigationItem> getNavigationItems() {
         List<NavigationItem> navigationItems = new ArrayList<>();
 
-        NavigationItem events = new NavigationItem();
-        events.setLabel(LanguageUtil.get(bundle, "arrets"));
-        events.setActive(this.selectedTab.equals(ARRETS));
-        events.setHref(this.response.createRenderURL(), URL_PARAM_TAB, ARRETS, URL_PARAM_MVCPATH, ARRETS_PATH);
-        navigationItems.add(events);
+        NavigationItem arret = new NavigationItem();
+        arret.setLabel(LanguageUtil.get(bundle, "arrets"));
+        arret.setActive(this.selectedTab.equals(ARRETS));
+        arret.setHref(this.response.createRenderURL(), URL_PARAM_TAB, ARRETS, URL_PARAM_MVCPATH, ARRETS_PATH);
+        navigationItems.add(arret);
 
-        NavigationItem manifs = new NavigationItem();
-        manifs.setLabel(LanguageUtil.get(bundle, "importHistorics"));
-        manifs.setActive(this.selectedTab.equals(IMPORT_HISTORICS));
-        manifs.setHref(this.response.createRenderURL(), URL_PARAM_TAB, IMPORT_HISTORICS, URL_PARAM_MVCPATH, IMPORT_HISTORICS_PATH);
-        navigationItems.add(manifs);
+        NavigationItem importHistoric = new NavigationItem();
+        importHistoric.setLabel(LanguageUtil.get(bundle, "importHistorics"));
+        importHistoric.setActive(this.selectedTab.equals(IMPORT_HISTORICS));
+        importHistoric.setHref(this.response.createRenderURL(), URL_PARAM_TAB, IMPORT_HISTORICS, URL_PARAM_MVCPATH, IMPORT_HISTORICS_PATH);
+        navigationItems.add(importHistoric);
 
 
         return navigationItems;
