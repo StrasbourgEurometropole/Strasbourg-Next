@@ -70,7 +70,6 @@ public class FormSendBOPortlet extends MVCPortlet {
 						ManagementFormsSendToolBarDisplayContext managementDC = new ManagementFormsSendToolBarDisplayContext
 								(servletRequest,(LiferayPortletRequest) renderRequest,
 										(LiferayPortletResponse) renderResponse, dc);
-						renderRequest.setAttribute("formInstanceName",formInstanceName);
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}

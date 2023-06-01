@@ -30,6 +30,7 @@
 				<liferay-portlet:renderURL varImpl="editFormSendURL">
 					<portlet:param name="cmd" value="editFormSend" />
                     <portlet:param name="formInstanceId" value="${formInstanceId}" />
+					<portlet:param name="formInstanceName" value="${formInstanceId}" />
 					<portlet:param name="recordId" value="${ddmFormInstanceRecord.formInstanceRecordId}" />
 					<portlet:param name="backURL" value="${viewFormSendsURL}" />
 					<portlet:param name="mvcPath" value="/form-send-bo-edit-form-send.jsp" />

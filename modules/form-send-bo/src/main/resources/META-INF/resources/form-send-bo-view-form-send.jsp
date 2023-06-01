@@ -4,8 +4,6 @@
 
 <!-- Corps de la page et selection du listing a afficher -->
 
-
-
 <%-- URL : definit le lien avec les parametres de recherche des entites--%>
 <liferay-portlet:renderURL var="viewFormSendsURL">
 	<portlet:param name="tab" value="viewFormSends" />
@@ -13,7 +11,7 @@
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
     <portlet:param name="formInstanceId" value="${formInstanceId}" />
-	<portlet:param name="formInstanceId" value="${formInstanceId}" />
+	<portlet:param name="formInstanceName" value="${formInstanceName}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
     <portlet:param name="backURL" value="${formsURL}" />
 </liferay-portlet:renderURL>
@@ -23,6 +21,7 @@
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
     <portlet:param name="formInstanceId" value="${formInstanceId}" />
+	<portlet:param name="formInstanceName" value="${formInstanceName}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
     <portlet:param name="backURL" value="${formsURL}" />
 </liferay-portlet:renderURL>
@@ -35,13 +34,14 @@
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
     <portlet:param name="formInstanceId" value="${formInstanceId}" />
+	<portlet:param name="formInstanceName" value="${formInstanceName}" />
     <portlet:param name="backURL" value="${formsURL}" />
 </liferay-portlet:renderURL>
 
 <!-- Barre de navigation -->
 
 <clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationUnderItems}'/>
-
+${formInstanceName},${formInstanceId}
 <!-- Corps de la page et selection du listing a afficher -->
 <c:choose>
     <c:when test="${tab eq 'viewFormSends'}">
