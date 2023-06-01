@@ -1,10 +1,9 @@
 dependencies {
+
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
-	compileOnly group: "javax.portlet", name: "portlet-api"
-	compileOnly group: "javax.servlet", name: "javax.servlet-api"
 	compileOnly group: "jstl", name: "jstl"
 
-	compile project (':modules:place:place-api')
-	compile project (':modules:csmap:csmap-api')
-	compile project (':modules:utils')
+	implementation project (':modules:place:place-api')
+	implementation project (':modules:csmap:csmap-api')
+	implementation project (':modules:utils')
 }

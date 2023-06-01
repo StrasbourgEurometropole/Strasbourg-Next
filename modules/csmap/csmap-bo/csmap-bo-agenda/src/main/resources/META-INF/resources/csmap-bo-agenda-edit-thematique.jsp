@@ -10,7 +10,7 @@
 
 
 <%-- Composant : Body --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="editorial-title-error" message="editorial-title-error" />
 
@@ -19,7 +19,7 @@
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.agendaThematique}" model="<%=Agenda.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 
             <%-- Champ : (cache) PK de l'entite --%>
             <aui:input name="agendaId" type="hidden" />
@@ -80,7 +80,7 @@
                     curTags="${dc.agendaThematique.tags}" />
             </aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 
 		<%-- Composant : Menu de gestion de l'entite --%>
 		<aui:button-row>
