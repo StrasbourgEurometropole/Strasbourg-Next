@@ -1,34 +1,31 @@
 <%@ include file="/oidc-bo-init.jsp"%>
-
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 <%-- URL : definit le lien avec les parametres de recherche des entites--%>
 <liferay-portlet:renderURL varImpl="anonymisationHistoricsURL">
 	<portlet:param name="tab" value="anonymisationHistorics" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="mvcPath" value="/oidc-bo-view-anonymisation-historics.jsp" />
 </liferay-portlet:renderURL>
 <liferay-ui:error key="anonymisation-forbidden" message="anonymisation-forbidden" />
-
 <%-- Composant : tableau de visualisation des entites --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
-		<aui:input type="hidden" name="selectionIds" />
+
 		<liferay-ui:search-container id="importHistoricsSearchContainer"
 			searchContainer="${dc.searchContainer}">
 
-			<liferay-ui:search-container-results results="${dc.anonymisationHistorics}" />
-
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.oidc.model.AnonymisationHistoric" modelVar="anonymisationHistoric"
-				keyProperty="anonymisationHistoricId" rowIdProperty="anonymisationHistoricId">
+				keyProperty="anonymisationHistoricId">
 
 				<%-- URL : definit le lien vers la page d'edition de l'entite selectionnee --%>
 				<liferay-portlet:renderURL varImpl="editAnonymisationHistoricURL">
 					<portlet:param name="cmd" value="editAnonymisationHistoric" />
 					<portlet:param name="anonymisationHistoricId" value="${anonymisationHistoric.anonymisationHistoricId}" />
-					<portlet:param name="returnURL" value="${anonymisationHistoricsURL}" />
+					<portlet:param name="backURL" value="${anonymisationHistoricsURL}" />
 					<portlet:param name="mvcPath" value="/oidc-bo-edit-anonymisation-historic.jsp" />
 				</liferay-portlet:renderURL>
 
