@@ -1,5 +1,5 @@
 main {
-	padding-top: 137px;
+	padding-top: 162px;
 	@include tablet_portrait {
 		padding-top: 122px;
 	}
@@ -48,8 +48,8 @@ main {
 	}
 
 	.is-scrolled & {
-		transform: translateY(-48px);
-		transform: translate3d(0, -48px, 0);
+		transform: translateY(-72px);
+		transform: translate3d(0, -72px, 0);
 		box-shadow: 0 0 30px 4px rgba(0, 0, 0, 0.15);
 		@include tablet_portrait {
 			transform: none;
@@ -297,8 +297,7 @@ main {
 				}
 				.pro-btn-connexion {
 					@include ft($f_spe, $s_p, 700, $c_grey50, 3.4em);
-					text-transform: uppercase;
-					background: #fbac28;
+					border: solid 1px #8DBA49;
 					padding: 0 20px;
 					margin: 0 15px;
 					height: 48px;
@@ -311,6 +310,7 @@ main {
 					&:before {
 						content: "\e900";
 						@include font();
+						color: #8DBA49;
 						float: left;
 						line-height: 3.28em;
 						margin-right: 10px;
@@ -561,7 +561,13 @@ main {
 						left: 0;
 					}
 				}
-
+				ul.dropdown-menu {
+					li {
+						a {
+							@include ft($f_hx, $s_link, 700, $c_txt, 1.333em);
+						}
+					}
+				}
 				ul {
 					list-style-type: none;
 					padding: 0;
@@ -628,15 +634,19 @@ main {
 							&:after {
 								content: '';
 								position: absolute;
-								bottom: -8px;
-								left: 8px;
-								right: 8px;
+								bottom: -31px;
+								left: 0px;
+								right: 0px;
 								height: 0;
-								width: calc(100% - 16px);
+								width: 100%;
 								transform-origin: bottom;
 								background: $c_main;
+								clip-path: polygon(calc(100% - 5px) 0, 0% 100%, 100% 100%);
 								z-index: -1;
 								@include addTransitionCurve();
+								.is-scrolled & {
+									bottom: -26px;
+								}
 							}
 							@media screen and (max-width: 1200px) {
 								font-size: 1em;
@@ -653,7 +663,7 @@ main {
 							}
 							&:hover, &:focus, &.active {
 								&:after {
-									height: 20px;
+									height: 15px;
 								}
 								@include tablet_portrait {
 									color: $c_main;

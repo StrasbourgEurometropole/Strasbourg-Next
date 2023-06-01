@@ -76,7 +76,6 @@
 				position: relative;
 				margin: 20px 0 25px;
 				white-space: normal;
-				width: calc(66.66666667% - 10px);
 				@include mobile{
 					width: 100%;
 				}
@@ -88,6 +87,7 @@
 		}
 
 		.pro-container-detail-event {
+			margin:0;
 
 			.pro-main-img {
 				figure {

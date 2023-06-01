@@ -58,7 +58,7 @@
                             <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="pro-btn-connexion connexion-black" title="Connexion">
                                 <span class="flexbox">
                                     <span class="picto"></span>
-                                    <span class="text">Connexion</span>
+                                    <span class="text">MonStrasbourg<span>.eu</span></span>
                                 </span>
                             </a>
                         </#if>

@@ -9,11 +9,65 @@
 </portlet:actionURL>
 
 <section id="pro-link-commentaire" class="container pro-bloc-commentaires">
-	<h2>
-		<liferay-ui:message key="javax.portlet.title" />
-	</h2>
+
 	<div class="row">
-		<div class="col-lg-8">
+
+		<c:choose>
+			<c:when test="${!isUserBanned && isAssetCommentable}">
+				<div class="col-lg-3">
+					<div class="pro-reagir">
+						<div>
+							<form id="form-comments" method="post" action="${postComment}"
+								  class="pro-user-connected">
+
+								<div class="pro-textearea">
+									<label for="message"><liferay-ui:message key="comment-your-comment" /></label>
+									<textarea id="message" name="<portlet:namespace />message"
+											<c:choose>
+												<c:when test="${!isUserloggedIn}">
+													placeholder="<liferay-ui:message key='comment-please-connect'/>"
+												</c:when>
+												<c:when test="${!hasUserSigned}">
+													placeholder="<liferay-ui:message key='comment-please-sign'/>"
+												</c:when>
+												<c:otherwise>
+													placeholder="<liferay-ui:message key='comment-write-your-comment-here'/>"
+												</c:otherwise>
+											</c:choose>
+									></textarea>
+									<label for="inQualityOf"><liferay-ui:message key="comment-your-quality" /></label>
+									<input type="text" id="inQualityOf" maxlength="150"
+										   name="<portlet:namespace />inQualityOf"
+										   placeholder="<liferay-ui:message key='comment-write-your-quality-here'/>"
+									/>
+								</div>
+								<input type="hidden" id="parentCommentId" name="<portlet:namespace />parentCommentId"/>
+								<input type="hidden" id="editCommentId" name="<portlet:namespace />editCommentId"/>
+
+								<input id="sendNewComment" type="submit" class="pro-btn-yellow" value="Envoyer" />
+							</form>
+						</div>
+					</div>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<div class="col-lg-3">
+					<div class="pro-reagir">
+						<div>
+							<form>
+								<div class="pro-textearea">
+									<label><liferay-ui:message key='comment-uncommentable'/></label>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</c:otherwise>
+		</c:choose>
+		<div class="col-lg-9">
+			<h2>
+				<liferay-ui:message key="javax.portlet.title" />
+			</h2>
 			<c:forEach var="comment" items="${comments}">
 				
 				<portlet:actionURL name="hideComment" var="hideComment">
@@ -227,58 +281,6 @@
 			</c:forEach>
 		</div>
 
-		<c:choose>
-			<c:when test="${!isUserBanned && isAssetCommentable}">
-				<div class="col-lg-4">
-					<div class="pro-reagir">
-						<div>
-							<form id="form-comments" method="post" action="${postComment}"
-								class="pro-user-connected">
-
-								<div class="pro-textearea">
-									<label for="message"><liferay-ui:message key="comment-your-comment" /></label>
-									<textarea id="message" name="<portlet:namespace />message"
-										<c:choose>
-										  <c:when test="${!isUserloggedIn}">
-										   	placeholder="<liferay-ui:message key='comment-please-connect'/>"
-										  </c:when>
-										  <c:when test="${!hasUserSigned}">
-										    placeholder="<liferay-ui:message key='comment-please-sign'/>"
-										  </c:when>
-										  <c:otherwise>
-										    placeholder="<liferay-ui:message key='comment-write-your-comment-here'/>"
-										  </c:otherwise>
-										</c:choose>
-									></textarea>
-									<label for="inQualityOf"><liferay-ui:message key="comment-your-quality" /></label>
-									<input type="text" id="inQualityOf" maxlength="150"
-										name="<portlet:namespace />inQualityOf"
-										placeholder="<liferay-ui:message key='comment-write-your-quality-here'/>"
-									/>
-								</div>
-								<input type="hidden" id="parentCommentId" name="<portlet:namespace />parentCommentId"/>
-								<input type="hidden" id="editCommentId" name="<portlet:namespace />editCommentId"/>
-
-								<input id="sendNewComment" type="submit" class="pro-btn-yellow" value="Envoyer" />
-							</form>
-						</div>
-					</div>
-				</div>
-			</c:when>
-		    <c:otherwise>
-		    	<div class="col-lg-4">
-					<div class="pro-reagir">
-						<div>
-							<form>
-								<div class="pro-textearea">
-									<label><liferay-ui:message key='comment-uncommentable'/></label>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-		    </c:otherwise>
-		</c:choose>
 	</div>
 </section>
 

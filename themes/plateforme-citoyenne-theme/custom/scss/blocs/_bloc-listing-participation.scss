@@ -1,31 +1,34 @@
 .pro-bloc-listing-participation {
-	&:after {
+	&:before {
 		content: '';
-		display: block;
 		position: absolute;
 		top: 0;
-		right: -15px;
 		bottom: 0;
+		right: -15px;
+		width: 99999px;
 		height: 100%;
-		width: 1px;
-		background: #CECECE;
-		@include tablet_portrait{
-			content: none;
+		display: block;
+		background: #ffffff;
+		@include tablet_portrait {
+			left: -10px;
+			right: -10px;
+			width: calc(100% + 20px);
 		}
-	}
-	#breadcrumb {
-		padding: 10px 0;
-		background: $c_white;
+		@include mobile{
+			right: 0;
+			left: 0;
+			width: 100%;
+		}
 	}
 
 	.pro-wrapper-sort {
 		position: relative;
 		z-index: 140;
-		padding: 0 0 30px 0;
+		padding: 0;
 		display: block;
 		width: 100%;
 		text-align: right;
-		background: $c_white;
+		color: $c_white;
 		@include clearfix();
 		@include mobile{
 			padding: 10px 0 20px 0;
@@ -60,7 +63,7 @@
 		}
 
 		.pro-legend {
-			@include ft($f_txt, $s_small, 400, $c_txt, 1.636em);
+			@include ft($f_txt, $s_small, 400, $c_white, 1.636em);
 			float: right;
 			&:after {
 				content: "\e90a";
@@ -78,31 +81,12 @@
 
 	.pro-wrapper-listing-participation {
 		position: relative;
-		background: #e5e8e9;
+		background: #ffffff;
 		padding: 20px 0 10px 0;
 		@include mobile {
 			padding: 15px 0;
 		}
-		&:before {
-			content: '';
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			right: -15px;
-			width: 99999px;
-			display: block;
-			background: #e5e8e9;
-			@include tablet_portrait {
-				left: -10px;
-				right: -10px;
-				width: calc(100% + 20px);
-			}
-			@include mobile{
-				right: 0;
-				left: 0;
-				width: 100%;
-			}
-		}
+
 
 		.pro-bloc-card-participation {
 			margin: 20px 0;
@@ -115,7 +99,7 @@
 			}
 
 			.pro-header-participation {
-				padding: 30px 30px 0 30px;
+				padding: 20px;
 				margin-bottom: 20px;
 
 				> p {
@@ -173,6 +157,8 @@
 }
 
 .pro-bloc-facette-participation {
+	position: relative;
+	top: -200px;
 
 	.pro-affiner {
 		padding: 20px 30px;

@@ -1,5 +1,49 @@
 .pro-page-detail-initiative{
 
+
+
+	.side-budget {
+		@include addTransitionCurve();
+		position: sticky;
+		top: 162px;
+		background-color: #F37021;
+		height:100vh;
+		.is-scrolled & {
+			top: 80px;
+		}
+
+		.is-scrolled.scrolldir-top & {
+			top: 152px;
+		}
+		&:after {
+			content: "";
+			position: absolute;
+			top: 0;
+			right: -9999px; /* A large value to ensure it extends beyond col-4 */
+			bottom: 0;
+			width: 9999px; /* A large width to fill the remaining space */
+			background-color: #F37021; /* Same as the background color of col-4 */
+		}
+
+		.pro-wrapper-aside-budget {
+			&:before {
+				content: '';
+				display: block;
+				height: 20px;
+				width: 100%;
+				position: absolute;
+				z-index: 99;
+				top: 400px;
+				left: 0;
+				background: inherit;
+				-webkit-transform: skew(0, -2deg);
+				transform: skew(0, -2deg);
+				-webkit-transform-origin: top left;
+				transform-origin: top left;
+			}
+		}
+	}
+
 	.pro-timer{
 		position: relative;
 	}
@@ -479,6 +523,8 @@
 					}
 				}
 			}
+
+
 
 			.pro-push-avis {
 				background: $c_main;

@@ -77,7 +77,7 @@ $colors: #ffffff, #ffffff, #ffffff, #EBECEE, #F37021, #ffffff, #EBECEE, #8DC63F;
 
 //Pour que l'affichage du contenu principal prenne en compte le header de liferay
 .has-control-menu #th-global main{
-	padding-top : 231px;
+	padding-top : 218px;
 }
 
 //Corrige l'affichage de la bare de configuration d'un portlet en mode admin qui devenait trop haute
@@ -140,6 +140,9 @@ $colors: #ffffff, #ffffff, #ffffff, #EBECEE, #F37021, #ffffff, #EBECEE, #8DC63F;
     transition: all .2s ease;
 	margin-left: -16px;
 	margin-right: 15px;
+  border-right: solid 1px #8DBA49;
+  border-top: solid 1px #8DBA49;
+  border-bottom: solid 1px #8DBA49;
 }
 
 #th-global #pro-header .pro-top-header .container .pro-right .nav-logout .picto{
@@ -157,7 +160,7 @@ background-image : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 }
 
 // Affichage du fond noir pour les commentaires et certains formulaires de recherches
-.pro-bloc-facette .pro-affiner:before, .pro-bloc-commentaires .pro-reagir>div:before, .pro-modal .modal-body .pro-reagir>div:before  {
+.pro-bloc-facette .pro-affiner:before{
 	background: url(/o/plateforme-citoyenne-theme/images/background/small-rec-black.png);
 }
 
@@ -230,7 +233,7 @@ form .pro-facette-date input {
 // Taille de la map sur les détails entité
 aside .leaflet-map {
 	width: 100%;
-    height: 200px;
+    height: 400px;
 }
 
 // Passage de la map en dessous du footer et header
@@ -348,7 +351,7 @@ aside .leaflet-map {
 
 // Style du lien vers la légende des participations
 .link-participations-legend {
-	color: black;
+	color: $c_white;
 }
 
 .link-participations-legend:hover {

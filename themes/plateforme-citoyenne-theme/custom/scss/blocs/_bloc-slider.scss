@@ -46,7 +46,7 @@
 		.owl-stage-outer {
 			overflow: visible;
 			.owl-item {
-				width: 358px !important;
+				width: 435px !important;
 				@include tablet_portrait {
 					width: 300px !important;
 				}
@@ -180,7 +180,13 @@
 	}
 	&.pro-slider-event:first-child {
 		h2 {
-			color: white;
+			color: $c_white;
+		}
+	}
+
+	&.pro-slider-event.slider-agenda:first-child {
+		h2 {
+			color: $c_txt;
 		}
 	}
 	&.pro-slider-event {
@@ -269,12 +275,12 @@
 
 	&#pro-link-projet {
 		h2:first-child {
-			color: white;
+			color: $c_white;
 		}
 	}
 
 	&.pro-slider-participation {
-		padding: 20px 0 70px 0;
+		padding: 0 0 70px 0;
 		margin-top: 20px;
 		.pro-listing-count {
 			color: black !important;

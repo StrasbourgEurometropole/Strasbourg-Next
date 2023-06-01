@@ -86,8 +86,61 @@
 }
 
 // =============================================
-// Network List
+// Network List and social shares
 // =============================================
+
+.twitter {
+	a:before {
+		@include font();
+		content: "\e901";
+		color: $c_white;
+	}
+}
+.social-footer {
+	ul {
+		li {
+			display: inline-block;
+		 a:before {
+			 font-size: 25px;
+		 }
+		}
+	}
+}
+// Facebook
+.facebook {
+	a:before {
+		@include font();
+		content: "\e904";
+		color: $c_white;
+	}
+}
+
+// Linkedin
+.linkedin {
+	a:before {
+		@include font();
+		content: "\e910";
+		color: $c_white;
+	}
+}
+
+// Googleplus
+.googleplus {
+	a:before {
+		@include font();
+		content: "\e90f";
+		color: $c_white;
+	}
+}
+
+// Mail
+.mail {
+	a:before {
+		@include font();
+		content: "\e911";
+		color: $c_white;
+	}
+}
 
 .network-list {
 	// List Item
@@ -148,45 +201,7 @@
 		// box-shadow: inset 0 0 0 1px $toggle;
 	}
 
-	// Twitter
-	.twitter {
-		a:before {
-			content: "\e901";
-			color: $c_white;
-		}
-	}
 
-	// Facebook
-	.facebook {
-		a:before {
-			content: "\e904";
-			color: $c_white;
-		}
-	}
-
-	// Linkedin
-	.linkedin {
-		a:before {
-			content: "\e910";
-			color: $c_white;
-		}
-	}
-
-	// Googleplus
-	.googleplus {
-		a:before {
-			content: "\e90f";
-			color: $c_white;
-		}
-	}
-
-	// Mail
-	.mail {
-		a:before {
-			content: "\e911";
-			color: $c_white;
-		}
-	}
 }
 
 // =============================================
