@@ -1,13 +1,14 @@
 <%@ include file="/form-send-bo-init.jsp"%>
-<%-- URL : definit le lien avec les parametres de recherche des entites--%>
-<liferay-portlet:renderURL varImpl="viewReportingsURL">
-	<portlet:param name="tab" value="viewReportings" />
-	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
-	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="keywords" value="${dc.keywords}" />
-    <portlet:param name="formInstanceId" value="${formInstanceId}" />
-	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
-    <portlet:param name="backURL" value="${formsURL}" />
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationUnderItems}'/>
+
+<%-- URL : definit le lien de retour vers la 1ère page --%>
+<liferay-portlet:renderURL varImpl="formsURL">
+    <portlet:param name="tab" value="forms" />
+    <portlet:param name="orderByCol" value="${dc.orderByCol}" />
+    <portlet:param name="orderByType" value="${dc.orderByType}" />
+    <portlet:param name="keywords" value="${dc.keywords}" />
+    <portlet:param name="delta" value="${dc.searchContainer.delta}" />
+    <portlet:param name="mvcPath" value="/form-send-bo-view-forms.jsp" />
 </liferay-portlet:renderURL>
 
 <%-- Composant : barre de filtres et de gestion des entite --%>

@@ -58,14 +58,16 @@ public class FormSendBOPortlet extends MVCPortlet {
 			HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(renderRequest);
 			NavigationBarDisplayContext navigationDC = new NavigationBarDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("navigationDC", navigationDC);
+
+			//si on est sur la page des proposition ou de signalement, on renvoi le formInstanceId
+			renderRequest.setAttribute(URL_PARAM_FORM_INSTANCE_ID, navigationDC.getSelectedFormInstanceId());
+
 			switch (navigationDC.getSelectedTab()) {
 				case RECORDS:
 					if (navigationDC.getSelectedCmd().equals(EDIT_FORM_SEND) || navigationDC.getSelectedCmd().equals(SAVE_FORM_SEND)) {
 						EditFormSendDisplayContext dc = new EditFormSendDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						String formInstanceName = ParamUtil.getString(renderRequest,"formInstanceName");
-						navigationDC.setLibele(formInstanceName);
 						ViewFormSendDisplayContext dc = new ViewFormSendDisplayContext(renderRequest, renderResponse,_itemSelector);
 						ManagementFormsSendToolBarDisplayContext managementDC = new ManagementFormsSendToolBarDisplayContext
 								(servletRequest,(LiferayPortletRequest) renderRequest,
@@ -75,10 +77,8 @@ public class FormSendBOPortlet extends MVCPortlet {
 					}
 					break;
 				case SIGNALEMENTS: {
-					String formInstanceName = (String) renderRequest.getAttribute("formInstanceName");
-					navigationDC.setLibele(formInstanceName);
-					ViewFormSendDisplayContext dc = new ViewFormSendDisplayContext(renderRequest, renderResponse, _itemSelector);
-					ManagementFormsSendToolBarDisplayContext managementDC = new ManagementFormsSendToolBarDisplayContext
+					ViewReportingDisplayContext dc = new ViewReportingDisplayContext(renderRequest, renderResponse, _itemSelector);
+					ManagementRportingToolBarDisplayContext managementDC = new ManagementRportingToolBarDisplayContext
 							(servletRequest, (LiferayPortletRequest) renderRequest,
 									(LiferayPortletResponse) renderResponse, dc);
 					renderRequest.setAttribute("dc", dc);
@@ -99,6 +99,7 @@ public class FormSendBOPortlet extends MVCPortlet {
 		} catch (PortalException e) {
 			e.printStackTrace();
 		}
+
 		//si on est sur la page des proposition ou de signalement, on affiche un lien de retour
 		String backURL = ParamUtil.getString(renderRequest,"backURL");
 		boolean showBackButton = Validator.isNotNull(backURL);
@@ -106,17 +107,6 @@ public class FormSendBOPortlet extends MVCPortlet {
 			portletDisplay.setShowBackIcon(true);
 			portletDisplay.setURLBack(backURL);
 		}
-
-		//si on est sur la page des proposition du de signalement, on récupère le formInstanceId
-		long formInstanceId = ParamUtil.getLong(renderRequest,"formInstanceId");
-		renderRequest.setAttribute("formInstanceId", formInstanceId);
-
-		//récupère le nom du formulaire
-		DDMFormInstance formInstance = DDMFormInstanceLocalServiceUtil.fetchFormInstance(formInstanceId);
-		String formInstanceName = "Proposition";
-		if(Validator.isNotNull(formInstance))
-			formInstanceName = formInstance.getName(Locale.FRANCE);
-		renderRequest.setAttribute("formInstanceName", formInstanceName);
 
 		super.render(renderRequest, renderResponse);
 	}

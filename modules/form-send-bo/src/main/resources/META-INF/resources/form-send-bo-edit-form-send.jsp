@@ -3,9 +3,8 @@
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveFormSend" varImpl="saveFormSendURL">
     <portlet:param name="tab" value="viewFormSends" />
-    <portlet:param name="cmd" value="saveFormSend" />
     <portlet:param name="formInstanceId" value="${formInstanceId}" />
-    <portlet:param name="mvcPath" value="/form-send--bo-view-forms.jsp" />
+    <portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 
