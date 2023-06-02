@@ -2,19 +2,17 @@ package eu.strasbourg.portlet.form_send.context;
 
 import com.liferay.asset.categories.item.selector.AssetCategoryTreeNodeItemSelectorReturnType;
 import com.liferay.asset.categories.item.selector.criterion.AssetCategoryTreeNodeItemSelectorCriterion;
-import com.liferay.dynamic.data.mapping.model.DDMContent;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
-import com.liferay.dynamic.data.mapping.service.DDMContentLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
 import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
-import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
@@ -22,18 +20,24 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
-import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.form_send.util.FormSendActionDropdownItemsProvider;
-import eu.strasbourg.service.formSendRecordField.model.FormSendRecordField;
-import eu.strasbourg.utils.SearchHelper;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ViewFormSendDisplayContext {
@@ -96,40 +100,38 @@ public class ViewFormSendDisplayContext {
     }*/
 
     // récupère les valeurs d'un formulaire envoyé (nom du champ, valeur du champ)
-    public List<String[]> getRecordFields(long recordStorageId, Locale locale) {
+    public List<String[]> getRecordFields(DDMFormInstanceRecord form, Locale locale) {
         List<String[]> recordFields = new ArrayList<String[]>();
         // récupère tous les champs qui devront être affichés
         Map<String, String[]> texteFields = getTexteFields();
 
         // récupère les infos du contenu du formulaire envoyé
-        DDMContent content = DDMContentLocalServiceUtil.fetchDDMContent(recordStorageId);
-        if(Validator.isNotNull(content)){
-            // récupère le contenu du formulaire envoyé
-            String jsonString = content.getData();
-            if(Validator.isNotNull(jsonString)){
+        // Contient les valeurs et le type du champ, avec l'identifiant du champ comme cle de la Map
+        try {
+            Map<String, List<DDMFormFieldValue>> formfieldvaluesMap = form.getDDMFormValues().getDDMFormFieldValuesMap(false);
+            for (String formFieldKey : formfieldvaluesMap.keySet()) {
+                // récupère les infos du champs
+                List<DDMFormFieldValue> formFieldValuesList = formfieldvaluesMap.get(formFieldKey);
+                // on ne garde que les type text
                 try {
-                    // récupère les infos de tous les champs du formualaire
-                    JSONArray jsonArray = JSONFactoryUtil.createJSONObject(jsonString).getJSONArray("fieldValues");
-                    for (Object jsonObject : jsonArray) {
-                        // récupère les infos du champs
-                        JSONObject json = JSONFactoryUtil.createJSONObject(jsonObject.toString());
-                        // on ne garde que les type text
-                        if(Validator.isNotNull(texteFields.get(json.getString("name")))) {
-                            // remplace la réponse "" par la réponse réelle
-                            texteFields.get(json.getString("name"))[1] = json.getJSONObject("value").getString(locale.toString()).replaceAll("(\r\n|\n)", "<br />");
-                        }
+                    if (formFieldValuesList.size() == 1 &&
+                            formFieldValuesList.get(0).getType().equals("text")) {
+                        // remplace la réponse "" par la réponse réelle
+                        texteFields.get(formFieldValuesList.get(0).getName())[1] = formFieldValuesList.get(0).getValue().getString(locale).replaceAll("(\r\n|\n)", "<br />");
                     }
-
-                    // transform la map en list
-                    if(Validator.isNotNull(texteFields)) {
-                        recordFields = new ArrayList<String[]>(texteFields.values());
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                }catch (Exception e1){
+                    _log.error(e1.getMessage(), e1);
                 }
             }
+        } catch (PortalException e) {
+            throw new RuntimeException(e);
         }
+
+        // transform la map en list
+        if(Validator.isNotNull(texteFields)) {
+            recordFields = new ArrayList<>(texteFields.values());
+        }
+
         return recordFields;
     }
 

@@ -1,7 +1,16 @@
 <%@ include file="/form-send-bo-init.jsp"%>
-<%-- URL : definit le lien de retour --%>
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationUnderItems}'/>
+<%-- URL : definit le lien de retour vers la 1ère page --%>
+<liferay-portlet:renderURL varImpl="formsURL">
+	<portlet:param name="tab" value="forms" />
+	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
+	<portlet:param name="orderByType" value="${dc.orderByType}" />
+	<portlet:param name="keywords" value="${dc.keywords}" />
+	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="mvcPath" value="/form-send-bo-view-forms.jsp" />
+</liferay-portlet:renderURL>
 
-<%-- URL : definit le lien avec les parametres de recherche des entites--%>
+<%-- URL : definit le lien de retour vers cette page --%>
 <liferay-portlet:renderURL varImpl="viewFormSendsURL">
 	<portlet:param name="tab" value="viewFormSends" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
@@ -28,9 +37,9 @@
 
 				<%-- URL : definit le lien vers la page d'edition de l'entite selectionnee --%>
 				<liferay-portlet:renderURL varImpl="editFormSendURL">
+					<portlet:param name="tab" value="viewFormSends" />
 					<portlet:param name="cmd" value="editFormSend" />
                     <portlet:param name="formInstanceId" value="${formInstanceId}" />
-					<portlet:param name="formInstanceName" value="${formInstanceId}" />
 					<portlet:param name="recordId" value="${ddmFormInstanceRecord.formInstanceRecordId}" />
 					<portlet:param name="backURL" value="${viewFormSendsURL}" />
 					<portlet:param name="mvcPath" value="/form-send-bo-edit-form-send.jsp" />
@@ -43,7 +52,7 @@
 					href="${editFormSendURL}" name="create-date" truncate="true" orderable="true"
 					value="${formattedCreateDate}" />
 
-                <c:forEach items="${dc.getRecordFields(ddmFormInstanceRecord.storageId, locale)}" var="recordField">
+                <c:forEach items="${dc.getRecordFields(ddmFormInstanceRecord, locale)}" var="recordField">
                     <liferay-ui:search-container-column-text cssClass="content-column"
                         href="${editFormSendURL}" name="${recordField[0]}" truncate="true" orderable="true"
                         value="${recordField[1]}" />

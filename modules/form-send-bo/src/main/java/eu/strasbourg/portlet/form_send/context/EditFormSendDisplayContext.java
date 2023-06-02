@@ -1,16 +1,16 @@
 package eu.strasbourg.portlet.form_send.context;
 
-import com.liferay.dynamic.data.mapping.model.DDMContent;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
-import com.liferay.dynamic.data.mapping.service.DDMContentLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
-import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -22,10 +22,15 @@ import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldLoca
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class EditFormSendDisplayContext{
 
+    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
     private final RenderRequest _request;
     private final ThemeDisplay _themeDisplay;
 
@@ -43,41 +48,36 @@ public class EditFormSendDisplayContext{
     public List<String[]> getRecordFields(Locale locale) {
         long recordId = ParamUtil.getLong(_request, "recordId");
         if (_recordFields == null && recordId > 0) {
-            _recordFields = new ArrayList<String[]>();
+            _recordFields = new ArrayList<>();
 
             // récupère le formulaire envoyé
-            if(Validator.isNotNull(getRecord())){
+            if(Validator.isNotNull(getRecord())) {
                 // récupère les infos du contenu du formulaire envoyé
-                DDMContent content = DDMContentLocalServiceUtil.fetchDDMContent(_record.getStorageId());
-
-                if(Validator.isNotNull(content)){
-                    // récupère le contenu du formulaire envoyé
-                    String jsonString = content.getData();
-                    if(Validator.isNotNull(jsonString)){
+                // Contient les valeurs et le type du champ, avec l'identifiant du champ comme cle de la Map
+                try {
+                    Map<String, List<DDMFormFieldValue>> formfieldvaluesMap = _record.getDDMFormValues().getDDMFormFieldValuesMap(false);
+                    for (String formFieldKey : formfieldvaluesMap.keySet()) {
+                        // récupère les infos du champs
+                        List<DDMFormFieldValue> formFieldValuesList = formfieldvaluesMap.get(formFieldKey);
+                        // on ne garde que les types text qui sont renseignés
                         try {
-                            // récupère les infos de tous les champs du formualaire
-                            JSONArray jsonArray = JSONFactoryUtil.createJSONObject(jsonString).getJSONArray("fieldValues");
-                            for (Object jsonObject : jsonArray) {
-                                // récupère les infos du champs
-                                JSONObject json = JSONFactoryUtil.createJSONObject(jsonObject.toString());
-                                // on ne garde que les types text qui sont renseignés
-                                if(Validator.isNotNull(getTexteFields().get(json.getString("name")))
-                                        && Validator.isNotNull(json.getJSONObject("value").getString(locale.toString()))) {
-
-                                    // récupère la réponse de la ville
-                                    FormSendRecordField formSendRecordField = this.getFormSendRecordField(content.getContentId(), json.getString("instanceId"));
-                                    String[] field = {getTexteFields().get(json.getString("name")),
-                                            json.getJSONObject("value").getString(locale.toString()).replaceAll("(\r\n|\n)", "<br />"),
-                                            ""+formSendRecordField.getFormSendRecordFieldId(), formSendRecordField.getResponse()};
-                                    _recordFields.add(field);
-                                }
+                            if (formFieldValuesList.size() == 1 &&
+                                    formFieldValuesList.get(0).getType().equals("text")
+                                    && Validator.isNotNull(formFieldValuesList.get(0).getValue().getString(locale))) {
+                                // récupère la réponse de la ville
+                                FormSendRecordField formSendRecordField = this.getFormSendRecordField(_record.getStorageId(), formFieldValuesList.get(0).getInstanceId());
+                                String[] field = {getTexteFields().get(formFieldValuesList.get(0).getName()),
+                                        formFieldValuesList.get(0).getValue().getString(locale).replaceAll("(\r\n|\n)", "<br />"),
+                                        "" + formSendRecordField.getFormSendRecordFieldId(), formSendRecordField.getResponse()};
+                                _recordFields.add(field);
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        } catch (Exception e1) {
+                            _log.error(e1.getMessage(), e1);
                         }
                     }
+                } catch (PortalException e) {
+                    throw new RuntimeException(e);
                 }
-
             }
         }
         return _recordFields;

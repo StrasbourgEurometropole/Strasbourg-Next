@@ -6,7 +6,6 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.SearchCon
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.*;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
@@ -15,7 +14,6 @@ import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -23,9 +21,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
-public class ManagementFormSendSignalementsToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
+public class ManagementRportingToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
 
-    public ManagementFormSendSignalementsToolBarDisplayContext(
+    public ManagementRportingToolBarDisplayContext(
             HttpServletRequest httpServletRequest,
             LiferayPortletRequest liferayPortletRequest,
             LiferayPortletResponse liferayPortletResponse,

@@ -183,6 +183,7 @@ public class ViewReportingDisplayContext {
         _searchContainer.setRowChecker(new EmptyOnClickRowChecker(_response));
         return _searchContainer;
     }
+
     // Récupération de la réponse lié au signalement
     public String getResponse(long formSendRecordFieldId){
         String response = "";
@@ -212,6 +213,7 @@ public class ViewReportingDisplayContext {
         }
         return response;
     }
+
     /**
      * Retourne le dropdownItemsProvider de Form
      *
