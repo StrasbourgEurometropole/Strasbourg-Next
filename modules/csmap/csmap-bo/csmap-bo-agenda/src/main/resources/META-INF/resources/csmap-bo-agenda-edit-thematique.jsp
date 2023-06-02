@@ -4,8 +4,8 @@
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveAgendaThematique" varImpl="saveAgendaThematiqueURL">
-	<portlet:param name="cmd" value="saveAgendaThematique" />
 	<portlet:param name="tab" value="agendaThematique" />
+	<portlet:param name="mvcPath" value="/csmap-bo-agenda-view-thematiques.jsp"/>
 </liferay-portlet:actionURL>
 
 
