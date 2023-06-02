@@ -1,17 +1,12 @@
 <%@ include file="/oidc-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.oidc.model.AnonymisationHistoric"%>
 
-<%-- URL : definit le lien menant vers la page de listage de l'entite --%>
-<liferay-portlet:renderURL varImpl="anonymisationHistoricsURL">
-	<portlet:param name="tab" value="anonymisationHistorics" />
-</liferay-portlet:renderURL>
-
 <%-- Composant : Body --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 
 	<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 	<aui:model-context bean="${dc.anonymisationHistoric}" model="<%=AnonymisationHistoric.class %>" />
-	<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 
 		<%-- Champ : (cache) PK de l'entite --%>
 		<aui:input name="anonymisationHistoricId" type="hidden" />
@@ -49,6 +44,6 @@
 
 		</aui:fieldset>
 
-	</aui:fieldset-group>
+		</div></div>
 
 </div>

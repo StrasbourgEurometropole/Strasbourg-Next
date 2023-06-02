@@ -58,13 +58,14 @@ public class SavePublikUserActionCommand implements MVCActionCommand {
 					.getAttribute(WebKeys.THEME_DISPLAY);
 				String portletName = (String) request
 					.getAttribute(WebKeys.PORTLET_ID);
-				PortletURL returnURL = PortletURLFactoryUtil.create(request,
+				PortletURL backURL = PortletURLFactoryUtil.create(request,
 					portletName, themeDisplay.getPlid(),
 					PortletRequest.RENDER_PHASE);
 
-				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("backURL", backURL.toString());
 				response.setRenderParameter("cmd","editPublikUser");
 				response.setRenderParameter("mvcPath","/oidc-bo-edit-publikuser.jsp");
+				response.setRenderParameter("cmd", "savePublikUser");
 				return false;
 			}
 
