@@ -2,8 +2,10 @@ dependencies {
 
 	compileOnly group: "jstl", name: "jstl"
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
+	compileOnly group: 'javax.mail', name: 'mail', version: '1.4.7'
 
 	implementation project (':modules:utils')
 	implementation project (':modules:place:place-api')
 	implementation project (':modules:agenda:agenda-service')
+	implementation project (':modules:agenda:agenda-api')
 }

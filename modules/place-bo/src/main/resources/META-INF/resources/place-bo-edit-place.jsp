@@ -2,13 +2,10 @@
 <%@ include file="/place-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.place.model.Place"%>
 
-<liferay-portlet:renderURL varImpl="placesURL">
-	<portlet:param name="tab" value="places" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deletePlace" var="deletePlaceURL">
 	<portlet:param name="cmd" value="deletePlace" />
 	<portlet:param name="tab" value="places" />
+	<portlet:param name="mvcPath" value="/place-bo-view-places.jsp" />
 	<portlet:param name="placeId"
 		value="${not empty dc.place ? dc.place.placeId : ''}" />
 </liferay-portlet:actionURL>
@@ -21,7 +18,7 @@
 	<portlet:param name="tab" value="subPlaces" />
 </liferay-portlet:renderURL>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<liferay-ui:error key="alias-error" message="alias-error" />
 	<liferay-ui:error key="period-error" message="period-error" />
 	<liferay-ui:error key="slot-error" message="slot-error" />
@@ -34,7 +31,7 @@
 			id="translationManager" />
 
 		<aui:model-context bean="${dc.place}" model="<%=Place.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="placeId" type="hidden" />
 
 			<!-- Informations géographique -->
@@ -521,7 +518,7 @@
 					
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 
 		<aui:button-row>
 			<aui:input type="hidden" name="workflowAction" value="" />

@@ -43,15 +43,15 @@ public class ViewPublicHolidaysDisplayContext {
 	public List<PublicHoliday> getPublicHolidays() throws PortalException {
 		if (this._publicHolidays == null) {
 			// Total
-			this.getSearchContainer().setTotal(
+		/*	this.getSearchContainer().setTotal(
 					PublicHolidayLocalServiceUtil.getPublicHolidaiesCount());
 
 			// Récupération de la liste des prix
 			List<PublicHoliday> publicHolidays = PublicHolidayLocalServiceUtil
 					.getPublicHolidaies(this.getSearchContainer().getStart(),
-							this.getSearchContainer().getEnd());
+							this.getSearchContainer().getEnd());*/
 
-			this._publicHolidays = publicHolidays;
+			//this._publicHolidays = publicHolidays;
 		}
 		return this._publicHolidays;
 	}

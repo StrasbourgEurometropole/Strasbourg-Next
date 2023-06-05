@@ -43,14 +43,14 @@ public class ViewSubPlacesDisplayContext {
 	public List<SubPlace> getSubPlaces() throws PortalException {
 		if (this._subPlaces == null) {
 			// Total
-			this.getSearchContainer()
+			/*this.getSearchContainer()
 					.setTotal(SubPlaceLocalServiceUtil.getSubPlacesCount());
 
 			// Création de la liste d'objet
 			List<SubPlace> subPlaces = SubPlaceLocalServiceUtil.getSubPlaces(
 					this.getSearchContainer().getStart(),
 					this.getSearchContainer().getEnd());
-			this._subPlaces = subPlaces;
+			this._subPlaces = subPlaces;*/
 		}
 		return this._subPlaces;
 	}

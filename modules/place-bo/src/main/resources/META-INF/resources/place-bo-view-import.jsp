@@ -1,5 +1,5 @@
 <%@ include file="/place-bo-init.jsp"%>
-
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 <liferay-portlet:renderURL varImpl="importURL">
 	<portlet:param name="tab" value="import" />
 </liferay-portlet:renderURL>
@@ -16,7 +16,7 @@
 	<portlet:param name="tab" value="import" />
 </liferay-portlet:actionURL>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<c:choose>
 		<c:when test="${isAdmin}">
 			<aui:form action="${startImportPlacesURL}" method="post" name="fmPlaces" enctype="multipart/form-data" >

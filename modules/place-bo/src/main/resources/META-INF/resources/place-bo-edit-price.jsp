@@ -17,7 +17,7 @@
 	<portlet:param name="tab" value="prices" />
 </liferay-portlet:actionURL>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="price-error" message="price-error" />
 
@@ -27,7 +27,7 @@
 			id="translationManager" />
 
 		<aui:model-context bean="${dc.price}" model="<%=Price.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="priceId" type="hidden" />
 
 			<!-- Informations générale -->
@@ -63,7 +63,7 @@
 						
 			</aui:fieldset>
 			
-		</aui:fieldset-group>
+		</div></div>
 
 		<aui:button-row>
 			<aui:input type="hidden" name="workflowAction" value="" />
