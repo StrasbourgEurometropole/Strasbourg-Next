@@ -25743,8 +25743,6 @@ function createParticipation(participation){
                 '</div>' +
                 '<div class="pro-content-participation">' +
                     '<div class="pro-meta">' +
-                        '<!-- Liste des quartiers de la participation -->' +
-                        '<span>' + participation.districtsLabel +'</span>' +
                         '<!-- Liste des thématiques de la participation -->';
                         for(var i = 0 ; i < participation.jsonThematicCategoriesTitle.length ; i++){
                             vignette += '<span>' + participation.jsonThematicCategoriesTitle[i]["fr_FR"] + '</span>';
@@ -25752,9 +25750,12 @@ function createParticipation(participation){
                         }
     vignette +=         '<!-- Statut de la participation -->' +
                         '<span>' + participationStatus + '</span>' +
-                        '<!-- Projet lié à la participation -->' +
-                        '<span>' + participation.projectName + '</span>' +
+
                     '</div>' +
+        '<!-- Liste des quartiers de la participation -->' +
+        '<span class="location-participation">' + participation.districtsLabel +'</span>' +
+        '<!-- Projet lié à la participation -->' +
+        '<span>' + participation.projectName + ' :</span>' +
                     '<a href="' + homeURL + 'detail-participation/-/entity/id/' + participation.id + '" title="Lien vers la page détail Participation - Lien des commentaires">' +
                         '<h3>' + participation.title + '</h3>' +
                     '</a>' +
@@ -27801,10 +27802,10 @@ $('.owl-timeline').each(function () {
 
 
     var options = {
-            items: 5,
+            items: 3,
             loop: false,
             margin: 0,
-            startPosition: 2,
+            startPosition: 0,
             responsive: {
                 0: {
                     items: 2
@@ -27813,12 +27814,12 @@ $('.owl-timeline').each(function () {
                     items: 3
                 },
                 1300: {
-                    items: 5
+                    items: 3
                 }
             },
             nav: true,
             dots: false,
-            center: true,
+            center: false,
             mouseDrag: false,
             touchDrag: false,
             navText: ["<span class='icon-ico-chevron-left'></span>", "<span class='icon-ico-chevron-right'></span>"],

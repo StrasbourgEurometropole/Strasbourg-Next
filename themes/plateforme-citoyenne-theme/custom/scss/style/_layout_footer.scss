@@ -15,6 +15,22 @@
 		}
 	}
 
+	&::before {
+		content: '';
+		display: block;
+		height: 40px;
+		width: 100%;
+		position: absolute;
+		z-index: 99;
+		top: 0;
+		left: 0;
+		background: $c_grey;
+		-webkit-transform: skew(0, -1deg);
+		transform: skew(0, -1deg);
+		-webkit-transform-origin: top left;
+		transform-origin: top left;
+	}
+
 	.pro-logo {
 		display: block;
 		padding: 15px 0;
