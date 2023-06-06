@@ -50,6 +50,7 @@
                             <portlet:param name="formSendRecordFieldId" value="${signalement.formSendRecordFieldId}" />
                             <portlet:param name="formInstanceId" value="${formInstanceId}" />
                             <portlet:param name="backURL" value="${formsURL}" />
+                            <portlet:param name="mvcPath" value="/form-send-bo-view-form-send-signalements.jsp" />
                         </liferay-portlet:renderURL>
 
                         <%-- Colonne : approuver la réponse --%>
@@ -64,6 +65,7 @@
                             <portlet:param name="formSendRecordFieldId" value="${signalement.formSendRecordFieldId}" />
                             <portlet:param name="formInstanceId" value="${formInstanceId}" />
                             <portlet:param name="backURL" value="${formsURL}" />
+                            <portlet:param name="mvcPath" value="/form-send-bo-view-form-send-signalements.jsp" />
                         </liferay-portlet:renderURL>
 
                         <%-- Colonne : cacher la réponse --%>
