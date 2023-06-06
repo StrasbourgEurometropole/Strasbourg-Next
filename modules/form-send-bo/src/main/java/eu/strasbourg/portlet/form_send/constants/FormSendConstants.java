@@ -12,6 +12,8 @@ public class FormSendConstants {
 
     public static final String SIGNALEMENTS = "viewReportings";
     public static final String SIGNALEMENTS_PATH = "/form-send-bo-view-form-send-signalements.jsp";
+    public static final String SHOW_RESPONSE = "showResponse";
+    public static final String HIDE_RESPONSE = "hideResponse";
 
     public static final String URL_PARAM_TAB = "tab";
     public static final String URL_PARAM_MVCPATH = "mvcPath";

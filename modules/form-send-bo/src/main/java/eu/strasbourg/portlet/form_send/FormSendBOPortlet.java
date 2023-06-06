@@ -77,12 +77,21 @@ public class FormSendBOPortlet extends MVCPortlet {
 					}
 					break;
 				case SIGNALEMENTS: {
+					if (navigationDC.getSelectedCmd().equals(SHOW_RESPONSE)) {
+						long formSendRecordFieldId = ParamUtil.getLong(renderRequest,"formSendRecordFieldId");
+						displayResponse(true, formSendRecordFieldId);
+					}
+					if (navigationDC.getSelectedCmd().equals(HIDE_RESPONSE)) {
+						long formSendRecordFieldId = ParamUtil.getLong(renderRequest,"formSendRecordFieldId");
+						displayResponse(false, formSendRecordFieldId);
+					}
 					ViewReportingDisplayContext dc = new ViewReportingDisplayContext(renderRequest, renderResponse, _itemSelector);
 					ManagementRportingToolBarDisplayContext managementDC = new ManagementRportingToolBarDisplayContext
 							(servletRequest, (LiferayPortletRequest) renderRequest,
 									(LiferayPortletResponse) renderResponse, dc);
 					renderRequest.setAttribute("dc", dc);
 					renderRequest.setAttribute("managementDC", managementDC);
+
 					break;
 				}
 				case FORMS: {
