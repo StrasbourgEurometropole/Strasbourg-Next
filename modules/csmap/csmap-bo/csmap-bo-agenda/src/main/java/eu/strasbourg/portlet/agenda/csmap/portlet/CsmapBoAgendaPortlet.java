@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.agenda.csmap.portlet;
 
+import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.PortletDisplay;
@@ -14,6 +15,7 @@ import eu.strasbourg.portlet.agenda.csmap.display.context.NavigationBarDisplayCo
 import eu.strasbourg.portlet.agenda.csmap.display.context.ViewCsmapAgendaThematiqueDisplayContext;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import static eu.strasbourg.portlet.agenda.csmap.constants.CsmapBoAgendaConstants.*;
 
@@ -56,16 +58,22 @@ public class CsmapBoAgendaPortlet extends MVCPortlet {
 			renderRequest.setAttribute("navigationDC", navigationDC);
 			HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(renderRequest);
 			switch (navigationDC.getSelectedTab()) {
-
-				case AGENDA_PRINCIPAL:
-
-						EditCsmapPrincipalAgendaDisplayContext dc = new EditCsmapPrincipalAgendaDisplayContext();
+				case AGENDA_PRINCIPAL: {
+					EditCsmapPrincipalAgendaDisplayContext dc = new EditCsmapPrincipalAgendaDisplayContext();
+					renderRequest.setAttribute("dc", dc);
+					break;
+				}
+				case AGENDA_THEMATIQUES: {
+					if (navigationDC.getSelectedCmd().equals(EDIT_AGENDA_THEMATIQUE) || navigationDC.getSelectedCmd().equals(SAVE_AGENDA_THEMATIQUE)) {
+						EditCsmapThematiqueAgendaDisplayContext dc = new EditCsmapThematiqueAgendaDisplayContext(renderRequest, renderResponse);
+						renderRequest.setAttribute("dc", dc);
+					} else {
+						ViewCsmapAgendaThematiqueDisplayContext dc = new ViewCsmapAgendaThematiqueDisplayContext(renderRequest, renderResponse, _itemSelector);
 						renderRequest.setAttribute("dc", dc);
 
+					}
 					break;
-				case AGENDA_THEMATIQUES:
-
-					break;
+				}
 			}
 
 
@@ -84,4 +92,6 @@ public class CsmapBoAgendaPortlet extends MVCPortlet {
 
 		super.render(renderRequest, renderResponse);
 	}
+	@Reference
+	private ItemSelector _itemSelector;
 }

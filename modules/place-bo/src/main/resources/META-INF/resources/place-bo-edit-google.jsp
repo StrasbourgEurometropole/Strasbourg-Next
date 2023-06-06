@@ -7,11 +7,11 @@
 </liferay-portlet:renderURL>
 
 <%-- Composant : Body --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 
 	<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 	<aui:model-context bean="${dc.googleMyBusinessHistoric}" model="<%=GoogleMyBusinessHistoric.class %>" />
-	<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 
 		<%-- Champ : (cache) PK de l'entite --%>
 		<aui:input name="googleMyBusinessHistoricId" type="hidden" />
@@ -49,6 +49,6 @@
 
 		</aui:fieldset>
 
-	</aui:fieldset-group>
+		</div></div>
 
 </div>

@@ -33,7 +33,7 @@ import javax.portlet.ActionResponse;
 	immediate = true,
 	property = {
 		"javax.portlet.name=" + StrasbourgPortletKeys.CSMAP_BO_AGENDA,
-		"mvc.command.name=ActivateAgendaThematique" },
+		"mvc.command.name=activateAgendaThematique" },
 	service = MVCActionCommand.class)
 public class ActivateAgendaThematiqueActionCommand
 	implements MVCActionCommand {

@@ -19,7 +19,7 @@
 	<portlet:param name="tab" value="subPlaces" />
 </liferay-portlet:actionURL>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<liferay-ui:error key="name-error" message="name-error" />
 	<liferay-ui:error key="description-error" message="description-error" />
 	<liferay-ui:error key="period-error" message="period-error" />
@@ -34,7 +34,7 @@
 
 		<aui:model-context bean="${dc.subPlace}"
 			model="<%=SubPlace.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="subPlaceId" type="hidden" />
 
 			<!-- Informations gÃ©nÃ©rale -->
@@ -208,7 +208,7 @@
 					
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 
 		<aui:button-row>
 			<aui:input type="hidden" name="workflowAction" value="" />

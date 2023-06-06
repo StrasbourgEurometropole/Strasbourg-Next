@@ -56,6 +56,7 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
                 backURL.setParameter("tab", request.getParameter("tab"));
 
                 response.setRenderParameter("backURL", backURL.toString());
+                response.setRenderParameter("cmd","saveAgendaThematique");
                 response.setRenderParameter("mvcPath",
                         "/csmap-bo-agenda-edit-thematique.jsp");
                 return false;
