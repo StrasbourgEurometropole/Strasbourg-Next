@@ -22,14 +22,15 @@ public class PlaceConstants {
     public static final String SAVE_SUB_PLACE = "saveSubPlace";
 
     public static final String IMPORTS = "import";
+    public static final String IMPORTS_PATH="/place-bo-view-import.jsp";
 
     public static final String GOOGLE = "google";
     public static final String GOOGLE_PATH = "/place-bo-view-google.jsp";
     public static final String EDIT_GOOGLE = "editGoogle";
 
 
-    public static final String TOKEB = "token";
-    public static final String TOKEB_PATH = "/place-bo-view-token.jsp";
+    public static final String TOKEN = "token";
+    public static final String TOKEN_PATH = "/place-bo-view-token.jsp";
     
     public static final String URL_PARAM_TAB = "tab";
     public static final String URL_PARAM_MVCPATH = "mvcPath";

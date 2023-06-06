@@ -11,7 +11,9 @@
 	<portlet:param name="mvcPath" value="/place-bo-edit-subplace.jsp" />
 	<portlet:param name="returnURL" value="${subPlacesURL}" />
 </liferay-portlet:renderURL>
-
+<clay:management-toolbar
+		managementToolbarDisplayContext="${managementDC}"
+/>
 <liferay-frontend:management-bar includeCheckBox="true"
 	searchContainerId="subPlacesSearchContainer">
 

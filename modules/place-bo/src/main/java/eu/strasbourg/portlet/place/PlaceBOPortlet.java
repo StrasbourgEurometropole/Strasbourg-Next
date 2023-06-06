@@ -68,7 +68,43 @@ public class PlaceBOPortlet extends MVCPortlet {
 					}
 					break;
 				}
-				default: {
+				case PUBLIC_HOLIDAYS: {
+					if (navigationDC.getSelectedCmd().equals(EDIT_PUBLIC_HOLIDAY) || navigationDC.getSelectedCmd().equals(SAVE_PUBLIC_HOLIDAY)) {
+						EditPublicHolidayDisplayContext dc = new EditPublicHolidayDisplayContext(renderRequest, renderResponse);
+						renderRequest.setAttribute("dc", dc);
+					} else {
+						ViewPublicHolidaysDisplayContext dc = new ViewPublicHolidaysDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ManagementPublicHolidayToolBarDisplayContext managementDC = new ManagementPublicHolidayToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
+								(LiferayPortletResponse) renderResponse, dc);
+						renderRequest.setAttribute("dc", dc);
+						renderRequest.setAttribute("managementDC", managementDC);
+					}
+					break;
+				}
+				case SUB_PLACES: {
+					if (navigationDC.getSelectedCmd().equals(EDIT_SUB_PLACE) || navigationDC.getSelectedCmd().equals(SAVE_SUB_PLACE)) {
+						EditSubPlaceDisplayContext dc = new EditSubPlaceDisplayContext(renderRequest, renderResponse);
+						renderRequest.setAttribute("dc", dc);
+					} else {
+						ViewSubPlacesDisplayContext dc = new ViewSubPlacesDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ManagementSubPlaceToolBarDisplayContext managementDC = new ManagementSubPlaceToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
+								(LiferayPortletResponse) renderResponse, dc);
+						renderRequest.setAttribute("dc", dc);
+						renderRequest.setAttribute("managementDC", managementDC);
+					}
+					break;
+				}
+				case GOOGLE: {
+					if (navigationDC.getSelectedCmd().equals(EDIT_GOOGLE) || navigationDC.getSelectedCmd().equals(SAVE_PLACE)) {
+						EditGoogleDisplayContext dc = new EditGoogleDisplayContext(renderRequest, renderResponse);
+						renderRequest.setAttribute("dc", dc);
+					} else {
+						ViewGoogleDisplayContext dc = new ViewGoogleDisplayContext(renderRequest, renderResponse, _itemSelector);
+						renderRequest.setAttribute("dc", dc);
+					}
+					break;
+				}
+				case PLACES: {
 					if (navigationDC.getSelectedCmd().equals(EDIT_PLACE) || navigationDC.getSelectedCmd().equals(SAVE_PLACE)) {
 						EditPlaceDisplayContext dc = new EditPlaceDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);

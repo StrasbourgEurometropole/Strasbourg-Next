@@ -25,11 +25,12 @@
 					<aui:input type="file" name="places-file">
 						<aui:validator name="acceptFiles">'csv'</aui:validator>
 					</aui:input>
+					<aui:button-row>
+						<aui:button cssClass="btn-lg" type="submit"
+									value="to-import" />
+					</aui:button-row>
 				</aui:fieldset>
-				<aui:button-row>
-					<aui:button cssClass="btn-lg" type="submit"
-						value="to-import" />
-				</aui:button-row>
+
 			</aui:form>
 			
 			<aui:form action="${startImportCategoriesURL}" method="post" name="fmCategories" enctype="multipart/form-data" >
@@ -38,11 +39,12 @@
 					<aui:input type="file" name="categories-file">
 						<aui:validator name="acceptFiles">'csv'</aui:validator>
 					</aui:input>
+					<aui:button-row>
+						<aui:button cssClass="btn-lg" type="submit"
+									value="to-import" />
+					</aui:button-row>
 				</aui:fieldset>
-				<aui:button-row>
-					<aui:button cssClass="btn-lg" type="submit"
-						value="to-import" />
-				</aui:button-row>
+
 			</aui:form>
 			
 			<aui:form action="${startImportTerritoriesURL}" method="post" name="fmTerritories" enctype="multipart/form-data" >
@@ -51,11 +53,12 @@
 					<aui:input type="file" name="territories-file">
 						<aui:validator name="acceptFiles">'csv'</aui:validator>
 					</aui:input>
+					<aui:button-row>
+						<aui:button cssClass="btn-lg" type="submit"
+									value="to-import" />
+					</aui:button-row>
 				</aui:fieldset>
-				<aui:button-row>
-					<aui:button cssClass="btn-lg" type="submit"
-						value="to-import" />
-				</aui:button-row>
+
 			</aui:form>
 		</c:when>
 		<c:otherwise>

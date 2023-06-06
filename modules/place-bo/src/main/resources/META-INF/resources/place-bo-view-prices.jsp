@@ -14,12 +14,10 @@
 <clay:management-toolbar
 		managementToolbarDisplayContext="${managementDC}"
 />
-
 <div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
 		<liferay-ui:search-container id="pricesSearchContainer"
 			searchContainer="${dc.searchContainer}">
-
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.place.model.Price" modelVar="price"
 				keyProperty="priceId" >

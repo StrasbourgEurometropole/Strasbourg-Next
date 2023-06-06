@@ -7,11 +7,9 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.service.place.model.Price;
 import eu.strasbourg.service.place.model.PublicHoliday;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.service.place.model.SubPlace;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -21,13 +19,13 @@ import java.util.List;
 /**
  * @author BMA
  */
-public class PublicHolidayActionDropdownItemsProvider {
+public class SubPlaceActionDropdownItemsProvider {
 
-    public PublicHolidayActionDropdownItemsProvider(
-            PublicHoliday publicHoliday, RenderRequest request,
+    public SubPlaceActionDropdownItemsProvider(
+            SubPlace subPlace, RenderRequest request,
             RenderResponse response) {
 
-        _publicHoliday = publicHoliday;
+        _subPlace = subPlace;
         _response = response;
 
         _themeDisplay = (ThemeDisplay)request.getAttribute(
@@ -38,7 +36,7 @@ public class PublicHolidayActionDropdownItemsProvider {
     }
 
     /**
-     * The list of dropdown items to display for all activity
+     * The list of dropdown items to display for all subPlaces
      */
     public List<DropdownItem> getActionDropdownItems() {
 
@@ -75,11 +73,11 @@ public class PublicHolidayActionDropdownItemsProvider {
         return dropdownItem -> {
             dropdownItem.setHref(
                     PortletURLBuilder.createRenderURL(_response)
-                            .setMVCPath("/place-bo-edit-public-holiday.jsp")
+                            .setMVCPath("/place-bo-edit-subplace.jsp")
                             .setCMD("editPrice")
                             .setBackURL(_themeDisplay.getURLCurrent())
-                            .setParameter("tab", "publicHolidays")
-                            .setParameter("publicHolidayId", _publicHoliday.getPublicHolidayId())
+                            .setParameter("tab", "subPlaces")
+                            .setParameter("subPlaceId", _subPlace.getSubPlaceId())
                             .buildString()
             );
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "edit"));
@@ -94,18 +92,18 @@ public class PublicHolidayActionDropdownItemsProvider {
         return dropdownItem -> {
             dropdownItem.setHref(
                     PortletURLBuilder.createActionURL(_response)
-                            .setActionName("deletePublicHoliday")
-                            .setMVCPath("/place-bo-view-public-holiday.jsp")
+                            .setActionName("deleteSubPlace")
+                            .setMVCPath("/place-bo-view-subplaces.jsp")
                             .setBackURL(_themeDisplay.getURLCurrent())
-                            .setParameter("tab", "publicHolidays")
-                            .setParameter("publicHolidayId", _publicHoliday.getPublicHolidayId())
+                            .setParameter("tab", "subPlaces")
+                            .setParameter("subPlaceId", _subPlace.getSubPlaceId())
                             .buildString()
             );
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "delete"));
         };
     }
 
-    private final PublicHoliday _publicHoliday;
+    private final SubPlace _subPlace;
     private final HttpServletRequest _httpServletRequest;
     private final RenderResponse _response;
     private final ThemeDisplay _themeDisplay;
