@@ -88,28 +88,6 @@
 		.panel-collapse.in {
 			position: relative;
 			transform: translate3d(0, 0, 0);
-			.panel-body {
-				background: #edf0f2;
-				&:before, &:after {
-					content: '';
-					display: block;
-					position: absolute;
-					top: 0;
-					bottom: 0;
-					background: #edf0f2;
-					width: 999999px;
-					height: 100%;
-					transform: translate3d(0, 0, 0);
-					transition-delay: 0.4s;
-					transition: all 0.5s ease;
-				}
-				&:before {
-					right: 100%;
-				}
-				&:after {
-					left: 100%;
-				}
-			}
 		}
 
 		.panel-body {

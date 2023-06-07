@@ -411,13 +411,10 @@ fieldset {
 }
 
 .pro-btn-signer{
-	@include btn($c_dark, $c_main, 2, $f_hx, 0.938em);
+	@include btn($c_orange, $c_white, 0, $f_hx, 0.938em);
 	line-height: 22px;
-	height: 100%;
-	text-transform: uppercase;
 	font-weight: 700;
-	border: 2px solid $c_main;
-	border-radius: 2px;
+	border: 2px solid $c_orange;
 	text-align: center;
 	position: relative;
 	padding: 12px 50px;
@@ -437,21 +434,8 @@ fieldset {
 		margin-top: 10px;
 	}
 	&:hover, &:focus, &.active {
-		background: $c_main;
-		color: $c_dark;
-		border-color: $c_main;
-		&:after{
-			color: $c_txt;
-		}
-	}
-	&:after {
-		content: "\e923";
-		@include font();
-		font-size: 1.3em;
-		color: $c_main;
-		float: right;
-		margin-left: 10px;
-		line-height: 22px;
+		background: #20272f;
+		color: white;
 	}
 }
 

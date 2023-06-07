@@ -1036,7 +1036,7 @@ function createProjectWorkshop(projectWorkshop){
 */
 function createNews(news){
     var vignette =
-    '<div class="col-md-3 col-sm-6 col-xs-12 vignette">' + 
+    '<div class="col-md-4 col-sm-6 col-xs-12 vignette">' +
         '<a href="' + news.detailURL + '" title="Lien vers la page (' + news.title + ')" class="pro-bloc-actu">' +          
             '<div class="img">' +
                 '<figure role="group">' +

@@ -34,10 +34,10 @@
 		overflow: hidden;
 		width: 100%;
 		text-overflow: ellipsis;
-		@include ft($f_txt, $s_p, 700, $c_white, 1.5em);
+		@include ft($f_txt, $s_p, 700, $c_txt, 1.5em);
 	}
 	a {
-		@include ft($f_txt, $s_p, 400, $c_white, 1.5em);
+		@include ft($f_txt, $s_p, 400, $c_txt, 1.5em);
 		@include addTransitionCurve();
 		&:after {
 			content: '';
@@ -45,7 +45,7 @@
 			height: 1px;
 			display: inline-block;
 			vertical-align: middle;
-			background: $c_white;
+			background: $c_txt;
 			margin: 0 6px;
 			position: relative;
 			top: -1px;
@@ -576,9 +576,6 @@ a.pro-btn-tel {
 
 
 main {
-	.pro-search-listing {
-		background-color: #20272F;
-	}
 	header {
 		position: relative;
 

@@ -95,7 +95,7 @@
 
 
 		&.pro-pencil {
-			padding: 20px 0;
+			padding: 0;
 			> * {
 				text-align: right;
 				> * {
@@ -176,8 +176,7 @@
 		}
 	}
 	.pro-you {
-		@include ft($f_hx, 1.125em, 700, $c_main, 1.444em);
-		text-transform: uppercase;
+		@include ft($f_hx, 1.125em, 700, #f37021, 1.444em);
 	}
 
 	.pro-ico {

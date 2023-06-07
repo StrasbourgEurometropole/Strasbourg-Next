@@ -16,8 +16,8 @@
 .owl-carousel {
 	.owl-dots {
 		position: absolute;
-		height: 10px;
-		bottom: -10px;
+		height: 12px;
+		bottom: -12px;
 		right: 0;
 		left: 0;
 		width: 100%;
@@ -26,14 +26,15 @@
 		> .owl-dot {
 			display: inline-block;
 			vertical-align: middle;
-			width: 10px;
-			height: 10px;
+			width: 12px;
+			height: 12px;
 			border-radius: 50%;
-			background: $c_dark;
+			background: transparent;
+			border: solid 1px #2E3D50;
 			margin: 0 2px;
 			@include addTransition();
 			&:hover, &.active {
-				background: $c_main;
+				background: #2E3D50;
 			}
 		}
 	}
