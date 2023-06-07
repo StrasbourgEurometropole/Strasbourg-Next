@@ -252,6 +252,7 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 			}
 
 			_subPlaceLocalService.updateSubPlace(subPlace, sc);
+			response.setRenderParameter("mvcPath", "/place-bo-view-subplaces.jsp");
 		} catch (PortalException e) {
 			_log.error(e);
 		}

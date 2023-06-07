@@ -9,7 +9,6 @@ import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.*;
 import eu.strasbourg.service.place.model.GoogleMyBusinessHistoric;
-import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalServiceUtil;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
@@ -36,25 +35,6 @@ public class ViewGoogleDisplayContext  {
         _itemSelector=itemSelector;
     }
 
-    /*public List<GoogleMyBusinessHistoric> getGoogleMyBusinessHistorics() throws PortalException {
-        if (this._googleMyBusinessHistorics == null) {
-            Hits hits = getHits(this._themeDisplay.getCompanyGroupId());
-
-            // Création de la liste d'objet
-            List<GoogleMyBusinessHistoric> results = new ArrayList<GoogleMyBusinessHistoric>();
-            if (hits != null) {
-                for (Document document : hits.getDocs()) {
-                    GoogleMyBusinessHistoric googleMyBusinessHistoric = GoogleMyBusinessHistoricLocalServiceUtil.fetchGoogleMyBusinessHistoric(
-                            GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-                    if (googleMyBusinessHistoric != null) {
-                        results.add(googleMyBusinessHistoric);
-                    }
-                }
-            }
-            this._googleMyBusinessHistorics = results;
-        }
-        return this._googleMyBusinessHistorics;
-    }*/
     public SearchContainer<GoogleMyBusinessHistoric> getSearchContainer() {
 
         if (_searchContainer == null) {
@@ -105,6 +85,7 @@ public class ViewGoogleDisplayContext  {
         }
         return _keywords;
     }
+
     /**
      * Renvoie la colonne sur laquelle on fait le tri
      *
@@ -121,10 +102,10 @@ public class ViewGoogleDisplayContext  {
         String keywords = ParamUtil.getString(servletRequest, "keywords");
         _hits = SearchHelper.getBOSearchHits(searchContext,
                 getSearchContainer().getStart(),
-                getSearchContainer().getEnd(), Place.class.getName(), groupId,
+                getSearchContainer().getEnd(), GoogleMyBusinessHistoric.class.getName(), groupId,
                 "", keywords,
                 getOrderByColSearchField(),
-                "desc".equals(getOrderByType()),BooleanClauseOccur.SHOULD);
+                "desc".equals(getOrderByType()));
     }
     public String getOrderByType() {
         return ParamUtil.getString(_request, "orderByType", "desc");

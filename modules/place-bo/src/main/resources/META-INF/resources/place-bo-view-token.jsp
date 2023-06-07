@@ -1,5 +1,5 @@
 <%@ include file="/place-bo-init.jsp"%>
-
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 <liferay-portlet:renderURL var="saveRefreshTokenURL">
 	<portlet:param name="tab" value="token" />
     <portlet:param name="cmd" value="saveRefreshToken" />

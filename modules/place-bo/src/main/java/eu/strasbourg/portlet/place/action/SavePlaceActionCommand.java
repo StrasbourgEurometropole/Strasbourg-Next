@@ -495,6 +495,7 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 			}
 
 			_placeLocalService.updatePlace(place, sc);
+			response.setRenderParameter("mvcPath", "/place-bo-view-places.jsp");
 		} catch (PortalException e) {
 			_log.error(e);
 		}

@@ -105,6 +105,7 @@ public class SavePriceActionCommand implements MVCActionCommand {
 			}
 
 			_priceLocalService.updatePrice(price, sc);
+			response.setRenderParameter("mvcPath", "/place-bo-view-prices.jsp");
 		} catch (PortalException e) {
 			_log.error(e);
 		}

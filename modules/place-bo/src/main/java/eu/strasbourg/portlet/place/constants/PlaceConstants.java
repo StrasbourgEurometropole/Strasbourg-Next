@@ -31,6 +31,7 @@ public class PlaceConstants {
 
     public static final String TOKEN = "token";
     public static final String TOKEN_PATH = "/place-bo-view-token.jsp";
+    public static final String SAVE_TOKEN = "saveRefreshToken";
     
     public static final String URL_PARAM_TAB = "tab";
     public static final String URL_PARAM_MVCPATH = "mvcPath";

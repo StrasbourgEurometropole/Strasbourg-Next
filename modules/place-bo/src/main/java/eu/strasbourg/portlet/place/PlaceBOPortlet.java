@@ -104,6 +104,21 @@ public class PlaceBOPortlet extends MVCPortlet {
 					}
 					break;
 				}
+				case TOKEN: {
+					if (navigationDC.getSelectedCmd().equals(SAVE_TOKEN)) {
+						// met à jour le refreshToken
+						// il suffit de faire un ajout unique avec comme valeurs obligatoire
+						// className = "" , classPK = 0, type = 98
+						String refreshToken = ParamUtil.getString(renderRequest, "refresh-token");
+						TicketLocalServiceUtil.addDistinctTicket(_themeDisplay.getCompanyId(),"",0,98,
+								refreshToken,null, _serviceContext);
+					} else {
+						ViewTokenDisplayContext dc = new ViewTokenDisplayContext(renderRequest, renderResponse, _itemSelector);
+						renderRequest.setAttribute("dc", dc);
+					}
+					break;
+				}
+
 				case PLACES: {
 					if (navigationDC.getSelectedCmd().equals(EDIT_PLACE) || navigationDC.getSelectedCmd().equals(SAVE_PLACE)) {
 						EditPlaceDisplayContext dc = new EditPlaceDisplayContext(renderRequest, renderResponse);

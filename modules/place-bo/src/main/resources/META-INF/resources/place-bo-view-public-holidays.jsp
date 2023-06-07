@@ -4,12 +4,14 @@
 
 <liferay-portlet:renderURL varImpl="publicHolidaysURL">
 	<portlet:param name="tab" value="publicHolidays" />
+	<portlet:param name="mvcPath" value="/place-bo-view-public-holidays.jsp" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
 <liferay-portlet:renderURL varImpl="addPublicHolidayURL">
 	<portlet:param name="cmd" value="editPublicHoliday" />
 	<portlet:param name="mvcPath" value="/place-bo-edit-public-holiday.jsp" />
 	<portlet:param name="backURL" value="${publicHolidaysURL}" />
+	<portlet:param name="tab" value="publicHolidays" />
 </liferay-portlet:renderURL>
 <clay:management-toolbar
 		managementToolbarDisplayContext="${managementDC}"
@@ -27,6 +29,7 @@
 					<portlet:param name="publicHolidayId" value="${publicHoliday.publicHolidayId}" />
 					<portlet:param name="backURL" value="${publicHolidaysURL}" />
 					<portlet:param name="mvcPath" value="/place-bo-edit-public-holiday.jsp" />
+					<portlet:param name="tab" value="publicHolidays" />
 				</liferay-portlet:renderURL>
 
 				<liferay-ui:search-container-column-text cssClass="content-column"

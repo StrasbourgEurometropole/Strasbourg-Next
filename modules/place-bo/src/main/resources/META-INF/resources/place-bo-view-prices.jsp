@@ -3,9 +3,11 @@
 <clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 <liferay-portlet:renderURL varImpl="pricesURL">
 	<portlet:param name="tab" value="prices" />
+	<portlet:param name="mvcPath" value="/place-bo-view-prices.jsp" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
 <liferay-portlet:renderURL varImpl="addPriceURL">
+	<portlet:param name="tab" value="prices"/>
 	<portlet:param name="cmd" value="editPrice" />
 	<portlet:param name="mvcPath" value="/place-bo-edit-price.jsp" />
 	<portlet:param name="backURL" value="${pricesURL}" />
@@ -26,6 +28,7 @@
 					<portlet:param name="priceId" value="${price.priceId}" />
 					<portlet:param name="backURL" value="${pricesURL}" />
 					<portlet:param name="mvcPath" value="/place-bo-edit-price.jsp" />
+					<portlet:param name="tab" value="prices"/>
 				</liferay-portlet:renderURL>
 
 				<liferay-ui:search-container-column-text cssClass="content-column"

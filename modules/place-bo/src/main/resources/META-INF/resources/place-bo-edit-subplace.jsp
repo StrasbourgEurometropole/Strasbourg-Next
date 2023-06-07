@@ -1,22 +1,19 @@
 <%@ include file="/place-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.place.model.SubPlace"%>
 
-<liferay-portlet:renderURL varImpl="subPlacesURL">
-	<portlet:param name="tab" value="subPlaces" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deleteSubPlace"
 	var="deleteSubPlaceURL">
 	<portlet:param name="cmd" value="deleteSubPlace" />
 	<portlet:param name="tab" value="subPlaces" />
 	<portlet:param name="subPlaceId"
 		value="${not empty dc.subPlace ? dc.subPlace.subPlaceId : ''}" />
+	<portlet:param name="mvcPath" value="/place-bo-view-subplaces.jsp" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveSubPlace"
 	varImpl="saveSubPlaceURL">
-	<portlet:param name="cmd" value="saveSubPlace" />
 	<portlet:param name="tab" value="subPlaces" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <div class="container-fluid container-fluid-max-xl main-content-body">
@@ -223,7 +220,7 @@
 				<aui:button cssClass="btn-lg" href="${deleteSubPlaceURL}" type="cancel"
 					value="delete" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 
 	</aui:form>
