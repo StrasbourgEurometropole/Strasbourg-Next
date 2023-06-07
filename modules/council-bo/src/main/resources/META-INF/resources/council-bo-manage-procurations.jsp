@@ -397,9 +397,12 @@
     function getProcurations() {
 
     var spinner = document.getElementById('loading');
+    var procurationsTable = document.getElementById("procurations-table");
+    procurationsTable.style.opacity=0.5;
     spinner.style.display="block";
     var refreshTable = setTimeout(function(){
         spinner.style.display="none";
+        procurationsTable.style.opacity=1;
     }, 300);
 
         AUI().use('aui-io-request', function(A) {
