@@ -15,19 +15,6 @@
  */
 package eu.strasbourg.portlet.agenda.action;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -40,10 +27,19 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-
 import eu.strasbourg.service.agenda.model.Campaign;
 import eu.strasbourg.service.agenda.service.CampaignLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 @Component(
 	immediate = true,
@@ -125,10 +121,11 @@ public class SaveCampaignActionCommand implements MVCActionCommand {
 			
 			if (!isValid) {
 				PortalUtil.copyRequestParameters(request, response);
+				response.setRenderParameter("cmd", "saveCampaign");
 				response.setRenderParameter("mvcPath", "/agenda-bo-edit-campaign.jsp");
 				return false;
 			}
-			
+
 			campaign.setTitleMap(title);
 			campaign.setDefaultImageId(defaultImageId);
 			campaign.setDefaultImageCopyrightMap(defaultImageCopyright);
@@ -140,6 +137,7 @@ public class SaveCampaignActionCommand implements MVCActionCommand {
 			
 			_campaignLocalService
 				.updateCampaign(campaign, sc);
+			response.setRenderParameter("mvcPath", "/agenda-bo-view-campaigns.jsp");
 		} catch (PortalException e) {
 			_log.error(e);
 		}

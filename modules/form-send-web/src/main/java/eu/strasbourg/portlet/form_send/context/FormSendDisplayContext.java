@@ -1,12 +1,12 @@
 package eu.strasbourg.portlet.form_send.context;
 
 import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.dynamic.data.mapping.model.DDMContent;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
-import com.liferay.dynamic.data.mapping.service.DDMContentLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -16,6 +16,8 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
@@ -68,6 +70,7 @@ public class FormSendDisplayContext {
     private List<DDMFormInstanceRecord> records;
     private SearchContainer<DDMFormInstanceRecord> searchContainer;
     private Map<String, String> newLibs;
+    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
     public FormSendDisplayContext(RenderRequest request, RenderResponse response) {
         this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
@@ -145,29 +148,25 @@ public class FormSendDisplayContext {
     }
 
     // récupère les réponses à chaques questions d'un formulaire envoyé (liste de instanceId/name/valeur)
-    public List<String[]> getRecordFields(long recordDDMStorageId, Locale locale) {
-        List<String[]> recordFields = new ArrayList<String[]>();
+    public List<String[]> getRecordFields(long formInstanceRecordId, Locale locale) {
+        List<String[]> recordFields = new ArrayList<>();
+        DDMFormInstanceRecord form = DDMFormInstanceRecordLocalServiceUtil.fetchFormInstanceRecord(formInstanceRecordId);
         // récupère les infos du contenu du formulaire envoyé
-        DDMContent content = DDMContentLocalServiceUtil.fetchDDMContent(recordDDMStorageId);
-        if(Validator.isNotNull(content)){
-
-            // récupère le contenu du formulaire envoyé
-            String jsonString = content.getData();
-            if(Validator.isNotNull(jsonString)){
+        // Contient les valeurs et le type du champ, avec l'identifiant du champ comme cle de la Map
+        try {
+            Map<String, List<DDMFormFieldValue>> formfieldvaluesMap =
+                    form.getDDMFormValues().getDDMFormFieldValuesMap(false);
+            for (String formFieldKey : formfieldvaluesMap.keySet()) {
+                // récupère les infos du champs
+                List<DDMFormFieldValue> formFieldValuesList = formfieldvaluesMap.get(formFieldKey);
                 try {
-                    // récupère les infos de tous les champs du formualaire
-                    JSONArray jsonArray = JSONFactoryUtil.createJSONObject(jsonString).getJSONArray("fieldValues");
-                    for (Object jsonObject : jsonArray) {
+                    if (formFieldValuesList.size() == 1) {
+                        DDMFormFieldValue formFieldValues = formFieldValuesList.get(0);
 
-                        // récupère les infos du champs
-                        // instanceId
-                        // name -> nom du champs
-                        // value -> saisie utilisateur (n'est pas renseigné pour les paragraphes)
-                        JSONObject json = JSONFactoryUtil.createJSONObject(jsonObject.toString());
-                        String[] field = {json.getString("instanceId"), json.getString("name"), ""};
-                        if (!json.isNull("value")){
-                            String value = json.getJSONObject("value").getString(locale.toString());
-                            switch (getFieldType(json.getString("name"))){
+                        String[] field = {formFieldValues.getInstanceId(), formFieldValues.getName(), ""};
+                        if (Validator.isNotNull(formFieldValues.getValue())){
+                            String value = formFieldValues.getValue().getString(locale);
+                            switch (getFieldType(formFieldValues.getName())){
                                 case "document_library":
                                     JSONObject jsonFile = JSONFactoryUtil.createJSONObject(value);
                                     if(jsonFile.length() > 0)
@@ -198,19 +197,21 @@ public class FormSendDisplayContext {
                                     field[2] = value.replaceAll("(\r\n|\n)", "<br />");
                             }
                         }
-                    recordFields.add(field);
+                        recordFields.add(field);
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                }catch (Exception e1){
+                    _log.error(e1.getMessage(), e1);
                 }
             }
+        } catch (PortalException e) {
+            throw new RuntimeException(e);
         }
         return recordFields;
     }
 
     // récupère les champ qui devront être affiché (choisi dans la config)
     public List<String> getFieldsToShow() {
-        List<String> fieldsToShow = new ArrayList<String>();
+        List<String> fieldsToShow = new ArrayList<>();
         String fieldsSelectedString = configuration.fieldsSelected();
         if(Validator.isNotNull(fieldsSelectedString)) {
             String[] fieldsSelected = fieldsSelectedString.split(",");
@@ -225,7 +226,7 @@ public class FormSendDisplayContext {
     // récupère les nouveaux libellé des champs
     public Map<String, String> getNewLibelle() {
         if(this.newLibs == null){
-            this.newLibs = new HashMap<String, String>();
+            this.newLibs = new HashMap<>();
             String[] newLibsString = configuration.newLibs().split(",");
             for (String newLib : newLibsString) {
                 String[] newLibString = newLib.split("--");
@@ -360,7 +361,7 @@ public class FormSendDisplayContext {
 
     // récupère les options d'1 selecteur ou d'1 checkbox
     public List<Option> getOptions(String name) {
-        List<Option> options = new ArrayList<Option>();
+        List<Option> options = new ArrayList<>();
         if(Validator.isNotNull(this.getForm())) {
             Champ champ = this.formulaire.getField(name);
             if (Validator.isNotNull(champ))
@@ -372,7 +373,7 @@ public class FormSendDisplayContext {
 
     // récupère les colonnes de grille
     public List<Option> getColumns(String name) {
-        List<Option> columns = new ArrayList<Option>();
+        List<Option> columns = new ArrayList<>();
         if(Validator.isNotNull(this.getForm())) {
             Champ champ = this.formulaire.getField(name);
             if (Validator.isNotNull(champ))
@@ -384,7 +385,7 @@ public class FormSendDisplayContext {
 
     // récupère les lignes de grille
     public List<Option> getRows(String name) {
-        List<Option> rows = new ArrayList<Option>();
+        List<Option> rows = new ArrayList<>();
         if(Validator.isNotNull(this.getForm())) {
             Champ champ = this.formulaire.getField(name);
             if (Validator.isNotNull(champ))

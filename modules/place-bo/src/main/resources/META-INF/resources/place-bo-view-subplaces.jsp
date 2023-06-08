@@ -1,50 +1,36 @@
 <%@ include file="/place-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.place.model.SubPlace"%>
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 
 <liferay-portlet:renderURL varImpl="subPlacesURL">
 	<portlet:param name="tab" value="subPlaces" />
+	<portlet:param name="mvcPath" value="/place-bo-view-subplaces.jsp" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
 <liferay-portlet:renderURL varImpl="addSubPlaceURL">
 	<portlet:param name="cmd" value="editSubPlace" />
 	<portlet:param name="mvcPath" value="/place-bo-edit-subplace.jsp" />
-	<portlet:param name="returnURL" value="${subPlacesURL}" />
+	<portlet:param name="backURL" value="${subPlacesURL}" />
+	<portlet:param name="tab" value="subPlaces" />
 </liferay-portlet:renderURL>
+<clay:management-toolbar
+		managementToolbarDisplayContext="${managementDC}"
+/>
 
-<liferay-frontend:management-bar includeCheckBox="true"
-	searchContainerId="subPlacesSearchContainer">
-
-		<liferay-frontend:management-bar-action-buttons>
-			<c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<liferay-frontend:management-bar-button
-					href='<%="javascript:" + renderResponse.getNamespace() + "publishSelection();"%>'
-					icon="check" label="publish" />
-				<liferay-frontend:management-bar-button
-					href='<%="javascript:" + renderResponse.getNamespace() + "unpublishSelection();"%>'
-					icon="times" label="unpublish" />
-				<liferay-frontend:management-bar-button
-					href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
-					icon="trash" label="delete" />
-			</c:if>
-		</liferay-frontend:management-bar-action-buttons>
-</liferay-frontend:management-bar>
-
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
-		<aui:input type="hidden" name="selectionIds" />
 		<liferay-ui:search-container id="subPlacesSearchContainer"
 			searchContainer="${dc.searchContainer}">
-			<liferay-ui:search-container-results results="${dc.subPlaces}" />
 
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.place.model.SubPlace"
-				modelVar="subPlace" keyProperty="subPlaceId"
-				rowIdProperty="subPlaceId">
+				modelVar="subPlace" keyProperty="subPlaceId">
 				<liferay-portlet:renderURL varImpl="editSubPlaceURL">
 					<portlet:param name="cmd" value="editSubPlace" />
 					<portlet:param name="subPlaceId" value="${subPlace.subPlaceId}" />
-					<portlet:param name="returnURL" value="${subPlacesURL}" />
+					<portlet:param name="backURL" value="${subPlacesURL}" />
 					<portlet:param name="mvcPath" value="/place-bo-edit-subplace.jsp" />
+					<portlet:param name="tab" value="subPlaces" />
 				</liferay-portlet:renderURL>
 
 				<liferay-ui:search-container-column-text cssClass="content-column"
@@ -85,15 +71,6 @@
 		</liferay-ui:search-container>
 	</aui:form>
 </div>
-
-<liferay-frontend:add-menu>
-	<c:if
-		test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
-		<liferay-frontend:add-menu-item title="Ajouter un sous lieu"
-			url="${addSubPlaceURL}" />
-	</c:if>
-</liferay-frontend:add-menu>
-
 
 <liferay-portlet:actionURL name="selectionAction"
 	var="deleteSelectionURL">

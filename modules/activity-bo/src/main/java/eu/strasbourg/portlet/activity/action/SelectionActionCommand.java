@@ -84,8 +84,7 @@ public class SelectionActionCommand implements MVCActionCommand {
 		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest
 			.getAttribute(WebKeys.THEME_DISPLAY);
 
-		long[] selectionIds = StringUtil
-			.split(ParamUtil.getString(actionRequest, "selectionIds"), 0L);
+		long[] selectionIds = ParamUtil.getLongValues(actionRequest, "rowIds");
 
 		for (long entryId : selectionIds) {
 			try {

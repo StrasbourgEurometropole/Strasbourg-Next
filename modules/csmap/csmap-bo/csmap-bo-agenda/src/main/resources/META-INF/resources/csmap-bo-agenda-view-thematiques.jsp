@@ -7,27 +7,26 @@
 <%-- URL : definit le lien vers la page d'edition d'une entite --%>
 <liferay-portlet:renderURL varImpl="addAgendaThematiqueURL">
 	<portlet:param name="cmd" value="editAgendaThematique" />
-    <portlet:param name="returnURL" value="${agendaThematiqueURL}" />
+    <portlet:param name="backURL" value="${agendaThematiqueURL}" />
     <portlet:param name="mvcPath" value="/csmap-bo-agenda-edit-thematique.jsp" />
 </liferay-portlet:renderURL>
 
-<%-- Composant : tableau de visualisation des entites --%>
-<div class="container-fluid-1280 main-content-body">
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
 		<liferay-ui:search-container id="agendasThematiqueSearchContainer"
 			searchContainer="${dc.searchContainer}">
 
-			<liferay-ui:search-container-results results="${dc.agendas}" />
 
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.csmap.model.Agenda" modelVar="agenda"
-				keyProperty="agendaId" rowIdProperty="agendaId">
+				keyProperty="agendaId" >
 
                 <%-- URL : definit le lien vers la page d'edition de l'entite selectionnee --%>
                 <liferay-portlet:renderURL varImpl="editAgendaThematiqueURL">
                     <portlet:param name="cmd" value="editAgendaThematique" />
                     <portlet:param name="agendaId" value="${agenda.agendaId}" />
-                    <portlet:param name="returnURL" value="${agendaThematiqueURL}" />
+                    <portlet:param name="backURL" value="${agendaThematiqueURL}" />
                     <portlet:param name="mvcPath" value="/csmap-bo-agenda-edit-thematique.jsp" />
                 </liferay-portlet:renderURL>
                 <%-- URL : definit le lien vers l'action de supprimer l'entite selectionnee --%>
@@ -60,42 +59,20 @@
 
 
 				<liferay-ui:search-container-column-text>
-					<liferay-ui:icon-menu markupView="lexicon">
-						<c:if test="${dc.hasPermission('EDIT_AGENDA')}">
-							<liferay-ui:icon message="edit" url="${editAgendaThematiqueURL}" />
-						</c:if>
-
-						<c:if test="${dc.hasPermission('DELETE_AGENDA')}">
-							<liferay-ui:icon message="delete" url="${deleteAgendaThematiqueURL}" />
-						</c:if>
-
-						<c:if test="${dc.hasPermission('EDIT_AGENDA')}">
-                            <c:if test="${agenda.getIsActive()}">
-                                <liferay-ui:icon message="deactivate" url="${deactivateAgendaThematiqueURL}" />
-                            </c:if>
-                            <c:if test="${!agenda.getIsActive()}">
-							    <liferay-ui:icon message="activate" url="javascript:areYouSure('${ActivateAgendaThematiqueURL}')"  />
-                            </c:if>
-						</c:if>
-
-					</liferay-ui:icon-menu>
+					<clay:dropdown-actions
+							aria-label="<liferay-ui:message key='show-actions' />"
+							dropdownItems="${dc.getActionsAgendaThematique(agenda).getActionDropdownItems()}"
+					/>
 				</liferay-ui:search-container-column-text>
 
 			</liferay-ui:search-container-row>
-
 			<%-- Iterateur --%>
 			<liferay-ui:search-iterator paginate="true" displayStyle="list"
 				markupView="lexicon" searchContainer="${dc.searchContainer}" />
-
 		</liferay-ui:search-container>
 	</aui:form>
 
 </div>
-
-<liferay-frontend:add-menu>
-    <liferay-frontend:add-menu-item title="Ajouter un agenda"
-        url="${addAgendaThematiqueURL}" />
-</liferay-frontend:add-menu>
 
 <aui:script>
 	function areYouSure(url) {

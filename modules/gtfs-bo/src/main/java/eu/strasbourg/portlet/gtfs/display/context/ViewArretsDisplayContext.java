@@ -1,16 +1,23 @@
 package eu.strasbourg.portlet.gtfs.display.context;
 
+import com.liferay.asset.categories.item.selector.AssetCategoryTreeNodeItemSelectorReturnType;
+import com.liferay.asset.categories.item.selector.criterion.AssetCategoryTreeNodeItemSelectorCriterion;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.item.selector.ItemSelector;
+import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
+import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.*;
+import eu.strasbourg.portlet.gtfs.util.ArretActionDropdownItemsProvider;
 import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -19,22 +26,28 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
+import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ViewArretsDisplayContext
-		extends ViewListBaseDisplayContext<Arret> {
+public class ViewArretsDisplayContext {
 
 	public ViewArretsDisplayContext(RenderRequest request,
-									RenderResponse response) {
-		super(Arret.class, request, response);
+									RenderResponse response, ItemSelector itemSelector) {
+		_request = request;
+		_response = response;
+		_themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
+		_httpServletRequest = PortalUtil.getHttpServletRequest(request);
+		_itemSelector = itemSelector;
 	}
 
-	public List<Arret> getArrets() throws PortalException {
+	/*public List<Arret> getArrets() throws PortalException {
 		if (this._arrets == null) {
 			List<Arret> results = new ArrayList<Arret>();
 			Hits hits = getHits(this._themeDisplay.getCompanyGroupId());
@@ -53,7 +66,7 @@ public class ViewArretsDisplayContext
 			this._arrets = results;
 		}
 		return this._arrets;
-	}
+	}*/
 
 	/**
 	 * Retourne la liste des ids de categories sur lesquels la liste des arrêts
@@ -63,8 +76,8 @@ public class ViewArretsDisplayContext
 	 * considère donc que getFilterCategories ne peut renvoyer que des
 	 * catégories autorisées pour l'utilisateur
 	 */
-	@Override
-	public String getFilterCategoriesIds() throws PortalException {
+
+	/*public String getFilterCategoriesIds() throws PortalException {
 		// Pas de filtre par l'utilisateur
 		if (Validator.isNull(super.getFilterCategoriesIds())|| super.getFilterCategoriesIds().equals(","))
 		{
@@ -74,7 +87,7 @@ public class ViewArretsDisplayContext
 		{
 			return super.getFilterCategoriesIds();
 		}
-	}
+	}*/
 
 	/**
 	 * Retourne la liste des IDs des catégories que l'utilisateur peut voir
@@ -82,7 +95,7 @@ public class ViewArretsDisplayContext
 	 * @return
 	 * @throws PortalException
 	 */
-	private String getCategoriesIdsPermission() throws PortalException {
+	/*private String getCategoriesIdsPermission() throws PortalException {
 		String categoriesIds = "";
 		if (this.hasPermission("CONTRIBUTE")) {
 			User user = _themeDisplay.getUser();
@@ -110,12 +123,21 @@ public class ViewArretsDisplayContext
 
 
 		return categoriesIds;
-	}
+	}*/
+	/**
+	 * Wrapper autour du permission checker pour les permissions de module
+	 */
+	/*public boolean hasPermission(String actionId) throws PortalException {
+		return _themeDisplay.getPermissionChecker().hasPermission(
+				this._themeDisplay.getCompanyGroupId(),
+				StrasbourgPortletKeys.GTFS_BO, StrasbourgPortletKeys.GTFS_BO,
+				actionId);
+	}*/
 
 	/**
 	 * Retourne les Hits de recherche
 	 */
-	@Override
+	/*@Override
 	protected Hits getHits(long groupId) throws PortalException {
 		HttpServletRequest servletRequest = PortalUtil
 				.getHttpServletRequest(_request);
@@ -143,13 +165,13 @@ public class ViewArretsDisplayContext
 //			return null;
 
 		return hits;
-	}
+	}*/
 
 	/**
 	 * Retourne les Hits de recherche en ignorant la pagination
 	 */
-	@Override
-	protected Hits getAllHits(long groupId) throws PortalException {
+
+	/*protected Hits getAllHits(long groupId) throws PortalException {
 		HttpServletRequest servletRequest = PortalUtil
 				.getHttpServletRequest(_request);
 		SearchContext searchContext = SearchContextFactory
@@ -175,17 +197,25 @@ public class ViewArretsDisplayContext
 //			return null;
 
 		return hits;
-	}
+	}*/
+	/**
+	 * Retourne tous les Hits de recherche
+	 */
+	private Hits getAllHits(long groupId) throws PortalException {
+		HttpServletRequest servletRequest = PortalUtil
+				.getHttpServletRequest(_request);
+		SearchContext searchContext = SearchContextFactory
+				.getInstance(servletRequest);
 
-    /**
-     * Wrapper autour du permission checker pour les permissions de module
-     */
-    public boolean hasPermission(String actionId) throws PortalException {
-        return _themeDisplay.getPermissionChecker().hasPermission(
-                this._themeDisplay.getCompanyGroupId(),
-                StrasbourgPortletKeys.GTFS_BO, StrasbourgPortletKeys.GTFS_BO,
-                actionId);
-    }
+		// Recherche des hits
+		String keywords = ParamUtil.getString(servletRequest, "keywords");
+
+		return SearchHelper.getBOSearchHits(searchContext,
+				-1, -1, Arret.class.getName(), groupId,
+				"", keywords,
+				getOrderByColSearchField(),
+				"desc".equals(getOrderByType()));
+	}
 
     /**
      * Retourne le nom d'un utilisateur par son Id
@@ -197,7 +227,171 @@ public class ViewArretsDisplayContext
 
         return "";
     }
+	/**
+	 * Retourne le dropdownItemsProvider de l'arret
+	 *
+	 */
+	@SuppressWarnings("unused")
+	public ArretActionDropdownItemsProvider getActionsArret(Arret arret) {
+		return new ArretActionDropdownItemsProvider(arret, _request,
+				_response);
+	}
 
-	private List<Arret> _arrets;
+	/**
+	 * Retourne le searchContainer
+	 *
+	 */
+	public SearchContainer<Arret> getSearchContainer() {
+
+		if (_searchContainer == null) {
+
+			PortletURL portletURL;
+			portletURL = PortletURLBuilder.createRenderURL(_response)
+					.setMVCPath("/gtfs-bo-view-arrets.jsp")
+					.setKeywords(ParamUtil.getString(_request, "keywords"))
+					.setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+					.buildPortletURL();
+			_searchContainer = new SearchContainer<>(_request, null, null,
+					SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
+			_searchContainer.setEmptyResultsMessageCssClass(
+					"taglib-empty-result-message-header-has-plus-btn");
+			_searchContainer.setOrderByColParam("orderByCol");
+			_searchContainer.setOrderByTypeParam("orderByType");
+			_searchContainer.setOrderByCol(getOrderByCol());
+			_searchContainer.setOrderByType(getOrderByType());
+			try {
+				getHits(_themeDisplay.getCompanyGroupId());
+			} catch (PortalException e) {
+				throw new RuntimeException(e);
+			}
+			_searchContainer.setResultsAndTotal(
+					() -> {
+						// Création de la liste d'objet
+						List<Arret> results = new ArrayList<>();
+						if (_hits != null) {
+							for (Document document : _hits.getDocs()) {
+								Arret arret = ArretLocalServiceUtil
+										.fetchArret(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+								if (arret != null) {
+									results.add(arret);
+								}
+							}
+						}
+
+						return results;
+					}, _hits.getLength()
+			);
+		}
+		_searchContainer.setRowChecker(
+				new EmptyOnClickRowChecker(_response));
+
+		return _searchContainer;
+	}
+
+	/**
+	 * Retourne les Hits de recherche pour un delta
+	 */
+	private void getHits(long groupId) throws PortalException {
+		HttpServletRequest servletRequest = PortalUtil
+				.getHttpServletRequest(_request);
+		SearchContext searchContext = SearchContextFactory
+				.getInstance(servletRequest);
+
+		// Recherche des hits
+		String keywords = ParamUtil.getString(servletRequest, "keywords");
+		_hits = SearchHelper.getBOSearchHits(searchContext,
+				getSearchContainer().getStart(),
+				getSearchContainer().getEnd(), Arret.class.getName(), groupId,
+				"", keywords,
+				getOrderByColSearchField(),
+				"desc".equals(getOrderByType()));
+	}
+
+	/**
+	 * Renvoie le nom du champ sur laquelle on fait le tri pour
+	 * ElasticSearch
+	 *
+	 * @return String
+	 */
+	public String getOrderByColSearchField() {
+		switch (getOrderByCol()) {
+			case "title":
+				return "localized_title_fr_FR_sortable";
+			case "modified-date":
+			default:
+				return "modified_sortable";
+		}
+	}
+
+	/**
+	 * Renvoie la colonne sur laquelle on fait le tri
+	 *
+	 * @return String
+	 */
+	public String getOrderByCol() {
+		return ParamUtil.getString(_request, "orderByCol", "modified-date");
+	}
+
+	/**
+	 * Retourne le type de tri (desc ou asc)
+	 *
+	 * @return String
+	 */
+	public String getOrderByType() {
+		return ParamUtil.getString(_request, "orderByType", "desc");
+	}
+
+	/**
+	 * Retourne les mots clés de recherche saisis
+	 */
+	@SuppressWarnings("unused")
+	public String getKeywords() {
+		if (Validator.isNull(_keywords)) {
+			_keywords = ParamUtil.getString(_request, "keywords");
+		}
+		return _keywords;
+	}
+
+	public boolean hasVocabulary(String vocabularyName){
+		return getCategVocabularies().containsKey(vocabularyName);
+	}
+
+	public Map<String, String> getCategVocabularies() {
+		if (_categVocabularies == null) {
+			_categVocabularies = new HashMap<>();
+			_categVocabularies.put("vocabulary1", ParamUtil.getString(
+					_httpServletRequest, "vocabulary1", ""));
+		}
+
+		return _categVocabularies;
+	}
+
+	@SuppressWarnings("unused")
+	public String getSelectCategoriesByVocabularyIdURL(long vocabularyId) {
+		RequestBackedPortletURLFactory requestBackedPortletURLFactory =
+				RequestBackedPortletURLFactoryUtil.create(_request);
+		AssetCategoryTreeNodeItemSelectorCriterion categoryTreeNodeItemSelectorCriterion =
+				new AssetCategoryTreeNodeItemSelectorCriterion();
+//		categoryTreeNodeItemSelectorCriterion.setClassNameId(
+//				PortalUtil.getClassNameId(JournalArticle.class));
+		categoryTreeNodeItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
+				new AssetCategoryTreeNodeItemSelectorReturnType());
+
+		return String.valueOf(
+				_itemSelector.getItemSelectorURL(
+						requestBackedPortletURLFactory,
+						_response.getNamespace() + "selectAssetCategory",
+						categoryTreeNodeItemSelectorCriterion));
+	}
+
+	private Hits _hits;
+	protected SearchContainer<Arret> _searchContainer;
+	private Map<String, String> _categVocabularies;
+	private String _keywords;
+	private final RenderRequest _request;
+	private final RenderResponse _response;
+	protected ThemeDisplay _themeDisplay;
+	private final HttpServletRequest _httpServletRequest;
+	private final ItemSelector _itemSelector;
 
 }

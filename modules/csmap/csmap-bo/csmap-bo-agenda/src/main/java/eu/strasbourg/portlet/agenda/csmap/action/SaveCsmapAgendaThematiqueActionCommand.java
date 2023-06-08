@@ -50,12 +50,13 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
 
                 String portletName = (String) request
                         .getAttribute(WebKeys.PORTLET_ID);
-                PortletURL returnURL = PortletURLFactoryUtil.create(request,
+                PortletURL backURL = PortletURLFactoryUtil.create(request,
                         portletName, td.getPlid(),
                         PortletRequest.RENDER_PHASE);
-                returnURL.setParameter("tab", request.getParameter("tab"));
+                backURL.setParameter("tab", request.getParameter("tab"));
 
-                response.setRenderParameter("returnURL", returnURL.toString());
+                response.setRenderParameter("backURL", backURL.toString());
+                response.setRenderParameter("cmd","saveAgendaThematique");
                 response.setRenderParameter("mvcPath",
                         "/csmap-bo-agenda-edit-thematique.jsp");
                 return false;

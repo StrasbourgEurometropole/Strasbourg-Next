@@ -2,22 +2,24 @@
 
 <%@page import="eu.strasbourg.service.csmap.model.Agenda"%>
 
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveAgendaPrincipal" varImpl="saveAgendaPrincipalURL">
 	<portlet:param name="cmd" value="saveAgendaPrincipal" />
 	<portlet:param name="tab" value="agendaPrincipal" />
+	<portlet:param name="mvcPath" value="/csmap-bo-agenda-edit-principal.jsp" />
 </liferay-portlet:actionURL>
 
 
 <%-- Composant : Body --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
 	<aui:form action="${saveAgendaPrincipalURL}" method="post" name="fm" onSubmit="submitForm(event);">
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.agendaPrincipal}" model="<%=Agenda.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 
             <%-- Champ : (cache) PK de l'entite --%>
             <aui:input name="agendaId" type="hidden" />
@@ -54,7 +56,7 @@
                     curTags="${dc.agendaPrincipal.tags}" />
             </aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 
 		<%-- Composant : Menu de gestion de l'entite --%>
 		<aui:button-row>

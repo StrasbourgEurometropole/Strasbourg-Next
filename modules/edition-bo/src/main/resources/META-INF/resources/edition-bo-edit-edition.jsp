@@ -1,23 +1,20 @@
 <%@ include file="/edition-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.edition.model.Edition"%>
 
-<liferay-portlet:renderURL varImpl="editionsURL">
-	<portlet:param name="tab" value="editions" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deleteEdition" var="deleteEditionURL">
 	<portlet:param name="cmd" value="deleteEdition" />
 	<portlet:param name="tab" value="editions" />
+	<portlet:param name="mvcPath" value="/edition-bo-view-editions.jsp" />
 	<portlet:param name="editionId"
 		value="${not empty dc.edition ? dc.edition.editionId : ''}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveEdition" varImpl="saveEditionURL">
-	<portlet:param name="cmd" value="saveEdition" />
 </liferay-portlet:actionURL>
 
-<div class="container-fluid-1280 main-content-body">
 	<liferay-ui:error key="title-error" message="title-error" />
+<div class="container-fluid container-fluid-max-xl main-content-body">
+<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="image-error" message="image-error" />
 	<liferay-ui:error key="description-error" message="description-error" />
 	<liferay-ui:error key="year-error" message="year-error" />
@@ -28,7 +25,7 @@
 			id="translationManager" />
 
 		<aui:model-context bean="${dc.edition}" model="<%=Edition.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="editionId" type="hidden" />
 
 			<aui:fieldset collapsed="true" collapsible="true"
@@ -53,7 +50,7 @@
 								var validate = $('#_eu_strasbourg_portlet_edition_EditionBOPortlet_description_fr_FR').val().length > 0;
 								if (!validate) {
 									$("#_eu_strasbourg_portlet_edition_EditionBOPortlet_descriptionEditorContainer").get(0).scrollIntoView();
-									event.preventDefault();
+									edition.preventDefault();
 								}
 								return validate;
 							}
@@ -115,7 +112,7 @@
 								    if ($(fieldContent).find('.icon-asterisk').length > 0
 								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
 								    	validated = false;
-                                        event.preventDefault();
+                                        edition.preventDefault();
 								    	break;
 								    }
 								}
@@ -134,8 +131,6 @@
 				label="publication">
 				<aui:input name="publicationDate" />
 			</aui:fieldset>
-		</aui:fieldset-group>
-
 		<aui:button-row>
 			<c:if test="${(dc.hasPermission('ADD_EDITION') and empty dc.edition or dc.hasPermission('EDIT_EDITION') and not empty dc.edition) and empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<aui:input type="hidden" name="workflowAction" value="" />
@@ -153,7 +148,7 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
 					value="delete" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 
 	</aui:form>

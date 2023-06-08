@@ -1,77 +1,100 @@
 package eu.strasbourg.portlet.place.display.context;
 
-import java.util.List;
+import com.liferay.item.selector.ItemSelector;
+import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.place.util.PublicHolidayActionDropdownItemsProvider;
+import eu.strasbourg.service.place.model.Price;
+import eu.strasbourg.service.place.model.PublicHoliday;
+import eu.strasbourg.service.place.service.PriceLocalServiceUtil;
+import eu.strasbourg.service.place.service.PublicHolidayLocalServiceUtil;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
-import com.liferay.portal.kernel.dao.search.SearchContainer;
-import com.liferay.portal.kernel.exception.PortalException;
-
-import eu.strasbourg.service.place.model.PublicHoliday;
-import eu.strasbourg.service.place.service.PublicHolidayLocalServiceUtil;
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ViewPublicHolidaysDisplayContext {
 
 	public ViewPublicHolidaysDisplayContext(RenderRequest request,
-		RenderResponse response) {
-
-		this._request = request;
-		this._response = response;
+		RenderResponse response, ItemSelector itemSelector) {
+		_request = request;
+		_response = response;
+		_themeDisplay = (ThemeDisplay) _request
+				.getAttribute(WebKeys.THEME_DISPLAY);
+		_httpServletRequest = PortalUtil.getHttpServletRequest(request);
+		_itemSelector=itemSelector;
+	}
+	/**
+	 * Retourne le dropdownItemsProvider de place
+	 *
+	 */
+	@SuppressWarnings("unused")
+	public PublicHolidayActionDropdownItemsProvider getActionsPublicHoliday(PublicHoliday publicHoliday) {
+		return new PublicHolidayActionDropdownItemsProvider(publicHoliday, _request,
+				_response);
 	}
 
-	public SearchContainer<PublicHoliday> getSearchContainer()
-			throws PortalException {
+	public SearchContainer<PublicHoliday> getSearchContainer() {
 
-		PortletURL iteratorURL = this._response.createRenderURL();
-		iteratorURL.setParameter("tab", "publicHolidays");
+		if (_searchContainer == null) {
 
-		if (this._searchContainer == null) {
-			this._searchContainer = new SearchContainer<PublicHoliday>(
-					this._request, iteratorURL, null, "no-entries-were-found");
-
-			this._searchContainer.setEmptyResultsMessageCssClass(
+			PortletURL portletURL = PortletURLBuilder.createRenderURL(_response)
+					.setMVCPath("/place-bo-view-public-holidays.jsp")
+					.setKeywords(ParamUtil.getString(_request, "keywords"))
+					.setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+					.buildPortletURL();
+			_searchContainer = new SearchContainer<>(_request, null, null,
+					SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
+			_searchContainer.setEmptyResultsMessageCssClass(
 					"taglib-empty-result-message-header-has-plus-btn");
-			this._searchContainer
-					.setRowChecker(new EmptyOnClickRowChecker(this._response));
+			_searchContainer.setOrderByColParam("orderByCol");
+			_searchContainer.setOrderByTypeParam("orderByType");
+			try {
+				getHits();
+			} catch (PortalException e) {
+				throw new RuntimeException(e);
+			}
+			_searchContainer.setResultsAndTotal(
+					() -> {
+						// Création de la liste d'objet
+						return _publicHolidays;
+					}, _publicHolidays.size()
+			);
 		}
+		_searchContainer.setRowChecker(new EmptyOnClickRowChecker(_response));
 		return _searchContainer;
 	}
 
-	public List<PublicHoliday> getPublicHolidays() throws PortalException {
+	private void getHits() throws PortalException {
 		if (this._publicHolidays == null) {
-			// Total
-			this.getSearchContainer().setTotal(
-					PublicHolidayLocalServiceUtil.getPublicHolidaiesCount());
 
 			// Récupération de la liste des prix
-			List<PublicHoliday> publicHolidays = PublicHolidayLocalServiceUtil
-					.getPublicHolidaies(this.getSearchContainer().getStart(),
+			this._publicHolidays = PublicHolidayLocalServiceUtil
+					.getPublicHolidays(this.getSearchContainer().getStart(),
 							this.getSearchContainer().getEnd());
-
-			this._publicHolidays = publicHolidays;
 		}
-		return this._publicHolidays;
 	}
 
-	public String getOrderByCol() {
-		return null;
-	}
 
-	public String getOrderByType() {
-		return null;
-	}
-
-	public String getFilterCategoriesIds() throws PortalException {
-		return null;
-	}
-
+	private List<PublicHoliday> _publicHolidays;
+	protected SearchContainer<PublicHoliday> _searchContainer;
+	private Map<String, String> _categVocabularies;
 	private final RenderRequest _request;
 	private final RenderResponse _response;
+	protected ThemeDisplay _themeDisplay;
+	private final HttpServletRequest _httpServletRequest;
+	private final ItemSelector _itemSelector;
 
-	private SearchContainer<PublicHoliday> _searchContainer;
-	private List<PublicHoliday> _publicHolidays;
+
 
 }

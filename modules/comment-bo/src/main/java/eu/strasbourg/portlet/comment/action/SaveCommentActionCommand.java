@@ -61,12 +61,13 @@ public class SaveCommentActionCommand implements MVCActionCommand{
                         .getAttribute(WebKeys.THEME_DISPLAY);
                 String portletName = (String) actionRequest
                         .getAttribute(WebKeys.PORTLET_ID);
-                PortletURL returnURL = PortletURLFactoryUtil.create(actionRequest,
+                PortletURL backURL = PortletURLFactoryUtil.create(actionRequest,
                         portletName, themeDisplay.getPlid(),
                         PortletRequest.RENDER_PHASE);
 
-                actionResponse.setRenderParameter("returnURL", returnURL.toString());
+                actionResponse.setRenderParameter("backURL", backURL.toString());
                 actionResponse.setRenderParameter("mvcPath","/comment-bo-edit-comment.jsp");
+                actionResponse.setRenderParameter("cmd", "saveComment");
                 return false;
             }
             long commentId = ParamUtil.getLong(actionRequest,"commentId");

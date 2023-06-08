@@ -1,74 +1,36 @@
 <%@ include file="/agenda-bo-init.jsp"%>
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 
 <liferay-portlet:renderURL varImpl="manifestationsURL">
 	<portlet:param name="tab" value="manifestations" />
+	<portlet:param name="mvcPath" value="/agenda-bo-view-manifestations.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="filterCategoriesIds"
-		value="${dc.filterCategoriesIds}" />
+	<%--	TODO Il faudra remettre le filtre par vocabulaire
+    <portlet:param name="filterCategoriesIds"--%>
+	<%--		value="${dc.filterCategoriesIds}" />--%>
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
 
-<liferay-portlet:renderURL varImpl="addManifestationURL">
-	<portlet:param name="cmd" value="editManifestation" />
-	<portlet:param name="mvcPath" value="/agenda-bo-edit-manifestation.jsp" />
-	<portlet:param name="returnURL" value="${manifestationsURL}" />
-</liferay-portlet:renderURL>
+<clay:management-toolbar
+		managementToolbarDisplayContext="${managementDC}"
+/>
 
-<liferay-frontend:management-bar includeCheckBox="true"
-	searchContainerId="manifestationsSearchContainer">
-
-		<liferay-frontend:management-bar-filters>
-			<c:if test="${fn:length(dc.globalVocabularies) > 0}">
-				<li><a>Filtrer par :</a></li>
-			</c:if>
-			<c:forEach var="vocabulary" items="${dc.globalVocabularies}">
-				<liferay-frontend:management-bar-filter 
-					managementBarFilterItems="${dc.getManagementBarFilterItems(vocabulary)}" 
-					value="${dc.getVocabularyFilterLabel(vocabulary)}" />
-			</c:forEach>
-
-			<liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
-				orderByType="${dc.orderByType}"
-				orderColumns='<%= new String[] {"title", "modified-date", "publication-date", "status"} %>'
-				portletURL="${manifestationsURL}" />
-		</liferay-frontend:management-bar-filters>
-
-		<liferay-frontend:management-bar-action-buttons>
-			<c:if test="${not dc.workflowEnabled}">
-				<c:if test="${dc.hasPermission('EDIT_EVENT_GALLERY') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-					<liferay-frontend:management-bar-button
-						href='<%="javascript:" + renderResponse.getNamespace() + "publishSelection();"%>'
-						icon="check" label="publish" />
-					<liferay-frontend:management-bar-button
-						href='<%="javascript:" + renderResponse.getNamespace() + "unpublishSelection();"%>'
-						icon="times" label="unpublish" />
-				</c:if>
-			</c:if>
-			<c:if test="${dc.hasPermission('DELETE_EVENT_GALLERY') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<liferay-frontend:management-bar-button
-					href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
-					icon="trash" label="delete" />
-			</c:if>
-		</liferay-frontend:management-bar-action-buttons>
-</liferay-frontend:management-bar>
-
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
-		<aui:input type="hidden" name="selectionIds" />
 		<liferay-ui:search-container id="manifestationsSearchContainer"
 			searchContainer="${dc.searchContainer}">
-			<liferay-ui:search-container-results results="${dc.manifestations}" />
 
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.agenda.model.Manifestation"
-				modelVar="manifestation" keyProperty="manifestationId" rowIdProperty="manifestationId">
+				modelVar="manifestation" keyProperty="manifestationId">
 				<liferay-portlet:renderURL varImpl="editManifestationURL">
 					<portlet:param name="cmd" value="editManifestation" />
 					<portlet:param name="manifestationId" value="${manifestation.manifestationId}" />
-					<portlet:param name="returnURL" value="${manifestationsURL}" />
+					<portlet:param name="backURL" value="${manifestationsURL}" />
 					<portlet:param name="mvcPath" value="/agenda-bo-edit-manifestation.jsp" />
+					<portlet:param name="tab" value="manifestations" />
 				</liferay-portlet:renderURL>
 
 				<liferay-ui:search-container-column-text>
@@ -101,21 +63,10 @@
 				</liferay-ui:search-container-column-text>
 
 				<liferay-ui:search-container-column-text>
-					<liferay-ui:icon-menu markupView="lexicon">
-						<c:if test="${dc.hasPermission('EDIT_EVENT_GALLERY') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="edit" url="${editManifestationURL}" />
-						</c:if>
-
-						<liferay-portlet:actionURL name="deleteManifestation"
-							var="deleteManifestationURL">
-							<portlet:param name="cmd" value="deleteManifestation" />
-							<portlet:param name="tab" value="manifestations" />
-							<portlet:param name="manifestationId" value="${manifestation.manifestationId}" />
-						</liferay-portlet:actionURL>
-						<c:if test="${dc.hasPermission('DELETE_EVENT_GALLERY') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="delete" url="${deleteManifestationURL}" />
-						</c:if>
-					</liferay-ui:icon-menu>
+					<clay:dropdown-actions
+							aria-label="<liferay-ui:message key='show-actions' />"
+							dropdownItems="${dc.getActionsManif(manifestation).getActionDropdownItems()}"
+					/>
 				</liferay-ui:search-container-column-text>
 
 			</liferay-ui:search-container-row>
@@ -126,21 +77,16 @@
 	</aui:form>
 </div>
 
-<c:if test="${dc.hasPermission('ADD_EVENT_GALLERY') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-	<liferay-frontend:add-menu>
-		<liferay-frontend:add-menu-item title="Ajouter une manifestation"
-			url="${addManifestationURL}" />
-	</liferay-frontend:add-menu>
-</c:if>
-
 <liferay-portlet:actionURL name="selectionAction"
 	var="deleteSelectionURL">
 	<portlet:param name="cmd" value="delete" />
 	<portlet:param name="tab" value="manifestations" />
+	<portlet:param name="mvcPath" value="/agenda-bo-view-manifestations.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="filterCategoriesIds"
-		value="${dc.filterCategoriesIds}" />
+	<%--	TODO Il faudra remettre le filtre par vocabulaire
+    <portlet:param name="filterCategoriesIds"--%>
+	<%--		value="${dc.filterCategoriesIds}" />--%>
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>
@@ -148,10 +94,12 @@
 	var="publishSelectionURL">
 	<portlet:param name="cmd" value="publish" />
 	<portlet:param name="tab" value="manifestations" />
+	<portlet:param name="mvcPath" value="/agenda-bo-view-manifestations.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="filterCategoriesIds"
-		value="${dc.filterCategoriesIds}" />
+	<%--	TODO Il faudra remettre le filtre par vocabulaire
+    <portlet:param name="filterCategoriesIds"--%>
+	<%--		value="${dc.filterCategoriesIds}" />--%>
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>
@@ -159,45 +107,72 @@
 	var="unpublishSelectionURL">
 	<portlet:param name="cmd" value="unpublish" />
 	<portlet:param name="tab" value="manifestations" />
+	<portlet:param name="mvcPath" value="/agenda-bo-view-manifestations.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="filterCategoriesIds"
-		value="${dc.filterCategoriesIds}" />
+	<%--	TODO Il faudra remettre le filtre par vocabulaire
+    <portlet:param name="filterCategoriesIds"--%>
+	<%--		value="${dc.filterCategoriesIds}" />--%>
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>
-<aui:script>
-	function <portlet:namespace />deleteSelection() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-entries" />')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
-			var selectionIdsInput = document
-					.getElementsByName('<portlet:namespace />selectionIds')[0];
-			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-					'<portlet:namespace />allRowIds');
+<liferay-portlet:renderURL varImpl="filterSelectionURL">
+	<portlet:param name="tab" value="manifestations" />
+	<portlet:param name="mvcPath" value="/agenda-bo-view-manifestations.jsp" />
+	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
+	<portlet:param name="orderByType" value="${dc.orderByType}" />
+	<portlet:param name="keywords" value="${dc.keywords}" />
+	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+</liferay-portlet:renderURL>
 
+<aui:script>
+	var form = document.querySelector("[name='<portlet:namespace />fm']");
+
+	function deleteSelection() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-entries" />')) {
 			submitForm(form, '${deleteSelectionURL}');
 		}
 	}
-	function <portlet:namespace />publishSelection() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-publish-selected-entries" />')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
-			var selectionIdsInput = document
-					.getElementsByName('<portlet:namespace />selectionIds')[0];
-			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-					'<portlet:namespace />allRowIds');
 
+	function publishSelection() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-publish-selected-entries" />')) {
 			submitForm(form, '${publishSelectionURL}');
 		}
 	}
-	function <portlet:namespace />unpublishSelection() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-unpublish-selected-entries" />')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
-			var selectionIdsInput = document
-					.getElementsByName('<portlet:namespace />selectionIds')[0];
-			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-					'<portlet:namespace />allRowIds');
 
+	function unpublishSelection() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-unpublish-selected-entries" />')) {
 			submitForm(form, '${unpublishSelectionURL}');
 		}
+	}
+
+	function getCategoriesByVocabulary(vocabularyId) {
+		Liferay.Util.openSelectionModal(
+			{
+				onSelect: function (selectedItem) {
+					console.log("test : " + selectedItem.value);
+					alert("category : " + selectedItem.value.title);
+					if (selectedItem) {
+						const itemValue = selectedItem.value;
+						//submitForm(form, '${filterSelectionURL}');
+						//Liferay.SPA.app.navigate(urlString);
+
+						navigate(
+							addParams(
+								{
+									["${portletNamespace}vocabulary_" + vocabularyId]: itemValue.title,
+								},
+								PortletURLBuilder.create(getPortletURL())
+									.setParameter("vocabulary_" + vocabularyId, itemValue.title)
+									.buildString()
+							)
+						);
+					}
+				},
+				selectEventName: '<portlet:namespace />selectAssetCategory',
+				title: Liferay.Language.get('select-category'),
+				url: '${dc.getSelectCategoriesByVocabularyIdURL(vocabularyId)}'
+			}
+		)
 	}
 </aui:script>

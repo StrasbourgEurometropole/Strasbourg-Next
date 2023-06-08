@@ -15,29 +15,9 @@
  */
 package eu.strasbourg.portlet.agenda.action;
 
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletURL;
-
-import com.liferay.portal.kernel.json.JSONArray;
-import com.liferay.portal.kernel.json.JSONObject;
-import eu.strasbourg.service.opendata.geo.address.OpenDataGeoAddressService;
-import eu.strasbourg.service.opendata.geo.district.OpenDataGeoDistrictService;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
@@ -53,16 +33,31 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.EventLocalService;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalService;
+import eu.strasbourg.service.opendata.geo.address.OpenDataGeoAddressService;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 @Component(
 	immediate = true,
@@ -91,14 +86,13 @@ public class SaveEventActionCommand implements MVCActionCommand {
 					.getAttribute(WebKeys.THEME_DISPLAY);
 				String portletName = (String) request
 					.getAttribute(WebKeys.PORTLET_ID);
-				PortletURL returnURL = PortletURLFactoryUtil.create(request,
+				PortletURL backURL = PortletURLFactoryUtil.create(request,
 					portletName, themeDisplay.getPlid(),
 					PortletRequest.RENDER_PHASE);
-				returnURL.setParameter("tab", request.getParameter("tab"));
-
-				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("backURL", backURL.toString());
 				response.setRenderParameter("mvcPath",
 					"/agenda-bo-edit-event.jsp");
+				response.setRenderParameter("cmd", "saveEvent");
 				return false;
 			}
 
@@ -389,6 +383,7 @@ public class SaveEventActionCommand implements MVCActionCommand {
 			}
 
 			_eventLocalService.updateEvent(event, sc);
+			response.setRenderParameter("mvcPath", "/agenda-bo-view-events.jsp");
 
 		} catch (PortalException e) {
 			_log.error(e);
@@ -404,11 +399,12 @@ public class SaveEventActionCommand implements MVCActionCommand {
 				.getAttribute(WebKeys.THEME_DISPLAY);
 			String portletName = (String) request
 				.getAttribute(WebKeys.PORTLET_ID);
-			PortletURL returnURL = PortletURLFactoryUtil.create(request,
+			PortletURL backURL = PortletURLFactoryUtil.create(request,
 				portletName, themeDisplay.getPlid(),
 				PortletRequest.RENDER_PHASE);
 
-			response.setRenderParameter("returnURL", returnURL.toString());
+			response.setRenderParameter("backURL", backURL.toString());
+			response.setRenderParameter("cmd", "saveEvent");
 			response.setRenderParameter("mvcPath",
 				"/agenda-bo-edit-event.jsp");
 			return false;

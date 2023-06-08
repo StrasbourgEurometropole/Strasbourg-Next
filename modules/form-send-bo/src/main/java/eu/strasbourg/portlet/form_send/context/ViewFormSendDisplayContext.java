@@ -1,49 +1,63 @@
 package eu.strasbourg.portlet.form_send.context;
 
-import com.liferay.dynamic.data.mapping.model.DDMContent;
+import com.liferay.asset.categories.item.selector.AssetCategoryTreeNodeItemSelectorReturnType;
+import com.liferay.asset.categories.item.selector.criterion.AssetCategoryTreeNodeItemSelectorCriterion;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
-import com.liferay.dynamic.data.mapping.service.DDMContentLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
+import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
-import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
+import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.form_send.util.FormSendActionDropdownItemsProvider;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import java.util.*;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDMFormInstanceRecord>{
+public class ViewFormSendDisplayContext {
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
-    private final RenderRequest _request;
-    private RenderResponse _response;
-    private List<DDMFormInstanceRecord> _allFormSends;
-    private List<DDMFormInstanceRecord> _formSends;
-    private Map<String, String[]> _texteAreaFields;
 
-    public ViewFormSendDisplayContext(RenderRequest request, RenderResponse response) {
-        super(DDMFormInstanceRecord.class, request, response);
-        this._request = request;
-        this._response = response;
+    public ViewFormSendDisplayContext(RenderRequest request,
+                                      RenderResponse response, ItemSelector itemSelector) {
+        _request = request;
+        _response = response;
+        _themeDisplay = (ThemeDisplay) _request
+                .getAttribute(WebKeys.THEME_DISPLAY);
+        _httpServletRequest = PortalUtil.getHttpServletRequest(request);
+        _itemSelector=itemSelector;
+
     }
 
     // Récupère les formulaires envoyés du formulaire choisi
-    public List<DDMFormInstanceRecord> getAllFormSends() {
+    /*public List<DDMFormInstanceRecord> getAllFormSends() {
         if (this._allFormSends == null) {
             List<DDMFormInstanceRecord> recordList = DDMFormInstanceRecordLocalServiceUtil.getDDMFormInstanceRecords(-1,-1);
 
@@ -59,9 +73,9 @@ public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDMFo
             this._allFormSends = recordList;
         }
         return this._allFormSends;
-    }
+    }*/
 
-    public List<DDMFormInstanceRecord> getFormSends() {
+    /*public List<DDMFormInstanceRecord> getFormSends() {
 
         //TODO pour la pagination
 //        if (this._formSends == null) {
@@ -83,71 +97,44 @@ public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDMFo
 //        return this._formSends;
 
         return this.getAllFormSends();
-    }
+    }*/
 
     // récupère les valeurs d'un formulaire envoyé (nom du champ, valeur du champ)
-    public List<String[]> getRecordFields(long recordStorageId, Locale locale) {
+    public List<String[]> getRecordFields(DDMFormInstanceRecord form, Locale locale) {
         List<String[]> recordFields = new ArrayList<String[]>();
         // récupère tous les champs qui devront être affichés
         Map<String, String[]> texteFields = getTexteFields();
 
         // récupère les infos du contenu du formulaire envoyé
-        DDMContent content = DDMContentLocalServiceUtil.fetchDDMContent(recordStorageId);
-        if(Validator.isNotNull(content)){
-            // récupère le contenu du formulaire envoyé
-            String jsonString = content.getData();
-            if(Validator.isNotNull(jsonString)){
+        // Contient les valeurs et le type du champ, avec l'identifiant du champ comme cle de la Map
+        try {
+            Map<String, List<DDMFormFieldValue>> formfieldvaluesMap = form.getDDMFormValues().getDDMFormFieldValuesMap(false);
+            for (String formFieldKey : formfieldvaluesMap.keySet()) {
+                // récupère les infos du champs
+                List<DDMFormFieldValue> formFieldValuesList = formfieldvaluesMap.get(formFieldKey);
+                // on ne garde que les type text
                 try {
-                    // récupère les infos de tous les champs du formualaire
-                    JSONArray jsonArray = JSONFactoryUtil.createJSONObject(jsonString).getJSONArray("fieldValues");
-                    for (Object jsonObject : jsonArray) {
-                        // récupère les infos du champs
-                        JSONObject json = JSONFactoryUtil.createJSONObject(jsonObject.toString());
-                        // on ne garde que les type text
-                        if(Validator.isNotNull(texteFields.get(json.getString("name")))) {
-                            // remplace la réponse "" par la réponse réelle
-                            texteFields.get(json.getString("name"))[1] = json.getJSONObject("value").getString(locale.toString()).replaceAll("(\r\n|\n)", "<br />");
-                        }
+                    if (formFieldValuesList.size() == 1 &&
+                            formFieldValuesList.get(0).getType().equals("text")) {
+                        // remplace la réponse "" par la réponse réelle
+                        texteFields.get(formFieldValuesList.get(0).getName())[1] = formFieldValuesList.get(0).getValue().getString(locale).replaceAll("(\r\n|\n)", "<br />");
                     }
-
-                    // transform la map en list
-                    if(Validator.isNotNull(texteFields)) {
-                        recordFields = new ArrayList<String[]>(texteFields.values());
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                }catch (Exception e1){
+                    _log.error(e1.getMessage(), e1);
                 }
             }
+        } catch (PortalException e) {
+            throw new RuntimeException(e);
         }
+
+        // transform la map en list
+        if(Validator.isNotNull(texteFields)) {
+            recordFields = new ArrayList<>(texteFields.values());
+        }
+
         return recordFields;
     }
 
-    /**
-     * Retourne le searchContainer
-     */
-    public SearchContainer<DDMFormInstanceRecord> getSearchContainer() {
-        if (this._searchContainer == null && Validator.isNotNull(this.getAllFormSends())) {
-            PortletURL iteratorURL = this._response.createRenderURL();
-            iteratorURL.setParameter("tab", ParamUtil.getString(this._request, "tab"));
-            iteratorURL.setParameter("orderByCol", this.getOrderByCol());
-            iteratorURL.setParameter("orderByType", this.getOrderByType());
-            iteratorURL.setParameter("keywords", this.getKeywords());
-
-            this._searchContainer = new SearchContainer<DDMFormInstanceRecord>(this._request,
-                    iteratorURL, null, "no-entries-were-found");
-
-            this._searchContainer.setEmptyResultsMessageCssClass(
-                    "taglib-empty-result-message-header-has-plus-btn");
-            this._searchContainer
-                    .setRowChecker(new EmptyOnClickRowChecker(this._response));
-            this._searchContainer.setOrderByColParam("orderByCol");
-            this._searchContainer.setOrderByTypeParam("orderByType");
-            this._searchContainer.setResults(this._allFormSends);
-            this._searchContainer.setTotal(this._allFormSends.size());
-        }
-        return this._searchContainer;
-    }
 
     // récupère les champ text qui devront être affiché (nom, {valeur,reponse:""})
     private Map<String, String[]> getTexteFields() {
@@ -190,4 +177,140 @@ public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDMFo
         }
         return this._texteAreaFields;
     }
+
+    /**
+     * Retourne le searchContainer
+     *
+     */
+    public SearchContainer<DDMFormInstanceRecord> getSearchContainer() {
+
+        if (_searchContainer == null) {
+
+            PortletURL portletURL = PortletURLBuilder.createRenderURL(_response)
+                    .setMVCPath("/form-send-bo-view-form-send-records.jsp")
+                    .setKeywords(ParamUtil.getString(_request, "keywords"))
+                    .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+                    .buildPortletURL();
+            _searchContainer = new SearchContainer<>(_request, null, null,
+                    SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
+            _searchContainer.setEmptyResultsMessageCssClass(
+                    "taglib-empty-result-message-header-has-plus-btn");
+            _searchContainer.setOrderByColParam("orderByCol");
+            _searchContainer.setOrderByTypeParam("orderByType");
+            _searchContainer.setOrderByCol(getOrderByCol());
+            _searchContainer.setOrderByType(getOrderByType());
+            try {
+                getHits();
+            } catch (PortalException e) {
+                throw new RuntimeException(e);
+            }
+            _searchContainer.setResultsAndTotal(_allFormSends);
+        }
+        _searchContainer.setRowChecker(new EmptyOnClickRowChecker(_response));
+        return _searchContainer;
+    }
+    /**
+     * Retourne le dropdownItemsProvider de Form
+     *
+     * @return officialActionDropdownItemsProvider
+     */
+    @SuppressWarnings("unused")
+    public FormSendActionDropdownItemsProvider getActionsForm(DDMFormInstanceRecord formSend) {
+        return new FormSendActionDropdownItemsProvider(formSend, _request,
+                _response);
+    }
+
+    private void getHits() throws PortalException {
+
+        List<DDMFormInstanceRecord> recordList = DDMFormInstanceRecordLocalServiceUtil.getDDMFormInstanceRecords(-1,-1);
+
+        // ne garde que les formulaires envoyé du formulaire choisi
+        long formInstanceId = ParamUtil.getLong(_request,"formInstanceId");
+
+        recordList = recordList.stream().filter(r -> r.getFormInstanceId() == formInstanceId).collect(Collectors.toList());
+
+        //effectue le tri
+        recordList.sort((r1, r2) -> r1.getModifiedDate().compareTo(r2.getModifiedDate()));
+        if("desc".equals(this.getOrderByType()))
+            Collections.reverse(recordList);
+        _allFormSends=recordList;
+    }
+
+    public String getOrderByColSearchField() {
+        switch (getOrderByCol()) {
+            case "title":
+                return "localized_title_fr_FR_sortable";
+            case "modified-date":
+            default:
+                return "modified_sortable";
+        }
+    }
+
+    public boolean hasVocabulary(String vocabularyName){
+        return getCategVocabularies().containsKey(vocabularyName);
+    }
+
+    public Map<String, String> getCategVocabularies() {
+        if (_categVocabularies == null) {
+            _categVocabularies = new HashMap<>();
+            _categVocabularies.put("vocabulary1", ParamUtil.getString(
+                    _httpServletRequest, "vocabulary1", ""));
+        }
+
+        return _categVocabularies;
+    }
+
+    @SuppressWarnings("unused")
+    public String getSelectCategoriesByVocabularyIdURL(long vocabularyId) {
+        RequestBackedPortletURLFactory requestBackedPortletURLFactory =
+                RequestBackedPortletURLFactoryUtil.create(_request);
+        AssetCategoryTreeNodeItemSelectorCriterion categoryTreeNodeItemSelectorCriterion =
+                new AssetCategoryTreeNodeItemSelectorCriterion();
+        categoryTreeNodeItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
+                new AssetCategoryTreeNodeItemSelectorReturnType());
+
+        return String.valueOf(
+                _itemSelector.getItemSelectorURL(
+                        requestBackedPortletURLFactory,
+                        _response.getNamespace() + "selectAssetCategory",
+                        categoryTreeNodeItemSelectorCriterion));
+    }
+    /**
+     * Renvoie la colonne sur laquelle on fait le tri
+     *
+     * @return String
+     */
+    public String getOrderByCol() {
+        return ParamUtil.getString(_request, "orderByCol", "modified-date");
+    }
+
+    /**
+     * Retourne le type de tri (desc ou asc)
+     *
+     * @return String
+     */
+    public String getOrderByType() {
+        return ParamUtil.getString(_request, "orderByType", "desc");
+    }
+
+    /**
+     * Retourne les mots clés de recherche saisis
+     */
+    @SuppressWarnings("unused")
+    public String getKeywords() {
+        if (Validator.isNull(_keywords)) {
+            _keywords = ParamUtil.getString(_request, "keywords");
+        }
+        return _keywords;
+    }
+    protected SearchContainer <DDMFormInstanceRecord> _searchContainer;
+    private Map<String, String> _categVocabularies;
+    private String _keywords;
+    private final RenderRequest _request;
+    private final RenderResponse _response;
+    protected ThemeDisplay _themeDisplay;
+    private final HttpServletRequest _httpServletRequest;
+    private final ItemSelector _itemSelector;
+    private List<DDMFormInstanceRecord> _allFormSends;
+    private Map<String, String[]> _texteAreaFields;
 }

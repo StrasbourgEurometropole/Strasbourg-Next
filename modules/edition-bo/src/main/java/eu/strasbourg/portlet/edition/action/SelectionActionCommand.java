@@ -1,25 +1,22 @@
 package eu.strasbourg.portlet.edition.action;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.edition.service.EditionGalleryLocalService;
 import eu.strasbourg.service.edition.service.EditionLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
 
 @Component(
 	immediate = true,
@@ -33,8 +30,7 @@ public class SelectionActionCommand implements MVCActionCommand {
 		ActionResponse actionResponse) throws PortletException {
 		String tab = ParamUtil.getString(actionRequest, "tab");
 
-		long[] selectionIds = StringUtil
-			.split(ParamUtil.getString(actionRequest, "selectionIds"), 0L);
+		long[] selectionIds = ParamUtil.getLongValues(actionRequest, "rowIds");
 
 		for (long entryId : selectionIds) {
 			try {

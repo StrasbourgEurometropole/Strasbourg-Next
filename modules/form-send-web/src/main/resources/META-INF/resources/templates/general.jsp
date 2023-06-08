@@ -24,7 +24,7 @@
                             <c:forEach items="${dc.paginatedResults}" var="record">
                                 <fmt:formatDate value="${record.createDate}" type="date" var="createHeure" pattern="HH:mm" />
                                 <h2 class="dateForm">Le ${dc.getShortDate(record.createDate, locale)} &agrave; ${createHeure}</h2>
-                                <c:forEach var="recordField" items="${dc.getRecordFields(record.storageId, locale)}">
+                                <c:forEach var="recordField" items="${dc.getRecordFields(record.formInstanceRecordId, locale)}">
                                     <c:if test="${fn:contains(dc.fieldsToShow, recordField[1]) && not empty recordField[2] && recordField[2] != '[]'}">
                                         <div style="margin-bottom: 20px; ">
                                             <label>${dc.getLabel(recordField[1], locale)}</label><br>

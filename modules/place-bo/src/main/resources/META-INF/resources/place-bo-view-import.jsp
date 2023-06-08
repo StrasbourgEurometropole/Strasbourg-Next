@@ -1,5 +1,5 @@
 <%@ include file="/place-bo-init.jsp"%>
-
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 <liferay-portlet:renderURL varImpl="importURL">
 	<portlet:param name="tab" value="import" />
 </liferay-portlet:renderURL>
@@ -16,7 +16,7 @@
 	<portlet:param name="tab" value="import" />
 </liferay-portlet:actionURL>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<c:choose>
 		<c:when test="${isAdmin}">
 			<aui:form action="${startImportPlacesURL}" method="post" name="fmPlaces" enctype="multipart/form-data" >
@@ -25,11 +25,12 @@
 					<aui:input type="file" name="places-file">
 						<aui:validator name="acceptFiles">'csv'</aui:validator>
 					</aui:input>
+					<aui:button-row>
+						<aui:button cssClass="btn-lg" type="submit"
+									value="to-import" />
+					</aui:button-row>
 				</aui:fieldset>
-				<aui:button-row>
-					<aui:button cssClass="btn-lg" type="submit"
-						value="to-import" />
-				</aui:button-row>
+
 			</aui:form>
 			
 			<aui:form action="${startImportCategoriesURL}" method="post" name="fmCategories" enctype="multipart/form-data" >
@@ -38,11 +39,12 @@
 					<aui:input type="file" name="categories-file">
 						<aui:validator name="acceptFiles">'csv'</aui:validator>
 					</aui:input>
+					<aui:button-row>
+						<aui:button cssClass="btn-lg" type="submit"
+									value="to-import" />
+					</aui:button-row>
 				</aui:fieldset>
-				<aui:button-row>
-					<aui:button cssClass="btn-lg" type="submit"
-						value="to-import" />
-				</aui:button-row>
+
 			</aui:form>
 			
 			<aui:form action="${startImportTerritoriesURL}" method="post" name="fmTerritories" enctype="multipart/form-data" >
@@ -51,11 +53,12 @@
 					<aui:input type="file" name="territories-file">
 						<aui:validator name="acceptFiles">'csv'</aui:validator>
 					</aui:input>
+					<aui:button-row>
+						<aui:button cssClass="btn-lg" type="submit"
+									value="to-import" />
+					</aui:button-row>
 				</aui:fieldset>
-				<aui:button-row>
-					<aui:button cssClass="btn-lg" type="submit"
-						value="to-import" />
-				</aui:button-row>
+
 			</aui:form>
 		</c:when>
 		<c:otherwise>

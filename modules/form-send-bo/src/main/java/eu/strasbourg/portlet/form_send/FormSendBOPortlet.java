@@ -2,25 +2,30 @@ package eu.strasbourg.portlet.form_send;
 
 import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalServiceUtil;
+import com.liferay.item.selector.ItemSelector;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
+import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import eu.strasbourg.portlet.form_send.context.EditFormSendDisplayContext;
-import eu.strasbourg.portlet.form_send.context.ViewFormDisplayContext;
-import eu.strasbourg.portlet.form_send.context.ViewFormSendDisplayContext;
-import eu.strasbourg.portlet.form_send.context.ViewReportingDisplayContext;
+import eu.strasbourg.portlet.form_send.context.*;
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement;
 import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldSignalementLocalServiceUtil;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
+import static eu.strasbourg.portlet.form_send.constants.FormSendConstants.*;
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -36,8 +41,8 @@ import java.util.Locale;
 				"com.liferay.portlet.footer-portlet-javascript=/js/form-send-bo-main.js",
 				"com.liferay.portlet.header-portlet-css=/css/form-send-bo-main.css",
 				"com.liferay.portlet.single-page-application=false",
-				"javax.portlet.init-param.template-path=/",
-				"javax.portlet.init-param.view-template=/form-send-bo-view.jsp",
+				"javax.portlet.init-param.template-path=/META-INF/resources/",
+				"javax.portlet.init-param.view-template=/form-send-bo-view-forms.jsp",
 				"javax.portlet.resource-bundle=content.Language",
 				"javax.portlet.security-role-ref=power-user,user"
 		},
@@ -49,52 +54,69 @@ public class FormSendBOPortlet extends MVCPortlet {
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
-		String cmd = ParamUtil.getString(renderRequest, "cmd");
-		String tab = ParamUtil.getString(renderRequest,"tab");
+		try {
+			HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(renderRequest);
+			NavigationBarDisplayContext navigationDC = new NavigationBarDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("navigationDC", navigationDC);
+
+			//si on est sur la page des proposition ou de signalement, on renvoi le formInstanceId
+			renderRequest.setAttribute(URL_PARAM_FORM_INSTANCE_ID, navigationDC.getSelectedFormInstanceId());
+
+			switch (navigationDC.getSelectedTab()) {
+				case RECORDS:
+					if (navigationDC.getSelectedCmd().equals(EDIT_FORM_SEND) || navigationDC.getSelectedCmd().equals(SAVE_FORM_SEND)) {
+						EditFormSendDisplayContext dc = new EditFormSendDisplayContext(renderRequest, renderResponse);
+						renderRequest.setAttribute("dc", dc);
+					} else {
+						ViewFormSendDisplayContext dc = new ViewFormSendDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ManagementFormsSendToolBarDisplayContext managementDC = new ManagementFormsSendToolBarDisplayContext
+								(servletRequest,(LiferayPortletRequest) renderRequest,
+										(LiferayPortletResponse) renderResponse, dc);
+						renderRequest.setAttribute("dc", dc);
+						renderRequest.setAttribute("managementDC", managementDC);
+					}
+					break;
+				case SIGNALEMENTS: {
+					if (navigationDC.getSelectedCmd().equals(SHOW_RESPONSE)) {
+						long formSendRecordFieldId = ParamUtil.getLong(renderRequest,"formSendRecordFieldId");
+						displayResponse(true, formSendRecordFieldId);
+					}
+					if (navigationDC.getSelectedCmd().equals(HIDE_RESPONSE)) {
+						long formSendRecordFieldId = ParamUtil.getLong(renderRequest,"formSendRecordFieldId");
+						displayResponse(false, formSendRecordFieldId);
+					}
+					ViewReportingDisplayContext dc = new ViewReportingDisplayContext(renderRequest, renderResponse, _itemSelector);
+					ManagementRportingToolBarDisplayContext managementDC = new ManagementRportingToolBarDisplayContext
+							(servletRequest, (LiferayPortletRequest) renderRequest,
+									(LiferayPortletResponse) renderResponse, dc);
+					renderRequest.setAttribute("dc", dc);
+					renderRequest.setAttribute("managementDC", managementDC);
+
+					break;
+				}
+				case FORMS: {
+					ViewFormDisplayContext dc = new ViewFormDisplayContext(renderRequest, renderResponse, _itemSelector);
+					ManagementFormsToolBarDisplayContext managementDC = new ManagementFormsToolBarDisplayContext
+							(servletRequest, (LiferayPortletRequest) renderRequest,
+									(LiferayPortletResponse) renderResponse, dc);
+					renderRequest.setAttribute("dc", dc);
+					renderRequest.setAttribute("managementDC", managementDC);
+					break;
+				}
+			}
+
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
 
 		//si on est sur la page des proposition ou de signalement, on affiche un lien de retour
-		String returnURL = ParamUtil.getString(renderRequest,"returnURL");
-		boolean showBackButton = Validator.isNotNull(returnURL);
+		String backURL = ParamUtil.getString(renderRequest,"backURL");
+		boolean showBackButton = Validator.isNotNull(backURL);
 		if (showBackButton){
 			portletDisplay.setShowBackIcon(true);
-			portletDisplay.setURLBack(returnURL);
+			portletDisplay.setURLBack(backURL);
 		}
 
-		//si on est sur la page des proposition du de signalement, on récupère le formInstanceId
-		long formInstanceId = ParamUtil.getLong(renderRequest,"formInstanceId");
-		renderRequest.setAttribute("formInstanceId", formInstanceId);
-
-		//récupère le nom du formulaire
-		DDMFormInstance formInstance = DDMFormInstanceLocalServiceUtil.fetchFormInstance(formInstanceId);
-		String formInstanceName = "Proposition";
-		if(Validator.isNotNull(formInstance))
-			formInstanceName = formInstance.getName(Locale.FRANCE);
-		renderRequest.setAttribute("formInstanceName", formInstanceName);
-
-		//on set le displayContext selon la page sur laquelle on est
-		if (cmd.equals("editFormSend")){
-			EditFormSendDisplayContext dc = new EditFormSendDisplayContext(renderRequest,renderResponse);
-			renderRequest.setAttribute("dc",dc);
-		} else if (cmd.equals("hideResponse")){
-			long formSendRecordFieldId = ParamUtil.getLong(renderRequest,"formSendRecordFieldId");
-			displayResponse(false, formSendRecordFieldId);
-			ViewReportingDisplayContext dc = new ViewReportingDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("showResponse")){
-			long formSendRecordFieldId = ParamUtil.getLong(renderRequest,"formSendRecordFieldId");
-			displayResponse(true, formSendRecordFieldId);
-			ViewReportingDisplayContext dc = new ViewReportingDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-		} else if (tab.equals("viewFormSends")){
-			ViewFormSendDisplayContext dc = new ViewFormSendDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-		} else if (tab.equals("viewReportings")){
-			ViewReportingDisplayContext dc = new ViewReportingDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-		} else {
-			ViewFormDisplayContext dc = new ViewFormDisplayContext(renderRequest,renderResponse);
-			renderRequest.setAttribute("dc",dc);
-		}
 		super.render(renderRequest, renderResponse);
 	}
 
@@ -109,4 +131,6 @@ public class FormSendBOPortlet extends MVCPortlet {
 		}
 		return true;
 	}
+	@Reference
+	private ItemSelector _itemSelector;
 }

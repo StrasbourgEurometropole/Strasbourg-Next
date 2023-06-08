@@ -8,13 +8,10 @@
 
 <%@page import="eu.strasbourg.service.interest.model.Interest"%>
 
-<liferay-portlet:renderURL varImpl="interestsURL">
-	<portlet:param name="tab" value="interests" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deleteInterest" var="deleteInterestURL">
 	<portlet:param name="cmd" value="deleteInterest" />
 	<portlet:param name="tab" value="interests" />
+	<portlet:param name="mvcPath" value="/interest-bo-view-interests.jsp" />
 	<portlet:param name="interestId"
 		value="${not empty dc.interest ? dc.interest.interestId : ''}" />
 </liferay-portlet:actionURL>
@@ -22,10 +19,11 @@
 <liferay-portlet:actionURL name="saveInterest" varImpl="saveInterestURL">
 	<portlet:param name="cmd" value="saveInterest" />
 	<portlet:param name="tab" value="interests" />
+
 </liferay-portlet:actionURL>
 
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="type-error" message="type-error" />
 
@@ -36,7 +34,7 @@
 
 		<aui:model-context bean="${dc.interest}"
 			model="<%=Interest.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="interestId" type="hidden" />
 
 			<aui:fieldset collapsed="false" collapsible="true"
@@ -95,7 +93,7 @@
 
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 		
 		<aui:button-row>
 			<c:if test="${(dc.hasPermission('ADD_INTEREST') and empty dc.interest or dc.hasPermission('EDIT_INTEREST') and not empty dc.interest) and empty themeDisplay.scopeGroup.getStagingGroup()}">
@@ -114,7 +112,7 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
 					value="delete" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 	</aui:form>
 </div>

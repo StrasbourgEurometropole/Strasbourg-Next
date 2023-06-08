@@ -78,14 +78,15 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 
 				String portletName = (String) request
 						.getAttribute(WebKeys.PORTLET_ID);
-				PortletURL returnURL = PortletURLFactoryUtil.create(request,
+				PortletURL backURL = PortletURLFactoryUtil.create(request,
 						portletName, td.getPlid(),
 						PortletRequest.RENDER_PHASE);
-				returnURL.setParameter("tab", request.getParameter("tab"));
+				backURL.setParameter("tab", request.getParameter("tab"));
 
-				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("backURL", backURL.toString());
 				response.setRenderParameter("mvcPath",
 						"/place-bo-edit-place.jsp");
+				response.setRenderParameter("cmd", "savePlace");
 				return false;
 			}
 
@@ -494,6 +495,7 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 			}
 
 			_placeLocalService.updatePlace(place, sc);
+			response.setRenderParameter("mvcPath", "/place-bo-view-places.jsp");
 		} catch (PortalException e) {
 			_log.error(e);
 		}

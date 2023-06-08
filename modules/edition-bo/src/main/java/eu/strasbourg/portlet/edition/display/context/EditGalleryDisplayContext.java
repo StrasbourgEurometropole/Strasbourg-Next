@@ -1,21 +1,19 @@
 package eu.strasbourg.portlet.edition.display.context;
 
-import java.util.Locale;
-import java.util.Set;
-
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.util.Locale;
+import java.util.Set;
 
 public class EditGalleryDisplayContext {
 	public EditGalleryDisplayContext(RenderRequest request,
