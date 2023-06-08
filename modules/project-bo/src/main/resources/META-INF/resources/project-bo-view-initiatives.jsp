@@ -4,6 +4,7 @@
 <liferay-portlet:renderURL varImpl="initiativesURL">
 	<portlet:param name="tab" value="initiatives" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
+	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="mvcPath" value="/project-bo-view-initiatives.jsp" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
@@ -30,7 +31,6 @@
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.project.model.Initiative" modelVar="initiative"
 				keyProperty="initiativeId" >
-				
 				<%-- URL : definit le lien vers la page d'edition de l'entite selectionne --%>
 				<liferay-portlet:renderURL varImpl="editInitiativeURL">
 					<portlet:param name="cmd" value="editInitiative" />
@@ -64,7 +64,6 @@
 				</liferay-ui:search-container-column-text>
 
 				<%-- Colonne : Actions possibles --%>
-				<liferay-ui:search-container-column-text>
 				<liferay-ui:search-container-column-text>
 					<clay:dropdown-actions
 							aria-label="<liferay-ui:message key='show-actions' />"

@@ -133,10 +133,10 @@ public class ManagementBudgetParticipatifsToolBarDisplayContext extends SearchCo
     protected List<DropdownItem> getFilterVocabularyDropdownItems() {
         List<DropdownItem> filterVocabularyDropdownItems = new DropdownItemList();
 
-        for (AssetVocabulary vocabulary : getBudgetPhraseVocabularies()) {
+        for (AssetVocabulary vocabulary : getBudgetPhaseVocabularies()) {
             filterVocabularyDropdownItems.add(
                     DropdownItemBuilder
-                            .setActive(_viewBudgetPhasesDisplayContext.hasVocabulary(vocabulary.getName()))
+                            .setActive(_viewBudgetParticipatifDisplayContext.hasVocabulary(vocabulary.getName()))
                             .setHref("javascript:getCategoriesByVocabulary("+vocabulary.getVocabularyId()+");")
                             .setLabel(vocabulary.getName())
                             .build()
@@ -152,10 +152,10 @@ public class ManagementBudgetParticipatifsToolBarDisplayContext extends SearchCo
     // TODO : A revoir car pas testé ni fini
     @Override
     public List<LabelItem> getFilterLabelItems() {
-        Map<String, String> categVocabulariesSelected = _viewBudgetPhasesDisplayContext.getCategVocabularies();
+        Map<String, String> categVocabulariesSelected = _viewBudgetParticipatifDisplayContext.getCategVocabularies();
         LabelItemListBuilder.LabelItemListWrapper vocabulariesLabelItems = new LabelItemListBuilder.LabelItemListWrapper();
 
-        for (AssetVocabulary vocabulary : getBudgetPhraseVocabularies()) {
+        for (AssetVocabulary vocabulary : getBudgetPhaseVocabularies()) {
             vocabulariesLabelItems.add(
                     () -> categVocabulariesSelected.keySet().contains(vocabulary.getName()),
                     labelItem -> {
@@ -268,7 +268,7 @@ public class ManagementBudgetParticipatifsToolBarDisplayContext extends SearchCo
     /**
      * Get Event Vocabularies
      */
-    protected List<AssetVocabulary> getBudgetPhraseVocabularies() {
+    protected List<AssetVocabulary> getBudgetPhaseVocabularies() {
         if(_vocabularies == null) {
             ThemeDisplay themeDisplay =
                     (ThemeDisplay) httpServletRequest.getAttribute(

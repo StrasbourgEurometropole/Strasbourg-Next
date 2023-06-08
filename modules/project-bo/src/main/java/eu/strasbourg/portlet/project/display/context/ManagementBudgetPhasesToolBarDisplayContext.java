@@ -15,7 +15,6 @@ import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.project.model.BudgetPhase;
-import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,9 +23,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
-public class ManagementBudgetPhrasesToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
+public class ManagementBudgetPhasesToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
 
-    public ManagementBudgetPhrasesToolBarDisplayContext(
+    public ManagementBudgetPhasesToolBarDisplayContext(
             HttpServletRequest httpServletRequest,
             LiferayPortletRequest liferayPortletRequest,
             LiferayPortletResponse liferayPortletResponse,
@@ -133,7 +132,7 @@ public class ManagementBudgetPhrasesToolBarDisplayContext extends SearchContaine
     protected List<DropdownItem> getFilterVocabularyDropdownItems() {
         List<DropdownItem> filterVocabularyDropdownItems = new DropdownItemList();
 
-        for (AssetVocabulary vocabulary : getBudgetPhraseVocabularies()) {
+        for (AssetVocabulary vocabulary : getBudgetPhaseVocabularies()) {
             filterVocabularyDropdownItems.add(
                     DropdownItemBuilder
                             .setActive(_viewBudgetPhasesDisplayContext.hasVocabulary(vocabulary.getName()))
@@ -155,7 +154,7 @@ public class ManagementBudgetPhrasesToolBarDisplayContext extends SearchContaine
         Map<String, String> categVocabulariesSelected = _viewBudgetPhasesDisplayContext.getCategVocabularies();
         LabelItemListBuilder.LabelItemListWrapper vocabulariesLabelItems = new LabelItemListBuilder.LabelItemListWrapper();
 
-        for (AssetVocabulary vocabulary : getBudgetPhraseVocabularies()) {
+        for (AssetVocabulary vocabulary : getBudgetPhaseVocabularies()) {
             vocabulariesLabelItems.add(
                     () -> categVocabulariesSelected.keySet().contains(vocabulary.getName()),
                     labelItem -> {
@@ -268,7 +267,7 @@ public class ManagementBudgetPhrasesToolBarDisplayContext extends SearchContaine
     /**
      * Get Event Vocabularies
      */
-    protected List<AssetVocabulary> getBudgetPhraseVocabularies() {
+    protected List<AssetVocabulary> getBudgetPhaseVocabularies() {
         if(_vocabularies == null) {
             ThemeDisplay themeDisplay =
                     (ThemeDisplay) httpServletRequest.getAttribute(

@@ -58,11 +58,11 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 					.getAttribute(WebKeys.THEME_DISPLAY);
 				String portletName = (String) request
 					.getAttribute(WebKeys.PORTLET_ID);
-				PortletURL returnURL = PortletURLFactoryUtil.create(request,
+				PortletURL backURL = PortletURLFactoryUtil.create(request,
 					portletName, themeDisplay.getPlid(),
 					PortletRequest.RENDER_PHASE);
 				
-				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("backURL", backURL.toString());
 				response.setRenderParameter("cmd", "editParticipation");
 				response.setRenderParameter("mvcPath","/project-bo-edit-participation.jsp");
 				return false;
@@ -256,6 +256,7 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			participation.setExpirationDate(expirationDate);
 			
 			_participationLocalService.updateParticipation(participation, sc);
+			response.setRenderParameter("mvcPath", "/project-bo-view-budgets-participations.jsp");
 
 		} catch (PortalException e) {
 			_log.error(e);

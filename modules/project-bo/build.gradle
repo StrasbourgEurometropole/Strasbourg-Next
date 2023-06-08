@@ -7,4 +7,5 @@ dependencies {
 	implementation project (':modules:utils')
 	implementation project (':modules:project:project-api')
 	implementation project (':modules:office-exporter')
+	implementation project (':modules:agenda:agenda-api')
 }

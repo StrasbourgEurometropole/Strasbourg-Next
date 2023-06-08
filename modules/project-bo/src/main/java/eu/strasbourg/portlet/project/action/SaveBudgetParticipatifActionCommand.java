@@ -66,6 +66,7 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
  			boolean isValid = validate(request);
  			if (!isValid) {
  				setResponse(request, response);
+				response.setRenderParameter("cmd", "saveBudgetParticipatif");
  				return false;
  			}
  			
@@ -354,6 +355,7 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             
             // Sauvegarde du budget
             _budgetLocalService.updateBudgetParticipatif(budgetParticipatif, sc);
+			response.setRenderParameter("mvcPath", "/project-bo-view-budgets-participatifs.jsp");
             
         } catch (PortalException e) {
             _log.error("erreur lors de la mise à jour d'un budget : ",e);
@@ -370,11 +372,11 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
 			
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 			String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
-			PortletURL returnURL = PortletURLFactoryUtil.create(request,
+			PortletURL backURL = PortletURLFactoryUtil.create(request,
 				portletName, themeDisplay.getPlid(),
 				PortletRequest.RENDER_PHASE);
 
-			response.setRenderParameter("returnURL", returnURL.toString());
+			response.setRenderParameter("backURL", backURL.toString());
 			response.setRenderParameter("cmd","editBudgetParticipatif");
 			response.setRenderParameter("mvcPath","/project-bo-edit-budget-participatif.jsp");
 	}

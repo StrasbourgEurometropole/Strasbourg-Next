@@ -27,6 +27,7 @@ import eu.strasbourg.service.project.service.ProjectFollowedLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalService;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalService;
 import eu.strasbourg.utils.MailHelper;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
@@ -63,10 +64,10 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 
 				ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 				String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
-				PortletURL returnURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
+				PortletURL backURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
 						PortletRequest.RENDER_PHASE);
 
-				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("backURL", backURL.toString());
 				response.setRenderParameter("cmd", "editProject");
 				response.setRenderParameter("mvcPath", "/project-bo-edit-project.jsp");
 				return false;
@@ -348,6 +349,7 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			}
 
 			_projectLocalService.updateProject(project, sc);
+			response.setRenderParameter("mvcPath", "/project-bo-view-budgets-projects.jsp");
 
 		} catch (PortalException | IOException | AddressException e) {
 			_log.error(e);
@@ -391,7 +393,8 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		StringBuilder result = new StringBuilder(request.getServerName());
 		result.append(":").append(request.getServerPort()).append("/");
-		if (themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname().isEmpty()
+		String virtualHostname= PortalHelper.getVirtualHostname(themeDisplay.getScopeGroup(),themeDisplay.getLanguageId());
+		if (virtualHostname.isEmpty()
 				|| themeDisplay.getScopeGroup().isStagingGroup()) {
 			result.append("web").append(themeDisplay.getLayout().getGroup().getFriendlyURL()).append("/");
 		}

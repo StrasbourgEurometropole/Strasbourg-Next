@@ -9,7 +9,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.service.project.model.Participation;
+import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
@@ -20,13 +20,13 @@ import java.util.List;
 /**
  * @author BMA
  */
-public class PaticipationActionDropdownItemsProvider {
+public class BudgetPhaseActionDropdownItemsProvider {
 
-    public PaticipationActionDropdownItemsProvider(
-            Participation participation, RenderRequest request,
+    public BudgetPhaseActionDropdownItemsProvider(
+            BudgetPhase budgetPhase, RenderRequest request,
             RenderResponse response) {
 
-        _participation = participation;
+        _budgetPhase = budgetPhase;
         _response = response;
 
         _themeDisplay = (ThemeDisplay)request.getAttribute(
@@ -37,16 +37,16 @@ public class PaticipationActionDropdownItemsProvider {
     }
 
     /**
-     * The list of dropdown items to display for all paricipation
+     * The list of dropdown items to display for all budget phase
      */
     public List<DropdownItem> getActionDropdownItems() {
 
         boolean hasUpdatePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.PROJECT_BO, StrasbourgPortletKeys.PROJECT_BO, "EDIT_PARTICIPATION")
+                StrasbourgPortletKeys.PROJECT_BO, StrasbourgPortletKeys.PROJECT_BO, "EDIT_BUDGET_PHASE")
                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 
         boolean hasDeletePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.PROJECT_BO, StrasbourgPortletKeys.PROJECT_BO, "DELETE_PARTICIPATION")
+                StrasbourgPortletKeys.PROJECT_BO, StrasbourgPortletKeys.PROJECT_BO, "DELETE_BUDGET_PHASE")
                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 
         return DropdownItemListBuilder
@@ -77,18 +77,18 @@ public class PaticipationActionDropdownItemsProvider {
     }
 
     /**
-     * Action of Edit participation
+     * Action of Edit budget phase
      */
     private UnsafeConsumer<DropdownItem, Exception> _getEditActionUnsafeConsumer() {
 
         return dropdownItem -> {
             dropdownItem.setHref(
                     PortletURLBuilder.createRenderURL(_response)
-                            .setMVCPath("/project-bo-edit-participation.jsp")
-                            .setCMD("editParticipation")
+                            .setMVCPath("/project-bo-edit-budget-phase.jsps")
+                            .setCMD("editBudgetPhase")
                             .setBackURL(_themeDisplay.getURLCurrent())
-                            .setParameter("tab", "participations")
-                            .setParameter("participationId", _participation.getParticipationId())
+                            .setParameter("tab", "budget-phases")
+                            .setParameter("budgetPhaseId", _budgetPhase.getBudgetPhaseId())
                             .buildString()
             );
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "edit"));
@@ -96,25 +96,25 @@ public class PaticipationActionDropdownItemsProvider {
     }
 
     /**
-     * Action of Delete participation
+     * Action of Delete budget phase
      */
     private UnsafeConsumer<DropdownItem, Exception> _getDeleteActionUnsafeConsumer() {
 
         return dropdownItem -> {
             dropdownItem.setHref(
                     PortletURLBuilder.createActionURL(_response)
-                            .setActionName("deleteParticipation")
-                            .setMVCPath("/project-bo-view-participations.jsp")
+                            .setActionName("deleteBudgetPhase")
+                            .setMVCPath("/project-bo-view-budget-phases.jsp")
                             .setBackURL(_themeDisplay.getURLCurrent())
-                            .setParameter("tab", "participations")
-                            .setParameter("participationId", _participation.getParticipationId())
+                            .setParameter("tab", "budget-phases")
+                            .setParameter("budgetPhaseId", _budgetPhase.getBudgetPhaseId())
                             .buildString()
             );
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "delete"));
         };
     }
 
-    private final Participation _participation;
+    private final BudgetPhase _budgetPhase;
     private final HttpServletRequest _httpServletRequest;
     private final RenderResponse _response;
     private final ThemeDisplay _themeDisplay;
