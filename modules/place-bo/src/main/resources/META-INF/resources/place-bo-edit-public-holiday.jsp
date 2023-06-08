@@ -1,22 +1,19 @@
 <%@ include file="/place-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.place.model.PublicHoliday"%>
 
-<liferay-portlet:renderURL varImpl="publicHolidaysURL">
-	<portlet:param name="tab" value="publicHolidays" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deletePublicHoliday"
 	var="deletePublicHolidayURL">
 	<portlet:param name="cmd" value="deletePublicHoliday" />
 	<portlet:param name="tab" value="publicHolidays" />
 	<portlet:param name="publicHolidayId"
 		value="${not empty dc.publicHoliday ? dc.publicHoliday.publicHolidayId : ''}" />
+	<portlet:param name="mvcPath" value="/place-bo-view-public-holidays.jsp" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="savePublicHoliday"
 	varImpl="savePublicHolidayURL">
-	<portlet:param name="cmd" value="savePublicHoliday" />
 	<portlet:param name="tab" value="publicHolidays" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <div class="container-fluid container-fluid-max-xl main-content-body">
@@ -63,7 +60,7 @@
 				<aui:button cssClass="btn-lg" href="${deletePublicHolidayURL}" type="cancel"
 					value="delete" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 
 	</aui:form>

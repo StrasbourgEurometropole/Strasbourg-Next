@@ -90,16 +90,6 @@ public class ViewPricesDisplayContext {
 		}
 	}
 
-	public Map<String, String> getCategVocabularies() {
-		if (_categVocabularies == null) {
-			_categVocabularies = new HashMap<>();
-			_categVocabularies.put("vocabulary1", ParamUtil.getString(
-					_httpServletRequest, "vocabulary1", ""));
-		}
-
-		return _categVocabularies;
-	}
-
 
 	private List<Price> _prices;
 	protected SearchContainer<Price> _searchContainer;

@@ -6,9 +6,9 @@
 	<portlet:param name="tab" value="google" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="mvcPath" value="/place-bo-view-google.jsp" />
 </liferay-portlet:renderURL>
 <liferay-ui:error key="synchronise-forbidden" message="synchronise-forbidden" />
 
@@ -28,8 +28,9 @@
 				<liferay-portlet:renderURL varImpl="editGoogleURL">
 					<portlet:param name="cmd" value="editGoogle" />
 					<portlet:param name="googleMyBusinessHistoricId" value="${googleMyBusinessHistoric.googleMyBusinessHistoricId}" />
-					<portlet:param name="returnURL" value="${googleURL}" />
+					<portlet:param name="backURL" value="${googleURL}" />
 					<portlet:param name="mvcPath" value="/place-bo-edit-google.jsp" />
+					<portlet:param name="tab" value="google" />
 				</liferay-portlet:renderURL>
 
 				<%-- Colonne : Resultat --%>

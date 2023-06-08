@@ -1,11 +1,6 @@
 <%@ include file="/place-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.place.model.GoogleMyBusinessHistoric"%>
 
-<%-- URL : definit le lien menant vers la page de listage de l'entite --%>
-<liferay-portlet:renderURL varImpl="googleURL">
-	<portlet:param name="tab" value="google" />
-</liferay-portlet:renderURL>
-
 <%-- Composant : Body --%>
 <div class="container-fluid container-fluid-max-xl main-content-body">
 

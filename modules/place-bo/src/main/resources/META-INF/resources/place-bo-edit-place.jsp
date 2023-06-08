@@ -11,7 +11,8 @@
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="savePlace" varImpl="savePlaceURL">
-	<portlet:param name="cmd" value="savePlace" />
+	<portlet:param name="tab" value="places" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:renderURL var="manageSubPlacesURL">
@@ -537,7 +538,7 @@
 				<aui:button cssClass="btn-lg" href="${deletePlaceURL}"
 					type="cancel" value="delete" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 
 	</aui:form>

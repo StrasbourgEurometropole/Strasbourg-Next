@@ -1,4 +1,4 @@
-package eu.strasbourg.portlet.place.util;
+package eu.strasbourg.portlet.project.util;
 
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuilder;
@@ -7,11 +7,8 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.service.place.model.Price;
-import eu.strasbourg.service.place.model.PublicHoliday;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.service.project.model.Initiative;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -21,13 +18,13 @@ import java.util.List;
 /**
  * @author BMA
  */
-public class PublicHolidayActionDropdownItemsProvider {
+public class InitiativeActionDropdownItemsProvider {
 
-    public PublicHolidayActionDropdownItemsProvider(
-            PublicHoliday publicHoliday, RenderRequest request,
+    public InitiativeActionDropdownItemsProvider(
+            Initiative initiative, RenderRequest request,
             RenderResponse response) {
 
-        _publicHoliday = publicHoliday;
+        _initiative = initiative;
         _response = response;
 
         _themeDisplay = (ThemeDisplay)request.getAttribute(
@@ -38,7 +35,7 @@ public class PublicHolidayActionDropdownItemsProvider {
     }
 
     /**
-     * The list of dropdown items to display for all activity
+     * The list of dropdown items to display for all initiative
      */
     public List<DropdownItem> getActionDropdownItems() {
 
@@ -68,18 +65,18 @@ public class PublicHolidayActionDropdownItemsProvider {
     }
 
     /**
-     * Action of Edit link
+     * Action of Edit initiative
      */
     private UnsafeConsumer<DropdownItem, Exception> _getEditActionUnsafeConsumer() {
 
         return dropdownItem -> {
             dropdownItem.setHref(
                     PortletURLBuilder.createRenderURL(_response)
-                            .setMVCPath("/place-bo-edit-public-holiday.jsp")
-                            .setCMD("editPrice")
+                            .setMVCPath("/project-bo-edit-initiative.jsp")
+                            .setCMD("editInitiative")
                             .setBackURL(_themeDisplay.getURLCurrent())
-                            .setParameter("tab", "publicHolidays")
-                            .setParameter("publicHolidayId", _publicHoliday.getPublicHolidayId())
+                            .setParameter("tab", "initiatives")
+                            .setParameter("initiativeId", _initiative.getInitiativeId())
                             .buildString()
             );
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "edit"));
@@ -87,25 +84,25 @@ public class PublicHolidayActionDropdownItemsProvider {
     }
 
     /**
-     * Action of Delete publicHoliday
+     * Action of Delete initiative
      */
     private UnsafeConsumer<DropdownItem, Exception> _getDeleteActionUnsafeConsumer() {
 
         return dropdownItem -> {
             dropdownItem.setHref(
                     PortletURLBuilder.createActionURL(_response)
-                            .setActionName("deletePublicHoliday")
-                            .setMVCPath("/place-bo-view-public-holiday.jsp")
+                            .setActionName("deleteInitiative")
+                            .setMVCPath("/project-bo-view-initiatives.jsp")
                             .setBackURL(_themeDisplay.getURLCurrent())
-                            .setParameter("tab", "publicHolidays")
-                            .setParameter("publicHolidayId", _publicHoliday.getPublicHolidayId())
+                            .setParameter("tab", "initiatives")
+                            .setParameter("initiativeId", _initiative.getInitiativeId())
                             .buildString()
             );
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "delete"));
         };
     }
 
-    private final PublicHoliday _publicHoliday;
+    private final Initiative _initiative;
     private final HttpServletRequest _httpServletRequest;
     private final RenderResponse _response;
     private final ThemeDisplay _themeDisplay;

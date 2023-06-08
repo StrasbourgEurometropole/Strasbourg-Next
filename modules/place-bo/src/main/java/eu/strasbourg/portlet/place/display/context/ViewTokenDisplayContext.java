@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.place.display.context;
 
+import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
@@ -9,13 +10,17 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Ticket;
 import com.liferay.portal.kernel.service.TicketLocalServiceUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.utils.PasserelleHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -33,9 +38,13 @@ public class ViewTokenDisplayContext {
     private List<String> _locationIds;
 
     public ViewTokenDisplayContext(RenderRequest request,
-                                   RenderResponse response) {
-        this._request = request;
-        this._response = response;
+                                   RenderResponse response, ItemSelector itemSelector) {
+        _request = request;
+        _response = response;
+        _themeDisplay = (ThemeDisplay) _request
+                .getAttribute(WebKeys.THEME_DISPLAY);
+        _httpServletRequest = PortalUtil.getHttpServletRequest(request);
+        _itemSelector=itemSelector;
     }
 
     public String getOrderByCol() {
@@ -162,4 +171,8 @@ public class ViewTokenDisplayContext {
     }
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+
+    protected ThemeDisplay _themeDisplay;
+    private final HttpServletRequest _httpServletRequest;
+    private final ItemSelector _itemSelector;
 }

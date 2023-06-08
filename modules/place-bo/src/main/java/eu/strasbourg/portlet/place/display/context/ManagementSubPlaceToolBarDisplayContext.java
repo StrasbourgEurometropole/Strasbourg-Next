@@ -1,39 +1,34 @@
 package eu.strasbourg.portlet.place.display.context;
 
 import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.SearchContainerManagementToolbarDisplayContext;
-import com.liferay.frontend.taglib.clay.servlet.taglib.util.*;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenuBuilder;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuilder;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
-import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
-import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.service.place.model.Place;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 
-public class ManagementPricesToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
+public class ManagementSubPlaceToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
 
-    public ManagementPricesToolBarDisplayContext(
+    public ManagementSubPlaceToolBarDisplayContext(
             HttpServletRequest httpServletRequest,
             LiferayPortletRequest liferayPortletRequest,
             LiferayPortletResponse liferayPortletResponse,
-            ViewPricesDisplayContext viewPricesDisplayContext) throws PortalException {
+            ViewSubPlacesDisplayContext viewSubPlacesDisplayContext) throws PortalException {
         super(httpServletRequest, liferayPortletRequest, liferayPortletResponse,
-                viewPricesDisplayContext.getSearchContainer());
+                viewSubPlacesDisplayContext.getSearchContainer());
 
-        _viewPricesDisplayContext = viewPricesDisplayContext;
+        _viewSubPlacesDisplayContext = viewSubPlacesDisplayContext;
 
         _themeDisplay = (ThemeDisplay)liferayPortletRequest.getAttribute(
                 WebKeys.THEME_DISPLAY);
@@ -122,9 +117,9 @@ public class ManagementPricesToolBarDisplayContext extends SearchContainerManage
 
                     dropdownItem.setHref(
                             liferayPortletResponse.createRenderURL(),
-                            "tab", "prices",
-                            "cmd", "editPrice",
-                            "mvcPath", "/place-bo-edit-price.jsp",
+                            "tab", "subPlaces",
+                            "cmd", "editSubPlace",
+                            "mvcPath", "/place-bo-edit-subplace.jsp",
                             "backURL", themeDisplay.getURLCurrent());
 
                     dropdownItem.setLabel(
@@ -151,10 +146,10 @@ public class ManagementPricesToolBarDisplayContext extends SearchContainerManage
     }
     @Override
     public String getSearchContainerId() {
-        return "pricesSearchContainer";
+        return "subPlacesSearchContainer";
     }
 
-    private final ViewPricesDisplayContext _viewPricesDisplayContext;
+    private final ViewSubPlacesDisplayContext _viewSubPlacesDisplayContext;
     private final ThemeDisplay _themeDisplay;
     private List<AssetVocabulary> _vocabularies;
 

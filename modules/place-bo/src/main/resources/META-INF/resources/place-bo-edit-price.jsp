@@ -1,20 +1,18 @@
 <%@ include file="/place-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.place.model.Price"%>
 
-<liferay-portlet:renderURL varImpl="pricesURL">
-	<portlet:param name="tab" value="prices" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deletePrice" var="deletePriceURL">
 	<portlet:param name="cmd" value="deletePrice" />
 	<portlet:param name="tab" value="prices" />
+	<portlet:param name="mvcPath" value="/place-bo-view-prices.jsp" />
 	<portlet:param name="priceId"
 		value="${not empty dc.price ? dc.price.priceId : ''}" />
+
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="savePrice" varImpl="savePriceURL">
-	<portlet:param name="cmd" value="savePrice" />
 	<portlet:param name="tab" value="prices" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <div class="container-fluid container-fluid-max-xl main-content-body">
@@ -77,7 +75,7 @@
 				<aui:button cssClass="btn-lg" href="${deletePriceURL}"
 					type="cancel" value="delete" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 		
 	</aui:form>

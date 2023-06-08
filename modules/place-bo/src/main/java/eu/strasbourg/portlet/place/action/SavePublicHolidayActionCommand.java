@@ -97,6 +97,7 @@ public class SavePublicHolidayActionCommand implements MVCActionCommand {
 			publicHoliday.setRecurrent(recurrent);
 
 			_publicHolidayLocalService.updatePublicHoliday(publicHoliday);
+			response.setRenderParameter("mvcPath", "/place-bo-edit-public-holiday.jsp");
 		} catch (PortalException e) {
 			_log.error(e);
 		}

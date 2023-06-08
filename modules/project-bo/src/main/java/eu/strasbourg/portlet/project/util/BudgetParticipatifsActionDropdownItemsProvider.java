@@ -1,4 +1,4 @@
-package eu.strasbourg.portlet.place.util;
+package eu.strasbourg.portlet.project.util;
 
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuilder;
@@ -9,8 +9,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.service.place.model.Price;
-import eu.strasbourg.service.place.model.PublicHoliday;
+import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
@@ -21,13 +20,13 @@ import java.util.List;
 /**
  * @author BMA
  */
-public class PublicHolidayActionDropdownItemsProvider {
+public class BudgetParticipatifsActionDropdownItemsProvider {
 
-    public PublicHolidayActionDropdownItemsProvider(
-            PublicHoliday publicHoliday, RenderRequest request,
+    public BudgetParticipatifsActionDropdownItemsProvider(
+            BudgetParticipatif budgetParticipatif, RenderRequest request,
             RenderResponse response) {
 
-        _publicHoliday = publicHoliday;
+        _budgetParticipatif = budgetParticipatif;
         _response = response;
 
         _themeDisplay = (ThemeDisplay)request.getAttribute(
@@ -38,9 +37,17 @@ public class PublicHolidayActionDropdownItemsProvider {
     }
 
     /**
-     * The list of dropdown items to display for all activity
+     * The list of dropdown items to display for all budget participartion
      */
     public List<DropdownItem> getActionDropdownItems() {
+
+        boolean hasUpdatePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+                StrasbourgPortletKeys.PROJECT_BO, StrasbourgPortletKeys.PROJECT_BO, "EDIT_BUDGET_PARTICIPATIF")
+                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+
+        boolean hasDeletePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+                StrasbourgPortletKeys.PROJECT_BO, StrasbourgPortletKeys.PROJECT_BO, "DELETE_BUDGET_PARTICIPATIF")
+                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 
         return DropdownItemListBuilder
                 .addGroup(
@@ -48,6 +55,7 @@ public class PublicHolidayActionDropdownItemsProvider {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder
                                             .add(
+                                                    () -> hasUpdatePermission,
                                                     _getEditActionUnsafeConsumer()
                                             )
                                             .build()
@@ -59,6 +67,7 @@ public class PublicHolidayActionDropdownItemsProvider {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder
                                             .add(
+                                                    () -> hasDeletePermission,
                                                     _getDeleteActionUnsafeConsumer()
                                             )
                                             .build()
@@ -68,18 +77,18 @@ public class PublicHolidayActionDropdownItemsProvider {
     }
 
     /**
-     * Action of Edit link
+     * Action of Edit budget participation
      */
     private UnsafeConsumer<DropdownItem, Exception> _getEditActionUnsafeConsumer() {
 
         return dropdownItem -> {
             dropdownItem.setHref(
                     PortletURLBuilder.createRenderURL(_response)
-                            .setMVCPath("/place-bo-edit-public-holiday.jsp")
-                            .setCMD("editPrice")
+                            .setMVCPath("/project-bo-edit-budget-participatif.jsp")
+                            .setCMD("editBudgetParticipatif")
                             .setBackURL(_themeDisplay.getURLCurrent())
-                            .setParameter("tab", "publicHolidays")
-                            .setParameter("publicHolidayId", _publicHoliday.getPublicHolidayId())
+                            .setParameter("tab", "budgets-participatifs")
+                            .setParameter("budgetParticipatifId", _budgetParticipatif.getBudgetParticipatifId())
                             .buildString()
             );
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "edit"));
@@ -87,25 +96,25 @@ public class PublicHolidayActionDropdownItemsProvider {
     }
 
     /**
-     * Action of Delete publicHoliday
+     * Action of Delete budget participation
      */
     private UnsafeConsumer<DropdownItem, Exception> _getDeleteActionUnsafeConsumer() {
 
         return dropdownItem -> {
             dropdownItem.setHref(
                     PortletURLBuilder.createActionURL(_response)
-                            .setActionName("deletePublicHoliday")
-                            .setMVCPath("/place-bo-view-public-holiday.jsp")
+                            .setActionName("deletePlace")
+                            .setMVCPath("/project-bo-view-budgets-participatifs.jsp")
                             .setBackURL(_themeDisplay.getURLCurrent())
-                            .setParameter("tab", "publicHolidays")
-                            .setParameter("publicHolidayId", _publicHoliday.getPublicHolidayId())
+                            .setParameter("tab", "budgets-participatifs")
+                            .setParameter("budgetParticipatifId", _budgetParticipatif.getBudgetParticipatifId())
                             .buildString()
             );
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "delete"));
         };
     }
 
-    private final PublicHoliday _publicHoliday;
+    private final BudgetParticipatif _budgetParticipatif;
     private final HttpServletRequest _httpServletRequest;
     private final RenderResponse _response;
     private final ThemeDisplay _themeDisplay;

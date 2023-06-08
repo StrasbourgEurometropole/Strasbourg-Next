@@ -69,6 +69,36 @@ public class NavigationBarDisplayContext {
         priceItem.setHref(this.response.createRenderURL(), URL_PARAM_TAB, PRICES, URL_PARAM_MVCPATH, PRICES_PATH);
         navigationItems.add(priceItem);
 
+        NavigationItem publicHolidayItem = new NavigationItem();
+        publicHolidayItem.setLabel(LanguageUtil.get(bundle, "public-holidays"));
+        publicHolidayItem.setActive(this.selectedTab.equals(PUBLIC_HOLIDAYS));
+        publicHolidayItem.setHref(this.response.createRenderURL(), URL_PARAM_TAB, PUBLIC_HOLIDAYS, URL_PARAM_MVCPATH, PUBLIC_HOLIDAYS_PATH);
+        navigationItems.add(publicHolidayItem);
+
+        NavigationItem subPlaceItem = new NavigationItem();
+        subPlaceItem.setLabel(LanguageUtil.get(bundle, "sub-places"));
+        subPlaceItem.setActive(this.selectedTab.equals(SUB_PLACES));
+        subPlaceItem.setHref(this.response.createRenderURL(), URL_PARAM_TAB, SUB_PLACES, URL_PARAM_MVCPATH, SUB_PLACES_PATH);
+        navigationItems.add(subPlaceItem);
+
+        NavigationItem importItem = new NavigationItem();
+        importItem.setLabel(LanguageUtil.get(bundle, "place-import"));
+        importItem.setActive(this.selectedTab.equals(IMPORTS));
+        importItem.setHref(this.response.createRenderURL(), URL_PARAM_TAB, IMPORTS,URL_PARAM_MVCPATH, IMPORTS_PATH);
+        navigationItems.add(importItem);
+
+        NavigationItem googleItem = new NavigationItem();
+        googleItem.setLabel(LanguageUtil.get(bundle, "gmb-synchro"));
+        googleItem.setActive(this.selectedTab.equals(GOOGLE));
+        googleItem.setHref(this.response.createRenderURL(), URL_PARAM_TAB, GOOGLE,URL_PARAM_MVCPATH, GOOGLE_PATH);
+        navigationItems.add(googleItem);
+
+        NavigationItem tokenItem = new NavigationItem();
+        tokenItem.setLabel(LanguageUtil.get(bundle, "gmb-config"));
+        tokenItem.setActive(this.selectedTab.equals(TOKEN));
+        tokenItem.setHref(this.response.createRenderURL(), URL_PARAM_TAB, TOKEN,URL_PARAM_MVCPATH, TOKEN_PATH);
+        navigationItems.add(tokenItem);
+
         return navigationItems;
     }
 }

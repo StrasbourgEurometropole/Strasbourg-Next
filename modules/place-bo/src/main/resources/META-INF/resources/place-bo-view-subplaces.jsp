@@ -4,31 +4,18 @@
 
 <liferay-portlet:renderURL varImpl="subPlacesURL">
 	<portlet:param name="tab" value="subPlaces" />
+	<portlet:param name="mvcPath" value="/place-bo-view-subplaces.jsp" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
 <liferay-portlet:renderURL varImpl="addSubPlaceURL">
 	<portlet:param name="cmd" value="editSubPlace" />
 	<portlet:param name="mvcPath" value="/place-bo-edit-subplace.jsp" />
-	<portlet:param name="returnURL" value="${subPlacesURL}" />
+	<portlet:param name="backURL" value="${subPlacesURL}" />
+	<portlet:param name="tab" value="subPlaces" />
 </liferay-portlet:renderURL>
-
-<liferay-frontend:management-bar includeCheckBox="true"
-	searchContainerId="subPlacesSearchContainer">
-
-		<liferay-frontend:management-bar-action-buttons>
-			<c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<liferay-frontend:management-bar-button
-					href='<%="javascript:" + renderResponse.getNamespace() + "publishSelection();"%>'
-					icon="check" label="publish" />
-				<liferay-frontend:management-bar-button
-					href='<%="javascript:" + renderResponse.getNamespace() + "unpublishSelection();"%>'
-					icon="times" label="unpublish" />
-				<liferay-frontend:management-bar-button
-					href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
-					icon="trash" label="delete" />
-			</c:if>
-		</liferay-frontend:management-bar-action-buttons>
-</liferay-frontend:management-bar>
+<clay:management-toolbar
+		managementToolbarDisplayContext="${managementDC}"
+/>
 
 <div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
@@ -41,8 +28,9 @@
 				<liferay-portlet:renderURL varImpl="editSubPlaceURL">
 					<portlet:param name="cmd" value="editSubPlace" />
 					<portlet:param name="subPlaceId" value="${subPlace.subPlaceId}" />
-					<portlet:param name="returnURL" value="${subPlacesURL}" />
+					<portlet:param name="backURL" value="${subPlacesURL}" />
 					<portlet:param name="mvcPath" value="/place-bo-edit-subplace.jsp" />
+					<portlet:param name="tab" value="subPlaces" />
 				</liferay-portlet:renderURL>
 
 				<liferay-ui:search-container-column-text cssClass="content-column"
@@ -83,15 +71,6 @@
 		</liferay-ui:search-container>
 	</aui:form>
 </div>
-
-<liferay-frontend:add-menu>
-	<c:if
-		test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
-		<liferay-frontend:add-menu-item title="Ajouter un sous lieu"
-			url="${addSubPlaceURL}" />
-	</c:if>
-</liferay-frontend:add-menu>
-
 
 <liferay-portlet:actionURL name="selectionAction"
 	var="deleteSelectionURL">
