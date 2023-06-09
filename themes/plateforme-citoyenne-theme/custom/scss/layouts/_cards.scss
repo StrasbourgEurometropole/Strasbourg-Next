@@ -749,7 +749,6 @@ $border_top: 1px dashed;
 	}
 
 	.pro-header-participation {
-		margin-bottom: 50px;
 		padding: 10px;
 		border-bottom: 1px dashed rgba($c_dark, 0.25);
 		figure {
@@ -779,82 +778,10 @@ $border_top: 1px dashed;
 			}
 		}
 
-		.pro-number-comm, .pro-info-top-right {
-			position: absolute;
-			top: 75px;
-			left: 20px;
-			width: auto;
-			text-align: right;
-			@include clearfix();
-			@include mobile {
-				position: relative;
-				top: 0;
-				right: 0;
-				margin-top: 5px;
-				margin-bottom: -10px;
-				width: 100%;
-				text-align: left;
-				clear: both;
-			}
+	}
 
-			> * {
-				@media screen and (max-width: 320px) {
-					float: left;
-				}
-			}
-
-			span:not(.pro-encart-theme) {
-				position: relative;
-				@include ft($f_hx, 0.938em, 400, $c_main, 1.885em);
-				padding: 1px 9px;
-				border-radius: 5px;
-				background: $c_dark;
-				margin-right: 7px;
-				z-index: 100;
-				margin-left: 25px;
-				@include mobile {
-					display: inline-block;
-					margin-left: 0;
-					margin-top: 10px;
-				}
-				@media screen and (max-width: 320px) {
-					clear: left;
-				}
-				&:after {
-					content: '';
-					position: absolute;
-					right: 4px;
-					bottom: -7px;
-					z-index: -1;
-					width: 0;
-					height: 0;
-					border-style: solid;
-					border-width: 15px 0px 0 16px;
-					border-color: #000000 transparent transparent transparent;
-				}
-			}
-
-			.pro-encart-theme {
-				@include mobile {
-					float: left;
-					max-width: 120px;
-					overflow: hidden;
-					text-overflow: ellipsis;
-					white-space: nowrap;
-				}
-				@media screen and (max-width: 320px) {
-					max-width: 100%;
-				}
-			}
-
-			p {
-				@include ft($f_hx, 0.938em, 400, $c_txt, 1.867em);
-				text-transform: uppercase;
-				width: auto;
-				overflow: visible;
-				white-space: normal;
-			}
-		}
+	.pro-info-top {
+		padding : 10px 20px;
 	}
 
 	.pro-content-participation {
@@ -1751,11 +1678,6 @@ $border_top: 1px dashed;
 	background: $c_white;
 	width: 100% !important; ;
 	@include addTransition();
-.pro-header-budget {
-	position: absolute !important;
-	top: 0;
-	color: $c_white;
-}
 
 
 
@@ -1881,94 +1803,6 @@ $border_top: 1px dashed;
 	}
 
 	.pro-header-budget {
-		margin-bottom: 10px;
-		padding: 15px;
-		border-top-left-radius: 4px;
-		border-top-right-radius: 4px;
-
-		.pro-number-comm, .pro-info-top-right {
-			position: absolute;
-			bottom: -145px;
-			width: auto;
-			text-align: right;
-			@include clearfix();
-			@include mobile {
-				position: relative;
-				top: 0;
-				right: 0;
-				margin-top: 5px;
-				margin-bottom: 0;
-				width: 100%;
-				text-align: right;
-				clear: both;
-			}
-
-			> * {
-				@include mobile {
-					display: inline-block;
-					vertical-align: middle;
-				}
-				@media screen and (max-width: 320px) {
-					float: left;
-				}
-			}
-
-			span:not(.pro-encart-theme) {
-				position: relative;
-				@include ft($f_hx, 0.938em, 400, $c_main, 1.867em);
-				padding: 1px 9px;
-				border-radius: 5px;
-				background: $c_dark;
-				margin-right: 7px;
-				z-index: 100;
-				margin-left: 25px;
-				display: none;
-				@include mobile {
-					display: none;
-				}
-				&:after {
-					content: '';
-					position: absolute;
-					right: 4px;
-					bottom: -7px;
-					z-index: -1;
-					width: 0;
-					height: 0;
-					border-style: solid;
-					border-width: 15px 0px 0 16px;
-					border-color: #000000 transparent transparent transparent;
-				}
-				@media screen and (max-width: 320px) {
-					clear: left;
-				}
-			}
-
-			.pro-encart-theme {
-				@include mobile {
-					max-width: 100%;
-					overflow: hidden;
-					white-space: nowrap;
-					text-overflow: ellipsis;
-					display: inline-block;
-					vertical-align: middle;
-					float: left;
-					margin: 0;
-				}
-				@media screen and (max-width: 320px) {
-					max-width: 100%;
-				}
-			}
-
-			p {
-				@include ft($f_hx, 0.938em, 400, $c_txt, 1.867em);
-				text-transform: uppercase;
-				width: auto;
-				overflow: visible;
-				white-space: normal;
-				display: none;
-			}
-		}
-
 		figure {
 			position: relative;
 			float: left;
@@ -1992,46 +1826,6 @@ $border_top: 1px dashed;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
-		}
-
-		.pro-meta {
-			width: 100%;
-			text-align: left;
-			margin: 10px 0 0 0;
-			overflow: hidden;
-			white-space: nowrap;
-			text-overflow: ellipsis;
-			display: block;
-			color: #4c4c4c;
-			@include clearfix();
-			> * {
-				//display: block;
-				float: none;
-				width: 100%;
-			}
-			@include mobile {
-				clear: left;
-				margin: 10px 0;
-				white-space: nowrap;
-				overflow: hidden;
-				width: 100%;
-				text-overflow: ellipsis;
-				display: block;
-				text-align: left;
-			}
-			span {
-				font-size: 0.875em;
-				line-height: 1.5em;
-				&:first-child {
-					padding-left: 0;
-				}
-				&:last-child {
-					padding-right: 0;
-				}
-				&:after {
-					height: 13px;
-				}
-			}
 		}
 	}
 

@@ -862,40 +862,45 @@ function createParticipation(participation){
         '<div class="item pro-bloc-card-participation vignette type-color-hexa-' + participation.typeColor + '" data-linkall="a">' +
             '<div>' +
                 '<div class="pro-header-participation">' +
-                    '<figure role="group">';                       
-                            vignette += '<img src="' + participation.authorImageURL + '?imagePreview=1" loading="lazy" width="40" height="40" alt="Image participation"/>';                       
-    vignette +=     '</figure>' +
-                    '<p>Participation publiée par :</p>' +
-                    '<p><strong>' + participation.author + '</strong></p>' +
-                    '<div class="pro-info-top-right">' +
+                    '<div class="pro-header-author">' +
+                '<figure role="group">';
+                       vignette += '<img src="' + participation.authorImageURL + '?imagePreview=1" loading="lazy" width="40" height="40" alt="Image participation"/>';
+                vignette +=     '</figure>' +
+            '<p>Participation publiée par :</p>' +
+            '<p><strong>' + participation.author + '</strong></p>' +
+                    '</div>' +
+                    '<div class="pro-comments">' +
+                    '<span>' + participation.nbApprovedComments + '</span>' +
+                    '<p>Commentaire(s)</p>' +
+                    '</div>' +
+                    '<div class="pro-info-top">' +
                         '<span class="pro-encart-theme" style="background : #' + participation.typeColor + '">' +
                             participation.typeLabel +
                         '</span>' +
-                        '<span>' + participation.nbApprovedComments + '</span>' +
-                        '<p>Commentaire(s)</p>' +
                     '</div>' +
                 '</div>' +
                 '<div class="pro-content-participation">' +
+                    '<div class="pro-content-header">' +
                     '<div class="pro-meta">' +
                         '<!-- Liste des thématiques de la participation -->';
                         for(var i = 0 ; i < participation.jsonThematicCategoriesTitle.length ; i++){
                             vignette += '<span>' + participation.jsonThematicCategoriesTitle[i]["fr_FR"] + '</span>';
 
                         }
-    vignette +=         '<!-- Statut de la participation -->' +
-                        '<span>' + participationStatus + '</span>' +
-
+    vignette +=         '' +
                     '</div>' +
         '<!-- Liste des quartiers de la participation -->' +
         '<span class="location-participation">' + participation.districtsLabel +'</span>' +
+        '</div>' +
         '<!-- Projet lié à la participation -->' +
-        '<span>' + participation.projectName + ' :</span>' +
+        '<span class="project-participation">' + participation.projectName + ' :</span>' +
                     '<a href="' + homeURL + 'detail-participation/-/entity/id/' + participation.id + '" title="Lien vers la page détail Participation - Lien des commentaires">' +
                         '<h3>' + participation.title + '</h3>' +
                     '</a>' +
                     '<span class="pro-time">' +
                         'Publiée le <time datetime="' + participation.createDate + '">' + participation.createDate + '</time> / <span class="pro-duree">' + proDuree + '</span>' +
                     '</span>' +
+
                 '</div>' +
                 '<!-- Selection du type de template selon le status de la participation -->';
                 if (participationStatus == "À venir"){
@@ -1149,37 +1154,45 @@ function createBudgetParticipatif(budgetParticipatif){
 
     spans += '</div>';
 
-    var vignette =
-        '<div class="item pro-bloc-card-budget vignette ' + cssClassBPStatus + '" data-linkall="a">' +
-                (budgetParticipatif.imageURL != "" ? 
-                '<figure role="group" class="fit-cover">' +
-                    '<img src="' + budgetParticipatif.imageURL + '?imagePreview=1" loading="lazy" width="155" height="200" alt="Image projet citoyen"/>' +
-                '</figure>'
-                :
-                ''
-            ) +
-            '<div class="pro-header-budget">' +
-                '<figure role="group">' +
-                    '<img src="' + budgetParticipatif.authorImageURL + '?imagePreview=1" loading="lazy" width="40" height="40" alt="Arrière plan page standard"/>' +
-                '</figure>' +
-                '<p>Projet déposé par :</p>' +
-                '<p><strong>' + budgetParticipatif.author + '</strong></p>' +
-                spans +
-                '<div class="pro-info-top-right">' +
-                    '<span class="pro-encart-theme" style="background : #' + budgetParticipatif.BPStatusColor + ';" >' + budgetParticipatif.BPStatus + '</span>' +
-                    '<span>' + budgetParticipatif.nbApprovedComments + '</span>' +
-                    '<p>Commentaire(s)</p>' +
-                '</div>' +
-                crush +
-            '</div>' +
-            '<div class="pro-content-budget">' +
-                '<a href="' + homeURL + 'detail-budget-participatif/-/entity/id/' + budgetParticipatif.id + '" title="lien détail du projet citoyen"><h3>' + budgetParticipatif.title + '</h3></a>' +
-                '<span class="pro-time">Publiée le ' + budgetParticipatif.publicationDate + '</time></span>' +
-                '<p class="pro-summary">' + budgetParticipatif.summary + '</p>' +
-            '</div>' +
-            '<div class="pro-footer-budget">' + footer +
-            '</div>' +
-        '</div>';
+    var vignette = `
+    <div class="item pro-bloc-card-budget vignette ${cssClassBPStatus}" data-linkall="a">
+    <div class="pro-budget">
+     <div>
+     <div class="pro-header-budget"  ${budgetParticipatif.imageURL != "" ?
+        `style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, transparent 25%), url('${budgetParticipatif.imageURL}?imagePreview=1')"`
+        :
+        ''
+    }>
+            <figure role="group">
+                <img src="${budgetParticipatif.authorImageURL}?imagePreview=1" loading="lazy" width="40" height="40" alt="Arrière plan page standard"/>
+            </figure>
+            <p>Projet déposé par :</p>
+            <p><strong>${budgetParticipatif.author}</strong></p>
+</div>
+   
+             </div>
+             <div class="pro-content-header">
+             
+            <div class="pro-info-top">
+                <span>${budgetParticipatif.nbApprovedComments}</span>
+                <p>Commentaire(s)</p>
+                 <span class="pro-encart-theme" style="background : #${budgetParticipatif.BPStatusColor};">${budgetParticipatif.BPStatus}</span>
+            </div>
+            ${spans}
+            ${crush}
+       
+        <div class="pro-content-budget">
+            <a href="${homeURL}detail-budget-participatif/-/entity/id/${budgetParticipatif.id}" title="lien détail du projet citoyen"><h3>${budgetParticipatif.title}</h3></a>
+            <span class="pro-time">Publiée le ${budgetParticipatif.publicationDate}</time></span>
+            <p class="pro-summary">${budgetParticipatif.summary}</p>
+        </div>
+</div>
+            
+</div>
+        <div class="pro-footer-budget">
+            ${footer}
+        </div>
+    </div>`;
 
     return vignette;
 }

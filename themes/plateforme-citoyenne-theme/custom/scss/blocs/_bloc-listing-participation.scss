@@ -1,26 +1,4 @@
 .pro-bloc-listing-participation {
-	&:before {
-		content: '';
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		right: -15px;
-		width: 99999px;
-		height: 100%;
-		display: block;
-		background: #ffffff;
-		@include tablet_portrait {
-			left: -10px;
-			right: -10px;
-			width: calc(100% + 20px);
-		}
-		@include mobile{
-			right: 0;
-			left: 0;
-			width: 100%;
-		}
-	}
-
 	.pro-wrapper-sort {
 		position: relative;
 		z-index: 140;
@@ -99,32 +77,26 @@
 			}
 
 			.pro-header-participation {
+				display: flex;
 				padding: 20px;
 				margin-bottom: 20px;
-
+				gap: 10px;
+				.pro-header-author {
+					flex: 1;
+				}
 				> p {
 					@include ft($f_txt, 0.875em, 400, #4c4c4c, 1.429em);
 					strong {
 						color: $c_txt;
 					}
 				}
-
-				.pro-number-comm, .pro-info-top-right{
-					top: 25px;
-					right: 30px;
-					@include mobile{
-						top: 0;
-						text-align: right;
-						right: 0;
-						span:not(.pro-encart-theme){
-							margin-top: 0;
-						}
-					}
-				}
 			}
 
 			.pro-content-participation {
 				padding: 0 30px 20px 30px;
+				display: flex;
+				flex-direction: column;
+				gap: 5px;
 				&:after {
 					left: 30px;
 					right: 30px;

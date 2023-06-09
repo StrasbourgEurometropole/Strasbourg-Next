@@ -62,7 +62,7 @@ function opacifyOffSlide($el) {
 
 $('.owl-cards').each(function () {
 
-    if ($('.owl-cards .item').length > 0) {
+    if ($(this).find('.item').length > 0) {
         var _self = $(this);
 
         var options = {
