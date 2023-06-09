@@ -44,13 +44,6 @@ public class ViewParticipationsDisplayContext {
 		_itemSelector = itemSelector;
 	}
 
-	/*public List<Participation> getParticipations() throws PortalException {
-		if (this._participations == null) {
-			Hits hits = getHits(this._themeDisplay.getScopeGroupId());
-			this._participations = createObjectList(hits);
-		}
-		return this._participations;
-	}*/
 	/**
 	 * Retourne le dropdownItemsProvider de participation
 	 *
@@ -139,12 +132,7 @@ public class ViewParticipationsDisplayContext {
 	public String getOrderByColSearchField() {
 		switch (getOrderByCol()) {
 			case "title":
-			case "alias":
 				return "localized_title_fr_FR_sortable";
-			case "publication-date":
-				return "publishDate_sortable";
-			case "status":
-				return "status_sortable";
 			case "modified-date":
 			default:
 				return "modified_sortable";

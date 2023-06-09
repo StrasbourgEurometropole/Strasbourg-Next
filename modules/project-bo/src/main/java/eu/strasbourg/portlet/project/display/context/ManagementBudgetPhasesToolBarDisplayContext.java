@@ -182,7 +182,7 @@ public class ManagementBudgetPhasesToolBarDisplayContext extends SearchContainer
      */
     @Override
     protected String[] getOrderByKeys() {
-        return new String[] { "title", "modified-date", "publication-date", "status" };
+        return new String[] { "name", "modified-date", "is-active" };
     }
 
 
@@ -265,7 +265,7 @@ public class ManagementBudgetPhasesToolBarDisplayContext extends SearchContainer
 
 
     /**
-     * Get Event Vocabularies
+     * Get BudgetPhase Vocabularies
      */
     protected List<AssetVocabulary> getBudgetPhaseVocabularies() {
         if(_vocabularies == null) {
@@ -274,9 +274,11 @@ public class ManagementBudgetPhasesToolBarDisplayContext extends SearchContainer
                             WebKeys.THEME_DISPLAY);
             long companyGroupId = themeDisplay.getCompanyGroupId();
             long classNameId = ClassNameLocalServiceUtil.getClassNameId(BudgetPhase.class);
+            long scopeGroupId = themeDisplay.getScopeGroupId();
             List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
                     .getAssetVocabularies(-1, -1).stream()
-                    .filter(v -> v.getGroupId() == companyGroupId && LongStream.of(v.getSelectedClassNameIds())
+                    .filter(v -> (v.getGroupId() == companyGroupId || v.getGroupId() == scopeGroupId)
+                            && LongStream.of(v.getSelectedClassNameIds())
                             .anyMatch(c -> c == classNameId))
                     .collect(Collectors.toList());
             _vocabularies = vocabularies;

@@ -83,7 +83,8 @@ public class BudgetPhaseIndexer extends BaseIndexer<BudgetPhase> {
 		document.addLocalizedText(Field.DESCRIPTION, descriptionFieldMap);
 		
 		document.addNumber(Field.STATUS, budgetPhase.getStatus());
-		
+		document.addNumber("isActive",(short)(budgetPhase.isIsActive()?1:0));
+
 		Date beginDate = budgetPhase.getBeginDate();
 		Date endDate = budgetPhase.getEndDate();
 		List<Date> dates = new ArrayList<Date>();

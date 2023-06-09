@@ -33,8 +33,6 @@ import java.util.Map;
  */
 public class ViewPetitionsDisplayContext {
 
-    private List<Petition> _petitions;
-
     public ViewPetitionsDisplayContext(RenderRequest request, RenderResponse response, ItemSelector itemSelector) {
         _request = request;
         _response = response;
@@ -45,7 +43,6 @@ public class ViewPetitionsDisplayContext {
     /**
      * Retourne le dropdownItemsProvider de petition
      *
-     * @return EventActionDropdownItemsProvider
      */
     @SuppressWarnings("unused")
     public PetitionActionDropdownItemsProvider getActionsPetition(Petition petition) {
@@ -55,7 +52,6 @@ public class ViewPetitionsDisplayContext {
     /**
      * Retourne le searchContainer des petitions
      *
-     * @return SearchContainer<Event>
      */
     public SearchContainer<Petition> getSearchContainer() {
 
@@ -129,12 +125,7 @@ public class ViewPetitionsDisplayContext {
     public String getOrderByColSearchField() {
         switch (getOrderByCol()) {
             case "title":
-            case "alias":
                 return "localized_title_fr_FR_sortable";
-            case "publication-date":
-                return "publishDate_sortable";
-            case "status":
-                return "status_sortable";
             case "modified-date":
             default:
                 return "modified_sortable";

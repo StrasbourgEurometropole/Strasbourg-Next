@@ -77,7 +77,7 @@ public class ViewInitiativesDisplayContext  {
 			_searchContainer.setOrderByCol(getOrderByCol());
 			_searchContainer.setOrderByType(getOrderByType());
 			try {
-				getHits(_themeDisplay.getCompanyGroupId());
+				getHits(this._themeDisplay.getScopeGroupId());
 			} catch (PortalException e) {
 				throw new RuntimeException(e);
 			}
@@ -124,7 +124,6 @@ public class ViewInitiativesDisplayContext  {
 				"desc".equals(getOrderByType()));
 	}
 
-
 	/**
 	 * Renvoie le nom du champ sur laquelle on fait le tri pour
 	 * ElasticSearch
@@ -134,12 +133,7 @@ public class ViewInitiativesDisplayContext  {
 	public String getOrderByColSearchField() {
 		switch (getOrderByCol()) {
 			case "title":
-			case "alias":
 				return "localized_title_fr_FR_sortable";
-			case "publication-date":
-				return "publishDate_sortable";
-			case "status":
-				return "status_sortable";
 			case "modified-date":
 			default:
 				return "modified_sortable";

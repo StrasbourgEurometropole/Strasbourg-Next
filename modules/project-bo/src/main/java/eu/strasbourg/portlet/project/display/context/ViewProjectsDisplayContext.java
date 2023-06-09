@@ -28,8 +28,6 @@ import java.util.Map;
 
 public class ViewProjectsDisplayContext {
 	
-	private List <Project> _projects;
-	
 	public ViewProjectsDisplayContext(RenderRequest request, RenderResponse response, ItemSelector itemSelector) {
 		_request = request;
 		_response = response;
@@ -124,12 +122,7 @@ public class ViewProjectsDisplayContext {
 	public String getOrderByColSearchField() {
 		switch (getOrderByCol()) {
 			case "title":
-			case "alias":
 				return "localized_title_fr_FR_sortable";
-			case "publication-date":
-				return "publishDate_sortable";
-			case "status":
-				return "status_sortable";
 			case "modified-date":
 			default:
 				return "modified_sortable";
@@ -185,8 +178,6 @@ public class ViewProjectsDisplayContext {
 				RequestBackedPortletURLFactoryUtil.create(_request);
 		AssetCategoryTreeNodeItemSelectorCriterion categoryTreeNodeItemSelectorCriterion =
 				new AssetCategoryTreeNodeItemSelectorCriterion();
-//		categoryTreeNodeItemSelectorCriterion.setClassNameId(
-//				PortalUtil.getClassNameId(JournalArticle.class));
 		categoryTreeNodeItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
 				new AssetCategoryTreeNodeItemSelectorReturnType());
 

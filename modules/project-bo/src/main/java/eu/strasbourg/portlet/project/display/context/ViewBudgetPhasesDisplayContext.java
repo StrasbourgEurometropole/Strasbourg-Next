@@ -50,9 +50,8 @@ public class ViewBudgetPhasesDisplayContext  {
 	}
 
 	/**
-	 * Retourne le searchContainer des events
+	 * Retourne le searchContainer des BudgetPhases
 	 *
-	 * @return SearchContainer<Event>
 	 */
 	public SearchContainer<BudgetPhase> getSearchContainer() {
 
@@ -73,7 +72,7 @@ public class ViewBudgetPhasesDisplayContext  {
 			_searchContainer.setOrderByCol(getOrderByCol());
 			_searchContainer.setOrderByType(getOrderByType());
 			try {
-				getHits(_themeDisplay.getCompanyGroupId());
+				getHits(_themeDisplay.getScopeGroupId());
 			} catch (PortalException e) {
 				throw new RuntimeException(e);
 			}
@@ -178,19 +177,16 @@ public class ViewBudgetPhasesDisplayContext  {
 	 */
 	public String getOrderByColSearchField() {
 		switch (getOrderByCol()) {
-			case "title":
-			case "alias":
-				return "localized_title_fr_FR_sortable";
-			case "publication-date":
-				return "publishDate_sortable";
-			case "status":
-				return "status_sortable";
+
+			case "name":
+				return "title";
+			case "is-active":
+				return "isActive";
 			case "modified-date":
 			default:
 				return "modified_sortable";
 		}
 	}
-
 	/**
 	 * Renvoie la colonne sur laquelle on fait le tri
 	 *

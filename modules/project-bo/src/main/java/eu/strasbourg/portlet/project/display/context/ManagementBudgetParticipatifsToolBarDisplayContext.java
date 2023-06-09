@@ -133,7 +133,7 @@ public class ManagementBudgetParticipatifsToolBarDisplayContext extends SearchCo
     protected List<DropdownItem> getFilterVocabularyDropdownItems() {
         List<DropdownItem> filterVocabularyDropdownItems = new DropdownItemList();
 
-        for (AssetVocabulary vocabulary : getBudgetPhaseVocabularies()) {
+        for (AssetVocabulary vocabulary : getBudgetParticipatifVocabularies()) {
             filterVocabularyDropdownItems.add(
                     DropdownItemBuilder
                             .setActive(_viewBudgetParticipatifDisplayContext.hasVocabulary(vocabulary.getName()))
@@ -155,7 +155,7 @@ public class ManagementBudgetParticipatifsToolBarDisplayContext extends SearchCo
         Map<String, String> categVocabulariesSelected = _viewBudgetParticipatifDisplayContext.getCategVocabularies();
         LabelItemListBuilder.LabelItemListWrapper vocabulariesLabelItems = new LabelItemListBuilder.LabelItemListWrapper();
 
-        for (AssetVocabulary vocabulary : getBudgetPhaseVocabularies()) {
+        for (AssetVocabulary vocabulary : getBudgetParticipatifVocabularies()) {
             vocabulariesLabelItems.add(
                     () -> categVocabulariesSelected.keySet().contains(vocabulary.getName()),
                     labelItem -> {
@@ -183,12 +183,8 @@ public class ManagementBudgetParticipatifsToolBarDisplayContext extends SearchCo
      */
     @Override
     protected String[] getOrderByKeys() {
-        return new String[] { "title", "modified-date", "publication-date", "status" };
+        return new String[] {"modified-date", "title"};
     }
-
-
-
-
     /**
      * The URL to reset the search
      */
@@ -266,18 +262,19 @@ public class ManagementBudgetParticipatifsToolBarDisplayContext extends SearchCo
 
 
     /**
-     * Get Event Vocabularies
+     * Get BudgetPhase Vocabularies
      */
-    protected List<AssetVocabulary> getBudgetPhaseVocabularies() {
+    protected List<AssetVocabulary> getBudgetParticipatifVocabularies() {
         if(_vocabularies == null) {
             ThemeDisplay themeDisplay =
                     (ThemeDisplay) httpServletRequest.getAttribute(
                             WebKeys.THEME_DISPLAY);
             long companyGroupId = themeDisplay.getCompanyGroupId();
             long classNameId = ClassNameLocalServiceUtil.getClassNameId(BudgetParticipatif.class);
+            long scopeGroupId = themeDisplay.getScopeGroupId();
             List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
                     .getAssetVocabularies(-1, -1).stream()
-                    .filter(v -> v.getGroupId() == companyGroupId && LongStream.of(v.getSelectedClassNameIds())
+                    .filter(v -> (v.getGroupId() == companyGroupId || v.getGroupId() == scopeGroupId) && LongStream.of(v.getSelectedClassNameIds())
                             .anyMatch(c -> c == classNameId))
                     .collect(Collectors.toList());
             _vocabularies = vocabularies;
