@@ -1,13 +1,20 @@
 package eu.strasbourg.portlet.notif.display.context;
 
+import com.liferay.item.selector.ItemSelector;
+import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserGroupRoleLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.notif.constants.NotifConstants;
+import eu.strasbourg.portlet.notif.util.NotificationsActionDropdownItemsProvider;
 import eu.strasbourg.service.notif.model.NatureNotif;
 import eu.strasbourg.service.notif.model.Notification;
 import eu.strasbourg.service.notif.model.ServiceNotif;
@@ -15,29 +22,105 @@ import eu.strasbourg.service.notif.service.NatureNotifLocalServiceUtil;
 import eu.strasbourg.service.notif.service.NotificationLocalServiceUtil;
 import eu.strasbourg.service.notif.service.ServiceNotifLocalServiceUtil;
 import eu.strasbourg.utils.constants.RoleNames;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
+import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-public class ViewNotificationsDisplayContext
-	extends ViewListBaseDisplayContext<ServiceNotif> {
-	private List<Notification> notifications;
-	private ThemeDisplay themeDisplay;
-	private String filter;
-	private long[] serviceIds;
+public class ViewNotificationsDisplayContext {
+
 
 	public ViewNotificationsDisplayContext(RenderRequest request,
 										   RenderResponse response,
-										   String filter) {
-		super(ServiceNotif.class, request, response);
-		this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+										   String filter,
+										   ItemSelector itemSelector) {
+		_request = request;
+		_response = response;
+		_themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
+		_httpServletRequest = PortalUtil.getHttpServletRequest(request);
+		_itemSelector = itemSelector;
 		this.filter = filter;
 	}
-
+	/**
+	 * Retourne le dropdownItemsProvider de Notification
+	 *
+	 */
 	@SuppressWarnings("unused")
+	public NotificationsActionDropdownItemsProvider getActionsNotification(Notification notification) {
+		return new NotificationsActionDropdownItemsProvider(notification, _request,
+				_response);
+	}
+	/**
+	 * Retourne le searchContainer des notifications
+	 *
+	 */
+	public SearchContainer<Notification> getSearchContainer() {
+
+		if (_searchContainer == null) {
+
+			PortletURL portletURL;
+			portletURL = PortletURLBuilder.createRenderURL(_response)
+					.setMVCPath("/notif-bo-view-notifications.jsp")
+					.setKeywords(ParamUtil.getString(_request, "keywords"))
+					.setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+					.buildPortletURL();
+			_searchContainer = new SearchContainer<>(_request, null, null,
+					SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
+			_searchContainer.setEmptyResultsMessageCssClass(
+					"taglib-empty-result-message-header-has-plus-btn");
+			_searchContainer.setOrderByColParam("orderByCol");
+			_searchContainer.setOrderByTypeParam("orderByType");
+			_searchContainer.setOrderByCol(getOrderByCol());
+			_searchContainer.setOrderByType(getOrderByType());
+			try {
+				getHits();
+			} catch (PortalException e) {
+				throw new RuntimeException(e);
+			}
+			_searchContainer.setResultsAndTotal(
+					() -> {
+						// Création de la liste d'objet
+						return _notifications;
+					}, _notifications.size()
+			);
+		}
+		_searchContainer.setRowChecker(
+				new EmptyOnClickRowChecker(_response));
+
+		return _searchContainer;
+	}
+
+	/**
+	 * Retourne les Hits de recherche pour un delta
+	 */
+	private void getHits() throws PortalException {
+		if (this._notifications == null) {
+			if (isAdminNotification())
+				this._notifications = NotificationLocalServiceUtil.getNotifications(
+						this.getSearchContainer().getStart(),
+						this.getSearchContainer().getEnd());
+			else {
+				if (getServicesId().length > 0) {
+					this._notifications = NotificationLocalServiceUtil.getByServiceIds(getServicesId());
+				}
+			}
+		}
+	}
+	public String getOrderByType() {
+		return ParamUtil.getString(_request, "orderByType", "desc");
+	}
+
+
+	/**
+	 * Renvoie la colonne sur laquelle on fait le tri
+	 */
+	public String getOrderByCol() {
+		return null;
+	}
+
+	/*@SuppressWarnings("unused")
 	public List<Notification> getNotifications() throws PortalException {
 
 		int countResults = 0;
@@ -57,7 +140,7 @@ public class ViewNotificationsDisplayContext
 		}
 		this.getSearchContainer().setTotal(countResults);
 		return this.notifications;
-	}
+	}*/
 
 	@SuppressWarnings("unused")
 	public List<Notification> getInProgressNotifications() {
@@ -176,14 +259,15 @@ public class ViewNotificationsDisplayContext
 		return NotifConstants.PAST;
 	}
 
-	/**
-	 * Wrapper autour du permission checker pour les permissions de module
-	 */
-	@SuppressWarnings("unused")
-	public boolean hasPermission(String actionId) {
-		return _themeDisplay.getPermissionChecker().hasPermission(
-			this._themeDisplay.getScopeGroupId(),
-			StrasbourgPortletKeys.NOTIF_BO, StrasbourgPortletKeys.NOTIF_BO,
-			actionId);
-	}
+	protected SearchContainer<Notification> _searchContainer;
+	private String _keywords;
+	private final RenderRequest _request;
+	private final RenderResponse _response;
+	protected ThemeDisplay _themeDisplay;
+	private final HttpServletRequest _httpServletRequest;
+	private final ItemSelector _itemSelector;
+	private List<Notification> _notifications;
+	private ThemeDisplay themeDisplay;
+	private String filter;
+	private long[] serviceIds;
 }

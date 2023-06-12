@@ -25,11 +25,7 @@ liferay-ui:search-iterator, liferay-ui:message... --%>
 <%-- pour liferay-util:include, liferay-util:param, liferay-util:html-top, liferay-util:html-bottom... --%>
 <%@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 
-<%-- pour liferay-frontend:add-menu... --%>
-<%@ taglib uri="http://liferay.com/tld/frontend" prefix="liferay-frontend" %>
-
-<%-- pour strasbourg-picker:image --%>
-<%@ taglib uri="http://strasbourg.eu/tld/picker" prefix="strasbourg-picker"%>
+<%@ taglib uri="http://liferay.com/tld/clay" prefix="clay" %>
 
 <%-- pour windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>" de l'actionURL --%>
 <%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
