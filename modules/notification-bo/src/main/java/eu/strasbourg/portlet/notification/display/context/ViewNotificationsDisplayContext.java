@@ -70,7 +70,7 @@ public class ViewNotificationsDisplayContext {
 			_searchContainer.setOrderByCol(getOrderByCol());
 			_searchContainer.setOrderByType(getOrderByType());
 			try {
-				getHits(this._themeDisplay.getScopeGroupId());
+				getHits();
 			} catch (PortalException e) {
 				throw new RuntimeException(e);
 			}
@@ -90,7 +90,7 @@ public class ViewNotificationsDisplayContext {
 	/**
 	 * Retourne les Hits de recherche pour un delta
 	 */
-	private void getHits(long groupId) throws PortalException {
+	private void getHits() throws PortalException {
 		if (this._notifications == null) {
 			this._notifications = NotificationLocalServiceUtil.getNotifications(-1, -1).stream()
 					.filter(n -> !n.isSingleUser())
