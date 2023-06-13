@@ -145,11 +145,13 @@
                 </#if>
             </div>
             <div class="menu-mobile content">
-                <@liferay_portlet["runtime"]
-                portletProviderAction=portletProviderAction.VIEW
-                portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-                instanceId="menu-smartphone"
-                settingsScope="group" />
+                <#if themeDisplay.scopeGroup.friendlyURL == "/musees" || themeDisplay.scopeGroup.friendlyURL == "/musees-en">
+                    <@liferay_portlet["runtime"]
+                    portletProviderAction=portletProviderAction.VIEW
+                    portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+                    instanceId="menu-smartphone"
+                    settingsScope="group" />
+                </#if>
                 <a id="see-more" href="" class="more" aria-label="<@liferay_ui.message key="eu.museum.more" />"
                    title="<@liferay_ui.message key="eu.museum.more" />">
                     <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" stroke="white"
