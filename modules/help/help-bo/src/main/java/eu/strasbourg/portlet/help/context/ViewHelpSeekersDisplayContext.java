@@ -6,14 +6,13 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.util.ListUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import eu.strasbourg.service.help.model.HelpRequest;
 import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
+
 
 import javax.portlet.*;
 import java.util.*;
@@ -22,7 +21,7 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 
 
 
-public class ViewHelpSeekersDisplayContext extends ViewListBaseDisplayContext<ViewHelpSeekersDisplayContext.HelpSeeker> {
+public class ViewHelpSeekersDisplayContext {
 
     private List<HelpSeeker> _helpSeekers;
 

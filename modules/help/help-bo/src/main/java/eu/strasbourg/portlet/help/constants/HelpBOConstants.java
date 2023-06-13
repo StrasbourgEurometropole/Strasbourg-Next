@@ -25,4 +25,21 @@ public class HelpBOConstants {
 
     //URL
     public static final String URL_OIDC_EDIT_USER = "/oidc-bo-edit-publikuser.jsp";
+
+    public static final String HELP_PROPOSALS = "helpProposals";
+    public static final String HELP_PROPOSALS_PATH = "/help-bo-view-help-proposals.jsp";
+    public static final String EDIT_HELP_PROPOSAL = "editHelpProposal";
+    public static final String SAVE_HELP_PROPOSAL = "saveHelpProposal";
+
+    public static final String HELP_SEEKERS = "helpSeekers";
+    public static final String HELP_SEEKERS_PATH = "/help-bo-view-help-seekers.jsp";
+
+    public static final String HELP_REQUESTS = "helpRequests";
+    public static final String HELP_REQUESTS_PATH = "/help-bo-view-help-requests.jsp";
+    public static final String EDIT_REQUEST = "saveHelpRequest";
+    public static final String SAVE_REQUEST = "saveHelpProposal";
+
+    public static final String URL_PARAM_TAB = "tab";
+    public static final String URL_PARAM_MVCPATH = "mvcPath";
+    public static final String URL_PARAM_CMD = "cmd";
 }
