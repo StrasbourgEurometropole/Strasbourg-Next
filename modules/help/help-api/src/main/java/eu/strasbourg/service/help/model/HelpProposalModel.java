@@ -16,12 +16,7 @@ package eu.strasbourg.service.help.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.exception.LocaleException;
-import com.liferay.portal.kernel.model.BaseModel;
-import com.liferay.portal.kernel.model.GroupedModel;
-import com.liferay.portal.kernel.model.LocalizedModel;
-import com.liferay.portal.kernel.model.ShardedModel;
-import com.liferay.portal.kernel.model.StagedAuditedModel;
-import com.liferay.portal.kernel.model.WorkflowedModel;
+import com.liferay.portal.kernel.model.*;
 import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.Date;
