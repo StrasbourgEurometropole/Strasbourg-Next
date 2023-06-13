@@ -48,7 +48,7 @@ import static eu.strasbourg.portlet.notif.constants.NotifConstants.*;
 		"com.liferay.portlet.layout-cacheable=true",
 		"com.liferay.portlet.single-page-application=false",
 		"javax.portlet.init-param.template-path=/META-INF/resources/",
-		"javax.portlet.init-param.view-template=/notification-bo-view-services.jsp",
+		"javax.portlet.init-param.view-template=/notif-bo-view-services.jsp",
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user"
 	},
@@ -77,7 +77,7 @@ public class NotifBOPortlet extends MVCPortlet {
 			switch (navigationDC.getSelectedTab()) {
 
 				case NOTIFICATIONS: {
-					switch (navigationDC.getSelectedCmd().equals(EDIT_NOTIFICATION)) {
+					if (navigationDC.getSelectedCmd().equals(EDIT_NOTIFICATION)) {
 						long notificationId = ParamUtil.getLong(renderRequest, "notificationId");
 						Notification notification = null;
 						if (notificationId > 0) {
@@ -97,29 +97,59 @@ public class NotifBOPortlet extends MVCPortlet {
 						EditNotificationDisplayContext dc = new EditNotificationDisplayContext(renderRequest, notification, services,
 								natures, messages);
 						renderRequest.setAttribute("dc", dc);
-					} else {
-
-						ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse,_itemSelector);
-								(LiferayPortletResponse) renderResponse, dc);
+					} else if (navigationDC.getSelectedCmd().equals(PROGRESS_NOTIFICATION)) {
+						ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.IN_PROGRESS,_itemSelector);
+						renderRequest.setAttribute("dc", dc);
+					} else if (navigationDC.getSelectedCmd().equals(COME_NOTIFICATION)) {
+						ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.TO_COME,_itemSelector);
+						renderRequest.setAttribute("dc", dc);
+					} else if (navigationDC.getSelectedCmd().equals(PAST_NOTIFICATION)) {
+						ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.PAST,_itemSelector);
+						renderRequest.setAttribute("dc", dc);
+					} else if (!this.isAdminNotification()) {
+						ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.ALL,_itemSelector);
+						renderRequest.setAttribute("dc", dc);
+					}else {
+						ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.ALL,_itemSelector);
 						renderRequest.setAttribute("dc", dc);
 					}
 					break;
 				}
+				case SERVICES:
+					if (navigationDC.getSelectedCmd().equals("editService") || fromAjaxNature || fromAjaxMessage) {
+						long serviceId = ParamUtil.getLong(renderRequest, "serviceId");
+						ServiceNotif service = null;
+						List<NatureNotif> natures = new ArrayList<>();
+						List<Message> messages = new ArrayList<>();
+						if (serviceId > 0) {
+							service = _serviceNotifLocalService.fetchServiceNotif(serviceId);
+							natures = _natureNotifLocalService.getByServiceId(service.getServiceId());
+							messages = _messageLocalService.getByServiceId(service.getServiceId());
+						}
+						EditServiceDisplayContext dc = new EditServiceDisplayContext(renderRequest, service, natures, messages);
+						renderRequest.setAttribute("dc", dc);
+					}
+					else {
+						ViewServicesDisplayContext dc = new ViewServicesDisplayContext(
+								renderRequest, renderResponse,_itemSelector);
+						renderRequest.setAttribute("dc", dc);
+					}
+					break;
 			}
-		} catch (PortalException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 
 		// If we are on an "add" page, we set a return URL and show the "back"
 		// button
-		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
+		String backURL = ParamUtil.getString(renderRequest, "backURL");
 		HttpServletRequest originalRequest = PortalUtil.getHttpServletRequest(renderRequest);
 		HttpSession session = originalRequest.getSession();
-		boolean showBackButton = Validator.isNotNull(returnURL);
+		boolean showBackButton = Validator.isNotNull(backURL);
 		if (showBackButton) {
 			portletDisplay.setShowBackIcon(true);
-			portletDisplay.setURLBack(returnURL);
+			portletDisplay.setURLBack(backURL);
 		}
 		// If we are on the Session, we add the corresponding
 		// display context

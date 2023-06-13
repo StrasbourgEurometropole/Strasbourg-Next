@@ -8,6 +8,7 @@ import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserGroupRoleLocalServiceUtil;
+import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -82,8 +83,8 @@ public class ViewNotificationsDisplayContext {
 			_searchContainer.setResultsAndTotal(
 					() -> {
 						// Création de la liste d'objet
-						return _notifications;
-					}, _notifications.size()
+						return notifications;
+					}, notifications.size()
 			);
 		}
 		_searchContainer.setRowChecker(
@@ -96,14 +97,14 @@ public class ViewNotificationsDisplayContext {
 	 * Retourne les Hits de recherche pour un delta
 	 */
 	private void getHits() throws PortalException {
-		if (this._notifications == null) {
+		if (this.notifications == null) {
 			if (isAdminNotification())
-				this._notifications = NotificationLocalServiceUtil.getNotifications(
+				this.notifications = NotificationLocalServiceUtil.getNotifications(
 						this.getSearchContainer().getStart(),
 						this.getSearchContainer().getEnd());
 			else {
 				if (getServicesId().length > 0) {
-					this._notifications = NotificationLocalServiceUtil.getByServiceIds(getServicesId());
+					this.notifications = NotificationLocalServiceUtil.getByServiceIds(getServicesId());
 				}
 			}
 		}
@@ -159,7 +160,7 @@ public class ViewNotificationsDisplayContext {
 
 	public long[] getServicesId() throws PortalException{
 		if(Validator.isNull(this.serviceIds)) {
-			long[] organisationIds = themeDisplay.getUser().getOrganizationIds();
+			long[] organisationIds = _themeDisplay.getUser().getOrganizationIds();
 			if (organisationIds.length > 0) {
 				List<ServiceNotif> services = ServiceNotifLocalServiceUtil.getByOrganisationIds(organisationIds);
 				this.serviceIds = services.stream().mapToLong(ServiceNotif::getServiceId).toArray();
@@ -192,16 +193,17 @@ public class ViewNotificationsDisplayContext {
 	@SuppressWarnings("unused")
 	public boolean canUpdateOrDeleteNotification(long createUserId){
 		if(isContribOnly()) {
-			return this.themeDisplay.getUserId() == createUserId;
+			return this._themeDisplay.getUserId() == createUserId;
 		}
 		return true;
 	}
 
 	public boolean isAdminNotification(){
 		try {
-			Role siteAdministrator = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.ADMINISTRATEUR_NOTIFICATION);
-			if(themeDisplay.getPermissionChecker().isOmniadmin()
-				|| UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), siteAdministrator.getRoleId()))
+
+			Role siteAdministrator = RoleLocalServiceUtil.getRole(this._themeDisplay.getCompanyId(), RoleNames.ADMINISTRATEUR_NOTIFICATION);
+			if(_themeDisplay.getPermissionChecker().isOmniadmin()
+				|| UserGroupRoleLocalServiceUtil.hasUserGroupRole(_themeDisplay.getUserId(),_themeDisplay.getScopeGroupId(), siteAdministrator.getRoleId()))
 				return true;
 		} catch (PortalException e) {
 			e.printStackTrace();
@@ -212,8 +214,8 @@ public class ViewNotificationsDisplayContext {
 
 	public boolean isRespNotification(){
 		try {
-			Role  responsableNotification = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.RESPONSABLE_NOTIFICATION);
-			return UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), responsableNotification.getRoleId());
+			Role  responsableNotification = RoleLocalServiceUtil.getRole(this._themeDisplay.getCompanyId(), RoleNames.RESPONSABLE_NOTIFICATION);
+			return UserGroupRoleLocalServiceUtil.hasUserGroupRole(_themeDisplay.getUserId(),_themeDisplay.getScopeGroupId(), responsableNotification.getRoleId());
 		} catch (PortalException e) {
 			e.printStackTrace();
 		}
@@ -226,14 +228,23 @@ public class ViewNotificationsDisplayContext {
 			if(isAdminNotification() ||isRespNotification())
 				return false;
 
-			Role contributorNotification = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.CONTRIBUTEUR_NOTIFICATION);
-			return UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), contributorNotification.getRoleId());
+			Role contributorNotification = RoleLocalServiceUtil.getRole(this._themeDisplay.getCompanyId(), RoleNames.CONTRIBUTEUR_NOTIFICATION);
+			return UserGroupRoleLocalServiceUtil.hasUserGroupRole(_themeDisplay.getUserId(),_themeDisplay.getScopeGroupId(), contributorNotification.getRoleId());
 		} catch (PortalException e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
-
+	/**
+	 * Retourne les mots clés de recherche saisis
+	 */
+	@SuppressWarnings("unused")
+	public String getKeywords() {
+		if (Validator.isNull(_keywords)) {
+			_keywords = ParamUtil.getString(_request, "keywords");
+		}
+		return _keywords;
+	}
 	@SuppressWarnings("unused")
 	public String getFilter() {
 		return filter;
@@ -266,8 +277,7 @@ public class ViewNotificationsDisplayContext {
 	protected ThemeDisplay _themeDisplay;
 	private final HttpServletRequest _httpServletRequest;
 	private final ItemSelector _itemSelector;
-	private List<Notification> _notifications;
-	private ThemeDisplay themeDisplay;
+	private List<Notification> notifications;
 	private String filter;
 	private long[] serviceIds;
 }

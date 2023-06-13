@@ -61,6 +61,17 @@ public class NotificationsActionDropdownItemsProvider {
                                             .build()
                             );
                         }
+                ).addGroup(
+                        dropdownGroupItem -> {
+                            dropdownGroupItem.setDropdownItems(
+                                    DropdownItemListBuilder
+                                            .add(
+                                                    () -> hasUpdatePermission,
+                                                    _getCopieActionUnsafeConsumer()
+                                            )
+                                            .build()
+                            );
+                        }
                 )
                 .addGroup(
                         dropdownGroupItem -> {
@@ -94,7 +105,25 @@ public class NotificationsActionDropdownItemsProvider {
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "edit"));
         };
     }
+    /**
+     * Action of Duplicate notification
+     */
+    private UnsafeConsumer<DropdownItem, Exception> _getCopieActionUnsafeConsumer() {
 
+        return dropdownItem -> {
+            dropdownItem.setHref(
+                    PortletURLBuilder.createRenderURL(_response)
+                            .setMVCPath("/notif-bo-edit-notification.jsp")
+                            .setCMD("editNotification")
+                            .setBackURL(_themeDisplay.getURLCurrent())
+                            .setParameter("tab", "notifications")
+                            .setParameter("isDuplication", true)
+                            .setParameter("notificationId", _notification.getNotificationId())
+                            .buildString()
+            );
+            dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "duplicate"));
+        };
+    }
     /**
      * Action of Delete notification
      */

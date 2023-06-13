@@ -7,6 +7,7 @@
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 	<portlet:param name="mvcPath" value="/notif-bo-view-notifications.jsp" />
+	<portlet:param name="cmd" value="notifications" />
 </liferay-portlet:renderURL>
 
 <div class="container-fluid container-fluid-max-xl main-content-body">
@@ -61,22 +62,20 @@
 				<c:when test="${dc.filter == dc.PAST}">
 					<liferay-ui:search-container-results results="${dc.pastNotifications}" />
 				</c:when>
-				<c:otherwise>
-					<liferay-ui:search-container-results results="${dc.notifications}" />
-				</c:otherwise>
 			</c:choose>
 
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.notif.model.Notification"
 				modelVar="notification" keyProperty="notificationId" rowIdProperty="notificationId">
 
-                <!-- ACTION : Modifier/Voir -->
+                <!-- ACTION : Modifier/Voir
                 <liferay-portlet:renderURL varImpl="editNotificationURL">
                     <portlet:param name="cmd" value="editNotification" />
                     <portlet:param name="notificationId" value="${notification.notificationId}" />
                     <portlet:param name="backURL" value="${notificationsURL}" />
                     <portlet:param name="mvcPath" value="/notif-bo-edit-notification.jsp" />
-                </liferay-portlet:renderURL>
+					<portlet:param name="tab" value="notifications" />
+                </liferay-portlet:renderURL>-->
 
                 <!-- Colonne : nom du service -->
                 <c:if test="${isAdminNotification || dc.hasMultipleServices()}">
@@ -139,7 +138,6 @@
 		</liferay-ui:search-container>
 	</aui:form>
 </div>
-
 
 <liferay-portlet:renderURL varImpl="addNotificationURL">
 	<portlet:param name="cmd" value="editNotification" />

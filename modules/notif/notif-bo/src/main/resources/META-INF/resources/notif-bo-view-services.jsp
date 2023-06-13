@@ -46,14 +46,6 @@
 	</aui:form>
 </div>
 
-
-<liferay-portlet:renderURL varImpl="addServiceURL">
-	<portlet:param name="cmd" value="editService" />
-	<portlet:param name="mvcPath" value="/notif-bo-edit-service.jsp" />
-	<portlet:param name="backURL" value="${servicesURL}" />
-</liferay-portlet:renderURL>
-
-
 <%-- Script : permet l'affichage des alertes de validation d'action --%>
 <aui:script>
 	function areYouSure(url) {

@@ -65,10 +65,10 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
                 PortalUtil.copyRequestParameters(request, response);
 
                 String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
-                PortletURL returnURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
+                PortletURL backURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
                         PortletRequest.RENDER_PHASE);
 
-                response.setRenderParameter("returnURL", returnURL.toString());
+                response.setRenderParameter("backURL", backURL.toString());
                 response.setRenderParameter("cmd", "editNotification");
                 response.setRenderParameter("mvcPath", "/notif-bo-edit-notification.jsp");
                 return false;
@@ -208,6 +208,7 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
             }
 
             _notificationLocalService.updateNotification(notification, sc);
+            response.setRenderParameter("mvcPath", "/notif-bo-view-notifications.jsp");
 
         } catch (Exception e) {
             log.error(e);
