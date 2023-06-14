@@ -3,6 +3,7 @@ package eu.strasbourg.portlet.help.util;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuilder;
 import com.liferay.petra.function.UnsafeConsumer;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -10,7 +11,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.help.context.ViewHelpSeekersDisplayContext;
-import eu.strasbourg.service.interest.model.Interest;
+import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
@@ -21,10 +22,10 @@ import java.util.List;
 /**
  * @author BMA
  */
-public class helpSeekerActionDropdownItemsProvider {
+public class SeekerHelpActionDropdownItemsProvider {
 
-    public helpSeekerActionDropdownItemsProvider(
-            HelpSeeker helpSeeker, RenderRequest request,
+    public SeekerHelpActionDropdownItemsProvider(
+            ViewHelpSeekersDisplayContext.HelpSeeker helpSeeker, RenderRequest request,
             RenderResponse response) {
 
         _helpSeeker = helpSeeker;
@@ -37,18 +38,15 @@ public class helpSeekerActionDropdownItemsProvider {
                 request);
     }
 
-    /**
-     * The list of dropdown items to display for all arret
-     */
     public List<DropdownItem> getActionDropdownItems() {
 
         boolean hasUpdatePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.INTEREST_BO, StrasbourgPortletKeys.INTEREST_BO, "EDIT_INTEREST")
+                StrasbourgPortletKeys.HELP_BO, StrasbourgPortletKeys.HELP_BO, "'EDIT_HELP_REQUEST'")
                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 
-        boolean hasDeletePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.INTEREST_BO, StrasbourgPortletKeys.INTEREST_BO, "DELETE_INTEREST")
-                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+         boolean hasPermissionOIDC= _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+                 StrasbourgPortletKeys.OIDC_BO, StrasbourgPortletKeys.OIDC_BO, "'EDIT_PUBLIKUSER'")
+                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 
         return DropdownItemListBuilder
                 .addGroup(
@@ -57,7 +55,7 @@ public class helpSeekerActionDropdownItemsProvider {
                                     DropdownItemListBuilder
                                             .add(
                                                     () -> hasUpdatePermission,
-                                                    _getEditActionUnsafeConsumer()
+                                                    _getDeleteActionUnsafeConsumer()
                                             )
                                             .build()
                             );
@@ -68,8 +66,7 @@ public class helpSeekerActionDropdownItemsProvider {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder
                                             .add(
-                                                    () -> hasDeletePermission,
-                                                    _getDeleteActionUnsafeConsumer()
+                                                    _getViewActionUnsafeConsumer()
                                             )
                                             .build()
                             );
@@ -79,43 +76,43 @@ public class helpSeekerActionDropdownItemsProvider {
     }
 
     /**
-     * Action of Edit link
+     * Action of Edit help proposal
      */
-    private UnsafeConsumer<DropdownItem, Exception> _getEditActionUnsafeConsumer() {
+    private UnsafeConsumer<DropdownItem, Exception> _getViewActionUnsafeConsumer() {
 
         return dropdownItem -> {
             dropdownItem.setHref(
                     PortletURLBuilder.createRenderURL(_response)
-                            .setMVCPath("/interest-bo-edit-interest.jsp")
-                            .setCMD("editInterest")
+                            .setMVCPath("/help-bo-view-seeker-help-requests.jsp")
+                            .setCMD("viewSeekerHelpRequests")
                             .setBackURL(_themeDisplay.getURLCurrent())
-                            .setParameter("tab", "interests")
-                            .setParameter("interestId", _interest.getInterestId())
+                            .setParameter("tab", "helpProposals")
+                            .setParameter("helpSeekerId", _helpSeeker.getPublikUser().getPublikId())
                             .buildString()
             );
-            dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "edit"));
+            dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "view-help-requests"));
         };
     }
 
-
     /**
-     * Action of Delete link
+     * Action of view help proposal
      */
     private UnsafeConsumer<DropdownItem, Exception> _getDeleteActionUnsafeConsumer() {
 
         return dropdownItem -> {
             dropdownItem.setHref(
-                    PortletURLBuilder.createActionURL(_response)
-                            .setActionName("deleteInterest")
-                            .setMVCPath("/interest-bo-view-interests.jsp")
+                    PortletURLBuilder.createRenderURL(_response)
+                            .setMVCPath("/help-bo-view-seeker-help-requests.jsp")
+                            .setCMD("deleteStudentCardImages")
                             .setBackURL(_themeDisplay.getURLCurrent())
-                            .setParameter("tab", "interests")
-                            .setParameter("interestId", _helpSeeker.get())
+                            .setParameter("tab", "helpProposals")
+                            .setParameter("helpSeekerId", _helpSeeker.getPublikUser().getPublikId())
                             .buildString()
             );
-            dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "delete"));
+            dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "delete-student-ids-confirm"));
         };
     }
+
 
     private final ViewHelpSeekersDisplayContext.HelpSeeker _helpSeeker;
     private final HttpServletRequest _httpServletRequest;

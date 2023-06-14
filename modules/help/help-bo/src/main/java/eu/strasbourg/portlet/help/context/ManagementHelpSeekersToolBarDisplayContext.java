@@ -6,7 +6,6 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.SearchCon
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.*;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
@@ -14,8 +13,6 @@ import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.service.help.model.HelpProposal;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -23,16 +20,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
-public class ManagementHelpProposalsToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
+public class ManagementHelpSeekersToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
 
-    public ManagementHelpProposalsToolBarDisplayContext(
+    public ManagementHelpSeekersToolBarDisplayContext(
             HttpServletRequest httpServletRequest,
             LiferayPortletRequest liferayPortletRequest,
             LiferayPortletResponse liferayPortletResponse,
-            ViewHelpProposalsDisplayContext viewHelpProposalsDisplayContext) throws PortalException {
+            ViewHelpSeekersDisplayContext viewHelpSeekersDisplayContext) throws PortalException {
         super(httpServletRequest, liferayPortletRequest, liferayPortletResponse,
-                viewHelpProposalsDisplayContext.getSearchContainer());
-        _viewHelpProposalsDisplayContext = viewHelpProposalsDisplayContext;
+                viewHelpSeekersDisplayContext.getSearchContainer());
+        _viewHelpSeekersDisplayContext = viewHelpSeekersDisplayContext;
 
         _themeDisplay = (ThemeDisplay)liferayPortletRequest.getAttribute(
                 WebKeys.THEME_DISPLAY);
@@ -98,7 +95,7 @@ public class ManagementHelpProposalsToolBarDisplayContext extends SearchContaine
      */
     @Override
     public String getSearchContainerId() {
-        return "helpProposalsSearchContainer";
+        return "helpSeekersSearchContainer";
     }
 
     /**
@@ -107,14 +104,6 @@ public class ManagementHelpProposalsToolBarDisplayContext extends SearchContaine
     @Override
     public List<DropdownItem> getFilterDropdownItems() {
         return DropdownItemListBuilder
-                .addGroup(
-                        dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(
-                                    getFilterVocabularyDropdownItems());
-                            dropdownGroupItem.setLabel(
-                                    LanguageUtil.get(httpServletRequest, "filter-by"));
-                        }
-                )
                 .addGroup(
                         dropdownGroupItem -> {
                             dropdownGroupItem.setDropdownItems(getOrderByDropdownItems());
@@ -132,10 +121,10 @@ public class ManagementHelpProposalsToolBarDisplayContext extends SearchContaine
     protected List<DropdownItem> getFilterVocabularyDropdownItems() {
         List<DropdownItem> filterVocabularyDropdownItems = new DropdownItemList();
 
-        for (AssetVocabulary vocabulary : getHelpProposalVocabularies()) {
+        for (AssetVocabulary vocabulary : getHelpSeekerVocabularies()) {
             filterVocabularyDropdownItems.add(
                     DropdownItemBuilder
-                            .setActive(_viewHelpProposalsDisplayContext.hasVocabulary(vocabulary.getName()))
+                            .setActive(_viewHelpSeekersDisplayContext.hasVocabulary(vocabulary.getName()))
                             .setHref("javascript:getCategoriesByVocabulary("+vocabulary.getVocabularyId()+");")
                             .setLabel(vocabulary.getName())
                             .build()
@@ -151,10 +140,10 @@ public class ManagementHelpProposalsToolBarDisplayContext extends SearchContaine
     // TODO : A revoir car pas testé ni fini
     @Override
     public List<LabelItem> getFilterLabelItems() {
-        Map<String, String> categVocabulariesSelected = _viewHelpProposalsDisplayContext.getCategVocabularies();
+        Map<String, String> categVocabulariesSelected = _viewHelpSeekersDisplayContext.getCategVocabularies();
         LabelItemListBuilder.LabelItemListWrapper vocabulariesLabelItems = new LabelItemListBuilder.LabelItemListWrapper();
 
-        for (AssetVocabulary vocabulary : getHelpProposalVocabularies()) {
+        for (AssetVocabulary vocabulary : getHelpSeekerVocabularies()) {
             vocabulariesLabelItems.add(
                     () -> categVocabulariesSelected.keySet().contains(vocabulary.getName()),
                     labelItem -> {
@@ -182,7 +171,7 @@ public class ManagementHelpProposalsToolBarDisplayContext extends SearchContaine
      */
     @Override
     protected String[] getOrderByKeys() {
-        return new String[] { "title", "modified-date"};
+        return new String[] { "last-name", "first-name", "email", "request-create-date", "nb-requests"};
     }
 
 
@@ -221,59 +210,15 @@ public class ManagementHelpProposalsToolBarDisplayContext extends SearchContaine
 
 
     /**
-     * creates an add menu button
+     * Get Help HelpSeeker Vocabularies
      */
-    @Override
-    public CreationMenu getCreationMenu() {
-        return CreationMenuBuilder.addPrimaryDropdownItem(
-                dropdownItem -> {
-                    ThemeDisplay themeDisplay =
-                            (ThemeDisplay)httpServletRequest.getAttribute(
-                                    WebKeys.THEME_DISPLAY);
-
-                    dropdownItem.setHref(
-                            liferayPortletResponse.createRenderURL(),
-                            "tab", "helpProposals",
-                            "cmd", "editHelpProposal",
-                            "mvcPath", "/help-bo-edit-help-proposal.jsp",
-                            "backURL", themeDisplay.getURLCurrent());
-
-                    dropdownItem.setLabel(
-                            LanguageUtil.get(httpServletRequest, "add"));
-                }
-        ).build();
-    }
-
-    /**
-     * Add menu visibility
-     */
-    @Override
-    public Boolean isShowCreationMenu() {
-        ThemeDisplay themeDisplay =
-                (ThemeDisplay)httpServletRequest.getAttribute(
-                        WebKeys.THEME_DISPLAY);
-
-        Group group = themeDisplay.getScopeGroup();
-        if(_themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.HELP_BO, StrasbourgPortletKeys.HELP_BO, "ADD_HELP") &&
-                group.getStagingGroup() == null){
-            return true;
-        }
-        return false;
-
-    }
-
-
-    /**
-     * Get Help proposal Vocabularies
-     */
-    protected List<AssetVocabulary> getHelpProposalVocabularies() {
+    protected List<AssetVocabulary> getHelpSeekerVocabularies() {
         if(_vocabularies == null) {
             ThemeDisplay themeDisplay =
                     (ThemeDisplay) httpServletRequest.getAttribute(
                             WebKeys.THEME_DISPLAY);
             long companyGroupId = themeDisplay.getCompanyGroupId();
-            long classNameId = ClassNameLocalServiceUtil.getClassNameId(HelpProposal.class);
+            long classNameId = ClassNameLocalServiceUtil.getClassNameId(ViewHelpSeekersDisplayContext.HelpSeeker.class);
             List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
                     .getAssetVocabularies(-1, -1).stream()
                     .filter(v -> v.getGroupId() == companyGroupId && LongStream.of(v.getSelectedClassNameIds())
@@ -285,7 +230,7 @@ public class ManagementHelpProposalsToolBarDisplayContext extends SearchContaine
         return _vocabularies;
     }
 
-    private final ViewHelpProposalsDisplayContext _viewHelpProposalsDisplayContext;
+    private final ViewHelpSeekersDisplayContext _viewHelpSeekersDisplayContext;
     private final ThemeDisplay _themeDisplay;
     private List<AssetVocabulary> _vocabularies;
 

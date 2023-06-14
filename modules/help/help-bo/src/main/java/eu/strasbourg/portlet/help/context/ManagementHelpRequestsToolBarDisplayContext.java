@@ -23,16 +23,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
-public class ManagementHelpProposalsToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
+public class ManagementHelpRequestsToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
 
-    public ManagementHelpProposalsToolBarDisplayContext(
+    public ManagementHelpRequestsToolBarDisplayContext(
             HttpServletRequest httpServletRequest,
             LiferayPortletRequest liferayPortletRequest,
             LiferayPortletResponse liferayPortletResponse,
-            ViewHelpProposalsDisplayContext viewHelpProposalsDisplayContext) throws PortalException {
+            ViewHelpRequestsDisplayContext viewHelpRequestsDisplayContext) throws PortalException {
         super(httpServletRequest, liferayPortletRequest, liferayPortletResponse,
-                viewHelpProposalsDisplayContext.getSearchContainer());
-        _viewHelpProposalsDisplayContext = viewHelpProposalsDisplayContext;
+                viewHelpRequestsDisplayContext.getSearchContainer());
+        _viewHelpRequestsDisplayContext = viewHelpRequestsDisplayContext;
 
         _themeDisplay = (ThemeDisplay)liferayPortletRequest.getAttribute(
                 WebKeys.THEME_DISPLAY);
@@ -98,7 +98,7 @@ public class ManagementHelpProposalsToolBarDisplayContext extends SearchContaine
      */
     @Override
     public String getSearchContainerId() {
-        return "helpProposalsSearchContainer";
+        return "helpRequestsSearchContainer";
     }
 
     /**
@@ -107,14 +107,7 @@ public class ManagementHelpProposalsToolBarDisplayContext extends SearchContaine
     @Override
     public List<DropdownItem> getFilterDropdownItems() {
         return DropdownItemListBuilder
-                .addGroup(
-                        dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(
-                                    getFilterVocabularyDropdownItems());
-                            dropdownGroupItem.setLabel(
-                                    LanguageUtil.get(httpServletRequest, "filter-by"));
-                        }
-                )
+
                 .addGroup(
                         dropdownGroupItem -> {
                             dropdownGroupItem.setDropdownItems(getOrderByDropdownItems());
@@ -126,67 +119,14 @@ public class ManagementHelpProposalsToolBarDisplayContext extends SearchContaine
                 .build();
     }
 
-    /**
-     * Add filtering options to Vocabulary
-     */
-    protected List<DropdownItem> getFilterVocabularyDropdownItems() {
-        List<DropdownItem> filterVocabularyDropdownItems = new DropdownItemList();
-
-        for (AssetVocabulary vocabulary : getHelpProposalVocabularies()) {
-            filterVocabularyDropdownItems.add(
-                    DropdownItemBuilder
-                            .setActive(_viewHelpProposalsDisplayContext.hasVocabulary(vocabulary.getName()))
-                            .setHref("javascript:getCategoriesByVocabulary("+vocabulary.getVocabularyId()+");")
-                            .setLabel(vocabulary.getName())
-                            .build()
-            );
-        }
-
-        return filterVocabularyDropdownItems;
-    }
-
-    /**
-     * Sets the search container’s filter labels to display
-     */
-    // TODO : A revoir car pas testé ni fini
-    @Override
-    public List<LabelItem> getFilterLabelItems() {
-        Map<String, String> categVocabulariesSelected = _viewHelpProposalsDisplayContext.getCategVocabularies();
-        LabelItemListBuilder.LabelItemListWrapper vocabulariesLabelItems = new LabelItemListBuilder.LabelItemListWrapper();
-
-        for (AssetVocabulary vocabulary : getHelpProposalVocabularies()) {
-            vocabulariesLabelItems.add(
-                    () -> categVocabulariesSelected.keySet().contains(vocabulary.getName()),
-                    labelItem -> {
-                        labelItem.putData(
-                                "removeLabelURL",
-                                PortletURLBuilder.create(
-                                                PortletURLUtil.clone(currentURLObj, liferayPortletResponse))
-                                        .setParameter(vocabulary.getName(), "")
-                                        .buildString());
-
-                        labelItem.setCloseable(true);
-
-                        String categ = categVocabulariesSelected.get(vocabulary.getName());
-
-                        labelItem.setLabel(vocabulary.getName() + ": " + categ);
-                    }
-            );
-        }
-
-        return vocabulariesLabelItems.build();
-    }
 
     /**
      * Fields that can be sorted
      */
     @Override
     protected String[] getOrderByKeys() {
-        return new String[] { "title", "modified-date"};
+        return new String[] { "create-date", "modified-date"};
     }
-
-
-
 
     /**
      * The URL to reset the search
@@ -220,72 +160,7 @@ public class ManagementHelpProposalsToolBarDisplayContext extends SearchContaine
 
 
 
-    /**
-     * creates an add menu button
-     */
-    @Override
-    public CreationMenu getCreationMenu() {
-        return CreationMenuBuilder.addPrimaryDropdownItem(
-                dropdownItem -> {
-                    ThemeDisplay themeDisplay =
-                            (ThemeDisplay)httpServletRequest.getAttribute(
-                                    WebKeys.THEME_DISPLAY);
-
-                    dropdownItem.setHref(
-                            liferayPortletResponse.createRenderURL(),
-                            "tab", "helpProposals",
-                            "cmd", "editHelpProposal",
-                            "mvcPath", "/help-bo-edit-help-proposal.jsp",
-                            "backURL", themeDisplay.getURLCurrent());
-
-                    dropdownItem.setLabel(
-                            LanguageUtil.get(httpServletRequest, "add"));
-                }
-        ).build();
-    }
-
-    /**
-     * Add menu visibility
-     */
-    @Override
-    public Boolean isShowCreationMenu() {
-        ThemeDisplay themeDisplay =
-                (ThemeDisplay)httpServletRequest.getAttribute(
-                        WebKeys.THEME_DISPLAY);
-
-        Group group = themeDisplay.getScopeGroup();
-        if(_themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.HELP_BO, StrasbourgPortletKeys.HELP_BO, "ADD_HELP") &&
-                group.getStagingGroup() == null){
-            return true;
-        }
-        return false;
-
-    }
-
-
-    /**
-     * Get Help proposal Vocabularies
-     */
-    protected List<AssetVocabulary> getHelpProposalVocabularies() {
-        if(_vocabularies == null) {
-            ThemeDisplay themeDisplay =
-                    (ThemeDisplay) httpServletRequest.getAttribute(
-                            WebKeys.THEME_DISPLAY);
-            long companyGroupId = themeDisplay.getCompanyGroupId();
-            long classNameId = ClassNameLocalServiceUtil.getClassNameId(HelpProposal.class);
-            List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
-                    .getAssetVocabularies(-1, -1).stream()
-                    .filter(v -> v.getGroupId() == companyGroupId && LongStream.of(v.getSelectedClassNameIds())
-                            .anyMatch(c -> c == classNameId))
-                    .collect(Collectors.toList());
-            _vocabularies = vocabularies;
-        }
-
-        return _vocabularies;
-    }
-
-    private final ViewHelpProposalsDisplayContext _viewHelpProposalsDisplayContext;
+    private final ViewHelpRequestsDisplayContext _viewHelpRequestsDisplayContext;
     private final ThemeDisplay _themeDisplay;
     private List<AssetVocabulary> _vocabularies;
 
