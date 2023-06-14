@@ -74,10 +74,6 @@
 	display: inline-block;
 	vertical-align: middle;
 	margin-left: 5px;
-	@include tablet_landscape {
-		margin-left: 0;
-		display: block;
-	}
 	.selectric-wrapper {
 		position: relative;
 		@include tablet_landscape {
@@ -87,7 +83,8 @@
 			margin-bottom: 15px;
 		}
 		&:after {
-			content: "\e902";
+			content: "\23F7";
+			color: white;
 			@include font();
 			float: right;
 			font-size: 16px;
@@ -112,8 +109,8 @@
 				height: 100%;
 			}
 			.label {
-				@include ft($f_hx, 2.5em, 400, $c_txt, 1.600em);
-				text-transform: uppercase;
+				@include ft($f_hx, 2em, 400, $c_white, 1.600em);
+				text-decoration: underline #fff dotted;
 				height: 100%;
 				padding: 7px 0;
 				margin: 0;
@@ -127,23 +124,6 @@
 				}
 				@include mobile_small {
 					font-size: 1.3em;
-				}
-				&:after {
-					content: '';
-					position: absolute;
-					bottom: 18px;
-					left: 0;
-					right: 0;
-					height: 10px;
-					width: 100%;
-					z-index: -1;
-					background: $c_main;
-					@include addTransitionCurve();
-					@include tablet_portrait {
-						position: relative;
-						bottom: 0;
-						display: block;
-					}
 				}
 				&:hover {
 					&:after {

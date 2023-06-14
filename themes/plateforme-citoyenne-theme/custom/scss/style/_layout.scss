@@ -146,7 +146,6 @@ figcaption {
 /* Tooltip container */
 .pro-tooltip {
 	position: relative;
-	display: inline-block;
 	z-index: 100;
 	@include addTransition(visibility, 0.3s, ease);
 }
@@ -160,12 +159,11 @@ figcaption {
 	margin-left: -60px;
 	background-color: rgba($c_txt, 0.8);
 	text-align: center;
-	padding: 8px 0px 10px;
+	padding: 10px !important;
 	border-radius: 4px;
 	@include ft($f_txt, 0.750em, 400, $c_white, 1em);
 	/* Position the tooltip text - see examples below! */
 	position: absolute;
-	@include addTransition(visibility, 0.1s, ease-in-out);
 
 	.no-hover & {
 		display: none;
@@ -213,16 +211,16 @@ figcaption {
 	}
 	span, a {
 		position: relative;
-		@include ft($f_hx, 1em, 400, $c_txt, 1.5em);
+		@include ft($f_hx, 1.5em, 700, $c_txt, 1.5em);
 		text-transform: uppercase;
 		@include addTransitionCurve();
 		&:before {
 			content: '';
 			position: absolute;
-			bottom: 3px;
+			bottom: 0;
 			left: 0;
 			right: 0;
-			height: 4px;
+			height: 1px;
 			width: 100%;
 			background: $c_main;
 			z-index: -1;
@@ -484,6 +482,7 @@ a.pro-btn-tel {
 	display: inline-block;
 	padding: 8px 20px;
 	color: $c_white;
+	margin-right: 8px;
 	@include addTransition();
 	&:hover, &:focus {
 		background: #8DBA49;

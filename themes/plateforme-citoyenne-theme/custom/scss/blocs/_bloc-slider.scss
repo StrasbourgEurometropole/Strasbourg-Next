@@ -8,13 +8,18 @@
 	}
 	.pro-btn {
 		position: absolute;
-		right: 100px;
+		right: 120px;
 		top: 15px;
 		background-color: #171C22;
 		@include tablet_portrait {
 			position: relative;
 			top: 0;
 			right: 0;
+			padding: 7px 25px;
+		}
+		&.pro-btn-white {
+			background-color: $c_white;
+			color: #171C22;
 		}
 	}
 	h2 {
@@ -23,9 +28,6 @@
 		margin-bottom: 0;
 		font-size: 2.500em;
 		line-height: 2em;
-		@include tablet_portrait {
-			display: block;
-		}
 		@include mobile {
 			margin-bottom: 5px;
 			font-size: 1.500em;
@@ -48,7 +50,7 @@
 			.owl-item {
 				width: 435px !important;
 				@include tablet_portrait {
-					width: 300px !important;
+					width: 330px !important;
 				}
 				@include mobile {
 					min-width: auto;
@@ -156,19 +158,37 @@
 			}
 			.owl-prev {
 				top: -43px;
-				right: 55px;
+				right: 70px;
+				@include tablet_portrait {
+					top: -18px;
+					right: 74px;
+				}
 				left: auto;
 				span {
 					border: 1px solid #D9D9D9;
-					padding: 15px 17px;
+					background-color: $c_white;
+					font-size: 25px;
+					padding: 15px;
+					@include tablet_portrait {
+						padding: 9px;
+					}
 				}
 			}
 			.owl-next {
 				right: 0;
 				top: -43px;
+				@include tablet_portrait {
+					right: 25px;
+					top: -18px;
+				}
 				span {
 					border: 1px solid #D9D9D9;
-					padding: 15px 17px;
+					background-color: $c_white;
+					font-size: 25px;
+					padding: 15px;
+					@include tablet_portrait {
+						padding: 9px;
+					}
 				}
 			}
 		}
@@ -184,13 +204,15 @@
 		}
 	}
 
+
 	&.pro-slider-event.slider-agenda:first-child {
 		h2 {
 			color: $c_txt;
 		}
 	}
 	&.pro-slider-event {
-		padding: 20px 0 40px 0;
+		@include addTopSlope(30px, #F37021);
+		padding: 20px 0 60px 0;
 
 		.container > * {
 			@include mobile {
@@ -216,7 +238,7 @@
 			.item{
 				width: 435px !important;
 				@include mobile {
-					width: 300px !important;
+					width: 330px !important;
 					height: auto;
 				}
 				@include mobile_small {
@@ -227,7 +249,7 @@
 			.owl-item {
 				width: 435px !important;
 				@include mobile {
-					width: 300px !important;
+					width: 330px !important;
 					height: auto;
 				}
 				@include mobile_small {
@@ -274,9 +296,38 @@
 	}
 
 	&#pro-link-projet {
-		h2:first-child {
+		@include addTopSlope(30px, #8DC63F);
+		h2 {
 			color: $c_white;
 		}
+		padding: 20px 0 60px 0;
+	}
+	&#pro-link-participation {
+		@include addTopSlope(30px, #EBECEE);
+		padding: 20px 0 60px 0;
+	}
+
+	&#pro-link-budget-participatif {
+		.pro-header-budget {
+			position: absolute;
+			top: 0;
+			padding: 10px;
+			.pro-info-top-right {
+				position: absolute;
+				top: 185px;
+				padding-left: 10px;
+				.pro-encart-theme.encart-budget {
+					color: $c_txt;
+					background: $c_white !important;
+					border: solid 1px #D9D9D9;
+				}
+			}
+		}
+	}
+
+	&.pro-bloc-select {
+		@include addTopSlope(30px, #EBECEE);
+		padding: 20px 0 60px 0;
 	}
 
 	&.pro-slider-participation {
@@ -319,7 +370,7 @@
 			.item{
 				width: 435px !important;
 				@include mobile {
-					width: 300px !important;
+					width: 330px !important;
 					height: auto;
 				}
 				@include mobile_small {
@@ -330,7 +381,7 @@
 			.owl-item {
 				width: 435px !important;
 				@include mobile {
-					width: 300px !important;
+					width: 330px !important;
 					height: auto;
 				}
 				@include mobile_small {

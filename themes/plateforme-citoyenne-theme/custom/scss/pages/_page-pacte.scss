@@ -2,6 +2,7 @@
   .pro-wrapper-title {
     background-color: $c_orange;
     padding: 30px;
+    @include addBottomSlope(30px, $c_orange);
     .pro-pacte-title {
       display: flex;
       flex-direction: column;
@@ -49,7 +50,6 @@
         &:not(:last-child) {
           border-bottom: dashed 1px #da6722;
         }
-        border-bottom: dashed 1px #da6722;
         a {
           text-decoration: none;
           display: flex;
@@ -96,25 +96,7 @@
   .pro-wrapper-pacte {
     position: relative;
     background-color: $c_orange;
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      right: -9999px;
-      bottom: 0;
-      width: 9999px;
-      background-color:  $c_orange;
-    }
-
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -9999px;
-      bottom: 0;
-      width: 9999px;
-      background-color: $c_orange;
-    }
+    @include addTopSlope(30px, $c_orange);
     h3 {
       @include ft($f_hx, 1.4em, 700, black, normal);
     }
@@ -124,48 +106,4 @@
     }
   }
 
-  .pro-bloc-accordion {
-    margin-bottom: 5em;
-    h2 {
-      @include ft($f_hx, 2em, 700, black, normal);
-      text-align: right;
-      &::before {
-        background: transparent;
-      }
-    }
-    .panel-group {
-      padding: 0;
-      border: solid 1px #c5c6c7;
-      .panel {
-        border-bottom: dashed 1px #d3d5d6;
-        padding: 10px 20px;
-        .panel-heading {
-          a {
-            text-decoration: none;
-          }
-          a[aria-expanded="false"] {
-            &:after {
-              content: '\23F5';
-              padding: 10px;
-              border: solid 1px #d9d9d9;
-              line-height: normal;
-            }
-          }
-
-          a[aria-expanded="true"] {
-            &:after {
-              content: '\23F6';
-              padding: 5px 13px;
-              border: solid 1px #d9d9d9;
-              line-height: normal;
-              margin-right: 17px;
-            }
-          }
-        }
-
-        .panel-body {
-        }
-      }
-    }
-  }
 }

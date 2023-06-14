@@ -1,4 +1,5 @@
 .pro-bloc-select {
+	@include addTopSlope(30px, #EBECEE);
 	position: relative;
 	padding: 50px 0 60px 0;
 	overflow: hidden;
@@ -7,47 +8,6 @@
 	}
 	> * {
 		position: relative;
-	}
-	&.pro-bloc-slider .owl-cards .owl-stage-outer .owl-item {
-		width: 435px !important;
-	}
-
-	.pro-intro {
-		position: relative;
-		margin-bottom: 25px;
-		> * {
-			max-width: 750px;
-			@media screen and (max-width: 1200px) {
-				max-width: 700px;
-			}
-		}
-	}
-	h2 {
-		display: inline-block;
-		vertical-align: middle;
-		margin-bottom: 10px;
-		font-size: 2.500em;
-		line-height: 1em;
-		@include mobile {
-			font-size: 1.500em;
-			line-height: 1.5em;
-			display: block;
-			margin-bottom: 5px;
-		}
-	}
-
-	.row {
-		margin-top: 20px;
-		@include tablet_portrait {
-			margin-top: 40px;
-		}
-	}
-
-	.pro-wrapper-quartier {
-		display: none;
-		&.active {
-			display: block;
-		}
 	}
 
 }

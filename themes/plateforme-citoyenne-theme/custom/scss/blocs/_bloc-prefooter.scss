@@ -1,12 +1,12 @@
 .pro-bloc-prefooter {
 	background: $c_dark;
 	min-height: 90px;
+	z-index: 130;
 	&.pro-sticky-bar{
 		position: fixed;
 		left: 0;
 		right: 0;
 		bottom: 0;
-		z-index: 130;
 		@include mobile{
 			position: relative;
 		}
@@ -81,6 +81,8 @@
 
 
 		.pro-bloc-pcs-form{
+			margin-top: 25px;
+			margin-bottom: 20px;
 			float: left;
 			@include tablet_portrait{
 				margin-bottom: 20px;
@@ -88,7 +90,7 @@
 			.pro-optin{
 				padding: 0;
 				label{
-					max-width: 420px;
+					max-width: 500px;
 				}
 			}
 		}
@@ -177,6 +179,17 @@
 	}
 	.pro-you {
 		@include ft($f_hx, 1.125em, 700, #f37021, 1.444em);
+	}
+
+	.pro-signature-btn {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		@include tablet_portrait {
+			flex-direction: column;
+			align-items: stretch;
+			margin-bottom: 30px;
+		}
 	}
 
 	.pro-ico {

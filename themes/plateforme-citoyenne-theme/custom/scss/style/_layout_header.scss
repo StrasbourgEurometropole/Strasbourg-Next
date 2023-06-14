@@ -1,7 +1,7 @@
 main {
 	padding-top: 162px;
 	@include tablet_portrait {
-		padding-top: 122px;
+		padding-top: 50px;
 	}
 }
 
@@ -285,6 +285,9 @@ main {
 				flex-direction: row;
 				@include tablet_portrait {
 					float: none;
+					flex-direction: column-reverse;
+					flex-direction: column-reverse;
+					gap: 10px;
 				}
 				a {
 					order: 2;
@@ -296,7 +299,7 @@ main {
 					}
 				}
 				.pro-btn-connexion {
-					@include ft($f_spe, $s_p, 700, $c_grey50, 3.4em);
+					@include ft($f_spe, $s_p, 400, $c_grey50, 3.4em);
 					border: solid 1px #8DBA49;
 					padding: 0 20px;
 					margin: 0 15px;
@@ -422,6 +425,10 @@ main {
 			transform: translate3d(0, 15px, 0);
 			@include addTransitionCurve();
 
+			@include mobile {
+				height: calc(#{$header-height} - 40px);
+			}
+
 			&:focus {
 				outline: 1px dashed $c_sub;
 			}
@@ -429,6 +436,9 @@ main {
 			.is-scrolled & {
 				transform: none;
 				height: 80px;
+				@include mobile {
+					height: 60px
+				}
 				line-height: 80px;
 			}
 
@@ -448,8 +458,8 @@ main {
 						height: auto;
 					}
 					.is-scrolled & {
-						width: 90px;
-						height: 100%;
+						width: 100px;
+						height: 100px;
 						top: 10px;
 					}
 				}
@@ -565,6 +575,9 @@ main {
 					li {
 						a {
 							@include ft($f_hx, $s_link, 700, $c_txt, 1.333em);
+							@include tablet_portrait {
+								color: $c_white;
+							}
 						}
 					}
 				}
@@ -715,6 +728,8 @@ main {
 
 		.pro-menu-right {
 			position: absolute;
+			display: flex;
+			align-items: stretch;
 			top: 0;
 			right: 15px;
 			z-index: 100;
@@ -724,28 +739,50 @@ main {
 			@include addTransitionCurve();
 			@include tablet_portrait {
 				position: relative;
-				padding-right: 50px;
-			}
+				padding-right: 0;
+				margin-right: -30px;
+;			}
 			@include mobile {
-				padding-right: 30px;
+				padding-right: 0;
+				margin-right: -30px;
+				height: calc(#{$header-height} - 40px);
 			}
 			.is-scrolled & {
 				height: 80px;
+				@include mobile {
+					height: 60px
+				}
 				line-height: 80px;
 			}
 			ul {
+				display: flex;
+				justify-content: center;
+				align-items: stretch;
 				li {
+					display: flex;
+					justify-content: center;
+					align-items: center;
 					line-height: normal;
-					display: inline-block;
 					vertical-align: middle;
-					a {
+					@include tablet_portrait {
+						&.search-menu-icon {
+							background-color: #f37021;
+						}
+
+						&.th-menu {
+							display: flex !important;
+							background-color: #8dc63f;
+						}
+					}
+					&.th-menu {
+						display: none;
+					}
+
+
+					a, span {
 						color: $c_white;
 						padding: 0 8px;
-						font-size: 1.4em;
-						@include addTransitionCurve();
-						&:hover, &:focus {
-							color: $c_grey;
-						}
+						font-size: 1.2em;
 						&:focus {
 							& + span {
 								visibility: visible;
@@ -853,76 +890,4 @@ main {
 			}
 		}
 	}
-}
-
-// MENU BURGER A PARTIR DU DEVICE TABLETTE
-// ==========================================================================
-div.th-menu {
-	position: absolute;
-	top: 50%;
-	right: 25px;
-	display: none;
-	width: 30px;
-	height: 20px;
-	margin: 0;
-	cursor: pointer;
-	z-index: 200;
-	transform: rotate(0deg) translate3d(0, -50%, 0);
-	transition: all 0.5s ease;
-
-	@include tablet_portrait {
-		display: block;
-	}
-	@include mobile {
-		right: 15px;
-	}
-}
-
-div.th-menu span {
-	position: absolute;
-	left: 0;
-	display: block;
-	width: 100%;
-	height: 2px;
-	background: $c_sub;
-	opacity: 1;
-	transform: rotate(0deg);
-	transition: all 0.25s ease;
-}
-
-div.th-menu span:nth-child(1) {
-	top: 0;
-}
-
-div.th-menu span:nth-child(2),
-div.th-menu span:nth-child(3) {
-	top: 9px;
-}
-
-div.th-menu span:nth-child(4) {
-	top: 18px;
-}
-
-div.th-menu.open span:nth-child(1) {
-	top: 9px;
-	left: 50%;
-	width: 0;
-	background: $c_white;
-}
-
-div.th-menu.open span:nth-child(2) {
-	background: $c_white;
-	transform: rotate(45deg);
-}
-
-div.th-menu.open span:nth-child(3) {
-	background: $c_white;
-	transform: rotate(-45deg);
-}
-
-div.th-menu.open span:nth-child(4) {
-	top: 9px;
-	left: 50%;
-	width: 0;
-	background: $c_white;
 }

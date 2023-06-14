@@ -252,15 +252,6 @@ a.pro-btn-share {
 		z-index: -1;
 		@include addTransitionCurve();
 	}
-	&:hover, &:focus {
-		background: $c_sub;
-		border-color: $c_sub;
-		color: $c_white;
-		z-index: 10;
-		&:after {
-			height: 100%;
-		}
-	}
 }
 
 .pro-btn-yellow {

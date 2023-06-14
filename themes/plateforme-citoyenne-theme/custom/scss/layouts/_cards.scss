@@ -74,48 +74,18 @@ $border_top: 1px dashed;
 	}
 
 	.pro-encart-coeur {
-		position: absolute;
-		top: 90px;
-		right: 0;
-		background: $c_main;
-		@include tablet_landscape {
-			top: 65px;
-		}
-		@include mobile {
-			top: 20px;
-		}
-		&:before {
-			content: '';
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			left: -30px;
-			width: 46px;
-			height: 36px;
-			border-radius: 50%;
-			background: $c_white;
-			@include mobile {
-				content: none;
-			}
-		}
+		background: red;
+		display: flex;
+		gap: 10px;
+		padding: 5px 10px;
 		span:not(.icon-ico-coeur) {
 			display: inline-block;
-			@include ft($f_txt, 0.688em, 700, $c_txt, 1.273em);
-			padding: 11px 0 11px 45px;
-			@include mobile {
-				display: none;
-			}
+			@include ft($f_hx, 0.875em, 700, $c_white, 1.273em);
 		}
 		span.icon-ico-coeur {
 			font-size: 1.125em;
 			line-height: 14px;
-			margin-left: 10px;
-			float: right;
-			padding: 11px 30px 11px 0;
-			@include mobile {
-				padding: 11px 15px;
-				margin: 0;
-			}
+			color: $c_white;
 		}
 	}
 
@@ -261,12 +231,12 @@ $border_top: 1px dashed;
 			@include ft($f_hx, 1.250em, 700, $c_txt, 1.250em);
 			text-transform: uppercase;
 			margin: 0 0 8px 0;
-			height: 50px;
+			height: 73px;
 			overflow: hidden;
 			@include mobile {
 				font-size: 22px;
 				line-height: 28px;
-				height: auto;
+				height: 84px;
 			}
 		}
 
@@ -401,19 +371,6 @@ $border_top: 1px dashed;
 		padding: 15px;
 		z-index: 20;
 		@include addTransitionCurve();
-		&:after {
-			content: '';
-			position: absolute;
-			bottom: 0;
-			left: 50%;
-			right: 50%;
-			height: 10px;
-			background: $c_main;
-			opacity: 0;
-			width: 0;
-			z-index: 10;
-			@include addTransitionCurve();
-		}
 		.publication {
 			@include ft($f_txt, 0.688em, 300, $c_txt, 1.5em);
 			text-transform: uppercase;
@@ -427,6 +384,7 @@ $border_top: 1px dashed;
 		}
 		.actu-location {
 			display: block;
+			@include ft($f_hx, 1em, 400, $c_txt, 1.5em);
 		}
 		h3 {
 			@include ft($f_hx, 1.250em, 700, $c_txt, 1.200em);
@@ -437,7 +395,7 @@ $border_top: 1px dashed;
 			@include mobile {
 				font-size: 22px;
 				line-height: 28px;
-				height: auto;
+				min-height: 85px;
 			}
 		}
 		p {
@@ -445,20 +403,20 @@ $border_top: 1px dashed;
 			height: 48px;
 			overflow: hidden;
 			font-size: small;
+			@include ft($f_txt, $s_p, 400, $c_txt, 1.200em);
 		}
-		.link {
+	}
+
+	.footer-news {
+		display: flex;
+		padding: 15px;
+		border-top: dashed 1px #d9d9d9;
+		span.link {
+			flex: 1;
 			@include ft($f_txt, $s_p, 700, $c_txt, 1.200em);
-			display: block;
-			margin-bottom: 10px;
-			&:after {
-				content: "\e903";
-				@include font();
-				float: right;
-				font-size: 0.667em;
-				line-height: 1.8em;
-				opacity: 0;
-				@include addTransitionCurve();
-			}
+		}
+		span.icon-ico-chevron-right {
+			color: black;
 		}
 	}
 
@@ -820,12 +778,13 @@ $border_top: 1px dashed;
 			@include ft($f_hx, 1.250em, 700, $c_txt, 1.250em);
 			text-transform: uppercase;
 			margin: 0 0 5px 0;
-			height: 75px;
-			overflow: hidden;
+			min-height: 75px;
+			max-height: 75px;
+			@include ellipsis(3, 1.25em);
 			@include mobile {
 				font-size: 22px;
 				line-height: 28px;
-				height: auto;
+				min-height: 82.5px;
 			}
 		}
 
@@ -993,16 +952,12 @@ $border_top: 1px dashed;
 		&.pro-participation-deadline {
 			background: #20272F;
 			border-bottom-left-radius: 4px;
+			display: flex;
+			align-items: center;
 			@include clearfix();
 			.pro-avis {
-				float: left;
+				flex: 1;
 				line-height: 40px;
-				margin-right: 20px;
-				//@include mobile {
-				//	float: none;
-				//	display: block;
-				//	margin-bottom: 10px;
-				//}
 				> * {
 					@include ft($f_txt, 0.750em, 700, $c_white, 2em);
 					width: 65px;
@@ -1039,7 +994,6 @@ $border_top: 1px dashed;
 				@include mobile {
 					float: none;
 					line-height: normal;
-					margin-bottom: 10px;
 					clear: both;
 				}
 			}
@@ -1351,8 +1305,7 @@ $border_top: 1px dashed;
 			@include ft($f_hx, 1.250em, 700, $c_txt, 1.250em);
 			text-transform: uppercase;
 			margin: 0 0 5px 0;
-			height: 50px;
-			overflow: hidden;
+			@include ellipsis(2, 1.25em);
 			@include mobile {
 				font-size: 22px;
 				line-height: 28px;
@@ -1586,12 +1539,12 @@ $border_top: 1px dashed;
 			@include ft($f_hx, 1.250em, 700, $c_txt, 1.250em);
 			text-transform: uppercase;
 			margin: 0 0 8px 0;
-			height: 50px;
+			height: 73px;
 			overflow: hidden;
 			@include mobile {
 				font-size: 22px;
 				line-height: 28px;
-				height: auto;
+				height: 84px;
 			}
 
 		}
@@ -1759,46 +1712,18 @@ $border_top: 1px dashed;
 	}
 
 	.pro-encart-coeur {
-		position: absolute;
-		top: 60px;
-		right: 0;
-		background: $c_main;
-		display: none;
-		@include mobile {
-			top: 20px;
-		}
-		&:before {
-			content: '';
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			left: -30px;
-			width: 46px;
-			height: 36px;
-			border-radius: 50%;
-			background: $c_white;
-			@include mobile {
-				content: none;
-			}
-		}
+		background: red;
+		display: flex;
+		gap: 10px;
+		padding: 5px 10px;
 		span:not(.icon-ico-coeur) {
 			display: inline-block;
-			@include ft($f_txt, 0.688em, 700, $c_txt, 1.273em);
-			padding: 11px 0 11px 45px;
-			@include mobile {
-				display: none;
-			}
+			@include ft($f_hx, 0.875em, 700, $c_white, 1.273em);
 		}
 		span.icon-ico-coeur {
 			font-size: 1.125em;
 			line-height: 14px;
-			margin-left: 10px;
-			float: right;
-			padding: 11px 30px 11px 0;
-			@include mobile {
-				padding: 11px 15px;
-				margin: 0;
-			}
+			color: $c_white;
 		}
 	}
 
@@ -1832,6 +1757,9 @@ $border_top: 1px dashed;
 	.pro-content-budget {
 		padding: 25px 15px 15px 15px;
 		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
 
 		.pro-wrapper-meta {
 			margin-bottom: 13px;
@@ -1883,12 +1811,12 @@ $border_top: 1px dashed;
 			@include ft($f_hx, 1.250em, 700, $c_txt, 1.250em);
 			text-transform: uppercase;
 			margin: 0 0 8px 0;
-			height: 50px;
+			height: 73px;
 			@include ellipsis(2);
 			@include mobile {
 				font-size: 22px;
 				line-height: 28px;
-				height: auto;
+				height: 84px;
 			}
 		}
 
@@ -2025,12 +1953,11 @@ $border_top: 1px dashed;
 			@include ft($f_hx, 1.250em, 700, $c_txt, 1.250em);
 			text-transform: uppercase;
 			margin: 0 0 5px 0;
-			height: 40px;
-			overflow: hidden;
+			@include ellipsis(3, 1.25em);
 			@include mobile {
 				font-size: 22px;
 				line-height: 28px;
-				height: auto;
+				min-height: 82.5px;
 			}
 		}
 

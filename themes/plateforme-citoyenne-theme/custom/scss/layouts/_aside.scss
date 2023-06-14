@@ -232,29 +232,6 @@ aside {
 			}
 		}
 	}
-	.pro-contact {
-		padding: 20px 40px;
-		@include tablet_landscape {
-			padding: 20px;
-		}
-		h4 {
-			@include ft($f_hx, 0.938em, 700, $c_main, normal);
-			text-transform: uppercase;
-			display: block;
-			margin-bottom: 10px;
-		}
-		p, a {
-			@include ft($f_txt, 0.875em, 400, $c_white, 1.714em);
-			margin-bottom: 0;
-			display: block;
-		}
-		a {
-			font-weight: 700;
-			&:hover, &:focus {
-				color: $c_main;
-			}
-		}
-	}
 
 	.pro-ticket {
 		position: relative;

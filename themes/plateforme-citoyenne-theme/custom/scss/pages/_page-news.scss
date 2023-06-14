@@ -1,0 +1,29 @@
+.pro-search-news {
+  .pro-search-heading {
+    padding-top: 30px;
+    h1, #breadcrumb span, #breadcrumb a  {
+      color: $c_white;
+    }
+    #breadcrumb a:after {
+      background-color: $c_white;
+    }
+    @include addBottomSlope(50px, #20272f);
+    background-color: #20272f;
+  }
+  .pro-wrapper-sort {
+    padding-top: 50px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .pro-listing.pro-listing-news {
+    .col-md-8 {
+      .content {
+        width: 50%;
+        background-color: #20272f;
+        p, span, h3 {
+          color: $c_white;
+        }
+      }
+    }
+  }
+}

@@ -1036,31 +1036,27 @@ function createProjectWorkshop(projectWorkshop){
 }
 
 /**
-* Création de la vignette actualité
+ * Création de la vignette actualité
  * @return
-*/
-function createNews(news){
-    var vignette =
-    '<div class="col-md-4 col-sm-6 col-xs-12 vignette">' +
-        '<a href="' + news.detailURL + '" title="Lien vers la page (' + news.title + ')" class="pro-bloc-actu">' +          
-            '<div class="img">' +
-                '<figure role="group">' +
-                    '<img src="' + news.thumbnail + '?imagePreview=1" loading="lazy" alt="Image" width="360" height="174" class="fit-cover"/>' +
-                '</figure>' +
-                '<span>';
-                    vignette += news.jsonVocabulariesTitle;
-
-    vignette +=
-                '</span>' +
-            '</div>' +
-            '<div class="content">' +
-                '<span class="publication">Publiée le ' + news.modifiedDate + '</span>' +
-                '<h3>' + news.title + '</h3>' +
-                '<p>' + news.chapo + (news.chapo.length > 100 ? '...' : '') + '</p>' +
-                '<span class="link">Lire la suite</span>' +
-            '</div>' +
-        '</a>' +
-    '</div>';
+ */
+function createNews(news) {
+    var vignette = `
+    <div class="col-md-4 col-sm-6 col-xs-12 vignette">
+        <a href="${news.detailURL}" title="Lien vers la page (${news.title})" class="pro-bloc-actu">
+            <div class="img">
+                <figure role="group">
+                    <img src="${news.thumbnail}?imagePreview=1" loading="lazy" alt="Image" width="360" height="174" class="fit-cover"/>
+                </figure>
+                <span>${news.jsonVocabulariesTitle}</span>
+            </div>
+            <div class="content">
+                <span class="publication">Publiée le ${news.modifiedDate}</span>
+                <h3>${news.title}</h3>
+                <p>${news.chapo}${news.chapo.length > 100 ? '...' : ''}</p>
+                <span class="link">Lire la suite</span>
+            </div>
+        </a>
+    </div>`;
 
     return vignette;
 }
@@ -1117,81 +1113,42 @@ function createPetition(petition){
 * Création de la vignette budget participatif
  * @return
 */
-function createBudgetParticipatif(budgetParticipatif){
-
-    // Classe CSS du statut du budget
-    var cssClassBPStatus = "";
-	var footer = "";
-	
-	if(budgetParticipatif.isNotDoable)
-	{
-		footer = "<p>Ce projet a été étudié et déclaré \"" + budgetParticipatif.BPStatus + "\"</p>";
-		cssClassBPStatus = "pro-theme-non-faisable";
-	}
-	else
-	{
-
-        footer = "<p><strong>" + budgetParticipatif.nbSupports + "</strong> vote(s) pour ce projet</p>";
-		cssClassBPStatus = "pro-theme-faisable";
-	}
-
-    // Favori du quartier
-    var crush = "";
-
-    if (budgetParticipatif.isCrush)
-        crush = '<div class="pro-encart-coeur"><span>Coup de cœur</span><span class="icon-ico-coeur"></span></div>';
-
-    // HTML des catégories
-    var spans = 
-        '<div class="pro-meta">' + 
-            '<span>' + budgetParticipatif.districtsLabel + '</span>';
-
-    if (budgetParticipatif.thematicsLabel != "") 
-        spans += '<span>' + budgetParticipatif.thematicsLabel + '</span>';
-
-    if (budgetParticipatif.projectName != "") 
-        spans += '<span>' + budgetParticipatif.projectName + '</span>';
-
-    spans += '</div>';
-
+function createBudgetParticipatif(budgetParticipatif) {
     var vignette = `
-    <div class="item pro-bloc-card-budget vignette ${cssClassBPStatus}" data-linkall="a">
-    <div class="pro-budget">
-     <div>
-     <div class="pro-header-budget"  ${budgetParticipatif.imageURL != "" ?
+    <div class="item pro-bloc-card-budget vignette ${budgetParticipatif.isNotDoable ? 'pro-theme-non-faisable' : 'pro-theme-faisable'}" data-linkall="a">
+      <div class="pro-budget">
+        <div>
+          <div class="pro-header-budget" ${budgetParticipatif.imageURL != "" ?
         `style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, transparent 25%), url('${budgetParticipatif.imageURL}?imagePreview=1')"`
         :
         ''
     }>
             <figure role="group">
-                <img src="${budgetParticipatif.authorImageURL}?imagePreview=1" loading="lazy" width="40" height="40" alt="Arrière plan page standard"/>
+              <img src="${budgetParticipatif.authorImageURL}?imagePreview=1" loading="lazy" width="40" height="40" alt="Arrière plan page standard"/>
             </figure>
             <p>Projet déposé par :</p>
             <p><strong>${budgetParticipatif.author}</strong></p>
-</div>
-   
-             </div>
-             <div class="pro-content-header">
-             
-            <div class="pro-info-top">
-                <span>${budgetParticipatif.nbApprovedComments}</span>
-                <p>Commentaire(s)</p>
-                 <span class="pro-encart-theme" style="background : #${budgetParticipatif.BPStatusColor};">${budgetParticipatif.BPStatus}</span>
-            </div>
-            ${spans}
-            ${crush}
-       
-        <div class="pro-content-budget">
+          </div>
+        </div>-
+        <div class="pro-content-header">
+          <div class="pro-info-top">
+          ${budgetParticipatif.isCrush ? '<div class="pro-encart-coeur"><span>Coup de cœur</span><span class="icon-ico-coeur"></span></div>' : ''}
+            <div class="flex-grow-1"></div>
+            <span>${budgetParticipatif.nbApprovedComments}</span>
+            <p>Commentaire(s)</p>
+            <span class="pro-encart-theme ${budgetParticipatif.isNotDoable ? 'pro-encart-negative' : ''}">${budgetParticipatif.BPStatus}</span>
+          </div>
+          <div class="pro-content-budget">
+            <span class="pro-district">${budgetParticipatif.districtsLabel}</span>
             <a href="${homeURL}detail-budget-participatif/-/entity/id/${budgetParticipatif.id}" title="lien détail du projet citoyen"><h3>${budgetParticipatif.title}</h3></a>
             <span class="pro-time">Publiée le ${budgetParticipatif.publicationDate}</time></span>
             <p class="pro-summary">${budgetParticipatif.summary}</p>
+          </div>
         </div>
-</div>
-            
-</div>
-        <div class="pro-footer-budget">
-            ${footer}
-        </div>
+      </div>
+      <div class="pro-footer-budget">
+        ${budgetParticipatif.isNotDoable ? `<p>Ce projet a été étudié et déclaré "${budgetParticipatif.BPStatus}"</p>` : `<p><strong>${budgetParticipatif.nbSupports}</strong> vote(s) pour ce projet</p>`}
+      </div>
     </div>`;
 
     return vignette;

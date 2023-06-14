@@ -106,12 +106,11 @@
 				h3 {
 					@include ft($f_hx, 1.875em, 700, $c_txt, 1.15em);
 					margin-bottom: 20px;
-					height: 68px;
-					overflow: hidden;
+					@include ellipsis(3, 1.25em);
 					@include mobile{
 						font-size: 22px;
 						line-height: 28px;
-						height: auto;
+						min-height: 82.5px;
 					}
 				}
 

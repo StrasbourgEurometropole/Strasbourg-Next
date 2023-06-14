@@ -103,8 +103,21 @@
 		 a:before {
 			 font-size: 25px;
 		 }
+			a:hover {
+				color: $c_main;
+			}
 		}
 	}
+	.link-pacte {
+		&:hover {
+			color: $c_main;
+		}
+	}
+
+	@include mobile {
+		padding: 20px;
+	}
+
 }
 // Facebook
 .facebook {

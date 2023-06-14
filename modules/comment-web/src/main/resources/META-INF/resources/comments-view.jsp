@@ -64,7 +64,7 @@
 				</div>
 			</c:otherwise>
 		</c:choose>
-		<div class="col-lg-9 pl-5">
+		<div class="col-lg-9">
 			<h2>
 				<liferay-ui:message key="javax.portlet.title" />
 			</h2>
@@ -89,7 +89,7 @@
 									<span class="pro-name"><c:out value="${comment.getPublikUserName()}" escapeXml="true"/></span>
 									<c:if test="${comment.userQuality != null and comment.userQuality != ''}">
 										<span class="pro-fonction">
-											<liferay-ui:message key='comment-in-quality-of' /> ${comment.userQuality}
+										${comment.userQuality}
 										</span>
 									</c:if>
 								</div>
@@ -172,8 +172,8 @@
 											</c:choose>
 										</c:when>
 										<c:otherwise>
-											<a class="pro-like" data-toggle="modal" data-target="#">${comment.nbLikes}</a>
-											<a class="pro-dislike" data-toggle="modal" data-target="#">${comment.nbDislikes}</a>
+											<a class="pro-like" data-toggle="modal" data-target="#myModal">${comment.nbLikes}</a>
+											<a class="pro-dislike" data-toggle="modal" data-target="#myModal">${comment.nbDislikes}</a>
 											<c:if test="${isAdmin}">
 												<a href="${hideComment}" title="Masquer le commentaire">
 													<liferay-ui:message key='comment-hide'/>

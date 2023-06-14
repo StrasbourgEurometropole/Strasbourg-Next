@@ -158,3 +158,40 @@
 	font-size: $size;
 	font-size: calculateRem($size);
 }
+
+@mixin addTopSlope($height, $color) {
+	position: relative;
+	overflow: visible;
+	&:before {
+		content: '';
+		position: absolute;
+		top: calc(-#{$height} + 1px); /* Adjust this value to position the triangle */
+		left: 0; /* Adjust this value to horizontally center the triangle */
+		width: 0;
+		height: 0;
+		border-left: 100vw solid transparent;
+		border-right: 100vw solid transparent;
+		border-bottom: $height solid $color;
+		z-index: 120;
+	}
+}
+
+@mixin addBottomSlope($height, $color) {
+	position: relative;
+	overflow: visible;
+	&:before {
+		content: '';
+		position: absolute;
+		left: 0;
+		width: 0;
+		height: 0;
+		border-left: 0px solid transparent;
+		border-right: 100vw solid transparent;
+		border-bottom: 0 solid $color;
+		bottom: calc(-#{$height} + 1px);
+		border-top: $height solid $color;
+		overflow: visible;
+		z-index: 120;
+	}
+}
+
