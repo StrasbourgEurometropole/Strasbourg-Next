@@ -1,0 +1,120 @@
+{
+  "pages": [
+    {
+      "description": {
+        "en_US": ""
+      },
+      "rows": [
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fieldNames": [
+                "title"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fieldNames": [
+                "lead"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 4,
+              "fieldNames": [
+                "image"
+              ]
+            },
+            {
+              "size": 8,
+              "fieldNames": []
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 4,
+              "fieldNames": [
+                "showImage"
+              ]
+            },
+            {
+              "size": 8,
+              "fieldNames": []
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 4,
+              "fieldNames": [
+                "date"
+              ]
+            },
+            {
+              "size": 8,
+              "fieldNames": []
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fieldNames": [
+                "imageTitle"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fieldNames": [
+                "imageText"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fieldNames": [
+                "content"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fieldNames": [
+                "fieldGroup"
+              ]
+            }
+          ]
+        }
+      ],
+      "title": {
+        "en_US": ""
+      }
+    }
+  ],
+  "definitionSchemaVersion": "2.0",
+  "paginationMode": "single-page",
+  "defaultLanguageId": "en_US",
+  "fields": []
+}
