@@ -41,7 +41,7 @@
 
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.help.model.HelpProposal" modelVar="helpProposal"
-				keyProperty="helpProposalId" rowIdProperty="helpProposalId">
+				keyProperty="helpProposalId" >
 
 				<%-- URL : definit le lien vers la page d'edition de l'entite selectionne --%>
 				<liferay-portlet:renderURL varImpl="editHelpProposalURL">
@@ -50,14 +50,6 @@
 					<portlet:param name="backURL" value="${helpProposalsURL}" />
 					<portlet:param name="mvcPath" value="/help-bo-edit-help-proposal.jsp" />
 				</liferay-portlet:renderURL>
-
-				<%-- URL : definit le lien vers la page de consultation des demandes d'aide --%>
-                <liferay-portlet:renderURL varImpl="viewProposalHelpRequestsURL">
-                    <portlet:param name="cmd" value="viewProposalHelpRequests" />
-                    <portlet:param name="helpProposalId" value="${helpProposal.helpProposalId}" />
-                    <portlet:param name="backURL" value="${helpProposalsURL}" />
-                    <portlet:param name="mvcPath" value="/help-bo-view-proposal-help-requests.jsp" />
-                </liferay-portlet:renderURL>
 
 				<%-- Colonne : Titre --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
@@ -172,47 +164,25 @@
 
 <%-- Script : permet l'affichage des alertes de validation d'action --%>
 <aui:script>
+	var form = document.querySelector("[name='<portlet:namespace />fm']");
+
 	function <portlet:namespace />deleteSelection() {
 		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-entries" />')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
-			var selectionIdsInput = document
-					.getElementsByName('<portlet:namespace />selectionIds')[0];
-			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-					'<portlet:namespace />allRowIds');
-
 			submitForm(form, '${deleteSelectionURL}');
 		}
 	}
 	function <portlet:namespace />publishSelection() {
 		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-publish-selected-entries" />')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
-			var selectionIdsInput = document
-					.getElementsByName('<portlet:namespace />selectionIds')[0];
-			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-					'<portlet:namespace />allRowIds');
-
-			submitForm(form, '${publishSelectionURL}');
+				submitForm(form, '${publishSelectionURL}');
 		}
 	}
 	function <portlet:namespace />unpublishSelection() {
 		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-unpublish-selected-entries" />')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
-			var selectionIdsInput = document
-					.getElementsByName('<portlet:namespace />selectionIds')[0];
-			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-					'<portlet:namespace />allRowIds');
-
-			submitForm(form, '${unpublishSelectionURL}');
+				submitForm(form, '${unpublishSelectionURL}');
 		}
 	}
 	function <portlet:namespace />deleteHelp() {
 		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-entries" />')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
-			var selectionIdsInput = document
-				.getElementsByName('<portlet:namespace />selectionIds')[0];
-			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-				'<portlet:namespace />allRowIds');
-
 			submitForm(form, '${deleteSelectionURL}');
 		}
 	}

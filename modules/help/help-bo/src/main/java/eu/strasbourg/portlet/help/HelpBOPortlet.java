@@ -73,6 +73,9 @@ public class HelpBOPortlet extends MVCPortlet {
 					if (navigationDC.getSelectedCmd().equals(EDIT_HELP_PROPOSAL) || navigationDC.getSelectedCmd().equals(SAVE_HELP_PROPOSAL)) {
 						EditHelpProposalDisplayContext dc = new EditHelpProposalDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
+					} else if (navigationDC.getSelectedCmd().equals(PROPOSAL_HELP_REQUESTS) ) {
+						ViewProposalHelpRequestsDisplayContext dc = new ViewProposalHelpRequestsDisplayContext(renderRequest, renderResponse, _itemSelector);
+						renderRequest.setAttribute("dc", dc);
 					} else {
 						ViewHelpProposalsDisplayContext dc = new ViewHelpProposalsDisplayContext(renderRequest, renderResponse,_itemSelector);
 						ManagementHelpProposalsToolBarDisplayContext managementDC = new ManagementHelpProposalsToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
@@ -93,6 +96,7 @@ public class HelpBOPortlet extends MVCPortlet {
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
 					break;
+
 				case HELP_SEEKERS:
 					ViewHelpSeekersDisplayContext dc = new ViewHelpSeekersDisplayContext(renderRequest, renderResponse,_itemSelector);
 						ManagementHelpSeekersToolBarDisplayContext managementDC = new ManagementHelpSeekersToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
@@ -109,9 +113,6 @@ public class HelpBOPortlet extends MVCPortlet {
 		// On set le displayContext selon la page sur laquelle on est
 		/*
 		}
-		} else if(cmd.equals("viewProposalHelpRequests") || mvcPath.equals("/help-bo-view-proposal-help-requests.jsp")) {
-			ViewProposalHelpRequestsDisplayContext dc = new ViewProposalHelpRequestsDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
 		} else if(cmd.equals("viewSeekerHelpRequests") || mvcPath.equals("/help-bo-view-seeker-help-requests.jsp")) {
 			ViewSeekerHelpRequestsDisplayContext dc = new ViewSeekerHelpRequestsDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
