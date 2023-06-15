@@ -7,12 +7,7 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.search.BaseIndexer;
-import com.liferay.portal.kernel.search.Document;
-import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
-import com.liferay.portal.kernel.search.Indexer;
-import com.liferay.portal.kernel.search.Summary;
+import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.help.model.HelpRequest;
 import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
@@ -21,11 +16,7 @@ import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 @Component(immediate = true, service = Indexer.class)
 public class HelpRequestIndexer extends BaseIndexer<HelpRequest> {

@@ -1,61 +1,30 @@
 <%@ include file="/help-bo-init.jsp"%>
-
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 <%-- URL : definit le lien avec les parametres de recherche des entites--%>
 <liferay-portlet:renderURL varImpl="helpRequestsURL">
     <portlet:param name="tab" value="helpRequests" />
     <portlet:param name="orderByCol" value="${dc.orderByCol}" />
-    <portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
+    <portlet:param name="mvcPath" value="/help-bo-view-help-requests.jsp" />
     <portlet:param name="keywords" value="${dc.keywords}" />
     <portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
 
-<%-- Composant : barre de filtres et de gestion des entites --%>
-<liferay-frontend:management-bar includeCheckBox="true" searchContainerId="helpRequestsSearchContainer">
-
-    <%-- Composant : partie filtres et selection --%>
-    <liferay-frontend:management-bar-filters>
-        <c:if test="${fn:length(dc.vocabularies) > 0}">
-            <li><a>Filtrer par :</a></li>
-        </c:if>
-        <c:forEach var="vocabulary" items="${dc.vocabularies}">
-            <liferay-frontend:management-bar-filter
-                    managementBarFilterItems="${dc.getManagementBarFilterItems(vocabulary)}"
-                    value="${dc.getVocabularyFilterLabel(vocabulary)}" />
-        </c:forEach>
-
-        <liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
-                                              orderByType="${dc.orderByType}"
-                                              orderColumns='<%= new String[] {"create-date", "modified-date" } %>'
-                                              portletURL="${helpRequestsURL}" />
-    </liferay-frontend:management-bar-filters>
-
-    <%-- Composant : partie gestion (affichee apres une selection) --%>
-    <liferay-frontend:management-bar-action-buttons>
-        <c:if test="${dc.hasPermission('DELETE_HELP_REQUEST') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-            <liferay-frontend:management-bar-button
-                    href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
-                    icon="trash" label="delete" />
-        </c:if>
-    </liferay-frontend:management-bar-action-buttons>
-
-</liferay-frontend:management-bar>
-
+<clay:management-toolbar
+        managementToolbarDisplayContext="${managementDC}"
+/>
 <%-- Composant : tableau de visualisation des entites --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
     <aui:form method="post" name="fm">
-        <aui:input type="hidden" name="selectionIds" />
         <liferay-ui:search-container id="helpRequestsSearchContainer"
                                      searchContainer="${dc.searchContainer}">
-            <liferay-ui:search-container-results results="${dc.helpRequests}" />
 
             <liferay-ui:search-container-row
-                    className="eu.strasbourg.service.help.model.HelpRequest" modelVar="helpRequest"
-                    keyProperty="helpRequestId" rowIdProperty="helpRequestId">
+                    className="eu.strasbourg.service.help.model.HelpRequest" modelVar="helpRequest">
 
                 <%-- URL : definit le lien vers la page d'edition de l'entite selectionne --%>
                 <liferay-portlet:renderURL varImpl="editHelpProposalURL">
                     <portlet:param name="cmd" value="editHelpProposal" />
-                    <portlet:param name="returnURL" value="${helpRequestsURL}" />
+                    <portlet:param name="backURL" value="${helpRequestsURL}" />
                     <portlet:param name="helpProposalId" value="${helpRequest.helpProposalId}" />
                     <portlet:param name="mvcPath" value="/help-bo-edit-help-proposal.jsp" />
                 </liferay-portlet:renderURL>
@@ -64,7 +33,7 @@
                 <liferay-portlet:renderURL varImpl="editHelpRequestURL">
                     <portlet:param name="cmd" value="editHelpRequest" />
                     <portlet:param name="helpRequestId" value="${helpRequest.helpRequestId}" />
-                    <portlet:param name="returnURL" value="${helpRequestsURL}" />
+                    <portlet:param name="backURL" value="${helpRequestsURL}" />
                     <portlet:param name="mvcPath" value="/help-bo-edit-help-request.jsp" />
                 </liferay-portlet:renderURL>
 
@@ -72,7 +41,7 @@
                 <liferay-portlet:actionURL name="changeStatusHelpRequest" var="validHelpRequestURL">
                     <portlet:param name="cmd" value="changeStatusHelpRequest" />
                     <portlet:param name="tab" value="helpRequests" />
-                    <portlet:param name="returnURL" value="${dc.currentURL}" />
+                    <portlet:param name="backURL" value="${dc.currentURL}" />
                     <portlet:param name="requestModerationStatus" value="Conforme" />
                     <portlet:param name="helpRequestId" value="${helpRequest.helpRequestId}" />
                 </liferay-portlet:actionURL>
@@ -141,41 +110,10 @@
 
                 <%-- Colonne : Actions possibles --%>
                 <liferay-ui:search-container-column-text>
-                    <liferay-ui:icon-menu markupView="lexicon">
-                        <c:if test="${dc.hasPermission('EDIT_HELP_REQUEST') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                            <liferay-ui:icon message="view-help-request" url="${editHelpRequestURL}" />
-                        </c:if>
-                        <c:if test="${dc.hasPermission('EDIT_HELP') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                            <liferay-ui:icon message="view-help-proposal" url="${editHelpProposalURL}" />
-                        </c:if>
-
-                        <c:if test="${dc.hasPermission('EDIT_HELP_REQUEST') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                            <c:if test="${helpRequest.getModerationStatusTitle(locale) != 'Conforme'}">
-                                <liferay-ui:icon-delete confirmation="set-valid-confirm" message="set-request-valid" url="${validHelpRequestURL}" />
-                            </c:if>
-                            <c:if test="${helpRequest.getModerationStatusTitle(locale) != 'Alerte'}">
-                                <liferay-ui:icon-delete confirmation="set-alert-confirm" message="set-request-alert" url="${alertHelpRequestURL}" />
-                            </c:if>
-                            <c:if test="${helpRequest.getModerationStatusTitle(locale) != 'Non-conforme'}">
-                                <liferay-ui:icon-delete confirmation="set-not-valid-confirm" message="set-request-not-valid" url="${notValidHelpRequestURL}" />
-                            </c:if>
-                        </c:if>
-                        <%-- Suppression des justificatifs de l'etudiant --%>
-                        <liferay-portlet:actionURL name="deleteStudentCardImages" var="deleteStudentCardImagesURL">
-                            <portlet:param name="cmd" value="deleteStudentCardImages" />
-                            <portlet:param name="tab" value="helpRequests" />
-                            <portlet:param name="studentPublikId" value="${helpRequest.publikId}" />
-                        </liferay-portlet:actionURL>
-                        <c:if test="${dc.hasPermission('EDIT_HELP_REQUEST') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                            <liferay-ui:icon-delete confirmation="delete-student-ids-confirm" message="${dc.getImagesCount(helpRequest.publikId)}" url="${deleteStudentCardImagesURL}" />
-                        </c:if>
-                        <%--
-						<c:set value="${helpSeeker.publikUser.publikUserLiferayId}" var="publikId" />
-						<c:if test="${dc.hasPermissionOIDC('EDIT_PUBLIKUSER') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="view-user-profil" url="${dc.getPublikUserEditURL(publikId)}" />
-						</c:if>
-						--%>
-                    </liferay-ui:icon-menu>
+                    <clay:dropdown-actions
+                            aria-label="<liferay-ui:message key='show-actions' />"
+                            dropdownItems="${dc.getActionsHelpRequest(helpRequest).getActionDropdownItems('${dc.getImagesCount(helpRequest.publikId)}')}"
+                    />
                 </liferay-ui:search-container-column-text>
 
             </liferay-ui:search-container-row>

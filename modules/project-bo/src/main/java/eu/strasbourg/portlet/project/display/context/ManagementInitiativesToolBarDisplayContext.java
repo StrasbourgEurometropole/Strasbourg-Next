@@ -15,7 +15,6 @@ import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.project.model.Initiative;
-import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.servlet.http.HttpServletRequest;
@@ -183,12 +182,8 @@ public class ManagementInitiativesToolBarDisplayContext extends SearchContainerM
      */
     @Override
     protected String[] getOrderByKeys() {
-        return new String[] { "title", "modified-date", "publication-date", "status" };
+        return new String[] {"modified-date", "title"};
     }
-
-
-
-
     /**
      * The URL to reset the search
      */
@@ -266,7 +261,7 @@ public class ManagementInitiativesToolBarDisplayContext extends SearchContainerM
 
 
     /**
-     * Get Event Vocabularies
+     * Get Initiative Vocabularies
      */
     protected List<AssetVocabulary> getInitiativeVocabularies() {
         if(_vocabularies == null) {
@@ -275,9 +270,10 @@ public class ManagementInitiativesToolBarDisplayContext extends SearchContainerM
                             WebKeys.THEME_DISPLAY);
             long companyGroupId = themeDisplay.getCompanyGroupId();
             long classNameId = ClassNameLocalServiceUtil.getClassNameId(Initiative.class);
+            long scopeGroupId = themeDisplay.getScopeGroupId();
             List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
                     .getAssetVocabularies(-1, -1).stream()
-                    .filter(v -> v.getGroupId() == companyGroupId && LongStream.of(v.getSelectedClassNameIds())
+                    .filter(v -> (v.getGroupId() == companyGroupId|| v.getGroupId() == scopeGroupId) && LongStream.of(v.getSelectedClassNameIds())
                             .anyMatch(c -> c == classNameId))
                     .collect(Collectors.toList());
             _vocabularies = vocabularies;

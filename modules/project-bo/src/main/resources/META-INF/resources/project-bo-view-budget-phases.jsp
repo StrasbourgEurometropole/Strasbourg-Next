@@ -5,9 +5,9 @@
 	<portlet:param name="tab" value="budget-phases" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="mvcPath" value="/project-bo-view-budget-phases.jsp" />
 </liferay-portlet:renderURL>
 
 <%-- URL : definit le lien vers la page d'ajout/edition d'une entite --%>

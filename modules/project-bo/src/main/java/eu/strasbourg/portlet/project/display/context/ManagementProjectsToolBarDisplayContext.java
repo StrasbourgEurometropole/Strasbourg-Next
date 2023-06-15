@@ -183,7 +183,7 @@ public class ManagementProjectsToolBarDisplayContext extends SearchContainerMana
      */
     @Override
     protected String[] getOrderByKeys() {
-        return new String[] { "title", "modified-date", "publication-date", "status" };
+        return new String[] {"modified-date", "title"};
     }
 
 
@@ -266,7 +266,7 @@ public class ManagementProjectsToolBarDisplayContext extends SearchContainerMana
 
 
     /**
-     * Get Event Vocabularies
+     * Get Project Vocabularies
      */
     protected List<AssetVocabulary> getProjectVocabularies() {
         if(_vocabularies == null) {
@@ -275,11 +275,13 @@ public class ManagementProjectsToolBarDisplayContext extends SearchContainerMana
                             WebKeys.THEME_DISPLAY);
             long companyGroupId = themeDisplay.getCompanyGroupId();
             long classNameId = ClassNameLocalServiceUtil.getClassNameId(Project.class);
+            long scopeGroupId = themeDisplay.getScopeGroupId();
             List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
                     .getAssetVocabularies(-1, -1).stream()
-                    .filter(v -> v.getGroupId() == companyGroupId && LongStream.of(v.getSelectedClassNameIds())
+                    .filter(v ->( v.getGroupId() == companyGroupId || v.getGroupId() == scopeGroupId)&& LongStream.of(v.getSelectedClassNameIds())
                             .anyMatch(c -> c == classNameId))
                     .collect(Collectors.toList());
+
             _vocabularies = vocabularies;
         }
 

@@ -1,5 +1,5 @@
 <%@ include file="/csmap-bo-agenda-init.jsp" %>
-
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 <%-- URL : definit le lien avec les parametres de recherche des entites--%>
 <liferay-portlet:renderURL varImpl="agendaThematiqueURL">
 	<portlet:param name="tab" value="agendaThematique" />
@@ -11,7 +11,9 @@
     <portlet:param name="mvcPath" value="/csmap-bo-agenda-edit-thematique.jsp" />
 </liferay-portlet:renderURL>
 
-<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
+<clay:management-toolbar
+		managementToolbarDisplayContext="${managementDC}"
+/>
 <div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
 		<liferay-ui:search-container id="agendasThematiqueSearchContainer"

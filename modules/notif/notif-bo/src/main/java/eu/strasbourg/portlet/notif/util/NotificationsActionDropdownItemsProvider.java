@@ -1,4 +1,4 @@
-package eu.strasbourg.portlet.project.util;
+package eu.strasbourg.portlet.notif.util;
 
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuilder;
@@ -9,7 +9,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.service.project.model.BudgetPhase;
+import eu.strasbourg.service.notif.model.Notification;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
@@ -20,13 +20,13 @@ import java.util.List;
 /**
  * @author BMA
  */
-public class BudgetPhraseActionDropdownItemsProvider {
+public class NotificationsActionDropdownItemsProvider {
 
-    public BudgetPhraseActionDropdownItemsProvider(
-            BudgetPhase budgetPhase, RenderRequest request,
+    public NotificationsActionDropdownItemsProvider(
+            Notification notification, RenderRequest request,
             RenderResponse response) {
 
-        _budgetPhase = budgetPhase;
+        _notification = notification;
         _response = response;
 
         _themeDisplay = (ThemeDisplay)request.getAttribute(
@@ -37,16 +37,16 @@ public class BudgetPhraseActionDropdownItemsProvider {
     }
 
     /**
-     * The list of dropdown items to display for all budget phrase
+     * The list of dropdown items to display for all notifications
      */
     public List<DropdownItem> getActionDropdownItems() {
 
         boolean hasUpdatePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.PROJECT_BO, StrasbourgPortletKeys.PROJECT_BO, "EDIT_BUDGET_PHASE")
+                StrasbourgPortletKeys.NOTIFICATION_BO, StrasbourgPortletKeys.NOTIFICATION_BO, "EDIT_NOTIFICATION")
                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 
         boolean hasDeletePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.PROJECT_BO, StrasbourgPortletKeys.PROJECT_BO, "DELETE_BUDGET_PHASE")
+                StrasbourgPortletKeys.NOTIFICATION_BO, StrasbourgPortletKeys.NOTIFICATION_BO, "DELETE_NOTIFICATION")
                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 
         return DropdownItemListBuilder
@@ -57,6 +57,17 @@ public class BudgetPhraseActionDropdownItemsProvider {
                                             .add(
                                                     () -> hasUpdatePermission,
                                                     _getEditActionUnsafeConsumer()
+                                            )
+                                            .build()
+                            );
+                        }
+                ).addGroup(
+                        dropdownGroupItem -> {
+                            dropdownGroupItem.setDropdownItems(
+                                    DropdownItemListBuilder
+                                            .add(
+                                                    () -> hasUpdatePermission,
+                                                    _getCopieActionUnsafeConsumer()
                                             )
                                             .build()
                             );
@@ -77,44 +88,62 @@ public class BudgetPhraseActionDropdownItemsProvider {
     }
 
     /**
-     * Action of Edit budget phrase
+     * Action of Edit notification
      */
     private UnsafeConsumer<DropdownItem, Exception> _getEditActionUnsafeConsumer() {
 
         return dropdownItem -> {
             dropdownItem.setHref(
                     PortletURLBuilder.createRenderURL(_response)
-                            .setMVCPath("/project-bo-edit-budget-phase.jsps")
-                            .setCMD("editBudgetPhase")
+                            .setMVCPath("/notif-bo-edit-notification.jsp")
+                            .setCMD("editNotification")
                             .setBackURL(_themeDisplay.getURLCurrent())
-                            .setParameter("tab", "budget-phases")
-                            .setParameter("budgetPhaseId", _budgetPhase.getBudgetPhaseId())
+                            .setParameter("tab", "notifications")
+                            .setParameter("notificationId", _notification.getNotificationId())
                             .buildString()
             );
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "edit"));
         };
     }
-
     /**
-     * Action of Delete budget phrase
+     * Action of Duplicate notification
+     */
+    private UnsafeConsumer<DropdownItem, Exception> _getCopieActionUnsafeConsumer() {
+
+        return dropdownItem -> {
+            dropdownItem.setHref(
+                    PortletURLBuilder.createRenderURL(_response)
+                            .setMVCPath("/notif-bo-edit-notification.jsp")
+                            .setCMD("editNotification")
+                            .setBackURL(_themeDisplay.getURLCurrent())
+                            .setParameter("tab", "notifications")
+                            .setParameter("isDuplication", true)
+                            .setParameter("notificationId", _notification.getNotificationId())
+                            .buildString()
+            );
+            dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "duplicate"));
+        };
+    }
+    /**
+     * Action of Delete notification
      */
     private UnsafeConsumer<DropdownItem, Exception> _getDeleteActionUnsafeConsumer() {
 
         return dropdownItem -> {
             dropdownItem.setHref(
                     PortletURLBuilder.createActionURL(_response)
-                            .setActionName("deleteBudgetPhase")
-                            .setMVCPath("/project-bo-view-budget-phases.jsp")
+                            .setActionName("deleteNotification")
+                            .setMVCPath("/notif-bo-view-notifications.jsp")
                             .setBackURL(_themeDisplay.getURLCurrent())
-                            .setParameter("tab", "budget-phases")
-                            .setParameter("budgetPhaseId", _budgetPhase.getBudgetPhaseId())
+                            .setParameter("tab", "notifications")
+                            .setParameter("notificationId", _notification.getNotificationId())
                             .buildString()
             );
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "delete"));
         };
     }
 
-    private final BudgetPhase _budgetPhase;
+    private final Notification _notification;
     private final HttpServletRequest _httpServletRequest;
     private final RenderResponse _response;
     private final ThemeDisplay _themeDisplay;

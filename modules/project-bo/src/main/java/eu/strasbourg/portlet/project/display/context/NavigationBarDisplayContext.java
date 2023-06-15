@@ -86,11 +86,11 @@ public class NavigationBarDisplayContext {
         budgetParticipatifItem.setHref(this.response.createRenderURL(), URL_PARAM_TAB, BUDGET_PARICIPATIFS,URL_PARAM_MVCPATH, BUDGET_PARICIPATIFS_PATH);
         navigationItems.add(budgetParticipatifItem);
 
-        NavigationItem budgetPhraseItem = new NavigationItem();
-        budgetPhraseItem.setLabel(LanguageUtil.get(bundle, "budget-phases"));
-        budgetPhraseItem.setActive(this.selectedTab.equals(BUDGET_PHRASES));
-        budgetPhraseItem.setHref(this.response.createRenderURL(), URL_PARAM_TAB, BUDGET_PHRASES,URL_PARAM_MVCPATH, BUDGET_PHRASES_PATH);
-        navigationItems.add(budgetPhraseItem);
+        NavigationItem budgetPhaseItem = new NavigationItem();
+        budgetPhaseItem.setLabel(LanguageUtil.get(bundle, "budget-phases"));
+        budgetPhaseItem.setActive(this.selectedTab.equals(BUDGET_PHASES));
+        budgetPhaseItem.setHref(this.response.createRenderURL(), URL_PARAM_TAB, BUDGET_PHASES,URL_PARAM_MVCPATH, BUDGET_PHASES_PATH);
+        navigationItems.add(budgetPhaseItem);
 
         return navigationItems;
     }

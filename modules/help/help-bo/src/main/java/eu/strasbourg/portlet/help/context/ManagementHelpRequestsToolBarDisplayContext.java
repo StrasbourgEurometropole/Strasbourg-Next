@@ -1,4 +1,4 @@
-package eu.strasbourg.portlet.project.display.context;
+package eu.strasbourg.portlet.help.context;
 
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
@@ -14,8 +14,7 @@ import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.service.project.model.BudgetPhase;
-import eu.strasbourg.service.project.model.Initiative;
+import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,16 +23,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
-public class ManagementBudgetPhrasesToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
+public class ManagementHelpRequestsToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
 
-    public ManagementBudgetPhrasesToolBarDisplayContext(
+    public ManagementHelpRequestsToolBarDisplayContext(
             HttpServletRequest httpServletRequest,
             LiferayPortletRequest liferayPortletRequest,
             LiferayPortletResponse liferayPortletResponse,
-            ViewBudgetPhasesDisplayContext viewBudgetPhasesDisplayContext) throws PortalException {
+            ViewHelpRequestsDisplayContext viewHelpRequestsDisplayContext) throws PortalException {
         super(httpServletRequest, liferayPortletRequest, liferayPortletResponse,
-                viewBudgetPhasesDisplayContext.getSearchContainer());
-        _viewBudgetPhasesDisplayContext = viewBudgetPhasesDisplayContext;
+                viewHelpRequestsDisplayContext.getSearchContainer());
+        _viewHelpRequestsDisplayContext = viewHelpRequestsDisplayContext;
 
         _themeDisplay = (ThemeDisplay)liferayPortletRequest.getAttribute(
                 WebKeys.THEME_DISPLAY);
@@ -99,7 +98,7 @@ public class ManagementBudgetPhrasesToolBarDisplayContext extends SearchContaine
      */
     @Override
     public String getSearchContainerId() {
-        return "budgetPhasesSearchContainer";
+        return "helpRequestsSearchContainer";
     }
 
     /**
@@ -108,14 +107,7 @@ public class ManagementBudgetPhrasesToolBarDisplayContext extends SearchContaine
     @Override
     public List<DropdownItem> getFilterDropdownItems() {
         return DropdownItemListBuilder
-                .addGroup(
-                        dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(
-                                    getFilterVocabularyDropdownItems());
-                            dropdownGroupItem.setLabel(
-                                    LanguageUtil.get(httpServletRequest, "filter-by"));
-                        }
-                )
+
                 .addGroup(
                         dropdownGroupItem -> {
                             dropdownGroupItem.setDropdownItems(getOrderByDropdownItems());
@@ -127,67 +119,14 @@ public class ManagementBudgetPhrasesToolBarDisplayContext extends SearchContaine
                 .build();
     }
 
-    /**
-     * Add filtering options to Vocabulary
-     */
-    protected List<DropdownItem> getFilterVocabularyDropdownItems() {
-        List<DropdownItem> filterVocabularyDropdownItems = new DropdownItemList();
-
-        for (AssetVocabulary vocabulary : getBudgetPhraseVocabularies()) {
-            filterVocabularyDropdownItems.add(
-                    DropdownItemBuilder
-                            .setActive(_viewBudgetPhasesDisplayContext.hasVocabulary(vocabulary.getName()))
-                            .setHref("javascript:getCategoriesByVocabulary("+vocabulary.getVocabularyId()+");")
-                            .setLabel(vocabulary.getName())
-                            .build()
-            );
-        }
-
-        return filterVocabularyDropdownItems;
-    }
-
-    /**
-     * Sets the search container’s filter labels to display
-     */
-    // TODO : A revoir car pas testé ni fini
-    @Override
-    public List<LabelItem> getFilterLabelItems() {
-        Map<String, String> categVocabulariesSelected = _viewBudgetPhasesDisplayContext.getCategVocabularies();
-        LabelItemListBuilder.LabelItemListWrapper vocabulariesLabelItems = new LabelItemListBuilder.LabelItemListWrapper();
-
-        for (AssetVocabulary vocabulary : getBudgetPhraseVocabularies()) {
-            vocabulariesLabelItems.add(
-                    () -> categVocabulariesSelected.keySet().contains(vocabulary.getName()),
-                    labelItem -> {
-                        labelItem.putData(
-                                "removeLabelURL",
-                                PortletURLBuilder.create(
-                                                PortletURLUtil.clone(currentURLObj, liferayPortletResponse))
-                                        .setParameter(vocabulary.getName(), "")
-                                        .buildString());
-
-                        labelItem.setCloseable(true);
-
-                        String categ = categVocabulariesSelected.get(vocabulary.getName());
-
-                        labelItem.setLabel(vocabulary.getName() + ": " + categ);
-                    }
-            );
-        }
-
-        return vocabulariesLabelItems.build();
-    }
 
     /**
      * Fields that can be sorted
      */
     @Override
     protected String[] getOrderByKeys() {
-        return new String[] { "title", "modified-date", "publication-date", "status" };
+        return new String[] { "create-date", "modified-date"};
     }
-
-
-
 
     /**
      * The URL to reset the search
@@ -221,72 +160,7 @@ public class ManagementBudgetPhrasesToolBarDisplayContext extends SearchContaine
 
 
 
-    /**
-     * creates an add menu button
-     */
-    @Override
-    public CreationMenu getCreationMenu() {
-        return CreationMenuBuilder.addPrimaryDropdownItem(
-                dropdownItem -> {
-                    ThemeDisplay themeDisplay =
-                            (ThemeDisplay)httpServletRequest.getAttribute(
-                                    WebKeys.THEME_DISPLAY);
-
-                    dropdownItem.setHref(
-                            liferayPortletResponse.createRenderURL(),
-                            "tab", "budget-phases",
-                            "cmd", "editBudgetPhase",
-                            "mvcPath", "/project-bo-edit-budget-phase.jsp",
-                            "backURL", themeDisplay.getURLCurrent());
-
-                    dropdownItem.setLabel(
-                            LanguageUtil.get(httpServletRequest, "add"));
-                }
-        ).build();
-    }
-
-    /**
-     * Add menu visibility
-     */
-    @Override
-    public Boolean isShowCreationMenu() {
-        ThemeDisplay themeDisplay =
-                (ThemeDisplay)httpServletRequest.getAttribute(
-                        WebKeys.THEME_DISPLAY);
-
-        Group group = themeDisplay.getScopeGroup();
-        if(_themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.PROJECT_BO, StrasbourgPortletKeys.PROJECT_BO, "ADD_BUDGET_PHASE") &&
-                group.getStagingGroup() == null){
-            return true;
-        }
-        return false;
-
-    }
-
-
-    /**
-     * Get Event Vocabularies
-     */
-    protected List<AssetVocabulary> getBudgetPhraseVocabularies() {
-        if(_vocabularies == null) {
-            ThemeDisplay themeDisplay =
-                    (ThemeDisplay) httpServletRequest.getAttribute(
-                            WebKeys.THEME_DISPLAY);
-            long companyGroupId = themeDisplay.getCompanyGroupId();
-            long classNameId = ClassNameLocalServiceUtil.getClassNameId(BudgetPhase.class);
-            List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
-                    .getAssetVocabularies(-1, -1).stream()
-                    .filter(v -> v.getGroupId() == companyGroupId && LongStream.of(v.getSelectedClassNameIds())
-                            .anyMatch(c -> c == classNameId))
-                    .collect(Collectors.toList());
-            _vocabularies = vocabularies;
-        }
-
-        return _vocabularies;
-    }
-
-    private final ViewBudgetPhasesDisplayContext _viewBudgetPhasesDisplayContext;
+    private final ViewHelpRequestsDisplayContext _viewHelpRequestsDisplayContext;
     private final ThemeDisplay _themeDisplay;
     private List<AssetVocabulary> _vocabularies;
 

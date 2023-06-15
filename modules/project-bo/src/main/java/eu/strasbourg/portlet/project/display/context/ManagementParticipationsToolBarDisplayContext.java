@@ -182,11 +182,8 @@ public class ManagementParticipationsToolBarDisplayContext extends SearchContain
      */
     @Override
     protected String[] getOrderByKeys() {
-        return new String[] { "title", "modified-date", "publication-date", "status" };
+        return new String[] {"modified-date", "title"};
     }
-
-
-
 
     /**
      * The URL to reset the search
@@ -265,7 +262,7 @@ public class ManagementParticipationsToolBarDisplayContext extends SearchContain
 
 
     /**
-     * Get Event Vocabularies
+     * Get participation Vocabularies
      */
     protected List<AssetVocabulary> getParticipationVocabularies() {
         if(_vocabularies == null) {
@@ -274,9 +271,10 @@ public class ManagementParticipationsToolBarDisplayContext extends SearchContain
                             WebKeys.THEME_DISPLAY);
             long companyGroupId = themeDisplay.getCompanyGroupId();
             long classNameId = ClassNameLocalServiceUtil.getClassNameId(Participation.class);
+            long scopeGroupId = themeDisplay.getScopeGroupId();
             List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
                     .getAssetVocabularies(-1, -1).stream()
-                    .filter(v -> v.getGroupId() == companyGroupId && LongStream.of(v.getSelectedClassNameIds())
+                    .filter(v -> (v.getGroupId() == companyGroupId|| v.getGroupId() == scopeGroupId) && LongStream.of(v.getSelectedClassNameIds())
                             .anyMatch(c -> c == classNameId))
                     .collect(Collectors.toList());
             _vocabularies = vocabularies;

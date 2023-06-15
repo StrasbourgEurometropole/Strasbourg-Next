@@ -58,12 +58,12 @@ public class SaveBudgetPhaseActionCommand implements MVCActionCommand {
 					.getAttribute(WebKeys.THEME_DISPLAY);
 				String portletName = (String) request
 					.getAttribute(WebKeys.PORTLET_ID);
-				PortletURL returnURL = PortletURLFactoryUtil.create(request,
+				PortletURL backURL = PortletURLFactoryUtil.create(request,
 					portletName, themeDisplay.getPlid(),
 					PortletRequest.RENDER_PHASE);
-				returnURL.setParameter("tab", request.getParameter("tab"));
+				backURL.setParameter("tab", request.getParameter("tab"));
 				
-				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("backURL", backURL.toString());
 				response.setRenderParameter("cmd", "editBudgetPhase");
 				response.setRenderParameter("mvcPath","/project-bo-edit-budget-phase.jsp");
 				return false;
@@ -138,6 +138,7 @@ public class SaveBudgetPhaseActionCommand implements MVCActionCommand {
 			budgetPhase.setEndVoteDate(endVoteDate);
 
 			_budgetPhaseLocalService.updateBudgetPhase(budgetPhase, sc);
+			response.setRenderParameter("mvcPath", "/project-bo-view-budgets-phases.jsp");
 
 		} catch (PortalException e) {
 			_log.error(e);

@@ -2,6 +2,8 @@ package eu.strasbourg.portlet.agenda.csmap.portlet;
 
 import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
+import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -9,10 +11,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.portlet.agenda.csmap.display.context.EditCsmapPrincipalAgendaDisplayContext;
-import eu.strasbourg.portlet.agenda.csmap.display.context.EditCsmapThematiqueAgendaDisplayContext;
-import eu.strasbourg.portlet.agenda.csmap.display.context.NavigationBarDisplayContext;
-import eu.strasbourg.portlet.agenda.csmap.display.context.ViewCsmapAgendaThematiqueDisplayContext;
+import eu.strasbourg.portlet.agenda.csmap.display.context.*;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -53,7 +52,7 @@ public class CsmapBoAgendaPortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 		renderResponse.setTitle("CSmapAgendaCategories");
-
+		try {
 			NavigationBarDisplayContext navigationDC = new NavigationBarDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("navigationDC", navigationDC);
 			HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(renderRequest);
@@ -70,11 +69,17 @@ public class CsmapBoAgendaPortlet extends MVCPortlet {
 					} else {
 						ViewCsmapAgendaThematiqueDisplayContext dc = new ViewCsmapAgendaThematiqueDisplayContext(renderRequest, renderResponse, _itemSelector);
 						renderRequest.setAttribute("dc", dc);
+						ManagementCsmapThematiqueAgendaToolBarDisplayContext managementDC= new ManagementCsmapThematiqueAgendaToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
+								(LiferayPortletResponse) renderResponse, dc);
+						renderRequest.setAttribute("managementDC", managementDC);
 
 					}
 					break;
 				}
 			}
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
 
 
 		// If we are on an "add" page, we set a return URL and show the "back"

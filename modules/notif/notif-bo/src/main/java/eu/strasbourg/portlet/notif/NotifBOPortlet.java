@@ -1,7 +1,10 @@
 package eu.strasbourg.portlet.notif;
 
+import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
+import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.UserGroupRoleLocalService;
@@ -9,10 +12,7 @@ import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.*;
 import eu.strasbourg.portlet.notif.constants.NotifConstants;
-import eu.strasbourg.portlet.notif.display.context.EditNotificationDisplayContext;
-import eu.strasbourg.portlet.notif.display.context.EditServiceDisplayContext;
-import eu.strasbourg.portlet.notif.display.context.ViewNotificationsDisplayContext;
-import eu.strasbourg.portlet.notif.display.context.ViewServicesDisplayContext;
+import eu.strasbourg.portlet.notif.display.context.*;
 import eu.strasbourg.service.notif.model.Message;
 import eu.strasbourg.service.notif.model.NatureNotif;
 import eu.strasbourg.service.notif.model.Notification;
@@ -34,7 +34,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import static eu.strasbourg.portlet.notif.constants.NotifConstants.*;
 /**
  * @author angelique.champougny
  */
@@ -47,8 +47,8 @@ import java.util.List;
 		"com.liferay.portlet.footer-portlet-javascript=/js/notif-bo-main.js",
 		"com.liferay.portlet.layout-cacheable=true",
 		"com.liferay.portlet.single-page-application=false",
-		"javax.portlet.init-param.template-path=/",
-		"javax.portlet.init-param.view-template=/notif-bo-view.jsp",
+		"javax.portlet.init-param.template-path=/META-INF/resources/",
+		"javax.portlet.init-param.view-template=/notif-bo-view-services.jsp",
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user"
 	},
@@ -64,29 +64,96 @@ public class NotifBOPortlet extends MVCPortlet {
 		this.themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
-		String cmd = ParamUtil.getString(renderRequest, "cmd");
-		String tab = ParamUtil.getString(renderRequest, "tab");
-		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
+
 
 		// Verification des requetes issues d'un champ repetable
 		Boolean fromAjaxNature = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxNature"));
 		Boolean fromAjaxMessage = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxMessage"));
 
-		renderResponse.setTitle("Notif");
+		try {
+			NavigationBarDisplayContext navigationDC = new NavigationBarDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("navigationDC", navigationDC);
+			HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(renderRequest);
+			switch (navigationDC.getSelectedTab()) {
+
+				case NOTIFICATIONS: {
+					if (navigationDC.getSelectedCmd().equals(EDIT_NOTIFICATION)) {
+						long notificationId = ParamUtil.getLong(renderRequest, "notificationId");
+						Notification notification = null;
+						if (notificationId > 0) {
+							notification = _notificationLocalService.fetchNotification(notificationId);
+						}
+						List<ServiceNotif> services = new ArrayList<>();
+						try {
+							long[] organisationIds = themeDisplay.getUser().getOrganizationIds();
+							if(Validator.isNotNull(organisationIds) && organisationIds.length > 0)
+								services = _serviceNotifLocalService.getByOrganisationIds(organisationIds);
+						} catch (PortalException e) {
+							e.printStackTrace();
+						}
+						List<NatureNotif> natures = _natureNotifLocalService.getNatureNotifs(-1, -1);
+						List<Message> messages = _messageLocalService.getMessages(-1, -1);
+
+						EditNotificationDisplayContext dc = new EditNotificationDisplayContext(renderRequest, notification, services,
+								natures, messages);
+						renderRequest.setAttribute("dc", dc);
+					} else if (navigationDC.getSelectedCmd().equals(PROGRESS_NOTIFICATION)) {
+						ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.IN_PROGRESS,_itemSelector);
+						renderRequest.setAttribute("dc", dc);
+					} else if (navigationDC.getSelectedCmd().equals(COME_NOTIFICATION)) {
+						ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.TO_COME,_itemSelector);
+						renderRequest.setAttribute("dc", dc);
+					} else if (navigationDC.getSelectedCmd().equals(PAST_NOTIFICATION)) {
+						ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.PAST,_itemSelector);
+						renderRequest.setAttribute("dc", dc);
+					} else if (!this.isAdminNotification()) {
+						ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.ALL,_itemSelector);
+						renderRequest.setAttribute("dc", dc);
+					}else {
+						ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.ALL,_itemSelector);
+						renderRequest.setAttribute("dc", dc);
+					}
+					break;
+				}
+				case SERVICES:
+					if (navigationDC.getSelectedCmd().equals("editService") || fromAjaxNature || fromAjaxMessage) {
+						long serviceId = ParamUtil.getLong(renderRequest, "serviceId");
+						ServiceNotif service = null;
+						List<NatureNotif> natures = new ArrayList<>();
+						List<Message> messages = new ArrayList<>();
+						if (serviceId > 0) {
+							service = _serviceNotifLocalService.fetchServiceNotif(serviceId);
+							natures = _natureNotifLocalService.getByServiceId(service.getServiceId());
+							messages = _messageLocalService.getByServiceId(service.getServiceId());
+						}
+						EditServiceDisplayContext dc = new EditServiceDisplayContext(renderRequest, service, natures, messages);
+						renderRequest.setAttribute("dc", dc);
+					}
+					else {
+						ViewServicesDisplayContext dc = new ViewServicesDisplayContext(
+								renderRequest, renderResponse,_itemSelector);
+						renderRequest.setAttribute("dc", dc);
+					}
+					break;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 
 		// If we are on an "add" page, we set a return URL and show the "back"
 		// button
-		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
+		String backURL = ParamUtil.getString(renderRequest, "backURL");
 		HttpServletRequest originalRequest = PortalUtil.getHttpServletRequest(renderRequest);
 		HttpSession session = originalRequest.getSession();
-		boolean showBackButton = Validator.isNotNull(returnURL);
+		boolean showBackButton = Validator.isNotNull(backURL);
 		if (showBackButton) {
 			portletDisplay.setShowBackIcon(true);
-			portletDisplay.setURLBack(returnURL);
+			portletDisplay.setURLBack(backURL);
 		}
 		// If we are on the Session, we add the corresponding
 		// display context
-		if (cmd.equals("editService") || mvcPath.equals("/notif-bo-edit-service.jsp") || fromAjaxNature || fromAjaxMessage) {
+	/*	if (cmd.equals("editService") || mvcPath.equals("/notif-bo-edit-service.jsp") || fromAjaxNature || fromAjaxMessage) {
 			long serviceId = ParamUtil.getLong(renderRequest, "serviceId");
 			ServiceNotif service = null;
 			List<NatureNotif> natures = new ArrayList<>();
@@ -136,7 +203,7 @@ public class NotifBOPortlet extends MVCPortlet {
 			ViewServicesDisplayContext dc = new ViewServicesDisplayContext(
 					renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
-		}
+		}*/
 
 		// Admin Notif ou pas
 		renderRequest.setAttribute("isAdminNotification", this.isAdminNotification());
@@ -197,4 +264,6 @@ public class NotifBOPortlet extends MVCPortlet {
 	protected void setUserGroupRoleLocalService(UserGroupRoleLocalService userGroupRoleLocalService) {
 		_userGroupRoleLocalService = userGroupRoleLocalService;
 	}
+	@Reference
+	private ItemSelector _itemSelector;
 }
