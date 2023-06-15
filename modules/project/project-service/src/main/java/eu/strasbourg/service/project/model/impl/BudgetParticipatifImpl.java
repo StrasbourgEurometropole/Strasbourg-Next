@@ -23,6 +23,8 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.BooleanClause;
 import com.liferay.portal.kernel.search.BooleanClauseFactoryUtil;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
@@ -464,7 +466,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 			try {
 				return BudgetPhaseLocalServiceUtil.getBudgetPhase(this.getBudgetPhaseId());
 			} catch (PortalException e) {
-				e.printStackTrace();
+				_log.error(e.getMessage() + " : " + this.getBudgetPhaseId());
 			}
     	}
     	return null;
@@ -659,7 +661,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	        }
 		}
 		catch(Exception ex) {
-			ex.printStackTrace();
+			_log.error(ex.getMessage(), ex);
 		}
 	    
 		return suggestions;
@@ -688,8 +690,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     		try {
 				result = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(this.getParentId());
 			} catch (PortalException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				_log.error(e.getMessage() + " : " + this.getParentId());
 			}
     	}
     	
@@ -1039,4 +1040,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     }
 	@Reference
 	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass());
+
 }

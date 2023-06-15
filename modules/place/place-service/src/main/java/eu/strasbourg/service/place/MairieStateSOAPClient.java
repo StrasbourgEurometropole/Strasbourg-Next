@@ -1,5 +1,6 @@
 package eu.strasbourg.service.place;
 
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -31,7 +32,7 @@ public class MairieStateSOAPClient {
 				outputString.getBytes("UTF-8"));
 		Document doc = dBuilder.parse(input);
 
-		NodeList waitingNodeList = doc.getElementsByTagName("ns3:realAvgWaitingTime");
+		NodeList waitingNodeList = doc.getElementsByTagName("ns2:realAvgWaitingTime");
 		String waitingString = waitingNodeList.item(0).getTextContent();
 
 		if (waitingString.equals("-")) {
@@ -48,13 +49,13 @@ public class MairieStateSOAPClient {
 	}
 
 	/**
-	 * Appelle le service SOAP de l'occupation des piscines, récupère la réposne sous forme de XML
+	 * Appelle le service SOAP de l'occupation des piscines, récupère la réponse sous forme de XML
 	 */
 	private static String getWaitingSoap(String codeMairie) throws IOException {
 		//Code to make a webservice HTTP request
 		String responseString = "";
 		String outputString = "";
-		String wsURL = "https://webservices.strasbourg.eu/filat/eSirius/webservices/sitewaitingindicator/v1.0?wsdl";
+		String wsURL = StrasbourgPropsUtil.getWaintingURL();
 		URL url = new URL(wsURL);
 		URLConnection connection = url.openConnection();
 		HttpURLConnection httpConn = (HttpURLConnection) connection;

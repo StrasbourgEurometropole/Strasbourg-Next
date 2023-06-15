@@ -188,6 +188,14 @@ public class StrasbourgPropsUtil {
 	public static String getPublikProceduresURL(){
 		return PropsUtil.get("eu.strasbourg.publik.url.procedures");
 	}
+
+	public static String getPublikUserName() {
+		return PropsUtil.get("eu.strasbourg.publik.username");
+	}
+
+	public static String getPublikPassword() {
+		return PropsUtil.get("eu.strasbourg.publik.password");
+	}
 	
 	public static String getObjtpURL(){
 		return PropsUtil.get("eu.strasbourg.objtp.url");
@@ -420,5 +428,9 @@ public class StrasbourgPropsUtil {
 	
 	public static String getOpenDataVelhops() {
 		return PropsUtil.get("eu.strasbourg.opendata.velhops");
+	}
+
+	public static String getWaintingURL() {
+		return PropsUtil.get("eu.strasbourg.webservices.waiting.url");
 	}
 }

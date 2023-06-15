@@ -85,14 +85,14 @@ import java.util.stream.Collectors;
 )
 public class MapPortlet extends MVCPortlet {
 
-    private ThemeDisplay themeDisplay;
 
     @Override
     public void render(RenderRequest request, RenderResponse renderResponse) throws IOException, PortletException {
 
         try {
-            themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-            configId = null;
+            ThemeDisplay  themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+
+            String configId = ParamUtil.getString(request, "configId");
 
             // Récupération de la configuration
             MapConfiguration configuration = themeDisplay.getPortletDisplay()
@@ -273,7 +273,7 @@ public class MapPortlet extends MVCPortlet {
                                                     AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.TERRITORY);
                                             district = AssetVocabularyHelper.getCategoryByExternalId(territoryVocabulary, districtId);
                                         } catch (PortalException e) {
-                                            e.printStackTrace();
+                                            _log.error(e.getMessage() + " : "+ VocabularyNames.TERRITORY);
                                         }
                                     }
                                 }
@@ -371,7 +371,7 @@ public class MapPortlet extends MVCPortlet {
                                         AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil
                                                 .fetchAssetVocabulary(oldVocabulary);
                                         if (vocabulary != null) {
-                                            labelVocabulary = new String[]{"" + vocabulary.getVocabularyId(), getLabelocabulary(vocabulary).toLowerCase()};
+                                            labelVocabulary = new String[]{"" + vocabulary.getVocabularyId(), getLabelocabulary(vocabulary,themeDisplay).toLowerCase()};
                                         }
                                         categoriesVocabularies.put(labelVocabulary, categoriesVocabulary);
                                     }
@@ -384,7 +384,7 @@ public class MapPortlet extends MVCPortlet {
                                 String[] labelVocabulary = {};
                                 AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.fetchAssetVocabulary(oldVocabulary);
                                 if (vocabulary != null) {
-                                    labelVocabulary = new String[]{"" + vocabulary.getVocabularyId(), getLabelocabulary(vocabulary).toLowerCase()};
+                                    labelVocabulary = new String[]{"" + vocabulary.getVocabularyId(), getLabelocabulary(vocabulary,themeDisplay).toLowerCase()};
                                 }
                                 categoriesVocabularies.put(labelVocabulary, categoriesVocabulary);
                             }
@@ -398,7 +398,7 @@ public class MapPortlet extends MVCPortlet {
                                     categoriesVocabularies.put(labelVocabulary, categoriesVocabulary);
                                 }
                                 for (AssetVocabulary vocabulary : vocabularies) {
-                                    String[] labelVocabulary = new String[]{"" + vocabulary.getVocabularyId(), getLabelocabulary(vocabulary)};
+                                    String[] labelVocabulary = new String[]{"" + vocabulary.getVocabularyId(), getLabelocabulary(vocabulary,themeDisplay)};
                                     categoriesVocabularies.put(labelVocabulary, vocabulary.getCategories().stream().filter(AssetCategory::isRootCategory).collect(Collectors.toList()));
                                 }
                             }
@@ -466,7 +466,7 @@ public class MapPortlet extends MVCPortlet {
                 if (userConfigString != null && userConfigString.startsWith("[")) {
                     JSONArray userConfigs = JSONFactoryUtil.createJSONArray(userConfigString);
                     // On va rechercher le configId correspondant
-                    String configId = getConfigId();
+                    configId = getConfigId(themeDisplay,configId);
                     for (int i = 0; i < userConfigs.length(); i++) {
                         JSONObject config = userConfigs.getJSONObject(i);
                         if (config.getString("configId").equals(configId)) {
@@ -550,8 +550,7 @@ public class MapPortlet extends MVCPortlet {
             request.setAttribute("trafficCategoryId", trafficCategoryId);
             request.setAttribute("trafficInterestId", trafficInterestId);
             request.setAttribute("globalGroupId", themeDisplay.getCompanyGroupId());
-
-
+            request.setAttribute("configId",configId);
 
             request.setAttribute("address", address);
             request.setAttribute("zipCode", zipCode);
@@ -577,14 +576,15 @@ public class MapPortlet extends MVCPortlet {
             throws SystemException {
 
         try {
+            String configId = ParamUtil.getString(actionRequest, "configId");
             // Récupération du publik ID avec la session
             String internalId = getPublikID(actionRequest);
-
+            ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
             if (Validator.isNotNull(internalId)) {
                 PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
                 String userConfigString = user.getMapConfig();
                 JSONArray userConfig = getCurrentPortletUserConfig(userConfigString);
-                userConfig = getUserConfigWithoutCurrentPortlet(userConfig, getConfigId());
+                userConfig = getUserConfigWithoutCurrentPortlet(userConfig, configId);
                 userConfigString = userConfig.toJSONString();
                 user.setMapConfig(userConfigString);
                 PublikUserLocalServiceUtil.updatePublikUser(user);
@@ -592,7 +592,7 @@ public class MapPortlet extends MVCPortlet {
 
             // Redirection (évite double
             // requête POST si l'utilisateur actualise sa page)
-            ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
+
             String portletName = (String) actionRequest.getAttribute(WebKeys.PORTLET_ID);
             PortletURL renderUrl = PortletURLFactoryUtil.create(actionRequest, portletName, themeDisplay.getPlid(),
                     PortletRequest.RENDER_PHASE);
@@ -610,8 +610,9 @@ public class MapPortlet extends MVCPortlet {
     public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
             throws IOException, PortletException {
         try {
-            configId = null;
-            themeDisplay = (ThemeDisplay) resourceRequest.getAttribute(WebKeys.THEME_DISPLAY);
+            String configId = ParamUtil.getString(resourceRequest,"configId");
+            //configId=null;
+            ThemeDisplay themeDisplay = (ThemeDisplay) resourceRequest.getAttribute(WebKeys.THEME_DISPLAY);
             String resourceID = resourceRequest.getResourceID();
 
             if (resourceID.equals("toggleInterestPoint")) {
@@ -629,7 +630,7 @@ public class MapPortlet extends MVCPortlet {
                 }
 
                 // JSON initialisation
-                JSONObject configForPortlet = createUserConfigForPorltet(resourceRequest);
+                JSONObject configForPortlet = createUserConfigForPorltet(resourceRequest,configId);
                 JSONArray configForUser = addPortletConfigToUserConfig(user.getMapConfig(), configForPortlet);
                 user.setMapConfig(configForUser.toJSONString());
                 PublikUserLocalServiceUtil.updatePublikUser(user);
@@ -661,7 +662,7 @@ public class MapPortlet extends MVCPortlet {
                 portletConfigInOlderFormat.put("configId", "widget");
                 userConfig.put(portletConfigInOlderFormat);
             } catch (JSONException e) {
-                e.printStackTrace();
+                _log.error(e.getMessage() + " : "+ userConfigString);
             }
 
         }
@@ -671,9 +672,11 @@ public class MapPortlet extends MVCPortlet {
     /**
      * Retourne le configId du portlet en cours
      */
-    private String getConfigId() {
+    private String getConfigId(ThemeDisplay themeDisplay,String configId) {
+
         if (Validator.isNull(configId)) {
             try {
+
                 MapConfiguration configuration = themeDisplay.getPortletDisplay()
                         .getPortletInstanceConfiguration(MapConfiguration.class);
                 if (configuration.defaultConfig() || configuration.widgetMod()) {
@@ -688,7 +691,8 @@ public class MapPortlet extends MVCPortlet {
         return configId;
     }
 
-    private String configId;
+
+    //private String configId;
 
     /**
      * Retire la configuration du portlet en cours à partir de la configuration userConfig
@@ -719,11 +723,12 @@ public class MapPortlet extends MVCPortlet {
     /**
      * Crée la configuration du portlet en cours
      */
-    private JSONObject createUserConfigForPorltet(ResourceRequest resourceRequest) {
+    private JSONObject createUserConfigForPorltet(ResourceRequest resourceRequest,String configId) {
         JSONObject configForPortlet = JSONFactoryUtil.createJSONObject();
+        ThemeDisplay themeDisplay = (ThemeDisplay) resourceRequest.getAttribute(WebKeys.THEME_DISPLAY);
 
         // ConfigId
-        configForPortlet.put("configId", getConfigId());
+        configForPortlet.put("configId", configId);
 
         // Catégories
         JSONArray jsonArrayCategories = JSONFactoryUtil.createJSONArray();
@@ -763,7 +768,7 @@ public class MapPortlet extends MVCPortlet {
         return SessionParamUtil.getString(originalRequest, "publik_internal_id");
     }
 
-    private String getLabelocabulary(AssetVocabulary vocabulary){
+    private String getLabelocabulary(AssetVocabulary vocabulary,ThemeDisplay  themeDisplay ){
         String label = vocabulary.getDescription(themeDisplay.getLocale());
         if(Validator.isNull(label))
             label = vocabulary.getTitle(themeDisplay.getLocale());

@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordField;
 import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldLocalServiceUtil;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -71,8 +72,8 @@ public class EditFormSendDisplayContext{
                                         "" + formSendRecordField.getFormSendRecordFieldId(), formSendRecordField.getResponse()};
                                 _recordFields.add(field);
                             }
-                        } catch (Exception e1) {
-                            _log.error(e1.getMessage(), e1);
+                        } catch (JSONException e) {
+                            _log.error(e.getMessage() + " : " + jsonString);
                         }
                     }
                 } catch (PortalException e) {
@@ -125,11 +126,11 @@ public class EditFormSendDisplayContext{
                                 }
                             }
                         } catch (PortalException e) {
-                            e.printStackTrace();
+                            _log.error(e.getMessage(), e);
                         }
                     }
                 } catch (PortalException e) {
-                    e.printStackTrace();
+                    _log.error(e.getMessage() + " : " + _record);
                 }
             }
 
@@ -155,10 +156,12 @@ public class EditFormSendDisplayContext{
                 formSendRecordField.setInstanceId(instanceId);
                 FormSendRecordFieldLocalServiceUtil.updateFormSendRecordField(formSendRecordField);
             } catch (PortalException e) {
-                e.printStackTrace();
+                _log.error(e.getMessage(), e);
             }
         }
 
         return formSendRecordField;
     }
+
+    private static final Log _log = LogFactoryUtil.getLog(EditFormSendDisplayContext.class.getName());
 }

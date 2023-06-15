@@ -78,7 +78,7 @@ public class FormSendDisplayContext {
             this.configuration = themeDisplay.getPortletDisplay()
                     .getPortletInstanceConfiguration(FormSendConfiguration.class);
         } catch (ConfigurationException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
         this.request = request;
         this.response = response;
@@ -116,7 +116,7 @@ public class FormSendDisplayContext {
 
                 this.formulaire = new Formulaire(this.formInstance.getFormInstanceId(), this.formInstance.getNameMap(), jsonArray);
             } catch (PortalException e) {
-                e.printStackTrace();
+                _log.error(e.getMessage(), e);
             }
         }
 
@@ -139,7 +139,7 @@ public class FormSendDisplayContext {
             try {
                 return r.getStatus() == WorkflowConstants.STATUS_APPROVED;
             } catch (PortalException e) {
-                e.printStackTrace();
+                _log.error(e.getMessage());
             }
             return false;
         }).collect(Collectors.toList());
@@ -199,8 +199,8 @@ public class FormSendDisplayContext {
                         }
                         recordFields.add(field);
                     }
-                }catch (Exception e1){
-                    _log.error(e1.getMessage(), e1);
+                } catch (JSONException e) {
+                    _log.error(e.getMessage() + " : " + jsonString);
                 }
             }
         } catch (PortalException e) {
@@ -284,7 +284,7 @@ public class FormSendDisplayContext {
                 formSendRecordField.setInstanceId(instanceId);
                 FormSendRecordFieldLocalServiceUtil.updateFormSendRecordField(formSendRecordField);
             } catch (PortalException e) {
-                e.printStackTrace();
+                _log.error(e.getMessage(), e);
             }
         }
 
@@ -297,7 +297,7 @@ public class FormSendDisplayContext {
         try {
             user =  UserLocalServiceUtil.getUser(userId);
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage() + " : " + userId);
         }
         return user;
     }
@@ -402,7 +402,7 @@ public class FormSendDisplayContext {
             JSONObject grid = JSONFactoryUtil.createJSONObject(resultGrid);
             value = grid.getString(key);
         } catch (JSONException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage() + " : " + resultGrid);
         }
 
         return value;
@@ -518,4 +518,6 @@ public class FormSendDisplayContext {
 
         return message;
     }
+
+    private static final Log _log = LogFactoryUtil.getLog(FormSendDisplayContext.class.getName());
 }

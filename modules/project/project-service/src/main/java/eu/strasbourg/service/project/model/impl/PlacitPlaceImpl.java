@@ -35,6 +35,7 @@ import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.constants.RoleNames;
 import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.ArrayList;
@@ -219,8 +220,7 @@ public class PlacitPlaceImpl extends PlacitPlaceBaseImpl {
 			try {
 				coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				_log.error(e.getMessage() + " : "+ this.getCompleteAddress(Locale.FRENCH));
 			}
 			
 			return coorResult != null ? coorResult.get(0).toString() : "";
@@ -242,8 +242,7 @@ public class PlacitPlaceImpl extends PlacitPlaceBaseImpl {
 			try {
 				coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				_log.error(e.getMessage() + " : " + this.getCompleteAddress(Locale.FRENCH));
 			}
 			
 			return coorResult != null ? coorResult.get(1).toString() : "";
@@ -267,8 +266,7 @@ public class PlacitPlaceImpl extends PlacitPlaceBaseImpl {
 			try {
 				coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				_log.error(e.getMessage() + " : " + this.getCompleteAddress(Locale.FRENCH));
 			}
 			
 			if (coorResult != null) {
@@ -344,5 +342,7 @@ public class PlacitPlaceImpl extends PlacitPlaceBaseImpl {
 		}
 		return adictService;
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 	
 }

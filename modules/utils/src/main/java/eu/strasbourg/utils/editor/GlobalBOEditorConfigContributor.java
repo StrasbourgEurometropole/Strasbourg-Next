@@ -12,6 +12,8 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -63,8 +65,7 @@ public class GlobalBOEditorConfigContributor
 				"editor-toolbar-configuration.json");
 			System.out.println("");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 
 		JSONArray toolbarConfiguration;
@@ -75,7 +76,7 @@ public class GlobalBOEditorConfigContributor
 			jsonObject.put("toolbar_phone", toolbarConfiguration);
 			jsonObject.put("toolbar_simple", toolbarConfiguration);
 		} catch (JSONException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage() + " : " + editorConfigurationString);
 		}
 		jsonObject.put("allowedContent", true);
 
@@ -190,5 +191,7 @@ public class GlobalBOEditorConfigContributor
 		return itemSelector.getItemSelectorURL(requestBackedPortletURLFactory,
 			name + "selectItem", itemSelectorCriteria);
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }

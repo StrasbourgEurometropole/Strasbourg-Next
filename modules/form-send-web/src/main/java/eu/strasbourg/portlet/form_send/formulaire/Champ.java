@@ -4,6 +4,8 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.ArrayList;
@@ -76,7 +78,7 @@ public class Champ {
                 try {
                     optionsListe.add(new Option(JSONFactoryUtil.createJSONObject(option.toString())));
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    _log.error(e.getMessage() + " : " + option);
                 }
             }
         }
@@ -89,7 +91,7 @@ public class Champ {
                 try {
                     rowsListe.add(new Option(JSONFactoryUtil.createJSONObject(row.toString())));
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    _log.error(e.getMessage() + " : " + row);
                 }
             }
         }
@@ -102,7 +104,7 @@ public class Champ {
                 try {
                     columnsListe.add(new Option(JSONFactoryUtil.createJSONObject(column.toString())));
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    _log.error(e.getMessage() + " : " + column);
                 }
             }
         }
@@ -416,4 +418,6 @@ public class Champ {
     public String getValidationExpression() {
         return validation.get("expression");
     }
+
+    private static final Log _log = LogFactoryUtil.getLog(Champ.class.getName());
 }

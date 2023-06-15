@@ -21,6 +21,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
@@ -331,7 +333,7 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 				jsonResults.put(jsonPlace);
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				_log.error(e.getMessage(), e);
 			}
 		}
 		jsonRealtime.put("results", jsonResults);
@@ -355,7 +357,7 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 					jsonPlaces.put(place.toJSON());
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				_log.error(e.getMessage(), e);
 			}
 		}
 		return jsonPlaces;
@@ -371,10 +373,12 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 					features.put(place.toGeoJSON());
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				_log.error(e.getMessage(), e);
 			}
 		}
 		geoJSON.put("features", features);
 		return geoJSON;
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(PlaceServiceImpl.class.getName());
 }
