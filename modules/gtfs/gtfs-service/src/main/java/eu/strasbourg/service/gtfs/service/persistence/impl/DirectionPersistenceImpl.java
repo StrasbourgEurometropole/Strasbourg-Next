@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.gtfs.exception.NoSuchDirectionException;
 import eu.strasbourg.service.gtfs.model.Direction;
 import eu.strasbourg.service.gtfs.model.DirectionTable;
@@ -45,8 +46,10 @@ import eu.strasbourg.service.gtfs.service.persistence.DirectionPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.DirectionUtil;
 
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;

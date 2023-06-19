@@ -19,6 +19,8 @@ import com.liferay.petra.sql.dsl.base.BaseTable;
 
 import java.sql.Types;
 
+import java.util.Date;
+
 /**
  * The table class for the &quot;csmap_Agenda&quot; database table.
  *
@@ -42,6 +44,15 @@ public class AgendaTable extends BaseTable<AgendaTable> {
 		"subtitle", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<AgendaTable, Long> imageId = createColumn(
 		"imageId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
+	public final Column<AgendaTable, String> labelLink = createColumn(
+		"labelLink", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
+	public final Column<AgendaTable, String> link = createColumn(
+		"link", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
+	public final Column<AgendaTable, Date> publicationStartDate = createColumn(
+		"publicationStartDate", Date.class, Types.TIMESTAMP,
+		Column.FLAG_DEFAULT);
+	public final Column<AgendaTable, Date> publicationEndDate = createColumn(
+		"publicationEndDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
 	public final Column<AgendaTable, Boolean> isPrincipal = createColumn(
 		"isPrincipal", Boolean.class, Types.BOOLEAN, Column.FLAG_DEFAULT);
 	public final Column<AgendaTable, Boolean> isActive = createColumn(

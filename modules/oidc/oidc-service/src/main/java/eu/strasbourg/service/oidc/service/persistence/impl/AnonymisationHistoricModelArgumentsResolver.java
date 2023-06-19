@@ -17,6 +17,7 @@ package eu.strasbourg.service.oidc.service.persistence.impl;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.model.BaseModel;
+
 import eu.strasbourg.service.oidc.model.AnonymisationHistoricTable;
 import eu.strasbourg.service.oidc.model.impl.AnonymisationHistoricImpl;
 import eu.strasbourg.service.oidc.model.impl.AnonymisationHistoricModelImpl;

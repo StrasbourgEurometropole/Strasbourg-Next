@@ -38,6 +38,7 @@ import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUID;
+
 import eu.strasbourg.service.csmap.exception.NoSuchRefreshTokenException;
 import eu.strasbourg.service.csmap.model.RefreshToken;
 import eu.strasbourg.service.csmap.model.RefreshTokenTable;
@@ -46,15 +47,12 @@ import eu.strasbourg.service.csmap.model.impl.RefreshTokenModelImpl;
 import eu.strasbourg.service.csmap.service.persistence.RefreshTokenPersistence;
 import eu.strasbourg.service.csmap.service.persistence.RefreshTokenUtil;
 import eu.strasbourg.service.csmap.service.persistence.impl.constants.csmapPersistenceConstants;
-import org.osgi.service.component.annotations.Activate;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Deactivate;
-import org.osgi.service.component.annotations.Reference;
 
-import javax.sql.DataSource;
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
+
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -62,6 +60,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+
+import javax.sql.DataSource;
+
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * The persistence implementation for the refresh token service.
@@ -1032,10 +1037,6 @@ public class RefreshTokenPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1388,8 +1389,6 @@ public class RefreshTokenPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1996,6 +1995,24 @@ public class RefreshTokenPersistenceImpl
 		_finderPathCountByValue = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByValue",
 			new String[] {String.class.getName()}, new String[] {"value"},
+			false);
+
+		_finderPathWithPaginationFindByPublikId = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikId",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			},
+			new String[] {"publikId"}, true);
+
+		_finderPathWithoutPaginationFindByPublikId = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikId",
+			new String[] {String.class.getName()}, new String[] {"publikId"},
+			true);
+
+		_finderPathCountByPublikId = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikId",
+			new String[] {String.class.getName()}, new String[] {"publikId"},
 			false);
 
 		_setRefreshTokenUtilPersistence(this);

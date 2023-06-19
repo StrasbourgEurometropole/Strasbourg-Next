@@ -15,8 +15,10 @@
 package eu.strasbourg.service.place.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.place.exception.NoSuchPublicHolidayException;
 import eu.strasbourg.service.place.model.PublicHoliday;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

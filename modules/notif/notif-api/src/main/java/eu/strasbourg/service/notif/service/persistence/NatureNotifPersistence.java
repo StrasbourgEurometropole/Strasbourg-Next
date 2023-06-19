@@ -15,8 +15,10 @@
 package eu.strasbourg.service.notif.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.notif.exception.NoSuchNatureNotifException;
 import eu.strasbourg.service.notif.model.NatureNotif;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

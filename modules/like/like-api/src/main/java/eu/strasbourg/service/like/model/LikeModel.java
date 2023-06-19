@@ -16,6 +16,7 @@ package eu.strasbourg.service.like.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

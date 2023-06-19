@@ -322,9 +322,7 @@ public class EventLocalServiceUtil {
 	 * @param idsEvents: liste des identifiants
 	 * @return
 	 */
-	public static java.util.List<eu.strasbourg.service.agenda.model.Event>
-		findByids(java.util.List<Long> idsEvents) {
-
+	public static List<Event> findByids(List<Long> idsEvents) {
 		return getService().findByids(idsEvents);
 	}
 

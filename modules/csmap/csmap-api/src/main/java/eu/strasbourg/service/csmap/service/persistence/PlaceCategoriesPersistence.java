@@ -15,8 +15,10 @@
 package eu.strasbourg.service.csmap.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.csmap.exception.NoSuchPlaceCategoriesException;
 import eu.strasbourg.service.csmap.model.PlaceCategories;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

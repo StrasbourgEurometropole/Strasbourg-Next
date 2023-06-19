@@ -37,6 +37,7 @@ import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.comment.exception.NoSuchSignalementException;
 import eu.strasbourg.service.comment.model.Signalement;
 import eu.strasbourg.service.comment.model.SignalementTable;
@@ -46,8 +47,10 @@ import eu.strasbourg.service.comment.service.persistence.SignalementPersistence;
 import eu.strasbourg.service.comment.service.persistence.SignalementUtil;
 
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;

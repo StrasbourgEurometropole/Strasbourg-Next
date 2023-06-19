@@ -15,8 +15,10 @@
 package eu.strasbourg.service.favorite.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.favorite.exception.NoSuchFavoriteException;
 import eu.strasbourg.service.favorite.model.Favorite;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

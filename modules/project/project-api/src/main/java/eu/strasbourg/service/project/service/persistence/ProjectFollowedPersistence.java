@@ -15,8 +15,10 @@
 package eu.strasbourg.service.project.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.project.exception.NoSuchProjectFollowedException;
 import eu.strasbourg.service.project.model.ProjectFollowed;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

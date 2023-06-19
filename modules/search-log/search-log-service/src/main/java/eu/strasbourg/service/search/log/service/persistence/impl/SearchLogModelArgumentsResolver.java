@@ -17,6 +17,7 @@ package eu.strasbourg.service.search.log.service.persistence.impl;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.model.BaseModel;
+
 import eu.strasbourg.service.search.log.model.SearchLogTable;
 import eu.strasbourg.service.search.log.model.impl.SearchLogImpl;
 import eu.strasbourg.service.search.log.model.impl.SearchLogModelImpl;

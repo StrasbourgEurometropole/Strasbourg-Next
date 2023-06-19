@@ -38,6 +38,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.place.exception.NoSuchPlaceException;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.PlaceTable;
@@ -47,8 +48,10 @@ import eu.strasbourg.service.place.service.persistence.PlacePersistence;
 import eu.strasbourg.service.place.service.persistence.PlaceUtil;
 
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
+
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;

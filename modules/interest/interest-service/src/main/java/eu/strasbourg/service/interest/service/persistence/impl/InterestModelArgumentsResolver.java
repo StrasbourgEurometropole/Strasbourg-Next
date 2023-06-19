@@ -17,6 +17,7 @@ package eu.strasbourg.service.interest.service.persistence.impl;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.model.BaseModel;
+
 import eu.strasbourg.service.interest.model.InterestTable;
 import eu.strasbourg.service.interest.model.impl.InterestImpl;
 import eu.strasbourg.service.interest.model.impl.InterestModelImpl;

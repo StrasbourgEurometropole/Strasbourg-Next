@@ -30,13 +30,17 @@ import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
+
 import eu.strasbourg.service.csmap.model.Agenda;
 import eu.strasbourg.service.csmap.model.AgendaModel;
 
 import java.io.Serializable;
+
 import java.lang.reflect.InvocationHandler;
+
 import java.sql.Blob;
 import java.sql.Types;
+
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -761,6 +765,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setLabelLink(String labelLink) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_labelLink = labelLink;
 	}
 
@@ -868,6 +876,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setLink(String link) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_link = link;
 	}
 
@@ -922,6 +934,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setPublicationStartDate(Date publicationStartDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_publicationStartDate = publicationStartDate;
 	}
 
@@ -932,6 +948,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setPublicationEndDate(Date publicationEndDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_publicationEndDate = publicationEndDate;
 	}
 
@@ -1318,6 +1338,13 @@ public class AgendaModelImpl
 			this.<String>getColumnOriginalValue("editorialTitle"));
 		agendaImpl.setSubtitle(this.<String>getColumnOriginalValue("subtitle"));
 		agendaImpl.setImageId(this.<Long>getColumnOriginalValue("imageId"));
+		agendaImpl.setLabelLink(
+			this.<String>getColumnOriginalValue("labelLink"));
+		agendaImpl.setLink(this.<String>getColumnOriginalValue("link"));
+		agendaImpl.setPublicationStartDate(
+			this.<Date>getColumnOriginalValue("publicationStartDate"));
+		agendaImpl.setPublicationEndDate(
+			this.<Date>getColumnOriginalValue("publicationEndDate"));
 		agendaImpl.setIsPrincipal(
 			this.<Boolean>getColumnOriginalValue("isPrincipal"));
 		agendaImpl.setIsActive(
@@ -1650,6 +1677,11 @@ public class AgendaModelImpl
 		_columnOriginalValues.put("editorialTitle", _editorialTitle);
 		_columnOriginalValues.put("subtitle", _subtitle);
 		_columnOriginalValues.put("imageId", _imageId);
+		_columnOriginalValues.put("labelLink", _labelLink);
+		_columnOriginalValues.put("link", _link);
+		_columnOriginalValues.put(
+			"publicationStartDate", _publicationStartDate);
+		_columnOriginalValues.put("publicationEndDate", _publicationEndDate);
 		_columnOriginalValues.put("isPrincipal", _isPrincipal);
 		_columnOriginalValues.put("isActive", _isActive);
 		_columnOriginalValues.put("campaignsIds", _campaignsIds);
@@ -1692,19 +1724,27 @@ public class AgendaModelImpl
 
 		columnBitmasks.put("imageId", 32L);
 
-		columnBitmasks.put("isPrincipal", 64L);
+		columnBitmasks.put("labelLink", 64L);
 
-		columnBitmasks.put("isActive", 128L);
+		columnBitmasks.put("link", 128L);
 
-		columnBitmasks.put("campaignsIds", 256L);
+		columnBitmasks.put("publicationStartDate", 256L);
 
-		columnBitmasks.put("themesIds", 512L);
+		columnBitmasks.put("publicationEndDate", 512L);
 
-		columnBitmasks.put("typesIds", 1024L);
+		columnBitmasks.put("isPrincipal", 1024L);
 
-		columnBitmasks.put("territoriesIds", 2048L);
+		columnBitmasks.put("isActive", 2048L);
 
-		columnBitmasks.put("tags", 4096L);
+		columnBitmasks.put("campaignsIds", 4096L);
+
+		columnBitmasks.put("themesIds", 8192L);
+
+		columnBitmasks.put("typesIds", 16384L);
+
+		columnBitmasks.put("territoriesIds", 32768L);
+
+		columnBitmasks.put("tags", 65536L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

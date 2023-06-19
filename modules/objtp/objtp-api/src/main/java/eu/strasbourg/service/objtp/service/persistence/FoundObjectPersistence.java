@@ -15,8 +15,10 @@
 package eu.strasbourg.service.objtp.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.objtp.exception.NoSuchFoundObjectException;
 import eu.strasbourg.service.objtp.model.FoundObject;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

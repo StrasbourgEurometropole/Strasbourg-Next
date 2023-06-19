@@ -40,6 +40,7 @@ import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
+
 import eu.strasbourg.service.csmap.model.CsmapCache;
 import eu.strasbourg.service.csmap.service.CsmapCacheLocalService;
 import eu.strasbourg.service.csmap.service.CsmapCacheLocalServiceUtil;
@@ -49,13 +50,17 @@ import eu.strasbourg.service.csmap.service.persistence.CsmapCachePersistence;
 import eu.strasbourg.service.csmap.service.persistence.PlaceCategoriesPersistence;
 import eu.strasbourg.service.csmap.service.persistence.RefreshTokenPersistence;
 import eu.strasbourg.service.csmap.service.persistence.ThematicPersistence;
-import org.osgi.service.component.annotations.Deactivate;
-import org.osgi.service.component.annotations.Reference;
+
+import java.io.Serializable;
+
+import java.lang.reflect.Field;
+
+import java.util.List;
 
 import javax.sql.DataSource;
-import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.util.List;
+
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * Provides the base implementation for the csmap cache local service.

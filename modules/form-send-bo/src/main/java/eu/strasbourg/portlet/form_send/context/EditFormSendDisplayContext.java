@@ -19,7 +19,6 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordField;
 import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldLocalServiceUtil;
-import eu.strasbourg.utils.constants.VocabularyNames;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -31,7 +30,6 @@ import java.util.Map;
 
 public class EditFormSendDisplayContext{
 
-    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
     private final RenderRequest _request;
     private final ThemeDisplay _themeDisplay;
 
@@ -72,8 +70,8 @@ public class EditFormSendDisplayContext{
                                         "" + formSendRecordField.getFormSendRecordFieldId(), formSendRecordField.getResponse()};
                                 _recordFields.add(field);
                             }
-                        } catch (JSONException e) {
-                            _log.error(e.getMessage() + " : " + jsonString);
+                        } catch (Exception e1) {
+                            _log.error(e1.getMessage(), e1);
                         }
                     }
                 } catch (PortalException e) {

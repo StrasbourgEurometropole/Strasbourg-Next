@@ -236,9 +236,7 @@ public class ArretLocalServiceUtil {
 	 * @param idsArrets: list des identifiants
 	 * @return
 	 */
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Arret>
-		findByIds(java.util.List<Long> idsArrets) {
-
+	public static List<Arret> findByIds(List<Long> idsArrets) {
 		return getService().findByIds(idsArrets);
 	}
 

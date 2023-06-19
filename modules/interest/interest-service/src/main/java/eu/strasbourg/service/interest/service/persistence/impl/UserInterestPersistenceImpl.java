@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.interest.exception.NoSuchUserInterestException;
 import eu.strasbourg.service.interest.model.UserInterest;
 import eu.strasbourg.service.interest.model.UserInterestTable;
@@ -42,8 +43,10 @@ import eu.strasbourg.service.interest.service.persistence.UserInterestPersistenc
 import eu.strasbourg.service.interest.service.persistence.UserInterestUtil;
 
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;

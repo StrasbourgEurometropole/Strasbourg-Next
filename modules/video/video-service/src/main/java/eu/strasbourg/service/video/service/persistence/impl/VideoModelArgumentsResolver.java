@@ -17,6 +17,7 @@ package eu.strasbourg.service.video.service.persistence.impl;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.model.BaseModel;
+
 import eu.strasbourg.service.video.model.VideoTable;
 import eu.strasbourg.service.video.model.impl.VideoImpl;
 import eu.strasbourg.service.video.model.impl.VideoModelImpl;

@@ -32,13 +32,17 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+
 import eu.strasbourg.service.gtfs.model.Ligne;
 import eu.strasbourg.service.gtfs.model.LigneModel;
 
 import java.io.Serializable;
+
 import java.lang.reflect.InvocationHandler;
+
 import java.sql.Blob;
 import java.sql.Types;
+
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;

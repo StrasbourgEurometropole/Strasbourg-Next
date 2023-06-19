@@ -17,6 +17,7 @@ package eu.strasbourg.service.artwork.service.persistence.impl;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.model.BaseModel;
+
 import eu.strasbourg.service.artwork.model.ArtworkTable;
 import eu.strasbourg.service.artwork.model.impl.ArtworkImpl;
 import eu.strasbourg.service.artwork.model.impl.ArtworkModelImpl;

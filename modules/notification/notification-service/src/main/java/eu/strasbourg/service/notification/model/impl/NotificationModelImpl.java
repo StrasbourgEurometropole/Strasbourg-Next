@@ -30,13 +30,17 @@ import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
+
 import eu.strasbourg.service.notification.model.Notification;
 import eu.strasbourg.service.notification.model.NotificationModel;
 
 import java.io.Serializable;
+
 import java.lang.reflect.InvocationHandler;
+
 import java.sql.Blob;
 import java.sql.Types;
+
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;

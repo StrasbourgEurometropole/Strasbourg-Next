@@ -42,6 +42,7 @@ import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.edition.exception.NoSuchEditionGalleryException;
 import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.edition.model.EditionGalleryTable;
@@ -52,9 +53,12 @@ import eu.strasbourg.service.edition.service.persistence.EditionGalleryUtil;
 import eu.strasbourg.service.edition.service.persistence.EditionPersistence;
 
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
+
 import java.sql.Timestamp;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;

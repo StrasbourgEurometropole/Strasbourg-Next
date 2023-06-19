@@ -17,13 +17,15 @@ package eu.strasbourg.service.csmap.service.persistence.impl;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.model.BaseModel;
+
 import eu.strasbourg.service.csmap.model.BaseNonceTable;
 import eu.strasbourg.service.csmap.model.impl.BaseNonceImpl;
 import eu.strasbourg.service.csmap.model.impl.BaseNonceModelImpl;
-import org.osgi.service.component.annotations.Component;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import org.osgi.service.component.annotations.Component;
 
 /**
  * The arguments resolver class for retrieving value from BaseNonce.

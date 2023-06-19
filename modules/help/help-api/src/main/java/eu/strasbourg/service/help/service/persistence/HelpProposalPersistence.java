@@ -15,8 +15,10 @@
 package eu.strasbourg.service.help.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.help.exception.NoSuchHelpProposalException;
 import eu.strasbourg.service.help.model.HelpProposal;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

@@ -15,8 +15,10 @@
 package eu.strasbourg.service.comment.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.comment.exception.NoSuchCommentException;
 import eu.strasbourg.service.comment.model.Comment;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

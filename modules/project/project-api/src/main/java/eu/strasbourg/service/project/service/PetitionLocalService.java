@@ -14,6 +14,8 @@
 
 package eu.strasbourg.service.project.service;
 
+import static eu.strasbourg.service.project.constants.ParticiperCategories.*;
+
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.petra.sql.dsl.query.DSLQuery;
@@ -34,12 +36,15 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
+
 import eu.strasbourg.service.project.model.Petition;
-import org.osgi.annotation.versioning.ProviderType;
 
 import java.io.Serializable;
+
 import java.util.List;
 import java.util.Map;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * Provides the local service interface for Petition. Methods of this

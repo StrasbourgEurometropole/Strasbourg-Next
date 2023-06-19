@@ -28,13 +28,17 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.model.PublikUserModel;
 
 import java.io.Serializable;
+
 import java.lang.reflect.InvocationHandler;
+
 import java.sql.Blob;
 import java.sql.Types;
+
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;

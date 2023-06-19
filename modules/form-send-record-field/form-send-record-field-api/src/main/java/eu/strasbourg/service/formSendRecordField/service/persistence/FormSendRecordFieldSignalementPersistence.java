@@ -15,8 +15,10 @@
 package eu.strasbourg.service.formSendRecordField.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException;
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

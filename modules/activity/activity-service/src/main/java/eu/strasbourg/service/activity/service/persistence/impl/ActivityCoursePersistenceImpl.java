@@ -37,6 +37,7 @@ import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.activity.exception.NoSuchActivityCourseException;
 import eu.strasbourg.service.activity.model.ActivityCourse;
 import eu.strasbourg.service.activity.model.ActivityCourseTable;
@@ -46,8 +47,10 @@ import eu.strasbourg.service.activity.service.persistence.ActivityCoursePersiste
 import eu.strasbourg.service.activity.service.persistence.ActivityCourseUtil;
 
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;

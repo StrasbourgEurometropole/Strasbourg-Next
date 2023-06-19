@@ -15,8 +15,10 @@
 package eu.strasbourg.service.project.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.project.exception.NoSuchSignataireException;
 import eu.strasbourg.service.project.model.Signataire;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

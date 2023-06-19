@@ -17,6 +17,7 @@ package eu.strasbourg.service.favorite.service.persistence.impl;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.model.BaseModel;
+
 import eu.strasbourg.service.favorite.model.FavoriteTable;
 import eu.strasbourg.service.favorite.model.impl.FavoriteImpl;
 import eu.strasbourg.service.favorite.model.impl.FavoriteModelImpl;

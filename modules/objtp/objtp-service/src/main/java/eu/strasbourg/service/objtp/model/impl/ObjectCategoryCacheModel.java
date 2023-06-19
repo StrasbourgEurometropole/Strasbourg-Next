@@ -17,6 +17,7 @@ package eu.strasbourg.service.objtp.model.impl;
 import com.liferay.petra.lang.HashUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.model.CacheModel;
+
 import eu.strasbourg.service.objtp.model.ObjectCategory;
 
 import java.io.Externalizable;

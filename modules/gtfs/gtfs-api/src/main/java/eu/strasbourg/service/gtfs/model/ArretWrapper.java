@@ -262,7 +262,7 @@ public class ArretWrapper
 	 */
 	@Override
 	public long getCountAlertsActives() {
-		return _arret.getCountAlertsActives();
+		return model.getCountAlertsActives();
 	}
 
 	/**

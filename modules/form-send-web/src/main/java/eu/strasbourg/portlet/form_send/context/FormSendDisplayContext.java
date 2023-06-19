@@ -70,7 +70,6 @@ public class FormSendDisplayContext {
     private List<DDMFormInstanceRecord> records;
     private SearchContainer<DDMFormInstanceRecord> searchContainer;
     private Map<String, String> newLibs;
-    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
     public FormSendDisplayContext(RenderRequest request, RenderResponse response) {
         this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
@@ -199,8 +198,8 @@ public class FormSendDisplayContext {
                         }
                         recordFields.add(field);
                     }
-                } catch (JSONException e) {
-                    _log.error(e.getMessage() + " : " + jsonString);
+                } catch (Exception e1) {
+                    _log.error(e1.getMessage(), e1);
                 }
             }
         } catch (PortalException e) {

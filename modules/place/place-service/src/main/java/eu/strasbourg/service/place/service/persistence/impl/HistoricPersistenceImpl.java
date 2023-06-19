@@ -34,6 +34,7 @@ import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.place.exception.NoSuchHistoricException;
 import eu.strasbourg.service.place.model.Historic;
 import eu.strasbourg.service.place.model.HistoricTable;
@@ -43,9 +44,12 @@ import eu.strasbourg.service.place.service.persistence.HistoricPersistence;
 import eu.strasbourg.service.place.service.persistence.HistoricUtil;
 
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
+
 import java.sql.Timestamp;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;

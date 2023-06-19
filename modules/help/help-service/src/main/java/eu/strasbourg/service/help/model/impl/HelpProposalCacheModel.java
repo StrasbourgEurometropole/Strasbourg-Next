@@ -17,12 +17,14 @@ package eu.strasbourg.service.help.model.impl;
 import com.liferay.petra.lang.HashUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.model.CacheModel;
+
 import eu.strasbourg.service.help.model.HelpProposal;
 
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+
 import java.util.Date;
 
 /**

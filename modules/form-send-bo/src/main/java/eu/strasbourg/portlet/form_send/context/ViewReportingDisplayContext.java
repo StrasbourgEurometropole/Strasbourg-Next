@@ -50,7 +50,6 @@ import java.util.stream.Collectors;
 public class ViewReportingDisplayContext {
 
     private List<FormSendRecordFieldSignalement> _allSignalements;
-    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
     public ViewReportingDisplayContext(RenderRequest request, RenderResponse response, ItemSelector itemSelector) {
         _request = request;

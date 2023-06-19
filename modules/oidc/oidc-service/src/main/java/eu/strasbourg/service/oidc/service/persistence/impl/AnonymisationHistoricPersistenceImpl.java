@@ -37,6 +37,7 @@ import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.oidc.exception.NoSuchAnonymisationHistoricException;
 import eu.strasbourg.service.oidc.model.AnonymisationHistoric;
 import eu.strasbourg.service.oidc.model.AnonymisationHistoricTable;
@@ -46,8 +47,10 @@ import eu.strasbourg.service.oidc.service.persistence.AnonymisationHistoricPersi
 import eu.strasbourg.service.oidc.service.persistence.AnonymisationHistoricUtil;
 
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;

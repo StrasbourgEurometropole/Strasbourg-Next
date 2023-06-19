@@ -17,6 +17,7 @@ package eu.strasbourg.service.place.model.impl;
 import com.liferay.petra.lang.HashUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.model.CacheModel;
+
 import eu.strasbourg.service.place.model.Slot;
 
 import java.io.Externalizable;

@@ -25,13 +25,17 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+
 import eu.strasbourg.service.notif.model.ServiceNotif;
 import eu.strasbourg.service.notif.model.ServiceNotifModel;
 
 import java.io.Serializable;
+
 import java.lang.reflect.InvocationHandler;
+
 import java.sql.Blob;
 import java.sql.Types;
+
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
