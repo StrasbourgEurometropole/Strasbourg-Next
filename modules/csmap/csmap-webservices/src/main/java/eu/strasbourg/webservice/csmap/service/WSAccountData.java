@@ -6,10 +6,10 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.Validator;
-import eu.strasbourg.portlet.familySpace.Family;
-import eu.strasbourg.portlet.familySpace.FamilySpaceResponse;
-import eu.strasbourg.portlet.familySpace.FamilySpaceWebService;
-import eu.strasbourg.portlet.familySpace.Person;
+//import eu.strasbourg.portlet.familySpace.Family;
+//import eu.strasbourg.portlet.familySpace.FamilySpaceResponse;
+//import eu.strasbourg.portlet.familySpace.FamilySpaceWebService;
+//import eu.strasbourg.portlet.familySpace.Person;
 import eu.strasbourg.portlet.mediatheque.borrower.BorrowerResponse;
 import eu.strasbourg.portlet.mediatheque.borrower.BorrowerWebService;
 import eu.strasbourg.portlet.mediatheque.borrower.Media;
@@ -319,7 +319,7 @@ public class WSAccountData {
     /**
      * Appelle le WS Famille et renvoie les familles
      */
-    public static JSONObject getFamily(String publicUserId, int timeOut) {
+    /*public static JSONObject getFamily(String publicUserId, int timeOut) {
 
         JSONObject response = JSONFactoryUtil.createJSONObject();
         response.put(WSConstants.JSON_URL, StrasbourgPropsUtil.getFamilySpaceURL());
@@ -394,7 +394,7 @@ public class WSAccountData {
         response.put(WSConstants.JSON_FAMILIES, familiesJson);
 
         return response;
-    }
+    }*/
 
     /**
      * Formatte les dates de début et fin pour en faire un string

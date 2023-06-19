@@ -164,7 +164,7 @@ public class AccountDataApplication extends Application {
         return WSResponseUtil.buildOkResponse(response);
     }
 
-    @GET
+    /*@GET
     @Produces("application/json")
     @Path("get-family-space")
     public Response getFamily(@Context HttpHeaders httpHeaders) {
@@ -196,7 +196,7 @@ public class AccountDataApplication extends Application {
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
         return WSResponseUtil.buildOkResponse(response);
-    }
+    }*/
 
     @Reference(unbind = "-")
     protected void setWSAuthenticator(WSAuthenticator authenticator) {
