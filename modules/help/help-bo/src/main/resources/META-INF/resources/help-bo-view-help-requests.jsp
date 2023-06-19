@@ -40,26 +40,36 @@
                 <%-- URL : definit le lien vers l'action de passage en Conforme --%>
                 <liferay-portlet:actionURL name="changeStatusHelpRequest" var="validHelpRequestURL">
                     <portlet:param name="cmd" value="changeStatusHelpRequest" />
-                    <portlet:param name="tab" value="helpProposals" />
+                    <portlet:param name="tab" value="helpRequests" />
                     <portlet:param name="backURL" value="${dc.currentURL}" />
                     <portlet:param name="requestModerationStatus" value="Conforme" />
                     <portlet:param name="helpRequestId" value="${helpRequest.helpRequestId}" />
+                    <portlet:param name="mvcPath" value="/help-bo-view-help-requests.jsp" />
                 </liferay-portlet:actionURL>
 
                 <%-- URL : definit le lien vers l'action de passage en Alerte --%>
                 <liferay-portlet:actionURL name="changeStatusHelpRequest" var="alertHelpRequestURL">
                     <portlet:param name="cmd" value="changeStatusHelpRequest" />
-                    <portlet:param name="tab" value="helpProposals" />
+                    <portlet:param name="tab" value="helpRequests" />
                     <portlet:param name="requestModerationStatus" value="Alerte" />
                     <portlet:param name="helpRequestId" value="${helpRequest.helpRequestId}" />
+                    <portlet:param name="mvcPath" value="/help-bo-view-help-requests.jsp" />
                 </liferay-portlet:actionURL>
 
                 <%-- URL : definit le lien vers l'action de passage en Non-conforme --%>
                 <liferay-portlet:actionURL name="changeStatusHelpRequest" var="notValidHelpRequestURL">
                     <portlet:param name="cmd" value="changeStatusHelpRequest" />
-                    <portlet:param name="tab" value="helpProposals" />
+                    <portlet:param name="tab" value="helpRequests" />
                     <portlet:param name="requestModerationStatus" value="Non-conforme" />
                     <portlet:param name="helpRequestId" value="${helpRequest.helpRequestId}" />
+                    <portlet:param name="mvcPath" value="/help-bo-view-help-requests.jsp" />
+                </liferay-portlet:actionURL>
+                <%-- URL : defini le lien vers l'action de suppression --%>
+                <liferay-portlet:actionURL name="deleteStudentCardImages" var="deleteSelectionURL">
+                    <portlet:param name="cmd" value="deleteStudentCardImages" />
+                    <portlet:param name="tab" value="helpRequests" />
+                    <portlet:param name="mvcPath" value="/help-bo-view-help-requests.jsp" />
+                    <portlet:param name="studentPublikId" value="${helpRequest.publikId}" />
                 </liferay-portlet:actionURL>
 
                 <%-- Colonne : Date de creation --%>
@@ -148,6 +158,12 @@
             submitForm(form, '${notValidHelpRequestURL}');
 
         }
+    }
+    function deleteSelection() {
+
+    if (confirm('<liferay-ui:message key="delete-student-ids-confirm" />')) {
+    submitForm(form, '${deleteSelectionURL}');
+    }
     }
 
 </aui:script>

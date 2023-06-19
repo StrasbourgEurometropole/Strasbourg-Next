@@ -29,7 +29,6 @@ public class HelpBOConstants {
     public static final String HELP_PROPOSALS = "helpProposals";
     public static final String HELP_PROPOSALS_PATH = "/help-bo-view-help-proposals.jsp";
     public static final String EDIT_HELP_PROPOSAL = "editHelpProposal";
-    public static final String SAVE_HELP_PROPOSAL = "saveHelpProposal";
 
     public static final String READ_HELP_PROPOSAL = "readHelpProposal";
 

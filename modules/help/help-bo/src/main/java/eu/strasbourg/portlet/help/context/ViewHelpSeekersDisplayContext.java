@@ -252,7 +252,6 @@ public class ViewHelpSeekersDisplayContext {
                 return "lastName";
         }
     }
-
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
     // Classe nested pour aggreger les donnees d'un user

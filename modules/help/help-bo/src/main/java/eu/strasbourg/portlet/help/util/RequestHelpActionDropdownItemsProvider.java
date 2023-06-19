@@ -164,16 +164,8 @@ public class RequestHelpActionDropdownItemsProvider {
     private UnsafeConsumer<DropdownItem, Exception> _getDeleteActionUnsafeConsumer(String imagesCount) {
 
         return dropdownItem -> {
-            dropdownItem.setHref(
-                    PortletURLBuilder.createRenderURL(_response)
-                            .setActionName("deleteStudentCardImages")
-                            .setMVCPath("/help-bo-view-help-requests.jsp")
-                            .setCMD("deleteStudentCardImages")
-                            .setBackURL(_themeDisplay.getURLCurrent())
-                            .setParameter("tab", "helpRequests")
-                            .setParameter("studentPublikId", _helpRequest.getPublikId())
-                            .buildString()
-            );
+
+            dropdownItem.put("href", "javascript:deleteSelection();");
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, imagesCount));
         };
     }

@@ -38,14 +38,14 @@ public class ProposalHelpRequestActionDropdownItemsProvider {
 
     public List<DropdownItem> getActionDropdownItems() {
 
-        /*boolean hasUpdateRequestPermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+        boolean hasUpdateRequestPermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
                 StrasbourgPortletKeys.HELP_BO, StrasbourgPortletKeys.HELP_BO, "'EDIT_HELP_REQUEST'")
                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 
 
          boolean hasUpdatePermission= _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
                  StrasbourgPortletKeys.HELP_BO, StrasbourgPortletKeys.HELP_BO, "'EDIT_HELP'")
-                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());*/
+                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 
         return DropdownItemListBuilder
                 .addGroup(
@@ -53,7 +53,7 @@ public class ProposalHelpRequestActionDropdownItemsProvider {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder
                                             .add(
-                                                    //() -> hasUpdateRequestPermission,
+                                                    () -> hasUpdateRequestPermission,
                                                     _getUpdateRequestActionUnsafeConsumer()
                                             )
                                             .build()
@@ -65,7 +65,7 @@ public class ProposalHelpRequestActionDropdownItemsProvider {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder
                                             .add(
-                                                  //  () -> hasUpdatePermission,
+                                                  () -> hasUpdatePermission,
                                                     _getEditActionUnsafeConsumer()
                                             )
                                             .build()

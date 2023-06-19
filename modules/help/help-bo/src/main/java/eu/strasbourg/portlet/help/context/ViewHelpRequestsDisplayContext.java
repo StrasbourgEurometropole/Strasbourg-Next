@@ -45,7 +45,7 @@ public class ViewHelpRequestsDisplayContext  {
                 _response);
     }
     /**
-     * Retourne le searchContainer des help proposals
+     * Retourne le searchContainer des help Request
      *
      */
     public SearchContainer<HelpRequest> getSearchContainer() {

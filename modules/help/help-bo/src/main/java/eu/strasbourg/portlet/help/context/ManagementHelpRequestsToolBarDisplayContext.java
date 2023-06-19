@@ -12,6 +12,7 @@ import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.help.model.HelpRequest;
 
@@ -141,6 +142,7 @@ public class ManagementHelpRequestsToolBarDisplayContext extends SearchContainer
 
         return filterVocabularyDropdownItems;
     }
+
     /**
      * Get Help request Vocabularies
      */
@@ -222,7 +224,11 @@ public class ManagementHelpRequestsToolBarDisplayContext extends SearchContainer
     @Override
     public String getSearchActionURL() {
         return PortletURLBuilder.createRenderURL(liferayPortletResponse)
-                .buildString();
+                .setMVCPath("/help-bo-view-help-requests.jsp")
+                .setParameter("O")
+                .setParameter( "orderByCol", ParamUtil.getString( liferayPortletRequest, "orderByCol"))
+                .setParameter( "orderByType", ParamUtil.getString(liferayPortletRequest, " orderByType "))
+                .setParameter("tab","helpRequests").buildString();
     }
 
     /**
