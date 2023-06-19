@@ -226,9 +226,11 @@ public class ManagementHelpSeekersToolBarDisplayContext extends SearchContainerM
                             WebKeys.THEME_DISPLAY);
             long companyGroupId = themeDisplay.getCompanyGroupId();
             long classNameId = ClassNameLocalServiceUtil.getClassNameId(ViewHelpSeekersDisplayContext.HelpSeeker.class);
+            long scopeGroupId = themeDisplay.getScopeGroupId();
             List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
                     .getAssetVocabularies(-1, -1).stream()
-                    .filter(v -> v.getGroupId() == companyGroupId && LongStream.of(v.getSelectedClassNameIds())
+                    .filter(v -> (v.getGroupId() == companyGroupId || v.getGroupId() == scopeGroupId)
+                            && LongStream.of(v.getSelectedClassNameIds())
                             .anyMatch(c -> c == classNameId))
                     .collect(Collectors.toList());
             _vocabularies = vocabularies;

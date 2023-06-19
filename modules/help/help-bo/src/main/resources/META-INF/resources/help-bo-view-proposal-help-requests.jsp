@@ -11,7 +11,7 @@
 
 <%-- Header --%>
 <div class="navbar navbar-default collapse-basic-search" id="iqzh">
-	<div class="container-fluid-1280">
+	<div class="container-fluid container-fluid-max-xl main-content-body">
 		<div class="navbar-header visible-xs">
 			<button class="collapsed navbar-toggle navbar-toggle-left navbar-toggle-page-name" data-target="#_eu_strasbourg_portlet_oidc_OIDCBOPortlet_navTag_1NavbarCollapse" data-toggle="collapse" id="_eu_strasbourg_portlet_oidc_OIDCBOPortlet_NavbarBtn" type="button">
 			<span class="sr-only">Basculer la navigation</span>
@@ -41,9 +41,8 @@
 	<aui:form method="post" name="fm">
 		<liferay-ui:search-container id="helpRequestsSearchContainer"
 									 searchContainer="${dc.searchContainer}">
-			<liferay-ui:search-container-results results="${dc.helpRequests}" />
 			<liferay-ui:search-container-row className="eu.strasbourg.service.help.model.HelpRequest" modelVar="helpRequest"
-											 keyProperty="helpRequestId" rowIdProperty="helpRequestId">
+											 keyProperty="helpRequestId">
 				<%-- Colonne : Date de creation --%>
 				<fmt:formatDate value="${helpRequest.createDate}"
 								var="formattedCreateDate" type="date" pattern="dd/MM/yyyy HH:mm" />
@@ -87,9 +86,7 @@
 					<c:if test="${not helpRequest.agreementSigned3}">
 						<liferay-ui:message key="no"/>
 					</c:if>
-
 				</liferay-ui:search-container-column-text>
-				<%-- Colonne : Boutons --%>
 				<liferay-ui:search-container-column-text>
 					<clay:dropdown-actions
 							aria-label="<liferay-ui:message key='show-actions' />"

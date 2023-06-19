@@ -56,12 +56,12 @@ public class HelpBOPortlet extends MVCPortlet {
 		String title = HelpBOConstants.HEADER_TITLE;
 
 		// Si on est sur la page d'ajout, on affiche un lien de retour
-		String returnURL = ParamUtil.getString(renderRequest, HelpBOConstants.PARAM_RETURN_URL);
-		boolean showBackButton = Validator.isNotNull(returnURL);
+		String backUrl = ParamUtil.getString(renderRequest, HelpBOConstants.PARAM_RETURN_URL);
+		boolean showBackButton = Validator.isNotNull(backUrl);
 		if (showBackButton) {
 			portletDisplay.setShowBackIcon(true);
-			portletDisplay.setURLBack(returnURL);
-			renderRequest.setAttribute(HelpBOConstants.PARAM_RETURN_URL, returnURL);
+			portletDisplay.setURLBack(backUrl);
+			renderRequest.setAttribute(HelpBOConstants.PARAM_RETURN_URL, backUrl);
 		}
 		try {
 			NavigationBarDisplayContext navigationDC = new NavigationBarDisplayContext(renderRequest, renderResponse);
@@ -70,13 +70,17 @@ public class HelpBOPortlet extends MVCPortlet {
 			switch (navigationDC.getSelectedTab()) {
 
 				case HELP_PROPOSALS:
-					if (navigationDC.getSelectedCmd().equals(EDIT_HELP_PROPOSAL) || navigationDC.getSelectedCmd().equals(SAVE_HELP_PROPOSAL)) {
+					if (navigationDC.getSelectedCmd().equals(EDIT_HELP_PROPOSAL)) {
 						EditHelpProposalDisplayContext dc = new EditHelpProposalDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else if (navigationDC.getSelectedCmd().equals(PROPOSAL_HELP_REQUESTS) ) {
 						ViewProposalHelpRequestsDisplayContext dc = new ViewProposalHelpRequestsDisplayContext(renderRequest, renderResponse, _itemSelector);
 						renderRequest.setAttribute("dc", dc);
-					} else {
+
+					}/*else if(navigationDC.getSelectedCmd().equals(READ_HELP_PROPOSAL)){
+
+					}*/
+					else {
 						ViewHelpProposalsDisplayContext dc = new ViewHelpProposalsDisplayContext(renderRequest, renderResponse,_itemSelector);
 						ManagementHelpProposalsToolBarDisplayContext managementDC = new ManagementHelpProposalsToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
 								(LiferayPortletResponse) renderResponse, dc);
@@ -85,7 +89,7 @@ public class HelpBOPortlet extends MVCPortlet {
 					}
 					break;
 				case HELP_REQUESTS:
-					if (navigationDC.getSelectedCmd().equals(EDIT_HELP_REQUEST) || navigationDC.getSelectedCmd().equals(SAVE_HELP_REQUEST)) {
+					if (navigationDC.getSelectedCmd().equals(EDIT_HELP_REQUEST)) {
 						EditHelpRequestDisplayContext dc = new EditHelpRequestDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
@@ -98,12 +102,21 @@ public class HelpBOPortlet extends MVCPortlet {
 					break;
 
 				case HELP_SEEKERS:
-					ViewHelpSeekersDisplayContext dc = new ViewHelpSeekersDisplayContext(renderRequest, renderResponse,_itemSelector);
-						ManagementHelpSeekersToolBarDisplayContext managementDC = new ManagementHelpSeekersToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
+					if(navigationDC.getSelectedCmd().equals("editHelpProposal")){
+						ViewSeekerHelpRequestsDisplayContext dc = new ViewSeekerHelpRequestsDisplayContext(renderRequest, renderResponse,_itemSelector);
+						renderRequest.setAttribute("dc", dc);
+					}
+					else if(navigationDC.getSelectedCmd().equals("viewSeekerHelpRequests")) {
+						ViewSeekerHelpRequestsDisplayContext dc = new ViewSeekerHelpRequestsDisplayContext(renderRequest, renderResponse,_itemSelector);
+						renderRequest.setAttribute("dc", dc);
+					}
+					else {
+						ViewHelpSeekersDisplayContext dc = new ViewHelpSeekersDisplayContext(renderRequest, renderResponse, _itemSelector);
+						ManagementHelpSeekersToolBarDisplayContext managementDC = new ManagementHelpSeekersToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
 								(LiferayPortletResponse) renderResponse, dc);
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
-
+					}
 					break;
 			}
 		} catch (PortalException e) {
@@ -113,12 +126,7 @@ public class HelpBOPortlet extends MVCPortlet {
 		// On set le displayContext selon la page sur laquelle on est
 		/*
 		}
-		} else if(cmd.equals("viewSeekerHelpRequests") || mvcPath.equals("/help-bo-view-seeker-help-requests.jsp")) {
-			ViewSeekerHelpRequestsDisplayContext dc = new ViewSeekerHelpRequestsDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-		} else if(tab.equals("helpSeekers")) {
-			ViewHelpSeekersDisplayContext dc = new ViewHelpSeekersDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
+
 		} else if(tab.equals("helpRequests")) {
 			ViewHelpRequestsDisplayContext dc = new ViewHelpRequestsDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);

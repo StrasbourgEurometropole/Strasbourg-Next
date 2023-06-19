@@ -72,7 +72,7 @@
                 <liferay-ui:search-container-column-text>
 					<clay:dropdown-actions
 							aria-label="<liferay-ui:message key='show-actions' />"
-							dropdownItems="${dc.getActionsHelpSeeker(helpSeeker).getActionDropdownItems()}"
+							dropdownItems="${dc.getActionsHelpSeeker(helpSeeker).getActionDropdownItems(helpSeeker.imagesCount)}"
 					/>
                 </liferay-ui:search-container-column-text>
 

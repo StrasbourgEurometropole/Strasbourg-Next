@@ -40,7 +40,7 @@
                 <%-- URL : definit le lien vers l'action de passage en Conforme --%>
                 <liferay-portlet:actionURL name="changeStatusHelpRequest" var="validHelpRequestURL">
                     <portlet:param name="cmd" value="changeStatusHelpRequest" />
-                    <portlet:param name="tab" value="helpRequests" />
+                    <portlet:param name="tab" value="helpProposals" />
                     <portlet:param name="backURL" value="${dc.currentURL}" />
                     <portlet:param name="requestModerationStatus" value="Conforme" />
                     <portlet:param name="helpRequestId" value="${helpRequest.helpRequestId}" />
@@ -49,7 +49,7 @@
                 <%-- URL : definit le lien vers l'action de passage en Alerte --%>
                 <liferay-portlet:actionURL name="changeStatusHelpRequest" var="alertHelpRequestURL">
                     <portlet:param name="cmd" value="changeStatusHelpRequest" />
-                    <portlet:param name="tab" value="helpRequests" />
+                    <portlet:param name="tab" value="helpProposals" />
                     <portlet:param name="requestModerationStatus" value="Alerte" />
                     <portlet:param name="helpRequestId" value="${helpRequest.helpRequestId}" />
                 </liferay-portlet:actionURL>
@@ -57,7 +57,7 @@
                 <%-- URL : definit le lien vers l'action de passage en Non-conforme --%>
                 <liferay-portlet:actionURL name="changeStatusHelpRequest" var="notValidHelpRequestURL">
                     <portlet:param name="cmd" value="changeStatusHelpRequest" />
-                    <portlet:param name="tab" value="helpRequests" />
+                    <portlet:param name="tab" value="helpProposals" />
                     <portlet:param name="requestModerationStatus" value="Non-conforme" />
                     <portlet:param name="helpRequestId" value="${helpRequest.helpRequestId}" />
                 </liferay-portlet:actionURL>
@@ -124,3 +124,30 @@
         </liferay-ui:search-container>
     </aui:form>
 </div>
+<aui:script>
+
+    var form = document.querySelector("[name='<portlet:namespace />fm']");
+
+    function validHelpRequestSelection() {
+        var messageDialog = "${renderRequest.getAttribute('validMessageDialog')}";
+        if (confirm(messageDialog)) {
+            submitForm(form, '${validHelpRequestURL}');
+
+        }
+    }
+    function alertHelpRequestSelection() {
+        var messageDialog = "${renderRequest.getAttribute('alertMessageDialog')}";
+        if (confirm(messageDialog)) {
+            submitForm(form, '${alertHelpRequestURL}');
+
+        }
+    }
+    function notValidHelpRequestSelection() {
+        var messageDialog = "${renderRequest.getAttribute('notValidMessageDialog')}";
+        if (confirm(messageDialog)) {
+            submitForm(form, '${notValidHelpRequestURL}');
+
+        }
+    }
+
+</aui:script>

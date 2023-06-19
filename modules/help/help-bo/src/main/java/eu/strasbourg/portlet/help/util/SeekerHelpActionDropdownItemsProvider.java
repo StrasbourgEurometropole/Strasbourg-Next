@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.help.util;
 
+import com.liferay.alloy.util.JSONUtil;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuilder;
 import com.liferay.petra.function.UnsafeConsumer;
@@ -38,15 +39,12 @@ public class SeekerHelpActionDropdownItemsProvider {
                 request);
     }
 
-    public List<DropdownItem> getActionDropdownItems() {
+    public List<DropdownItem> getActionDropdownItems(String countImage) {
 
         boolean hasUpdatePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
                 StrasbourgPortletKeys.HELP_BO, StrasbourgPortletKeys.HELP_BO, "'EDIT_HELP_REQUEST'")
-                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());;
 
-         boolean hasPermissionOIDC= _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
-                 StrasbourgPortletKeys.OIDC_BO, StrasbourgPortletKeys.OIDC_BO, "'EDIT_PUBLIKUSER'")
-                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 
         return DropdownItemListBuilder
                 .addGroup(
@@ -54,8 +52,7 @@ public class SeekerHelpActionDropdownItemsProvider {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder
                                             .add(
-                                                    () -> hasUpdatePermission,
-                                                    _getDeleteActionUnsafeConsumer()
+                                                    _getViewActionUnsafeConsumer()
                                             )
                                             .build()
                             );
@@ -66,7 +63,8 @@ public class SeekerHelpActionDropdownItemsProvider {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder
                                             .add(
-                                                    _getViewActionUnsafeConsumer()
+                                                   // () -> hasUpdatePermission,
+                                                    _getDeleteActionUnsafeConsumer(countImage)
                                             )
                                             .build()
                             );
@@ -86,7 +84,7 @@ public class SeekerHelpActionDropdownItemsProvider {
                             .setMVCPath("/help-bo-view-seeker-help-requests.jsp")
                             .setCMD("viewSeekerHelpRequests")
                             .setBackURL(_themeDisplay.getURLCurrent())
-                            .setParameter("tab", "helpProposals")
+                            .setParameter("tab", "helpSeekers")
                             .setParameter("helpSeekerId", _helpSeeker.getPublikUser().getPublikId())
                             .buildString()
             );
@@ -97,7 +95,7 @@ public class SeekerHelpActionDropdownItemsProvider {
     /**
      * Action of view help proposal
      */
-    private UnsafeConsumer<DropdownItem, Exception> _getDeleteActionUnsafeConsumer() {
+    private UnsafeConsumer<DropdownItem, Exception> _getDeleteActionUnsafeConsumer(String countImage) {
 
         return dropdownItem -> {
             dropdownItem.setHref(
@@ -109,7 +107,7 @@ public class SeekerHelpActionDropdownItemsProvider {
                             .setParameter("helpSeekerId", _helpSeeker.getPublikUser().getPublikId())
                             .buildString()
             );
-            dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "delete-student-ids-confirm"));
+            dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, countImage));
         };
     }
 

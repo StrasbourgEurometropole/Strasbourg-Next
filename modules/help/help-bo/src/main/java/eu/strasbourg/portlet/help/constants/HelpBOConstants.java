@@ -31,6 +31,8 @@ public class HelpBOConstants {
     public static final String EDIT_HELP_PROPOSAL = "editHelpProposal";
     public static final String SAVE_HELP_PROPOSAL = "saveHelpProposal";
 
+    public static final String READ_HELP_PROPOSAL = "readHelpProposal";
+
     public static final String HELP_SEEKERS = "helpSeekers";
     public static final String HELP_SEEKERS_PATH = "/help-bo-view-help-seekers.jsp";
 
@@ -41,7 +43,7 @@ public class HelpBOConstants {
 
 
     public static final String PROPOSAL_HELP_REQUESTS = "viewProposalHelpRequests";
-    public static final String PROPOSAL_HELP_REQUESTS_PATH = "help-bo-view-proposal-help-requests.jsp";
+
     public static final String URL_PARAM_TAB = "tab";
     public static final String URL_PARAM_MVCPATH = "mvcPath";
     public static final String URL_PARAM_CMD = "cmd";
