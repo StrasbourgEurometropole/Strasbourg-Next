@@ -38,6 +38,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.council.exception.NoSuchProcurationException;
 import eu.strasbourg.service.council.model.Procuration;
 import eu.strasbourg.service.council.model.ProcurationTable;
@@ -47,8 +48,10 @@ import eu.strasbourg.service.council.service.persistence.ProcurationPersistence;
 import eu.strasbourg.service.council.service.persistence.ProcurationUtil;
 
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
+
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;

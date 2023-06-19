@@ -38,6 +38,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.council.exception.NoSuchOfficialTypeCouncilException;
 import eu.strasbourg.service.council.model.OfficialTypeCouncil;
 import eu.strasbourg.service.council.model.OfficialTypeCouncilTable;
@@ -48,8 +49,10 @@ import eu.strasbourg.service.council.service.persistence.OfficialTypeCouncilPers
 import eu.strasbourg.service.council.service.persistence.OfficialTypeCouncilUtil;
 
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
+
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;

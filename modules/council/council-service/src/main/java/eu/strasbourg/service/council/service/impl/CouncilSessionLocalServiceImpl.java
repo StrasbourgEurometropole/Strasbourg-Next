@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.council.service.impl;
 
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
@@ -46,7 +46,6 @@ import eu.strasbourg.service.council.service.base.CouncilSessionLocalServiceBase
 import eu.strasbourg.service.council.service.util.VocabularyHelper;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
-import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -259,7 +258,7 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 
 		if (entry != null) {
 			// Supprime les liens avec les catégories
-			assetEntryAssetCategoryRelLocalService.
+			AssetEntryAssetCategoryRelLocalServiceUtil.
 					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
 			// Supprime les liens avec les étiquettes
@@ -399,6 +398,4 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 
 		return gregorianCalendar;
 	}
-	@Reference
-	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.service.OfficialService;
 import eu.strasbourg.service.council.service.OfficialServiceUtil;
@@ -42,8 +43,9 @@ import eu.strasbourg.service.council.service.persistence.ProcurationPersistence;
 import eu.strasbourg.service.council.service.persistence.TypePersistence;
 import eu.strasbourg.service.council.service.persistence.VotePersistence;
 
-import javax.sql.DataSource;
 import java.lang.reflect.Field;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the official remote service.

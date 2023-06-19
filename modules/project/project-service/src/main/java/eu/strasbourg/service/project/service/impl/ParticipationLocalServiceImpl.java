@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.project.service.impl;
 
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
@@ -52,7 +52,6 @@ import eu.strasbourg.service.project.service.base.ParticipationLocalServiceBaseI
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.FriendlyURLs;
 import eu.strasbourg.utils.constants.VocabularyNames;
-import org.osgi.service.component.annotations.Reference;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -226,7 +225,7 @@ public class ParticipationLocalServiceImpl
 
         if (entry != null) {
             // Delete the link with categories
-            assetEntryAssetCategoryRelLocalService.
+            AssetEntryAssetCategoryRelLocalServiceUtil.
                     deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
            // Delete the link with tags
             long[] tagIds = AssetEntryLocalServiceUtil
@@ -500,6 +499,4 @@ public class ParticipationLocalServiceImpl
 
         return participationPersistence.countWithDynamicQuery(dynamicQuery);
     }
-    @Reference
-    private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

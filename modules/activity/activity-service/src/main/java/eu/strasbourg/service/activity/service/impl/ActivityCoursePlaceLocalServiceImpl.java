@@ -14,8 +14,7 @@
 
 package eu.strasbourg.service.activity.service.impl;
 
-import org.osgi.annotation.versioning.ProviderType;
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -37,7 +36,7 @@ import com.liferay.portal.kernel.util.ContentTypes;
 import eu.strasbourg.service.activity.model.ActivityCoursePlace;
 import eu.strasbourg.service.activity.model.ActivityCourseSchedule;
 import eu.strasbourg.service.activity.service.base.ActivityCoursePlaceLocalServiceBaseImpl;
-import org.osgi.service.component.annotations.Reference;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -165,7 +164,7 @@ public class ActivityCoursePlaceLocalServiceImpl
 
 		if (entry != null) {
 			// Supprime le lien avec les catégories
-			assetEntryAssetCategoryRelLocalService.
+			AssetEntryAssetCategoryRelLocalServiceUtil.
 					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
 			// Supprime le lien avec les tags
@@ -326,7 +325,4 @@ public class ActivityCoursePlaceLocalServiceImpl
 		return activityCoursePlacePersistence.findWithDynamicQuery(dynamicQuery,
 			-1, -1);
 	}
-	@Reference
-	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
-
 }

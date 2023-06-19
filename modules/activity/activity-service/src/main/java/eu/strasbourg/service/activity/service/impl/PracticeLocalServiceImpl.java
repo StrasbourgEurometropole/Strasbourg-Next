@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.activity.service.impl;
 
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -40,7 +40,6 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.activity.model.Practice;
 import eu.strasbourg.service.activity.model.PracticeCategories;
 import eu.strasbourg.service.activity.service.base.PracticeLocalServiceBaseImpl;
-import org.osgi.service.component.annotations.Reference;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -211,7 +210,7 @@ public class PracticeLocalServiceImpl extends PracticeLocalServiceBaseImpl {
 
 		if (entry != null) {
 			// Supprime le lien avec les catégories
-			this.assetEntryAssetCategoryRelLocalService.
+			AssetEntryAssetCategoryRelLocalServiceUtil.
 					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Supprime le lien avec les tags
 			long[] tagIds = AssetEntryLocalServiceUtil
@@ -394,6 +393,4 @@ public class PracticeLocalServiceImpl extends PracticeLocalServiceBaseImpl {
 			"                WHERE associationId = ?) as pratique" +
 			"            ORDER BY domaine, pratique";
 
-	@Reference
-	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

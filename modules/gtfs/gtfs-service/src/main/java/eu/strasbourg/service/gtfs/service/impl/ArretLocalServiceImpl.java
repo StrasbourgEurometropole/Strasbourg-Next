@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.gtfs.service.impl;
 
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -40,7 +40,6 @@ import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.gtfs.model.ImportHistoric;
 import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.base.ArretLocalServiceBaseImpl;
-import org.osgi.service.component.annotations.Reference;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -232,7 +231,7 @@ public class ArretLocalServiceImpl extends ArretLocalServiceBaseImpl {
 
 		if (entry != null) {
 			// Supprime le lien avec les categories
-			assetEntryAssetCategoryRelLocalService.
+			AssetEntryAssetCategoryRelLocalServiceUtil.
 					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Supprime le lien avec les etiquettes
 			long[] tagIds = AssetEntryLocalServiceUtil.getAssetTagPrimaryKeys(entry.getEntryId());
@@ -400,7 +399,4 @@ public class ArretLocalServiceImpl extends ArretLocalServiceBaseImpl {
 		arretDynamicQuery.add(PropertyFactoryUtil.forName("arretId").in(idsArrets));
 		return this.dynamicQuery(arretDynamicQuery);
 	}
-	
-	@Reference
-	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -65,7 +65,6 @@ import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.CategoryNames;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.annotation.versioning.ProviderType;
-import org.osgi.service.component.annotations.Reference;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
@@ -75,18 +74,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Stream;
 
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_ACCEPTABLE;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_CANCELLED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_FEASIBLE;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_IN_PROGRESS;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_LAUREAT;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_MERGED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_ACCEPTABLE;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_FEASIBLE;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_SELECTED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_REALIZED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_SUBMITTED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_SUSPENDED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.*;
 
 /**
  * The extended model implementation for the BudgetParticipatif service. Represents a row in the &quot;project_BudgetParticipatif&quot; database table, with each column mapped to a property of this class.
@@ -574,7 +562,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     	AssetCategory category = AssetVocabularyHelper.getCategory(status.getName(), groupID);
     	
     	if(!statuses.isEmpty())
-		assetEntryAssetCategoryRelLocalService.deleteAssetEntryAssetCategoryRel
+		AssetEntryAssetCategoryRelLocalServiceUtil.deleteAssetEntryAssetCategoryRel
 				(entry.getEntryId(), statuses.get(0).getCategoryId());
     	AssetVocabularyHelper.addCategoryToAssetEntry(category, entry);
     }
@@ -1038,8 +1026,6 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     	
     	return result;
     }
-	@Reference
-	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass());
 

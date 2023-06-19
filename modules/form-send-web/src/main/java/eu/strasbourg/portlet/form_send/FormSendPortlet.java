@@ -1,7 +1,6 @@
 package eu.strasbourg.portlet.form_send;
 
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -22,7 +21,6 @@ import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignal
 import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldSignalementLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -106,14 +104,11 @@ public class FormSendPortlet extends MVCPortlet {
 		signalement.setFormSendRecordFieldId(entityId);
 		signalement.setStatus(WorkflowConstants.STATUS_DENIED);
 
-		assetEntryAssetCategoryRelLocalService.addAssetEntryAssetCategoryRel(signalement.getSignalementId(), categoryId);
+		AssetEntryAssetCategoryRelLocalServiceUtil.addAssetEntryAssetCategoryRel(signalement.getSignalementId(), categoryId);
 		FormSendRecordFieldSignalementLocalServiceUtil.updateFormSendRecordFieldSignalement(signalement,sc);
 
 		response.sendRedirect(redirectURL  + "#rep_" + entityId);
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
-	@Reference
-	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
-
 }

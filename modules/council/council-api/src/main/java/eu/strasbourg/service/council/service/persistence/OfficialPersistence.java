@@ -15,8 +15,10 @@
 package eu.strasbourg.service.council.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.council.exception.NoSuchOfficialException;
 import eu.strasbourg.service.council.model.Official;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.gtfs.service.impl;
 
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -39,7 +39,6 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.gtfs.model.ImportHistoric;
 import eu.strasbourg.service.gtfs.service.base.ImportHistoricLocalServiceBaseImpl;
 import eu.strasbourg.service.gtfs.utils.GTFSImporter;
-import org.osgi.service.component.annotations.Reference;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -207,7 +206,7 @@ public class ImportHistoricLocalServiceImpl	extends ImportHistoricLocalServiceBa
 
 		if (entry != null) {
 			// Delete the link with categories
-			assetEntryAssetCategoryRelLocalService.
+			AssetEntryAssetCategoryRelLocalServiceUtil.
 					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Delete the link with tags
 			long[] tagIds = AssetEntryLocalServiceUtil
@@ -368,7 +367,4 @@ public class ImportHistoricLocalServiceImpl	extends ImportHistoricLocalServiceBa
 	}
 
 	private Log _log = LogFactoryUtil.getLog(this.getClass().getName());
-	
-	@Reference
-	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

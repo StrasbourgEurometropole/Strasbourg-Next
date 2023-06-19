@@ -14,8 +14,7 @@
 
 package eu.strasbourg.service.interest.service.impl;
 
-import org.osgi.annotation.versioning.ProviderType;
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -39,7 +38,7 @@ import eu.strasbourg.service.interest.model.Interest;
 import eu.strasbourg.service.interest.model.UserInterest;
 import eu.strasbourg.service.interest.service.base.InterestLocalServiceBaseImpl;
 import eu.strasbourg.service.interest.service.persistence.UserInterestPK;
-import org.osgi.service.component.annotations.Reference;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -199,7 +198,7 @@ public class InterestLocalServiceImpl extends InterestLocalServiceBaseImpl {
 			}
 
 			// Supprime le lien avec les catégories
-			assetEntryAssetCategoryRelLocalService.
+			AssetEntryAssetCategoryRelLocalServiceUtil.
 					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Supprime le lien avec les tags
 			long[] tagIds = AssetEntryLocalServiceUtil.getAssetTagPrimaryKeys(entry.getEntryId());
@@ -331,7 +330,4 @@ public class InterestLocalServiceImpl extends InterestLocalServiceBaseImpl {
 
 		return interestPersistence.countWithDynamicQuery(dynamicQuery);
 	}
-	@Reference
-	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
-
 }

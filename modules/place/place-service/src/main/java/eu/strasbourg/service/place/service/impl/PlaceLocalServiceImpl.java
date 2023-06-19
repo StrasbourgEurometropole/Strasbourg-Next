@@ -14,8 +14,7 @@
 
 package eu.strasbourg.service.place.service.impl;
 
-import org.osgi.annotation.versioning.ProviderType;
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
@@ -60,14 +59,12 @@ import eu.strasbourg.service.place.service.base.PlaceLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
-import org.osgi.service.component.annotations.Reference;
+import org.osgi.annotation.versioning.ProviderType;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.net.URL;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -455,7 +452,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
                 .fetchEntry(Place.class.getName(), placeId);
 if (entry != null) {
 			// Delete the link with categories
-			assetEntryAssetCategoryRelLocalService.
+			AssetEntryAssetCategoryRelLocalServiceUtil.
 					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
 			// Delete the link with tags
@@ -659,6 +656,4 @@ if (entry != null) {
         return "Can not update real time data for" + "'" + lieu + "' rtExternalId :" + rtExternalId + ", sigId :" + sigId;
     }
     private Log log = LogFactoryUtil.getLog(this.getClass().getName());
-    	@Reference
-	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

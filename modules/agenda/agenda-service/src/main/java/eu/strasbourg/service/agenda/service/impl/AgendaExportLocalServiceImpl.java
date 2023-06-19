@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -43,7 +43,6 @@ import eu.strasbourg.service.agenda.model.AgendaExportPeriod;
 import eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.base.AgendaExportLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
-import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -239,7 +238,7 @@ public class AgendaExportLocalServiceImpl
 
 		if (entry != null) {
 			// Delete the link with categories
-			assetEntryAssetCategoryRelLocalService.
+			AssetEntryAssetCategoryRelLocalServiceUtil.
 					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Delete the link with tags
 			long[] tagIds = AssetEntryLocalServiceUtil.getAssetTagPrimaryKeys(entry.getEntryId());
@@ -348,6 +347,4 @@ public class AgendaExportLocalServiceImpl
 
 		return agendaExportPersistence.countWithDynamicQuery(dynamicQuery);
 	}
-	@Reference
-	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }
