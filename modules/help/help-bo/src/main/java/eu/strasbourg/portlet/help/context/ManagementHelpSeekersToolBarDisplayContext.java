@@ -12,8 +12,10 @@ import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import javax.portlet.PortletURL;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
@@ -195,8 +197,13 @@ public class ManagementHelpSeekersToolBarDisplayContext extends SearchContainerM
      */
     @Override
     public String getSearchActionURL() {
+
         return PortletURLBuilder.createRenderURL(liferayPortletResponse)
-                .buildString();
+                .setMVCPath("/help-bo-view-help-seekers.jsp")
+                .setParameter("O")
+                .setParameter( "orderByCol", ParamUtil.getString( liferayPortletRequest, "orderByCol"))
+                .setParameter( "orderByType", ParamUtil.getString(liferayPortletRequest, " orderByType "))
+                .setParameter("tab","helpSeekers").buildString();
     }
 
     /**

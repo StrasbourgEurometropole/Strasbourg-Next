@@ -10,7 +10,9 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.*;
 import eu.strasbourg.portlet.help.util.ProposalHelpActionDropdownItemsProvider;
 import eu.strasbourg.service.help.model.HelpProposal;
+import eu.strasbourg.service.help.model.HelpRequest;
 import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
+import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
 import eu.strasbourg.utils.SearchHelper;
 
 import javax.portlet.PortletURL;
@@ -73,18 +75,18 @@ public class ViewHelpProposalsDisplayContext{
 			_searchContainer.setResultsAndTotal(
 					() -> {
 						// Création de la liste d'objet
-						List<HelpProposal> results = new ArrayList<>();
+						this._helpProposals= new ArrayList<>();
 						if (_hits != null) {
 							for (Document document : _hits.getDocs()) {
 								HelpProposal helpProposal = HelpProposalLocalServiceUtil.fetchHelpProposal(
 										GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
 								if (helpProposal != null) {
-									results.add(helpProposal);
+									_helpProposals.add(helpProposal);
 								}
 							}
 						}
 
-						return results;
+						return _helpProposals;
 					}, _hits.getLength()
 			);
 		}
@@ -171,7 +173,20 @@ public class ViewHelpProposalsDisplayContext{
 		}
 		return _keywords;
 	}
-
+	public HashMap<Long, Integer> getHelpRequestsByProposal() throws PortalException {
+		if (this._helpProposals == null) {
+			getSearchContainer();
+		}
+		if (_helpRequestsByProposal == null) {
+			_helpRequestsByProposal = new HashMap<>();
+			for (HelpProposal helpProposal : this._helpProposals) {
+				long proposalId = helpProposal.getHelpProposalId();
+				List<HelpRequest> requests = HelpRequestLocalServiceUtil.getByHelpProposalId(proposalId);
+				_helpRequestsByProposal.put(Long.valueOf(proposalId), Integer.valueOf(requests.size()));
+			}
+		}
+		return _helpRequestsByProposal;
+	}
 	private Hits _hits;
 	protected SearchContainer<HelpProposal> _searchContainer;
 	private String _keywords;
@@ -182,5 +197,6 @@ public class ViewHelpProposalsDisplayContext{
 	private final ItemSelector _itemSelector;
 
 	private Map<String, String> _categVocabularies;
-
+	private HashMap<Long, Integer> _helpRequestsByProposal;
+	private List <HelpProposal> _helpProposals;
 }

@@ -52,8 +52,10 @@ public class ViewHelpSeekersDisplayContext {
 
             PortletURL portletURL;
             portletURL = PortletURLBuilder.createRenderURL(_response)
+
                     .setMVCPath("/help-bo-view-help-seekers.jsp")
                     .setKeywords(ParamUtil.getString(_request, "keywords"))
+                    .setTabs1("helpSeekers")
                     .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
                     .buildPortletURL();
             _searchContainer = new SearchContainer<>(_request, null, null,
