@@ -34,7 +34,7 @@ public class JournalArticleHelper {
                 value = node.getText();
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            _log.error(ex.getMessage(), ex);
         }
         return value;
     }

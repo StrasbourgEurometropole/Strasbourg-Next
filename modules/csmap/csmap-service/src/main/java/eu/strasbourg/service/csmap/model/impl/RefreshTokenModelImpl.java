@@ -354,6 +354,10 @@ public class RefreshTokenModelImpl
 		_publikId = publikId;
 	}
 
+	public String getOriginalPublikId() {
+		return GetterUtil.getString(_originalPublikId);
+	}
+
 	public long getColumnBitmask() {
 		if (_columnBitmask > 0) {
 			return _columnBitmask;

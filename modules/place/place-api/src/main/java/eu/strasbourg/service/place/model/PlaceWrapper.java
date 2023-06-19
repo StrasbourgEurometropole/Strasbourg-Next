@@ -2210,7 +2210,7 @@ public class PlaceWrapper
 	/**
 	 * Retourne le temps réel (couleur de fond,valeur)
 	 *
-	 * @param type (1 = piscine, 2 = parking, 3 = mairie, 4 = patinoire)
+	 * @param type (1 = piscine, 2 = parking, 3 = mairie, 4 = patinoire, 5 =Vélop)
 	 * @throws Exception
 	 */
 	@Override

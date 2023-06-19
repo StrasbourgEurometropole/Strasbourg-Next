@@ -229,6 +229,18 @@ public class PlaceLocalServiceUtil {
 	}
 
 	/**
+	 * Recherche des places par identifiants
+	 *
+	 * @param idsPlace : liste ids places
+	 * @return
+	 */
+	public static java.util.List<eu.strasbourg.service.place.model.Place>
+		findByIds(java.util.List<Long> idsPlace) {
+
+		return getService().findByIds(idsPlace);
+	}
+
+	/**
 	 * Lance une recherche par mots-clés
 	 */
 	public static List<Place> findByKeyword(
@@ -463,11 +475,12 @@ public class PlaceLocalServiceUtil {
 	}
 
 	public static void updateRealTime(
-		Place place, String type, long occupation, long available,
-		long capacity, String status) {
+		eu.strasbourg.service.place.model.Place place, String type,
+		long occupation, long available, long capacity, String status,
+		java.util.Date rtLastUpdate) {
 
 		getService().updateRealTime(
-			place, type, occupation, available, capacity, status);
+			place, type, occupation, available, capacity, status, rtLastUpdate);
 	}
 
 	/**

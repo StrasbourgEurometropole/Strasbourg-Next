@@ -112,7 +112,7 @@
                 <liferay-ui:search-container-column-text>
                     <clay:dropdown-actions
                             aria-label="<liferay-ui:message key='show-actions' />"
-                            dropdownItems="${dc.getActionsHelpRequest(helpRequest).getActionDropdownItems('${dc.getImagesCount(helpRequest.publikId)}')}"
+                            dropdownItems="${dc.getActionsHelpRequest(helpRequest).getActionDropdownItems(dc.getImagesCount(helpRequest.publikId))}"
                     />
                 </liferay-ui:search-container-column-text>
 

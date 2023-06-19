@@ -330,4 +330,5 @@ public class ViewReportingDisplayContext {
     private final HttpServletRequest _httpServletRequest;
     private final ItemSelector _itemSelector;
 
+    private final Log _log = LogFactoryUtil.getLog(this.getClass());
 }

@@ -9,6 +9,8 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
@@ -85,7 +87,7 @@ public class MyDistrictDisplayContext {
             this.configuration = themeDisplay.getPortletDisplay()
                     .getPortletInstanceConfiguration(MyDistrictConfiguration.class);
         } catch (ConfigurationException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
     }
 
@@ -163,7 +165,7 @@ public class MyDistrictDisplayContext {
             try {
                 district = openDataGeoDistrictService.getDistrictByAddress(address, zipCode, city);
             } catch (Exception e) {
-                e.printStackTrace();
+                _log.error(e.getMessage() + " : address -> " + address + ", zipCode -> " + zipCode + ", city -> " + city);
                 hasError = true;
             }
         }
@@ -177,7 +179,7 @@ public class MyDistrictDisplayContext {
                             .getGlobalVocabulary(VocabularyNames.TERRITORY);
                     district = AssetVocabularyHelper.getCategoryByExternalId(territoryVocabulary, districtId);
                 } catch (PortalException e) {
-                    e.printStackTrace();
+                    _log.error(e.getMessage());
                 }
             }
         }
@@ -202,7 +204,7 @@ public class MyDistrictDisplayContext {
                     try {
                         assetEntries.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
                     } catch (PortalException e) {
-                        e.printStackTrace();
+                        _log.error(e.getMessage());
                     }
                 }
             }
@@ -246,7 +248,7 @@ public class MyDistrictDisplayContext {
                     try {
                         assetEntries.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
                     } catch (PortalException e) {
-                        e.printStackTrace();
+                        _log.error(e.getMessage() + " : " + entryRel);
                     }
                 }
             }
@@ -262,7 +264,7 @@ public class MyDistrictDisplayContext {
                 // ne garde que s'il est publié
                 assetEntries.removeIf(e -> !e.getVisible());
             } catch (PortalException e1) {
-                e1.printStackTrace();
+                _log.error(e1.getMessage());
             }
             if (!assetEntries.isEmpty()) {
                 townHall = PlaceLocalServiceUtil.fetchPlace(assetEntries.get(0).getClassPK());
@@ -300,7 +302,7 @@ public class MyDistrictDisplayContext {
                     try {
                         assetEntries.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
                     } catch (PortalException e) {
-                        e.printStackTrace();
+                        _log.error(e.getMessage() + " : " + entryRel);
                     }
                 }
             }
@@ -316,7 +318,7 @@ public class MyDistrictDisplayContext {
                 // ne garde que s'il est publié
                 assetEntries.removeIf(e -> !e.getVisible());
             } catch (PortalException e1) {
-                e1.printStackTrace();
+                _log.error(e1.getMessage());
             }
             if (!assetEntries.isEmpty()) {
                 territoryDirection = PlaceLocalServiceUtil.fetchPlace(assetEntries.get(0).getClassPK());
@@ -339,7 +341,7 @@ public class MyDistrictDisplayContext {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                _log.info(e.getMessage() + " : address -> " + address + ", zipCode -> " + zipCode + ", city -> " + city);
                 hasError = true;
             }
         }
@@ -431,7 +433,7 @@ public class MyDistrictDisplayContext {
                     try {
                         entries.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
                     } catch (PortalException e) {
-                        e.printStackTrace();
+                        _log.error(e.getMessage() + " : " + entryRel);
                     }
                 }
             }
@@ -483,4 +485,6 @@ public class MyDistrictDisplayContext {
     public void setOpenDataGeoDistrictService(OpenDataGeoDistrictService openDataGeoDistrictService) {
         this.openDataGeoDistrictService = openDataGeoDistrictService;
     }
+
+    private static final Log _log = LogFactoryUtil.getLog(MyDistrictDisplayContext.class.getName());
 }

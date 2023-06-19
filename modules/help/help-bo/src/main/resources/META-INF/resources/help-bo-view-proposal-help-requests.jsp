@@ -4,7 +4,7 @@
 <liferay-portlet:renderURL varImpl="editHelpProposalURL">
 	<portlet:param name="cmd" value="editHelpProposal" />
 	<portlet:param name="helpProposalId" value="${dc.helpProposal.helpProposalId}" />
-	<portlet:param name="returnURL" value="${dc.currentUrl}" />
+	<portlet:param name="backURL" value="${dc.currentUrl}" />
 	<portlet:param name="mvcPath" value="/help-bo-edit-help-proposal.jsp" />
 </liferay-portlet:renderURL>
 
@@ -37,7 +37,7 @@
 
 <%-- Body --%>
 <%-- Composant : tableau de visualisation des entites --%>
-<div class="help-bo container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
 		<liferay-ui:search-container id="helpRequestsSearchContainer"
 									 searchContainer="${dc.searchContainer}">
@@ -91,23 +91,10 @@
 				</liferay-ui:search-container-column-text>
 				<%-- Colonne : Boutons --%>
 				<liferay-ui:search-container-column-text>
-					<liferay-ui:icon-menu markupView="lexicon">
-						<%-- URL : definit le lien vers la page d'ajout/edition d'une entite --%>
-						<liferay-portlet:renderURL varImpl="editHelpRequestURL">
-							<portlet:param name="cmd" value="editHelpRequest" />
-							<portlet:param name="helpRequestId" value="${helpRequest.helpRequestId}" />
-							<portlet:param name="mvcPath" value="/help-bo-edit-help-request.jsp" />
-							<portlet:param name="returnURL" value="${dc.currentUrl}" />
-						</liferay-portlet:renderURL>
-						<%-- Consulter la demande --%>
-						<c:if test="${dc.hasPermission('EDIT_HELP_REQUEST') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="view-help-request" url="${editHelpRequestURL}" />
-						</c:if>
-						<%-- Consulter la proposition --%>
-						<c:if test="${dc.hasPermission('EDIT_HELP') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="view-help-proposal" url="${editHelpProposalURL}" />
-						</c:if>
-					</liferay-ui:icon-menu>
+					<clay:dropdown-actions
+							aria-label="<liferay-ui:message key='show-actions' />"
+							dropdownItems="${dc.getActionsProposalHelpRequest(helpRequest).getActionDropdownItems()}"
+					/>
 				</liferay-ui:search-container-column-text>
 			</liferay-ui:search-container-row>
 			<%-- Iterateur --%>

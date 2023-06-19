@@ -93,7 +93,7 @@ public class SectorizedPlacesSearchAction implements MVCActionCommand {
 			sigIds = adictService.getSectorizedPlaceIdsForCoordinates(street.getX(), street.getY(),
 					sectorTypes);
 		} catch (Exception e) {
-			e.printStackTrace();
+			_log.error(e.getMessage() + " : street -> " + street + ", sectorTypes -> " + sectorTypes);
 		}
 		List<Place> places = new ArrayList<Place>();
 		for (String sigId : sigIds) {
@@ -130,5 +130,7 @@ public class SectorizedPlacesSearchAction implements MVCActionCommand {
 
 		return true;
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }
