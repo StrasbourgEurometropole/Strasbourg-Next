@@ -30,7 +30,7 @@
 	}
 	h1, h2 {
 		@include ft($f_hx, 5em, 700, $c_txt, 1em);
-		text-transform: uppercase;
+
 		@include mobile {
 			font-size: 3em;
 			line-height: 1.1em;
@@ -89,8 +89,8 @@
 	}
 
 	h2 {
-		@include ft($f_hx, 1.250em, 700, $c_txt, 1.300em);
-		text-transform: uppercase;
+		@include ft($f_hx, 1.4em, 700, $c_txt, 1em);
+
 		margin-bottom: 10px;
 		display: inline-block;
 		@include mobile{
@@ -120,7 +120,7 @@
 	}
 
 	h3 {
-		@include ft($f_hx, 1.250em, 700, $c_txt, 1.300em);
+		@include ft($f_hx, 1.4em, 700, $c_txt, 1em);
 		margin-top: 25px;
 		margin-bottom: 10px;
 		&.pro-big-title {
@@ -208,11 +208,12 @@
 			&:before {
 				content: "";
 				position: absolute;
-				left: 0;
-				top: 11px;
-				width: 13px;
-				height: 4px;
-				background: $c_main;
+				left: 3px;
+				top: 9px;
+				width: 8px;
+				height: 8px;
+				border-radius: 50%;
+				background: black;
 			}
 			a {
 				color: $c_txt;
@@ -300,7 +301,7 @@
 		display: block;
 		@include ft($f_txt, 1.125em, 700, $c_txt, 1.333em);
 		margin-bottom: 15px;
-		text-transform: uppercase;
+
 	}
 	div{
 		p{

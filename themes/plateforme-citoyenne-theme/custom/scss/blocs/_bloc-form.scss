@@ -38,7 +38,7 @@
 			width: calc(100% - 66px);
 			background: $c_white;
 			padding: 17px 35px;
-			text-transform: uppercase;
+
 			&::placeholder {
 				color: rgba($c_txt, 0.7);
 			}
@@ -157,7 +157,7 @@ form{
 	input[type="submit"]{
 		@include btn($c_main, $c_txt, 2, $f_hx, $s_p);
 		@extend %appearance;
-		text-transform: uppercase;
+
 		font-weight: 700;
 		border: 2px solid $c_main;
 		line-height: 22px;
@@ -193,7 +193,7 @@ form{
 		border-bottom: 1px solid #c9cbcd;
 		h4{
 			@include ft($f_hx, 	0.938em, 700, $c_txt, 1.600em);
-			text-transform: uppercase;
+
 		}
 	}
 	input, textarea {
@@ -319,7 +319,7 @@ form{
 			display: inline-block;
 			padding: 12px 90px;
 			border: 2px solid $c_main;
-			text-transform: uppercase;
+
 			@include addTransition();
 			@include mobile{
 				width: 100%;
@@ -526,7 +526,7 @@ form{
 			text-decoration: underline;
 			display: block;
 			margin-bottom: 10px;
-			text-transform: uppercase;
+
 			@include addTransition();
 			&:hover, &:focus{
 				color: $c_main;
@@ -610,7 +610,7 @@ form{
 			@include ft($f_hx, 0.813em, 700, $c_txt, normal);
 			text-align: center;
 			border-color: #B2B2B2;
-			text-transform: uppercase;
+
 			padding: 0 15px;
 			height: 40px;
 			border-radius: 0;

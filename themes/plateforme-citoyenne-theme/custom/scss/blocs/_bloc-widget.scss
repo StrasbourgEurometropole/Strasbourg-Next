@@ -9,7 +9,7 @@
 
 	h4 {
 		@include ft($f_hx, 1.2em, 400, $c_white, 1.5em);
-		text-transform: uppercase;
+
 		margin-bottom: 5px;
 		padding: 8px 0;
 		display: block;
@@ -56,7 +56,7 @@
 		}
 		h3 {
 			@include ft($f_hx, 1.125em, 700, $c_txt, 1.25em);
-			text-transform: uppercase;
+
 		}
 
 		.pro-meta-footer {

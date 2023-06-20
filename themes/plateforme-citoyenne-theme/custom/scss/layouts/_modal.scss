@@ -138,7 +138,7 @@
 			h3 {
 				@include ft($f_hx, 1.25em, 700, $c_main, 1.25em);
 				text-align: left;
-				text-transform: uppercase;
+
 				margin: 0;
 				padding: 15px 30px 15px 0;
 			}
@@ -190,7 +190,7 @@
 		h2 {
 			@include ft($f_hx, 5em, 700, $c_txt, 1.2em);
 			display: block;
-			text-transform: uppercase;
+
 			margin: 0;
 			@include mobile {
 				font-size: 3em;
@@ -198,22 +198,13 @@
 		}
 		.pro-soustitre {
 			position: relative;
-			@include ft($f_hx, 1.250em, 700, $c_txt, 1em);
+			@include ft($f_hx, 1.4em, 700, $c_txt, 1em);
 			display: block;
-			text-transform: uppercase;
+			letter-spacing: -0.5px;
 			padding-left: 40px;
 			margin-bottom: 30px;
 			@include mobile {
 				font-size: 0.8em;
-			}
-			&:before {
-				content: '';
-				width: 30px;
-				height: 18px;
-				position: absolute;
-				left: 0;
-				top: 0;
-				background: $c_main;
 			}
 		}
 
@@ -257,7 +248,7 @@
 				}
 				h3 {
 					@include ft($f_hx, 0.938em, 700, $c_main, 1.571em);
-					text-transform: uppercase;
+
 				}
 				p {
 					@include ft($f_txt, 0.875em, 400, $c_white, 1.571em);
@@ -270,7 +261,7 @@
 					display: block;
 					text-align: center;
 					margin: 20px 0;
-					text-transform: uppercase;
+
 				}
 
 				.pro-no-account {
@@ -328,7 +319,7 @@
 						label {
 							display: block;
 							@include ft($f_hx, 0.938em, 700, $c_main, 1.571em);
-							text-transform: uppercase;
+
 							margin-bottom: 15px;
 						}
 						textarea {

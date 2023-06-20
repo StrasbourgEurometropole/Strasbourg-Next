@@ -55,7 +55,7 @@
 				@include addTransition();
 				position: relative;
 				@include ft($f_hx, 1.5em, 700, $c_dark, normal);
-				text-transform: uppercase;
+
 				margin: 0;
 				display: flex;
 				align-items: center;

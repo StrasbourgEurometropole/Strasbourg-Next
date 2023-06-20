@@ -13,7 +13,7 @@ $border_top: 1px dashed;
 		margin: 20px;
 
 		h3 {
-			height: 105px;
+			height: 60px;
 		}
 	}
 
@@ -31,6 +31,7 @@ $border_top: 1px dashed;
 			li {
 				background-color: $c_white;
 				color: $c_txt;
+				font-weight: bold;
 				border-top: $border_top rgba(#D9D9D9, 1);
 			}
 		}
@@ -40,6 +41,7 @@ $border_top: 1px dashed;
 		li {
 			color: $c_white;
 			background-color: black;
+			font-weight: bold;
 			border-top: $border_top rgba(#585D63, 1);
 			padding: $padding_li;
 			a {
@@ -47,7 +49,7 @@ $border_top: 1px dashed;
 			}
 
 			&:after {
-				content: '➤';
+				content: "\23F5";
 				float:right;
 			}
 		}
@@ -140,7 +142,7 @@ $border_top: 1px dashed;
 			}
 			p {
 				@include ft($f_hx, 0.938em, 400, $c_txt, 1.867em);
-				text-transform: uppercase;
+
 				width: auto;
 				overflow: visible;
 				white-space: normal;
@@ -212,26 +214,26 @@ $border_top: 1px dashed;
 				@include ft($f_hx, 0.875em, 700, $c_white, normal);
 				background: $c_dark;
 				border-radius: 4px;
-				text-transform: uppercase;
+
 				display: block;
 				padding: 3px 10px;
 			}
 		}
 
 		.pro-time {
-			@include ft($f_txt, 0.688em, 400, $c_txt, normal);
+			@include ft($f_txt, 0.8em, 400, $c_txt, normal);
 			text-transform: uppercase;
-			letter-spacing: 2px;
+			letter-spacing: 1px;
 			display: block;
 			margin-bottom: 3px;
 			background: none;
 			padding: 0;
 		}
 		h3 {
-			@include ft($f_hx, 1.250em, 700, $c_txt, 1.250em);
-			text-transform: uppercase;
+			@include ft($f_hx, 1.4em, 700, $c_txt, 1em);
+
 			margin: 0 0 8px 0;
-			height: 73px;
+			height: 70px;
 			overflow: hidden;
 			@include mobile {
 				font-size: 22px;
@@ -355,7 +357,7 @@ $border_top: 1px dashed;
 			position: absolute;
 			bottom: 15px;
 			left: 40px;
-			text-transform: uppercase;
+
 			opacity: 0;
 			@include addTransitionCurve();
 		}
@@ -372,9 +374,8 @@ $border_top: 1px dashed;
 		z-index: 20;
 		@include addTransitionCurve();
 		.publication {
-			@include ft($f_txt, 0.688em, 300, $c_txt, 1.5em);
+			@include ft($f_txt, 0.8em, 400, $c_txt, 1.5em);
 			text-transform: uppercase;
-			letter-spacing: 2px;
 			display: block;
 			margin-bottom: 13px;
 			max-width: 100%;
@@ -384,11 +385,11 @@ $border_top: 1px dashed;
 		}
 		.actu-location {
 			display: block;
-			@include ft($f_hx, 1em, 400, $c_txt, 1.5em);
+			@include ft($f_hx, 1em, 700, $c_txt, 1.5em);
 		}
 		h3 {
-			@include ft($f_hx, 1.250em, 700, $c_txt, 1.200em);
-			text-transform: uppercase;
+			@include ft($f_hx, 1.4em, 700, $c_txt, 1em);
+
 			margin-bottom: 10px;
 			height: 72px;
 			overflow: hidden;
@@ -411,6 +412,13 @@ $border_top: 1px dashed;
 		display: flex;
 		padding: 15px;
 		border-top: dashed 1px #d9d9d9;
+		@include addTransitionCurve();
+		&:hover, &:focus {
+			background-color: #20272f;
+			span {
+				color: $c_white !important;
+			}
+		}
 		span.link {
 			flex: 1;
 			@include ft($f_txt, $s_p, 700, $c_txt, 1.200em);
@@ -595,9 +603,8 @@ $border_top: 1px dashed;
 			}
 		}
 		.pro-time {
-			@include ft($f_txt, 0.688em, 400, $c_txt, normal);
+			@include ft($f_txt, 0.8em, 400, $c_txt, normal);
 			text-transform: uppercase;
-			letter-spacing: 2px;
 			display: block;
 			margin-bottom: 3px;
 			background: none;
@@ -619,8 +626,8 @@ $border_top: 1px dashed;
 
 		}
 		h3 {
-			@include ft($f_hx, 1.250em, 700, $c_txt, 1.250em);
-			text-transform: uppercase;
+			@include ft($f_hx, 1.4em, 700, $c_txt, 1em);
+
 			margin: 0 0 0 95px;
 			height: 50px;
 			overflow: hidden;
@@ -670,6 +677,7 @@ $border_top: 1px dashed;
 	padding: 4px 10px 2px;
 	text-align: center;
 	text-transform: uppercase;
+
 	background: black !important;
 	@media screen and (max-width: 320px) {
 		max-width: 100%;
@@ -724,7 +732,7 @@ $border_top: 1px dashed;
 			}
 		}
 		p {
-			@include ft($f_txt, 0.750em, 400, $c_txt, 1.533em);
+			@include ft($f_txt, 0.750em, 400, $c_txt, 1em);
 			display: inline-block;
 			width: calc(100% - 180px);
 			margin-bottom: 0;
@@ -761,9 +769,9 @@ $border_top: 1px dashed;
 		}
 
 		.pro-time {
-			@include ft($f_txt, 0.688em, 400, $c_txt, normal);
+			@include ft($f_txt, 0.8em, 400, $c_txt, normal);
 			text-transform: uppercase;
-			letter-spacing: 2px;
+
 			display: block;
 			margin-bottom: 3px;
 			background: none;
@@ -775,12 +783,11 @@ $border_top: 1px dashed;
 			}
 		}
 		h3 {
-			@include ft($f_hx, 1.250em, 700, $c_txt, 1.250em);
-			text-transform: uppercase;
+			@include ft($f_hx, 1.4em, 700, $c_txt, 1em);
+
 			margin: 0 0 5px 0;
 			min-height: 75px;
 			max-height: 75px;
-			@include ellipsis(3, 1.25em);
 			@include mobile {
 				font-size: 22px;
 				line-height: 28px;
@@ -801,7 +808,7 @@ $border_top: 1px dashed;
 		padding: 5px 10px;
 		background-color: #EBECEE;
 		.pro-form-style {
-			@include ft($f_txt, $s_small, 400, #4c4c4c, 20px);
+			@include ft($f_txt, $s_small, 700, #4c4c4c, 20px);
 			display: block;
 			padding: 6px 0;
 			white-space: nowrap;
@@ -1085,11 +1092,12 @@ $border_top: 1px dashed;
 	}
 
 	h3 {
-		@include ft($f_hx, 1.250em, 700, $c_txt, 1.2em);
+		@include ft($f_hx, 1.4em, 700, $c_txt, 1em);
+		letter-spacing: -0.5px;
 		display: block;
 		float: none;
 		margin: 10px 0 25px 0;
-		text-transform: uppercase;
+
 		height: 48px;
 		overflow: hidden;
 		@include addTransition();
@@ -1235,7 +1243,7 @@ $border_top: 1px dashed;
 			margin-right: 15px;
 		}
 		p {
-			@include ft($f_txt, 0.750em, 400, $c_txt, 1.533em);
+			@include ft($f_txt, 0.750em, 400, $c_txt, 1.1em);
 			display: inline-block;
 			width: calc(100% - 70px);
 			margin-bottom: 0;
@@ -1281,16 +1289,16 @@ $border_top: 1px dashed;
 				@include ft($f_hx, 0.875em, 700, $c_white, normal);
 				background: $c_dark;
 				border-radius: 4px;
-				text-transform: uppercase;
+
 				display: block;
 				padding: 3px 10px;
 			}
 		}
 
 		.pro-time {
-			@include ft($f_txt, 0.688em, 400, $c_txt, normal);
+			@include ft($f_txt, 0.8em, 400, $c_txt, normal);
 			text-transform: uppercase;
-			letter-spacing: 2px;
+
 			display: block;
 			margin-bottom: 3px;
 			background: none;
@@ -1302,8 +1310,8 @@ $border_top: 1px dashed;
 			}
 		}
 		h3 {
-			@include ft($f_hx, 1.250em, 700, $c_txt, 1.250em);
-			text-transform: uppercase;
+			@include ft($f_hx, 1.4em, 700, $c_txt, 1em);
+			letter-spacing: -0.5px;
 			margin: 0 0 5px 0;
 			@include ellipsis(2, 1.25em);
 			@include mobile {
@@ -1437,7 +1445,7 @@ $border_top: 1px dashed;
 			}
 			p {
 				@include ft($f_hx, 0.938em, 400, $c_txt, 1.867em);
-				text-transform: uppercase;
+
 				width: auto;
 				overflow: visible;
 				white-space: normal;
@@ -1457,7 +1465,7 @@ $border_top: 1px dashed;
 			}
 		}
 		p {
-			@include ft($f_txt, 0.750em, 400, $c_txt, 1.533em);
+			@include ft($f_txt, 0.750em, 400, $c_txt, 1.1em);
 			display: inline-block;
 			width: calc(100% - 70px);
 			margin-bottom: 0;
@@ -1509,7 +1517,7 @@ $border_top: 1px dashed;
 				@include ft($f_hx, 0.875em, 700, $c_white, normal);
 				background: $c_dark;
 				border-radius: 4px;
-				text-transform: uppercase;
+
 				display: block;
 				padding: 3px 10px;
 				@include mobile {
@@ -1522,9 +1530,9 @@ $border_top: 1px dashed;
 		}
 
 		.pro-time {
-			@include ft($f_txt, 0.688em, 400, $c_txt, normal);
+			@include ft($f_txt, 0.8em, 400, $c_txt, normal);
 			text-transform: uppercase;
-			letter-spacing: 2px;
+
 			display: block;
 			margin-bottom: 3px;
 			background: none;
@@ -1536,10 +1544,10 @@ $border_top: 1px dashed;
 			}
 		}
 		h3 {
-			@include ft($f_hx, 1.250em, 700, $c_txt, 1.250em);
-			text-transform: uppercase;
+			@include ft($f_hx, 1.4em, 700, $c_txt, 1em);
+			letter-spacing: -0.5px;
 			margin: 0 0 8px 0;
-			height: 73px;
+			height: 70px;
 			overflow: hidden;
 			@include mobile {
 				font-size: 22px;
@@ -1681,6 +1689,7 @@ $border_top: 1px dashed;
 	> figure {
 		position: relative;
 		width: 100% !important;
+		background-color: #f37021;
 		height: 200px;
 		top: 0;
 		left: 0;
@@ -1692,14 +1701,14 @@ $border_top: 1px dashed;
 			left: 0;
 			right: 0;
 			bottom: 0;
-			background: linear-gradient(to top, transparent 0%, rgba(0,0,0,0.5) 90%);
+			background: linear-gradient(to top, transparent 60%, rgba(0,0,0,0.5) 90%);
 		}
 		& ~ .pro-header-budget, & ~ .pro-content-budget {
 			position: relative;
 			width: 100%;
 			left: 0;
 			.pro-encart-theme {
-				max-width: 70px;
+				max-width: 200px;
 				overflow: hidden;
 				white-space: nowrap;
 				text-overflow: ellipsis;
@@ -1744,7 +1753,7 @@ $border_top: 1px dashed;
 			}
 		}
 		p {
-			@include ft($f_txt, 0.750em, 400, $c_white, 1.533em);
+			@include ft($f_txt, 0.750em, 400, $c_white, 1.1em);
 			display: inline-block;
 			width: calc(100% - 70px);
 			margin-bottom: 0;
@@ -1792,26 +1801,26 @@ $border_top: 1px dashed;
 				@include ft($f_hx, 0.875em, 700, $c_txt, normal);
 				background: $c_dark;
 				border-radius: 4px;
-				text-transform: uppercase;
+
 				display: block;
 				padding: 3px 10px;
 			}
 		}
 
 		.pro-time {
-			@include ft($f_txt, 0.688em, 400, $c_txt, normal);
+			@include ft($f_txt, 0.8em, 400, $c_txt, normal);
 			text-transform: uppercase;
-			letter-spacing: 2px;
+
 			display: block;
 			margin-bottom: 3px;
 			background: none;
 			padding: 0;
 		}
 		h3 {
-			@include ft($f_hx, 1.250em, 700, $c_txt, 1.250em);
-			text-transform: uppercase;
+			@include ft($f_hx, 1.4em, 700, $c_txt, 1em);
+			letter-spacing: -0.5px;
 			margin: 0 0 8px 0;
-			height: 73px;
+			height: 70px;
 			@include ellipsis(2);
 			@include mobile {
 				font-size: 22px;
@@ -1822,7 +1831,7 @@ $border_top: 1px dashed;
 
 		p {
 			@include ft($f_txt, 0.813em, 400, $c_txt, normal);
-			margin-bottom: 8px;
+			margin-bottom: -5px;
 		}
 
 		a {
@@ -1950,8 +1959,8 @@ $border_top: 1px dashed;
 		}
 
 		h3 {
-			@include ft($f_hx, 1.250em, 700, $c_txt, 1.250em);
-			text-transform: uppercase;
+			@include ft($f_hx, 1.4em, 700, $c_txt, 1em);
+			letter-spacing: -0.5px;
 			margin: 0 0 5px 0;
 			@include ellipsis(3, 1.25em);
 			@include mobile {

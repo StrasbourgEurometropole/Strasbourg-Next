@@ -155,6 +155,51 @@
 	}
 }
 
+// dailymotion
+.dailymotion {
+	a:before {
+		@include font();
+		content: "\e701";
+		color: $c_white;
+	}
+}
+
+// tumblr
+.tumblr {
+	a:before {
+		@include font();
+		content: "\e703";
+		color: $c_white;
+	}
+}
+
+// Snapchat
+.snapchat {
+	a:before {
+		@include font();
+		content: "\e704";
+		color: $c_white;
+	}
+}
+
+// Soundloud
+.soundloud {
+	a:before {
+		@include font();
+		content: "\e705";
+		color: $c_white;
+	}
+}
+
+// Instagram
+.instagram {
+	a:before {
+		@include font();
+		content: "\e905";
+		color: $c_white;
+	}
+}
+
 .network-list {
 	// List Item
 	position: absolute;

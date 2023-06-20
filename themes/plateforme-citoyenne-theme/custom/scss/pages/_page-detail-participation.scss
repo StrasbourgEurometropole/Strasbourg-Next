@@ -86,7 +86,7 @@
 						margin-right: 15px;
 					}
 					p {
-						@include ft($f_txt, 0.750em, 400, $c_txt, 1.533em);
+						@include ft($f_txt, 0.750em, 400, $c_txt, 1.1em);
 						display: inline-block;
 						width: calc(100% - 70px);
 						margin-bottom: 0;
@@ -129,7 +129,7 @@
 						@include ft($f_hx, 1em, 400, rgba($c_txt, 0.5), 4.667em);
 						text-align: center;
 						padding: 0;
-						text-transform: uppercase;
+
 						border: none;
 						background: #ececec;
 						margin: 0;
@@ -249,14 +249,14 @@
 						}
 						.pro-name {
 							@include ft($f_txt, $s_small, 400, $c_txt, normal);
-							text-transform: uppercase;
-							letter-spacing: 2px;
+
+
 							display: block;
 							margin: 10px 0;
 						}
 						h3 {
-							@include ft($f_hx, 1.250em, 700, $c_txt, 1.200em);
-							text-transform: uppercase;
+							@include ft($f_hx, 1.4em, 700, $c_txt, 1em);
+							letter-spacing: -0.5px;
 							display: block;
 							margin: 10px 0;
 						}
@@ -267,17 +267,6 @@
 						}
 					}
 				}
-			}
-		}
-
-		.pro-bloc-telechargements {
-			padding: 50px 0;
-			@include tablet_portrait {
-				padding: 50px 0 20px 0;
-			}
-			h3 {
-				text-transform: uppercase;
-				margin-bottom: 10px;
 			}
 		}
 

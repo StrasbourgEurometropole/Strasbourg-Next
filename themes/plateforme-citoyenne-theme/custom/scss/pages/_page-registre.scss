@@ -173,7 +173,8 @@
 		}
 
 		.pro-title-question {
-			@include ft($f_hx, 1.250em, 700, $c_dark, 1.625em);
+			@include ft($f_hx, 1.4em, 700, $c_dark, 1em);
+			letter-spacing: -0.5px;
 			position: relative;
 			display: block;
 			margin: 10px 0 5px 0;
@@ -299,7 +300,7 @@
 					@include ft($f_txt, 0.813em, 400, $c_dark, 1.188em);
 					position: relative;
 					display: block;
-					text-transform: uppercase;
+
 					span {
 						margin-right: 12px;
 						font-size: 19px;
@@ -338,7 +339,7 @@
 		@include ft($f_hx, 2.5em, 700, $c_dark, normal);
 		position: relative;
 		display: block;
-		text-transform: uppercase;
+
 		margin-bottom: 5px;
 		@include tablet_landscape {
 			font-size: 2em;

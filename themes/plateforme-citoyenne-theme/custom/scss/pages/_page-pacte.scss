@@ -9,8 +9,8 @@
       justify-content: center;
       align-items: center;
       > span {
-        text-transform: uppercase;
         @include ft($f_hx, 1.2em, 400, black, 2em);
+        text-transform: uppercase;
       }
       > h1 {
         @include ft($f_hx, 6em, 700, $c_white, auto);
@@ -63,12 +63,14 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
+            span {
+              &:first-child {
+                font-weight: 700;
+              }
+            }
           }
           span {
             @include ft($f_hx, 0.9em, 400, $c_white, normal);
-            &:first-child {
-              font-weight: 700;
-            }
           }
 
         }

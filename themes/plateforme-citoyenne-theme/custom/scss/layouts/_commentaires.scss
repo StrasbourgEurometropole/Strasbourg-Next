@@ -48,6 +48,7 @@
 			@include tablet_portrait {
 				padding-left: 1rem;
 				padding-top: 1rem;
+				padding-bottom: 3rem;
 			}
 	        background-color: #E7E7E8;
 			&::after {
@@ -105,7 +106,7 @@
 		& .reply-author {
 			text-align: right;
 		span {
-			text-transform: uppercase;
+
 		}
 		}
 
@@ -118,7 +119,7 @@
 		}
 
 		.pro-comment-time {
-			text-transform: uppercase;
+
 		}
 
 		.pro-name {
@@ -246,7 +247,7 @@
 			}
 			h3 {
 				@include ft($f_hx, 0.938em, 700, $c_main, 1.571em);
-				text-transform: uppercase;
+
 			}
 			p {
 				@include ft($f_txt, 0.875em, 400, $c_white, 1.571em);
@@ -257,7 +258,7 @@
 				display: block;
 				text-align: center;
 				margin: 20px 0;
-				text-transform: uppercase;
+
 			}
 
 			.pro-no-account {

@@ -7,7 +7,7 @@
 
 	.pro-affiner {
 		@include ft($f_hx, 1.2em, 400, $c_white, 1.5em);
-		text-transform: uppercase;
+
 		display: block;
 		padding: 20px 15px 25px;
 		position: relative;
@@ -78,7 +78,7 @@
 
 				h4 {
 					@include ft($f_hx, 0.938em, 400, $c_main, 1.5em);
-					text-transform: uppercase;
+
 					margin-bottom: 0;
 				}
 				span {
@@ -219,7 +219,7 @@
 							position: relative;
 							.label {
 								@include ft($f_hx, 0.938em, 400, $c_txt, 1.5em);
-								text-transform: uppercase;
+
 								height: 100%;
 								padding: 8px 0;
 								text-align: left;

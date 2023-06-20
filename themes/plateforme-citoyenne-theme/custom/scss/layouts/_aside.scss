@@ -73,7 +73,7 @@ aside {
 			text-align: left;
 			span{
 				color: $c_rouge;
-				text-transform: uppercase;
+
 			}
 		}
 	}
@@ -90,88 +90,35 @@ aside {
 
 
 	.pro-compteur {
-		border-bottom: 1px solid #666666;
 		padding: 25px 40px;
 		@include tablet_landscape {
 			padding: 25px 20px;
 		}
 
 		.pro-compt {
-			display: block;
-			margin-bottom: 10px;
-			position: relative;
-			@include clearfix();
-			&:before {
-				content: '';
-				position: absolute;
-				top: calc(50% - 1px);
-				left: 0;
-				right: 0;
-				width: 100%;
-				height: 1px;
-				background: $c_txt;
-				z-index: 140;
-			}
-
-			&.pro-compt-six {
-				span {
-					width: calc(16.667% - 5px);
-				}
-			}
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+			gap: 10px;
 			span {
-				position: relative;
-				width: calc(20% - 4px);
-				height: 50px;
-				display: inline-block;
-				vertical-align: middle;
-				@include ft($f_hx, 1.875em, 700, $c_white, 50px);
-				margin-right: 5px;
 				text-align: center;
-				z-index: 100;
-				border-radius: 2px;
-				float: left;
-				&:before {
-					content: '';
-					position: absolute;
-					top: 0;
-					bottom: 50%;
-					left: 0;
-					right: 0;
-					background: #666666;
-					z-index: -1;
-					border-top-left-radius: 2px;
-					border-top-right-radius: 2px;
-				}
-				&:after {
-					content: '';
-					position: absolute;
-					top: 50%;
-					left: 0;
-					right: 0;
-					bottom: 0;
-					background: #7b7b7b;
-					z-index: -1;
-					border-bottom-left-radius: 2px;
-					border-bottom-right-radius: 2px;
-				}
-				&:last-child {
-					margin-right: 0;
-				}
+				padding: 25px 5px;
+				background-color: white;
+				border-radius: 10px;
+				@include ft($f_hx, 1.875em, 700, $c_txt);
 			}
 		}
 		p {
-			@include ft($f_txt, 0.938em, 400, $c_white, normal);
-			text-align: center;
+			margin-top:10px;
+			@include ft($f_hx, 0.938em, 400, $c_white, normal);
+			text-align: left;
 		}
 		.pro-btn-action {
-			border-color: $c_main;
-			color: $c_main !important;
+			color: $c_white !important;
+			background-color: #20272f;
 			width: 100%;
 			&:hover, &.active {
 				color: $c_txt !important;
-				&:after {
-					color: $c_txt;
-				}
+				background-color: $c_white;
 			}
 			&.active {
 				&:after {
@@ -193,43 +140,71 @@ aside {
 			}
 		}
 	}
+	.pro-btn-black {
+		@include ft($f_hx, 0.9em, 700, $c_white);
+		align-self: stretch;
+		padding: 20px;
+		background-color: #20272f;
+		text-align: center;
+		margin-bottom: 20px;
+	}
 
 
 	.pro-wrapper-aside-budget{
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 10px;
 		padding: 30px 40px 45px 40px;
-		p{
-			@include ft($f_txt, 0.875em, 400, $c_white, 1.714em);
-			margin-bottom: 20px;
-			text-align: center;
-			&.pro-txt-vote{
-				margin-bottom: 14px;
-			}
+		p, a {
+			@include ft($f_hx, 1em, 400, $c_white);
+			margin: 0;
 		}
-		a{
-			margin: 0 0 10px 0;
-			&:last-child{
-				margin: 0;
-			}
+		span {
+			@include ft($f_hx, 0.8em, 400, $c_txt);
+			text-transform: uppercase;
+			padding: 10px;
+			background-color: $c_white;
+			border: solid 1px #d9d9d9;
+
 		}
+
+
+		.pro-comment-count {
+			padding-top: 20px;
+			border-top: solid 1px #f69459;
+			width: 100%;
+		}
+
 	}
 
 
 	.pro-event-comming {
-		padding: 15px 40px;
-		border-bottom: 1px solid #666666;
+
 		@include tablet_landscape {
 			padding: 15px 20px;
 		}
 		p, a {
-			@include ft($f_txt, 0.875em, 400, $c_white, 1.714em);
-			margin-bottom: 0;
+			border-bottom: solid 1px #f69459;
+			&:not(:last-child) {
+				border-bottom: dashed 1px #f69459;
+				border-top: solid 1px #f69459;
+			}
+			@include ft($f_hx, 0.875em, 400, $c_white, 1.714em);
+			padding: 10px 0;
+			margin: 0 40px;
 			display: block;
-			strong {
-				color: $c_main;
+			&:after {
+				content: "\23F5";
+				float: right;
 			}
-			&:hover, &:focus {
-				color: $c_main;
-			}
+		}
+	}
+	.pro-contact {
+		padding: 40px;
+		h4, p, a {
+			color: $c_white;
+			@include ft($f_hx);
 		}
 	}
 

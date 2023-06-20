@@ -1,13 +1,30 @@
 .pro-page-detail-initiative{
-
-
-
-	.side-budget {
+	position: relative;
+	.side-atelier {
+		margin-top: -35px;
+		padding: 0;
+		.pro-push-avis {
+			position: static;
+			width: auto;
+			> a:first-child:after {
+				content: none;
+			}
+		}
+		.pro-wrapper-links {
+			background: transparent;
+			display: flex;
+			flex-direction: column;
+		}
+	}
+	.side-budget, .side-atelier {
 		@include addTransitionCurve();
 		position: sticky;
 		top: 162px;
 		background-color: #F37021;
-		height:100vh;
+		height: 100vh;
+		@include tablet_portrait {
+			height: auto;
+		}
 		.is-scrolled & {
 			top: 80px;
 		}
@@ -16,15 +33,17 @@
 			top: 152px;
 		}
 
+
+
 		.pro-wrapper-aside-budget {
 			&:before {
 				content: '';
 				display: block;
 				height: 20px;
-				width: 100%;
+				width: calc(100% - 1px);
 				position: absolute;
 				z-index: 99;
-				top: 400px;
+				top: 250px;
 				left: 0;
 				background: inherit;
 				-webkit-transform: skew(0, -2deg);
@@ -90,7 +109,7 @@
 						@include ft($f_hx, 0.875em, 700, $c_white, normal);
 						background: $c_dark;
 						border-radius: 4px;
-						text-transform: uppercase;
+
 						display: block;
 						padding: 3px 10px;
 					}
@@ -108,7 +127,7 @@
 						margin-right: 15px;
 					}
 					p {
-						@include ft($f_txt, 0.875em, 400, $c_txt, 1.533em);
+						@include ft($f_txt, 0.875em, 400, $c_txt, 1.1em);
 						display: inline-block;
 						width: calc(100% - 70px);
 						margin-bottom: 0;
@@ -202,7 +221,7 @@
 						@include ft($f_hx, 1em, 400, rgba($c_txt, 0.5), 4.667em);
 						text-align: center;
 						padding: 0;
-						text-transform: uppercase;
+
 						border: none;
 						background: #ececec;
 						margin: 0;
@@ -276,17 +295,6 @@
 						}
 					}
 				}
-			}
-		}
-
-		.pro-bloc-telechargements {
-			padding: 50px 0;
-			@include tablet_portrait {
-				padding: 50px 0 20px 0;
-			}
-			h3 {
-				text-transform: uppercase;
-				margin-bottom: 10px;
 			}
 		}
 
@@ -461,7 +469,7 @@
 			}
 			.pro-btn{
 				position: relative;
-				right: 0;
+				right: 105px;
 				top: 0;
 				float: left;
 				display: inline-block;
@@ -477,6 +485,7 @@
 				}
 				@include mobile{
 					margin-left: 0;
+					right: 0;
 				}
 			}
 		}

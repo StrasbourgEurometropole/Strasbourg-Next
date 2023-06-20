@@ -24,8 +24,8 @@
 				margin-bottom: 20px;
 			}
 			h1 {
-				@include ft($f_hx, 2.500em, 700, $c_txt, 1.100em);
-				text-transform: uppercase;
+				@include ft($f_hx, 3em, 700, $c_txt, 1.100em);
+
 				display: block;
 				margin-bottom: 0;
 				position: relative;
@@ -69,7 +69,9 @@
 				}
 			}
 			#breadcrumb {
-				padding: 10px 0;
+				padding: 20px 0;
+				border-bottom: solid 1px #dddddd;
+				width: 100%;
 			}
 
 			.pro-summary{
@@ -80,8 +82,7 @@
 					width: 100%;
 				}
 				p{
-					font-size: 1.125em;
-					line-height: 1.556em;
+					@include ft($f_hx, 1.4em, 700);
 				}
 			}
 		}
@@ -110,7 +111,7 @@
 						@include ft($f_hx, 0.875em, 700, $c_white, normal);
 						background: $c_dark;
 						border-radius: 4px;
-						text-transform: uppercase;
+
 						display: inline-block;
 						padding: 3px 10px;
 					}
@@ -202,7 +203,7 @@
 				}
 				h4 {
 					@include ft($f_hx, 0.938em, 700, $c_txt, normal);
-					text-transform: uppercase;
+
 					padding-bottom: 10px;
 					border-bottom: 1px solid #cccccc;
 					margin-bottom: 20px;
@@ -233,7 +234,7 @@
 							top: 150%;
 							left: 50%;
 							margin-left: -60px;
-							@include ft($f_txt, 0.750em, 400, $c_white, 1em);
+							@include ft($f_hx, 0.750em, 400, $c_white, 1em);
 						}
 
 						&.pro-tooltip .tooltiptext::after {
@@ -252,7 +253,7 @@
 					}
 				}
 				p {
-					@include ft($f_txt, 0.875em, 400, #4c4c4c, normal);
+					@include ft($f_hx, 0.875em, 400, #4c4c4c, normal);
 				}
 			}
 

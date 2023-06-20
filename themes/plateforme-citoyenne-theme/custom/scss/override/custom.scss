@@ -22,8 +22,8 @@
             }
 
             .ddm-form-description{
-                @include ft($f_hx, 1.250em, 700, $c_dark, 1.3em);
-                text-transform: uppercase;
+                @include ft($f_hx, 1.4em, 700, $c_dark, 1em);
+                letter-spacing: -0.5px;
                 margin-bottom: 10px;
                 display: inline-block;
                 padding: 0;
@@ -48,7 +48,7 @@
                 margin-top: 25px;
 
                 label, legend {
-                    @include ft($f_hx, 1.250em, 700, $c_dark, 1.625em);
+                    @include ft($f_hx, 1.4em, 700, $c_dark, 11em);
                     position: relative;
                     display: block;
                     margin: 10px 0 5px 0;
@@ -240,7 +240,7 @@
                 text-align: center;
                 background: $c_main;
                 border-radius: 4px;
-                text-transform: uppercase;
+
                 width: 300px;
                 margin: 40px auto 0;
                 float: none !important;

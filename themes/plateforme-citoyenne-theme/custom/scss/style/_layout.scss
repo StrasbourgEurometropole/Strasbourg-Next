@@ -193,9 +193,8 @@ figcaption {
 	padding: 0 20px;
 	@include mobile {
 		display: block;
-		float: none;
 		padding: 0;
-		margin: 15px 0px;
+		margin: 15px;
 	}
 	&.open{
 		span, a{
@@ -212,7 +211,7 @@ figcaption {
 	span, a {
 		position: relative;
 		@include ft($f_hx, 1.5em, 700, $c_txt, 1.5em);
-		text-transform: uppercase;
+
 		@include addTransitionCurve();
 		&:before {
 			content: '';
@@ -439,7 +438,7 @@ figcaption {
 	}
 	label {
 		@include ft($f_hx, 1em, 400, $c_txt, 1.5em);
-		text-transform: uppercase;
+
 		margin: 0 4px;
 	}
 	.pro-wrapper-date {
@@ -497,8 +496,8 @@ a.pro-btn-tel {
 	vertical-align: middle;
 	@include clearfix();
 	> span, > a {
-		@include ft($f_hx, 1.125em, 300, #4c4c4c, 2em);
-		text-transform: uppercase;
+		@include ft($f_hx, 0.9em, 700, #4c4c4c, 2em);
+
 		position: relative;
 		float: left;
 		padding: 0 6px;
@@ -538,7 +537,7 @@ a.pro-btn-tel {
 				@include ft($f_hx, 1em, 400, rgba($c_txt, 0.5), 4.667em);
 				text-align: center;
 				padding: 0;
-				text-transform: uppercase;
+
 				border: none;
 				background: #ececec;
 				margin: 0;
@@ -642,7 +641,7 @@ main {
 			h1 {
 				@include ft($f_hx, 1.875em, 700, $c_white, 1.267em);
 				padding: 10px 25px;
-				text-transform: uppercase;
+
 				display: inline-block;
 				margin-bottom: 0;
 				@include mobile {
@@ -729,7 +728,7 @@ main {
 	text-align: right;
 	span {
 		@include ft($f_hx, 1em, 400, $c_txt, 1.2em);
-		text-transform: uppercase;
+
 		display: inline-block;
 		padding: 10px 0;
 		&:before {
@@ -752,8 +751,8 @@ main {
 	p {
 		@include ft($f_txt, 1.1em, 400, $c_white, 1.3em);
 		padding: 10px 0;
-		text-transform: uppercase;
-		letter-spacing: 2px;
+
+
 		margin-bottom: 0;
 		text-align: center;
 		@include tablet_portrait {
@@ -816,7 +815,7 @@ main {
 		}
 	}
 	p {
-		@include ft($f_txt, 0.688em, 700, $c_txt, 1.5em);
+		@include ft($f_txt, 0.8em, 700, $c_txt, 1.5em);
 		width: 100%;
 		max-width: 100%;
 		margin: 0;

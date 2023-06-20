@@ -31,7 +31,7 @@
 		}
 		h1 {
 			@include ft($f_hx, 6.250em, 700, $c_white, 1em);
-			text-transform: uppercase;
+
 			@include tablet_landscape {
 				font-size: 6em;
 			}
@@ -205,8 +205,9 @@
 				margin-top: -20px;
 			}
 			h3 {
-				@include ft($f_hx, 1.250em, 700, $c_white, 1.3em);
-				text-transform: uppercase;
+				@include ft($f_hx, 1.4em, 700, $c_white, 1em);
+				letter-spacing: -0.5px;
+
 			}
 			ul {
 				li {
@@ -327,7 +328,7 @@
 		}
 		h3 {
 			@include ft($f_hx, 1.5em, 700, $c_txt, 1.125em);
-			text-transform: uppercase;
+
 			margin-bottom: 15px;
 		}
 		p {

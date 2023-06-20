@@ -188,10 +188,102 @@
 		border-left: 0px solid transparent;
 		border-right: 100vw solid transparent;
 		border-bottom: 0 solid $color;
-		bottom: calc(-#{$height} + 1px);
+		bottom: calc(-#{$height} + 2px);
 		border-top: $height solid $color;
 		overflow: visible;
 		z-index: 120;
 	}
 }
 
+@mixin prefixLocationIcon() {
+	position: relative;
+	&:before {
+		content: '';
+		background-image: url('/o/plateforme-citoyenne-theme/images/ico/ico-localisation.svg');
+		width: 10px;
+		height: 15px;
+		display: inline-block;
+		position: absolute;
+		left: -15px;
+		top: 7px;
+		background-size: contain;
+	}
+}
+
+@mixin whiteTextSlider() {
+	h2 {
+		color: $c_white;
+	}
+
+	.pro-btn {
+		color: #171c22;
+		background: $c_white;
+
+		&:hover, &:focus {
+			color: $c_white;
+			background-color: #171c22;
+		}
+	}
+	.owl-carousel {
+		.owl-dots {
+			.owl-dot {
+				border: solid 1px $c_white;
+				&.active {
+					background: $c_white;
+				}
+			}
+		}
+
+		.owl-nav {
+			.owl-prev, .owl-next {
+				span {
+					border: solid 1px $c_white;
+					background: transparent;
+					color: $c_white;
+					&:hover, &:focus {
+						color: $c_main;
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin darkTextSlider() {
+	h2 {
+		color: #171c22;
+	}
+
+	.pro-btn {
+		color: $c_white;
+		background-color: #171c22;
+		&:hover, &:focus {
+			color: #171c22;
+			background: $c_white;
+		}
+	}
+	.owl-carousel {
+		.owl-dots {
+			.owl-dot {
+				border: solid 1px #2e3d50;
+				&.active {
+					background: #2e3d50;
+				}
+			}
+		}
+
+		.owl-nav {
+			.owl-prev, .owl-next {
+				span {
+					border: solid 1px #2e3d50;
+					background: $c_white;
+					color: #2e3d50;
+					&:hover, &:focus {
+						color: $c_white;
+						background-color: #2e3d50;
+					}
+				}
+			}
+		}
+	}
+}

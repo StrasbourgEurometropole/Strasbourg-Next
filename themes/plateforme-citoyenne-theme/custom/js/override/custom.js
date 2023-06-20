@@ -1047,14 +1047,19 @@ function createNews(news) {
                 <figure role="group">
                     <img src="${news.thumbnail}?imagePreview=1" loading="lazy" alt="Image" width="360" height="174" class="fit-cover"/>
                 </figure>
-                <span>${news.jsonVocabulariesTitle}</span>
             </div>
             <div class="content">
+            <div class="content-wrapper">
                 <span class="publication">Publiée le ${news.modifiedDate}</span>
                 <h3>${news.title}</h3>
                 <p>${news.chapo}${news.chapo.length > 100 ? '...' : ''}</p>
-                <span class="link">Lire la suite</span>
+                <span>${news.jsonVocabulariesTitle}</span>
             </div>
+            <div class="footer-news">
+            <span class="link">Lire la suite</span>
+            </div>
+</div>
+            
         </a>
     </div>`;
 

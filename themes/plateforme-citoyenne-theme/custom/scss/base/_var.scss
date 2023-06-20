@@ -83,12 +83,45 @@
 
 }
 
+// Fonts TT Fors
+// ==========================================================================
+@font-face {
+    font-family: 'TT Fors';
+    src: url('../fonts/TT-Fors-Trial-Bold.woff2') format('woff2'),
+    url('../fonts/TT-Fors-Trial-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'TT Fors';
+    src: url('../fonts/TT-Fors-Trial-Regular.woff2') format('woff2'),
+    url('../fonts/TT-Fors-Trial-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'TT Fors';
+    src: url('../fonts/TT-Fors-Trial-Light.woff2') format('woff2'),
+    url('../fonts/TT-Fors-Trial-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'TT Fors';
+    src: url('../fonts/TT Fors-Trial-Italic.woff2') format('woff2'),
+    url('../fonts/TT Fors-Trial-Italic.woff') format('woff');
+    font-weight: 400;
+    font-style: italic;
+
+}
+
 
 // Fonts
 // ==========================================================================
-$f_hx: 'Oswald', Sans-Serif;
-$f_txt: 'Roboto', Sans-Serif;
-$f_spe: 'Montserrat', Sans-Serif;
+$f_hx: 'TT Fors', Sans-Serif;
+$f_txt: 'TT Fors', Sans-Serif;
+$f_spe: 'TT Fors', Sans-Serif;
 
 // Colors
 // ==========================================================================
@@ -117,11 +150,11 @@ $c_brun: #665348;
 // ==========================================================================
 $s_h1: 36px;																			
 $s_h2: 3em;
-$s_h3: 1.500em;
+$s_h3: 1.4em;
 $s_h4: 18px;																			
 $s_p: 0.938em;
 $s_link: 1.125em;
-$s_small: 0.813em;
+$s_small: 0.9em;
 
 
 // Width / Height / Spacing

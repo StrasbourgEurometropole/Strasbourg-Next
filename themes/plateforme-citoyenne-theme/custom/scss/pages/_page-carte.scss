@@ -91,7 +91,7 @@
 
 		.pro-affiner {
 			@include ft($f_hx, 0.938em, 400, $c_main, 1.5em);
-			text-transform: uppercase;
+
 			display: block;
 			padding: 30px;
 			position: relative;
@@ -211,7 +211,7 @@
 				.label {
 					@include ft($f_hx, 0.938em, 400, $c_txt, 1.200em);
 					padding: 11px 0;
-					text-transform: uppercase;
+
 					height: 100%;
 					margin: 0;
 					border-radius: 0;
@@ -340,7 +340,7 @@
 					@include ft($f_hx, 0.938em, 400, $c_txt, 1.200em);
 					padding: 12px 45px 12px 23px;
 					display: block;
-					text-transform: uppercase;
+
 					position: relative;
 					z-index: 1000;
 					white-space: nowrap;

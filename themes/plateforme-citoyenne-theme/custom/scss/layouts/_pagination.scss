@@ -5,6 +5,7 @@
 	background-color: white;
 	@include mobile {
 		padding: 20px 0;
+		border-top: none;
 	}
 
 	p, form {
@@ -46,7 +47,7 @@
 			.label {
 				position: relative;
 				@include ft($f_hx, $s_p, 400, $c_txt, 1.6em);
-				text-transform: uppercase;
+
 				margin: 0;
 				height: 100%;
 				padding: 0;
@@ -79,7 +80,7 @@
 			ul {
 				li {
 					@include ft($f_hx, $s_p, 400, $c_txt, 1.6em);
-					text-transform: uppercase;
+
 					padding: 8px 15px;
 				}
 			}
@@ -110,7 +111,7 @@
 				a {
 					padding: 0 20px;
 					@include ft($f_hx, $s_p, 400, $c_txt, 1.6em);
-					text-transform: uppercase;
+
 					position: relative;
 					@include addTransition();
 					&:hover, &:focus {

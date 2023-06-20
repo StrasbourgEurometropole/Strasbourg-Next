@@ -87,7 +87,6 @@ main {
 				display: block;
 				@include ft($f_hx, 5em, 700, $c_white, 1em);
 				margin-bottom: 30px;
-				text-transform: uppercase;
 				@include mobile {
 					font-size: 2em;
 				}
@@ -196,7 +195,7 @@ main {
 				@include ft($f_hx, 1.750em, 400, $c_txt, 36px);
 				@extend %appearance;
 				box-sizing: border-box;
-				text-transform: uppercase;
+
 				width: calc(100% - 70px);
 				height: 70px;
 				background: none;
@@ -302,7 +301,7 @@ main {
 					@include ft($f_spe, $s_p, 400, $c_grey50, 3.4em);
 					border: solid 1px #8DBA49;
 					padding: 0 20px;
-					margin: 0 15px;
+					margin: 0 25px;
 					height: 48px;
 					@include addTransition();
 					@include tablet_portrait {
@@ -311,7 +310,7 @@ main {
 						margin-bottom: 5px;
 					}
 					&:before {
-						content: "\e900";
+						content: "\e700";
 						@include font();
 						color: #8DBA49;
 						float: left;
@@ -329,6 +328,12 @@ main {
 					&.connexion-active {
 						background: $c_darkgrey;
 						color: $c_white;
+					}
+					span.text {
+						font-weight: 700;
+						span {
+							font-weight: 400;
+						}
 					}
 				}
 
@@ -362,8 +367,8 @@ main {
 							}
 						}
 						a {
-							@include ft($f_txt, $s_small, 600, $c_white, 4em);
-							text-transform: uppercase;
+							@include ft($f_txt, 1em, 400, $c_white, 4em);
+
 							padding: 0 15px;
 							display: block;
 							@include tablet_portrait {
@@ -417,7 +422,7 @@ main {
 			height: $header-height;
 			line-height: $header-height;
 			font-size: 24px;
-			text-transform: uppercase;
+
 			font-weight: 300;
 			color: $c_main;
 			float: left;
@@ -427,6 +432,7 @@ main {
 
 			@include mobile {
 				height: calc(#{$header-height} - 40px);
+				transition: none;
 			}
 
 			&:focus {
@@ -455,12 +461,13 @@ main {
 				img {
 					@include addTransitionCurve();
 					@include mobile {
-						height: auto;
+						height: 70px !important;
+						width: 100%;
 					}
 					.is-scrolled & {
-						width: 100px;
 						height: 100px;
-						top: 10px;
+						width: 100%;
+						top: 15px;
 					}
 				}
 			}
@@ -641,7 +648,7 @@ main {
 						}
 						a {
 							@include ft($f_hx, $s_link, 700, $c_white, 1.333em);
-							text-transform: uppercase;
+
 							display: block;
 							padding: 0 15px;
 							&:after {
@@ -667,7 +674,7 @@ main {
 							}
 							@include tablet_portrait {
 								@include ft($f_hx, 20px, 700, $c_white, 26px);
-								text-transform: uppercase;
+
 								height: auto;
 								padding: 0 15px;
 								&:after {

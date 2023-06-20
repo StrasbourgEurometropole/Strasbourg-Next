@@ -263,7 +263,7 @@
 				span:not([class^="icon-"]) {
 					@include ft($f_txt, 0.875em, 400, $c_white, 28px);
 					opacity: 0.5;
-					text-transform: uppercase;
+
 					&.pro-price {
 						font-size: 1.250em;
 						font-weight: 700;
