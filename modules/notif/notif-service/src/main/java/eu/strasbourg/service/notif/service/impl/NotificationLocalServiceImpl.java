@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.notif.service.impl;
 
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -51,7 +51,6 @@ import eu.strasbourg.service.notif.service.base.NotificationLocalServiceBaseImpl
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
-import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -219,7 +218,7 @@ public class NotificationLocalServiceImpl
 
 		if (entry != null) {
 			// Delete the link with categories
-			assetEntryAssetCategoryRelLocalService.
+			AssetEntryAssetCategoryRelLocalServiceUtil.
 					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Delete the link with tags
 			long[] tagIds = AssetEntryLocalServiceUtil
@@ -402,7 +401,4 @@ public class NotificationLocalServiceImpl
 				}
 		}
 	}
-	@Reference
-	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
-
 }

@@ -22,14 +22,18 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+
 import eu.strasbourg.service.interest.model.UserInterest;
 import eu.strasbourg.service.interest.model.UserInterestModel;
 import eu.strasbourg.service.interest.service.persistence.UserInterestPK;
 
 import java.io.Serializable;
+
 import java.lang.reflect.InvocationHandler;
+
 import java.sql.Blob;
 import java.sql.Types;
+
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;

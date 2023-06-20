@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.gtfs.exception.NoSuchStopException;
 import eu.strasbourg.service.gtfs.model.Stop;
 import eu.strasbourg.service.gtfs.model.StopTable;
@@ -44,8 +45,10 @@ import eu.strasbourg.service.gtfs.service.persistence.StopPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.StopUtil;
 
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;

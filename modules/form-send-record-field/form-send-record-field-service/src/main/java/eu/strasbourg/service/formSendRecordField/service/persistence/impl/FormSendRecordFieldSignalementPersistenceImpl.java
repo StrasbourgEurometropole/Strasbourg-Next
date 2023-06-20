@@ -37,6 +37,7 @@ import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException;
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement;
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalementTable;
@@ -46,8 +47,10 @@ import eu.strasbourg.service.formSendRecordField.service.persistence.FormSendRec
 import eu.strasbourg.service.formSendRecordField.service.persistence.FormSendRecordFieldSignalementUtil;
 
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;

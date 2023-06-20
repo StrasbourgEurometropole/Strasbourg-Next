@@ -15,8 +15,10 @@
 package eu.strasbourg.service.interest.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.interest.exception.NoSuchInterestException;
 import eu.strasbourg.service.interest.model.Interest;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

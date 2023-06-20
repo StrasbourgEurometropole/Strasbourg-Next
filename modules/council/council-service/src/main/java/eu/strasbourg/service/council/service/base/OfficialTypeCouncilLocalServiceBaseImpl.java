@@ -46,6 +46,7 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.council.model.OfficialTypeCouncil;
 import eu.strasbourg.service.council.service.OfficialTypeCouncilLocalService;
 import eu.strasbourg.service.council.service.OfficialTypeCouncilLocalServiceUtil;
@@ -58,10 +59,13 @@ import eu.strasbourg.service.council.service.persistence.ProcurationPersistence;
 import eu.strasbourg.service.council.service.persistence.TypePersistence;
 import eu.strasbourg.service.council.service.persistence.VotePersistence;
 
-import javax.sql.DataSource;
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
+
 import java.util.List;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the official type council local service.

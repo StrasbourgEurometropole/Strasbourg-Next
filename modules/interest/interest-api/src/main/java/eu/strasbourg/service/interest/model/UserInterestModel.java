@@ -16,7 +16,9 @@ package eu.strasbourg.service.interest.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
+
 import eu.strasbourg.service.interest.service.persistence.UserInterestPK;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

@@ -14,8 +14,7 @@
 
 package eu.strasbourg.service.edition.service.impl;
 
-import org.osgi.annotation.versioning.ProviderType;
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -45,7 +44,7 @@ import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.edition.service.base.EditionGalleryLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
-import org.osgi.service.component.annotations.Reference;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -277,7 +276,7 @@ public class EditionGalleryLocalServiceImpl
 		if (entry != null) {
 
 			// Supprime le lien avec les catégories
-			assetEntryAssetCategoryRelLocalService.
+			AssetEntryAssetCategoryRelLocalServiceUtil.
 					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Supprime le lien avec les tags
 			long[] tagIds = AssetEntryLocalServiceUtil
@@ -388,6 +387,4 @@ public class EditionGalleryLocalServiceImpl
 	}
 
 	private final Log _log = LogFactoryUtil.getLog("strasbourg");
-	@Reference
-	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

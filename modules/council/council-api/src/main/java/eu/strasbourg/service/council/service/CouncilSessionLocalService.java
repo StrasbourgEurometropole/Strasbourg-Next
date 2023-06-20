@@ -33,11 +33,17 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
+
 import eu.strasbourg.service.council.model.CouncilSession;
-import org.osgi.annotation.versioning.ProviderType;
 
 import java.io.Serializable;
+
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * Provides the local service interface for CouncilSession. Methods of this
@@ -80,7 +86,7 @@ public interface CouncilSessionLocalService
 	 * Calcul de la date pour trouver le conseil
 	 * Si la date du jour moins 6h est sur le jour d'avant, alors on fait la recherche sur le jour d'avant
 	 */
-	public java.util.GregorianCalendar calculDateForFindCouncil();
+	public GregorianCalendar calculDateForFindCouncil();
 
 	/**
 	 * Creates a new council session with the primary key. Does not add the council session to the database.
@@ -227,7 +233,7 @@ public interface CouncilSessionLocalService
 	/**
 	 * Recherche par Date de CouncilSession
 	 */
-	public List<CouncilSession> findByDate(java.util.Date date);
+	public List<CouncilSession> findByDate(Date date);
 
 	/**
 	 * Recherche par titre de CouncilSession
@@ -322,7 +328,7 @@ public interface CouncilSessionLocalService
 	 * Retourne les conseils dont la date est égale ou supérieure à celle passée en paramètre
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CouncilSession> getFutureCouncilSessions(java.util.Date date);
+	public List<CouncilSession> getFutureCouncilSessions(Date date);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
@@ -392,7 +398,7 @@ public interface CouncilSessionLocalService
 	 */
 	public CouncilSession updateStatus(
 			long userId, long entryId, int status, ServiceContext sc,
-			java.util.Map<String, Serializable> workflowContext)
+			Map<String, Serializable> workflowContext)
 		throws PortalException;
 
 }

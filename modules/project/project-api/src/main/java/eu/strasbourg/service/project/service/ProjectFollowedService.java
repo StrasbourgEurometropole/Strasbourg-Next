@@ -24,10 +24,12 @@ import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
+
 import eu.strasbourg.service.project.model.ProjectFollowed;
-import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.List;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * Provides the remote service interface for ProjectFollowed. Methods of this

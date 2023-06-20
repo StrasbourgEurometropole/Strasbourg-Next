@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.project.service.impl;
 
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -35,7 +35,6 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.base.PlacitPlaceLocalServiceBaseImpl;
-import org.osgi.service.component.annotations.Reference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -181,7 +180,7 @@ public class PlacitPlaceLocalServiceImpl extends PlacitPlaceLocalServiceBaseImpl
 
 		if (entry != null) {
 			// Supprime le lien avec les catégories
-			assetEntryAssetCategoryRelLocalService.
+			AssetEntryAssetCategoryRelLocalServiceUtil.
 					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Supprime le lien avec les tags
 			long[] tagIds = AssetEntryLocalServiceUtil
@@ -300,6 +299,4 @@ public class PlacitPlaceLocalServiceImpl extends PlacitPlaceLocalServiceBaseImpl
 		return placitPlacePersistence.findWithDynamicQuery(dynamicQuery,
 			-1, -1);
 	}
-	@Reference
-	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

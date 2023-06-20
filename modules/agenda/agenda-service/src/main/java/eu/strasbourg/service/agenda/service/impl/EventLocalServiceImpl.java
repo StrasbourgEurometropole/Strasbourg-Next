@@ -14,8 +14,7 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
-import org.osgi.annotation.versioning.ProviderType;
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -63,7 +62,7 @@ import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
-import org.osgi.service.component.annotations.Reference;
+import org.osgi.annotation.versioning.ProviderType;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -441,7 +440,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 
 		if (entry != null) {
 			// Delete the link with categories
-			assetEntryAssetCategoryRelLocalService.
+			AssetEntryAssetCategoryRelLocalServiceUtil.
 					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
 			// Delete the link with tags
@@ -683,7 +682,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 			try {
 				event = getEvent(result.getEventId());
 			} catch (PortalException e) {
-				e.printStackTrace();
+				_log.error(e.getMessage() + " : " + result);
 			}
 			return event;
 		}).collect(Collectors.toList());
@@ -709,6 +708,19 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		return eventPersistence.findByPlaceSIGId(placeSIGId);
 	}
 
+	/**
+	 * Recherche des Evenements
+	 * @param idsEvents: liste des identifiants
+	 * @return
+	 */
+	public List <Event> findByids(List<Long> idsEvents){
+		if(idsEvents.isEmpty()) {
+			return new ArrayList<Event>();
+		}
+		DynamicQuery eventDynamicQuery = this.dynamicQuery();
+		eventDynamicQuery.add(PropertyFactoryUtil.forName("eventId").in(idsEvents));
+		return this.dynamicQuery(eventDynamicQuery);
+	}
 	/**
 	 * Transform le timeDetail en startTime et endTime si on peut
 	 */
@@ -822,7 +834,5 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	)
 	protected eu.strasbourg.service.agenda.service.HistoricLocalService
 			historicLocalService;
-	@Reference
-	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 
 }

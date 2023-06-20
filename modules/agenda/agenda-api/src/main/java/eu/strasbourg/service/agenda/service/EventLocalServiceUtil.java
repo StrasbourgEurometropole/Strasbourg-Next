@@ -317,6 +317,16 @@ public class EventLocalServiceUtil {
 	}
 
 	/**
+	 * Recherche des Evenements
+	 *
+	 * @param idsEvents: liste des identifiants
+	 * @return
+	 */
+	public static List<Event> findByids(List<Long> idsEvents) {
+		return getService().findByids(idsEvents);
+	}
+
+	/**
 	 * Lance une recherche par mots-clés
 	 */
 	public static List<Event> findByKeyword(

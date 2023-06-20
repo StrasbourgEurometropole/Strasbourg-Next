@@ -15,8 +15,10 @@
 package eu.strasbourg.service.search.log.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.search.log.exception.NoSuchSearchLogException;
 import eu.strasbourg.service.search.log.model.SearchLog;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

@@ -1,6 +1,8 @@
 package eu.strasbourg.portlet.favorites.display.context;
 
 import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -57,7 +59,7 @@ public class FavoritesDisplayContext {
 			this.configuration = themeDisplay.getPortletDisplay()
 					.getPortletInstanceConfiguration(FavoritesConfiguration.class);
 		} catch (ConfigurationException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 	}
 
@@ -324,4 +326,6 @@ public class FavoritesDisplayContext {
 	public Map<String, String[]> getLigneColors() {
 		return LigneLocalServiceUtil.getLigneColorsFreemarker();
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

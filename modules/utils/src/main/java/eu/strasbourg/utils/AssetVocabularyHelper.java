@@ -1,13 +1,12 @@
 package eu.strasbourg.utils;
 
+import com.liferay.asset.category.property.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.asset.entry.rel.model.AssetEntryAssetCategoryRel;
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
-import com.liferay.asset.category.property.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -25,9 +24,12 @@ import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.utils.constants.VocabularyNames;
-import org.osgi.service.component.annotations.Reference;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -867,13 +869,10 @@ public class AssetVocabularyHelper {
 	 *
 	 */
 	public static boolean hasAssetCategoryAssetEntry(long assetEntryId,long assetCategoryId){
-		List<AssetEntryAssetCategoryRel> assetEntryAssetCategoryRels=assetEntryAssetCategoryRelLocalService
+		List<AssetEntryAssetCategoryRel> assetEntryAssetCategoryRels=AssetEntryAssetCategoryRelLocalServiceUtil
 				.getAssetEntryAssetCategoryRelsByAssetEntryId(assetEntryId);
 		return assetEntryAssetCategoryRels.stream().filter(a -> a.getAssetCategoryId() == assetCategoryId).count() > 0;
 	}
-
-	@Reference
-	private static AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 
 	private static Log _log = LogFactoryUtil.getLog("AssetVocabularyHelper");
 }

@@ -4,6 +4,8 @@ import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
@@ -206,7 +208,7 @@ public class ViewNotificationsDisplayContext {
 				|| UserGroupRoleLocalServiceUtil.hasUserGroupRole(_themeDisplay.getUserId(),_themeDisplay.getScopeGroupId(), siteAdministrator.getRoleId()))
 				return true;
 		} catch (PortalException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 		return false;
 	}
@@ -217,7 +219,7 @@ public class ViewNotificationsDisplayContext {
 			Role  responsableNotification = RoleLocalServiceUtil.getRole(this._themeDisplay.getCompanyId(), RoleNames.RESPONSABLE_NOTIFICATION);
 			return UserGroupRoleLocalServiceUtil.hasUserGroupRole(_themeDisplay.getUserId(),_themeDisplay.getScopeGroupId(), responsableNotification.getRoleId());
 		} catch (PortalException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 		return false;
 	}
@@ -231,7 +233,7 @@ public class ViewNotificationsDisplayContext {
 			Role contributorNotification = RoleLocalServiceUtil.getRole(this._themeDisplay.getCompanyId(), RoleNames.CONTRIBUTEUR_NOTIFICATION);
 			return UserGroupRoleLocalServiceUtil.hasUserGroupRole(_themeDisplay.getUserId(),_themeDisplay.getScopeGroupId(), contributorNotification.getRoleId());
 		} catch (PortalException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 		return false;
 	}
@@ -270,6 +272,7 @@ public class ViewNotificationsDisplayContext {
 		return NotifConstants.PAST;
 	}
 
+	private final Log _log = LogFactoryUtil.getLog(this.getClass());
 	protected SearchContainer<Notification> _searchContainer;
 	private String _keywords;
 	private final RenderRequest _request;

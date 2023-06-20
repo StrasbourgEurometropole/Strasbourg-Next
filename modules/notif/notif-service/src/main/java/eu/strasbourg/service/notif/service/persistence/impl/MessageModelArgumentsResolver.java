@@ -17,6 +17,7 @@ package eu.strasbourg.service.notif.service.persistence.impl;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.model.BaseModel;
+
 import eu.strasbourg.service.notif.model.MessageTable;
 import eu.strasbourg.service.notif.model.impl.MessageImpl;
 import eu.strasbourg.service.notif.model.impl.MessageModelImpl;

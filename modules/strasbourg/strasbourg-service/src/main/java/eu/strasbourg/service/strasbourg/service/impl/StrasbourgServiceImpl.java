@@ -285,7 +285,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 		try {
 			return getOpenDataGeoAddressService().getCoordinateForAddress(address, zipCode, city);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage() + " : address -> " + address + ", zipCode -> " + zipCode + ", city -> " + city);
 		}
 		return null;
 	}
@@ -1156,6 +1156,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	}
 
 	private JSONObject error(String message) {
+	    log.error(message);
 		return JSONFactoryUtil.createJSONObject().put("error", message);
 	}
 

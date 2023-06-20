@@ -15,8 +15,10 @@
 package eu.strasbourg.service.like.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.like.exception.NoSuchLikeException;
 import eu.strasbourg.service.like.model.Like;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

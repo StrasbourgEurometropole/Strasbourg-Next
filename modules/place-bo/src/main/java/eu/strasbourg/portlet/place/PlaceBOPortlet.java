@@ -4,6 +4,8 @@ import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
@@ -140,7 +142,7 @@ public class PlaceBOPortlet extends MVCPortlet {
 		try {
 			_serviceContext = ServiceContextFactory.getInstance(renderRequest);
 		} catch (PortalException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage() + " : " + renderRequest);
 		}
 
 		// Si on est sur la page d'ajout, on affiche un lien de retour
@@ -158,4 +160,7 @@ public class PlaceBOPortlet extends MVCPortlet {
 	}
 	@Reference
 	private ItemSelector _itemSelector;
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass());
+
 }

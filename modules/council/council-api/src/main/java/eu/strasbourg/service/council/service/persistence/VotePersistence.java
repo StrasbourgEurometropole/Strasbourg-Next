@@ -15,11 +15,13 @@
 package eu.strasbourg.service.council.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.council.exception.NoSuchVoteException;
 import eu.strasbourg.service.council.model.Vote;
-import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the vote service.

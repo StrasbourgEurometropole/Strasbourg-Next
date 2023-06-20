@@ -14,8 +14,7 @@
 
 package eu.strasbourg.service.artwork.service.impl;
 
-import org.osgi.annotation.versioning.ProviderType;
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -42,7 +41,7 @@ import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import eu.strasbourg.service.artwork.model.Artwork;
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
 import eu.strasbourg.service.artwork.service.base.ArtworkCollectionLocalServiceBaseImpl;
-import org.osgi.service.component.annotations.Reference;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -242,7 +241,7 @@ public class ArtworkCollectionLocalServiceImpl
 			.getEntry(ArtworkCollection.class.getName(), artworkCollectionId);
 
 		// Supprime le lien avec les catégories
-		assetEntryAssetCategoryRelLocalService.
+		AssetEntryAssetCategoryRelLocalServiceUtil.
 				deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
 		// Supprime le lien avec les tags
@@ -362,6 +361,4 @@ public class ArtworkCollectionLocalServiceImpl
 			.nullSafeGetIndexer(ArtworkCollection.class);
 		return indexer.search(searchContext);
 	}
-	@Reference
-	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

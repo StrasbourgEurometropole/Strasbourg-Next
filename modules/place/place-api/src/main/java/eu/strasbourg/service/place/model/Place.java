@@ -17,6 +17,7 @@ package eu.strasbourg.service.place.model;
 import com.liferay.portal.kernel.annotation.ImplementationClassName;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.util.Accessor;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
@@ -312,7 +313,7 @@ public interface Place extends PersistedModel, PlaceModel {
 	/**
 	 * Retourne le temps réel (couleur de fond,valeur)
 	 *
-	 * @param type (1 = piscine, 2 = parking, 3 = mairie, 4 = patinoire)
+	 * @param type (1 = piscine, 2 = parking, 3 = mairie, 4 = patinoire, 5 =Vélop)
 	 * @throws Exception
 	 */
 	public eu.strasbourg.utils.OccupationState getRealTime(String type);

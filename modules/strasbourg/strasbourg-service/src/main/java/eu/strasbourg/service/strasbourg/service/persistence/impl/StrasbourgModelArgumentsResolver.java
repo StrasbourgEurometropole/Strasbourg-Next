@@ -17,6 +17,7 @@ package eu.strasbourg.service.strasbourg.service.persistence.impl;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.model.BaseModel;
+
 import eu.strasbourg.service.strasbourg.model.StrasbourgTable;
 import eu.strasbourg.service.strasbourg.model.impl.StrasbourgImpl;
 import eu.strasbourg.service.strasbourg.model.impl.StrasbourgModelImpl;

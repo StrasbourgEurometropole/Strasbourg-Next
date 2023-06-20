@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.council.service.impl;
 
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
@@ -38,7 +38,6 @@ import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.service.council.service.base.TypeLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
-import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -215,7 +214,7 @@ public class TypeLocalServiceImpl extends TypeLocalServiceBaseImpl {
 
 		if (entry != null) {
 			// Supprime les liens avec les catégories
-			assetEntryAssetCategoryRelLocalService.
+			AssetEntryAssetCategoryRelLocalServiceUtil.
 					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Supprime les liens avec les étiquettes
 			long[] tagIds = AssetEntryLocalServiceUtil
@@ -311,6 +310,4 @@ public class TypeLocalServiceImpl extends TypeLocalServiceBaseImpl {
 			result = true;
 		return result;
 	}
-	@Reference
-	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

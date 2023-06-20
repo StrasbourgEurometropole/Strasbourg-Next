@@ -17,6 +17,7 @@ package eu.strasbourg.service.strasbourg.model.impl;
 import com.liferay.petra.lang.HashUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.model.CacheModel;
+
 import eu.strasbourg.service.strasbourg.model.Strasbourg;
 
 import java.io.Externalizable;

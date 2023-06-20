@@ -17,13 +17,15 @@ package eu.strasbourg.service.help.service.persistence.impl;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.model.BaseModel;
+
 import eu.strasbourg.service.help.model.HelpRequestTable;
 import eu.strasbourg.service.help.model.impl.HelpRequestImpl;
 import eu.strasbourg.service.help.model.impl.HelpRequestModelImpl;
-import org.osgi.service.component.annotations.Component;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import org.osgi.service.component.annotations.Component;
 
 /**
  * The arguments resolver class for retrieving value from HelpRequest.

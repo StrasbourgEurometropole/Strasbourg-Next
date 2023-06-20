@@ -16,7 +16,9 @@ package eu.strasbourg.service.notification.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
+
 import eu.strasbourg.service.notification.service.persistence.UserNotificationTypePK;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

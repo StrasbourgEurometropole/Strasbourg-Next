@@ -19,9 +19,11 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.util.OrderByComparator;
+
 import eu.strasbourg.service.csmap.model.RefreshToken;
 
 import java.io.Serializable;
+
 import java.util.List;
 
 /**
@@ -228,6 +230,13 @@ public class RefreshTokenLocalServiceUtil {
 		getActionableDynamicQuery() {
 
 		return getService().getActionableDynamicQuery();
+	}
+
+	/**
+	 * Retrouve un refresh token par sa valeur
+	 */
+	public static List<RefreshToken> getByPublikId(String publikId) {
+		return getService().getByPublikId(publikId);
 	}
 
 	public static

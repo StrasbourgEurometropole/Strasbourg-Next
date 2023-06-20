@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.service.persistence.EditionPersistence;
 

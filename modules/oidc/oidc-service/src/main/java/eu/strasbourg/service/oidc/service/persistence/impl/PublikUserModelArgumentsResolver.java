@@ -17,6 +17,7 @@ package eu.strasbourg.service.oidc.service.persistence.impl;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.model.BaseModel;
+
 import eu.strasbourg.service.oidc.model.PublikUserTable;
 import eu.strasbourg.service.oidc.model.impl.PublikUserImpl;
 import eu.strasbourg.service.oidc.model.impl.PublikUserModelImpl;

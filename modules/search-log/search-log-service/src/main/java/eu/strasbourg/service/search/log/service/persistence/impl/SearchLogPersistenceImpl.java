@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.search.log.exception.NoSuchSearchLogException;
 import eu.strasbourg.service.search.log.model.SearchLog;
 import eu.strasbourg.service.search.log.model.SearchLogTable;
@@ -39,7 +40,9 @@ import eu.strasbourg.service.search.log.service.persistence.SearchLogPersistence
 import eu.strasbourg.service.search.log.service.persistence.SearchLogUtil;
 
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -231,6 +231,16 @@ public class ArretLocalServiceUtil {
 	}
 
 	/**
+	 * Recherche des Arrets par identifiants
+	 *
+	 * @param idsArrets: list des identifiants
+	 * @return
+	 */
+	public static List<Arret> findByIds(List<Long> idsArrets) {
+		return getService().findByIds(idsArrets);
+	}
+
+	/**
 	 * Recherche par mot clés
 	 */
 	public static List<Arret> findByKeyword(

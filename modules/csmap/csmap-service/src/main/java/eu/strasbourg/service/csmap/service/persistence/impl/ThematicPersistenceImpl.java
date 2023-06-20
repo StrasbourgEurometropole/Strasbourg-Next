@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUID;
+
 import eu.strasbourg.service.csmap.exception.NoSuchThematicException;
 import eu.strasbourg.service.csmap.model.Thematic;
 import eu.strasbourg.service.csmap.model.ThematicTable;
@@ -43,20 +44,24 @@ import eu.strasbourg.service.csmap.model.impl.ThematicModelImpl;
 import eu.strasbourg.service.csmap.service.persistence.ThematicPersistence;
 import eu.strasbourg.service.csmap.service.persistence.ThematicUtil;
 import eu.strasbourg.service.csmap.service.persistence.impl.constants.csmapPersistenceConstants;
-import org.osgi.service.component.annotations.Activate;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Deactivate;
-import org.osgi.service.component.annotations.Reference;
 
-import javax.sql.DataSource;
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+
+import javax.sql.DataSource;
+
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * The persistence implementation for the thematic service.

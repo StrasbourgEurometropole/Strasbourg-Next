@@ -14,6 +14,15 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.liferay.portal.kernel.json.JSONException;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.Validator;
+
+import eu.strasbourg.utils.PasserelleHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+
 public class GraveyardWebServiceClient {
 
 	public static GraveyardResponse getResponse(String name, String firstName, Date birthDateStart, Date birthDateEnd,
@@ -48,7 +57,7 @@ public class GraveyardWebServiceClient {
 				postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
 			}
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 		try {
 			// On récupère le JSON
@@ -56,9 +65,11 @@ public class GraveyardWebServiceClient {
 			JSONObject jsonResponse = PasserelleHelper.readJsonFromURL(url);
 			graveyardResponse = new GraveyardResponse(jsonResponse);
 		} catch (IOException | JSONException ex) {
-			ex.printStackTrace();
+			_log.error(ex.getMessage() + " : " + StrasbourgPropsUtil.getGraveyardURL() + "?" + postData);
 		}
 
 		return graveyardResponse;
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(GraveyardWebServiceClient.class.getName());
 }

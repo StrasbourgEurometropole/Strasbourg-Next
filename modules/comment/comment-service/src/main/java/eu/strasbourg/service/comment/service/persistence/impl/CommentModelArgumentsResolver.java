@@ -17,6 +17,7 @@ package eu.strasbourg.service.comment.service.persistence.impl;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.model.BaseModel;
+
 import eu.strasbourg.service.comment.model.CommentTable;
 import eu.strasbourg.service.comment.model.impl.CommentImpl;
 import eu.strasbourg.service.comment.model.impl.CommentModelImpl;

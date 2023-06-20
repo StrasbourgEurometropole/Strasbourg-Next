@@ -34,11 +34,15 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
+
 import eu.strasbourg.service.council.model.Deliberation;
-import org.osgi.annotation.versioning.ProviderType;
 
 import java.io.Serializable;
+
 import java.util.List;
+import java.util.Map;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * Provides the local service interface for Deliberation. Methods of this
@@ -326,7 +330,7 @@ public interface DeliberationLocalService
 	 * Création ou mise à jour ou suppression en base de données
 	 */
 	public String importData(
-			List<java.util.Map<String, String>> recordsMapList,
+			List<Map<String, String>> recordsMapList,
 			ServiceContext serviceContext, long councilSessionId,
 			ThemeDisplay themeDisplay)
 		throws PortalException;
@@ -368,7 +372,7 @@ public interface DeliberationLocalService
 	 */
 	public Deliberation updateStatus(
 			long userId, long entryId, int status, ServiceContext sc,
-			java.util.Map<String, Serializable> workflowContext)
+			Map<String, Serializable> workflowContext)
 		throws PortalException;
 
 }

@@ -480,7 +480,7 @@ public class SubPlaceWrapper
 	 * Retourne les PlaceSchedule des exceptions d'ouverture à partir du lundi
 	 * de la semaine en cours
 	 *
-	 * @param surPériode
+	 * @param surPeriode
 	 (false = horaires d'une journée uniquement , true = horaires
 	 sur une semaine)
 	 */

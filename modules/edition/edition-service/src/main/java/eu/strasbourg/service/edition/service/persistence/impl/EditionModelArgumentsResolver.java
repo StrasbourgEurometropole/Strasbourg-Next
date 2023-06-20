@@ -17,6 +17,7 @@ package eu.strasbourg.service.edition.service.persistence.impl;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.model.BaseModel;
+
 import eu.strasbourg.service.edition.model.EditionTable;
 import eu.strasbourg.service.edition.model.impl.EditionImpl;
 import eu.strasbourg.service.edition.model.impl.EditionModelImpl;

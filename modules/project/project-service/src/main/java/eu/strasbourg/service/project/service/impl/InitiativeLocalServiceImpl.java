@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.project.service.impl;
 
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -44,7 +44,6 @@ import eu.strasbourg.service.project.model.InitiativeHelp;
 import eu.strasbourg.service.project.model.InitiativeModel;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.base.InitiativeLocalServiceBaseImpl;
-import org.osgi.service.component.annotations.Reference;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -231,7 +230,7 @@ public class InitiativeLocalServiceImpl extends InitiativeLocalServiceBaseImpl {
 		if (entry != null) {
 			// Delete the link with categories
 
-			assetEntryAssetCategoryRelLocalService.
+			AssetEntryAssetCategoryRelLocalServiceUtil.
 					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
 			// Delete the link with tags
@@ -510,6 +509,4 @@ public class InitiativeLocalServiceImpl extends InitiativeLocalServiceBaseImpl {
     public List<Initiative> getByPublikUserID(String publikId){
 		 return initiativePersistence.findBypublikId(publikId);
     }
-	@Reference
-	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

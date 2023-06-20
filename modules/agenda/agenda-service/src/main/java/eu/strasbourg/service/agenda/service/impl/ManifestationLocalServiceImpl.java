@@ -14,8 +14,7 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
-import org.osgi.annotation.versioning.ProviderType;
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -46,7 +45,7 @@ import eu.strasbourg.service.agenda.exception.NoSuchManifestationException;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.base.ManifestationLocalServiceBaseImpl;
-import org.osgi.service.component.annotations.Reference;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -318,7 +317,7 @@ public class ManifestationLocalServiceImpl
 		if (entry != null) {
 
 			// Supprime le lien avec les catégories
-			assetEntryAssetCategoryRelLocalService.
+			AssetEntryAssetCategoryRelLocalServiceUtil.
 					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
 			// Supprime le lien avec les tags
@@ -460,7 +459,4 @@ public class ManifestationLocalServiceImpl
 	}
 
 	private final Log _log = LogFactoryUtil.getLog("strasbourg");
-
-	@Reference
-	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

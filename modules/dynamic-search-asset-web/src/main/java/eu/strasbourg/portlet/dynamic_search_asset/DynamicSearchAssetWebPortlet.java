@@ -1,13 +1,11 @@
 package eu.strasbourg.portlet.dynamic_search_asset;
 
-import com.liferay.asset.entry.rel.model.AssetEntryAssetCategoryRel;
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.service.JournalArticleServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -64,10 +62,10 @@ import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.LayoutHelper;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -107,9 +105,6 @@ import java.util.Locale;
 	service = Portlet.class
 )
 public class DynamicSearchAssetWebPortlet extends MVCPortlet {
-	
-	private List<AssetEntry> assetEntries;
-	private long totalResult;
 
 	/**
 	 * Initialisation de la vue
@@ -143,7 +138,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			request.setAttribute("classNames", classNames);
 			
 		} catch (ConfigurationException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 		
 		super.render(request, response);
@@ -227,7 +222,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				List<AssetEntry> results = new ArrayList<>();
 				BudgetPhase activePhase = BudgetPhaseLocalServiceUtil.getActivePhase(groupId);
 				AssetCategory activePhaseCategory = activePhase != null ? activePhase.getPhaseCategory() : null;
-				
+				long totalResult =0;
 				if (hits != null) {
 					int i = 0;
 					for (float s : hits.getScores()) {
@@ -240,7 +235,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 						AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
 								GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
 								GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-						
+
 						//On elimine tous les BP qui ne font pas parti de la phase active. Si pas de phase active, pas d'affichage des BP
 						//C'est dommage de faire le filtrage après la recherche mais la configuration actuelle de la recherche ne permet pas
 						//de préfiltrer sur la catégorie pour une seule entité en particuler
@@ -249,21 +244,35 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 										!AssetVocabularyHelper.hasAssetCategoryAssetEntry(entry.getEntryId(), activePhaseCategory.getCategoryId()))) {
 							entry = null;
 						}
+
+						//On elimine tous les CW qui n'ont pas de layout
+						if(document.get(Field.ENTRY_CLASS_NAME).equals(JournalArticle.class.getName())){
+							// on vérifie si le jourrnalArticle est utilisé
+							try {
+								JournalArticle journalArticle = JournalArticleServiceUtil.getLatestArticle(entry.getClassPK());
+								String url = LayoutHelper.getJournalArticleLayoutURL(journalArticle.getGroupId(), journalArticle.getArticleId(), themeDisplay);
+								if (Validator.isNull(url)) {
+									entry = null;
+								}
+							}catch (PortalException e){
+								entry = null;
+							}
+						}
 						
 						if (entry != null) {
 							results.add(entry);
 						}
 					}
-					this.totalResult = SearchHelper.getGlobalSearchCount(searchContext, classNames, groupId, globalGroupId,
+					totalResult = SearchHelper.getGlobalSearchCount(searchContext, classNames, groupId, globalGroupId,
 							globalScope, keywords, useDatePrefilter, "publishDate_sortable", fromDate, toDate, new ArrayList<>(),
 							prefilterCategoriesIds, prefilterTagsNames, themeDisplay.getLocale());
 				}
 
-				this.assetEntries = results;
+				List<AssetEntry> assetEntries = results;
 				
-				this.applyTemplateBehaviors(configuration);
+				this.applyTemplateBehaviors(configuration,assetEntries);
 				
-				JSONArray jsonResponse = this.constructJSONSelection(request, configuration);
+				JSONArray jsonResponse = this.constructJSONSelection(request, configuration,assetEntries,totalResult);
 				
 				// Recuperation de l'élément d'écriture de la réponse
 				PrintWriter writer = response.getWriter();
@@ -280,13 +289,13 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	 * Applique un comportement de filtrage suplémentaire selon le template 
 	 * de formulaire configuré
 	 */
-	private void applyTemplateBehaviors(DynamicSearchAssetConfiguration configuration) {
+	private void applyTemplateBehaviors(DynamicSearchAssetConfiguration configuration,List<AssetEntry> assetEntries) {
 		
 		String searchForm = configuration.searchForm();
 
 		// Comportement(s) : Plateforme-Citoyenne
 		if (Constants.SEARCH_FORM_PLACIT.equals(searchForm)) {// Parcours des résultats
-			for (Iterator<AssetEntry> results = this.assetEntries.iterator(); results.hasNext(); ) {
+			for (Iterator<AssetEntry> results = assetEntries.iterator(); results.hasNext(); ) {
 				AssetEntry assetEntry = results.next();
 
 				String assetClassName = assetEntry.getClassName();
@@ -333,7 +342,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	 * @throws  PortalException
 	 */
 	@SuppressWarnings("JavaDoc")
-	private JSONArray constructJSONSelection(ResourceRequest request, DynamicSearchAssetConfiguration configuration) throws PortalException {
+	private JSONArray constructJSONSelection(ResourceRequest request, DynamicSearchAssetConfiguration configuration,List<AssetEntry> assetEntries,long totalResult) throws PortalException {
 		
 		// Récupération du contexte de la requète
 		String publikUserId = this.getPublikID(request);
@@ -342,7 +351,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		JSONArray jsonResponse = JSONFactoryUtil.createJSONArray();
 
 		JSONObject jsonTotalResult = JSONFactoryUtil.createJSONObject();
-		jsonTotalResult.put("totalResult", this.totalResult);
+		jsonTotalResult.put("totalResult", totalResult);
 		jsonResponse.put(jsonTotalResult);
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
@@ -350,7 +359,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		String configAffichage = configuration.searchForm();
 		
 		// Parcours des résultats
-		for (AssetEntry assetEntry : this.assetEntries) {
+		for (AssetEntry assetEntry : assetEntries) {
 			
 			String assetClassName = assetEntry.getClassName();
 

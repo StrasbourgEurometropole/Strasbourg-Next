@@ -34,6 +34,7 @@ import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.place.exception.NoSuchPeriodException;
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.PeriodTable;
@@ -43,8 +44,10 @@ import eu.strasbourg.service.place.service.persistence.PeriodPersistence;
 import eu.strasbourg.service.place.service.persistence.PeriodUtil;
 
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

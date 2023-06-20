@@ -42,6 +42,7 @@ import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.video.exception.NoSuchVideoException;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.model.VideoTable;
@@ -52,9 +53,12 @@ import eu.strasbourg.service.video.service.persistence.VideoPersistence;
 import eu.strasbourg.service.video.service.persistence.VideoUtil;
 
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
+
 import java.sql.Timestamp;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;

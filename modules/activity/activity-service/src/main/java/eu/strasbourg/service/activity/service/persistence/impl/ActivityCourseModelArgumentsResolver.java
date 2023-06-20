@@ -17,6 +17,7 @@ package eu.strasbourg.service.activity.service.persistence.impl;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.model.BaseModel;
+
 import eu.strasbourg.service.activity.model.ActivityCourseTable;
 import eu.strasbourg.service.activity.model.impl.ActivityCourseImpl;
 import eu.strasbourg.service.activity.model.impl.ActivityCourseModelImpl;

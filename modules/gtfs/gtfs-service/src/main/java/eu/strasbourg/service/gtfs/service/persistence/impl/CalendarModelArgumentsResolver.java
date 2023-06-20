@@ -17,6 +17,7 @@ package eu.strasbourg.service.gtfs.service.persistence.impl;
 import com.liferay.portal.kernel.dao.orm.ArgumentsResolver;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.model.BaseModel;
+
 import eu.strasbourg.service.gtfs.model.CalendarTable;
 import eu.strasbourg.service.gtfs.model.impl.CalendarImpl;
 import eu.strasbourg.service.gtfs.model.impl.CalendarModelImpl;

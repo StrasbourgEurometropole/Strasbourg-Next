@@ -37,6 +37,7 @@ import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.activity.exception.NoSuchActivityException;
 import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.service.activity.model.ActivityTable;
@@ -46,8 +47,10 @@ import eu.strasbourg.service.activity.service.persistence.ActivityPersistence;
 import eu.strasbourg.service.activity.service.persistence.ActivityUtil;
 
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;

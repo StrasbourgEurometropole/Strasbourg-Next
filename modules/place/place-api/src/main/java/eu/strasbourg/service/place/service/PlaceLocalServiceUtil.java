@@ -19,9 +19,11 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.util.OrderByComparator;
+
 import eu.strasbourg.service.place.model.Place;
 
 import java.io.Serializable;
+
 import java.util.List;
 import java.util.Map;
 
@@ -226,6 +228,16 @@ public class PlaceLocalServiceUtil {
 	 */
 	public static Place fetchPlaceByUuidAndGroupId(String uuid, long groupId) {
 		return getService().fetchPlaceByUuidAndGroupId(uuid, groupId);
+	}
+
+	/**
+	 * Recherche des places par identifiants
+	 *
+	 * @param idsPlace : liste ids places
+	 * @return
+	 */
+	public static List<Place> findByIds(List<Long> idsPlace) {
+		return getService().findByIds(idsPlace);
 	}
 
 	/**
@@ -464,10 +476,10 @@ public class PlaceLocalServiceUtil {
 
 	public static void updateRealTime(
 		Place place, String type, long occupation, long available,
-		long capacity, String status) {
+		long capacity, String status, java.util.Date rtLastUpdate) {
 
 		getService().updateRealTime(
-			place, type, occupation, available, capacity, status);
+			place, type, occupation, available, capacity, status, rtLastUpdate);
 	}
 
 	/**

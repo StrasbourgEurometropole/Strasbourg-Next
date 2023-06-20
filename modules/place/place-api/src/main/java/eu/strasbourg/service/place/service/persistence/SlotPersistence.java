@@ -15,8 +15,10 @@
 package eu.strasbourg.service.place.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.place.exception.NoSuchSlotException;
 import eu.strasbourg.service.place.model.Slot;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

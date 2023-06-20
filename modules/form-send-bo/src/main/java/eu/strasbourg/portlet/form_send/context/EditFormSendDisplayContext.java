@@ -30,7 +30,6 @@ import java.util.Map;
 
 public class EditFormSendDisplayContext{
 
-    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
     private final RenderRequest _request;
     private final ThemeDisplay _themeDisplay;
 
@@ -125,11 +124,11 @@ public class EditFormSendDisplayContext{
                                 }
                             }
                         } catch (PortalException e) {
-                            e.printStackTrace();
+                            _log.error(e.getMessage(), e);
                         }
                     }
                 } catch (PortalException e) {
-                    e.printStackTrace();
+                    _log.error(e.getMessage() + " : " + _record);
                 }
             }
 
@@ -155,10 +154,12 @@ public class EditFormSendDisplayContext{
                 formSendRecordField.setInstanceId(instanceId);
                 FormSendRecordFieldLocalServiceUtil.updateFormSendRecordField(formSendRecordField);
             } catch (PortalException e) {
-                e.printStackTrace();
+                _log.error(e.getMessage(), e);
             }
         }
 
         return formSendRecordField;
     }
+
+    private static final Log _log = LogFactoryUtil.getLog(EditFormSendDisplayContext.class.getName());
 }

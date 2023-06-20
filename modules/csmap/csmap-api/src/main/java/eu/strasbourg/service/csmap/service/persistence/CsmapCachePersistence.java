@@ -15,8 +15,10 @@
 package eu.strasbourg.service.csmap.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.csmap.exception.NoSuchCsmapCacheException;
 import eu.strasbourg.service.csmap.model.CsmapCache;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

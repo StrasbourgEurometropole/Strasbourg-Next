@@ -14,8 +14,7 @@
 
 package eu.strasbourg.service.project.service.impl;
 
-import com.liferay.asset.entry.rel.model.AssetEntryAssetCategoryRel;
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
@@ -52,7 +51,6 @@ import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.service.project.service.base.BudgetParticipatifLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
-import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -121,7 +119,7 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
 
         if (entry != null) {
             // Delete the link with categories
-            assetEntryAssetCategoryRelLocalService.
+            AssetEntryAssetCategoryRelLocalServiceUtil.
                     deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
             // Delete the link with tags
@@ -666,6 +664,4 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
     public List<BudgetParticipatif> getByPublikUserID(String publikId){
         return budgetParticipatifPersistence.findByPublikId(publikId);
     }
-    @Reference
-    private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }

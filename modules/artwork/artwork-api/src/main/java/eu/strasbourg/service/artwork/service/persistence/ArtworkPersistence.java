@@ -15,8 +15,10 @@
 package eu.strasbourg.service.artwork.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.artwork.exception.NoSuchArtworkException;
 import eu.strasbourg.service.artwork.model.Artwork;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

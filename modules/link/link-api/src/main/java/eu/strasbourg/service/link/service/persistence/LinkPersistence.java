@@ -15,8 +15,10 @@
 package eu.strasbourg.service.link.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.link.exception.NoSuchLinkException;
 import eu.strasbourg.service.link.model.Link;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

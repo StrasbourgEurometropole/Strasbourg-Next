@@ -15,8 +15,10 @@
 package eu.strasbourg.service.place.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.place.exception.NoSuchScheduleExceptionException;
 import eu.strasbourg.service.place.model.ScheduleException;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

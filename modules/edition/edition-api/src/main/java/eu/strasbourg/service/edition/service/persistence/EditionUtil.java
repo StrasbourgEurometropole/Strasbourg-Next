@@ -17,9 +17,11 @@ package eu.strasbourg.service.edition.service.persistence;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
+
 import eu.strasbourg.service.edition.model.Edition;
 
 import java.io.Serializable;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;

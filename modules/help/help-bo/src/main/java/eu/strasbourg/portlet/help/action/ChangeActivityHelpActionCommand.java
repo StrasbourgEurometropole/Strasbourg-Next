@@ -1,9 +1,7 @@
 package eu.strasbourg.portlet.help.action;
 
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -48,16 +46,16 @@ public class ChangeActivityHelpActionCommand implements MVCActionCommand {
             AssetCategory inactive = AssetVocabularyHelper.getCategory("Inactive", sc.getScopeGroupId());
             // Active --> Inactive
             if (active != null && inactive != null && categories.contains(active)) {
-                assetEntryAssetCategoryRelLocalService.deleteAssetEntryAssetCategoryRel(helpAssetId, active.getCategoryId());
+                AssetEntryAssetCategoryRelLocalServiceUtil.deleteAssetEntryAssetCategoryRel(helpAssetId, active.getCategoryId());
                 //AssetCategoryLocalServiceUtil.deleteAssetEntryAssetCategory(helpAssetId, active);
-                assetEntryAssetCategoryRelLocalService.addAssetEntryAssetCategoryRel(helpAssetId, inactive.getCategoryId());
+                AssetEntryAssetCategoryRelLocalServiceUtil.addAssetEntryAssetCategoryRel(helpAssetId, inactive.getCategoryId());
                 //AssetCategoryLocalServiceUtil.addAssetEntryAssetCategory(helpAssetId, inactive);
             }
             // Inactive --> Active
             else if (active != null && inactive != null && categories.contains(inactive)) {
-                assetEntryAssetCategoryRelLocalService.deleteAssetEntryAssetCategoryRel(helpAssetId, inactive.getCategoryId());
+                AssetEntryAssetCategoryRelLocalServiceUtil.deleteAssetEntryAssetCategoryRel(helpAssetId, inactive.getCategoryId());
               //  AssetCategoryLocalServiceUtil.deleteAssetEntryAssetCategory(helpAssetId, inactive);
-                assetEntryAssetCategoryRelLocalService.addAssetEntryAssetCategoryRel(helpAssetId, active.getCategoryId());
+                AssetEntryAssetCategoryRelLocalServiceUtil.addAssetEntryAssetCategoryRel(helpAssetId, active.getCategoryId());
                 //AssetCategoryLocalServiceUtil.addAssetEntryAssetCategory(helpAssetId, active);
             }
             _helpProposalLocalService.reindexById(helpProposal.getHelpProposalId());
@@ -75,7 +73,4 @@ public class ChangeActivityHelpActionCommand implements MVCActionCommand {
     private HelpProposalLocalService _helpProposalLocalService;
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
-    @Reference
-    private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
-
 }

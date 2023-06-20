@@ -15,8 +15,10 @@
 package eu.strasbourg.service.oidc.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.oidc.exception.NoSuchPublikUserException;
 import eu.strasbourg.service.oidc.model.PublikUser;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**

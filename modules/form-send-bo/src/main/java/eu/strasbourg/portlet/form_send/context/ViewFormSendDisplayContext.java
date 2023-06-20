@@ -164,7 +164,7 @@ public class ViewFormSendDisplayContext {
                         }
                     }
                 } catch (PortalException e) {
-                    e.printStackTrace();
+                    _log.error(e.getMessage(), e);
                 }
             }
 

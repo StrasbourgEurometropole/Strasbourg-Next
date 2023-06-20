@@ -15,11 +15,13 @@
 package eu.strasbourg.service.council.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+
 import eu.strasbourg.service.council.exception.NoSuchCouncilSessionException;
 import eu.strasbourg.service.council.model.CouncilSession;
-import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.Date;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the council session service.

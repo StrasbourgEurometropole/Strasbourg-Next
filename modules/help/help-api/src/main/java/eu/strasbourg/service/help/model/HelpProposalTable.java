@@ -19,6 +19,7 @@ import com.liferay.petra.sql.dsl.base.BaseTable;
 
 import java.sql.Clob;
 import java.sql.Types;
+
 import java.util.Date;
 
 /**

@@ -17,10 +17,12 @@ package eu.strasbourg.service.council.model;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.ShardedModel;
+
 import eu.strasbourg.service.council.service.persistence.VotePK;
-import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.Date;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model interface for the Vote service. Represents a row in the &quot;council_Vote&quot; database table, with each column mapped to a property of this class.

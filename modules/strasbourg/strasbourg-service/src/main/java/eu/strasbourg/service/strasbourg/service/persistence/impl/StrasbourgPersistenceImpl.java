@@ -34,6 +34,7 @@ import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.spring.extender.service.ServiceReference;
+
 import eu.strasbourg.service.strasbourg.exception.NoSuchStrasbourgException;
 import eu.strasbourg.service.strasbourg.model.Strasbourg;
 import eu.strasbourg.service.strasbourg.model.StrasbourgTable;
@@ -43,8 +44,10 @@ import eu.strasbourg.service.strasbourg.service.persistence.StrasbourgPersistenc
 import eu.strasbourg.service.strasbourg.service.persistence.StrasbourgUtil;
 
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
