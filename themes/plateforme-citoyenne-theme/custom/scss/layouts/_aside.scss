@@ -147,6 +147,11 @@ aside {
 		background-color: #20272f;
 		text-align: center;
 		margin-bottom: 20px;
+		@include addTransitionCurve();
+		&:hover {
+			background-color: $c_white;
+			color: #20272f;
+		}
 	}
 
 
@@ -156,7 +161,7 @@ aside {
 		align-items: flex-start;
 		gap: 10px;
 		padding: 30px 40px 45px 40px;
-		p, a {
+		p {
 			@include ft($f_hx, 1em, 400, $c_white);
 			margin: 0;
 		}

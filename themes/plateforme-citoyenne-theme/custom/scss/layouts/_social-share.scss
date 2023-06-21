@@ -100,6 +100,15 @@
 	ul {
 		li {
 			display: inline-block;
+			padding: 10px;
+			margin-right: 0;
+			@include addTransitionCurve();
+			&:hover {
+				background-color: #8dba49;
+				a:before {
+					color: #000;
+				}
+			}
 		 a:before {
 			 font-size: 25px;
 		 }

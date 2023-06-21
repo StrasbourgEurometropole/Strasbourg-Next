@@ -128,8 +128,8 @@ $(document).on("click", "[href='#Participe'], span[name^='#Participe']", functio
     function updateCounter(num) {
         var stringNum = num.toString();
         var nbDigits = stringNum.length;
-        stringNum = "0".repeat(5 - nbDigits) + stringNum;
-        for (i = 1; i <= 5; i++) {
+        stringNum = "0".repeat(6 - nbDigits) + stringNum;
+        for (i = 1; i <= 6; i++) {
             $('.pro-compt span:nth-child('+i+')').text(stringNum[i-1]);
         }
     }
@@ -220,8 +220,8 @@ $(document).on("click", "[href='#Suivre'], span[name^='#Suivre']", function(e) {
     function updateCounter(num) {
         var stringNum = num.toString();
         var nbDigits = stringNum.length;
-        stringNum = "0".repeat(5 - nbDigits) + stringNum;
-        for (i = 1; i <= 5; i++) {
+        stringNum = "0".repeat(6 - nbDigits) + stringNum;
+        for (i = 1; i <= 6; i++) {
             $('.pro-compt span:nth-child('+i+')').text(stringNum[i-1]);
         }
     }
@@ -1320,6 +1320,11 @@ $(document).ready(function () {
         $('#WarningClosePopup').modal('hide');
         $('.pro-modal').modal('hide');
     });
+
+    if ($('.pro-bloc-texte-header').length > 0 && $('.pro-wrapper-aside').length > 0) {
+        var headerHeight = $('.pro-bloc-texte-header').outerHeight();
+        $('.pro-wrapper-aside').css('top', -headerHeight + 'px');
+    }
     
 });
 

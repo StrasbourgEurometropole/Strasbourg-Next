@@ -280,12 +280,16 @@ aside .leaflet-map {
 }
 
 #pro-header .pro-top-header .container .pro-right a.connexion-black {
-    background: transparent !important;
-    color: #fff !important;
+    background: transparent;
+    color: #fff;
 }
 
 #pro-header .pro-top-header .container .pro-right a.connexion-black:hover {
-    color: #2ad1a8 !important;
+    background-color: #8DBA49;
+    color: #171C22;
+  &:before {
+    color: #171C22;
+  }
 }
 
 #pro-header .pro-top-header .container .pro-right a.connexion-active {

@@ -2,6 +2,7 @@
 
 
 	article {
+		padding-bottom: 3em;
 
 		header {
 			.pro-header-participation {
@@ -277,35 +278,35 @@
 		}
 
 		aside {
-			@include mobile {
-				margin-top: 40px;
-			}
-			.pro-btn-yellow {
+			@include addTransitionCurve();
+			position: sticky;
+			top: 162px;
+			background-color: #F37021;
+			height: 100vh;
+			margin-top: -35px;
+			padding: 0;
+			.pro-wrapper-links {
 				background: transparent;
-				color: $c_main;
-				&:hover, &:focus {
-					background: $c_main;
-					color: $c_txt;
-				}
-				&.pro-btn-disabled{
-					background: #ececec;
-					color: rgba($c_dark, 0.5);
-					border-color: #ececec;
-					&:hover, &:focus {
-						cursor: default;
-					}
-				}
+				display: flex;
+				flex-direction: column;
+				margin: 0 40px;
+			}
+
+
+			@include tablet_portrait {
+				height: auto;
+			}
+			.is-scrolled & {
+				top: 80px;
+			}
+
+			.is-scrolled.scrolldir-top & {
+				top: 152px;
 			}
 
 			.pro-push-avis {
 				background: $c_main;
 				height: 60px;
-				position: absolute;
-				top: -60px;
-				left: 15px;
-				right: 15px;
-				z-index: 100;
-				width: calc(100% - 30px);
 				@include clearfix();
 				@include mobile {
 					position: relative;
@@ -316,7 +317,8 @@
 				}
 				> a {
 					position: relative;
-					@include ft($f_txt, $s_small, 400, $c_txt, 4.615em);
+					cursor: pointer;
+					@include ft($f_txt, $s_small, 400, $c_txt, 4.2em);
 					width: 50%;
 					float: left;
 					padding: 0 10px;
@@ -324,18 +326,6 @@
 					overflow: hidden;
 					text-overflow: ellipsis;
 					@include addTransition();
-					&:first-child {
-						&:after {
-							content: '';
-							position: absolute;
-							top: 0;
-							bottom: 0;
-							right: 0;
-							width: 1px;
-							height: 100%;
-							background: #d4c500;
-						}
-					}
 					&:hover, &:focus {
 						background: $c_dark;
 						color: $c_main;

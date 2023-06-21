@@ -107,8 +107,8 @@ public class DashboardPortlet extends MVCPortlet {
         /**
          * Projets
          */
-        List<Project> projectFolloweds = ProjectLocalServiceUtil.findProjectFollowedByProjectId(publikId);
-        
+//        List<Project> projectFolloweds = ProjectLocalServiceUtil.findProjectFollowedByProjectId(publikId);
+        List<Project> projectFolloweds = ProjectLocalServiceUtil.getProjects(0,20);
         request.setAttribute("projectFollowedsCount",projectFolloweds.size());
         request.setAttribute("projectFolloweds",projectFolloweds);
         

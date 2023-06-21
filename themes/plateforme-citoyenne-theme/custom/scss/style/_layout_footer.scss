@@ -89,7 +89,6 @@
 		}
 		li {
 			display: inline-block;
-			margin-right: 10px;
 			font-size: 1em;
 			a {
 				@include ft($f_txt, $s_p, 400, #cccccc, 1em);
