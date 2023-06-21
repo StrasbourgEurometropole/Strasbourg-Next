@@ -78,9 +78,9 @@
 				<p>
 					<liferay-ui:message key="prefilter-tag-explanations" />
 					<label><liferay-ui:message key="tags" /></label>
-					<liferay-ui:asset-tags-selector
+					<liferay-asset:asset-tags-selector
 						hiddenInput="prefilterTagsNames"
-						curTags="${prefilterTagsNames}" />
+						tagNames="${prefilterTagsNames}" />
 				</p>
 				
 			</aui:fieldset>
@@ -91,9 +91,9 @@
 				<liferay-ui:message key="boost-explanations" />
 				<p>
 					<label><liferay-ui:message key="tags" /></label>
-					<liferay-ui:asset-tags-selector
+					<liferay-asset:asset-tags-selector
 						hiddenInput="boostTagsNames"
-						curTags="${boostTagsNames}" />
+						tagNames="${boostTagsNames}" />
 				</p>
 				
 			</aui:fieldset>

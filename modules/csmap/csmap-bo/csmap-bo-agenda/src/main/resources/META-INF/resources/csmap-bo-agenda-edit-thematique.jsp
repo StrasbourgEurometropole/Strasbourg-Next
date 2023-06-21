@@ -86,9 +86,9 @@
                     curCategoryIds="${dc.allCategoriesAgenda}" />
 
                 <label><span>Tags</span></label>
-                <liferay-ui:asset-tags-selector
+                <liferay-asset:asset-tags-selector
                     hiddenInput="tags"
-                    curTags="${dc.agendaThematique.tags}" />
+					tagNames="${dc.agendaThematique.tags}" />
             </aui:fieldset>
 
 		</div></div>

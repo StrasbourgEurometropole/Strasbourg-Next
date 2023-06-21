@@ -51,9 +51,9 @@
                     curCategoryIds="${dc.allCategoriesAgenda}" />
 
                 <label><span>Tags</span></label>
-                <liferay-ui:asset-tags-selector
+                <liferay-asset:asset-tags-selector
                     hiddenInput="tags"
-                    curTags="${dc.agendaPrincipal.tags}" />
+                    tagNames="${dc.agendaPrincipal.tags}" />
             </aui:fieldset>
 
 		</div></div>
