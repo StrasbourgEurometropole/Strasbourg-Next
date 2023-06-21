@@ -4,16 +4,23 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuilder;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
+import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -36,7 +43,7 @@ public class ProposalHelpActionDropdownItemsProvider {
                 request);
     }
 
-    public List<DropdownItem> getActionDropdownItems() {
+    public List<DropdownItem> getActionDropdownItems(int helpRequestsByProposal) {
 
         boolean hasUpdatePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
                 StrasbourgPortletKeys.HELP_BO, StrasbourgPortletKeys.HELP_BO, "EDIT_HELP")
@@ -44,7 +51,7 @@ public class ProposalHelpActionDropdownItemsProvider {
 
         boolean hasViewPermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
                 StrasbourgPortletKeys.HELP_BO, StrasbourgPortletKeys.HELP_BO, "VIEW")
-                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup()) && helpRequestsByProposal>0;
 
         boolean hasChangeActivityPermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
                 StrasbourgPortletKeys.HELP_BO, StrasbourgPortletKeys.HELP_BO, "CHANGE_ACTIVITY_HELP")
@@ -122,7 +129,7 @@ public class ProposalHelpActionDropdownItemsProvider {
                                     DropdownItemListBuilder
                                             .add(
                                                     () -> hasDeletePermission,
-                                                    _getDeletectionUnsafeConsumer()
+                                                    _getDeleteActionUnsafeConsumer()
                                             )
                                             .build()
                             );
@@ -132,9 +139,6 @@ public class ProposalHelpActionDropdownItemsProvider {
                 .build();
     }
 
-    /**
-     * Action of Edit help proposal
-     */
     private UnsafeConsumer<DropdownItem, Exception> _getViewActionUnsafeConsumer() {
 
         return dropdownItem -> {
@@ -160,7 +164,7 @@ public class ProposalHelpActionDropdownItemsProvider {
             dropdownItem.setHref(
                     PortletURLBuilder.createRenderURL(_response)
                             .setActionName("readHelpProposal")
-                            .setMVCPath("/help-bo-view-proposal-help-requests.jsp")
+                            .setMVCPath("/help-bo-view-help-proposals.jsp")
                             .setCMD("readHelpProposal")
                             .setBackURL(_themeDisplay.getURLCurrent())
                             .setParameter("tab", "helpProposals")
@@ -192,33 +196,28 @@ public class ProposalHelpActionDropdownItemsProvider {
 
     private UnsafeConsumer<DropdownItem, Exception> _getChangeActivityActionUnsafeConsumer() {
 
-        return dropdownItem -> {
-            if(_helpProposal.getActivityStatusTitle(_themeDisplay.getLocale()).equals("Active")) {
-                dropdownItem.setHref(
-                        PortletURLBuilder.createActionURL(_response)
-                                .setActionName("changeActivityHelpProposal")
-                                .setMVCPath("/help-bo-view-help-requests.jsp")
-                                .setCMD("changeActivityHelpProposal")
-                                .setBackURL(_themeDisplay.getURLCurrent())
-                                .setParameter("tab", "helpProposals")
-                                .setParameter("helpProposalId", _helpProposal.getHelpProposalId())
-                                .buildString()
-                );
-                dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "deactivate-help-proposal"));
-            }else if(_helpProposal.getActivityStatusTitle(_themeDisplay.getLocale()).equals("Inactive")){
-                dropdownItem.setHref(
-                        PortletURLBuilder.createActionURL(_response)
-                                .setActionName("changeActivityHelpProposal")
-                                .setMVCPath("/help-bo-view-help-requests.jsp")
-                                .setCMD("changeActivityHelpProposal")
-                                .setBackURL(_themeDisplay.getURLCurrent())
-                                .setParameter("tab", "helpProposals")
-                                .setParameter("helpProposalId", _helpProposal.getHelpProposalId())
-                                .buildString()
+        PortletURL changeActivityURL =PortletURLBuilder.createActionURL(_response)
+                .build();
 
-                );
+        return dropdownItem -> {
+
+            String messageDialog=LanguageUtil.get(_httpServletRequest, "help-deactivate-confirm");
+
+            if(_helpProposal.getActivityStatusTitle(_themeDisplay.getLocale()).equals("Active") )
+            {
+                dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "deactivate-help-proposal"));
+            }
+            else {
+                messageDialog=LanguageUtil.get(_httpServletRequest, "help-reactivate-confirm");
+
                 dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "reactivate-help-proposal"));
             }
+
+            dropdownItem.setHref(changeActivityURL.toString());
+
+            _httpServletRequest.setAttribute("messageDialog", messageDialog);
+
+            dropdownItem.put("href", "javascript:changeActivitySelection();");
         };
     }
     private UnsafeConsumer<DropdownItem, Exception> _getChangeStatusActionUnsafeConsumer() {
@@ -227,7 +226,7 @@ public class ProposalHelpActionDropdownItemsProvider {
                 dropdownItem.setHref(
                         PortletURLBuilder.createActionURL(_response)
                                 .setActionName("changeStatusHelpProposal")
-                                .setMVCPath("/help-bo-view-help-requests.jsp")
+                                .setMVCPath("/help-bo-view-help-proposals.jsp")
                                 .setCMD("changeStatusHelpProposal")
                                 .setBackURL(_themeDisplay.getURLCurrent())
                                 .setParameter("tab", "helpProposals")
@@ -242,7 +241,7 @@ public class ProposalHelpActionDropdownItemsProvider {
 
                         PortletURLBuilder.createActionURL(_response)
                                 .setActionName("changeStatusHelpProposal")
-                                .setMVCPath("/help-bo-view-help-requests.jsp")
+                                .setMVCPath("/help-bo-view-help-proposals.jsp")
                                 .setCMD("changeStatusHelpProposal")
                                 .setBackURL(_themeDisplay.getURLCurrent())
                                 .setParameter("tab", "helpProposals")
@@ -251,26 +250,21 @@ public class ProposalHelpActionDropdownItemsProvider {
                                 .buildString()
                 );
                 dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "publish-help-proposal"));
+
+
             }
         };
     }
-    private UnsafeConsumer<DropdownItem, Exception> _getDeletectionUnsafeConsumer() {
+    private UnsafeConsumer<DropdownItem, Exception> _getDeleteActionUnsafeConsumer() {
 
         return dropdownItem -> {
-            dropdownItem.setHref(
-                    PortletURLBuilder.createRenderURL(_response)
-                            .setActionName("deleteHelpProposal")
-                            .setMVCPath("/help-bo-view-help-proposals.jsp")
-                            .setCMD("deleteHelpProposal")
-                            .setBackURL(_themeDisplay.getURLCurrent())
-                            .setParameter("tab", "helpProposals")
-                            .setParameter("helpProposalId", _helpProposal.getHelpProposalId())
-                            .buildString()
-            );
+
+            dropdownItem.put("href", "javascript:deleteSelection();");
 
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "delete"));
         };
     }
+
     private final HelpProposal _helpProposal;
     private final HttpServletRequest _httpServletRequest;
     private final RenderResponse _response;

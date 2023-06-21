@@ -171,7 +171,7 @@ public class SaveHelpProposalActionCommand implements MVCActionCommand {
 			int helpProposalStatus = helpProposal.getStatus();
 			_helpProposalLocalService.updateHelpProposal(helpProposal, sc);
 			_helpProposalLocalService.updateStatus(helpProposal, helpProposalStatus);
-			response.setRenderParameter("mvcPath", "/help-bo-view-help-proposals.jsp");
+
 		} catch (PortalException e) {
 			_log.error(e);
 		}

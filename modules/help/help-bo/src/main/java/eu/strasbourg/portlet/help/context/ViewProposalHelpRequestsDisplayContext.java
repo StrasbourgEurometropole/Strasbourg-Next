@@ -8,6 +8,7 @@ import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.*;
+import eu.strasbourg.portlet.help.util.ProposalHelpActionDropdownItemsProvider;
 import eu.strasbourg.portlet.help.util.ProposalHelpRequestActionDropdownItemsProvider;
 import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.service.help.model.HelpRequest;
@@ -36,6 +37,7 @@ public class ViewProposalHelpRequestsDisplayContext{
             _httpServletRequest = PortalUtil.getHttpServletRequest(request);
             _itemSelector = itemSelector;
         }
+
     /**
      * Retourne le dropdownItemsProvider
      *
@@ -54,7 +56,7 @@ public class ViewProposalHelpRequestsDisplayContext{
         return _helpProposal;
     }
 
-    public List<HelpRequest> getHelpRequests() throws PortalException {
+    /*public List<HelpRequest> getHelpRequests() throws PortalException {
         if (this._helpRequests == null) {
             List unsortedRequests = HelpRequestLocalServiceUtil.getByHelpProposalId(getHelpProposal().getHelpProposalId());
 
@@ -68,7 +70,7 @@ public class ViewProposalHelpRequestsDisplayContext{
 
         }
         return this._helpRequests;
-    }
+    }*/
     /**
      * Retourne le searchContainer des help proposals
      *

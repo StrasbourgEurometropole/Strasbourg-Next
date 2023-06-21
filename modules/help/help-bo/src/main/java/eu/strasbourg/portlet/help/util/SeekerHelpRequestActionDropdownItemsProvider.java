@@ -7,11 +7,10 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.help.model.HelpRequest;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-
+import com.liferay.portal.kernel.util.Validator;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -20,9 +19,9 @@ import java.util.List;
 /**
  * @author BMA
  */
-public class ProposalHelpRequestActionDropdownItemsProvider {
+public class SeekerHelpRequestActionDropdownItemsProvider {
 
-    public ProposalHelpRequestActionDropdownItemsProvider(
+    public SeekerHelpRequestActionDropdownItemsProvider(
             HelpRequest helpRequest, RenderRequest request,
             RenderResponse response) {
 
@@ -53,7 +52,7 @@ public class ProposalHelpRequestActionDropdownItemsProvider {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder
                                             .add(
-                                                   () -> hasUpdateRequestPermission,
+                                                    () -> hasUpdateRequestPermission,
                                                     _getUpdateRequestActionUnsafeConsumer()
                                             )
                                             .build()
@@ -65,7 +64,7 @@ public class ProposalHelpRequestActionDropdownItemsProvider {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder
                                             .add(
-                                                    () -> hasUpdatePermission,
+                                                   () -> hasUpdatePermission,
                                                     _getEditActionUnsafeConsumer()
                                             )
                                             .build()
@@ -76,7 +75,7 @@ public class ProposalHelpRequestActionDropdownItemsProvider {
     }
 
     /**
-     * Action of Edit help proposalRequest
+     * Action of Edit help seekerRequest
      */
     private UnsafeConsumer<DropdownItem, Exception> _getEditActionUnsafeConsumer() {
 
@@ -87,15 +86,16 @@ public class ProposalHelpRequestActionDropdownItemsProvider {
                             .setCMD("editHelpProposal")
                             .setBackURL(_themeDisplay.getURLCurrent())
                             .setParameter("tab", "helpProposals")
-                            .setParameter("helpProposalId", _helpRequest.getHelpProposalId())
+                            .setParameter("helpProposalId", _helpRequest.getHelpProposal().getHelpProposalId())
                             .buildString()
             );
+
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "view-help-proposal"));
         };
     }
 
     /**
-     * Action of view help proposalRequest
+     * Action of view help seekerRequest
      */
     private UnsafeConsumer<DropdownItem, Exception> _getUpdateRequestActionUnsafeConsumer() {
 
@@ -111,6 +111,7 @@ public class ProposalHelpRequestActionDropdownItemsProvider {
             );
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "view-help-request"));
         };
+
     }
 
     private final HelpRequest _helpRequest;

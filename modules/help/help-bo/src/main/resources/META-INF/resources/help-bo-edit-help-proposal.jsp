@@ -4,14 +4,12 @@
 <%-- URL : definit le lien menant vers la page de listage de l'entite --%>
 <liferay-portlet:renderURL varImpl="helpProposalsURL">
 	<portlet:param name="tab" value="helpProposals" />
-	<portlet:param name="mvcPath" value="/help-bo-view-help-proposals.jsp" />
 </liferay-portlet:renderURL>
 
 <%-- URL : definit le lien menant vers la suppression de l'entite --%>
 <liferay-portlet:actionURL name="deleteHelpProposal" var="deleteHelpProposalURL">
 	<portlet:param name="cmd" value="deleteHelpProposal" />
 	<portlet:param name="tab" value="helpProposals" />
-	<portlet:param name="mvcPath" value="/help-bo-view-help-proposals.jsp" />
 	<portlet:param name="helpProposalId" value="${not empty dc.helpProposal ? dc.helpProposal.helpProposalId : ''}" />
 </liferay-portlet:actionURL>
 

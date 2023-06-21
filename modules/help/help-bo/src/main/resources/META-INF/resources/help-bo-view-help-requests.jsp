@@ -44,6 +44,7 @@
                     <portlet:param name="backURL" value="${dc.currentURL}" />
                     <portlet:param name="requestModerationStatus" value="Conforme" />
                     <portlet:param name="helpRequestId" value="${helpRequest.helpRequestId}" />
+                    <portlet:param name="mvcPath" value="/help-bo-view-help-requests.jsp" />
                 </liferay-portlet:actionURL>
 
                 <%-- URL : definit le lien vers l'action de passage en Alerte --%>
@@ -52,6 +53,7 @@
                     <portlet:param name="tab" value="helpRequests" />
                     <portlet:param name="requestModerationStatus" value="Alerte" />
                     <portlet:param name="helpRequestId" value="${helpRequest.helpRequestId}" />
+                    <portlet:param name="mvcPath" value="/help-bo-view-help-requests.jsp" />
                 </liferay-portlet:actionURL>
 
                 <%-- URL : definit le lien vers l'action de passage en Non-conforme --%>
@@ -60,6 +62,14 @@
                     <portlet:param name="tab" value="helpRequests" />
                     <portlet:param name="requestModerationStatus" value="Non-conforme" />
                     <portlet:param name="helpRequestId" value="${helpRequest.helpRequestId}" />
+                    <portlet:param name="mvcPath" value="/help-bo-view-help-requests.jsp" />
+                </liferay-portlet:actionURL>
+                <%-- URL : defini le lien vers l'action de suppression --%>
+                <liferay-portlet:actionURL name="deleteStudentCardImages" var="deleteSelectionURL">
+                    <portlet:param name="cmd" value="deleteStudentCardImages" />
+                    <portlet:param name="tab" value="helpRequests" />
+                    <portlet:param name="mvcPath" value="/help-bo-view-help-requests.jsp" />
+                    <portlet:param name="studentPublikId" value="${helpRequest.publikId}" />
                 </liferay-portlet:actionURL>
 
                 <%-- Colonne : Date de creation --%>
@@ -124,3 +134,36 @@
         </liferay-ui:search-container>
     </aui:form>
 </div>
+<aui:script>
+
+    var form = document.querySelector("[name='<portlet:namespace />fm']");
+
+    function validHelpRequestSelection() {
+        var messageDialog = "${renderRequest.getAttribute('validMessageDialog')}";
+        if (confirm(messageDialog)) {
+            submitForm(form, '${validHelpRequestURL}');
+
+        }
+    }
+    function alertHelpRequestSelection() {
+        var messageDialog = "${renderRequest.getAttribute('alertMessageDialog')}";
+        if (confirm(messageDialog)) {
+            submitForm(form, '${alertHelpRequestURL}');
+
+        }
+    }
+    function notValidHelpRequestSelection() {
+        var messageDialog = "${renderRequest.getAttribute('notValidMessageDialog')}";
+        if (confirm(messageDialog)) {
+            submitForm(form, '${notValidHelpRequestURL}');
+
+        }
+    }
+    function deleteSelection() {
+
+    if (confirm('<liferay-ui:message key="delete-student-ids-confirm" />')) {
+    submitForm(form, '${deleteSelectionURL}');
+    }
+    }
+
+</aui:script>

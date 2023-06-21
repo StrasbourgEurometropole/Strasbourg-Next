@@ -20,7 +20,7 @@
 	<portlet:param name="backURL" value="${helpProposalsURL}" />
 </liferay-portlet:actionURL>
 <%-- Composant : Champ d'acces direct par reference de proposition --%>
-<div class="container-fluid-1280">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<div class="input-group">
 		<div class="input-group-prepend">
 			<span class="input-group-text"><liferay-ui:message key="go-directly-to-proposal-detail"/></span>
@@ -37,8 +37,6 @@
 	<aui:form method="post" name="fm">
 		<liferay-ui:search-container id="helpProposalsSearchContainer"
 			searchContainer="${dc.searchContainer}">
-
-
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.help.model.HelpProposal" modelVar="helpProposal"
 				keyProperty="helpProposalId" >
@@ -98,8 +96,9 @@
 				<liferay-ui:search-container-column-text>
 					<clay:dropdown-actions
 							aria-label="<liferay-ui:message key='show-actions' />"
-							dropdownItems="${dc.getActionsHelpProposal(helpProposal).getActionDropdownItems()}"
+							dropdownItems="${dc.getActionsHelpProposal(helpProposal).getActionDropdownItems(dc.helpRequestsByProposal[helpProposal.helpProposalId])}"
 					/>
+
 				</liferay-ui:search-container-column-text>
 
 			</liferay-ui:search-container-row>
@@ -108,6 +107,12 @@
 			<liferay-ui:search-iterator paginate="true" displayStyle="list"
 				markupView="lexicon" searchContainer="${dc.searchContainer}" />
 		</liferay-ui:search-container>
+		<liferay-portlet:actionURL name="changeActivityHelpProposal" var="changeActivityHelpProposalURL">
+			<portlet:param name="cmd" value="changeActivityHelpProposal" />
+			<portlet:param name="tab" value="helpProposals" />
+			<portlet:param name="helpProposalId" value="${helpProposal.helpProposalId}" />
+			<portlet:param name="mvcPath" value="/help-bo-view-help-proposals.jsp" />
+		</liferay-portlet:actionURL>
 	</aui:form>
 </div>
 
@@ -119,6 +124,7 @@
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="mvcPath" value="/help-bo-view-help-proposals.jsp" />
+	<portlet:param name="helpProposalId" value="${helpProposal.helpProposalId}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>
@@ -145,6 +151,7 @@
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>
 
+
 <%-- Script : Permet d'accéeder directement la proposition par son identifiant--%>
 <script type="text/javascript">
 	/*
@@ -162,26 +169,34 @@
 
 </script>
 
-<%-- Script : permet l'affichage des alertes de validation d'action --%>
 <aui:script>
+
 	var form = document.querySelector("[name='<portlet:namespace />fm']");
 
-	function <portlet:namespace />deleteSelection() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-entries" />')) {
+	function changeActivitySelection() {
+	var messageDialog = "${renderRequest.getAttribute('messageDialog')}";
+		if (confirm(messageDialog)) {
+			submitForm(form, '${changeActivityHelpProposalURL}');
+
+		}
+	}
+	function deleteSelection() {
+
+		if (confirm('<liferay-ui:message key="help-delete-confirm" />')) {
 			submitForm(form, '${deleteSelectionURL}');
 		}
 	}
-	function <portlet:namespace />publishSelection() {
+	function publishSelection() {
 		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-publish-selected-entries" />')) {
 				submitForm(form, '${publishSelectionURL}');
 		}
 	}
-	function <portlet:namespace />unpublishSelection() {
+	function unpublishSelection() {
 		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-unpublish-selected-entries" />')) {
 				submitForm(form, '${unpublishSelectionURL}');
 		}
 	}
-	function <portlet:namespace />deleteHelp() {
+	function deleteHelp() {
 		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-entries" />')) {
 			submitForm(form, '${deleteSelectionURL}');
 		}
