@@ -42,7 +42,7 @@ public class SeekerHelpActionDropdownItemsProvider {
     public List<DropdownItem> getActionDropdownItems(String countImage) {
 
         boolean hasUpdatePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.HELP_BO, StrasbourgPortletKeys.HELP_BO, "'EDIT_HELP_REQUEST'")
+                StrasbourgPortletKeys.HELP_BO, StrasbourgPortletKeys.HELP_BO, "EDIT_HELP_REQUEST")
                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());;
 
 
@@ -52,6 +52,7 @@ public class SeekerHelpActionDropdownItemsProvider {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder
                                             .add(
+                                                    () -> hasUpdatePermission,
                                                     _getViewActionUnsafeConsumer()
                                             )
                                             .build()
@@ -63,7 +64,7 @@ public class SeekerHelpActionDropdownItemsProvider {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder
                                             .add(
-                                                   // () -> hasUpdatePermission,
+                                                   () -> hasUpdatePermission,
                                                     _getDeleteActionUnsafeConsumer(countImage)
                                             )
                                             .build()
@@ -74,7 +75,7 @@ public class SeekerHelpActionDropdownItemsProvider {
     }
 
     /**
-     * Action of Edit help proposal
+     * Action of Edit help seeker
      */
     private UnsafeConsumer<DropdownItem, Exception> _getViewActionUnsafeConsumer() {
 
@@ -93,7 +94,7 @@ public class SeekerHelpActionDropdownItemsProvider {
     }
 
     /**
-     * Action of view help proposal
+     * Action of view help seeker
      */
     private UnsafeConsumer<DropdownItem, Exception> _getDeleteActionUnsafeConsumer(String countImage) {
 

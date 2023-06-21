@@ -102,11 +102,11 @@ public class HelpBOPortlet extends MVCPortlet {
 					break;
 
 				case HELP_SEEKERS:
-					if(navigationDC.getSelectedCmd().equals("editHelpProposal")){
+					if(navigationDC.getSelectedCmd().equals(EDIT_HELP_PROPOSAL)){
 						ViewSeekerHelpRequestsDisplayContext dc = new ViewSeekerHelpRequestsDisplayContext(renderRequest, renderResponse,_itemSelector);
 						renderRequest.setAttribute("dc", dc);
 					}
-					else if(navigationDC.getSelectedCmd().equals("viewSeekerHelpRequests")) {
+					else if(navigationDC.getSelectedCmd().equals(SEEKER_HELP_REQUESTS)) {
 						ViewSeekerHelpRequestsDisplayContext dc = new ViewSeekerHelpRequestsDisplayContext(renderRequest, renderResponse,_itemSelector);
 						renderRequest.setAttribute("dc", dc);
 					}
@@ -122,16 +122,6 @@ public class HelpBOPortlet extends MVCPortlet {
 		} catch (PortalException e) {
 			e.printStackTrace();
 		}
-
-		// On set le displayContext selon la page sur laquelle on est
-		/*
-		}
-
-		} else if(tab.equals("helpRequests")) {
-			ViewHelpRequestsDisplayContext dc = new ViewHelpRequestsDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-		}
-		}*/
 
 		// Admin ou pas
 		renderRequest.setAttribute("isAdmin", themeDisplay.getPermissionChecker().isOmniadmin());

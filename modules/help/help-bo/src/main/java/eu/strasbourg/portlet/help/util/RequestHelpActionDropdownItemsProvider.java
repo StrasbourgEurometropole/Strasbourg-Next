@@ -122,7 +122,7 @@ public class RequestHelpActionDropdownItemsProvider {
     }
 
     /**&
-     * Action of Edit help proposal
+     * Action of Edit help request
      */
     private UnsafeConsumer<DropdownItem, Exception> _getEditActionUnsafeConsumer() {
 
@@ -142,7 +142,7 @@ public class RequestHelpActionDropdownItemsProvider {
     }
 
     /**
-     * Action of view help proposal
+     * Action of view help request
      */
     private UnsafeConsumer<DropdownItem, Exception> _getEditHelpRequestActionUnsafeConsumer() {
 

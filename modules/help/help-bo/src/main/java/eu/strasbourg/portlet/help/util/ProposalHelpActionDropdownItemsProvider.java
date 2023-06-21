@@ -139,9 +139,6 @@ public class ProposalHelpActionDropdownItemsProvider {
                 .build();
     }
 
-    /**
-     * Action of Edit help proposal
-     */
     private UnsafeConsumer<DropdownItem, Exception> _getViewActionUnsafeConsumer() {
 
         return dropdownItem -> {

@@ -38,12 +38,12 @@ public class SeekerHelpRequestActionDropdownItemsProvider {
     public List<DropdownItem> getActionDropdownItems() {
 
         boolean hasUpdateRequestPermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.HELP_BO, StrasbourgPortletKeys.HELP_BO, "'EDIT_HELP_REQUEST'")
+                StrasbourgPortletKeys.HELP_BO, StrasbourgPortletKeys.HELP_BO, "EDIT_HELP_REQUEST")
                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 
 
          boolean hasUpdatePermission= _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
-                 StrasbourgPortletKeys.HELP_BO, StrasbourgPortletKeys.HELP_BO, "'EDIT_HELP'")
+                 StrasbourgPortletKeys.HELP_BO, StrasbourgPortletKeys.HELP_BO, "EDIT_HELP")
                  && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 
         return DropdownItemListBuilder
@@ -52,7 +52,7 @@ public class SeekerHelpRequestActionDropdownItemsProvider {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder
                                             .add(
-                                                    //() -> hasUpdateRequestPermission,
+                                                    () -> hasUpdateRequestPermission,
                                                     _getUpdateRequestActionUnsafeConsumer()
                                             )
                                             .build()
@@ -64,7 +64,7 @@ public class SeekerHelpRequestActionDropdownItemsProvider {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder
                                             .add(
-                                                  //  () -> hasUpdatePermission,
+                                                   () -> hasUpdatePermission,
                                                     _getEditActionUnsafeConsumer()
                                             )
                                             .build()
@@ -75,7 +75,7 @@ public class SeekerHelpRequestActionDropdownItemsProvider {
     }
 
     /**
-     * Action of Edit help proposal
+     * Action of Edit help seekerRequest
      */
     private UnsafeConsumer<DropdownItem, Exception> _getEditActionUnsafeConsumer() {
 
@@ -95,7 +95,7 @@ public class SeekerHelpRequestActionDropdownItemsProvider {
     }
 
     /**
-     * Action of view help proposal
+     * Action of view help seekerRequest
      */
     private UnsafeConsumer<DropdownItem, Exception> _getUpdateRequestActionUnsafeConsumer() {
 

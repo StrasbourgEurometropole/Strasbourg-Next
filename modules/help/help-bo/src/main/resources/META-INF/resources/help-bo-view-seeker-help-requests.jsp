@@ -1,35 +1,15 @@
 <%@ include file="/help-bo-init.jsp"%>
 
-<%-- Header --%>
-<div class="navbar navbar-default collapse-basic-search" id="iqzh">
-	<div class="container-fluid container-fluid-max-xl main-content-body">
-		<div class="navbar-header visible-xs">
-			<button class="collapsed navbar-toggle navbar-toggle-left navbar-toggle-page-name" data-target="#_eu_strasbourg_portlet_oidc_OIDCBOPortlet_navTag_1NavbarCollapse" data-toggle="collapse" id="_eu_strasbourg_portlet_oidc_OIDCBOPortlet_NavbarBtn" type="button">
-				<span class="sr-only">Basculer la navigation</span>
-				<span class="page-name">Utilisateurs Publik</span>
-				<span class="caret"></span>
-			</button>
-		</div>
-		<!-- Liste des onglet -->
-		<div class="collapse navbar-collapse" id="_eu_strasbourg_portlet_oidc_OIDCBOPortlet_navTagNavbarCollapse">
-			<ul aria-label="Gestion Utilisateurs Publik" class="lfr-nav nav navbar-nav" id="_eu_strasbourg_portlet_oidc_OIDCBOPortlet_navTag" role="menubar">
-				<li class=" active " id="nraf_" role="presentation" style="margin: auto; position: inherit; font-weight: bold">
-					<a class="" role="menuitem" title="Utilisateurs Publik">
-					<span class="nav-item-label">
-					<liferay-ui:message key="seeker-help-requests-list"/>
-					<liferay-ui:message key=" : ${dc.helpSeeker.firstName} ${dc.helpSeeker.lastName}"></liferay-ui:message>
-					</span>
-					</a>
-				</li>
-			</ul>
-		</div>
-	</div>
-</div>
-
-<%-- Body --%>
 <%-- Composant : tableau de visualisation des entites --%>
 <div class="container-fluid container-fluid-max-xl main-content-body">
+	<div class="help-bo ">
+		<div class="help-request-title">
+			<liferay-ui:message key="seeker-help-requests-list"/>
+			<liferay-ui:message key=" : ${dc.helpSeeker.firstName} ${dc.helpSeeker.lastName}"></liferay-ui:message>
+		</div>
+	</div>
 	<aui:form method="post" name="fm">
+
 		<liferay-ui:search-container id="helpRequestsSearchContainer"
 									 searchContainer="${dc.searchContainer}">
 
