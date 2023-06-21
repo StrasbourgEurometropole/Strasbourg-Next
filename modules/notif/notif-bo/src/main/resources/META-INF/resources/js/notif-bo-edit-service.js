@@ -87,8 +87,6 @@ function submitForm(event) {
 (function($) {
 	// Configuration des autofields
 	AUI().use('liferay-auto-fields', function(Y) {
-        var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
-
 		if (!!document.getElementById('nature-fields')) {
 			// Création de l'autofield des natures
 			natureAutoFields = new Liferay.AutoFields({

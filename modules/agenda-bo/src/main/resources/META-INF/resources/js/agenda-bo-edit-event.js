@@ -24,8 +24,6 @@ jQuery(function() {
 		$('.' + classOfDivToHide + ' .image-thumbnail').remove();
 		setConditionalValidators();
 	});
-	
-	Liferay.on('allPortletsReady', setConditionalValidators);
 
 	$(":submit").on('click', function(e) {
         allValidate = true;
