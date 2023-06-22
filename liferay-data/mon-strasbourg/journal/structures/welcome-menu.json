@@ -1,0 +1,103 @@
+{
+    "availableLanguageIds": [
+        "fr_FR"
+    ],
+    "defaultLanguageId": "fr_FR",
+    "fields": [
+        {
+            "label": {
+                "fr_FR": "Panoramique"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "image",
+            "fieldNamespace": "ddm",
+            "indexType": "text",
+            "localizable": true,
+            "name": "image",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-image"
+        },
+        {
+            "label": {
+                "fr_FR": "Bouton"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "button",
+            "readOnly": false,
+            "repeatable": true,
+            "required": false,
+            "showLabel": true,
+            "type": "text",
+            "nestedFields": [
+                {
+                    "label": {
+                        "fr_FR": "Couleur"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": ""
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "color",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                },
+                {
+                    "label": {
+                        "fr_FR": "Lien"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": ""
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "link",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                }
+            ]
+        }
+    ]
+}
