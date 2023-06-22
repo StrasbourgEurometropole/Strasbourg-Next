@@ -1,6 +1,6 @@
 // PAGE LISTING PETITIONS + LISTE DES BUDGETS
 // ==========================================================================
-.pro-wrapper-listing-participation {
+.pro-wrapper-listing-participation, .pro-wrapper-listing-general {
 
 	// PETITIONS
 	.pro-bloc-card-petition {
@@ -62,7 +62,7 @@
 	}
 
 	// BUDGETS
-	.pro-bloc-card-budget {
+	.pro-bloc-card-budget, .pro-bloc-listing-participation {
 		margin: 20px 0;
 		&:first-child {
 			@include tablet_landscape {
@@ -185,6 +185,12 @@
 		.pro-content-header {
 			.pro-meta {
 				padding: 10px 30px;
+			}
+			.pro-district {
+				font-weight: 700;
+				&:before {
+					top: 0;
+				}
 			}
 		}
 

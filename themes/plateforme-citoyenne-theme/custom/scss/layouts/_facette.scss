@@ -6,7 +6,7 @@
 	}
 
 	.pro-affiner {
-		@include ft($f_hx, 1.2em, 400, $c_white, 1.5em);
+		@include ft($f_hx, 1.4em, 700, $c_white, 1.5em);
 
 		display: block;
 		padding: 20px 15px 25px;
@@ -73,41 +73,33 @@
 			.pro-header {
 				padding: 8px 0;
 				display: block;
-				border-bottom: 1px solid #a6a6a6;
 				position: relative;
 
 				h4 {
 					@include ft($f_hx, 0.938em, 400, $c_main, 1.5em);
-
+					text-transform: uppercase;
 					margin-bottom: 0;
 				}
-				span {
-					@include ft($f_txt, $s_small, 400, $c_white, 2em);
-					text-transform: lowercase;
-					position: absolute;
-					right: 0;
-					top: 50%;
-					transform: translateY(-50%);
-					transform: translate3d(0, -50%, 0);
-					&:after {
-						content: "\e91b";
-						@include font();
-						float: right;
-						margin-left: 10px;
-						line-height: 30px;
-						font-size: 11px;
-					}
-					&:hover {
-						text-decoration: underline;
-						cursor: pointer;
-					}
+
+			}
+			span.pro-remove {
+				@include ft($f_txt, $s_small, 400, $c_white, 2em);
+				text-transform: lowercase;
+				float: right;
+				&:after {
+					content: "\e91b";
+					@include font();
+					float: right;
+					margin-left: 10px;
+					line-height: 30px;
+					font-size: 11px;
+				}
+				&:hover {
+					text-decoration: underline;
+					cursor: pointer;
 				}
 			}
-
 			fieldset {
-				padding-top: 15px;
-				padding-bottom: 25px;
-
 				&.pro-text{
 					> * {
 						input{
@@ -155,22 +147,22 @@
 								top: 6px;
 							}
 							&:after {
-								content: "◼";
-								@include font();
-								text-shadow: 1px 1px 0 $c_white, 0px -2px 0 $c_white;
-								font-size: 15px;
+								content: "";
 								position: absolute;
-								left: 2px;
-								top: 3px;
+								left: 3px;
+								top: 9px;
 								transform: translateY(-50%);
 								transform: translate3d(0, -50%, 0);
 								cursor: pointer;
 								color: $c_txt;
 								transition: all .2s;
-								background: none;
+								background: black;
 								opacity: 0;
 								transform: scale(0);
 								@include addTransitionCurve();
+								width: 10px;
+								height: 10px;
+								border-radius: 2px;
 							}
 							&:hover, &:focus {
 								cursor: pointer;

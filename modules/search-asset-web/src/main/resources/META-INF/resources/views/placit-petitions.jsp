@@ -3,37 +3,44 @@
 <liferay-portlet:actionURL varImpl="searchActionURL" />
 
 <div class="pro-search-listing" id="go-to-top">
-     <div class="container">
-        <div class="row">
-            <div class="col-md-8 pro-bloc-listing-participation">
-                <div id="breadcrumb">
+    <div  class="search-header-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="search-header col-md-8">
+                    <div id="breadcrumb">
 		            <span>
 		                <span><a href="${dc.getHomeURL()}"><liferay-ui:message key="eu.breadcrumb-home" /></a>
 		                    <span class="breadcrumb_last"><liferay-ui:message key="eu.breadcrumb-petition" /></span>
 		                </span>
 		            </span>
+                    </div>
+                    <div class="pro-wrapper-sort">
+                        <c:choose>
+                            <c:when test='${isUserloggedIn && hasUserPactSign && !isUserBanned}'>
+                                <a id="buttonDeposer" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#modalPetition">
+                                    <liferay-ui:message key="file-petition" />
+                                </a>
+                            </c:when>
+                            <c:when test='${!hasUserPactSign && !isUserBanned}'>
+                                <a id="buttonDeposer" href="" class="pro-btn-yellow" name="#Pact-sign">
+                                    <liferay-ui:message key="file-petition" />
+                                </a>
+                            </c:when>
+                            <c:when test='${isUserBanned}'>
+                                <a id="buttonDeposer" href="" class="pro-btn-yellow" name="#IsBanned">
+                                    <liferay-ui:message key="file-petition" />
+                                </a>
+                            </c:when>
+                        </c:choose>
+                    </div>
                 </div>
-                
-                 <div class="pro-wrapper-sort">
-                    <c:choose>
-                        <c:when test='${isUserloggedIn && hasUserPactSign && !isUserBanned}'>
-                            <a id="buttonDeposer" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#modalPetition">
-                            	<liferay-ui:message key="file-petition" />
-                            </a>
-                        </c:when>
-                        <c:when test='${!hasUserPactSign && !isUserBanned}'>
-                            <a id="buttonDeposer" href="" class="pro-btn-yellow" name="#Pact-sign">
-                            	<liferay-ui:message key="file-petition" />
-                            </a>
-                        </c:when>
-                        <c:when test='${isUserBanned}'>
-                            <a id="buttonDeposer" href="" class="pro-btn-yellow" name="#IsBanned">
-                            	<liferay-ui:message key="file-petition" />
-                            </a>
-                        </c:when>
-                    </c:choose>
- 				</div>
- 				
+            </div>
+
+        </div>
+    </div>
+     <div class="container">
+        <div class="row">
+            <div class="col-md-8 pro-bloc-listing-participation">
  				<!-- Affiner votre recherche - Tablette portrait + Mobile -->
                 <div class="pro-inside-affine-search"></div>
 				
