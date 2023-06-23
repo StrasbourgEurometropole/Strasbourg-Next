@@ -32,8 +32,8 @@
 		</p>
 		<p>
 			<label><liferay-ui:message key="tags" /></label>
-			<liferay-ui:asset-tags-selector hiddenInput="tagsNames"
-				curTags="${tagsNames}" />
+			<liferay-asset:asset-tags-selector hiddenInput="tagsNames"
+											   tagNames="${tagsNames}" />
 		</p>
 
 		<h3>

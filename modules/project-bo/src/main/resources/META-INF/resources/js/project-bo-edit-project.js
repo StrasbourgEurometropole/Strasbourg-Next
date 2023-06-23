@@ -16,8 +16,6 @@ jQuery(function() {
 		setConditionalValidators();
 	});
 	
-	Liferay.on('allPortletsReady', setConditionalValidators);
-	
 	function setConditionalValidators() {
 		// Validation des champos obligatoires conditionnels
 		AUI().use('liferay-form', function() {

@@ -171,9 +171,9 @@
 
                         <div>
                             <label><liferay-ui:message key="tags" /></label>
-                            <liferay-ui:asset-tags-selector
+                            <liferay-asset:asset-tags-selector
                                 hiddenInput="prefilterTags"
-                                curTags="${prefilterTags}" />
+                                tagNames="${prefilterTags}" />
                         </div>
 
                         <!-- Filtre sur le quartier de l'utilisateur -->

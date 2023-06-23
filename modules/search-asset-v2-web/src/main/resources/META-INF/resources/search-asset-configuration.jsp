@@ -98,7 +98,10 @@
                         <liferay-ui:message key="eu.search.asset.web.configuration.boost.explanations" />
                         <p>
                             <label><liferay-ui:message key="tags" /></label>
-                            <liferay-ui:asset-tags-selector hiddenInput="boostTagsNames" curTags="${dc.configurationData.boostTagsNames}" />
+                            <liferay-asset:asset-tags-selector
+                                    hiddenInput="boostTagsNames"
+                                    tagNames="${dc.configurationData.boostTagsNames}"
+                            />
                         </p>
 
                     </aui:fieldset>
