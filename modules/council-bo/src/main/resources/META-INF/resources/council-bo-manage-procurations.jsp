@@ -1,5 +1,5 @@
 <%@ include file="/council-bo-init.jsp"%>
-
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 <%@page import="eu.strasbourg.service.council.model.Procuration"%>
 
 <%-- URL : definit le lien menant vers la page de listage de l'entite --%>
@@ -29,7 +29,7 @@
 
 <%-- Header --%>
 <div class="navbar navbar-default collapse-basic-search" id="iqzh">
-	<div class="container-fluid-1280">
+    <div class="container-fluid container-fluid-max-xl main-content-body">
 		<div class="navbar-header visible-xs">
 			<button class="collapsed navbar-toggle navbar-toggle-left navbar-toggle-page-name" data-target="#_eu_strasbourg_portlet_oidc_OIDCBOPortlet_navTag_1NavbarCollapse" data-toggle="collapse" id="_eu_strasbourg_portlet_oidc_OIDCBOPortlet_NavbarBtn" type="button">
 				<span class="sr-only">Basculer la navigation</span>
@@ -78,7 +78,7 @@
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.councilSession}" model="<%=Procuration.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+        <div class="sheet"><div class="panel-group panel-group-flush">
 
 			<%-- Champ : (cache) PK de l'entite --%>
 			<aui:input name="councilSessionId" type="hidden" />
@@ -261,7 +261,7 @@
                 </button>
             </div>
 
-		</aui:fieldset-group>
+		</div></div>
 
 		<%-- Composant : Menu de gestion de l'entite --%>
 		<aui:button-row>

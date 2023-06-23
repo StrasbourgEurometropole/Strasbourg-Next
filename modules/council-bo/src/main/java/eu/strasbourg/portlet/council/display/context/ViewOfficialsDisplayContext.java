@@ -1,67 +1,47 @@
 package eu.strasbourg.portlet.council.display.context;
 
-import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
-import com.liferay.frontend.taglib.servlet.taglib.ManagementBarFilterItem;
+import com.liferay.item.selector.ItemSelector;
+import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
-import com.liferay.portal.kernel.search.Document;
-import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
+import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.portlet.council.utils.UserRoleType;
+import com.liferay.portal.kernel.util.*;
+import eu.strasbourg.portlet.council.util.OfficialsActionDropdownItemsProvider;
+import eu.strasbourg.portlet.council.util.TypesActionDropdownItemsProvider;
 import eu.strasbourg.service.council.model.Official;
+import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
-import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.constants.VocabularyNames;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
+import eu.strasbourg.utils.SearchHelper;
 
-import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 
-public class ViewOfficialsDisplayContext extends ViewListBaseDisplayContext<Official> {
+public class ViewOfficialsDisplayContext {
 
-    private List<Official> officials;
 
-    public static final String CATEGORY_ACTIVE = "Actif";
-    public static final String CATEGORY_INACTIVE = "Inactif";
 
-    public ViewOfficialsDisplayContext(RenderRequest request, RenderResponse response) {
-        super(Official.class, request, response);
+    public ViewOfficialsDisplayContext(RenderRequest request, RenderResponse response, ItemSelector itemSelector) {
+        _request = request;
+        _response = response;
+        _themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
+        _httpServletRequest = PortalUtil.getHttpServletRequest(request);
+        _itemSelector = itemSelector;
     }
-
+    /**
+     * Retourne le dropdownItemsProvider de l’entité
+     *
+     */
     @SuppressWarnings("unused")
-    public List<Official> getOfficials() throws PortalException {
-        if (this.officials == null) {
-            Hits hits = getHits(this._themeDisplay.getScopeGroupId());
-
-            List<Official> results = new ArrayList<>();
-            if (hits != null) {
-                for (Document document : hits.getDocs()) {
-                    Official official = OfficialLocalServiceUtil.fetchOfficial(
-                            GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-                    if (official != null)
-                        results.add(official);
-                }
-            }
-            this.officials = results;
-        }
-        return this.officials;
+    public OfficialsActionDropdownItemsProvider getActionsOfficials(Official official) {
+        return new OfficialsActionDropdownItemsProvider(official, this._request,
+                this._response);
     }
-
     /**
      * Retourne la liste des élus correspondant à la recherche lancée en ignorant la pagination
      */
@@ -79,13 +59,92 @@ public class ViewOfficialsDisplayContext extends ViewListBaseDisplayContext<Offi
         }
         return results;
     }
+    public SearchContainer<Official> getSearchContainer() {
 
-    @Override
+        if (_searchContainer == null) {
+
+            PortletURL portletURL;
+            portletURL = PortletURLBuilder.createRenderURL(_response)
+                    .setMVCPath("/council-bo-view-officials.jsp")
+                    .setKeywords(ParamUtil.getString(_request, "keywords"))
+                    .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+                    .buildPortletURL();
+            _searchContainer = new SearchContainer<>(_request, null, null,
+                    SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
+            _searchContainer.setEmptyResultsMessageCssClass(
+                    "taglib-empty-result-message-header-has-plus-btn");
+            _searchContainer.setOrderByColParam("orderByCol");
+            _searchContainer.setOrderByTypeParam("orderByType");
+            _searchContainer.setOrderByCol(getOrderByCol());
+            _searchContainer.setOrderByType(getOrderByType());
+            try {
+                getHits(this._themeDisplay.getScopeGroupId());
+            } catch (PortalException e) {
+                throw new RuntimeException(e);
+            }
+            _searchContainer.setResultsAndTotal(
+                    () -> {
+                        // Création de la liste d'objet
+                        List<Official> results = new ArrayList<Official>();
+                        if (_hits != null) {
+                            for (Document document : _hits.getDocs()) {
+                                Official official = OfficialLocalServiceUtil.fetchOfficial(
+                                        GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+                                if (official != null)
+                                    results.add(official);
+                            }
+                        }
+                        return results;
+                    }, _hits.getLength()
+            );
+        }
+        _searchContainer.setRowChecker(
+                new EmptyOnClickRowChecker(_response));
+
+        return _searchContainer;
+    }
+    /**
+     * Retourne tous les Hits de recherche
+     */
+    private Hits getAllHits(long groupId) throws PortalException {
+        HttpServletRequest servletRequest = PortalUtil
+                .getHttpServletRequest(_request);
+        SearchContext searchContext = SearchContextFactory
+                .getInstance(servletRequest);
+
+        // Recherche des hits
+        String keywords = ParamUtil.getString(servletRequest, "keywords");
+
+        return SearchHelper.getBOSearchHits(searchContext,
+                -1, -1, Official.class.getName(), groupId,
+                "", keywords,
+                getOrderByColSearchField(),
+                "desc".equals(getOrderByType()));
+    }
+    /**
+     * Retourne les Hits de recherche pour un delta
+     */
+    private void getHits(long groupId) throws PortalException {
+        HttpServletRequest servletRequest = PortalUtil
+                .getHttpServletRequest(_request);
+        SearchContext searchContext = SearchContextFactory
+                .getInstance(servletRequest);
+
+        // Recherche des hits
+        String keywords = ParamUtil.getString(servletRequest, "keywords");
+        _hits = SearchHelper.getBOSearchHits(searchContext,
+                getSearchContainer().getStart(),
+                getSearchContainer().getEnd(), Official.class.getName(), groupId,
+                "", keywords,
+                getOrderByColSearchField(),
+                "desc".equals(getOrderByType()));
+    }
+
     public String getOrderByCol() {
         return ParamUtil.getString(this._request, "orderByCol", "full-name");
     }
 
-    @Override
+
     public String getOrderByType() {
         return ParamUtil.getString(this._request, "orderByType", "asc");
     }
@@ -93,7 +152,7 @@ public class ViewOfficialsDisplayContext extends ViewListBaseDisplayContext<Offi
     /**
      * Surcharge le mappage des champs sur lesquelles trier
      */
-    @Override
+
     public String getOrderByColSearchField() {
         switch (this.getOrderByCol()) {
             case "full-name":
@@ -103,16 +162,6 @@ public class ViewOfficialsDisplayContext extends ViewListBaseDisplayContext<Offi
         }
     }
 
-    /**
-     * Wrapper autour du permission checker pour les permissions de module
-     */
-    @SuppressWarnings("unused")
-    public boolean hasPermission(String actionId) {
-        return _themeDisplay.getPermissionChecker().hasPermission(
-                this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.COUNCIL_BO, StrasbourgPortletKeys.COUNCIL_BO,
-                actionId);
-    }
 
     /**
      * Retourne la liste des IDs des catégories sur lesquels on doit filtrer les
@@ -123,7 +172,7 @@ public class ViewOfficialsDisplayContext extends ViewListBaseDisplayContext<Offi
      * on ajoute ladite catégorie à la liste
      *
      */
-    public String getFilterCategoriesIds() throws PortalException {
+   /* public String getFilterCategoriesIds() throws PortalException {
         if (Validator.isNotNull(_filterCategoriesIds)) {
             return _filterCategoriesIds;
         }
@@ -169,7 +218,6 @@ public class ViewOfficialsDisplayContext extends ViewListBaseDisplayContext<Offi
         return _filterCategoriesIds;
     }
 
-    @Override
     public List<ManagementBarFilterItem> getManagementBarFilterItems(
             AssetVocabulary vocabulary) throws PortalException {
         List<ManagementBarFilterItem> managementBarFilterItems = new ArrayList<>();
@@ -240,6 +288,30 @@ public class ViewOfficialsDisplayContext extends ViewListBaseDisplayContext<Offi
         // Ainsi on a que les catégories de Type de conseil pour le filtre par Conseil
 
         return managementBarFilterItems;
+    }*/
+    /**
+     * Retourne les mots clés de recherche saisis
+     */
+    @SuppressWarnings("unused")
+    public String getKeywords() {
+        if (Validator.isNull(_keywords)) {
+            _keywords = ParamUtil.getString(_request, "keywords");
+        }
+        return _keywords;
     }
 
+    private Hits _hits;
+    private final RenderRequest _request;
+    private final ThemeDisplay _themeDisplay;
+
+    protected SearchContainer<Official> _searchContainer;
+
+    private final RenderResponse _response;
+    private final HttpServletRequest _httpServletRequest;
+    private final ItemSelector _itemSelector;
+    private List<Official> officials;
+
+    public static final String CATEGORY_ACTIVE = "Actif";
+    public static final String CATEGORY_INACTIVE = "Inactif";
+    private String _keywords;
 }
