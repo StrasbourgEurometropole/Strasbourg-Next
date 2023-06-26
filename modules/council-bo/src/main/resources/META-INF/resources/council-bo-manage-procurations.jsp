@@ -27,33 +27,14 @@
     <portlet:param name="mvcPath" value="/council-bo-edit-council-session.jsp" />
 </liferay-portlet:renderURL>
 
-<%-- Header --%>
-<div class="navbar navbar-default collapse-basic-search" id="iqzh">
-    <div class="container-fluid container-fluid-max-xl main-content-body">
-		<div class="navbar-header visible-xs">
-			<button class="collapsed navbar-toggle navbar-toggle-left navbar-toggle-page-name" data-target="#_eu_strasbourg_portlet_oidc_OIDCBOPortlet_navTag_1NavbarCollapse" data-toggle="collapse" id="_eu_strasbourg_portlet_oidc_OIDCBOPortlet_NavbarBtn" type="button">
-				<span class="sr-only">Basculer la navigation</span>
-				<span class="page-name">Utilisateurs Publik</span>
-				<span class="caret"></span>
-			</button>
-		</div>
-		<!-- Liste des onglet -->
-		<div class="collapse navbar-collapse" id="_eu_strasbourg_portlet_oidc_OIDCBOPortlet_navTagNavbarCollapse">
-			<ul aria-label="Gestion Utilisateurs Publik" class="lfr-nav nav navbar-nav" id="_eu_strasbourg_portlet_oidc_OIDCBOPortlet_navTag" role="menubar">
-				<li class=" active " id="nraf_" role="presentation" style="margin: auto; position: inherit; font-weight: bold">
-					<a class="" role="menuitem" title="Utilisateurs Publik">
-					<span class="nav-item-label">
-					<liferay-ui:message key="council-title"/>
-                    <liferay-ui:message key=" : ${dc.getCouncilSession().title}"></liferay-ui:message>
-					</span>
-					</a>
-				</li>
-			</ul>
-		</div>
-	</div>
+<div class="container-fluid container-fluid-max-xl main-content-body">
+    <div class="council-bo">
+        <div class="manage-procuration-title ">
+            <liferay-ui:message key="council-title"/>
+            <liferay-ui:message key=" : ${dc.getCouncilSession().title}"></liferay-ui:message>
+        </div>
+    </div>
 </div>
-
-
 <div name="warnDiv" class="warnDiv" style="display: none;">
     <span name="warnMessageInput"> </span>
         <button id="closeMessageWarn" class="closeMessageWarn" name="closeMessageWarn">
@@ -72,7 +53,7 @@
     value="${dc.councilSession.getTypeCouncil().getTitle()}" />
 
 <%-- Composant : Body --%>
-<div class="container-fluid-1280 main-content-body council-bo">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
 

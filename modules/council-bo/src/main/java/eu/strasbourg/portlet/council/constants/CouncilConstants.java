@@ -14,10 +14,14 @@ public class CouncilConstants {
     public static final String EDIT_COUNCIL_SESSION = "editCouncilSession";
     public static final String SAVE_COUNCIL_SESSION = "saveCouncilSession";
 
+    public static final String MANAGE_PROCURATION_COUNCIL_SESSION = "manageProcurations";
+
     public static final String DELIBERATIONS = "deliberations";
     public static final String DELIBERATIONS_PATH = "/council-bo-view-deliberations.jsp";
     public static final String EDIT_DELIBERATION = "editDeliberation";
     public static final String SAVE_DELIBERATION = "saveDeliberation";
+    public static final String IMPORT_DELIBERATION = "importDeliberation";
+
 
     public static final String OFFICIALS = "officials";
     public static final String OFFICIALS_PATH = "/council-bo-view-officials.jsp";

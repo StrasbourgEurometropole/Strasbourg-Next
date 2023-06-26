@@ -4,6 +4,10 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.item.selector.ItemSelector;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
+import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -20,6 +24,7 @@ import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -33,20 +38,21 @@ import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.stream.Collectors;
-
+import static eu.strasbourg.portlet.council.constants.CouncilConstants.*;
 /**
  * @author jeremy.zwickert
  */
 @Component(
 	immediate = true,
 	property = {
+		"javax.portlet.version=3.0",
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/council-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/council-bo-main.css",
 		"com.liferay.portlet.layout-cacheable=true",
 		"com.liferay.portlet.single-page-application=false",
-		"javax.portlet.init-param.template-path=/",
-		"javax.portlet.init-param.view-template=/council-bo-view.jsp",
+		"javax.portlet.init-param.template-path=/META-INF/resources/",
+		"javax.portlet.init-param.view-template=/council-bo-view-types.jsp",
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user",
 	},
@@ -61,39 +67,113 @@ public class CouncilBOPortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
-		String cmd = ParamUtil.getString(renderRequest, "cmd");
-		String tab = ParamUtil.getString(renderRequest, "tab");
-		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
+		try {
+			NavigationBarDisplayContext navigationDC = new NavigationBarDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("navigationDC", navigationDC);
+			HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(renderRequest);
+			switch (navigationDC.getSelectedTab()) {
+				case COUNCIL_SESSIONS: {
+					if (navigationDC.getSelectedCmd().equals(EDIT_COUNCIL_SESSION)) {
 
-		renderResponse.setTitle("CouncilSessions");
+						EditCouncilSessionDisplayContext dc = new EditCouncilSessionDisplayContext(renderRequest);
+						renderRequest.setAttribute("dc", dc);
+						long councilSessionId = ParamUtil.getLong(renderRequest, "councilSessionId");
+						HttpServletRequest originalRequest = PortalUtil.getHttpServletRequest(renderRequest);
+						HttpSession session = originalRequest.getSession();
+						session.setAttribute("councilSessionId", councilSessionId);
 
-		// If we are on an "add" page, we set a return URL and show the "back"
-		// button
-		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
-		boolean showBackButton = Validator.isNotNull(returnURL);
-		if (showBackButton) {
-			portletDisplay.setShowBackIcon(true);
-			portletDisplay.setURLBack(returnURL);
+					} else if (navigationDC.getSelectedCmd().equals(SAVE_COUNCIL_SESSION)) {
+						EditCouncilSessionDisplayContext dc = new EditCouncilSessionDisplayContext(renderRequest);
+						renderRequest.setAttribute("dc", dc);
+
+					} else if (navigationDC.getSelectedCmd().equals(MANAGE_PROCURATION_COUNCIL_SESSION)) {
+						ManageProcurationsDisplayContext dc = new ManageProcurationsDisplayContext(renderRequest);
+						renderRequest.setAttribute("dc", dc);
+					} else {
+						ViewCouncilSessionsDisplayContext dc = new ViewCouncilSessionsDisplayContext(renderRequest, renderResponse, _itemSelector);
+						ManagementCouncilSessionsToolBarDisplayContext managementDC = new ManagementCouncilSessionsToolBarDisplayContext(
+								servletRequest, (LiferayPortletRequest) renderRequest,
+								(LiferayPortletResponse) renderResponse, dc);
+						renderRequest.setAttribute("managementDC", managementDC);
+						renderRequest.setAttribute("dc", dc);
+					}
+					break;
+				}
+				case DELIBERATIONS: {
+
+					if (navigationDC.getSelectedCmd().equals(EDIT_DELIBERATION) || navigationDC.getSelectedCmd().equals(SAVE_DELIBERATION)|| navigationDC.getSelectedCmd().equals(IMPORT_DELIBERATION)) {
+						EditDeliberationDisplayContext dc = new EditDeliberationDisplayContext(renderRequest, renderResponse);
+						renderRequest.setAttribute("dc", dc);
+
+					} else {
+
+						String sessionCategoryId = getCategoryIdSession(renderRequest, themeDisplay);
+						/*HttpServletRequest originalRequest = PortalUtil.getHttpServletRequest(renderRequest);
+						HttpSession session = originalRequest.getSession();
+						String categoryCouncilId = null;
+
+						long councilSessionId = (long) session.getAttribute("councilSessionId");
+						CouncilSession councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
+						if (Validator.isNotNull(councilSession)) {
+							categoryCouncilId = VocabularyHelper.getCategorieCouncilId(themeDisplay, councilSession);
+							session.setAttribute("categoryCouncilId", categoryCouncilId);
+						}*/
+						ViewDeliberationsDisplayContext dc = new ViewDeliberationsDisplayContext(renderRequest, renderResponse, sessionCategoryId, _itemSelector);
+						ManagementDeliberationsToolBarDisplayContext managementDC = new ManagementDeliberationsToolBarDisplayContext(
+								servletRequest, (LiferayPortletRequest) renderRequest,
+								(LiferayPortletResponse) renderResponse, dc);
+						renderRequest.setAttribute("managementDC", managementDC);
+						renderRequest.setAttribute("dc", dc);
+
+					}
+					break;
+				}
+				case OFFICIALS: {
+					if (navigationDC.getSelectedCmd().equals(EDIT_OFFICIAL) || navigationDC.getSelectedCmd().equals(SAVE_OFFICIAL)) {
+						EditOfficialDisplayContext dc = new EditOfficialDisplayContext(renderRequest);
+						renderRequest.setAttribute("dc", dc);
+					} else {
+						ViewOfficialsDisplayContext dc = new ViewOfficialsDisplayContext(renderRequest, renderResponse, _itemSelector);
+						ManagementOfficialsToolBarDisplayContext managementDC = new ManagementOfficialsToolBarDisplayContext(
+								servletRequest, (LiferayPortletRequest) renderRequest,
+								(LiferayPortletResponse) renderResponse, dc);
+						renderRequest.setAttribute("managementDC", managementDC);
+						renderRequest.setAttribute("dc", dc);
+					}
+					break;
+				}
+				case OFFICIAL_CONNECTIONS: {
+					ViewOfficialsConnectionDisplayContext dc = new ViewOfficialsConnectionDisplayContext(renderRequest, renderResponse);
+					renderRequest.setAttribute("dc", dc);
+					break;
+				}
+				case TYPES: {
+					if (navigationDC.getSelectedCmd().equals(EDIT_TYPE) || navigationDC.getSelectedCmd().equals(SAVE_TYPE)) {
+						EditTypeDisplayContext dc = new EditTypeDisplayContext(renderRequest);
+						renderRequest.setAttribute("dc", dc);
+					} else {
+						ViewTypesDisplayContext dc = new ViewTypesDisplayContext(renderRequest, renderResponse, _itemSelector);
+						ManagementTypesToolBarDisplayContext managementDC = new ManagementTypesToolBarDisplayContext(
+								servletRequest, (LiferayPortletRequest) renderRequest,
+								(LiferayPortletResponse) renderResponse, dc);
+						renderRequest.setAttribute("managementDC", managementDC);
+						renderRequest.setAttribute("dc", dc);
+					}
+					break;
+				}
+
+			}
+
+		} catch (PortalException e) {
+			e.printStackTrace();
 		}
 
 		// If we are on the Session, we add the corresponding
 		// display context
-		if (cmd.equals("editCouncilSession") || mvcPath.equals("/council-bo-edit-council-session.jsp")) {
-			EditCouncilSessionDisplayContext dc = new EditCouncilSessionDisplayContext(renderRequest);
-			renderRequest.setAttribute("dc", dc);
-			long councilSessionId = ParamUtil.getLong(renderRequest, "councilSessionId");
-			HttpServletRequest originalRequest = PortalUtil.getHttpServletRequest(renderRequest);
-			HttpSession session = originalRequest.getSession();
-			session.setAttribute("councilSessionId", councilSessionId);
-		} else if (cmd.equals("editDeliberation") || mvcPath.equals("/council-bo-edit-deliberation.jsp")) {
-			EditDeliberationDisplayContext dc = new EditDeliberationDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("editOfficial") || mvcPath.equals("/council-bo-edit-official.jsp")) {
-			EditOfficialDisplayContext dc = new EditOfficialDisplayContext(renderRequest);
-			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("editType") || mvcPath.equals("/council-bo-edit-type.jsp")) {
-			EditTypeDisplayContext dc = new EditTypeDisplayContext(renderRequest);
-			renderRequest.setAttribute("dc", dc);
+		/*if (cmd.equals("editCouncilSession") || mvcPath.equals("/council-bo-edit-council-session.jsp")) {
+
+		}
+		}
 		} else if (cmd.equals("importDeliberation") || mvcPath.equals("/council-bo-import-deliberation.jsp")) {
 			EditDeliberationDisplayContext dc = new EditDeliberationDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
@@ -102,23 +182,11 @@ public class CouncilBOPortlet extends MVCPortlet {
 			renderRequest.setAttribute("dc", dc);
 		} else if (cmd.equals("deliberations") || mvcPath.equals("/council-bo-view-deliberations.jsp")) {
 
-			HttpServletRequest originalRequest = PortalUtil.getHttpServletRequest(renderRequest);
-			HttpSession session = originalRequest.getSession();
-			String categoryCouncilId = null;
-					
-			long councilSessionId = (long) session.getAttribute("councilSessionId");
-			CouncilSession councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
-			if (Validator.isNotNull(councilSession)) {
-				categoryCouncilId = VocabularyHelper.getCategorieCouncilId(themeDisplay, councilSession);
-				session.setAttribute("categoryCouncilId", categoryCouncilId);
-			}
+
 
 			ViewDeliberationsDisplayContext dc = new ViewDeliberationsDisplayContext(renderRequest, renderResponse, categoryCouncilId);
 			renderRequest.setAttribute("dc", dc);
-		} else if (tab.equals("deliberations")) {
-			String sessionCategoryId = getCategoryIdSession(renderRequest, themeDisplay);
-			ViewDeliberationsDisplayContext dc = new ViewDeliberationsDisplayContext(renderRequest, renderResponse,sessionCategoryId );
-			renderRequest.setAttribute("dc", dc);
+		}
 		} else if (tab.equals("officials")) {
 			ViewOfficialsDisplayContext dc = new ViewOfficialsDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
@@ -132,8 +200,18 @@ public class CouncilBOPortlet extends MVCPortlet {
 		} else { // Else, we are on the event list page
 			ViewCouncilSessionsDisplayContext dc = new ViewCouncilSessionsDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
-		}
+		}*/
 
+		renderResponse.setTitle("CouncilSessions");
+
+		// If we are on an "add" page, we set a return URL and show the "back"
+		// button
+		String backURL = ParamUtil.getString(renderRequest, "backURL");
+		boolean showBackButton = Validator.isNotNull(backURL);
+		if (showBackButton) {
+			portletDisplay.setShowBackIcon(true);
+			portletDisplay.setURLBack(backURL);
+		}
 		// Admin ou pas
 		renderRequest.setAttribute("isAdmin", themeDisplay.getPermissionChecker().isOmniadmin());
 
@@ -242,4 +320,6 @@ public class CouncilBOPortlet extends MVCPortlet {
 
 		return categoryId;
 	}
+	@Reference
+	private ItemSelector _itemSelector;
 }

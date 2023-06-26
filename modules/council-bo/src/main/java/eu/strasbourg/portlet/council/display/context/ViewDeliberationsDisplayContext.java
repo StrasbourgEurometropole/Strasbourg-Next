@@ -1,78 +1,62 @@
 package eu.strasbourg.portlet.council.display.context;
 
 import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
-import com.liferay.frontend.taglib.servlet.taglib.ManagementBarFilterItem;
+import com.liferay.item.selector.ItemSelector;
+import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
-import com.liferay.portal.kernel.search.Document;
-import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
+import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.util.*;
 import eu.strasbourg.portlet.council.constants.CouncilConstants;
-import eu.strasbourg.portlet.council.utils.UserRoleType;
+import eu.strasbourg.portlet.council.util.CouncilSessionsActionDropdownItemsProvider;
+import eu.strasbourg.portlet.council.util.DeliberationsActionDropdownItemsProvider;
 import eu.strasbourg.service.council.constants.StageDeliberation;
+import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.service.DeliberationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.constants.VocabularyNames;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
+import eu.strasbourg.utils.SearchHelper;
 
-import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
+import java.util.Map;
 
-public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<Deliberation> {
+public class ViewDeliberationsDisplayContext {
 
     private List<Deliberation> deliberations;
     private String sessionCategoryToAdd;
 
-    public ViewDeliberationsDisplayContext(RenderRequest request, RenderResponse response, String categoryToAdd) {
-        super(Deliberation.class, request, response);
+    public ViewDeliberationsDisplayContext(RenderRequest request, RenderResponse response, String categoryToAdd, ItemSelector itemSelector) {
+        _request = request;
+        _response = response;
+        _themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
+        _httpServletRequest = PortalUtil.getHttpServletRequest(request);
+        _itemSelector = itemSelector;
         this.sessionCategoryToAdd=categoryToAdd;
-        try {
-            // Hack : forçage du delta du SearchContainer
-            // TODO : Changer le ViewListBaseDisplayContext pour mettre en place la prise en compte du delta par default
-            this.getSearchContainer().setDelta(100);
-        } catch (PortalException e) {
-            _log.error(e.getMessage(), e);
-        }
+        // Hack : forçage du delta du SearchContainer
+        // TODO : Changer le ViewListBaseDisplayContext pour mettre en place la prise en compte du delta par default
+        this.getSearchContainer().setDelta(100);
+
     }
 
+    /**
+     * Retourne le dropdownItemsProvider de l’entité
+     *
+     */
     @SuppressWarnings("unused")
-    public List<Deliberation> getDeliberations() throws PortalException {
-        if (this.deliberations == null) {
-            Hits hits = getHits(this._themeDisplay.getScopeGroupId());
-
-            List<Deliberation> results = new ArrayList<>();
-            if (hits != null) {
-                for (Document document : hits.getDocs()) {
-                    Deliberation deliberation = DeliberationLocalServiceUtil.fetchDeliberation(
-                            GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-                    if (deliberation != null) {
-                        results.add(deliberation);
-                    }
-                }
-            }
-            this.deliberations = results;
-        }
-        return this.deliberations;
+    public DeliberationsActionDropdownItemsProvider getActionsDeliberations(Deliberation deliberation) {
+        return new DeliberationsActionDropdownItemsProvider(deliberation, this._request,
+                this._response);
     }
-
 
     /**
      * Retourne la liste des délibérations correspondant à la recherche lancée en ignorant la pagination
@@ -92,6 +76,24 @@ public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<
         }
         return results;
     }
+    /**
+     * Retourne tous les Hits de recherche
+     */
+    private Hits getAllHits(long groupId) throws PortalException {
+        HttpServletRequest servletRequest = PortalUtil
+                .getHttpServletRequest(_request);
+        SearchContext searchContext = SearchContextFactory
+                .getInstance(servletRequest);
+
+        // Recherche des hits
+        String keywords = ParamUtil.getString(servletRequest, "keywords");
+
+        return SearchHelper.getBOSearchHits(searchContext,
+                -1, -1,Deliberation.class.getName(), groupId,
+                "", keywords,
+                getOrderByColSearchField(),
+                "desc".equals(getOrderByType()));
+    }
 
     /**
      * Retourne la liste des PK de toutes les délibérations
@@ -108,8 +110,55 @@ public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<
         }
         return deliberationsIds.toString();
     }
+    /**
+     * Retourne le searchContainer des Deliberations
+     *
+     */
+    public SearchContainer<Deliberation> getSearchContainer() {
 
-    @Override
+        if (_searchContainer == null) {
+
+            PortletURL portletURL;
+            portletURL = PortletURLBuilder.createRenderURL(_response)
+                    .setMVCPath("/council-bo-view-deliberations.jsp")
+                    .setKeywords(ParamUtil.getString(_request, "keywords"))
+                    .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+                    .buildPortletURL();
+            _searchContainer = new SearchContainer<>(_request, null, null,
+                    SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
+            _searchContainer.setEmptyResultsMessageCssClass(
+                    "taglib-empty-result-message-header-has-plus-btn");
+            _searchContainer.setOrderByColParam("orderByCol");
+            _searchContainer.setOrderByTypeParam("orderByType");
+            _searchContainer.setOrderByCol(getOrderByCol());
+            _searchContainer.setOrderByType(getOrderByType());
+            try {
+                getHits(this._themeDisplay.getScopeGroupId());
+            } catch (PortalException e) {
+                throw new RuntimeException(e);
+            }
+            _searchContainer.setResultsAndTotal(
+                    () -> {
+                        // Création de la liste d'objet
+                        List<Deliberation> results = new ArrayList<Deliberation>();
+                        if (_hits != null) {
+                            for (Document document : _hits.getDocs()) {
+                                Deliberation deliberation = DeliberationLocalServiceUtil.fetchDeliberation(
+                                        GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+                                if (deliberation != null) {
+                                    results.add(deliberation);
+                                }
+                            }
+                        }
+                        return results;
+                    }, _hits.getLength()
+            );
+        }
+        _searchContainer.setRowChecker(
+                new EmptyOnClickRowChecker(_response));
+
+        return _searchContainer;
+    }
     public String getOrderByColSearchField() {
         switch (this.getOrderByCol()) {
             case "title":
@@ -128,29 +177,37 @@ public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<
         }
     }
 
-    @Override
     public String getOrderByCol() {
         return ParamUtil.getString(this._request, "orderByCol",
                 "order");
     }
 
-    @Override
     public String getOrderByType() {
         return ParamUtil.getString(this._request, "orderByType", "asc");
     }
 
+
     /**
-     * Wrapper autour du permission checker pour les permissions de module
+     * Retourne les Hits de recherche pour un delta
      */
-    @SuppressWarnings("unused")
-    public boolean hasPermission(String actionId) {
-        return _themeDisplay.getPermissionChecker().hasPermission(
-                this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.COUNCIL_BO, StrasbourgPortletKeys.COUNCIL_BO,
-                actionId);
+    private void getHits(long groupId) throws PortalException {
+        HttpServletRequest servletRequest = PortalUtil
+                .getHttpServletRequest(_request);
+        SearchContext searchContext = SearchContextFactory
+                .getInstance(servletRequest);
+
+        // Recherche des hits
+        String keywords = ParamUtil.getString(servletRequest, "keywords");
+        _hits = SearchHelper.getBOSearchHits(searchContext,
+                getSearchContainer().getStart(),
+                getSearchContainer().getEnd(), Deliberation.class.getName(), groupId,
+                "", keywords,
+                getOrderByColSearchField(),
+                "desc".equals(getOrderByType()));
     }
 
-    @SuppressWarnings("unused")
+
+        @SuppressWarnings("unused")
     public String getStageDeliberationName(long id) {
         return StageDeliberation.get(id).getName();
     }
@@ -172,94 +229,6 @@ public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<
         return cssClass;
     }
 
-    @Override
-    public String getFilterCategoriesIds() throws PortalException {
-
-        if (Validator.isNotNull(_filterCategoriesIds)) {
-            return _filterCategoriesIds;
-        }
-
-        _filterCategoriesIds = ParamUtil.getString(_request, "filterCategoriesIds");
-        if (_filterCategoriesIds.length() == 0) {
-            _filterCategoriesIds = ",";
-        }
-
-        Long vocabularyToRemove = ParamUtil.getLong(_request,"vocabularyToRemove");
-        if (vocabularyToRemove > 0) {
-            AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.getVocabulary(vocabularyToRemove);
-            List<AssetCategory> categories = vocabulary.getCategories();
-
-            for (AssetCategory category : categories) {
-                if (_filterCategoriesIds.contains(String.valueOf(category.getCategoryId()))) {
-                    _filterCategoriesIds = _filterCategoriesIds.replace("," + category.getCategoryId(), "");
-                }
-            }
-            _filterCategoriesIds = _filterCategoriesIds.replace(vocabularyToRemove + ",", "");
-        }
-
-        String categoryToAdd = sessionCategoryToAdd;
-        if (Validator.isNotNull(categoryToAdd)) {
-            _filterCategoriesIds += categoryToAdd + ",";
-        }
-
-        return _filterCategoriesIds;
-    }
-
-    @Override
-    public List<ManagementBarFilterItem> getManagementBarFilterItems(AssetVocabulary vocabulary) throws PortalException {
-
-        List<ManagementBarFilterItem> managementBarFilterItems = new ArrayList<>();
-
-        String tab = ParamUtil.getString(this._request, "tab");
-        String orderByCol = this.getOrderByCol();
-        String orderByType = this.getOrderByType();
-        String filterCategoriesIds = this.getFilterCategoriesIds();
-        String keywords = this.getKeywords();
-        String portletName = (String) this._request.getAttribute(WebKeys.PORTLET_ID);
-        int delta = this.getSearchContainer().getDelta();
-        long vocabularyToRemove = vocabulary.getVocabularyId();
-
-        ThemeDisplay themeDisplay = (ThemeDisplay) this._request.getAttribute(WebKeys.THEME_DISPLAY);
-        PortletURL filterURL = PortletURLFactoryUtil.create(this._request, portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
-
-        filterURL.setParameter("tab", tab);
-        filterURL.setParameter("orderByCol", orderByCol);
-        filterURL.setParameter("orderByType", orderByType);
-        filterURL.setParameter("filterCategoriesIds", filterCategoriesIds);
-        filterURL.setParameter("keywords", keywords);
-        filterURL.setParameter("delta", String.valueOf(delta));
-        filterURL.setParameter("vocabularyToRemove", String.valueOf(vocabularyToRemove));
-
-        String label = vocabulary.getName() + " : " + LanguageUtil.get(Locale.FRENCH, "any");
-        ManagementBarFilterItem allItemsFilter = new ManagementBarFilterItem(false, label, filterURL.toString());
-        managementBarFilterItems.add(allItemsFilter);
-
-        List<AssetCategory> rootCategories = vocabulary.getCategories().stream()
-                .filter(c -> c.isRootCategory()).collect(Collectors.toList());
-
-        AssetVocabulary conseilVocab = AssetVocabularyHelper.getVocabulary(VocabularyNames.COUNCIL_SESSION, themeDisplay.getScopeGroupId());
-
-        if(conseilVocab != null && conseilVocab.getVocabularyId() == vocabulary.getVocabularyId()) {
-            List<AssetCategory> authorizedRootCategories = new ArrayList<>();
-
-            addCategorieAucunConseilSelectionne(themeDisplay, authorizedRootCategories);
-
-            for (AssetCategory typeCouncilCat : UserRoleType.typeCategoriesForUser(themeDisplay)) {
-                if(rootCategories.contains(typeCouncilCat)) {
-                    authorizedRootCategories.add(typeCouncilCat);
-                }
-            }
-            for (AssetCategory category : authorizedRootCategories) {
-                populateManagementBar(managementBarFilterItems, category, filterURL);
-            }
-        } else {
-            for (AssetCategory category : rootCategories) {
-                populateManagementBar(managementBarFilterItems, category, filterURL);
-            }
-        }
-        return managementBarFilterItems;
-    }
-
     /**
      * Récupère et ajoute à la liste la categorie correspondant à aucun conseil sélectionné
      */
@@ -269,6 +238,38 @@ public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<
         AssetCategory categoryAucunConseil = AssetVocabularyHelper.getCategory(CouncilConstants.NO_COUNCIL_CATEGORY_NAME, groupId);
         authorizedRootCategories.add(categoryAucunConseil);
     }
+    /**
+     * Retourne les mots clés de recherche saisis
+     */
+    @SuppressWarnings("unused")
+    public String getKeywords() {
+        if (Validator.isNull(_keywords)) {
+            _keywords = ParamUtil.getString(_request, "keywords");
+        }
+        return _keywords;
+    }
+    public boolean hasVocabulary(String vocabularyName){
+        return getCategVocabularies().containsKey(vocabularyName);
+    }
 
+    public Map<String, String> getCategVocabularies() {
+        if (_categVocabularies == null) {
+            _categVocabularies = new HashMap<>();
+            _categVocabularies.put("vocabulary1", ParamUtil.getString(
+                    _httpServletRequest, "vocabulary1", ""));
+        }
+
+        return _categVocabularies;
+    }
     private final Log _log = LogFactoryUtil.getLog(this.getClass());
+    private Hits _hits;
+    private final RenderRequest _request;
+    private final ThemeDisplay _themeDisplay;
+    protected SearchContainer<Deliberation> _searchContainer;
+
+    private final RenderResponse _response;
+    private final HttpServletRequest _httpServletRequest;
+    private final ItemSelector _itemSelector;
+    private String _keywords;
+    private Map<String, String> _categVocabularies;
 }

@@ -24,7 +24,7 @@
 </liferay-portlet:actionURL>
 
 <%-- Composant : Body --%>
-<div class="container-fluid-1280 main-content-body council-bo">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 
 	<%-- Composant : definit la liste des messages d'erreur  (voir methode "validate" dans le saveAction de l'entite) --%>
 	<liferay-ui:error key="error-missing-lastname" message="error-missing-lastname" />

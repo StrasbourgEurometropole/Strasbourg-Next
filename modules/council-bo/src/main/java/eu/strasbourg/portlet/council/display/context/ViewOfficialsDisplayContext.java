@@ -20,7 +20,9 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ViewOfficialsDisplayContext {
 
@@ -299,7 +301,19 @@ public class ViewOfficialsDisplayContext {
         }
         return _keywords;
     }
+    public boolean hasVocabulary(String vocabularyName){
+        return getCategVocabularies().containsKey(vocabularyName);
+    }
 
+    public Map<String, String> getCategVocabularies() {
+        if (_categVocabularies == null) {
+            _categVocabularies = new HashMap<>();
+            _categVocabularies.put("vocabulary1", ParamUtil.getString(
+                    _httpServletRequest, "vocabulary1", ""));
+        }
+
+        return _categVocabularies;
+    }
     private Hits _hits;
     private final RenderRequest _request;
     private final ThemeDisplay _themeDisplay;
@@ -310,7 +324,7 @@ public class ViewOfficialsDisplayContext {
     private final HttpServletRequest _httpServletRequest;
     private final ItemSelector _itemSelector;
     private List<Official> officials;
-
+    private Map<String, String> _categVocabularies;
     public static final String CATEGORY_ACTIVE = "Actif";
     public static final String CATEGORY_INACTIVE = "Inactif";
     private String _keywords;

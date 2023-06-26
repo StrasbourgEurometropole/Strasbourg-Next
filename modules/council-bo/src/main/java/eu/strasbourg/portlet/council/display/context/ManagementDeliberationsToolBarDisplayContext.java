@@ -15,25 +15,27 @@ import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.service.council.model.Official;
+import eu.strasbourg.service.council.model.Deliberation;
+import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
-public class ManagementOfficialsToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
+public class ManagementDeliberationsToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
 
-    public ManagementOfficialsToolBarDisplayContext(
+    public ManagementDeliberationsToolBarDisplayContext(
             HttpServletRequest httpServletRequest,
             LiferayPortletRequest liferayPortletRequest,
             LiferayPortletResponse liferayPortletResponse,
-            ViewOfficialsDisplayContext viewOfficialsDisplayContext) throws PortalException {
+            ViewDeliberationsDisplayContext viewDeliberationsDisplayContext) throws PortalException {
         super(httpServletRequest, liferayPortletRequest, liferayPortletResponse,
-                viewOfficialsDisplayContext.getSearchContainer());
-        _viewViewOfficialsDisplayContext = viewOfficialsDisplayContext;
+                viewDeliberationsDisplayContext.getSearchContainer());
+        _viewDeliberationsDisplayContext = viewDeliberationsDisplayContext;
 
         _themeDisplay = (ThemeDisplay)liferayPortletRequest.getAttribute(
                 WebKeys.THEME_DISPLAY);
@@ -45,7 +47,7 @@ public class ManagementOfficialsToolBarDisplayContext extends SearchContainerMan
      */
     @Override
     public String getSearchContainerId() {
-        return "officialsSearchContainer";
+        return "deliberationSearchContainer";
     }
 
     /**
@@ -78,7 +80,7 @@ public class ManagementOfficialsToolBarDisplayContext extends SearchContainerMan
      */
     @Override
     protected String[] getOrderByKeys() {
-        return new String[] { "full-name"};
+        return new String[] { "order", "title"};
     }
 
     /**
@@ -101,11 +103,11 @@ public class ManagementOfficialsToolBarDisplayContext extends SearchContainerMan
     public String getSearchActionURL() {
 
         return PortletURLBuilder.createRenderURL(liferayPortletResponse)
-                .setMVCPath("/council-bo-view-officials.jsp")
+                .setMVCPath("/council-bo-view-deliberations.jsp")
                 .setParameter("O")
                 .setParameter( "orderByCol", ParamUtil.getString( liferayPortletRequest, "orderByCol"))
                 .setParameter( "orderByType", ParamUtil.getString(liferayPortletRequest, " orderByType "))
-                .setParameter("tab","officials").buildString();
+                .setParameter("tab","deliberations").buildString();
     }
 
     /**
@@ -118,15 +120,15 @@ public class ManagementOfficialsToolBarDisplayContext extends SearchContainerMan
 
 
     /**
-     * Get Help Official Vocabularies
+     * Get Help Deliberation Vocabularies
      */
-    protected List<AssetVocabulary> getOfficialVocabularies() {
+    protected List<AssetVocabulary> getDeliberationVocabularies() {
         if(_vocabularies == null) {
             ThemeDisplay themeDisplay =
                     (ThemeDisplay) httpServletRequest.getAttribute(
                             WebKeys.THEME_DISPLAY);
             long companyGroupId = themeDisplay.getCompanyGroupId();
-            long classNameId = ClassNameLocalServiceUtil.getClassNameId(Official.class);
+            long classNameId = ClassNameLocalServiceUtil.getClassNameId(Deliberation.class);
             long scopeGroupId = themeDisplay.getScopeGroupId();
             List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
                     .getAssetVocabularies(-1, -1).stream()
@@ -152,9 +154,9 @@ public class ManagementOfficialsToolBarDisplayContext extends SearchContainerMan
 
                     dropdownItem.setHref(
                             liferayPortletResponse.createRenderURL(),
-                            "tab", "officials",
-                            "cmd", "editOfficial",
-                            "mvcPath", "/council-bo-edit-official.jsp",
+                            "tab", "deliberations",
+                            "cmd", "editDeliberation",
+                            "mvcPath", "/council-bo-edit-deliberation.jsp",
                             "backURL", themeDisplay.getURLCurrent());
 
                     dropdownItem.setLabel(
@@ -162,34 +164,16 @@ public class ManagementOfficialsToolBarDisplayContext extends SearchContainerMan
                 }
         ).build();
     }
-
-    /**
-     * Add menu visibility
-     */
-    @Override
-    public Boolean isShowCreationMenu() {
-        ThemeDisplay themeDisplay =
-                (ThemeDisplay)httpServletRequest.getAttribute(
-                        WebKeys.THEME_DISPLAY);
-
-        Group group = themeDisplay.getScopeGroup();
-        if(_themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.COUNCIL_BO, StrasbourgPortletKeys.COUNCIL_BO, "ADD_OFFICIAL") &&
-                group.getStagingGroup() == null){
-            return true;
-        }
-        return false;
-    }
     /**
      * Add filtering options to Vocabulary
      */
     protected List<DropdownItem> getFilterVocabularyDropdownItems() {
         List<DropdownItem> filterVocabularyDropdownItems = new DropdownItemList();
 
-        for (AssetVocabulary vocabulary : getOfficialVocabularies()) {
+        for (AssetVocabulary vocabulary : getDeliberationVocabularies()) {
             filterVocabularyDropdownItems.add(
                     DropdownItemBuilder
-                            .setActive(_viewViewOfficialsDisplayContext.hasVocabulary(vocabulary.getName()))
+                            .setActive(_viewDeliberationsDisplayContext.hasVocabulary(vocabulary.getName()))
                             .setHref("javascript:getCategoriesByVocabulary("+vocabulary.getVocabularyId()+");")
                             .setLabel(vocabulary.getName())
                             .build()
@@ -204,10 +188,10 @@ public class ManagementOfficialsToolBarDisplayContext extends SearchContainerMan
     // TODO : A revoir car pas testé ni fini
     @Override
     public List<LabelItem> getFilterLabelItems() {
-        Map<String, String> categVocabulariesSelected = _viewViewOfficialsDisplayContext.getCategVocabularies();
+        Map<String, String> categVocabulariesSelected = _viewDeliberationsDisplayContext.getCategVocabularies();
         LabelItemListBuilder.LabelItemListWrapper vocabulariesLabelItems = new LabelItemListBuilder.LabelItemListWrapper();
 
-        for (AssetVocabulary vocabulary : getOfficialVocabularies()) {
+        for (AssetVocabulary vocabulary : getDeliberationVocabularies()) {
             vocabulariesLabelItems.add(
                     () -> categVocabulariesSelected.keySet().contains(vocabulary.getName()),
                     labelItem -> {
@@ -231,8 +215,29 @@ public class ManagementOfficialsToolBarDisplayContext extends SearchContainerMan
     }
 
 
-    private final ViewOfficialsDisplayContext _viewViewOfficialsDisplayContext;
+    /**
+     * Add menu visibility
+     */
+    @Override
+    public Boolean isShowCreationMenu() {
+        ThemeDisplay themeDisplay =
+                (ThemeDisplay)httpServletRequest.getAttribute(
+                        WebKeys.THEME_DISPLAY);
+
+        Group group = themeDisplay.getScopeGroup();
+        if(_themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+                StrasbourgPortletKeys.COUNCIL_BO, StrasbourgPortletKeys.COUNCIL_BO, "ADD_DELIBERATION") &&
+                group.getStagingGroup() == null){
+            return true;
+        }
+        return false;
+
+    }
+
+    private final ViewDeliberationsDisplayContext _viewDeliberationsDisplayContext;
     private final ThemeDisplay _themeDisplay;
     private List<AssetVocabulary> _vocabularies;
+
+
 
 }

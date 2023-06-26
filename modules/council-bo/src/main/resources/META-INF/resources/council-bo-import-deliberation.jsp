@@ -11,7 +11,7 @@
 
 
 <%-- Composant : Body --%>
-<div class="container-fluid-1280 main-content-body council-bo">
+<div class="container-fluid container-fluid-max-xl main-content-body">
     <div class="sheet"><div class="panel-group panel-group-flush">
         <liferay-ui:error key="error-import-deliberations" message="${requestScope.error}"/>
         <liferay-ui:error key="error-parse-order" message="${requestScope.errorParse}"/>
