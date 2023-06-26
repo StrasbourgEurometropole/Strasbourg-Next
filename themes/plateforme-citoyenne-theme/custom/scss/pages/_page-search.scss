@@ -479,6 +479,11 @@
 		.search-header {
 			display: flex;
 			align-items: center;
+			@include mobile {
+				flex-direction: column-reverse;
+				align-items: center;
+				gap: 10px;
+			}
 			#breadcrumb {
 				flex: 1;
 				a , span {
@@ -498,6 +503,7 @@
 			overflow: hidden;
 			max-height: 0;
 			transition: all 0.2s ease;
+
 		}
 
 		input[type="checkbox"] {
@@ -553,6 +559,10 @@
 
 		input[type="checkbox"]:checked + label + .pro-checkbox {
 			max-height: 200vh;
+			@include tablet_portrait {
+				max-height: 40vh;
+				overflow: scroll;
+			}
 		}
 
 		input[type="checkbox"]:checked + label + .pro-checkbox + .pro-remove {

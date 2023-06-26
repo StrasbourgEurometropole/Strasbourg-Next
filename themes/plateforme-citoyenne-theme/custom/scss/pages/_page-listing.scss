@@ -186,6 +186,12 @@
 			.pro-meta {
 				padding: 10px 30px;
 			}
+			.pro-comments {
+				span {
+					@include ft($f_txt, 0.8em, 700, $c_txt);
+					text-transform: uppercase;
+				}
+			}
 			.pro-district {
 				font-weight: 700;
 				&:before {
@@ -202,6 +208,18 @@
 			justify-content: flex-end;
 			align-items: center;
 			border-bottom: dashed 1px #d9d9d9;
+			@include tablet_portrait {
+				position: absolute;
+				top: 187px;
+				justify-content: flex-start;
+				flex-direction: row-reverse;
+				border: none;
+			}
+			.pro-comments {
+				@include tablet_portrait {
+					display: none;
+				}
+			}
 
 			p {
 				margin: 0

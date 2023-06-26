@@ -81,6 +81,12 @@
 		@media screen and (max-width: 680px){
 			margin: 0 15px;
 			width: calc(100% - 30px);
+			max-width: none;
+		}
+		nav.modal_connexion & {
+			margin: 0 auto;
+			max-width: 650px;
+			max-height: 850px;
 		}
 	}
 
@@ -134,18 +140,36 @@
 			position: relative;
 			width: 100%;
 			background: $c_dark;
-			padding: 0 20px;
+			padding: 40px 40px 20px 40px;
+			display: grid;
+			grid-template-columns: 2fr 1fr;
+			align-items: center;
+			overflow: visible;
+			margin-bottom: 30px;
+			&:before {
+				content: '';
+				position: absolute;
+				left: 0;
+				width: 0;
+				height: 0;
+				border-left: 0px solid transparent;
+				border-right: 50vw solid transparent;
+				border-bottom: 0 solid $c_dark;
+				bottom: -29px;
+				border-top: 30px solid $c_dark;
+				overflow: visible;
+				z-index: 120;
+				@include tablet_portrait {
+					border-right: 100vw solid transparent;
+				}
+			}
 			h3 {
-				@include ft($f_hx, 1.25em, 700, $c_main, 1.25em);
+				@include ft($f_hx, 2em, 700, $c_white, 1.25em);
 				text-align: left;
-
 				margin: 0;
-				padding: 15px 30px 15px 0;
+				padding: 0;
 			}
 			button {
-				position: absolute;
-				top: 50%;
-				right: 20px;
 				z-index: 10000;
 				color: white;
 				opacity: 1;
@@ -156,10 +180,26 @@
 				&:hover, &:focus, &:active {
 					color: $c_main;
 				}
+				justify-self: flex-end;
 			}
 		}
 		form {
-			background: #edf0f2;
+			background: $c_white;
+			.pro-wrapper {
+				h4 {
+					@include ft($f_hx, 1.3em, 700, #8dc63f);
+				}
+				.form-group {
+					label {
+						font-weight: 700;
+						color: black;
+					}
+					.selectric-wrapper {
+						border: solid 1px #b2b2b2;
+						border-radius: 5px;
+					}
+				}
+			}
 		}
 
 		.pro-btn, .pro-btn-yellow{

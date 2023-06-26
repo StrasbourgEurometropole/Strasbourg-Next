@@ -219,6 +219,7 @@
 }
 .icon-ico-info:before {
 	content: "\e90a";
+	vertical-align: bottom;
 }
 .icon-ico-connexion:before {
 	content: "\e900";
@@ -267,4 +268,10 @@
 }
 .icon-ico-soundcloud:before {
 	content: "\e705";
+}
+.icon-ico-comment:before {
+	content: "\e707";
+	font-size: 1rem;
+	vertical-align: sub;
+	padding-right: 5px;
 }

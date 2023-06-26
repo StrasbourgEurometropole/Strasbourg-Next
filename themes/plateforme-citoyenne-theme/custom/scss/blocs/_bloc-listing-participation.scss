@@ -79,9 +79,15 @@
 				display: flex;
 				padding: 10px 20px;
 				margin-bottom: 20px;
-				gap: 10px;
+				gap: 15px;
+				align-items: center;
 				.pro-header-author {
-					flex: 1;
+					flex-grow: 1;
+					display: flex;
+					flex-direction: column;
+					align-items: flex-start;
+					gap: 5px;
+					overflow: hidden;
 				}
 				> p {
 					@include ft($f_txt, 0.875em, 400, #4c4c4c, 1.429em);
@@ -119,7 +125,67 @@
 			}
 
 			.pro-footer-participation {
-				padding: 10px 30px;
+				padding: 0;
+				display: flex;
+				align-items: center;
+				&.pro-participation-deadline {
+					padding: 0 25px;
+				}
+			}
+			.pro-footer-petition {
+				padding: 0 25px;
+				background: $c_dark;
+				height: 86px;
+				border-bottom-left-radius: 4px;
+				border-bottom-right-radius: 4px;
+				border-top: none;
+				@include mobile {
+					padding: 10px 20px;
+				}
+
+				.pro-progress-bar {
+					padding: 5px 0;
+					position: relative;
+					top: 50%;
+					transform: translateY(-50%);
+					transform: translate3d(0, -50%, 0);
+					.pro-progress-container {
+						position: relative;
+						width: 100%;
+						height: 6px;
+						border-radius: 6px;
+						background: #585d63;
+						box-shadow: inset 4px 4px 5px 0px rgba(0, 0, 0, 0.35);
+						margin-bottom: 8px;
+						> div {
+							position: absolute;
+							left: 0;
+							top: -1px;
+							bottom: -1px;
+							background: $c_white;
+							border-radius: 6px;
+						}
+					}
+					p.pro-txt-progress {
+						@include ft($f_txt, 0.875em, 400, $c_white, normal);
+						text-align: center;
+						margin: 0;
+					}
+
+					& + .pro-btn-yellow {
+						margin-bottom: 15px;
+					}
+				}
+
+				> p {
+					@include ft($f_txt, $s_small, 400, $c_txt, 80px);
+					float: left;
+					margin-bottom: 0;
+					@include mobile {
+						float: none;
+						line-height: 20px;
+					}
+				}
 			}
 		}
 	}

@@ -190,11 +190,7 @@ form{
 
 	.pro-wrapper{
 		padding: 20px 20px 10px 20px;
-		border-bottom: 1px solid #c9cbcd;
-		h4{
-			@include ft($f_hx, 	0.938em, 700, $c_txt, 1.600em);
-
-		}
+		border-bottom: 1px dashed #c9cbcd;
 	}
 	input, textarea {
 		@include ft($f_txt, 0.875em, 400, $c_txt, 20px);
@@ -355,12 +351,12 @@ form{
 		margin-bottom: 10px;
 		&.pro-optin{
 			background: $c_dark;
-			padding: 20px;
+			padding: 10px 40px;
 			margin-bottom: 0;
 			input{
 				&:focus{
 					+ label{
-						color: $c_main;
+						color: #8dc63f;
 					}
 				}
 			}
@@ -471,14 +467,14 @@ form{
 
 	.pro-info-supp{
 		background: $c_dark;
-		padding: 5px 20px 15px 20px;
+		padding: 1px 40px;
 		> * {
 			&:last-child{
 				margin: 0;
 			}
 		}
 		p{
-			@include ft($f_txt, 0.875em, 400, rgba($c_white,0.5), 1.429em);
+			@include ft($f_txt, 0.875em, 400, $c_white, 1.429em);
 			margin-bottom: 15px;
 			i{
 				font-style: italic;
@@ -493,7 +489,7 @@ form{
 	}
 
 	.form-code{
-		width: 90px;
+		width: 100px;
 		float: right;
 	}
 

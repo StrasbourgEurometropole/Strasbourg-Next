@@ -74,7 +74,7 @@
         <div class="container pro-header">
             <a href="${themeDisplay.getPortalURL()}${homeURL}accueil" class="pro-logo" title="Lien du Logo du site Portail du Citoyen Strasbourg" aria-label="Logo du site Portail du Citoyen Strasbourg">
                 <figure role="group">
-                    <img src="/o/plateforme-citoyenne-theme/images/logos/logo-plateforme-citoyenne.png" srcset="/o/plateforme-citoyenne-theme/images/logos/logo-plateforme-citoyenne-2x.png 2x" width="203" height="123" alt="Logo du site
+                    <img src="/o/plateforme-citoyenne-theme/images/logos/logo-plateforme-citoyenne-2023.svg" width="203" height="123" alt="Logo du site
                     Plateforme Citoyenne de Strasbourg"/>
                 </figure>
             </a>

@@ -717,24 +717,27 @@ $border_top: 1px dashed;
 	.pro-header-participation {
 		padding: 10px;
 		border-bottom: 1px dashed rgba($c_dark, 0.25);
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		> div {
+			display: flex;
+			flex-direction: column;
+		}
 		figure {
 			float: left;
 			width: 40px;
 			height: 40px;
 			overflow: hidden;
 			border-radius: 50%;
-			margin-right: 15px;
-			@include mobile {
-				margin-bottom: 15px;
-			}
+			flex-basis: 55px;
 			img {
 				height: 100% !important;
 			}
 		}
 		p {
-			@include ft($f_txt, 0.750em, 400, $c_txt, 1em);
+			@include ft($f_txt, 0.8em, 400, $c_txt, 1em);
 			display: inline-block;
-			width: calc(100% - 180px);
 			margin-bottom: 0;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -744,27 +747,39 @@ $border_top: 1px dashed;
 			}
 		}
 
+		.pro-comments {
+			span {
+				@include ft($f_txt, 0.8em, 700, $c_txt);
+				text-transform: uppercase;
+			}
+			@include tablet_portrait {
+				display: none;
+			}
+		}
+
 	}
 
 	.pro-info-top {
-		padding : 10px 20px;
+		@include tablet_portrait {
+			display: none !important;
+		}
+		.owl-item & {
+			padding : 10px 20px;
+		}
 	}
 
 	.pro-content-participation {
 		padding: 0 20px 15px 20px;
 		position: relative;
-
 		.pro-meta {
-			margin-bottom: 15px;
 			> * {
 				position: relative;
 				font-size: 0.875em;
-				line-height: normal;
+				line-height: 24px;
 				color: white;
-				background-color: #F37021;
-				padding: 10px;
+				padding: 4px 10px 2px;
 				margin-right: 10px;
-				margin-bottom: 10px;
+				font-weight: 400;
 			}
 		}
 
@@ -802,10 +817,22 @@ $border_top: 1px dashed;
 				}
 			}
 		}
+		.location-participation {
+			font-weight: 700;
+			&:before {
+				top: 4px;
+			}
+		}
+
+		.project-participation {
+			margin-top: 5px;
+		}
 	}
 
+
+
 	.pro-footer-participation {
-		padding: 5px 10px;
+		padding: 0 10px;
 		background-color: #EBECEE;
 		.pro-form-style {
 			@include ft($f_txt, $s_small, 700, #4c4c4c, 20px);
@@ -815,40 +842,32 @@ $border_top: 1px dashed;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			@include addTransition();
-			&:before {
-				content: "🗨";
-				font-size: 2rem;
-				color: #2E3D50;
-				margin-right: 5px;
-			}
 
 		}
 
 		&.pro-participation-in-progress {
 			@include clearfix();
+
 			.pro-avis {
 				float: left;
 				line-height: 40px;
 				margin-right: 20px;
 				position: relative;
-				top: 7.5px;
+				padding: 0 15px;
+				background-color: $c_white;
+				border-top: solid 1px #c0c0c0;
+				border-right: solid 1px #c0c0c0;
 				@include clearfix();
-				//@include mobile {
-				//	float: none;
-				//	display: block;
-				//	margin-bottom: 10px;
-				//	top: 0;
-				//}
 				> * {
-					@include ft($f_txt, 0.750em, 700, $c_txt, 2em);
+					@include ft($f_txt, 0.750em, 700, #171c22, 25px);
 					width: 65px;
 					height: 25px;
-					float: left;
-					background: $c_main;
-					border-radius: 4px;
+					display: inline-block;
+					vertical-align: middle;
+					background: $c_white;
+					border-radius: 15px;
 					text-align: center;
-					line-height: 25px;
-					@include addTransition();
+					border: solid 1px #c0c0c0;
 					&:before {
 						content: "\e913";
 						@include font();
@@ -857,24 +876,22 @@ $border_top: 1px dashed;
 						position: relative;
 						top: -2px;
 					}
-					&:hover, &:focus, &.active {
-						background: $c_dark;
-						color: $c_main;
-					}
 				}
 				.pro-like {
 					margin-right: 4px;
+					&:before {
+						color: #00aeef;
+					}
 				}
 				.pro-dislike {
 					&:before {
 						transform: rotate(180deg);
-						top: 1px;
+						color: #f37021;
 					}
 				}
 			}
 			.pro-form-style {
-				width: calc(100% - 154px);
-				float: left;
+				padding: 0;
 				//@include mobile {
 				//	width: 100%;
 				//	float: none;
@@ -892,7 +909,8 @@ $border_top: 1px dashed;
 				line-height: 40px;
 				margin-right: 20px;
 				position: relative;
-				top: 7.5px;
+				padding: 6px 15px;
+				background-color: $c_white;
 				@include clearfix();
 				//@include mobile {
 				//	float: none;
@@ -965,6 +983,9 @@ $border_top: 1px dashed;
 			.pro-avis {
 				flex: 1;
 				line-height: 40px;
+				@include tablet_portrait {
+					min-width: 150px;
+				}
 				> * {
 					@include ft($f_txt, 0.750em, 700, $c_white, 2em);
 					width: 65px;
@@ -1000,8 +1021,10 @@ $border_top: 1px dashed;
 				margin-bottom: 0;
 				@include mobile {
 					float: none;
-					line-height: normal;
 					clear: both;
+					line-height: 1em;
+					font-size: 0.7rem;
+					text-align: right;
 				}
 			}
 		}

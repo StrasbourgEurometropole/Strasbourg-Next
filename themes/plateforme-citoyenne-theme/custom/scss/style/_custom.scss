@@ -266,12 +266,11 @@ aside .leaflet-map {
 
 
 .pro-bloc-facette-participation {
-
 	.pro-affiner {
 		padding: 20px 30px;
 		@include mobile {
-			margin-bottom: 15px;
-			padding: 20px 15px;
+			margin-bottom: 0;
+			padding: 15px;
 		}
 	}
 	form {
@@ -320,11 +319,32 @@ aside .leaflet-map {
 
 // Style du lien vers la légende des participations
 .link-participations-legend {
+  position: relative;
 	color: $c_white;
-}
-
-.link-participations-legend:hover {
-	color: #2ad1a8;
+  @include addTransitionCurve();
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    right: 15px;
+    height: 1px;
+    width: 100%;
+    background: $c_white;
+    opacity: 0;
+    @include addTransitionCurve();
+  }
+  &:hover, &:focus {
+    &:after {
+      opacity: 1;
+      bottom: -2px;
+    }
+  }
+    .icon-ico-info {
+      &:before {
+        color: #8dc63f;
+      }
+    }
 }
 
 //changement du z-index pour les pop-ups

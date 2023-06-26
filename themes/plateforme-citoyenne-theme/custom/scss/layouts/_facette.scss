@@ -1,3 +1,24 @@
+.pro-inside-affine-search {
+	@include tablet_portrait {
+		position: fixed;
+		bottom: 0;
+		z-index: 1100;
+		left: 0px;
+		width: 100vw;
+	}
+	.pro-bloc-facette {
+		display: flex;
+		flex-direction: column;
+		@include tablet_portrait {
+			flex-direction: column-reverse;
+			padding-right: 0;
+		}
+		form {
+			padding: 0 15px;
+		}
+	}
+}
+
 .pro-bloc-facette {
 	overflow: hidden;
 
@@ -12,12 +33,9 @@
 		padding: 20px 15px 25px;
 		position: relative;
 		@include tablet_portrait{
-			padding: 20px 15px;
-		}
-		@include mobile{
-			padding: 20px 15px 25px;
-			margin-bottom: 10px;
-			overflow: hidden;
+			margin-bottom: 0;
+			padding: 15px;
+			font-size: 1.2rem;
 		}
 		&.menu-is-display{
 			> span{
@@ -61,12 +79,14 @@
 	}
 
 	form {
+
+		@include addTransitionCurve();
 		@include tablet_portrait {
-			display: none;
+			overflow: hidden;
+			max-height: 0;
 		}
 		&.is-display {
-			display: block;
-			padding: 0;
+			max-height: calc(100vh - 60px);
 		}
 
 		.pro-group {

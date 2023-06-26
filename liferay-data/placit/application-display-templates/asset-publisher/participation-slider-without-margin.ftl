@@ -58,8 +58,10 @@
                                     <figure role="group">
                                         <img src="${user.getPortraitURL(themeDisplay)}?imagePreview=1" loading="lazy" width="40" height="40" alt="Image participation"/>
                                     </figure>
-                                    <p>Concertation publiée par :</p>
-                                    <p><strong>${user.getFullName()}</strong></p>
+                                    <div>
+                                        <p>Concertation publiée par :</p>
+                                        <p><strong>${user.getFullName()}</strong></p>
+                                    </div>
                                 </div>
                                 <div class="pro-info-top">
                                     <span class="pro-encart-theme" style="background : #${participationColor}">

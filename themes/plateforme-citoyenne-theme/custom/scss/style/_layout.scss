@@ -26,9 +26,6 @@
 	text-overflow: ellipsis;
 	/* overflow: hidden; */
 	white-space: nowrap;
-	@include mobile{
-		width: 100%;
-	}
 	span {
 		white-space: nowrap;
 		overflow: hidden;
@@ -492,8 +489,10 @@ a.pro-btn-tel {
 .pro-meta {
 	margin-bottom: 10px;
 	text-align: center;
-	display: inline-block;
 	vertical-align: middle;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
 	@include clearfix();
 	> span, > a {
 		@include ft($f_hx, 0.9em, 700, #4c4c4c, 2em);
@@ -639,29 +638,31 @@ main {
 
 		.caption {
 			h1 {
-				@include ft($f_hx, 1.875em, 700, $c_white, 1.267em);
-				padding: 10px 25px;
-
+				@include ft($f_hx, 3em, 700, $c_white, 1.267em);
+				padding: 25px 0px;
 				display: inline-block;
 				margin-bottom: 0;
 				@include mobile {
-					font-size: 1.2em;
+					font-size: 2em;
+					text-align: center;
+					width: 100%;
+					padding-bottom: 0;
 				}
 			}
 			p {
-				@include ft($f_hx, 1.5em, 300, $c_white, 1.8em);
+				@include ft($f_hx, 1.5rem, 300, $c_white, 1.1em);
 				display: inline;
 				box-decoration-break: clone;
 				@include mobile {
+					display: block;
 					font-size: 1em;
-					line-height: 2em;
-					padding-left: 5px;
+					line-height: 1.2em;
+					text-align: center;
 				}
 			}
 
 			.pro-description {
 				display: block;
-				max-width: 60%;
 				overflow: hidden;
 				@include tablet_landscape {
 					max-width: 90%;
@@ -672,6 +673,7 @@ main {
 					margin-left: 0;
 				}
 				> * {
+					@incldue ft()
 					&:last-child {
 						margin-bottom: 0;
 					}

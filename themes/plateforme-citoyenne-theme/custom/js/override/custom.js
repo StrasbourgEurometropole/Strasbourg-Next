@@ -881,6 +881,7 @@ function getParticipationFooter(participation, participationStatus) {
         }
           </div>
           <a href="${homeURL}detail-participation/-/entity/id/${participation.id}#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">
+            <span class="icon-ico-comment"></span>
             Réagissez...
           </a>
         </div>
@@ -955,16 +956,15 @@ function createParticipation(participation) {
     <div class="item pro-bloc-card-participation vignette type-color-hexa-${participation.typeColor}" data-linkall="a">
       <div>
         <div class="pro-header-participation">
-          <div class="pro-header-author">
             <figure role="group">
               <img src="${participation.authorImageURL}?imagePreview=1" loading="lazy" width="40" height="40" alt="Image participation"/>
             </figure>
+            <div class="pro-header-author">
             <p>Participation publiée par :</p>
             <p><strong>${participation.author}</strong></p>
           </div>
           <div class="pro-comments">
-            <span>${participation.nbApprovedComments}</span>
-            <p>Commentaire(s)</p>
+            <span><span class="icon-ico-comment"></span>${participation.nbApprovedComments} Commentaire(s)</span>
           </div>
           <div class="pro-info-top">
             <span class="pro-encart-theme" style="background: #${participation.typeColor}">
@@ -977,12 +977,16 @@ function createParticipation(participation) {
             <div class="pro-meta">
               <!-- Liste des thématiques de la participation -->
               ${participation.jsonThematicCategoriesTitle
-        .map((thematic) => `<span>${thematic["fr_FR"]}</span>`)
+        .map((thematic) => `<span class="pro-encart-theme">${thematic["fr_FR"]}</span>`)
         .join("")}
             </div>
-            <!-- Liste des quartiers de la participation -->
-            <span class="location-participation">${participation.districtsLabel}</span>
+            
+            
           </div>
+          <div>
+          <!-- Liste des quartiers de la participation -->
+          <span class="location-participation prefix-location">${participation.districtsLabel}</span>
+            </div>
           <!-- Projet lié à la participation -->
           <span class="project-participation">${participation.projectName} :</span>
           <a href="${homeURL}detail-participation/-/entity/id/${participation.id}" title="Lien vers la page détail Participation - Lien des commentaires">
@@ -1102,53 +1106,67 @@ function createNews(news) {
     return vignette;
 }
 
-/**
-* Création de la vignette pétition
- * @return
-*/
-function createPetition(petition){
-    var vignette = 
-    '<div class="item pro-bloc-card-petition vignette" data-linkall="a">' +
-        '<div class="pro-header-petition">' +
-            '<figure role="group">' +
-                '<img src="' + petition.authorImageURL + '?imagePreview=1" loading="lazy" width="40" height="40" alt="Image petition"/>' +
-            '</figure>' +
-            '<p>Pétition publiée par :</p>' +
-            '<p><strong>' + petition.author + ' adressé à : Ville de Strasbourg</strong></p>' +
-            '<div class="pro-number-comm">' +
-                '<span>' + petition.nbApprovedComments + '</span>' +
-                '<p>Commentaire(s)</p>' +
-            '</div>' +
-        '</div>' +
-        '<div class="pro-content-petition">' +
-            '<div class="pro-wrapper-meta">' +
-                '<div class="pro-statut"><span>' + petition.frontStatusFR + '</span></div>' +
-                '<div class="pro-meta">' +
-                    '<!-- Liste des quartiers de la Petition -->' +
-                    '<span>' + petition.districtLabel + '</span>' +
-                    '<!-- Liste des thématiques de la Petition -->';
-                    for(var i = 0 ; i < petition.jsonThematicCategoriesTitle.length ; i++){
-                        vignette += '<span>' + petition.jsonThematicCategoriesTitle[i]["fr_FR"] + '</span>';
-                    }
-    vignette +=
-                    (typeof petition.jsonProjectCategoryTitle["fr_FR"] != 'undefined' ? '<span>' + petition.jsonProjectCategoryTitle["fr_FR"] + '</span>' : '') + 
-                '</div>' +
-            '</div>' +
-            '<a href="' + homeURL + 'detail-petition/-/entity/id/' + petition.id + '" title="lien de la page"><h3>' + petition.title + '</h3></a>' +
-            '<span class="pro-time">Publiée le <time datetime="' + petition.publicationDate + '">' + petition.publicationDate + '</time> / <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
-        '</div>' +
-        '<div class="pro-footer-petition">' +
-            '<div class="pro-progress-bar">' +
-                '<div class="pro-progress-container">' +
-                    '<div style="width:' + petition.pourcentageSignature + '%"></div>' +
-                '</div>' +
-                '<p class="pro-txt-progress"><strong>' + petition.nombreSignature + '</strong> Signataire(s) sur ' + petition.quotaSignature + ' nécessaires</p>' +
-            '</div>' +
-        '</div>' +
-    '</div>';
+function createPetition(petition) {
+    let vignette = `
+    <div class="item pro-bloc-card-participation vignette" data-linkall="a">
+      <div>
+        <div class="pro-header-participation">
+            <figure role="group">
+              <img src="${petition.authorImageURL}?imagePreview=1" loading="lazy" width="40" height="40" alt="Image petition"/>
+            </figure>
+            <div class="pro-header-author">
+            <p>Pétition publiée par :</p>
+            <p><strong>${petition.author} adressé à : Ville de Strasbourg</strong></p>
+          </div>
+          <div class="pro-comments">
+            <span><span class="icon-ico-comment"></span>${petition.nbApprovedComments} Commentaire(s)</span>
+          </div>
+          <div class="pro-info-top">
+            <span class="pro-encart-theme">
+              ${petition.frontStatusFR}
+            </span>
+          </div>
+        </div>
+        <div class="pro-content-participation">
+          <div class="pro-content-header">
+            <div class="pro-meta">
+              <!-- Liste des thématiques de la participation -->
+              ${petition.jsonThematicCategoriesTitle
+        .map((thematic) => `<span class="pro-encart-theme">${thematic["fr_FR"]}</span>`)
+        .join("")}
+            </div>
+            
+            
+          </div>
+          <div>
+          <!-- Liste des quartiers de la participation -->
+          <span class="location-participation prefix-location">${petition.districtLabel}</span>
+            </div>
+          <a href="${homeURL}detail-petition/-/entity/id/${petition.id}" title="Lien vers la page détail Participation - Lien des commentaires">
+            <h3>${petition.title}</h3>
+          </a>
+          <span class="pro-time">
+            Publiée le <time datetime="${petition.createDate}">${petition.createDate}</time> / <span class="pro-duree">${petition.proDureeFR}</span>
+          </span>
+        </div>
+        <div class="pro-footer-petition">
+            <div class="pro-progress-bar">
+                <div class="pro-progress-container">
+                    <div style="width: ${petition.pourcentageSignature}%"></div>
+                </div>
+                <p class="pro-txt-progress"><strong>${petition.nombreSignature} Signataire(s)</strong> sur ${petition.quotaSignature}  nécessaires</p>
+            </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- Cree le style de couleur hexa a la volee pour l'application de la couleur !-->
+  `;
 
     return vignette;
 }
+
+
 
 /**
 * Création de la vignette budget participatif
@@ -1160,7 +1178,7 @@ function createBudgetParticipatif(budgetParticipatif) {
       <div class="pro-budget">
         <div>
           <div class="pro-header-budget" ${budgetParticipatif.imageURL != "" ?
-        `style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, transparent 25%), url('${budgetParticipatif.imageURL}?imagePreview=1')"`
+        `style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, transparent 45%), url('${budgetParticipatif.imageURL}?imagePreview=1')"`
         :
         ''
     }>
@@ -1175,12 +1193,13 @@ function createBudgetParticipatif(budgetParticipatif) {
           <div class="pro-info-top">
           ${budgetParticipatif.isCrush ? '<div class="pro-encart-coeur"><span>Coup de cœur</span><span class="icon-ico-coeur"></span></div>' : ''}
             <div class="flex-grow-1"></div>
-            <span>${budgetParticipatif.nbApprovedComments}</span>
-            <p>Commentaire(s)</p>
+            <div class="pro-comments">
+                <span><span class="icon-ico-comment"></span>${budgetParticipatif.nbApprovedComments} Commentaire(s)</span>
+            </div>
             <span class="pro-encart-theme ${budgetParticipatif.isNotDoable ? 'pro-encart-negative' : ''}">${budgetParticipatif.BPStatus}</span>
           </div>
           <div class="pro-content-budget">
-            <span class="pro-district">${budgetParticipatif.districtsLabel}</span>
+            <span class="pro-district prefix-location">${budgetParticipatif.districtsLabel}</span>
             <a href="${homeURL}detail-budget-participatif/-/entity/id/${budgetParticipatif.id}" title="lien détail du projet citoyen"><h3>${budgetParticipatif.title}</h3></a>
             <span class="pro-time">Publiée le ${budgetParticipatif.publicationDate}</time></span>
             <p class="pro-summary">${budgetParticipatif.summary}</p>
@@ -1188,7 +1207,7 @@ function createBudgetParticipatif(budgetParticipatif) {
         </div>
       </div>
       <div class="pro-footer-budget">
-        ${budgetParticipatif.isNotDoable ? `<p>Ce projet a été étudié et déclaré "${budgetParticipatif.BPStatus}"</p>` : `<p><strong>${budgetParticipatif.nbSupports}</strong> vote(s) pour ce projet</p>`}
+        ${budgetParticipatif.isNotDoable ? `<p>Ce projet a été étudié et déclaré "${budgetParticipatif.BPStatus}"</p>` : `<p><strong>${budgetParticipatif.nbSupports} vote(s)</strong> pour ce projet</p>`}
       </div>
     </div>`;
 
@@ -1203,7 +1222,7 @@ function createInitiative(initiative) {
     <div class="item pro-bloc-card-budget vignette" data-linkall="a">
       <div class="pro-budget">
         <div>
-          <div class="pro-header-budget" ${`style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, transparent 25%), url('${initiative.imageURL}?imagePreview=1')"`}>
+          <div class="pro-header-budget" ${`style="background-image: linear-gradient(to bottom, rgba(0, 0, 0,  0.7) 0%, transparent 45%), url('${initiative.imageURL}?imagePreview=1')"`}>
             <figure role="group">
               <img src="${initiative.authorImageURL}?imagePreview=1" loading="lazy" width="40" height="40" alt="Arrière plan page standard"/>
             </figure>
@@ -1224,7 +1243,7 @@ function createInitiative(initiative) {
         </div>
       </div>
       <div class="pro-footer-budget">
-        <p>${initiative.nbHelps} Citoyens-nes ont proposé leur aide</p>
+        <p><strong>${initiative.nbHelps} Citoyens-nes</strong> ont proposé leur aide</p>
       </div>
     </div>`;
 
@@ -1343,13 +1362,7 @@ $(document).ready(function () {
         $('.pro-modal').modal('hide');
     });
 
-    if ($('.pro-bloc-texte-header').length > 0 && $('.pro-wrapper-aside').length > 0) {
-        var headerHeight = $('.pro-bloc-texte-header').outerHeight();
-        if($('.search-header-wrapper').length > 0) {
-            headerHeight += $('.search-header-wrapper').outerHeight();
-        }
-        $('.pro-wrapper-aside').css('top', -headerHeight + 'px');
-    }
+
     
 });
 
