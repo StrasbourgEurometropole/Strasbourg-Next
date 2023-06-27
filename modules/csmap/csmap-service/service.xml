@@ -26,6 +26,9 @@
 		<finder name="Value" return-type="RefreshToken">
 			<finder-column name="value" />
 		</finder>
+		<finder name="PublikId" return-type="Collection">
+			<finder-column name="publikId" />
+		</finder>
 
 	</entity>
 
@@ -65,6 +68,10 @@
 		<column name="editorialTitle" type="String" localized="true" />
 		<column name="subtitle" type="String" localized="true" />
 		<column name="imageId" type="Long" />
+		<column name="labelLink" type="String" localized="true" />
+		<column name="link" type="String" localized="true" />
+		<column name="publicationStartDate" type="Date" />
+		<column name="publicationEndDate" type="Date" />
 		<column name="isPrincipal" type="Boolean" />
 		<column name="isActive" type="Boolean" />
 		<column name="campaignsIds" type="String" />

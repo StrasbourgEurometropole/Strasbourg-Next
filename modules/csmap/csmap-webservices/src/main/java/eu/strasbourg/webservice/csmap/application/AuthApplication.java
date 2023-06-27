@@ -31,6 +31,7 @@ import eu.strasbourg.webservice.csmap.exception.auth.RefreshTokenExpiredExceptio
 import eu.strasbourg.webservice.csmap.exception.auth.RefreshTokenCreationFailedException;
 import eu.strasbourg.webservice.csmap.service.WSAuthenticator;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
+import eu.strasbourg.webservice.csmap.utils.WSTokenUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
@@ -194,7 +195,7 @@ public class AuthApplication extends Application {
 
         try {
             PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
-            List<RefreshToken> refreshTokens = RefreshTokenLocalServiceUtil.getRefreshTokens(-1,-1).stream().filter(t -> t.getPublikId().equals(publikUser.getPublikId())).collect(Collectors.toList());
+            List<RefreshToken> refreshTokens = RefreshTokenLocalServiceUtil.getByPublikId(publikUser.getPublikId());
             for(RefreshToken refreshToken : refreshTokens) {
                 RefreshTokenLocalServiceUtil.removeRefreshToken(refreshToken.getRefreshTokenId());
             }
@@ -218,11 +219,15 @@ public class AuthApplication extends Application {
             @FormParam("refreshToken") String refreshTokenvalue) {
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         try {
-            RefreshTokenLocalServiceUtil.removeRefreshToken(RefreshTokenLocalServiceUtil.fetchByValue(refreshTokenvalue).getRefreshTokenId());
+            RefreshToken refreshToken = RefreshTokenLocalServiceUtil.fetchByValue(WSTokenUtil.hashToken(refreshTokenvalue));
+            RefreshTokenLocalServiceUtil.removeRefreshToken(refreshToken.getRefreshTokenId());
         } catch (NullPointerException e) {
             return WSResponseUtil.buildErrorResponse(400, "RefreshToken is invalid");
         } catch (NoSuchRefreshTokenException e) {
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
+        } catch (NoSuchAlgorithmException e) {
+            log.error("No Algorithm found");
+            return WSResponseUtil.buildErrorResponse(401, "No Algorithm found");
         }
         return WSResponseUtil.buildOkResponse(jsonResponse);
     }
