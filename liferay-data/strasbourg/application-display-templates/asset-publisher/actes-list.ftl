@@ -33,11 +33,6 @@
                         <div class="seu-media-text"> 
                             <div class="seu-media-title">${description}</div> 
                             <p>
-                                <#list curEntry.getTags() as tag >
-        							<#if tag.getName() == "strasbourg"><@liferay.language key="eu.actes.strasbourg" /> -
-        							<#elseif tag.getName() == "eurométropole"><@liferay.language key="eu.actes.eurometropole" /> -
-        							</#if>
-        						</#list>	
                                 <#assign dlFileEntry = dLFileEntryLocalService.fetchDLFileEntry(file.getFileEntryId()) />
                                 <#assign fileVersionId = dlFileEntry.getLatestFileVersion(true).getFileVersionId() />
                                 <#assign ddmFormValuesMap = dlFileEntry.getDDMFormValuesMap(fileVersionId) />
