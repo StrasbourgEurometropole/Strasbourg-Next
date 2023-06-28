@@ -9,7 +9,6 @@
 <div class="pro-group">
     <div class="pro-header">
         <h4><liferay-ui:message key="eu.placite.keywords" /></h4>
-        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </div>
     <fieldset class="pro-text">
         <legend aria-hidden="true" class="hide">Effectuer une recherche</legend>
@@ -22,6 +21,7 @@
             <label for="name" class="hide"><liferay-ui:message key="keywords" /></label>
         </div>
     </fieldset>
+	<span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
 </div>
 
 <!-- Recherche par dates -->
@@ -29,7 +29,6 @@
 	<div class="pro-group">
 	    <div class="pro-header">
 	        <h4><liferay-ui:message key="eu.dates" /></h4>
-	        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
 	    </div>
 	    <fieldset>
 	        <legend aria-hidden="true" class="hide">Choix par date</legend>
@@ -53,6 +52,7 @@
 	                </span>
 	            </div>
 	        </div>
+			<span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
 	    </fieldset>
 	</div>
 </c:if>

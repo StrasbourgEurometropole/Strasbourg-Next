@@ -440,29 +440,20 @@ figcaption {
 	}
 	.pro-wrapper-date {
 		position: relative;
-		&:before {
-			content: '';
-			position: absolute;
-			bottom: 5px;
-			left: 0;
-			right: 0;
-			height: 4px;
-			background: $c_main;
-			z-index: 100;
-		}
 		&:after {
 			content: "\e90d";
 			@include font();
 			position: absolute;
-			right: 0;
+			right: -5px;
 			z-index: 100;
 			top: 3px;
+			color: $c_white;
 		}
 	}
 	input {
 		@include ft($f_hx, 1em, 700, $c_txt, 1.5em);
 		@extend %appearance;
-		width: 86px;
+		width: 90px;
 		position: relative;
 		z-index: 100;
 		background: none;

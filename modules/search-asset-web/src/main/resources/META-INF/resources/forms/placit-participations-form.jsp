@@ -20,7 +20,6 @@
             	value="${dc.keywords}">
             <label for="name" class="hide"><liferay-ui:message key="keywords" /></label>
         </div>
-
 		<span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </fieldset>
 </div>
@@ -30,7 +29,6 @@
 	<div class="pro-group">
 	    <div class="pro-header">
 	        <h4><liferay-ui:message key="eu.dates" /></h4>
-	        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
 	    </div>
 	    <fieldset>
 	        <legend aria-hidden="true" class="hide">Choix par date</legend>
@@ -54,6 +52,7 @@
 	                </span>
 	            </div>
 	        </div>
+			<span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
 	    </fieldset>
 	</div>
 </c:if>

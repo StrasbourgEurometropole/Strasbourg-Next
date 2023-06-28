@@ -191,6 +191,9 @@ form{
 	.pro-wrapper{
 		padding: 20px 20px 10px 20px;
 		border-bottom: 1px dashed #c9cbcd;
+		&.last-wrapper {
+			border-bottom: none;
+		}
 	}
 	input, textarea {
 		@include ft($f_txt, 0.875em, 400, $c_txt, 20px);
@@ -308,21 +311,21 @@ form{
 		background: $c_dark;
 		border-top: 1px solid rgba($c_white,0.2);
 		button{
-			@include ft($f_hx, 0.938em, 700, $c_dark, 22px);
+			@include ft($f_hx, 0.938em, 700, $c_white, 22px);
 			@extend %appearance;
-			background: $c_main;
-			border-radius: 4px;
+			background: transparent;
 			display: inline-block;
-			padding: 12px 90px;
-			border: 2px solid $c_main;
+			padding: 12px 0;
+			width: 100%;
+			border: 1px solid #8dba49;
 
 			@include addTransition();
 			@include mobile{
 				width: 100%;
 			}
 			&:hover, &:focus{
-				background: $c_dark;
-				color: $c_main;
+				background: #8dba49;
+				color: $c_dark;
 			}
 		}
 	}
@@ -344,6 +347,8 @@ form{
 			color: #ff0000;
 		}
 	}
+
+
 
 	.form-checkbox {
 		position: relative;
@@ -392,7 +397,6 @@ form{
 		> div{
 			position: relative;
 			padding: 0;
-			margin-bottom: 10px;
 			@include mobile{
 				display: block;
 			}

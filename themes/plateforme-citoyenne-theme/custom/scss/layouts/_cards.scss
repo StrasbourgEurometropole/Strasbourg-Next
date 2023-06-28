@@ -578,6 +578,15 @@ $border_top: 1px dashed;
 
 	.pro-header-event {
 		padding: 20px;
+		.prefix-location {
+			@include ft($f_hx, 0.9rem, 700, $c_txt);
+			&:before {
+				top: 3px;
+			}
+			&:hover {
+				color: $c_txt;
+			}
+		}
 		.pro-ico {
 			width: 75px;
 			height: 75px;
@@ -612,12 +621,12 @@ $border_top: 1px dashed;
 		}
 		p {
 			@include ft($f_txt, 0.875em, 400, $c_txt, 1.225em);
-			margin-bottom: 10px;
+			margin-bottom: 0;
 			white-space: nowrap;
 			overflow: hidden;
 			max-width: 280px;
 			text-overflow: ellipsis;
-			margin-left: 95px;
+			margin-left: 0;
 			display: block;
 			@include mobile {
 				max-width: 100%;
@@ -628,7 +637,7 @@ $border_top: 1px dashed;
 		h3 {
 			@include ft($f_hx, 1.4em, 700, $c_txt, 1em);
 
-			margin: 0 0 0 95px;
+			margin: 0;
 			height: 50px;
 			overflow: hidden;
 			@include mobile {
@@ -654,10 +663,11 @@ $border_top: 1px dashed;
 		padding: 20px;
 		border-bottom-left-radius: 4px;
 		border-bottom-right-radius: 4px;
+		display: flex;
 		> span.pro-number {
 			position: relative;
+			flex: 1;
 			@include ft($f_txt, 0.875em, 400, $c_txt, 50px);
-			float: right;
 			@include mobile {
 				float: none;
 				display: block;
@@ -730,7 +740,7 @@ $border_top: 1px dashed;
 			height: 40px;
 			overflow: hidden;
 			border-radius: 50%;
-			flex-basis: 55px;
+			//flex-basis: 55px;
 			img {
 				height: 100% !important;
 			}
@@ -837,7 +847,7 @@ $border_top: 1px dashed;
 		.pro-form-style {
 			@include ft($f_txt, $s_small, 700, #4c4c4c, 20px);
 			display: block;
-			padding: 6px 0;
+			padding: 12px 0;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -976,7 +986,6 @@ $border_top: 1px dashed;
 
 		&.pro-participation-deadline {
 			background: #20272F;
-			border-bottom-left-radius: 4px;
 			display: flex;
 			align-items: center;
 			@include clearfix();
@@ -1579,6 +1588,7 @@ $border_top: 1px dashed;
 			}
 
 		}
+
 
 		p {
 			@include ft($f_txt, 0.813em, 400, $c_txt, normal);

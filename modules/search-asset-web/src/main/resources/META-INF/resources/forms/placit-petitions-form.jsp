@@ -9,7 +9,6 @@
 <div class="pro-group">
     <div class="pro-header">
         <h4><liferay-ui:message key="eu.placite.keywords" /></h4>
-        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </div>
     <fieldset class="pro-text">
         <legend aria-hidden="true" class="hide">Effectuer une recherche</legend>
@@ -21,6 +20,7 @@
             	value="${dc.keywords}">
             <label for="name" class="hide"><liferay-ui:message key="keywords" /></label>
         </div>
+		<span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </fieldset>
 </div>
 

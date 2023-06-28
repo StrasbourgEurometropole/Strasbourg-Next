@@ -88,6 +88,11 @@
 			max-width: 650px;
 			max-height: 850px;
 		}
+		&.modal-banned {
+			margin: 0 auto;
+			max-width: 650px;
+			max-height: 850px;
+		}
 	}
 
 	.modal-header {
@@ -190,7 +195,7 @@
 					@include ft($f_hx, 1.3em, 700, #8dc63f);
 				}
 				.form-group {
-					label {
+					label, span.label {
 						font-weight: 700;
 						color: black;
 					}
@@ -198,6 +203,25 @@
 						border: solid 1px #b2b2b2;
 						border-radius: 5px;
 					}
+				}
+			}
+			.top-slope {
+				position: relative;
+				overflow: visible;
+				margin-top: 30px;
+				padding-bottom: 30px;
+				background-color: black;
+				&:before {
+					content: '';
+					position: absolute;
+					top: -29px; /* Adjust this value to position the triangle */
+					left: 0; /* Adjust this value to horizontally center the triangle */
+					width: 0;
+					height: 0;
+					border-left: 50vw solid transparent;
+					border-right: 50vw solid transparent;
+					border-bottom: 30px solid #000;
+					z-index: 120;
 				}
 			}
 		}

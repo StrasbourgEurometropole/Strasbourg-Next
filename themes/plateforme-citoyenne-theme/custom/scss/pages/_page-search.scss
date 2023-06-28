@@ -91,7 +91,7 @@
 			}
 
 			.pro-bloc-actu {
-				height: 219px;
+				height: 259px;
 				border: 1px solid rgba($c_dark, 0.25);
 				border-radius: 4px;
 				margin: 0;
@@ -180,7 +180,7 @@
 			}
 
 			.pro-bloc-card-event {
-				height: 219px;
+				height: 259px;
 				@include mobile {
 					height: 100%;
 				}
@@ -228,7 +228,7 @@
 			}
 
 			.pro-bloc-card-participation {
-				height: 219px;
+				height: 259px;
 				@include mobile {
 					height: 100%;
 				}
@@ -242,8 +242,8 @@
 				}
 
 				.pro-header-participation {
-					padding: 13px 20px 0 20px;
-					margin-bottom: 17px;
+					padding: 7px 20px;
+					margin-bottom: 5px;
 				}
 				.pro-footer-participation {
 					padding: 11px 20px;
@@ -258,7 +258,7 @@
 			}
 
 			.pro-card-video {
-				height: 219px;
+				height: 259px;
 				border: 1px solid rgba($c_dark, 0.25);
 				border-radius: 4px;
 				@include mobile {
@@ -473,6 +473,9 @@
 
 
 .pro-search-listing {
+	.pro-listing-container > .col-md-3.pro-bloc-facette {
+		background-color: black;
+	}
 	.search-header-wrapper {
 		background-color: #20272f;
 		padding-bottom: 1em;

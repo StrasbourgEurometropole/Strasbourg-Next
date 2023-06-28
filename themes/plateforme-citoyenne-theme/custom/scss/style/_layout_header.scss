@@ -165,6 +165,14 @@ main {
 
 		.pro-wrapper-search {
 			padding-bottom: 80px;
+			.pro-bloc-card-budget {
+				.pro-header-budget {
+					padding: 10px 10px 0;
+					p {
+						color: black;
+					}
+				}
+			}
 		}
 		form {
 			position: relative;
@@ -298,7 +306,7 @@ main {
 					}
 				}
 				.pro-btn-connexion {
-					@include ft($f_spe, $s_p, 400, $c_grey50, 3.4em);
+					@include ft($f_spe, $s_p, 400, $c_grey50, 3em);
 					border: solid 1px #8DBA49;
 					padding: 0 20px;
 					margin: 0 25px;
@@ -314,7 +322,7 @@ main {
 						@include font();
 						color: #8DBA49;
 						float: left;
-						line-height: 3.28em;
+						line-height: 3em;
 						margin-right: 10px;
 						font-weight: 700;
 						@include tablet_portrait {
@@ -367,7 +375,7 @@ main {
 							}
 						}
 						a {
-							@include ft($f_txt, 1em, 400, $c_white, 4em);
+							@include ft($f_txt, 1em, 400, $c_white, 3.2em);
 
 							padding: 0 15px;
 							display: block;

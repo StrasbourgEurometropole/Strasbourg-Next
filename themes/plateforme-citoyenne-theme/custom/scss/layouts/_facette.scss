@@ -86,7 +86,8 @@
 			max-height: 0;
 		}
 		&.is-display {
-			max-height: calc(100vh - 60px);
+			max-height: 85vh;
+			overflow: scroll;
 		}
 
 		.pro-group {
@@ -223,6 +224,7 @@
 							top: 18px;
 							transform: translateY(-50%);
 							transform: translate3d(0, -50%, 0);
+							color: $c_white;
 						}
 						.selectric {
 							background: none;
@@ -230,25 +232,13 @@
 							height: 30px;
 							position: relative;
 							.label {
-								@include ft($f_hx, 0.938em, 400, $c_txt, 1.5em);
+								@include ft($f_hx, 0.938em, 400, $c_white, 1.5em);
 
 								height: 100%;
 								padding: 8px 0;
 								text-align: left;
 								margin: 0;
 								border-radius: 0;
-								&:after {
-									content: '';
-									position: absolute;
-									bottom: 4px;
-									left: 0;
-									right: 0;
-									height: 4px;
-									width: 100%;
-									z-index: -1;
-									background: $c_main;
-									@include addTransitionCurve();
-								}
 								&:hover {
 									&:after {
 										height: 10px;
@@ -261,12 +251,12 @@
 						}
 						.selectric-items {
 							position: relative;
-							background: none;
 							box-shadow: none;
 							margin-top: 10px;
 							border: none;
 							width: 300px !important;
 							ul {
+								padding: 10px;
 								li {
 									@include ft($f_txt, 1em, 400, $c_txt, 2em);
 									padding: 1px 0;
@@ -300,11 +290,13 @@
 							@include tablet_landscape {
 								margin: 0 4px;
 							}
+							color: $c_white;
 						}
 						input {
 							font-weight: 400;
 							position: relative;
 							display: block;
+							color: $c_white;
 						}
 					}
 
