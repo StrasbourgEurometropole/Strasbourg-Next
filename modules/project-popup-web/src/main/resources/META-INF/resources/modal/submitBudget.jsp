@@ -90,7 +90,7 @@
                         </div>
                     </c:if>
                 </div>
-                <div class="pro-wrapper">
+                <div class="pro-wrapper last-wrapper">
                     <h4><liferay-ui:message key="modal.submitbudget.user"/></h4>
                     <div class="pro-row">
                         <div class="form-group form-triple">
@@ -140,6 +140,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="top-slope"></div>
                 <div class="pro-optin form-checkbox">
                     <div>
                         <input type="checkbox" id="submit-budget-legalage" value="legalage">

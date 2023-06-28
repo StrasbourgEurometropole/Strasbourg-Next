@@ -219,6 +219,7 @@
 }
 .icon-ico-info:before {
 	content: "\e90a";
+	vertical-align: bottom;
 }
 .icon-ico-connexion:before {
 	content: "\e900";
@@ -227,13 +228,13 @@
 	content: "\e901";
 }
 .icon-ico-chevron-left:before {
-	content: "\e90e";
+	content: "\23F4";
 }
 .icon-ico-chevron-down:before {
-	content: "\e902";
+	content: "\23F7";
 }
 .icon-ico-chevron-right:before {
-	content: "\e903";
+	content: "\23F5";
 }
 .icon-ico-facebook:before {
 	content: "\e904";
@@ -252,4 +253,25 @@
 }
 .icon-ico-user:before {
 	content: "\e909";
+}
+.icon-ico-profile:before {
+	content: "\e700";
+}
+.icon-ico-dailymotion:before {
+	content: "\e701";
+}
+.icon-ico-tumblir:before {
+	content: "\e703";
+}
+.icon-ico-snapchat:before {
+	content: "\e704";
+}
+.icon-ico-soundcloud:before {
+	content: "\e705";
+}
+.icon-ico-comment:before {
+	content: "\e707";
+	font-size: 1rem;
+	vertical-align: sub;
+	padding-right: 5px;
 }

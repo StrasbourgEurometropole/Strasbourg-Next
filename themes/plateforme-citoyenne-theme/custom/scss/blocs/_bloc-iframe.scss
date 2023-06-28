@@ -178,12 +178,6 @@
 				line-height: 3.8em !important;
 			}
 		}
-
-		&.pro-bloc-actu {
-			> .content {
-				padding: 15px;
-			}
-		}
 	}
 }
 
@@ -277,13 +271,13 @@
 		h3 {
 			@include ft($f_hx, 1.538em, 700, $c_txt, 1.4em);
 			z-index: 11;
-			text-transform: uppercase;
+
 			text-align: center;
 		}
 
 		.pro-btn-yellow {
 			@include ft($f_hx, 1.154em, 700, $c_txt, 3em);
-			text-transform: uppercase;
+
 			text-align: center;
 			&:hover, &:focus {
 				background: $c_dark;

@@ -1,12 +1,12 @@
 .pro-bloc-prefooter {
 	background: $c_dark;
 	min-height: 90px;
+	z-index: 130;
 	&.pro-sticky-bar{
 		position: fixed;
 		left: 0;
 		right: 0;
 		bottom: 0;
-		z-index: 130;
 		@include mobile{
 			position: relative;
 		}
@@ -81,6 +81,8 @@
 
 
 		.pro-bloc-pcs-form{
+			margin-top: 25px;
+			margin-bottom: 20px;
 			float: left;
 			@include tablet_portrait{
 				margin-bottom: 20px;
@@ -88,14 +90,14 @@
 			.pro-optin{
 				padding: 0;
 				label{
-					max-width: 420px;
+					max-width: 500px;
 				}
 			}
 		}
 
 
 		&.pro-pencil {
-			padding: 20px 0;
+			padding: 0;
 			> * {
 				text-align: right;
 				> * {
@@ -120,7 +122,7 @@
 						}
 						> span {
 							@include ft($f_hx, 0.938em, 700, $c_txt, normal);
-							text-transform: uppercase;
+
 							position: absolute;
 							left: 0;
 							right: 0;
@@ -169,6 +171,7 @@
 		a{
 			color: $c_white;
 			text-decoration: underline;
+			font-weight: 700;
 			@include addTransition();
 			&:hover, &:focus{
 				color: $c_main;
@@ -176,8 +179,18 @@
 		}
 	}
 	.pro-you {
-		@include ft($f_hx, 1.125em, 700, $c_main, 1.444em);
-		text-transform: uppercase;
+		@include ft($f_hx, 1.125em, 700, #f37021, 1.444em);
+	}
+
+	.pro-signature-btn {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		@include tablet_portrait {
+			flex-direction: column;
+			align-items: stretch;
+			margin-bottom: 30px;
+		}
 	}
 
 	.pro-ico {
@@ -217,7 +230,7 @@
 		text-align: center;
 		> span {
 			@include ft($f_hx, $s_small, 400, $c_white, normal);
-			text-transform: uppercase;
+
 		}
 		ul {
 			list-style-type: none;
@@ -296,7 +309,7 @@
 						margin-right: 0 !important;
 						display: block;
 						@include ft($f_txt, 12px, 600, $c_white, 20px);
-						text-transform: uppercase;
+
 
 						margin: 0;
 						margin-bottom: 10px;
@@ -414,7 +427,7 @@
 
 				h3 {
 					@include ft($f_hx, 1.563em, 700, $c_txt, 1.2em);
-					text-transform: uppercase;
+
 					margin: 0;
 					@include addTransition();
 				}
@@ -424,7 +437,7 @@
 				}
 				span {
 					@include ft($f_hx, 0.938em, 700, $c_txt, normal);
-					text-transform: uppercase;
+
 					@include addTransition();
 				}
 			}

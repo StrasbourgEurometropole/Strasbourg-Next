@@ -1,17 +1,24 @@
+
+
 .pro-actu {
 	padding: 20px 0 50px;
 	@include mobile {
-		padding-top: 60px;
+		padding: 20px;
 	}
 	@include mobile_small {
-		padding-top: 40px;
+		padding: 20px;
 	}
+
+	.pro-time {
+		background: none;
+	}
+
 	header {
 		text-align: center;
 
 		h1 {
-			@include ft($f_hx, 1.875em, 700, $c_txt, 1.267em);
-			text-transform: uppercase;
+			@include ft($f_hx, 3em, 700, $c_txt, 1.267em);
+
 			margin-bottom: 0;
 		}
 		figure {
@@ -22,6 +29,13 @@
 				@include mobile {
 					height: 300px;
 				}
+			}
+		}
+		.pro-meta {
+			position: relative;
+			@include prefixLocationIcon();
+			span {
+				@include ft($f_hx, 1em, 700, $c_txt);
 			}
 		}
 	}
@@ -35,6 +49,13 @@
 		margin-top: 15px;
 		@include tablet_portrait {
 			padding: 0;
+		}
+		p {
+			@include ft($f_hx);
+		}
+
+		a[class^="pro-btn-"] {
+			padding: 12px 20px;
 		}
 
 		> * {

@@ -1,11 +1,14 @@
 .pro-wrapper-top-listing {
 	padding: 20px 0;
-	border-bottom: 1px solid $c_filet;
 	@include clearfix();
+	background-color: #20272F;
 
 	#breadcrumb {
 		float: left;
 		width: auto;
+		span, a, a:after {
+			color: $c_white;
+		}
 	}
 
 	.pro-wrapper-sort {
@@ -70,8 +73,6 @@
 
 .pro-wrapper-listing-general {
 	position: relative;
-	padding: 10px 0;
-	margin-top: -30px;
 	@include tablet_landscape {
 		padding-top: 0;
 		margin-top: 0;

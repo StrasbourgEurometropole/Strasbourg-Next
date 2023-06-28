@@ -52,6 +52,15 @@ if ($(window).width() < 992) {
 		$(this).toggleClass('menu-is-display');
 	});
 }
+else {
+	if ($('.pro-bloc-texte-header').length > 0 && $('.pro-wrapper-aside').length > 0) {
+		var headerHeight = $('.pro-bloc-texte-header').outerHeight();
+		if($('.search-header-wrapper').length > 0) {
+			headerHeight += $('.search-header-wrapper').outerHeight();
+		}
+		$('.pro-wrapper-aside').css('top', -headerHeight + 'px');
+	}
+}
 
 var menuEmplacement = 0;
 var timeoutResizeMenuEmplacement = null;

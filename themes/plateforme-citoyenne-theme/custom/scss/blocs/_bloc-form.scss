@@ -38,7 +38,7 @@
 			width: calc(100% - 66px);
 			background: $c_white;
 			padding: 17px 35px;
-			text-transform: uppercase;
+
 			&::placeholder {
 				color: rgba($c_txt, 0.7);
 			}
@@ -74,10 +74,6 @@
 	display: inline-block;
 	vertical-align: middle;
 	margin-left: 5px;
-	@include tablet_landscape {
-		margin-left: 0;
-		display: block;
-	}
 	.selectric-wrapper {
 		position: relative;
 		@include tablet_landscape {
@@ -87,7 +83,8 @@
 			margin-bottom: 15px;
 		}
 		&:after {
-			content: "\e902";
+			content: "\23F7";
+			color: white;
 			@include font();
 			float: right;
 			font-size: 16px;
@@ -112,8 +109,8 @@
 				height: 100%;
 			}
 			.label {
-				@include ft($f_hx, 2.5em, 400, $c_txt, 1.600em);
-				text-transform: uppercase;
+				@include ft($f_hx, 2em, 400, $c_white, 1.600em);
+				text-decoration: underline #fff dotted;
 				height: 100%;
 				padding: 7px 0;
 				margin: 0;
@@ -127,23 +124,6 @@
 				}
 				@include mobile_small {
 					font-size: 1.3em;
-				}
-				&:after {
-					content: '';
-					position: absolute;
-					bottom: 18px;
-					left: 0;
-					right: 0;
-					height: 10px;
-					width: 100%;
-					z-index: -1;
-					background: $c_main;
-					@include addTransitionCurve();
-					@include tablet_portrait {
-						position: relative;
-						bottom: 0;
-						display: block;
-					}
 				}
 				&:hover {
 					&:after {
@@ -177,7 +157,7 @@ form{
 	input[type="submit"]{
 		@include btn($c_main, $c_txt, 2, $f_hx, $s_p);
 		@extend %appearance;
-		text-transform: uppercase;
+
 		font-weight: 700;
 		border: 2px solid $c_main;
 		line-height: 22px;
@@ -210,10 +190,9 @@ form{
 
 	.pro-wrapper{
 		padding: 20px 20px 10px 20px;
-		border-bottom: 1px solid #c9cbcd;
-		h4{
-			@include ft($f_hx, 	0.938em, 700, $c_txt, 1.600em);
-			text-transform: uppercase;
+		border-bottom: 1px dashed #c9cbcd;
+		&.last-wrapper {
+			border-bottom: none;
 		}
 	}
 	input, textarea {
@@ -332,21 +311,21 @@ form{
 		background: $c_dark;
 		border-top: 1px solid rgba($c_white,0.2);
 		button{
-			@include ft($f_hx, 0.938em, 700, $c_dark, 22px);
+			@include ft($f_hx, 0.938em, 700, $c_white, 22px);
 			@extend %appearance;
-			background: $c_main;
-			border-radius: 4px;
+			background: transparent;
 			display: inline-block;
-			padding: 12px 90px;
-			border: 2px solid $c_main;
-			text-transform: uppercase;
+			padding: 12px 0;
+			width: 100%;
+			border: 1px solid #8dba49;
+
 			@include addTransition();
 			@include mobile{
 				width: 100%;
 			}
 			&:hover, &:focus{
-				background: $c_dark;
-				color: $c_main;
+				background: #8dba49;
+				color: $c_dark;
 			}
 		}
 	}
@@ -369,18 +348,20 @@ form{
 		}
 	}
 
+
+
 	.form-checkbox {
 		position: relative;
 		clear: both;
 		margin-bottom: 10px;
 		&.pro-optin{
 			background: $c_dark;
-			padding: 20px;
+			padding: 10px 40px;
 			margin-bottom: 0;
 			input{
 				&:focus{
 					+ label{
-						color: $c_main;
+						color: #8dc63f;
 					}
 				}
 			}
@@ -416,7 +397,6 @@ form{
 		> div{
 			position: relative;
 			padding: 0;
-			margin-bottom: 10px;
 			@include mobile{
 				display: block;
 			}
@@ -491,14 +471,14 @@ form{
 
 	.pro-info-supp{
 		background: $c_dark;
-		padding: 5px 20px 15px 20px;
+		padding: 1px 40px;
 		> * {
 			&:last-child{
 				margin: 0;
 			}
 		}
 		p{
-			@include ft($f_txt, 0.875em, 400, rgba($c_white,0.5), 1.429em);
+			@include ft($f_txt, 0.875em, 400, $c_white, 1.429em);
 			margin-bottom: 15px;
 			i{
 				font-style: italic;
@@ -513,7 +493,7 @@ form{
 	}
 
 	.form-code{
-		width: 90px;
+		width: 100px;
 		float: right;
 	}
 
@@ -546,7 +526,7 @@ form{
 			text-decoration: underline;
 			display: block;
 			margin-bottom: 10px;
-			text-transform: uppercase;
+
 			@include addTransition();
 			&:hover, &:focus{
 				color: $c_main;
@@ -630,7 +610,7 @@ form{
 			@include ft($f_hx, 0.813em, 700, $c_txt, normal);
 			text-align: center;
 			border-color: #B2B2B2;
-			text-transform: uppercase;
+
 			padding: 0 15px;
 			height: 40px;
 			border-radius: 0;

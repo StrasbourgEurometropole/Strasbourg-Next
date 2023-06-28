@@ -1,0 +1,218 @@
+.pro-slider-timeline {
+  @include tablet_portrait {
+    display: none;
+  }
+
+  .pro-navigation {
+    position: relative;
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    z-index: 2;
+
+    > span {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -15px;
+      text-align: center;
+      @include ft($f_txt, 0.750em, 400, rgba($c_white, 0.5), 1em);
+
+      letter-spacing: 1.5px;
+    }
+
+    > * {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .pro-extreme-date {
+      display: flex;
+      flex-direction: column;
+      align-self: center;
+      align-items: flex-end;
+      padding: 0 15px;
+      &:first-child {
+        align-items: flex-start;
+      }
+      span {
+        @include ft($f_hx, 0.9em, 700, rgba($c_white, 0.5), 1em);
+        display: block;
+
+        margin-bottom: 3px;
+
+        &.pro-datetime {
+          color: $c_white;
+          font-weight: 400;
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    .pro-slidecontainer {
+      width: 330px;
+
+      input {
+        -webkit-appearance: none;
+        box-shadow: none;
+        border: none;
+        outline: none;
+        height: 6px;
+        border-radius: 3px;
+        background: $c_main;
+        padding: 0;
+      }
+
+      .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 42px;
+        height: 12px;
+        background: $c_dark;
+        cursor: pointer;
+        border: 1px solid $c_main;
+        border-radius: 6px;
+      }
+    }
+  }
+
+  .owl-carousel {
+    position: relative;
+    height: 75px;
+
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      transform: translate3d(0, -50%, 0);
+      width: 100%;
+      height: 1px;
+      border: dashed 1px rgba($c_white, 0.5);
+    }
+
+    .owl-stage-outer {
+      margin-left: 44px;
+      margin-right: 44px;
+    }
+
+    .owl-item {
+      height: 75px;
+
+      .pro-item {
+        &:hover {
+          .pro-jalon-hover {
+            transform: scale(1);
+            cursor: pointer;
+          }
+        }
+
+        .pro-small-jalon {
+          position: relative;
+          padding: 20px 0;
+
+          &:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 42px;
+            height: 5px;
+            background: $c_main;
+            margin: auto;
+          }
+
+          > span {
+            @include ft($f_hx, 0.875em, 700, $c_white, 1.4em);
+            display: block;
+
+            text-align: center;
+
+            &.pro-year {
+              font-size: 1em;
+            }
+
+            &.pro-day-month {
+              height: 19px;
+            }
+          }
+        }
+
+        .pro-jalon-hover {
+          @extend %center;
+          background: #20272F;
+          width: 100%;
+          height: 75px;
+          transform: scale(0);
+          @include clearfix();
+          @include addTransition();
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 10px;
+          .on-ipad & {
+            transform: scale(1);
+            transition: none;
+            width: calc(100% - 20px);
+            margin-left: 10px;
+          }
+
+          .pro-wrapper-date {
+            display: flex;
+            gap: 10px;
+            margin: 0 5px;
+
+            span {
+              @include ft($f_hx, 0.9em, 400, $c_white, 1.4em);
+              display: block;
+              text-align: center;
+
+            }
+          }
+
+          .pro-txt-jalon {
+
+            p {
+              @include ft($f_hx, 0.95em, 700, $c_white, 1.4em);
+              text-align: left;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .owl-nav {
+    .owl-prev, .owl-next {
+      border: solid 1px #D9D9D9;
+      box-shadow: none;
+      top: 20px;
+      width: auto;
+      height: auto;
+      -webkit-transform: none;
+      transform: none;
+      transition: all .2s ease;
+      background-color: white;
+      padding: 10px 15px;
+      &:hover {
+        border: solid 1px #D9D9D9;
+        background: #20272F;
+      span {
+        color: white;
+      }
+
+      }
+
+    }
+
+    .owl-prev {
+      left: 0;
+    }
+
+    .owl-next {
+      right: 0;
+    }
+  }
+
+}

@@ -20,7 +20,7 @@
             </div>
 
             <form id="form-give-budget-support">
-                <div class="pro-wrapper">
+                <div class="pro-wrapper last-wrapper">
                 
                 	<!-- Champs : nom, prenom, date de naissance -->
                     <div class="pro-row">
@@ -110,6 +110,8 @@
                     </div>
                     
                 </div>
+
+                <div class="top-slope"></div>
                 
                 <!-- Condition de soumission -->
                 <div class="pro-optin form-checkbox">

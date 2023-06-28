@@ -58,7 +58,7 @@
                             <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="pro-btn-connexion connexion-black" title="Connexion">
                                 <span class="flexbox">
                                     <span class="picto"></span>
-                                    <span class="text">Connexion</span>
+                                    <span class="text">MonStrasbourg<span>.eu</span></span>
                                 </span>
                             </a>
                         </#if>
@@ -74,7 +74,7 @@
         <div class="container pro-header">
             <a href="${themeDisplay.getPortalURL()}${homeURL}accueil" class="pro-logo" title="Lien du Logo du site Portail du Citoyen Strasbourg" aria-label="Logo du site Portail du Citoyen Strasbourg">
                 <figure role="group">
-                    <img src="/o/plateforme-citoyenne-theme/images/logos/logo-plateforme-citoyenne.png" srcset="/o/plateforme-citoyenne-theme/images/logos/logo-plateforme-citoyenne-2x.png 2x" width="128" height="122" alt="Logo du site
+                    <img src="/o/plateforme-citoyenne-theme/images/logos/logo-plateforme-citoyenne-2023.svg" width="203" height="123" alt="Logo du site
                     Plateforme Citoyenne de Strasbourg"/>
                 </figure>
             </a>
@@ -134,21 +134,22 @@
                         </a>
                         <span class="tooltiptext">Voir la carte</span>
                     </li>
-                    <li class="pro-tooltip">
+                    <li class="pro-tooltip search-menu-icon">
                         <a href="#rechercher" aria-label="Rechercher" title="Ouvrir la barre de recherche">
                             <span class="icon-ico-search"></span>
                         </a>
                         <span class="tooltiptext">Rechercher</span>
                     </li>
+                    <li class="pro-tooltip th-menu">
+                        <a href="#" aria-label="Ouvrir le menu" title="Ouvrir le menu">
+                            <span class="icon-menu"></span>
+                        </a>
+                        <span class="tooltiptext">Ouvrir le menu</span>
+                    </li>
                 </ul>
             </div>
 
-            <div class="th-menu">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+
         </div>
 
         <div id="pro-shadow-bg"></div>

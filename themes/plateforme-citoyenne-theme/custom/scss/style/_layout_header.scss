@@ -1,7 +1,7 @@
 main {
-	padding-top: 169px;
+	padding-top: 162px;
 	@include tablet_portrait {
-		padding-top: 122px;
+		padding-top: 50px;
 	}
 }
 
@@ -17,7 +17,7 @@ main {
 }
 
 #pro-header {
-	background: $c_white;
+	background: $c_nav;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -48,8 +48,8 @@ main {
 	}
 
 	.is-scrolled & {
-		transform: translateY(-48px);
-		transform: translate3d(0, -48px, 0);
+		transform: translateY(-72px);
+		transform: translate3d(0, -72px, 0);
 		box-shadow: 0 0 30px 4px rgba(0, 0, 0, 0.15);
 		@include tablet_portrait {
 			transform: none;
@@ -87,7 +87,6 @@ main {
 				display: block;
 				@include ft($f_hx, 5em, 700, $c_white, 1em);
 				margin-bottom: 30px;
-				text-transform: uppercase;
 				@include mobile {
 					font-size: 2em;
 				}
@@ -166,6 +165,14 @@ main {
 
 		.pro-wrapper-search {
 			padding-bottom: 80px;
+			.pro-bloc-card-budget {
+				.pro-header-budget {
+					padding: 10px 10px 0;
+					p {
+						color: black;
+					}
+				}
+			}
 		}
 		form {
 			position: relative;
@@ -196,7 +203,7 @@ main {
 				@include ft($f_hx, 1.750em, 400, $c_txt, 36px);
 				@extend %appearance;
 				box-sizing: border-box;
-				text-transform: uppercase;
+
 				width: calc(100% - 70px);
 				height: 70px;
 				background: none;
@@ -242,8 +249,8 @@ main {
 	// HEADER TOP PAGE
 	// ==========================================================================
 	.pro-top-header {
-		height: 48px;
-		background: #2d2d2d;
+		height: 72px;
+		background: #171C22;
 		@include addTransitionCurve();
 		@include tablet_portrait {
 			display: block;
@@ -256,6 +263,7 @@ main {
 			border: none;
 		}
 		.container {
+			padding: 12px;
 			@include tablet_portrait {
 				position: absolute;
 				bottom: 100px;
@@ -280,8 +288,16 @@ main {
 			}
 			.pro-right {
 				float: right;
+				display: flex;
+				flex-direction: row;
 				@include tablet_portrait {
 					float: none;
+					flex-direction: column-reverse;
+					flex-direction: column-reverse;
+					gap: 10px;
+				}
+				a {
+					order: 2;
 				}
 				> * {
 					float: left;
@@ -290,11 +306,10 @@ main {
 					}
 				}
 				.pro-btn-connexion {
-					@include ft($f_spe, $s_p, 700, $c_grey50, 3.4em);
-					text-transform: uppercase;
-					background: #fbac28;
+					@include ft($f_spe, $s_p, 400, $c_grey50, 3em);
+					border: solid 1px #8DBA49;
 					padding: 0 20px;
-					margin: 0 15px;
+					margin: 0 25px;
 					height: 48px;
 					@include addTransition();
 					@include tablet_portrait {
@@ -303,10 +318,11 @@ main {
 						margin-bottom: 5px;
 					}
 					&:before {
-						content: "\e900";
+						content: "\e700";
 						@include font();
+						color: #8DBA49;
 						float: left;
-						line-height: 3.28em;
+						line-height: 3em;
 						margin-right: 10px;
 						font-weight: 700;
 						@include tablet_portrait {
@@ -320,6 +336,12 @@ main {
 					&.connexion-active {
 						background: $c_darkgrey;
 						color: $c_white;
+					}
+					span.text {
+						font-weight: 700;
+						span {
+							font-weight: 400;
+						}
 					}
 				}
 
@@ -353,8 +375,8 @@ main {
 							}
 						}
 						a {
-							@include ft($f_txt, $s_small, 600, $c_white, 4em);
-							text-transform: uppercase;
+							@include ft($f_txt, 1em, 400, $c_white, 3.2em);
+
 							padding: 0 15px;
 							display: block;
 							@include tablet_portrait {
@@ -396,6 +418,7 @@ main {
 	// HEADER PRINCIPAL DU SITE
 	// ==========================================================================
 	.pro-header {
+		background-color: #20272F;
 		@media (min-width: 993px){
 			position: relative;
 		}
@@ -407,13 +430,18 @@ main {
 			height: $header-height;
 			line-height: $header-height;
 			font-size: 24px;
-			text-transform: uppercase;
+
 			font-weight: 300;
 			color: $c_main;
 			float: left;
 			transform: translateY(15px);
 			transform: translate3d(0, 15px, 0);
 			@include addTransitionCurve();
+
+			@include mobile {
+				height: calc(#{$header-height} - 40px);
+				transition: none;
+			}
 
 			&:focus {
 				outline: 1px dashed $c_sub;
@@ -422,6 +450,9 @@ main {
 			.is-scrolled & {
 				transform: none;
 				height: 80px;
+				@include mobile {
+					height: 60px
+				}
 				line-height: 80px;
 			}
 
@@ -438,12 +469,13 @@ main {
 				img {
 					@include addTransitionCurve();
 					@include mobile {
-						height: auto;
+						height: 70px !important;
+						width: 100%;
 					}
 					.is-scrolled & {
-						width: 90px;
-						height: 100%;
-						top: 10px;
+						height: 100px;
+						width: 100%;
+						top: 15px;
 					}
 				}
 			}
@@ -554,7 +586,16 @@ main {
 						left: 0;
 					}
 				}
-
+				ul.dropdown-menu {
+					li {
+						a {
+							@include ft($f_hx, $s_link, 700, $c_txt, 1.333em);
+							@include tablet_portrait {
+								color: $c_white;
+							}
+						}
+					}
+				}
 				ul {
 					list-style-type: none;
 					padding: 0;
@@ -614,22 +655,26 @@ main {
 							}
 						}
 						a {
-							@include ft($f_hx, $s_link, 700, $c_txt, 1.333em);
-							text-transform: uppercase;
+							@include ft($f_hx, $s_link, 700, $c_white, 1.333em);
+
 							display: block;
 							padding: 0 15px;
 							&:after {
 								content: '';
 								position: absolute;
-								bottom: -8px;
-								left: 8px;
-								right: 8px;
+								bottom: -31px;
+								left: 0px;
+								right: 0px;
 								height: 0;
-								width: calc(100% - 16px);
+								width: 100%;
 								transform-origin: bottom;
 								background: $c_main;
+								clip-path: polygon(calc(100% - 5px) 0, 0% 100%, 100% 100%);
 								z-index: -1;
 								@include addTransitionCurve();
+								.is-scrolled & {
+									bottom: -26px;
+								}
 							}
 							@media screen and (max-width: 1200px) {
 								font-size: 1em;
@@ -637,7 +682,7 @@ main {
 							}
 							@include tablet_portrait {
 								@include ft($f_hx, 20px, 700, $c_white, 26px);
-								text-transform: uppercase;
+
 								height: auto;
 								padding: 0 15px;
 								&:after {
@@ -646,7 +691,7 @@ main {
 							}
 							&:hover, &:focus, &.active {
 								&:after {
-									height: 20px;
+									height: 15px;
 								}
 								@include tablet_portrait {
 									color: $c_main;
@@ -698,6 +743,8 @@ main {
 
 		.pro-menu-right {
 			position: absolute;
+			display: flex;
+			align-items: stretch;
 			top: 0;
 			right: 15px;
 			z-index: 100;
@@ -707,28 +754,50 @@ main {
 			@include addTransitionCurve();
 			@include tablet_portrait {
 				position: relative;
-				padding-right: 50px;
-			}
+				padding-right: 0;
+				margin-right: -30px;
+;			}
 			@include mobile {
-				padding-right: 30px;
+				padding-right: 0;
+				margin-right: -30px;
+				height: calc(#{$header-height} - 40px);
 			}
 			.is-scrolled & {
 				height: 80px;
+				@include mobile {
+					height: 60px
+				}
 				line-height: 80px;
 			}
 			ul {
+				display: flex;
+				justify-content: center;
+				align-items: stretch;
 				li {
+					display: flex;
+					justify-content: center;
+					align-items: center;
 					line-height: normal;
-					display: inline-block;
 					vertical-align: middle;
-					a {
-						color: $c_txt;
-						padding: 0 8px;
-						font-size: 1.4em;
-						@include addTransitionCurve();
-						&:hover, &:focus {
-							color: $c_grey;
+					@include tablet_portrait {
+						&.search-menu-icon {
+							background-color: #f37021;
 						}
+
+						&.th-menu {
+							display: flex !important;
+							background-color: #8dc63f;
+						}
+					}
+					&.th-menu {
+						display: none;
+					}
+
+
+					a, span {
+						color: $c_white;
+						padding: 0 8px;
+						font-size: 1.2em;
 						&:focus {
 							& + span {
 								visibility: visible;
@@ -836,76 +905,4 @@ main {
 			}
 		}
 	}
-}
-
-// MENU BURGER A PARTIR DU DEVICE TABLETTE
-// ==========================================================================
-div.th-menu {
-	position: absolute;
-	top: 50%;
-	right: 25px;
-	display: none;
-	width: 30px;
-	height: 20px;
-	margin: 0;
-	cursor: pointer;
-	z-index: 200;
-	transform: rotate(0deg) translate3d(0, -50%, 0);
-	transition: all 0.5s ease;
-
-	@include tablet_portrait {
-		display: block;
-	}
-	@include mobile {
-		right: 15px;
-	}
-}
-
-div.th-menu span {
-	position: absolute;
-	left: 0;
-	display: block;
-	width: 100%;
-	height: 2px;
-	background: $c_sub;
-	opacity: 1;
-	transform: rotate(0deg);
-	transition: all 0.25s ease;
-}
-
-div.th-menu span:nth-child(1) {
-	top: 0;
-}
-
-div.th-menu span:nth-child(2),
-div.th-menu span:nth-child(3) {
-	top: 9px;
-}
-
-div.th-menu span:nth-child(4) {
-	top: 18px;
-}
-
-div.th-menu.open span:nth-child(1) {
-	top: 9px;
-	left: 50%;
-	width: 0;
-	background: $c_white;
-}
-
-div.th-menu.open span:nth-child(2) {
-	background: $c_white;
-	transform: rotate(45deg);
-}
-
-div.th-menu.open span:nth-child(3) {
-	background: $c_white;
-	transform: rotate(-45deg);
-}
-
-div.th-menu.open span:nth-child(4) {
-	top: 9px;
-	left: 50%;
-	width: 0;
-	background: $c_white;
 }

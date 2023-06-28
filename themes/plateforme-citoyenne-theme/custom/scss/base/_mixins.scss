@@ -158,3 +158,267 @@
 	font-size: $size;
 	font-size: calculateRem($size);
 }
+
+@mixin addTopSlope($height, $color) {
+	position: relative;
+	overflow: visible;
+	&:before {
+		content: '';
+		position: absolute;
+		top: calc(-#{$height} + 1px); /* Adjust this value to position the triangle */
+		left: 0; /* Adjust this value to horizontally center the triangle */
+		width: 0;
+		height: 0;
+		border-left: 100vw solid transparent;
+		border-right: 100vw solid transparent;
+		border-bottom: $height solid $color;
+		z-index: 120;
+	}
+}
+
+@mixin addBottomSlope($height, $color) {
+	position: relative;
+	overflow: visible;
+	&:before {
+		content: '';
+		position: absolute;
+		left: 0;
+		width: 0;
+		height: 0;
+		border-left: 0px solid transparent;
+		border-right: 100vw solid transparent;
+		border-bottom: 0 solid $color;
+		bottom: calc(-#{$height} + 2px);
+		border-top: $height solid $color;
+		overflow: visible;
+		z-index: 120;
+	}
+}
+
+@mixin prefixLocationIcon() {
+	position: relative;
+	&:before {
+		content: '';
+		background-image: url('/o/plateforme-citoyenne-theme/images/ico/ico-localisation.svg');
+		width: 10px;
+		height: 15px;
+		display: inline-block;
+		position: absolute;
+		left: -15px;
+		top: 7px;
+		background-size: contain;
+	}
+}
+
+@mixin whiteTextSlider() {
+	h2 {
+		color: $c_white;
+	}
+
+	.pro-btn {
+		color: #171c22;
+		background: $c_white;
+
+		&:hover, &:focus {
+			color: $c_white;
+			background-color: #171c22;
+		}
+	}
+	.owl-carousel {
+		.owl-dots {
+			.owl-dot {
+				border: solid 1px $c_white;
+				&.active {
+					background: $c_white;
+				}
+			}
+		}
+
+		.owl-nav {
+			.owl-prev, .owl-next {
+				span {
+					border: solid 1px $c_white;
+					background: transparent;
+					color: $c_white;
+					&:hover, &:focus {
+						color: $c_main;
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin darkTextSlider() {
+	h2 {
+		color: #171c22;
+	}
+
+	.pro-btn {
+		color: $c_white;
+		background-color: #171c22;
+		&:hover, &:focus {
+			color: #171c22;
+			background: $c_white;
+		}
+	}
+	.owl-carousel {
+		.owl-dots {
+			.owl-dot {
+				border: solid 1px #2e3d50;
+				&.active {
+					background: #2e3d50;
+				}
+			}
+		}
+
+		.owl-nav {
+			.owl-prev, .owl-next {
+				span {
+					border: solid 1px #2e3d50;
+					background: $c_white;
+					color: #2e3d50;
+					&:hover, &:focus {
+						color: $c_white;
+						background-color: #2e3d50;
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin overridePetitionCard() {
+	.pro-bloc-card-petition {
+		.pro-header-petition {
+			padding: 15px;
+			border-bottom: dashed 1px #e1e1e1;
+		}
+
+		.pro-content-petition {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 5px;
+			h3 {
+				font-size: 1.6em;
+				height: 75px;
+			}
+			.pro-meta {
+				display: flex;
+				gap: 5px;
+				span {
+					@include ft($f_hx, 0.8em, 700);
+					padding: 2px 7px;
+					border: solid 2px #dddddd;
+					text-transform: uppercase;
+					&:after {
+						content: none;
+					}
+				}
+			}
+			.prefix-location {
+				margin: 5px 20px;
+				font-size: 0.9em;
+				font-weight: 700;
+				&:before {
+					top: 0;
+				}
+			}
+
+		}
+		.pro-footer-petition {
+			.pro-progress-container {
+				height: 8px;
+				background-color: #585d63;
+				.pro-txt-progress {
+					text-align: center;
+				}
+				> div {
+					background: $c_white;
+				}
+			}
+		}
+
+		.footer-comment {
+			padding: 15px 20px;
+			border-top: dashed 1px #e1e1e1;
+
+			span {
+				font-size: 0.8em;
+				font-weight: 700;
+			}
+		}
+		p, span.pro-time {
+			margin-bottom: 0;
+			font-size: 0.9em;
+		}
+	}
+}
+
+@mixin overrideAtelierCard() {
+	.pro-info-top-right {
+		display: flex;
+		gap: 5px;
+		.pro-encart-theme {
+			text-transform: uppercase;
+			max-width: 400px;
+			font-weight: 700 !important;
+		}
+	}
+	.pro-time {
+		font-size: 0.9em;
+	}
+	.prefix-location {
+		margin-left: 20px;
+		font-weight: 700;
+		&:before {
+			top: 0;
+		}
+	}
+}
+
+
+@mixin overrideEventCard() {
+	.pro-header-event {
+		span.pro-time {
+			text-transform: uppercase;
+		}
+		span.pro-time, span.prefix-location {
+			font-size: 0.9em;
+		}
+		h3, span.prefix-location {
+			margin: 0;
+			font-weight: 700;
+		}
+		h3 {
+			margin: 0;
+			font-size: 1.6em;
+			height: 90px;
+		}
+		span.prefix-location {
+			margin-left: 20px;
+			&:before {
+				top: 4px;
+			}
+		}
+	}
+	.pro-footer-event {
+		background-color: transparent;
+		border-top: dashed 1px #d9d9d9;
+		padding: 10px 10px 10px 20px;
+		display:flex;
+		.pro-number {
+			float: none;
+			flex: 1;
+		}
+		.pro-btn-action {
+			border-color: #282f37;
+			background-color: $c_white;
+			width: 160px;
+			&:after {
+				content: none;
+			}
+		}
+	}
+}

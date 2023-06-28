@@ -1,50 +1,46 @@
 .pro-bloc-telechargements {
-
-	h3 {
-		margin: 0 0 20px 0;
+	@include  tablet_portrait {
+		margin-bottom: 40px;
 	}
-
-	.row {
-		> div {
-			> a {
-				border-bottom: 1px solid $c_main;
-				padding: 10px 0;
-				display: block;
-				position: relative;
-				&:before {
-					content: "\e914";
-					@include font();
-					float: left;
-					line-height: 1.4em;
-					font-size: 1.7em;
-					margin-right: 13px;
-					color: $c_dark;
+	h2 {
+		@include ft($f_hx, 2.5em, 700);
+	}
+	> span {
+		margin-top: 20px;
+		margin-bottom: 20px;
+		@include ft($f_hx, 1.2em, 400);
+	}
+	.download-file-wrapper {
+		border: solid 1px #c5c6c7;
+		.download-file-row {
+		&:not(:last-child) {
+			border-bottom: dashed 1px #d1d2d4;
+		}
+			a {
+				&:hover {
+					color: black;
 				}
-				&:hover, &:focus {
-					.pro-filename {
-						color: $c_grey;
-						text-decoration: underline;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: 30px;
+				> span {
+					flex: 1;
+					@include ft($f_hx, 1em, 400, $c_txt);
+				}
+				> div {
+					display: flex;
+					flex-direction: column;
+					align-items: flex-end;
+					gap: 5px;
+					span {
+						@include ft($f_hx, 1em, 400, $c_txt);
+						&:first-child {
+							font-weight: 700;
+						}
 					}
-				}
-				> * {
-					display: block;
-				}
-				.pro-filename {
-					@include ft($f_txt, 0.938em, 700, $c_txt, normal);
-					white-space: nowrap;
-					text-overflow: ellipsis;
-					overflow: hidden;
-					width: 85%;
-					@include addTransition();
-					@include tablet_portrait {
-						width: 75%;
-					}
-				}
-				.pro-poids {
-					@include ft($f_txt, $s_small, 400, #666666, normal);
 				}
 			}
 		}
 	}
-
 }

@@ -3,31 +3,39 @@
 <liferay-portlet:actionURL varImpl="searchActionURL" />
 
 <div class="pro-search-listing" id="go-to-top">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 pro-bloc-listing-participation">
-                <div id="breadcrumb">
+    <div  class="search-header-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="search-header col-md-8">
+                    <div id="breadcrumb">
                     <span>
                         <span><a href="${dc.getHomeURL()}"><liferay-ui:message key="eu.breadcrumb-home" /></a>
                             <span class="breadcrumb_last"><liferay-ui:message key="eu.breadcrumb-participation" /></span>
                         </span>
                     </span>
-                </div>
-                
-                <div class="pro-wrapper-sort">
+                    </div>
+                    <div class="pro-wrapper-sort">
                      <span class="pro-legend">
                      	<a href="${dc.getHomeURL()}explications-participations" class="link-participations-legend">
+                            <span class="icon-ico-info"></span>
                      		<liferay-ui:message key="eu.legend-participations" />
                      	</a>
                      </span>
+                    </div>
                 </div>
-                
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 pro-bloc-listing-participation">
                 <!-- Affiner votre recherche - Tablette portrait + Mobile -->
                  <div class="pro-inside-affine-search"></div>
 
                 <!-- Resultat -->
                 <div class="row pro-wrapper-listing-participation">
                     <div class="col-xs-12">
+                        <h3 style="text-align: right;">Toutes</h3>
                         <aui:form method="post" name="fm">
                             <div class="pro-listing-participation">
                             </div>

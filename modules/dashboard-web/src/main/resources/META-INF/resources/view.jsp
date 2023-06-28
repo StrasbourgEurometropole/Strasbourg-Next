@@ -14,27 +14,27 @@
 
 <c:if test="${isUserloggedIn}">
 	<div class="pro-bloc-dashboard">
-		<div class="container pro-user">
-			<a href="#pro-onglet-account">
-				<figure>
-					<img src="${userConnected.get('photo')}" width="40" height="40" alt="Nom de l'utilisateur" />
-				</figure> <span><liferay-ui:message key="dashboard.front.profil" /></span>
-			</a> <span><liferay-ui:message key="dashboard.front.welcome" />
-			    <span id="pro-user-name">
-			        <c:out value="${userConnected.get('first_name')}" escapeXml='true'/> <c:out value="${userConnected.get('last_name')}" escapeXml='true'/>
-			    </span></span>
-		</div>
+
 
 		<div class="container pro-wrapper-dashboard">
 
 			<!-- ONGLET ACTIVITE -->
 			<div id="pro-onglet-activite">
-			
 				<div class="pro-title-dashboard col-xs-12">
 					<h1>
 						<liferay-ui:message key="dashboard.front.myactivity" />
 					</h1>
-					<span></span>
+					<div class="pro-user">
+						 <span><liferay-ui:message key="dashboard.front.welcome" />
+			    <span id="pro-user-name">
+			        <c:out value="${userConnected.get('first_name')}" escapeXml='true'/> <c:out value="${userConnected.get('last_name')}" escapeXml='true'/>
+			    </span></span>
+						<a href="#pro-onglet-account">
+							<figure>
+								<img src="${userConnected.get('photo')}" width="40" height="40" alt="Nom de l'utilisateur" />
+							</figure> <span><liferay-ui:message key="dashboard.front.profil" /></span>
+						</a>
+					</div>
 				</div>
 
 				<div class="col-lg-3 col-sm-6 col-xs-12">
@@ -43,6 +43,10 @@
 							<span class="pro-number">${projectFollowedsCount}</span> <span
 								class="pro-txt"><liferay-ui:message
 									key="dashboard.front.project" /></span>
+						</div>
+						<div class="pro-link-dashboard">
+							<span class="pro-txt"><liferay-ui:message
+									key="dashboard.front.event.goto" /></span>
 						</div>
 					</a> <a href="#pro-link-listing-event" class="pro-item pro-item-agenda">
 						<div class="pro-item-center">
@@ -95,8 +99,12 @@
 							<div class="pro-item-center">
 								<p></p>
 							</div>
-							<span class="pro-title"><liferay-ui:message
-									key="dashboard.front.budget" /></span>
+							<div class="pro-title-budget">
+								<span class="pro-number">${budgetFiled.size() + budgetVoted.size()}</span>
+								<span class="pro-title"><liferay-ui:message
+										key="dashboard.front.budget" /></span>
+							</div>
+
 							<div class="pro-link-dashboard">
 								<a href="#pro-link-listing-projet-soumis" class="pro-txt">
 									<strong>${budgetFiled.size()}</strong>
@@ -120,8 +128,6 @@
 									</div>
 								</c:when>
 								<c:otherwise>
-									<div style="background: #E5E5E5;position: absolute;left: 0;right: 0;bottom: 0;height: 65px;">
-									</div>
 								</c:otherwise>
 							</c:choose>
 						</div>
@@ -231,80 +237,69 @@
 		</div>
 	</div>
 
-	<!-- LISTING DE TUILES -->
-	<!--     projets -->
-	<c:if test="${projectFollowedsCount != 0}">
-		<section id="pro-link-listing-projet" class="pro-bloc-slider">
-			<div class="container">
-				<h2>
-					<liferay-ui:message key="dashboard.thumbnail.project.title" />
-					(${projectFollowedsCount})
-				</h2>
-				<a href="${homeURL}projets" class="pro-btn"
-					title="<liferay-ui:message key='dashboard.thumbnail.project.link.title'/>">
-					<liferay-ui:message key="dashboard.thumbnail.project.link" />
-				</a>
 
-				<!-- SlIDER LISTE DES PROJETS - TOUS LES PROJETS -->
-				<div id="pro-projet-all"
-					class="owl-carousel owl-opacify owl-theme owl-cards owl-projet">
-					<c:forEach var="projectFollowed" items="${projectFolloweds}">
-						<div class="item bloc-card-projet">
-							<a href="${projectFollowed.detailURL}"
-								title="<liferay-ui:message key='dashboard.thumbnail.link'/>">
-								<div class="img">
-									<figure role="group">
-										<img src='${projectFollowed.imageURL}' alt="Image agenda"
-											width="360" height="242" class="fit-cover" />
-									</figure>
-									<span><liferay-ui:message
-											key="dashboard.thumbnail.project.goto" /></span>
-								</div>
-								<div class="content">
-									<span class="location">${projectFollowed.getDistrictLabel(locale)}</span>
-									<h3>${projectFollowed.title}</h3>
-								</div>
-							</a>
-							<ul>
-								<c:if
-									test="${fn:length(projectFollowed.getParticipations()) != 0}">
-									<li><a
-										href="${projectFollowed.detailURL}#pro-link-participation"
-										title="<liferay-ui:message key='dashboard.thumbnail.link'/>"
-										tabindex="-1">${fn:length(projectFollowed.getParticipations())}
-											<liferay-ui:message
-												key="dashboard.thumbnail.project.participation" />
-									</a></li>
-								</c:if>
-								<c:if test="${fn:length(projectFollowed.getEvents()) != 0}">
-									<li><a
-										href="${projectFollowed.detailURL}#pro-link-evenement"
-										title="<liferay-ui:message key='dashboard.thumbnail.link'/>"
-										tabindex="-1">${fn:length(projectFollowed.getEvents())} <liferay-ui:message
-												key="dashboard.thumbnail.project.events" /></a></li>
-								</c:if>
-								<c:if test="${fn:length(projectFollowed.getPetitions()) != 0}">
-									<li><a
-										href="${projectFollowed.detailURL}#pro-link-petition"
-										title="<liferay-ui:message key='dashboard.thumbnail.link'/>"
-										tabindex="-1">${fn:length(projectFollowed.getPetitions())}
-											<liferay-ui:message
-												key="dashboard.thumbnail.project.petition" />
-									</a></li>
-								</c:if>
-								<!--<li><a href="#" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">0 <liferay-ui:message key="dashboard.thumbnail.project.budget"/></a></li>-->
-								<!--<li><a href="#" title="<liferay-ui:message key='dashboard.thumbnail.link'/>" tabindex="-1">0 <liferay-ui:message key="dashboard.thumbnail.project.initiative"/></a></li>-->
-							</ul>
-						</div>
-					</c:forEach>
-				</div>
-			</div>
-		</section>
-	</c:if>
-	
 	
 	<div class="pro-wrapper-list-dashboard">
-	
+		<!-- LISTING DE TUILES -->
+		<!--     projets -->
+		<c:if test="${projectFollowedsCount != 0}">
+			<section id="pro-link-listing-projet" class="pro-bloc-slider">
+				<div class="container">
+					<h2>
+						<liferay-ui:message key="dashboard.thumbnail.project.title" />
+						(${projectFollowedsCount})
+					</h2>
+					<a href="${homeURL}projets" class="pro-btn"
+					   title="<liferay-ui:message key='dashboard.thumbnail.project.link.title'/>">
+						<liferay-ui:message key="dashboard.thumbnail.project.link" />
+					</a>
+
+					<!-- SlIDER LISTE DES PROJETS - TOUS LES PROJETS -->
+					<div id="pro-projet-all"
+						 class="owl-carousel owl-opacify owl-theme owl-cards owl-projet">
+						<c:forEach var="projectFollowed" items="${projectFolloweds}">
+							<div class="item bloc-card-projet">
+								<a href="${projectFollowed.detailURL}" title="<liferay-ui:message key='dashboard.thumbnail.link'/>">
+									<div class="img">
+										<figure role="group">
+											<img src='${projectFollowed.imageURL}?imagePreview=1' loading="lazy" alt="Image projet" width="360" height="242" class="fit-cover"/>
+										</figure>
+
+									</div>
+									<div class="content">
+										<span class="location">${projectFollowed.getDistrictLabel(locale)}</span>
+										<h3>${projectFollowed.title}</h3>
+									</div>
+									<ul>
+										<li>
+											<span>Voir le projet</span>
+										</li>
+									</ul>
+
+								</a>
+								<ul>
+
+									<li>
+										<a href="${projectFollowed.detailURL}#pro-link-participation" title="Participation(s) du projet" tabindex="-1">
+												${fn:length(projectFollowed.getParticipations())}  <liferay-ui:message
+														key="dashboard.thumbnail.project.participation" />
+										</a>
+									</li>
+									<li>
+										<a href="${projectFollowed.detailURL}#pro-link-evenement" title="Événement(s) du projet" tabindex="-1">
+												${fn:length(projectFollowed.getEvents())} <liferay-ui:message
+														key="dashboard.thumbnail.project.events" />
+										</a>
+									</li>
+								</ul>
+							</div>
+						</c:forEach>
+					</div>
+				</div>
+			</section>
+		</c:if>
+
+
 		<!--    event -->
 		<c:if test="${eventCount != 0}">
 			<section id="pro-link-listing-event"
@@ -321,22 +316,21 @@
 							<div class="item pro-bloc-card-event" data-linkall="a">
 								<div>
 									<div class="pro-header-event">
-										<span class="pro-ico"><span class="icon-ico-debat"></span></span>
 										<span class="pro-time">${event.getCurrentOrFuturePeriodStringDate()}</time></span>
-										<p>
-											<liferay-ui:message key="dashboard.thumbnail.agenda.a" />
-											${event.getPlaceAlias(locale)}
-										</p>
 										<a
 											href="${homeURL}detail-evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}"
 											title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3>${event.getTitle(locale)}</h3></a>
+										<span class="prefix-location">
+												${event.getPlaceAlias(locale)}
+										</span>
 									</div>
 									<div class="pro-footer-event">
-										<span class="pro-btn-action active"><liferay-ui:message
-												key="dashboard.thumbnail.agenda.participe" /></span> <span
+										 <span
 											class="pro-number"><strong>${event.getNbEventParticipations()}</strong>
 											<liferay-ui:message
 												key="dashboard.thumbnail.agenda.participant" /></span>
+										<span class="pro-btn-action active"><liferay-ui:message
+												key="dashboard.thumbnail.agenda.participe" /></span>
 									</div>
 								</div>
 							</div>
@@ -363,40 +357,54 @@
 							<div class="item pro-bloc-card-petition" data-linkall="a">
 								<div class="pro-header-petition">
 									<figure role="group">
-										<img src="${petitionSigned.getAuthorImageURL()}" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/>
+										<img src="${petitionSigned.getAuthorImageURL()}" width="40" height="40" alt=<liferay-ui:message
+												key="dashboard.thumbnail.petition.img.alt" />/>
 									</figure>
 									<p>
 										<liferay-ui:message key="dashboard.thumbnail.petition.from" />
 									</p>
 									<p>
-										<strong><strong><c:out value="${petitionFiled.petitionnaireFirstname}" escapeXml='true'/> <c:out value="${petitionFiled.petitionnaireLastname}" escapeXml='true'/></strong>
-                                    </p>
+										<strong>
+											<c:out value="${petitionSigned.petitionnaireFirstname}" escapeXml='true' />
+											<c:out value="${petitionSigned.petitionnaireLastname}" escapeXml='true' />
+										</strong>
+									</p>
 								</div>
 								<div class="pro-content-petition">
-									<a
-										href="${homeURL}detail-petition/-/entity/id/${petitionSigned.petitionId}"
-										title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3><c:out value="${petitionFiled.title}" escapeXml='true'/></h3></a>
+									<div class="pro-meta">
+										<span>${petitionSigned.getFrontStatusFR()}</span>
+										<span>${petitionSigned.getThematicLabel(locale)}</span>
+									</div>
+									<span class="prefix-location">
+											${petitionSigned.getDistrictLabel(locale)}
+									</span>
+									<a href="${homeURL}detail-petition/-/entity/id/${petitionSigned.petitionId}"
+									   title="<liferay-ui:message key='dashboard.thumbnail.link'/>">
+										<h3>
+											<c:out value="${petitionSigned.title}" escapeXml='true' />
+										</h3>
+									</a>
 									<p>
 										<liferay-ui:message key="dashboard.thumbnail.petition.to" />
 									</p>
-									<span class="pro-time"><liferay-ui:message
-											key="dashboard.thumbnail.petition.publish.date" /> <time
+									<span class="pro-time"><liferay-ui:message key="dashboard.thumbnail.petition.publish.date" /> <time
 											datetime="${petitionSigned.getPublicationDateFr()}">${petitionSigned.getPublicationDateFr()}</time>
-										/ <span class="pro-duree">${petitionSigned.getProDureeFR()}</span></span>
+				/ <span class="pro-duree">${petitionSigned.getProDureeFR()}</span></span>
+
+								</div>
+								<div class="footer-comment">
+									<span>${petitionSigned.getApprovedComments().size()} Commentaires</span>
 								</div>
 								<div class="pro-footer-petition">
 									<div class="pro-progress-bar">
 										<div class="pro-progress-container">
-											<div
-												style="width:${petitionSigned.getPourcentageSignature()}%"></div>
+											<div style="width:${petitionSigned.getPourcentageSignature()}%"></div>
 										</div>
 										<p class="pro-txt-progress">
-											<strong>${petitionSigned.getNombreSignature()} </strong>
-											<liferay-ui:message
-												key="dashboard.thumbnail.petition.progress" />
-											${petitionSigned.getQuotaSignature()}
-											<liferay-ui:message
-												key="dashboard.thumbnail.petition.progress2" />
+											<strong> ${petitionSigned.getNombreSignature()} </strong>
+											<liferay-ui:message key="dashboard.thumbnail.petition.progress" />
+												${petitionSigned.getQuotaSignature()}
+											<liferay-ui:message key="dashboard.thumbnail.petition.progress2" />
 										</p>
 									</div>
 								</div>
@@ -425,40 +433,54 @@
 							<div class="item pro-bloc-card-petition" data-linkall="a">
 								<div class="pro-header-petition">
 									<figure role="group">
-										<img src="${petitionFiled.getAuthorImageURL()}" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/>
+										<img src="${petitionFiled.getAuthorImageURL()}" width="40" height="40" alt=<liferay-ui:message
+												key="dashboard.thumbnail.petition.img.alt" />/>
 									</figure>
 									<p>
 										<liferay-ui:message key="dashboard.thumbnail.petition.from" />
 									</p>
 									<p>
-										<strong><c:out value="${petitionFiled.petitionnaireFirstname}" escapeXml='true'/> <c:out value="${petitionFiled.petitionnaireLastname}" escapeXml='true'/></strong>
+										<strong>
+											<c:out value="${petitionFiled.petitionnaireFirstname}" escapeXml='true' />
+											<c:out value="${petitionFiled.petitionnaireLastname}" escapeXml='true' />
+										</strong>
 									</p>
 								</div>
 								<div class="pro-content-petition">
-									<a
-										href="${homeURL}detail-petition/-/entity/id/${petitionFiled.petitionId}"
-										title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3><c:out value="${petitionFiled.title}" escapeXml='true'/></h3></a>
+									<div class="pro-meta">
+											<span>${petitionFiled.getFrontStatusFR()}</span>
+										<span>${petitionFiled.getThematicLabel(locale)}</span>
+									</div>
+									<span class="prefix-location">
+											${petitionFiled.getDistrictLabel(locale)}
+									</span>
+									<a href="${homeURL}detail-petition/-/entity/id/${petitionFiled.petitionId}"
+									   title="<liferay-ui:message key='dashboard.thumbnail.link'/>">
+										<h3>
+											<c:out value="${petitionFiled.title}" escapeXml='true' />
+										</h3>
+									</a>
 									<p>
 										<liferay-ui:message key="dashboard.thumbnail.petition.to" />
 									</p>
-									<span class="pro-time"><liferay-ui:message
-											key="dashboard.thumbnail.petition.publish.date" /> <time
+									<span class="pro-time"><liferay-ui:message key="dashboard.thumbnail.petition.publish.date" /> <time
 											datetime="${petitionFiled.getPublicationDateFr()}">${petitionFiled.getPublicationDateFr()}</time>
-										/ <span class="pro-duree">${petitionFiled.getProDureeFR()}</span></span>
+				/ <span class="pro-duree">${petitionFiled.getProDureeFR()}</span></span>
+
+								</div>
+								<div class="footer-comment">
+									<span>${petitionFiled.getApprovedComments().size()} Commentaires</span>
 								</div>
 								<div class="pro-footer-petition">
 									<div class="pro-progress-bar">
 										<div class="pro-progress-container">
-											<div
-												style="width:${petitionFiled.getPourcentageSignature()}%"></div>
+											<div style="width:${petitionFiled.getPourcentageSignature()}%"></div>
 										</div>
 										<p class="pro-txt-progress">
 											<strong> ${petitionFiled.getNombreSignature()} </strong>
-											<liferay-ui:message
-												key="dashboard.thumbnail.petition.progress" />
-											${petitionFiled.getQuotaSignature()}
-											<liferay-ui:message
-												key="dashboard.thumbnail.petition.progress2" />
+											<liferay-ui:message key="dashboard.thumbnail.petition.progress" />
+												${petitionFiled.getQuotaSignature()}
+											<liferay-ui:message key="dashboard.thumbnail.petition.progress2" />
 										</p>
 									</div>
 								</div>
@@ -471,7 +493,7 @@
 
 		<!-- Tuile des initiatives depose -->
 		<c:if test="${initiativeFiledsCount != 0}">
-			<section id="pro-link-listing-initiative-signe"
+			<section id="pro-link-listing-initiative-depose"
 				class="pro-bloc-slider pro-slider-event">
 				<div class="container">
 					<h2><liferay-ui:message key="dashboard.thumbnail.initiative.signed.mine" />
@@ -482,36 +504,48 @@
 
 					<div class="owl-carousel owl-opacify owl-theme owl-cards">
 						<c:forEach var="initiative" items="${initiativeFileds}">
-							<div class="item pro-bloc-card-initiative" data-linkall="a">
-								<div class="wrapper-card-initiative">
-									<c:if test="${initiative.getImageURL() != ''}">
-										<figure role="group" class="fit-cover">
-	                                    	<img src="${initiative.getImageURL()}" width="155" height="200" alt="Image atelier"/>
-	                                	</figure>
-                                	</c:if>
-									<div>
-										<div class="pro-header-initiative">
-		                                    <figure role="group">
-		                                        <img src="${initiative.getAuthorImageURL()}" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/>
-		                                    </figure>
-											<p><liferay-ui:message key="dashboard.thumbnail.initiative.from" /></p>
-											<p>
-												<strong><c:out value="${initiative.getAuthorLabel()}" escapeXml='true'/></strong>
-											</p>
-										</div>
-										<div class="pro-content-initiative">
-											<a href="${homeURL}detail-atelier/-/entity/id/${initiative.initiativeId}"
-											title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3><strong><c:out value="${initiative.title}" escapeXml='true'/></strong></h3>
-											</a> <span class="pro-time"><liferay-ui:message key="dashboard.thumbnail.initiative.publish.date" /> <time
-											datetime="${initiative.getPublicationDateFr()}">${initiative.getPublicationDateFr()}</time></span>
-										</div>
+							<div class="item pro-bloc-card-budget" data-linkall="a">
+								<c:if test="${initiative.getImageURL() != ''}">
+									<figure role="group" class="fit-cover">
+										<img src="${initiative.getImageURL()}" width="155" height="200" alt="Image atelier"/>
+									</figure>
+								</c:if>
+								<div class="pro-header-budget">
+									<figure role="group">
+										<img src="${initiative.getAuthorImageURL()}" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/>
+									</figure>
+									<p><liferay-ui:message key="dashboard.thumbnail.initiative.from" /></p>
+									<p>
+										<strong><c:out value="${initiative.getAuthorLabel()}" escapeXml='true'/></strong>
+									</p>
+									<div class="pro-info-top-right">
+										<span class="pro-encart-theme encart-budget">
+												${initiative.getStatusCategory().getTitle(locale)}
+										</span>
+										<c:forEach items="${initiative.getThematicCategories()}" var="assetCategory">
+											 <span class="pro-encart-theme encart-budget">
+													 ${assetCategory.toString()}
+											 </span>
+										</c:forEach>
 									</div>
 								</div>
-								<div class="pro-footer-initiative">
-									<div class="pro-avis">
-										<span>${initiative.getNbHelps()}</span>
-									</div>
-									<p><liferay-ui:message key="dashboard.thumbnail.initiative.progress" /></p>
+								<div class="pro-content-budget">
+                                <span class="prefix-location">
+                                    Strasbourg
+                                </span>
+									<a href="${homeURL}detail-atelier/-/entity/id/${initiative.initiativeId}" title="lien de la page de détail">
+										<h3><c:out value="${initiative.title}" escapeXml='true'/></h3>
+									</a>
+									<span class="pro-time">
+                                    <liferay-ui:message key="dashboard.thumbnail.initiative.publish.date" />
+                                    <time datetime="${initiative.getPublicationDateFr()}">${initiative.getPublicationDateFr()}</time>
+                                </span>
+								</div>
+
+								<div class="pro-footer-budget">
+									<p>
+										<strong>${initiative.getNbHelps()} Citoyens-nes</strong> ont soutenus cette initiative
+									</p>
 								</div>
 							</div>
 						</c:forEach>
@@ -533,36 +567,48 @@
 
 					<div class="owl-carousel owl-opacify owl-theme owl-cards">
 						<c:forEach var="initiative" items="${initiativeAides}">
-							<div class="item pro-bloc-card-initiative" data-linkall="a">
-								<div class="wrapper-card-initiative">
-									<c:if test="${initiative.getImageURL() != ''}">
-										<figure role="group" class="fit-cover">
-	                                    	<img src="${initiative.getImageURL()}" width="155" height="200" alt="Image atelier"/>
-	                                	</figure>
-                                	</c:if>
-									<div>
-										<div class="pro-header-initiative">
-		                                    <figure role="group">
-		                                        <img src="${initiative.getAuthorImageURL()}" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/>
-		                                    </figure>
-											<p><liferay-ui:message key="dashboard.thumbnail.initiative.from" /></p>
-											<p>
-												<strong><c:out value="${initiative.getAuthorLabel()}" escapeXml='true'/></strong>
-											</p>
-										</div>
-										<div class="pro-content-initiative">
-											<a href="${homeURL}detail-atelier/-/entity/id/${initiative.initiativeId}"
-											title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3><c:out value="${initiative.title}" escapeXml='true'/></h3>
-											</a> <span class="pro-time"><liferay-ui:message key="dashboard.thumbnail.initiative.publish.date" /> <time
-											datetime="${initiative.getPublicationDateFr()}">${initiative.getPublicationDateFr()}</time></span>
-										</div>
+							<div class="item pro-bloc-card-budget" data-linkall="a">
+								<c:if test="${initiative.getImageURL() != ''}">
+									<figure role="group" class="fit-cover">
+										<img src="${initiative.getImageURL()}" width="155" height="200" alt="Image atelier"/>
+									</figure>
+								</c:if>
+								<div class="pro-header-budget">
+									<figure role="group">
+										<img src="${initiative.getAuthorImageURL()}" width="40" height="40" alt=<liferay-ui:message key="dashboard.thumbnail.petition.img.alt"/>/>
+									</figure>
+									<p><liferay-ui:message key="dashboard.thumbnail.initiative.from" /></p>
+									<p>
+										<strong><c:out value="${initiative.getAuthorLabel()}" escapeXml='true'/></strong>
+									</p>
+									<div class="pro-info-top-right">
+										<span class="pro-encart-theme encart-budget">
+												${initiative.getStatusCategory().getTitle(locale)}
+										</span>
+										<c:forEach items="${initiative.getThematicCategories()}" var="assetCategory">
+											 <span class="pro-encart-theme encart-budget">
+													 ${assetCategory.toString()}
+											 </span>
+										</c:forEach>
 									</div>
 								</div>
-								<div class="pro-footer-initiative">
-									<div class="pro-avis">
-										<span>${initiative.getNbHelps()}</span>
-									</div>
-									<p><liferay-ui:message key="dashboard.thumbnail.initiative.progress" /></p>
+								<div class="pro-content-budget">
+                                <span class="prefix-location">
+                                    Strasbourg
+                                </span>
+									<a href="${homeURL}detail-atelier/-/entity/id/${initiative.initiativeId}" title="lien de la page de détail">
+										<h3><c:out value="${initiative.title}" escapeXml='true'/></h3>
+									</a>
+									<span class="pro-time">
+                                    <liferay-ui:message key="dashboard.thumbnail.initiative.publish.date" />
+                                    <time datetime="${initiative.getPublicationDateFr()}">${initiative.getPublicationDateFr()}</time>
+                                </span>
+								</div>
+
+								<div class="pro-footer-budget">
+									<p>
+										<strong>${initiative.getNbHelps()} Citoyens-nes</strong> ont soutenus cette initiative
+									</p>
 								</div>
 							</div>
 						</c:forEach>

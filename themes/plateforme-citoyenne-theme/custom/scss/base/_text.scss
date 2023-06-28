@@ -45,7 +45,7 @@ span.h2 {
 	display: block;
 	margin: 0 0 20px 0;
 	@include ft($f_hx, $s_h2, 700, $c_txt, normal);
-	text-transform: uppercase;
+
 
 	@include mobile {
 		font-size: 2em;
@@ -60,7 +60,8 @@ span.h3 {
 	position: relative;
 	display: block;
 	margin: 0 0 10px 0;
-	@include ft($f_hx, $s_h3, 300, $c_txt, normal);
+	@include ft($f_hx, $s_h3, 700, $c_txt, 1em);
+	letter-spacing: -0.5px;
 }
 
 h4,
@@ -109,24 +110,26 @@ ol {
 
 .pro-time {
 	@include ft($f_txt, 0.938em, 300, $c_txt, 1.5em);
-	text-transform: uppercase;
-	letter-spacing: 2px;
 	display: inline-block;
 	margin-bottom: 15px;
-	background: $c_main;
+	text-transform: uppercase;
 	padding: 0 15px;
 }
 
 .location {
-	@include ft($f_txt, $s_small, 400, $c_txt, 1.600em);
-	text-transform: uppercase;
-	letter-spacing: 2px;
+	@include ft($f_txt, $s_small, 700, $c_txt, 1.600em);
 	display: block;
 	margin-bottom: 10px;
 	max-width: 100%;
-	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	@include prefixLocationIcon();
+	&:before {
+		top: 5px;
+	}
+	overflow: visible;
+	margin-left: 20px;
+
 }
 
 blockquote {
@@ -149,12 +152,10 @@ blockquote {
 	@include ft($f_txt, $s_p, 400, $c_txt, 2em);
 	position: relative;
 	z-index: 10;
-	background: $c_main;
+	background: #F37021;
 	display: inline-block;
 	text-align: center;
 	padding: 0 10px;
-	text-transform: uppercase;
-	letter-spacing: 2px;
 	margin: 0 0 -5px 0;
 	@include mobile {
 		font-size: 0.75em;
@@ -237,7 +238,7 @@ a.pro-btn-share {
 	line-height: 26px;
 	padding: 12px 35px;
 	display: inline-block;
-	text-transform: uppercase;
+
 	z-index: 10;
 	&:after {
 		content: '';
@@ -252,20 +253,10 @@ a.pro-btn-share {
 		z-index: -1;
 		@include addTransitionCurve();
 	}
-	&:hover, &:focus {
-		background: $c_sub;
-		border-color: $c_sub;
-		color: $c_white;
-		z-index: 10;
-		&:after {
-			height: 100%;
-		}
-	}
 }
 
 .pro-btn-yellow {
 	@include btn($c_main, $c_txt, 2, $f_hx, $s_p);
-	text-transform: uppercase;
 	font-weight: 700;
 	line-height: 22px;
 	border: 2px solid $c_main;
@@ -274,7 +265,7 @@ a.pro-btn-share {
 	display: block;
 	text-align: center;
 	position: relative;
-	padding: 12px 0;
+	padding: 12px;
 	@include addTransition();
 	&:hover, &:focus {
 		background: transparent;
@@ -284,7 +275,7 @@ a.pro-btn-share {
 
 .pro-btn-transparent {
 	@include btn(transparent, $c_main, 2, $f_hx, $s_p);
-	text-transform: uppercase;
+
 	font-weight: 700;
 	border: 2px solid $c_main;
 	line-height: 22px;
@@ -292,7 +283,7 @@ a.pro-btn-share {
 	display: block;
 	text-align: center;
 	position: relative;
-	padding: 12px 0;
+	padding: 12px;
 	@include addTransition();
 	&:hover, &:focus {
 		background: $c_main;
@@ -306,7 +297,6 @@ a.pro-btn-share {
 	position: relative;
 	border: 1px solid $c_dark;
 	background: transparent;
-	text-transform: uppercase;
 	display: inline-block;
 	vertical-align: middle;
 	text-align: center;
@@ -411,13 +401,10 @@ fieldset {
 }
 
 .pro-btn-signer{
-	@include btn($c_dark, $c_main, 2, $f_hx, 0.938em);
+	@include btn($c_orange, $c_white, 0, $f_hx, 0.938em);
 	line-height: 22px;
-	height: 100%;
-	text-transform: uppercase;
 	font-weight: 700;
-	border: 2px solid $c_main;
-	border-radius: 2px;
+	border: 2px solid $c_orange;
 	text-align: center;
 	position: relative;
 	padding: 12px 50px;
@@ -437,27 +424,14 @@ fieldset {
 		margin-top: 10px;
 	}
 	&:hover, &:focus, &.active {
-		background: $c_main;
-		color: $c_dark;
-		border-color: $c_main;
-		&:after{
-			color: $c_txt;
-		}
-	}
-	&:after {
-		content: "\e923";
-		@include font();
-		font-size: 1.3em;
-		color: $c_main;
-		float: right;
-		margin-left: 10px;
-		line-height: 22px;
+		background: #20272f;
+		color: white;
 	}
 }
 
 .pro-btn-ticket {
 	@include btn($c_dark, $c_white, 2, $f_hx, 0.938em);
-	text-transform: uppercase;
+
 	font-weight: 700;
 	border: 2px solid $c_dark;
 	line-height: 22px;
@@ -570,4 +544,17 @@ fieldset {
 		}
 
 	}
+}
+
+.pro-encart-theme.encart-budget {
+	color: #000 !important;
+	background: #fff !important;
+	border: solid 1px #D9D9D9;
+	border-radius: 0 !important;
+	font-weight: 400 !important;
+}
+
+.prefix-location {
+	margin-left: 20px;
+	@include prefixLocationIcon();
 }

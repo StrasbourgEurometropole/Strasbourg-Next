@@ -26,9 +26,6 @@
 	text-overflow: ellipsis;
 	/* overflow: hidden; */
 	white-space: nowrap;
-	@include mobile{
-		width: 100%;
-	}
 	span {
 		white-space: nowrap;
 		overflow: hidden;
@@ -45,7 +42,7 @@
 			height: 1px;
 			display: inline-block;
 			vertical-align: middle;
-			background: $c_dark;
+			background: $c_txt;
 			margin: 0 6px;
 			position: relative;
 			top: -1px;
@@ -146,7 +143,6 @@ figcaption {
 /* Tooltip container */
 .pro-tooltip {
 	position: relative;
-	display: inline-block;
 	z-index: 100;
 	@include addTransition(visibility, 0.3s, ease);
 }
@@ -160,12 +156,11 @@ figcaption {
 	margin-left: -60px;
 	background-color: rgba($c_txt, 0.8);
 	text-align: center;
-	padding: 8px 0px 10px;
+	padding: 10px !important;
 	border-radius: 4px;
 	@include ft($f_txt, 0.750em, 400, $c_white, 1em);
 	/* Position the tooltip text - see examples below! */
 	position: absolute;
-	@include addTransition(visibility, 0.1s, ease-in-out);
 
 	.no-hover & {
 		display: none;
@@ -195,9 +190,8 @@ figcaption {
 	padding: 0 20px;
 	@include mobile {
 		display: block;
-		float: none;
 		padding: 0;
-		margin: 15px 0px;
+		margin: 15px;
 	}
 	&.open{
 		span, a{
@@ -213,16 +207,16 @@ figcaption {
 	}
 	span, a {
 		position: relative;
-		@include ft($f_hx, 1em, 400, $c_txt, 1.5em);
-		text-transform: uppercase;
+		@include ft($f_hx, 1.5em, 700, $c_txt, 1.5em);
+
 		@include addTransitionCurve();
 		&:before {
 			content: '';
 			position: absolute;
-			bottom: 3px;
+			bottom: 0;
 			left: 0;
 			right: 0;
-			height: 4px;
+			height: 1px;
 			width: 100%;
 			background: $c_main;
 			z-index: -1;
@@ -441,34 +435,25 @@ figcaption {
 	}
 	label {
 		@include ft($f_hx, 1em, 400, $c_txt, 1.5em);
-		text-transform: uppercase;
+
 		margin: 0 4px;
 	}
 	.pro-wrapper-date {
 		position: relative;
-		&:before {
-			content: '';
-			position: absolute;
-			bottom: 5px;
-			left: 0;
-			right: 0;
-			height: 4px;
-			background: $c_main;
-			z-index: 100;
-		}
 		&:after {
 			content: "\e90d";
 			@include font();
 			position: absolute;
-			right: 0;
+			right: -5px;
 			z-index: 100;
 			top: 3px;
+			color: $c_white;
 		}
 	}
 	input {
 		@include ft($f_hx, 1em, 700, $c_txt, 1.5em);
 		@extend %appearance;
-		width: 86px;
+		width: 90px;
 		position: relative;
 		z-index: 100;
 		background: none;
@@ -480,32 +465,29 @@ figcaption {
 
 a.pro-btn-tel {
 	@include ft($f_txt, 1.063em, 700, #3a3a3a, 1.529em);
-	background-color: #f6f6f6;
-	border-radius: 10px;
+	border: solid 1px #8DBA49;
 	display: inline-block;
 	padding: 8px 20px;
+	color: $c_white;
+	margin-right: 8px;
 	@include addTransition();
-	&:before {
-		content: "\e90b";
-		@include font();
-		float: left;
-		line-height: 1.529em;
-		margin-right: 15px;
-	}
 	&:hover, &:focus {
-		background: $c_main;
+		background: #8DBA49;
+		color: black;
 	}
 }
 
 .pro-meta {
 	margin-bottom: 10px;
 	text-align: center;
-	display: inline-block;
 	vertical-align: middle;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
 	@include clearfix();
 	> span, > a {
-		@include ft($f_hx, 1.125em, 300, #4c4c4c, 2em);
-		text-transform: uppercase;
+		@include ft($f_hx, 0.9em, 700, #4c4c4c, 2em);
+
 		position: relative;
 		float: left;
 		padding: 0 6px;
@@ -545,7 +527,7 @@ a.pro-btn-tel {
 				@include ft($f_hx, 1em, 400, rgba($c_txt, 0.5), 4.667em);
 				text-align: center;
 				padding: 0;
-				text-transform: uppercase;
+
 				border: none;
 				background: #ececec;
 				margin: 0;
@@ -584,6 +566,11 @@ a.pro-btn-tel {
 main {
 	header {
 		position: relative;
+
+		&.pro-header-small {
+			height: 255px;
+			background-color: #20272F;
+		}
 
 		&.pro-header-homepage {
 			text-align: center;
@@ -641,35 +628,32 @@ main {
 		}
 
 		.caption {
-			text-align: right;
 			h1 {
-				@include ft($f_hx, 1.875em, 700, $c_white, 1.267em);
-				padding: 10px 25px;
-				text-transform: uppercase;
-				background: $c_dark;
+				@include ft($f_hx, 3em, 700, $c_white, 1.267em);
+				padding: 25px 0px;
 				display: inline-block;
 				margin-bottom: 0;
 				@include mobile {
-					font-size: 1.2em;
+					font-size: 2em;
+					text-align: center;
+					width: 100%;
+					padding-bottom: 0;
 				}
 			}
 			p {
-				@include ft($f_hx, 1.5em, 300, $c_white, 1.8em);
-				padding: 10px 25px;
-				background: $c_dark;
+				@include ft($f_hx, 1.5rem, 300, $c_white, 1.1em);
 				display: inline;
 				box-decoration-break: clone;
 				@include mobile {
+					display: block;
 					font-size: 1em;
-					line-height: 2em;
-					padding-left: 5px;
+					line-height: 1.2em;
+					text-align: center;
 				}
 			}
 
 			.pro-description {
 				display: block;
-				max-width: 70%;
-				margin-left: 30%;
 				overflow: hidden;
 				@include tablet_landscape {
 					max-width: 90%;
@@ -680,6 +664,7 @@ main {
 					margin-left: 0;
 				}
 				> * {
+					@incldue ft()
 					&:last-child {
 						margin-bottom: 0;
 					}
@@ -736,7 +721,7 @@ main {
 	text-align: right;
 	span {
 		@include ft($f_hx, 1em, 400, $c_txt, 1.2em);
-		text-transform: uppercase;
+
 		display: inline-block;
 		padding: 10px 0;
 		&:before {
@@ -759,8 +744,8 @@ main {
 	p {
 		@include ft($f_txt, 1.1em, 400, $c_white, 1.3em);
 		padding: 10px 0;
-		text-transform: uppercase;
-		letter-spacing: 2px;
+
+
 		margin-bottom: 0;
 		text-align: center;
 		@include tablet_portrait {
@@ -823,7 +808,7 @@ main {
 		}
 	}
 	p {
-		@include ft($f_txt, 0.688em, 700, $c_txt, 1.5em);
+		@include ft($f_txt, 0.8em, 700, $c_txt, 1.5em);
 		width: 100%;
 		max-width: 100%;
 		margin: 0;

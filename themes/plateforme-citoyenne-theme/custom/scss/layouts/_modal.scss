@@ -64,12 +64,12 @@
 		display: block;
 		z-index: 100;
 		width: 100%;
-		max-width: 650px;
-		max-height: 850px;
+		max-width: 50%;
+		max-height: 100vh;
 		overflow: auto;
 		-webkit-overflow-scrolling: touch;
 		top: 50%;
-		margin: 0 auto;
+		margin: 0 0 0 auto;
 		transform: translateY(-50%);
 		@media screen and (max-height: 800px){
 			max-height: 600px;
@@ -81,6 +81,17 @@
 		@media screen and (max-width: 680px){
 			margin: 0 15px;
 			width: calc(100% - 30px);
+			max-width: none;
+		}
+		nav.modal_connexion & {
+			margin: 0 auto;
+			max-width: 650px;
+			max-height: 850px;
+		}
+		&.modal-banned {
+			margin: 0 auto;
+			max-width: 650px;
+			max-height: 850px;
 		}
 	}
 
@@ -134,18 +145,36 @@
 			position: relative;
 			width: 100%;
 			background: $c_dark;
-			padding: 0 20px;
+			padding: 40px 40px 20px 40px;
+			display: grid;
+			grid-template-columns: 2fr 1fr;
+			align-items: center;
+			overflow: visible;
+			margin-bottom: 30px;
+			&:before {
+				content: '';
+				position: absolute;
+				left: 0;
+				width: 0;
+				height: 0;
+				border-left: 0px solid transparent;
+				border-right: 50vw solid transparent;
+				border-bottom: 0 solid $c_dark;
+				bottom: -29px;
+				border-top: 30px solid $c_dark;
+				overflow: visible;
+				z-index: 120;
+				@include tablet_portrait {
+					border-right: 100vw solid transparent;
+				}
+			}
 			h3 {
-				@include ft($f_hx, 1.25em, 700, $c_main, 1.25em);
+				@include ft($f_hx, 2em, 700, $c_white, 1.25em);
 				text-align: left;
-				text-transform: uppercase;
 				margin: 0;
-				padding: 15px 30px 15px 0;
+				padding: 0;
 			}
 			button {
-				position: absolute;
-				top: 50%;
-				right: 20px;
 				z-index: 10000;
 				color: white;
 				opacity: 1;
@@ -156,10 +185,45 @@
 				&:hover, &:focus, &:active {
 					color: $c_main;
 				}
+				justify-self: flex-end;
 			}
 		}
 		form {
-			background: #edf0f2;
+			background: $c_white;
+			.pro-wrapper {
+				h4 {
+					@include ft($f_hx, 1.3em, 700, #8dc63f);
+				}
+				.form-group {
+					label, span.label {
+						font-weight: 700;
+						color: black;
+					}
+					.selectric-wrapper {
+						border: solid 1px #b2b2b2;
+						border-radius: 5px;
+					}
+				}
+			}
+			.top-slope {
+				position: relative;
+				overflow: visible;
+				margin-top: 30px;
+				padding-bottom: 30px;
+				background-color: black;
+				&:before {
+					content: '';
+					position: absolute;
+					top: -29px; /* Adjust this value to position the triangle */
+					left: 0; /* Adjust this value to horizontally center the triangle */
+					width: 0;
+					height: 0;
+					border-left: 50vw solid transparent;
+					border-right: 50vw solid transparent;
+					border-bottom: 30px solid #000;
+					z-index: 120;
+				}
+			}
 		}
 
 		.pro-btn, .pro-btn-yellow{
@@ -190,7 +254,7 @@
 		h2 {
 			@include ft($f_hx, 5em, 700, $c_txt, 1.2em);
 			display: block;
-			text-transform: uppercase;
+
 			margin: 0;
 			@include mobile {
 				font-size: 3em;
@@ -198,22 +262,13 @@
 		}
 		.pro-soustitre {
 			position: relative;
-			@include ft($f_hx, 1.250em, 700, $c_txt, 1em);
+			@include ft($f_hx, 1.4em, 700, $c_txt, 1em);
 			display: block;
-			text-transform: uppercase;
+			letter-spacing: -0.5px;
 			padding-left: 40px;
 			margin-bottom: 30px;
 			@include mobile {
 				font-size: 0.8em;
-			}
-			&:before {
-				content: '';
-				width: 30px;
-				height: 18px;
-				position: absolute;
-				left: 0;
-				top: 0;
-				background: $c_main;
 			}
 		}
 
@@ -257,7 +312,7 @@
 				}
 				h3 {
 					@include ft($f_hx, 0.938em, 700, $c_main, 1.571em);
-					text-transform: uppercase;
+
 				}
 				p {
 					@include ft($f_txt, 0.875em, 400, $c_white, 1.571em);
@@ -270,7 +325,7 @@
 					display: block;
 					text-align: center;
 					margin: 20px 0;
-					text-transform: uppercase;
+
 				}
 
 				.pro-no-account {
@@ -328,7 +383,7 @@
 						label {
 							display: block;
 							@include ft($f_hx, 0.938em, 700, $c_main, 1.571em);
-							text-transform: uppercase;
+
 							margin-bottom: 15px;
 						}
 						textarea {

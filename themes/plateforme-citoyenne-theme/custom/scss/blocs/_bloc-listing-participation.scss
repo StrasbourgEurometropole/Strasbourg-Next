@@ -1,31 +1,11 @@
 .pro-bloc-listing-participation {
-	&:after {
-		content: '';
-		display: block;
-		position: absolute;
-		top: 0;
-		right: -15px;
-		bottom: 0;
-		height: 100%;
-		width: 1px;
-		background: #CECECE;
-		@include tablet_portrait{
-			content: none;
-		}
-	}
-	#breadcrumb {
-		padding: 10px 0;
-		background: $c_white;
-	}
-
 	.pro-wrapper-sort {
 		position: relative;
 		z-index: 140;
-		padding: 0 0 30px 0;
+		padding: 0;
 		display: block;
-		width: 100%;
 		text-align: right;
-		background: $c_white;
+		color: $c_white;
 		@include clearfix();
 		@include mobile{
 			padding: 10px 0 20px 0;
@@ -60,7 +40,7 @@
 		}
 
 		.pro-legend {
-			@include ft($f_txt, $s_small, 400, $c_txt, 1.636em);
+			@include ft($f_txt, $s_small, 400, $c_white, 1.636em);
 			float: right;
 			&:after {
 				content: "\e90a";
@@ -78,31 +58,12 @@
 
 	.pro-wrapper-listing-participation {
 		position: relative;
-		background: #e5e8e9;
+		background: #ffffff;
 		padding: 20px 0 10px 0;
 		@include mobile {
 			padding: 15px 0;
 		}
-		&:before {
-			content: '';
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			right: -15px;
-			width: 99999px;
-			display: block;
-			background: #e5e8e9;
-			@include tablet_portrait {
-				left: -10px;
-				right: -10px;
-				width: calc(100% + 20px);
-			}
-			@include mobile{
-				right: 0;
-				left: 0;
-				width: 100%;
-			}
-		}
+
 
 		.pro-bloc-card-participation {
 			margin: 20px 0;
@@ -115,32 +76,32 @@
 			}
 
 			.pro-header-participation {
-				padding: 30px 30px 0 30px;
+				display: flex;
+				padding: 10px 20px;
 				margin-bottom: 20px;
-
+				gap: 15px;
+				align-items: center;
+				.pro-header-author {
+					flex-grow: 1;
+					display: flex;
+					flex-direction: column;
+					align-items: flex-start;
+					gap: 5px;
+					overflow: hidden;
+				}
 				> p {
 					@include ft($f_txt, 0.875em, 400, #4c4c4c, 1.429em);
 					strong {
 						color: $c_txt;
 					}
 				}
-
-				.pro-number-comm, .pro-info-top-right{
-					top: 25px;
-					right: 30px;
-					@include mobile{
-						top: 0;
-						text-align: right;
-						right: 0;
-						span:not(.pro-encart-theme){
-							margin-top: 0;
-						}
-					}
-				}
 			}
 
 			.pro-content-participation {
 				padding: 0 30px 20px 30px;
+				display: flex;
+				flex-direction: column;
+				gap: 5px;
 				&:after {
 					left: 30px;
 					right: 30px;
@@ -150,12 +111,11 @@
 				h3 {
 					@include ft($f_hx, 1.875em, 700, $c_txt, 1.15em);
 					margin-bottom: 20px;
-					height: 68px;
-					overflow: hidden;
+					@include ellipsis(3, 1.25em);
 					@include mobile{
 						font-size: 22px;
 						line-height: 28px;
-						height: auto;
+						min-height: 82.5px;
 					}
 				}
 
@@ -165,7 +125,67 @@
 			}
 
 			.pro-footer-participation {
-				padding: 10px 30px;
+				padding: 0;
+				display: flex;
+				align-items: center;
+				&.pro-participation-deadline {
+					padding: 0 25px;
+				}
+			}
+			.pro-footer-petition {
+				padding: 0 25px;
+				background: $c_dark;
+				height: 86px;
+				border-bottom-left-radius: 4px;
+				border-bottom-right-radius: 4px;
+				border-top: none;
+				@include mobile {
+					padding: 10px 20px;
+				}
+
+				.pro-progress-bar {
+					padding: 5px 0;
+					position: relative;
+					top: 50%;
+					transform: translateY(-50%);
+					transform: translate3d(0, -50%, 0);
+					.pro-progress-container {
+						position: relative;
+						width: 100%;
+						height: 6px;
+						border-radius: 6px;
+						background: #585d63;
+						box-shadow: inset 4px 4px 5px 0px rgba(0, 0, 0, 0.35);
+						margin-bottom: 8px;
+						> div {
+							position: absolute;
+							left: 0;
+							top: -1px;
+							bottom: -1px;
+							background: $c_white;
+							border-radius: 6px;
+						}
+					}
+					p.pro-txt-progress {
+						@include ft($f_txt, 0.875em, 400, $c_white, normal);
+						text-align: center;
+						margin: 0;
+					}
+
+					& + .pro-btn-yellow {
+						margin-bottom: 15px;
+					}
+				}
+
+				> p {
+					@include ft($f_txt, $s_small, 400, $c_txt, 80px);
+					float: left;
+					margin-bottom: 0;
+					@include mobile {
+						float: none;
+						line-height: 20px;
+					}
+				}
 			}
 		}
 	}
@@ -173,7 +193,9 @@
 }
 
 .pro-bloc-facette-participation {
-
+	position: relative;
+	background: #20272F;
+	padding-right: 20px;
 	.pro-affiner {
 		padding: 20px 30px;
 		overflow: visible;
