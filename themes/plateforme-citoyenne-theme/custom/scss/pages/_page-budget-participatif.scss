@@ -51,27 +51,6 @@
 				@include mobile {
 					color: $c_txt;
 				}
-				&:after {
-					content: '';
-					position: absolute;
-					bottom: 14px;
-					right: 0;
-					width: 325px;
-					height: 20px;
-					background: $c_main;
-					@include tablet_landscape {
-						width: 315px;
-					}
-					@include tablet_portrait {
-						width: 205px;
-						height: 10px;
-						bottom: 9px;
-					}
-					@include mobile {
-						bottom: 8px;
-						width: 175px;
-					}
-				}
 			}
 		}
 	}
