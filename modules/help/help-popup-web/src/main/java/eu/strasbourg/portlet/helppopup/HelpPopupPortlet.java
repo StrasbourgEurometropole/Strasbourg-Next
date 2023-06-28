@@ -15,6 +15,7 @@ import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
@@ -28,6 +29,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 import static eu.strasbourg.portlet.helppopup.utils.HelpPopupUtils.getPublikID;
 
@@ -149,8 +151,8 @@ public class HelpPopupPortlet extends MVCPortlet {
 
 			 // Retourne l'URL de la page d'accueil
 			String homeURL = "/";
-			if (themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname() != null
-					|| themeDisplay.getScopeGroup().isStagingGroup()) {
+			String virtualHostName= PortalHelper.getVirtualHostname(themeDisplay.getScopeGroup(), themeDisplay.getLanguageId());
+			if (virtualHostName != null || themeDisplay.getScopeGroup().isStagingGroup()) {
 				homeURL =  "/web" + themeDisplay.getScopeGroup().getFriendlyURL() + "/";
 			}
 			request.setAttribute("homeURL", homeURL);

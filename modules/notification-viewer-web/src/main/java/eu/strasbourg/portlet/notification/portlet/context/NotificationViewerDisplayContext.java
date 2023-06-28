@@ -138,8 +138,7 @@ public class NotificationViewerDisplayContext {
 			searchContainer = new SearchContainer<NotificationDisplay>(request, iteratorURL, null,
 					"no-entries-were-found");
 			searchContainer.setDelta(this.getDelta());
-			searchContainer.setTotal(this.getResultCount());
-			searchContainer.setResults(results);
+			searchContainer.setResultsAndTotal(()->this.getResults(),this.getResultCount());
 		}
 		return searchContainer;
 	}
