@@ -1,12 +1,3 @@
-<#-- Detail atelier projet -->
-
-<#-- La documentation explicative de la modification des préférences du portlet est disponible sur le drive : Document (Asset publisher (Éléments relatifs)) -->
-<#assign sliderTemplate =  "ddmTemplate_1809516"/>
-<#assign typeActualite =  "1807609"/>
-
-<#setting locale = locale />
-<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
-<#assign request = serviceContext.getRequest()/>
 <#assign themeDisplay = serviceContext.getThemeDisplay() />
 
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
@@ -16,22 +7,8 @@
 </#if>
 
 <#--  récupération de l'id du webcontent -->
-<#assign journalArticleId = .vars['reserved-article-id'].data>
-<#assign journalArticleResourceLocalServiceUtil = staticUtil["com.liferay.journal.service.JournalArticleResourceLocalServiceUtil"]>
-<#assign assetCategoryLocalServiceUtil = staticUtil["com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil"]>
-
-
-<#assign articleResourcePK = journalArticleResourceLocalServiceUtil.getArticleResourcePrimKey(groupId, journalArticleId)/>
-<#assign categoryList=assetCategoryLocalServiceUtil.getCategories("com.liferay.journal.model.JournalArticle",articleResourcePK) >
-
-<#assign assetEntryLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService") />
-<#assign asset = assetEntryLocalService.getEntry('com.liferay.journal.model.JournalArticle', articleResourcePK) >
-<#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
-<#assign territories = assetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "territoire") />
-<#assign cities = assetVocabularyHelper.getCityCategories(territories) />
-<#assign districts = assetVocabularyHelper.getDistrictCategories(territories) />
-<#assign territoriesLabel = assetVocabularyHelper.getDistrictTitle(locale, districts, cities) />
-
+Expand All
+@@ -35,97 +35,97 @@
 <#assign imageUrl = ""/>
 <!-- image -->
 <#if thumbnail.getData()?has_content>
@@ -50,7 +27,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 <article class="container pro-actu">
 	<div class="col-md-10 col-md-offset-1 col-sm-12">
 		<header>
-            <span class="pro-time"><@liferay_ui.message key="eu.published-on" /> ${.vars['reserved-article-display-date'].getData()?date('EEE, dd MMM yyyy hh:mm:ss Z')?string("dd/MM/yyyy")} 
+            <span class="pro-time"><@liferay_ui.message key="eu.published-on" /> ${.vars['reserved-article-display-date'].getData()?date('EEE, dd MMM yyyy hh:mm:ss Z')?string("dd/MM/yyyy")}
            - <@liferay_ui.message key="eu.modified-on" /> ${.vars['reserved-article-modified-date'].getData()?date('EEE, dd MMM yyyy hh:mm:ss Z')?string("dd/MM/yyyy")}
             </span>
 			<h1>${title.getData()}</h1>
@@ -129,6 +106,3 @@ instanceId="article${journalArticleId}"
 	$(document).ready(function() {
 		//Change le titre du slider des actualite
 		$(".pro-intro h2").text("CELA POURRAIT VOUS INTERESSER");
-		$(".pro-intro p").hide();
-	});
-</script>
