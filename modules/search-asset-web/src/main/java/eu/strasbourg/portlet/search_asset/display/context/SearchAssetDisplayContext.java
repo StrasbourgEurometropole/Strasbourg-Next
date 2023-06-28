@@ -36,6 +36,7 @@ import eu.strasbourg.service.search.log.model.SearchLog;
 import eu.strasbourg.service.search.log.service.SearchLogLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.Pager;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
@@ -182,7 +183,8 @@ public class SearchAssetDisplayContext {
 	 * Retourne l'URL de la page d'accueil
 	 */
 	public String getHomeURL() {
-		if (this._themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname() != null
+		String virtualHostName= PortalHelper.getVirtualHostname(this._themeDisplay.getScopeGroup(), this._themeDisplay.getLanguageId());
+		if (virtualHostName != null
 				|| this._themeDisplay.getScopeGroup().isStagingGroup()) {
 			return "/web" + this._themeDisplay.getScopeGroup().getFriendlyURL() + "/";
 		} else {
@@ -284,7 +286,7 @@ public class SearchAssetDisplayContext {
 			long count = SearchHelper.getGlobalSearchCount(searchContext, classNames, groupId, globalGroupId,
 					globalScope, keywords, dateField, dateFieldName, fromDate, toDate, categoriesIds,
 					prefilterCategoriesIds, prefilterTagsNames,idSIGPlace, searchProcedure, this._themeDisplay.getLocale());
-			this.getSearchContainer().setTotal((int) count);
+			this.getSearchContainer().setResultsAndTotal(null, (int) count);
 		}
 		
 		this._entries = results;

@@ -12,6 +12,7 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import eu.strasbourg.utils.PortalHelper;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -82,7 +83,8 @@ public class NotificationViewerWebPortlet extends MVCPortlet {
 			// Redirection vers une page de détail de notif
 			else if(notif.getNotification().getUrl().isEmpty() && !notif.getNotification().getDescription().isEmpty()){
 				String portalURL ="";
-				if(themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname().isEmpty()) {
+				String virtualHostName= PortalHelper.getVirtualHostname(themeDisplay.getScopeGroup(), themeDisplay.getLanguageId());
+				if(virtualHostName.isEmpty()) {
 					portalURL="/web" + themeDisplay.getLayout().getGroup().getFriendlyURL();
 				}
 				actionResponse.sendRedirect(portalURL + "/notification?notificationId=" + notificationId);

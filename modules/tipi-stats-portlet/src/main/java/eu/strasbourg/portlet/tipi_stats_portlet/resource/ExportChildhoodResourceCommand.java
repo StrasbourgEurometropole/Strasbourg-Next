@@ -5,6 +5,8 @@ import com.liferay.portal.kernel.portlet.PortletResponseUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.StringBundler;
+import eu.strasbourg.service.tipi.model.TipiEntry;
+import eu.strasbourg.service.tipi.service.TipiEntryLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -12,6 +14,12 @@ import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
@@ -39,18 +47,18 @@ public class ExportChildhoodResourceCommand implements MVCResourceCommand {
 			csv.append(CharPool.NEW_LINE);
 
 			// On récupère les entries correspondant au mode sélectionné
-			/*List<TipiEntry> allEntries = TipiEntryLocalServiceUtil
+			List<TipiEntry> allEntries = TipiEntryLocalServiceUtil
 					.getTipiEntries(-1, -1);
 			List<TipiEntry> entries = new ArrayList<TipiEntry>();
 			for (TipiEntry entry : allEntries) {
 				if (!entry.getType().equals("EA")) {
 					entries.add(entry);
 				}
-			}*/
+			}
 
 			// Pour chaque date on a une liste de TipiEntry, on crée une map
 			// pour faire ce regroupement
-			/*Map<Date, List<TipiEntry>> dateEntryListMap = new HashMap<Date, List<TipiEntry>>();
+			Map<Date, List<TipiEntry>> dateEntryListMap = new HashMap<Date, List<TipiEntry>>();
 			// On parcourt les entries, afin de les classer dans la map
 			for (TipiEntry entry : entries) {
 				// On récupère la liste d'entries correspondant à la date de
@@ -67,10 +75,10 @@ public class ExportChildhoodResourceCommand implements MVCResourceCommand {
 					// map
 					dateEntryList.add(entry);
 				}
-			}*/
+			}
 			// On construit notre CSV à partir de la map
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-			/*for (List<TipiEntry> dateEntries : dateEntryListMap.values()) {
+			for (List<TipiEntry> dateEntries : dateEntryListMap.values()) {
 				// La date
 				String dateString = sf.format(dateEntries.get(0).getDate());
 
@@ -120,7 +128,7 @@ public class ExportChildhoodResourceCommand implements MVCResourceCommand {
 						+ ";");
 				csv.append(gaPaidCount + ";" + gaRefusedCount + ";" + gaPrice);
 				csv.append(CharPool.NEW_LINE);
-			}*/
+			}
 			String fileName = "export_tipi_enfance.csv";
 			byte[] bytes = csv.toString().replace('.', ',').getBytes();
 			String contentType = ContentTypes.APPLICATION_TEXT;

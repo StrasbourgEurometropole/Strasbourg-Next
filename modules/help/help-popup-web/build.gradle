@@ -1,10 +1,9 @@
 dependencies {
-	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
 	compileOnly group: 'javax.mail', name: 'mail', version: '1.4.7'
-	compileOnly group: "javax.portlet", name: "portlet-api"
-	compileOnly group: "javax.servlet", name: "javax.servlet-api"
 	compileOnly group: "jstl", name: "jstl"
+	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
 
-	compile project (':modules:utils')
-	compile project (':modules:help:help-api')
+	implementation project (':modules:utils')
+	implementation project (':modules:help:help-api')
+	implementation project(":modules:oidc:oidc-api")
 }
