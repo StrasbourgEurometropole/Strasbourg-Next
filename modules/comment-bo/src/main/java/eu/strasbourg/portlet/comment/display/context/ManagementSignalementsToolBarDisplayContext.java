@@ -13,6 +13,7 @@ import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.comment.model.Signalement;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -196,7 +197,11 @@ public class ManagementSignalementsToolBarDisplayContext extends SearchContainer
     @Override
     public String getSearchActionURL() {
         return PortletURLBuilder.createRenderURL(liferayPortletResponse)
-                .buildString();
+                .setMVCPath("/comment-bo-view-signalements.jsp")
+                .setParameter("O")
+                .setParameter( "orderByCol", ParamUtil.getString( liferayPortletRequest, "orderByCol"))
+                .setParameter( "orderByType", ParamUtil.getString(liferayPortletRequest, " orderByType "))
+                .setParameter("tab","reportings").buildString();
     }
 
     /**
