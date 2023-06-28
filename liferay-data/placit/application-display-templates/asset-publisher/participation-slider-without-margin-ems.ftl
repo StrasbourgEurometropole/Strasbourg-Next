@@ -90,7 +90,7 @@
                                 <#elseif participationStatus == "new" || participationStatus == "in_progress" || participationStatus == "soon_finished" >
                                     <div class="pro-footer-participation">
                                         <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">
-                                            Réagissez...
+                                            <span class="icon-ico-comment"></span> Réagissez...
                                         </a>
                                     </div>
                                 <#elseif participationStatus == "finished" >
