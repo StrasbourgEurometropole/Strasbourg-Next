@@ -127,7 +127,9 @@
 					</aui:input>
 				</div>
 
-				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
+				<liferay-asset:asset-categories-selector
+						className="<%= Place.class.getName() %>"
+						classPK="${dc.place.placeId}"/>
 
 				<aui:input name="tags" type="assetTags" />
 
