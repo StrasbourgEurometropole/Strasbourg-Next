@@ -49,36 +49,6 @@ public class ManagementHelpRequestsToolBarDisplayContext extends SearchContainer
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder.add(
                                             dropdownItem -> {
-                                                dropdownItem.put("href", "javascript:publishSelection();");
-                                                dropdownItem.setIcon("check");
-                                                dropdownItem.setLabel(
-                                                        LanguageUtil.get(httpServletRequest, "publish"));
-                                                dropdownItem.setQuickAction(true);
-                                            }
-                                    ).build());
-                            dropdownGroupItem.setSeparator(true);
-                        }
-                )
-                .addGroup(
-                        dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(
-                                    DropdownItemListBuilder.add(
-                                            dropdownItem -> {
-                                                dropdownItem.put("href", "javascript:unpublishSelection();");
-                                                dropdownItem.setIcon("times");
-                                                dropdownItem.setLabel(
-                                                        LanguageUtil.get(httpServletRequest, "unpublish"));
-                                                dropdownItem.setQuickAction(true);
-                                            }
-                                    ).build());
-                            dropdownGroupItem.setSeparator(true);
-                        }
-                )
-                .addGroup(
-                        dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(
-                                    DropdownItemListBuilder.add(
-                                            dropdownItem -> {
                                                 dropdownItem.put("href", "javascript:deleteSelection();");
                                                 dropdownItem.setIcon("trash");
                                                 dropdownItem.setLabel(

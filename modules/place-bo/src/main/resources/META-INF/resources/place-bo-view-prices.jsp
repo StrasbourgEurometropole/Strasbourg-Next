@@ -71,16 +71,19 @@
 	var="deleteSelectionURL">
 	<portlet:param name="cmd" value="delete" />
 	<portlet:param name="tab" value="prices" />
+	<portlet:param name="mvcPath" value="/place-bo-view-prices.jsp" />
 </liferay-portlet:actionURL>
 <liferay-portlet:actionURL name="selectionAction"
 	var="publishSelectionURL">
 	<portlet:param name="cmd" value="publish" />
 	<portlet:param name="tab" value="prices" />
+	<portlet:param name="mvcPath" value="/place-bo-view-prices.jsp" />
 </liferay-portlet:actionURL>
 <liferay-portlet:actionURL name="selectionAction"
 	var="unpublishSelectionURL">
 	<portlet:param name="cmd" value="unpublish" />
 	<portlet:param name="tab" value="prices" />
+	<portlet:param name="mvcPath" value="/place-bo-view-prices.jsp" />
 </liferay-portlet:actionURL>
 <aui:script>
 	var form = document.querySelector("[name='<portlet:namespace />fm']");

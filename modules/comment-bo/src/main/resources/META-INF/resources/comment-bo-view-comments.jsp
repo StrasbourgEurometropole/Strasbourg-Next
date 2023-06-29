@@ -10,13 +10,6 @@
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
 
-<%-- URL : definit le lien vers la page d'ajout/edition d'une entite --%>
-<liferay-portlet:renderURL varImpl="addCommentsURL">
-	<portlet:param name="cmd" value="editComments" />
-	<portlet:param name="tab" value="comments" />
-	<portlet:param name="mvcPath" value="/comment-bo-edit-comment.jsp" />
-	<portlet:param name="backURL" value="${commentsURL}" />
-</liferay-portlet:renderURL>
 
 <%-- Composant : barre de filtres et de gestion des entite --%>
 <clay:management-toolbar

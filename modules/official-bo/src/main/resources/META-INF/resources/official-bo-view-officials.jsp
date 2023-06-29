@@ -9,12 +9,6 @@
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
 
-<liferay-portlet:renderURL varImpl="addOfficialURL">
-	<portlet:param name="cmd" value="editOfficial" />
-	<portlet:param name="mvcPath" value="/official-bo-edit-official.jsp" />
-	<portlet:param name="backURL" value="${officialsURL}" />
-</liferay-portlet:renderURL>
-
 <clay:management-toolbar
 		managementToolbarDisplayContext="${managementDC}"
 />

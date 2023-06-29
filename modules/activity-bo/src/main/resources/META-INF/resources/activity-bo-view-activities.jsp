@@ -9,12 +9,6 @@
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
 
-<liferay-portlet:renderURL varImpl="addActivityURL">
-	<portlet:param name="cmd" value="editActivity" />
-	<portlet:param name="mvcPath" value="/activity-bo-edit-activity.jsp" />
-	<portlet:param name="backURL" value="${activitiesURL}" />
-</liferay-portlet:renderURL>
-
 <clay:management-toolbar
 		managementToolbarDisplayContext="${managementDC}"
 />

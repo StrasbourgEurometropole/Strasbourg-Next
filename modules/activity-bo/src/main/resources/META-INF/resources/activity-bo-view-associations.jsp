@@ -9,18 +9,13 @@
 	<portlet:param name="mvcPath" value="/activity-bo-view-associations.jsp" />
 </liferay-portlet:renderURL>
 
-<liferay-portlet:renderURL varImpl="addAssociationURL">
-	<portlet:param name="cmd" value="editAssociation" />
-	<portlet:param name="mvcPath" value="/activity-bo-edit-association.jsp" />
-	<portlet:param name="backURL" value="${associationsURL}" />
-</liferay-portlet:renderURL>
 
 <clay:management-toolbar
 		managementToolbarDisplayContext="${managementDC}"
 />
 <div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
-		<liferay-ui:search-container id="activitiesSearchContainer"
+		<liferay-ui:search-container id="associationsSearchContainer"
 			searchContainer="${dc.searchContainer}">
 
 			<liferay-ui:search-container-row
@@ -79,7 +74,7 @@
 <liferay-portlet:actionURL name="selectionAction"
 	var="publishSelectionURL">
 	<portlet:param name="cmd" value="publish" />
-	<portlet:param name="tab" value="n" />
+	<portlet:param name="tab" value="associations" />
 	<portlet:param name="mvcPath" value="/activity-bo-view-associations.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />

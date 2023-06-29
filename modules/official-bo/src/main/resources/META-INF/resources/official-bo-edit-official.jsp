@@ -1,7 +1,6 @@
 <%@ include file="/official-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.official.model.Official"%>
 
-
 <liferay-portlet:actionURL name="deleteOfficial" var="deleteOfficialURL">
 	<portlet:param name="cmd" value="deleteOfficial" />
 	<portlet:param name="tab" value="officials" />

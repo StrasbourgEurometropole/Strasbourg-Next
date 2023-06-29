@@ -9,18 +9,12 @@
 	<portlet:param name="mvcPath" value="/activity-bo-view-courses.jsp" />
 </liferay-portlet:renderURL>
 
-<liferay-portlet:renderURL varImpl="addActivityCourseURL">
-	<portlet:param name="cmd" value="editActivityCourse" />
-	<portlet:param name="mvcPath" value="/activity-bo-edit-course.jsp" />
-	<portlet:param name="backURL" value="${activityCoursesURL}" />
-</liferay-portlet:renderURL>
-
 <clay:management-toolbar
 		managementToolbarDisplayContext="${managementDC}"
 />
 <div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
-		<liferay-ui:search-container id="activitiesSearchContainer"
+		<liferay-ui:search-container id="activityCoursesSearchContainer"
 			searchContainer="${dc.searchContainer}">
 
 			<liferay-ui:search-container-row

@@ -96,20 +96,16 @@
 	var="deleteSelectionURL">
 	<portlet:param name="cmd" value="delete" />
 	<portlet:param name="tab" value="deliberations" />
+	<portlet:param name="mvcPath" value="/council-bo-view-deliberations.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>
 <aui:script>
-	function <portlet:namespace />deleteSelection() {
+	var form = document.querySelector("[name='<portlet:namespace />fm']");
+	function deleteSelection() {
 		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-entries" />')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
-			var selectionIdsInput = document
-					.getElementsByName('<portlet:namespace />selectionIds')[0];
-			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-					'<portlet:namespace />allRowIds');
-
 			submitForm(form, '${deleteSelectionURL}');
 		}
 	}

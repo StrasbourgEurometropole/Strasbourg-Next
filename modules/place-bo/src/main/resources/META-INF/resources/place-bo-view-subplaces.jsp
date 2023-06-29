@@ -7,12 +7,7 @@
 	<portlet:param name="mvcPath" value="/place-bo-view-subplaces.jsp" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
-<liferay-portlet:renderURL varImpl="addSubPlaceURL">
-	<portlet:param name="cmd" value="editSubPlace" />
-	<portlet:param name="mvcPath" value="/place-bo-edit-subplace.jsp" />
-	<portlet:param name="backURL" value="${subPlacesURL}" />
-	<portlet:param name="tab" value="subPlaces" />
-</liferay-portlet:renderURL>
+
 <clay:management-toolbar
 		managementToolbarDisplayContext="${managementDC}"
 />
@@ -76,48 +71,34 @@
 	var="deleteSelectionURL">
 	<portlet:param name="cmd" value="delete" />
 	<portlet:param name="tab" value="subPlaces" />
+	<portlet:param name="mvcPath" value="/place-bo-view-subplaces.jsp" />
 </liferay-portlet:actionURL>
 <liferay-portlet:actionURL name="selectionAction"
 	var="publishSelectionURL">
 	<portlet:param name="cmd" value="publish" />
 	<portlet:param name="tab" value="subPlaces" />
+	<portlet:param name="mvcPath" value="/place-bo-view-subplaces.jsp" />
 </liferay-portlet:actionURL>
 <liferay-portlet:actionURL name="selectionAction"
 	var="unpublishSelectionURL">
 	<portlet:param name="cmd" value="unpublish" />
 	<portlet:param name="tab" value="subPlaces" />
+	<portlet:param name="mvcPath" value="/place-bo-view-subplaces.jsp" />
 </liferay-portlet:actionURL>
 <aui:script>
-	function <portlet:namespace />deleteSelection() {
+	var form = document.querySelector("[name='<portlet:namespace />fm']");
+	function deleteSelection() {
 		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-subplaces" />')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
-			var selectionIdsInput = document
-					.getElementsByName('<portlet:namespace />selectionIds')[0];
-			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-					'<portlet:namespace />allRowIds');
-
 			submitForm(form, '${deleteSelectionURL}');
 		}
 	}
-	function <portlet:namespace />publishSelection() {
+	function publishSelection() {
 		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-publish-selected-subplaces" />')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
-			var selectionIdsInput = document
-					.getElementsByName('<portlet:namespace />selectionIds')[0];
-			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-					'<portlet:namespace />allRowIds');
-
-			submitForm(form, '${publishSelectionURL}');
+					submitForm(form, '${publishSelectionURL}');
 		}
 	}
-	function <portlet:namespace />unpublishSelection() {
+	function unpublishSelection() {
 		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-unpublish-selected-subplaces" />')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
-			var selectionIdsInput = document
-					.getElementsByName('<portlet:namespace />selectionIds')[0];
-			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-					'<portlet:namespace />allRowIds');
-
 			submitForm(form, '${unpublishSelectionURL}');
 		}
 	}

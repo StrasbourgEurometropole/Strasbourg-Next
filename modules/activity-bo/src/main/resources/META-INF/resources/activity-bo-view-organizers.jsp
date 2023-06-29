@@ -9,19 +9,13 @@
 	<portlet:param name="mvcPath" value="/activity-bo-view-organizers.jsp" />
 </liferay-portlet:renderURL>
 
-<liferay-portlet:renderURL varImpl="addActivityOrganizerURL">
-	<portlet:param name="cmd" value="editActivityOrganizer" />
-	<portlet:param name="mvcPath" value="/activity-bo-edit-organizer.jsp" />
-	<portlet:param name="backURL" value="${activityOrganizersURL}" />
-</liferay-portlet:renderURL>
-
 <clay:management-toolbar
 		managementToolbarDisplayContext="${managementDC}"
 />
 
 <div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
-		<liferay-ui:search-container id="activitiesSearchContainer"
+		<liferay-ui:search-container id="activityOrganizersSearchContainer"
 			searchContainer="${dc.searchContainer}">
 
 			<liferay-ui:search-container-row

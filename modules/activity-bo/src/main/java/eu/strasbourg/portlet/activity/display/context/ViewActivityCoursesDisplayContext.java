@@ -45,26 +45,6 @@ public class ViewActivityCoursesDisplayContext {
 
 	}
 
-	/*public List<ActivityCourse> getActivityCourses() throws PortalException {
-		if (this.activityCourses == null) {
-			Hits hits = getHits(this._themeDisplay.getScopeGroupId());
-
-			// Création de la liste d'objet
-			List<ActivityCourse> results = new ArrayList<ActivityCourse>();
-			if (hits != null) {
-				for (Document document : hits.getDocs()) {
-					ActivityCourse activityCourse = ActivityCourseLocalServiceUtil.fetchActivityCourse(
-						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-					if (activityCourse != null) {
-						results.add(activityCourse);
-					}
-				}
-			}
-			this.activityCourses = results;
-		}
-		return this.activityCourses;
-	}*/
-
 	/**
 	 * Retourne le dropdownItemsProvider de activityCourse
 	 *
