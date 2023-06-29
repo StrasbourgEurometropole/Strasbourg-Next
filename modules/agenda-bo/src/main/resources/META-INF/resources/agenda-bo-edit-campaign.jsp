@@ -104,7 +104,9 @@
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="categorization">
 
-				<aui:input name="tags" type="assetTags" />
+				<liferay-asset:asset-tags-selector
+						className="<%= Campaign.class.getName() %>"
+						classPK="${dc.campaign.campaignId}"/>
 
 			</aui:fieldset>
 

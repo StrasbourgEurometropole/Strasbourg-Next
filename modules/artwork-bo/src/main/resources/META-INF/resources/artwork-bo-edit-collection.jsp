@@ -80,7 +80,10 @@
 					</aui:input>
 				</div>
 
-				<aui:input name="tags" type="assetTags" />
+				<liferay-asset:asset-tags-selector
+						className="<%= ArtworkCollection.class.getName() %>"
+						classPK="${dc.collection.collectionId}"
+				/>
 
 			</aui:fieldset>
 		</div></div>

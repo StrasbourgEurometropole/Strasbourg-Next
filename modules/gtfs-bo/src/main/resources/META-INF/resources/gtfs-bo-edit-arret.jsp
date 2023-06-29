@@ -79,7 +79,9 @@
 					</aui:input>
 				</div>
 
-				<aui:input name="tags" type="assetTags" />
+				<liferay-asset:asset-tags-selector
+						className="<%= Arret.class.getName() %>"
+						classPK="${dc.arret.arretId}"/>
 
 			</aui:fieldset>
 				

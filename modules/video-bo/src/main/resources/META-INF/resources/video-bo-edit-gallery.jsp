@@ -93,7 +93,9 @@
 					</aui:input>
 				</div>
 
-				<aui:input name="tags" type="assetTags" />
+				<liferay-asset:asset-tags-selector
+						className="<%= VideoGallery.class.getName() %>"
+						classPK="${dc.videoGallery.galleryId}"/>
 
 			</aui:fieldset>
 			

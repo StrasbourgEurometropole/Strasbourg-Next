@@ -98,7 +98,10 @@
            </aui:fieldset>
 
            <aui:fieldset collapsed="true" collapsible="true" label="Tags">
-               <aui:input name="tags" type="assetTags" />
+               <liferay-asset:asset-tags-selector
+                       className="<%= AgendaExport.class.getName() %>"
+                       classPK="${dc.agendaExport.agendaExportId}"
+               />
            </aui:fieldset>
 
             <%--

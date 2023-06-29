@@ -90,7 +90,9 @@
 					</aui:input>
 				</div>
 
-				<aui:input name="tags" type="assetTags" />
+				<liferay-asset:asset-tags-selector
+						className="<%= Interest.class.getName() %>"
+						classPK="${dc.interest.interestId}"/>
 
 			</aui:fieldset>
 

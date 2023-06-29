@@ -181,7 +181,10 @@
 				</div>
 				
 				<%-- Champ : Selection des etiquettes (gere par le portail dans l'onglet "Etiquettes" du BO) --%>
-				<aui:input name="tags" type="assetTags" />
+				<liferay-asset:asset-tags-selector
+						className="<%= Initiative.class.getName() %>"
+						classPK="${dc.initiative.initiativeId}"
+				/>
 
 			</aui:fieldset>
 

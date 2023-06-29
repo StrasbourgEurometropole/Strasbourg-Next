@@ -96,8 +96,10 @@
 						</aui:validator>
 					</aui:input>
 				</div>
-				
-				<aui:input name="tags" type="assetTags" />
+
+				<liferay-asset:asset-tags-selector
+						className="<%= Video.class.getName() %>"
+						classPK="${dc.video.videoId}"/>
 
 			</aui:fieldset>
 			

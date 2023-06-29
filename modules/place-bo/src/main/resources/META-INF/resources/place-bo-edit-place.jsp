@@ -131,7 +131,9 @@
 						className="<%= Place.class.getName() %>"
 						classPK="${dc.place.placeId}"/>
 
-				<aui:input name="tags" type="assetTags" />
+				<liferay-asset:asset-tags-selector
+						className="<%= Place.class.getName() %>"
+						classPK="${dc.place.placeId}"/>
 
 			</aui:fieldset>
 				

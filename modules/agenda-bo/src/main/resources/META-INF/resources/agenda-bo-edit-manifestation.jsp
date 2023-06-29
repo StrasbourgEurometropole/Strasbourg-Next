@@ -117,7 +117,9 @@
 					</aui:input>
 				</div>
 
-				<aui:input name="tags" type="assetTags" />
+				<liferay-asset:asset-tags-selector
+						className="<%= Manifestation.class.getName() %>"
+						classPK="${dc.manifestation.manifestationId}"/>
 
 			</aui:fieldset>
 

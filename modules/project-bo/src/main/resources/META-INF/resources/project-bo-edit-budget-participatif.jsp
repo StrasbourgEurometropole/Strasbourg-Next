@@ -248,7 +248,10 @@
 				</c:choose>
 
 				<%-- Champ : Selection des etiquettes (gere par le portail dans l'onglet "Etiquettes" du BO) --%>
-				<aui:input name="tags" type="assetTags" />
+				<liferay-asset:asset-tags-selector
+						className="<%= BudgetParticipatif.class.getName() %>"
+						classPK="${dc.budgetParticipatif.budgetParticipatifId}"
+				/>
 
 			</aui:fieldset>
 
