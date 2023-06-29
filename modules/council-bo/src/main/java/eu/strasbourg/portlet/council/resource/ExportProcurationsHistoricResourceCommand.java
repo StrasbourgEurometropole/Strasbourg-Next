@@ -75,8 +75,18 @@ public class ExportProcurationsHistoricResourceCommand implements MVCResourceCom
                 response.setProperty("content-disposition","attachment; filename=" + pdfFile.getName());
 
                 // Fermeture des outputStreams
-                Files.copy(pdfFile.toPath(), response.getPortletOutputStream());
-            } catch (IOException e) {
+
+               Files.copy(pdfFile.toPath(), response.getPortletOutputStream());
+
+                /*PortletResponseUtil.sendFile(
+                        request,
+                        response,
+                        pdfFile.getPath(),
+                        null,
+                        0,
+                        "application/force-download",
+                        null);*/
+            } catch (IOException  e) {
                 _log.error(e.getMessage(), e);
             }
         }

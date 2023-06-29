@@ -23,7 +23,6 @@ import java.util.List;
 
 public class ViewCouncilSessionsDisplayContext {
 
-    private List<CouncilSession> councilSessions;
     private List<Long> typeCouncilIds;
 
     public ViewCouncilSessionsDisplayContext(RenderRequest request, RenderResponse response, ItemSelector itemSelector) {

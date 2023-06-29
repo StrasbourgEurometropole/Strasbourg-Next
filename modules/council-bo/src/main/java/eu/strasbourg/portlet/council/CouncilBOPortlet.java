@@ -167,41 +167,6 @@ public class CouncilBOPortlet extends MVCPortlet {
 		} catch (PortalException e) {
 			e.printStackTrace();
 		}
-
-		// If we are on the Session, we add the corresponding
-		// display context
-		/*if (cmd.equals("editCouncilSession") || mvcPath.equals("/council-bo-edit-council-session.jsp")) {
-
-		}
-		}
-		} else if (cmd.equals("importDeliberation") || mvcPath.equals("/council-bo-import-deliberation.jsp")) {
-			EditDeliberationDisplayContext dc = new EditDeliberationDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("manageProcurations") || mvcPath.equals("/council-bo-manage-procurations.jsp")) {
-			ManageProcurationsDisplayContext dc = new ManageProcurationsDisplayContext(renderRequest);
-			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("deliberations") || mvcPath.equals("/council-bo-view-deliberations.jsp")) {
-
-
-
-			ViewDeliberationsDisplayContext dc = new ViewDeliberationsDisplayContext(renderRequest, renderResponse, categoryCouncilId);
-			renderRequest.setAttribute("dc", dc);
-		}
-		} else if (tab.equals("officials")) {
-			ViewOfficialsDisplayContext dc = new ViewOfficialsDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-		} else if (tab.equals("officialsConnection")) {
-			// Gestion de la selection du conseil
-			ViewOfficialsConnectionDisplayContext dc = new ViewOfficialsConnectionDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-		} else if (tab.equals("types")) {
-			ViewTypesDisplayContext dc = new ViewTypesDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-		} else { // Else, we are on the event list page
-			ViewCouncilSessionsDisplayContext dc = new ViewCouncilSessionsDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-		}*/
-
 		renderResponse.setTitle("CouncilSessions");
 
 		// If we are on an "add" page, we set a return URL and show the "back"

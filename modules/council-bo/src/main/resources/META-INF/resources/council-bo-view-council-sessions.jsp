@@ -32,15 +32,9 @@
 					<portlet:param name="cmd" value="editCouncilSession" />
 					<portlet:param name="councilSessionId" value="${councilSession.councilSessionId}" />
 					<portlet:param name="backURL" value="${councilSessionsURL}" />
+					<portlet:param name="tab" value="councilSessions" />
 					<portlet:param name="mvcPath" value="/council-bo-edit-council-session.jsp" />
 				</liferay-portlet:renderURL>
-
-				<liferay-portlet:renderURL varImpl="manageProcurationsURL">
-                		<portlet:param name="cmd" value="manageProcurations" />
-                		<portlet:param name="councilSessionId" value="${councilSession.councilSessionId}" />
-                		<portlet:param name="backURL" value="${councilSessionsURL}" />
-                		<portlet:param name="mvcPath" value="/council-bo-manage-procurations.jsp" />
-                </liferay-portlet:renderURL>
 
                 <!-- Colonne : Titre -->
 				<liferay-ui:search-container-column-text cssClass="content-column"
