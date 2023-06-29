@@ -105,6 +105,12 @@ public class StrasbourgServiceUtil {
 			groupIds, className);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONArray
+		getCategoriesByGroupIds(long[] groupIds) {
+
+		return getService().getCategoriesByGroupIds(groupIds);
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject getCategoriesPois(
 		java.lang.String categories, java.lang.String vocabulariesEmptyIds,
 		java.lang.String prefilters, java.lang.String tags, long groupId,

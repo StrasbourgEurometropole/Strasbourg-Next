@@ -23,7 +23,7 @@
 
 		<aui:model-context bean="${agendaExport}"
 			model="<%=AgendaExport.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="agendaExportId" type="hidden" />
 
 			<aui:fieldset collapsed="false" collapsible="true"
@@ -35,7 +35,7 @@
 				</aui:input>
 
 			</aui:fieldset>
-		</aui:fieldset-group>
+		</div></div>
 		
 		<aui:button-row>
 			<c:if test="${(dc.hasPermission('ADD_AGENDA_EXPORT') and empty agendaExport or dc.hasPermission('EDIT_AGENDA_EXPORT') and not empty agendaExport) and empty themeDisplay.scopeGroup.getStagingGroup()}">

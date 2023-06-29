@@ -9,8 +9,8 @@
 	<aui:form action="${configurationActionURL}" method="post" name="fm" >
 		
 		<aui:input name="cmd" type="hidden" value="update" />
-		
-		<aui:fieldset-group markupView="lexicon">
+
+		<div class="sheet"><div class="panel-group panel-group-flush">
 		
 			<!-- Type d'asset -->
 			<aui:fieldset collapsed="false" collapsible="true"label="asset-type">
@@ -77,7 +77,6 @@
 				<br>
 				<p>
 					<liferay-ui:message key="prefilter-tag-explanations" />
-					<label><liferay-ui:message key="tags" /></label>
 					<liferay-asset:asset-tags-selector
 						hiddenInput="prefilterTagsNames"
 						tagNames="${prefilterTagsNames}" />
@@ -90,7 +89,6 @@
 			
 				<liferay-ui:message key="boost-explanations" />
 				<p>
-					<label><liferay-ui:message key="tags" /></label>
 					<liferay-asset:asset-tags-selector
 						hiddenInput="boostTagsNames"
 						tagNames="${boostTagsNames}" />
@@ -152,7 +150,7 @@
 				
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 		
 		<aui:button-row>
 			<aui:button type="submit"></aui:button>

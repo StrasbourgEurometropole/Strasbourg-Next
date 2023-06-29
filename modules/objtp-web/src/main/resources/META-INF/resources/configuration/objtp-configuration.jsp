@@ -10,7 +10,7 @@
 
 <div class="container-fluid-1280 main-content-body">
 	<aui:form action="${configurationActionURL}" method="post" name="fm">
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="cmd" type="hidden"
 				value="update" />
 		
@@ -36,7 +36,7 @@
 								value="${category.code}" inlineField="true"/>					
 				</c:forEach>
 			</aui:fieldset>
-		</aui:fieldset-group>
+		</div></div>
 		
 		
 		

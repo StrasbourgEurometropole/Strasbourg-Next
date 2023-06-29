@@ -26,7 +26,7 @@
 			id="translationManager" />
 
 		<aui:model-context bean="${dc.artwork}" model="<%=Artwork.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="artworkId" type="hidden" />
 
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>"
@@ -96,7 +96,7 @@
 
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 
 		<aui:button-row>
 			<c:if test="${(dc.hasPermission('ADD_ARTWORK') and empty dc.artwork or dc.hasPermission('EDIT_ARTWORK') and not empty dc.artwork) and empty themeDisplay.scopeGroup.getStagingGroup()}">

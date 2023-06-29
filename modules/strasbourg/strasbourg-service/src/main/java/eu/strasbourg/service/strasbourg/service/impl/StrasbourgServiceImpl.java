@@ -1086,6 +1086,50 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 		return categoriesJson;
 	}
 
+	@Override
+	public JSONArray getCategoriesByGroupIds(long[] groupIds) {
+		JSONArray categoriesJson = JSONFactoryUtil.createJSONArray();
+
+		// récupère les vocabulaires des groupIds
+		List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getGroupsVocabularies(groupIds);
+		for (AssetVocabulary vocabulary : vocabularies) {
+				// récupère le groupe de la catégorie
+				Group group = GroupLocalServiceUtil.fetchGroup(vocabulary.getGroupId());
+
+				JSONObject vocabularyJson = JSONFactoryUtil.createJSONObject();
+				vocabularyJson.put("label", "<font style='color: #00bcd4;'><strong>" + vocabulary.getName() + "</strong> (" + group.getNameCurrentValue() + ")</font>");
+				// récupère les catégories d'un vocabulaire
+				JSONArray choicesJson = JSONFactoryUtil.createJSONArray();
+				List<AssetCategory> categories = vocabulary.getCategories();
+				for (AssetCategory category : categories) {
+					JSONObject categoryJson = JSONFactoryUtil.createJSONObject();
+					categoryJson.put("value", category.getCategoryId());
+					String label = "";
+					// récupères les ancêtres s'il y en a
+					String ancestors = "";
+					try {
+						List<AssetCategory> ancestorList = category.getAncestors();
+						for (AssetCategory ancestor : ancestorList) {
+							label += " - ";
+							ancestors = ancestor.getName() + (ancestors.length() > 0 ? " > " : "") + ancestors;
+						}
+					} catch (PortalException e) {
+						log.error(e);
+					}
+					label += "<strong>" + category.getName() + "</strong>";
+					label += "<i> (" + group.getNameCurrentValue() + " : " + vocabulary.getName() + (ancestors.length() > 0 ? " > " : "") + ancestors + ")</i>";
+					categoryJson.put("label", label);
+					JSONObject customPropertiesJson = JSONFactoryUtil.createJSONObject();
+					customPropertiesJson.put("random", group.getNameCurrentValue() + " " + vocabulary.getName() + " " + ancestors.replaceAll(" > ", " ") + (ancestors.length() > 0 ? " " : "") + category.getName());
+					categoryJson.put("customProperties", customPropertiesJson);
+					choicesJson.put(categoryJson);
+				}
+				vocabularyJson.put("choices", choicesJson);
+				categoriesJson.put(vocabularyJson);
+			}
+		return categoriesJson;
+	}
+
 
 	@Override
 	public JSONArray getVocabulariesByGroupIds(long[] groupIds) {
