@@ -28,7 +28,7 @@
     <aui:form action="${(toExport eq true) ? dc.cleanResourceURL(exportAgendaExportURL) : saveAgendaExportURL}" method="POST" name="fm">
 
 		<aui:model-context bean="${agendaExport}" model="<%=AgendaExport.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+        <div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="agendaExportId" type="hidden" />
 
 			<aui:fieldset collapsed="false" collapsible="true"
@@ -277,7 +277,7 @@
                 </div>
             </aui:fieldset>
 
-		</aui:fieldset-group>
+        </div></div>
 
 		<aui:button-row>
             <c:if test="${toExport ne true}">

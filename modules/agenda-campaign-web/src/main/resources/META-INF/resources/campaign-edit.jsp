@@ -31,7 +31,7 @@
 	<aui:form action="${saveURL}" method="post" name="fm" enctype="multipart/form-data" onSubmit="validatePeriods(event);" >
 		<aui:model-context bean="${dc.campaignEvent}"
 			model="<%=CampaignEvent.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="campaignEventId" type="hidden" />
 			<aui:input name="newStatus" type="hidden" value="" />
 			
@@ -565,7 +565,7 @@
 					</div>
 				</aui:fieldset>
 			</c:if>
-		</aui:fieldset-group>
+		</div></div>
 
 		
 		<!-- Erreur potentielle sur titre et description -->

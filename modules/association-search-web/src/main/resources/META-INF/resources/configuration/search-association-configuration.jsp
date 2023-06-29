@@ -11,7 +11,7 @@
     <div class="portlet-configuration-body-content">
         <div class="container-fluid-1280">
 
-            <aui:fieldset-group markupView="lexicon">
+            <div class="sheet"><div class="panel-group panel-group-flush">
                 <!-- Type d'asset -->
                 <aui:fieldset collapsed="false" collapsible="true"
                     label="asset-type">
@@ -40,7 +40,7 @@
                     <aui:input type="number" name="delta" value="${delta}" />
                 </aui:fieldset>
 
-            </aui:fieldset-group>
+            </div></div>
         </div>
     </div>
 
