@@ -9,6 +9,8 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@ taglib uri="http://liferay.com/tld/clay" prefix="clay" %>
 <%@ taglib uri="http://strasbourg.eu/tld/picker" prefix="strasbourg-picker" %>
+<%@ taglib uri="http://liferay.com/tld/asset" prefix="liferay-asset" %>
+
 
 <%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState" %>
 

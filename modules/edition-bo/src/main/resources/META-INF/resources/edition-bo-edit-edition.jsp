@@ -98,19 +98,21 @@
 					type="eu.strasbourg.service.edition.model.EditionGallery"
 					multiple="true" />
 					
-				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
-				
+				<liferay-asset:asset-categories-selector
+						className="<%= Edition.class.getName() %>"
+						classPK="${dc.edition.editionId}"
+				/>
 				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
 				<div class="has-error">
 					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
 						<aui:validator name="custom" errorMessage="requested-vocabularies-error">
 							function (val, fieldNode, ruleValue) {
 								var validated = true;
-								var fields = document.querySelectorAll('.categories-selectors > .field-content');
+								var fields = document.querySelectorAll('[id$=assetCategoriesSelector] > .field-content');
 								for (var i = 0; i < fields.length; i++) {
 									fieldContent = fields[i];
-								    if ($(fieldContent).find('.icon-asterisk').length > 0
-								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+								    if ($(fieldContent).find('.lexicon-icon-asterisk').length > 0
+								    	&& $(fieldContent).find('input[type="hidden"]').length == 0) {
 								    	validated = false;
                                         edition.preventDefault();
 								    	break;
@@ -121,8 +123,11 @@
 						</aui:validator>
 					</aui:input>
 				</div>
-				
-				<aui:input name="tags" type="assetTags" />
+
+				<liferay-asset:asset-tags-selector
+						className="<%= Edition.class.getName() %>"
+						classPK="${dc.edition.editionId}"
+				/>
 
 			</aui:fieldset>
 

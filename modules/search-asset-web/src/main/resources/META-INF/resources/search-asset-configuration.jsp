@@ -119,9 +119,13 @@
                     <liferay-ui:message key="prefilter-explanations" />
                     <label><liferay-ui:message key="categories" /></label>
                     <p>
-                        <liferay-ui:asset-categories-selector
-                            hiddenInput="prefilterCategoriesIds"
-                            curCategoryIds="${prefilterCategoriesIds}" />
+                        <asset-category-selector:category-selector
+                                id="prefilterCategoriesIds"
+                                groupIds="${themeDisplay.scopeGroupId},${themeDisplay.companyGroupId}"
+                                label="categories"
+                                values="${prefilterCategoriesIds}"
+                                multiple="true"
+                        />
                     </p>
                     <br>
                     <p>

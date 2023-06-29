@@ -244,7 +244,7 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 
 			// Préfiltre catégories
 			if(mode.equals("normal") || mode.equals("district")) {
-				String prefilterCategoriesIds = ParamUtil.getString(request, "prefilterCategoriesIds");
+				String prefilterCategoriesIds = String.join(",", ParamUtil.getStringValues(request, "prefilterCategoriesIds"));
 				setPreference(request, "prefilterCategoriesIds", prefilterCategoriesIds);
 			}else {
 				// Pas utilisé dans les autres modes
@@ -288,7 +288,7 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			// Filtre catégories cochées par défaut
 			if(mode.equals("normal") || mode.equals("district")) {
 				if(displayCheckbox) {
-					String categoriesDefaultsIds = ParamUtil.getString(request, "categoriesDefaultsIds");
+					String categoriesDefaultsIds = String.join(",", ParamUtil.getStringValues(request, "categoriesDefaultsIds"));
 					setPreference(request, "categoriesDefaultsIds", categoriesDefaultsIds);
 				}else{
 					// Pas utilisé dans l'affichage des filtres en liste
@@ -303,7 +303,7 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			if(mode.equals("normal") || mode.equals("district")) {
 				if(displayCheckbox) {
 					if(displayConfig) {
-						String categoriesIds = ParamUtil.getString(request, "categoriesIds");
+						String categoriesIds = String.join(",", ParamUtil.getStringValues(request, "categoriesIds"));
 						setPreference(request, "categoriesIds", categoriesIds);
 					}else{
 						// Pas utilisé si la config est cachée
@@ -324,7 +324,7 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 					// Pas utilisé dans l'affichage des filtres en checkbox
 					setPreference(request, "parentsCategoriesIds", "");
 				}else{
-					String parentsCategoriesIds = ParamUtil.getString(request, "parentsCategoriesIds");
+					String parentsCategoriesIds = String.join(",", ParamUtil.getStringValues(request, "parentsCategoriesIds"));
 					setPreference(request, "parentsCategoriesIds", parentsCategoriesIds);
 				}
 			}else {

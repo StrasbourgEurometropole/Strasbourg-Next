@@ -164,13 +164,16 @@
 
                         <div>
                             <label><liferay-ui:message key="categories" /></label>
-                            <liferay-ui:asset-categories-selector
-                                    hiddenInput="prefilterCategoriesIds"
-                                    curCategoryIds="${prefilterCategoriesIds}" />
+                            <asset-category-selector:category-selector
+                                id="prefilterCategoriesIds"
+                                groupIds="${themeDisplay.scopeGroupId},${themeDisplay.companyGroupId}"
+                                label="categories"
+                                values="${prefilterCategoriesIds}"
+                                multiple="true"
+                            />
                         </div>
 
                         <div>
-                            <label><liferay-ui:message key="tags" /></label>
                             <liferay-asset:asset-tags-selector
                                 hiddenInput="prefilterTags"
                                 tagNames="${prefilterTags}" />
@@ -201,14 +204,22 @@
 
                         <div class="checkboxChosen">
                             <label class="default-filters-label"><liferay-ui:message key="default-filters-with-config-label" /></label>
-                            <liferay-ui:asset-categories-selector
-                                hiddenInput="categoriesDefaultsIds"
-                                curCategoryIds="${categoriesDefaultsIds}" />
+                            <asset-category-selector:category-selector
+                                    id="categoriesDefaultsIds"
+                                    groupIds="${themeDisplay.scopeGroupId},${themeDisplay.companyGroupId}"
+                                    label="default-filters-with-config-label"
+                                    values="${categoriesDefaultsIds}"
+                                    multiple="true"
+                            />
                             <div class="margin filters">
                                 <label><liferay-ui:message key="filters-label"/></label>
-                                <liferay-ui:asset-categories-selector
-                                    hiddenInput="categoriesIds"
-                                    curCategoryIds="${categoriesIds}" />
+                                <asset-category-selector:category-selector
+                                        id="categoriesIds"
+                                        groupIds="${themeDisplay.scopeGroupId},${themeDisplay.companyGroupId}"
+                                        label="filters-label"
+                                        values="${categoriesIds}"
+                                        multiple="true"
+                                />
                             </div>
                         </div>
                         <div class="listChosen">
@@ -216,9 +227,13 @@
                             <p>
                                 <liferay-ui:message key="filters-categ-help" />
                             </p>
-                            <liferay-ui:asset-categories-selector
-                                hiddenInput="parentsCategoriesIds"
-                                curCategoryIds="${parentsCategoriesIds}" />
+                            <asset-category-selector:category-selector
+                                    id="parentsCategoriesIds"
+                                    groupIds="${themeDisplay.scopeGroupId},${themeDisplay.companyGroupId}"
+                                    label="filters-categ-label"
+                                    values="${parentsCategoriesIds}"
+                                    multiple="true"
+                            />
                             <div class="margin">
                                 <label><liferay-ui:message key="filters-vocabularies-label"/></label>
                                 <p>

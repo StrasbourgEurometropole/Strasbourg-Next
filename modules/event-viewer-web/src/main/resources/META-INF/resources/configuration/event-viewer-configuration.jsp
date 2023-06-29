@@ -23,8 +23,13 @@
 		</p>
 		<label><liferay-ui:message key="categories" /></label>
 		<p>
-			<liferay-ui:asset-categories-selector hiddenInput="categoriesIds"
-				curCategoryIds="${categoriesIds}" />
+			<asset-category-selector:category-selector
+					id="categoriesIds"
+					groupIds="${themeDisplay.scopeGroupId},${themeDisplay.companyGroupId}"
+					label="categories"
+					values="${categoriesIds}"
+					multiple="true"
+			/>
 		</p>
 		<br>
 		<p>

@@ -36,7 +36,10 @@
 				
 				<aui:input name="presentation" />
 				
-				<aui:input name="tags" type="assetTags" />
+				<liferay-asset:asset-tags-selector
+						className="<%= ActivityOrganizer.class.getName() %>"
+						classPK="${dc.activityOrganizer.activityOrganizerId}"
+				/>
 				
 				<aui:input name="address" />
 					

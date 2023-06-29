@@ -218,8 +218,8 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			setPreference(actionRequest, "searchForm", searchForm);
 
 			// Préfiltre catégories
-			String prefilterCategoriesIds = ParamUtil.getString(actionRequest,
-				"prefilterCategoriesIds");
+			String prefilterCategoriesIds = String.join(",", ParamUtil.getStringValues(actionRequest,
+				"prefilterCategoriesIds"));
 			// On enregistre les ids des catégories sous forme de String
 			// On sépare les catégories d'un même vocabulaire par des virgules
 			// et les vocabulaires par des points-virgules

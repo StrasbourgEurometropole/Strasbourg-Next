@@ -68,19 +68,21 @@
 					type="eu.strasbourg.service.artwork.model.ArtworkCollection"
 					multiple="true" />
 					
-				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
-				
+				<liferay-asset:asset-categories-selector
+						className="<%= Artwork.class.getName() %>"
+						classPK="${dc.artwork.artworkId}"
+				/>
 				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
 				<div class="has-error">
 					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
 						<aui:validator name="custom" errorMessage="requested-vocabularies-error">
 							function (val, fieldNode, ruleValue) {
 								var validated = true;
-								var fields = document.querySelectorAll('.categories-selectors > .field-content');
+								var fields = document.querySelectorAll('[id$=assetCategoriesSelector] > .field-content');
 								for (var i = 0; i < fields.length; i++) {
 									fieldContent = fields[i];
-								    if ($(fieldContent).find('.icon-asterisk').length > 0
-								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+								    if ($(fieldContent).find('.lexicon-icon-asterisk').length > 0
+								    	&& $(fieldContent).find('input[type="hidden"]').length == 0) {
 								    	validated = false;
 								    	event.preventDefault();
 								    	break;
@@ -92,7 +94,10 @@
 					</aui:input>
 				</div>
 
-				<aui:input name="tags" type="assetTags" />
+				<liferay-asset:asset-tags-selector
+						className="<%= Artwork.class.getName() %>"
+						classPK="${dc.artwork.artworkId}"
+				/>
 
 			</aui:fieldset>
 
