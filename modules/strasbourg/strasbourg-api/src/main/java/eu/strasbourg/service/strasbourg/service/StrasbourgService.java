@@ -111,6 +111,9 @@ public interface StrasbourgService extends BaseService {
 		long[] groupIds, String className);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getCategoriesByGroupIds(long[] groupIds);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getCategoriesPois(
 		String categories, String vocabulariesEmptyIds, String prefilters,
 		String tags, long groupId, String typeContenu, boolean dateField,

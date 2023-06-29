@@ -735,13 +735,45 @@ public class StrasbourgServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray
+		getCategoriesByGroupIds(HttpPrincipal httpPrincipal, long[] groupIds) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				StrasbourgServiceUtil.class, "getCategoriesByGroupIds",
+				_getCategoriesByGroupIdsParameterTypes25);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, groupIds);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray
 		getVocabulariesByGroupIds(
 			HttpPrincipal httpPrincipal, long[] groupIds) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getVocabulariesByGroupIds",
-				_getVocabulariesByGroupIdsParameterTypes25);
+				_getVocabulariesByGroupIdsParameterTypes26);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupIds);
@@ -827,7 +859,9 @@ public class StrasbourgServiceHttp {
 		_getCategoriesByClassNameAndGroupIdsParameterTypes24 = new Class[] {
 			long[].class, String.class
 		};
-	private static final Class<?>[] _getVocabulariesByGroupIdsParameterTypes25 =
+	private static final Class<?>[] _getCategoriesByGroupIdsParameterTypes25 =
+		new Class[] {long[].class};
+	private static final Class<?>[] _getVocabulariesByGroupIdsParameterTypes26 =
 		new Class[] {long[].class};
 
 }

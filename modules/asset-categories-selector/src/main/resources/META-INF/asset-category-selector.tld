@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+
+<taglib
+	version="2.1"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+>
+	<description>Alternate Categories Selector. Used for displaying a single category selector for all vocabularies</description>
+	<tlib-version>1.0</tlib-version>
+	<short-name>asset-category-selector</short-name>
+	<uri>http://strasbourg.eu/tld/asset-category-selector</uri>
+	<tag>
+		<name>category-selector</name>
+		<tag-class>eu.strasbourg.asset.category.selector.taglib.AssetCategorySelectorTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>groupIds</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>classname</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+        <attribute>
+            <name>id</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+		<attribute>
+			<name>label</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>values</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>required</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>multiple</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>

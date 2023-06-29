@@ -107,6 +107,13 @@ public class StrasbourgServiceWrapper
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONArray getCategoriesByGroupIds(
+		long[] groupIds) {
+
+		return _strasbourgService.getCategoriesByGroupIds(groupIds);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject getCategoriesPois(
 		String categories, String vocabulariesEmptyIds, String prefilters,
 		String tags, long groupId, String typeContenu, boolean dateField,
