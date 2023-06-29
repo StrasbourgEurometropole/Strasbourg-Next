@@ -60,8 +60,8 @@ public class EventViewerConfigurationAction extends DefaultConfigurationAction {
 
 		if (cmd.equals("update")) {
 			// Catégories
-			String categoriesIds = ParamUtil.getString(request,
-				"categoriesIds");
+			String categoriesIds = String.join(",", ParamUtil.getStringValues(request,
+				"categoriesIds"));
 			// On enregistre les ids des catégories sous forme de String
 			// On sépare les catégories d'un même vocabulaire par des virgules
 			// et les vocabulaires par des points-virgules

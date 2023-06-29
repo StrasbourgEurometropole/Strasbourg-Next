@@ -112,7 +112,7 @@ public class DynamicSearchAssetConfigurationAction extends DefaultConfigurationA
 			setPreference(request, "searchForm", searchForm);
 			
 			// CHAMP : Préfiltre catégories
-			String prefilterCategoriesIds = ParamUtil.getString(request, "prefilterCategoriesIds");
+			String prefilterCategoriesIds = String.join(",", ParamUtil.getStringValues(request, "prefilterCategoriesIds"));
 			// On enregistre les ids des catégories sous forme de String
 			// On sépare les catégories d'un même vocabulaire par des virgules
 			// et les vocabulaires par des points-virgules
