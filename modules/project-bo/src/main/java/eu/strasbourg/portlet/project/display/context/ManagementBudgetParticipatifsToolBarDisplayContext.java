@@ -100,7 +100,7 @@ public class ManagementBudgetParticipatifsToolBarDisplayContext extends SearchCo
      */
     @Override
     public String getSearchContainerId() {
-        return "budgetPhasesSearchContainer";
+        return "budgetParticipatifsSearchContainer";
     }
 
     /**

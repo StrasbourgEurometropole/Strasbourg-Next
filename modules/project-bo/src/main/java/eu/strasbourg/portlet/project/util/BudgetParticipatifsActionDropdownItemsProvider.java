@@ -14,6 +14,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.ResourceURL;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -57,6 +58,17 @@ public class BudgetParticipatifsActionDropdownItemsProvider {
                                             .add(
                                                     () -> hasUpdatePermission,
                                                     _getEditActionUnsafeConsumer()
+                                            )
+                                            .build()
+                            );
+                        }
+                )
+                .addGroup(
+                        dropdownGroupItem -> {
+                            dropdownGroupItem.setDropdownItems(
+                                    DropdownItemListBuilder
+                                            .add(
+                                                    _getExportActionUnsafeConsumer()
                                             )
                                             .build()
                             );
@@ -113,7 +125,21 @@ public class BudgetParticipatifsActionDropdownItemsProvider {
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "delete"));
         };
     }
+    /**
+     * Action of Export link
+     */
+    private UnsafeConsumer<DropdownItem, Exception> _getExportActionUnsafeConsumer() {
 
+        return dropdownItem -> {
+            ResourceURL resourceURL =
+                    _response.createResourceURL();
+            resourceURL.setResourceID("exportBudgetSupportsXlsx");
+            resourceURL.setParameter("budgetParticipatifId", String.valueOf(_budgetParticipatif.getBudgetParticipatifId()));
+
+            dropdownItem.setHref(resourceURL.toString());
+            dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "export-xlsx-budget-participatifs"));
+        };
+    }
     private final BudgetParticipatif _budgetParticipatif;
     private final HttpServletRequest _httpServletRequest;
     private final RenderResponse _response;

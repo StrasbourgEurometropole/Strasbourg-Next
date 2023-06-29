@@ -2,7 +2,7 @@
 <clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 <%-- URL : definit le lien avec les parametres de recherche des entites--%>
 <liferay-portlet:renderURL varImpl="budgetPhasesURL">
-	<portlet:param name="tab" value="budget-phases" />
+	<portlet:param name="tab" value="budgets-phases" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
@@ -10,12 +10,6 @@
 	<portlet:param name="mvcPath" value="/project-bo-view-budget-phases.jsp" />
 </liferay-portlet:renderURL>
 
-<%-- URL : definit le lien vers la page d'ajout/edition d'une entite --%>
-<liferay-portlet:renderURL varImpl="addBudgetPhaseURL">
-	<portlet:param name="cmd" value="editBudgetPhase" />
-	<portlet:param name="mvcPath" value="/project-bo-edit-budget-phase.jsp" />
-	<portlet:param name="backURL" value="${budgetPhasesURL}" />
-</liferay-portlet:renderURL>
 
 <%-- Composant : barre de filtres et de gestion des entites --%>
 <clay:management-toolbar
@@ -25,10 +19,8 @@
 <%-- Composant : tableau de visualisation des entites --%>
 <div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
-		<aui:input type="hidden" name="selectionIds" />
 		<liferay-ui:search-container id="budgetPhasesSearchContainer"
 			searchContainer="${dc.searchContainer}">
-
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.project.model.BudgetPhase" modelVar="budgetPhase"
 				keyProperty="budgetPhaseId" >
@@ -90,7 +82,7 @@
 <%-- URL : definit le lien vers l'action de suppression --%>
 <liferay-portlet:actionURL name="selectionAction" var="deleteSelectionURL">
 	<portlet:param name="cmd" value="delete" />
-	<portlet:param name="tab" value="budget-phases" />
+	<portlet:param name="tab" value="budgets-phases" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="mvcPath" value="/project-bo-view-budget-phases.jsp" />
@@ -101,7 +93,7 @@
 <%-- URL : definit le lien vers l'action de publication --%>
 <liferay-portlet:actionURL name="selectionAction" var="publishSelectionURL">
 	<portlet:param name="cmd" value="publish" />
-	<portlet:param name="tab" value="budget-phases" />
+	<portlet:param name="tab" value="budgets-phases" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="mvcPath" value="/project-bo-view-budget-phases.jsp" />
@@ -112,12 +104,13 @@
 <%-- URL : definit le lien vers l'action de depublication --%>
 <liferay-portlet:actionURL name="selectionAction" var="unpublishSelectionURL">
 	<portlet:param name="cmd" value="unpublish" />
-	<portlet:param name="tab" value="budget-phases" />
+	<portlet:param name="tab" value="budgets-phases" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="mvcPath" value="/project-bo-view-budget-phases.jsp" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>
+
 <liferay-portlet:renderURL varImpl="filterSelectionURL">
 	<portlet:param name="tab" value="budget-phases" />
 	<portlet:param name="mvcPath" value="/project-bo-view-budget-phases.jsp" />

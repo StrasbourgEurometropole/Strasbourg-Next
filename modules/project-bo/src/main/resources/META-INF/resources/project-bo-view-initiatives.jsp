@@ -10,13 +10,6 @@
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
 
-<%-- URL : definit le lien vers la page d'ajout/edition d'une entite --%>
-<liferay-portlet:renderURL varImpl="addInitiativeURL">
-	<portlet:param name="cmd" value="editInitiative" />
-	<portlet:param name="mvcPath" value="/project-bo-edit-initiative.jsp" />
-	<portlet:param name="backURL" value="${initiativesURL}" />
-</liferay-portlet:renderURL>
-
 <clay:management-toolbar
 		managementToolbarDisplayContext="${managementDC}"
 />
@@ -24,7 +17,6 @@
 <%-- Composant : tableau de visualisation des entites --%>
 <div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
-		<aui:input type="hidden" name="selectionIds" />
 		<liferay-ui:search-container id="initiativesSearchContainer"
 			searchContainer="${dc.searchContainer}">
 

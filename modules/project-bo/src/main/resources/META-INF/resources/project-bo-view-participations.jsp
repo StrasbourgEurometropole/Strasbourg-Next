@@ -25,7 +25,6 @@
 <%-- Composant : tableau de visualisation des entites --%>
 <div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
-		<aui:input type="hidden" name="selectionIds" />
 		<liferay-ui:search-container id="participationsSearchContainer"
 			searchContainer="${dc.searchContainer}">
 

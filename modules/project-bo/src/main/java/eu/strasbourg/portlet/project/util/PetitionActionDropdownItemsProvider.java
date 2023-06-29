@@ -14,6 +14,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.ResourceURL;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -67,6 +68,17 @@ public class PetitionActionDropdownItemsProvider {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder
                                             .add(
+                                                    _getExportActionUnsafeConsumer()
+                                            )
+                                            .build()
+                            );
+                        }
+                )
+                .addGroup(
+                        dropdownGroupItem -> {
+                            dropdownGroupItem.setDropdownItems(
+                                    DropdownItemListBuilder
+                                            .add(
                                                     () -> hasDeletePermission,
                                                     _getDeleteActionUnsafeConsumer()
                                             )
@@ -74,6 +86,23 @@ public class PetitionActionDropdownItemsProvider {
                             );
                         }
                 ).build();
+    }
+
+
+    /**
+     * Action of Export link
+     */
+    private UnsafeConsumer<DropdownItem, Exception> _getExportActionUnsafeConsumer() {
+
+        return dropdownItem -> {
+            ResourceURL resourceURL =
+                    _response.createResourceURL();
+            resourceURL.setResourceID("exportSignatairesXlsx");
+            resourceURL.setParameter("petitionId", String.valueOf(_petition.getPetitionId()));
+
+            dropdownItem.setHref(resourceURL.toString());
+            dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "export-xlsx-signataires"));
+        };
     }
 
     /**

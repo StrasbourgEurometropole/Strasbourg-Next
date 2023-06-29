@@ -10,12 +10,6 @@
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
 
-<%-- URL : definit le lien vers la page d'ajout/edition d'une entite --%>
-<liferay-portlet:renderURL varImpl="addBudgetParticipatifURL">
-	<portlet:param name="cmd" value="addBudgetParticipatif" />
-	<portlet:param name="mvcPath" value="/project-bo-edit-budget-participatif.jsp" />
-	<portlet:param name="backURL" value="${budgetParticipatifURL}" />
-</liferay-portlet:renderURL>
 
 <%-- Composant : barre de filtres et de gestion des entites --%>
 <clay:management-toolbar
@@ -25,7 +19,6 @@
 <%-- Composant : tableau de visualisation des entites --%>
 <div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
-		<aui:input type="hidden" name="selectionIds" />
 		<liferay-ui:search-container id="budgetParticipatifsSearchContainer"
 			searchContainer="${dc.searchContainer}">
 

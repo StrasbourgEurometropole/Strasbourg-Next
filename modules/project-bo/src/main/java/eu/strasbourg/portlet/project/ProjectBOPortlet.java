@@ -59,7 +59,6 @@ public class ProjectBOPortlet extends MVCPortlet {
 		Boolean fromAjaxBudgetParticipatif = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxBudgetParticipatif"));
 		Boolean fromAjaxInitiative = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxInitiative"));
 
-
 		try {
 			NavigationBarDisplayContext navigationDC = new NavigationBarDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("navigationDC", navigationDC);
@@ -92,9 +91,9 @@ public class ProjectBOPortlet extends MVCPortlet {
 				case PETITIONS:
 					if (navigationDC.getSelectedCmd().equals(EDIT_PETITION) || navigationDC.getSelectedCmd().equals(SAVE_PETITION)|| fromAjaxPetition) {
 						EditPetitionDisplayContext dc = new EditPetitionDisplayContext(renderRequest, renderResponse);
-						renderRequest.setAttribute("dc", dc);
 						String signatureNumber = Integer.toString((int)themeDisplay.getSiteGroup().getExpandoBridge().getAttribute("number_of_signatures_required_per_petition"));
 						renderRequest.setAttribute("signatureNumber", signatureNumber);
+						renderRequest.setAttribute("dc", dc);
 
 					} else {
 						ViewPetitionsDisplayContext dc = new ViewPetitionsDisplayContext(renderRequest, renderResponse, _itemSelector);
@@ -120,8 +119,10 @@ public class ProjectBOPortlet extends MVCPortlet {
 					if (navigationDC.getSelectedCmd().equals(EDIT_BUDGET_PARICIPATIF)
 							||navigationDC.getSelectedCmd().equals(SAVE_BUDGET_PARICIPATIF)
 							||fromAjaxBudgetParticipatif) {
-						EditInitiativeDisplayContext dc = new EditInitiativeDisplayContext(renderRequest, renderResponse);
-						renderRequest.setAttribute("dc", dc);
+
+						EditBudgetParticipatifDisplayContext dc = new EditBudgetParticipatifDisplayContext(renderRequest, renderResponse);
+
+						//On initialise le BP avec la catégorie de la phase en cours, la catégorie et la phase en cours et la catégorie statut depose
 						if(navigationDC.getSelectedCmd().equals(SAVE_BUDGET_PARICIPATIF)) {
 							AssetCategory category = AssetVocabularyHelper.getCategory(ParticiperCategories.BP_SUBMITTED.getName(), themeDisplay.getScopeGroupId());
 							String assetCategoryIds = Long.toString(category.getCategoryId());
@@ -133,7 +134,8 @@ public class ProjectBOPortlet extends MVCPortlet {
 								assetCategoryIds = assetCategoryIds + "," + phaseCat.getCategoryId();
 							}
 							renderRequest.setAttribute("defaultAssetCategoryIds", assetCategoryIds);
-						 }
+						}
+
 						renderRequest.setAttribute("dc", dc);
 					}else {
 						ViewBudgetParticipatifDisplayContext dc = new ViewBudgetParticipatifDisplayContext(renderRequest, renderResponse, _itemSelector);
@@ -160,77 +162,8 @@ public class ProjectBOPortlet extends MVCPortlet {
 			e.printStackTrace();
 		}
 
-		// On set le displayContext selon la page sur laquelle on est
-		/*if (cmd.equals("editProject") || mvcPath.equals("/project-bo-edit-project.jsp") || fromAjaxProject) {
-			EditProjectDisplayContext dc = new EditProjectDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-			title = "projects";
-		} else if (cmd.equals("editParticipation") || mvcPath.equals("/project-bo-edit-participation.jsp") || fromAjaxParticipation) {
-			EditParticipationDisplayContext dc = new EditParticipationDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-			title = "participations";
-		} else if (cmd.equals("editPetition") || mvcPath.equals("/project-bo-edit-petition.jsp") || fromAjaxPetition) {
-			EditPetitionDisplayContext dc = new EditPetitionDisplayContext(renderRequest, renderResponse);
-			String signatureNumber = Integer.toString((int)themeDisplay.getSiteGroup().getExpandoBridge().getAttribute("number_of_signatures_required_per_petition"));
-			renderRequest.setAttribute("signatureNumber", signatureNumber);
-			renderRequest.setAttribute("dc", dc);
-			title = "Petitions";
-		} else if (cmd.equals("editBudgetParticipatif") || cmd.equals("addBudgetParticipatif") || mvcPath.equals("/project-bo-edit-budget-participatif.jsp") || fromAjaxBudgetParticipatif) {
-			EditBudgetParticipatifDisplayContext dc = new EditBudgetParticipatifDisplayContext(renderRequest, renderResponse);
-
-			//On initialise le BP avec la catégorie de la phase en cours, la catégorie et la phase en cours et la catégorie statut depose
-			if(cmd.equals("addBudgetParticipatif")) {
-				AssetCategory category = AssetVocabularyHelper.getCategory(ParticiperCategories.BP_SUBMITTED.getName(), themeDisplay.getScopeGroupId());
-				String assetCategoryIds = Long.toString(category.getCategoryId());
-
-				BudgetPhase budgetPhaseActive = BudgetPhaseLocalServiceUtil.getActivePhase(themeDisplay.getSiteGroupId());
-	            if (budgetPhaseActive != null) {
-	            	renderRequest.setAttribute("budgetPhaseId", budgetPhaseActive.getBudgetPhaseId());
-	                AssetCategory phaseCat = budgetPhaseActive.getPhaseCategory();
-	                assetCategoryIds = assetCategoryIds + "," + phaseCat.getCategoryId();
-	            }
-	            renderRequest.setAttribute("defaultAssetCategoryIds", assetCategoryIds);
-			}
-
-			renderRequest.setAttribute("dc", dc);
-			title = "budgets-participatifs";
-		} else if (cmd.equals("editBudgetPhase") || mvcPath.equals("/project-bo-edit-budget-phase.jsp")) {
-			EditBudgetPhaseDisplayContext dc = new EditBudgetPhaseDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-			title = "budget-phases";
-		} else if (cmd.equals("editInitiative") || mvcPath.equals("/project-bo-edit-initiative.jsp") || fromAjaxInitiative) {
-			EditInitiativeDisplayContext dc = new EditInitiativeDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-			title = "Initiatives";
-		} else if (tab.equals("participations")) {
-			ViewParticipationsDisplayContext dc = new ViewParticipationsDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-			title = "participations";
-		} else if (tab.equals("petitions")){
-			ViewPetitionsDisplayContext dc = new ViewPetitionsDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-			title = "petitions";
-		} else if (tab.equals("budgets-participatifs")){
-			ViewBudgetParticipatifDisplayContext dc = new ViewBudgetParticipatifDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-			title = "budgets-participatifs";
-		} else if (tab.equals("budget-phases")){
-			ViewBudgetPhasesDisplayContext dc = new ViewBudgetPhasesDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-			title = "budget-phases";
-		} else if (tab.equals("initiatives")){
-			ViewInitiativesDisplayContext dc = new ViewInitiativesDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-			title = "initiatives";
-		}
-		else { // Else, we are on the projects list page
-			ViewProjectsDisplayContext dc = new ViewProjectsDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-			title = "projects";
-		}*/
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
-		renderResponse.setTitle(PROJECTS);
 		//String title = PortalUtil.getPortletTitle(renderRequest);
 
 
@@ -246,6 +179,7 @@ public class ProjectBOPortlet extends MVCPortlet {
 		renderRequest.setAttribute("isAdmin", themeDisplay.getPermissionChecker().isOmniadmin());
 
 		super.render(renderRequest, renderResponse);
+
 
 		//title = LanguageUtil.get(PortalUtil.getHttpServletRequest(renderRequest), title);
 		//renderResponse.setTitle(title);

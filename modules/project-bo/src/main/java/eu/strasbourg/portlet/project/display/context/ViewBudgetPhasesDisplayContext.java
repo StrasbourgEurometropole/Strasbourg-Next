@@ -29,8 +29,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ViewBudgetPhasesDisplayContext  {
-
-	private List <BudgetPhase> _budgetPhases;
 	
 	public ViewBudgetPhasesDisplayContext(RenderRequest request, RenderResponse response, ItemSelector itemSelector) {
 		_request = request;
