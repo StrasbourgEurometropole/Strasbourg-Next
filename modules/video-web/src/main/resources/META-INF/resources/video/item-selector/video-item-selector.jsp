@@ -3,24 +3,30 @@
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
-<%@ taglib uri="http://liferay.com/tld/frontend" prefix="liferay-frontend" %>
-
 <%@page import="com.liferay.portal.kernel.dao.search.RowChecker"%>
 
 <liferay-theme:defineObjects />
 
-<portlet:defineObjects />
+<clay:management-toolbar>
+	<clay:management-toolbar-nav
+			searchContainerId="videosSearchContainer"
+			showCheckbox="<%= false %>"
+	/>
+	<clay:management-toolbar-filters>
+		<clay:management-toolbar-filter>
+			<clay:management-toolbar-filter-dropdown >
 
-<%--  <liferay-frontend:management-bar includeCheckBox="false"
-	searchContainerId="videosSearchContainer">
+				<clay:management-toolbar-filter-dropdown-items
+						items="${groupFilterItems}"
+						value="${filterGroupName}"
+				/>
+			</clay:management-toolbar-filter-dropdown>
+		</clay:management-toolbar-filter>
+	</clay:management-toolbar-filters>
+</clay:management-toolbar>
 
-	<liferay-frontend:management-bar-filters>
-		<liferay-frontend:management-bar-filter
-			managementBarFilterItems="${groupFilterItems}"
-			value="${filterGroupName}"
-		/>
-	</liferay-frontend:management-bar-filters>
-</liferay-frontend:management-bar> --%>
+	<%-- Composant : barre de filtres et de gestion des entites --%>
+
 
 <div id="<portlet:namespace />productsImageSelectorWrapper" class="container-fluid-1280 main-content-body">
 
