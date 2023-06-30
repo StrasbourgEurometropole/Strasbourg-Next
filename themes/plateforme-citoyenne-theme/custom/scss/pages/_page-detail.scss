@@ -62,10 +62,6 @@
 			}
 			.pro-meta {
 				margin-bottom: 0;
-				> * {
-					&:first-child {
-						padding-left: 0;
-					}
 				}
 			}
 			#breadcrumb {
@@ -259,5 +255,3 @@
 
 		}
 	}
-
-}

@@ -68,7 +68,6 @@
 }
 
 .pro-bloc-texte {
-	margin-top
 	> * {
 		&:last-child {
 			margin-bottom: 0;
@@ -90,7 +89,9 @@
 
 	h2 {
 		@include ft($f_hx, 1.4em, 700, $c_txt, 1em);
-
+		.pro-bloc-texte-header & {
+			color: $c_white;
+		}
 		margin-bottom: 10px;
 		display: inline-block;
 		@include mobile{
@@ -121,6 +122,9 @@
 
 	h3 {
 		@include ft($f_hx, 1.4em, 700, $c_txt, 1em);
+		.pro-bloc-texte-header & {
+			color: $c_white;
+		}
 		margin-top: 25px;
 		margin-bottom: 10px;
 		&.pro-big-title {
@@ -133,12 +137,18 @@
 		&.pro-txt-intro {
 			@include ft($f_txt, 1.125em, 400, $c_txt, 1.556em);
 		}
-		a {
+		a:not(.pro-btn-yellow) {
 			color: $c_txt;
 			text-decoration: underline;
+			.pro-bloc-texte-header & {
+				color: $c_white;
+			}
 			@include addTransition();
 			&:hover, &:focus {
 				color: $c_grey;
+				.pro-bloc-texte-header & {
+					color: $c_main;
+				}
 			}
 		}
 	}
@@ -214,6 +224,9 @@
 				height: 8px;
 				border-radius: 50%;
 				background: black;
+				.pro-bloc-texte-header & {
+					background: $c_white;
+				}
 			}
 			a {
 				color: $c_txt;

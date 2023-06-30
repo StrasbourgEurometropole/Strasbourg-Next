@@ -125,10 +125,10 @@ ol {
 	white-space: nowrap;
 	@include prefixLocationIcon();
 	&:before {
-		top: 5px;
+		top: 4px;
 	}
-	overflow: visible;
-	margin-left: 20px;
+	overflow: hidden;
+	padding-left: 15px;
 
 }
 
@@ -555,6 +555,6 @@ fieldset {
 }
 
 .prefix-location {
-	margin-left: 20px;
+	padding-left: 20px;
 	@include prefixLocationIcon();
 }

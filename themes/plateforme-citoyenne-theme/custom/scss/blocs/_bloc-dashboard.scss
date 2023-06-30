@@ -383,7 +383,7 @@
             position: relative;
             top: 2px;
             right: 0;
-            font-size: 15px;
+            font-size: 18px;
             @include addTransition();
           }
         }
@@ -612,7 +612,7 @@
               @include font();
               display: block;
               text-align: center;
-              font-size: 24px;
+              font-size: 18px;
               color: $c_txt;
               @include addTransition();
             }
