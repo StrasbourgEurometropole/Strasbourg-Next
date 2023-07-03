@@ -80,10 +80,10 @@
                     </c:forEach>
                 </select>
 
-                <liferay-ui:asset-categories-selector
+                <liferay-asset:asset-categories-selector
                     className="${dc.className}"
                     hiddenInput="Vocabulary"
-                    curCategoryIds="${dc.allCategoriesAgenda}" />
+                    categoryIds="${dc.allCategoriesAgenda}" />
 
                 <label><span>Tags</span></label>
                 <liferay-asset:asset-tags-selector
