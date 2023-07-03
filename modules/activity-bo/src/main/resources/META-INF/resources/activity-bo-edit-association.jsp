@@ -66,13 +66,13 @@
                         <aui:validator name="custom" errorMessage="requested-vocabularies-error">
                             function (val, fieldNode, ruleValue) {
                                 var validated = true;
-                                var fields = document.querySelectorAll('.detail-practice > .field-content');
+                                var fields = document.querySelectorAll('.detail-practice .field-content');
                                 for (var i = 0; i < fields.length; i++) {
                                     fieldContent = fields[i];
                                     // on vérifie que la pratique n'est pas supprimée
                                     var parent = $(fieldContent).closest(".lfr-form-row.lfr-form-row-inline");
-                                    if($(parent).attr("class").indexOf("hide") == -1 && $(fieldContent).find('.icon-asterisk').length > 0
-                                        && $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+                                    if($(parent).attr("class").indexOf("hide") == -1 && $(fieldContent).find('.lexicon-icon-asterisk').length > 0
+                                        && $(fieldContent).find('input[type="hidden"]').length == 0) {
                                         validated = false;
 								    	event.preventDefault();
                                         break;

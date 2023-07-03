@@ -9,6 +9,7 @@
 <%@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 <%@ taglib uri="http://liferay.com/tld/clay" prefix="clay" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://liferay.com/tld/asset" prefix="liferay-asset" %>
 
 <liferay-theme:defineObjects />
 
