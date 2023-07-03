@@ -6,7 +6,7 @@
 <%@page import="com.liferay.portal.kernel.dao.search.RowChecker"%>
 
 <liferay-theme:defineObjects />
-
+<portlet:defineObjects />
 <clay:management-toolbar>
 	<clay:management-toolbar-nav
 			searchContainerId="videosSearchContainer"
