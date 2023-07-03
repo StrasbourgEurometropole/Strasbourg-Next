@@ -1,6 +1,7 @@
 dependencies {
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
 	compileOnly group: "javax.servlet.jsp", name: "javax.servlet.jsp-api", version: "2.3.2-b01"
+	compileOnly group: "jstl", name: "jstl"
 
 	implementation project(":modules:edition-web")
 	implementation project(":modules:artwork-web")
