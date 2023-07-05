@@ -1,0 +1,972 @@
+{
+  "sit_id": "6192051",
+  "schemaorg": {
+    "@context": "http:\/\/schema.org",
+    "@type": "TouristAttraction",
+    "name": "Circuit p\u00e9destre du Thoureil - Test",
+    "description": "Du parking, tournez \u00e0 droite. Suivez la route avec le GR\u00ae3 (balisage Rouge et Blanc) sur environ 2km, et ignorez tous les d\u00e9parts sur les c\u00f4t\u00e9s.\r\n\r\n- \u00c0 l'intersection, tournez \u00e0 gauche. Suivez le chemin jusqu'\u00e0 la route goudronn\u00e9e \u00e0 proximit\u00e9 du lieu-dit la Filousi\u00e8re. Prolongez sur cette route jusqu'au croisement.\r\n\r\n- Tournez alors \u00e0 droite, puis tout de suite \u00e0 gauche pour suivre le chemin. Continuez ainsi jusqu'\u00e0 la prochaine intersection au niveau de la Pierre de N\u00e9zan.\r\n\r\n- Tournez \u00e0 gauche, puis \u00e0 droite. Continuez sur ce chemin avec orientation Sud-Est.\r\n\r\n- Traversez la D356 et suivez le chemin en face. D\u00e9passez les m\u00e9galithes des Varennes de Cumeray et continuez jusqu'au d\u00e9but d'une route.\r\n\r\n- Tournez alors \u00e0 gauche et suivez le sentier qui vous fait passer entre les habitations.\r\n\r\n- Tournez \u00e0 gauche et passez au pied de la chapelle. Suivez ensuite la route jusqu'aux premi\u00e8res maisons sur votre gauche.\r\n\r\n- Prenez le chemin \u00e0 droite : un panorama sur la Loire s'offre \u00e0 vous.\r\n\r\n- Ignorez la route qui part \u00e0 droite et obliquez \u00e0 gauche avec le chemin. Traversez une route puis longez le cimeti\u00e8re. Traversez la D356 et revenez au point de d\u00e9part.",
+    "image": "https:\/\/static.apidae-tourisme.com\/filestore\/objets-touristiques\/images\/236\/186\/13548268.jpg",
+    "availableLanguage": [
+      "Fran\u00e7ais"
+    ],
+    "isAccessibleForFree": true,
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Gennes-Val-de-Loire",
+      "postalCode": "49350",
+      "streetAddress": [
+        "Parking jouxtant les ateliers municipaux",
+        "Le Thoureil"
+      ]
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 47.371083,
+      "longitude": -0.267391
+    },
+    "url": "https:\/\/www.ot-saumur.fr\/",
+    "telephone": "02 41 40 20 60"
+  },
+  "fiche": {
+    "data": {
+      "type": "EQUIPEMENT",
+      "id": 6192051,
+      "nom": {
+        "libelleFr": "Circuit p\u00e9destre du Thoureil - Test"
+      },
+      "identifier": "SITRA2_LOI_6192051",
+      "state": "PUBLISHED",
+      "gestion": {
+        "dateCreation": "2022-07-01T10:50:10.315+0000",
+        "dateModification": "2022-07-01T10:50:32.816+0000",
+        "dateExportModification": "2023-01-23T15:10:55.464+0000",
+        "membreProprietaire": {
+          "type": {
+            "elementReferenceType": "MembreSitraType",
+            "id": 233,
+            "libelleFr": "Contributeur G\u00e9n\u00e9raliste",
+            "ordre": 1
+          },
+          "nom": "SPL Saumur Val de Loire Tourisme",
+          "dateCreation": "2019-03-04T14:28:20.308+0000",
+          "dateModification": "2023-02-02T07:36:57.695+0000",
+          "id": 1852,
+          "siteWeb": "https:\/\/www.ot-saumur.fr\/"
+        },
+        "signalerUnProblemeMails": [
+          "a.joseph@ot-saumur.fr",
+          "a.pineau@ot-saumur.fr",
+          "c.barbaroux@ot-saumur.fr",
+          "e.arribas@ot-saumur.fr",
+          "e.gillot@ot-saumur.fr",
+          "l.bonnet@ot-saumur.fr",
+          "m.marie@ot-saumur.fr",
+          "q.vanbruwaene@ot-saumur.fr",
+          "s.elhelou@ot-saumur.fr",
+          "s.lecerf@ot-saumur.fr"
+        ]
+      },
+      "informations": {
+        "moyensCommunication": [
+          {
+            "identifiant": 100920459,
+            "type": {
+              "elementReferenceType": "MoyenCommunicationType",
+              "id": 205,
+              "libelleFr": "Site web (URL)",
+              "ordre": 3
+            },
+            "coordonnees": {
+              "fr": "https:\/\/www.ot-saumur.fr\/"
+            }
+          },
+          {
+            "identifiant": 100920460,
+            "type": {
+              "elementReferenceType": "MoyenCommunicationType",
+              "id": 201,
+              "libelleFr": "T\u00e9l\u00e9phone",
+              "ordre": 1
+            },
+            "coordonnees": {
+              "fr": "02 41 40 20 60"
+            }
+          },
+          {
+            "identifiant": 76573693,
+            "type": {
+              "elementReferenceType": "MoyenCommunicationType",
+              "id": 207,
+              "libelleFr": "Page facebook",
+              "ordre": 7
+            },
+            "coordonnees": {
+              "fr": "https:\/\/www.facebook.com\/destinationsaumur\/"
+            }
+          },
+          {
+            "identifiant": 76573735,
+            "type": {
+              "elementReferenceType": "MoyenCommunicationType",
+              "id": 3755,
+              "libelleFr": "Twitter",
+              "ordre": 9
+            },
+            "coordonnees": {
+              "fr": "https:\/\/twitter.com\/saumur_tourisme"
+            }
+          },
+          {
+            "identifiant": 76572713,
+            "type": {
+              "elementReferenceType": "MoyenCommunicationType",
+              "id": 204,
+              "libelleFr": "M\u00e9l",
+              "ordre": 2
+            },
+            "coordonnees": {
+              "fr": "infos@ot-saumur.fr"
+            },
+            "observation": {
+              "libelleFr": "Service Accueil"
+            }
+          }
+        ],
+        "structureGestion": {
+          "type": "STRUCTURE",
+          "id": 5394102,
+          "nom": {
+            "libelleFr": "Communaut\u00e9 d\u2019Agglom\u00e9ration Saumur Val de Loire"
+          },
+          "identifier": "SITRA2_STR_5394102",
+          "state": "PUBLISHED",
+          "adresse": {
+            "adresse1": "11 rue du Mar\u00e9chal Leclerc",
+            "adresse2": "CS 54030",
+            "codePostal": "49408",
+            "etat": "France",
+            "commune": {
+              "id": 18718,
+              "code": "49328",
+              "nom": "Saumur",
+              "pays": {
+                "elementReferenceType": "Pays",
+                "id": 532,
+                "libelleFr": "France",
+                "ordre": 78
+              },
+              "codePostal": "49400"
+            }
+          },
+          "geolocalisation": {
+            "reperePlan": "I10",
+            "valide": true,
+            "geoJson": {
+              "type": "Point",
+              "coordinates": [
+                -0.082185,
+                47.25621
+              ]
+            }
+          }
+        },
+        "structureInformation": {
+          "type": "STRUCTURE",
+          "id": 5180282,
+          "nom": {
+            "libelleFr": "SPL Saumur Val de Loire Tourisme"
+          },
+          "identifier": "SITRA2_STR_5180282",
+          "state": "PUBLISHED",
+          "adresse": {
+            "adresse1": "8 bis quai Carnot",
+            "adresse2": "CS 54032",
+            "codePostal": "49415",
+            "etat": "France",
+            "commune": {
+              "id": 18718,
+              "code": "49328",
+              "nom": "Saumur",
+              "pays": {
+                "elementReferenceType": "Pays",
+                "id": 532,
+                "libelleFr": "France",
+                "ordre": 78
+              },
+              "codePostal": "49400"
+            }
+          },
+          "geolocalisation": {
+            "reperePlan": "J10",
+            "valide": true,
+            "geoJson": {
+              "type": "Point",
+              "coordinates": [
+                -0.077608,
+                47.262
+              ]
+            }
+          }
+        }
+      },
+      "presentation": {
+        "descriptifCourt": {
+          "libelleFr": "Itin\u00e9raire de randonn\u00e9e p\u00e9destre de 7,1 km. Circuit vallonn\u00e9 offrant des paysages en bord de Loire et en for\u00eat."
+        },
+        "descriptifDetaille": {
+          "libelleFr": "Du parking, tournez \u00e0 droite. Suivez la route avec le GR\u00ae3 (balisage Rouge et Blanc) sur environ 2km, et ignorez tous les d\u00e9parts sur les c\u00f4t\u00e9s.\r\n\r\n- \u00c0 l'intersection, tournez \u00e0 gauche. Suivez le chemin jusqu'\u00e0 la route goudronn\u00e9e \u00e0 proximit\u00e9 du lieu-dit la Filousi\u00e8re. Prolongez sur cette route jusqu'au croisement.\r\n\r\n- Tournez alors \u00e0 droite, puis tout de suite \u00e0 gauche pour suivre le chemin. Continuez ainsi jusqu'\u00e0 la prochaine intersection au niveau de la Pierre de N\u00e9zan.\r\n\r\n- Tournez \u00e0 gauche, puis \u00e0 droite. Continuez sur ce chemin avec orientation Sud-Est.\r\n\r\n- Traversez la D356 et suivez le chemin en face. D\u00e9passez les m\u00e9galithes des Varennes de Cumeray et continuez jusqu'au d\u00e9but d'une route.\r\n\r\n- Tournez alors \u00e0 gauche et suivez le sentier qui vous fait passer entre les habitations.\r\n\r\n- Tournez \u00e0 gauche et passez au pied de la chapelle. Suivez ensuite la route jusqu'aux premi\u00e8res maisons sur votre gauche.\r\n\r\n- Prenez le chemin \u00e0 droite : un panorama sur la Loire s'offre \u00e0 vous.\r\n\r\n- Ignorez la route qui part \u00e0 droite et obliquez \u00e0 gauche avec le chemin. Traversez une route puis longez le cimeti\u00e8re. Traversez la D356 et revenez au point de d\u00e9part."
+        },
+        "typologiesPromoSitra": [
+          {
+            "elementReferenceType": "TypologiePromoSitra",
+            "id": 1602,
+            "libelleFr": "Circuits de France_circuits",
+            "ordre": 369,
+            "description": "permet d'identifier les itin\u00e9raires \u00e0 faire remonter sur le site www.cirkwi.com",
+            "familleCritere": {
+              "elementReferenceType": "FamilleCritere",
+              "id": 34,
+              "libelleFr": "S\u00e9lections pour les diffuseurs",
+              "ordre": 124
+            }
+          }
+        ]
+      },
+      "localisation": {
+        "adresse": {
+          "adresse1": "Parking jouxtant les ateliers municipaux",
+          "adresse3": "Le Thoureil",
+          "codePostal": "49350",
+          "etat": "France",
+          "commune": {
+            "id": 18550,
+            "code": "49261",
+            "nom": "Gennes-Val-de-Loire",
+            "pays": {
+              "elementReferenceType": "Pays",
+              "id": 532,
+              "libelleFr": "France",
+              "ordre": 78
+            },
+            "codePostal": "49350"
+          }
+        },
+        "geolocalisation": {
+          "valide": true,
+          "geoJson": {
+            "type": "Point",
+            "coordinates": [
+              -0.267391,
+              47.371083
+            ]
+          }
+        },
+        "perimetreGeographique": [
+          {
+            "id": 18550,
+            "code": "49261",
+            "nom": "Gennes-Val-de-Loire",
+            "pays": {
+              "elementReferenceType": "Pays",
+              "id": 532,
+              "libelleFr": "France",
+              "ordre": 78
+            },
+            "codePostal": "49350"
+          }
+        ],
+        "environnements": [
+          {
+            "elementReferenceType": "Environnement",
+            "id": 135,
+            "libelleFr": "A la campagne",
+            "ordre": 1
+          },
+          {
+            "elementReferenceType": "Environnement",
+            "id": 153,
+            "libelleFr": "En for\u00eat",
+            "ordre": 57
+          },
+          {
+            "elementReferenceType": "Environnement",
+            "id": 195,
+            "libelleFr": "Village \u00e0 -2 km",
+            "ordre": 65
+          },
+          {
+            "elementReferenceType": "Environnement",
+            "id": 200,
+            "libelleFr": "Itin\u00e9raire G.R. \u00e0 moins d'1 km",
+            "ordre": 49,
+            "description": "1 km maxi"
+          },
+          {
+            "elementReferenceType": "Environnement",
+            "id": 4006,
+            "libelleFr": "Vue sur fleuve ou rivi\u00e8re",
+            "ordre": 67,
+            "familleCritere": {
+              "elementReferenceType": "FamilleCritere",
+              "id": 6528,
+              "libelleFr": "Vue sur",
+              "ordre": 164
+            }
+          }
+        ]
+      },
+      "liens": [],
+      "prestations": {
+        "equipements": [
+          {
+            "elementReferenceType": "PrestationEquipement",
+            "id": 761,
+            "libelleFr": "WC publics",
+            "ordre": 229,
+            "familleCritere": {
+              "elementReferenceType": "FamilleCritere",
+              "id": 73,
+              "libelleFr": "Sanitaires",
+              "ordre": 119
+            }
+          }
+        ],
+        "services": [
+          {
+            "elementReferenceType": "PrestationService",
+            "id": 687,
+            "libelleFr": "Animaux accept\u00e9s",
+            "ordre": 344
+          },
+          {
+            "elementReferenceType": "PrestationService",
+            "id": 839,
+            "libelleFr": "H\u00e9bergement",
+            "ordre": 154,
+            "description": "Ne concerne pas les fichiers h\u00e9bergement : HLO, HCO, CAM et HOT.\r\nConcerne les objets proposant de l'h\u00e9bergement en annexe \u00e0 leur activit\u00e9.",
+            "familleCritere": {
+              "elementReferenceType": "FamilleCritere",
+              "id": 117,
+              "libelleFr": "Formule d'h\u00e9bergement",
+              "ordre": 65
+            }
+          },
+          {
+            "elementReferenceType": "PrestationService",
+            "id": 1177,
+            "libelleFr": "Restauration",
+            "ordre": 186,
+            "familleCritere": {
+              "elementReferenceType": "FamilleCritere",
+              "id": 119,
+              "libelleFr": "Restauration",
+              "ordre": 118
+            }
+          }
+        ],
+        "animauxAcceptes": "ACCEPTES",
+        "animauxAcceptesSupplement": "NON_DISPONIBLE",
+        "descriptifAnimauxAcceptes": {
+          "libelleFr": "Les chiens doivent \u00eatre tenu en laisse"
+        },
+        "languesParlees": [
+          {
+            "elementReferenceType": "Langue",
+            "id": 1197,
+            "libelleFr": "Fran\u00e7ais",
+            "ordre": 13
+          }
+        ],
+        "typesClientele": [
+          {
+            "elementReferenceType": "TypeClientele",
+            "id": 558,
+            "libelleFr": "Randonneurs",
+            "ordre": 24,
+            "description": "Ce crit\u00e8re doit \u00eatre appliqu\u00e9 seulement si l\u2019offre concern\u00e9e pr\u00e9sente au moins deux sp\u00e9cificit\u00e9s sur les trois propos\u00e9es :\r\n\r\n- Renseignement client (\u00e9tape suivante, m\u00e9t\u00e9o, possibilit\u00e9 de r\u00e9server\u2026), \r\n- infos \u00e0 jour sur l\u2019\u00e9tablissement (tarifs, acc\u00e8s, type de couchage, mode de r\u00e9servation\u2026), \r\n- lave-linge et s\u00e9choir.",
+            "familleCritere": {
+              "elementReferenceType": "FamilleCritere",
+              "id": 3,
+              "libelleFr": "Client\u00e8les pratiquant une activit\u00e9 sp\u00e9cifique",
+              "ordre": 184,
+              "description": "Cette famille de crit\u00e8res a pour objectif d'identifier les objets ou structures non r\u00e9f\u00e9renc\u00e9s dans le cadre d\u2019une d\u00e9marche qualifiante comme un label national ou une d\u00e9marche d\u00e9partementale (rando, cyclo, VTT \u2026).\r\n \r\nS\u2019il n\u2019existe pas de d\u00e9marche structur\u00e9e sur la pratique, il reste important de pouvoir identifier une offre particuli\u00e8rement adapt\u00e9e, en prenant en compte les services propos\u00e9s, mais aussi l\u2019expertise et le conseil."
+            }
+          },
+          {
+            "elementReferenceType": "TypeClientele",
+            "id": 587,
+            "libelleFr": "Niveau vert - Facile",
+            "ordre": 52,
+            "description": "Concerne principalement les itin\u00e9raires de randonn\u00e9e p\u00e9destre, les itin\u00e9raires cyclotourisme et VTT\r\nVert = niveau facile",
+            "familleCritere": {
+              "elementReferenceType": "FamilleCritere",
+              "id": 35,
+              "libelleFr": "Niveaux de pratique sportive",
+              "ordre": 179,
+              "description": "Sans s\u00e9lection de niveau de pratique (d\u00e9butant ou confirm\u00e9), l\u2019offre est consid\u00e9r\u00e9e comme accessible au plus grand nombre."
+            }
+          }
+        ]
+      },
+      "ouverture": {
+        "periodeEnClair": [],
+        "periodeEnClairGenerationMode": "MANUEL",
+        "indicationsPeriode": [
+          {
+            "elementReferenceType": "IndicationPeriode",
+            "id": 416,
+            "libelleFr": "Automne",
+            "ordre": 4,
+            "description": "Permet de trouver des objets en fonction de la saison automnale - 21 septembre au 20 d\u00e9cembre",
+            "familleCritere": {
+              "elementReferenceType": "FamilleCritere",
+              "id": 114,
+              "libelleFr": "P\u00e9riode",
+              "ordre": 112
+            }
+          },
+          {
+            "elementReferenceType": "IndicationPeriode",
+            "id": 418,
+            "libelleFr": "Et\u00e9",
+            "ordre": 3,
+            "description": "Permet de trouver des objets en fonction de la saison estivale - 21 juin au 20 septembre",
+            "familleCritere": {
+              "elementReferenceType": "FamilleCritere",
+              "id": 114,
+              "libelleFr": "P\u00e9riode",
+              "ordre": 112
+            }
+          },
+          {
+            "elementReferenceType": "IndicationPeriode",
+            "id": 435,
+            "libelleFr": "Hiver",
+            "ordre": 5,
+            "description": "Permet de trouver des objets en fonction de la saison hivernale - 21 d\u00e9cembre au 20 mars",
+            "familleCritere": {
+              "elementReferenceType": "FamilleCritere",
+              "id": 114,
+              "libelleFr": "P\u00e9riode",
+              "ordre": 112
+            }
+          },
+          {
+            "elementReferenceType": "IndicationPeriode",
+            "id": 436,
+            "libelleFr": "Printemps",
+            "ordre": 2,
+            "description": "Permet de trouver des objets en fonction de la saison printani\u00e8re - 21 mars au 20 juin",
+            "familleCritere": {
+              "elementReferenceType": "FamilleCritere",
+              "id": 114,
+              "libelleFr": "P\u00e9riode",
+              "ordre": 112
+            }
+          }
+        ],
+        "multihoraire": {
+          "errorType": "Error",
+          "errorMessage": "Missing ouverture or ouverture.periodesOuvertures in ObjetTouristique",
+          "trace": [
+            "Error: Missing ouverture or ouverture.periodesOuvertures in ObjetTouristique",
+            " at Runtime.exports.lambdaHandler [as handler] (\/var\/task\/app.js:60:17)",
+            " at Runtime.handleOnceNonStreaming (\/var\/runtime\/Runtime.js:74:25)"
+          ]
+        }
+      },
+      "descriptionTarif": {
+        "indicationTarif": "GRATUIT",
+        "gratuit": true,
+        "tarifsEnClair": {
+          "libelleFr": "Gratuit."
+        },
+        "tarifsEnClairGenerationMode": "AUTOMATIQUE",
+        "devise": "EUR",
+        "conditions": []
+      },
+      "reservation": [],
+      "criteresInternes": [
+        {
+          "id": 17566,
+          "libelle": "EQUIPE | Simon El Helou",
+          "commentaire": "Offres suivies par Simon El Helou"
+        }
+      ],
+      "contacts": [
+        {
+          "identifiant": 17111928,
+          "referent": true,
+          "civilite": {
+            "elementReferenceType": "ContactCivilite",
+            "id": 443,
+            "libelleFr": "Monsieur",
+            "ordre": 9
+          },
+          "nom": "El Helou",
+          "prenom": "Simon",
+          "titre": {
+            "libelleFr": "Charg\u00e9 de mission itin\u00e9rance"
+          },
+          "fonction": {
+            "elementReferenceType": "ContactFonction",
+            "id": 471,
+            "libelleFr": "Service Promotion",
+            "ordre": 27
+          },
+          "moyensCommunication": [
+            {
+              "identifiant": 76582641,
+              "type": {
+                "elementReferenceType": "MoyenCommunicationType",
+                "id": 204,
+                "libelleFr": "M\u00e9l",
+                "ordre": 2
+              },
+              "coordonnees": {
+                "fr": "s.elhelou@ot-saumur.fr"
+              }
+            }
+          ]
+        }
+      ],
+      "illustrations": [
+        {
+          "identifiant": 13378175,
+          "link": false,
+          "type": "IMAGE",
+          "nom": {
+            "libelleFr": "Randonn\u00e9e au Thoureil"
+          },
+          "legende": {
+            "libelleFr": "Coucher de soleil et bateaux sur la Loire au Thoureil"
+          },
+          "copyright": {
+            "libelleFr": "S. EL HELOU"
+          },
+          "traductionFichiers": [
+            {
+              "locale": "fr",
+              "url": "https:\/\/static.apidae-tourisme.com\/filestore\/objets-touristiques\/images\/236\/186\/13548268.jpg",
+              "urlListe": "https:\/\/static.apidae-tourisme.com\/filestore\/objets-touristiques\/images\/236\/186\/13548268-liste.jpg",
+              "urlFiche": "https:\/\/static.apidae-tourisme.com\/filestore\/objets-touristiques\/images\/236\/186\/13548268-fiche.jpg",
+              "urlDiaporama": "https:\/\/static.apidae-tourisme.com\/filestore\/objets-touristiques\/images\/236\/186\/13548268-diaporama.jpg",
+              "extension": "jpg",
+              "fileName": "Le Thoureil - web",
+              "taille": 6024454,
+              "hauteur": 2976,
+              "largeur": 3968,
+              "lastModifiedDate": "2022-07-01T10:50:32.954+0000"
+            }
+          ],
+          "locked": false
+        }
+      ],
+      "multimedias": [
+        {
+          "identifiant": 13378178,
+          "link": false,
+          "type": "PLAN",
+          "nom": {
+            "libelleFr": "Gpx Le Thoureil"
+          },
+          "traductionFichiers": [
+            {
+              "locale": "fr",
+              "url": "https:\/\/static.apidae-tourisme.com\/filestore\/objets-touristiques\/plans\/237\/186\/13548269\/Le+Thoureil.gpx",
+              "extension": "gpx",
+              "fileName": "Le Thoureil",
+              "taille": 23036,
+              "lastModifiedDate": "2022-07-01T10:50:36.058+0000"
+            }
+          ],
+          "locked": false
+        }
+      ],
+      "visites": {
+        "visitable": false
+      },
+      "territoires": [
+        {
+          "type": "TERRITOIRE",
+          "id": 5261476,
+          "nom": {
+            "libelleFr": "Communaut\u00e9 d\u2019Agglom\u00e9ration Saumur Val de Loire"
+          },
+          "identifier": "SITRA2_GEO_5261476",
+          "state": "PUBLISHED"
+        },
+        {
+          "type": "TERRITOIRE",
+          "id": 5315149,
+          "nom": {
+            "libelleFr": "Maine-et-Loire"
+          },
+          "identifier": "SITRA2_GEO_5315149",
+          "state": "PUBLISHED"
+        }
+      ],
+      "informationsEquipement": {
+        "rubrique": {
+          "elementReferenceType": "EquipementRubrique",
+          "id": 2988,
+          "libelleFr": "Loisirs sportifs",
+          "ordre": 4
+        },
+        "activites": [
+          {
+            "elementReferenceType": "EquipementActivite",
+            "id": 3184,
+            "libelleFr": "Sports p\u00e9destres",
+            "ordre": 141,
+            "familleCritere": {
+              "elementReferenceType": "FamilleCritere",
+              "id": 61,
+              "libelleFr": "Sports p\u00e9destres",
+              "ordre": 149
+            }
+          },
+          {
+            "elementReferenceType": "EquipementActivite",
+            "id": 3333,
+            "libelleFr": "Itin\u00e9raire de randonn\u00e9e p\u00e9destre",
+            "ordre": 145,
+            "description": "Les randonn\u00e9es avec accompagnateur sont \u00e0 saisir en \"Activit\u00e9s\".",
+            "familleCritere": {
+              "elementReferenceType": "FamilleCritere",
+              "id": 61,
+              "libelleFr": "Sports p\u00e9destres",
+              "ordre": 149
+            },
+            "parent": {
+              "elementReferenceType": "EquipementActivite",
+              "id": 3184,
+              "libelleFr": "Sports p\u00e9destres",
+              "ordre": 141
+            }
+          }
+        ],
+        "itineraire": {
+          "distance": 7.1,
+          "dureeJournaliere": 110,
+          "itineraireType": "BOUCLE",
+          "itineraireBalise": "BALISE",
+          "precisionsBalisage": {
+            "libelleFr": "Balisage jaune"
+          },
+          "naturesTerrain": [
+            {
+              "elementReferenceType": "NatureTerrain",
+              "id": 4241,
+              "libelleFr": "Terre",
+              "ordre": 10
+            },
+            {
+              "elementReferenceType": "NatureTerrain",
+              "id": 4242,
+              "libelleFr": "Rev\u00eatement dur (goudron, ciment, plancher)",
+              "ordre": 8,
+              "description": "Les itin\u00e9raires avec un rev\u00eatement dur sont potentiellement accessibles aux personnes en fauteuil roulant. Cocher les crit\u00e8res correspondants dans l'onglet \"prestations \/ Tourisme adapt\u00e9\"."
+            }
+          ]
+        }
+      },
+      "formatVersion": "v002",
+      "expiration": [],
+      "informationsPrestataireActivites": {
+        "prestataireActivites": false
+      },
+      "enquete": [],
+      "donneesPrivees": [
+        {
+          "nomTechnique": "1852_DescriptifE-sprit",
+          "libelleFr": "Descriptif E-Sprit",
+          "ordre": 2,
+          "descriptif": {
+            "libelleFr": "ITIITIZSSRLETHOUREIL"
+          }
+        }
+      ]
+    },
+    "apidae_id": "6192051",
+    "lang": "fr",
+    "exist": true,
+    "current_aspect": false,
+    "data_aspect": []
+  },
+  "permalink": "https:\/\/saumur.dev-thuria.com\/fiches\/circuit-pedestre-du-thoureil-test-6192051\/",
+  "escaped_title": "Circuit p\u00e9destre du Thoureil – Test",
+  "title": "Circuit p\u00e9destre du Thoureil – Test",
+  "surtitre": "Loisirs sportifs",
+  "classement": {
+    "star": {
+      "icon": "etoile",
+      "tooltip": "\u00c9toile",
+      "value": 0
+    },
+    "epis": {
+      "icon": "epis",
+      "tooltip": "\u00c9pi",
+      "value": 0
+    },
+    "clefs": {
+      "icon": "cle",
+      "tooltip": "Cl\u00e9",
+      "value": 0
+    },
+    "cheminees": {
+      "icon": "cheminee",
+      "tooltip": "Ch\u00e9min\u00e9e",
+      "value": 0
+    },
+    "toques": {
+      "icon": "toque",
+      "tooltip": "Toque",
+      "value": 0
+    }
+  },
+  "geo": {
+    "lat": "47.371083",
+    "lng": "-0.267391"
+  },
+  "photos": [
+    {
+      "url": "https:\/\/static.apidae-tourisme.com\/filestore\/objets-touristiques\/images\/236\/186\/13548268.jpg",
+      "title": "Randonn\u00e9e au Thoureil",
+      "alt": "Coucher de soleil et bateaux sur la Loire au Thoureil",
+      "extension": "jpg",
+      "hauteur": 2976,
+      "largeur": 3968,
+      "credit": "S. EL HELOU",
+      "gallery_thumb": {
+        "header": {
+          "url": "https:\/\/saumur.dev-thuria.com\/wp-content\/uploads\/sitlor\/0c7086f4cab844843403bb76ac742811-13548268-1600x900.jpg",
+          "width": 1600,
+          "height": 900,
+          "size": 344485,
+          "cropped": false,
+          "alt": "Coucher de soleil et bateaux sur la Loire au Thoureil",
+          "credit": "S. EL HELOU"
+        },
+        "landscape": {
+          "url": "https:\/\/saumur.dev-thuria.com\/wp-content\/uploads\/sitlor\/0c7086f4cab844843403bb76ac742811-13548268-900x550.jpg",
+          "width": 900,
+          "height": 550,
+          "size": 140597,
+          "cropped": false,
+          "alt": "Coucher de soleil et bateaux sur la Loire au Thoureil",
+          "credit": "S. EL HELOU"
+        },
+        "overlay": {
+          "url": "https:\/\/saumur.dev-thuria.com\/wp-content\/uploads\/sitlor\/0c7086f4cab844843403bb76ac742811-13548268-380x0.jpg",
+          "width": 380,
+          "height": 285,
+          "size": 42742,
+          "cropped": false,
+          "alt": "Coucher de soleil et bateaux sur la Loire au Thoureil",
+          "credit": "S. EL HELOU"
+        },
+        "force_resize": {
+          "0": "gallery_thumb",
+          "alt": "Coucher de soleil et bateaux sur la Loire au Thoureil",
+          "credit": "S. EL HELOU"
+        }
+      },
+      "cards": {
+        "all": {
+          "url": "https:\/\/saumur.dev-thuria.com\/wp-content\/uploads\/sitlor\/0c7086f4cab844843403bb76ac742811-13548268-355x250.jpg",
+          "width": 355,
+          "height": 250,
+          "size": 38389,
+          "cropped": false,
+          "alt": "Coucher de soleil et bateaux sur la Loire au Thoureil",
+          "credit": "S. EL HELOU"
+        }
+      }
+    }
+  ],
+  "com_data": {
+    "web": [
+      "https:\/\/www.ot-saumur.fr\/"
+    ],
+    "tel": [
+      "02 41 40 20 60"
+    ],
+    "mel": [
+      "infos@ot-saumur.fr"
+    ]
+  },
+  "com_rs": {
+    "facebook": "https:\/\/www.facebook.com\/destinationsaumur\/",
+    "twitter": "https:\/\/twitter.com\/saumur_tourisme"
+  },
+  "adresse": [
+    "Parking jouxtant les ateliers municipaux",
+    "Le Thoureil",
+    "49350 Gennes-Val-de-Loire"
+  ],
+  "commune": "Gennes-Val-de-Loire",
+  "environnement": [
+    "A la campagne",
+    "En for\u00eat",
+    "Village \u00e0 -2 km",
+    "Itin\u00e9raire G.R. \u00e0 moins d'1 km",
+    "Vue sur fleuve ou rivi\u00e8re"
+  ],
+  "complement_localisation": null,
+  "resa_url": false,
+  "handicap": {
+    "has_data": false,
+    "labels": [],
+    "descriptifs_par_deficience": [],
+    "criteres_tourisme_adaptes": null
+  },
+  "header_pictos": {
+    "has_data": false
+  },
+  "description": {
+    "has_data": true,
+    "description": [
+      "Du parking, tournez \u00e0 droite. Suivez la route avec le GR\u00ae3 (balisage Rouge et Blanc) sur environ 2km, et ignorez tous les d\u00e9parts sur les c\u00f4t\u00e9s.\r\n\r\n- \u00c0 l'intersection, tournez \u00e0 gauche. Suivez le chemin jusqu'\u00e0 la route goudronn\u00e9e \u00e0 proximit\u00e9 du lieu-dit la Filousi\u00e8re. Prolongez sur cette route jusqu'au croisement.\r\n\r\n- Tournez alors \u00e0 droite, puis tout de suite \u00e0 gauche pour suivre le chemin. Continuez ainsi jusqu'\u00e0 la prochaine intersection au niveau de la Pierre de N\u00e9zan.\r\n\r\n- Tournez \u00e0 gauche, puis \u00e0 droite. Continuez sur ce chemin avec orientation Sud-Est.\r\n\r\n- Traversez la D356 et suivez le chemin en face. D\u00e9passez les m\u00e9galithes des Varennes de Cumeray et continuez jusqu'au d\u00e9but d'une route.\r\n\r\n- Tournez alors \u00e0 gauche et suivez le sentier qui vous fait passer entre les habitations.\r\n\r\n- Tournez \u00e0 gauche et passez au pied de la chapelle. Suivez ensuite la route jusqu'aux premi\u00e8res maisons sur votre gauche.\r\n\r\n- Prenez le chemin \u00e0 droite : un panorama sur la Loire s'offre \u00e0 vous.\r\n\r\n- Ignorez la route qui part \u00e0 droite et obliquez \u00e0 gauche avec le chemin. Traversez une route puis longez le cimeti\u00e8re. Traversez la D356 et revenez au point de d\u00e9part."
+    ],
+    "excerpt": "Itin\u00e9raire de randonn\u00e9e p\u00e9destre de 7,1 km. Circuit vallonn\u00e9 offrant des paysages en bord de Loire et en for\u00eat."
+  },
+  "apropos_infos": {
+    "has_data": false
+  },
+  "apropos_pictos": {
+    "has_data": false
+  },
+  "labels": {
+    "has_data": false
+  },
+  "infos_comp": {
+    "has_data": true,
+    "infos": {
+      "langues": {
+        "title": "Langues parl\u00e9es",
+        "amenityFeature": false,
+        "data": {
+          "default": [
+            "Fran\u00e7ais"
+          ]
+        }
+      },
+      "services": {
+        "title": "Services",
+        "amenityFeature": true,
+        "data": {
+          "default": [
+            "Animaux accept\u00e9s"
+          ],
+          "Formule d'h\u00e9bergement": [
+            "H\u00e9bergement"
+          ],
+          "Restauration": [
+            "Restauration"
+          ]
+        }
+      },
+      "equipements": {
+        "title": "\u00c9quipements",
+        "amenityFeature": true,
+        "data": {
+          "default": [],
+          "Sanitaires": [
+            "WC publics"
+          ]
+        }
+      },
+      "act_sur_place": {
+        "title": "Activit\u00e9s sur place",
+        "amenityFeature": false,
+        "data": {
+          "default": [],
+          "Sports p\u00e9destres": [
+            "Sports p\u00e9destres",
+            "Itin\u00e9raire de randonn\u00e9e p\u00e9destre"
+          ]
+        }
+      }
+    }
+  },
+  "capacites": {
+    "has_data": false
+  },
+  "descriptifs_thematises": {
+    "has_data": false
+  },
+  "tarifs": {
+    "has_data": false
+  },
+  "ouverture": {
+    "has_data": false,
+    "display_next_occurence": false
+  },
+  "documents": {
+    "has_data": true,
+    "files": [
+      {
+        "titre": "Gpx Le Thoureil",
+        "url": "https:\/\/static.apidae-tourisme.com\/filestore\/objets-touristiques\/plans\/237\/186\/13548269\/Le+Thoureil.gpx",
+        "size": 23036,
+        "type": "gpx"
+      }
+    ]
+  },
+  "videos": {
+    "has_data": false
+  },
+  "offres_associees": {
+    "has_data": false
+  },
+  "date_maj": 1656672632,
+  "modif_mailtopb": "mailto:a.joseph@ot-saumur.fr,a.pineau@ot-saumur.fr,c.barbaroux@ot-saumur.fr,e.arribas@ot-saumur.fr,e.gillot@ot-saumur.fr,l.bonnet@ot-saumur.fr,m.marie@ot-saumur.fr,q.vanbruwaene@ot-saumur.fr,s.elhelou@ot-saumur.fr,s.lecerf@ot-saumur.fr?subject=Probl\u00e8me%20detect\u00e9%20sur%20la%20fiche%20Apidae%206192051%20-%20Circuit%20p\u00e9destre%20du%20Thoureil%20-%20Test",
+  "url_rawdata": "https:\/\/saumur.dev-thuria.com\/fiches\/circuit-pedestre-du-thoureil-test-6192051\/?data&wpdebug",
+  "PDT": {
+    "data": {
+      "Ouverture au public durant les vendanges": false,
+      "Possibilit\u00e9 de participer aux vendanges": false,
+      "Vin Naturel": false,
+      "Visite dans le chai": false,
+      "Visite dans les vignes": false
+    },
+    "has_data": false
+  },
+  "RES": {
+    "data": {
+      "Anguille de Loire": false,
+      "Brochet de Loire au beurre blanc": false,
+      "Carte en Anglais": false,
+      "Fritures de Loire": false,
+      "Galipettes": false,
+      "Guinguette": false,
+      "La Gouline": false,
+      "Le Cr\u00eamet d'Anjou": false,
+      "Le Sandre de Loire": false,
+      "Poires tap\u00e9es": false,
+      "Pommes tap\u00e9es": false,
+      "Table raffin\u00e9e": false
+    },
+    "has_data": false
+  },
+  "ITI": {
+    "data": {
+      "Distance": {
+        "value": 7.1,
+        "type": "km"
+      },
+      "Dur\u00e9e": {
+        "value": null,
+        "type": "jour"
+      },
+      "balisageDesc": "Balisage jaune",
+      "passageDelicat": ""
+    },
+    "has_data": true
+  },
+  "gpx": [
+    "https:\/\/saumur.dev-thuria.com\/wp-content\/uploads\/external\/gpx\/Le+Thoureil.gpx"
+  ],
+  "hasObjetLies": false
+}

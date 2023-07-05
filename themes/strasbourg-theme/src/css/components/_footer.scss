@@ -1,0 +1,187 @@
+.st-footer {
+	.st-container {
+		--grid-gap: 40px;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-gap: var(--grid-gap);
+		@include tablet-portrait {
+			grid-template-columns: 1fr;
+		}
+		@include mobile {
+			--grid-gap: 30px;
+		}
+	}
+
+	.st-title {
+		@include ft($f_txt, 16px, 700, $c_white, 1);
+		@include letter-spacing(25);
+		@include mobile {
+			font-size: 14px;
+		}
+	}
+
+	.st-adresse {
+		margin-top: 9px;
+		@include mobile {
+			margin-top: 20px;
+		}
+
+		p {
+			@include ft($f_txt, $s_p, 300, $c_txt, 1.57);
+			@include letter-spacing(25);
+			@include mobile {
+				font-size: 12px;
+			}
+		}
+	}
+
+	.st-liens-rapides {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		margin: 10px 0;
+		@include mobile {
+			flex-direction: column;
+			align-items: flex-start;
+			margin: 13px 0;
+		}
+
+		.st-lien {
+			display: flex;
+			align-items: center;
+			padding: 15px 38px 15px 0;
+			@include create-outline();
+			@include mobile {
+				padding: 7px 0;
+			}
+
+			.st-text {
+				position: relative;
+				@include ft($f_txt, $s_p, 300, $c_txt, 1.57);
+				@include letter-spacing(25);
+				@include addTransition();
+				@include mobile {
+					font-size: 12px;
+				}
+
+				&:after {
+					content: "";
+					display: block;
+					width: 100%;
+					height: 1px;
+					background-color: $c_txt;
+					position: absolute;
+					left: 0;
+					bottom: 0;
+					@include addTransition();
+				}
+			}
+
+			[class^="st-icon-"], [class*=" st-icon-"] {
+				color: $c_sub;
+				font-size: 20px;
+				margin-right: 6px;
+			}
+
+			@include can-hover {
+				.st-text {
+					color: $c_sub;
+
+					&:after {
+						background-color: $c_sub;
+						height: 2px;
+					}
+				}
+			}
+		}
+	}
+
+	.st-liens-contact {
+		li + li {
+			margin-top: 10px;
+		}
+	}
+
+	.st-surtitre {
+		@include ft($f_txt, 12px, 400, $c_sub, 1);
+		@include letter-spacing(25);
+		text-transform: uppercase;
+		@include mobile {
+			font-size: 11px;
+		}
+	}
+
+	.st-hashtag {
+		@include ft($f_txt, 30px, 600, $c_white, 1);
+		@include mobile {
+			font-size: 20px;
+		}
+	}
+
+	.st-social-links {
+		margin-top: 20px;
+		@include mobile {
+			margin-top: 10px;
+		}
+	}
+
+	.st-menu-footer {
+		margin-top: 30px;
+		@include mobile {
+			margin-top: 20px;
+		}
+
+		a {
+			@include ft($f_txt, 16px, 700, $c_white, 1);
+			display: block;
+			padding: 9px 0;
+			@include create-outline();
+			@include mobile {
+				padding: 7px 0;
+				font-size: 14px;
+			}
+			@include can-hover {
+				color: $c_sub;
+			}
+		}
+	}
+
+	.st-container-mentions {
+		background-color: $c_greydark;
+		margin-top: 40px;
+		padding: 14px 0;
+		@include tablet-portrait {
+			height: auto;
+			margin-top: 25px;
+			padding-top: 20px;
+			padding-bottom: 80px;
+		}
+
+		.st-liens {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			height: 100%;
+			@include tablet-portrait {
+				flex-direction: column;
+				margin-left: var(--border-gutter);
+				margin-right: var(--border-gutter);
+			}
+		}
+
+		a {
+			display: flex;
+			align-items: center;
+			@include ft($f_txt, $s_link_small, 300, $c_white, 1);
+			padding: 10px;
+			height: 100%;
+			@include create-outline();
+			@include can-hover {
+				color: $c_sub;
+			}
+			@include tablet-portrait {
+				padding: 8px 0 8px 0;
+			}
+		}
+	}
+}

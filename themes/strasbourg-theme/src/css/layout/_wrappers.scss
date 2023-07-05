@@ -1,0 +1,55 @@
+// Containers centrés avec largeur max
+.st-wrapper {
+	position: relative;
+	max-width: $wrapper-width;
+	margin-left: var(--border-gutter);
+	margin-right: var(--border-gutter);
+
+	@media screen and (min-width: ($wrapper-width + 2 * $border-gutter)) {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	&.st-wrapper-small {
+		max-width: $wrapper-small-width;
+
+		@media screen and (min-width: ($wrapper-small-width + 2 * $border-gutter)) {
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+
+	&.st-wrapper-large {
+		max-width: $wrapper-large-width;
+		margin-left: var(--border-gutter); // surcharge la règle du wrapper par défaut
+		margin-right: var(--border-gutter);
+
+		@media screen and (min-width: ($wrapper-large-width + 2 * $border-gutter)) {
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+
+
+	// Toujours margin auto quand un wrapper est imbriqué dans un plus grand wrapper
+	.st-wrapper & {
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+
+.st-wrapper-modifier {
+	max-width: $wrapper-small-width;
+	width: calc(100% - 220px);
+	margin-left: auto;
+	margin-right: 0;
+	@include tablet-portrait {
+		max-width: 100%;
+		width: 100%;
+		margin-left: 0;
+		margin-right: 0;
+	}
+	@include mobile {
+		max-width: 100%;
+	}
+}

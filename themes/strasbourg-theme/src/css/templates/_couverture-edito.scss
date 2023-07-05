@@ -1,0 +1,10 @@
+.st-header-edito {
+	margin-bottom: 36px;
+
+	.st-img-wrapper figure {
+		@include mobile {
+			--aspect-ratio: 320/214;
+			@include aspect-ratio(var(--aspect-ratio));
+		}
+	}
+}

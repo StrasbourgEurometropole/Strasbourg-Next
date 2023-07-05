@@ -1,0 +1,116 @@
+.st-toolbar-navigation {
+	display: none;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: var(--toolbar-height);
+	z-index: z-index("barre-navigation");
+	background-color: $c_greydark;
+	@include tablet-portrait {
+		display: block;
+	}
+
+	& ~ .st-footer {
+		@include tablet-portrait {
+			padding-bottom: 60px;
+		}
+		@include mobile {
+			padding-bottom: 0px;
+		}
+	}
+
+	.st-toolbar-inner {
+		display: flex;
+		align-items: center;
+		height: 100%;
+	}
+
+	.st-has-logo {
+		margin-right: auto;
+
+		.st-logo img {
+			max-height: 30px;
+			@include mobile {
+				max-height: 20px;
+				width: auto;
+			}
+
+		}
+	}
+
+	li:not(.st-has-logo) {
+		width: 44px;
+		height: 44px;
+		margin-right: 5px;
+
+		&:last-of-type {
+			margin-right: 0px;
+		}
+
+		button, a, select {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	.st-has-lang-dropdown {
+		position: relative;
+
+		select {
+			border: 1px solid $c_border;
+			padding: 5px;
+		}
+
+		&:after {
+			display: block;
+			@include icomoon($st-icon-arrow-down);
+			font-size: 10px;
+			color: rgba($c_white, 0.75);
+			position: absolute;
+			right: 10px;
+			top: 51%;
+			transform: translateY(-50%);
+			pointer-events: none;
+		}
+	}
+
+	.st-lien-libre {
+		border: 1px solid $c_sub;
+	}
+
+	.st-btn-search {
+		background-color: $c_white;
+
+		[class^="st-icon-"], [class*=" st-icon-"] {
+			font-size: 16px;
+			color: $c_dim_grey;
+		}
+	}
+
+	.st-btn-menu {
+		background-color: $c_sub;
+	}
+
+	.st-icon-container {
+		display: block;
+		width: 16px;
+		height: 12px;
+
+		.st-line {
+			display: block;
+			width: 100%;
+			height: 2px;
+			background-color: $c_dark_navy;
+			margin-bottom: 3px;
+			@include addTransition();
+
+			&:last-of-type {
+				margin-bottom: 0px;
+			}
+		}
+	}
+}

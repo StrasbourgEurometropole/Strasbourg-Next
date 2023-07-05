@@ -1,0 +1,80 @@
+.st-bloc-chiffres-cles {
+	.st-chiffres-container {
+		// Déclaration des variables contenant la largeur du gap entre les éléments
+		--col-gap: 40px;
+		--row-gap: 20px;
+
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		margin-left: calc(var(--col-gap) * -1 / 2);
+		margin-right: calc(var(--col-gap) * -1 / 2);
+		margin-top: calc(var(--row-gap) * -1);
+		@include desktop {
+			--col-gap: 20px;
+		}
+
+		@include mobile {
+			margin-left: 0;
+			margin-right: 0;
+			flex-direction: column;
+			--row-gap: 10px;
+		}
+
+		> * {
+			margin-left: calc(var(--col-gap) / 2);
+			margin-right: calc(var(--col-gap) / 2);
+			margin-top: var(--row-gap);
+			width: calc(25% - var(--col-gap));
+			@include tablet-portrait {
+				width: calc(33.33% - var(--col-gap));
+			}
+			@include tablet-small {
+				width: calc(50% - var(--col-gap));
+			}
+			@include mobile {
+				width: 100%;
+				margin-left: 0;
+				margin-right: 0;
+			}
+		}
+
+	}
+
+	.st-container {
+		position: relative;
+		background-color: $c_greydark;
+		height: 0;
+		padding-bottom: calc(25% - var(--col-gap));
+		@include tablet-portrait {
+			padding-bottom: calc(33.33% - var(--col-gap));
+		}
+		@include mobile {
+			padding-bottom: calc(45% - var(--col-gap));
+		}
+
+	}
+
+	.st-inner-container {
+		position: absolute;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		left: 50%;
+		text-align: center;
+		width: calc(100% - 80px);
+	}
+
+	.number {
+		@include ft($f_txt, 30px, 600, $c_white, 1);
+
+		& + .text {
+			margin-top: 8px;
+		}
+	}
+
+	.text {
+		@include ft($f_txt, 12px, 400, $c_sub, 1.2);
+		@include letter-spacing(25);
+		text-transform: uppercase;
+	}
+}

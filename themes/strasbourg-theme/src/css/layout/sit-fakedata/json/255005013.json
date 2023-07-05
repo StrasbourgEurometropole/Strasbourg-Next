@@ -1,0 +1,991 @@
+{
+  "sit_id": "255005013",
+  "schemaorg": {
+    "@context": "http:\/\/schema.org",
+    "@type": "Event",
+    "name": "Expo photo",
+    "description": null,
+    "startDate": "2022-10-08T00:00",
+    "endDate": "2022-10-09T00:00",
+    "isAccessibleForFree": true,
+    "location": {
+      "@type": "Place",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Wasselonne",
+        "postalCode": "67310",
+        "streetAddress": [
+          "rue de Romanswiller"
+        ]
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 48.639770467791,
+        "longitude": 7.4313544735412
+      },
+      "name": "Expo photo"
+    }
+  },
+  "fiche": {
+    "data": {
+      "_infos": {
+        "sit": "lei",
+        "datmaj": "16\/05\/2022 14:45:54"
+      },
+      "criteres": {
+        "1900013": {
+          "exist": 1,
+          "nom": "Distance (km) \u00e0 la gare la plus proche",
+          "type_critere": 0,
+          "type_valeur": 1,
+          "classe": 2,
+          "valeur": 15,
+          "modalites": []
+        },
+        "1900067": {
+          "exist": 1,
+          "nom": "Langues pratiqu\u00e9es",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 4,
+          "modalites": {
+            "1908377": {
+              "nom": "Fran\u00e7ais",
+              "ordre": 0,
+              "exist": 1
+            },
+            "1900236": {
+              "nom": "Allemand",
+              "ordre": 5,
+              "exist": 1
+            },
+            "1908829": {
+              "nom": "Alsacien",
+              "ordre": 8,
+              "exist": 1
+            },
+            "1900235": {
+              "nom": "Anglais",
+              "ordre": 10,
+              "exist": 1
+            }
+          }
+        },
+        "1900189": {
+          "exist": 1,
+          "nom": "Localisation",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 2,
+          "modalites": {
+            "1901208": {
+              "nom": "Plaine",
+              "ordre": 280,
+              "exist": 1
+            }
+          }
+        },
+        "1900219": {
+          "exist": 1,
+          "nom": "Lieu de la manifestation\/de d\u00e9part",
+          "type_critere": 0,
+          "type_valeur": 2,
+          "classe": 2,
+          "valeur": "Complexe multisports, Wasselonne",
+          "modalites": []
+        },
+        "1900404": {
+          "exist": 1,
+          "nom": "Horaires d'accueil",
+          "type_critere": 0,
+          "type_valeur": 2,
+          "classe": 4,
+          "valeur": "10H - 18H Dimanche 10 octobre : 10h00-18h00",
+          "modalites": []
+        },
+        "1900433": {
+          "exist": 1,
+          "nom": "Tarifs",
+          "type_critere": 0,
+          "type_valeur": 2,
+          "classe": 16,
+          "valeur": "Gratuit",
+          "modalites": []
+        },
+        "1900614": {
+          "exist": 1,
+          "nom": "Type d'\u00e9v\u00e8nement, exposition",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 4,
+          "modalites": {
+            "1907558": {
+              "nom": "Exposition",
+              "ordre": 150,
+              "exist": 1
+            }
+          }
+        },
+        "1901206": {
+          "exist": 1,
+          "nom": "Gratuit\/entr\u00e9e, visite libre",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 16,
+          "modalites": {
+            "1909194": {
+              "nom": "Oui",
+              "ordre": 0,
+              "exist": 1
+            }
+          }
+        },
+        "1901523": {
+          "exist": 1,
+          "nom": "Nom de la gare la plus proche",
+          "type_critere": 0,
+          "type_valeur": 2,
+          "classe": 2,
+          "valeur": "Saverne ",
+          "modalites": []
+        }
+      },
+      "photos": [
+        {
+          "url": "https:\/\/apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255005013_1.jpg",
+          "credit": "\u00a9Pixabay",
+          "titre": "",
+          "width": 640,
+          "height": 426,
+          "orientation": "paysage"
+        }
+      ],
+      "id": 255005013,
+      "type": {
+        "id": 1900202,
+        "nom": "Ev\u00e8nements, expositions"
+      },
+      "coordonnees": {
+        "libelle_voie": "rue de Romanswiller",
+        "complement_adresse": "Espace Municipal Saint Laurent",
+        "code_postal": "67310",
+        "libelle_commune": "Wasselonne",
+        "telephone1": "06 88 30 34 45",
+        "email1": "contact@clubphotowasselonne.fr",
+        "url1": "www.wasselonne.fr"
+      },
+      "NOM": "Expo photo",
+      "BORDERAU": "Ev\u00e8nements, expositions",
+      "DESC": [
+        "Le Club Photo de la Mossig vous invite \u00e0 son exposition retra\u00e7ant le travail de ses membres ! Corbeille \u00e0 la sortie. ",
+        "Le Club Photo de la Mossig vous invite \u00e0 son exposition retra\u00e7ant le travail de ses membres ! Corbeille \u00e0 la sortie. "
+      ],
+      "ANIMAUXACCEPTES": null,
+      "GROUPESACCEPTES": null,
+      "INSOLIT": null,
+      "QUALITE_TOURISME": null,
+      "UNESCO": null,
+      "FAMILLE_PLUS": null,
+      "ACCUEIL_VELO": null,
+      "ADRESSE": [
+        "rue de Romanswiller"
+      ],
+      "COMMUNE": "Wasselonne",
+      "CP": "67310",
+      "LAT": 48.639770467791,
+      "LNG": 7.4313544735412,
+      "com_data": {
+        "tel": [
+          "06 88 30 34 45"
+        ],
+        "mel": [
+          "contact@clubphotowasselonne.fr"
+        ],
+        "web": [
+          "http:\/\/www.wasselonne.fr"
+        ]
+      },
+      "rs_data": false,
+      "ACTIVITES": null,
+      "SERVICES_ENFANTS": null,
+      "SERVICES": null,
+      "EQUIPS": null,
+      "CONFORT": null,
+      "RESTAU_SURPLACE": null,
+      "LOCALISATION": {
+        "1901208": "Plaine"
+      },
+      "LANGUES_PAR": {
+        "1908377": "Fran\u00e7ais",
+        "1900236": "Allemand",
+        "1908829": "Alsacien",
+        "1900235": "Anglais"
+      },
+      "LABELS_TH": null,
+      "MOD_PAIEMENT": null,
+      "TYPE_OBJET": [
+        "Ev\u00e8nements, expositions"
+      ],
+      "FORFAIT": null,
+      "PUBLIC": null,
+      "TYPE": {
+        "1907558": "Exposition"
+      },
+      "THEME": null,
+      "SPE_CULI": null,
+      "LABELS": null,
+      "CHAINES": null,
+      "DIFFICULTE": null,
+      "SEJ_FORMULE": null,
+      "ACCES": null,
+      "OUVERTURE_TEXTE": "10H - 18H Dimanche 10 octobre : 10h00-18h00",
+      "DUREE_VISITE": null,
+      "TARIF_REF": null,
+      "GRATUIT": true,
+      "TARIFS": [
+        {
+          "title": "Gratuit",
+          "code": 1909194
+        }
+      ],
+      "TARIFS_TEXT": "Gratuit",
+      "TARIFS_AVANTAGES": null,
+      "CAPACITES": null,
+      "CLASSEMENTS": [],
+      "DOCUMENTS": null,
+      "VIDEOS": null,
+      "OFFRESASSOCIEES": null,
+      "TARIFCOMPREND": null,
+      "TARIFNECOMPRENDPAS": null,
+      "DUREE_SEJ": null,
+      "APARTIRDE": null,
+      "GARE_PROCHE": "Saverne  - 15km",
+      "INTERNET": null,
+      "PERIODES_OUVERTURES": [
+        {
+          "date_debut": "08\/10\/2022",
+          "date_fin": "09\/10\/2022",
+          "heures": [
+            {
+              "heure_debut": "10:00",
+              "heure_fin": "18:00",
+              "lundi": "N",
+              "mardi": "N",
+              "mercredi": "N",
+              "jeudi": "N",
+              "vendredi": "N",
+              "samedi": "O",
+              "dimanche": "O",
+              "acces_permanent": "1",
+              "tps_acces_fin": "0",
+              "commentaire": ""
+            }
+          ],
+          "start": {
+            "date": "2022-10-08 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "UTC"
+          },
+          "end": {
+            "date": "2022-10-09 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "UTC"
+          },
+          "duree_interval": {
+            "y": 0,
+            "m": 0,
+            "d": 1,
+            "h": 0,
+            "i": 0,
+            "s": 0,
+            "weekday": 0,
+            "weekday_behavior": 0,
+            "first_last_day_of": 0,
+            "invert": 1,
+            "days": 1,
+            "special_type": 0,
+            "special_amount": 0,
+            "have_weekday_relative": 0,
+            "have_special_relative": 0
+          },
+          "start_ts": 1665187200,
+          "end_ts": 1665273600,
+          "duau": true,
+          "current": false,
+          "next": true,
+          "days": {
+            "5": {
+              "hours": [
+                [
+                  "10:00",
+                  "18:00"
+                ]
+              ],
+              "dname": "Samedi"
+            },
+            "6": {
+              "hours": [
+                [
+                  "10:00",
+                  "18:00"
+                ]
+              ],
+              "dname": "Dimanche"
+            }
+          },
+          "complement": []
+        }
+      ],
+      "NORDIC_PARC": null,
+      "SNOWPARC": null,
+      "PISTES_VTT_OUVERTURE": null,
+      "SKI_NUIT_AUJ": null,
+      "SKI_AURORE": null,
+      "OUVERTURE_DOMAINE": null,
+      "AVALANCHE": null,
+      "COM_BULLETIN": null,
+      "ALT_BAS": null,
+      "ALT_HAUT": null,
+      "HAUTEUR_NEIGE_CM": null,
+      "QUALITE_NEIGE": null,
+      "DATE_DERNIERE_CHUTE": null,
+      "WEBCAMS": null,
+      "PISTES_ALPINS": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "vertes": [],
+        "bleues": [],
+        "rouges": [],
+        "noires": []
+      },
+      "PISTES_FOND": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "vertes": [],
+        "bleues": [],
+        "rouges": [],
+        "noires": []
+      },
+      "PISTES_LUGES": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "luge": []
+      },
+      "PISTES_RAQUETTES": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "piste": []
+      },
+      "REMONTEES": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "remontees": []
+      },
+      "raw_data": {
+        "id": 255005013,
+        "nom": "Expo photo",
+        "type": {
+          "id": 1900202,
+          "nom": "Ev\u00e8nements, expositions"
+        },
+        "coordonnees": {
+          "libelle_voie": "rue de Romanswiller",
+          "complement_adresse": "Espace Municipal Saint Laurent",
+          "code_postal": "67310",
+          "libelle_commune": "Wasselonne",
+          "telephone1": "06 88 30 34 45",
+          "email1": "contact@clubphotowasselonne.fr",
+          "url1": "www.wasselonne.fr"
+        },
+        "latitude": "48,6397704677912",
+        "longitude": "7,43135447354124",
+        "commentaire": "Le Club Photo de la Mossig vous invite \u00e0 son exposition retra\u00e7ant le travail de ses membres ! Corbeille \u00e0 la sortie. ",
+        "commentaire1": "Le Club Photo de la Mossig vous invite \u00e0 son exposition retra\u00e7ant le travail de ses membres ! Corbeille \u00e0 la sortie. ",
+        "datmaj": "16\/05\/2022 14:45:54",
+        "horaires": [
+          {
+            "date_debut": "08\/10\/2022",
+            "date_fin": "09\/10\/2022",
+            "heures": [
+              {
+                "heure_debut": "10:00",
+                "heure_fin": "18:00",
+                "lundi": "N",
+                "mardi": "N",
+                "mercredi": "N",
+                "jeudi": "N",
+                "vendredi": "N",
+                "samedi": "O",
+                "dimanche": "O",
+                "acces_permanent": "1",
+                "tps_acces_fin": "0",
+                "commentaire": ""
+              }
+            ]
+          }
+        ],
+        "criteres": [
+          {
+            "id": 1900013,
+            "nom": "Distance (km) \u00e0 la gare la plus proche",
+            "type_critere": "0",
+            "type_valeur": "1",
+            "classe": "2",
+            "valeur": "15"
+          },
+          {
+            "id": 1900067,
+            "nom": "Langues pratiqu\u00e9es",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1900235,
+                "nom": "Anglais",
+                "ordre": "10"
+              },
+              {
+                "id": 1900236,
+                "nom": "Allemand",
+                "ordre": "5"
+              },
+              {
+                "id": 1908377,
+                "nom": "Fran\u00e7ais",
+                "ordre": "0"
+              },
+              {
+                "id": 1908829,
+                "nom": "Alsacien",
+                "ordre": "8"
+              }
+            ]
+          },
+          {
+            "id": 1900189,
+            "nom": "Localisation",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "2",
+            "modalites": [
+              {
+                "id": 1901208,
+                "nom": "Plaine",
+                "ordre": "280"
+              }
+            ]
+          },
+          {
+            "id": 1900219,
+            "nom": "Lieu de la manifestation\/de d\u00e9part",
+            "type_critere": "0",
+            "type_valeur": "2",
+            "classe": "2",
+            "valeur": "Complexe multisports, Wasselonne"
+          },
+          {
+            "id": 1900404,
+            "nom": "Horaires d'accueil",
+            "type_critere": "0",
+            "type_valeur": "2",
+            "classe": "4",
+            "valeur": "10H - 18H Dimanche 10 octobre : 10h00-18h00"
+          },
+          {
+            "id": 1900421,
+            "nom": "Photo url 1",
+            "type_critere": "0",
+            "type_valeur": "6",
+            "classe": "0",
+            "valeur": "apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255005013_1.jpg"
+          },
+          {
+            "id": 1900433,
+            "nom": "Tarifs",
+            "type_critere": "0",
+            "type_valeur": "2",
+            "classe": "16",
+            "valeur": "Gratuit"
+          },
+          {
+            "id": 1900480,
+            "nom": "Source, droits d'auteur photo 1",
+            "type_critere": "0",
+            "type_valeur": "2",
+            "classe": "0",
+            "valeur": "\u00a9Pixabay"
+          },
+          {
+            "id": 1900614,
+            "nom": "Type d'\u00e9v\u00e8nement, exposition",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1907558,
+                "nom": "Exposition",
+                "ordre": "150"
+              }
+            ]
+          },
+          {
+            "id": 1901206,
+            "nom": "Gratuit\/entr\u00e9e, visite libre",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "16",
+            "modalites": [
+              {
+                "id": 1909194,
+                "nom": "Oui",
+                "ordre": "0"
+              }
+            ]
+          },
+          {
+            "id": 1901523,
+            "nom": "Nom de la gare la plus proche",
+            "type_critere": "0",
+            "type_valeur": "2",
+            "classe": "2",
+            "valeur": "Saverne "
+          }
+        ]
+      }
+    }
+  },
+  "escaped_title": "Expo photo",
+  "title": "Expo photo",
+  "surtitre": "Exposition",
+  "next_occurences": [
+    {
+      "id": "255005013_1665223200_1665252000",
+      "num_day": 5,
+      "start": 1665223200,
+      "year": "2022",
+      "num_jour_annee": "280",
+      "readable_start": "8 Sat Oct 2022 10:00",
+      "end": 1665252000,
+      "readable_end": "8 Sat Oct 2022 18:00",
+      "start_hours": "10:00",
+      "end_hours": "18:00"
+    },
+    {
+      "id": "255005013_1665309600_1665338400",
+      "num_day": 6,
+      "start": 1665309600,
+      "year": "2022",
+      "num_jour_annee": "281",
+      "readable_start": "9 Sun Oct 2022 10:00",
+      "end": 1665338400,
+      "readable_end": "9 Sun Oct 2022 18:00",
+      "start_hours": "10:00",
+      "end_hours": "18:00"
+    }
+  ],
+  "horaires": [
+    {
+      "date_debut": "08\/10\/2022",
+      "date_fin": "09\/10\/2022",
+      "heures": [
+        {
+          "heure_debut": "10:00",
+          "heure_fin": "18:00",
+          "lundi": "N",
+          "mardi": "N",
+          "mercredi": "N",
+          "jeudi": "N",
+          "vendredi": "N",
+          "samedi": "O",
+          "dimanche": "O",
+          "acces_permanent": "1",
+          "tps_acces_fin": "0",
+          "commentaire": ""
+        }
+      ],
+      "start": {
+        "date": "2022-10-08 00:00:00.000000",
+        "timezone_type": 3,
+        "timezone": "UTC"
+      },
+      "end": {
+        "date": "2022-10-09 00:00:00.000000",
+        "timezone_type": 3,
+        "timezone": "UTC"
+      },
+      "duree_interval": {
+        "y": 0,
+        "m": 0,
+        "d": 1,
+        "h": 0,
+        "i": 0,
+        "s": 0,
+        "weekday": 0,
+        "weekday_behavior": 0,
+        "first_last_day_of": 0,
+        "invert": 1,
+        "days": 1,
+        "special_type": 0,
+        "special_amount": 0,
+        "have_weekday_relative": 0,
+        "have_special_relative": 0
+      },
+      "start_ts": 1665187200,
+      "end_ts": 1665273600,
+      "duau": true,
+      "current": false,
+      "next": true,
+      "days": {
+        "5": {
+          "hours": [
+            [
+              "10:00",
+              "18:00"
+            ]
+          ],
+          "dname": "Samedi"
+        },
+        "6": {
+          "hours": [
+            [
+              "10:00",
+              "18:00"
+            ]
+          ],
+          "dname": "Dimanche"
+        }
+      },
+      "complement": []
+    }
+  ],
+  "date": {
+    "date_debut": "08\/10\/2022",
+    "date_fin": "09\/10\/2022",
+    "heures": [
+      {
+        "heure_debut": "10:00",
+        "heure_fin": "18:00",
+        "lundi": "N",
+        "mardi": "N",
+        "mercredi": "N",
+        "jeudi": "N",
+        "vendredi": "N",
+        "samedi": "O",
+        "dimanche": "O",
+        "acces_permanent": "1",
+        "tps_acces_fin": "0",
+        "commentaire": ""
+      }
+    ],
+    "start": {
+      "date": "2022-10-08 00:00:00.000000",
+      "timezone_type": 3,
+      "timezone": "UTC"
+    },
+    "end": {
+      "date": "2022-10-09 00:00:00.000000",
+      "timezone_type": 3,
+      "timezone": "UTC"
+    },
+    "duree_interval": {
+      "y": 0,
+      "m": 0,
+      "d": 1,
+      "h": 0,
+      "i": 0,
+      "s": 0,
+      "weekday": 0,
+      "weekday_behavior": 0,
+      "first_last_day_of": 0,
+      "invert": 1,
+      "days": 1,
+      "special_type": 0,
+      "special_amount": 0,
+      "have_weekday_relative": 0,
+      "have_special_relative": 0
+    },
+    "start_ts": 1665187200,
+    "end_ts": 1665273600,
+    "duau": true,
+    "current": false,
+    "next": true,
+    "days": {
+      "5": {
+        "hours": [
+          [
+            "10:00",
+            "18:00"
+          ]
+        ],
+        "dname": "Samedi"
+      },
+      "6": {
+        "hours": [
+          [
+            "10:00",
+            "18:00"
+          ]
+        ],
+        "dname": "Dimanche"
+      }
+    },
+    "complement": [],
+    "jour_start": "08",
+    "month_start": "10",
+    "year_start": "2022",
+    "jour_end": "09",
+    "month_end": "10",
+    "year_end": "2022",
+    "ts_start": 1665187200,
+    "ts_end": 1665273600,
+    "du_au": true
+  },
+  "geo": {
+    "lng": "7.4313544735412",
+    "lat": "48.639770467791"
+  },
+  "photos": [
+    {
+      "url": "https:\/\/apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255005013_1.jpg",
+      "credit": "\u00a9Pixabay",
+      "titre": "",
+      "width": 640,
+      "height": 426,
+      "orientation": "paysage",
+      "gallery_thumb": {
+        "url": "https:\/\/mossig.dev-thuria.com\/wp-content\/uploads\/sitlor\/43e26ffdebf4dbbc3f58bbfd92d063db-255005013_1-760x500.jpg",
+        "width": 760,
+        "height": 500,
+        "size": 52008,
+        "cropped": false,
+        "alt": "Expo photo",
+        "credit": "\u00a9Pixabay"
+      },
+      "cards": {
+        "all": {
+          "url": "https:\/\/mossig.dev-thuria.com\/wp-content\/uploads\/sitlor\/43e26ffdebf4dbbc3f58bbfd92d063db-255005013_1-340x340.jpg",
+          "width": 340,
+          "height": 340,
+          "size": 21570,
+          "cropped": false,
+          "alt": "Expo photo",
+          "credit": "\u00a9Pixabay"
+        }
+      }
+    }
+  ],
+  "header_orientation": "paysage",
+  "adresse": [
+    "rue de Romanswiller",
+    "67310 Wasselonne"
+  ],
+  "commune": "Wasselonne",
+  "com_data": {
+    "tel": [
+      "06 88 30 34 45"
+    ],
+    "mel": [
+      "contact@clubphotowasselonne.fr"
+    ],
+    "web": [
+      "http:\/\/www.wasselonne.fr"
+    ]
+  },
+  "com_rs": false,
+  "resa_url": null,
+  "pictos": {
+    "animal": {
+      "icon": "animal",
+      "title": "Exemple"
+    },
+    "wifi": {
+      "icon": "wifi",
+      "title": "Exemple"
+    },
+    "parking": {
+      "icon": "parking",
+      "title": "Exemple"
+    },
+    "text": {
+      "text": "Exemple text"
+    }
+  },
+  "apartirde": {
+    "price": "gratuit"
+  },
+  "header_pictos": {
+    "has_data": false
+  },
+  "description": {
+    "has_data": true,
+    "description": [
+      "Le Club Photo de la Mossig vous invite \u00e0 son exposition retra\u00e7ant le travail de ses membres ! Corbeille \u00e0 la sortie. ",
+      "Le Club Photo de la Mossig vous invite \u00e0 son exposition retra\u00e7ant le travail de ses membres ! Corbeille \u00e0 la sortie. "
+    ]
+  },
+  "apropos_infos": {
+    "has_data": true,
+    "infos": [
+      {
+        "icon": "langues",
+        "title": "Langues parl\u00e9es",
+        "data": "Fran\u00e7ais, Allemand, Alsacien, Anglais"
+      }
+    ]
+  },
+  "apropos_pictos": {
+    "has_data": false
+  },
+  "labels": {
+    "has_data": false
+  },
+  "infos_comp": {
+    "has_data": false
+  },
+  "capacites": {
+    "has_data": false
+  },
+  "tarifs": {
+    "has_data": true,
+    "tarifs": [
+      {
+        "free": true
+      },
+      {
+        "title": "Gratuit",
+        "code": 1909194
+      }
+    ]
+  },
+  "ouverture": {
+    "has_data": true,
+    "display_next_occurence": false,
+    "calendar": [
+      {
+        "id": "255005013_1665223200_1665252000",
+        "num_day": 5,
+        "start": 1665223200,
+        "year": "2022",
+        "num_jour_annee": "280",
+        "readable_start": "8 Sat Oct 2022 10:00",
+        "end": 1665252000,
+        "readable_end": "8 Sat Oct 2022 18:00",
+        "start_hours": "10:00",
+        "end_hours": "18:00"
+      },
+      {
+        "id": "255005013_1665309600_1665338400",
+        "num_day": 6,
+        "start": 1665309600,
+        "year": "2022",
+        "num_jour_annee": "281",
+        "readable_start": "9 Sun Oct 2022 10:00",
+        "end": 1665338400,
+        "readable_end": "9 Sun Oct 2022 18:00",
+        "start_hours": "10:00",
+        "end_hours": "18:00"
+      }
+    ],
+    "complement_ouverture": "10H - 18H Dimanche 10 octobre : 10h00-18h00",
+    "periodes_ouvertures": [
+      {
+        "date_debut": "08\/10\/2022",
+        "date_fin": "09\/10\/2022",
+        "heures": [
+          {
+            "heure_debut": "10:00",
+            "heure_fin": "18:00",
+            "lundi": "N",
+            "mardi": "N",
+            "mercredi": "N",
+            "jeudi": "N",
+            "vendredi": "N",
+            "samedi": "O",
+            "dimanche": "O",
+            "acces_permanent": "1",
+            "tps_acces_fin": "0",
+            "commentaire": ""
+          }
+        ],
+        "start": {
+          "date": "2022-10-08 00:00:00.000000",
+          "timezone_type": 3,
+          "timezone": "UTC"
+        },
+        "end": {
+          "date": "2022-10-09 00:00:00.000000",
+          "timezone_type": 3,
+          "timezone": "UTC"
+        },
+        "duree_interval": {
+          "y": 0,
+          "m": 0,
+          "d": 1,
+          "h": 0,
+          "i": 0,
+          "s": 0,
+          "weekday": 0,
+          "weekday_behavior": 0,
+          "first_last_day_of": 0,
+          "invert": 1,
+          "days": 1,
+          "special_type": 0,
+          "special_amount": 0,
+          "have_weekday_relative": 0,
+          "have_special_relative": 0
+        },
+        "start_ts": 1665187200,
+        "end_ts": 1665273600,
+        "duau": true,
+        "current": false,
+        "next": true,
+        "days": {
+          "5": {
+            "hours": [
+              [
+                "10:00",
+                "18:00"
+              ]
+            ],
+            "dname": "Samedi"
+          },
+          "6": {
+            "hours": [
+              [
+                "10:00",
+                "18:00"
+              ]
+            ],
+            "dname": "Dimanche"
+          }
+        },
+        "complement": []
+      }
+    ]
+  },
+  "documents": {
+    "has_data": false
+  },
+  "videos": {
+    "has_data": false
+  },
+  "offres_associees": {
+    "has_data": false
+  },
+  "url_rawdata": "https:\/\/mossig.dev-thuria.com\/fiches\/255005013-expo-photo\/?data&wpdebug",
+  "card_pictos": {
+    "has_data": false
+  }
+}

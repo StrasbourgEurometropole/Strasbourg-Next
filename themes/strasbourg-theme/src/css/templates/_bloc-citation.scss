@@ -1,0 +1,56 @@
+.st-bloc-citation {
+	.st-citation-container {
+		display: flex;
+		align-items: center;
+		background-color: $c_greydark;
+		padding: 40px 40px 40px 60px;
+		@include tablet-portrait {
+			flex-direction: column;
+		}
+		@include mobile {
+			padding: 20px;
+		}
+	}
+
+	[class^="st-icon-"], [class*=" st-icon-"] {
+		font-size: 40px;
+		color: $c_sub;
+		padding-right: 50px;
+		@include tablet-portrait {
+			margin-bottom: 40px;
+			margin-top: -60px;
+			padding-right: 0;
+		}
+		@include mobile {
+			font-size: 30px;
+			margin-bottom: 20px;
+			margin-top: -35px;
+		}
+	}
+
+	p:not(.role) {
+		@include ft($f_txt, $s_medium, 300, $c_white, $s_medium+6);
+		font-style: italic;
+		@include letter-spacing(25);
+		@include mobile {
+			font-size: 16px;
+			line-height: 22px;
+		}
+
+		& + .role {
+			margin-top: 40px;
+			@include mobile {
+				margin-top: 20px;
+			}
+		}
+	}
+
+	.role {
+		@include ft($f_txt, $s_link_small, 400, $c_txt, 1);
+		@include letter-spacing(25);
+		text-transform: uppercase;
+		@include mobile {
+			font-size: 10px;
+		}
+	}
+}

@@ -1,0 +1,27 @@
+// Système de grille en 12 colonnes (utilisé pour le bloc colonne)
+// On définit la largeur d'une colonne en ajoutant les classes sur les enfants
+// -----------------------------------------------
+
+.st-grid-12 {
+	--gap: var(--grid-gap); // espacement horizontal / vertical par défaut entre les enfants de la grille
+	display: grid;
+	grid-template-columns: repeat(12, minmax(10px, 1fr));
+	gap: var(--gap);
+
+	// par défaut, colonnes "stackées" en 1 colonne
+	> * {
+		grid-column: span 12;
+	}
+
+	.st-col-4 {
+		grid-column: span 4; // col 1/3
+	}
+
+	.st-col-6 {
+		grid-column: span 6; // col 1/2
+	}
+
+	.st-col-8 {
+		grid-column: span 8; // col 2/3
+	}
+}

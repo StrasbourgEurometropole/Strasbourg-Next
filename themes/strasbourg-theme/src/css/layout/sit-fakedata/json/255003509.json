@@ -1,0 +1,1375 @@
+{
+  "sit_id": "255003509",
+  "schemaorg": {
+    "@context": "http:\/\/schema.org",
+    "@type": "Thing",
+    "name": "G\u00eete de M. Roger Albertine",
+    "description": null
+  },
+  "fiche": {
+    "data": {
+      "_infos": {
+        "sit": "lei",
+        "datmaj": "08\/06\/2022 09:38:04"
+      },
+      "criteres": {
+        "1900013": {
+          "exist": 1,
+          "nom": "Distance (km) \u00e0 la gare la plus proche",
+          "type_critere": 0,
+          "type_valeur": 1,
+          "classe": 2,
+          "valeur": 10,
+          "modalites": []
+        },
+        "1900048": {
+          "exist": 1,
+          "nom": "Moyen de paiement",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 16,
+          "modalites": {
+            "1234000001": {
+              "nom": "Carte bancaire",
+              "ordre": 20,
+              "exist": 1
+            },
+            "1900113": {
+              "nom": "Ch\u00e8que",
+              "ordre": 25,
+              "exist": 1
+            },
+            "1234000009": {
+              "nom": "Ch\u00e8ques vacances accept\u00e9s",
+              "ordre": 40,
+              "exist": 1
+            }
+          }
+        },
+        "1900049": {
+          "exist": 1,
+          "nom": "Altitude (m)",
+          "type_critere": 0,
+          "type_valeur": 1,
+          "classe": 2,
+          "valeur": 200,
+          "modalites": []
+        },
+        "1900050": {
+          "exist": 1,
+          "nom": "Services pratiques",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 8,
+          "modalites": {
+            "1900144": {
+              "nom": "Draps fournis inclus dans le tarif de location",
+              "ordre": 160,
+              "exist": 1
+            },
+            "1904376": {
+              "nom": "Possibilit\u00e9 de location de linge de maison",
+              "ordre": 168,
+              "exist": 1
+            }
+          }
+        },
+        "1900067": {
+          "exist": 1,
+          "nom": "Langues pratiqu\u00e9es",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 4,
+          "modalites": {
+            "1908377": {
+              "nom": "Fran\u00e7ais",
+              "ordre": 0,
+              "exist": 1
+            },
+            "1900236": {
+              "nom": "Allemand",
+              "ordre": 5,
+              "exist": 1
+            }
+          }
+        },
+        "1900072": {
+          "exist": 1,
+          "nom": "Superficie (m2)",
+          "type_critere": 0,
+          "type_valeur": 1,
+          "classe": 4,
+          "valeur": 100,
+          "modalites": []
+        },
+        "1900189": {
+          "exist": 1,
+          "nom": "Localisation",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 2,
+          "modalites": {
+            "1901213": {
+              "nom": "En centre ville \/ village",
+              "ordre": 170,
+              "exist": 1
+            }
+          }
+        },
+        "1900209": {
+          "exist": 1,
+          "nom": "Equip\/services pour les enfants",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 4,
+          "modalites": {
+            "1901340": {
+              "nom": "Chaise haute",
+              "ordre": 60,
+              "exist": 1
+            },
+            "1901341": {
+              "nom": "Chauffe-biberon",
+              "ordre": 80,
+              "exist": 1
+            },
+            "1901339": {
+              "nom": "Lit b\u00e9b\u00e9",
+              "ordre": 180,
+              "exist": 1
+            },
+            "1901342": {
+              "nom": "Table \u00e0 langer\/matelas",
+              "ordre": 440,
+              "exist": 1
+            }
+          }
+        },
+        "1900268": {
+          "exist": 1,
+          "nom": "Animaux accept\u00e9s",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 4,
+          "modalites": {
+            "1903674": {
+              "nom": "Oui sous conditions",
+              "ordre": 10,
+              "exist": 1
+            }
+          }
+        },
+        "1900365": {
+          "exist": 1,
+          "nom": "Label G\u00eetes de France",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 1,
+          "modalites": {
+            "1902306": {
+              "nom": "2 \u00e9pis",
+              "ordre": 2,
+              "exist": 1
+            }
+          }
+        },
+        "1900383": {
+          "exist": 1,
+          "nom": "Classement en \u00e9toiles",
+          "type_critere": 1,
+          "type_valeur": 4,
+          "classe": 1,
+          "modalites": {
+            "1902432": {
+              "nom": "3 Etoiles",
+              "ordre": 5,
+              "exist": 1
+            }
+          }
+        },
+        "1900386": {
+          "exist": 1,
+          "nom": "Equipements de loisirs sur place",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 4,
+          "modalites": {
+            "1902771": {
+              "nom": "Baby-foot",
+              "ordre": 20,
+              "exist": 1
+            },
+            "1904234": {
+              "nom": "Table de ping-pong",
+              "ordre": 160,
+              "exist": 1
+            }
+          }
+        },
+        "1900435": {
+          "exist": 1,
+          "nom": "Equipements int\u00e9rieurs de l'h\u00e9bergement",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 4,
+          "modalites": {
+            "1903158": {
+              "nom": "Cuisine \u00e9quip\u00e9e",
+              "ordre": 20,
+              "exist": 1
+            },
+            "1903175": {
+              "nom": "Four \u00e0 micro ondes",
+              "ordre": 40,
+              "exist": 1
+            },
+            "1903164": {
+              "nom": "Four",
+              "ordre": 50,
+              "exist": 1
+            },
+            "1903173": {
+              "nom": "Machine \u00e0 caf\u00e9",
+              "ordre": 60,
+              "exist": 1
+            },
+            "1903183": {
+              "nom": "R\u00e9frig\u00e9rateur",
+              "ordre": 70,
+              "exist": 1
+            },
+            "1903167": {
+              "nom": "Lave vaisselle",
+              "ordre": 90,
+              "exist": 1
+            },
+            "1904220": {
+              "nom": "Lave linge en commun",
+              "ordre": 110,
+              "exist": 1
+            },
+            "1903166": {
+              "nom": "Lave linge privatif",
+              "ordre": 120,
+              "exist": 1
+            },
+            "1907947": {
+              "nom": "TV",
+              "ordre": 270,
+              "exist": 1
+            }
+          }
+        },
+        "1900436": {
+          "exist": 1,
+          "nom": "Equipements ext\u00e9rieurs de l'h\u00e9bergement",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 4,
+          "modalites": {
+            "1909642": {
+              "nom": "Barbecue privatif",
+              "ordre": 40,
+              "exist": 1
+            },
+            "1903227": {
+              "nom": "Salon de jardin privatif",
+              "ordre": 280,
+              "exist": 1
+            },
+            "1904206": {
+              "nom": "Cour ferm\u00e9e",
+              "ordre": 310,
+              "exist": 1
+            }
+          }
+        },
+        "1900437": {
+          "exist": 1,
+          "nom": "Style d'h\u00e9bergement \/ de batiment",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 4,
+          "modalites": {
+            "1903753": {
+              "nom": "Maison individuelle",
+              "ordre": 20,
+              "exist": 1
+            }
+          }
+        },
+        "1900438": {
+          "exist": 1,
+          "nom": "Entr\u00e9e de l'h\u00e9bergement",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 4,
+          "modalites": {
+            "1903239": {
+              "nom": "RDC",
+              "ordre": 20,
+              "exist": 1
+            }
+          }
+        },
+        "1900492": {
+          "exist": 1,
+          "nom": "Capacit\u00e9",
+          "type_critere": 2,
+          "type_valeur": 1,
+          "classe": 4,
+          "modalites": {
+            "1903683": {
+              "nom": "en nombre de personnes",
+              "ordre": 100,
+              "valeur": 6,
+              "exist": 1
+            },
+            "1903972": {
+              "nom": "en nombre de chambres",
+              "ordre": 400,
+              "valeur": 3,
+              "exist": 1
+            },
+            "1911512": {
+              "nom": "en nombre de chambres doubles",
+              "ordre": 461,
+              "valeur": 2,
+              "exist": 1
+            },
+            "1911514": {
+              "nom": "en nombre de chambres twin (lits jumeaux)",
+              "ordre": 464,
+              "valeur": 1,
+              "exist": 1
+            },
+            "1911515": {
+              "nom": "en nombre de lits 1 personne",
+              "ordre": 602,
+              "valeur": 2,
+              "exist": 1
+            },
+            "1911516": {
+              "nom": "en nombre de lits 2 personnes",
+              "ordre": 603,
+              "valeur": 2,
+              "exist": 1
+            }
+          }
+        },
+        "1900494": {
+          "exist": 1,
+          "nom": "Mode chauffage principal",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 4,
+          "modalites": {
+            "1903691": {
+              "nom": "Electrique",
+              "ordre": 70,
+              "exist": 1
+            }
+          }
+        },
+        "1900497": {
+          "exist": 1,
+          "nom": "Equipement sanitaires",
+          "type_critere": 2,
+          "type_valeur": 1,
+          "classe": 4,
+          "modalites": {
+            "1909635": {
+              "nom": "Nb de salle de bain (privative) avec douche et baignoire",
+              "ordre": 10,
+              "valeur": 1,
+              "exist": 1
+            },
+            "1903713": {
+              "nom": "Nb de WC s\u00e9par\u00e9s (privatifs)",
+              "ordre": 100,
+              "valeur": 1,
+              "exist": 1
+            }
+          }
+        },
+        "1900526": {
+          "exist": 1,
+          "nom": "Equip. de loisirs pour les enfants",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 4,
+          "modalites": {
+            "1903915": {
+              "nom": "Bac \u00e0 sable",
+              "ordre": 15,
+              "exist": 1
+            },
+            "1903910": {
+              "nom": "Livres",
+              "ordre": 40,
+              "exist": 1
+            },
+            "1903903": {
+              "nom": "Mallette de jeux\/jeux de soci\u00e9t\u00e9",
+              "ordre": 45,
+              "exist": 1
+            }
+          }
+        },
+        "1900684": {
+          "exist": 1,
+          "nom": "Entr\u00e9e du logement",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 4,
+          "modalites": {
+            "1905752": {
+              "nom": "Ind\u00e9pendante",
+              "ordre": 10,
+              "exist": 1
+            }
+          }
+        },
+        "1900770": {
+          "exist": 1,
+          "nom": "Possibilit\u00e9 de connexion Internet",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 8,
+          "modalites": {
+            "1906287": {
+              "nom": "Connexion r\u00e9seau",
+              "ordre": 10,
+              "exist": 1
+            },
+            "1906279": {
+              "nom": "Wi-fi offert",
+              "ordre": 30,
+              "exist": 1
+            }
+          }
+        },
+        "1901291": {
+          "exist": 1,
+          "nom": "Nombre de niveau de l'h\u00e9bergement",
+          "type_critere": 0,
+          "type_valeur": 1,
+          "classe": 4,
+          "valeur": 2,
+          "modalites": []
+        },
+        "255000254": {
+          "exist": 1,
+          "nom": "Site web OT (2022)",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 32,
+          "modalites": {
+            "255002505": {
+              "nom": "SEJOURNER - g\u00eetes",
+              "ordre": 305,
+              "exist": 1
+            }
+          }
+        }
+      },
+      "photos": [
+        {
+          "url": "https:\/\/apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255003509_1.jpg",
+          "credit": "G\u00eetes de France",
+          "titre": "",
+          "width": 1000,
+          "height": 750,
+          "orientation": "paysage"
+        }
+      ],
+      "id": 255003509,
+      "type": {
+        "id": 1900010,
+        "nom": "G\u00eetes et meubl\u00e9s de tourisme"
+      },
+      "coordonnees": {
+        "num_voie": "12a",
+        "libelle_voie": "Rue Dagobert",
+        "code_postal": "67520",
+        "libelle_commune": "Kirchheim",
+        "telephone1": "03 88 87 53 83",
+        "telephone2": "03 88 75 56 50"
+      },
+      "NOM": "G\u00eete de M. Roger Albertine",
+      "BORDERAU": "G\u00eetes et meubl\u00e9s de tourisme",
+      "DESC": [],
+      "ANIMAUXACCEPTES": "cond",
+      "GROUPESACCEPTES": null,
+      "INSOLIT": null,
+      "QUALITE_TOURISME": null,
+      "UNESCO": null,
+      "FAMILLE_PLUS": null,
+      "ACCUEIL_VELO": null,
+      "ADRESSE": [
+        "12a Rue Dagobert"
+      ],
+      "COMMUNE": "Kirchheim",
+      "CP": "67520",
+      "LAT": 48.610586596306,
+      "LNG": 7.4964042483712,
+      "com_data": {
+        "tel": [
+          "03 88 87 53 83"
+        ]
+      },
+      "rs_data": false,
+      "ACTIVITES": {
+        "1902771": "Baby-foot",
+        "1904234": "Table de ping-pong"
+      },
+      "SERVICES_ENFANTS": {
+        "1901340": "Chaise haute",
+        "1901341": "Chauffe-biberon",
+        "1901339": "Lit b\u00e9b\u00e9",
+        "1901342": "Table \u00e0 langer\/matelas",
+        "1903915": "Bac \u00e0 sable",
+        "1903910": "Livres",
+        "1903903": "Mallette de jeux\/jeux de soci\u00e9t\u00e9"
+      },
+      "SERVICES": {
+        "1900144": "Draps fournis inclus dans le tarif de location",
+        "1904376": "Possibilit\u00e9 de location de linge de maison"
+      },
+      "EQUIPS": {
+        "1909642": "Barbecue privatif",
+        "1903227": "Salon de jardin privatif",
+        "1904206": "Cour ferm\u00e9e",
+        "1909635": "Nb de salle de bain (privative) avec douche et baignoire",
+        "1903713": "Nb de WC s\u00e9par\u00e9s (privatifs)"
+      },
+      "CONFORT": {
+        "1903158": "Cuisine \u00e9quip\u00e9e",
+        "1903175": "Four \u00e0 micro ondes",
+        "1903164": "Four",
+        "1903173": "Machine \u00e0 caf\u00e9",
+        "1903183": "R\u00e9frig\u00e9rateur",
+        "1903167": "Lave vaisselle",
+        "1904220": "Lave linge en commun",
+        "1903166": "Lave linge privatif",
+        "1907947": "TV"
+      },
+      "RESTAU_SURPLACE": null,
+      "LOCALISATION": {
+        "1901213": "En centre ville \/ village"
+      },
+      "LANGUES_PAR": {
+        "1908377": "Fran\u00e7ais",
+        "1900236": "Allemand"
+      },
+      "LABELS_TH": null,
+      "MOD_PAIEMENT": {
+        "1234000001": "Carte bancaire",
+        "1900113": "Ch\u00e8que",
+        "1234000009": "Ch\u00e8ques vacances accept\u00e9s"
+      },
+      "TYPE_OBJET": [
+        "G\u00eetes et meubl\u00e9s de tourisme"
+      ],
+      "FORFAIT": null,
+      "PUBLIC": null,
+      "TYPE": null,
+      "THEME": null,
+      "SPE_CULI": null,
+      "LABELS": null,
+      "CHAINES": null,
+      "DIFFICULTE": null,
+      "SEJ_FORMULE": null,
+      "OUVERTURE_TEXTE": null,
+      "DUREE_VISITE": null,
+      "TARIF_REF": null,
+      "GRATUIT": false,
+      "TARIFS": null,
+      "TARIFS_TEXT": null,
+      "CAPACITES": {
+        "100": {
+          "title": "en nombre de personnes",
+          "code": 1903683,
+          "min": 6
+        },
+        "400": {
+          "title": "en nombre de chambres",
+          "code": 1903972,
+          "min": 3
+        },
+        "461": {
+          "title": "en nombre de chambres doubles",
+          "code": 1911512,
+          "min": 2
+        },
+        "464": {
+          "title": "en nombre de chambres twin (lits jumeaux)",
+          "code": 1911514,
+          "min": 1
+        },
+        "602": {
+          "title": "en nombre de lits 1 personne",
+          "code": 1911515,
+          "min": 2
+        },
+        "603": {
+          "title": "en nombre de lits 2 personnes",
+          "code": 1911516,
+          "min": 2
+        }
+      },
+      "CLASSEMENTS": {
+        "star": 3,
+        "epis": 2
+      },
+      "DOCUMENTS": null,
+      "VIDEOS": null,
+      "OFFRESASSOCIEES": null,
+      "TARIFCOMPREND": null,
+      "TARIFNECOMPRENDPAS": null,
+      "DUREE_SEJ": null,
+      "APARTIRDE": null,
+      "GARE_PROCHE": null,
+      "INTERNET": true,
+      "PERIODES_OUVERTURES": [],
+      "NORDIC_PARC": null,
+      "SNOWPARC": null,
+      "PISTES_VTT_OUVERTURE": null,
+      "SKI_NUIT_AUJ": null,
+      "SKI_AURORE": null,
+      "OUVERTURE_DOMAINE": null,
+      "AVALANCHE": null,
+      "COM_BULLETIN": null,
+      "ALT_BAS": null,
+      "ALT_HAUT": null,
+      "HAUTEUR_NEIGE_CM": null,
+      "QUALITE_NEIGE": null,
+      "DATE_DERNIERE_CHUTE": null,
+      "WEBCAMS": null,
+      "PISTES_ALPINS": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "vertes": [],
+        "bleues": [],
+        "rouges": [],
+        "noires": []
+      },
+      "PISTES_FOND": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "vertes": [],
+        "bleues": [],
+        "rouges": [],
+        "noires": []
+      },
+      "PISTES_LUGES": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "luge": []
+      },
+      "PISTES_RAQUETTES": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "piste": []
+      },
+      "REMONTEES": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "remontees": []
+      },
+      "raw_data": {
+        "id": 255003509,
+        "nom": "G\u00eete de M. Roger Albertine",
+        "type": {
+          "id": 1900010,
+          "nom": "G\u00eetes et meubl\u00e9s de tourisme"
+        },
+        "coordonnees": {
+          "num_voie": "12a",
+          "libelle_voie": "Rue Dagobert",
+          "code_postal": "67520",
+          "libelle_commune": "Kirchheim",
+          "telephone1": "03 88 87 53 83",
+          "telephone2": "03 88 75 56 50"
+        },
+        "latitude": "48,6105865963058",
+        "longitude": "7,49640424837116",
+        "datmaj": "08\/06\/2022 09:38:04",
+        "horaires": [],
+        "criteres": [
+          {
+            "id": 1900013,
+            "nom": "Distance (km) \u00e0 la gare la plus proche",
+            "type_critere": "0",
+            "type_valeur": "1",
+            "classe": "2",
+            "valeur": "10"
+          },
+          {
+            "id": 1900048,
+            "nom": "Moyen de paiement",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "16",
+            "modalites": [
+              {
+                "id": 1900113,
+                "nom": "Ch\u00e8que",
+                "ordre": "25"
+              },
+              {
+                "id": 1234000001,
+                "nom": "Carte bancaire",
+                "ordre": "20"
+              },
+              {
+                "id": 1234000009,
+                "nom": "Ch\u00e8ques vacances accept\u00e9s",
+                "ordre": "40"
+              }
+            ]
+          },
+          {
+            "id": 1900049,
+            "nom": "Altitude (m)",
+            "type_critere": "0",
+            "type_valeur": "1",
+            "classe": "2",
+            "valeur": "200"
+          },
+          {
+            "id": 1900050,
+            "nom": "Services pratiques",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "8",
+            "modalites": [
+              {
+                "id": 1900144,
+                "nom": "Draps fournis inclus dans le tarif de location",
+                "ordre": "160"
+              },
+              {
+                "id": 1904376,
+                "nom": "Possibilit\u00e9 de location de linge de maison",
+                "ordre": "168"
+              }
+            ]
+          },
+          {
+            "id": 1900067,
+            "nom": "Langues pratiqu\u00e9es",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1900236,
+                "nom": "Allemand",
+                "ordre": "5"
+              },
+              {
+                "id": 1908377,
+                "nom": "Fran\u00e7ais",
+                "ordre": "0"
+              }
+            ]
+          },
+          {
+            "id": 1900072,
+            "nom": "Superficie (m2)",
+            "type_critere": "0",
+            "type_valeur": "1",
+            "classe": "4",
+            "valeur": "100"
+          },
+          {
+            "id": 1900189,
+            "nom": "Localisation",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "2",
+            "modalites": [
+              {
+                "id": 1901213,
+                "nom": "En centre ville \/ village",
+                "ordre": "170"
+              }
+            ]
+          },
+          {
+            "id": 1900209,
+            "nom": "Equip\/services pour les enfants",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1901339,
+                "nom": "Lit b\u00e9b\u00e9",
+                "ordre": "180"
+              },
+              {
+                "id": 1901340,
+                "nom": "Chaise haute",
+                "ordre": "60"
+              },
+              {
+                "id": 1901341,
+                "nom": "Chauffe-biberon",
+                "ordre": "80"
+              },
+              {
+                "id": 1901342,
+                "nom": "Table \u00e0 langer\/matelas",
+                "ordre": "440"
+              }
+            ]
+          },
+          {
+            "id": 1900268,
+            "nom": "Animaux accept\u00e9s",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1903674,
+                "nom": "Oui sous conditions",
+                "ordre": "10"
+              }
+            ]
+          },
+          {
+            "id": 1900365,
+            "nom": "Label G\u00eetes de France",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "1",
+            "modalites": [
+              {
+                "id": 1902306,
+                "nom": "2 \u00e9pis",
+                "ordre": "2"
+              }
+            ]
+          },
+          {
+            "id": 1900383,
+            "nom": "Classement en \u00e9toiles",
+            "type_critere": "1",
+            "type_valeur": "4",
+            "classe": "1",
+            "modalites": [
+              {
+                "id": 1902432,
+                "nom": "3 Etoiles",
+                "ordre": "5"
+              }
+            ]
+          },
+          {
+            "id": 1900386,
+            "nom": "Equipements de loisirs sur place",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1902771,
+                "nom": "Baby-foot",
+                "ordre": "20"
+              },
+              {
+                "id": 1904234,
+                "nom": "Table de ping-pong",
+                "ordre": "160"
+              }
+            ]
+          },
+          {
+            "id": 1900421,
+            "nom": "Photo url 1",
+            "type_critere": "0",
+            "type_valeur": "6",
+            "classe": "0",
+            "valeur": "apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255003509_1.jpg"
+          },
+          {
+            "id": 1900435,
+            "nom": "Equipements int\u00e9rieurs de l'h\u00e9bergement",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1903158,
+                "nom": "Cuisine \u00e9quip\u00e9e",
+                "ordre": "20"
+              },
+              {
+                "id": 1903164,
+                "nom": "Four",
+                "ordre": "50"
+              },
+              {
+                "id": 1903166,
+                "nom": "Lave linge privatif",
+                "ordre": "120"
+              },
+              {
+                "id": 1903167,
+                "nom": "Lave vaisselle",
+                "ordre": "90"
+              },
+              {
+                "id": 1903173,
+                "nom": "Machine \u00e0 caf\u00e9",
+                "ordre": "60"
+              },
+              {
+                "id": 1903175,
+                "nom": "Four \u00e0 micro ondes",
+                "ordre": "40"
+              },
+              {
+                "id": 1903183,
+                "nom": "R\u00e9frig\u00e9rateur",
+                "ordre": "70"
+              },
+              {
+                "id": 1904220,
+                "nom": "Lave linge en commun",
+                "ordre": "110"
+              },
+              {
+                "id": 1907947,
+                "nom": "TV",
+                "ordre": "270"
+              }
+            ]
+          },
+          {
+            "id": 1900436,
+            "nom": "Equipements ext\u00e9rieurs de l'h\u00e9bergement",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1903227,
+                "nom": "Salon de jardin privatif",
+                "ordre": "280"
+              },
+              {
+                "id": 1904206,
+                "nom": "Cour ferm\u00e9e",
+                "ordre": "310"
+              },
+              {
+                "id": 1909642,
+                "nom": "Barbecue privatif",
+                "ordre": "40"
+              }
+            ]
+          },
+          {
+            "id": 1900437,
+            "nom": "Style d'h\u00e9bergement \/ de batiment",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1903753,
+                "nom": "Maison individuelle",
+                "ordre": "20"
+              }
+            ]
+          },
+          {
+            "id": 1900438,
+            "nom": "Entr\u00e9e de l'h\u00e9bergement",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1903239,
+                "nom": "RDC",
+                "ordre": "20"
+              }
+            ]
+          },
+          {
+            "id": 1900480,
+            "nom": "Source, droits d'auteur photo 1",
+            "type_critere": "0",
+            "type_valeur": "2",
+            "classe": "0",
+            "valeur": "G\u00eetes de France"
+          },
+          {
+            "id": 1900492,
+            "nom": "Capacit\u00e9",
+            "type_critere": "2",
+            "type_valeur": "1",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1903683,
+                "nom": "en nombre de personnes",
+                "ordre": "100",
+                "valeur": "6"
+              },
+              {
+                "id": 1903972,
+                "nom": "en nombre de chambres",
+                "ordre": "400",
+                "valeur": "3"
+              },
+              {
+                "id": 1911512,
+                "nom": "en nombre de chambres doubles",
+                "ordre": "461",
+                "valeur": "2"
+              },
+              {
+                "id": 1911514,
+                "nom": "en nombre de chambres twin (lits jumeaux)",
+                "ordre": "464",
+                "valeur": "1"
+              },
+              {
+                "id": 1911515,
+                "nom": "en nombre de lits 1 personne",
+                "ordre": "602",
+                "valeur": "2"
+              },
+              {
+                "id": 1911516,
+                "nom": "en nombre de lits 2 personnes",
+                "ordre": "603",
+                "valeur": "2"
+              }
+            ]
+          },
+          {
+            "id": 1900494,
+            "nom": "Mode chauffage principal",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1903691,
+                "nom": "Electrique",
+                "ordre": "70"
+              }
+            ]
+          },
+          {
+            "id": 1900497,
+            "nom": "Equipement sanitaires",
+            "type_critere": "2",
+            "type_valeur": "1",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1903713,
+                "nom": "Nb de WC s\u00e9par\u00e9s (privatifs)",
+                "ordre": "100",
+                "valeur": "1"
+              },
+              {
+                "id": 1909635,
+                "nom": "Nb de salle de bain (privative) avec douche et baignoire",
+                "ordre": "10",
+                "valeur": "1"
+              }
+            ]
+          },
+          {
+            "id": 1900526,
+            "nom": "Equip. de loisirs pour les enfants",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1903903,
+                "nom": "Mallette de jeux\/jeux de soci\u00e9t\u00e9",
+                "ordre": "45"
+              },
+              {
+                "id": 1903910,
+                "nom": "Livres",
+                "ordre": "40"
+              },
+              {
+                "id": 1903915,
+                "nom": "Bac \u00e0 sable",
+                "ordre": "15"
+              }
+            ]
+          },
+          {
+            "id": 1900684,
+            "nom": "Entr\u00e9e du logement",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1905752,
+                "nom": "Ind\u00e9pendante",
+                "ordre": "10"
+              }
+            ]
+          },
+          {
+            "id": 1900770,
+            "nom": "Possibilit\u00e9 de connexion Internet",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "8",
+            "modalites": [
+              {
+                "id": 1906279,
+                "nom": "Wi-fi offert",
+                "ordre": "30"
+              },
+              {
+                "id": 1906287,
+                "nom": "Connexion r\u00e9seau",
+                "ordre": "10"
+              }
+            ]
+          },
+          {
+            "id": 1901291,
+            "nom": "Nombre de niveau de l'h\u00e9bergement",
+            "type_critere": "0",
+            "type_valeur": "1",
+            "classe": "4",
+            "valeur": "2"
+          },
+          {
+            "id": 255000254,
+            "nom": "Site web OT (2022)",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "32",
+            "modalites": [
+              {
+                "id": 255002505,
+                "nom": "SEJOURNER - g\u00eetes",
+                "ordre": "305"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "escaped_title": "G\u00eete de M. Roger Albertine",
+  "title": "G\u00eete de M. Roger Albertine",
+  "surtitre": "G\u00eetes et meubl\u00e9s de tourisme",
+  "classement": {
+    "etoiles": {
+      "icon": "star",
+      "tooltip": "\u00c9toiles",
+      "value": 3,
+      "meta": "etoiles"
+    },
+    "epis": {
+      "icon": "epis",
+      "tooltip": "\u00c9pis",
+      "value": 2,
+      "meta": "epis"
+    }
+  },
+  "geo": {
+    "lng": "7.4964042483712",
+    "lat": "48.610586596306"
+  },
+  "photos": [
+    {
+      "url": "https:\/\/apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255003509_1.jpg",
+      "credit": "G\u00eetes de France",
+      "titre": "",
+      "width": 1000,
+      "height": 750,
+      "orientation": "paysage",
+      "gallery_thumb": {
+        "url": "https:\/\/mossig.dev-thuria.com\/wp-content\/uploads\/sitlor\/e2010206e313554692c53f20de93ac05-255003509_1-760x500.jpg",
+        "width": 760,
+        "height": 500,
+        "size": 39235,
+        "cropped": false,
+        "alt": "G\u00eete de M. Roger Albertine",
+        "credit": "G\u00eetes de France"
+      },
+      "cards": {
+        "all": {
+          "url": "https:\/\/mossig.dev-thuria.com\/wp-content\/uploads\/sitlor\/e2010206e313554692c53f20de93ac05-255003509_1-340x340.jpg",
+          "width": 340,
+          "height": 340,
+          "size": 16922,
+          "cropped": false,
+          "alt": "G\u00eete de M. Roger Albertine",
+          "credit": "G\u00eetes de France"
+        }
+      }
+    }
+  ],
+  "header_orientation": "paysage",
+  "adresse": [
+    "12a Rue Dagobert",
+    "67520 Kirchheim"
+  ],
+  "commune": "Kirchheim",
+  "com_data": {
+    "tel": [
+      "03 88 87 53 83"
+    ]
+  },
+  "com_rs": false,
+  "resa_url": null,
+  "pictos": {
+    "animal": {
+      "icon": "animal",
+      "title": "Exemple"
+    },
+    "wifi": {
+      "icon": "wifi",
+      "title": "Exemple"
+    },
+    "parking": {
+      "icon": "parking",
+      "title": "Exemple"
+    },
+    "text": {
+      "text": "Exemple text"
+    }
+  },
+  "header_pictos": {
+    "has_data": true,
+    "pictos": {
+      "wifi": {
+        "text": "wifi"
+      },
+      "animaux-acceptes": {
+        "text": "Animaux accept\u00e9s"
+      }
+    }
+  },
+  "description": {
+    "has_data": false
+  },
+  "apropos_infos": {
+    "has_data": true,
+    "infos": [
+      {
+        "icon": "langues",
+        "title": "Langues parl\u00e9es",
+        "data": "Fran\u00e7ais, Allemand"
+      },
+      {
+        "icon": "paiement",
+        "title": "Mode de paiement",
+        "data": "Carte bancaire, Ch\u00e8que, Ch\u00e8ques vacances accept\u00e9s"
+      }
+    ]
+  },
+  "apropos_pictos": {
+    "has_data": false
+  },
+  "labels": {
+    "has_data": false
+  },
+  "infos_comp": {
+    "has_data": true,
+    "infos": [
+      {
+        "title": "Confort",
+        "data": "Cuisine \u00e9quip\u00e9e, Four \u00e0 micro ondes, Four, Machine \u00e0 caf\u00e9, R\u00e9frig\u00e9rateur, Lave vaisselle, Lave linge en commun, Lave linge privatif, TV"
+      },
+      {
+        "title": "\u00c9quipements",
+        "data": "Barbecue privatif, Salon de jardin privatif, Cour ferm\u00e9e, Nb de salle de bain (privative) avec douche et baignoire, Nb de WC s\u00e9par\u00e9s (privatifs)"
+      },
+      {
+        "title": "Services",
+        "data": "Draps fournis inclus dans le tarif de location, Possibilit\u00e9 de location de linge de maison"
+      },
+      {
+        "title": "Pour les enfants",
+        "data": "Chaise haute, Chauffe-biberon, Lit b\u00e9b\u00e9, Table \u00e0 langer\/matelas, Bac \u00e0 sable, Livres, Mallette de jeux\/jeux de soci\u00e9t\u00e9"
+      },
+      {
+        "title": "Activit\u00e9s",
+        "data": "Baby-foot, Table de ping-pong"
+      }
+    ]
+  },
+  "capacites": {
+    "has_data": true,
+    "capacites": [
+      {
+        "title": "en nombre de personnes",
+        "data": 6
+      },
+      {
+        "title": "en nombre de chambres",
+        "data": 3
+      },
+      {
+        "title": "en nombre de chambres doubles",
+        "data": 2
+      },
+      {
+        "title": "en nombre de chambres twin (lits jumeaux)",
+        "data": 1
+      },
+      {
+        "title": "en nombre de lits 1 personne",
+        "data": 2
+      },
+      {
+        "title": "en nombre de lits 2 personnes",
+        "data": 2
+      }
+    ]
+  },
+  "tarifs": {
+    "has_data": false
+  },
+  "ouverture": {
+    "has_data": false,
+    "display_next_occurence": false
+  },
+  "documents": {
+    "has_data": false
+  },
+  "videos": {
+    "has_data": false
+  },
+  "offres_associees": {
+    "has_data": false
+  },
+  "url_rawdata": "https:\/\/mossig.dev-thuria.com\/fiches\/255003509\/?data&wpdebug",
+  "card_pictos": {
+    "has_data": false
+  }
+}

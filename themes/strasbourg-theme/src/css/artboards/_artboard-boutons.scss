@@ -1,0 +1,40 @@
+.st-page-boutons {
+	position: relative;
+	width: 100%;
+	min-height: 100vh;
+	overflow: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	background-color: $c_main;
+
+
+	.st-grille-container {
+		height: 100%;
+		padding-top: 40px;
+		padding-bottom: 40px;
+
+	}
+
+	.st-wrapper {
+		flex: 1;
+
+		&:not(:first-of-type) {
+			padding: 5px;
+			border: 1px dashed $c_guidelines;
+		}
+
+		& + .st-wrapper {
+			margin-top: calc($small-margin * 2);
+		}
+	}
+
+	[class^="st-btn-"], [attr*=" st-btn-"] {
+		display: inline-flex;
+		align-items: center;
+		margin-right: 10px;
+		margin-bottom: 10px;
+	}
+
+
+}

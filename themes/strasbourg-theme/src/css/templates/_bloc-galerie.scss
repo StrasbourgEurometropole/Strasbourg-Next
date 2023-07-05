@@ -1,0 +1,87 @@
+// Le positionnement des éléments est fait avec la propriété order parce que
+// pour l'accessibilité il faut toujours avoir les dots comme premiers éléments dans la structure html,
+// donc on est obligé à jouer avec les order en css
+
+.st-bloc-galerie {
+	--image-height: 500px;
+	--slide-gap: 20px;
+
+	@include mobile {
+		--image-height: 240px;
+		--slide-gap: 10px;
+	}
+
+	.st-slider-container {
+		position: relative;
+	}
+
+	.st-bloc-galerie__inner {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.st-nav-arrows {
+		//position: absolute;
+		//right: 0;
+		//bottom: 20px;
+		margin-bottom: 20px;
+	}
+
+	.st-nav-dots {
+		justify-content: flex-end;
+		margin-top: 20px;
+		@include mobile {
+			margin-top: 30px;
+		}
+	}
+
+	.splide__slide {
+		max-width: 88.88%; // empèche qu'une image trés large déborde du viewport
+		margin-right: var(--slide-gap);
+	}
+
+	.st-slide-galerie {
+		position: relative;
+		@include mobile {
+			--aspect-ratio: 3/2;
+			width: 300px;
+			@include aspect-ratio(var(--aspect-ratio), "figure");
+		}
+
+		// Figure en table pour contraindre la légende à la largeur de l'image
+		figure {
+			display: table;
+
+			img {
+				height: auto;
+				width: auto;
+				@include mobile {
+					height: 100%;
+				}
+			}
+		}
+
+		figcaption {
+			@include ft($f_txt, $s_medium, 700, $c_white, $s_medium+6);
+			font-style: normal;
+			@include letter-spacing(25);
+			display: table-caption;
+			caption-side: bottom;
+			cursor: auto;
+			text-align: left;
+			@include mobile {
+				font-size: 12px;
+				line-height: 1;
+				margin-top: 15px;
+			}
+		}
+	}
+
+	.st-titre {
+		margin-bottom: 40px;
+		@include mobile {
+			margin-bottom: 20px;
+		}
+	}
+
+}

@@ -1,0 +1,171 @@
+.st-bloc-focus {
+
+	@include tablet-portrait {
+		padding-top: 50px;
+	}
+
+	.st-container {
+		display: flex;
+		align-items: center;
+		background-color: $c_greydark;
+		padding: 20px;
+		@include tablet-portrait {
+			flex-direction: column;
+		}
+
+		& + .st--with-image {
+			@include tablet-portrait {
+				margin-top: 75px;
+			}
+		}
+	}
+
+	.st-col-left {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		@include tablet-portrait {
+			flex-direction: column;
+			margin-top: -70px;
+		}
+
+		[class^="st-icon-"], [class*=" st-icon-"] {
+			font-size: 120px;
+			color: $c_sub;
+			flex-shrink: 0;
+			@include tablet-portrait {
+				font-size: 80px;
+			}
+		}
+
+		.st-visual-container {
+			position: relative;
+			flex-shrink: 0;
+			margin-right: 20px;
+			width: 200px;
+			height: 200px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			@include tablet-portrait {
+				width: 100px;
+				height: 100px;
+				margin-right: 0px;
+			}
+		}
+
+		.st-content {
+			margin-right: 80px;
+			@include tablet-portrait {
+				margin-right: 0px;
+				margin-bottom: 20px;
+				margin-top: 20px;
+			}
+
+			.st-surtitre-cat {
+				margin-top: 8px;
+			}
+
+			p:not([class]) {
+				font-size: 12px;
+				line-height: 1.16;
+				margin-top: 8px;
+			}
+		}
+	}
+
+	.st-col-right {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		flex-shrink: 0;
+		@include tablet-portrait {
+			width: 100%;
+			flex-direction: row;
+		}
+
+		.st-btn {
+			@include tablet-portrait {
+				width: 100%;
+			}
+			@include mobile {
+				font-size: 12px;
+				padding-left: 20px;
+				padding-right: 20px;
+			}
+
+			& + .st-btn {
+				margin-top: 10px;
+				@include tablet-portrait {
+					margin-top: 0px;
+					margin-left: 10px;
+				}
+			}
+		}
+	}
+
+	&.st--two-elements {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-gap: 30px;
+		@include tablet-landscape {
+			grid-template-columns: 1fr;
+		}
+		@include tablet-portrait {
+			padding-top: 0px;
+		}
+
+		.st-container {
+			flex-direction: column;
+
+			& + .st-container {
+				@include tablet-portrait {
+					margin-top: 0px;
+				}
+			}
+		}
+
+		.st-col-left {
+			@include tablet-portrait {
+				margin-top: 0px;
+				flex-direction: row;
+			}
+
+			.st-content {
+				margin: 0;
+			}
+
+			.st-visual-container {
+				width: 120px;
+				height: 120px;
+				@include tablet-portrait {
+					margin-right: 20px;
+				}
+				@include mobile {
+					width: 100px;
+					height: 100px;
+				}
+			}
+		}
+
+		.st-col-right {
+			width: 100%;
+			flex-direction: row;
+			margin-top: 20px;
+
+			.st-btn {
+				flex: 1;
+
+				& + .st-btn {
+					margin-top: 0;
+					margin-left: 10px;
+				}
+			}
+		}
+	}
+
+	&.st--has-line {
+		padding-bottom: 40px;
+		border-bottom: 1px solid $c_border;
+	}
+}

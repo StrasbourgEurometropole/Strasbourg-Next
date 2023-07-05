@@ -1,0 +1,32 @@
+.st-contenu-en-avant {
+	display: flex;
+	flex-direction: row-reverse;
+	align-items: center;
+	padding: 40px 0;
+	border-bottom: 1px solid $c_border;
+	@include tablet-portrait {
+		flex-direction: column-reverse;
+		align-items: flex-start;
+	}
+	@include mobile {
+		padding-top: 20px;
+	}
+
+	.st-img-wrapper {
+		width: 56.96%;
+		flex-shrink: 0;
+		margin-right: 40px;
+		@include tablet-portrait {
+			width: 100%;
+			margin-right: 0px;
+			margin-bottom: 20px;
+		}
+	}
+
+	.st-content {
+		h2 {
+			margin-bottom: 0px;
+			font-weight: 300;
+		}
+	}
+}

@@ -1,0 +1,141 @@
+.st-barre-single-sit {
+	position: fixed;
+	bottom: 20px;
+	width: 100%;
+	z-index: z-index("barre-sticky");
+	@include addTransition();
+	@include tablet-portrait {
+		position: sticky;
+		bottom: auto;
+		top: 0;
+		margin-bottom: 40px;
+		background-color: $c_greydark;
+	}
+	@include mobile {
+		margin-bottom: 20px;
+	}
+
+	& ~ .st-footer .st-container-mentions {
+		@include min-tablet-portrait {
+			padding-bottom: calc(var(--barre-height) + 40px);
+		}
+	}
+
+	.st-is-scrolled & {
+		@include tablet-portrait {
+			transform: translateY(-100%);
+			opacity: 0;
+		}
+	}
+
+
+	.st-barre-inner {
+		display: flex;
+		align-items: center;
+		background-color: $c_greydark;
+		padding: 10px;
+		@include tablet-portrait {
+			padding: 15px 0 10px 0;
+		}
+		@include mobile {
+			flex-direction: column;
+		}
+	}
+
+	.st-container-left {
+		display: flex;
+		align-items: center;
+		@include tablet-portrait {
+			width: 100%;
+		}
+	}
+
+	.st-container-right {
+		display: flex;
+		align-items: center;
+		margin-left: auto;
+		@include tablet-portrait {
+			width: 100%;
+		}
+		@include mobile {
+			margin-top: 10px;
+		}
+	}
+
+	.st-image {
+		position: relative;
+		margin-right: 20px;
+		@include tablet-portrait {
+			display: none;
+		}
+	}
+
+	.st-content {
+		max-width: 264px;
+
+		.st-title {
+			@include ft($f_txt, 15px, 700, $c_white, 1);
+			@include letter-spacing(25);
+			margin-bottom: 5px;
+			@include mobile {
+				font-size: 14px;
+				margin-bottom: 3px;
+			}
+		}
+
+		address {
+			@include ft($f_txt, 12px, 400, $c_txt, 1.16);
+			@include letter-spacing(25);
+			margin-bottom: 5px;
+			@include mobile {
+				margin-bottom: 3px;
+			}
+		}
+
+		.st-ouverture {
+			@include ft($f_txt, 12px, 500, $c_sub, 1);
+			@include letter-spacing(200);
+			text-transform: uppercase;
+
+			&.st--closed {
+				color: $c_rose;
+			}
+		}
+	}
+
+	.st-liens-rapides {
+		display: flex;
+		align-items: center;
+
+		li {
+			margin-right: 10px;
+			@include mobile-small {
+				margin-right: 5px;
+			}
+		}
+	}
+
+	.st-social-share {
+		@include tablet-portrait {
+			display: none;
+		}
+
+		label {
+			width: 80px;
+			height: 80px;
+		}
+	}
+
+	.st-btn-favoris {
+		margin-left: auto;
+		@include tablet-portrait {
+			@include favorites-only-icon();
+			width: 48px;
+			height: 48px;
+		}
+		@include mobile {
+			width: 36px;
+			height: 36px;
+		}
+	}
+}

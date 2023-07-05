@@ -1,0 +1,596 @@
+// Style General - Overlay - All site
+// ==========================================================================
+.st-overlay {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	z-index: z-index('overlay');
+	overflow: hidden;
+	width: 100vw;
+	max-width: 640px;
+	background-color: $c_white;
+	transition: transform 400ms $transition-overlay-easing, visibility 400ms $transition-overlay-easing;
+	visibility: hidden;
+	transform: translateX(100%);
+
+	@include mobile {
+		max-width: 100%;
+	}
+
+	&:not(.st-overlay-absolute) {
+		.st-overlay-load & {
+			display: block;
+		}
+	}
+
+	&.st-open {
+		visibility: initial;
+		transform: initial;
+	}
+
+	// Arrivée du haut de l'écran
+	&.st--from-top {
+		transform: translateY(-100%);
+
+		&.st-open {
+			transform: initial;
+		}
+	}
+
+	// Arrivée du bas de l'écran
+	&.st--from-bottom {
+		transform: translateY(100%);
+
+		&.st-open {
+			transform: initial;
+		}
+	}
+
+	.st-error-container {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 75%;
+		transform: translate(-50%, -50%);
+		text-align: center;
+		z-index: 999999;
+
+		@include mobile {
+			width: 100%;
+		}
+	}
+
+	.st-scroller {
+		padding: 40px 80px 80px 80px;
+		height: 100%;
+		overflow-y: auto;
+
+		@include mobile {
+			padding: 40px 40px 40px 40px;
+		}
+		@include mobile {
+			padding: 40px 20px 40px 20px;
+		}
+	}
+
+	.st-btn-close {
+		position: absolute;
+		top: 40px;
+		right: 40px;
+		z-index: 10;
+
+		@include mobile {
+			top: 20px;
+			right: 20px;
+		}
+	}
+}
+
+// Overlay - focus SIT
+// ==========================================================================
+.st-overlay-focus-sit {
+	.st-barre {
+		position: sticky;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		padding-right: 40px;
+		display: flex;
+		align-items: center;
+		min-height: 100px;
+		background-color: $c_white;
+		box-shadow: 0 -30px 60px rgba($c_dark, 0.10);
+
+		@include mobile {
+			padding-right: 20px;
+			min-height: 50px;
+		}
+
+		[data-content] {
+			position: relative;
+			width: 60px;
+			height: 60px;
+			border: 1px solid $c_sub;
+			margin-right: 10px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			@include mobile {
+				width: 30px;
+				height: 30px;
+			}
+
+			&:before {
+				content: "";
+				@include icomoon();
+				display: block;
+				color: $c_dark;
+				font-size: 20px;
+
+				@include mobile {
+					font-size: 12px;
+				}
+			}
+
+			@include can-hover {
+				.st-tooltip {
+					opacity: 1;
+					visibility: visible;
+					transform: translate(-50%);
+				}
+			}
+
+			&[data-content="telephone"] {
+				&:before {
+					content: $st-icon-phone;
+				}
+			}
+
+			&[data-content="email"] {
+				&:before {
+					content: $st-icon-email;
+				}
+			}
+
+			&[data-content="site"] {
+				&:before {
+					content: $st-icon-link;
+				}
+			}
+		}
+
+		.st-lien {
+			max-width: 248px;
+			padding: 42px 70px 42px 80px;
+			font-size: 16px;
+			white-space: nowrap;
+			margin-right: auto;
+
+			@include tablet-portrait {
+				padding: 42px 40px 42px 40px;
+			}
+			@include mobile {
+				font-size: 12px;
+				padding: 22px 20px 22px 20px;
+			}
+		}
+
+		.st-btn, .st-btn-primary, .st-btn {
+			max-width: 142px;
+
+			@include mobile {
+				position: absolute;
+				bottom: 56px;
+				width: 100%;
+				max-width: none;
+				height: auto;
+				font-size: 12px;
+			}
+		}
+	}
+}
+
+// Overlay - Filtres
+// ==========================================================================
+.st-overlay-filtres {
+
+	// layout général des overlays
+	.st-overlay__inner {
+		--padding-horizontal: 80px;
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+
+		@include mobile {
+			--padding-horizontal: 20px;
+		}
+	}
+
+	.st-overlay__body {
+		flex-grow: 1;
+		overflow: auto;
+		padding: 40px var(--padding-horizontal) 80px;
+	}
+
+	.st-overlay__footer {
+		display: flex;
+		justify-content: space-between;
+		padding: 20px var(--padding-horizontal) 20px;
+		box-shadow: 0 -30px 60px rgba($c_dark, 0.10);
+	}
+
+	.st-title-overlay {
+		display: block;
+		@include ft($f_hx, 40px, 700, $c_txt, 1);
+		margin-bottom: 40px;
+
+		@include mobile {
+			font-size: 30px;
+		}
+	}
+
+	.st-btn-reset {
+		@include ft('', $s_p, 300, $c_txt, 1.25);
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 10px 0;
+		@include addTransition();
+
+		@include mobile {
+			font-size: 13px;
+		}
+
+		@include can-hover {
+			&:before {
+				transform: rotate(180deg);
+			}
+		}
+
+		&:before {
+			@include icomoon($st-icon-refresh);
+			display: block;
+			margin-right: 10px;
+			font-size: 20px;
+			color: $c_dark;
+			@include addTransition();
+		}
+	}
+
+	// styles communs des groupes de filtres
+	.st-group-filtres {
+		padding-bottom: 40px;
+		margin-bottom: 40px;
+		border-bottom: 1px solid rgba($c_dark, 0.10);
+
+		@include mobile {
+			padding-bottom: 20px;
+			margin-bottom: 20px;
+		}
+
+		&:last-of-type {
+			margin-bottom: 0;
+			border-bottom: none;
+		}
+	}
+
+
+	.st-group-checkbox {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+
+	/* Facette Select */
+	.st-group-select {
+		.selectric-wrapper {
+			max-width: 100%;
+		}
+
+		.select {
+			.selectric-open {
+				z-index: 10;
+			}
+		}
+	}
+
+
+	.st-group-date {
+		> * {
+			flex-grow: 1;
+			flex-shrink: 0;
+			flex-basis: 0;
+		}
+
+		input {
+			min-width: 10ch;
+			flex-grow: 1;
+		}
+
+		// Checkbox "Aujourd'hui..." juste aprés le sélecteur de dates
+		& + .st-group-checkbox {
+			margin-top: 40px;
+		}
+	}
+
+
+	.date-picker-wrapper {
+		position: absolute;
+		top: 100px !important;
+		left: 20px !important;
+		box-shadow: 5px 5px 20px rgba($c_dark, 0.2);
+		padding: 20px;
+		transform: scale(0.7);
+
+		// règles pour forcer la largeur à rentrer dans l'overlay filtres
+		.gap {
+			visibility: hidden !important;
+		}
+
+		.month-wrapper {
+			//width: 680px !important;
+			display: flex;
+			padding-left: 15px;
+
+			th {
+				padding-bottom: 15px;
+
+				&.month-name {
+					padding-bottom: 0;
+				}
+			}
+
+			.month1 {
+				.month-name {
+					padding-left: 10px;
+				}
+			}
+
+			.month2 {
+				.month-name {
+					padding-right: 10px;
+				}
+			}
+		}
+
+		.month-wrapper table {
+			width: calc(50% - 15px);
+
+			&:first-child {
+				padding-right: 30px;
+			}
+		}
+
+		.month-wrapper table .day {
+			//padding: 8px;
+			margin: 2px;
+		}
+	}
+}
+
+
+// Overlay - Search
+// ==========================================================================
+.st-overlay-search {
+	left: 0;
+	display: flex !important;
+	flex-direction: column;
+	width: initial;
+	max-width: initial;
+
+	.st-wrapper-form {
+		display: flex;
+		align-items: center;
+		padding: 40px 0;
+		border-bottom: 1px dashed rgba($c_main, 0.25);
+
+		@include mobile {
+			padding: 20px 0;
+		}
+	}
+
+	.st-form-search {
+		flex-grow: 1;
+		display: flex;
+		height: 40px;
+
+		input {
+			flex-grow: 1;
+			padding-right: 40px;
+			@include ft($f_txt, 18px, 700, $c_txt, 1);
+			border: none;
+			outline: none;
+			text-overflow: ellipsis;
+
+			@include mobile {
+				padding-right: 15px;
+			}
+
+			&::placeholder {
+				opacity: 0.4;
+			}
+		}
+	}
+
+	.st-btn-search {
+		@include flex-center;
+		padding: 0 20px;
+		font-size: 20px;
+		color: $c_main;
+
+		@include mobile {
+			padding: 0 10px;
+		}
+
+		&:before {
+			@include icomoon($st-icon-search);
+		}
+
+		@include can-hover {
+			color: $c_sub;
+		}
+	}
+
+	.st-results {
+		flex-shrink: 0;
+		padding-right: 40px;
+		@include ft($f_txt, 14px, 300, $c_txt, 1.4);
+
+		@include mobile {
+			padding-right: 15px;
+		}
+
+		&.st-is-empty {
+			display: none;
+		}
+	}
+
+	.st-btn-close {
+		flex-shrink: 0;
+		position: static;
+	}
+
+	.st-overlay__body {
+		flex-grow: 1;
+		overflow: auto;
+	}
+
+	.st-wrapper-cards {
+		min-height: 100%;
+		padding-bottom: 80px;
+	}
+
+	.st-alert-instruction {
+		grid-column: 1 / -1; // stretch sur tout le wrapper
+		align-self: center;
+		@include ft($f_txt, 65px, 700, $c_txt, 1);
+		opacity: 0.15;
+
+		@include tablet-portrait {
+			font-size: 40px;
+		}
+		@include mobile {
+			font-size: 30px;
+		}
+	}
+}
+
+
+// Overlay - map (SIT)
+// ==========================================================================
+.st-overlay-map {
+	display: flex;
+	flex-direction: column;
+	max-width: initial;
+
+	&:not(.st-overlay-absolute) {
+		.st-overlay-load & {
+			display: flex;
+		}
+	}
+
+	.st-maps {
+		flex-grow: 1;
+		position: relative;
+		z-index: 1;
+	}
+
+	.st-nav-arrows {
+		@include absolute-stretch();
+
+		.st-btn-arrow {
+			position: absolute;
+			top: 80px;
+
+			&.st--prev {
+				left: 60px;
+				transform: translate(-50%, -50%);
+			}
+
+			&.st--next {
+				right: 60px;
+				transform: translate(50%, -50%);
+			}
+		}
+	}
+
+	.st-results {
+		position: relative;
+		min-height: 160px;
+		padding: 10px 60px;
+
+		@include mobile {
+			min-height: 110px;
+			padding: 10px 20px;
+		}
+
+		// gradient pour le slider
+		&:before,
+		&:after {
+			content: '';
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			z-index: 1;
+			width: 60px;
+			pointer-events: none;
+
+			@include mobile {
+				width: 40px;
+			}
+		}
+
+		&:before {
+			left: 0;
+			background-image: linear-gradient(to right, rgba(white, 1), rgba(white, 0));
+
+			@include mobile {
+				display: none;
+			}
+		}
+
+		&:after {
+			right: 0;
+			background-image: linear-gradient(to left, rgba(white, 1), rgba(white, 0));
+		}
+
+		.splide__slide {
+			--slide-gap: 10px;
+			--slide-width: 360px;
+			width: var(--slide-width);
+			margin-right: var(--slide-gap);
+
+			@include mobile {
+				--slide-width: 320px;
+			}
+
+			@media screen and (max-width: 420px) {
+				--slide-width: calc(100% - 40px);
+			}
+		}
+	}
+}
+
+
+// Overlay - Shadow
+// ==========================================================================
+.st-shadow-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: z-index('overlay-shadow');
+	background-color: rgba($c_dark, 0.5);
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 400ms $transition-overlay-easing, visibility 400ms $transition-overlay-easing;
+
+	&.st-open {
+		opacity: initial;
+		visibility: initial;
+	}
+}

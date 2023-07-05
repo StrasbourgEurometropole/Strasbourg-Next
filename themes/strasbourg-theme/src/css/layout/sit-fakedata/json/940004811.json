@@ -1,0 +1,1838 @@
+{
+  "sit_id": "940004811",
+  "schemaorg": {
+    "@context": "http:\/\/schema.org",
+    "@type": "Hotel",
+    "name": "HOTEL RESTAURANT RELAIS LORRAINE ALSACE",
+    "description": null,
+    "petsAllowed": null,
+    "paymentAccepted": "Carte Bleue, Ch\u00e8ques bancaires et postaux, Ch\u00e8ques Vacances, Esp\u00e8ces, Eurocard - Mastercard, Tickets-restaurant, Virements, Visa",
+    "starRating": {
+      "@type": "Rating",
+      "ratingValue": 3,
+      "author": {
+        "@type": "Organization",
+        "name": "Pr\u00e9f\u00e9cture"
+      }
+    },
+    "amenityFeature": [],
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "RAON L ETAPE",
+      "postalCode": "88110",
+      "streetAddress": "31 Rue Jules Ferry"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 48.4072311,
+      "longitude": 6.8442524
+    },
+    "telephone": "03 29 41 61 93",
+    "url": "http:\/\/www.rla88.com"
+  },
+  "fiche": {
+    "data": {
+      "_infos": {
+        "sit": "sitlor",
+        "datmaj": "03\/03\/2022 17:02:01"
+      },
+      "criteres": {
+        "4000010": {
+          "exist": 1,
+          "nom": "Tarifs h\u00f4tel ann\u00e9e en cours (client\u00e8le individuelle)",
+          "type_critere": 2,
+          "type_valeur": 1,
+          "classe": 8,
+          "modalites": {
+            "4000048": {
+              "nom": "Chambre double minimum",
+              "ordre": 0,
+              "valeur": 62,
+              "exist": 1
+            },
+            "4000050": {
+              "nom": "Petit d\u00e9jeuner",
+              "ordre": 2,
+              "valeur": 8,
+              "exist": 1
+            },
+            "4000052": {
+              "nom": "1\/2 pension minimum",
+              "ordre": 4,
+              "valeur": 58,
+              "exist": 1
+            },
+            "4000059": {
+              "nom": "Lit suppl\u00e9mentaire enfant",
+              "ordre": 11,
+              "valeur": 12,
+              "exist": 1
+            },
+            "4000565": {
+              "nom": "Soir\u00e9e \u00e9tape",
+              "ordre": 12,
+              "valeur": 74,
+              "exist": 1
+            }
+          }
+        },
+        "4000037": {
+          "exist": 1,
+          "nom": "Lien de commercialisation OT",
+          "type_critere": 0,
+          "type_valeur": 6,
+          "classe": 256,
+          "valeur": "http:\/\/www.booking.com\/hotel\/fr\/relais-lorraine-alsace-pere-fils.fr.html?aid=311089;label=relais-lorraine-alsace-pere-fils-TqptaJnt2f43hMI01cOW_gS31875907704%3Apl%3Ata%3Ap1%3Ap2430.000%3Aac%3Aap1t1%3Aneg;sid=8237fa958dec781ae685eb4f6f957a45;dcid=4;ucfs=1;srfid=521c10a7157a23467145c8bfd02d0dbfeac75de3X1#availability_targettab=1&origin=hp&error_url=%2Fhotel%2Ffr%2Frelais-lorraine-alsace-pere-fils.fr.html%3Faid%3D311089%3Blabel%3Drelais-lorraine-alsace-pere-fils-TqptaJnt2f43hMI01cOW_gS31875907704%253Apl%253Ata%253Ap1%253Ap2430.000%253Aac%253Aap1t1%253Aneg%3Bsid%3D8237fa958dec781ae685eb4f6f957a45%3Bdcid%3D4%3B&do_availability_check=on&aid=311089&dcid=4&label=relais-lorraine-alsace-pere-fils-TqptaJnt2f43hMI01cOW_gS31875907704%3Apl%3Ata%3Ap1%3Ap2430.000%3Aac%3Aap1t1%3Aneg&sid=8237fa958dec781ae685eb4f6f957a45&checkin_monthday=0&checkin_year_month=0&checkout_monthday=0&checkout_year_month=0#availability_targetaid=311089;label=relais-lorraine-alsace-pere-fils-TqptaJnt2f43hMI01cOW_gS31875907704%3Apl%3Ata%3Ap1%3Ap2430.000%3Aac%3Aap1t1%3Aneg;sid=8237fa958dec781ae685eb4f6f957a45;dcid=1;ucfs=1;srfid=5e27d5659540b87084498797bd672953aa1914feX1",
+          "modalites": []
+        },
+        "4000099": {
+          "exist": 1,
+          "nom": "Produit insolite",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 1,
+          "modalites": {
+            "4000397": {
+              "nom": "Non",
+              "ordre": 2,
+              "exist": 1
+            }
+          }
+        },
+        "4000101": {
+          "exist": 1,
+          "nom": "Lien Facebook",
+          "type_critere": 0,
+          "type_valeur": 6,
+          "classe": 0,
+          "valeur": "https:\/\/www.facebook.com\/pages\/Relais-Lorraine-Alsace\/165839746766285?fref=ts",
+          "modalites": []
+        },
+        "4000245": {
+          "exist": 1,
+          "nom": "Marque nationale Accueil V\u00e9lo",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 32,
+          "modalites": {
+            "4000979": {
+              "nom": "Oui",
+              "ordre": 1,
+              "exist": 1
+            }
+          }
+        },
+        "4000263": {
+          "exist": 1,
+          "nom": "Mode d'acc\u00e8s wifi",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 8,
+          "modalites": {
+            "4001026": {
+              "nom": "Wifi gratuit",
+              "ordre": 1,
+              "exist": 1
+            }
+          }
+        },
+        "736000002": {
+          "exist": 1,
+          "nom": "Localisation",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 128,
+          "modalites": {
+            "64": {
+              "nom": "A prox. d'une autoroute",
+              "ordre": 2,
+              "exist": 1
+            },
+            "54": {
+              "nom": "A prox. d'une gare",
+              "ordre": 3,
+              "exist": 1
+            },
+            "53": {
+              "nom": "En centre-ville",
+              "ordre": 7,
+              "exist": 1
+            }
+          }
+        },
+        "736000005": {
+          "exist": 1,
+          "nom": "Langues parl\u00e9es - r\u00e9servation",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 2,
+          "modalites": {
+            "69": {
+              "nom": "Anglais",
+              "ordre": 1,
+              "exist": 1
+            }
+          }
+        },
+        "736000007": {
+          "exist": 1,
+          "nom": "Mode de paiement",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 8,
+          "modalites": {
+            "84": {
+              "nom": "Carte Bleue",
+              "ordre": 4,
+              "exist": 1
+            },
+            "98": {
+              "nom": "Ch\u00e8ques bancaires et postaux",
+              "ordre": 7,
+              "exist": 1
+            },
+            "92": {
+              "nom": "Ch\u00e8ques Vacances",
+              "ordre": 8,
+              "exist": 1
+            },
+            "97": {
+              "nom": "Esp\u00e8ces",
+              "ordre": 12,
+              "exist": 1
+            },
+            "88": {
+              "nom": "Eurocard - Mastercard",
+              "ordre": 13,
+              "exist": 1
+            },
+            "102": {
+              "nom": "Tickets-restaurant",
+              "ordre": 15,
+              "exist": 1
+            },
+            "96": {
+              "nom": "Virements",
+              "ordre": 16,
+              "exist": 1
+            },
+            "89": {
+              "nom": "Visa",
+              "ordre": 17,
+              "exist": 1
+            }
+          }
+        },
+        "736000010": {
+          "exist": 1,
+          "nom": "Animaux accept\u00e9s",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 2,
+          "modalites": {
+            "101": {
+              "nom": "OUI",
+              "ordre": 1,
+              "exist": 1
+            }
+          }
+        },
+        "736000012": {
+          "exist": 1,
+          "nom": "Groupes accept\u00e9s",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 2,
+          "modalites": {
+            "105": {
+              "nom": "OUI",
+              "ordre": 1,
+              "exist": 1
+            }
+          }
+        },
+        "736000014": {
+          "exist": 1,
+          "nom": "Parking autocar",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 2,
+          "modalites": {
+            "107": {
+              "nom": "OUI",
+              "ordre": 1,
+              "exist": 1
+            }
+          }
+        },
+        "736000015": {
+          "exist": 1,
+          "nom": "Cat\u00e9gorie d'h\u00f4tel",
+          "type_critere": 1,
+          "type_valeur": 1,
+          "classe": 1,
+          "modalites": {
+            "111": {
+              "nom": "3 \u00e9toiles",
+              "ordre": 3,
+              "exist": 1
+            }
+          }
+        },
+        "736000018": {
+          "exist": 1,
+          "nom": "Confort en chambre",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 16,
+          "modalites": {
+            "152": {
+              "nom": "Acc\u00e8s Internet",
+              "ordre": 1,
+              "exist": 1
+            },
+            "155": {
+              "nom": "Wifi",
+              "ordre": 2,
+              "exist": 1
+            },
+            "145": {
+              "nom": "Double vitrage",
+              "ordre": 6,
+              "exist": 1
+            },
+            "149": {
+              "nom": "T\u00e9l\u00e9phone",
+              "ordre": 10,
+              "exist": 1
+            },
+            "151": {
+              "nom": "T\u00e9l\u00e9vision",
+              "ordre": 11,
+              "exist": 1
+            },
+            "153": {
+              "nom": "Terrasse Privative",
+              "ordre": 12,
+              "exist": 1
+            }
+          }
+        },
+        "736000019": {
+          "exist": 1,
+          "nom": "Equipements de l'h\u00f4tel",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 16,
+          "modalites": {
+            "164": {
+              "nom": "Local mat\u00e9riel ferm\u00e9",
+              "ordre": 11,
+              "exist": 1
+            },
+            "170": {
+              "nom": "Restaurant",
+              "ordre": 18,
+              "exist": 1
+            },
+            "172": {
+              "nom": "Salon",
+              "ordre": 20,
+              "exist": 1
+            },
+            "173": {
+              "nom": "Salon de t\u00e9l\u00e9vision",
+              "ordre": 21,
+              "exist": 1
+            }
+          }
+        },
+        "736000020": {
+          "exist": 1,
+          "nom": "Services de l'h\u00f4tel",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 16,
+          "modalites": {
+            "179": {
+              "nom": "Blanchisserie",
+              "ordre": 2,
+              "exist": 1
+            },
+            "181": {
+              "nom": "Coffres clients",
+              "ordre": 4,
+              "exist": 1
+            },
+            "183": {
+              "nom": "R\u00e9servation de prestations ext\u00e9rieures",
+              "ordre": 6,
+              "exist": 1
+            },
+            "184": {
+              "nom": "Service en chambre",
+              "ordre": 7,
+              "exist": 1
+            }
+          }
+        },
+        "736000035": {
+          "exist": 1,
+          "nom": "Altitude (en m)",
+          "type_critere": 0,
+          "type_valeur": 1,
+          "classe": 128,
+          "valeur": 625,
+          "modalites": []
+        },
+        "736000079": {
+          "exist": 1,
+          "nom": "Langues parl\u00e9es \u00e0 l'accueil",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 2,
+          "modalites": {
+            "69": {
+              "nom": "Anglais",
+              "ordre": 1,
+              "exist": 1
+            }
+          }
+        },
+        "736000143": {
+          "exist": 1,
+          "nom": "Capacit\u00e9 de l'h\u00f4tel",
+          "type_critere": 2,
+          "type_valeur": 1,
+          "classe": 4,
+          "modalites": {
+            "8": {
+              "nom": "Nbre total de chambres",
+              "ordre": 1,
+              "valeur": 10,
+              "exist": 1
+            }
+          }
+        },
+        "736000187": {
+          "exist": 1,
+          "nom": "Type d'h\u00f4tel",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 1,
+          "modalites": {
+            "2": {
+              "nom": "H\u00f4tel-restaurant",
+              "ordre": 2,
+              "exist": 1
+            }
+          }
+        },
+        "736000262": {
+          "exist": 1,
+          "nom": "Fermeture hebdomadaire de l'h\u00f4tel",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 2,
+          "modalites": {
+            "7": {
+              "nom": "Dimanche soir",
+              "ordre": 7,
+              "exist": 1
+            }
+          }
+        }
+      },
+      "photos": [
+        {
+          "url": "https:\/\/www.sitlor.fr\/photos\/940\/940004811_4.jpg",
+          "credit": "OT Raon l'Etape",
+          "titre": "",
+          "width": 1280,
+          "height": 853,
+          "orientation": "paysage"
+        },
+        {
+          "url": "https:\/\/www.sitlor.fr\/photos\/940\/940004811_5.jpg",
+          "credit": "OT Raon l'Etape",
+          "titre": "",
+          "width": 1280,
+          "height": 1076,
+          "orientation": "paysage"
+        },
+        {
+          "url": "https:\/\/www.sitlor.fr\/photos\/940\/940004811_6.jpg",
+          "credit": "OT Raon l'Etape",
+          "titre": "",
+          "width": 1280,
+          "height": 960,
+          "orientation": "paysage"
+        },
+        {
+          "url": "https:\/\/www.sitlor.fr\/photos\/940\/940004811_8.jpg",
+          "credit": "OT Raon l'Etape",
+          "titre": "",
+          "width": 1280,
+          "height": 960,
+          "orientation": "paysage"
+        }
+      ],
+      "id": 940004811,
+      "type": {
+        "id": 4000003,
+        "nom": "H\u00f4tel-restaurant"
+      },
+      "coordonnees": {
+        "num_voie": "31",
+        "libelle_voie": "Rue Jules Ferry",
+        "code_postal": "88110",
+        "libelle_commune": "RAON L ETAPE",
+        "telephone1": "03 29 41 61 93",
+        "email1": "relaislorrainealsace@hotmail.fr",
+        "url1": "www.rla88.com"
+      },
+      "NOM": "HOTEL RESTAURANT RELAIS LORRAINE ALSACE",
+      "BORDERAU": "H\u00f4tel-restaurant",
+      "DESC": [
+        "H\u00f4tel-Restaurant situ\u00e9 au centre ville de Raon l'Etape, id\u00e9alement plac\u00e9 au c\u0153ur des monuments class\u00e9s, \u00e0 proximit\u00e9 des commerces et services et en face de la Halle aux Bl\u00e9s (salle de cin\u00e9ma-th\u00e9\u00e2tre).\nChambres confortables et tout \u00e9quip\u00e9es. \nDeux salles de restauration avec une carte vari\u00e9e, tr\u00e8s belle terrasse ombrag\u00e9e. \nCuisine traditionnelle r\u00e9gionale."
+      ],
+      "ANIMAUXACCEPTES": null,
+      "GROUPESACCEPTES": true,
+      "CARAVANEIGE": null,
+      "INSOLIT": null,
+      "ANIMATIONS": null,
+      "TABLE_HOTE": null,
+      "DEGUSTATION": null,
+      "PARKINGCC": null,
+      "PARKINGCAR": true,
+      "PARKINGPRIVE": null,
+      "QUALITE_TOURISME": null,
+      "UNESCO": null,
+      "FAMILLE_PLUS": null,
+      "ACCUEIL_VELO": true,
+      "ADRESSE": [
+        "31 Rue Jules Ferry"
+      ],
+      "COMMUNE": "RAON L ETAPE",
+      "CP": "88110",
+      "LAT": 48.4072311,
+      "LNG": 6.8442524,
+      "com_data": {
+        "tel": [
+          "03 29 41 61 93"
+        ],
+        "mel": [
+          "relaislorrainealsace@hotmail.fr"
+        ],
+        "web": [
+          "http:\/\/www.rla88.com"
+        ],
+        "resa_urls": {
+          "4000037": "http:\/\/www.booking.com\/hotel\/fr\/relais-lorraine-alsace-pere-fils.fr.html?aid=311089;label=relais-lorraine-alsace-pere-fils-TqptaJnt2f43hMI01cOW_gS31875907704%3Apl%3Ata%3Ap1%3Ap2430.000%3Aac%3Aap1t1%3Aneg;sid=8237fa958dec781ae685eb4f6f957a45;dcid=4;ucfs=1;srfid=521c10a7157a23467145c8bfd02d0dbfeac75de3X1#availability_targettab=1&origin=hp&error_url=%2Fhotel%2Ffr%2Frelais-lorraine-alsace-pere-fils.fr.html%3Faid%3D311089%3Blabel%3Drelais-lorraine-alsace-pere-fils-TqptaJnt2f43hMI01cOW_gS31875907704%253Apl%253Ata%253Ap1%253Ap2430.000%253Aac%253Aap1t1%253Aneg%3Bsid%3D8237fa958dec781ae685eb4f6f957a45%3Bdcid%3D4%3B&do_availability_check=on&aid=311089&dcid=4&label=relais-lorraine-alsace-pere-fils-TqptaJnt2f43hMI01cOW_gS31875907704%3Apl%3Ata%3Ap1%3Ap2430.000%3Aac%3Aap1t1%3Aneg&sid=8237fa958dec781ae685eb4f6f957a45&checkin_monthday=0&checkin_year_month=0&checkout_monthday=0&checkout_year_month=0#availability_targetaid=311089;label=relais-lorraine-alsace-pere-fils-TqptaJnt2f43hMI01cOW_gS31875907704%3Apl%3Ata%3Ap1%3Ap2430.000%3Aac%3Aap1t1%3Aneg;sid=8237fa958dec781ae685eb4f6f957a45;dcid=1;ucfs=1;srfid=5e27d5659540b87084498797bd672953aa1914feX1"
+        }
+      },
+      "rs_data": {
+        "facebook": "https:\/\/www.facebook.com\/pages\/Relais-Lorraine-Alsace\/165839746766285?fref=ts"
+      },
+      "ACTIVITES": null,
+      "SERVICES_ENFANTS": null,
+      "SERVICES": {
+        "179": "Blanchisserie",
+        "181": "Coffres clients",
+        "183": "R\u00e9servation de prestations ext\u00e9rieures",
+        "184": "Service en chambre"
+      },
+      "EQUIPS": {
+        "164": "Local mat\u00e9riel ferm\u00e9",
+        "170": "Restaurant",
+        "172": "Salon",
+        "173": "Salon de t\u00e9l\u00e9vision"
+      },
+      "CONFORT": {
+        "152": "Acc\u00e8s Internet",
+        "155": "Wifi",
+        "145": "Double vitrage",
+        "149": "T\u00e9l\u00e9phone",
+        "151": "T\u00e9l\u00e9vision",
+        "153": "Terrasse Privative"
+      },
+      "DESCRIPTIF": null,
+      "RESTAU_SURPLACE": null,
+      "LOCALISATION": {
+        "64": "A prox. d'une autoroute",
+        "54": "A prox. d'une gare",
+        "53": "En centre-ville"
+      },
+      "LANGUES_PAR": null,
+      "LANGUES_VISITE": null,
+      "LANGUES_DOCU": null,
+      "LABELS_TH": null,
+      "MOD_PAIEMENT": {
+        "84": "Carte Bleue",
+        "98": "Ch\u00e8ques bancaires et postaux",
+        "92": "Ch\u00e8ques Vacances",
+        "97": "Esp\u00e8ces",
+        "88": "Eurocard - Mastercard",
+        "102": "Tickets-restaurant",
+        "96": "Virements",
+        "89": "Visa"
+      },
+      "TYPE_OBJET": [
+        "H\u00f4tel-restaurant"
+      ],
+      "FORFAIT": null,
+      "PUBLIC": null,
+      "TYPE": {
+        "2": "H\u00f4tel-restaurant"
+      },
+      "THEME": null,
+      "SPE_CULI": null,
+      "LABELS": null,
+      "CHAINES": null,
+      "RESEAU_GITEMONTAGNE": null,
+      "CLASS_GUIDES": null,
+      "CATEGORIES": null,
+      "VISIT_GROUP": null,
+      "VISIT_INDIV": null,
+      "TYPE_ITI": null,
+      "DISTANCEFOURCHETTE": null,
+      "DIFFICULTE": null,
+      "CARACPARCOUR": null,
+      "OUVERTURE_TEXTE": null,
+      "DUREE_VISITE": null,
+      "DUREEHEURE": null,
+      "TARIF_REF": {
+        "prix": 62,
+        "unit": "nuit"
+      },
+      "GRATUIT": false,
+      "TARIFS": {
+        "0": {
+          "title": "Chambre double minimum",
+          "code": 4000048,
+          "min": 62
+        },
+        "2": {
+          "title": "Petit d\u00e9jeuner",
+          "code": 4000050,
+          "min": 8
+        },
+        "4": {
+          "title": "1\/2 pension minimum",
+          "code": 4000052,
+          "min": 58
+        },
+        "11": {
+          "title": "Lit suppl\u00e9mentaire enfant",
+          "code": 4000059,
+          "min": 12
+        },
+        "12": {
+          "title": "Soir\u00e9e \u00e9tape",
+          "code": 4000565,
+          "min": 74
+        }
+      },
+      "TARIFS_TEXT": null,
+      "CAPACITES": {
+        "1": {
+          "title": "Nbre total de chambres",
+          "code": 8,
+          "min": 10
+        }
+      },
+      "CLASSEMENTS": {
+        "star": 3
+      },
+      "DOCUMENTS": null,
+      "VIDEOS": null,
+      "OFFRESASSOCIEES": null,
+      "TARIFCOMPREND": null,
+      "TARIFNECOMPRENDPAS": null,
+      "DUREE_SEJ": null,
+      "APARTIRDE": null,
+      "GARE_PROCHE": null,
+      "INTERNET": null,
+      "PERIODES_OUVERTURES": [
+        {
+          "date_debut": "01\/01\/2022",
+          "date_fin": "31\/12\/2022",
+          "heures": [
+            {
+              "heure_debut": "09:00",
+              "heure_fin": "16:00",
+              "lundi": "N",
+              "mardi": "N",
+              "mercredi": "N",
+              "jeudi": "N",
+              "vendredi": "N",
+              "samedi": "N",
+              "dimanche": "O",
+              "acces_permanent": "1",
+              "tps_acces_fin": "0",
+              "commentaire": ""
+            },
+            {
+              "heure_debut": "09:00",
+              "heure_fin": "21:00",
+              "lundi": "N",
+              "mardi": "O",
+              "mercredi": "O",
+              "jeudi": "O",
+              "vendredi": "O",
+              "samedi": "O",
+              "dimanche": "N",
+              "acces_permanent": "1",
+              "tps_acces_fin": "0",
+              "commentaire": ""
+            }
+          ],
+          "start": {
+            "date": "2022-01-01 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "UTC"
+          },
+          "end": {
+            "date": "2022-12-31 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "UTC"
+          },
+          "duree_interval": {
+            "y": 0,
+            "m": 11,
+            "d": 30,
+            "h": 0,
+            "i": 0,
+            "s": 0,
+            "weekday": 0,
+            "weekday_behavior": 0,
+            "first_last_day_of": 0,
+            "invert": 1,
+            "days": 364,
+            "special_type": 0,
+            "special_amount": 0,
+            "have_weekday_relative": 0,
+            "have_special_relative": 0
+          },
+          "start_ts": 1640995200,
+          "end_ts": 1672444800,
+          "duau": true,
+          "current": true,
+          "next": false,
+          "days": {
+            "6": {
+              "hours": [
+                [
+                  "09:00",
+                  "16:00"
+                ]
+              ],
+              "dname": "Dimanche"
+            },
+            "1": {
+              "hours": [
+                [
+                  "09:00",
+                  "21:00"
+                ]
+              ],
+              "dname": "Mardi"
+            },
+            "2": {
+              "hours": [
+                [
+                  "09:00",
+                  "21:00"
+                ]
+              ],
+              "dname": "Mercredi"
+            },
+            "3": {
+              "hours": [
+                [
+                  "09:00",
+                  "21:00"
+                ]
+              ],
+              "dname": "Jeudi"
+            },
+            "4": {
+              "hours": [
+                [
+                  "09:00",
+                  "21:00"
+                ]
+              ],
+              "dname": "Vendredi"
+            },
+            "5": {
+              "hours": [
+                [
+                  "09:00",
+                  "21:00"
+                ]
+              ],
+              "dname": "Samedi"
+            }
+          },
+          "complement": []
+        }
+      ],
+      "NORDIC_PARC": null,
+      "SNOWPARC": null,
+      "SKI_NUIT_AUJ": null,
+      "SKI_AURORE": null,
+      "OUVERTURE_DOMAINE": null,
+      "AVALANCHE": null,
+      "COM_BULLETIN": null,
+      "ALT_BAS": null,
+      "ALT_HAUT": null,
+      "HAUTEUR_NEIGE_CM": null,
+      "QUALITE_NEIGE": null,
+      "DATE_DERNIERE_CHUTE": null,
+      "WEBCAMS": null,
+      "PISTES_ALPINS": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "vertes": [],
+        "bleues": [],
+        "rouges": [],
+        "noires": []
+      },
+      "PISTES_FOND": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "vertes": [],
+        "bleues": [],
+        "rouges": [],
+        "noires": []
+      },
+      "PISTES_LUGES": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "luge": []
+      },
+      "PISTES_RAQUETTES": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "raquette": []
+      },
+      "REMONTEES": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "remontees": []
+      },
+      "DISTANCE": null,
+      "DUREE_JOUR": null,
+      "DENIVELE": null,
+      "ITI_BALISE": null,
+      "ITI_ACCES_LIBRE_PERM": null,
+      "raw_data": {
+        "id": 940004811,
+        "nom": "HOTEL RESTAURANT RELAIS LORRAINE ALSACE",
+        "type": {
+          "id": 4000003,
+          "nom": "H\u00f4tel-restaurant"
+        },
+        "nom_entite_gestionnaire": "OT SAINT DIE DES VOSGES",
+        "coordonnees": {
+          "num_voie": "31",
+          "libelle_voie": "Rue Jules Ferry",
+          "code_postal": "88110",
+          "libelle_commune": "RAON L ETAPE",
+          "telephone1": "03 29 41 61 93",
+          "email1": "relaislorrainealsace@hotmail.fr",
+          "url1": "www.rla88.com"
+        },
+        "latitude": "48,4072311",
+        "longitude": "6,84425239999996",
+        "commentaire": "H\u00f4tel-Restaurant situ\u00e9 au centre ville de Raon l'Etape, id\u00e9alement plac\u00e9 au c\u0153ur des monuments class\u00e9s, \u00e0 proximit\u00e9 des commerces et services et en face de la Halle aux Bl\u00e9s (salle de cin\u00e9ma-th\u00e9\u00e2tre).\nChambres confortables et tout \u00e9quip\u00e9es. \nDeux salles de restauration avec une carte vari\u00e9e, tr\u00e8s belle terrasse ombrag\u00e9e. \nCuisine traditionnelle r\u00e9gionale.",
+        "commentaire_html": "&lt;p style=&quot;text-align: justify;&quot;&gt;H&amp;ocirc;tel-Restaurant situ&amp;eacute; au centre ville de Raon l'Etape, id&amp;eacute;alement plac&amp;eacute; au c&amp;oelig;ur des monuments class&amp;eacute;s, &amp;agrave; proximit&amp;eacute; des commerces et services et en face de la Halle aux Bl&amp;eacute;s (salle de cin&amp;eacute;ma-th&amp;eacute;&amp;acirc;tre).&lt;\/p&gt; &lt;p style=&quot;text-align: justify;&quot;&gt;Chambres confortables et tout &amp;eacute;quip&amp;eacute;es.&amp;nbsp;&lt;\/p&gt; &lt;p style=&quot;text-align: justify;&quot;&gt;Deux salles de restauration avec une carte vari&amp;eacute;e, tr&amp;egrave;s belle terrasse ombrag&amp;eacute;e. Cuisine traditionnelle r&amp;eacute;gionale.&lt;\/p&gt;",
+        "datmaj": "03\/03\/2022 17:02:01",
+        "horaires": [
+          {
+            "date_debut": "01\/01\/2022",
+            "date_fin": "31\/12\/2022",
+            "heures": [
+              {
+                "heure_debut": "09:00",
+                "heure_fin": "16:00",
+                "lundi": "N",
+                "mardi": "N",
+                "mercredi": "N",
+                "jeudi": "N",
+                "vendredi": "N",
+                "samedi": "N",
+                "dimanche": "O",
+                "acces_permanent": "1",
+                "tps_acces_fin": "0",
+                "commentaire": ""
+              },
+              {
+                "heure_debut": "09:00",
+                "heure_fin": "21:00",
+                "lundi": "N",
+                "mardi": "O",
+                "mercredi": "O",
+                "jeudi": "O",
+                "vendredi": "O",
+                "samedi": "O",
+                "dimanche": "N",
+                "acces_permanent": "1",
+                "tps_acces_fin": "0",
+                "commentaire": ""
+              }
+            ]
+          }
+        ],
+        "criteres": [
+          {
+            "id": 4000010,
+            "nom": "Tarifs h\u00f4tel ann\u00e9e en cours (client\u00e8le individuelle)",
+            "type_critere": "2",
+            "type_valeur": "1",
+            "classe": "8",
+            "modalites": [
+              {
+                "id": 4000048,
+                "nom": "Chambre double minimum",
+                "ordre": "0",
+                "valeur": "62"
+              },
+              {
+                "id": 4000050,
+                "nom": "Petit d\u00e9jeuner",
+                "ordre": "2",
+                "valeur": "8"
+              },
+              {
+                "id": 4000052,
+                "nom": "1\/2 pension minimum",
+                "ordre": "4",
+                "valeur": "58"
+              },
+              {
+                "id": 4000059,
+                "nom": "Lit suppl\u00e9mentaire enfant",
+                "ordre": "11",
+                "valeur": "12"
+              },
+              {
+                "id": 4000565,
+                "nom": "Soir\u00e9e \u00e9tape",
+                "ordre": "12",
+                "valeur": "74"
+              }
+            ]
+          },
+          {
+            "id": 4000037,
+            "nom": "Lien de commercialisation OT",
+            "type_critere": "0",
+            "type_valeur": "6",
+            "classe": "256",
+            "valeur": "http:\/\/www.booking.com\/hotel\/fr\/relais-lorraine-alsace-pere-fils.fr.html?aid=311089;label=relais-lorraine-alsace-pere-fils-TqptaJnt2f43hMI01cOW_gS31875907704%3Apl%3Ata%3Ap1%3Ap2430.000%3Aac%3Aap1t1%3Aneg;sid=8237fa958dec781ae685eb4f6f957a45;dcid=4;ucfs=1;srfid=521c10a7157a23467145c8bfd02d0dbfeac75de3X1#availability_targettab=1&origin=hp&error_url=%2Fhotel%2Ffr%2Frelais-lorraine-alsace-pere-fils.fr.html%3Faid%3D311089%3Blabel%3Drelais-lorraine-alsace-pere-fils-TqptaJnt2f43hMI01cOW_gS31875907704%253Apl%253Ata%253Ap1%253Ap2430.000%253Aac%253Aap1t1%253Aneg%3Bsid%3D8237fa958dec781ae685eb4f6f957a45%3Bdcid%3D4%3B&do_availability_check=on&aid=311089&dcid=4&label=relais-lorraine-alsace-pere-fils-TqptaJnt2f43hMI01cOW_gS31875907704%3Apl%3Ata%3Ap1%3Ap2430.000%3Aac%3Aap1t1%3Aneg&sid=8237fa958dec781ae685eb4f6f957a45&checkin_monthday=0&checkin_year_month=0&checkout_monthday=0&checkout_year_month=0#availability_targetaid=311089;label=relais-lorraine-alsace-pere-fils-TqptaJnt2f43hMI01cOW_gS31875907704%3Apl%3Ata%3Ap1%3Ap2430.000%3Aac%3Aap1t1%3Aneg;sid=8237fa958dec781ae685eb4f6f957a45;dcid=1;ucfs=1;srfid=5e27d5659540b87084498797bd672953aa1914feX1"
+          },
+          {
+            "id": 4000099,
+            "nom": "Produit insolite",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "1",
+            "modalites": [
+              {
+                "id": 4000397,
+                "nom": "Non",
+                "ordre": "2"
+              }
+            ]
+          },
+          {
+            "id": 4000101,
+            "nom": "Lien Facebook",
+            "type_critere": "0",
+            "type_valeur": "6",
+            "classe": "0",
+            "valeur": "https:\/\/www.facebook.com\/pages\/Relais-Lorraine-Alsace\/165839746766285?fref=ts"
+          },
+          {
+            "id": 4000245,
+            "nom": "Marque nationale Accueil V\u00e9lo",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "32",
+            "modalites": [
+              {
+                "id": 4000979,
+                "nom": "Oui",
+                "ordre": "1"
+              }
+            ]
+          },
+          {
+            "id": 4000263,
+            "nom": "Mode d'acc\u00e8s wifi",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "8",
+            "modalites": [
+              {
+                "id": 4001026,
+                "nom": "Wifi gratuit",
+                "ordre": "1"
+              }
+            ]
+          },
+          {
+            "id": 736000002,
+            "nom": "Localisation",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "128",
+            "modalites": [
+              {
+                "id": 53,
+                "nom": "En centre-ville",
+                "ordre": "7"
+              },
+              {
+                "id": 54,
+                "nom": "A prox. d'une gare",
+                "ordre": "3"
+              },
+              {
+                "id": 64,
+                "nom": "A prox. d'une autoroute",
+                "ordre": "2"
+              }
+            ]
+          },
+          {
+            "id": 736000005,
+            "nom": "Langues parl\u00e9es - r\u00e9servation",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "2",
+            "modalites": [
+              {
+                "id": 69,
+                "nom": "Anglais",
+                "ordre": "1"
+              }
+            ]
+          },
+          {
+            "id": 736000007,
+            "nom": "Mode de paiement",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "8",
+            "modalites": [
+              {
+                "id": 84,
+                "nom": "Carte Bleue",
+                "ordre": "4"
+              },
+              {
+                "id": 88,
+                "nom": "Eurocard - Mastercard",
+                "ordre": "13"
+              },
+              {
+                "id": 89,
+                "nom": "Visa",
+                "ordre": "17"
+              },
+              {
+                "id": 92,
+                "nom": "Ch\u00e8ques Vacances",
+                "ordre": "8"
+              },
+              {
+                "id": 96,
+                "nom": "Virements",
+                "ordre": "16"
+              },
+              {
+                "id": 97,
+                "nom": "Esp\u00e8ces",
+                "ordre": "12"
+              },
+              {
+                "id": 98,
+                "nom": "Ch\u00e8ques bancaires et postaux",
+                "ordre": "7"
+              },
+              {
+                "id": 102,
+                "nom": "Tickets-restaurant",
+                "ordre": "15"
+              }
+            ]
+          },
+          {
+            "id": 736000010,
+            "nom": "Animaux accept\u00e9s",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "2",
+            "modalites": [
+              {
+                "id": 101,
+                "nom": "OUI",
+                "ordre": "1"
+              }
+            ]
+          },
+          {
+            "id": 736000012,
+            "nom": "Groupes accept\u00e9s",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "2",
+            "modalites": [
+              {
+                "id": 105,
+                "nom": "OUI",
+                "ordre": "1"
+              }
+            ]
+          },
+          {
+            "id": 736000014,
+            "nom": "Parking autocar",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "2",
+            "modalites": [
+              {
+                "id": 107,
+                "nom": "OUI",
+                "ordre": "1"
+              }
+            ]
+          },
+          {
+            "id": 736000015,
+            "nom": "Cat\u00e9gorie d'h\u00f4tel",
+            "type_critere": "1",
+            "type_valeur": "1",
+            "classe": "1",
+            "modalites": [
+              {
+                "id": 111,
+                "nom": "3 \u00e9toiles",
+                "ordre": "3"
+              }
+            ]
+          },
+          {
+            "id": 736000018,
+            "nom": "Confort en chambre",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "16",
+            "modalites": [
+              {
+                "id": 145,
+                "nom": "Double vitrage",
+                "ordre": "6"
+              },
+              {
+                "id": 149,
+                "nom": "T\u00e9l\u00e9phone",
+                "ordre": "10"
+              },
+              {
+                "id": 151,
+                "nom": "T\u00e9l\u00e9vision",
+                "ordre": "11"
+              },
+              {
+                "id": 152,
+                "nom": "Acc\u00e8s Internet",
+                "ordre": "1"
+              },
+              {
+                "id": 153,
+                "nom": "Terrasse Privative",
+                "ordre": "12"
+              },
+              {
+                "id": 155,
+                "nom": "Wifi",
+                "ordre": "2"
+              }
+            ]
+          },
+          {
+            "id": 736000019,
+            "nom": "Equipements de l'h\u00f4tel",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "16",
+            "modalites": [
+              {
+                "id": 164,
+                "nom": "Local mat\u00e9riel ferm\u00e9",
+                "ordre": "11"
+              },
+              {
+                "id": 170,
+                "nom": "Restaurant",
+                "ordre": "18"
+              },
+              {
+                "id": 172,
+                "nom": "Salon",
+                "ordre": "20"
+              },
+              {
+                "id": 173,
+                "nom": "Salon de t\u00e9l\u00e9vision",
+                "ordre": "21"
+              }
+            ]
+          },
+          {
+            "id": 736000020,
+            "nom": "Services de l'h\u00f4tel",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "16",
+            "modalites": [
+              {
+                "id": 179,
+                "nom": "Blanchisserie",
+                "ordre": "2"
+              },
+              {
+                "id": 181,
+                "nom": "Coffres clients",
+                "ordre": "4"
+              },
+              {
+                "id": 183,
+                "nom": "R\u00e9servation de prestations ext\u00e9rieures",
+                "ordre": "6"
+              },
+              {
+                "id": 184,
+                "nom": "Service en chambre",
+                "ordre": "7"
+              }
+            ]
+          },
+          {
+            "id": 736000035,
+            "nom": "Altitude (en m)",
+            "type_critere": "0",
+            "type_valeur": "1",
+            "classe": "128",
+            "valeur": "625"
+          },
+          {
+            "id": 736000079,
+            "nom": "Langues parl\u00e9es \u00e0 l'accueil",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "2",
+            "modalites": [
+              {
+                "id": 69,
+                "nom": "Anglais",
+                "ordre": "1"
+              }
+            ]
+          },
+          {
+            "id": 736000143,
+            "nom": "Capacit\u00e9 de l'h\u00f4tel",
+            "type_critere": "2",
+            "type_valeur": "1",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 8,
+                "nom": "Nbre total de chambres",
+                "ordre": "1",
+                "valeur": "10"
+              }
+            ]
+          },
+          {
+            "id": 736000187,
+            "nom": "Type d'h\u00f4tel",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "1",
+            "modalites": [
+              {
+                "id": 2,
+                "nom": "H\u00f4tel-restaurant",
+                "ordre": "2"
+              }
+            ]
+          },
+          {
+            "id": 736000262,
+            "nom": "Fermeture hebdomadaire de l'h\u00f4tel",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "2",
+            "modalites": [
+              {
+                "id": 7,
+                "nom": "Dimanche soir",
+                "ordre": "7"
+              }
+            ]
+          },
+          {
+            "id": 736000294,
+            "nom": "Photo",
+            "type_critere": "0",
+            "type_valeur": "6",
+            "classe": "0",
+            "valeur": "https:\/\/www.sitlor.fr\/photos\/940\/940004811_4.jpg"
+          },
+          {
+            "id": 736001115,
+            "nom": "Photo3",
+            "type_critere": "0",
+            "type_valeur": "6",
+            "classe": "0",
+            "valeur": "https:\/\/www.sitlor.fr\/photos\/940\/940004811_6.jpg"
+          },
+          {
+            "id": 736001116,
+            "nom": "Photo4",
+            "type_critere": "0",
+            "type_valeur": "6",
+            "classe": "0",
+            "valeur": "https:\/\/www.sitlor.fr\/photos\/940\/940004811_8.jpg"
+          },
+          {
+            "id": 736001117,
+            "nom": "Cr\u00e9dit photo3",
+            "type_critere": "0",
+            "type_valeur": "2",
+            "classe": "0",
+            "valeur": "OT Raon l'Etape"
+          },
+          {
+            "id": 736001118,
+            "nom": "Cr\u00e9dit photo4",
+            "type_critere": "0",
+            "type_valeur": "2",
+            "classe": "0",
+            "valeur": "OT Raon l'Etape"
+          },
+          {
+            "id": 736001119,
+            "nom": "Cr\u00e9dit photo",
+            "type_critere": "0",
+            "type_valeur": "2",
+            "classe": "0",
+            "valeur": "OT Raon l'Etape"
+          },
+          {
+            "id": 736001142,
+            "nom": "Photo2",
+            "type_critere": "0",
+            "type_valeur": "6",
+            "classe": "0",
+            "valeur": "https:\/\/www.sitlor.fr\/photos\/940\/940004811_5.jpg"
+          },
+          {
+            "id": 736001143,
+            "nom": "Cr\u00e9dit photo2",
+            "type_critere": "0",
+            "type_valeur": "2",
+            "classe": "0",
+            "valeur": "OT Raon l'Etape"
+          }
+        ]
+      }
+    }
+  },
+  "escaped_title": "HOTEL RESTAURANT RELAIS LORRAINE ALSACE",
+  "title": "HOTEL RESTAURANT RELAIS LORRAINE ALSACE",
+  "surtitre": "H\u00f4tel-restaurant",
+  "classement": {
+    "etoiles": {
+      "icon": "etoile",
+      "tooltip": "\u00c9toiles",
+      "value": 3,
+      "meta": "etoiles"
+    }
+  },
+  "geo": {
+    "lng": "6.8442524",
+    "lat": "48.4072311"
+  },
+  "photos": [
+    {
+      "url": "https:\/\/www.sitlor.fr\/photos\/940\/940004811_4.jpg",
+      "credit": "OT Raon l'Etape",
+      "titre": "",
+      "width": 1280,
+      "height": 853,
+      "orientation": "paysage",
+      "cover": {
+        "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/ba0a6f5476d6ab812c44b123f32eaa65-940004811_4-1496x800.jpg",
+        "width": 1496,
+        "height": 800,
+        "size": 92396,
+        "cropped": false
+      },
+      "gallery_thumb": {
+        "all": {
+          "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/ba0a6f5476d6ab812c44b123f32eaa65-940004811_4-805x560.jpg",
+          "width": 805,
+          "height": 560,
+          "size": 43197,
+          "cropped": false,
+          "alt": "HOTEL RESTAURANT RELAIS LORRAINE ALSACE",
+          "credit": "OT Raon l'Etape"
+        }
+      },
+      "gallery_zoom": {
+        "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/ba0a6f5476d6ab812c44b123f32eaa65-940004811_4-1000x710.jpg",
+        "width": 1000,
+        "height": 710,
+        "size": 62467,
+        "cropped": false,
+        "alt": "HOTEL RESTAURANT RELAIS LORRAINE ALSACE",
+        "credit": "OT Raon l'Etape"
+      },
+      "cards": {
+        "all": {
+          "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/ba0a6f5476d6ab812c44b123f32eaa65-940004811_4-560x320.jpg",
+          "width": 560,
+          "height": 320,
+          "size": 19526,
+          "cropped": false,
+          "alt": "HOTEL RESTAURANT RELAIS LORRAINE ALSACE",
+          "credit": "OT Raon l'Etape"
+        },
+        "portait": {
+          "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/ba0a6f5476d6ab812c44b123f32eaa65-940004811_4-281x440.jpg",
+          "width": 281,
+          "height": 440,
+          "size": 12420,
+          "cropped": false,
+          "alt": "HOTEL RESTAURANT RELAIS LORRAINE ALSACE",
+          "credit": "OT Raon l'Etape"
+        },
+        "square": {
+          "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/ba0a6f5476d6ab812c44b123f32eaa65-940004811_4-160x160.jpg",
+          "width": 160,
+          "height": 160,
+          "size": 4634,
+          "cropped": false,
+          "alt": "HOTEL RESTAURANT RELAIS LORRAINE ALSACE",
+          "credit": "OT Raon l'Etape"
+        }
+      }
+    },
+    {
+      "url": "https:\/\/www.sitlor.fr\/photos\/940\/940004811_5.jpg",
+      "credit": "OT Raon l'Etape",
+      "titre": "",
+      "width": 1280,
+      "height": 1076,
+      "orientation": "paysage",
+      "gallery_thumb": {
+        "all": {
+          "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/49734dd57592d457541c95fe02b23abd-940004811_5-805x560.jpg",
+          "width": 805,
+          "height": 560,
+          "size": 50176,
+          "cropped": false,
+          "alt": "HOTEL RESTAURANT RELAIS LORRAINE ALSACE",
+          "credit": "OT Raon l'Etape"
+        }
+      },
+      "gallery_zoom": {
+        "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/49734dd57592d457541c95fe02b23abd-940004811_5-1000x710.jpg",
+        "width": 1000,
+        "height": 710,
+        "size": 73835,
+        "cropped": false,
+        "alt": "HOTEL RESTAURANT RELAIS LORRAINE ALSACE",
+        "credit": "OT Raon l'Etape"
+      }
+    },
+    {
+      "url": "https:\/\/www.sitlor.fr\/photos\/940\/940004811_6.jpg",
+      "credit": "OT Raon l'Etape",
+      "titre": "",
+      "width": 1280,
+      "height": 960,
+      "orientation": "paysage",
+      "gallery_thumb": {
+        "all": {
+          "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/e262b4b328197752b3482e06aaf72d8e-940004811_6-805x560.jpg",
+          "width": 805,
+          "height": 560,
+          "size": 40387,
+          "cropped": false,
+          "alt": "HOTEL RESTAURANT RELAIS LORRAINE ALSACE",
+          "credit": "OT Raon l'Etape"
+        }
+      },
+      "gallery_zoom": {
+        "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/e262b4b328197752b3482e06aaf72d8e-940004811_6-1000x710.jpg",
+        "width": 1000,
+        "height": 710,
+        "size": 58205,
+        "cropped": false,
+        "alt": "HOTEL RESTAURANT RELAIS LORRAINE ALSACE",
+        "credit": "OT Raon l'Etape"
+      }
+    },
+    {
+      "url": "https:\/\/www.sitlor.fr\/photos\/940\/940004811_8.jpg",
+      "credit": "OT Raon l'Etape",
+      "titre": "",
+      "width": 1280,
+      "height": 960,
+      "orientation": "paysage",
+      "gallery_thumb": {
+        "all": {
+          "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/4e6879990737d694d04fecc4f82814c3-940004811_8-805x560.jpg",
+          "width": 805,
+          "height": 560,
+          "size": 45519,
+          "cropped": false,
+          "alt": "HOTEL RESTAURANT RELAIS LORRAINE ALSACE",
+          "credit": "OT Raon l'Etape"
+        }
+      },
+      "gallery_zoom": {
+        "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/4e6879990737d694d04fecc4f82814c3-940004811_8-1000x710.jpg",
+        "width": 1000,
+        "height": 710,
+        "size": 68000,
+        "cropped": false,
+        "alt": "HOTEL RESTAURANT RELAIS LORRAINE ALSACE",
+        "credit": "OT Raon l'Etape"
+      }
+    }
+  ],
+  "header_orientation": "paysage",
+  "adresse": [
+    "31 Rue Jules Ferry",
+    "88110 RAON L ETAPE"
+  ],
+  "commune": "RAON L ETAPE",
+  "com_data": {
+    "tel": [
+      "03 29 41 61 93"
+    ],
+    "mel": [
+      "relaislorrainealsace@hotmail.fr"
+    ],
+    "web": [
+      "http:\/\/www.rla88.com"
+    ],
+    "resa_urls": {
+      "4000037": "http:\/\/www.booking.com\/hotel\/fr\/relais-lorraine-alsace-pere-fils.fr.html?aid=311089;label=relais-lorraine-alsace-pere-fils-TqptaJnt2f43hMI01cOW_gS31875907704%3Apl%3Ata%3Ap1%3Ap2430.000%3Aac%3Aap1t1%3Aneg;sid=8237fa958dec781ae685eb4f6f957a45;dcid=4;ucfs=1;srfid=521c10a7157a23467145c8bfd02d0dbfeac75de3X1#availability_targettab=1&origin=hp&error_url=%2Fhotel%2Ffr%2Frelais-lorraine-alsace-pere-fils.fr.html%3Faid%3D311089%3Blabel%3Drelais-lorraine-alsace-pere-fils-TqptaJnt2f43hMI01cOW_gS31875907704%253Apl%253Ata%253Ap1%253Ap2430.000%253Aac%253Aap1t1%253Aneg%3Bsid%3D8237fa958dec781ae685eb4f6f957a45%3Bdcid%3D4%3B&do_availability_check=on&aid=311089&dcid=4&label=relais-lorraine-alsace-pere-fils-TqptaJnt2f43hMI01cOW_gS31875907704%3Apl%3Ata%3Ap1%3Ap2430.000%3Aac%3Aap1t1%3Aneg&sid=8237fa958dec781ae685eb4f6f957a45&checkin_monthday=0&checkin_year_month=0&checkout_monthday=0&checkout_year_month=0#availability_targetaid=311089;label=relais-lorraine-alsace-pere-fils-TqptaJnt2f43hMI01cOW_gS31875907704%3Apl%3Ata%3Ap1%3Ap2430.000%3Aac%3Aap1t1%3Aneg;sid=8237fa958dec781ae685eb4f6f957a45;dcid=1;ucfs=1;srfid=5e27d5659540b87084498797bd672953aa1914feX1"
+    }
+  },
+  "com_rs": {
+    "facebook": "https:\/\/www.facebook.com\/pages\/Relais-Lorraine-Alsace\/165839746766285?fref=ts"
+  },
+  "resa_url": "http:\/\/www.booking.com\/hotel\/fr\/relais-lorraine-alsace-pere-fils.fr.html?aid=311089;label=relais-lorraine-alsace-pere-fils-TqptaJnt2f43hMI01cOW_gS31875907704%3Apl%3Ata%3Ap1%3Ap2430.000%3Aac%3Aap1t1%3Aneg;sid=8237fa958dec781ae685eb4f6f957a45;dcid=4;ucfs=1;srfid=521c10a7157a23467145c8bfd02d0dbfeac75de3X1#availability_targettab=1&origin=hp&error_url=%2Fhotel%2Ffr%2Frelais-lorraine-alsace-pere-fils.fr.html%3Faid%3D311089%3Blabel%3Drelais-lorraine-alsace-pere-fils-TqptaJnt2f43hMI01cOW_gS31875907704%253Apl%253Ata%253Ap1%253Ap2430.000%253Aac%253Aap1t1%253Aneg%3Bsid%3D8237fa958dec781ae685eb4f6f957a45%3Bdcid%3D4%3B&do_availability_check=on&aid=311089&dcid=4&label=relais-lorraine-alsace-pere-fils-TqptaJnt2f43hMI01cOW_gS31875907704%3Apl%3Ata%3Ap1%3Ap2430.000%3Aac%3Aap1t1%3Aneg&sid=8237fa958dec781ae685eb4f6f957a45&checkin_monthday=0&checkin_year_month=0&checkout_monthday=0&checkout_year_month=0#availability_targetaid=311089;label=relais-lorraine-alsace-pere-fils-TqptaJnt2f43hMI01cOW_gS31875907704%3Apl%3Ata%3Ap1%3Ap2430.000%3Aac%3Aap1t1%3Aneg;sid=8237fa958dec781ae685eb4f6f957a45;dcid=1;ucfs=1;srfid=5e27d5659540b87084498797bd672953aa1914feX1",
+  "pictos": {
+    "animal": {
+      "icon": "animal",
+      "title": "Exemple"
+    },
+    "wifi": {
+      "icon": "wifi",
+      "title": "Exemple"
+    },
+    "parking": {
+      "icon": "parking",
+      "title": "Exemple"
+    },
+    "text": {
+      "text": "Exemple text"
+    }
+  },
+  "apartirde": {
+    "price": 62,
+    "unit": "nuit"
+  },
+  "header_pictos": {
+    "has_data": true,
+    "pictos": {
+      "internet": {
+        "icon": "icon-wifi",
+        "title": "internet"
+      },
+      "animaux-acceptes": {
+        "icon": "icon-ico-animaux",
+        "title": "Animaux accept\u00e9s"
+      }
+    }
+  },
+  "description": {
+    "has_data": true,
+    "description": [
+      "H\u00f4tel-Restaurant situ\u00e9 au centre ville de Raon l'Etape, id\u00e9alement plac\u00e9 au c\u0153ur des monuments class\u00e9s, \u00e0 proximit\u00e9 des commerces et services et en face de la Halle aux Bl\u00e9s (salle de cin\u00e9ma-th\u00e9\u00e2tre).\nChambres confortables et tout \u00e9quip\u00e9es. \nDeux salles de restauration avec une carte vari\u00e9e, tr\u00e8s belle terrasse ombrag\u00e9e. \nCuisine traditionnelle r\u00e9gionale."
+    ]
+  },
+  "apropos_infos": {
+    "has_data": false
+  },
+  "apropos_pictos": {
+    "has_data": true,
+    "pictos": {
+      "animaux-acceptes": {
+        "icon": "icon-ico-animaux",
+        "title": "Animaux accept\u00e9s"
+      },
+      "groupes-acceptes": {
+        "icon": "icon-ico-personnes",
+        "title": "Groupes accept\u00e9s"
+      },
+      "terrasse-balcon": {
+        "icon": "icon-ico-parasol",
+        "title": "Terrasse \/ Balcon"
+      },
+      "wifi": {
+        "icon": "icon-wifi",
+        "title": "Wifi"
+      },
+      "tv": {
+        "icon": "icon-ico-television",
+        "title": "TV"
+      }
+    }
+  },
+  "labels": {
+    "has_data": false
+  },
+  "infos_comp": {
+    "has_data": true,
+    "infos": [
+      {
+        "title": "Confort",
+        "data": "Acc\u00e8s Internet, Wifi, Double vitrage, T\u00e9l\u00e9phone, T\u00e9l\u00e9vision, Terrasse Privative"
+      },
+      {
+        "title": "\u00c9quipements",
+        "data": "Local mat\u00e9riel ferm\u00e9, Restaurant, Salon, Salon de t\u00e9l\u00e9vision"
+      },
+      {
+        "title": "Services",
+        "data": "Blanchisserie, Coffres clients, R\u00e9servation de prestations ext\u00e9rieures, Service en chambre"
+      }
+    ]
+  },
+  "capacites": {
+    "has_data": true,
+    "capacites": [
+      {
+        "title": "Nbre total de chambres",
+        "data": 10
+      }
+    ]
+  },
+  "tarifs": {
+    "has_data": true,
+    "tarifs": {
+      "0": {
+        "title": "Chambre double minimum",
+        "code": 4000048,
+        "min": 62
+      },
+      "2": {
+        "title": "Petit d\u00e9jeuner",
+        "code": 4000050,
+        "min": 8
+      },
+      "4": {
+        "title": "1\/2 pension minimum",
+        "code": 4000052,
+        "min": 58
+      },
+      "11": {
+        "title": "Lit suppl\u00e9mentaire enfant",
+        "code": 4000059,
+        "min": 12
+      },
+      "12": {
+        "title": "Soir\u00e9e \u00e9tape",
+        "code": 4000565,
+        "min": 74
+      }
+    },
+    "mode_paiements": "Carte Bleue, Ch\u00e8ques bancaires et postaux, Ch\u00e8ques Vacances, Esp\u00e8ces, Eurocard - Mastercard, Tickets-restaurant, Virements, Visa"
+  },
+  "ouverture": {
+    "has_data": true,
+    "display_next_occurence": false,
+    "periodes_ouvertures": [
+      {
+        "date_debut": "01\/01\/2022",
+        "date_fin": "31\/12\/2022",
+        "heures": [
+          {
+            "heure_debut": "09:00",
+            "heure_fin": "16:00",
+            "lundi": "N",
+            "mardi": "N",
+            "mercredi": "N",
+            "jeudi": "N",
+            "vendredi": "N",
+            "samedi": "N",
+            "dimanche": "O",
+            "acces_permanent": "1",
+            "tps_acces_fin": "0",
+            "commentaire": ""
+          },
+          {
+            "heure_debut": "09:00",
+            "heure_fin": "21:00",
+            "lundi": "N",
+            "mardi": "O",
+            "mercredi": "O",
+            "jeudi": "O",
+            "vendredi": "O",
+            "samedi": "O",
+            "dimanche": "N",
+            "acces_permanent": "1",
+            "tps_acces_fin": "0",
+            "commentaire": ""
+          }
+        ],
+        "start": {
+          "date": "2022-01-01 00:00:00.000000",
+          "timezone_type": 3,
+          "timezone": "UTC"
+        },
+        "end": {
+          "date": "2022-12-31 00:00:00.000000",
+          "timezone_type": 3,
+          "timezone": "UTC"
+        },
+        "duree_interval": {
+          "y": 0,
+          "m": 11,
+          "d": 30,
+          "h": 0,
+          "i": 0,
+          "s": 0,
+          "weekday": 0,
+          "weekday_behavior": 0,
+          "first_last_day_of": 0,
+          "invert": 1,
+          "days": 364,
+          "special_type": 0,
+          "special_amount": 0,
+          "have_weekday_relative": 0,
+          "have_special_relative": 0
+        },
+        "start_ts": 1640995200,
+        "end_ts": 1672444800,
+        "duau": true,
+        "current": true,
+        "next": false,
+        "days": {
+          "6": {
+            "hours": [
+              [
+                "09:00",
+                "16:00"
+              ]
+            ],
+            "dname": "Dimanche"
+          },
+          "1": {
+            "hours": [
+              [
+                "09:00",
+                "21:00"
+              ]
+            ],
+            "dname": "Mardi"
+          },
+          "2": {
+            "hours": [
+              [
+                "09:00",
+                "21:00"
+              ]
+            ],
+            "dname": "Mercredi"
+          },
+          "3": {
+            "hours": [
+              [
+                "09:00",
+                "21:00"
+              ]
+            ],
+            "dname": "Jeudi"
+          },
+          "4": {
+            "hours": [
+              [
+                "09:00",
+                "21:00"
+              ]
+            ],
+            "dname": "Vendredi"
+          },
+          "5": {
+            "hours": [
+              [
+                "09:00",
+                "21:00"
+              ]
+            ],
+            "dname": "Samedi"
+          }
+        },
+        "complement": []
+      }
+    ]
+  },
+  "dispos": {
+    "has_data": false
+  },
+  "documents": {
+    "has_data": false
+  },
+  "videos": {
+    "has_data": false
+  },
+  "offres_associees": {
+    "has_data": false
+  },
+  "url_rawdata": "https:\/\/destination-vosges.dev-thuria.com\/fiches\/940004811-hotel-restaurant-relais-lorraine-alsace\/?data&wpdebug",
+  "reservable": true,
+  "card_pictos": {
+    "has_data": true,
+    "pictos": {
+      "animaux-acceptes": {
+        "icon": "icon-ico-animaux",
+        "title": "Animaux accept\u00e9s"
+      }
+    }
+  }
+}

@@ -1,0 +1,91 @@
+// Custom Windows Map
+// ==========================================================================
+.custom-popup-thuria {
+	width: calc(410px + 15px);
+	margin-bottom: 50px;
+	padding-top: 15px; // espace pour le bouton close quand recentrage sur une card
+	padding-right: 15px;
+
+	@include mobile {
+		width: calc(300px + 15px);
+	}
+
+	.leaflet-popup-wrapper {
+		padding: 0;
+		border-radius: 0;
+		box-shadow: 0 10px 20px rgba($c_dark, 0.1);
+
+		.leaflet-popup-content {
+			margin: 0;
+			width: 100% !important;
+
+			.card-map {
+				position: relative;
+				top: auto;
+				right: auto;
+				transform: none;
+				box-shadow: none;
+				display: block;
+			}
+
+			.card-map-mobile {
+				display: none;
+				@include mobile {
+					display: block;
+				}
+			}
+		}
+	}
+
+	.leaflet-popup-tip-container {
+		width: 20px;
+		height: 20px;
+		transform: rotate(45deg);
+		position: absolute;
+		left: 50%;
+		margin-left: -10px;
+		bottom: -10px;
+		overflow: hidden;
+		pointer-events: none;
+
+		.leaflet-popup-tip {
+			padding: 0;
+			box-shadow: none;
+			margin: 0 auto;
+			width: 26px;
+			height: 26px;
+			border-radius: 0;
+			transform: none;
+		}
+	}
+
+	a.leaflet-popup-close-button {
+		position: absolute;
+		top: 0;
+		right: 0;
+		padding: 0;
+		width: 30px;
+		height: 30px;
+		color: $c_white;
+		background-color: $c_main;
+		font-size: 15px;
+		line-height: 27px;
+		@include inline-flex-center();
+
+		&:after {
+			content: none;
+		}
+
+		&:hover {
+			body:not(.no-hover) & {
+				cursor: pointer;
+				color: $c_white;
+				background: $c_greydark;
+			}
+		}
+	}
+
+	.card {
+		@include card-horizontale();
+	}
+}

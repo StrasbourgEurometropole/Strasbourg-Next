@@ -1,0 +1,134 @@
+// ==============================================
+
+//        MIXINS / FUNCTIONS INDEX
+
+// ==============================================
+
+@import "mixins/colors";
+@import "mixins/layout";
+@import "mixins/typography";
+@import "mixins/quantity-queries";
+@import "mixins/others";
+@import "mixins/debug";
+
+
+//  Mixins theme specifics
+// -----------------------------------------------
+
+// Card à l'Horizontale
+// ==========================================================================
+@mixin card-horizontale() {
+	width: 100%;
+	min-height: 100px;
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: flex-end;
+	align-items: center;
+	@include addTransition();
+	@include btn-favoris-card();
+
+	@include mobile {
+		min-height: 80px;
+		padding: 0;
+	}
+
+	.st-image {
+		--aspect-ratio: 1/1;
+		position: relative;
+		width: 100px;
+		height: 100px;
+		margin-right: 10px;
+		margin-bottom: 0;
+		flex-shrink: 0;
+
+		@include mobile {
+			width: 80px;
+			height: 80px;
+		}
+
+		figure, .no-photo {
+			&:before, &:after {
+				content: none;
+			}
+		}
+
+		figure {
+			&:after {
+				content: "";
+				display: block;
+				width: 100%;
+				height: 100%;
+				background: radial-gradient(circle at 100% 100%, #0F0F0F 0%, transparent 100%);
+				position: absolute;
+				top: 0;
+				left: 0;
+				pointer-events: none;
+				@include addTransition();
+				@include mobile {
+					opacity: 0.6;
+				}
+			}
+		}
+		&:after {
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	.st-caption {
+		.st-surtitre-cat {
+			margin-bottom: 5px;
+		}
+	}
+
+	@include can-hover {
+		.st-image {
+			figure {
+				&:after {
+					opacity: 0.8;
+				}
+			}
+		}
+	}
+}
+
+// Card avec effet de box-shadow au hover
+// ==========================================================================
+@mixin card-shadow() {
+	min-height: auto;
+	padding: 10px 10px 10px 0;
+
+	&:after {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: -10px;
+		right: 0;
+		bottom: 0;
+		z-index: -1;
+		display: block;
+		opacity: 0;
+		background-color: $c_white;
+		@include shadow();
+		@include addTransition();
+	}
+
+	@include can-hover {
+		&:after {
+			opacity: 1;
+		}
+	}
+}
+
+
+@mixin shadow() {
+	box-shadow: 0 30px 60px rgba($c_dark, 0.10);
+}
+
+// Étend un bouton dans son container en version mobile
+@mixin btn-full-width-mobile {
+	@include mobile {
+		width: 100%;
+	}
+}
+

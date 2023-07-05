@@ -1,0 +1,20 @@
+// ==============================================
+//
+//        VISUAL DEBUGGER
+//
+// ==============================================
+
+
+// Debug box avec background
+@mixin bg($color:#ff0000, $opacity:0.1) {
+	background-color: rgba($color, $opacity);
+}
+
+// Debug box avec outline
+@mixin bd($color:#000000, $opacity:0.15, $thickness:1, $offset:null) {
+	outline: ($thickness * 1px) dotted rgba($color, $opacity);
+	@if $offset {
+		outline-offset: #{$offset}px
+	};
+}
+

@@ -1,0 +1,154 @@
+.st-sit-contact {
+
+	&.st--contact-two-links {
+		background-color: $c_greydark;
+
+		.st-container {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			max-width: 900px;
+			width: 100%;
+			margin-left: auto;
+			margin-right: auto;
+			padding: 58px 0;
+			@media screen and (max-width: 1200px) {
+				width: auto;
+				margin-left: var(--border-gutter);
+				margin-right: var(--border-gutter);
+			}
+			@include mobile {
+				flex-direction: column;
+				padding: 20px 0;
+			}
+		}
+
+		.st-col-left {
+			margin-right: 80px;
+			@include mobile {
+				margin-right: 0px;
+				margin-bottom: 17px;
+				width: 100%;
+			}
+		}
+
+		.st-col-right {
+			display: flex;
+			flex-shrink: 0;
+			@include tablet-portrait {
+				flex-direction: column;
+			}
+			@include mobile {
+				width: 100%;
+			}
+
+			.st-btn + .st-btn {
+				margin-left: 10px;
+				@include tablet-portrait {
+					margin-left: 0px;
+					margin-top: 10px;
+				}
+			}
+		}
+	}
+
+	&.st--contact-with-icon {
+		@include mobile {
+			display: flex;
+		}
+
+		.st-container {
+			display: flex;
+			align-items: center;
+			padding: 40px;
+			background-color: $c_greydark;
+			@include tablet-portrait {
+				justify-content: space-between;
+			}
+			@include mobile {
+				flex-direction: column;
+				padding: 20px;
+				margin-top: 40px;
+				width: 100%;
+			}
+
+		}
+
+		[class^="st-icon-"], [class*=" st-icon-"] {
+			display: block;
+			font-size: 80px;
+			color: $c_sub;
+		}
+
+		.st-col-left {
+			margin-right: 30px;
+			@include mobile {
+				margin-top: -60px;
+				margin-right: 0px;
+				margin-bottom: 20px;
+			}
+		}
+
+		.st-col-right {
+			display: flex;
+			align-items: center;
+			@include tablet-portrait {
+				flex-direction: column;
+				align-items: flex-end;
+			}
+			@include mobile {
+				text-align: center;
+				align-items: center;
+			}
+
+			.st-content {
+				margin-right: 80px;
+				@include tablet-portrait {
+					margin-right: 0;
+					margin-bottom: 20px;
+				}
+			}
+
+			.st-btn {
+				flex-shrink: 0;
+			}
+		}
+
+	}
+
+	&.st--contact-one-link {
+		.st-container {
+			display: flex;
+			align-items: center;
+			padding: 40px;
+			background-color: $c_greydark;
+			@include tablet-small {
+				flex-direction: column;
+			}
+			@include mobile {
+				padding: 20px;
+			}
+		}
+
+		.st-col-left {
+			margin-right: 80px;
+			@include tablet-small {
+				margin-right: 0px;
+				margin-bottom: 20px;
+			}
+		}
+
+		.st-col-right {
+			flex-shrink: 0;
+			@include tablet-small {
+				width: 100%;
+			}
+		}
+
+		.st-text {
+			@include ft($f_txt, 12px, 400, $c_txt, 1.16);
+			@include letter-spacing(25);
+			margin-top: 10px;
+		}
+	}
+}

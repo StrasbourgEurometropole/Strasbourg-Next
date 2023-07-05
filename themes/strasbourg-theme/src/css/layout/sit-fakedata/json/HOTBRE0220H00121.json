@@ -1,0 +1,1452 @@
+{
+  "schemaorg": {
+    "@context": "http:\/\/schema.org",
+    "@type": "Hotel",
+    "name": "H\u00f4tel Ibis Styles Dinan Centre-Ville",
+    "description": "L'h\u00f4tel Ibis Styles Centre-Ville, h\u00f4tel de charme, est situ\u00e9 face \u00e0 la mairie, \u00e0 proximit\u00e9 des Remparts, du Ch\u00e2teau et de la gare. \nCes 62 chambres climatis\u00e9es ont \u00e9t\u00e9 enti\u00e8rement r\u00e9nov\u00e9es en 2016.\nAccueil 24h\/24, acc\u00e8s Wifi gratuit, bar avec d\u00e9gustation et restauration possible sur place. \nParking public couvert s\u00e9curis\u00e9 en face.",
+    "petsAllowed": true,
+    "paymentAccepted": "Cartes de paiement, Ch\u00e8ques bancaires et postaux, Ch\u00e8ques Vacances, Esp\u00e8ces, Virement",
+    "availableLanguage": "Fran\u00e7ais, Anglais",
+    "starRating": {
+      "@type": "Rating",
+      "ratingValue": 3,
+      "author": {
+        "@type": "Organization",
+        "name": "Pr\u00e9f\u00e9cture"
+      }
+    },
+    "amenityFeature": [
+      {
+        "name": "Acc\u00e8s Internet",
+        "value": "oui",
+        "@type": "LocationFeatureSpecification"
+      },
+      {
+        "name": "C\u00e2ble\/ satellite",
+        "value": "oui",
+        "@type": "LocationFeatureSpecification"
+      },
+      {
+        "name": "Canal + ",
+        "value": "oui",
+        "@type": "LocationFeatureSpecification"
+      },
+      {
+        "name": "Climatisation",
+        "value": "oui",
+        "@type": "LocationFeatureSpecification"
+      },
+      {
+        "name": "Double vitrage",
+        "value": "oui",
+        "@type": "LocationFeatureSpecification"
+      },
+      {
+        "name": "Lit enfant",
+        "value": "oui",
+        "@type": "LocationFeatureSpecification"
+      },
+      {
+        "name": "S\u00e8che-cheveux ",
+        "value": "oui",
+        "@type": "LocationFeatureSpecification"
+      },
+      {
+        "name": "T\u00e9l\u00e9phone",
+        "value": "oui",
+        "@type": "LocationFeatureSpecification"
+      },
+      {
+        "name": "T\u00e9l\u00e9vision",
+        "value": "oui",
+        "@type": "LocationFeatureSpecification"
+      },
+      {
+        "name": "T\u00e9l\u00e9vision dans toutes les chambres",
+        "value": "oui",
+        "@type": "LocationFeatureSpecification"
+      },
+      {
+        "name": "Abri v\u00e9los",
+        "value": "oui",
+        "@type": "LocationFeatureSpecification"
+      },
+      {
+        "name": "Ascenseur",
+        "value": "oui",
+        "@type": "LocationFeatureSpecification"
+      },
+      {
+        "name": "Bar",
+        "value": "oui",
+        "@type": "LocationFeatureSpecification"
+      },
+      {
+        "name": "Jeux pour enfants",
+        "value": "oui",
+        "@type": "LocationFeatureSpecification"
+      },
+      {
+        "name": "Parking autocar proche",
+        "value": "oui",
+        "@type": "LocationFeatureSpecification"
+      },
+      {
+        "name": "Salon de t\u00e9l\u00e9vision",
+        "value": "oui",
+        "@type": "LocationFeatureSpecification"
+      },
+      {
+        "name": "Wi-Fi",
+        "value": "oui",
+        "@type": "LocationFeatureSpecification"
+      },
+      {
+        "name": "Coffres clients",
+        "value": "oui",
+        "@type": "LocationFeatureSpecification"
+      },
+      {
+        "name": "Cyber espace \/ bornes acc\u00e8s Internet",
+        "value": "oui",
+        "@type": "LocationFeatureSpecification"
+      },
+      {
+        "name": "Local \u00e0 v\u00e9los",
+        "value": "oui",
+        "@type": "LocationFeatureSpecification"
+      },
+      {
+        "name": "Petit d\u00e9jeuner continental",
+        "value": "oui",
+        "@type": "LocationFeatureSpecification"
+      },
+      {
+        "name": "Petit-d\u00e9jeuner buffet groupes",
+        "value": "oui",
+        "@type": "LocationFeatureSpecification"
+      },
+      {
+        "name": "Service bagages",
+        "value": "oui",
+        "@type": "LocationFeatureSpecification"
+      }
+    ],
+    "awards": "",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Dinan",
+      "postalCode": "22100",
+      "streetAddress": [
+        "1 place Duclos"
+      ]
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "48.4538981",
+      "longitude": "-2.0486704"
+    },
+    "telephone": "02 96 39 46 15",
+    "url": "www.ibis.com\/fr\/hotel-5977-ibis-styles-dinan-centre-ville-ex-ibis\/index.shtml"
+  },
+  "sit_id": "HOTBRE0220H00121",
+  "fiche": {
+    "src": {
+      "SyndicObjectID": "HOTBRE0220H00121",
+      "Published": "2003-05-05T00:00:00",
+      "Updated": "2022-05-03T15:02:37",
+      "SyndicObjectName": "H\u00f4tel Ibis Styles Dinan Centre-Ville",
+      "SyndicStructureId": "725384aa-7c59-4efb-9be5-9abad5185572",
+      "GmapLatitude": "48.4538981",
+      "GmapLongitude": "-2.0486704",
+      "ObjectTypeFix": "092886FA-DFFC-4811-8011-4C02ED10CDD3",
+      "ObjectTypeName": "H\u00f4tellerie",
+      "SyndicObjectOrder": 8,
+      "ClassementPrefectoral": {
+        "ThesID": "c5e633ae-f3c9-4d0c-b686-4a3e6bdb7ce2",
+        "ThesLibelle": "3 \u00e9toiles",
+        "ThesPicto": "",
+        "ThesCode": "CAT3",
+        "ThesOrdre": 2
+      },
+      "Adresse1": "",
+      "Ouverture2424": true,
+      "AnimauxAcceptes": true,
+      "CodePostal": "22100",
+      "Adresse2": "1 place Duclos",
+      "Longitude": "-2.0486704",
+      "DescriptionGroupes": null,
+      "Commune": "Dinan",
+      "TexteCovid19": null,
+      "CapaciteChambres": 62,
+      "StatutOuvertureCovid19": null,
+      "CodeInsee": "22050",
+      "Adresse3": "",
+      "DescriptionCommerciale": "L'h\u00f4tel Ibis Styles Centre-Ville, h\u00f4tel de charme, est situ\u00e9 face \u00e0 la mairie, \u00e0 proximit\u00e9 des Remparts, du Ch\u00e2teau et de la gare. \nCes 62 chambres climatis\u00e9es ont \u00e9t\u00e9 enti\u00e8rement r\u00e9nov\u00e9es en 2016.\nAccueil 24h\/24, acc\u00e8s Wifi gratuit, bar avec d\u00e9gustation et restauration possible sur place. \nParking public couvert s\u00e9curis\u00e9 en face.",
+      "IdElloha": null,
+      "AccueilGroupes": true,
+      "VeilleurNuit": true,
+      "RaisonSociale": "H\u00f4tel Ibis Styles Dinan Centre-Ville",
+      "Classification": {
+        "ThesID": "ebd33592-a98c-41a8-b935-094c43875205",
+        "ThesLibelle": "H\u00f4tel",
+        "ThesPicto": "",
+        "ThesCode": "HOTEL",
+        "ThesOrdre": 0
+      },
+      "Latitude": "48.4538981",
+      "AccueilHandicapes": true,
+      "IdTripadvisor": "https:\/\/www.tripadvisor.fr\/Hotel_Review-g187098-d557024-Reviews-Ibis_Styles_Dinan_Centre_Ville-Dinan_Cotes_d_Armor_Brittany.html",
+      "TIS_TRACKING_OFFRE": "<script type=\"text\/javascript\">var _gaq=_gaq||[];(function(n){function r(n){var t=new RegExp(\"(?:; )?\"+n+\"=([^;]*);?\");return t.test(document.cookie)?decodeURIComponent(RegExp.$1):null}function i(){if(typeof jQuery==\"undefined\")t||(t=!0,document.write('<script type=\"text\/javascript\" src=\"https:\/\/code.jquery.com\/jquery-latest.min.js\"><\/script><script type=\"text\/javascript\">jQuery.noConflict();<\/script>')),setTimeout(i,50);else{var n=jQuery.fn.jquery.split(\".\"),r=parseInt(n[0],10)*1e3+(n.length>1?parseInt(n[1],10):0);r<1003&&alert(\"Veuillez mettre \u00e0 jour jQuery.\")}}var u=r(\"__utma\"),t;n.push([\"fs._setAccount\",\"UA-36466461-1\"]);n.push([\"fs._setCustomVar\",1,\"STRUCT\",\"2-24-\",3]);n.push([\"fs._setCustomVar\",2,\"SYND\",\"2-31-7226-\",3]);n.push([\"fs._setCustomVar\",3,\"OFFRE\",\"54-HOTBRE0220H00121-\",3]);n.push([\"fs._setCustomVar\",4,\"UTIL\",u,3]);n.push([\"fs._setDomainName\",\"tourinsoft.com\"]);n.push([\"fs._trackPageview\"]);t=!1;i()})(_gaq)<\/script><script type=\"text\/javascript\">(function(n){var t=function(){var t=n(this);t.attr(\"data-type\")?_gaq.push([\"fs._trackEvent\",\"CLIC_OFFRE\",t.attr(\"data-type\"),t.attr(\"href\")]):t.attr(\"data-fs-tracking\")&&_gaq.push([\"fs._trackEvent\",\"CLIC_OFFRE\",t.attr(\"data-fs-tracking\"),t.attr(\"href\")])};n(function(){if(n.fn.on)n(document).on(\"click\",'a[data-type=\"FICHIER\"],a[data-type=\"MAILTO\"],a[data-type=\"URL\"],a[data-type=\"TEL\"],a[data-type=\"TRACE\"],a[data-fs-tracking]',t);else n.fn.live?n('a[data-type=\"FICHIER\"],a[data-type=\"MAILTO\"],a[data-type=\"URL\"],a[data-type=\"TEL\"],a[data-type=\"TRACE\"],a[data-fs-tracking]').live(\"click\",t):n.fn.click&&n('a[data-type=\"FICHIER\"],a[data-type=\"MAILTO\"],a[data-type=\"URL\"],a[data-type=\"TEL\"],a[data-type=\"TRACE\"],a[data-fs-tracking]').click(t)})})(jQuery)<\/script>",
+      "TIS_TRACKING_LISTING_OFFRE": "",
+      "Structure": {
+        "SyndicStructureId": "725384aa-7c59-4efb-9be5-9abad5185572",
+        "Name": "C\u00f4tes d'Armor Destination",
+        "Email": "cad@cad22.com",
+        "EmailName": "C\u00f4tes d'Armor Destination",
+        "Url": "",
+        "Address1": "",
+        "Address2": "7 rue Saint-Beno\u00eet",
+        "Address3": "BP 4620",
+        "Postcode": "22046",
+        "City": "Saint-Brieuc cedex 02",
+        "Country": "France",
+        "Phone": ""
+      },
+      "PeriodeOuvertures": [
+        {
+          "ID": 305811042000003056,
+          "Ordre": 1,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "heurefin1": null,
+          "vendrediheurefin2": null,
+          "heuredebut2": null,
+          "mardiheuredebut2": null,
+          "Complementdinfoaccueil": null,
+          "mercrediheuredebut2": null,
+          "jeudiheurefin2": null,
+          "jeudiheurefin1": null,
+          "jeudiheuredebut2": null,
+          "vendrediheuredebut2": null,
+          "mardiheurefin2": null,
+          "lundiheuredebut2": null,
+          "heuredebut1": null,
+          "lundiheuredebut1": null,
+          "dimancheheuredebut2": null,
+          "dimancheheurefin2": null,
+          "samediheuredebut2": null,
+          "lundiheurefin1": null,
+          "lundiheurefin2": null,
+          "mercrediheurefin1": null,
+          "Datedebut": "2022-01-01T00:00:00",
+          "mercrediheuredebut1": null,
+          "vendrediheurefin1": null,
+          "samediheurefin1": null,
+          "heurefin2": null,
+          "mardiheurefin1": null,
+          "samediheuredebut1": null,
+          "samediheurefin2": null,
+          "mardiheuredebut1": null,
+          "jeudiheuredebut1": null,
+          "mercrediheurefin2": null,
+          "vendrediheuredebut1": null,
+          "Datefin": "2022-12-31T00:00:00",
+          "dimancheheurefin1": null,
+          "dimancheheuredebut1": null,
+          "Joursfermertures": []
+        }
+      ],
+      "OffresAssocieess": [],
+      "AnneeAdhesions": [
+        {
+          "ID": 154610371100053011,
+          "Ordre": 1,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "Anneedadhesionpromotion": [
+            {
+              "ID": 154610371100055011,
+              "Ordre": 1,
+              "SyndicObjectId": "HOTBRE0220H00121",
+              "ThesID": "f1db0256-b3fe-44e1-a33d-5235b9bc2922",
+              "ThesLibelle": "2018",
+              "ThesPicto": "",
+              "ThesCode": "B2210",
+              "ThesOrdre": 15
+            }
+          ]
+        }
+      ],
+      "PrestationsConforts": [
+        {
+          "ID": 150712173200033037,
+          "Ordre": 1,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "56313a19-751e-4b1b-8b0d-781808e6c277",
+          "ThesLibelle": "Acc\u00e8s Internet",
+          "ThesPicto": "",
+          "ThesCode": "NET",
+          "ThesOrdre": 0
+        },
+        {
+          "ID": 150712173200034037,
+          "Ordre": 2,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "d3b9f5aa-9209-4dc6-a224-590e1f1a209f",
+          "ThesLibelle": "C\u00e2ble\/ satellite",
+          "ThesPicto": "",
+          "ThesCode": "CABLE",
+          "ThesOrdre": 2
+        },
+        {
+          "ID": 150712173200035037,
+          "Ordre": 3,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "3a7cbcd2-d2fe-48ed-9366-287fcdb9e60c",
+          "ThesLibelle": "Canal + ",
+          "ThesPicto": "",
+          "ThesCode": "CPLUS",
+          "ThesOrdre": 3
+        },
+        {
+          "ID": 150712173200036037,
+          "Ordre": 4,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "01b0e496-2723-42e2-b068-c7c06edb919a",
+          "ThesLibelle": "Climatisation",
+          "ThesPicto": "",
+          "ThesCode": "CLIM",
+          "ThesOrdre": 4
+        },
+        {
+          "ID": 150712173200037037,
+          "Ordre": 5,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "c4c0c19b-62ff-4908-a3aa-c484229374fc",
+          "ThesLibelle": "Double vitrage",
+          "ThesPicto": "",
+          "ThesCode": "DVITR",
+          "ThesOrdre": 5
+        },
+        {
+          "ID": 150712173200038037,
+          "Ordre": 6,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "69581ba0-2996-4b7c-bb5e-8aec9d671950",
+          "ThesLibelle": "Lit enfant",
+          "ThesPicto": "",
+          "ThesCode": "LIENF",
+          "ThesOrdre": 8
+        },
+        {
+          "ID": 150712173200039037,
+          "Ordre": 7,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "dcf8edc4-ec61-421d-82b3-1d105c559949",
+          "ThesLibelle": "S\u00e8che-cheveux ",
+          "ThesPicto": "",
+          "ThesCode": "SCHE",
+          "ThesOrdre": 12
+        },
+        {
+          "ID": 150712173200040037,
+          "Ordre": 8,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "ae42f94c-54ef-4af7-a9c5-a75fdcf1cc05",
+          "ThesLibelle": "T\u00e9l\u00e9phone",
+          "ThesPicto": "",
+          "ThesCode": "PTDIR",
+          "ThesOrdre": 13
+        },
+        {
+          "ID": 150712173200041037,
+          "Ordre": 9,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "cef0ba9a-9522-4f37-8aef-4297ad9af527",
+          "ThesLibelle": "T\u00e9l\u00e9vision",
+          "ThesPicto": "",
+          "ThesCode": "TELCO",
+          "ThesOrdre": 14
+        },
+        {
+          "ID": 150712173200042037,
+          "Ordre": 10,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "c736a0f9-2e31-4cb8-8f9a-b2dd5eba2f34",
+          "ThesLibelle": "T\u00e9l\u00e9vision dans toutes les chambres",
+          "ThesPicto": "",
+          "ThesCode": "TTC",
+          "ThesOrdre": 15
+        }
+      ],
+      "MoyenDeComs": [
+        {
+          "ID": 5422232313937509998,
+          "Ordre": 1,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "CoordonneesTelecom": "02 96 39 46 15",
+          "TypedaccesTelecom": {
+            "ThesID": "77431f62-a77a-4125-89a7-395432eda5a4",
+            "ThesLibelle": "T\u00e9l\u00e9phone fixe",
+            "ThesPicto": "",
+            "ThesCode": "C1",
+            "ThesOrdre": 5
+          }
+        },
+        {
+          "ID": 5422232313937511998,
+          "Ordre": 2,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "CoordonneesTelecom": "h5977@accor.com",
+          "TypedaccesTelecom": {
+            "ThesID": "a0ecac9e-1f82-46c1-a573-911b259b0b2f",
+            "ThesLibelle": "M\u00e9l",
+            "ThesPicto": "",
+            "ThesCode": "C4",
+            "ThesOrdre": 0
+          }
+        },
+        {
+          "ID": 5422232313937512998,
+          "Ordre": 3,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "CoordonneesTelecom": "www.ibis.com\/fr\/hotel-5977-ibis-styles-dinan-centre-ville-ex-ibis\/index.shtml",
+          "TypedaccesTelecom": {
+            "ThesID": "3a6e3117-0636-4292-9b06-bc7319b4cef6",
+            "ThesLibelle": "Site web (URL)",
+            "ThesPicto": "",
+            "ThesCode": "C5",
+            "ThesOrdre": 1
+          }
+        }
+      ],
+      "Reservations": [
+        {
+          "ID": 154610402700005011,
+          "Ordre": 1,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "TypedaccesTelecom": {
+            "ThesID": "3a6e3117-0636-4292-9b06-bc7319b4cef6",
+            "ThesLibelle": "Site web (URL)",
+            "ThesPicto": "",
+            "ThesCode": "C5",
+            "ThesOrdre": 1
+          },
+          "Complementdinformation": null,
+          "CoordonneesTelecom": "www.accorhotels.com\/fr\/hotel-5977-ibis-styles-dinan-centre-ville-ex-ibis\/index.shtml"
+        }
+      ],
+      "PrestationsServicess": [
+        {
+          "ID": 150712173200027037,
+          "Ordre": 1,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "4c49903b-fb0c-4e20-98d4-97ff5b235d78",
+          "ThesLibelle": "Coffres clients",
+          "ThesPicto": "",
+          "ThesCode": "COFFR",
+          "ThesOrdre": 10
+        },
+        {
+          "ID": 150712173200028037,
+          "Ordre": 2,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "d38824ad-4431-426b-b3be-f4658a15ae07",
+          "ThesLibelle": "Cyber espace \/ bornes acc\u00e8s Internet",
+          "ThesPicto": "",
+          "ThesCode": "Cyber espace \/ bornes acc\u00e8s Internet",
+          "ThesOrdre": 11
+        },
+        {
+          "ID": 150712173200029037,
+          "Ordre": 3,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "e9b27dab-1b8a-4b7d-88e5-51eb21629863",
+          "ThesLibelle": "Local \u00e0 v\u00e9los",
+          "ThesPicto": "",
+          "ThesCode": "LP007",
+          "ThesOrdre": 15
+        },
+        {
+          "ID": 150712173200030037,
+          "Ordre": 4,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "22f8dab8-66cf-49dc-87ef-69e7167a6421",
+          "ThesLibelle": "Petit d\u00e9jeuner continental",
+          "ThesPicto": "",
+          "ThesCode": "PDCON",
+          "ThesOrdre": 22
+        },
+        {
+          "ID": 150712173200031037,
+          "Ordre": 5,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "a3572162-3b30-4217-8ed0-03f0dac4402b",
+          "ThesLibelle": "Petit-d\u00e9jeuner buffet groupes",
+          "ThesPicto": "",
+          "ThesCode": "PDBUG",
+          "ThesOrdre": 23
+        },
+        {
+          "ID": 150712173200032037,
+          "Ordre": 6,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "3c9f16fc-e477-4cd9-9a06-8caf9c459078",
+          "ThesLibelle": "Service bagages",
+          "ThesPicto": "",
+          "ThesCode": "BAGAG",
+          "ThesOrdre": 29
+        }
+      ],
+      "ModesPaiementss": [
+        {
+          "ID": 150712173200049037,
+          "Ordre": 1,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "b7572dbc-e8ac-4f35-8598-282c3989cedb",
+          "ThesLibelle": "Cartes de paiement",
+          "ThesPicto": "",
+          "ThesCode": "CPT",
+          "ThesOrdre": 1
+        },
+        {
+          "ID": 150712173200050037,
+          "Ordre": 2,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "9af356c1-2757-4929-9f0a-73cf40539d7f",
+          "ThesLibelle": "Ch\u00e8ques bancaires et postaux",
+          "ThesPicto": "",
+          "ThesCode": "CHQ",
+          "ThesOrdre": 2
+        },
+        {
+          "ID": 150712173200051037,
+          "Ordre": 3,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "52c6be92-98d2-49d9-be09-918f95d1c774",
+          "ThesLibelle": "Ch\u00e8ques Vacances",
+          "ThesPicto": "",
+          "ThesCode": "VAC",
+          "ThesOrdre": 7
+        },
+        {
+          "ID": 150712173200052037,
+          "Ordre": 4,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "9a23d204-5834-422c-bc48-b7bb041374d7",
+          "ThesLibelle": "Esp\u00e8ces",
+          "ThesPicto": "",
+          "ThesCode": "ESP",
+          "ThesOrdre": 9
+        },
+        {
+          "ID": 150712173200053037,
+          "Ordre": 5,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "7a68dca5-3375-4fab-ba69-fd1e00bb0fcc",
+          "ThesLibelle": "Virement",
+          "ThesPicto": "",
+          "ThesCode": "VIREMENT",
+          "ThesOrdre": 13
+        }
+      ],
+      "Localisations": [
+        {
+          "ID": 5422229170100506998,
+          "Ordre": 1,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "Nom": "",
+          "Distance": null,
+          "Typedelocalisation": {
+            "ThesID": "226366ed-24b1-45e7-b6ab-37d703867fc7",
+            "ThesLibelle": "En centre ville",
+            "ThesPicto": "",
+            "ThesCode": "CVI",
+            "ThesOrdre": 19
+          }
+        },
+        {
+          "ID": 149115281600003020,
+          "Ordre": 2,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "Nom": null,
+          "Distance": null,
+          "Typedelocalisation": {
+            "ThesID": "ad82ea18-97a9-43bc-9588-df8caa0d9eaa",
+            "ThesLibelle": "En ville",
+            "ThesPicto": "",
+            "ThesCode": "VIL",
+            "ThesOrdre": 23
+          }
+        },
+        {
+          "ID": 150712173200011037,
+          "Ordre": 3,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "Nom": null,
+          "Distance": null,
+          "Typedelocalisation": {
+            "ThesID": "b1215b29-c633-47e7-8683-cb3f8fecf7b5",
+            "ThesLibelle": "Quartier historique",
+            "ThesPicto": "",
+            "ThesCode": "QUARTIERHISTO",
+            "ThesOrdre": 27
+          }
+        },
+        {
+          "ID": 150712173200013037,
+          "Ordre": 4,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "Nom": null,
+          "Distance": null,
+          "Typedelocalisation": {
+            "ThesID": "3f29846f-f4be-467d-b009-2ef8131205ab",
+            "ThesLibelle": "A proximit\u00e9 des commerces",
+            "ThesPicto": "",
+            "ThesCode": "COMM",
+            "ThesOrdre": 0
+          }
+        }
+      ],
+      "TarifsGroupess": [
+        {
+          "ID": 78611322600026027,
+          "Ordre": 1,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "MinimumEuro": null,
+          "MaximumEuro": null,
+          "MaximumEuro1": null,
+          "Intituletarifs": {
+            "ThesID": "68b1b42a-26e7-405e-9e65-1590fc7d4ae1",
+            "ThesLibelle": "Suppl\u00e9ment individuel",
+            "ThesPicto": "",
+            "ThesCode": "B0004",
+            "ThesOrdre": 1
+          },
+          "MinimumEuro1": null
+        },
+        {
+          "ID": 78611322600027027,
+          "Ordre": 2,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "MinimumEuro": null,
+          "MaximumEuro": null,
+          "MaximumEuro1": null,
+          "Intituletarifs": {
+            "ThesID": "af904342-a752-41a8-a143-3335218ad5a7",
+            "ThesLibelle": "Tarif\/personne en demi double B&B",
+            "ThesPicto": "",
+            "ThesCode": "B0001",
+            "ThesOrdre": 2
+          },
+          "MinimumEuro1": null
+        },
+        {
+          "ID": 78611322600028027,
+          "Ordre": 3,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "MinimumEuro": null,
+          "MaximumEuro": null,
+          "MaximumEuro1": null,
+          "Intituletarifs": {
+            "ThesID": "a0137c16-6968-4ce0-9381-b335b2075510",
+            "ThesLibelle": "Tarif\/personne en demi double pension compl\u00e8te (hors boisson)",
+            "ThesPicto": "",
+            "ThesCode": "B0003",
+            "ThesOrdre": 4
+          },
+          "MinimumEuro1": null
+        },
+        {
+          "ID": 78611322600029027,
+          "Ordre": 4,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "MinimumEuro": null,
+          "MaximumEuro": null,
+          "MaximumEuro1": null,
+          "Intituletarifs": {
+            "ThesID": "facf2fe4-0ecd-45db-8cc2-a5b2cda38644",
+            "ThesLibelle": "Tarif\/personne en demi double demi-pension (hors boisson)",
+            "ThesPicto": "",
+            "ThesCode": "B0002",
+            "ThesOrdre": 3
+          },
+          "MinimumEuro1": null
+        }
+      ],
+      "ContactGroupess": [],
+      "Handicaps": [],
+      "Videos": [],
+      "ReseauxSociauxs": [
+        {
+          "ID": 150712173200054037,
+          "Ordre": 1,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "URLreseausocial": "https:\/\/www.facebook.com\/ibisstylesdinan\/?ref=bookmarks",
+          "Nomdureseausocial": {
+            "ThesID": "5fdaf954-3543-4740-a52c-923f4ae44f17",
+            "ThesLibelle": "URL Facebook",
+            "ThesPicto": "",
+            "ThesCode": "FACE",
+            "ThesOrdre": 1
+          }
+        },
+        {
+          "ID": 150712173300000037,
+          "Ordre": 2,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "URLreseausocial": "https:\/\/www.instagram.com\/ibis_styles_dinan\/?hl=fr",
+          "Nomdureseausocial": {
+            "ThesID": "e0701de5-dee2-40b7-abb2-69d1dd7b9c66",
+            "ThesLibelle": "URL Instagram",
+            "ThesPicto": "",
+            "ThesCode": "INST",
+            "ThesOrdre": 4
+          }
+        }
+      ],
+      "PrestationEquipementss": [
+        {
+          "ID": 150712173200020037,
+          "Ordre": 1,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "b4b3cfcf-08ab-4f37-9a71-19c741c979b7",
+          "ThesLibelle": "Abri v\u00e9los",
+          "ThesPicto": "",
+          "ThesCode": "Abrivelo",
+          "ThesOrdre": 0
+        },
+        {
+          "ID": 150712173200021037,
+          "Ordre": 2,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "4fbd595b-94fe-4af2-a9a3-c5f17cad26b1",
+          "ThesLibelle": "Ascenseur",
+          "ThesPicto": "",
+          "ThesCode": "ASC",
+          "ThesOrdre": 1
+        },
+        {
+          "ID": 150712173200022037,
+          "Ordre": 3,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "5a7879cb-da4d-48b1-8595-36deededd5ff",
+          "ThesLibelle": "Bar",
+          "ThesPicto": "",
+          "ThesCode": "BAR",
+          "ThesOrdre": 3
+        },
+        {
+          "ID": 150712173200023037,
+          "Ordre": 4,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "57e9c7d4-eaa0-4e1e-98ad-a40a741bb260",
+          "ThesLibelle": "Jeux pour enfants",
+          "ThesPicto": "",
+          "ThesCode": "JENFA",
+          "ThesOrdre": 14
+        },
+        {
+          "ID": 150712173200024037,
+          "Ordre": 5,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "afd62111-d61b-4095-8bc2-d9edc21643d6",
+          "ThesLibelle": "Parking autocar proche",
+          "ThesPicto": "",
+          "ThesCode": "PARAU",
+          "ThesOrdre": 20
+        },
+        {
+          "ID": 150712173200025037,
+          "Ordre": 6,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "877cfd44-618e-44a4-8a43-e5eee1a21676",
+          "ThesLibelle": "Salon de t\u00e9l\u00e9vision",
+          "ThesPicto": "",
+          "ThesCode": "SALTV",
+          "ThesOrdre": 32
+        },
+        {
+          "ID": 150712173200026037,
+          "Ordre": 7,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "9b9ccc50-cdf2-43ed-9598-ea2cc11fd0ca",
+          "ThesLibelle": "Wi-Fi",
+          "ThesPicto": "",
+          "ThesCode": "WIRFI",
+          "ThesOrdre": 40
+        }
+      ],
+      "LocalisationAccess": [
+        {
+          "ID": 5422148495771295998,
+          "Ordre": 1,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "Distance": 0.6,
+          "Pointdacces": {
+            "ThesID": "1f98c20d-c5a3-4b07-be3f-3f640b570c8f",
+            "ThesLibelle": "Gare Ferroviaire",
+            "ThesPicto": "",
+            "ThesCode": "GFER",
+            "ThesOrdre": 4
+          },
+          "Nom": "0,6"
+        },
+        {
+          "ID": 5422148495771296998,
+          "Ordre": 2,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "Distance": 0.6,
+          "Pointdacces": {
+            "ThesID": "d400f325-1d31-4e29-99ae-8d11f5b0eec2",
+            "ThesLibelle": "Gare Routi\u00e8re",
+            "ThesPicto": "",
+            "ThesCode": "GROU",
+            "ThesOrdre": 6
+          },
+          "Nom": "0,6"
+        }
+      ],
+      "Chainess": [
+        {
+          "ID": 150712173200009037,
+          "Ordre": 1,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "336d6d3e-bcb5-4ec1-98db-5bdd487f6528",
+          "ThesLibelle": "Ibis Styles",
+          "ThesPicto": "",
+          "ThesCode": "B0001",
+          "ThesOrdre": 26
+        }
+      ],
+      "Tarifss": [
+        {
+          "ID": 78611322500015027,
+          "Ordre": 1,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "MinimumEuro": null,
+          "MaximumEuro": null,
+          "Agemaxipourreduction": null,
+          "Intituletarifs": {
+            "ThesID": "733e60ef-b36b-4067-9380-2f64c637ca9a",
+            "ThesLibelle": "Chambre single",
+            "ThesPicto": "",
+            "ThesCode": "TARSG",
+            "ThesOrdre": 0
+          },
+          "MinimumEuro1": null,
+          "Chargescomprises": null,
+          "Complementtarif": null,
+          "MaximumEuro1": null
+        },
+        {
+          "ID": 78611322500016027,
+          "Ordre": 2,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "MinimumEuro": null,
+          "MaximumEuro": 118,
+          "Agemaxipourreduction": null,
+          "Intituletarifs": {
+            "ThesID": "fa29f9c8-4fe3-4895-bd52-a030da9f67bc",
+            "ThesLibelle": "Chambre double",
+            "ThesPicto": "",
+            "ThesCode": "TARDO",
+            "ThesOrdre": 2
+          },
+          "MinimumEuro1": 74,
+          "Chargescomprises": null,
+          "Complementtarif": null,
+          "MaximumEuro1": null
+        },
+        {
+          "ID": 145815522600010036,
+          "Ordre": 3,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "MinimumEuro": null,
+          "MaximumEuro": 145,
+          "Agemaxipourreduction": null,
+          "Intituletarifs": {
+            "ThesID": "a26bede1-7e25-43cc-a47c-abca7e0fbf3f",
+            "ThesLibelle": "Chambre familiale",
+            "ThesPicto": "",
+            "ThesCode": "TARFA",
+            "ThesOrdre": 5
+          },
+          "MinimumEuro1": 101,
+          "Chargescomprises": null,
+          "Complementtarif": null,
+          "MaximumEuro1": null
+        },
+        {
+          "ID": 239912430900002022,
+          "Ordre": 4,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "MinimumEuro": null,
+          "MaximumEuro": null,
+          "Agemaxipourreduction": null,
+          "Intituletarifs": {
+            "ThesID": "ba36e1df-33e9-4053-9c54-a7bf2366aaa0",
+            "ThesLibelle": "Petit-d\u00e9jeuner",
+            "ThesPicto": "",
+            "ThesCode": "TARDJ",
+            "ThesOrdre": 9
+          },
+          "MinimumEuro1": null,
+          "Chargescomprises": null,
+          "Complementtarif": null,
+          "MaximumEuro1": null
+        }
+      ],
+      "Thematiquess": [
+        {
+          "ID": 163709373400013042,
+          "Ordre": 1,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "2bce0d7b-c30e-4b9f-a226-3e89f97ec939",
+          "ThesLibelle": "Familial",
+          "ThesPicto": "",
+          "ThesCode": "B350A",
+          "ThesOrdre": 18
+        },
+        {
+          "ID": 163709373400012042,
+          "Ordre": 2,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "13c4a746-29e8-4459-93d6-4a8568018ab8",
+          "ThesLibelle": "Romantique",
+          "ThesPicto": "",
+          "ThesCode": "B35021",
+          "ThesOrdre": 44
+        }
+      ],
+      "PrestationsActivitess": [],
+      "AvisExperts": [
+        {
+          "ID": 265908575100004010,
+          "Ordre": 1,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "Prenom": null,
+          "Fonction": null,
+          "Commentaire": null,
+          "Nom": null,
+          "Photo": null
+        }
+      ],
+      "Photoss": [
+        {
+          "ID": 154711525800005012,
+          "Ordre": 1,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "Droitduvisuel": {
+            "ThesID": "655ce179-7050-48a8-907d-8ade7f994ad2",
+            "ThesLibelle": "Visuel non libre de droit ",
+            "ThesPicto": "",
+            "ThesCode": "B2202",
+            "ThesOrdre": 1
+          },
+          "Photo": {
+            "MediaID": "6500d8b2-7527-4b12-9844-2c8b112f86b7",
+            "Titre": "IbisStyles-Dinan-IbisStyles",
+            "Credit": "IbisStyles-Dinan",
+            "Url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/IbisStyles-Dinan-IbisStyles.jpg"
+          }
+        },
+        {
+          "ID": 154711525800006012,
+          "Ordre": 2,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "Droitduvisuel": {
+            "ThesID": "655ce179-7050-48a8-907d-8ade7f994ad2",
+            "ThesLibelle": "Visuel non libre de droit ",
+            "ThesPicto": "",
+            "ThesCode": "B2202",
+            "ThesOrdre": 1
+          },
+          "Photo": {
+            "MediaID": "fbcea1bc-afea-43a1-ac1d-654c2c014b07",
+            "Titre": "IbisStyles-Dinan-IbisStyles",
+            "Credit": "IbisStyles-Dinan",
+            "Url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/IbisStyles-Dinan-IbisStyles-1.jpg"
+          }
+        },
+        {
+          "ID": 154711220600005012,
+          "Ordre": 3,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "Droitduvisuel": {
+            "ThesID": "655ce179-7050-48a8-907d-8ade7f994ad2",
+            "ThesLibelle": "Visuel non libre de droit ",
+            "ThesPicto": "",
+            "ThesCode": "B2202",
+            "ThesOrdre": 1
+          },
+          "Photo": {
+            "MediaID": "b05e67c7-1381-4721-991c-2f526914448d",
+            "Titre": "IbisStyles-Dinan-IbisStyles",
+            "Credit": "IbisStyles-Dinan",
+            "Url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/IbisStyles-Dinan-IbisStyles-2.jpg"
+          }
+        },
+        {
+          "ID": 145816070300003036,
+          "Ordre": 4,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "Droitduvisuel": {
+            "ThesID": "655ce179-7050-48a8-907d-8ade7f994ad2",
+            "ThesLibelle": "Visuel non libre de droit ",
+            "ThesPicto": "",
+            "ThesCode": "B2202",
+            "ThesOrdre": 1
+          },
+          "Photo": {
+            "MediaID": "0fc220d9-937b-4f01-934a-b7ca99c44754",
+            "Titre": "IbisStyles-Dinan-DCFTourisme",
+            "Credit": "\u00a9Dinan-Cap Fr\u00e9hel Tourisme",
+            "Url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/Hotel--Ibis-Styles-1-Chambres.jpg"
+          }
+        },
+        {
+          "ID": 145816072800031036,
+          "Ordre": 5,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "Droitduvisuel": {
+            "ThesID": "655ce179-7050-48a8-907d-8ade7f994ad2",
+            "ThesLibelle": "Visuel non libre de droit ",
+            "ThesPicto": "",
+            "ThesCode": "B2202",
+            "ThesOrdre": 1
+          },
+          "Photo": {
+            "MediaID": "d8f78015-d9d2-4859-af9d-d48faa5833eb",
+            "Titre": "IbisStyles-Dinan-DCFTourisme",
+            "Credit": "\u00a9Dinan-Cap Fr\u00e9hel Tourisme",
+            "Url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/Hotel-Ibis-Styles-5-Salle-PDJ.jpg"
+          }
+        }
+      ],
+      "Labelss": [
+        {
+          "ID": 5422227161570499998,
+          "Ordre": 1,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "2740da09-282e-44d1-9d43-918e18bf499d",
+          "ThesLibelle": "Atout France",
+          "ThesPicto": "",
+          "ThesCode": "B000E",
+          "ThesOrdre": 3
+        },
+        {
+          "ID": 5422227161570500998,
+          "Ordre": 2,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "d9649ab4-c8b2-433f-9790-a252ef7820d2",
+          "ThesLibelle": "Qualit\u00e9 Tourisme",
+          "ThesPicto": "",
+          "ThesCode": "B0008",
+          "ThesOrdre": 23
+        }
+      ],
+      "LanguesParleess": [
+        {
+          "ID": 150712173200007037,
+          "Ordre": 1,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "47873d4a-8db1-4bef-b8e1-04ad86931ed6",
+          "ThesLibelle": "Fran\u00e7ais",
+          "ThesPicto": "",
+          "ThesCode": "FR",
+          "ThesOrdre": 0
+        },
+        {
+          "ID": 150712173200008037,
+          "Ordre": 2,
+          "SyndicObjectId": "HOTBRE0220H00121",
+          "ThesID": "2a2b9a67-f866-4e7a-9085-c4d2b324c929",
+          "ThesLibelle": "Anglais",
+          "ThesPicto": "",
+          "ThesCode": "AN",
+          "ThesOrdre": 2
+        }
+      ],
+      "TisTracking": {
+        "SyndicObjectId": "HOTBRE0220H00121",
+        "CodeOffre": "54-HOTBRE0220H00121-",
+        "CodeStructure": "2-24-",
+        "CodeSyndication": "2-31-7226-"
+      }
+    }
+  },
+  "escaped_title": "H\u00f4tel Ibis Styles Dinan Centre-Ville",
+  "title": "H\u00f4tel Ibis Styles Dinan Centre-Ville",
+  "surtitre": "H\u00f4tel",
+  "classement": {
+    "etoiles": {
+      "icon": "etoile",
+      "tooltip": "\u00c9toiles",
+      "value": 3,
+      "meta": "etoiles"
+    }
+  },
+  "geo": {
+    "lng": "-2.0486704",
+    "lat": "48.4538981"
+  },
+  "photos": [
+    {
+      "titre": "IbisStyles-Dinan-IbisStyles",
+      "credit": "IbisStyles-Dinan",
+      "url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/IbisStyles-Dinan-IbisStyles.jpg",
+      "gallery_thumb": {
+        "url": "https:\/\/dinan.dev-thuria.com\/wp-content\/uploads\/tourinsoft\/ec3ac40a649db2dac088ac5c4329b6b0-IbisStyles-Dinan-IbisStyles-660x500.jpg",
+        "width": 660,
+        "height": 500,
+        "size": 71699,
+        "cropped": false,
+        "alt": "IbisStyles-Dinan-IbisStyles",
+        "credit": "IbisStyles-Dinan"
+      },
+      "cards": {
+        "all": {
+          "url": "https:\/\/dinan.dev-thuria.com\/wp-content\/uploads\/tourinsoft\/ec3ac40a649db2dac088ac5c4329b6b0-IbisStyles-Dinan-IbisStyles-340x230.jpg",
+          "width": 340,
+          "height": 230,
+          "size": 20795,
+          "cropped": false,
+          "alt": "IbisStyles-Dinan-IbisStyles",
+          "credit": "IbisStyles-Dinan"
+        }
+      }
+    },
+    {
+      "titre": "IbisStyles-Dinan-IbisStyles",
+      "credit": "IbisStyles-Dinan",
+      "url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/IbisStyles-Dinan-IbisStyles-1.jpg",
+      "gallery_thumb": {
+        "url": "https:\/\/dinan.dev-thuria.com\/wp-content\/uploads\/tourinsoft\/2fb6cc97c5fb1b08dbb18d247af5502f-IbisStyles-Dinan-IbisStyles-1-660x500.jpg",
+        "width": 660,
+        "height": 500,
+        "size": 50517,
+        "cropped": false,
+        "alt": "IbisStyles-Dinan-IbisStyles",
+        "credit": "IbisStyles-Dinan"
+      }
+    },
+    {
+      "titre": "IbisStyles-Dinan-IbisStyles",
+      "credit": "IbisStyles-Dinan",
+      "url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/IbisStyles-Dinan-IbisStyles-2.jpg",
+      "gallery_thumb": {
+        "url": "https:\/\/dinan.dev-thuria.com\/wp-content\/uploads\/tourinsoft\/27da6fd0c10fd818b0664ee304fef7c2-IbisStyles-Dinan-IbisStyles-2-660x500.jpg",
+        "width": 660,
+        "height": 500,
+        "size": 57003,
+        "cropped": false,
+        "alt": "IbisStyles-Dinan-IbisStyles",
+        "credit": "IbisStyles-Dinan"
+      }
+    },
+    {
+      "titre": "IbisStyles-Dinan-DCFTourisme",
+      "credit": "\u00a9Dinan-Cap Fr\u00e9hel Tourisme",
+      "url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/Hotel--Ibis-Styles-1-Chambres.jpg",
+      "gallery_thumb": {
+        "url": "https:\/\/dinan.dev-thuria.com\/wp-content\/uploads\/tourinsoft\/43a8f254dffacf5e2db735df0d344125-Hotel--Ibis-Styles-1-Chambres-660x500.jpg",
+        "width": 660,
+        "height": 500,
+        "size": 35940,
+        "cropped": false,
+        "alt": "IbisStyles-Dinan-DCFTourisme",
+        "credit": "\u00a9Dinan-Cap Fr\u00e9hel Tourisme"
+      }
+    },
+    {
+      "titre": "IbisStyles-Dinan-DCFTourisme",
+      "credit": "\u00a9Dinan-Cap Fr\u00e9hel Tourisme",
+      "url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/Hotel-Ibis-Styles-5-Salle-PDJ.jpg",
+      "gallery_thumb": {
+        "url": "https:\/\/dinan.dev-thuria.com\/wp-content\/uploads\/tourinsoft\/1fd4847fa4b6bb91481b46d6ee1e052a-Hotel-Ibis-Styles-5-Salle-PDJ-660x500.jpg",
+        "width": 660,
+        "height": 500,
+        "size": 50955,
+        "cropped": false,
+        "alt": "IbisStyles-Dinan-DCFTourisme",
+        "credit": "\u00a9Dinan-Cap Fr\u00e9hel Tourisme"
+      }
+    }
+  ],
+  "header_orientation": "paysage",
+  "raison_sociale": "H\u00f4tel Ibis Styles Dinan Centre-Ville",
+  "adresse": [
+    "1 place Duclos",
+    "22100 Dinan"
+  ],
+  "commune": "Dinan",
+  "com_data": {
+    "tel": [
+      "02 96 39 46 15"
+    ],
+    "mel": [
+      "h5977@accor.com"
+    ],
+    "web": [
+      "http:\/\/www.ibis.com\/fr\/hotel-5977-ibis-styles-dinan-centre-ville-ex-ibis\/index.shtml"
+    ]
+  },
+  "com_rs": {
+    "facebook": "https:\/\/www.facebook.com\/ibisstylesdinan\/?ref=bookmarks",
+    "instagram": "https:\/\/www.instagram.com\/ibis_styles_dinan\/?hl=fr",
+    "tripadvisor": "https:\/\/www.tripadvisor.fr\/Hotel_Review-g187098-d557024-Reviews-Ibis_Styles_Dinan_Centre_Ville-Dinan_Cotes_d_Armor_Brittany.html"
+  },
+  "resa_url": "http:\/\/www.accorhotels.com\/fr\/hotel-5977-ibis-styles-dinan-centre-ville-ex-ibis\/index.shtml",
+  "open_overlay_form": false,
+  "apartirde": {
+    "price": 74,
+    "unit": "nuit"
+  },
+  "header_pictos": {
+    "has_data": false
+  },
+  "description": {
+    "has_data": true,
+    "description": [
+      "L'h\u00f4tel Ibis Styles Centre-Ville, h\u00f4tel de charme, est situ\u00e9 face \u00e0 la mairie, \u00e0 proximit\u00e9 des Remparts, du Ch\u00e2teau et de la gare. \nCes 62 chambres climatis\u00e9es ont \u00e9t\u00e9 enti\u00e8rement r\u00e9nov\u00e9es en 2016.\nAccueil 24h\/24, acc\u00e8s Wifi gratuit, bar avec d\u00e9gustation et restauration possible sur place. \nParking public couvert s\u00e9curis\u00e9 en face."
+    ]
+  },
+  "apropos_infos": {
+    "has_data": true,
+    "infos": [
+      {
+        "icon": "Lang",
+        "title": "Langues parl\u00e9es",
+        "data": {
+          "1": "Fran\u00e7ais",
+          "2": "Anglais"
+        }
+      },
+      {
+        "icon": "team",
+        "title": "groupes accept\u00e9s"
+      }
+    ]
+  },
+  "apropos_pictos": {
+    "has_data": true,
+    "pictos": {
+      "animaux-acceptes": {
+        "icon": "icon-ico-pet",
+        "title": "animaux accept\u00e9s"
+      },
+      "wifi": {
+        "icon": "icon-wifi",
+        "title": "Wifi"
+      },
+      "tourisme-handicap": {
+        "icon": "icon-ico-handicap",
+        "title": "Tourisme &amp; handicap"
+      }
+    }
+  },
+  "labels": {
+    "has_data": true,
+    "labels": {
+      "qualite-tourisme": {
+        "title": "Qualit\u00e9 tourisme",
+        "img": {
+          "width": 171,
+          "height": 90,
+          "url": "https:\/\/dinan.dev-thuria.com\/wp-content\/uploads\/external\/b5c37faf4f09b6eaf3d0d5de84898074-qualite-tourisme-francia-0x180-1655379250-0x90.jpeg",
+          "id": 2781,
+          "srcset": {
+            "retina": {
+              "width": 342,
+              "height": 180,
+              "url": "https:\/\/dinan.dev-thuria.com\/wp-content\/uploads\/2022\/06\/qualite-tourisme-francia-0x180-1655379250.jpeg",
+              "min-width": 342
+            }
+          },
+          "formats": [],
+          "data": {
+            "credit": "",
+            "alt": "Qualit\u00e9 tourisme",
+            "external_link": ""
+          },
+          "plg_version": 2
+        }
+      },
+      "tourisme-handicap": {
+        "title": "Tourisme &amp; handicap",
+        "img": {
+          "width": 87,
+          "height": 90,
+          "url": "https:\/\/dinan.dev-thuria.com\/wp-content\/uploads\/2022\/06\/nouveau-loto-th-993par1024-0x90.png",
+          "id": 3572,
+          "srcset": {
+            "retina": {
+              "width": 174,
+              "height": 180,
+              "url": "https:\/\/dinan.dev-thuria.com\/wp-content\/uploads\/2022\/06\/nouveau-loto-th-993par1024-0x180.png",
+              "min-width": 174
+            }
+          },
+          "formats": [],
+          "data": {
+            "credit": "",
+            "alt": "Tourisme &amp; handicap",
+            "external_link": ""
+          },
+          "plg_version": 2
+        }
+      }
+    }
+  },
+  "infos_comp": {
+    "has_data": true,
+    "infos": [
+      {
+        "title": "Confort",
+        "data": [
+          "Acc\u00e8s Internet",
+          "C\u00e2ble\/ satellite",
+          "Canal + ",
+          "Climatisation",
+          "Double vitrage",
+          "Lit enfant",
+          "S\u00e8che-cheveux ",
+          "T\u00e9l\u00e9phone",
+          "T\u00e9l\u00e9vision",
+          "T\u00e9l\u00e9vision dans toutes les chambres"
+        ]
+      },
+      {
+        "title": "\u00c9quipements",
+        "data": [
+          "Abri v\u00e9los",
+          "Ascenseur",
+          "Bar",
+          "Jeux pour enfants",
+          "Parking autocar proche",
+          "Salon de t\u00e9l\u00e9vision",
+          "Wi-Fi"
+        ]
+      },
+      {
+        "title": "Services",
+        "data": [
+          "Coffres clients",
+          "Cyber espace \/ bornes acc\u00e8s Internet",
+          "Local \u00e0 v\u00e9los",
+          "Petit d\u00e9jeuner continental",
+          "Petit-d\u00e9jeuner buffet groupes",
+          "Service bagages"
+        ]
+      }
+    ]
+  },
+  "capacites": {
+    "has_data": true,
+    "capacites": [
+      {
+        "title": "Chambre(s)",
+        "data": 62
+      }
+    ]
+  },
+  "capacitesreu": {
+    "has_data": false
+  },
+  "tarifs": {
+    "has_data": true,
+    "mode_paiements": {
+      "1": "Cartes de paiement",
+      "2": "Ch\u00e8ques bancaires et postaux",
+      "3": "Ch\u00e8ques Vacances",
+      "4": "Esp\u00e8ces",
+      "5": "Virement"
+    },
+    "tarifs": {
+      "1": {
+        "title": "Chambre single",
+        "code": "TARSG"
+      },
+      "2": {
+        "title": "Chambre double",
+        "code": "TARDO",
+        "min": 74,
+        "max": 118
+      },
+      "3": {
+        "title": "Chambre familiale",
+        "code": "TARFA",
+        "min": 101,
+        "max": 145
+      },
+      "4": {
+        "title": "Petit-d\u00e9jeuner",
+        "code": "TARDJ"
+      }
+    }
+  },
+  "ouverture": {
+    "has_data": true,
+    "display_next_occurence": false,
+    "periodes_ouvertures": {
+      "current": {
+        "start": {
+          "date": "2022-01-01 00:00:00.000000",
+          "timezone_type": 3,
+          "timezone": "UTC"
+        },
+        "start_ts": 1640995200,
+        "end": {
+          "date": "2022-12-31 00:00:00.000000",
+          "timezone_type": 3,
+          "timezone": "UTC"
+        },
+        "end_ts": 1672444800,
+        "days": [
+          {
+            "hours": [],
+            "dname": "Lundi"
+          },
+          {
+            "hours": [],
+            "dname": "Mardi"
+          },
+          {
+            "hours": [],
+            "dname": "Mercredi"
+          },
+          {
+            "hours": [],
+            "dname": "Jeudi"
+          },
+          {
+            "hours": [],
+            "dname": "Vendredi"
+          },
+          {
+            "hours": [],
+            "dname": "Samedi"
+          },
+          {
+            "hours": [],
+            "dname": "Dimanche"
+          }
+        ],
+        "close_days": [],
+        "open_days": [],
+        "complement": null,
+        "current": true
+      }
+    }
+  },
+  "documents": {
+    "has_data": false
+  },
+  "videos": {
+    "has_data": false
+  },
+  "offres_associees": {
+    "has_data": false
+  },
+  "url_rawdata": "https:\/\/dinan.dev-thuria.com\/sit\/hotel-ibis-styles-dinan-centre-ville\/?data&wpdebug"
+}

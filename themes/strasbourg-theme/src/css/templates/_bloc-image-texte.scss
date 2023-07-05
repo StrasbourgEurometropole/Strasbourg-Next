@@ -1,0 +1,86 @@
+.st-bloc-image-texte {
+	.st-container {
+		display: grid;
+		grid-template-areas: "text image";
+		grid-template-columns: 1fr 1fr;
+		gap: var(--grid-gap);
+		align-items: start;
+
+		@include tablet-landscape {
+			grid-gap: 20px;
+		}
+		@include mobile {
+			grid-gap: 20px;
+		}
+
+		.st-col-text {
+			grid-area: text;
+			margin-bottom: auto;
+
+			@include mobile {
+				padding-bottom: var(--grid-gap);
+			}
+		}
+
+		.st-col-image {
+			position: relative;
+			grid-area: image;
+		}
+
+		.st-image {
+			img {
+				width: 100%;
+			}
+		}
+
+
+		// -- modifiers
+		// Texte à droite et photo à gauche -> inversion par rapport au DOM
+		&.st--text-right {
+			grid-template-areas: "image text";
+
+			.st-col-image {
+				position: relative;
+			}
+
+			.st-image {
+				@include tablet-landscape {
+					margin-left: auto;
+				}
+			}
+		}
+
+		// Texte à gauche et photo à droite -> texte aligné à droite (seulement en tablet et >)
+		&.st--text-left {
+
+			@include min-mobile {
+				.st-col-text {
+					text-align: left;
+				}
+			}
+		}
+
+		// Toujours image en premier et texte aligné à gauche sur mobile
+		&.st--text-right,
+		&.st--text-left {
+			@include mobile {
+				grid-template-areas: "image"
+								 "text";
+				grid-template-columns: 1fr;
+			}
+		}
+
+		.st-col-text {
+			grid-area: text;
+			margin-bottom: auto;
+
+			@include mobile {
+				padding-bottom: var(--grid-gap);
+				padding-top: 0;
+			}
+		}
+
+	}
+
+
+}

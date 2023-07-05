@@ -1,0 +1,516 @@
+button {
+	@include addTransition();
+	@include create-outline();
+}
+
+// Styles pour la classe btn, btn et btn-primary.
+.st-btn {
+	@include inline-flex-center;
+	max-width: 100%;
+	padding: 16px 60px;
+	@include ft($f_txt, $s_link, 600, $c_dark_navy, 1);
+	@include letter-spacing(25);
+	text-align: center;
+	text-decoration: none;
+	background-color: $c_sub;
+	border: 1px solid transparent;
+	@include addTransition();
+
+	@include mobile {
+		padding: 14px 30px;
+		min-height: 40px;
+		font-size: $s_link_small;
+	}
+	@include mobile-small {
+		padding: 12px 10px;
+		min-height: 40px;
+	}
+
+	@include can-hover {
+		background-color: $c_white;
+	}
+
+	&:focus-visible {
+		@include create-outline();
+	}
+
+	& + .st-btn {
+		margin-top: 0;
+		@include mobile {
+			margin-top: 10px;
+		}
+	}
+
+	// Btn secondaire
+	&.st--btn-secondary {
+		color: $c_white;
+		background-color: $c_main;
+		border: 1px solid $c_sub;
+		@include can-hover {
+			color: $c_dark_navy;
+			border-color: transparent;
+		}
+	}
+
+	// Btn version largeur du parent
+	&.st--btn-full-width {
+		width: 100%;
+	}
+
+	// Btn format petit
+	&.st--btn-xs {
+		font-size: $s_link_small;
+		padding: 11px 30px;
+	}
+
+	// Btn des filtres
+	&.st--btn-filtres {
+		padding-left: 30px;
+		padding-right: 30px;
+
+		.st-filter-counter {
+			font-weight: 300;
+			margin-left: 5px;
+
+			&:empty {
+				display: none;
+			}
+		}
+	}
+
+	// Btn de position
+	&.st--btn-position {
+		padding: 14px 20px;
+		background-color: transparent;
+		border-color: rgba($c_white, 0.25);
+		color: $c_white;
+
+		&:before {
+			@include icomoon($st-icon-cible);
+			color: $c_sub;
+			font-size: 18px;
+			margin-right: 15px;
+		}
+
+		@include can-hover {
+			color: $c_main;
+		}
+	}
+
+	// Btn footer
+	&.st--btn-footer {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+
+}
+
+// Styles pour les boutons et les dots utilisés dans les sliders et dans la pagination
+.st-btn-arrow {
+	position: relative;
+	z-index: z-index('btn-slider');
+	@include inline-flex-center;
+	width: 30px;
+	height: 30px;
+	font-size: 0;
+	background-color: $c_white;
+	border: 1px solid transparent;
+	@include addTransition();
+
+
+	&:before {
+		@include icomoon();
+		font-size: 10px;
+		color: $c_lightgrey;
+		@include addTransition();
+
+	}
+
+	@include can-hover {
+		&:not([disabled]) {
+			cursor: pointer;
+			background-color: $c_sub;
+
+			&:before {
+				color: $c_dark_navy;
+			}
+		}
+	}
+
+	&[disabled] {
+		opacity: 0.25;
+	}
+
+	// -- modifiers
+	&.st--prev:before {
+		content: $st-icon-arrow-left;
+	}
+
+	&.st--next:before {
+		content: $st-icon-arrow-right;
+	}
+
+	&.st--up:before {
+		content: $st-icon-arrow-up;
+	}
+
+	&.st--down:before {
+		content: $st-icon-arrow-down;
+	}
+
+	&.st--btn-arrow-xs {
+		width: 20px;
+		height: 20px;
+
+		&:before {
+			font-size: 7px;
+		}
+	}
+
+	&.st--btn-outline {
+		border-color: rgba($c_white, 0.25);
+		background-color: $c_main;
+
+		&:before {
+			color: $c_white;
+		}
+
+		@include can-hover {
+			border-color: transparent;
+		}
+	}
+}
+
+.st-nav-dots {
+	display: flex;
+	align-items: center;
+
+	li + li {
+		margin-left: 10px;
+		@include mobile {
+			margin-left: 8px;
+		}
+	}
+
+	button {
+		position: relative;
+		@include inline-flex-center();
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		border: 1px solid transparent;
+		@include addTransition();
+		@include mobile {
+			width: 8px;
+			height: 8px;
+		}
+
+
+		&:not([aria-selected=true]) {
+			background-color: transparent;
+			border-color: $c_white;
+		}
+
+		&[aria-selected=true] {
+			background-color: $c_white;
+		}
+
+		@include can-hover {
+			background-color: $c_sub;
+			border-color: $c_sub;
+		}
+
+	}
+
+	&.st--color-dark {
+		button {
+			@include can-hover {
+				&:not([aria-selected=true]):after {
+					background-color: rgba($c_main, 0.6);
+				}
+			}
+
+			&:after {
+				background-color: rgba($c_main, 0.25);
+			}
+
+			&[aria-selected=true]:after {
+				background-color: $c_main;
+			}
+		}
+	}
+}
+
+// Bouton d'ajout aux favoris sur les cards
+.st-btn-favorite {
+	position: relative;
+	padding: 20px;
+	font-size: 20px;
+	color: $c_white;
+	cursor: pointer;
+
+	@include mobile {
+		display: inline-flex;
+		justify-content: flex-end;
+		align-items: flex-end;
+		width: 42px; // taille optimale de bouton sur mobile
+		height: 42px;
+		padding: 10px;
+		font-size: 16px;
+	}
+
+	@include can-hover {
+		color: $c_main;
+	}
+
+	// gradient
+	&:after {
+		@include pseudo-block(220px, 220px);
+		bottom: 0;
+		right: 0;
+		z-index: -1;
+		background-image: radial-gradient(circle farthest-corner at bottom right, rgba($c_black, 1), rgba($c_black, 0) 65%);
+		opacity: 0.5;
+		pointer-events: none;
+
+		@include mobile {
+			width: 90px;
+			height: 90px;
+		}
+	}
+
+	// icône
+	&:before {
+		display: block;
+	}
+
+	&.st-is-favorite {
+		&:before {
+			content: $st-icon-favorite-full;
+		}
+	}
+
+	&.st-anim-active {
+		&:before {
+			animation: 0.25s easeOutBack animFavoriteActive;
+		}
+	}
+
+	&.st-anim-inactive {
+		&:before {
+			animation: 0.25s easeOutBack animFavoriteInactive;
+		}
+	}
+}
+
+// 2 anims identiques pour relancer l'anim à chaque changement d'état
+@keyframes animFavoriteActive {
+	0% {
+		transform: scale(0);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+@keyframes animFavoriteInactive {
+	0% {
+		transform: scale(0);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+.st-btn-play {
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	background-color: $c_sub;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	@include mobile {
+		width: 44px;
+		height: 44px;
+	}
+
+	[class^="st-icon-"], [class*=" st-icon-"] {
+		font-size: 15px;
+		color: $c_dark_navy;
+	}
+
+	@include can-hover {
+		background-color: $c_white;
+	}
+}
+
+.st-btn-compte {
+	@include ft($f_txt, $s_link, 300, $c_white, 1);
+	@include letter-spacing(25);
+	border: 1px solid $c_sub;
+	padding: 11px 20px;
+	min-height: 48px;
+	display: inline-flex;
+	align-items: center;
+
+	strong {
+		font-weight: 600;
+	}
+
+	[class^="st-icon-"], [class*=" st-icon-"] {
+		color: $c_sub;
+		font-size: 15px;
+		margin-right: 10px;
+	}
+
+	@include can-hover {
+		background-color: $c_white;
+		color: $c_dark_navy;
+		border-color: $c_white;
+		[class^="st-icon-"], [class*=" st-icon-"] {
+			color: $c_dark_navy;
+		}
+	}
+}
+
+.st-btn-favoris {
+	@include inline-flex-center;
+	max-width: 100%;
+	padding: 16px 20px;
+	@include ft($f_txt, $s_link, 600, $c_white, 1);
+	@include letter-spacing(25);
+	text-align: center;
+	text-decoration: none;
+	border: 1px solid rgba($c_white, 0.25);
+
+	&:after {
+		@include icomoon($st-icon-favorite);
+		color: $c_sub;
+		font-size: 16px;
+		margin-left: 15px;
+		@include addTransition();
+	}
+
+	@include mobile {
+		@include favorites-only-icon();
+	}
+
+	&.st-is-favorite {
+		font-weight: 300;
+
+		&:after {
+			content: $st-icon-favorite-full;
+		}
+	}
+
+	&.st--only-icon {
+		@include favorites-only-icon();
+	}
+
+	@include can-hover {
+		background-color: $c_sub;
+		color: $c_dark_navy;
+		border-color: transparent;
+		&:after {
+			color: $c_dark_navy;
+		}
+
+	}
+}
+
+.st-btn-favorite-sticky {
+	@include inline-flex-center();
+	width: 40px;
+	height: 40px;
+	font-size: 20px;
+	color: $c_main;
+	@include addTransition();
+
+	@include can-hover {
+		&:before {
+			color: $c_sub;
+		}
+	}
+
+	&:before {
+		@include icomoon();
+		@include addTransition();
+	}
+
+	&.st-is-favorite {
+		&:before {
+			content: $st-icon-favorite-full;
+		}
+	}
+
+	&.st-anim-active {
+		&:before {
+			animation: 0.25s easeOutBack animFavoriteActive;
+		}
+	}
+
+	&.st-anim-inactive {
+		&:before {
+			animation: 0.25s easeOutBack animFavoriteInactive;
+		}
+	}
+}
+
+.st-btn-close {
+	@include reset-appearance;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 30px;
+	height: 30px;
+	color: $c_dark_navy;
+	background-color: $c_rose;
+	@include addTransition();
+
+	@include mobile {
+		width: 44px;
+		height: 44px;
+	}
+
+	&:before {
+		@include icomoon($st-icon-close);
+		font-size: 10px;
+		@include addTransition();
+		@include mobile {
+			font-size: 12px;
+		}
+	}
+
+	@include can-hover {
+		background-color: $c_white;
+	}
+}
+
+.st-btn-icon-outline {
+	width: 48px;
+	height: 48px;
+	border: 1px solid rgba($c_white, 0.25);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	@include create-outline();
+	@include mobile {
+		width: 36px;
+		height: 36px;
+	}
+
+	[class^="st-icon-"], [class*=" st-icon-"] {
+		font-size: 16px;
+		color: $c_white;
+		@include addTransition();
+	}
+
+	@include can-hover {
+		background-color: $c_sub;
+		border-color: $c_sub;
+		[class^="st-icon-"], [class*=" st-icon-"] {
+			color: $c_dark_navy;
+		}
+	}
+}

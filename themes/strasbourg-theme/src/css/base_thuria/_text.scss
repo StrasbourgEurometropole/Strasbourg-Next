@@ -1,0 +1,498 @@
+a {
+	text-decoration: none;
+	color: $c_sub;
+	@include addTransition();
+}
+
+li {
+	list-style-type: none;
+}
+
+strong {
+	font-weight: 600;
+}
+
+
+// Styles de textes globaux
+// ==========================================================================
+
+h1, .st-h1 {
+	display: block;
+	@include ft($f_hx, $s_h1, 600, $c_white, 1);
+
+
+	@include tablet_portrait {
+		font-size: 26px;
+	}
+
+}
+
+h2, .st-h2 {
+	display: block;
+	@include ft($f_hx, $s_h2, 600, $c_white, 1);
+
+	@include tablet_portrait {
+		font-size: 20px;
+	}
+
+}
+
+h3, .st-h3 {
+	display: block;
+	@include ft($f_hx, $s_h3, 700, $c_white, 1);
+
+	@include tablet_portrait {
+		font-size: 16px;
+	}
+}
+
+
+// Styles de textes additionnels
+// ==========================================================================
+
+.st-surtitre {
+	display: block;
+	@include ft($f_txt, $s_medium, 700, $c_white, 1.33);
+	@include letter-spacing(25);
+	@include tablet-portrait {
+		font-size: 16px;
+	}
+}
+
+.st-surtitre-cat {
+	display: block;
+	@include ft($f_txt, 12px, 400, $c_sub, 1);
+	@include letter-spacing(25);
+	text-transform: uppercase;
+	margin-top: 10px;
+	@include tablet-portrait {
+		font-size: 11px;
+	}
+}
+
+
+.st-location {
+	@include ft($f_txt, 12px, 300, $c_txt, 1);
+	@include letter-spacing(25);
+	font-style: italic;
+	position: relative;
+	display: flex;
+	align-items: center;
+
+	&:before {
+		@include icomoon($st-icon-location);
+		font-size: 14px;
+		color: $c_txt;
+		margin-right: 5px;
+	}
+}
+
+
+// Styles et positionnement au sein d'un bloc de texte
+// ==========================================================================
+
+.st-text-styles {
+	// Alignement
+	&.st-aligncenter {
+		margin-left: auto;
+		margin-right: auto;
+
+		> * {
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+
+	&.st-alignright {
+		margin-left: auto;
+		margin-right: 0;
+
+		> * {
+			margin-left: auto;
+			margin-right: 0;
+		}
+	}
+
+	// Gestion des alignements et du max-width des éléments
+	> * {
+		position: relative;
+
+		&:first-child {
+			margin-top: 0 !important;
+		}
+
+		&:last-child {
+			margin-bottom: 0 !important;
+
+			.st-btn {
+				margin-bottom: 0;
+			}
+		}
+
+		&.st-aligncenter, &[style*="text-align: center"] {
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		&.st-alignright, &[style*="text-align: right"] {
+			margin-left: auto;
+			margin-right: 0;
+		}
+
+		&[style*="text-align: justify"] {
+			margin-left: 0;
+			margin-right: 0;
+			max-width: 100% !important;
+		}
+	}
+
+	.st-surtitre {
+		margin-top: 35px;
+		margin-bottom: 30px;
+		@include tablet-portrait {
+			margin-top: 20px;
+			margin-bottom: 20px;
+		}
+
+		& + h2,
+		& + .st-h2 {
+			margin-top: -20px;
+
+			@include mobile {
+				margin-top: -5px;
+			}
+		}
+
+		& + h3,
+		& + .st-h3 {
+			margin-top: -15px;
+
+			@include tablet-portrait {
+				margin-top: -5px;
+			}
+		}
+
+		& + p {
+			margin-top: -10px;
+		}
+	}
+
+	h1, .st-h1 {
+		margin-bottom: 30px;
+
+		& + p {
+			margin-top: 10px;
+		}
+
+		@include mobile {
+			margin-bottom: 10px;
+		}
+	}
+
+	h2, .st-h2 {
+		margin-top: 60px;
+		margin-bottom: 35px;
+		@include tablet-portrait {
+			margin-top: 30px;
+			margin-bottom: 20px;
+		}
+
+		& + .st-surtitre {
+			margin-top: 0px;
+		}
+
+		& + h3,
+		& + .st-h3 {
+			margin-top: -10px;
+
+			@include tablet-portrait {
+				margin-top: 0;
+			}
+		}
+
+		& + .st-btn-primary,
+		& + .st-btn {
+			margin-top: 10px;
+		}
+	}
+
+	h3, .st-h3 {
+		margin-top: 40px;
+		margin-bottom: 30px;
+		@include tablet-portrait {
+			margin-top: 20px;
+			margin-bottom: 20px;
+		}
+
+		& + .st-surtitre {
+			margin-top: -15px;
+			margin-bottom: 25px;
+
+			@include tablet-portrait {
+				margin-top: -10px;
+			}
+			@include mobile {
+				margin-bottom: 20px;
+			}
+		}
+
+		& + .st-btn-primary, & + .st-btn {
+			margin-top: 10px;
+		}
+	}
+
+	p:not([class]) {
+		@include ft($f_txt, $s_p, 300, $c_txt, 1.5);
+		@include letter-spacing(25);
+		display: block;
+		margin-bottom: 15px;
+
+		@include mobile {
+			font-size: 14px;
+			line-height: 1.43;
+		}
+
+		& + .st-btn-primary,
+		& + .st-btn {
+			margin-top: 10px;
+		}
+
+		strong {
+			color: $c_white;
+		}
+	}
+
+	li:not([class]) {
+		position: relative;
+		@include ft($f_txt, $s_p, 300, $c_txt, 1.5);
+
+		&[style*="text-align: center"] {
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		&[style*="text-align: right"] {
+			margin-left: auto;
+			margin-right: 0;
+		}
+	}
+
+	ul:not([class]) {
+		padding: 0;
+		margin-left: 0px;
+		margin-right: 0px;
+		margin-bottom: 15px;
+		list-style-type: none;
+
+		li {
+			padding: 9px 0 9px 12px;
+
+			&[style*="text-align: right"] {
+				padding: 6px 30px 6px 0;
+
+				&:before {
+					left: auto;
+					right: 0;
+				}
+			}
+
+			&[style*="text-align: center"] {
+				padding: 6px 0px 6px 0;
+
+				&:before {
+					display: none;
+				}
+
+				&:after {
+					content: "";
+					display: block;
+					width: 4px;
+					height: 4px;
+					border-radius: 50%;
+					background-color: $c_sub;
+					position: relative;
+					left: 50%;
+					transform: translateX(-50%);
+					bottom: -7px;
+				}
+
+				&:last-of-type {
+					&:after {
+						display: none;
+					}
+				}
+			}
+
+			&:before {
+				content: '';
+				position: absolute;
+				left: 0;
+				top: 18px;
+				width: 4px;
+				height: 4px;
+				border-radius: 50%;
+				background: $c_sub;
+			}
+
+			p {
+				margin-bottom: 0px;
+			}
+		}
+	}
+
+	ol:not([class]) {
+		padding: 0;
+		margin-bottom: 15px;
+		list-style-type: decimal;
+		list-style-position: inside;
+
+		li {
+			list-style-type: decimal;
+			padding: 5px 0;
+		}
+	}
+
+	a:not([class]) {
+		color: $c_sub;
+		text-decoration: underline;
+		@include create-outline();
+
+		@include can-hover {
+			color: $c_white;
+			text-decoration: none;
+		}
+	}
+
+	blockquote:not([class]) {
+		@include ft($f_txt, $s_small_title, 300, $c_txt, 1.4);
+		position: relative;
+		font-style: italic;
+		margin: 35px 0 35px 0;
+		border-left: 0;
+
+		@include mobile {
+			margin: 30px 0;
+			font-size: 16px;
+			line-height: 1.37;
+		}
+
+		&:before {
+			content: '';
+			display: block;
+			width: 1px;
+			height: 100%;
+			background-color: $c_greydark;
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+
+		p {
+			@include ft($f_txt, 20px, 400, var(--color-text), 1.45);
+			position: relative;
+			font-style: italic;
+			padding: 0 12px 0 20px;
+
+			@include mobile {
+				font-size: 16px;
+				line-height: 1.37;
+			}
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	.st-btn {
+		margin-top: 15px;
+		margin-bottom: 20px;
+
+		@include mobile {
+			margin-bottom: 5px;
+		}
+	}
+
+	// Gestion iFame
+	iframe:not(.instagram-media) {
+		width: 100%;
+		height: 430px;
+
+		@include mobile {
+			height: 100%;
+		}
+	}
+
+
+	// Gestion des éléments dans le Wysiwyg
+	p {
+		margin-bottom: 20px;
+
+		iframe {
+			margin-bottom: 0;
+		}
+
+		&.st-alignleft {
+			float: left;
+			margin: 15px auto;
+			margin-right: 40px;
+
+			@include mobile {
+				float: none;
+				margin: 10px auto;
+			}
+		}
+
+		&.st-aligncenter {
+			display: block;
+			margin: 30px auto;
+		}
+
+		&.st-alignright {
+			float: right;
+			margin: 30px auto;
+			margin-left: 40px;
+
+			@include mobile {
+				float: none;
+				margin: 10px auto;
+			}
+		}
+
+		&.st-alignnone {
+			margin: 30px 0;
+		}
+
+		img {
+			margin: 15px auto;
+
+			&.alignleft {
+				float: left;
+				padding-right: 40px;
+
+				@include mobile {
+					float: none;
+					margin: 10px 0;
+					padding: 0;
+				}
+			}
+
+			&.aligncenter {
+				display: block;
+				margin: 30px auto;
+			}
+
+			&.alignright {
+				float: right;
+				padding-left: 40px;
+
+				@include mobile {
+					float: none;
+					margin: 10px 0;
+					padding-left: 0;
+				}
+			}
+		}
+	}
+
+}

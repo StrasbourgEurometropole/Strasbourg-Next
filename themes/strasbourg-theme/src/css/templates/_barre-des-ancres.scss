@@ -1,0 +1,152 @@
+.st-ancres {
+	position: sticky;
+	top: 120px;
+	left: 0;
+	transform: translateX(-40px);
+	height: 0px;
+	z-index: z-index("barre-sticky");
+	@include tablet-landscape {
+		transform: translateX(-20px);
+	}
+	@include tablet-portrait {
+		position: fixed;
+		top: 0;
+		transform: none;
+		height: var(--ancres-height-mobile);
+		width: 100%;
+		margin-left: 0px;
+		margin-right: 0px;
+	}
+
+	&.st-footer-is-visible {
+		height: auto;
+	}
+
+	.st-ancres-container {
+		padding: 15px 0;
+		width: 220px;
+		background-color: $c_greydark;
+		@include tablet-portrait {
+			padding: 0;
+			width: 100%;
+		}
+	}
+
+	.st-menu-ancre {
+		position: relative;
+		@include ft($f_txt, 14px, 300, $c_txt, 1);
+		@include letter-spacing(25);
+		display: block;
+		padding: 15px 20px;
+		@include create-outline();
+		@include can-hover {
+			color: $c_sub;
+		}
+		@include tablet-portrait {
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		@include mobile {
+			padding: 15px 10px;
+		}
+
+		&:before {
+			@include icomoon($st-icon-empty-circle);
+			font-size: 13px;
+			color: $c_sub;
+			opacity: 0;
+			position: absolute;
+			left: -5px;
+			@include addTransition();
+			@include tablet-portrait {
+				left: 50%;
+				transform: translateX(-50%);
+				bottom: -5px;
+			}
+		}
+	}
+
+	.is-active {
+		> .st-menu-ancre {
+			font-weight: 700;
+			color: $c_white;
+
+			&:before {
+				opacity: 1;
+			}
+		}
+	}
+
+	.splide {
+		@include addTransition();
+		@include tablet-portrait {
+			padding-left: 10px;
+			padding-right: 120px;
+		}
+		@include mobile {
+			padding-right: 80px;
+		}
+	}
+
+	.splide__track {
+		overflow-x: visible;
+		overflow-y: clip;
+		@include tablet-portrait {
+			overflow-y: visible;
+		}
+	}
+
+	.st-social-share {
+		@include tablet-portrait {
+			display: none;
+		}
+	}
+
+	.st-nav-arrows {
+		@include min-tablet-portrait {
+			height: 0px;
+		}
+		@include tablet-portrait {
+			position: absolute;
+			top: 15px;
+			right: var(--border-gutter);
+		}
+	}
+
+	.st-btn-arrow {
+		@include min-tablet-portrait {
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+
+		&.st--up {
+			@include min-tablet-portrait {
+				top: -30px;
+			}
+			@include tablet-portrait {
+				transform: rotate(-90deg);
+			}
+		}
+
+		&.st--down {
+			@include min-tablet-portrait {
+				bottom: -65px;
+			}
+			@include tablet-portrait {
+				transform: rotate(-90deg);
+			}
+		}
+	}
+
+	.st-js-toggle {
+		opacity: 0.2;
+	}
+
+	.st-social-share {
+		padding-left: 15px;
+		padding-bottom: 8px;
+	}
+}

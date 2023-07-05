@@ -1,0 +1,92 @@
+// Fil d'ariane
+// ==========================================================================
+.st-breadcrumbs {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	margin: 14px 0 40px 0;
+	text-overflow: ellipsis;
+
+	@include tablet-portrait {
+		margin-top: 20px;
+	}
+	@include mobile {
+		margin: 5px 0 10px 0;
+	}
+
+	.st-breadcrumbs__item {
+		position: relative;
+		padding: 0;
+
+		&:not(:last-of-type) {
+			&:after {
+				content: '';
+				position: absolute;
+				right: 10px;
+				top: 50%;
+				display: inline-block;
+				width: 3px;
+				height: 1px;
+				vertical-align: middle;
+				background-color: $c_grey;
+				transform: translateY(100%);
+			}
+		}
+
+		&:first-of-type {
+			.st-breadcrumbs__link {
+				padding-left: 0;
+			}
+		}
+
+		&:last-of-type {
+			.st-breadcrumbs__link {
+				padding-right: 0;
+			}
+		}
+
+		.st-breadcrumbs__link,
+		span {
+			position: relative;
+			@include ft('', $s_link_small, 400, $c_txt, 1.16);
+			display: inline-block;
+			padding: 0 20px 0 0;
+			white-space: nowrap;
+		}
+
+		.st-breadcrumbs__link {
+			@include addTransition();
+			@include create-outline();
+
+			@include can-hover {
+				color: $c_sub;
+			}
+		}
+
+		span {
+			color: $c_white;
+		}
+	}
+
+
+	// --modifiers
+	&.st--text-white {
+		.st-breadcrumbs__item {
+			&:after {
+				background-color: $c_white;
+			}
+
+			.st-breadcrumbs__link {
+				color: $c_white;
+
+				@include can-hover {
+					color: rgba($c_white, 0.75);
+				}
+			}
+
+			span {
+				color: rgba($c_white, 0.5);
+			}
+		}
+	}
+}

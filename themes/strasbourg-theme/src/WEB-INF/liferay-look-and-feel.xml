@@ -5,7 +5,7 @@
 	<compatibility>
 		<version>7.4.0+</version>
 	</compatibility>
-	<theme id="strasbourg" name="Strasbourg">
+	<theme id="strasbourg-theme" name="strasbourg-theme">
 		<template-extension>ftl</template-extension>
 		<portlet-decorator id="barebone" name="Barebone">
 			<default-portlet-decorator>true</default-portlet-decorator>

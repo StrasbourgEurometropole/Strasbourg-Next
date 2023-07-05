@@ -1,0 +1,131 @@
+@use "sass:math"; // notamment pour remplacer les divisions avec /, par math.div(a,b) : 16/9 -> math.div(16,9)
+
+// Styles communes aux images + styles pour la classe image qui utilisé comme container pour les images afin de bien positionner les crédits en position absolute
+// ==========================================================================
+
+// Images
+// ==========================================================================
+
+.st-no-photo {
+	height: 100%;
+	background: #AAA;
+}
+
+figure {
+	&.figcaption-only-credits {
+		figcaption {
+			border: 0;
+			clip: rect(1px, 1px, 1px, 1px);
+			-webkit-clip-path: inset(50%);
+			clip-path: inset(50%);
+			height: 1px;
+			margin: -1px;
+			overflow: hidden;
+			padding: 0;
+			position: absolute;
+			width: 1px;
+			white-space: nowrap;
+		}
+	}
+}
+
+
+img {
+	&.st-lazy {
+		opacity: 0 !important;
+		transition: opacity 0.3s ease;
+
+		&.st-loaded {
+			opacity: 1 !important;
+		}
+	}
+}
+
+// Styles pour le figcaption
+figcaption {
+	@include ft('', 12px, 300, '', 1.25);
+	font-style: italic;
+	margin-top: 10px;
+}
+
+
+// Container utilisé dans les blocs avec des colonnes pour contenir l'image et avoir le position relative pour bien positionner les crédits
+.st-image,
+.st-img-wrapper {
+	position: relative;
+	display: block;
+}
+
+
+// Règle RGAA : Au focus d'un élément avec un tabindex 0 ou d'un lien, si à son interne on a un crédit, on l'affiche
+*[tabindex="0"], a {
+	&:focus {
+		.st-credits {
+			max-width: calc(100% - var(--spacing) * 2);
+			font-size: var(--font-size);
+
+			&:after {
+				opacity: 0;
+			}
+		}
+	}
+
+}
+
+
+.st-credits {
+	--size: 20px; // largeur et hauteur du bouton crédits
+	--spacing: 20px; // distance entre le bouton et les bords de l'image
+	--font-size: 10px; // font-size quand hover
+	@include ft('', '', '', $c_white, 1);
+	position: absolute;
+	top: var(--spacing); // positionnement haut droit par défaut
+	right: var(--spacing);
+	z-index: z-index('credits');
+	display: inline-flex;
+	align-items: center;
+	max-width: var(--size);
+	height: var(--size);
+	padding: 0 calc(var(--size) / 2);
+	font-size: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	background-color: $c_dark_navy;
+	@include addTransition(all, 0.25s);
+	@include mobile {
+		--spacing: 10px;
+	}
+
+	&:after {
+		@include icomoon($st-icon-credits);
+		position: absolute;
+		left: 50%;
+		font-size: 10px;
+		transform: translateX(-50%);
+		@include addTransition(all, 0.25s);
+	}
+
+	&:hover,
+	&:focus {
+		max-width: calc(100% - var(--spacing) * 2);
+		font-size: var(--font-size);
+
+		&:after {
+			opacity: 0;
+		}
+	}
+
+	// --modifiers
+	&.st--top-left {
+		right: initial;
+		left: var(--spacing);
+	}
+
+	&.st--bottom-left {
+		right: initial;
+		top: initial;
+		left: var(--spacing);
+		bottom: var(--spacing);
+	}
+}

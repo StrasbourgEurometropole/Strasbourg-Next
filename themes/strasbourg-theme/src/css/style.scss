@@ -1,0 +1,117 @@
+// Icomoon
+// ==========================================================================
+@import "libs/icomoon/icomoon";
+
+// Variables, mixins, breakpoints
+// ==========================================================================
+@import "abstracts/var";
+@import "abstracts/breakpoints";
+@import "abstracts/mixins";
+
+// Styles de base_thurias, reset
+//=====================================
+@import "base_thuria/reset";
+@import "base_thuria/font-face";
+@import "base_thuria/auto";
+@import "base_thuria/text";
+@import "base_thuria/images";
+@import "base_thuria/animations";
+@import "base_thuria/utilities";
+@import "base_thuria/rgaa";
+
+// Styles des librairies js utilisées dans le projet + fichiers pour faire un overriding des styles de ces librairies
+// ==========================================================================
+@import "libs/splide";
+@import "libs/zoombox";
+@import "libs/selectric/selectric";
+@import "libs/selectric/selectric-custom";
+@import "libs/tarteaucitron/tarteaucitron";
+@import "libs/tarteaucitron/tarteaucitron_custom";
+@import "libs/leaflet/leaflet";
+@import "libs/leaflet/leaflet_cluster";
+@import "libs/leaflet/leaflet_custom_popup";
+@import "libs/matomo-custom";
+@import "libs/formidable/grid";
+@import "libs/formidable/dropzone";
+@import "libs/formidable/theme";
+@import "libs/formidable/components";
+@import "libs/formidable/progressbar";
+@import "libs/daterangepicker_custom";
+
+// Styles des éléments structurants des pages
+// ==========================================================================
+@import "layout/wrappers";
+@import "layout/basic-grid";
+@import "layout/grid-12";
+@import "layout/structure";
+@import "layout/header_variations";
+
+// Composants communes du site
+// ==========================================================================
+@import "components/breadcrumbs";
+@import "components/buttons";
+@import "components/image-wysiwyg";
+@import "components/overlay";
+@import "components/cards";
+@import "components/pagination";
+@import "components/social-share";
+@import "components/facettes";
+@import "components/tooltip";
+@import "components/metas";
+@import "components/accordeon";
+@import "components/social-links";
+@import "components/show-more";
+@import "components/footer";
+
+// Styles pour la page édito
+// ==========================================================================
+@import "pages/page-welcome";
+@import "pages/page-grille";
+@import "pages/page-edito";
+@import "pages/page-accueil";
+@import "pages/page-listing";
+@import "pages/page-fiche-lieu";
+
+// Styles pour les artboards
+// ==========================================================================
+@import "artboards/artboard-boutons";
+@import "artboards/artboard-grille";
+
+// Styles pour les surcharger les style de liferay
+// ==========================================================================
+@import "override_liferay";
+
+
+// Styles pour les templates (temp fix par sully)
+// ==========================================================================
+@import "templates/barre-des-ancres";
+@import "templates/barre-liens-en-avant";
+@import "templates/barre-listing-sit";
+@import "templates/barre-navigation";
+@import "templates/barre-single-sit";
+@import "templates/bloc-actualites-home";
+@import "templates/bloc-agenda-home";
+@import "templates/bloc-agenda";
+@import "templates/bloc-autour-de-moi";
+@import "templates/bloc-chiffres-cles";
+@import "templates/bloc-citation";
+@import "templates/bloc-contact";
+@import "templates/bloc-documents";
+@import "templates/bloc-editions-dossiers";
+@import "templates/bloc-focus";
+@import "templates/bloc-galerie";
+@import "templates/bloc-image-texte";
+@import "templates/bloc-info-acces";
+@import "templates/bloc-info-complementaires";
+@import "templates/bloc-liens";
+@import "templates/bloc-onglet";
+@import "templates/bloc-presentation";
+@import "templates/bloc-services-handicap";
+@import "templates/bloc-services";
+@import "templates/bloc-une";
+@import "templates/bloc-video";
+@import "templates/couverture-edito";
+@import "templates/couverture-introduction";
+@import "templates/pagination";
+@import "templates/strate-footer";
+@import "templates/toolbar-navigation"

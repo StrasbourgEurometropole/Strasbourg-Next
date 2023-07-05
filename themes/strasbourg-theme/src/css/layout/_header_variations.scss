@@ -1,0 +1,16 @@
+// Le header petit décoratif avec une hauteur limité et juste le texte header
+.st-small-header {
+	margin-bottom: 40px;
+	@include mobile {
+		margin-bottom: 16px;
+	}
+
+	h1 {
+		display: block;
+	}
+}
+
+// Header sans image
+.st-header-no-photo {
+	padding-top: 40px;
+}

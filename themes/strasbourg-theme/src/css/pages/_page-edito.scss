@@ -1,0 +1,16 @@
+.st-page-edito {
+	.st-content-container {
+		display: flex;
+	}
+
+	.st-col-left {
+		flex-shrink: 0;
+		width: 220px;
+	}
+
+	.st-col-right {
+		flex: 1;
+		width: calc(100% - 220px);
+	}
+
+}

@@ -1,0 +1,155 @@
+// ==============================================
+
+//        CLASSES UTILITAIRES
+
+// ==============================================
+
+
+//  Typography
+// -----------------------------------------------
+
+// Alignement horizontal / vertical
+.st-u-text-left {
+	text-align: left;
+}
+
+.st-u-text-right {
+	text-align: right;
+}
+
+.st-u-text-center {
+	text-align: center;
+}
+
+.st-u-align-top {
+	vertical-align: top;
+}
+
+.st-u-align-bottom {
+	vertical-align: bottom;
+}
+
+.st-u-align-middle {
+	vertical-align: middle;
+}
+
+.st-u-align-baseline {
+	vertical-align: baseline;
+}
+
+// Casse
+.st-u-lowercase {
+	text-transform: unset;
+}
+
+.st-u-uppercase {
+	text-transform: uppercase;
+}
+
+.st-u-capitalize {
+	text-transform: capitalize;
+}
+
+
+.st-u-truncate {
+	@include ellipsis();
+}
+
+.st-u-break-word {
+	word-wrap: break-word;
+}
+
+.st-u-nowrap {
+	white-space: nowrap;
+}
+
+.st-u-color-primary {
+	color: $c_main !important;
+}
+
+.st-u-color-secondary {
+	color: $c_sub !important;
+}
+
+.st-u-bg-black {
+	background-color: $c_black !important;
+}
+
+
+//  Others
+// -----------------------------------------------
+
+.st-u-overflow-visible {
+	overflow: visible !important;
+}
+
+.st-u-overflow-x-hidden {
+	overflow-x: hidden !important;
+}
+
+// Suppression de la scrollbar d'un élément
+.st-u-no-scrollbar {
+	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: none; /* IE and Edge */
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+
+// Masqué graphiquement mais accessible pour les lecteurs d'écran
+.st-u-visually-hidden {
+	position: absolute !important;
+	width: 1px !important;
+	height: 1px !important;
+	padding: 0 !important;
+	margin: -1px !important; // Fix for https://github.com/twbs/bootstrap/issues/25686
+	overflow: hidden !important;
+	clip: rect(0, 0, 0, 0) !important;
+	white-space: nowrap !important;
+	border: 0 !important;
+}
+
+
+//  Images
+// -----------------------------------------------
+
+.st-fit-cover {
+	width: 100%;
+
+	img {
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+	}
+}
+
+
+//  Génération de classes responsive pour masquer un élément
+// -----------------------------------------------
+
+// Élément masqué jusqu'à un breakpoint : hide-until@mobile...
+@each $breakpoint-name in map-keys($breakpoints) {
+	@include bp-down($breakpoint-name) {
+		$prefix: get-breakpoint-prefix($breakpoint-name);
+		.st-hide-until\@#{$prefix} {
+			display: none !important;
+		}
+	}
+}
+
+// Élément masqué à partir d'un breakpoint : hide-from@mobile...
+@each $breakpoint-name in map-keys($breakpoints) {
+	@include bp-up($breakpoint-name) {
+		$prefix: get-breakpoint-prefix($breakpoint-name);
+		.st-hide-from\@#{$prefix} {
+			display: none !important;
+		}
+	}
+}
+
+// Classe utilitaire utilisé surtout en js pour forcer un élément à ne pas être visible à cause de soucis d'affichage en ajax par exemple
+.st-hide {
+	display: none !important;
+}

@@ -1,0 +1,2097 @@
+{
+  "sit_id": "255000058",
+  "schemaorg": {
+    "@context": "http:\/\/schema.org",
+    "@type": "Thing",
+    "name": "Restaurant de l'Etoile",
+    "description": null
+  },
+  "fiche": {
+    "data": {
+      "_infos": {
+        "sit": "lei",
+        "datmaj": "16\/06\/2022 08:54:40"
+      },
+      "criteres": {
+        "1900013": {
+          "exist": 1,
+          "nom": "Distance (km) \u00e0 la gare la plus proche",
+          "type_critere": 0,
+          "type_valeur": 1,
+          "classe": 2,
+          "valeur": 15,
+          "modalites": []
+        },
+        "1900048": {
+          "exist": 1,
+          "nom": "Moyen de paiement",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 16,
+          "modalites": {
+            "1234000001": {
+              "nom": "Carte bancaire",
+              "ordre": 20,
+              "exist": 1
+            },
+            "1900113": {
+              "nom": "Ch\u00e8que",
+              "ordre": 25,
+              "exist": 1
+            },
+            "1234000009": {
+              "nom": "Ch\u00e8ques vacances accept\u00e9s",
+              "ordre": 40,
+              "exist": 1
+            },
+            "1907628": {
+              "nom": "Esp\u00e8ces",
+              "ordre": 48,
+              "exist": 1
+            },
+            "1900111": {
+              "nom": "Tickets restaurant-ch\u00e8ques d\u00e9jeuner",
+              "ordre": 60,
+              "exist": 1
+            }
+          }
+        },
+        "1900049": {
+          "exist": 1,
+          "nom": "Altitude (m)",
+          "type_critere": 0,
+          "type_valeur": 1,
+          "classe": 2,
+          "valeur": 200,
+          "modalites": []
+        },
+        "1900050": {
+          "exist": 1,
+          "nom": "Services pratiques",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 8,
+          "modalites": {
+            "1900159": {
+              "nom": "Accueil \/ ouvert aux groupes",
+              "ordre": 10,
+              "exist": 1
+            },
+            "1909127": {
+              "nom": "Salle hors sac",
+              "ordre": 640,
+              "exist": 1
+            },
+            "1908170": {
+              "nom": "Transport des bagages \u00e0 l'h\u00e9bergement d'\u00e9tape suivant (p\u00e9destre) gratuit",
+              "ordre": 700,
+              "exist": 1
+            }
+          }
+        },
+        "1900066": {
+          "exist": 1,
+          "nom": "H\u00e9bergement sur place",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 8,
+          "modalites": {
+            "1900233": {
+              "nom": "Oui",
+              "ordre": 0,
+              "exist": 1
+            }
+          }
+        },
+        "1900067": {
+          "exist": 1,
+          "nom": "Langues pratiqu\u00e9es",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 4,
+          "modalites": {
+            "1908377": {
+              "nom": "Fran\u00e7ais",
+              "ordre": 0,
+              "exist": 1
+            },
+            "1900236": {
+              "nom": "Allemand",
+              "ordre": 5,
+              "exist": 1
+            },
+            "1908829": {
+              "nom": "Alsacien",
+              "ordre": 8,
+              "exist": 1
+            },
+            "1900235": {
+              "nom": "Anglais",
+              "ordre": 10,
+              "exist": 1
+            }
+          }
+        },
+        "1900187": {
+          "exist": 1,
+          "nom": "Equipement restauration",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 4,
+          "modalites": {
+            "1901157": {
+              "nom": "Terrasse",
+              "ordre": 110,
+              "exist": 1
+            },
+            "1901140": {
+              "nom": "Bar",
+              "ordre": 160,
+              "exist": 1
+            },
+            "1901158": {
+              "nom": "Salle de banquet \/ mariage",
+              "ordre": 220,
+              "exist": 1
+            }
+          }
+        },
+        "1900189": {
+          "exist": 1,
+          "nom": "Localisation",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 2,
+          "modalites": {
+            "1901213": {
+              "nom": "En centre ville \/ village",
+              "ordre": 170,
+              "exist": 1
+            },
+            "1901208": {
+              "nom": "Plaine",
+              "ordre": 280,
+              "exist": 1
+            }
+          }
+        },
+        "1900208": {
+          "exist": 1,
+          "nom": "Services pratiques restauration",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 8,
+          "modalites": {
+            "1906974": {
+              "nom": "Propose un menu\/plat du jour",
+              "ordre": 50,
+              "exist": 1
+            },
+            "1908785": {
+              "nom": "Petit d\u00e9jeuner buffet",
+              "ordre": 80,
+              "exist": 1
+            },
+            "1908565": {
+              "nom": "Propose des menus associant mets-vins avec possibilit\u00e9 de vin au verre",
+              "ordre": 255,
+              "exist": 1
+            },
+            "1901322": {
+              "nom": "Accueil groupes",
+              "ordre": 500,
+              "exist": 1
+            },
+            "1908586": {
+              "nom": "Capacit\u00e9 de l'\u00e9quipe \u00e0 renseigner sur les vins d'Alsace",
+              "ordre": 520,
+              "exist": 1
+            },
+            "1901333": {
+              "nom": "Soir\u00e9es \u00e0 th\u00e8me \/ animations musicales",
+              "ordre": 600,
+              "exist": 1
+            },
+            "1901337": {
+              "nom": "Traiteur et organisation de banquets",
+              "ordre": 640,
+              "exist": 1
+            }
+          }
+        },
+        "1900209": {
+          "exist": 1,
+          "nom": "Equip\/services pour les enfants",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 4,
+          "modalites": {
+            "1901340": {
+              "nom": "Chaise haute",
+              "ordre": 60,
+              "exist": 1
+            },
+            "1901341": {
+              "nom": "Chauffe-biberon",
+              "ordre": 80,
+              "exist": 1
+            },
+            "1909201": {
+              "nom": "Coin change pour les enfants",
+              "ordre": 100,
+              "exist": 1
+            },
+            "1901339": {
+              "nom": "Lit b\u00e9b\u00e9",
+              "ordre": 180,
+              "exist": 1
+            },
+            "1903921": {
+              "nom": "Lit enfant",
+              "ordre": 200,
+              "exist": 1
+            }
+          }
+        },
+        "1900268": {
+          "exist": 1,
+          "nom": "Animaux accept\u00e9s",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 4,
+          "modalites": {
+            "1901658": {
+              "nom": "Admis",
+              "ordre": 5,
+              "exist": 1
+            }
+          }
+        },
+        "1900390": {
+          "exist": 1,
+          "nom": "Effectif groupe",
+          "type_critere": 2,
+          "type_valeur": 1,
+          "classe": 4,
+          "modalites": {
+            "1908124": {
+              "nom": "Mini",
+              "ordre": 0,
+              "valeur": 10,
+              "exist": 1
+            },
+            "1908125": {
+              "nom": "Maxi",
+              "ordre": 0,
+              "valeur": 150,
+              "exist": 1
+            }
+          }
+        },
+        "1900395": {
+          "exist": 1,
+          "nom": "Autres chaines - labels",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 1,
+          "modalites": {
+            "1911985": {
+              "nom": "Accueil v\u00e9lo",
+              "ordre": 0,
+              "exist": 1
+            }
+          }
+        },
+        "1900404": {
+          "exist": 1,
+          "nom": "Horaires d'accueil",
+          "type_critere": 0,
+          "type_valeur": 2,
+          "classe": 4,
+          "valeur": "de 7h \u00e0 22h",
+          "modalites": []
+        },
+        "1900437": {
+          "exist": 1,
+          "nom": "Style d'h\u00e9bergement \/ de batiment",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 4,
+          "modalites": {
+            "1909082": {
+              "nom": "Maison alsacienne traditionnelle (colombages)",
+              "ordre": 35,
+              "exist": 1
+            }
+          }
+        },
+        "1900507": {
+          "exist": 1,
+          "nom": "Nombre de couverts",
+          "type_critere": 2,
+          "type_valeur": 1,
+          "classe": 4,
+          "modalites": {
+            "1903782": {
+              "nom": "salle 1 :",
+              "ordre": 1,
+              "valeur": 40,
+              "exist": 1
+            },
+            "1903783": {
+              "nom": "salle 2 :",
+              "ordre": 2,
+              "valeur": 40,
+              "exist": 1
+            },
+            "1903784": {
+              "nom": "salle 3 :",
+              "ordre": 3,
+              "valeur": 20,
+              "exist": 1
+            },
+            "1903785": {
+              "nom": "salle 4 :",
+              "ordre": 4,
+              "valeur": 20,
+              "exist": 1
+            },
+            "1903786": {
+              "nom": "salle 5 :",
+              "ordre": 5,
+              "valeur": 150,
+              "exist": 1
+            },
+            "1911974": {
+              "nom": "Nombre total de couverts en salles : ",
+              "ordre": 20,
+              "valeur": 300,
+              "exist": 1
+            },
+            "1903787": {
+              "nom": "terrasse 1 :",
+              "ordre": 60,
+              "valeur": 40,
+              "exist": 1
+            }
+          }
+        },
+        "1900513": {
+          "exist": 1,
+          "nom": "Type de restauration",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 4,
+          "modalites": {
+            "1909699": {
+              "nom": "Semi-gastronomique",
+              "ordre": 80,
+              "exist": 1
+            },
+            "1903808": {
+              "nom": "Traditionnelle",
+              "ordre": 100,
+              "exist": 1
+            }
+          }
+        },
+        "1900569": {
+          "exist": 1,
+          "nom": "Sp\u00e9cialit\u00e9s, propose des plats :",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 4,
+          "modalites": {
+            "1904443": {
+              "nom": "Alsaciennes",
+              "ordre": 5,
+              "exist": 1
+            },
+            "1906767": {
+              "nom": "Choucroute",
+              "ordre": 14,
+              "exist": 1
+            },
+            "1904448": {
+              "nom": "Poissons",
+              "ordre": 1300,
+              "exist": 1
+            }
+          }
+        },
+        "1900605": {
+          "exist": 1,
+          "nom": "Capacit\u00e9 des salles de r\u00e9union",
+          "type_critere": 2,
+          "type_valeur": 1,
+          "classe": 4,
+          "modalites": {
+            "1904881": {
+              "nom": "salle 1",
+              "ordre": 5,
+              "valeur": 20,
+              "exist": 1
+            },
+            "1904882": {
+              "nom": "salle 2",
+              "ordre": 10,
+              "valeur": 100,
+              "exist": 1
+            },
+            "1911972": {
+              "nom": "Nombre total de salle",
+              "ordre": 50,
+              "valeur": 3,
+              "exist": 1
+            },
+            "1911973": {
+              "nom": "Capacit\u00e9 totale des salles de r\u00e9union",
+              "ordre": 60,
+              "valeur": 200,
+              "exist": 1
+            }
+          }
+        },
+        "1900631": {
+          "exist": 1,
+          "nom": "Avantages tarifaires",
+          "type_critere": 2,
+          "type_valeur": 2,
+          "classe": 16,
+          "modalites": {
+            "1905237": {
+              "nom": "Gratuit\u00e9 (age limite)",
+              "ordre": 5,
+              "valeur": "6 ans",
+              "exist": 1
+            },
+            "1909063": {
+              "nom": "Offres promotionnelles",
+              "ordre": 8,
+              "valeur": "Menus groupes de 15\u20ac \u00e0 30\u20ac",
+              "exist": 1
+            }
+          }
+        },
+        "1900763": {
+          "exist": 1,
+          "nom": "Label restauration",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 1,
+          "modalites": {
+            "1908135": {
+              "nom": "Certification restauration traditionnelle r\u00e9gionale",
+              "ordre": 10,
+              "exist": 1
+            }
+          }
+        },
+        "1900770": {
+          "exist": 1,
+          "nom": "Possibilit\u00e9 de connexion Internet",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 8,
+          "modalites": {
+            "1906287": {
+              "nom": "Connexion r\u00e9seau",
+              "ordre": 10,
+              "exist": 1
+            },
+            "1906279": {
+              "nom": "Wi-fi offert",
+              "ordre": 30,
+              "exist": 1
+            }
+          }
+        },
+        "1900837": {
+          "exist": 1,
+          "nom": "Equipement des salles de r\u00e9union\/s\u00e9minaire",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 4,
+          "modalites": {
+            "1906808": {
+              "nom": "Paperboard",
+              "ordre": 10,
+              "exist": 1
+            },
+            "1906810": {
+              "nom": "Sonorisation",
+              "ordre": 80,
+              "exist": 1
+            },
+            "1906809": {
+              "nom": "Micro",
+              "ordre": 100,
+              "exist": 1
+            },
+            "1907645": {
+              "nom": "Ecran",
+              "ordre": 210,
+              "exist": 1
+            },
+            "1907720": {
+              "nom": "Estrade",
+              "ordre": 500,
+              "exist": 1
+            }
+          }
+        },
+        "1900844": {
+          "exist": 1,
+          "nom": "Acc\u00e8s",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 2,
+          "modalites": {
+            "1906898": {
+              "nom": "Desservi par une ligne r\u00e9guli\u00e8re de bus \/ tram",
+              "ordre": 20,
+              "exist": 1
+            },
+            "1908193": {
+              "nom": "Par une route \/ chemin praticable en bus",
+              "ordre": 150,
+              "exist": 1
+            }
+          }
+        },
+        "1901341": {
+          "exist": 1,
+          "nom": "Enfants (\u00e2ges) concern\u00e9s",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 4,
+          "modalites": {
+            "1909897": {
+              "nom": "0-2 ans",
+              "ordre": 10,
+              "exist": 1
+            },
+            "1909898": {
+              "nom": "3-6 ans",
+              "ordre": 20,
+              "exist": 1
+            },
+            "1909899": {
+              "nom": "7-12 ans",
+              "ordre": 30,
+              "exist": 1
+            },
+            "1909900": {
+              "nom": "13-18 ans",
+              "ordre": 40,
+              "exist": 1
+            }
+          }
+        },
+        "1901502": {
+          "exist": 1,
+          "nom": "Equipements\/services v\u00e9los",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 8,
+          "modalites": {
+            "1911458": {
+              "nom": "Garage \u00e0 v\u00e9los ferm\u00e9",
+              "ordre": 10,
+              "exist": 1
+            },
+            "1911470": {
+              "nom": "Outils \u00e0 disposition (pompe \u00e0 pied, rustines, d\u00e9monte-pneus, cl\u00e9s anglaises et \u00e0 six pans)",
+              "ordre": 220,
+              "exist": 1
+            }
+          }
+        },
+        "1901523": {
+          "exist": 1,
+          "nom": "Nom de la gare la plus proche",
+          "type_critere": 0,
+          "type_valeur": 2,
+          "classe": 2,
+          "valeur": "Saverne",
+          "modalites": []
+        },
+        "1901562": {
+          "exist": 1,
+          "nom": "Logis (restauration)",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 1,
+          "modalites": {
+            "1911997": {
+              "nom": "Table gourmande",
+              "ordre": 20,
+              "exist": 1
+            }
+          }
+        },
+        "255000254": {
+          "exist": 1,
+          "nom": "Site web OT (2022)",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 32,
+          "modalites": {
+            "255002501": {
+              "nom": "DEGUSTER - se restaurer",
+              "ordre": 200,
+              "exist": 1
+            }
+          }
+        }
+      },
+      "photos": [
+        {
+          "url": "https:\/\/apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255000058_1.jpg",
+          "credit": "Etoile",
+          "titre": "",
+          "width": 1000,
+          "height": 591,
+          "orientation": "paysage"
+        },
+        {
+          "url": "https:\/\/apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255000058_4.jpg",
+          "credit": "Etoile",
+          "titre": "",
+          "width": 800,
+          "height": 535,
+          "orientation": "paysage"
+        },
+        {
+          "url": "https:\/\/apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255000058_5.jpg",
+          "credit": "Etoile",
+          "titre": "",
+          "width": 800,
+          "height": 517,
+          "orientation": "paysage"
+        },
+        {
+          "url": "https:\/\/apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255000058_6.jpg",
+          "credit": "Etoile",
+          "titre": "",
+          "width": 900,
+          "height": 598,
+          "orientation": "paysage"
+        },
+        {
+          "url": "https:\/\/apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255000058_7.jpg",
+          "credit": "Etoile",
+          "titre": "",
+          "width": 800,
+          "height": 523,
+          "orientation": "paysage"
+        },
+        {
+          "url": "https:\/\/apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255000058_11.jpg",
+          "credit": "Etoile",
+          "titre": "",
+          "width": 800,
+          "height": 1067,
+          "orientation": "portrait"
+        },
+        {
+          "url": "https:\/\/apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255000058_12.jpg",
+          "credit": "Etoile",
+          "titre": "",
+          "width": 800,
+          "height": 1067,
+          "orientation": "portrait"
+        }
+      ],
+      "id": 255000058,
+      "type": {
+        "id": 1900014,
+        "nom": "Restauration"
+      },
+      "coordonnees": {
+        "num_voie": "1",
+        "libelle_voie": "place du G\u00e9n\u00e9ral Leclerc",
+        "code_postal": "67310",
+        "libelle_commune": "Wasselonne",
+        "telephone1": "03 88 87 03 02",
+        "email1": "luxetoile@aol.com",
+        "url1": "www.hostellerie-etoile.com"
+      },
+      "NOM": "Restaurant de l'Etoile",
+      "BORDERAU": "Restauration",
+      "DESC": [
+        "Au restaurant de l\u2019Hostellerie, r\u00e9galez-vous avec nos plats traditionnels et nos clins d'\u0153il alsaciens accompagn\u00e9s d\u2019une s\u00e9lection de vins de notre terroir et d\u2019ailleurs.",
+        "Laissez-vous s\u00e9duire par l\u2019Hostellerie de l\u2019Etoile, un charmant \u00e9tablissement familial. Situ\u00e9 \u00e0 Wasselonne en Alsace, \u00e0 27 km de Strasbourg et \u00e0 proximit\u00e9 du d\u00e9part de la route du vin.\nNotre h\u00f4tel, \u00e0 l\u2019arri\u00e8re dans une cour int\u00e9rieure, vous propose 33 chambres confortables et bien \u00e9quip\u00e9es. Un parking priv\u00e9 dans la cour est \u00e9galement \u00e0 votre disposition.\nAu restaurant de l\u2019Hostellerie, r\u00e9galez-vous avec nos plats traditionnels et nos clins d'\u0153il alsaciens accompagn\u00e9s d\u2019une s\u00e9lection de vins de notre terroir et d\u2019ailleurs."
+      ],
+      "ANIMAUXACCEPTES": true,
+      "GROUPESACCEPTES": null,
+      "INSOLIT": null,
+      "QUALITE_TOURISME": null,
+      "UNESCO": null,
+      "FAMILLE_PLUS": null,
+      "ACCUEIL_VELO": null,
+      "ADRESSE": [
+        "1 place du G\u00e9n\u00e9ral Leclerc"
+      ],
+      "COMMUNE": "Wasselonne",
+      "CP": "67310",
+      "LAT": 48.6380492,
+      "LNG": 7.4475442,
+      "com_data": {
+        "tel": [
+          "03 88 87 03 02"
+        ],
+        "mel": [
+          "luxetoile@aol.com"
+        ],
+        "web": [
+          "http:\/\/www.hostellerie-etoile.com"
+        ]
+      },
+      "rs_data": {
+        "facebook": "https:\/\/www.facebook.com\/Hostellerie-A-LEtoile-110051607316282"
+      },
+      "ACTIVITES": null,
+      "SERVICES_ENFANTS": {
+        "1901340": "Chaise haute",
+        "1901341": "Chauffe-biberon",
+        "1909201": "Coin change pour les enfants",
+        "1901339": "Lit b\u00e9b\u00e9",
+        "1903921": "Lit enfant"
+      },
+      "SERVICES": {
+        "1900159": "Accueil \/ ouvert aux groupes",
+        "1909127": "Salle hors sac",
+        "1908170": "Transport des bagages \u00e0 l'h\u00e9bergement d'\u00e9tape suivant (p\u00e9destre) gratuit",
+        "1911458": "Garage \u00e0 v\u00e9los ferm\u00e9",
+        "1911470": "Outils \u00e0 disposition (pompe \u00e0 pied, rustines, d\u00e9monte-pneus, cl\u00e9s anglaises et \u00e0 six pans)",
+        "1906974": "Propose un menu\/plat du jour",
+        "1908785": "Petit d\u00e9jeuner buffet",
+        "1908565": "Propose des menus associant mets-vins avec possibilit\u00e9 de vin au verre",
+        "1901322": "Accueil groupes",
+        "1908586": "Capacit\u00e9 de l'\u00e9quipe \u00e0 renseigner sur les vins d'Alsace",
+        "1901333": "Soir\u00e9es \u00e0 th\u00e8me \/ animations musicales",
+        "1901337": "Traiteur et organisation de banquets"
+      },
+      "EQUIPS": {
+        "1901157": "Terrasse",
+        "1901140": "Bar",
+        "1901158": "Salle de banquet \/ mariage"
+      },
+      "CONFORT": null,
+      "RESTAU_SURPLACE": null,
+      "LOCALISATION": {
+        "1901213": "En centre ville \/ village",
+        "1901208": "Plaine"
+      },
+      "LANGUES_PAR": {
+        "1908377": "Fran\u00e7ais",
+        "1900236": "Allemand",
+        "1908829": "Alsacien",
+        "1900235": "Anglais"
+      },
+      "LABELS_TH": null,
+      "MOD_PAIEMENT": {
+        "1234000001": "Carte bancaire",
+        "1900113": "Ch\u00e8que",
+        "1234000009": "Ch\u00e8ques vacances accept\u00e9s",
+        "1907628": "Esp\u00e8ces",
+        "1900111": "Tickets restaurant-ch\u00e8ques d\u00e9jeuner"
+      },
+      "TYPE_OBJET": [
+        "Restauration"
+      ],
+      "FORFAIT": null,
+      "PUBLIC": null,
+      "TYPE": {
+        "1909699": "Semi-gastronomique",
+        "1903808": "Traditionnelle"
+      },
+      "THEME": null,
+      "SPE_CULI": {
+        "1904443": "Alsaciennes",
+        "1906767": "Choucroute",
+        "1904448": "Poissons"
+      },
+      "LABELS": {
+        "1908135": "Certification restauration traditionnelle r\u00e9gionale",
+        "1911985": "Accueil v\u00e9lo"
+      },
+      "CHAINES": {
+        "1911985": "Accueil v\u00e9lo"
+      },
+      "DIFFICULTE": null,
+      "SEJ_FORMULE": null,
+      "ACCES": {
+        "1906898": "Desservi par une ligne r\u00e9guli\u00e8re de bus \/ tram",
+        "1908193": "Par une route \/ chemin praticable en bus"
+      },
+      "OUVERTURE_TEXTE": "de 7h \u00e0 22h",
+      "DUREE_VISITE": null,
+      "TARIF_REF": null,
+      "GRATUIT": false,
+      "TARIFS": null,
+      "TARIFS_TEXT": null,
+      "TARIFS_AVANTAGES": {
+        "5": {
+          "title": "Gratuit\u00e9 (age limite)",
+          "val": "6 ans"
+        },
+        "8": {
+          "title": "Offres promotionnelles",
+          "val": "Menus groupes de 15\u20ac \u00e0 30\u20ac"
+        }
+      },
+      "CAPACITES": {
+        "1": {
+          "title": "salle 1 :",
+          "code": 1903782,
+          "min": 40
+        },
+        "2": {
+          "title": "salle 2 :",
+          "code": 1903783,
+          "min": 40
+        },
+        "3": {
+          "title": "salle 3 :",
+          "code": 1903784,
+          "min": 20
+        },
+        "4": {
+          "title": "salle 4 :",
+          "code": 1903785,
+          "min": 20
+        },
+        "5": {
+          "title": "salle 5 :",
+          "code": 1903786,
+          "min": 150
+        },
+        "20": {
+          "title": "Nombre total de couverts en salles : ",
+          "code": 1911974,
+          "min": 300
+        },
+        "60": {
+          "title": "terrasse 1 :",
+          "code": 1903787,
+          "min": 40
+        }
+      },
+      "CLASSEMENTS": [],
+      "DOCUMENTS": null,
+      "VIDEOS": null,
+      "OFFRESASSOCIEES": null,
+      "TARIFCOMPREND": null,
+      "TARIFNECOMPRENDPAS": null,
+      "DUREE_SEJ": null,
+      "APARTIRDE": null,
+      "GARE_PROCHE": "Saverne - 15km",
+      "INTERNET": true,
+      "PERIODES_OUVERTURES": [],
+      "NORDIC_PARC": null,
+      "SNOWPARC": null,
+      "PISTES_VTT_OUVERTURE": null,
+      "SKI_NUIT_AUJ": null,
+      "SKI_AURORE": null,
+      "OUVERTURE_DOMAINE": null,
+      "AVALANCHE": null,
+      "COM_BULLETIN": null,
+      "ALT_BAS": null,
+      "ALT_HAUT": null,
+      "HAUTEUR_NEIGE_CM": null,
+      "QUALITE_NEIGE": null,
+      "DATE_DERNIERE_CHUTE": null,
+      "WEBCAMS": null,
+      "PISTES_ALPINS": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "vertes": [],
+        "bleues": [],
+        "rouges": [],
+        "noires": []
+      },
+      "PISTES_FOND": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "vertes": [],
+        "bleues": [],
+        "rouges": [],
+        "noires": []
+      },
+      "PISTES_LUGES": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "luge": []
+      },
+      "PISTES_RAQUETTES": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "piste": []
+      },
+      "REMONTEES": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "remontees": []
+      },
+      "raw_data": {
+        "id": 255000058,
+        "nom": "Restaurant de l'Etoile",
+        "type": {
+          "id": 1900014,
+          "nom": "Restauration"
+        },
+        "coordonnees": {
+          "num_voie": "1",
+          "libelle_voie": "place du G\u00e9n\u00e9ral Leclerc",
+          "code_postal": "67310",
+          "libelle_commune": "Wasselonne",
+          "telephone1": "03 88 87 03 02",
+          "email1": "luxetoile@aol.com",
+          "url1": "www.hostellerie-etoile.com"
+        },
+        "latitude": "48,6380492",
+        "longitude": "7,44754420000004",
+        "commentaire": "Laissez-vous s\u00e9duire par l\u2019Hostellerie de l\u2019Etoile, un charmant \u00e9tablissement familial. Situ\u00e9 \u00e0 Wasselonne en Alsace, \u00e0 27 km de Strasbourg et \u00e0 proximit\u00e9 du d\u00e9part de la route du vin.\nNotre h\u00f4tel, \u00e0 l\u2019arri\u00e8re dans une cour int\u00e9rieure, vous propose 33 chambres confortables et bien \u00e9quip\u00e9es. Un parking priv\u00e9 dans la cour est \u00e9galement \u00e0 votre disposition.\nAu restaurant de l\u2019Hostellerie, r\u00e9galez-vous avec nos plats traditionnels et nos clins d'\u0153il alsaciens accompagn\u00e9s d\u2019une s\u00e9lection de vins de notre terroir et d\u2019ailleurs.",
+        "commentaire1": "Au restaurant de l\u2019Hostellerie, r\u00e9galez-vous avec nos plats traditionnels et nos clins d'\u0153il alsaciens accompagn\u00e9s d\u2019une s\u00e9lection de vins de notre terroir et d\u2019ailleurs.",
+        "datmaj": "16\/06\/2022 08:54:40",
+        "horaires": [],
+        "produits_associes": [
+          {
+            "id": 255000012,
+            "nom": "Hostellerie de l'Etoile",
+            "id_type": 1900193,
+            "type_couplage": 10
+          }
+        ],
+        "criteres": [
+          {
+            "id": 1900013,
+            "nom": "Distance (km) \u00e0 la gare la plus proche",
+            "type_critere": "0",
+            "type_valeur": "1",
+            "classe": "2",
+            "valeur": "15"
+          },
+          {
+            "id": 1900048,
+            "nom": "Moyen de paiement",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "16",
+            "modalites": [
+              {
+                "id": 1900111,
+                "nom": "Tickets restaurant-ch\u00e8ques d\u00e9jeuner",
+                "ordre": "60"
+              },
+              {
+                "id": 1900113,
+                "nom": "Ch\u00e8que",
+                "ordre": "25"
+              },
+              {
+                "id": 1907628,
+                "nom": "Esp\u00e8ces",
+                "ordre": "48"
+              },
+              {
+                "id": 1234000001,
+                "nom": "Carte bancaire",
+                "ordre": "20"
+              },
+              {
+                "id": 1234000009,
+                "nom": "Ch\u00e8ques vacances accept\u00e9s",
+                "ordre": "40"
+              }
+            ]
+          },
+          {
+            "id": 1900049,
+            "nom": "Altitude (m)",
+            "type_critere": "0",
+            "type_valeur": "1",
+            "classe": "2",
+            "valeur": "200"
+          },
+          {
+            "id": 1900050,
+            "nom": "Services pratiques",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "8",
+            "modalites": [
+              {
+                "id": 1900159,
+                "nom": "Accueil \/ ouvert aux groupes",
+                "ordre": "10"
+              },
+              {
+                "id": 1908170,
+                "nom": "Transport des bagages \u00e0 l'h\u00e9bergement d'\u00e9tape suivant (p\u00e9destre) gratuit",
+                "ordre": "700"
+              },
+              {
+                "id": 1909127,
+                "nom": "Salle hors sac",
+                "ordre": "640"
+              }
+            ]
+          },
+          {
+            "id": 1900066,
+            "nom": "H\u00e9bergement sur place",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "8",
+            "modalites": [
+              {
+                "id": 1900233,
+                "nom": "Oui",
+                "ordre": "0"
+              }
+            ]
+          },
+          {
+            "id": 1900067,
+            "nom": "Langues pratiqu\u00e9es",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1900235,
+                "nom": "Anglais",
+                "ordre": "10"
+              },
+              {
+                "id": 1900236,
+                "nom": "Allemand",
+                "ordre": "5"
+              },
+              {
+                "id": 1908377,
+                "nom": "Fran\u00e7ais",
+                "ordre": "0"
+              },
+              {
+                "id": 1908829,
+                "nom": "Alsacien",
+                "ordre": "8"
+              }
+            ]
+          },
+          {
+            "id": 1900187,
+            "nom": "Equipement restauration",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1901140,
+                "nom": "Bar",
+                "ordre": "160"
+              },
+              {
+                "id": 1901157,
+                "nom": "Terrasse",
+                "ordre": "110"
+              },
+              {
+                "id": 1901158,
+                "nom": "Salle de banquet \/ mariage",
+                "ordre": "220"
+              }
+            ]
+          },
+          {
+            "id": 1900189,
+            "nom": "Localisation",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "2",
+            "modalites": [
+              {
+                "id": 1901208,
+                "nom": "Plaine",
+                "ordre": "280"
+              },
+              {
+                "id": 1901213,
+                "nom": "En centre ville \/ village",
+                "ordre": "170"
+              }
+            ]
+          },
+          {
+            "id": 1900208,
+            "nom": "Services pratiques restauration",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "8",
+            "modalites": [
+              {
+                "id": 1901322,
+                "nom": "Accueil groupes",
+                "ordre": "500"
+              },
+              {
+                "id": 1901333,
+                "nom": "Soir\u00e9es \u00e0 th\u00e8me \/ animations musicales",
+                "ordre": "600"
+              },
+              {
+                "id": 1901337,
+                "nom": "Traiteur et organisation de banquets",
+                "ordre": "640"
+              },
+              {
+                "id": 1906974,
+                "nom": "Propose un menu\/plat du jour",
+                "ordre": "50"
+              },
+              {
+                "id": 1908565,
+                "nom": "Propose des menus associant mets-vins avec possibilit\u00e9 de vin au verre",
+                "ordre": "255"
+              },
+              {
+                "id": 1908586,
+                "nom": "Capacit\u00e9 de l'\u00e9quipe \u00e0 renseigner sur les vins d'Alsace",
+                "ordre": "520"
+              },
+              {
+                "id": 1908785,
+                "nom": "Petit d\u00e9jeuner buffet",
+                "ordre": "80"
+              }
+            ]
+          },
+          {
+            "id": 1900209,
+            "nom": "Equip\/services pour les enfants",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1901339,
+                "nom": "Lit b\u00e9b\u00e9",
+                "ordre": "180"
+              },
+              {
+                "id": 1901340,
+                "nom": "Chaise haute",
+                "ordre": "60"
+              },
+              {
+                "id": 1901341,
+                "nom": "Chauffe-biberon",
+                "ordre": "80"
+              },
+              {
+                "id": 1903921,
+                "nom": "Lit enfant",
+                "ordre": "200"
+              },
+              {
+                "id": 1909201,
+                "nom": "Coin change pour les enfants",
+                "ordre": "100"
+              }
+            ]
+          },
+          {
+            "id": 1900268,
+            "nom": "Animaux accept\u00e9s",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1901658,
+                "nom": "Admis",
+                "ordre": "5"
+              }
+            ]
+          },
+          {
+            "id": 1900390,
+            "nom": "Effectif groupe",
+            "type_critere": "2",
+            "type_valeur": "1",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1908124,
+                "nom": "Mini",
+                "ordre": "0",
+                "valeur": "10"
+              },
+              {
+                "id": 1908125,
+                "nom": "Maxi",
+                "ordre": "0",
+                "valeur": "150"
+              }
+            ]
+          },
+          {
+            "id": 1900395,
+            "nom": "Autres chaines - labels",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "1",
+            "modalites": [
+              {
+                "id": 1911985,
+                "nom": "Accueil v\u00e9lo",
+                "ordre": "0"
+              }
+            ]
+          },
+          {
+            "id": 1900404,
+            "nom": "Horaires d'accueil",
+            "type_critere": "0",
+            "type_valeur": "2",
+            "classe": "4",
+            "valeur": "de 7h \u00e0 22h"
+          },
+          {
+            "id": 1900421,
+            "nom": "Photo url 1",
+            "type_critere": "0",
+            "type_valeur": "6",
+            "classe": "0",
+            "valeur": "apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255000058_1.jpg"
+          },
+          {
+            "id": 1900437,
+            "nom": "Style d'h\u00e9bergement \/ de batiment",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1909082,
+                "nom": "Maison alsacienne traditionnelle (colombages)",
+                "ordre": "35"
+              }
+            ]
+          },
+          {
+            "id": 1900480,
+            "nom": "Source, droits d'auteur photo 1",
+            "type_critere": "0",
+            "type_valeur": "2",
+            "classe": "0",
+            "valeur": "Etoile"
+          },
+          {
+            "id": 1900507,
+            "nom": "Nombre de couverts",
+            "type_critere": "2",
+            "type_valeur": "1",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1903782,
+                "nom": "salle 1 :",
+                "ordre": "1",
+                "valeur": "40"
+              },
+              {
+                "id": 1903783,
+                "nom": "salle 2 :",
+                "ordre": "2",
+                "valeur": "40"
+              },
+              {
+                "id": 1903784,
+                "nom": "salle 3 :",
+                "ordre": "3",
+                "valeur": "20"
+              },
+              {
+                "id": 1903785,
+                "nom": "salle 4 :",
+                "ordre": "4",
+                "valeur": "20"
+              },
+              {
+                "id": 1903786,
+                "nom": "salle 5 :",
+                "ordre": "5",
+                "valeur": "150"
+              },
+              {
+                "id": 1903787,
+                "nom": "terrasse 1 :",
+                "ordre": "60",
+                "valeur": "40"
+              },
+              {
+                "id": 1911974,
+                "nom": "Nombre total de couverts en salles : ",
+                "ordre": "20",
+                "valeur": "300"
+              }
+            ]
+          },
+          {
+            "id": 1900513,
+            "nom": "Type de restauration",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1903808,
+                "nom": "Traditionnelle",
+                "ordre": "100"
+              },
+              {
+                "id": 1909699,
+                "nom": "Semi-gastronomique",
+                "ordre": "80"
+              }
+            ]
+          },
+          {
+            "id": 1900569,
+            "nom": "Sp\u00e9cialit\u00e9s, propose des plats :",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1904443,
+                "nom": "Alsaciennes",
+                "ordre": "5"
+              },
+              {
+                "id": 1904448,
+                "nom": "Poissons",
+                "ordre": "1300"
+              },
+              {
+                "id": 1906767,
+                "nom": "Choucroute",
+                "ordre": "14"
+              }
+            ]
+          },
+          {
+            "id": 1900603,
+            "nom": "Photo url 2",
+            "type_critere": "0",
+            "type_valeur": "6",
+            "classe": "0",
+            "valeur": "apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255000058_4.jpg"
+          },
+          {
+            "id": 1900605,
+            "nom": "Capacit\u00e9 des salles de r\u00e9union",
+            "type_critere": "2",
+            "type_valeur": "1",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1904881,
+                "nom": "salle 1",
+                "ordre": "5",
+                "valeur": "20"
+              },
+              {
+                "id": 1904882,
+                "nom": "salle 2",
+                "ordre": "10",
+                "valeur": "100"
+              },
+              {
+                "id": 1911972,
+                "nom": "Nombre total de salle",
+                "ordre": "50",
+                "valeur": "3"
+              },
+              {
+                "id": 1911973,
+                "nom": "Capacit\u00e9 totale des salles de r\u00e9union",
+                "ordre": "60",
+                "valeur": "200"
+              }
+            ]
+          },
+          {
+            "id": 1900631,
+            "nom": "Avantages tarifaires",
+            "type_critere": "2",
+            "type_valeur": "2",
+            "classe": "16",
+            "modalites": [
+              {
+                "id": 1905237,
+                "nom": "Gratuit\u00e9 (age limite)",
+                "ordre": "5",
+                "valeur": "6 ans"
+              },
+              {
+                "id": 1909063,
+                "nom": "Offres promotionnelles",
+                "ordre": "8",
+                "valeur": "Menus groupes de 15\u20ac \u00e0 30\u20ac"
+              }
+            ]
+          },
+          {
+            "id": 1900661,
+            "nom": "Source, droits d'auteur photo 2",
+            "type_critere": "0",
+            "type_valeur": "2",
+            "classe": "0",
+            "valeur": "Etoile"
+          },
+          {
+            "id": 1900751,
+            "nom": "Photo url 3",
+            "type_critere": "0",
+            "type_valeur": "6",
+            "classe": "0",
+            "valeur": "apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255000058_5.jpg"
+          },
+          {
+            "id": 1900752,
+            "nom": "Source, droits d'auteur photo 3",
+            "type_critere": "0",
+            "type_valeur": "2",
+            "classe": "0",
+            "valeur": "Etoile"
+          },
+          {
+            "id": 1900763,
+            "nom": "Label restauration",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "1",
+            "modalites": [
+              {
+                "id": 1908135,
+                "nom": "Certification restauration traditionnelle r\u00e9gionale",
+                "ordre": "10"
+              }
+            ]
+          },
+          {
+            "id": 1900770,
+            "nom": "Possibilit\u00e9 de connexion Internet",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "8",
+            "modalites": [
+              {
+                "id": 1906279,
+                "nom": "Wi-fi offert",
+                "ordre": "30"
+              },
+              {
+                "id": 1906287,
+                "nom": "Connexion r\u00e9seau",
+                "ordre": "10"
+              }
+            ]
+          },
+          {
+            "id": 1900781,
+            "nom": "Photo url 4",
+            "type_critere": "0",
+            "type_valeur": "6",
+            "classe": "0",
+            "valeur": "apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255000058_6.jpg"
+          },
+          {
+            "id": 1900782,
+            "nom": "Photo url 5",
+            "type_critere": "0",
+            "type_valeur": "6",
+            "classe": "0",
+            "valeur": "apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255000058_7.jpg"
+          },
+          {
+            "id": 1900783,
+            "nom": "Source, droits d'auteur photo 4",
+            "type_critere": "0",
+            "type_valeur": "2",
+            "classe": "0",
+            "valeur": "Etoile"
+          },
+          {
+            "id": 1900784,
+            "nom": "Source, droits d'auteur photo 5",
+            "type_critere": "0",
+            "type_valeur": "2",
+            "classe": "0",
+            "valeur": "Etoile"
+          },
+          {
+            "id": 1900837,
+            "nom": "Equipement des salles de r\u00e9union\/s\u00e9minaire",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1906808,
+                "nom": "Paperboard",
+                "ordre": "10"
+              },
+              {
+                "id": 1906809,
+                "nom": "Micro",
+                "ordre": "100"
+              },
+              {
+                "id": 1906810,
+                "nom": "Sonorisation",
+                "ordre": "80"
+              },
+              {
+                "id": 1907645,
+                "nom": "Ecran",
+                "ordre": "210"
+              },
+              {
+                "id": 1907720,
+                "nom": "Estrade",
+                "ordre": "500"
+              }
+            ]
+          },
+          {
+            "id": 1900844,
+            "nom": "Acc\u00e8s",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "2",
+            "modalites": [
+              {
+                "id": 1906898,
+                "nom": "Desservi par une ligne r\u00e9guli\u00e8re de bus \/ tram",
+                "ordre": "20"
+              },
+              {
+                "id": 1908193,
+                "nom": "Par une route \/ chemin praticable en bus",
+                "ordre": "150"
+              }
+            ]
+          },
+          {
+            "id": 1900861,
+            "nom": "Photo url 6",
+            "type_critere": "0",
+            "type_valeur": "6",
+            "classe": "0",
+            "valeur": "apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255000058_11.jpg"
+          },
+          {
+            "id": 1900862,
+            "nom": "Photo url 7",
+            "type_critere": "0",
+            "type_valeur": "6",
+            "classe": "0",
+            "valeur": "apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255000058_12.jpg"
+          },
+          {
+            "id": 1900866,
+            "nom": "Source, droits d'auteur photo 6",
+            "type_critere": "0",
+            "type_valeur": "2",
+            "classe": "0",
+            "valeur": "Etoile"
+          },
+          {
+            "id": 1900867,
+            "nom": "Source, droits d'auteur photo 7",
+            "type_critere": "0",
+            "type_valeur": "2",
+            "classe": "0",
+            "valeur": "Etoile"
+          },
+          {
+            "id": 1901129,
+            "nom": "Liens r\u00e9seaux sociaux",
+            "type_critere": "2",
+            "type_valeur": "2",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1908717,
+                "nom": "Facebook",
+                "ordre": "10",
+                "valeur": "https:\/\/www.facebook.com\/Hostellerie-A-LEtoile-110051607316282"
+              }
+            ]
+          },
+          {
+            "id": 1901341,
+            "nom": "Enfants (\u00e2ges) concern\u00e9s",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 1909897,
+                "nom": "0-2 ans",
+                "ordre": "10"
+              },
+              {
+                "id": 1909898,
+                "nom": "3-6 ans",
+                "ordre": "20"
+              },
+              {
+                "id": 1909899,
+                "nom": "7-12 ans",
+                "ordre": "30"
+              },
+              {
+                "id": 1909900,
+                "nom": "13-18 ans",
+                "ordre": "40"
+              }
+            ]
+          },
+          {
+            "id": 1901502,
+            "nom": "Equipements\/services v\u00e9los",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "8",
+            "modalites": [
+              {
+                "id": 1911458,
+                "nom": "Garage \u00e0 v\u00e9los ferm\u00e9",
+                "ordre": "10"
+              },
+              {
+                "id": 1911470,
+                "nom": "Outils \u00e0 disposition (pompe \u00e0 pied, rustines, d\u00e9monte-pneus, cl\u00e9s anglaises et \u00e0 six pans)",
+                "ordre": "220"
+              }
+            ]
+          },
+          {
+            "id": 1901523,
+            "nom": "Nom de la gare la plus proche",
+            "type_critere": "0",
+            "type_valeur": "2",
+            "classe": "2",
+            "valeur": "Saverne"
+          },
+          {
+            "id": 1901562,
+            "nom": "Logis (restauration)",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "1",
+            "modalites": [
+              {
+                "id": 1911997,
+                "nom": "Table gourmande",
+                "ordre": "20"
+              }
+            ]
+          },
+          {
+            "id": 255000254,
+            "nom": "Site web OT (2022)",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "32",
+            "modalites": [
+              {
+                "id": 255002501,
+                "nom": "DEGUSTER - se restaurer",
+                "ordre": "200"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "escaped_title": "Restaurant de l&rsquo;Etoile",
+  "title": "Restaurant de l&rsquo;Etoile",
+  "surtitre": "Semi-gastronomique, Traditionnelle",
+  "geo": {
+    "lng": "7.4475442",
+    "lat": "48.6380492"
+  },
+  "photos": [
+    {
+      "url": "https:\/\/apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255000058_1.jpg",
+      "credit": "Etoile",
+      "titre": "",
+      "width": 1000,
+      "height": 591,
+      "orientation": "paysage",
+      "gallery_thumb": {
+        "url": "https:\/\/mossig.dev-thuria.com\/wp-content\/uploads\/sitlor\/95dcf69708995a88611ac53e423ca5af-255000058_1-760x500.jpg",
+        "width": 760,
+        "height": 500,
+        "size": 94714,
+        "cropped": false,
+        "alt": "Restaurant de l'Etoile",
+        "credit": "Etoile"
+      },
+      "cards": {
+        "all": {
+          "url": "https:\/\/mossig.dev-thuria.com\/wp-content\/uploads\/sitlor\/95dcf69708995a88611ac53e423ca5af-255000058_1-340x340.jpg",
+          "width": 340,
+          "height": 340,
+          "size": 34848,
+          "cropped": false,
+          "alt": "Restaurant de l'Etoile",
+          "credit": "Etoile"
+        }
+      }
+    },
+    {
+      "url": "https:\/\/apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255000058_4.jpg",
+      "credit": "Etoile",
+      "titre": "",
+      "width": 800,
+      "height": 535,
+      "orientation": "paysage",
+      "gallery_thumb": {
+        "url": "https:\/\/mossig.dev-thuria.com\/wp-content\/uploads\/sitlor\/e4b04f0a143f32711ad9081236ccc93b-255000058_4-760x500.jpg",
+        "width": 760,
+        "height": 500,
+        "size": 70554,
+        "cropped": false,
+        "alt": "Restaurant de l'Etoile",
+        "credit": "Etoile"
+      }
+    },
+    {
+      "url": "https:\/\/apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255000058_5.jpg",
+      "credit": "Etoile",
+      "titre": "",
+      "width": 800,
+      "height": 517,
+      "orientation": "paysage",
+      "gallery_thumb": {
+        "url": "https:\/\/mossig.dev-thuria.com\/wp-content\/uploads\/sitlor\/1715352d1fade1037250291c843b5c3f-255000058_5-760x500.jpg",
+        "width": 760,
+        "height": 500,
+        "size": 77241,
+        "cropped": false,
+        "alt": "Restaurant de l'Etoile",
+        "credit": "Etoile"
+      }
+    },
+    {
+      "url": "https:\/\/apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255000058_6.jpg",
+      "credit": "Etoile",
+      "titre": "",
+      "width": 900,
+      "height": 598,
+      "orientation": "paysage",
+      "gallery_thumb": {
+        "url": "https:\/\/mossig.dev-thuria.com\/wp-content\/uploads\/sitlor\/8b9236b8cfe67a9edea905b7940873bd-255000058_6-760x500.jpg",
+        "width": 760,
+        "height": 500,
+        "size": 75538,
+        "cropped": false,
+        "alt": "Restaurant de l'Etoile",
+        "credit": "Etoile"
+      }
+    },
+    {
+      "url": "https:\/\/apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255000058_7.jpg",
+      "credit": "Etoile",
+      "titre": "",
+      "width": 800,
+      "height": 523,
+      "orientation": "paysage",
+      "gallery_thumb": {
+        "url": "https:\/\/mossig.dev-thuria.com\/wp-content\/uploads\/sitlor\/4aa39c518cd651f2dae83b36a3431de4-255000058_7-760x500.jpg",
+        "width": 760,
+        "height": 500,
+        "size": 71727,
+        "cropped": false,
+        "alt": "Restaurant de l'Etoile",
+        "credit": "Etoile"
+      }
+    },
+    {
+      "url": "https:\/\/apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255000058_11.jpg",
+      "credit": "Etoile",
+      "titre": "",
+      "width": 800,
+      "height": 1067,
+      "orientation": "portrait",
+      "gallery_thumb": {
+        "url": "https:\/\/mossig.dev-thuria.com\/wp-content\/uploads\/sitlor\/c90589eca258f892f52a7a6ece25edda-255000058_11-378x500.jpg",
+        "width": 378,
+        "height": 500,
+        "size": 36922,
+        "cropped": false,
+        "alt": "Restaurant de l'Etoile",
+        "credit": "Etoile"
+      }
+    },
+    {
+      "url": "https:\/\/apps.tourisme-alsace.info\/photos\/wangenbourg2\/photos\/255000058_12.jpg",
+      "credit": "Etoile",
+      "titre": "",
+      "width": 800,
+      "height": 1067,
+      "orientation": "portrait",
+      "gallery_thumb": {
+        "url": "https:\/\/mossig.dev-thuria.com\/wp-content\/uploads\/sitlor\/ab0d019780d8871f2256958391f2d2f1-255000058_12-378x500.jpg",
+        "width": 378,
+        "height": 500,
+        "size": 37217,
+        "cropped": false,
+        "alt": "Restaurant de l'Etoile",
+        "credit": "Etoile"
+      }
+    }
+  ],
+  "header_orientation": "paysage",
+  "adresse": [
+    "1 place du G\u00e9n\u00e9ral Leclerc",
+    "67310 Wasselonne"
+  ],
+  "commune": "Wasselonne",
+  "com_data": {
+    "tel": [
+      "03 88 87 03 02"
+    ],
+    "mel": [
+      "luxetoile@aol.com"
+    ],
+    "web": [
+      "http:\/\/www.hostellerie-etoile.com"
+    ]
+  },
+  "com_rs": {
+    "facebook": "https:\/\/www.facebook.com\/Hostellerie-A-LEtoile-110051607316282"
+  },
+  "resa_url": null,
+  "pictos": {
+    "animal": {
+      "icon": "animal",
+      "title": "Exemple"
+    },
+    "wifi": {
+      "icon": "wifi",
+      "title": "Exemple"
+    },
+    "parking": {
+      "icon": "parking",
+      "title": "Exemple"
+    },
+    "text": {
+      "text": "Exemple text"
+    }
+  },
+  "header_pictos": {
+    "has_data": true,
+    "pictos": {
+      "wifi": {
+        "text": "wifi"
+      },
+      "animaux-acceptes": {
+        "text": "Animaux accept\u00e9s"
+      }
+    }
+  },
+  "description": {
+    "has_data": true,
+    "description": [
+      "Au restaurant de l\u2019Hostellerie, r\u00e9galez-vous avec nos plats traditionnels et nos clins d'\u0153il alsaciens accompagn\u00e9s d\u2019une s\u00e9lection de vins de notre terroir et d\u2019ailleurs.",
+      "Laissez-vous s\u00e9duire par l\u2019Hostellerie de l\u2019Etoile, un charmant \u00e9tablissement familial. Situ\u00e9 \u00e0 Wasselonne en Alsace, \u00e0 27 km de Strasbourg et \u00e0 proximit\u00e9 du d\u00e9part de la route du vin.\nNotre h\u00f4tel, \u00e0 l\u2019arri\u00e8re dans une cour int\u00e9rieure, vous propose 33 chambres confortables et bien \u00e9quip\u00e9es. Un parking priv\u00e9 dans la cour est \u00e9galement \u00e0 votre disposition.\nAu restaurant de l\u2019Hostellerie, r\u00e9galez-vous avec nos plats traditionnels et nos clins d'\u0153il alsaciens accompagn\u00e9s d\u2019une s\u00e9lection de vins de notre terroir et d\u2019ailleurs."
+    ]
+  },
+  "apropos_infos": {
+    "has_data": true,
+    "infos": [
+      {
+        "icon": "repas-light",
+        "title": "Sp\u00e9cialit\u00e9s",
+        "data": "Alsaciennes, Choucroute, Poissons"
+      },
+      {
+        "icon": "langues",
+        "title": "Langues parl\u00e9es",
+        "data": "Fran\u00e7ais, Allemand, Alsacien, Anglais"
+      },
+      {
+        "icon": "paiement",
+        "title": "Mode de paiement",
+        "data": "Carte bancaire, Ch\u00e8que, Ch\u00e8ques vacances accept\u00e9s, Esp\u00e8ces, Tickets restaurant-ch\u00e8ques d\u00e9jeuner"
+      }
+    ]
+  },
+  "apropos_pictos": {
+    "has_data": false
+  },
+  "labels": {
+    "has_data": true,
+    "labels": {
+      "accueil-velo": {
+        "title": "Accueil v\u00e9lo",
+        "img": {
+          "width": 150,
+          "height": 200,
+          "url": "https:\/\/mossig.dev-thuria.com\/wp-content\/uploads\/2022\/06\/accueil-velo-logo-rvb-0x200.jpeg",
+          "id": 2303,
+          "srcset": {
+            "retina": {
+              "width": 300,
+              "height": 400,
+              "url": "https:\/\/mossig.dev-thuria.com\/wp-content\/uploads\/2022\/06\/accueil-velo-logo-rvb-0x400.jpeg",
+              "min-width": 300
+            }
+          },
+          "formats": [],
+          "data": {
+            "credit": "",
+            "alt": "Accueil v\u00e9lo",
+            "external_link": ""
+          },
+          "cropData": [],
+          "plg_version": 2
+        }
+      }
+    }
+  },
+  "infos_comp": {
+    "has_data": true,
+    "infos": [
+      {
+        "title": "\u00c9quipements",
+        "data": "Terrasse, Bar, Salle de banquet \/ mariage"
+      },
+      {
+        "title": "Services",
+        "data": "Accueil \/ ouvert aux groupes, Salle hors sac, Transport des bagages \u00e0 l'h\u00e9bergement d'\u00e9tape suivant (p\u00e9destre) gratuit, Garage \u00e0 v\u00e9los ferm\u00e9, Outils \u00e0 disposition (pompe \u00e0 pied, rustines, d\u00e9monte-pneus, cl\u00e9s anglaises et \u00e0 six pans), Propose un menu\/plat du jour, Petit d\u00e9jeuner buffet, Propose des menus associant mets-vins avec possibilit\u00e9 de vin au verre, Accueil groupes, Capacit\u00e9 de l'\u00e9quipe \u00e0 renseigner sur les vins d'Alsace, Soir\u00e9es \u00e0 th\u00e8me \/ animations musicales, Traiteur et organisation de banquets"
+      },
+      {
+        "title": "Pour les enfants",
+        "data": "Chaise haute, Chauffe-biberon, Coin change pour les enfants, Lit b\u00e9b\u00e9, Lit enfant"
+      }
+    ]
+  },
+  "capacites": {
+    "has_data": true,
+    "capacites": [
+      {
+        "title": "salle 1 :",
+        "data": 40
+      },
+      {
+        "title": "salle 2 :",
+        "data": 40
+      },
+      {
+        "title": "salle 3 :",
+        "data": 20
+      },
+      {
+        "title": "salle 4 :",
+        "data": 20
+      },
+      {
+        "title": "salle 5 :",
+        "data": 150
+      },
+      {
+        "title": "Nombre total de couverts en salles : ",
+        "data": 300
+      },
+      {
+        "title": "terrasse 1 :",
+        "data": 40
+      }
+    ]
+  },
+  "tarifs": {
+    "has_data": true,
+    "tarifs_avantages": {
+      "5": {
+        "title": "Gratuit\u00e9 (age limite)",
+        "val": "6 ans"
+      },
+      "8": {
+        "title": "Offres promotionnelles",
+        "val": "Menus groupes de 15\u20ac \u00e0 30\u20ac"
+      }
+    }
+  },
+  "ouverture": {
+    "has_data": true,
+    "display_next_occurence": false,
+    "complement_ouverture": "de 7h \u00e0 22h"
+  },
+  "documents": {
+    "has_data": false
+  },
+  "videos": {
+    "has_data": false
+  },
+  "offres_associees": {
+    "has_data": true,
+    "offres": [
+      {
+        "sit_id": 255000012,
+        "post": {
+          "ID": 1852,
+          "post_author": "1",
+          "post_date": "2022-06-20 16:51:54",
+          "post_date_gmt": "2022-06-20 14:51:54",
+          "post_content": "",
+          "post_title": "Hostellerie de l'Etoile",
+          "post_excerpt": "255000012",
+          "post_status": "publish",
+          "comment_status": "closed",
+          "ping_status": "closed",
+          "post_password": "",
+          "post_name": "255000012-hostellerie-de-letoile",
+          "to_ping": "",
+          "pinged": "",
+          "post_modified": "2022-06-28 09:58:10",
+          "post_modified_gmt": "2022-06-28 07:58:10",
+          "post_content_filtered": "",
+          "post_parent": 0,
+          "guid": "https:\/\/mossig.dev-thuria.com\/?post_type=sitlor&#038;p=1852",
+          "menu_order": 0,
+          "post_type": "sitlor",
+          "post_mime_type": "",
+          "comment_count": "0",
+          "filter": "raw"
+        }
+      }
+    ]
+  },
+  "url_rawdata": "https:\/\/mossig.dev-thuria.com\/fiches\/255000058-restaurant-de-letoile\/?data&wpdebug",
+  "card_pictos": {
+    "has_data": false
+  }
+}

@@ -1,0 +1,117 @@
+// =============================================
+// Share button
+// =============================================
+
+// Share Button Wrapper
+.st-social-share {
+	position: relative;
+	z-index: z-index('social-share');
+	@include addTransition();
+
+	input {
+		display: none;
+	}
+
+	// Toggle Button
+	.st-toggle {
+		position: relative;
+		@include inline-flex-center();
+		width: 40px;
+		height: 30px;
+		font-size: 20px;
+		cursor: pointer;
+		@include addTransition();
+
+		@include can-hover {
+			span {
+				color: $c_sub;
+			}
+		}
+	}
+
+	// =============================================
+	// Network List
+	// =============================================
+
+	.st-network-list {
+		position: absolute;
+		top: 0;
+		pointer-events: none;
+		left: 20px;
+
+		li {
+			position: absolute;
+			top: 0;
+			left: 0;
+			display: block;
+			opacity: 0;
+			transition: all 0.25s cubic-bezier(0.43, 1.17, 0.69, 1.24);
+		}
+	}
+
+	// =============================================
+	// Open Network List
+
+	input:checked {
+		& ~ .st-toggle {
+			color: $c_sub;
+		}
+
+		& ~ .st-network-list {
+			pointer-events: initial;
+
+			li {
+				opacity: 1;
+			}
+
+			li:nth-child(1) {
+				top: -70px;
+			}
+
+			li:nth-child(2) {
+				top: -120px;
+			}
+
+			li:nth-child(3) {
+				top: -170px;
+			}
+
+			li:nth-child(4) {
+				top: -220px;
+			}
+
+			li:nth-child(5) {
+				top: -270px;
+			}
+
+			li:nth-child(6) {
+				top: -320px;
+			}
+		}
+	}
+
+	// =============================================
+	// Boutton social
+
+	.st-btn-social {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		background-color: $c_main;
+		border: 1px solid $c_sub;
+
+		&:before {
+			color: $c_white;
+		}
+
+		@include can-hover {
+			background-color: $c_white;
+			border-color: $c_white;
+			&:before {
+				color: $c_dark_navy;
+			}
+		}
+	}
+}

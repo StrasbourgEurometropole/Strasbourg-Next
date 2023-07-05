@@ -1,0 +1,759 @@
+{
+  "schemaorg": {
+    "@context": "http:\/\/schema.org",
+    "@type": "Thing",
+    "name": "Le circuit des bois Rochel \u00e0 Plou\u00ebr-sur-Rance",
+    "description": "Dans des paysages ruraux et maritimes, cette randonn\u00e9e de 11 km  sillonne des chemins encaiss\u00e9s en campagne et des petites routes, et traverse des hameaux \u00e0 l\u2019architecture traditionnelle des bords de Rance.\n\nAu d\u00e9part du bourg de Plou\u00ebr-sur-Rance, la balade rejoint les rives de la Rance maritime qu'elle longe, tant\u00f4t au bord de l'eau, tant\u00f4t en hauteur. Apr\u00e8s avoir gagn\u00e9 les hauteurs de la rive, la randonn\u00e9e se poursuit par les villages jusqu'\u00e0 revenir au point de d\u00e9part. \n\nEn cheminant le long des gr\u00e8ves ou en hauteur sur le sentier c\u00f4tier, les randonneurs profiteront de la vue sur la Rance, ce bel et vaste espace maritime.\n\nAttention : dans les bois Rochel, les sentiers peuvent \u00eatre boueux et glissants en hiver (on s'assurera d'\u00eatre bien chauss\u00e9). Vigilance sur le sentier c\u00f4tier qui pr\u00e9sente des parties escarp\u00e9es.\n\n\nRetrouvez cette randonn\u00e9e dans le topo-guide \"balades et randonn\u00e9es\" (Dinan Agglom\u00e9ration) en vente dans les bureaux d'information touristique de Dinan Cap Fr\u00e9hel tourisme "
+  },
+  "sit_id": "ITIBRE022V50C8GL",
+  "fiche": {
+    "src": {
+      "SyndicObjectID": "ITIBRE022V50C8GL",
+      "Published": "2014-03-18T18:16:45.65",
+      "Updated": "2022-05-08T11:03:02",
+      "SyndicObjectName": "Le circuit des bois Rochel \u00e0 Plou\u00ebr-sur-Rance",
+      "SyndicStructureId": "f9dc3e49-b715-4773-9298-780afc28862c",
+      "GmapLatitude": "48.5271353",
+      "GmapLongitude": "-2.0047079",
+      "ObjectTypeFix": "65B745F4-F4C2-4755-B6F6-479A458AF1BF",
+      "ObjectTypeName": "Itin\u00e9raires touristiques",
+      "SyndicObjectOrder": 25,
+      "AccueilHandicapes": false,
+      "CodeInsee": "22213",
+      "PhotoBalisage": null,
+      "Difficulte": {
+        "ThesID": "d0d78110-3cb2-4463-9818-d965e0214bb9",
+        "ThesLibelle": "Moyen",
+        "ThesPicto": "",
+        "ThesCode": "B2202",
+        "ThesOrdre": 2
+      },
+      "CodePostal": "22490",
+      "PrestationEquipements": null,
+      "DescriptionCommerciale": "Dans des paysages ruraux et maritimes, cette randonn\u00e9e de 11 km  sillonne des chemins encaiss\u00e9s en campagne et des petites routes, et traverse des hameaux \u00e0 l\u2019architecture traditionnelle des bords de Rance.\n\nAu d\u00e9part du bourg de Plou\u00ebr-sur-Rance, la balade rejoint les rives de la Rance maritime qu'elle longe, tant\u00f4t au bord de l'eau, tant\u00f4t en hauteur. Apr\u00e8s avoir gagn\u00e9 les hauteurs de la rive, la randonn\u00e9e se poursuit par les villages jusqu'\u00e0 revenir au point de d\u00e9part. \n\nEn cheminant le long des gr\u00e8ves ou en hauteur sur le sentier c\u00f4tier, les randonneurs profiteront de la vue sur la Rance, ce bel et vaste espace maritime.\n\nAttention : dans les bois Rochel, les sentiers peuvent \u00eatre boueux et glissants en hiver (on s'assurera d'\u00eatre bien chauss\u00e9). Vigilance sur le sentier c\u00f4tier qui pr\u00e9sente des parties escarp\u00e9es.\n\n\nRetrouvez cette randonn\u00e9e dans le topo-guide \"balades et randonn\u00e9es\" (Dinan Agglom\u00e9ration) en vente dans les bureaux d'information touristique de Dinan Cap Fr\u00e9hel tourisme ",
+      "Longitude": "-2.0047079",
+      "Commune": "Plou\u00ebr-sur-Rance",
+      "RaisonSociale": "Le circuit des bois Rochel \u00e0 Plou\u00ebr-sur-Rance",
+      "Adresse1": null,
+      "DureeHeures": "04:00",
+      "Latitude": "48.5271353",
+      "CommuneArrivee": "Plou\u00ebr-sur-Rance",
+      "Adresse3": null,
+      "Distance": 10.6,
+      "Balisage": {
+        "ThesID": "21adc183-2591-42bc-95d2-31b5bd542989",
+        "ThesLibelle": "Itin\u00e9raire balis\u00e9",
+        "ThesPicto": "",
+        "ThesCode": "B2201",
+        "ThesOrdre": 0
+      },
+      "AnimauxAcceptes": null,
+      "Adresse2": "La Poste",
+      "Gpx": {
+        "MediaID": "0cdbdfa4-916d-4704-8a63-864119b6c112",
+        "Titre": "circuit-des-bois-rochel",
+        "Credit": "CD22-janvier22",
+        "Url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/geotrek-circuit-des-bois-rochel.gpx"
+      },
+      "AccueilGroupes": null,
+      "DureeJours": null,
+      "Denivele": 40,
+      "TIS_TRACKING_OFFRE": "<script type=\"text\/javascript\">var _gaq=_gaq||[];(function(n){function r(n){var t=new RegExp(\"(?:; )?\"+n+\"=([^;]*);?\");return t.test(document.cookie)?decodeURIComponent(RegExp.$1):null}function i(){if(typeof jQuery==\"undefined\")t||(t=!0,document.write('<script type=\"text\/javascript\" src=\"https:\/\/code.jquery.com\/jquery-latest.min.js\"><\/script><script type=\"text\/javascript\">jQuery.noConflict();<\/script>')),setTimeout(i,50);else{var n=jQuery.fn.jquery.split(\".\"),r=parseInt(n[0],10)*1e3+(n.length>1?parseInt(n[1],10):0);r<1003&&alert(\"Veuillez mettre \u00e0 jour jQuery.\")}}var u=r(\"__utma\"),t;n.push([\"fs._setAccount\",\"UA-36466461-1\"]);n.push([\"fs._setCustomVar\",1,\"STRUCT\",\"2-24-\",3]);n.push([\"fs._setCustomVar\",2,\"SYND\",\"2-31-7228-\",3]);n.push([\"fs._setCustomVar\",3,\"OFFRE\",\"72-ITIBRE022V50C8GL-\",3]);n.push([\"fs._setCustomVar\",4,\"UTIL\",u,3]);n.push([\"fs._setDomainName\",\"tourinsoft.com\"]);n.push([\"fs._trackPageview\"]);t=!1;i()})(_gaq)<\/script><script type=\"text\/javascript\">(function(n){var t=function(){var t=n(this);t.attr(\"data-type\")?_gaq.push([\"fs._trackEvent\",\"CLIC_OFFRE\",t.attr(\"data-type\"),t.attr(\"href\")]):t.attr(\"data-fs-tracking\")&&_gaq.push([\"fs._trackEvent\",\"CLIC_OFFRE\",t.attr(\"data-fs-tracking\"),t.attr(\"href\")])};n(function(){if(n.fn.on)n(document).on(\"click\",'a[data-type=\"FICHIER\"],a[data-type=\"MAILTO\"],a[data-type=\"URL\"],a[data-type=\"TEL\"],a[data-type=\"TRACE\"],a[data-fs-tracking]',t);else n.fn.live?n('a[data-type=\"FICHIER\"],a[data-type=\"MAILTO\"],a[data-type=\"URL\"],a[data-type=\"TEL\"],a[data-type=\"TRACE\"],a[data-fs-tracking]').live(\"click\",t):n.fn.click&&n('a[data-type=\"FICHIER\"],a[data-type=\"MAILTO\"],a[data-type=\"URL\"],a[data-type=\"TEL\"],a[data-type=\"TRACE\"],a[data-fs-tracking]').click(t)})})(jQuery)<\/script>",
+      "TIS_TRACKING_LISTING_OFFRE": "",
+      "Structure": {
+        "SyndicStructureId": "f9dc3e49-b715-4773-9298-780afc28862c",
+        "Name": "Dinan-Cap Fr\u00e9hel Tourisme",
+        "Email": "infos@dinan-capfrehel.com",
+        "EmailName": "Dinan-Cap Fr\u00e9hel Tourisme",
+        "Url": "www.dinan-tourisme.com",
+        "Address1": "",
+        "Address2": "9 rue du Ch\u00e2teau",
+        "Address3": "BP 261",
+        "Postcode": "22100",
+        "City": "Dinan",
+        "Country": "France",
+        "Phone": ""
+      },
+      "Pdfs": [
+        {
+          "ID": 304510341500001015,
+          "Ordre": 1,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "FichiersPDF": {
+            "MediaID": "74c5883c-5817-4a65-b1b1-bafd400ebbf8",
+            "Titre": "TopoGuide2018_web 34",
+            "Credit": "CD22-janvier-2022",
+            "Url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/TopoGuide2018-web-34.pdf"
+          }
+        }
+      ],
+      "AvisExperts": [
+        {
+          "ID": 303711571800004032,
+          "Ordre": 1,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "Prenom": null,
+          "Fonction": null,
+          "Commentaire": null,
+          "Nom": null,
+          "Photo": null
+        }
+      ],
+      "Durees": [
+        {
+          "ID": 304510341500000015,
+          "Ordre": 1,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "ThesID": "42cd6836-3ac1-42b8-a326-698864be7ff1",
+          "ThesLibelle": "entre 2h et 4h",
+          "ThesPicto": "",
+          "ThesCode": "B2202",
+          "ThesOrdre": 1
+        }
+      ],
+      "EtapesItinerairess": [
+        {
+          "ID": 177815585900000019,
+          "Ordre": 1,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "Distance": 0,
+          "Creditphoto": "O.Guillermin-Mairie-Plou\u00ebr-sur-Rance",
+          "Commune": null,
+          "Longitudeobligatoirepourcirkwicom": "-2.00580",
+          "Codepostal": null,
+          "Latitudeobligatoirepourcirkwicom": "48.52277",
+          "Identifiantdeletapeobligatoirepourcirkwicom": "V50C8GL1",
+          "Numerodetapeobligatoirepourcirwkicom": 1,
+          "Descriptif": "Un premier ch\u00e2teau fut \u00e9difi\u00e9 sur un site mar\u00e9cageux au XIIIe si\u00e8cle. En ruines au XVIIe , il fut ras\u00e9 et ce nouveau ch\u00e2teau fut \u00e9difi\u00e9 \u00e0 sa place. Celui-ci abrita un h\u00f4te c\u00e9l\u00e8bre : l'\u00e9crivain Fran\u00e7ois-Ren\u00e9 Chateaubriand.",
+          "Adresse": null,
+          "Libellephoto": "Le Ch\u00e2teau de Plou\u00ebr",
+          "Photo": {
+            "MediaID": "1f7ee7d9-d135-43d8-be2a-f6ce346ff125",
+            "Titre": "Ch\u00e2teau de Plou\u00ebr",
+            "Credit": "\u00a9 ",
+            "Url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/plaquette-bois-rochel-photos-001-3.JPG"
+          },
+          "Titredeletape": "Le Ch\u00e2teau de Plou\u00ebr"
+        },
+        {
+          "ID": 305417082000000025,
+          "Ordre": 2,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "Distance": null,
+          "Creditphoto": null,
+          "Commune": null,
+          "Longitudeobligatoirepourcirkwicom": "-1.982872",
+          "Codepostal": null,
+          "Latitudeobligatoirepourcirkwicom": "48.513661",
+          "Identifiantdeletapeobligatoirepourcirkwicom": "V50C8GL2",
+          "Numerodetapeobligatoirepourcirwkicom": 2,
+          "Descriptif": "Depuis ce belv\u00e9d\u00e8re, on profite d'un tr\u00e8s beau panorama sur la Rance maritime, le ch\u00e2teau de P\u00e9hou et le village de Mordreuc en face (rive droite).",
+          "Adresse": null,
+          "Libellephoto": null,
+          "Photo": {
+            "MediaID": "5990face-c606-470f-9461-49ead624a4e8",
+            "Titre": "Plou\u00ebr-sur-Rance-Panorama-Falaise (5)",
+            "Credit": "Th\u00e9r\u00e8se ",
+            "Url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/Plouer-sur-Rance-Panorama-Falaise--5--2.JPG"
+          },
+          "Titredeletape": "Panorama de la Falaise"
+        },
+        {
+          "ID": 177816234200000063,
+          "Ordre": 3,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "Distance": null,
+          "Creditphoto": null,
+          "Commune": null,
+          "Longitudeobligatoirepourcirkwicom": "-1.986471",
+          "Codepostal": null,
+          "Latitudeobligatoirepourcirkwicom": "48.516746",
+          "Identifiantdeletapeobligatoirepourcirkwicom": "V50C8GL3",
+          "Numerodetapeobligatoirepourcirwkicom": 3,
+          "Descriptif": "Le chemin d\u00e9bouche dans le joli hameau de Plumazon et la vue s'\u00e9largit vers la Rance maritime, vaste plan d'eau navigable, et vers les ponts qui enjambent la Rance. ",
+          "Adresse": null,
+          "Libellephoto": null,
+          "Photo": {
+            "MediaID": "b60ff00f-eadf-4f31-9ab3-9b14a257bab6",
+            "Titre": "Plou\u00ebr-Plumazon (10)",
+            "Credit": "Th\u00e9r\u00e8se Le Brigand DCFT",
+            "Url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/Plouer-Plumazon--10--2.JPG"
+          },
+          "Titredeletape": "Le Village de Plumazon"
+        },
+        {
+          "ID": 178515500000000010,
+          "Ordre": 4,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "Distance": null,
+          "Creditphoto": null,
+          "Commune": null,
+          "Longitudeobligatoirepourcirkwicom": "-1.98541390000",
+          "Codepostal": null,
+          "Latitudeobligatoirepourcirkwicom": "48.5255014",
+          "Identifiantdeletapeobligatoirepourcirkwicom": "V50C8GL4",
+          "Numerodetapeobligatoirepourcirwkicom": 4,
+          "Descriptif": "Am\u00e9nag\u00e9 dans la ria qui alimentait l'ancien moulin \u00e0 mar\u00e9e, le port de plaisance est naturellement abrit\u00e9 des vents dominants. Il est \u00e9quip\u00e9 de pontons et est accessible quand la hauteur d'eau atteint la cote 8.30 m.",
+          "Adresse": null,
+          "Libellephoto": null,
+          "Photo": {
+            "MediaID": "578e5d13-d5d1-4c1b-bf19-a05b89a45403",
+            "Titre": "port-plouer-sur-rance-09.2020-Loic Lagarde 2020 - 25",
+            "Credit": "Lo\u00efc Lagarde",
+            "Url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/port-plouer-sur-rance-09.2020-Loic-Lagarde-2020---25-2.jpg"
+          },
+          "Titredeletape": "Le port de plaisance"
+        },
+        {
+          "ID": 178516065300000010,
+          "Ordre": 5,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "Distance": null,
+          "Creditphoto": "Phlippe Josselin",
+          "Commune": null,
+          "Longitudeobligatoirepourcirkwicom": "-1.98072",
+          "Codepostal": null,
+          "Latitudeobligatoirepourcirkwicom": "48.52743",
+          "Identifiantdeletapeobligatoirepourcirkwicom": "V50C8GL5",
+          "Numerodetapeobligatoirepourcirwkicom": 5,
+          "Descriptif": "La cale de Plou\u00ebr offre un beau panorama sur le plan d'eau de la Rance maritime qui s'est \u00e9largi au fil de la randonn\u00e9e. Lieu d'embarquement et d'accostage, elle est couramment fr\u00e9quent\u00e9e par les baigneurs de tous \u00e2ges en p\u00e9riode estivale.",
+          "Adresse": null,
+          "Libellephoto": "La cale de Plou\u00ebr-sur-Rance",
+          "Photo": {
+            "MediaID": "56188e42-ae60-4611-b293-f3aa34f4b29c",
+            "Titre": "la-cale-de-plouer-sur-rance",
+            "Credit": "T. Le Brigand DCFT",
+            "Url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/la-cale-de-plouer-sur-rance.jpg"
+          },
+          "Titredeletape": "La cale de Plou\u00ebr "
+        },
+        {
+          "ID": 305417082000001025,
+          "Ordre": 6,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "Distance": null,
+          "Creditphoto": null,
+          "Commune": null,
+          "Longitudeobligatoirepourcirkwicom": "-2.003058",
+          "Codepostal": null,
+          "Latitudeobligatoirepourcirkwicom": "48.527708",
+          "Identifiantdeletapeobligatoirepourcirkwicom": "V50C8GL6",
+          "Numerodetapeobligatoirepourcirwkicom": 6,
+          "Descriptif": "Avec ses maisons regroup\u00e9es autour de l'\u00e9glise, le bourg de Plou\u00ebr pr\u00e9sente un b\u00e2ti ancien de grande beaut\u00e9, t\u00e9moin de la richesse de ses habitants \u00e0 une \u00e9poque, tourn\u00e9s vers les activit\u00e9s maritimes.\n\nAvec son cr\u00e9pi clair, l'\u00e9glise Saint Pierre Saint Paul ne ressemble pas \u00e0 ses voisines. Erig\u00e9e au 18e si\u00e8cle, elle comporte des \u00e9l\u00e9ments class\u00e9s aux Monuments Historiques : la chaire, les trois retables ainsi que trois gisants dat\u00e9s du 15e si\u00e8cle. ",
+          "Adresse": null,
+          "Libellephoto": null,
+          "Photo": {
+            "MediaID": "d669987e-8d19-4827-a0ef-258e3f363983",
+            "Titre": "eglise-de-plouer-sur-rance",
+            "Credit": "T. Le Brigand DCFT",
+            "Url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/eglise-de-plouer-sur-rance.jpg"
+          },
+          "Titredeletape": "Le bourg de Plou\u00ebr-sur-Rance"
+        }
+      ],
+      "MoyenDeComs": [
+        {
+          "ID": 178515431000000010,
+          "Ordre": 1,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "CoordonneesTelecom": "http:\/\/www.dinan-agglomeration.fr\/Economie-numerique\/Developpement-touristique\/Randonnees",
+          "TypedaccesTelecom": {
+            "ThesID": "3a6e3117-0636-4292-9b06-bc7319b4cef6",
+            "ThesLibelle": "Site web (URL)",
+            "ThesPicto": "",
+            "ThesCode": "C5",
+            "ThesOrdre": 1
+          }
+        },
+        {
+          "ID": 312811233100000016,
+          "Ordre": 2,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "CoordonneesTelecom": "https:\/\/www.dinan-capfrehel.com\/nos-envies\/activites-nature\/randonnee-pedestre\/",
+          "TypedaccesTelecom": {
+            "ThesID": "3a6e3117-0636-4292-9b06-bc7319b4cef6",
+            "ThesLibelle": "Site web (URL)",
+            "ThesPicto": "",
+            "ThesCode": "C5",
+            "ThesOrdre": 1
+          }
+        },
+        {
+          "ID": 312811243200000017,
+          "Ordre": 3,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "CoordonneesTelecom": "infos@dinan-capfrehel.com",
+          "TypedaccesTelecom": {
+            "ThesID": "a0ecac9e-1f82-46c1-a573-911b259b0b2f",
+            "ThesLibelle": "M\u00e9l",
+            "ThesPicto": "",
+            "ThesCode": "C4",
+            "ThesOrdre": 0
+          }
+        },
+        {
+          "ID": 312811243200001017,
+          "Ordre": 4,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "CoordonneesTelecom": "0 825 95 01 22",
+          "TypedaccesTelecom": {
+            "ThesID": "77431f62-a77a-4125-89a7-395432eda5a4",
+            "ThesLibelle": "T\u00e9l\u00e9phone fixe",
+            "ThesPicto": "",
+            "ThesCode": "C1",
+            "ThesOrdre": 5
+          }
+        }
+      ],
+      "Photoss": [
+        {
+          "ID": 310816273000001033,
+          "Ordre": 1,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "Droitduvisuel": {
+            "ThesID": "655ce179-7050-48a8-907d-8ade7f994ad2",
+            "ThesLibelle": "Visuel non libre de droit ",
+            "ThesPicto": "",
+            "ThesCode": "B2202",
+            "ThesOrdre": 1
+          },
+          "Photo": {
+            "MediaID": "400d8820-ed83-46b1-afe7-02fcda73dd47",
+            "Titre": "Port-Plou\u00ebr",
+            "Credit": "CFTB-Michel-Marine",
+            "Url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/crtb-ad8088-MICHEL-Marine.jpg"
+          }
+        },
+        {
+          "ID": 310816263700002036,
+          "Ordre": 2,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "Droitduvisuel": {
+            "ThesID": "655ce179-7050-48a8-907d-8ade7f994ad2",
+            "ThesLibelle": "Visuel non libre de droit ",
+            "ThesPicto": "",
+            "ThesCode": "B2202",
+            "ThesOrdre": 1
+          },
+          "Photo": {
+            "MediaID": "eaabfe73-80e5-4dee-9467-9a61cb5ccfb7",
+            "Titre": "Bourg-Plouer-parc-expo-",
+            "Credit": "Th\u00e9r\u00e8se Le Brigand DCFT",
+            "Url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/Bourg-Plouer-parc-expo-.jpg"
+          }
+        },
+        {
+          "ID": 306510583400002036,
+          "Ordre": 3,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "Droitduvisuel": {
+            "ThesID": "655ce179-7050-48a8-907d-8ade7f994ad2",
+            "ThesLibelle": "Visuel non libre de droit ",
+            "ThesPicto": "",
+            "ThesCode": "B2202",
+            "ThesOrdre": 1
+          },
+          "Photo": {
+            "MediaID": "3749ad5d-292b-49ab-893a-f9f5ad06ce40",
+            "Titre": "Le ch\u00e2teau de Plou\u00ebr (priv\u00e9)",
+            "Credit": "Odile-Guillermin-Mairie-Plouer-sur-Rance",
+            "Url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/plaquette-bois-rochel-photos-001.JPG"
+          }
+        },
+        {
+          "ID": 310816263700001036,
+          "Ordre": 4,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "Droitduvisuel": {
+            "ThesID": "655ce179-7050-48a8-907d-8ade7f994ad2",
+            "ThesLibelle": "Visuel non libre de droit ",
+            "ThesPicto": "",
+            "ThesCode": "B2202",
+            "ThesOrdre": 1
+          },
+          "Photo": {
+            "MediaID": "b072a8fd-a3f1-4b69-802d-31ce51dfcd55",
+            "Titre": "Port de plaisance",
+            "Credit": " ",
+            "Url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/Credit-Odile-Guillermin-Commune-Plouer-sur-Ranceplaquette-bois-rochel-photos-018--3-.JPG"
+          }
+        },
+        {
+          "ID": 310816232500017037,
+          "Ordre": 5,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "Droitduvisuel": {
+            "ThesID": "655ce179-7050-48a8-907d-8ade7f994ad2",
+            "ThesLibelle": "Visuel non libre de droit ",
+            "ThesPicto": "",
+            "ThesCode": "B2202",
+            "ThesOrdre": 1
+          },
+          "Photo": {
+            "MediaID": "4b278b7f-438a-4074-8c2c-b6aa72d98c43",
+            "Titre": "Plou\u00ebr-Fontaine-Saint-Lunaire",
+            "Credit": "Th\u00e9r\u00e8se Le Brigand DCFT",
+            "Url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/Plouer-Fontaine-Saint-Lunaire.JPG"
+          }
+        },
+        {
+          "ID": 306510583400000036,
+          "Ordre": 6,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "Droitduvisuel": {
+            "ThesID": "655ce179-7050-48a8-907d-8ade7f994ad2",
+            "ThesLibelle": "Visuel non libre de droit ",
+            "ThesPicto": "",
+            "ThesCode": "B2202",
+            "ThesOrdre": 1
+          },
+          "Photo": {
+            "MediaID": "563433d7-e2a5-4d71-980c-f541dd6758ca",
+            "Titre": "Plou\u00ebr-Plumazon (13)",
+            "Credit": "T.LeBrigand",
+            "Url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/Plouer-Plumazon--13-.JPG"
+          }
+        },
+        {
+          "ID": 19012303200008072,
+          "Ordre": 7,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "Droitduvisuel": {
+            "ThesID": "655ce179-7050-48a8-907d-8ade7f994ad2",
+            "ThesLibelle": "Visuel non libre de droit ",
+            "ThesPicto": "",
+            "ThesCode": "B2202",
+            "ThesOrdre": 1
+          },
+          "Photo": {
+            "MediaID": "eaf61677-e457-43da-b33c-a23dedbfe699",
+            "Titre": "Le long de la Rance maritime",
+            "Credit": "Credit-Commune-Plouer-sur-Rance-O",
+            "Url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/Credit-Commune-Plouer-sur-Rance-O.-Guillermin.plaquette-bois-rochel-photos-044.JPG"
+          }
+        },
+        {
+          "ID": 310816232500015037,
+          "Ordre": 8,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "Droitduvisuel": {
+            "ThesID": "655ce179-7050-48a8-907d-8ade7f994ad2",
+            "ThesLibelle": "Visuel non libre de droit ",
+            "ThesPicto": "",
+            "ThesCode": "B2202",
+            "ThesOrdre": 1
+          },
+          "Photo": {
+            "MediaID": "4ddafd8c-70b6-4fa1-b114-5a20a8abb45e",
+            "Titre": "panorama-vers-mordreuc",
+            "Credit": "Th\u00e9r\u00e8se Le Brigand DCFT",
+            "Url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/panorama-vers-mordreuc-4.jpg"
+          }
+        },
+        {
+          "ID": 310816273000002033,
+          "Ordre": 9,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "Droitduvisuel": {
+            "ThesID": "655ce179-7050-48a8-907d-8ade7f994ad2",
+            "ThesLibelle": "Visuel non libre de droit ",
+            "ThesPicto": "",
+            "ThesCode": "B2202",
+            "ThesOrdre": 1
+          },
+          "Photo": {
+            "MediaID": "7b3685e7-2e07-4c0a-9911-713b47aff500",
+            "Titre": "Plou\u00ebr-sur-Rance-Panorama-Falaise (3)",
+            "Credit": "T.Le Brigand",
+            "Url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/Plouer-sur-Rance-Panorama-Falaise--3-.JPG"
+          }
+        }
+      ],
+      "Reservations": [],
+      "ContactGroupess": [],
+      "LanguesParleess": [],
+      "ModesPaiementss": [],
+      "Videos": [],
+      "Localisations": [
+        {
+          "ID": 303711571800003032,
+          "Ordre": 1,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "Nom": null,
+          "Distance": null,
+          "Typedelocalisation": {
+            "ThesID": "259b3468-bbee-4b8c-8063-acae8680b3d0",
+            "ThesLibelle": "Au bord d'une rivi\u00e8re",
+            "ThesPicto": "",
+            "ThesCode": "RIV",
+            "ThesOrdre": 14
+          }
+        }
+      ],
+      "Thematiquess": [],
+      "PeriodeOuvertures": [],
+      "Handicaps": [],
+      "Tarifss": [],
+      "Classifications": [
+        {
+          "ID": 18818164500015012,
+          "Ordre": 1,
+          "SyndicObjectId": "ITIBRE022V50C8GL",
+          "ThesID": "457bb0f9-de91-4f2d-b654-851ee4a53a64",
+          "ThesLibelle": "P\u00e9destre",
+          "ThesPicto": "",
+          "ThesCode": "PEDES",
+          "ThesOrdre": 7
+        }
+      ],
+      "OffresAssocieess": [],
+      "LocalisationAccess": [],
+      "TisTracking": {
+        "SyndicObjectId": "ITIBRE022V50C8GL",
+        "CodeOffre": "72-ITIBRE022V50C8GL-",
+        "CodeStructure": "2-24-",
+        "CodeSyndication": "2-31-7228-"
+      }
+    }
+  },
+  "escaped_title": "Le circuit des bois Rochel \u00e0 Plou\u00ebr-sur-Rance",
+  "title": "Le circuit des bois Rochel \u00e0 Plou\u00ebr-sur-Rance",
+  "surtitre": "P\u00e9destre",
+  "geo": {
+    "lng": "-2.0047079",
+    "lat": "48.5271353"
+  },
+  "photos": [
+    {
+      "titre": "Port-Plou\u00ebr",
+      "credit": "CFTB-Michel-Marine",
+      "url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/crtb-ad8088-MICHEL-Marine.jpg",
+      "gallery_thumb": {
+        "url": "https:\/\/dinan.dev-thuria.com\/wp-content\/uploads\/tourinsoft\/7de5d6cd47dd58698e752b9f269aa599-crtb-ad8088-MICHEL-Marine-660x500.jpg",
+        "width": 660,
+        "height": 500,
+        "size": 57860,
+        "cropped": false,
+        "alt": "Port-Plou\u00ebr",
+        "credit": "CFTB-Michel-Marine"
+      },
+      "cards": {
+        "all": {
+          "url": "https:\/\/dinan.dev-thuria.com\/wp-content\/uploads\/tourinsoft\/7de5d6cd47dd58698e752b9f269aa599-crtb-ad8088-MICHEL-Marine-340x230.jpg",
+          "width": 340,
+          "height": 230,
+          "size": 16806,
+          "cropped": false,
+          "alt": "Port-Plou\u00ebr",
+          "credit": "CFTB-Michel-Marine"
+        }
+      }
+    },
+    {
+      "titre": "Bourg-Plouer-parc-expo-",
+      "credit": "Th\u00e9r\u00e8se Le Brigand DCFT",
+      "url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/Bourg-Plouer-parc-expo-.jpg",
+      "gallery_thumb": {
+        "url": "https:\/\/dinan.dev-thuria.com\/wp-content\/uploads\/tourinsoft\/37fa4104e21de060107f9e79466a214d-Bourg-Plouer-parc-expo--660x500.jpg",
+        "width": 660,
+        "height": 500,
+        "size": 62852,
+        "cropped": false,
+        "alt": "Bourg-Plouer-parc-expo-",
+        "credit": "Th\u00e9r\u00e8se Le Brigand DCFT"
+      }
+    },
+    {
+      "titre": "Le ch\u00e2teau de Plou\u00ebr (priv\u00e9)",
+      "credit": "Odile-Guillermin-Mairie-Plouer-sur-Rance",
+      "url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/plaquette-bois-rochel-photos-001.jpg",
+      "gallery_thumb": {
+        "url": "https:\/\/dinan.dev-thuria.com\/wp-content\/uploads\/tourinsoft\/e315ed703b1d5063deff94fb8fce79e8-plaquette-bois-rochel-photos-001-660x500.jpg",
+        "width": 660,
+        "height": 500,
+        "size": 58431,
+        "cropped": false,
+        "alt": "Le ch\u00e2teau de Plou\u00ebr (priv\u00e9)",
+        "credit": "Odile-Guillermin-Mairie-Plouer-sur-Rance"
+      }
+    },
+    {
+      "titre": "Port de plaisance",
+      "credit": " ",
+      "url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/Credit-Odile-Guillermin-Commune-Plouer-sur-Ranceplaquette-bois-rochel-photos-018--3-.jpg",
+      "gallery_thumb": {
+        "url": "https:\/\/dinan.dev-thuria.com\/wp-content\/uploads\/tourinsoft\/9f7c16e4a13b-Credit-Odile-Guillermin-Commune-Plouer-sur-Ranceplaquette-bois-rochel-photos-018-660x500.jpg",
+        "width": 660,
+        "height": 500,
+        "size": 113340,
+        "cropped": false,
+        "alt": "Port de plaisance",
+        "credit": " "
+      }
+    },
+    {
+      "titre": "Plou\u00ebr-Fontaine-Saint-Lunaire",
+      "credit": "Th\u00e9r\u00e8se Le Brigand DCFT",
+      "url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/Plouer-Fontaine-Saint-Lunaire.jpg",
+      "gallery_thumb": {
+        "url": "https:\/\/dinan.dev-thuria.com\/wp-content\/uploads\/tourinsoft\/a0c2ef5cf019c173280a0aaa71b7c5e7-Plouer-Fontaine-Saint-Lunaire-660x500.jpg",
+        "width": 660,
+        "height": 500,
+        "size": 105575,
+        "cropped": false,
+        "alt": "Plou\u00ebr-Fontaine-Saint-Lunaire",
+        "credit": "Th\u00e9r\u00e8se Le Brigand DCFT"
+      }
+    },
+    {
+      "titre": "Plou\u00ebr-Plumazon (13)",
+      "credit": "T.LeBrigand",
+      "url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/Plouer-Plumazon--13-.jpg",
+      "gallery_thumb": {
+        "url": "https:\/\/dinan.dev-thuria.com\/wp-content\/uploads\/tourinsoft\/6a554aa8d0aa4522f02b4f2de290db63-Plouer-Plumazon--13--660x500.jpg",
+        "width": 660,
+        "height": 500,
+        "size": 41600,
+        "cropped": false,
+        "alt": "Plou\u00ebr-Plumazon (13)",
+        "credit": "T.LeBrigand"
+      }
+    },
+    {
+      "titre": "Le long de la Rance maritime",
+      "credit": "Credit-Commune-Plouer-sur-Rance-O",
+      "url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/Credit-Commune-Plouer-sur-Rance-O.-Guillermin.plaquette-bois-rochel-photos-044.jpg",
+      "gallery_thumb": {
+        "url": "https:\/\/dinan.dev-thuria.com\/wp-content\/uploads\/tourinsoft\/648032dda70104d7f00a91b90fbe4783-Credit-Commune-Plouer-sur-Rance-O_-Guillermin_plaquette-bois-rochel-photos-044-660x500.jpg",
+        "width": 660,
+        "height": 500,
+        "size": 55413,
+        "cropped": false,
+        "alt": "Le long de la Rance maritime",
+        "credit": "Credit-Commune-Plouer-sur-Rance-O"
+      }
+    },
+    {
+      "titre": "panorama-vers-mordreuc",
+      "credit": "Th\u00e9r\u00e8se Le Brigand DCFT",
+      "url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/panorama-vers-mordreuc-4.jpg",
+      "gallery_thumb": {
+        "url": "https:\/\/dinan.dev-thuria.com\/wp-content\/uploads\/tourinsoft\/fab0cbab218a9988c6c9b3e220a0e3c0-panorama-vers-mordreuc-4-660x500.jpg",
+        "width": 660,
+        "height": 500,
+        "size": 60907,
+        "cropped": false,
+        "alt": "panorama-vers-mordreuc",
+        "credit": "Th\u00e9r\u00e8se Le Brigand DCFT"
+      }
+    },
+    {
+      "titre": "Plou\u00ebr-sur-Rance-Panorama-Falaise (3)",
+      "credit": "T.Le Brigand",
+      "url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/Plouer-sur-Rance-Panorama-Falaise--3-.jpg",
+      "gallery_thumb": {
+        "url": "https:\/\/dinan.dev-thuria.com\/wp-content\/uploads\/tourinsoft\/86e6646c222d0f9a3a6f25fc3e0cabfe-Plouer-sur-Rance-Panorama-Falaise--3--660x500.jpg",
+        "width": 660,
+        "height": 500,
+        "size": 34149,
+        "cropped": false,
+        "alt": "Plou\u00ebr-sur-Rance-Panorama-Falaise (3)",
+        "credit": "T.Le Brigand"
+      }
+    }
+  ],
+  "header_orientation": "paysage",
+  "raison_sociale": "Le circuit des bois Rochel \u00e0 Plou\u00ebr-sur-Rance",
+  "adresse": [
+    "La Poste",
+    "22490 Plou\u00ebr-sur-Rance"
+  ],
+  "commune": "Plou\u00ebr-sur-Rance",
+  "com_data": {
+    "web": [
+      "http:\/\/www.dinan-agglomeration.fr\/Economie-numerique\/Developpement-touristique\/Randonnees",
+      "https:\/\/www.dinan-capfrehel.com\/nos-envies\/activites-nature\/randonnee-pedestre\/"
+    ],
+    "mel": [
+      "infos@dinan-capfrehel.com"
+    ],
+    "tel": [
+      "0 825 95 01 22"
+    ]
+  },
+  "com_rs": [],
+  "resa_url": null,
+  "open_overlay_form": false,
+  "header_pictos": {
+    "has_data": false
+  },
+  "description": {
+    "has_data": true,
+    "description": [
+      "Dans des paysages ruraux et maritimes, cette randonn\u00e9e de 11 km  sillonne des chemins encaiss\u00e9s en campagne et des petites routes, et traverse des hameaux \u00e0 l\u2019architecture traditionnelle des bords de Rance.\n\nAu d\u00e9part du bourg de Plou\u00ebr-sur-Rance, la balade rejoint les rives de la Rance maritime qu'elle longe, tant\u00f4t au bord de l'eau, tant\u00f4t en hauteur. Apr\u00e8s avoir gagn\u00e9 les hauteurs de la rive, la randonn\u00e9e se poursuit par les villages jusqu'\u00e0 revenir au point de d\u00e9part. \n\nEn cheminant le long des gr\u00e8ves ou en hauteur sur le sentier c\u00f4tier, les randonneurs profiteront de la vue sur la Rance, ce bel et vaste espace maritime.\n\nAttention : dans les bois Rochel, les sentiers peuvent \u00eatre boueux et glissants en hiver (on s'assurera d'\u00eatre bien chauss\u00e9). Vigilance sur le sentier c\u00f4tier qui pr\u00e9sente des parties escarp\u00e9es.\n\n\nRetrouvez cette randonn\u00e9e dans le topo-guide \"balades et randonn\u00e9es\" (Dinan Agglom\u00e9ration) en vente dans les bureaux d'information touristique de Dinan Cap Fr\u00e9hel tourisme "
+    ]
+  },
+  "apropos_infos": {
+    "has_data": false
+  },
+  "apropos_pictos": {
+    "has_data": true,
+    "pictos": {
+      "has_data": false,
+      "denivele": {
+        "icon": "icon-ico-graphic",
+        "title": "+&nbsp;40 m"
+      },
+      "distance": {
+        "text": "10,6 Km"
+      },
+      "difficulte": {
+        "classe": "difficulte-B2202",
+        "text": "Moyen"
+      }
+    }
+  },
+  "labels": {
+    "has_data": false
+  },
+  "infos_comp": {
+    "has_data": false
+  },
+  "capacites": {
+    "has_data": false
+  },
+  "capacitesreu": {
+    "has_data": false
+  },
+  "tarifs": {
+    "has_data": false
+  },
+  "ouverture": {
+    "has_data": false,
+    "display_next_occurence": false
+  },
+  "documents": {
+    "has_data": true,
+    "files": {
+      "1": {
+        "url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/TopoGuide2018-web-34.pdf",
+        "titre": "TopoGuide2018_web 34",
+        "credit": "CD22-janvier-2022",
+        "type": "pdf"
+      },
+      "10000": {
+        "url": "https:\/\/cdt22.media.tourinsoft.eu\/upload\/geotrek-circuit-des-bois-rochel.gpx",
+        "titre": "circuit-des-bois-rochel",
+        "credit": "CD22-janvier22",
+        "type": "GPX"
+      }
+    }
+  },
+  "videos": {
+    "has_data": false
+  },
+  "offres_associees": {
+    "has_data": false
+  },
+  "url_rawdata": "https:\/\/dinan.dev-thuria.com\/randonnees\/le-circuit-des-bois-rochel-a-plouer-sur-rance\/?data&wpdebug"
+}

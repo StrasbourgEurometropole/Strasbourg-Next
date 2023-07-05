@@ -1,0 +1,17 @@
+.st-page-grille {
+	.st-wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.st-surtitre {
+		font-size: 14px;
+		margin: 0;
+
+		& + .st-surtitre {
+			color: $c_sub;
+			font-weight: 400;
+		}
+	}
+}

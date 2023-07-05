@@ -1,0 +1,42 @@
+/* ------------------
+--- CSS GLOBAL + DES CLASSES UTILES ---
+------------------ */
+
+html, body {
+	height: 100%;
+}
+
+html {
+	font-size: 100%;
+	margin-top: 0 !important;
+}
+
+body.st-theme {
+	font-family: $f_txt;
+	background-color: $c_main;
+	font-size: 16px;
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	color: $c_txt;
+	overflow-x: hidden;
+
+	&.st-no-scroll {
+		overflow: hidden;
+	}
+
+	&.st-fixed {
+		@include absolute-stretch();
+		position: fixed;
+	}
+}
+
+
+main {
+	position: relative;
+}
+
+[class^="st-icon-"], [class*=" st-icon-"] {
+	@include addTransition();
+}
+

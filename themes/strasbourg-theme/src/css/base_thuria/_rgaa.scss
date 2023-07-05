@@ -1,0 +1,28 @@
+// Screen reader only - styles pour rendre du texte visible
+// ==========================================================================
+
+.st-sr-only {
+	border: 0;
+	clip: rect(1px, 1px, 1px, 1px);
+	-webkit-clip-path: inset(50%);
+	clip-path: inset(50%);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+	white-space: nowrap;
+}
+
+.st-sr-only-focusable:focus,
+.st-sr-only-focusable:active {
+	clip: auto;
+	-webkit-clip-path: none;
+	clip-path: none;
+	height: auto;
+	margin: auto;
+	overflow: visible;
+	width: auto;
+	white-space: normal;
+}

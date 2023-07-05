@@ -1,0 +1,44 @@
+.st-social-links {
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: -10px;
+
+	@include mobile {
+		flex-wrap: wrap;
+	}
+
+
+	li {
+		&:not(:last-of-type) {
+			margin-right: 10px;
+		}
+
+		margin-top: 10px;
+	}
+
+	a {
+		width: 48px;
+		height: 48px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 1px solid $c_sub;
+		text-decoration: none;
+		@include create-outline();
+		@include mobile {
+			width: 44px;
+			height: 44px;
+		}
+		@include can-hover {
+			background-color: $c_sub;
+			border-color: $c_sub;
+			[class^="st-icon-"], [class*=" st-icon-"] {
+				color: $c_dark_navy;
+			}
+		}
+
+		[class^="st-icon-"], [class*=" st-icon-"] {
+			color: $c_white;
+		}
+	}
+}

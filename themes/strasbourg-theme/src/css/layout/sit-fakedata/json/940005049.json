@@ -1,0 +1,2604 @@
+{
+  "sit_id": "940005049",
+  "schemaorg": {
+    "@context": "http:\/\/schema.org",
+    "@type": "Hotel",
+    "name": "HOTEL DES LACS",
+    "description": null,
+    "petsAllowed": null,
+    "paymentAccepted": "American Express, Carte Bleue, Ch\u00e8ques Vacances, Esp\u00e8ces, Eurocard - Mastercard, Virements, Visa",
+    "starRating": {
+      "@type": "Rating",
+      "ratingValue": 3,
+      "author": {
+        "@type": "Organization",
+        "name": "Pr\u00e9f\u00e9cture"
+      }
+    },
+    "amenityFeature": [],
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "CELLES SUR PLAINE",
+      "postalCode": "88110",
+      "streetAddress": "2 Place de la Gare"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 48.455514,
+      "longitude": 6.9480619999999
+    },
+    "telephone": "03 29 41 17 06",
+    "url": "http:\/\/www.hotel-des-lacs.fr"
+  },
+  "fiche": {
+    "data": {
+      "_infos": {
+        "sit": "sitlor",
+        "datmaj": "11\/03\/2022 16:08:44"
+      },
+      "criteres": {
+        "4000010": {
+          "exist": 1,
+          "nom": "Tarifs h\u00f4tel ann\u00e9e en cours (client\u00e8le individuelle)",
+          "type_critere": 2,
+          "type_valeur": 1,
+          "classe": 8,
+          "modalites": {
+            "4000048": {
+              "nom": "Chambre double minimum",
+              "ordre": 0,
+              "valeur": 82,
+              "exist": 1
+            },
+            "4000050": {
+              "nom": "Petit d\u00e9jeuner",
+              "ordre": 2,
+              "valeur": 11,
+              "exist": 1
+            },
+            "4000052": {
+              "nom": "1\/2 pension minimum",
+              "ordre": 4,
+              "valeur": 165,
+              "exist": 1
+            },
+            "4000565": {
+              "nom": "Soir\u00e9e \u00e9tape",
+              "ordre": 12,
+              "valeur": 85,
+              "exist": 1
+            }
+          }
+        },
+        "4000099": {
+          "exist": 1,
+          "nom": "Produit insolite",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 1,
+          "modalites": {
+            "4000397": {
+              "nom": "Non",
+              "ordre": 2,
+              "exist": 1
+            }
+          }
+        },
+        "4000101": {
+          "exist": 1,
+          "nom": "Lien Facebook",
+          "type_critere": 0,
+          "type_valeur": 6,
+          "classe": 0,
+          "valeur": "https:\/\/www.facebook.com\/pages\/Hotel-des-Lacs\/187071651380752?fref=ts",
+          "modalites": []
+        },
+        "4000117": {
+          "exist": 1,
+          "nom": "TripAdvisor - Lien",
+          "type_critere": 0,
+          "type_valeur": 6,
+          "classe": 0,
+          "valeur": "http:\/\/www.tripadvisor.fr\/Hotel_Review-g1903359-d1881645-Reviews-Hotel_des_Lacs-Celles_sur_Plaine_Vosges_Lorraine.html",
+          "modalites": []
+        },
+        "4000245": {
+          "exist": 1,
+          "nom": "Marque nationale Accueil V\u00e9lo",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 32,
+          "modalites": {
+            "4000979": {
+              "nom": "Oui",
+              "ordre": 1,
+              "exist": 1
+            }
+          }
+        },
+        "4000263": {
+          "exist": 1,
+          "nom": "Mode d'acc\u00e8s wifi",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 8,
+          "modalites": {
+            "4001026": {
+              "nom": "Wifi gratuit",
+              "ordre": 1,
+              "exist": 1
+            }
+          }
+        },
+        "4000323": {
+          "exist": 1,
+          "nom": "Logis - H\u00e9bergement",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 32,
+          "modalites": {
+            "4001179": {
+              "nom": "H\u00f4tel Cosy",
+              "ordre": 2,
+              "exist": 1
+            }
+          }
+        },
+        "736000002": {
+          "exist": 1,
+          "nom": "Localisation",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 128,
+          "modalites": {
+            "56": {
+              "nom": "A la campagne",
+              "ordre": 0,
+              "exist": 1
+            },
+            "62": {
+              "nom": "Bord de rivi\u00e8re",
+              "ordre": 6,
+              "exist": 1
+            }
+          }
+        },
+        "736000005": {
+          "exist": 1,
+          "nom": "Langues parl\u00e9es - r\u00e9servation",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 2,
+          "modalites": {
+            "69": {
+              "nom": "Anglais",
+              "ordre": 1,
+              "exist": 1
+            },
+            "70": {
+              "nom": "Allemand",
+              "ordre": 2,
+              "exist": 1
+            }
+          }
+        },
+        "736000007": {
+          "exist": 1,
+          "nom": "Mode de paiement",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 8,
+          "modalites": {
+            "86": {
+              "nom": "American Express",
+              "ordre": 2,
+              "exist": 1
+            },
+            "84": {
+              "nom": "Carte Bleue",
+              "ordre": 4,
+              "exist": 1
+            },
+            "92": {
+              "nom": "Ch\u00e8ques Vacances",
+              "ordre": 8,
+              "exist": 1
+            },
+            "97": {
+              "nom": "Esp\u00e8ces",
+              "ordre": 12,
+              "exist": 1
+            },
+            "88": {
+              "nom": "Eurocard - Mastercard",
+              "ordre": 13,
+              "exist": 1
+            },
+            "96": {
+              "nom": "Virements",
+              "ordre": 16,
+              "exist": 1
+            },
+            "89": {
+              "nom": "Visa",
+              "ordre": 17,
+              "exist": 1
+            }
+          }
+        },
+        "736000010": {
+          "exist": 1,
+          "nom": "Animaux accept\u00e9s",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 2,
+          "modalites": {
+            "101": {
+              "nom": "OUI",
+              "ordre": 1,
+              "exist": 1
+            }
+          }
+        },
+        "736000012": {
+          "exist": 1,
+          "nom": "Groupes accept\u00e9s",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 2,
+          "modalites": {
+            "105": {
+              "nom": "OUI",
+              "ordre": 1,
+              "exist": 1
+            }
+          }
+        },
+        "736000014": {
+          "exist": 1,
+          "nom": "Parking autocar",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 2,
+          "modalites": {
+            "107": {
+              "nom": "OUI",
+              "ordre": 1,
+              "exist": 1
+            }
+          }
+        },
+        "736000015": {
+          "exist": 1,
+          "nom": "Cat\u00e9gorie d'h\u00f4tel",
+          "type_critere": 1,
+          "type_valeur": 1,
+          "classe": 1,
+          "modalites": {
+            "111": {
+              "nom": "3 \u00e9toiles",
+              "ordre": 3,
+              "exist": 1
+            }
+          }
+        },
+        "736000016": {
+          "exist": 1,
+          "nom": "Cha\u00eene d'h\u00f4tel - Groupement",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 32,
+          "modalites": {
+            "4001190": {
+              "nom": "Logis",
+              "ordre": 173,
+              "exist": 1
+            }
+          }
+        },
+        "736000018": {
+          "exist": 1,
+          "nom": "Confort en chambre",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 16,
+          "modalites": {
+            "152": {
+              "nom": "Acc\u00e8s Internet",
+              "ordre": 1,
+              "exist": 1
+            },
+            "155": {
+              "nom": "Wifi",
+              "ordre": 2,
+              "exist": 1
+            },
+            "141": {
+              "nom": "C\u00e2ble \/ satellite",
+              "ordre": 3,
+              "exist": 1
+            },
+            "145": {
+              "nom": "Double vitrage",
+              "ordre": 6,
+              "exist": 1
+            },
+            "149": {
+              "nom": "T\u00e9l\u00e9phone",
+              "ordre": 10,
+              "exist": 1
+            },
+            "151": {
+              "nom": "T\u00e9l\u00e9vision",
+              "ordre": 11,
+              "exist": 1
+            },
+            "4001075": {
+              "nom": "Bouilloire",
+              "ordre": 13,
+              "exist": 1
+            }
+          }
+        },
+        "736000019": {
+          "exist": 1,
+          "nom": "Equipements de l'h\u00f4tel",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 16,
+          "modalites": {
+            "155": {
+              "nom": "Bar",
+              "ordre": 2,
+              "exist": 1
+            },
+            "161": {
+              "nom": "Garage priv\u00e9",
+              "ordre": 8,
+              "exist": 1
+            },
+            "164": {
+              "nom": "Local mat\u00e9riel ferm\u00e9",
+              "ordre": 11,
+              "exist": 1
+            },
+            "166": {
+              "nom": "Parc",
+              "ordre": 13,
+              "exist": 1
+            },
+            "170": {
+              "nom": "Restaurant",
+              "ordre": 18,
+              "exist": 1
+            },
+            "172": {
+              "nom": "Salon",
+              "ordre": 20,
+              "exist": 1
+            },
+            "174": {
+              "nom": "Sauna",
+              "ordre": 22,
+              "exist": 1
+            },
+            "177": {
+              "nom": "Terrasse",
+              "ordre": 25,
+              "exist": 1
+            }
+          }
+        },
+        "736000020": {
+          "exist": 1,
+          "nom": "Services de l'h\u00f4tel",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 16,
+          "modalites": {
+            "181": {
+              "nom": "Coffres clients",
+              "ordre": 4,
+              "exist": 1
+            }
+          }
+        },
+        "736000021": {
+          "exist": 1,
+          "nom": "Activit\u00e9s sur place \u00e0 l'h\u00f4tel",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 64,
+          "modalites": {
+            "189": {
+              "nom": "Plage surveill\u00e9e",
+              "ordre": 8,
+              "exist": 1
+            }
+          }
+        },
+        "736000035": {
+          "exist": 1,
+          "nom": "Altitude (en m)",
+          "type_critere": 0,
+          "type_valeur": 1,
+          "classe": 128,
+          "valeur": 315,
+          "modalites": []
+        },
+        "736000079": {
+          "exist": 1,
+          "nom": "Langues parl\u00e9es \u00e0 l'accueil",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 2,
+          "modalites": {
+            "69": {
+              "nom": "Anglais",
+              "ordre": 1,
+              "exist": 1
+            },
+            "70": {
+              "nom": "Allemand",
+              "ordre": 2,
+              "exist": 1
+            }
+          }
+        },
+        "736000143": {
+          "exist": 1,
+          "nom": "Capacit\u00e9 de l'h\u00f4tel",
+          "type_critere": 2,
+          "type_valeur": 1,
+          "classe": 4,
+          "modalites": {
+            "8": {
+              "nom": "Nbre total de chambres",
+              "ordre": 1,
+              "valeur": 15,
+              "exist": 1
+            },
+            "13": {
+              "nom": "Nbre total de personnes",
+              "ordre": 13,
+              "valeur": 30,
+              "exist": 1
+            }
+          }
+        },
+        "736000187": {
+          "exist": 1,
+          "nom": "Type d'h\u00f4tel",
+          "type_critere": 1,
+          "type_valeur": 2,
+          "classe": 1,
+          "modalites": {
+            "2": {
+              "nom": "H\u00f4tel-restaurant",
+              "ordre": 2,
+              "exist": 1
+            }
+          }
+        },
+        "736000262": {
+          "exist": 1,
+          "nom": "Fermeture hebdomadaire de l'h\u00f4tel",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 2,
+          "modalites": {
+            "1": {
+              "nom": "Lundi soir",
+              "ordre": 1,
+              "exist": 1
+            },
+            "7": {
+              "nom": "Dimanche soir",
+              "ordre": 7,
+              "exist": 1
+            }
+          }
+        },
+        "736000266": {
+          "exist": 1,
+          "nom": "Habilitation",
+          "type_critere": "-1",
+          "type_valeur": 1,
+          "classe": 256,
+          "modalites": {
+            "3": {
+              "nom": "Habilitation pr\u00e9fectorale",
+              "ordre": 3,
+              "exist": 1
+            }
+          }
+        },
+        "736001017": {
+          "exist": 1,
+          "nom": "Chartes de qualit\u00e9 d\u00e9partementales et r\u00e9gionales",
+          "type_critere": "-1",
+          "type_valeur": 2,
+          "classe": 32,
+          "modalites": {
+            "4000250": {
+              "nom": "Pass Lorraine",
+              "ordre": 9,
+              "exist": 1
+            },
+            "4000727": {
+              "nom": "For\u00eat - L'effet Vosges",
+              "ordre": 11,
+              "exist": 1
+            }
+          }
+        }
+      },
+      "photos": [
+        {
+          "url": "https:\/\/www.sitlor.fr\/photos\/940\/940005049_4.jpg",
+          "credit": "Restaurant des Lacs",
+          "titre": "",
+          "width": 1300,
+          "height": 975,
+          "orientation": "paysage"
+        },
+        {
+          "url": "https:\/\/www.sitlor.fr\/photos\/940\/940005049_5.jpg",
+          "credit": "Restaurant des Lacs",
+          "titre": "",
+          "width": 700,
+          "height": 464,
+          "orientation": "paysage"
+        },
+        {
+          "url": "https:\/\/www.sitlor.fr\/photos\/940\/940005049_6.jpg",
+          "credit": "Restaurant des Lacs",
+          "titre": "",
+          "width": 700,
+          "height": 468,
+          "orientation": "paysage"
+        },
+        {
+          "url": "https:\/\/www.sitlor.fr\/photos\/940\/940005049_8.jpg",
+          "credit": "Restaurant des Lacs",
+          "titre": "",
+          "width": 700,
+          "height": 469,
+          "orientation": "paysage"
+        }
+      ],
+      "id": 940005049,
+      "type": {
+        "id": 4000003,
+        "nom": "H\u00f4tel-restaurant"
+      },
+      "coordonnees": {
+        "num_voie": "2",
+        "libelle_voie": "Place de la Gare",
+        "code_postal": "88110",
+        "libelle_commune": "CELLES SUR PLAINE",
+        "telephone1": "03 29 41 17 06",
+        "email1": "hotel.des.lacs@netcourrier.com",
+        "url1": "www.hotel-des-lacs.fr"
+      },
+      "NOM": "HOTEL DES LACS",
+      "BORDERAU": "H\u00f4tel-restaurant",
+      "DESC": [
+        "Au c\u0153ur de la Vall\u00e9e des Lacs de Pierre Perc\u00e9e et \u00e0 deux pas du Donon, l'\u00e9quipe de l'h\u00f4tel-restaurant des Lacs vous accueille dans un cadre agr\u00e9able et reposant. \nUn espace sauna et d\u00e9tente est \u00e0 disposition des clients de l'h\u00f4tel.\n15 chambres agr\u00e9ables et lumineuses sont am\u00e9nag\u00e9es avec go\u00fbt pour vous offrir confort et s\u00e9r\u00e9nit\u00e9. \nLa cuisine du restaurant est authentique, aux saveurs r\u00e9gionales et \u00e9labor\u00e9e \u00e0 partir de produits frais de qualit\u00e9.\n"
+      ],
+      "ANIMAUXACCEPTES": null,
+      "GROUPESACCEPTES": true,
+      "CARAVANEIGE": null,
+      "INSOLIT": null,
+      "ANIMATIONS": null,
+      "TABLE_HOTE": null,
+      "DEGUSTATION": null,
+      "PARKINGCC": null,
+      "PARKINGCAR": true,
+      "PARKINGPRIVE": null,
+      "QUALITE_TOURISME": null,
+      "UNESCO": null,
+      "FAMILLE_PLUS": null,
+      "ACCUEIL_VELO": true,
+      "ADRESSE": [
+        "2 Place de la Gare"
+      ],
+      "COMMUNE": "CELLES SUR PLAINE",
+      "CP": "88110",
+      "LAT": 48.455514,
+      "LNG": 6.9480619999999,
+      "com_data": {
+        "tel": [
+          "03 29 41 17 06"
+        ],
+        "mel": [
+          "hotel.des.lacs@netcourrier.com"
+        ],
+        "web": [
+          "http:\/\/www.hotel-des-lacs.fr"
+        ]
+      },
+      "rs_data": {
+        "facebook": "https:\/\/www.facebook.com\/pages\/Hotel-des-Lacs\/187071651380752?fref=ts",
+        "tripadvisor": "http:\/\/www.tripadvisor.fr\/Hotel_Review-g1903359-d1881645-Reviews-Hotel_des_Lacs-Celles_sur_Plaine_Vosges_Lorraine.html"
+      },
+      "ACTIVITES": {
+        "189": "Plage surveill\u00e9e"
+      },
+      "SERVICES_ENFANTS": null,
+      "SERVICES": {
+        "181": "Coffres clients"
+      },
+      "EQUIPS": {
+        "155": "Bar",
+        "161": "Garage priv\u00e9",
+        "164": "Local mat\u00e9riel ferm\u00e9",
+        "166": "Parc",
+        "170": "Restaurant",
+        "172": "Salon",
+        "174": "Sauna",
+        "177": "Terrasse"
+      },
+      "CONFORT": {
+        "152": "Acc\u00e8s Internet",
+        "155": "Wifi",
+        "141": "C\u00e2ble \/ satellite",
+        "145": "Double vitrage",
+        "149": "T\u00e9l\u00e9phone",
+        "151": "T\u00e9l\u00e9vision",
+        "4001075": "Bouilloire"
+      },
+      "DESCRIPTIF": null,
+      "RESTAU_SURPLACE": null,
+      "LOCALISATION": {
+        "56": "A la campagne",
+        "62": "Bord de rivi\u00e8re"
+      },
+      "LANGUES_PAR": null,
+      "LANGUES_VISITE": null,
+      "LANGUES_DOCU": null,
+      "LABELS_TH": null,
+      "MOD_PAIEMENT": {
+        "86": "American Express",
+        "84": "Carte Bleue",
+        "92": "Ch\u00e8ques Vacances",
+        "97": "Esp\u00e8ces",
+        "88": "Eurocard - Mastercard",
+        "96": "Virements",
+        "89": "Visa"
+      },
+      "TYPE_OBJET": [
+        "H\u00f4tel-restaurant"
+      ],
+      "FORFAIT": null,
+      "PUBLIC": null,
+      "TYPE": {
+        "2": "H\u00f4tel-restaurant"
+      },
+      "THEME": null,
+      "SPE_CULI": null,
+      "LABELS": {
+        "4000250": "Pass Lorraine",
+        "4000727": "For\u00eat - L'effet Vosges"
+      },
+      "CHAINES": {
+        "4001190": "Logis"
+      },
+      "RESEAU_GITEMONTAGNE": null,
+      "CLASS_GUIDES": null,
+      "CATEGORIES": null,
+      "VISIT_GROUP": null,
+      "VISIT_INDIV": null,
+      "TYPE_ITI": null,
+      "DISTANCEFOURCHETTE": null,
+      "DIFFICULTE": null,
+      "CARACPARCOUR": null,
+      "OUVERTURE_TEXTE": null,
+      "DUREE_VISITE": null,
+      "DUREEHEURE": null,
+      "TARIF_REF": {
+        "prix": 82,
+        "unit": "nuit"
+      },
+      "GRATUIT": false,
+      "TARIFS": {
+        "0": {
+          "title": "Chambre double minimum",
+          "code": 4000048,
+          "min": 82
+        },
+        "2": {
+          "title": "Petit d\u00e9jeuner",
+          "code": 4000050,
+          "min": 11
+        },
+        "4": {
+          "title": "1\/2 pension minimum",
+          "code": 4000052,
+          "min": 165
+        },
+        "12": {
+          "title": "Soir\u00e9e \u00e9tape",
+          "code": 4000565,
+          "min": 85
+        }
+      },
+      "TARIFS_TEXT": null,
+      "CAPACITES": {
+        "1": {
+          "title": "Nbre total de chambres",
+          "code": 8,
+          "min": 15
+        },
+        "13": {
+          "title": "Nbre total de personnes",
+          "code": 13,
+          "min": 30
+        }
+      },
+      "CLASSEMENTS": {
+        "star": 3
+      },
+      "DOCUMENTS": null,
+      "VIDEOS": null,
+      "OFFRESASSOCIEES": null,
+      "TARIFCOMPREND": null,
+      "TARIFNECOMPRENDPAS": null,
+      "DUREE_SEJ": null,
+      "APARTIRDE": null,
+      "GARE_PROCHE": null,
+      "INTERNET": null,
+      "PERIODES_OUVERTURES": [
+        {
+          "date_debut": "16\/01\/2022",
+          "date_fin": "31\/07\/2022",
+          "heures": [
+            {
+              "heure_debut": "12:00",
+              "heure_fin": "14:00",
+              "lundi": "N",
+              "mardi": "N",
+              "mercredi": "O",
+              "jeudi": "O",
+              "vendredi": "O",
+              "samedi": "O",
+              "dimanche": "O",
+              "acces_permanent": "1",
+              "tps_acces_fin": "0",
+              "commentaire": ""
+            },
+            {
+              "heure_debut": "19:00",
+              "heure_fin": "21:00",
+              "lundi": "N",
+              "mardi": "O",
+              "mercredi": "O",
+              "jeudi": "O",
+              "vendredi": "O",
+              "samedi": "O",
+              "dimanche": "N",
+              "acces_permanent": "1",
+              "tps_acces_fin": "0",
+              "commentaire": ""
+            }
+          ],
+          "start": {
+            "date": "2022-01-16 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "UTC"
+          },
+          "end": {
+            "date": "2022-07-31 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "UTC"
+          },
+          "duree_interval": {
+            "y": 0,
+            "m": 6,
+            "d": 15,
+            "h": 0,
+            "i": 0,
+            "s": 0,
+            "weekday": 0,
+            "weekday_behavior": 0,
+            "first_last_day_of": 0,
+            "invert": 1,
+            "days": 196,
+            "special_type": 0,
+            "special_amount": 0,
+            "have_weekday_relative": 0,
+            "have_special_relative": 0
+          },
+          "start_ts": 1642291200,
+          "end_ts": 1659225600,
+          "duau": true,
+          "current": true,
+          "next": false,
+          "days": {
+            "2": {
+              "hours": [
+                [
+                  "12:00",
+                  "14:00"
+                ],
+                [
+                  "19:00",
+                  "21:00"
+                ]
+              ],
+              "dname": "Mercredi"
+            },
+            "3": {
+              "hours": [
+                [
+                  "12:00",
+                  "14:00"
+                ],
+                [
+                  "19:00",
+                  "21:00"
+                ]
+              ],
+              "dname": "Jeudi"
+            },
+            "4": {
+              "hours": [
+                [
+                  "12:00",
+                  "14:00"
+                ],
+                [
+                  "19:00",
+                  "21:00"
+                ]
+              ],
+              "dname": "Vendredi"
+            },
+            "5": {
+              "hours": [
+                [
+                  "12:00",
+                  "14:00"
+                ],
+                [
+                  "19:00",
+                  "21:00"
+                ]
+              ],
+              "dname": "Samedi"
+            },
+            "6": {
+              "hours": [
+                [
+                  "12:00",
+                  "14:00"
+                ]
+              ],
+              "dname": "Dimanche"
+            },
+            "1": {
+              "hours": [
+                [
+                  "19:00",
+                  "21:00"
+                ]
+              ],
+              "dname": "Mardi"
+            }
+          },
+          "complement": []
+        },
+        {
+          "date_debut": "09\/08\/2022",
+          "date_fin": "22\/12\/2022",
+          "heures": [
+            {
+              "heure_debut": "12:00",
+              "heure_fin": "14:00",
+              "lundi": "N",
+              "mardi": "N",
+              "mercredi": "O",
+              "jeudi": "O",
+              "vendredi": "O",
+              "samedi": "O",
+              "dimanche": "N",
+              "acces_permanent": "1",
+              "tps_acces_fin": "0",
+              "commentaire": ""
+            },
+            {
+              "heure_debut": "19:00",
+              "heure_fin": "21:00",
+              "lundi": "N",
+              "mardi": "N",
+              "mercredi": "O",
+              "jeudi": "O",
+              "vendredi": "O",
+              "samedi": "O",
+              "dimanche": "N",
+              "acces_permanent": "1",
+              "tps_acces_fin": "0",
+              "commentaire": ""
+            }
+          ],
+          "start": {
+            "date": "2022-08-09 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "UTC"
+          },
+          "end": {
+            "date": "2022-12-22 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "UTC"
+          },
+          "duree_interval": {
+            "y": 0,
+            "m": 4,
+            "d": 13,
+            "h": 0,
+            "i": 0,
+            "s": 0,
+            "weekday": 0,
+            "weekday_behavior": 0,
+            "first_last_day_of": 0,
+            "invert": 1,
+            "days": 135,
+            "special_type": 0,
+            "special_amount": 0,
+            "have_weekday_relative": 0,
+            "have_special_relative": 0
+          },
+          "start_ts": 1660003200,
+          "end_ts": 1671667200,
+          "duau": true,
+          "current": true,
+          "next": true,
+          "days": {
+            "2": {
+              "hours": [
+                [
+                  "12:00",
+                  "14:00"
+                ],
+                [
+                  "19:00",
+                  "21:00"
+                ]
+              ],
+              "dname": "Mercredi"
+            },
+            "3": {
+              "hours": [
+                [
+                  "12:00",
+                  "14:00"
+                ],
+                [
+                  "19:00",
+                  "21:00"
+                ]
+              ],
+              "dname": "Jeudi"
+            },
+            "4": {
+              "hours": [
+                [
+                  "12:00",
+                  "14:00"
+                ],
+                [
+                  "19:00",
+                  "21:00"
+                ]
+              ],
+              "dname": "Vendredi"
+            },
+            "5": {
+              "hours": [
+                [
+                  "12:00",
+                  "14:00"
+                ],
+                [
+                  "19:00",
+                  "21:00"
+                ]
+              ],
+              "dname": "Samedi"
+            }
+          },
+          "complement": []
+        },
+        {
+          "date_debut": "10\/08\/2022",
+          "date_fin": "22\/12\/2022",
+          "heures": [
+            {
+              "heure_debut": "12:00",
+              "heure_fin": "14:00",
+              "lundi": "N",
+              "mardi": "N",
+              "mercredi": "N",
+              "jeudi": "N",
+              "vendredi": "N",
+              "samedi": "N",
+              "dimanche": "O",
+              "acces_permanent": "1",
+              "tps_acces_fin": "0",
+              "commentaire": ""
+            },
+            {
+              "heure_debut": "19:00",
+              "heure_fin": "21:00",
+              "lundi": "N",
+              "mardi": "O",
+              "mercredi": "N",
+              "jeudi": "N",
+              "vendredi": "N",
+              "samedi": "N",
+              "dimanche": "N",
+              "acces_permanent": "1",
+              "tps_acces_fin": "0",
+              "commentaire": ""
+            }
+          ],
+          "start": {
+            "date": "2022-08-10 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "UTC"
+          },
+          "end": {
+            "date": "2022-12-22 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "UTC"
+          },
+          "duree_interval": {
+            "y": 0,
+            "m": 4,
+            "d": 12,
+            "h": 0,
+            "i": 0,
+            "s": 0,
+            "weekday": 0,
+            "weekday_behavior": 0,
+            "first_last_day_of": 0,
+            "invert": 1,
+            "days": 134,
+            "special_type": 0,
+            "special_amount": 0,
+            "have_weekday_relative": 0,
+            "have_special_relative": 0
+          },
+          "start_ts": 1660089600,
+          "end_ts": 1671667200,
+          "duau": true,
+          "current": true,
+          "next": true,
+          "days": {
+            "6": {
+              "hours": [
+                [
+                  "12:00",
+                  "14:00"
+                ]
+              ],
+              "dname": "Dimanche"
+            },
+            "1": {
+              "hours": [
+                [
+                  "19:00",
+                  "21:00"
+                ]
+              ],
+              "dname": "Mardi"
+            }
+          },
+          "complement": []
+        }
+      ],
+      "NORDIC_PARC": null,
+      "SNOWPARC": null,
+      "SKI_NUIT_AUJ": null,
+      "SKI_AURORE": null,
+      "OUVERTURE_DOMAINE": null,
+      "AVALANCHE": null,
+      "COM_BULLETIN": null,
+      "ALT_BAS": null,
+      "ALT_HAUT": null,
+      "HAUTEUR_NEIGE_CM": null,
+      "QUALITE_NEIGE": null,
+      "DATE_DERNIERE_CHUTE": null,
+      "WEBCAMS": null,
+      "PISTES_ALPINS": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "vertes": [],
+        "bleues": [],
+        "rouges": [],
+        "noires": []
+      },
+      "PISTES_FOND": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "vertes": [],
+        "bleues": [],
+        "rouges": [],
+        "noires": []
+      },
+      "PISTES_LUGES": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "luge": []
+      },
+      "PISTES_RAQUETTES": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "raquette": []
+      },
+      "REMONTEES": {
+        "total_pistes": 0,
+        "total_pistes_ouvertes": 0,
+        "total_km": 0,
+        "total_km_ouverts": 0,
+        "remontees": []
+      },
+      "DISTANCE": null,
+      "DUREE_JOUR": null,
+      "DENIVELE": null,
+      "ITI_BALISE": null,
+      "ITI_ACCES_LIBRE_PERM": null,
+      "raw_data": {
+        "id": 940005049,
+        "nom": "HOTEL DES LACS",
+        "type": {
+          "id": 4000003,
+          "nom": "H\u00f4tel-restaurant"
+        },
+        "nom_entite_gestionnaire": "OT SAINT DIE DES VOSGES",
+        "coordonnees": {
+          "num_voie": "2",
+          "libelle_voie": "Place de la Gare",
+          "code_postal": "88110",
+          "libelle_commune": "CELLES SUR PLAINE",
+          "telephone1": "03 29 41 17 06",
+          "email1": "hotel.des.lacs@netcourrier.com",
+          "url1": "www.hotel-des-lacs.fr"
+        },
+        "latitude": "48,455514",
+        "longitude": "6,94806199999994",
+        "commentaire": "Au c\u0153ur de la Vall\u00e9e des Lacs de Pierre Perc\u00e9e et \u00e0 deux pas du Donon, l'\u00e9quipe de l'h\u00f4tel-restaurant des Lacs vous accueille dans un cadre agr\u00e9able et reposant. \nUn espace sauna et d\u00e9tente est \u00e0 disposition des clients de l'h\u00f4tel.\n15 chambres agr\u00e9ables et lumineuses sont am\u00e9nag\u00e9es avec go\u00fbt pour vous offrir confort et s\u00e9r\u00e9nit\u00e9. \nLa cuisine du restaurant est authentique, aux saveurs r\u00e9gionales et \u00e9labor\u00e9e \u00e0 partir de produits frais de qualit\u00e9.\n",
+        "commentaire_html": "&lt;p style=&quot;text-align: justify;&quot;&gt;Au c&amp;oelig;ur de la Vall&amp;eacute;e des Lacs de Pierre Perc&amp;eacute;e et &amp;agrave; deux pas du Donon, l'&amp;eacute;quipe de l'h&amp;ocirc;tel-restaurant des Lacs vous accueille dans un cadre agr&amp;eacute;able et reposant.&amp;nbsp;&lt;\/p&gt; &lt;p style=&quot;text-align: justify;&quot;&gt;Un espace sauna et d&amp;eacute;tente est &amp;agrave; disposition des clients de l'h&amp;ocirc;tel.&lt;\/p&gt; &lt;p style=&quot;text-align: justify;&quot;&gt;15 chambres agr&amp;eacute;ables et lumineuses sont am&amp;eacute;nag&amp;eacute;es avec go&amp;ucirc;t pour vous offrir confort et s&amp;eacute;r&amp;eacute;nit&amp;eacute;.&amp;nbsp;&lt;\/p&gt; &lt;p style=&quot;text-align: justify;&quot;&gt;La cuisine du restaurant est authentique, aux saveurs r&amp;eacute;gionales et &amp;eacute;labor&amp;eacute;e &amp;agrave; partir de produits frais de qualit&amp;eacute;.&lt;\/p&gt; &lt;p style=&quot;text-align: justify;&quot;&gt;&lt;\/p&gt;",
+        "datmaj": "11\/03\/2022 16:08:44",
+        "horaires": [
+          {
+            "date_debut": "16\/01\/2022",
+            "date_fin": "31\/07\/2022",
+            "heures": [
+              {
+                "heure_debut": "12:00",
+                "heure_fin": "14:00",
+                "lundi": "N",
+                "mardi": "N",
+                "mercredi": "O",
+                "jeudi": "O",
+                "vendredi": "O",
+                "samedi": "O",
+                "dimanche": "O",
+                "acces_permanent": "1",
+                "tps_acces_fin": "0",
+                "commentaire": ""
+              },
+              {
+                "heure_debut": "19:00",
+                "heure_fin": "21:00",
+                "lundi": "N",
+                "mardi": "O",
+                "mercredi": "O",
+                "jeudi": "O",
+                "vendredi": "O",
+                "samedi": "O",
+                "dimanche": "N",
+                "acces_permanent": "1",
+                "tps_acces_fin": "0",
+                "commentaire": ""
+              }
+            ]
+          },
+          {
+            "date_debut": "09\/08\/2022",
+            "date_fin": "22\/12\/2022",
+            "heures": [
+              {
+                "heure_debut": "12:00",
+                "heure_fin": "14:00",
+                "lundi": "N",
+                "mardi": "N",
+                "mercredi": "O",
+                "jeudi": "O",
+                "vendredi": "O",
+                "samedi": "O",
+                "dimanche": "N",
+                "acces_permanent": "1",
+                "tps_acces_fin": "0",
+                "commentaire": ""
+              },
+              {
+                "heure_debut": "19:00",
+                "heure_fin": "21:00",
+                "lundi": "N",
+                "mardi": "N",
+                "mercredi": "O",
+                "jeudi": "O",
+                "vendredi": "O",
+                "samedi": "O",
+                "dimanche": "N",
+                "acces_permanent": "1",
+                "tps_acces_fin": "0",
+                "commentaire": ""
+              }
+            ]
+          },
+          {
+            "date_debut": "10\/08\/2022",
+            "date_fin": "22\/12\/2022",
+            "heures": [
+              {
+                "heure_debut": "12:00",
+                "heure_fin": "14:00",
+                "lundi": "N",
+                "mardi": "N",
+                "mercredi": "N",
+                "jeudi": "N",
+                "vendredi": "N",
+                "samedi": "N",
+                "dimanche": "O",
+                "acces_permanent": "1",
+                "tps_acces_fin": "0",
+                "commentaire": ""
+              },
+              {
+                "heure_debut": "19:00",
+                "heure_fin": "21:00",
+                "lundi": "N",
+                "mardi": "O",
+                "mercredi": "N",
+                "jeudi": "N",
+                "vendredi": "N",
+                "samedi": "N",
+                "dimanche": "N",
+                "acces_permanent": "1",
+                "tps_acces_fin": "0",
+                "commentaire": ""
+              }
+            ]
+          }
+        ],
+        "produits_associes": [
+          {
+            "id": 940005159,
+            "nom": "RESTAURANT DES LACS",
+            "id_type": 4000027,
+            "type_couplage": 10
+          }
+        ],
+        "criteres": [
+          {
+            "id": 4000010,
+            "nom": "Tarifs h\u00f4tel ann\u00e9e en cours (client\u00e8le individuelle)",
+            "type_critere": "2",
+            "type_valeur": "1",
+            "classe": "8",
+            "modalites": [
+              {
+                "id": 4000048,
+                "nom": "Chambre double minimum",
+                "ordre": "0",
+                "valeur": "82"
+              },
+              {
+                "id": 4000050,
+                "nom": "Petit d\u00e9jeuner",
+                "ordre": "2",
+                "valeur": "11"
+              },
+              {
+                "id": 4000052,
+                "nom": "1\/2 pension minimum",
+                "ordre": "4",
+                "valeur": "165"
+              },
+              {
+                "id": 4000565,
+                "nom": "Soir\u00e9e \u00e9tape",
+                "ordre": "12",
+                "valeur": "85"
+              }
+            ]
+          },
+          {
+            "id": 4000099,
+            "nom": "Produit insolite",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "1",
+            "modalites": [
+              {
+                "id": 4000397,
+                "nom": "Non",
+                "ordre": "2"
+              }
+            ]
+          },
+          {
+            "id": 4000101,
+            "nom": "Lien Facebook",
+            "type_critere": "0",
+            "type_valeur": "6",
+            "classe": "0",
+            "valeur": "https:\/\/www.facebook.com\/pages\/Hotel-des-Lacs\/187071651380752?fref=ts"
+          },
+          {
+            "id": 4000117,
+            "nom": "TripAdvisor - Lien",
+            "type_critere": "0",
+            "type_valeur": "6",
+            "classe": "0",
+            "valeur": "http:\/\/www.tripadvisor.fr\/Hotel_Review-g1903359-d1881645-Reviews-Hotel_des_Lacs-Celles_sur_Plaine_Vosges_Lorraine.html"
+          },
+          {
+            "id": 4000245,
+            "nom": "Marque nationale Accueil V\u00e9lo",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "32",
+            "modalites": [
+              {
+                "id": 4000979,
+                "nom": "Oui",
+                "ordre": "1"
+              }
+            ]
+          },
+          {
+            "id": 4000263,
+            "nom": "Mode d'acc\u00e8s wifi",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "8",
+            "modalites": [
+              {
+                "id": 4001026,
+                "nom": "Wifi gratuit",
+                "ordre": "1"
+              }
+            ]
+          },
+          {
+            "id": 4000323,
+            "nom": "Logis - H\u00e9bergement",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "32",
+            "modalites": [
+              {
+                "id": 4001179,
+                "nom": "H\u00f4tel Cosy",
+                "ordre": "2"
+              }
+            ]
+          },
+          {
+            "id": 736000002,
+            "nom": "Localisation",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "128",
+            "modalites": [
+              {
+                "id": 56,
+                "nom": "A la campagne",
+                "ordre": "0"
+              },
+              {
+                "id": 62,
+                "nom": "Bord de rivi\u00e8re",
+                "ordre": "6"
+              }
+            ]
+          },
+          {
+            "id": 736000005,
+            "nom": "Langues parl\u00e9es - r\u00e9servation",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "2",
+            "modalites": [
+              {
+                "id": 69,
+                "nom": "Anglais",
+                "ordre": "1"
+              },
+              {
+                "id": 70,
+                "nom": "Allemand",
+                "ordre": "2"
+              }
+            ]
+          },
+          {
+            "id": 736000007,
+            "nom": "Mode de paiement",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "8",
+            "modalites": [
+              {
+                "id": 84,
+                "nom": "Carte Bleue",
+                "ordre": "4"
+              },
+              {
+                "id": 86,
+                "nom": "American Express",
+                "ordre": "2"
+              },
+              {
+                "id": 88,
+                "nom": "Eurocard - Mastercard",
+                "ordre": "13"
+              },
+              {
+                "id": 89,
+                "nom": "Visa",
+                "ordre": "17"
+              },
+              {
+                "id": 92,
+                "nom": "Ch\u00e8ques Vacances",
+                "ordre": "8"
+              },
+              {
+                "id": 96,
+                "nom": "Virements",
+                "ordre": "16"
+              },
+              {
+                "id": 97,
+                "nom": "Esp\u00e8ces",
+                "ordre": "12"
+              }
+            ]
+          },
+          {
+            "id": 736000010,
+            "nom": "Animaux accept\u00e9s",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "2",
+            "modalites": [
+              {
+                "id": 101,
+                "nom": "OUI",
+                "ordre": "1"
+              }
+            ]
+          },
+          {
+            "id": 736000012,
+            "nom": "Groupes accept\u00e9s",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "2",
+            "modalites": [
+              {
+                "id": 105,
+                "nom": "OUI",
+                "ordre": "1"
+              }
+            ]
+          },
+          {
+            "id": 736000014,
+            "nom": "Parking autocar",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "2",
+            "modalites": [
+              {
+                "id": 107,
+                "nom": "OUI",
+                "ordre": "1"
+              }
+            ]
+          },
+          {
+            "id": 736000015,
+            "nom": "Cat\u00e9gorie d'h\u00f4tel",
+            "type_critere": "1",
+            "type_valeur": "1",
+            "classe": "1",
+            "modalites": [
+              {
+                "id": 111,
+                "nom": "3 \u00e9toiles",
+                "ordre": "3"
+              }
+            ]
+          },
+          {
+            "id": 736000016,
+            "nom": "Cha\u00eene d'h\u00f4tel - Groupement",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "32",
+            "modalites": [
+              {
+                "id": 4001190,
+                "nom": "Logis",
+                "ordre": "173"
+              }
+            ]
+          },
+          {
+            "id": 736000018,
+            "nom": "Confort en chambre",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "16",
+            "modalites": [
+              {
+                "id": 141,
+                "nom": "C\u00e2ble \/ satellite",
+                "ordre": "3"
+              },
+              {
+                "id": 145,
+                "nom": "Double vitrage",
+                "ordre": "6"
+              },
+              {
+                "id": 149,
+                "nom": "T\u00e9l\u00e9phone",
+                "ordre": "10"
+              },
+              {
+                "id": 151,
+                "nom": "T\u00e9l\u00e9vision",
+                "ordre": "11"
+              },
+              {
+                "id": 152,
+                "nom": "Acc\u00e8s Internet",
+                "ordre": "1"
+              },
+              {
+                "id": 155,
+                "nom": "Wifi",
+                "ordre": "2"
+              },
+              {
+                "id": 4001075,
+                "nom": "Bouilloire",
+                "ordre": "13"
+              }
+            ]
+          },
+          {
+            "id": 736000019,
+            "nom": "Equipements de l'h\u00f4tel",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "16",
+            "modalites": [
+              {
+                "id": 155,
+                "nom": "Bar",
+                "ordre": "2"
+              },
+              {
+                "id": 161,
+                "nom": "Garage priv\u00e9",
+                "ordre": "8"
+              },
+              {
+                "id": 164,
+                "nom": "Local mat\u00e9riel ferm\u00e9",
+                "ordre": "11"
+              },
+              {
+                "id": 166,
+                "nom": "Parc",
+                "ordre": "13"
+              },
+              {
+                "id": 170,
+                "nom": "Restaurant",
+                "ordre": "18"
+              },
+              {
+                "id": 172,
+                "nom": "Salon",
+                "ordre": "20"
+              },
+              {
+                "id": 174,
+                "nom": "Sauna",
+                "ordre": "22"
+              },
+              {
+                "id": 177,
+                "nom": "Terrasse",
+                "ordre": "25"
+              }
+            ]
+          },
+          {
+            "id": 736000020,
+            "nom": "Services de l'h\u00f4tel",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "16",
+            "modalites": [
+              {
+                "id": 181,
+                "nom": "Coffres clients",
+                "ordre": "4"
+              }
+            ]
+          },
+          {
+            "id": 736000021,
+            "nom": "Activit\u00e9s sur place \u00e0 l'h\u00f4tel",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "64",
+            "modalites": [
+              {
+                "id": 189,
+                "nom": "Plage surveill\u00e9e",
+                "ordre": "8"
+              }
+            ]
+          },
+          {
+            "id": 736000035,
+            "nom": "Altitude (en m)",
+            "type_critere": "0",
+            "type_valeur": "1",
+            "classe": "128",
+            "valeur": "315"
+          },
+          {
+            "id": 736000079,
+            "nom": "Langues parl\u00e9es \u00e0 l'accueil",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "2",
+            "modalites": [
+              {
+                "id": 69,
+                "nom": "Anglais",
+                "ordre": "1"
+              },
+              {
+                "id": 70,
+                "nom": "Allemand",
+                "ordre": "2"
+              }
+            ]
+          },
+          {
+            "id": 736000143,
+            "nom": "Capacit\u00e9 de l'h\u00f4tel",
+            "type_critere": "2",
+            "type_valeur": "1",
+            "classe": "4",
+            "modalites": [
+              {
+                "id": 8,
+                "nom": "Nbre total de chambres",
+                "ordre": "1",
+                "valeur": "15"
+              },
+              {
+                "id": 13,
+                "nom": "Nbre total de personnes",
+                "ordre": "13",
+                "valeur": "30"
+              }
+            ]
+          },
+          {
+            "id": 736000187,
+            "nom": "Type d'h\u00f4tel",
+            "type_critere": "1",
+            "type_valeur": "2",
+            "classe": "1",
+            "modalites": [
+              {
+                "id": 2,
+                "nom": "H\u00f4tel-restaurant",
+                "ordre": "2"
+              }
+            ]
+          },
+          {
+            "id": 736000262,
+            "nom": "Fermeture hebdomadaire de l'h\u00f4tel",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "2",
+            "modalites": [
+              {
+                "id": 1,
+                "nom": "Lundi soir",
+                "ordre": "1"
+              },
+              {
+                "id": 7,
+                "nom": "Dimanche soir",
+                "ordre": "7"
+              }
+            ]
+          },
+          {
+            "id": 736000266,
+            "nom": "Habilitation",
+            "type_critere": "-1",
+            "type_valeur": "1",
+            "classe": "256",
+            "modalites": [
+              {
+                "id": 3,
+                "nom": "Habilitation pr\u00e9fectorale",
+                "ordre": "3"
+              }
+            ]
+          },
+          {
+            "id": 736000294,
+            "nom": "Photo",
+            "type_critere": "0",
+            "type_valeur": "6",
+            "classe": "0",
+            "valeur": "https:\/\/www.sitlor.fr\/photos\/940\/940005049_4.jpg"
+          },
+          {
+            "id": 736001017,
+            "nom": "Chartes de qualit\u00e9 d\u00e9partementales et r\u00e9gionales",
+            "type_critere": "-1",
+            "type_valeur": "2",
+            "classe": "32",
+            "modalites": [
+              {
+                "id": 4000250,
+                "nom": "Pass Lorraine",
+                "ordre": "9"
+              },
+              {
+                "id": 4000727,
+                "nom": "For\u00eat - L'effet Vosges",
+                "ordre": "11"
+              }
+            ]
+          },
+          {
+            "id": 736001115,
+            "nom": "Photo3",
+            "type_critere": "0",
+            "type_valeur": "6",
+            "classe": "0",
+            "valeur": "https:\/\/www.sitlor.fr\/photos\/940\/940005049_6.jpg"
+          },
+          {
+            "id": 736001116,
+            "nom": "Photo4",
+            "type_critere": "0",
+            "type_valeur": "6",
+            "classe": "0",
+            "valeur": "https:\/\/www.sitlor.fr\/photos\/940\/940005049_8.jpg"
+          },
+          {
+            "id": 736001117,
+            "nom": "Cr\u00e9dit photo3",
+            "type_critere": "0",
+            "type_valeur": "2",
+            "classe": "0",
+            "valeur": "Restaurant des Lacs"
+          },
+          {
+            "id": 736001118,
+            "nom": "Cr\u00e9dit photo4",
+            "type_critere": "0",
+            "type_valeur": "2",
+            "classe": "0",
+            "valeur": "Restaurant des Lacs"
+          },
+          {
+            "id": 736001119,
+            "nom": "Cr\u00e9dit photo",
+            "type_critere": "0",
+            "type_valeur": "2",
+            "classe": "0",
+            "valeur": "Restaurant des Lacs"
+          },
+          {
+            "id": 736001142,
+            "nom": "Photo2",
+            "type_critere": "0",
+            "type_valeur": "6",
+            "classe": "0",
+            "valeur": "https:\/\/www.sitlor.fr\/photos\/940\/940005049_5.jpg"
+          },
+          {
+            "id": 736001143,
+            "nom": "Cr\u00e9dit photo2",
+            "type_critere": "0",
+            "type_valeur": "2",
+            "classe": "0",
+            "valeur": "Restaurant des Lacs"
+          }
+        ]
+      }
+    }
+  },
+  "escaped_title": "HOTEL DES LACS",
+  "title": "HOTEL DES LACS",
+  "surtitre": "H\u00f4tel-restaurant",
+  "classement": {
+    "etoiles": {
+      "icon": "etoile",
+      "tooltip": "\u00c9toiles",
+      "value": 3,
+      "meta": "etoiles"
+    }
+  },
+  "geo": {
+    "lng": "6.9480619999999",
+    "lat": "48.455514"
+  },
+  "photos": [
+    {
+      "url": "https:\/\/www.sitlor.fr\/photos\/940\/940005049_4.jpg",
+      "credit": "Restaurant des Lacs",
+      "titre": "",
+      "width": 1300,
+      "height": 975,
+      "orientation": "paysage",
+      "cover": {
+        "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/968dc01f8dff39831a5e6f80dac7ac29-940005049_4-1496x800.jpg",
+        "width": 1496,
+        "height": 800,
+        "size": 191172,
+        "cropped": false
+      },
+      "gallery_thumb": {
+        "all": {
+          "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/968dc01f8dff39831a5e6f80dac7ac29-940005049_4-805x560.jpg",
+          "width": 805,
+          "height": 560,
+          "size": 76548,
+          "cropped": false,
+          "alt": "HOTEL DES LACS",
+          "credit": "Restaurant des Lacs"
+        }
+      },
+      "gallery_zoom": {
+        "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/968dc01f8dff39831a5e6f80dac7ac29-940005049_4-1000x710.jpg",
+        "width": 1000,
+        "height": 710,
+        "size": 115011,
+        "cropped": false,
+        "alt": "HOTEL DES LACS",
+        "credit": "Restaurant des Lacs"
+      },
+      "cards": {
+        "all": {
+          "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/968dc01f8dff39831a5e6f80dac7ac29-940005049_4-560x320.jpg",
+          "width": 560,
+          "height": 320,
+          "size": 35655,
+          "cropped": false,
+          "alt": "HOTEL DES LACS",
+          "credit": "Restaurant des Lacs"
+        },
+        "portait": {
+          "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/968dc01f8dff39831a5e6f80dac7ac29-940005049_4-281x440.jpg",
+          "width": 281,
+          "height": 440,
+          "size": 21618,
+          "cropped": false,
+          "alt": "HOTEL DES LACS",
+          "credit": "Restaurant des Lacs"
+        },
+        "square": {
+          "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/968dc01f8dff39831a5e6f80dac7ac29-940005049_4-160x160.jpg",
+          "width": 160,
+          "height": 160,
+          "size": 6411,
+          "cropped": false,
+          "alt": "HOTEL DES LACS",
+          "credit": "Restaurant des Lacs"
+        }
+      }
+    },
+    {
+      "url": "https:\/\/www.sitlor.fr\/photos\/940\/940005049_5.jpg",
+      "credit": "Restaurant des Lacs",
+      "titre": "",
+      "width": 700,
+      "height": 464,
+      "orientation": "paysage",
+      "gallery_thumb": {
+        "all": {
+          "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/d337167b81520f6686e83515f59de245-940005049_5-805x560.jpg",
+          "width": 805,
+          "height": 560,
+          "size": 86536,
+          "cropped": false,
+          "alt": "HOTEL DES LACS",
+          "credit": "Restaurant des Lacs"
+        }
+      },
+      "gallery_zoom": {
+        "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/d337167b81520f6686e83515f59de245-940005049_5-700x464.jpg",
+        "width": 700,
+        "height": 464,
+        "size": 71566,
+        "cropped": false,
+        "alt": "HOTEL DES LACS",
+        "credit": "Restaurant des Lacs"
+      }
+    },
+    {
+      "url": "https:\/\/www.sitlor.fr\/photos\/940\/940005049_6.jpg",
+      "credit": "Restaurant des Lacs",
+      "titre": "",
+      "width": 700,
+      "height": 468,
+      "orientation": "paysage",
+      "gallery_thumb": {
+        "all": {
+          "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/d882fb9a1bfaf7080ff54e70e39bfb0e-940005049_6-805x560.jpg",
+          "width": 805,
+          "height": 560,
+          "size": 76198,
+          "cropped": false,
+          "alt": "HOTEL DES LACS",
+          "credit": "Restaurant des Lacs"
+        }
+      },
+      "gallery_zoom": {
+        "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/d882fb9a1bfaf7080ff54e70e39bfb0e-940005049_6-700x468.jpg",
+        "width": 700,
+        "height": 468,
+        "size": 64787,
+        "cropped": false,
+        "alt": "HOTEL DES LACS",
+        "credit": "Restaurant des Lacs"
+      }
+    },
+    {
+      "url": "https:\/\/www.sitlor.fr\/photos\/940\/940005049_8.jpg",
+      "credit": "Restaurant des Lacs",
+      "titre": "",
+      "width": 700,
+      "height": 469,
+      "orientation": "paysage",
+      "gallery_thumb": {
+        "all": {
+          "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/c84680c2784e6cfa7d96eb82ab9c00e3-940005049_8-805x560.jpg",
+          "width": 805,
+          "height": 560,
+          "size": 86540,
+          "cropped": false,
+          "alt": "HOTEL DES LACS",
+          "credit": "Restaurant des Lacs"
+        }
+      },
+      "gallery_zoom": {
+        "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/sitlor\/c84680c2784e6cfa7d96eb82ab9c00e3-940005049_8-700x469.jpg",
+        "width": 700,
+        "height": 469,
+        "size": 73985,
+        "cropped": false,
+        "alt": "HOTEL DES LACS",
+        "credit": "Restaurant des Lacs"
+      }
+    }
+  ],
+  "header_orientation": "paysage",
+  "adresse": [
+    "2 Place de la Gare",
+    "88110 CELLES SUR PLAINE"
+  ],
+  "commune": "CELLES SUR PLAINE",
+  "com_data": {
+    "tel": [
+      "03 29 41 17 06"
+    ],
+    "mel": [
+      "hotel.des.lacs@netcourrier.com"
+    ],
+    "web": [
+      "http:\/\/www.hotel-des-lacs.fr"
+    ]
+  },
+  "com_rs": {
+    "facebook": "https:\/\/www.facebook.com\/pages\/Hotel-des-Lacs\/187071651380752?fref=ts",
+    "tripadvisor": "http:\/\/www.tripadvisor.fr\/Hotel_Review-g1903359-d1881645-Reviews-Hotel_des_Lacs-Celles_sur_Plaine_Vosges_Lorraine.html"
+  },
+  "resa_url": null,
+  "pictos": {
+    "animal": {
+      "icon": "animal",
+      "title": "Exemple"
+    },
+    "wifi": {
+      "icon": "wifi",
+      "title": "Exemple"
+    },
+    "parking": {
+      "icon": "parking",
+      "title": "Exemple"
+    },
+    "text": {
+      "text": "Exemple text"
+    }
+  },
+  "apartirde": {
+    "price": 82,
+    "unit": "nuit"
+  },
+  "header_pictos": {
+    "has_data": true,
+    "pictos": {
+      "internet": {
+        "icon": "icon-wifi",
+        "title": "internet"
+      },
+      "animaux-acceptes": {
+        "icon": "icon-ico-animaux",
+        "title": "Animaux accept\u00e9s"
+      }
+    }
+  },
+  "description": {
+    "has_data": true,
+    "description": [
+      "Au c\u0153ur de la Vall\u00e9e des Lacs de Pierre Perc\u00e9e et \u00e0 deux pas du Donon, l'\u00e9quipe de l'h\u00f4tel-restaurant des Lacs vous accueille dans un cadre agr\u00e9able et reposant. \nUn espace sauna et d\u00e9tente est \u00e0 disposition des clients de l'h\u00f4tel.\n15 chambres agr\u00e9ables et lumineuses sont am\u00e9nag\u00e9es avec go\u00fbt pour vous offrir confort et s\u00e9r\u00e9nit\u00e9. \nLa cuisine du restaurant est authentique, aux saveurs r\u00e9gionales et \u00e9labor\u00e9e \u00e0 partir de produits frais de qualit\u00e9.\n"
+    ]
+  },
+  "apropos_infos": {
+    "has_data": false
+  },
+  "apropos_pictos": {
+    "has_data": true,
+    "pictos": {
+      "animaux-acceptes": {
+        "icon": "icon-ico-animaux",
+        "title": "Animaux accept\u00e9s"
+      },
+      "groupes-acceptes": {
+        "icon": "icon-ico-personnes",
+        "title": "Groupes accept\u00e9s"
+      },
+      "terrasse-balcon": {
+        "icon": "icon-ico-parasol",
+        "title": "Terrasse \/ Balcon"
+      },
+      "wifi": {
+        "icon": "icon-wifi",
+        "title": "Wifi"
+      },
+      "tv": {
+        "icon": "icon-ico-television",
+        "title": "TV"
+      }
+    }
+  },
+  "labels": {
+    "has_data": true,
+    "labels": {
+      "leffet-vosges": {
+        "title": "l'effet vosges",
+        "img": {
+          "width": 989,
+          "height": 200,
+          "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/2022\/05\/logo-foret-0x200.png",
+          "id": 3617,
+          "srcset": {
+            "retina": {
+              "width": 1978,
+              "height": 400,
+              "url": "https:\/\/destination-vosges.dev-thuria.com\/wp-content\/uploads\/2022\/05\/logo-foret-0x400.png",
+              "min-width": 1978
+            }
+          },
+          "formats": [],
+          "data": {
+            "credit": "",
+            "alt": "l'effet vosges",
+            "external_link": ""
+          },
+          "plg_version": 2
+        }
+      }
+    }
+  },
+  "infos_comp": {
+    "has_data": true,
+    "infos": [
+      {
+        "title": "Confort",
+        "data": "Acc\u00e8s Internet, Wifi, C\u00e2ble \/ satellite, Double vitrage, T\u00e9l\u00e9phone, T\u00e9l\u00e9vision, Bouilloire"
+      },
+      {
+        "title": "\u00c9quipements",
+        "data": "Bar, Garage priv\u00e9, Local mat\u00e9riel ferm\u00e9, Parc, Restaurant, Salon, Sauna, Terrasse"
+      },
+      {
+        "title": "Services",
+        "data": "Coffres clients"
+      },
+      {
+        "title": "Activit\u00e9s",
+        "data": "Plage surveill\u00e9e"
+      }
+    ]
+  },
+  "capacites": {
+    "has_data": true,
+    "capacites": [
+      {
+        "title": "Nbre total de chambres",
+        "data": 15
+      },
+      {
+        "title": "Nbre total de personnes",
+        "data": 30
+      }
+    ]
+  },
+  "tarifs": {
+    "has_data": true,
+    "tarifs": {
+      "0": {
+        "title": "Chambre double minimum",
+        "code": 4000048,
+        "min": 82
+      },
+      "2": {
+        "title": "Petit d\u00e9jeuner",
+        "code": 4000050,
+        "min": 11
+      },
+      "4": {
+        "title": "1\/2 pension minimum",
+        "code": 4000052,
+        "min": 165
+      },
+      "12": {
+        "title": "Soir\u00e9e \u00e9tape",
+        "code": 4000565,
+        "min": 85
+      }
+    },
+    "mode_paiements": "American Express, Carte Bleue, Ch\u00e8ques Vacances, Esp\u00e8ces, Eurocard - Mastercard, Virements, Visa"
+  },
+  "ouverture": {
+    "has_data": true,
+    "display_next_occurence": false,
+    "periodes_ouvertures": [
+      {
+        "date_debut": "16\/01\/2022",
+        "date_fin": "31\/07\/2022",
+        "heures": [
+          {
+            "heure_debut": "12:00",
+            "heure_fin": "14:00",
+            "lundi": "N",
+            "mardi": "N",
+            "mercredi": "O",
+            "jeudi": "O",
+            "vendredi": "O",
+            "samedi": "O",
+            "dimanche": "O",
+            "acces_permanent": "1",
+            "tps_acces_fin": "0",
+            "commentaire": ""
+          },
+          {
+            "heure_debut": "19:00",
+            "heure_fin": "21:00",
+            "lundi": "N",
+            "mardi": "O",
+            "mercredi": "O",
+            "jeudi": "O",
+            "vendredi": "O",
+            "samedi": "O",
+            "dimanche": "N",
+            "acces_permanent": "1",
+            "tps_acces_fin": "0",
+            "commentaire": ""
+          }
+        ],
+        "start": {
+          "date": "2022-01-16 00:00:00.000000",
+          "timezone_type": 3,
+          "timezone": "UTC"
+        },
+        "end": {
+          "date": "2022-07-31 00:00:00.000000",
+          "timezone_type": 3,
+          "timezone": "UTC"
+        },
+        "duree_interval": {
+          "y": 0,
+          "m": 6,
+          "d": 15,
+          "h": 0,
+          "i": 0,
+          "s": 0,
+          "weekday": 0,
+          "weekday_behavior": 0,
+          "first_last_day_of": 0,
+          "invert": 1,
+          "days": 196,
+          "special_type": 0,
+          "special_amount": 0,
+          "have_weekday_relative": 0,
+          "have_special_relative": 0
+        },
+        "start_ts": 1642291200,
+        "end_ts": 1659225600,
+        "duau": true,
+        "current": true,
+        "next": false,
+        "days": {
+          "2": {
+            "hours": [
+              [
+                "12:00",
+                "14:00"
+              ],
+              [
+                "19:00",
+                "21:00"
+              ]
+            ],
+            "dname": "Mercredi"
+          },
+          "3": {
+            "hours": [
+              [
+                "12:00",
+                "14:00"
+              ],
+              [
+                "19:00",
+                "21:00"
+              ]
+            ],
+            "dname": "Jeudi"
+          },
+          "4": {
+            "hours": [
+              [
+                "12:00",
+                "14:00"
+              ],
+              [
+                "19:00",
+                "21:00"
+              ]
+            ],
+            "dname": "Vendredi"
+          },
+          "5": {
+            "hours": [
+              [
+                "12:00",
+                "14:00"
+              ],
+              [
+                "19:00",
+                "21:00"
+              ]
+            ],
+            "dname": "Samedi"
+          },
+          "6": {
+            "hours": [
+              [
+                "12:00",
+                "14:00"
+              ]
+            ],
+            "dname": "Dimanche"
+          },
+          "1": {
+            "hours": [
+              [
+                "19:00",
+                "21:00"
+              ]
+            ],
+            "dname": "Mardi"
+          }
+        },
+        "complement": []
+      },
+      {
+        "date_debut": "09\/08\/2022",
+        "date_fin": "22\/12\/2022",
+        "heures": [
+          {
+            "heure_debut": "12:00",
+            "heure_fin": "14:00",
+            "lundi": "N",
+            "mardi": "N",
+            "mercredi": "O",
+            "jeudi": "O",
+            "vendredi": "O",
+            "samedi": "O",
+            "dimanche": "N",
+            "acces_permanent": "1",
+            "tps_acces_fin": "0",
+            "commentaire": ""
+          },
+          {
+            "heure_debut": "19:00",
+            "heure_fin": "21:00",
+            "lundi": "N",
+            "mardi": "N",
+            "mercredi": "O",
+            "jeudi": "O",
+            "vendredi": "O",
+            "samedi": "O",
+            "dimanche": "N",
+            "acces_permanent": "1",
+            "tps_acces_fin": "0",
+            "commentaire": ""
+          }
+        ],
+        "start": {
+          "date": "2022-08-09 00:00:00.000000",
+          "timezone_type": 3,
+          "timezone": "UTC"
+        },
+        "end": {
+          "date": "2022-12-22 00:00:00.000000",
+          "timezone_type": 3,
+          "timezone": "UTC"
+        },
+        "duree_interval": {
+          "y": 0,
+          "m": 4,
+          "d": 13,
+          "h": 0,
+          "i": 0,
+          "s": 0,
+          "weekday": 0,
+          "weekday_behavior": 0,
+          "first_last_day_of": 0,
+          "invert": 1,
+          "days": 135,
+          "special_type": 0,
+          "special_amount": 0,
+          "have_weekday_relative": 0,
+          "have_special_relative": 0
+        },
+        "start_ts": 1660003200,
+        "end_ts": 1671667200,
+        "duau": true,
+        "current": true,
+        "next": true,
+        "days": {
+          "2": {
+            "hours": [
+              [
+                "12:00",
+                "14:00"
+              ],
+              [
+                "19:00",
+                "21:00"
+              ]
+            ],
+            "dname": "Mercredi"
+          },
+          "3": {
+            "hours": [
+              [
+                "12:00",
+                "14:00"
+              ],
+              [
+                "19:00",
+                "21:00"
+              ]
+            ],
+            "dname": "Jeudi"
+          },
+          "4": {
+            "hours": [
+              [
+                "12:00",
+                "14:00"
+              ],
+              [
+                "19:00",
+                "21:00"
+              ]
+            ],
+            "dname": "Vendredi"
+          },
+          "5": {
+            "hours": [
+              [
+                "12:00",
+                "14:00"
+              ],
+              [
+                "19:00",
+                "21:00"
+              ]
+            ],
+            "dname": "Samedi"
+          }
+        },
+        "complement": []
+      },
+      {
+        "date_debut": "10\/08\/2022",
+        "date_fin": "22\/12\/2022",
+        "heures": [
+          {
+            "heure_debut": "12:00",
+            "heure_fin": "14:00",
+            "lundi": "N",
+            "mardi": "N",
+            "mercredi": "N",
+            "jeudi": "N",
+            "vendredi": "N",
+            "samedi": "N",
+            "dimanche": "O",
+            "acces_permanent": "1",
+            "tps_acces_fin": "0",
+            "commentaire": ""
+          },
+          {
+            "heure_debut": "19:00",
+            "heure_fin": "21:00",
+            "lundi": "N",
+            "mardi": "O",
+            "mercredi": "N",
+            "jeudi": "N",
+            "vendredi": "N",
+            "samedi": "N",
+            "dimanche": "N",
+            "acces_permanent": "1",
+            "tps_acces_fin": "0",
+            "commentaire": ""
+          }
+        ],
+        "start": {
+          "date": "2022-08-10 00:00:00.000000",
+          "timezone_type": 3,
+          "timezone": "UTC"
+        },
+        "end": {
+          "date": "2022-12-22 00:00:00.000000",
+          "timezone_type": 3,
+          "timezone": "UTC"
+        },
+        "duree_interval": {
+          "y": 0,
+          "m": 4,
+          "d": 12,
+          "h": 0,
+          "i": 0,
+          "s": 0,
+          "weekday": 0,
+          "weekday_behavior": 0,
+          "first_last_day_of": 0,
+          "invert": 1,
+          "days": 134,
+          "special_type": 0,
+          "special_amount": 0,
+          "have_weekday_relative": 0,
+          "have_special_relative": 0
+        },
+        "start_ts": 1660089600,
+        "end_ts": 1671667200,
+        "duau": true,
+        "current": true,
+        "next": true,
+        "days": {
+          "6": {
+            "hours": [
+              [
+                "12:00",
+                "14:00"
+              ]
+            ],
+            "dname": "Dimanche"
+          },
+          "1": {
+            "hours": [
+              [
+                "19:00",
+                "21:00"
+              ]
+            ],
+            "dname": "Mardi"
+          }
+        },
+        "complement": []
+      }
+    ]
+  },
+  "dispos": {
+    "has_data": false
+  },
+  "documents": {
+    "has_data": false
+  },
+  "videos": {
+    "has_data": false
+  },
+  "offres_associees": {
+    "has_data": true,
+    "offres": [
+      {
+        "sit_id": 940005159,
+        "post": {
+          "ID": 1678,
+          "post_author": "1",
+          "post_date": "2022-05-12 16:36:49",
+          "post_date_gmt": "2022-05-12 14:36:49",
+          "post_content": "",
+          "post_title": "RESTAURANT DES LACS",
+          "post_excerpt": "940005159",
+          "post_status": "publish",
+          "comment_status": "closed",
+          "ping_status": "closed",
+          "post_password": "",
+          "post_name": "940005159-restaurant-des-lacs",
+          "to_ping": "",
+          "pinged": "",
+          "post_modified": "2022-05-24 09:48:15",
+          "post_modified_gmt": "2022-05-24 07:48:15",
+          "post_content_filtered": "",
+          "post_parent": 0,
+          "guid": "https:\/\/destination-vosges.dev-thuria.com\/?post_type=sitlor&#038;p=1678",
+          "menu_order": 0,
+          "post_type": "sitlor",
+          "post_mime_type": "",
+          "comment_count": "0",
+          "filter": "raw"
+        }
+      }
+    ]
+  },
+  "url_rawdata": "https:\/\/destination-vosges.dev-thuria.com\/fiches\/940005049-hotel-des-lacs\/?data&wpdebug",
+  "card_pictos": {
+    "has_data": true,
+    "pictos": {
+      "animaux-acceptes": {
+        "icon": "icon-ico-animaux",
+        "title": "Animaux accept\u00e9s"
+      }
+    }
+  }
+}

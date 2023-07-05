@@ -1,0 +1,11 @@
+.st-page-accueil {
+	// Exception à la gestion de l'espacement entre les blocs dans la page d'accueil vu qu'on est des bordures entre un élément et l'autre
+	.st-bloc + .st-bloc {
+		margin-top: 0;
+	}
+
+	.st-bloc {
+		padding-bottom: 40px;
+	}
+
+}

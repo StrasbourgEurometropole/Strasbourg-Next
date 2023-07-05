@@ -1,0 +1,153 @@
+.st-barre-listing-sit {
+	position: fixed;
+	bottom: 20px;
+	left: 0;
+	right: 0;
+	width: 100%;
+	height: var(--barre-height);
+	z-index: z-index("barre-sticky");
+	@include addTransition();
+	@include tablet-portrait {
+		background-color: $c_greydark;
+		bottom: auto;
+		top: 0;
+	}
+
+	& ~ main {
+		@include tablet-portrait {
+			margin-top: calc(var(--barre-height) + 25px);
+		}
+	}
+
+	& ~ .st-footer .st-container-mentions {
+		@include min-tablet-portrait {
+			padding-bottom: calc(var(--barre-height) + 40px);
+		}
+	}
+
+	.st-is-scrolled & {
+		@include tablet-portrait {
+			transform: translateY(-100%);
+			opacity: 0;
+		}
+	}
+
+	.st-barre-inner {
+		display: flex;
+		align-items: center;
+		background-color: $c_greydark;
+		padding: 20px;
+		height: 100%;
+		@include tablet-portrait {
+			background-color: transparent;
+			padding-left: 0;
+			padding-right: 0;
+		}
+		@include mobile {
+			padding-top: 9px;
+			padding-bottom: 9px;
+		}
+	}
+
+	// Pour le moment j'ai mis ici les styles des filtres vu qu'on n'as pas encore la maquette de l'overlay filtres, donc je ne sais pas si les styles vont être globales au projet, ou s'ils vont être différents entre la barre et l'overlay
+	.st-filtre {
+		position: relative;
+		display: flex;
+		align-items: center;
+		margin-right: 10px;
+		@include tablet-portrait {
+			display: none;
+		}
+
+		label {
+			display: block;
+			@include ft($f_txt, 14px, 600, $c_sub, 1);
+			@include letter-spacing(25);
+			padding: 5px;
+			background-color: $c_greydark;
+			position: absolute;
+			top: -10px;
+			left: 10px;
+			pointer-events: none;
+		}
+
+		input, input::placeholder, select {
+			@include reset-appearance();
+			@include ft($f_txt, 14px, 300, $c_white, 1);
+			@include letter-spacing(25);
+			@include addTransition();
+		}
+
+		input, select {
+			border: 1px solid $c_border;
+			background-color: transparent;
+			display: flex;
+			align-items: center;
+			padding: 15px 20px 15px 15px;
+			@include create-outline();
+			@include can-hover {
+				color: $c_sub;
+				&::placeholder {
+					color: $c_sub;
+				}
+			}
+		}
+
+		//input {
+		//	min-width: 320px;
+		//}
+		//select {
+		//	min-width: 220px;
+		//}
+		&.st--is-select {
+			select {
+				text-align: right;
+				padding-right: 50px;
+			}
+
+			&:after {
+				@include icomoon($st-icon-arrow-down);
+				color: $c_txt;
+				font-size: 10px;
+				margin-left: 20px;
+				position: absolute;
+				right: 20px;
+				pointer-events: none;
+			}
+		}
+	}
+
+	.col-right {
+		display: flex;
+		align-items: center;
+		margin-left: auto;
+		@include tablet-portrait {
+			width: 100%;
+		}
+	}
+
+	.st-resultats {
+		margin-right: 20px;
+		text-align: right;
+		@include ft($f_txt, 14px, 300, $c_txt, 1);
+		@include letter-spacing(25);
+		@include tablet-portrait {
+			margin-right: auto;
+			text-align: left;
+		}
+		@include mobile {
+			font-size: 11px;
+		}
+
+		.st-resultats-range {
+			margin-right: 5px;
+		}
+
+		.st-resultats-total {
+			display: block;
+			color: $c_white;
+			font-weight: 700;
+			margin-top: 2px;
+		}
+	}
+}
