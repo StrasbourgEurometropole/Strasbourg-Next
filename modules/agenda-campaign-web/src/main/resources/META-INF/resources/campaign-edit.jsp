@@ -114,7 +114,6 @@
 							        </svg>
 							        <span class="taglib-icon-label"> </span>
                                 </span>
-                                <span class="taglib-text hide-accessible"><liferay-ui:message key="themes-help" /></span>
                             </span>
                         </label>
 						<select name="<portlet:namespace />themesIds" id="<portlet:namespace />themesIds" label="themes" multiple
@@ -159,7 +158,7 @@
 							        </svg>
 							        <span class="taglib-icon-label"> </span>
                                 </span>
-                                <span class="taglib-text hide-accessible"><liferay-ui:message key="types-help" /></span>
+
                             </span>
 						</label>
 						<select name="<portlet:namespace />typesIds" id="<portlet:namespace />typesIds" label="types" multiple
@@ -203,7 +202,7 @@
 							        </svg>
 							        <span class="taglib-icon-label"> </span>
                                 </span>
-                                <span class="taglib-text hide-accessible"><liferay-ui:message key="publics-help" /></span>
+
                             </span>
 						</label>
 						<select name="<portlet:namespace />publicsIds" label="publics" multiple placeholder="<liferay-ui:message key="select-publics" />">

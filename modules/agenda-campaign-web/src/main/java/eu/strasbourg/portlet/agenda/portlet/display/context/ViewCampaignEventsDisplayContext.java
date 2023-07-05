@@ -5,7 +5,11 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -22,10 +26,7 @@ import eu.strasbourg.utils.display.context.BaseDisplayContext;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class ViewCampaignEventsDisplayContext extends BaseDisplayContext {
 
@@ -71,6 +72,7 @@ public class ViewCampaignEventsDisplayContext extends BaseDisplayContext {
 		}
 		return _searchContainer;
 	}
+
 
 	/**
 	 * Retourne la liste des thèmes
@@ -229,7 +231,7 @@ public class ViewCampaignEventsDisplayContext extends BaseDisplayContext {
 		return _status;
 	}
 
-	public List<CampaignEvent> getCampaignEvents() throws PortalException {
+	/*public List<CampaignEvent> getCampaignEvents() throws PortalException {
 		if (_campaignEvents == null) {
 			_campaignEvents = CampaignEventLocalServiceUtil
 				.findByKeywordThemeTypeCampaignAndStatus(this.getKeywords(),
@@ -246,7 +248,7 @@ public class ViewCampaignEventsDisplayContext extends BaseDisplayContext {
 			this.getSearchContainer().setResultsAndTotal(null,(int) total);
 		}
 		return _campaignEvents;
-	}
+	}*/
 
 	public boolean isUserAManager() {
 		List<Campaign> campaigns = CampaignLocalServiceUtil.getCampaigns(-1,

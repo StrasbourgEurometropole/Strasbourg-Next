@@ -36,164 +36,17 @@
 		value="add-campaign-event" primary="true" />
 </div>
 
-<aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
-	<aui:nav-bar-search>
-		<aui:form action="${searchURL}" name="searchFm">
-			<liferay-ui:input-search markupView="lexicon" />
-		</aui:form>
-	</aui:nav-bar-search>
-</aui:nav-bar>
+<clay:management-toolbar
+		managementToolbarDisplayContext="${managementDC}"
+/>
 
-<liferay-frontend:management-bar includeCheckBox="true"
-	searchContainerId="campaignEventsSearchContainer">
-	
-	<liferay-frontend:management-bar-filters>
-		<liferay-frontend:management-bar-navigation
-			label="${dc.statusId ge 0 ? dc.statuses.get(dc.statusId) : 'filter-by-status'}">
-			<liferay-portlet:renderURL var="anyStatusURL">
-				<liferay-portlet:param name="statusId" value="" />
-				<liferay-portlet:param name="themeId" value="${dc.themeId}" />
-				<liferay-portlet:param name="typeId" value="${dc.typeId}" />
-				<liferay-portlet:param name="campaignId" value="${dc.campaignId}" />
-				<liferay-portlet:param name="keywords" value="${dc.keywords}" />
-				<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
-			</liferay-portlet:renderURL>
-			<liferay-frontend:management-bar-filter-item
-				label="n'importe lequel"
-				url="${anyStatusURL}" />
-			<c:forEach var="status" items="${dc.statuses}">
-				<liferay-portlet:renderURL var="statusFilterURL">
-					<liferay-portlet:param name="statusId" value="${status.key}" />
-					<liferay-portlet:param name="themeId" value="${dc.themeId}" />
-					<liferay-portlet:param name="typeId" value="${dc.typeId}" />
-					<liferay-portlet:param name="campaignId" value="${dc.campaignId}" />
-					<liferay-portlet:param name="keywords" value="${dc.keywords}" />
-					<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
-				</liferay-portlet:renderURL>
-				<c:set var="isActive"
-					value="${dc.statusId eq status.key}" />
-				<liferay-frontend:management-bar-filter-item
-					label="${status.value}" url="${statusFilterURL}" active="${isActive}" />
-			</c:forEach>
-		</liferay-frontend:management-bar-navigation>
-		<liferay-frontend:management-bar-navigation
-			label="${dc.themeId gt 0 ? dc.themeLabel : 'filter-by-theme'}">
-			<liferay-portlet:renderURL var="anyThemeURL">
-				<liferay-portlet:param name="statusId" value="${dc.statusId}" />
-				<liferay-portlet:param name="themeId" value="" />
-				<liferay-portlet:param name="typeId" value="${dc.typeId}" />
-				<liferay-portlet:param name="campaignId" value="${dc.campaignId}" />
-				<liferay-portlet:param name="keywords" value="${dc.keywords}" />
-				<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
-			</liferay-portlet:renderURL>
-			<liferay-frontend:management-bar-filter-item
-				label="n'importe lequel"
-				url="${anyThemeURL}" />
-			<c:forEach var="theme" items="${dc.themes}">
-				<liferay-portlet:renderURL var="themeFilterURL">
-					<liferay-portlet:param name="statusId" value="${dc.statusId}" />
-					<liferay-portlet:param name="themeId" value="${theme.categoryId}" />
-					<liferay-portlet:param name="typeId" value="${dc.typeId}" />
-					<liferay-portlet:param name="campaignId" value="${dc.campaignId}" />
-					<liferay-portlet:param name="keywords" value="${dc.keywords}" />
-					<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
-				</liferay-portlet:renderURL>
-				<c:set var="isActive"
-					value="${dc.themeId eq theme.categoryId}" />
-				<liferay-frontend:management-bar-filter-item
-					label="${theme.getTitle(locale)}" url="${themeFilterURL}" active="${isActive}" />
-			</c:forEach>
-		</liferay-frontend:management-bar-navigation>
-		<liferay-frontend:management-bar-navigation
-			label="${dc.typeId gt 0 ? dc.typeLabel : 'filter-by-type'}">
-			<liferay-portlet:renderURL var="anyTypeURL">
-				<liferay-portlet:param name="statusId" value="${dc.statusId}" />
-				<liferay-portlet:param name="themeId" value="${dc.themeId}" />
-				<liferay-portlet:param name="typeId" value="" />
-				<liferay-portlet:param name="campaignId" value="${dc.campaignId}" />
-				<liferay-portlet:param name="keywords" value="${dc.keywords}" />
-				<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
-			</liferay-portlet:renderURL>
-			<liferay-frontend:management-bar-filter-item
-				label="n'importe lequel"
-				url="${anyTypeURL}" />
-			<c:forEach var="type" items="${dc.types}">
-				<liferay-portlet:renderURL var="typeFilterURL">
-					<liferay-portlet:param name="statusId" value="${dc.statusId}" />
-					<liferay-portlet:param name="themeId" value="${dc.themeId}" />
-					<liferay-portlet:param name="typeId" value="${type.categoryId}" />
-					<liferay-portlet:param name="campaignId" value="${dc.campaignId}" />
-					<liferay-portlet:param name="keywords" value="${dc.keywords}" />
-					<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
-				</liferay-portlet:renderURL>
-				<c:set var="isActive"
-					value="${dc.typeId eq type.categoryId}" />
-				<liferay-frontend:management-bar-filter-item
-					label="${type.getTitle(locale)}" url="${typeFilterURL}" active="${isActive}" />
-			</c:forEach>
-		</liferay-frontend:management-bar-navigation>
-		<liferay-frontend:management-bar-navigation
-			label="${dc.campaignId gt 0 ? dc.campaignLabel : 'filter-by-campaign'}">
-			<liferay-portlet:renderURL var="anyCampaignURL">
-				<liferay-portlet:param name="statusId" value="${dc.statusId}" />
-				<liferay-portlet:param name="themeId" value="${dc.themeId}" />
-				<liferay-portlet:param name="typeId" value="${dc.typeId}" />
-				<liferay-portlet:param name="campaignId" value="" />
-				<liferay-portlet:param name="keywords" value="${dc.keywords}" />
-				<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
-			</liferay-portlet:renderURL>
-			<liferay-frontend:management-bar-filter-item
-				label="n'importe laquelle"
-				url="${anyCampaignURL}" />
-			<c:forEach var="campaign" items="${dc.campaigns}">
-				<liferay-portlet:renderURL var="campaignFilterURL">
-					<liferay-portlet:param name="statusId" value="${dc.statusId}" />
-					<liferay-portlet:param name="themeId" value="${dc.themeId}" />
-					<liferay-portlet:param name="typeId" value="${dc.typeId}" />
-					<liferay-portlet:param name="campaignId" value="${campaign.campaignId}" />
-					<liferay-portlet:param name="keywords" value="${dc.keywords}" />
-					<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
-				</liferay-portlet:renderURL>
-				<c:set var="isActive"
-					value="${dc.campaignId eq campaign.campaignId}" />
-				<liferay-frontend:management-bar-filter-item
-					label="${campaign.getTitle(locale)}" url="${campaignFilterURL}" active="${isActive}" />
-			</c:forEach>
-		</liferay-frontend:management-bar-navigation>
-	</liferay-frontend:management-bar-filters>
-
-	<c:if test="${dc.isUserAManager()}">
-		<liferay-frontend:management-bar-action-buttons>
-			<liferay-frontend:management-bar-button
-				href='<%="javascript:" + renderResponse.getNamespace() + "updateSelectionStatus(1);"%>'
-				icon="check" label="submit-to-validation" />
-			<liferay-frontend:management-bar-button
-				href='<%="javascript:" + renderResponse.getNamespace() + "updateSelectionStatus(0);"%>'
-				icon="thumbs-up" label="approve" />
-			<liferay-frontend:management-bar-button
-				href='<%="javascript:" + renderResponse.getNamespace() + "updateSelectionStatus(4);"%>'
-				icon="thumbs-down" label="deny" />
-			<liferay-frontend:management-bar-button
-				href='<%="javascript:" + renderResponse.getNamespace() + "updateSelectionStatus(8);"%>'
-				icon="times" label="request-deletion" />
-			<liferay-frontend:management-bar-button
-				href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
-				icon="trash" label="delete" />
-			<liferay-frontend:management-bar-button
-				href='<%="javascript:" + renderResponse.getNamespace() + "updateSelectionStatus(-1);"%>'
-				icon="undo" label="deny-deletion" />
-		</liferay-frontend:management-bar-action-buttons>
-	</c:if>
-</liferay-frontend:management-bar>
-
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
 		<aui:input type="hidden" name="selectionIds" />
 		<aui:input type="hidden" name="campaignEventId" />
 		<aui:input type="hidden" name="newStatus" />
 		<liferay-ui:search-container id="campaignEventsSearchContainer"
 			searchContainer="${dc.searchContainer}">
-			<liferay-ui:search-container-results results="${dc.campaignEvents}" />
 
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.agenda.model.CampaignEvent"

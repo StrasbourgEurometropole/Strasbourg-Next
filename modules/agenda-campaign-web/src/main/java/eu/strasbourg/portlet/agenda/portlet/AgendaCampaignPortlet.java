@@ -1,8 +1,13 @@
 package eu.strasbourg.portlet.agenda.portlet;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
+import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import eu.strasbourg.portlet.agenda.portlet.display.context.EditCampaignEventDisplayContext;
+import eu.strasbourg.portlet.agenda.portlet.display.context.ManagementCampaignsToolBarDisplayContext;
 import eu.strasbourg.portlet.agenda.portlet.display.context.ViewCampaignEventsDisplayContext;
 import org.osgi.service.component.annotations.Component;
 
@@ -10,6 +15,7 @@ import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Component(
@@ -32,7 +38,7 @@ public class AgendaCampaignPortlet extends MVCPortlet {
 	@Override
 	public void render(RenderRequest renderRequest,
 		RenderResponse renderResponse) throws IOException, PortletException {
-
+		HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(renderRequest);
 		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 		if (mvcPath.equals("/campaign-edit.jsp")) {
 			EditCampaignEventDisplayContext dc = new EditCampaignEventDisplayContext(
@@ -42,6 +48,15 @@ public class AgendaCampaignPortlet extends MVCPortlet {
 			ViewCampaignEventsDisplayContext dc = new ViewCampaignEventsDisplayContext(
 				renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
+			ManagementCampaignsToolBarDisplayContext managementDC = null;
+			try {
+				managementDC = new ManagementCampaignsToolBarDisplayContext(
+						servletRequest, (LiferayPortletRequest) renderRequest,
+						(LiferayPortletResponse) renderResponse, dc);
+			} catch (PortalException e) {
+				throw new RuntimeException(e);
+			}
+			renderRequest.setAttribute("managementDC", managementDC);
 		}
 
 		super.render(renderRequest, renderResponse);

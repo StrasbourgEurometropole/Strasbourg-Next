@@ -11,7 +11,6 @@
                     </g>
                 </svg>
             </span>
-        	<span class="taglib-text hide-accessible"><liferay-ui:message key="select-a-period-help" /></span>
         </span>
     </label>
 </div>
