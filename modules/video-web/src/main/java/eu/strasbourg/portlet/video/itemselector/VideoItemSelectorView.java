@@ -1,5 +1,9 @@
 package eu.strasbourg.portlet.video.itemselector;
 
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemBuilder;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuilder;
 import com.liferay.item.selector.ItemSelectorReturnType;
 import com.liferay.item.selector.ItemSelectorView;
 import com.liferay.item.selector.criteria.URLItemSelectorReturnType;
@@ -9,6 +13,7 @@ import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
@@ -16,11 +21,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.PortletURL;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -93,16 +94,14 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 				(delta * cur));
 
 		long videosCount = VideoLocalServiceUtil.findByKeywordCount(keywords, filterGroupId);
-
+		List<DropdownItem> groupFilterItems = getFilterGroupDropdownItems(portletURL, themeDisplay.getCompanyId(),
+				filterGroupId);
 		servletRequest.setAttribute("total", videosCount);
 		servletRequest.setAttribute("videos", videos);
 		servletRequest.setAttribute("portletURL", portletURL);
 		servletRequest.setAttribute("itemSelectedEventName", itemSelectedEventName);
 		servletRequest.setAttribute("multiple", multiple);
-
-		/*List<ManagementBarFilterItem> groupFilterItems = getGroupFilterItems(portletURL, themeDisplay.getCompanyId(),
-				filterGroupId);
-		servletRequest.setAttribute("groupFilterItems", groupFilterItems);*/
+		servletRequest.setAttribute("groupFilterItems", groupFilterItems);
 		Group filterGroup = GroupLocalServiceUtil.fetchGroup(filterGroupId);
 		if (filterGroup != null) {
 			servletRequest.setAttribute("filterGroupName", filterGroup.getName(Locale.FRANCE));
@@ -133,5 +132,31 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 		}
 		return items;
 	}*/
+
+
+	protected List<DropdownItem> getFilterGroupDropdownItems(PortletURL portletURL, long currentCompanyId,
+																  long filterGroupId) {
+		List<DropdownItem> filterVocabularyDropdownItems = new DropdownItemList();
+		List<Group> groups = GroupLocalServiceUtil.getCompanyGroups(currentCompanyId, -1, -1);
+
+		for (Group group : groups) {
+			boolean isActive = group.getGroupId() == filterGroupId;
+			portletURL.setParameter("filterGroupId", String.valueOf(group.getGroupId()));
+			if (Validator.isNotNull(group.getName(Locale.FRANCE)) && group.getType() == 1) {
+				filterVocabularyDropdownItems.add(
+						DropdownItemBuilder
+								.setActive(isActive)
+								.setHref("javascript:getVideosByGroup("+group.getGroupId()+");")
+								.setLabel(group.getName(Locale.FRANCE))
+
+								.build()
+				);
+				portletURL.setParameter("filterGroupId", String.valueOf(filterGroupId));
+			}
+		}
+
+		return filterVocabularyDropdownItems;
+	}
+
 
 }

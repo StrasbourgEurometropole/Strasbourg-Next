@@ -4,31 +4,16 @@
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@page import="com.liferay.portal.kernel.dao.search.RowChecker"%>
+<%@ taglib uri="http://liferay.com/tld/clay" prefix="clay" %>
 
 <liferay-theme:defineObjects />
 <portlet:defineObjects />
-<clay:management-toolbar>
-	<clay:management-toolbar-nav
-			searchContainerId="videosSearchContainer"
-			showCheckbox="<%= false %>"
-	/>
-	<clay:management-toolbar-filters>
-		<clay:management-toolbar-filter>
-			<clay:management-toolbar-filter-dropdown >
 
-				<clay:management-toolbar-filter-dropdown-items
-						items="${groupFilterItems}"
-						value="${filterGroupName}"
-				/>
-			</clay:management-toolbar-filter-dropdown>
-		</clay:management-toolbar-filter>
-	</clay:management-toolbar-filters>
-</clay:management-toolbar>
+<div id="<portlet:namespace />productsImageSelectorWrapper" class="container-fluid container-fluid-max-xl main-content-body">
 
-	<%-- Composant : barre de filtres et de gestion des entites --%>
-
-
-<div id="<portlet:namespace />productsImageSelectorWrapper" class="container-fluid-1280 main-content-body">
+	<clay:dropdown-menu
+				label="${filterGroupName}"
+				dropdownItems="${groupFilterItems}"/>
 
     <%-- Ajout du champ de recherche suite à sa disparition après migration en 7.2 --%>
     <aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
@@ -75,8 +60,11 @@
 
 	</liferay-ui:search-container>
 </div>
+<liferay-portlet:renderURL var="renderURL">
 
+</liferay-portlet:renderURL>
 <aui:script>
+
 	$('.video-row input[type=checkbox]').on('change', function() {
 		var multiple = ${multiple};
 		if (!multiple) {
@@ -109,7 +97,18 @@
 			});
 		}
 	});
+	var form1 = document.querySelector("[name='<portlet:namespace />fm']");
+	var form = AUI.$(document.<portlet:namespace />fm);
+	function getVideosByGroup(groupId) {
+
+		var render ="${renderURL}";
+		render.setParameter("filterGroupId", groupId);
+		myLink.href = render.toString();
+	}
+
 </aui:script>
+
+
 <style>
 	.table-first-header input {
 	    display: none;
