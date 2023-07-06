@@ -41,7 +41,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <picture>
                             <!-- <img width="" height="" alt="" src="${imageUrl}"> -->
                             <img width="" height="" alt="" src="https://placehold.co/80x80?text=a+changer">
-                        </picture>
+                        </picture> 
                     </figure>
                 </div>
                 <div class="st-content">
@@ -57,10 +57,10 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     </#if>
                     ${entry.addressZipCode} ${entry.getCity(locale)}
                     </address>
-                    <#if !entry.isOpenNow()>
-                        <p class="st-ouverture st--open">Ouvert actuellement</p>
+                    <#if entry.isOpenNow()>
+                        <p class="st-ouverture st--open"> <@liferay_ui.message key="eu.currently-open" /></p>
                     <#else>
-                        <p class="st-ouverture st--closed">Ferme actuellement</p>
+                        <p class="st-ouverture st--closed"> <@liferay_ui.message key="eu.currently-closed" /></p>
                     </#if>
                 </div>
             </div>
@@ -74,7 +74,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     </li>
                     <#if entry.phone?has_content>
                         <li>
-                            <a href="tel:0325030111" class="st-btn-icon-outline" target="_blank" rel="noopener"
+                            <a href="tel:${entry.phone}" class="st-btn-icon-outline" target="_blank" rel="noopener"
                             title="<@liferay_ui.message key="phone" /> : ${entry.phone}">
                                 <span class="st-icon-phone" aria-hidden="true"></span>
                             </a>
@@ -126,22 +126,22 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 
                     <ul class="st-network-list">
                         <li>
-                            <a href="#facebook" aria-label="Partagez sur Facebook"
+                            <a href="#facebook" id="sharefacebook" aria-label="Partagez sur Facebook"
                                class="st-btn-social st-icon-facebook st-ga-event-facebook" target="_blank"
                                title="Lien de partage sur Facebook"></a>
                         </li>
                         <li>
-                            <a href="#twitter" aria-label="Partagez sur Twitter"
+                            <a href="#twitter" id="sharetwitter" aria-label="Partagez sur Twitter"
                                class="st-btn-social st-icon-twitter st-ga-event-twitter" target="_blank"
                                title="Lien de partage sur Twitter"></a>
                         </li>
                         <li>
-                            <a href="#linkedin" aria-label="Partagez sur LinkedIn"
+                            <a href="#linkedin" id="ShareLinkedIn" aria-label="Partagez sur LinkedIn"
                                class="st-btn-social st-icon-linkedin st-ga-event-linkedin" target="_blank"
                                title="Lien de partage sur LinkedIn"></a>
                         </li>
                         <li>
-                            <a href="#Mail" aria-label="Partagez par Email" class="st-btn-social st-icon-email st-ga-event-mail"
+                            <a href="#Mail" id="ShareMail" aria-label="Partagez par Email" class="st-btn-social st-icon-email st-ga-event-mail"
                                title="Lien de partage par Email"></a>
                         </li>
                     </ul>
@@ -152,7 +152,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     </div>
     
 
-<main class="st-fiche st-fiche-mediatheque" role="main" tabindex="-1">
+<div class="st-fiche" tabindex="-1">
     <header
         class="st-header-fiche-lieu <#if entry.isEnabled()>st--sans-image<#else>st--avec-image</#if>"
         role="banner">
@@ -175,20 +175,50 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         </div>
 
         <div class="st-wrapper st-cover-container">
+        
             <#if entry.isEnabled()>
+                <#assign occupationState = entry.getRealTime() />
+                <#assign isSwimmingPool = entry.isSwimmingPool() />
+                <#assign isIceRink = entry.isIceRink() />
+                <#assign isMairie = entry.isMairie() />
+                <#assign isParking = entry.isParking() />
+                <#assign isVelhopStation = entry.isVelhopStation() />
                 <div class="st-top-bar">
-                    <h2 class="st-title">Affluence faible</h2>
+                    <h2 class="st-title">
+                            <#if isSwimmingPool || isIceRink || isMairie>
+                                <@liferay_ui.message key="${occupationState.label}-short" />
+                            <#else>
+                                <#if entry.isOpenNow()>
+                                    <p class="st-ouverture st--open"> <@liferay_ui.message key="eu.currently-open" /></p>
+                                <#else>
+                                    <p class="st-ouverture st--closed"> <@liferay_ui.message key="eu.currently-closed" /></p>
+                                </#if>
+                            </#if>
+                    </h2>
                     <div class="st-content">
                         <p class="st-frequentation">
-                            14 personnes
+                                    <#if isSwimmingPool || isIceRink || isMairie>
+                                        ${occupationState.occupationLabel} personnes
+                                    <#elseif isParking || isVelhopStation>
+                                        ${occupationState.available} places
+                                    </#if>
                         </p>
                         <p class="st-surtitre-cat">
-                            sur une capacite maximum de 250 personnes
+                         <#if isSwimmingPool >
+                                <@liferay_ui.message key="eu.place.total-capacity-long" /> ${occupationState.capacity} personnes
+                        <#elseif isParking>
+                                <@liferay_ui.message key="eu.place.total-capacity-long" /> ${occupationState.capacity} places
+                        </#if>
                         </p>
+                        
                         <p class="st-small-text">
-                            La frequentation est donnee a titre indicatif et dans la configuration ou
-                            tous les bassins
-                            sont ouverts
+                         <#if isSwimmingPool>
+                                <@liferay_ui.message key="live-occupation-explanation" />
+                            <#elseif isMairie>
+                                <@liferay_ui.message key="estimated-time-explanation" />
+                            <#elseif isIceRink>
+                                <@liferay_ui.message key="live-ice-rink-occupation-explanation" />
+                        </#if>
                         </p>
                     </div>
                 </div>
@@ -771,10 +801,10 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                     <p class="st-title-lien">${title}</p>
                                     <div class="st-lien-content">
                                         <p class="st-type">(${file.getExtension()?upper_case} - ${size})</p>
-                                        <p class="st-text"><@liferay_ui.message key="download" /></p>
+                                        <p class="st-text"><@liferay_ui.message key="eu.download" /></p>
                 
                                     </div>
-                                    <span class="st-sr-only"><@liferay_ui.message key="download" /></span>
+                                    <span class="st-sr-only"><@liferay_ui.message key="eu.download" /></span>
                                 </a>
                             </li>
                         </#if>
@@ -949,6 +979,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
         </div>
 
+        <!-- Contact -->
         <div class="st-sit-contact st--contact-two-links st-wrapper">
             <div class="st-container">
                 <div class="st-col-left">
@@ -956,8 +987,11 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     <p class="st-surtitre-cat">${entry.getAlias(locale)}</p>
                 </div>
                 <div class="st-col-right">
-                    <a href="tel:+330388451010" class="st-btn st--btn-secondary">+33 (0)3 88 45 10 10</a>
-                    <a href="mailto:contact@thuria.com" class="st-btn st--btn-secondary">Contacter par mail</a>
+                    <#if entry.phone?has_content>
+                    <a href="tel:${entry.phone}" class="st-btn st--btn-secondary">${entry.phone}</a>
+                    </#if>
+                    
+                    <a href="#" class="st-btn st--btn-secondary">Contacter par mail</a>
                 </div>
             </div>
         </div>
@@ -967,7 +1001,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     </div>
 
 
-</main>
+</div>
 
 <!-- Mise en place adict strasbourg pour les cartes -->
 <script type="text/javascript">

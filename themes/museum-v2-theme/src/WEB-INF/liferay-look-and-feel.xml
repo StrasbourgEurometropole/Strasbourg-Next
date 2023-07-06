@@ -17,6 +17,5 @@
 		<portlet-decorator id="decorate" name="Decorate">
 			<portlet-decorator-css-class>portlet-decorate</portlet-decorator-css-class>
 		</portlet-decorator>
-
 	</theme>
 </look-and-feel>
