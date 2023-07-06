@@ -37,12 +37,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <div class="st-barre-inner st-wrapper">
             <div class="st-container-left">
                 <div class="st-image">
-                    <figure class="st-fit-cover" role="group">
-                        <picture>
-                            <!-- <img width="" height="" alt="" src="${imageUrl}"> -->
-                            <img width="" height="" alt="" src="https://placehold.co/80x80?text=a+changer">
-                        </picture> 
-                    </figure>
+                    <@addImage imageURL="https://placehold.co/80x80"  />
                 </div>
                 <div class="st-content">
                     <p class="st-title">${entry.getAlias(locale)}</p>
@@ -115,7 +110,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 </ul>
     
                 <button class="st-btn-favoris" data-addpanier="10525">
-                    Ajouter aux favoris
+                    <@liferay_ui.message key="eu.add-to-favorite" />
                 </button>
 
                 <div class="st-social-share">
@@ -158,20 +153,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         role="banner">
         <div class="st-wrapper st-wrapper-small">
             <h1>${entry.getAlias(locale)}</h1>
-            <ul class="st-breadcrumbs" aria-label="Fil d'ariane de la page">
-                <li class="st-breadcrumbs__item">
-                    <a href="/" class="st-breadcrumbs__link">Accueil</a>
-                </li>
-                <li class="st-breadcrumbs__item">
-                    <a href="#" class="st-breadcrumbs__link">Pratique</a>
-                </li>
-                <li class="st-breadcrumbs__item">
-                    <a href="#" class="st-breadcrumbs__link">Rechercher un lieu public</a>
-                </li>
-                <li class="st-breadcrumbs__item">
-                    <span>${entry.getAlias(locale)}</span>
-                </li>
-            </ul>
+            <@liferay.breadcrumbs />
         </div>
 
         <div class="st-wrapper st-cover-container">
@@ -224,16 +206,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 </div>
                 <#else>
                     <div class="st-image">
-                        <span class="st-credits" aria-hidden="true"> Abraham Lebowski</span>
-                        <figure class="st-fit-cover figcaption-only-credits" role="group"
-                            aria-label="Photo,  Abraham Lebowski">
-                            <picture>
-                                <img width="" height="" alt="Photo" src="${imageUrl}">
-                            </picture>
-                            <figcaption>
-                                <span class="st-sr-only">Photo, Abraham Lebowski</span>
-                            </figcaption>
-                        </figure>
+                        <@addImage imageURL=imageUrl showCopyright=true />
                     </div>
             </#if>
             <div class="maps" data-lat="${ entry.getMercatorY() }" data-lng="${ entry.getMercatorX() }" data-callback="initMap" data-zoom="17">
@@ -531,7 +504,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             <#if exceptions?has_content || (hasAnyException?has_content &&
                                 hasAnyException)>
                                 <#assign totalExceptionsCount=0 />
-                                <p class="st-title">
+                                <p class="st-small-title">
                                     <@liferay_ui.message key="eu.exceptional-closings-openings" />
                                 </p>
                                 <ul>
@@ -634,12 +607,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     <div class="st-limit-height st--is-overflowing">
                         <p>${entry.getPresentation(locale)}</p>
                     </div>
-                    <div class="st-show-more">
-                        <button class="st-btn-arrow st--down" aria-expanded="false" aria-controls="123"
-                            aria-label="Voir tout le texte" data-open-label="Voir tout le texte"
-                            data-close-label="Reduire l'affichage du texte">
-                        </button>
-                    </div>
+                    <@showMore />
                 </div>
             </div>
         </#if>
@@ -685,18 +653,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                         </p>
                                     </div>
                                     <div class="st-image">
-
-                                        <figure class="st-fit-cover" role="group">
-                                            <picture>
-                                                <img width="" height="" alt=""
-                                                    src="${event.getImageURL()}">
-                                            </picture>
-                                        </figure>
+                                        <@addImage imageURL=event.getImageURL() />
 
                                     </div>
                                 </a>
                                 <button class="st-btn-favoris st--only-icon" data-addpanier="postID">
-                                    Ajouter a mes favoris
+                                    <@liferay_ui.message key="eu.add-to-favorite" />
                                 </button>
 
                             </div>
@@ -705,7 +667,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     </#list>
                 </ul>
                 <a href="${homeURL}agenda?idSIGPlace=${entry.getSIGid()}"
-                    class="st-btn st--btn-secondary">Tous les evenements</a>
+                    class="st-btn st--btn-secondary"> <@liferay_ui.message key="sae.all-events" /></a>
             </div>
         </#if>
         <!-- Fin Agenda -->
@@ -822,12 +784,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             </li>
                         </#list>
                 </ul>
-                <div class="st-show-more">
-                    <button class="st-btn-arrow st--down" aria-expanded="false" aria-controls="123"
-                        aria-label="Voir tout le texte" data-open-label="Voir tout le texte"
-                        data-close-label="Reduire l'affichage du texte">
-                    </button>
-                </div>
+                <@showMore />
             </div>
         </div>
         </#if>
@@ -843,13 +800,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <div class="st-limit-height st--is-overflowing">
                             ${entry.getAdditionalInformation(locale)}
                         </div>
-                        <div class="st-show-more">
-                            <button class="st-btn-arrow st--down" aria-expanded="false"
-                                aria-controls="123" aria-label="Voir tout le texte"
-                                data-open-label="Voir tout le texte"
-                                data-close-label="Reduire l'affichage du texte">
-                            </button>
-                        </div>
+                        <@showMore />
                     </div>
                 </div>
             </#if>
@@ -866,13 +817,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <div class="st-limit-height">
                             ${entry.getAccess(locale)}
                         </div>
-                        <div class="st-show-more">
-                            <button class="st-btn-arrow st--down" aria-expanded="false"
-                                aria-controls="123" aria-label="Voir tout le texte"
-                                data-open-label="Voir tout le texte"
-                                data-close-label="Reduire l'affichage du texte">
-                            </button>
-                        </div>
+                        <@showMore />
                     </div>
                 </div>
             </#if>
@@ -924,12 +869,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             ${entry.getAccessForDisabled(locale)}
                         </div>
                     </#if>
-                    <div class="st-show-more">
-                        <button class="st-btn-arrow st--down" aria-expanded="false" aria-controls="123"
-                            aria-label="Voir tout le texte" data-open-label="Voir tout le texte"
-                            data-close-label="Reduire l'affichage du texte">
-                        </button>
-                    </div>
+                    
                 </div>
             </div>
         </#if>
@@ -945,13 +885,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <div class="st-limit-height">
                             ${entry.getServiceAndActivities(locale)}
                         </div>
-                        <div class="st-show-more">
-                            <button class="st-btn-arrow st--down" aria-expanded="false"
-                                aria-controls="123" aria-label="Voir tout le texte"
-                                data-open-label="Voir tout le texte"
-                                data-close-label="Reduire l'affichage du texte">
-                            </button>
-                        </div>
+                        <@showMore />
                     </div>
                 </div>
             </#if>
@@ -965,13 +899,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <div class="st-limit-height st--is-overflowing">
                             ${entry.getCharacteristics(locale)}
                         </div>
-                        <div class="st-show-more">
-                            <button class="st-btn-arrow st--down" aria-expanded="false"
-                                aria-controls="123" aria-label="Voir tout le texte"
-                                data-open-label="Voir tout le texte"
-                                data-close-label="Reduire l'affichage du texte">
-                            </button>
-                        </div>
+                        <@showMore />
                     </div>
                 </div>
             </#if>
@@ -983,7 +911,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <div class="st-sit-contact st--contact-two-links st-wrapper">
             <div class="st-container">
                 <div class="st-col-left">
-                    <h2 class="st-h2">Contact</h2>
+                    <h2 class="st-h2"><@liferay_ui.message key="contact" /></h2>
                     <p class="st-surtitre-cat">${entry.getAlias(locale)}</p>
                 </div>
                 <div class="st-col-right">
@@ -991,7 +919,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     <a href="tel:${entry.phone}" class="st-btn st--btn-secondary">${entry.phone}</a>
                     </#if>
                     
-                    <a href="#" class="st-btn st--btn-secondary">Contacter par mail</a>
+                    <a href="#" class="st-btn st--btn-secondary"><@liferay_ui.message key="eu.contact-mail" /></a>
                 </div>
             </div>
         </div>
@@ -1023,28 +951,73 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <p class="st-ouverture st--closed">
                     <@liferay_ui.message key="eu.closed" />
                 </p>
-                <#elseif schedule.isAlwaysOpen()>
-                    <p class="st-ouverture">
-                        <@liferay_ui.message key="always-open" />
+            <#elseif schedule.isAlwaysOpen()>
+                <p class="st-ouverture">
+                    <@liferay_ui.message key="always-open" />
+                </p>
+            <#else>
+                <#list schedule.openingTimes as openingTime>
+                    <p>
+                        ${openingTime.first}
+                        -
+                        ${openingTime.second}
+                        <#if hasException>
+                            <span class="st-symbol">*</span>
+                        </#if>
                     </p>
-                    <#else>
-                        <#list schedule.openingTimes as openingTime>
-                            <p>
-                                ${openingTime.first}
-                                -
-                                ${openingTime.second}
-                                <#if hasException>
-                                    <span class="st-symbol">*</span>
-                                </#if>
-                            </p>
-                            <#if schedule.comments[openingTime?index]?has_content>
-                                <p class="st-note">
-                                    ${schedule.comments[openingTime?index]}
-                                </p>
-                            </#if>
+                    <#if schedule.comments[openingTime?index]?has_content>
+                        <p class="st-note">
+                            ${schedule.comments[openingTime?index]}
+                        </p>
+                    </#if>
 
-                        </#list>
+                </#list>
             </#if>
         </div>
     </li>
+</#macro>
+
+<#macro addImage imageURL showLegende=false showCopyright=false>
+    <#if  fileEntryHelper.getFileEntryByRelativeURL(imageURL)?has_content>
+        <#assign image = fileEntryHelper.getFileEntryByRelativeURL(imageURL) />
+        <#assign title = fileEntryHelper.getFileTitle(image.getFileEntryId(), locale) />
+        <#assign legend = fileEntryHelper.getImageLegend(image.getFileEntryId(), locale) />
+        <#assign copyright = fileEntryHelper.getImageCopyright(image.getFileEntryId(), locale) />
+        <#assign hasCredits = copyright?has_content />
+        <#assign hasLegende = legend?has_content />
+        <#assign creditsVisible = hasCredits && hasLegende>
+
+        <#if creditsVisible && showCopyright>
+            <span class="st-credits" aria-hidden="true">${copyright}</span>
+        </#if>
+
+        <figure class="st-fit-cover<#if !creditsVisible> figcaption-only-credits</#if>" role="group" aria-label<#if creditsVisible && showCopyright>="Photo, \u00A9 ${copyright}"</#if>>
+            <img data-fileentryid="${image.getFileEntryId()}" src="${imageURL}">
+            <#if creditsVisible && showLegende>
+                <figcaption>
+                    <span class="st-sr-only">Photo, ${copyright}</span>
+                    ${legend}
+                </figcaption>
+            </#if>
+        </figure>
+        <#if !creditsVisible && hasLegende && showLegende>
+            <figcaption>
+                ${legend}
+            </figcaption>
+        </#if>
+        <#else>
+        <figure class="st-fit-cover" role="group">
+            <img src="${imageURL}">
+        </figure>
+    </#if>
+</#macro>
+
+
+<#macro showMore>
+<div class="st-show-more">
+    <button class="st-btn-arrow st--down" aria-expanded="false" aria-controls="123"
+        aria-label="<@liferay_ui.message key='eu.view-more' />" data-open-label="<@liferay_ui.message key='eu.view-more' />"
+        data-close-label="<@liferay_ui.message key='eu.view-less' />">
+    </button>
+</div>
 </#macro>
