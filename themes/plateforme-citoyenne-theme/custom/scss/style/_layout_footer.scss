@@ -110,7 +110,6 @@
 		@include tablet_portrait {
 			height: auto;
 		}
-		.container {
 			ul {
 				display: flex;
 				justify-content: center;
@@ -133,6 +132,5 @@
 					}
 				}
 			}
-		}
 	}
 }

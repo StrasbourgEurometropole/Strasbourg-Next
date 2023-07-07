@@ -68,7 +68,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
             <article>
                 <div class="row pro-container-detail-event">
-                    <div class="col-sm-8">
+                    <div class="col-sm-8 pr-5">
                     <header>
                     <div class="pro-header-participation pro-theme-information">
                         <h1>${entry.title}</h1>

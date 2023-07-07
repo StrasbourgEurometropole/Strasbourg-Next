@@ -35,7 +35,6 @@
                 <!-- Resultat -->
                 <div class="row pro-wrapper-listing-participation">
                     <div class="col-xs-12">
-                        <h3 style="text-align: right;">Toutes</h3>
                         <aui:form method="post" name="fm">
                             <div class="pro-listing-participation">
                             </div>

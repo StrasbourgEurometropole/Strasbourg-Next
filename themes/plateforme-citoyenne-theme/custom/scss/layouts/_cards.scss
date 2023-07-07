@@ -13,7 +13,8 @@ $border_top: 1px dashed;
 		margin: 20px;
 
 		h3 {
-			height: 60px;
+			height: 69px;
+			@include ellipsis(3);
 		}
 	}
 
@@ -391,7 +392,7 @@ $border_top: 1px dashed;
 
 			margin-bottom: 10px;
 			height: 90px;
-			overflow: hidden;
+			@include ellipsis(4);
 			@include mobile {
 				font-size: 22px;
 				line-height: 28px;
@@ -644,8 +645,8 @@ $border_top: 1px dashed;
 			@include ft($f_hx, 1.4em, 700, $c_txt, 1em);
 
 			margin: 0;
-			height: 50px;
-			overflow: hidden;
+			height: 69px;
+			@include ellipsis(3);
 			@include mobile {
 				margin: 0;
 				font-size: 22px;
@@ -813,10 +814,10 @@ $border_top: 1px dashed;
 		}
 		h3 {
 			@include ft($f_hx, 1.4em, 700, $c_txt, 1em);
-
+			@include ellipsis(3);
 			margin: 0 0 5px 0;
-			min-height: 75px;
-			max-height: 75px;
+			min-height: 68px;
+			max-height: 68px;
 			@include mobile {
 				font-size: 22px;
 				line-height: 28px;
@@ -1349,7 +1350,7 @@ $border_top: 1px dashed;
 			@include ft($f_hx, 1.4em, 700, $c_txt, 1em);
 			letter-spacing: -0.5px;
 			margin: 0 0 5px 0;
-			@include ellipsis(2, 1.25em);
+			@include ellipsis(2);
 			@include mobile {
 				font-size: 22px;
 				line-height: 28px;
@@ -1853,7 +1854,7 @@ $border_top: 1px dashed;
 			@include ft($f_hx, 1.4em, 700, $c_txt, 1em);
 			letter-spacing: -0.5px;
 			margin: 0 0 8px 0;
-			height: 70px;
+			height: 69px;
 			@include ellipsis(2);
 			@include mobile {
 				font-size: 22px;
