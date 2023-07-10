@@ -77,6 +77,10 @@ public class ViewNotificationsDisplayContext {
 			_searchContainer.setResultsAndTotal(
 					() -> {
 						// Création de la liste d'objet
+						int start = this._searchContainer.getStart();
+						int end = this._searchContainer.getEnd();
+						int total = this._searchContainer.getTotal();
+						_notifications = _notifications.subList(start, end > total ? total : end);
 						return _notifications;
 					}, _notifications.size()
 			);

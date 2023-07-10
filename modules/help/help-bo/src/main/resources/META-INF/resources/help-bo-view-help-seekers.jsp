@@ -29,6 +29,7 @@
                     <portlet:param name="helpSeekerId" value="${helpSeeker.publikUser.publikId}" />
                     <portlet:param name="backURL" value="${helpSeekersURL}" />
                     <portlet:param name="mvcPath" value="/help-bo-view-seeker-help-requests.jsp" />
+					<portlet:param name="tab" value="helpSeekers" />
                 </liferay-portlet:renderURL>
 
                 <%-- Colonne : Nom --%>

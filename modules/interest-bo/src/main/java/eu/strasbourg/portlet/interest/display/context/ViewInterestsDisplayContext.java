@@ -41,26 +41,6 @@ public class ViewInterestsDisplayContext  {
 		_itemSelector = itemSelector;
 	}
 
-	/*public List<Interest> getInterests() throws PortalException {
-		if (this._interests == null) {
-			Hits hits = getHits(this._themeDisplay.getCompanyGroupId());
-
-			// Création de la liste d'objet
-			List<Interest> results = new ArrayList<Interest>();
-			if (hits != null) {
-				for (Document document : hits.getDocs()) {
-					Interest Interest = InterestLocalServiceUtil.fetchInterest(
-						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-					if (Interest != null) {
-						results.add(Interest);
-					}
-				}
-			}
-			this._interests = results;
-		}
-		return this._interests;
-	}*/
-
 	/**
 	 * Retourne le dropdownItemsProvider de l'interest
 	 *

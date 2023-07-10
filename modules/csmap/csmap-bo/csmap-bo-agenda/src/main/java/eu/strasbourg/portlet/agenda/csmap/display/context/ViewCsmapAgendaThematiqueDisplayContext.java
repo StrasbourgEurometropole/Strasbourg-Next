@@ -73,6 +73,7 @@ public class ViewCsmapAgendaThematiqueDisplayContext {
                     .setMVCPath("/csmap-bo-agenda-view-thematiques.jsp")
                     .setKeywords(ParamUtil.getString(_request, "keywords"))
                     .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+                    .setParameter("tab","agendaThematique")
                     .buildPortletURL();
             _searchContainer = new SearchContainer<>(_request, null, null,
                     SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
@@ -89,7 +90,11 @@ public class ViewCsmapAgendaThematiqueDisplayContext {
             _searchContainer.setResultsAndTotal(
 
                     () -> {
-
+                        // Création de la liste d'objet
+                        int start = this._searchContainer.getStart();
+                        int end = this._searchContainer.getEnd();
+                        int total = this._searchContainer.getTotal();
+                        _agendas= _agendas.subList(start, end > total ? total : end);
                         return _agendas;
 
                     },_agendas.size()

@@ -47,25 +47,6 @@ public class ViewActivityOrganizersDisplayContext {
 		_itemSelector=itemSelector;
 	}
 
-	/*public List<ActivityOrganizer> getActivityOrganizers() throws PortalException {
-		if (this.activityOrganizers == null) {
-			Hits hits = getHits(this._themeDisplay.getScopeGroupId());
-
-			// Création de la liste d'objet
-			List<ActivityOrganizer> results = new ArrayList<ActivityOrganizer>();
-			if (hits != null) {
-				for (Document document : hits.getDocs()) {
-					ActivityOrganizer activityOrganizer = ActivityOrganizerLocalServiceUtil.fetchActivityOrganizer(
-						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-					if (activityOrganizer != null) {
-						results.add(activityOrganizer);
-					}
-				}
-			}
-			this.activityOrganizers = results;
-		}
-		return this.activityOrganizers;
-	}*/
 	/**
 	 * Retourne le dropdownItemsProvider de activityCourse
 	 *
@@ -89,6 +70,7 @@ public class ViewActivityOrganizersDisplayContext {
 					.setMVCPath("/activity-bo-view-organizers.jsp")
 					.setKeywords(ParamUtil.getString(_request, "keywords"))
 					.setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+					.setParameter("tab","activityOrganizers")
 					.buildPortletURL();
 			_searchContainer = new SearchContainer<>(_request, null, null,
 					SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");

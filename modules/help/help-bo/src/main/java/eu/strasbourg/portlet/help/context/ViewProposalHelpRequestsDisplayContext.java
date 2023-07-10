@@ -55,22 +55,6 @@ public class ViewProposalHelpRequestsDisplayContext{
         }
         return _helpProposal;
     }
-
-    /*public List<HelpRequest> getHelpRequests() throws PortalException {
-        if (this._helpRequests == null) {
-            List unsortedRequests = HelpRequestLocalServiceUtil.getByHelpProposalId(getHelpProposal().getHelpProposalId());
-
-            Comparator<HelpRequest> byDate = new Comparator<HelpRequest>() {
-                @Override
-                public int compare(HelpRequest c1, HelpRequest c2) {
-                    return Long.valueOf(c1.getCreateDate().getTime()).compareTo(c2.getCreateDate().getTime());
-                }
-            };
-            this._helpRequests = ListUtil.sort(unsortedRequests, byDate.reversed());
-
-        }
-        return this._helpRequests;
-    }*/
     /**
      * Retourne le searchContainer des help proposals
      *
@@ -84,6 +68,7 @@ public class ViewProposalHelpRequestsDisplayContext{
                     .setMVCPath("/help-bo-view-help-requests.jsp")
                     .setKeywords(ParamUtil.getString(_request, "keywords"))
                     .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+                    .setParameter("tab","viewProposalHelpRequests")
                     .buildPortletURL();
             _searchContainer = new SearchContainer<>(_request, null, null,
                     SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
@@ -96,6 +81,10 @@ public class ViewProposalHelpRequestsDisplayContext{
             }
             _searchContainer.setResultsAndTotal(
                     () -> {
+                        int start = this._searchContainer.getStart();
+                        int end = this._searchContainer.getEnd();
+                        int total = this._searchContainer.getTotal();
+                        _helpRequests = _helpRequests.subList(start, end > total ? total : end);
                         return _helpRequests;
                     }, _helpRequests.size()
             );

@@ -60,101 +60,7 @@ public class ViewReportingDisplayContext {
         _itemSelector=itemSelector;
     }
 
-    /*public List<FormSendRecordFieldSignalement> getAllSignalements() {
-        if (this._allSignalements == null) {
-            List<FormSendRecordFieldSignalement> signalementList = new ArrayList<FormSendRecordFieldSignalement>();
-            long formInstanceId = ParamUtil.getLong(_request,"formInstanceId");
-            //récupère tous les formulaires envoyés du formulaire
-            List<DDMFormInstanceRecord> recordlist = DDMFormInstanceRecordLocalServiceUtil.getDDMFormInstanceRecords(-1,-1);
-            recordlist = recordlist.stream().filter(r -> r.getFormInstanceId() == formInstanceId).collect(Collectors.toList());
-            if(Validator.isNotNull(recordlist)){
-                for (DDMFormInstanceRecord record : recordlist) {
-                    //récupère les formSendRecordFields du formulaire
-                    List<FormSendRecordField> formSendRecordFieldList = FormSendRecordFieldLocalServiceUtil.getByContentId(record.getStorageId());
 
-                    // récupère les signalements du formSendRecordField
-                    for (FormSendRecordField formSendRecordField : formSendRecordFieldList) {
-                        List<FormSendRecordFieldSignalement> formSendRecordFieldSignalementList = FormSendRecordFieldSignalementLocalServiceUtil.findByFormSendRecordFieldId(formSendRecordField.getFormSendRecordFieldId());
-
-                        for (FormSendRecordFieldSignalement formSendRecordFieldSignalement : formSendRecordFieldSignalementList) {
-                            signalementList.add(formSendRecordFieldSignalement);
-                        }
-                    }
-                }
-                //effectue le tri
-                signalementList.sort((s1, s2) -> s1.getCreateDate().compareTo(s2.getCreateDate()));
-                if("desc".equals(this.getOrderByType()))
-                    Collections.reverse(signalementList);
-
-                this._allSignalements = signalementList;
-            }
-        }
-        return this._allSignalements;
-    }*/
-   /* public List<FormSendRecordFieldSignalement> getSignalements() {
-
-        //TODO pour la pagination
-//        if (this._signalements == null) {
-//            List<FormSendRecordFieldSignalement> signalementList = new ArrayList<FormSendRecordFieldSignalement>();
-//            long recordSetId = ParamUtil.getLong(_request,"recordSetId");
-//            //récupère tous les formulaires envoyés du formulaire
-//            List<DDLRecord> recordlist = DDLRecordLocalServiceUtil.getDDLRecords(-1,-1);
-//            recordlist = recordlist.stream().filter(r -> r.getRecordSetId() == recordSetId).collect(Collectors.toList());
-//            if(Validator.isNotNull(recordlist)){
-//                // récupère les signalements des formulaires envoyés
-//                for (DDLRecord record : recordlist) {
-//                    //récupère les formSendRecordFields du formulaire
-//                    List<FormSendRecordField> formSendRecordFieldList = FormSendRecordFieldLocalServiceUtil.getByContentId(record.getDDMStorageId());
-//
-//                    // récupère les signalements du formSendRecordField
-//                    for (FormSendRecordField formSendRecordField : formSendRecordFieldList) {
-//                        List<FormSendRecordFieldSignalement> formSendRecordFieldSignalementList = FormSendRecordFieldSignalementLocalServiceUtil.findByFormSendRecordFieldId(formSendRecordField.getFormSendRecordFieldId());
-//
-//                        for (FormSendRecordFieldSignalement formSendRecordFieldSignalement : formSendRecordFieldSignalementList) {
-//                            signalementList.add(formSendRecordFieldSignalement);
-//                        }
-//                    }
-//                }
-//                //effectue le tri
-//                signalementList.sort((s1, s2) -> s1.getCreateDate().compareTo(s2.getCreateDate()));
-//                if("desc".equals(this.getOrderByType()))
-//                    Collections.reverse(signalementList);
-//
-//                this._signalements = signalementList.subList(
-//                        this._searchContainer.getStart()>this._allSignalements.size()?this._allSignalements.size():this._searchContainer.getStart(),
-//                        this._searchContainer.getEnd()>this._allSignalements.size()?this._allSignalements.size():this._searchContainer.getEnd());
-//            }
-//        }
-//        return this._signalements;
-
-        return this._allSignalements;
-    }*/
-
-    /**
-     * Retourne le searchContainer
-     */
-    /*public SearchContainer<FormSendRecordFieldSignalement> getSearchContainer() {
-        if (this._searchContainer == null && Validator.isNotNull(this.getAllSignalements())) {
-            PortletURL iteratorURL = this._response.createRenderURL();
-            iteratorURL.setParameter("tab", ParamUtil.getString(this._request, "tab"));
-            iteratorURL.setParameter("orderByCol", this.getOrderByCol());
-            iteratorURL.setParameter("orderByType", this.getOrderByType());
-            iteratorURL.setParameter("keywords", this.getKeywords());
-
-            this._searchContainer = new SearchContainer<FormSendRecordFieldSignalement>(this._request,
-                    iteratorURL, null, "no-entries-were-found");
-
-            this._searchContainer.setEmptyResultsMessageCssClass(
-                    "taglib-empty-result-message-header-has-plus-btn");
-            this._searchContainer
-                    .setRowChecker(new EmptyOnClickRowChecker(this._response));
-            this._searchContainer.setOrderByColParam("orderByCol");
-            this._searchContainer.setOrderByTypeParam("orderByType");
-            this._searchContainer.setResults(this._allSignalements);
-            this._searchContainer.setTotal(this._allSignalements.size());
-        }
-        return this._searchContainer;
-    }*/
     public SearchContainer<FormSendRecordFieldSignalement> getSearchContainer() {
 
         if (_searchContainer == null) {
@@ -163,6 +69,7 @@ public class ViewReportingDisplayContext {
                     .setMVCPath("/form-send-bo-view-form-send-signalements.jsp")
                     .setKeywords(ParamUtil.getString(_request, "keywords"))
                     .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+                    .setParameter("tab","viewReportings")
                     .buildPortletURL();
             _searchContainer = new SearchContainer<>(_request, null, null,
                     SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
@@ -177,7 +84,16 @@ public class ViewReportingDisplayContext {
             } catch (PortalException e) {
                 throw new RuntimeException(e);
             }
-            _searchContainer.setResultsAndTotal(_allSignalements);
+            _searchContainer.setResultsAndTotal(
+                    () -> {
+                        // Création de la liste d'objet
+                        int start = this._searchContainer.getStart();
+                        int end = this._searchContainer.getEnd();
+                        int total = this._searchContainer.getTotal();
+                        _allSignalements= _allSignalements.subList(start, end > total ? total : end);
+                        return _allSignalements;
+                    }, _allSignalements.size()
+            );
         }
         _searchContainer.setRowChecker(new EmptyOnClickRowChecker(_response));
         return _searchContainer;

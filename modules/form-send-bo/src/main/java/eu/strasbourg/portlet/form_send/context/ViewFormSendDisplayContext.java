@@ -190,6 +190,7 @@ public class ViewFormSendDisplayContext {
                     .setMVCPath("/form-send-bo-view-form-send-records.jsp")
                     .setKeywords(ParamUtil.getString(_request, "keywords"))
                     .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+                    .setParameter("tab","viewFormSends")
                     .buildPortletURL();
             _searchContainer = new SearchContainer<>(_request, null, null,
                     SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
@@ -204,7 +205,16 @@ public class ViewFormSendDisplayContext {
             } catch (PortalException e) {
                 throw new RuntimeException(e);
             }
-            _searchContainer.setResultsAndTotal(_allFormSends);
+            _searchContainer.setResultsAndTotal(
+                    () -> {
+                        // Création de la liste d'objet
+                        int start = this._searchContainer.getStart();
+                        int end = this._searchContainer.getEnd();
+                        int total = this._searchContainer.getTotal();
+                        _allFormSends= _allFormSends.subList(start, end > total ? total : end);
+                        return _allFormSends;
+                    }, _allFormSends.size()
+            );
         }
         _searchContainer.setRowChecker(new EmptyOnClickRowChecker(_response));
         return _searchContainer;

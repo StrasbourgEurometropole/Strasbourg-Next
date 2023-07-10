@@ -43,6 +43,7 @@
 				modelVar="deliberation" keyProperty="deliberationId" >
 				<liferay-portlet:renderURL varImpl="editDeliberationURL">
 					<portlet:param name="cmd" value="editDeliberation" />
+					<portlet:param name="tab" value="deliberations" />
 					<portlet:param name="deliberationId" value="${deliberation.deliberationId}" />
 					<portlet:param name="backURL" value="${deliberationsURL}" />
 					<portlet:param name="mvcPath" value="/council-bo-edit-deliberation.jsp" />
