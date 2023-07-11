@@ -9,12 +9,10 @@ import com.liferay.item.selector.ItemSelectorView;
 import com.liferay.item.selector.criteria.URLItemSelectorReturnType;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.ListUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.util.*;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import org.osgi.service.component.annotations.Component;
@@ -114,25 +112,6 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 		requestDispatcher.include(servletRequest, servletResponse);
 	}
 
-	/*private List<ManagementBarFilterItem> getGroupFilterItems(PortletURL portletURL, long currentCompanyId,
-			long filterGroupId) {
-		List<Group> groups = GroupLocalServiceUtil.getCompanyGroups(currentCompanyId, -1, -1);
-		List<ManagementBarFilterItem> items = new ArrayList<>();
-		for (Group group : groups) {
-			boolean isActive = group.getGroupId() == filterGroupId;
-			// TODO : A corriger lorsque portlet 3.0 OK sur itemSelectorPortlet
-			portletURL.setParameter("filterGroupId", String.valueOf(group.getGroupId()));
-			if (Validator.isNotNull(group.getName(Locale.FRANCE)) && group.getType() == 1) {
-				ManagementBarFilterItem item = new ManagementBarFilterItem(isActive, group.getName(Locale.FRANCE),
-						portletURL.toString());
-				items.add(item);
-			}
-			// TODO : A corriger lorsque portlet 3.0 OK sur itemSelectorPortlet
-			portletURL.setParameter("filterGroupId", String.valueOf(filterGroupId));
-		}
-		return items;
-	}*/
-
 
 	protected List<DropdownItem> getFilterGroupDropdownItems(PortletURL portletURL, long currentCompanyId,
 																  long filterGroupId) {
@@ -140,18 +119,17 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 		List<Group> groups = GroupLocalServiceUtil.getCompanyGroups(currentCompanyId, -1, -1);
 
 		for (Group group : groups) {
-			boolean isActive = group.getGroupId() == filterGroupId;
-			portletURL.setParameter("filterGroupId", String.valueOf(group.getGroupId()));
 			if (Validator.isNotNull(group.getName(Locale.FRANCE)) && group.getType() == 1) {
+				boolean isActive = group.getGroupId() == filterGroupId;
+				portletURL.setParameter("filterGroupId", String.valueOf(group.getGroupId()));
+				portletURL.setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA));
 				filterVocabularyDropdownItems.add(
 						DropdownItemBuilder
 								.setActive(isActive)
-								.setHref("javascript:getVideosByGroup("+group.getGroupId()+");")
+								.setHref(portletURL)
 								.setLabel(group.getName(Locale.FRANCE))
-
 								.build()
 				);
-				portletURL.setParameter("filterGroupId", String.valueOf(filterGroupId));
 			}
 		}
 

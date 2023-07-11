@@ -60,9 +60,7 @@
 
 	</liferay-ui:search-container>
 </div>
-<liferay-portlet:renderURL var="renderURL">
 
-</liferay-portlet:renderURL>
 <aui:script>
 
 	$('.video-row input[type=checkbox]').on('change', function() {
@@ -99,12 +97,7 @@
 	});
 	var form1 = document.querySelector("[name='<portlet:namespace />fm']");
 	var form = AUI.$(document.<portlet:namespace />fm);
-	function getVideosByGroup(groupId) {
 
-		var render ="${renderURL}";
-		render.setParameter("filterGroupId", groupId);
-		myLink.href = render.toString();
-	}
 
 </aui:script>
 
