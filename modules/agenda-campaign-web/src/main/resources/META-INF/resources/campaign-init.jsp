@@ -11,6 +11,7 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@ taglib uri="http://liferay.com/tld/clay" prefix="clay" %>
 
+
 <%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState" %>
 
 <liferay-theme:defineObjects />

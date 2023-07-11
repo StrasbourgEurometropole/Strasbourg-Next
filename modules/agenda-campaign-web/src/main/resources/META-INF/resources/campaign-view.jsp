@@ -1,5 +1,6 @@
+<%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState" %>
+<%@ page import="com.liferay.portal.kernel.portlet.LiferayPortletMode" %>
 <%@ include file="/campaign-init.jsp"%>
-
 <liferay-portlet:renderURL var="campaignEventsURL">
 </liferay-portlet:renderURL>
 
@@ -28,7 +29,7 @@
 <liferay-portlet:renderURL varImpl="addCampaignEventURL">
 	<portlet:param name="cmd" value="editCampaignEvent" />
 	<portlet:param name="mvcPath" value="/campaign-edit.jsp" />
-	<portlet:param name="returnURL" value="${campaignEventsURL}" />
+	<portlet:param name="backURL" value="${campaignEventsURL}" />
 </liferay-portlet:renderURL>
 
 <div class="big-button">
@@ -50,13 +51,12 @@
 
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.agenda.model.CampaignEvent"
-				modelVar="campaignEvent" keyProperty="campaignEventId"
-				rowIdProperty="campaignEventId">
+				modelVar="campaignEvent" keyProperty="campaignEventId">
 				<liferay-portlet:renderURL varImpl="editCampaignEventURL">
 					<portlet:param name="cmd" value="editCampaignEvent" />
 					<portlet:param name="campaignEventId"
 						value="${campaignEvent.campaignEventId}" />
-					<portlet:param name="returnURL" value="${campaignEventsURL}" />
+					<portlet:param name="backURL" value="${campaignEventsURL}" />
 					<portlet:param name="mvcPath" value="/campaign-edit.jsp" />
 				</liferay-portlet:renderURL>
 				<liferay-portlet:actionURL varImpl="deleteURL"
@@ -104,40 +104,11 @@
 					<span class="${campaignEvent.lastStatus.statusLabel}"><liferay-ui:message
 							key="${campaignEvent.lastStatus.statusLabel}" /></span>
 				</liferay-ui:search-container-column-text>
-
 				<liferay-ui:search-container-column-text>
-					<c:set var="namespace" value="<%=renderResponse.getNamespace() %>" />
-					<liferay-ui:icon-menu markupView="lexicon">
-						<liferay-ui:icon icon="edit" message="edit"
-							url="${editCampaignEventURL}" />
-						<c:if test="${campaignEvent.status eq 2}">
-							<liferay-ui:icon icon="check" message="submit-to-validation"
-								url="javascript:${namespace}updateCampaignEventStatus(${campaignEvent.campaignEventId}, 1)" />
-						</c:if>
-						<c:if
-							test="${campaignEvent.status eq 1 and campaignEvent.isUserManagerOfTheEvent(themeDisplay.userId)}">
-							<liferay-ui:icon icon="thumbs-up" message="approve"
-								url="javascript:${namespace}updateCampaignEventStatus(${campaignEvent.campaignEventId}, 0)" />
-						</c:if>
-						<c:if
-							test="${campaignEvent.status eq 1 and campaignEvent.isUserManagerOfTheEvent(themeDisplay.userId)}">
-							<liferay-ui:icon icon="thumbs-down" message="deny"
-								url="javascript:${namespace}updateCampaignEventStatus(${campaignEvent.campaignEventId}, 4)" />
-						</c:if>
-						<c:if
-							test="${campaignEvent.status eq 8 and campaignEvent.isUserManagerOfTheEvent(themeDisplay.userId)}">
-							<liferay-ui:icon icon="trash" message="delete" url="${deleteURL}" />
-							<liferay-ui:icon icon="undo" message="deny-deletion"
-								url="javascript:${namespace}updateCampaignEventStatus(${campaignEvent.campaignEventId}, -1)" />
-						</c:if>
-						<liferay-ui:icon icon="times" message="request-deletion"
-							url="javascript:${namespace}updateCampaignEventStatus(${campaignEvent.campaignEventId}, 8)" />
-							
-						<liferay-portlet:actionURL name="duplicateCampaignEvent" var="duplicateCampaignEventURL">
-							<liferay-portlet:param name="campaignEventId" value="${campaignEvent.campaignEventId}" />
-						</liferay-portlet:actionURL>
-						<liferay-ui:icon icon="copy" message="duplicate" url="${duplicateCampaignEventURL}" />
-					</liferay-ui:icon-menu>
+					<clay:dropdown-actions
+							aria-label="<liferay-ui:message key='show-actions' />"
+							dropdownItems="${dc.getActionsCampaignEvent(campaignEvent).getActionDropdownItems()}"
+					/>
 				</liferay-ui:search-container-column-text>
 
 			</liferay-ui:search-container-row>
@@ -152,45 +123,62 @@
 			value="add-campaign-event" primary="true" />
 	</aui:button-row>
 </div>
-
+<liferay-portlet:renderURL var="anyStatusURL">
+	<liferay-portlet:param name="statusId" value="" />
+	<liferay-portlet:param name="themeId" value="${dc.themeId}" />
+	<liferay-portlet:param name="typeId" value="${dc.typeId}" />
+	<liferay-portlet:param name="campaignId" value="${dc.campaignId}" />
+	<liferay-portlet:param name="keywords" value="${dc.keywords}" />
+	<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
+</liferay-portlet:renderURL>
+<liferay-portlet:renderURL var="anyCampaignURL">
+	<liferay-portlet:param name="statusId" value="${dc.statusId}" />
+	<liferay-portlet:param name="themeId" value="${dc.themeId}" />
+	<liferay-portlet:param name="typeId" value="${dc.typeId}" />
+	<liferay-portlet:param name="campaignId" value=""  />
+	<liferay-portlet:param name="keywords" value="${dc.keywords}" />
+	<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
+</liferay-portlet:renderURL>
 <aui:script>
-	function <portlet:namespace />deleteSelection() {
-		var form = AUI.$(document.<portlet:namespace />fm);
-		var selectionIdsInput = document
-				.getElementsByName('<portlet:namespace />selectionIds')[0];
-		selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-				'<portlet:namespace />allRowIds');
+	var form = document.querySelector("[name='<portlet:namespace />fm']");
 
+	function deleteSelection() {
 		submitForm(form, '${deleteSelectionURL}');
 	}
-	function <portlet:namespace />updateSelectionStatus(newStatus) {
-		var form = AUI.$(document.<portlet:namespace />fm);
-		var selectionIdsInput = document
-				.getElementsByName('<portlet:namespace />selectionIds')[0];
-		var newStatusInput = document
-				.getElementsByName('<portlet:namespace />newStatus')[0];
-
-		selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-				'<portlet:namespace />allRowIds');
-		newStatusInput.value = newStatus;
-
+	function updateSelectionStatus() {
 		submitForm(form, '${updateStatusURL}');
 	}
-	function <portlet:namespace />updateCampaignEventStatus(campaignEventId,
-			newStatus) {
-		var form = AUI.$(document.<portlet:namespace />fm);
-		var selectionIdsInput = document
-				.getElementsByName('<portlet:namespace />selectionIds')[0];
-		var newStatusInput = document
-				.getElementsByName('<portlet:namespace />newStatus')[0];
-		var campaignEventIdInput = document
-				.getElementsByName('<portlet:namespace />campaignEventId')[0];
-
-		selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-				'<portlet:namespace />allRowIds');
-		newStatusInput.value = newStatus;
-		campaignEventIdInput.value = campaignEventId;
-
+	function updateCampaignEventStatus(campaignEventId,newStatus) {
 		submitForm(form, '${updateStatusURL}');
+	}
+
+	function getCategoriesByVocabulary(vocabularyId) {
+		Liferay.Util.openSelectionModal(
+			{
+				onSelect: function (selectedItem) {
+					console.log("test : " + selectedItem.value);
+					alert("category : " + selectedItem.value.title);
+					if (selectedItem) {
+						const itemValue = selectedItem.value;
+						//submitForm(form, '${filterSelectionURL}');
+						//Liferay.SPA.app.navigate(urlString);
+
+						navigate(
+							addParams(
+							{
+								["${portletNamespace}vocabulary_" + vocabularyId]: itemValue.title,
+							},
+							PortletURLBuilder.create(getPortletURL())
+							.setParameter("vocabulary_" + vocabularyId, itemValue.title)
+							.buildString()
+							)
+						);
+					}
+				},
+				selectEventName: '<portlet:namespace />selectAssetCategory',
+				title: Liferay.Language.get('select-category'),
+				url: '${dc.getSelectCategoriesByVocabularyIdURL(vocabularyId)}'
+			}
+		)
 	}
 </aui:script>

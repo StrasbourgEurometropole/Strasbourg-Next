@@ -11,7 +11,7 @@
 	<liferay-portlet:param name="campaignEventId" value="${dc.campaignEvent.campaignEventId}" />
 </liferay-portlet:actionURL>	
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" value="back-to-list" />
 	<liferay-ui:error key="last-name-error" message="last-name-error" />
 	<liferay-ui:error key="first-name-error" message="first-name-error" />
