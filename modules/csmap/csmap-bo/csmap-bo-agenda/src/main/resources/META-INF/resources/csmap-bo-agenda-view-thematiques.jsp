@@ -29,6 +29,7 @@
                     <portlet:param name="cmd" value="editAgendaThematique" />
                     <portlet:param name="agendaId" value="${agenda.agendaId}" />
                     <portlet:param name="backURL" value="${agendaThematiqueURL}" />
+					<portlet:param name="tab" value="agendaThematique" />
                     <portlet:param name="mvcPath" value="/csmap-bo-agenda-edit-thematique.jsp" />
                 </liferay-portlet:renderURL>
                 <%-- URL : definit le lien vers l'action de supprimer l'entite selectionnee --%>
