@@ -6,7 +6,7 @@
 			<liferay-ui:message key="${label}" />
 			<c:if test="${required}">
 				<span class="icon-asterisk text-warning"> 
-					<span class="hide-accessible"><liferay-ui:message key="required" /></span>
+					<span class="sr-only"><liferay-ui:message key="required" /></span>
 				</span>
 			</c:if>
 			<span class="taglib-icon-help lfr-portal-tooltip" data-title="<liferay-ui:message key="eu.image-picker-help" />">

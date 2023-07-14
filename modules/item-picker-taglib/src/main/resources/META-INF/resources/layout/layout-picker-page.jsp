@@ -12,7 +12,7 @@
 				</c:if>
 				<c:if test="${required}">
 					<span class="icon-asterisk text-warning"> 
-						<span class="hide-accessible"><liferay-ui:message key="required" /></span>
+						<span class="sr-only"><liferay-ui:message key="required" /></span>
 					</span>
 				</c:if>
 			</label>
