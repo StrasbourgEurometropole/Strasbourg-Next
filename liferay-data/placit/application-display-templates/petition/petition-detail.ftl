@@ -293,7 +293,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
     <#-- Liste des suggéstions -->
     <#if suggestions?size gt 0 >
-        <section id="pro-link-petition" class="pro-bloc-slider pro-slider-event">
+        <section id="pro-link-petition" class="pro-bloc-slider pro-slider-event" style="background-color: white;">
             <div class="container">
                 <div>
                     <h2>D’autres pétitions</h2>
@@ -301,9 +301,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <#if isUserloggedIn && hasUserPactSign && !isUserBanned>
                             <a id="buttonDeposer" href="#deposerPetition" class="pro-btn-yellow" data-toggle="modal" data-target="#modalPetition">Déposer une pétition</a>
                         <#elseif !hasUserPactSign>
-                            <a class="pro-btn-black" name="#Pact-sign">Déposer une pétition</a>
+                            <a class="pro-btn" name="#Pact-sign" href="#">Déposer une pétition</a>
                         <#elseif isUserBanned>
-                            <a class="pro-btn-black" name="#IsBanned">Déposer une pétition</a>
+                            <a class="pro-btn" name="#IsBanned" href="#">Déposer une pétition</a>
                         </#if>
                         <a href="${homeURL}petitions" class="pro-btn">Toutes les pétitions</a>
                     </div>

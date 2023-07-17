@@ -740,9 +740,12 @@ main {
 	top: 0;
 	left: 0;
 	right: 0;
-	background: $c_dark;
+	background: $c_main;
+	@include tablet_portrait {
+		padding-top: 25px;
+	}
 	p {
-		@include ft($f_txt, 1.1em, 400, $c_white, 1.3em);
+		@include ft($f_txt, 1.1em, 400, $c_txt, 1.3em);
 		padding: 10px 0;
 
 

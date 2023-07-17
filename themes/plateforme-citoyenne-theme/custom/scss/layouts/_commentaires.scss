@@ -214,8 +214,8 @@
 			position: relative;
 			padding: 50px 30px;
 			margin-top: 20px;
-			@include tablet_landscape {
-				padding: 50px 10px 50px 30px;
+			@include wide {
+				padding: 50px 10px;
 			}
 			@include tablet_portrait {
 				padding: 50px 50px 30px 50px;

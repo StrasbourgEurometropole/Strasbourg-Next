@@ -85,6 +85,16 @@
 
 		.pro-container-detail-event {
 			margin:0;
+			> .col-sm-8 {
+				@include tablet_portrait {
+					margin-bottom: 1rem;
+				}
+			}
+			> .col-sm-4 {
+				@include tablet_portrait {
+					margin-top: 0
+				}
+			}
 
 			.pro-main-img {
 				figure {

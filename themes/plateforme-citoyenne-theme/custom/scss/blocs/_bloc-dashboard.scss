@@ -428,6 +428,15 @@
           flex: 1;
           display: flex;
           align-items: center;
+          @include tablet_landscape {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+
+          @include mobile_medium {
+            flex-direction: row;
+            align-items: center;
+          }
 
           > span {
             @include ft($f_hx, 1.875em, 400, $c_white, 1.0667em);
@@ -472,6 +481,14 @@
           display: flex;
           align-items: center;
           @include addTransition();
+          @include tablet_landscape {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          @include mobile_medium {
+            flex-direction: row;
+            align-items: center;
+          }
 
           &:after {
             content: "\e90d";
@@ -670,6 +687,15 @@
           justify-items: center;
           align-items: center;
           padding: 30px;
+
+          @include tablet_landscape {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          @include mobile_medium {
+            flex-direction: row;
+            align-items: center;
+          }
 
           .pro-number {
             @include ft($f_hx, 6.250em, 700, $c_white, 1.0667em);
