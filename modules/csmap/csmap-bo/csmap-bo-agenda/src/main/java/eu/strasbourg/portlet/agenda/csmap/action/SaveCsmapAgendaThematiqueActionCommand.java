@@ -185,6 +185,9 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
 
             // Régénération du cache des agendas pour CSMap
             _csmapCacheLocalService.generateCsmapCache(CodeCacheEnum.AGENDA.getId());
+            response.setRenderParameter("mvcPath",
+                    "/csmap-bo-agenda-view-thematiques.jsp");
+
 
         } catch (PortalException e) {
             _log.error(e.getMessage(), e);

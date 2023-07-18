@@ -106,7 +106,7 @@
 						<!-- Thèmes -->
 						<label>
 						    <liferay-ui:message key="themes" />
-						    <span class="icon-asterisk text-warning"><span class="hide-accessible">Required</span></span>
+						    <span class="icon-asterisk text-warning"><span class="sr-only">Required</span></span>
 							<span class="taglib-icon-help lfr-portal-tooltip" data-title="<liferay-ui:message key="themes-help" />">
 								<span>
         	                        <svg aria-hidden="true" class="lexicon-icon lexicon-icon-question-circle-full" focusable="false" viewBox="0 0 512 512">
@@ -151,7 +151,7 @@
 					<div class="col-md-7 form-group">
 						<label>
 						    <liferay-ui:message key="types" />
-						    <span class="icon-asterisk text-warning"><span class="hide-accessible">Required</span></span>
+						    <span class="icon-asterisk text-warning"><span class="sr-only">Required</span></span>
 							<span class="taglib-icon-help lfr-portal-tooltip" data-title="<liferay-ui:message key="types-help" />">
 								<span id="yglr____">
         	                        <svg aria-hidden="true" class="lexicon-icon lexicon-icon-question-circle-full" focusable="false" viewBox="0 0 512 512">
@@ -435,7 +435,7 @@
 				label="dates-and-times">
 
                 <div class="event-periods-title">
-                    <p class="control-label"><liferay-ui:message key="event-periods" /><span class="icon-asterisk text-warning"><span class="hide-accessible">Required</span></span></p>
+                    <p class="control-label"><liferay-ui:message key="event-periods" /><span class="icon-asterisk text-warning"><span class="sr-only">Required</span></span></p>
                 </div>
 
                 <div class="event-no-period" style="display: none">

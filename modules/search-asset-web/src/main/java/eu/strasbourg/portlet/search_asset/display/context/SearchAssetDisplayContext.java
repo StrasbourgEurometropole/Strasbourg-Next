@@ -286,7 +286,7 @@ public class SearchAssetDisplayContext {
 			long count = SearchHelper.getGlobalSearchCount(searchContext, classNames, groupId, globalGroupId,
 					globalScope, keywords, dateField, dateFieldName, fromDate, toDate, categoriesIds,
 					prefilterCategoriesIds, prefilterTagsNames,idSIGPlace, searchProcedure, this._themeDisplay.getLocale());
-			this.getSearchContainer().setResultsAndTotal(null, (int) count);
+			this.getSearchContainer().setResultsAndTotal(()->results, (int) count);
 		}
 		
 		this._entries = results;
