@@ -1,7 +1,7 @@
 <header class="pro-header-small pro-bloc-texte-header">
     <div class="container caption">
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-lg-8">
                 <h1>${title.getData()}</h1>
                 <#if description.getData()?? >
                     <div class="pro-description">

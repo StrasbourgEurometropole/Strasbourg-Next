@@ -88,7 +88,6 @@ $border_top: 1px dashed;
 		}
 		span.icon-ico-coeur {
 			font-size: 1.125em;
-			line-height: 14px;
 			color: $c_white;
 		}
 	}
@@ -757,9 +756,6 @@ $border_top: 1px dashed;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
-			@include mobile {
-				width: calc(100% - 55px);
-			}
 		}
 
 		.pro-comments {
@@ -1860,6 +1856,7 @@ $border_top: 1px dashed;
 				font-size: 22px;
 				line-height: 28px;
 				height: 84px;
+				@include ellipsis(3);
 			}
 		}
 

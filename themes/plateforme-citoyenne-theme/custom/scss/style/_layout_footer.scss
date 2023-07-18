@@ -115,6 +115,7 @@
 				justify-content: center;
 				align-items: center;
 				margin-bottom: 0;
+				flex-wrap: wrap;
 				@include tablet_portrait {
 					flex-direction: column;
 				}

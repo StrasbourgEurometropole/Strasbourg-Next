@@ -179,6 +179,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         $(".col-md-4-to-move").appendTo(".pro-page-detail-projet .col-lg-12 aside.col-md-4");
         if ($('.suggested-projects-to-move').length) {
             $('#pro-link-participation.pro-bloc-slider.pro-slider-participation').parents('.portlet-boundary').appendTo('.suggested-projects-to-move');
+            $('.pro-bloc-image-slider.pro-bloc-texte').parents('.portlet-boundary').appendTo('.suggested-projects-to-move');
         }
         $(".portlet-content>.portlet-title-text").hide();
 

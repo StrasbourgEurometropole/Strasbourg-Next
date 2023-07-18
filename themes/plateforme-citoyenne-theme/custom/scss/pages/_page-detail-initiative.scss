@@ -2,6 +2,9 @@
 	position: relative;
 	.side-atelier, .side-petition {
 		margin-top: -35px;
+		@include tablet_portrait {
+			margin-top: 0;
+		}
 		padding: 0;
 		.pro-push-avis {
 			position: static;
@@ -462,6 +465,8 @@
 			@include tablet_portrait{
 				position: relative;
 				transform: none;
+				display: flex;
+				flex-direction: column;
 			}
 			> * {
 				@include mobile{

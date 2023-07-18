@@ -482,7 +482,7 @@
 		.search-header {
 			display: flex;
 			align-items: center;
-			@include mobile {
+			@include tablet_portrait {
 				flex-direction: column-reverse;
 				align-items: center;
 				gap: 10px;

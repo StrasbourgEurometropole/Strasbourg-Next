@@ -352,8 +352,8 @@ main {
 					}
 					@include tablet_portrait {
 						position: absolute;
-						right: 20px;
-						top: 0;
+						right: 2px;
+						top: 12px;
 						bottom: 0;
 					}
 				}
@@ -421,6 +421,9 @@ main {
 		background-color: #20272F;
 		@media (min-width: 993px){
 			position: relative;
+		}
+		@media (max-width: 1600px) {
+			max-width: none !important;
 		}
 		text-align: center;
 		// Logo du site (image)

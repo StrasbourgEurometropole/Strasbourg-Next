@@ -68,7 +68,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
             <article>
                 <div class="row pro-container-detail-event">
-                    <div class="col-sm-8 pr-5">
+                    <div class="col-md-8 pr-md-5">
                     <header>
                     <div class="pro-header-participation pro-theme-information">
                         <h1>${entry.title}</h1>
@@ -185,7 +185,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     </div>
 
                     <#-- Blocs lateraux -->
-                    <aside class="col-sm-4 side-petition">
+                    <aside class="col-md-4 side-petition">
 
                         
 
@@ -299,7 +299,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     <h2>D’autres pétitions</h2>
                     <div class="pro-wrapper">
                         <#if isUserloggedIn && hasUserPactSign && !isUserBanned>
-                            <a id="buttonDeposer" href="#deposerPetition" class="pro-btn-yellow" data-toggle="modal" data-target="#modalPetition">Déposer une pétition</a>
+                            <a id="buttonDeposer" href="#deposerPetition" class="pro-btn" data-toggle="modal" data-target="#modalPetition">Déposer une pétition</a>
                         <#elseif !hasUserPactSign>
                             <a class="pro-btn" name="#Pact-sign" href="#">Déposer une pétition</a>
                         <#elseif isUserBanned>

@@ -212,11 +212,8 @@
 	.pro-reagir {
 		> div {
 			position: relative;
-			padding: 50px 30px;
+			padding: 50px 10px;
 			margin-top: 20px;
-			@include wide {
-				padding: 50px 10px;
-			}
 			@include tablet_portrait {
 				padding: 50px 50px 30px 50px;
 				margin-top: 40px;

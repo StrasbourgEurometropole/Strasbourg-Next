@@ -1,5 +1,8 @@
 .pro-wrapper-aside {
 	background-color: #20272f;
+	@include tablet_portrait {
+		top: 0 !important;
+	}
 }
 
 aside {
@@ -18,12 +21,10 @@ aside {
 	.pro-coup-de-coeur{
 		background: $c_main;
 		height: 60px;
-		position: absolute;
 		top: -60px;
 		left: 15px;
 		right: 15px;
 		z-index: 100;
-		width: calc(100% - 30px);
 		text-align: center;
 		@include mobile{
 			position: relative;
@@ -33,7 +34,7 @@ aside {
 			right: 0;
 		}
 		p{
-			@include ft($f_txt, 0.875em, 700, $c_txt, 60px);
+			@include ft($f_txt, 1.125em, 700, $c_txt, 60px);
 			display: inline-block;
 			vertical-align: middle;
 			&:after{

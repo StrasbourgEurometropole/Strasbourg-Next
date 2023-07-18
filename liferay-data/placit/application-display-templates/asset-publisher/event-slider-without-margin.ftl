@@ -30,8 +30,8 @@
 
 	        <div>
 	            <h2 id="title-events-slider-${instanceId}">L’agenda</h2>
-	            <a href="${homeURL}agenda" class="pro-btn" title="Lien vers la page de tout l'agenda">Tout voir</a>
 	        </div>
+			<a href="${homeURL}agenda" class="pro-btn" title="Lien vers la page de tout l'agenda">Tout voir</a>
 
 	        <div>
 	            <div class="owl-carousel owl-opacify owl-theme owl-cards">

@@ -25,11 +25,11 @@
 			h1, p, span {
 				color: white;
 			}
-			.pro-soustitre.prefix-location {
-				&:before {
-					filter: brightness(0) invert(1);
-					top: 4px;
-				}
+			.pro-bloc-meta {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				gap: 10px;
 			}
 			.pro-surtitre {
 				text-transform: uppercase;
@@ -90,7 +90,7 @@
 				overflow: visible;
 				&.pro-first {
 					background: #20272F;
-					color: white;
+					color: black;
 					border-radius: 50%;
 					div {
 						.pro-date {

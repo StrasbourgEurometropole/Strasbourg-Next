@@ -94,6 +94,12 @@
 	@content;
 }
 
+@mixin medium_wide {
+	@media screen and (max-width: #{$breakpoint_wd}) {
+		@content;
+	}
+}
+
 @mixin tablet_landscape {
 	@media screen and (max-width: #{$breakpoint_paysage}) {
 		@content;
@@ -311,7 +317,7 @@
 			gap: 5px;
 			h3 {
 				font-size: 1.6em;
-				height: 75px;
+				height: 85px;
 			}
 			.pro-meta {
 				display: flex;
