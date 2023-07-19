@@ -442,7 +442,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 						LanguageUtil.get(Locale.FRANCE, "eu.rep-commission"));
 			}catch(PortalException e) {
 				try {
-					folderActe = DLAppLocalServiceUtil.addFolder(
+					folderActe = DLAppLocalServiceUtil.addFolder(null,
 							userId, repositoryId,
 							folderVilleEuro.getFolderId(), LanguageUtil.get(Locale.FRANCE, "eu.rep-commission"),
 							"", sc);
@@ -460,7 +460,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 						documentType);
 			}catch(PortalException e) {
 				try {
-					folder = DLAppLocalServiceUtil.addFolder(
+					folder = DLAppLocalServiceUtil.addFolder(null,
 							userId, repositoryId,
 							folderActe.getFolderId(),documentType,
 							"", sc);
@@ -760,7 +760,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 						LanguageUtil.get(Locale.FRANCE, "eu.rep-commission"));
 			}catch(PortalException e) {
 				try {
-					folderActe = DLAppLocalServiceUtil.addFolder(
+					folderActe = DLAppLocalServiceUtil.addFolder(null,
 							userId, repositoryId,
 							folderVilleEuro.getFolderId(), LanguageUtil.get(Locale.FRANCE, "eu.rep-commission"),
 							"", sc);
@@ -778,7 +778,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 						documentType);
 			}catch(PortalException e) {
 				try {
-					folder = DLAppLocalServiceUtil.addFolder(
+					folder = DLAppLocalServiceUtil.addFolder(null,
 							userId, repositoryId,
 							folderActe.getFolderId(),documentType,
 							"", sc);

@@ -430,7 +430,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                             folderUpload.getFolderId(),
                             budgetParticipatif.getPhase().getTitle());
                 }catch(Exception e) {
-                    folderPhase = DLAppLocalServiceUtil.addFolder(
+                    folderPhase = DLAppLocalServiceUtil.addFolder(null,
                             sc.getUserId(), repositoryId,
                             folderUpload.getFolderId(),
                             budgetParticipatif.getPhase().getTitle(),
@@ -444,7 +444,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                             folderPhase.getFolderId(),
                             budgetParticipatif.getTitle());
                 }catch(Exception e) {
-                    folder = DLAppLocalServiceUtil.addFolder(
+                    folder = DLAppLocalServiceUtil.addFolder(null,
                             sc.getUserId(), repositoryId,
                             folderPhase.getFolderId(), budgetParticipatif.getTitle(),
                             "", sc);
