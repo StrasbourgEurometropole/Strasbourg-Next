@@ -60,38 +60,45 @@
         </header>
 
         <section id="header-top">
-            <div id="acces" class="hidden">
-                <@liferay_portlet["runtime"]
-                portletProviderAction=portletProviderAction.VIEW
-                portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-                instanceId="acces"
-                settingsScope="group" />
-            </div>
+            <#if themeDisplay.scopeGroup.friendlyURL == "/musees">
+                <div id="acces" class="hidden">
+                    <@liferay_portlet["runtime"]
+                    portletProviderAction=portletProviderAction.VIEW
+                    portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+                    instanceId="acces"
+                    settingsScope="group" />
+                </div>
+            </#if>
             <div class="header-top-inner container">
                 <a class="title" href="${homeURL}">Musées de la ville de Strasbourg</a>
-                <span id="access-by-public"
-                      class="access-by-public-menu-title show-acces"><@liferay_ui.message key="eu.museum.acces" /></span>
-                <div id="search-mobile" class="search"></div>
-					<form method="get" id="main-search-form" action="${homeURL}recherche" class="hidden">
-						<input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet" />
-						<label for="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" style="display: none;"><@liferay_ui.message key="eu.museum.search" /></label>
-						<input type="search" name="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" id="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" placeholder="<@liferay_ui.message key="eu.museum.search" />" value="" >
-						<input class="search" type="submit" id="search" value="GO">
-                </form>
+                <#if themeDisplay.scopeGroup.friendlyURL == "/musees">
+                    <span id="access-by-public"  class="access-by-public-menu-title show-acces">
+                        <@liferay_ui.message key="eu.museum.acces" />
+                    </span>
+                    <div id="search-mobile" class="search"></div>
+                    <form method="get" id="main-search-form" action="${homeURL}recherche" class="hidden">
+                        <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet" />
+                        <label for="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" style="display: none;"><@liferay_ui.message key="eu.museum.search" /></label>
+                        <input type="search" name="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" id="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" placeholder="<@liferay_ui.message key="eu.museum.search" />" value="" >
+                        <input class="search" type="submit" id="search" value="GO">
+                    </form>
+                </#if>
             </div>
         </section>
 
         <section id="menu-desktop">
-            <div class="container">
-                <div id="burger">
-                    <div class="burger-inner">
-                        <span></span>
-                    </div>
-                    <div class="title">
-                        <@liferay_ui.message key="eu.museum.menu" />
+            <#if themeDisplay.scopeGroup.friendlyURL == "/musees" || themeDisplay.scopeGroup.friendlyURL == "/musees-en" >
+                <div class="container">
+                    <div id="burger">
+                        <div class="burger-inner">
+                            <span></span>
+                        </div>
+                        <div class="title">
+                            <@liferay_ui.message key="eu.museum.menu" />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </#if>
             <div id="nav" class="hidden">
                 <div class="nav-quicklink">
                     <@liferay_portlet["runtime"]
@@ -119,26 +126,32 @@
                 instanceId="langues"
                 settingsScope="group" />
 
-                <div class="title"><@liferay_ui.message key="eu.museum.acces-speed" /></div>
-                <@liferay_portlet["runtime"]
-                portletProviderAction=portletProviderAction.VIEW
-                portletName="com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet"
-                instanceId="navigation-mobile"
-                settingsScope="group" />
+                <#if themeDisplay.scopeGroup.friendlyURL == "/musees" || themeDisplay.scopeGroup.friendlyURL == "/musees-en">
+                    <div class="title"><@liferay_ui.message key="eu.museum.acces-speed" /></div>
+                    <@liferay_portlet["runtime"]
+                    portletProviderAction=portletProviderAction.VIEW
+                    portletName="com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet"
+                    instanceId="navigation-mobile"
+                    settingsScope="group" />
+                </#if>
 
-                <div class="title"><@liferay_ui.message key="eu.museum.acces" /></div>
-                <@liferay_portlet["runtime"]
-                portletProviderAction=portletProviderAction.VIEW
-                portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-                instanceId="acces"
-                settingsScope="group" />
+                <#if themeDisplay.scopeGroup.friendlyURL == "/musees">
+                    <div class="title"><@liferay_ui.message key="eu.museum.acces" /></div>
+                    <@liferay_portlet["runtime"]
+                    portletProviderAction=portletProviderAction.VIEW
+                    portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+                    instanceId="acces"
+                    settingsScope="group" />
+                </#if>
             </div>
             <div class="menu-mobile content">
-                <@liferay_portlet["runtime"]
-                portletProviderAction=portletProviderAction.VIEW
-                portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-                instanceId="menu-smartphone"
-                settingsScope="group" />
+                <#if themeDisplay.scopeGroup.friendlyURL == "/musees" || themeDisplay.scopeGroup.friendlyURL == "/musees-en">
+                    <@liferay_portlet["runtime"]
+                    portletProviderAction=portletProviderAction.VIEW
+                    portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+                    instanceId="menu-smartphone"
+                    settingsScope="group" />
+                </#if>
                 <a id="see-more" href="" class="more" aria-label="<@liferay_ui.message key="eu.museum.more" />"
                    title="<@liferay_ui.message key="eu.museum.more" />">
                     <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" stroke="white"
