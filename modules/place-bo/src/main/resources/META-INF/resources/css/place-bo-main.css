@@ -134,3 +134,9 @@ button.synchro + .tooltip-inner{
 button.synchro.disabled:hover + .tooltip-inner{
     display: block;
 }
+
+
+
+.fade.in {
+	opacity: 1;
+}
