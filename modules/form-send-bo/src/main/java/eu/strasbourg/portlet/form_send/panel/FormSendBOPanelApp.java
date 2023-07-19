@@ -3,8 +3,10 @@ package eu.strasbourg.portlet.form_send.panel;
 import com.liferay.application.list.BasePanelApp;
 import com.liferay.application.list.PanelApp;
 import com.liferay.application.list.constants.PanelCategoryKeys;
+import com.liferay.portal.kernel.model.Portlet;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 @Component(
         immediate = true,
@@ -19,4 +21,14 @@ public class FormSendBOPanelApp extends BasePanelApp {
     public String getPortletId() {
         return StrasbourgPortletKeys.FORM_SEND_BO;
     }
+
+    @Override
+    public Portlet getPortlet() {
+        return _portlet;
+    }
+
+    @Reference(
+            target = "(javax.portlet.name=" + StrasbourgPortletKeys.FORM_SEND_BO + ")"
+    )
+    private Portlet _portlet;
 }
