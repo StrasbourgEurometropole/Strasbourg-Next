@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import com.liferay.dynamic.data.mapping.template.BaseDDMTemplateHandler;
+import com.liferay.portal.kernel.template.TemplateVariableCodeHandler;
+import com.liferay.portal.kernel.util.SetUtil;
 import org.osgi.service.component.annotations.Component;
 
-import com.liferay.portal.kernel.portletdisplaytemplate.BasePortletDisplayTemplateHandler;
+import com.liferay.dynamic.data.mapping.template.DDMTemplateVariableCodeHandler;
 import com.liferay.portal.kernel.portletdisplaytemplate.PortletDisplayTemplateManager;
 import com.liferay.portal.kernel.template.TemplateHandler;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
@@ -19,7 +22,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 	property = { "javax.portlet.name=" + StrasbourgPortletKeys.ACTIVITY_WEB },
 	service = TemplateHandler.class)
 public class ActivityCourseDisplayTemplateHandler
-	extends BasePortletDisplayTemplateHandler {
+	extends BaseDDMTemplateHandler {
 
 	@Override
 	public String getClassName() {
@@ -57,4 +60,17 @@ public class ActivityCourseDisplayTemplateHandler
 
 		return templateVariableGroups;
 	}
+
+	@Override
+	protected TemplateVariableCodeHandler getTemplateVariableCodeHandler() {
+		return _templateVariableCodeHandler ;
+	}
+
+	private final TemplateVariableCodeHandler _templateVariableCodeHandler =
+			new DDMTemplateVariableCodeHandler(
+					ActivityCourseDisplayTemplateHandler.class.getClassLoader(),
+					null,
+					SetUtil.fromArray(
+							"boolean", "date", "document-library", "fieldset",
+							"geolocation", "image", "journal-article", "link-to-page"));
 }

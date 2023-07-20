@@ -1,8 +1,10 @@
 package eu.strasbourg.portlet.project.template;
 
-import com.liferay.portal.kernel.portletdisplaytemplate.BasePortletDisplayTemplateHandler;
+import com.liferay.dynamic.data.mapping.template.BaseDDMTemplateHandler;
+import com.liferay.dynamic.data.mapping.template.DDMTemplateVariableCodeHandler;
 import com.liferay.portal.kernel.portletdisplaytemplate.PortletDisplayTemplateManager;
 import com.liferay.portal.kernel.template.TemplateHandler;
+import com.liferay.portal.kernel.template.TemplateVariableCodeHandler;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -22,7 +24,7 @@ import java.util.Map;
     },
     service = TemplateHandler.class
 )
-public class BudgetParticipatifDisplayTemplateHandler extends BasePortletDisplayTemplateHandler {
+public class BudgetParticipatifDisplayTemplateHandler extends BaseDDMTemplateHandler {
 
     @Override
     public String getClassName() {
@@ -59,5 +61,16 @@ public class BudgetParticipatifDisplayTemplateHandler extends BasePortletDisplay
 
         return templateVariableGroups;
     }
+
+    @Override
+    protected TemplateVariableCodeHandler getTemplateVariableCodeHandler() {
+        return _templateVariableCodeHandler ;
+    }
+
+    private final TemplateVariableCodeHandler _templateVariableCodeHandler =
+            new DDMTemplateVariableCodeHandler(
+                    BudgetParticipatifDisplayTemplateHandler.class.getClassLoader(),
+                    null,
+                    null);
     
 }

@@ -1,20 +1,20 @@
 package eu.strasbourg.portlet.activity.template;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.portal.kernel.portletdisplaytemplate.BasePortletDisplayTemplateHandler;
+import com.liferay.dynamic.data.mapping.template.BaseDDMTemplateHandler;
+import com.liferay.dynamic.data.mapping.template.DDMTemplateVariableCodeHandler;
 import com.liferay.portal.kernel.portletdisplaytemplate.PortletDisplayTemplateManager;
 import com.liferay.portal.kernel.template.TemplateHandler;
+import com.liferay.portal.kernel.template.TemplateVariableCodeHandler;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
-
 import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.service.activity.model.ActivityCourse;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 
 @Component(
@@ -25,7 +25,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 	service = TemplateHandler.class
 )
 public class ActivityDisplayTemplateHandler
-	extends BasePortletDisplayTemplateHandler {
+	extends BaseDDMTemplateHandler {
 
 	@Override
 	public String getClassName() {
@@ -73,4 +73,15 @@ public class ActivityDisplayTemplateHandler
 		
 		return templateVariableGroups;
 	}
+
+	@Override
+	protected TemplateVariableCodeHandler getTemplateVariableCodeHandler() {
+		return _templateVariableCodeHandler ;
+	}
+
+	private final TemplateVariableCodeHandler _templateVariableCodeHandler =
+			new DDMTemplateVariableCodeHandler(
+					ActivityDisplayTemplateHandler.class.getClassLoader(),
+					null,
+					null);
 }
