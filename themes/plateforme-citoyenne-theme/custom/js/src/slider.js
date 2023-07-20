@@ -141,7 +141,7 @@ $('.owl-timeline').each(function () {
             items: 3,
             loop: false,
             margin: 0,
-            startPosition: 0,
+            startPosition: 1,
             responsive: {
                 0: {
                     items: 2
@@ -155,7 +155,7 @@ $('.owl-timeline').each(function () {
             },
             nav: true,
             dots: false,
-            center: false,
+            center: true,
             mouseDrag: false,
             touchDrag: false,
             navText: ["<span class='icon-ico-chevron-left'></span>", "<span class='icon-ico-chevron-right'></span>"],

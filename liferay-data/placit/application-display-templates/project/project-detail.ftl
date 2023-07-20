@@ -194,7 +194,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         // Déplacement du bloc de la fiche entité
         $(".col-md-4-to-move").appendTo(".pro-page-detail-projet .col-lg-12 aside.col-md-4");
         if ($('.suggested-projects-to-move').length) {
-            $('.pro-bloc-image-slider.pro-bloc-texte, .pro-bloc-image.pro-bloc-texte').parents('.portlet-boundary').appendTo('.suggested-projects-to-move');
+            $('.pro-bloc-image-slider.pro-bloc-texte').parents('.portlet-boundary').appendTo('.suggested-projects-to-move');
             $('.pro-bloc-texte.pro-bloc-telechargements').parents('.portlet-boundary').appendTo('.suggested-projects-to-move');
             $('#pro-link-participation.pro-bloc-slider.pro-slider-participation').parents('.portlet-boundary').appendTo('.suggested-projects-to-move');
         }
