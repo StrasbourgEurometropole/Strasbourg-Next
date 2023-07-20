@@ -1234,6 +1234,188 @@ public class PlacitPlaceUtil {
 	}
 
 	/**
+	 * Returns all the placit places where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @return the matching placit places
+	 */
+	public static List<PlacitPlace> findBySaisineObservatoire(
+		long saisineObservatoireId) {
+
+		return getPersistence().findBySaisineObservatoire(
+			saisineObservatoireId);
+	}
+
+	/**
+	 * Returns a range of all the placit places where saisineObservatoireId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PlacitPlaceModelImpl</code>.
+	 * </p>
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param start the lower bound of the range of placit places
+	 * @param end the upper bound of the range of placit places (not inclusive)
+	 * @return the range of matching placit places
+	 */
+	public static List<PlacitPlace> findBySaisineObservatoire(
+		long saisineObservatoireId, int start, int end) {
+
+		return getPersistence().findBySaisineObservatoire(
+			saisineObservatoireId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the placit places where saisineObservatoireId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PlacitPlaceModelImpl</code>.
+	 * </p>
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param start the lower bound of the range of placit places
+	 * @param end the upper bound of the range of placit places (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching placit places
+	 */
+	public static List<PlacitPlace> findBySaisineObservatoire(
+		long saisineObservatoireId, int start, int end,
+		OrderByComparator<PlacitPlace> orderByComparator) {
+
+		return getPersistence().findBySaisineObservatoire(
+			saisineObservatoireId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the placit places where saisineObservatoireId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PlacitPlaceModelImpl</code>.
+	 * </p>
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param start the lower bound of the range of placit places
+	 * @param end the upper bound of the range of placit places (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching placit places
+	 */
+	public static List<PlacitPlace> findBySaisineObservatoire(
+		long saisineObservatoireId, int start, int end,
+		OrderByComparator<PlacitPlace> orderByComparator,
+		boolean useFinderCache) {
+
+		return getPersistence().findBySaisineObservatoire(
+			saisineObservatoireId, start, end, orderByComparator,
+			useFinderCache);
+	}
+
+	/**
+	 * Returns the first placit place in the ordered set where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching placit place
+	 * @throws NoSuchPlacitPlaceException if a matching placit place could not be found
+	 */
+	public static PlacitPlace findBySaisineObservatoire_First(
+			long saisineObservatoireId,
+			OrderByComparator<PlacitPlace> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchPlacitPlaceException {
+
+		return getPersistence().findBySaisineObservatoire_First(
+			saisineObservatoireId, orderByComparator);
+	}
+
+	/**
+	 * Returns the first placit place in the ordered set where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching placit place, or <code>null</code> if a matching placit place could not be found
+	 */
+	public static PlacitPlace fetchBySaisineObservatoire_First(
+		long saisineObservatoireId,
+		OrderByComparator<PlacitPlace> orderByComparator) {
+
+		return getPersistence().fetchBySaisineObservatoire_First(
+			saisineObservatoireId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last placit place in the ordered set where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching placit place
+	 * @throws NoSuchPlacitPlaceException if a matching placit place could not be found
+	 */
+	public static PlacitPlace findBySaisineObservatoire_Last(
+			long saisineObservatoireId,
+			OrderByComparator<PlacitPlace> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchPlacitPlaceException {
+
+		return getPersistence().findBySaisineObservatoire_Last(
+			saisineObservatoireId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last placit place in the ordered set where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching placit place, or <code>null</code> if a matching placit place could not be found
+	 */
+	public static PlacitPlace fetchBySaisineObservatoire_Last(
+		long saisineObservatoireId,
+		OrderByComparator<PlacitPlace> orderByComparator) {
+
+		return getPersistence().fetchBySaisineObservatoire_Last(
+			saisineObservatoireId, orderByComparator);
+	}
+
+	/**
+	 * Returns the placit places before and after the current placit place in the ordered set where saisineObservatoireId = &#63;.
+	 *
+	 * @param placitPlaceId the primary key of the current placit place
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next placit place
+	 * @throws NoSuchPlacitPlaceException if a placit place with the primary key could not be found
+	 */
+	public static PlacitPlace[] findBySaisineObservatoire_PrevAndNext(
+			long placitPlaceId, long saisineObservatoireId,
+			OrderByComparator<PlacitPlace> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchPlacitPlaceException {
+
+		return getPersistence().findBySaisineObservatoire_PrevAndNext(
+			placitPlaceId, saisineObservatoireId, orderByComparator);
+	}
+
+	/**
+	 * Removes all the placit places where saisineObservatoireId = &#63; from the database.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 */
+	public static void removeBySaisineObservatoire(long saisineObservatoireId) {
+		getPersistence().removeBySaisineObservatoire(saisineObservatoireId);
+	}
+
+	/**
+	 * Returns the number of placit places where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @return the number of matching placit places
+	 */
+	public static int countBySaisineObservatoire(long saisineObservatoireId) {
+		return getPersistence().countBySaisineObservatoire(
+			saisineObservatoireId);
+	}
+
+	/**
 	 * Returns all the placit places where budgetParticipatifId = &#63;.
 	 *
 	 * @param budgetParticipatifId the budget participatif ID

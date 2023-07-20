@@ -100,6 +100,11 @@ public class PlacitPlaceLocalServiceImpl extends PlacitPlaceLocalServiceBaseImpl
 		return this.placitPlacePersistence.findByPetition(petitionId);
 	}
 
+	@Override
+	public List<PlacitPlace> getBySaisineObservatoire(long saisineObservatoireId) {
+		return this.placitPlacePersistence.findBySaisineObservatoire(saisineObservatoireId);
+	}
+
 	/**
 	 * Crée un lieu Placit vide avec une PK, non ajouté à la base de donnée
 	 */

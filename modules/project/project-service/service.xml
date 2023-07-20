@@ -200,6 +200,7 @@
 		<column name="projectId" type="long" />
 		<column name="participationId" type="long" />
 		<column name="petitionId" type="long" />
+		<column name="saisineObservatoireId" type="long" />
 		<column name="budgetParticipatifId" type="long" />
 		<column name="initiativeId" type="long" />
 		<column name="placeSIGId" type="String" />
@@ -216,6 +217,9 @@
 		</finder>
 		<finder name="Petition" return-type="Collection">
 			<finder-column name="petitionId" />
+		</finder>
+		<finder name="SaisineObservatoire" return-type="Collection">
+			<finder-column name="saisineObservatoireId" />
 		</finder>
 		<finder name="BudgetParticipatif" return-type="Collection">
 			<finder-column name="budgetParticipatifId" />
@@ -304,6 +308,86 @@
 		<column name="petitionnairePhone" type="String" />
 		<column name="petitionnaireEmail" type="String" />
 		
+		<!-- Support fields -->
+		<column name="isSupported" type="boolean" />
+		<column name="supportedBy" type="String" />
+
+		<!-- Medias -->
+		<column name="videoUrl" type="String" />
+		<column name="externalImageURL" type="String" />
+		<column name="externalImageCopyright" type="String" />
+		<column name="mediaChoice" type="boolean" />
+
+		<!-- Links with other entities -->
+		<column name="publikId" type="String" />
+		<column name="imageId" type="long" />
+		<column name="filesIds" type="String" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="title" />
+		</order>
+
+		<!-- Finder methods -->
+
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="StatusAndGroupId" return-type="Collection">
+			<finder-column name="status" />
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="PublikId" return-type="Collection">
+			<finder-column name="publikId" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	</entity>
+
+	<entity local-service="true" name="SaisineObservatoire" remote-service="true" uuid="false">
+		<!-- PK fields -->
+		<column name="saisineObservatoireId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- main fields -->
+		<column name="title" type="String" />
+		<column name="summary" type="String" />
+		<column name="description" type="String" />
+		<column name="placeTextArea" type="String" />
+		<column name="filesDownload" type="String" />
+		<column name="inTheNameOf" type="String" />
+		<column name="isOfficial" type="boolean"/>
+		<column name="cityResponse" type="String" />
+		<column name="projectTarget" type="String" />
+
+		<!-- petitionnaire fields -->
+		<column name="petitionnaireLastname" type="String" />
+		<column name="petitionnaireFirstname" type="String" />
+		<column name="petitionnaireBirthday" type="Date" />
+		<column name="petitionnaireAdresse" type="String" />
+		<column name="petitionnairePostalCode" type="long" />
+		<column name="petitionnaireCity" type="String" />
+		<column name="petitionnairePhone" type="String" />
+		<column name="petitionnaireEmail" type="String" />
+
 		<!-- Support fields -->
 		<column name="isSupported" type="boolean" />
 		<column name="supportedBy" type="String" />

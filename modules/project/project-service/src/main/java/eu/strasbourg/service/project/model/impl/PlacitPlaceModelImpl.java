@@ -90,8 +90,9 @@ public class PlacitPlaceModelImpl
 		{"placeStreetName", Types.VARCHAR}, {"placeZipCode", Types.VARCHAR},
 		{"placeCityId", Types.BIGINT}, {"imageId", Types.BIGINT},
 		{"projectId", Types.BIGINT}, {"participationId", Types.BIGINT},
-		{"petitionId", Types.BIGINT}, {"budgetParticipatifId", Types.BIGINT},
-		{"initiativeId", Types.BIGINT}, {"placeSIGId", Types.VARCHAR}
+		{"petitionId", Types.BIGINT}, {"saisineObservatoireId", Types.BIGINT},
+		{"budgetParticipatifId", Types.BIGINT}, {"initiativeId", Types.BIGINT},
+		{"placeSIGId", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -115,13 +116,14 @@ public class PlacitPlaceModelImpl
 		TABLE_COLUMNS_MAP.put("projectId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("participationId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("petitionId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("saisineObservatoireId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("budgetParticipatifId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("initiativeId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("placeSIGId", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table project_PlacitPlace (uuid_ VARCHAR(75) null,placitPlaceId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCityId LONG,imageId LONG,projectId LONG,participationId LONG,petitionId LONG,budgetParticipatifId LONG,initiativeId LONG,placeSIGId VARCHAR(75) null)";
+		"create table project_PlacitPlace (uuid_ VARCHAR(75) null,placitPlaceId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCityId LONG,imageId LONG,projectId LONG,participationId LONG,petitionId LONG,saisineObservatoireId LONG,budgetParticipatifId LONG,initiativeId LONG,placeSIGId VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table project_PlacitPlace";
@@ -169,9 +171,11 @@ public class PlacitPlaceModelImpl
 
 	public static final long PROJECTID_COLUMN_BITMASK = 128L;
 
-	public static final long UUID_COLUMN_BITMASK = 256L;
+	public static final long SAISINEOBSERVATOIREID_COLUMN_BITMASK = 256L;
 
-	public static final long PLACITPLACEID_COLUMN_BITMASK = 512L;
+	public static final long UUID_COLUMN_BITMASK = 512L;
+
+	public static final long PLACITPLACEID_COLUMN_BITMASK = 1024L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -203,6 +207,7 @@ public class PlacitPlaceModelImpl
 		model.setProjectId(soapModel.getProjectId());
 		model.setParticipationId(soapModel.getParticipationId());
 		model.setPetitionId(soapModel.getPetitionId());
+		model.setSaisineObservatoireId(soapModel.getSaisineObservatoireId());
 		model.setBudgetParticipatifId(soapModel.getBudgetParticipatifId());
 		model.setInitiativeId(soapModel.getInitiativeId());
 		model.setPlaceSIGId(soapModel.getPlaceSIGId());
@@ -737,6 +742,30 @@ public class PlacitPlaceModelImpl
 
 			});
 		attributeGetterFunctions.put(
+			"saisineObservatoireId",
+			new Function<PlacitPlace, Object>() {
+
+				@Override
+				public Object apply(PlacitPlace placitPlace) {
+					return placitPlace.getSaisineObservatoireId();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"saisineObservatoireId",
+			new BiConsumer<PlacitPlace, Object>() {
+
+				@Override
+				public void accept(
+					PlacitPlace placitPlace,
+					Object saisineObservatoireIdObject) {
+
+					placitPlace.setSaisineObservatoireId(
+						(Long)saisineObservatoireIdObject);
+				}
+
+			});
+		attributeGetterFunctions.put(
 			"budgetParticipatifId",
 			new Function<PlacitPlace, Object>() {
 
@@ -1214,6 +1243,29 @@ public class PlacitPlaceModelImpl
 
 	@JSON
 	@Override
+	public long getSaisineObservatoireId() {
+		return _saisineObservatoireId;
+	}
+
+	@Override
+	public void setSaisineObservatoireId(long saisineObservatoireId) {
+		_columnBitmask |= SAISINEOBSERVATOIREID_COLUMN_BITMASK;
+
+		if (!_setOriginalSaisineObservatoireId) {
+			_setOriginalSaisineObservatoireId = true;
+
+			_originalSaisineObservatoireId = _saisineObservatoireId;
+		}
+
+		_saisineObservatoireId = saisineObservatoireId;
+	}
+
+	public long getOriginalSaisineObservatoireId() {
+		return _originalSaisineObservatoireId;
+	}
+
+	@JSON
+	@Override
 	public long getBudgetParticipatifId() {
 		return _budgetParticipatifId;
 	}
@@ -1410,6 +1462,7 @@ public class PlacitPlaceModelImpl
 		placitPlaceImpl.setProjectId(getProjectId());
 		placitPlaceImpl.setParticipationId(getParticipationId());
 		placitPlaceImpl.setPetitionId(getPetitionId());
+		placitPlaceImpl.setSaisineObservatoireId(getSaisineObservatoireId());
 		placitPlaceImpl.setBudgetParticipatifId(getBudgetParticipatifId());
 		placitPlaceImpl.setInitiativeId(getInitiativeId());
 		placitPlaceImpl.setPlaceSIGId(getPlaceSIGId());
@@ -1502,6 +1555,11 @@ public class PlacitPlaceModelImpl
 			placitPlaceModelImpl._petitionId;
 
 		placitPlaceModelImpl._setOriginalPetitionId = false;
+
+		placitPlaceModelImpl._originalSaisineObservatoireId =
+			placitPlaceModelImpl._saisineObservatoireId;
+
+		placitPlaceModelImpl._setOriginalSaisineObservatoireId = false;
 
 		placitPlaceModelImpl._originalBudgetParticipatifId =
 			placitPlaceModelImpl._budgetParticipatifId;
@@ -1607,6 +1665,9 @@ public class PlacitPlaceModelImpl
 		placitPlaceCacheModel.participationId = getParticipationId();
 
 		placitPlaceCacheModel.petitionId = getPetitionId();
+
+		placitPlaceCacheModel.saisineObservatoireId =
+			getSaisineObservatoireId();
 
 		placitPlaceCacheModel.budgetParticipatifId = getBudgetParticipatifId();
 
@@ -1723,6 +1784,9 @@ public class PlacitPlaceModelImpl
 	private long _petitionId;
 	private long _originalPetitionId;
 	private boolean _setOriginalPetitionId;
+	private long _saisineObservatoireId;
+	private long _originalSaisineObservatoireId;
+	private boolean _setOriginalSaisineObservatoireId;
 	private long _budgetParticipatifId;
 	private long _originalBudgetParticipatifId;
 	private boolean _setOriginalBudgetParticipatifId;

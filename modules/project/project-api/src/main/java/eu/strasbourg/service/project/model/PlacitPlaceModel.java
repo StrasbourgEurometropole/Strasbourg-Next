@@ -430,6 +430,20 @@ public interface PlacitPlaceModel
 	public void setPetitionId(long petitionId);
 
 	/**
+	 * Returns the saisine observatoire ID of this placit place.
+	 *
+	 * @return the saisine observatoire ID of this placit place
+	 */
+	public long getSaisineObservatoireId();
+
+	/**
+	 * Sets the saisine observatoire ID of this placit place.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID of this placit place
+	 */
+	public void setSaisineObservatoireId(long saisineObservatoireId);
+
+	/**
 	 * Returns the budget participatif ID of this placit place.
 	 *
 	 * @return the budget participatif ID of this placit place
