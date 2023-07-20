@@ -154,18 +154,18 @@
 				@include ft($f_txt, 1em, 400, $c_txt, 1.625em);
 				margin-bottom: 10px;
 				a {
-					color: #154;
+					color: black;
 					text-decoration: underline;
 					&:hover, &:focus {
-						color: $c_txt;
+						color: $c_white;
 					}
 				}
 			}
 			a {
-				color: #154;
+				color: black;
 				text-decoration: underline;
 				&:hover, &:focus {
-					color: $c_txt;
+					color: $c_white;
 				}
 			}
 			figure {

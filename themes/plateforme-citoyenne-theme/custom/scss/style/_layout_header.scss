@@ -441,6 +441,7 @@ main {
 			transform: translate3d(0, 15px, 0);
 			@include addTransitionCurve();
 
+
 			@include mobile {
 				height: calc(#{$header-height} - 40px);
 				transition: none;
@@ -471,6 +472,9 @@ main {
 				transform: translate3d(0, -50%, 0);
 				img {
 					@include addTransitionCurve();
+					@media screen and (max-width: 1140px) {
+						width: 65%;
+					}
 					@include mobile {
 						height: 70px !important;
 						width: 100%;

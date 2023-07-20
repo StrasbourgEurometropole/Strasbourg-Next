@@ -50,15 +50,6 @@ $colors: #ffffff, #ffffff, #EBECEE, #F37021, #ffffff, #EBECEE, #8DC63F;
 	display : none;
 }
 
-#pro-header .pro-header .pro-wrapper-nav nav ul li a:active {
-    @media (min-width: 993px){
-        background-color: white;
-    }
-    @media (max-width: 992px){
-        background-color: black;
-    }
-}
-
 #pro-header .pro-header .pro-wrapper-nav nav ul li ul.show {
     @media (max-width: 992px){
         position: relative !important;
@@ -400,6 +391,10 @@ aside .leaflet-map {
 
 #pro-link-projet {
 	overflow: inherit;
+  &.pro-bloc-slider .pro-btn {
+    top: -65px;
+  }
+
 }
 
 /** Début des correctifs du menu liferay modifié par le theme du site **/

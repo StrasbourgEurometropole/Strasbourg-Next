@@ -45,7 +45,7 @@ aside {
 			right: 0;
 		}
 		p{
-			@include ft($f_txt, 1.125em, 700, $c_txt, 60px);
+			@include ft($f_txt, 1.125em, 700, $c_white, 60px);
 			display: inline-block;
 			vertical-align: middle;
 			&:after{
@@ -189,7 +189,7 @@ aside {
 
 		.pro-comment-count {
 			padding-top: 20px;
-			border-top: solid 1px #f69459;
+			border-top: solid 1px $c_white;
 			width: 100%;
 		}
 
@@ -202,10 +202,10 @@ aside {
 			padding: 15px 20px;
 		}
 		p, a {
-			border-bottom: solid 1px #f69459;
+			border-bottom: solid 1px $c_white;
 			&:not(:last-child) {
-				border-bottom: dashed 1px #f69459;
-				border-top: solid 1px #f69459;
+				border-bottom: dashed 1px $c_white;
+				border-top: solid 1px $c_white;
 			}
 			@include ft($f_hx, 0.875em, 400, $c_white, 1.714em);
 			padding: 10px 0;

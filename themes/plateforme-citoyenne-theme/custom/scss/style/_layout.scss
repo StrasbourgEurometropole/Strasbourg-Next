@@ -490,17 +490,6 @@ a.pro-btn-tel {
 
 		position: relative;
 		float: left;
-		&:after {
-			content: '';
-			height: 20px;
-			width: 1px;
-			background: #4c4c4c;
-			position: absolute;
-			right: 0;
-			top: 50%;
-			transform: translateY(-50%);
-			transform: translate3d(0, -50%, 0);
-		}
 		&:last-child {
 			&:after {
 				content: none;

@@ -416,6 +416,8 @@
 				transform: none;
 				display: flex;
 				flex-direction: column;
+				gap: 10px;
+				margin-bottom: 10px;
 			}
 			> * {
 				@include mobile{
@@ -429,11 +431,17 @@
 				width: 234px;
 				text-align: center;
 				position: relative;
+				right: 105px;
+				color: $c_white;
 				&:hover, &:focus{
 					background: $c_dark;
 					color: $c_white;
 					border-color: $c_dark;
 					z-index: 10;
+				}
+
+				@include tablet_portrait {
+					right: 0;
 				}
 			}
 			.pro-btn{
