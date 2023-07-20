@@ -350,7 +350,7 @@
 					top: 11px;
 					width: 13px;
 					height: 4px;
-					background: $c_main;
+					@include addDynamicBackground();
 				}
 				a {
 					color: $c_txt;

@@ -310,7 +310,7 @@
 					}
 					@include addTransition();
 					&:hover, &:focus {
-						color: $c_main;
+						@include addDynamicTextColor();
 					}
 				}
 			}

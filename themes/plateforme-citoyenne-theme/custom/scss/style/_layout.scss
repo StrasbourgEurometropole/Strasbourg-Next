@@ -100,13 +100,13 @@ figcaption {
 		height: 30px;
 		display: block;
 		text-align: center;
-		background: $c_main;
+		@include addDynamicBackground();
 		@include addTransition();
 		&:hover, &:focus {
 			background: $c_dark;
 			cursor: pointer;
 			> * {
-				color: $c_main;
+				@include addDynamicTextColor();
 			}
 		}
 		> * {
@@ -218,7 +218,7 @@ figcaption {
 			right: 0;
 			height: 1px;
 			width: 100%;
-			background: $c_main;
+			@include addDynamicBackground();
 			z-index: -1;
 			@include addTransition();
 		}
@@ -553,7 +553,7 @@ a.pro-btn-tel {
 						right: 0;
 						width: 100%;
 						height: 5px;
-						background: $c_main;
+						@include addDynamicBackground();
 					}
 				}
 			}
@@ -596,8 +596,8 @@ main {
 					width: 60%;
 				}
 				&:focus {
-					background: $c_main;
-					border-color: $c_main;
+					@include addDynamicBackground();
+					@include addDynamicBorderColor();
 					color: $c_txt;
 					> span {
 						color: $c_txt;
@@ -713,6 +713,7 @@ main {
 
 .pro-line {
 	border-bottom: 10px solid $c_main;
+	@include addDynamicBorderColor();
 	text-align: right;
 	span {
 		@include ft($f_hx, 1em, 400, $c_txt, 1.2em);
@@ -735,7 +736,7 @@ main {
 	top: 0;
 	left: 0;
 	right: 0;
-	background: $c_main;
+	@include addDynamicBackground();
 	@include tablet_portrait {
 		padding-top: 25px;
 	}
@@ -764,7 +765,7 @@ main {
 	right: 30px;
 	width: 120px;
 	height: 170px;
-	background: $c_main;
+	@include addDynamicBackground();
 
 	&:after {
 		content: '';

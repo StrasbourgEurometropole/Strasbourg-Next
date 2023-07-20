@@ -10,7 +10,18 @@ aside {
 		margin-bottom: 40px;
 	}
 	> * {
-		background: #F37021;
+		@include addDynamicBackground();
+	}
+	> .col-md-4-to-move {
+		&.couleur-ville  {
+			background-color: $c_ville;
+		}
+		&.couleur-eurometropole {
+			background-color: $c_eurometropole;
+		}
+		&.couleur-commune {
+			background-color: $c_commune;
+		}
 	}
 	.maps {
 		width: 100%;
@@ -19,7 +30,7 @@ aside {
 
 
 	.pro-coup-de-coeur{
-		background: $c_main;
+		@include addDynamicBackground();
 		height: 60px;
 		top: -60px;
 		left: 15px;
@@ -64,7 +75,7 @@ aside {
 				left: 0;
 				top: 0;
 				bottom: 0;
-				background: $c_main;
+				@include addDynamicBackground();
 				border-radius: 6px;
 			}
 		}
@@ -217,7 +228,7 @@ aside {
 	.pro-ticket {
 		position: relative;
 		padding: 20px 40px;
-		background: $c_main;
+		@include addDynamicBackground();
 		border-top: 1px solid $c_white;
 		&:before {
 			content: '';

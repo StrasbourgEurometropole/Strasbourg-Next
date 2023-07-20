@@ -17,52 +17,7 @@
 					display: block;
 					width: 10px;
 					height: 100%;
-					background: $c_main;
-				}
-
-				&.pro-theme-violet, &.pro-theme-information {
-					&:before {
-						background: $c_violet;
-					}
-					.pro-encart-theme{
-						background: $c_violet;
-					}
-				}
-
-				&.pro-theme-orange, &.pro-theme-consultation {
-					&:before {
-						background: $c_orange;
-					}
-					.pro-encart-theme{
-						background: $c_orange;
-					}
-				}
-
-				&.pro-theme-rouge, &.pro-theme-concertation {
-					&:before {
-						background: $c_rouge;
-					}
-					.pro-encart-theme{
-						background: $c_rouge;
-					}
-				}
-
-				&.pro-theme-vert, &.pro-theme-co-construire {
-					&:before {
-						background: $c_vert;
-					}
-					.pro-encart-theme{
-						background: $c_vert;
-					}
-				}
-
-				&.pro-theme-brun, &.pro-theme-enquete-publique {
-					&:before {
-						background: $c_brun;
-					}
-					.pro-encart-theme{
-						background: $c_brun;
-					}
+					@include addDynamicBackground();
 				}
 
 				.pro-encart-theme{
@@ -150,7 +105,7 @@
 								right: 0;
 								width: 100%;
 								height: 5px;
-								background: $c_main;
+								@include addDynamicBackground();
 							}
 							
 						}
@@ -199,7 +154,7 @@
 			&:hover, &:focus{
 				span{
 					background: $c_dark;
-					color: $c_main;
+					@include addDynamicTextColor();
 				}
 			}
 			span{
@@ -208,7 +163,7 @@
 				width: 50px;
 				height: 50px;
 				line-height: 52px;
-				background: $c_main;
+				@include addDynamicBackground();
 				border-radius: 50%;
 				text-align: center;
 				display: inline-block;
@@ -281,7 +236,7 @@
 			@include addTransitionCurve();
 			position: sticky;
 			top: 162px;
-			background-color: #F37021;
+			@include addDynamicBackground();
 			height: 100vh;
 			margin-top: -35px;
 			padding: 0;
@@ -305,7 +260,7 @@
 			}
 
 			.pro-push-avis {
-				background: $c_main;
+				@include addDynamicBackground();
 				height: 60px;
 				@include clearfix();
 				@include mobile {
@@ -328,9 +283,9 @@
 					@include addTransition();
 					&:hover, &:focus {
 						background: $c_dark;
-						color: $c_main;
+						@include addDynamicTextColor();
 						> span.icon-ico-like {
-							background: $c_main;
+							@include addDynamicBackground();
 							color: $c_txt;
 						}
 					}
@@ -339,7 +294,7 @@
 						background: $c_dark;
 						color: $c_white;
 						> span.icon-ico-like {
-							background: $c_main;
+							@include addDynamicBackground();
 							color: $c_txt;
 						}
 					}

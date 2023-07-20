@@ -65,7 +65,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 								<h1>${entry.title}</h1>
 								<div class="pro-wrapper-meta">
 									<#if entry.getStatusCategory()?has_content>
-										<div class="pro-statut" ><span style="background : #${entry.getStatusCategoryColor()};">${entry.getStatusCategory().getTitle(locale)}</span></div>
+										<div class="pro-statut" ><span>${entry.getStatusCategory().getTitle(locale)}</span></div>
 									</#if>
 									<div class="pro-meta">
 									

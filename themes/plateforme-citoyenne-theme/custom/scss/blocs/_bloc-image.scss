@@ -64,7 +64,7 @@
 					a {
 						color: $c_txt;
 						&:hover, &:focus {
-							color: $c_main;
+							@include addDynamicTextColor();
 						}
 					}
 
@@ -118,7 +118,7 @@
 				width: 30px;
 				@include addTransition();
 				&:hover {
-					border-color: $c_main;
+					@include addDynamicBorderColor();
 				}
 				@media screen and (max-width: 1080px) {
 					height: 15px;

@@ -117,6 +117,7 @@ $border_top: 1px dashed;
 			span:not(.pro-encart-theme) {
 				position: relative;
 				@include ft($f_hx, 0.938em, 400, $c_main, 1.867em);
+				@include addDynamicTextColor();
 				padding: 1px 9px;
 				border-radius: 5px;
 				background: $c_dark;
@@ -213,7 +214,7 @@ $border_top: 1px dashed;
 			margin-right: 8px;
 			span {
 				@include ft($f_hx, 0.875em, 700, $c_white, normal);
-				background: $c_dark;
+				@include addDynamicBackground();
 				border-radius: 4px;
 
 				display: block;
@@ -478,7 +479,7 @@ $border_top: 1px dashed;
 					opacity: 0;
 				}
 				.link {
-					color: $c_main;
+					@include addDynamicTextColor();
 					&:after {
 						opacity: 0;
 					}
@@ -539,7 +540,7 @@ $border_top: 1px dashed;
 				color: $c_white;
 			}
 			h3 {
-				color: $c_main;
+				@include addDynamicTextColor();
 			}
 		}
 	}
@@ -597,7 +598,7 @@ $border_top: 1px dashed;
 			width: 75px;
 			height: 75px;
 			border-radius: 50%;
-			background: $c_main;
+			@include addDynamicBackground();
 			float: left;
 			margin-right: 20px;
 			@include mobile {
@@ -691,7 +692,17 @@ $border_top: 1px dashed;
 	padding: 4px 10px 2px;
 	text-align: center;
 	text-transform: uppercase;
-
+	.pro-page-detail-participation & {
+		.couleur-ville & {
+			background-color: $c_ville !important;
+		}
+		.couleur-eurometropole & {
+			background-color: $c_eurometropole !important;
+		}
+		.couleur-commune & {
+			background-color: $c_commune !important;
+		}
+	}
 	background: black !important;
 	@media screen and (max-width: 320px) {
 		max-width: 100%;
@@ -897,7 +908,7 @@ $border_top: 1px dashed;
 				.pro-dislike {
 					&:before {
 						transform: rotate(180deg);
-						color: #f37021;
+						@include addDynamicTextColor();
 					}
 				}
 			}
@@ -952,7 +963,7 @@ $border_top: 1px dashed;
 						top: -2px;
 					}
 					//&:hover, &:focus, &.active{
-					//	background: $c_main;
+					//	@include addDynamicBackground();
 					//}
 					&:hover {
 						cursor: default;
@@ -1073,7 +1084,7 @@ $border_top: 1px dashed;
 				}
 			}
 			> span {
-				background: $c_main;
+				@include addDynamicBackground();
 				color: $c_dark;
 			}
 		}
@@ -1118,7 +1129,7 @@ $border_top: 1px dashed;
 			margin-top: -24px;
 			line-height: 48px;
 			font-size: 1.5em;
-			color: $c_main;
+			@include addDynamicTextColor();
 			text-align: center;
 			@include addTransition();
 		}
@@ -1167,56 +1178,6 @@ $border_top: 1px dashed;
 		.no-hover & {
 			box-shadow: none;
 			transform: none;
-		}
-	}
-
-	&.pro-theme-embryon {
-		.pro-content-initiative {
-			.pro-statut {
-				span {
-					background: #72dde5;
-				}
-			}
-		}
-	}
-
-	&.pro-theme-croissance {
-		.pro-content-initiative {
-			.pro-statut {
-				span {
-					background: #89f3d8;
-				}
-			}
-		}
-	}
-
-	&.pro-theme-floraison {
-		.pro-content-initiative {
-			.pro-statut {
-				span {
-					background: #ff85b2;
-				}
-			}
-		}
-	}
-
-	&.pro-theme-fecondation {
-		.pro-content-initiative {
-			.pro-statut {
-				span {
-					background: #8ba8d5;
-				}
-			}
-		}
-	}
-
-	&.pro-theme-fructification {
-		.pro-content-initiative {
-			.pro-statut {
-				span {
-					background: #2ad1a8;
-				}
-			}
 		}
 	}
 
@@ -1382,7 +1343,7 @@ $border_top: 1px dashed;
 			}
 			span {
 				@include ft($f_txt, 1em, 700, $c_txt, 1.7em);
-				background: $c_main;
+				@include addDynamicBackground();
 				padding: 0 10px;
 				border-radius: 4px;
 				display: inline-block;
@@ -1456,6 +1417,7 @@ $border_top: 1px dashed;
 			span {
 				position: relative;
 				@include ft($f_hx, 0.938em, 400, $c_main, 1.867em);
+				@include addDynamicTextColor();
 				padding: 1px 9px;
 				border-radius: 5px;
 				background: $c_dark;
@@ -1631,7 +1593,7 @@ $border_top: 1px dashed;
 					left: 0;
 					top: -1px;
 					bottom: -1px;
-					background: $c_main;
+					@include addDynamicBackground();
 					border-radius: 6px;
 				}
 			}
@@ -1686,7 +1648,7 @@ $border_top: 1px dashed;
 	&.pro-theme-faisabilite {
 		.pro-info-top-right {
 			.pro-encart-theme {
-				background: $c_main;
+				@include addDynamicBackground();
 				color: $c_txt;
 			}
 		}
@@ -1719,7 +1681,7 @@ $border_top: 1px dashed;
 	> figure {
 		position: relative;
 		width: 100% !important;
-		background-color: #f37021;
+		@include addDynamicBackground();
 		height: 200px;
 		top: 0;
 		left: 0;

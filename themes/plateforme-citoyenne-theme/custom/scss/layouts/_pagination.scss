@@ -59,7 +59,7 @@
 					left: 0;
 					right: 0;
 					height: 4px;
-					background: $c_main;
+					@include addDynamicBackground();
 					z-index: -1;
 					@include addTransitionCurve();
 				}

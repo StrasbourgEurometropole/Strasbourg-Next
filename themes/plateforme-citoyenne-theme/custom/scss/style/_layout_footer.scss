@@ -44,6 +44,7 @@
 
 		h4 {
 			@include ft($f_hx, 0.938em, 700, $c_main, normal);
+			@include addDynamicTextColor();
 			display: block;
 			margin-bottom: 10px;
 		}
@@ -97,7 +98,7 @@
 				padding: 7px 0;
 				@include addTransition();
 				&:hover, &:focus {
-					color: $c_main;
+					@include addDynamicTextColor();
 				}
 			}
 		}
@@ -128,7 +129,7 @@
 						padding: 0 20px;
 						@include addTransition();
 						&:hover, &:focus {
-							color: $c_main;
+							color: $c_commune;
 						}
 					}
 				}

@@ -160,7 +160,7 @@
 					top: 0px;
 					left: -30px;
 					font-size: 100px;
-					color: $c_main;
+					@include addDynamicTextColor();
 					transform: rotate(-10deg);
 					@include tablet_portrait{
 						top: 20px;
@@ -182,7 +182,7 @@
 					bottom: 5px;
 					width: calc(100% - 60px);
 					height: 4px;
-					background: $c_main;
+					@include addDynamicBackground();
 					@include tablet_portrait{
 						width: 100%;
 						left: 0;

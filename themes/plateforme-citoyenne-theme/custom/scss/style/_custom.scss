@@ -344,7 +344,7 @@ aside .leaflet-map {
   }
     .icon-ico-info {
       &:before {
-        color: #8dc63f;
+        @include addDynamicTextColor();
       }
     }
 }

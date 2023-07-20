@@ -100,7 +100,7 @@ main {
 				@include addTransition();
 				&:hover {
 					cursor: pointer;
-					color: $c_main;
+					@include addDynamicTextColor();
 				}
 				@include mobile {
 					font-size: 20px;
@@ -156,7 +156,7 @@ main {
 					@include mobile {
 						color: $c_white;
 						&:hover, &:focus {
-							color: $c_main;
+							@include addDynamicTextColor();
 						}
 					}
 				}
@@ -227,7 +227,7 @@ main {
 				padding: 0;
 				outline: none;
 				font-size: 1.5em;
-				background: $c_main;
+				@include addDynamicBackground();
 				@include addTransition();
 				@include mobile {
 					font-size: 1.5em;
@@ -239,7 +239,7 @@ main {
 					background: $c_dark;
 					cursor: pointer;
 					span {
-						color: $c_main;
+						@include addDynamicTextColor();
 					}
 				}
 			}
@@ -405,7 +405,7 @@ main {
 									bottom: 7px;
 								}
 								@include tablet_portrait {
-									color: $c_main;
+									@include addDynamicTextColor();
 								}
 							}
 						}
@@ -435,7 +435,7 @@ main {
 			font-size: 24px;
 
 			font-weight: 300;
-			color: $c_main;
+			@include addDynamicTextColor();
 			float: left;
 			transform: translateY(15px);
 			transform: translate3d(0, 15px, 0);
@@ -653,7 +653,7 @@ main {
 									content: none;
 								}
 								&:hover, &:focus {
-									color: $c_main;
+									color: $c_commune;
 								}
 							}
 						}
@@ -671,7 +671,7 @@ main {
 								height: 0;
 								width: 100%;
 								transform-origin: bottom;
-								background: $c_main;
+								background-color: $c_white;
 								clip-path: polygon(calc(100% - 5px) 0, 0% 100%, 100% 100%);
 								z-index: -1;
 								@include addTransitionCurve();
@@ -697,7 +697,7 @@ main {
 									height: 15px;
 								}
 								@include tablet_portrait {
-									color: $c_main;
+									@include addDynamicTextColor();
 								}
 							}
 						}
@@ -784,7 +784,7 @@ main {
 					vertical-align: middle;
 					@include tablet_portrait {
 						&.search-menu-icon {
-							background-color: #f37021;
+							@include addDynamicBackground();
 						}
 
 						&.th-menu {
@@ -870,7 +870,7 @@ main {
 						text-transform: none;
 					}
 					&:hover, &:focus {
-						color: $c_main;
+						@include addDynamicTextColor();
 					}
 				}
 			}
@@ -890,7 +890,7 @@ main {
 			&:hover, &:focus {
 				.currentLang {
 					a, span {
-						color: $c_main;
+						@include addDynamicTextColor();
 					}
 				}
 				.sub-menu {

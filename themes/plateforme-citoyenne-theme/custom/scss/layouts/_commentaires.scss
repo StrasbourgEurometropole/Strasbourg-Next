@@ -246,6 +246,7 @@
 			}
 			h3 {
 				@include ft($f_hx, 0.938em, 700, $c_main, 1.571em);
+				@include addDynamicTextColor();
 
 			}
 			p {
@@ -267,7 +268,7 @@
 				text-decoration: underline;
 				margin: 20px 0;
 				&:hover, &:focus {
-					color: $c_main;
+					@include addDynamicTextColor();
 				}
 			}
 
@@ -298,11 +299,12 @@
 						font-weight: 700;
 						line-height: 22px;
 						border: 1px solid $c_main;
+						@include addDynamicBorderColor();
 						padding: 12px 15px;
 						position: relative;
 						@include addTransition();
 						&:hover, &:focus {
-							background: $c_main;
+							@include addDynamicBackground();
 							color: black;
 						}
 					}

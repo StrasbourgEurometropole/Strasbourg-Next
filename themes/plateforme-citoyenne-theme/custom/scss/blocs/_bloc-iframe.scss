@@ -281,13 +281,14 @@
 			text-align: center;
 			&:hover, &:focus {
 				background: $c_dark;
-				color: $c_main;
+				@include addDynamicTextColor();
 				border-color: $c_dark;
 			}
 		}
 
 		.link {
 			@include ft($f_hx, 20px, 700, $c_main, 24px);
+			@include addDynamicTextColor();
 			margin-bottom: 10px;
 			display: block;
 		}
@@ -331,6 +332,7 @@
 
 			.link {
 				@include ft($f_txt, 15px, 700, $c_main, 19px);
+				@include addDynamicTextColor();
 				&:hover, &:focus {
 					color: darken($c_main, 15%);
 				}

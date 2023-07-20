@@ -59,7 +59,6 @@
 } />
 <#-- partage de la configuration open graph dans la request -->
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
-
 <div id="content" class="pro-page-detail pro-page-detail-initiative">
 
     <div class="container">

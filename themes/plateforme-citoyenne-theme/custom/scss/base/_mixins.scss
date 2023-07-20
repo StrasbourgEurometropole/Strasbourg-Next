@@ -256,7 +256,7 @@
 					background: transparent;
 					color: $c_white;
 					&:hover, &:focus {
-						color: $c_main;
+						@include addDynamicTextColor();
 					}
 				}
 			}
@@ -437,3 +437,44 @@
 		}
 	}
 }
+
+@mixin addDynamicBackground() {
+	.couleur-ville & {
+		background-color: $c_ville;
+	}
+	.couleur-eurometropole & {
+		background-color: $c_eurometropole;
+	}
+	.couleur-commune & {
+		background-color: $c_commune;
+	}
+	background-color: $c_ville;
+}
+
+@mixin addDynamicTextColor() {
+	.couleur-ville & {
+		color: $c_ville;
+	}
+	.couleur-eurometropole & {
+		color: $c_eurometropole;
+	}
+	.couleur-commune & {
+		color: $c_commune;
+	}
+	color: $c_ville;
+}
+
+@mixin addDynamicBorderColor() {
+	.couleur-ville & {
+		border-color: $c_ville;
+	}
+	.couleur-eurometropole & {
+		border-color: $c_eurometropole;
+	}
+	.couleur-commune & {
+		border-color: $c_commune;
+	}
+	border-color: $c_ville;
+}
+
+

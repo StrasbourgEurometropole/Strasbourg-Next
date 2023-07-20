@@ -55,7 +55,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             </span>
             <h1>${title.getData()}</h1>
             <div class="pro-meta">
-                <span> ${territoriesLabel} <span>
+                <span><span class="icon-ico-location"></span>${territoriesLabel}<span>
             </div>
             <figure role="group">
                 <img src='${image.getData()}' alt="Image agenda" width="1160" height="593" class="fit-cover"/>

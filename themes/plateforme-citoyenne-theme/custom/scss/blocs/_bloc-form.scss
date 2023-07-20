@@ -58,7 +58,7 @@
 			right: 0;
 			top: 0;
 			bottom: 0;
-			background: $c_main;
+			@include addDynamicBackground();
 			padding: 0 20px;
 			font-size: 25px;
 			@include addTransitionCurve();
@@ -155,10 +155,12 @@
 form{
 	input[type="submit"]{
 		@include btn($c_main, $c_txt, 2, $f_hx, $s_p);
+		@include addDynamicBackground();
 		@extend %appearance;
 
 		font-weight: 700;
 		border: 2px solid $c_main;
+		@include addDynamicBorderColor();
 		line-height: 22px;
 		width: 100%;
 		display: block;
@@ -170,7 +172,7 @@ form{
 		&:hover, &:focus {
 			background: $c_dark;
 			border-color: $c_dark;
-			color: $c_main;
+			@include addDynamicTextColor();
 		}
 	}
 }
@@ -367,13 +369,13 @@ form{
 			label{
 				color: $c_white;
 				&:hover{
-					color: $c_main;
+					@include addDynamicTextColor();
 				}
 				a{
 					color: $c_white;
 					text-decoration: underline;
 					&:hover{
-						color: $c_main;
+						@include addDynamicTextColor();
 					}
 				}
 			}
@@ -528,7 +530,7 @@ form{
 
 			@include addTransition();
 			&:hover, &:focus{
-				color: $c_main;
+				@include addDynamicTextColor();
 			}
 		}
 	}
@@ -611,12 +613,12 @@ form{
 			height: 40px;
 			border-radius: 0;
 			margin-top: 0;
-			background: $c_main;
+			@include addDynamicBackground();
 			@include addTransition();
 			&:hover, &:focus{
 				background: $c_dark;
 				border-color: $c_dark;
-				color: $c_main;
+				@include addDynamicTextColor();
 				outline: none;
 			}
 		}

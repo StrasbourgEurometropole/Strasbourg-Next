@@ -21,7 +21,7 @@
 			&:hover, &:focus {
 				background: $c_dark;
 				border-color: $c_dark;
-				color: $c_main;
+				@include addDynamicTextColor();
 			}
 		}
 	}

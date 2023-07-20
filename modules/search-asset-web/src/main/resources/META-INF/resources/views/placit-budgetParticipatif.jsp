@@ -1,8 +1,8 @@
 <%@ include file="/search-asset-init.jsp" %>
 
 <liferay-portlet:actionURL varImpl="searchActionURL" />
-
-<div class="pro-search-listing" id="go-to-top">
+<div class="couleur-ville">
+<div class="pro-search-listing couleur-ville" id="go-to-top">
     <div  class="search-header-wrapper">
         <div class="container">
             <div class="row">
@@ -139,4 +139,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>
