@@ -21,9 +21,7 @@
 	}
 
 	.st-nav-arrows {
-		//position: absolute;
-		//right: 0;
-		//bottom: 20px;
+		padding-top: 1px;
 		margin-bottom: 20px;
 	}
 
@@ -41,7 +39,9 @@
 	}
 
 	.st-slide-galerie {
+		@include reset-button;
 		position: relative;
+
 		@include mobile {
 			--aspect-ratio: 3/2;
 			width: 300px;
@@ -55,6 +55,8 @@
 			img {
 				height: auto;
 				width: auto;
+				border-radius: $border-radius-small;
+
 				@include mobile {
 					height: 100%;
 				}
@@ -69,6 +71,7 @@
 			caption-side: bottom;
 			cursor: auto;
 			text-align: left;
+
 			@include mobile {
 				font-size: 12px;
 				line-height: 1;

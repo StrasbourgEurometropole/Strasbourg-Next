@@ -1,0 +1,34 @@
+/* ------------------
+--- CSS GLOBAL + DES CLASSES UTILES ---
+------------------ */
+
+body {
+	&.st-no-scroll {
+		overflow: hidden;
+	}
+}
+
+.st-page-wrapper {
+	font-family: $f_txt;
+	font-size: 16px;
+	line-height: 1.5;
+	color: $c_txt;
+	background-color: $c_main;
+	overflow-x: hidden;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	main {
+		position: relative;
+	}
+}
+
+
+[class^="st-icon-"], [class*=" st-icon-"] {
+	@include addTransition();
+}
+
+// container leaflet
+.st-maps {
+	z-index: 1;
+}

@@ -33,20 +33,21 @@
 	}
 
 	.st-menu-ancre {
+		@include reset-button;
 		position: relative;
-		@include ft($f_txt, 14px, 300, $c_txt, 1);
-		@include letter-spacing(25);
 		display: block;
 		padding: 15px 20px;
-		@include create-outline();
+		@include ft($f_txt, 14px, 300, $c_txt, 1);
+		@include letter-spacing(25);
+
 		@include can-hover {
 			color: $c_sub;
 		}
 		@include tablet-portrait {
-			height: 100%;
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			height: 100%;
 		}
 		@include mobile {
 			padding: 15px 10px;

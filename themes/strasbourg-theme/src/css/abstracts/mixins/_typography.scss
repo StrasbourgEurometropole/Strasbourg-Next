@@ -91,26 +91,28 @@
 	font-size: 0;
 	width: 36px;
 	height: 36px;
-	border: 1px solid $c_sub;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 	padding: 0;
+	border: 1px solid $c_sub;
+
+	@include can-hover {
+		background-color: transparent;
+		border-color: $c_sub;
+
+		&:after {
+			color: $c_sub;
+		}
+	}
+
 	&:after {
 		color: $c_white;
 		font-size: 14px;
 		margin: 0;
 	}
+
 	&.st-is-favorite {
 		&:after {
 			color: $c_sub;
 		}
 	}
-	@include can-hover {
-		background-color: transparent;
-		border-color: $c_sub;
-		&:after {
-			color: $c_sub;
-		}
-	}
+
 }

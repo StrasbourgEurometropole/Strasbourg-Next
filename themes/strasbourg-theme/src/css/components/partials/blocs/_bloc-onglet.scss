@@ -167,6 +167,7 @@
 		}
 
 		.st-single-slide-container {
+			@include reset-styles;
 			width: 100%;
 
 			li {

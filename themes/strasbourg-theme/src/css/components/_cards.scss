@@ -44,12 +44,13 @@
 // Card - Default Styles
 // ==========================================================================
 .st-card {
+	@include reset-button;
 	position: relative;
 	display: flex;
 	flex-direction: column-reverse;
 	width: 100%;
-	@include create-outline();
-	@include btn-favoris-card(210px);
+	@include btn-favorite-card(210px);
+
 	@include can-hover {
 		.st-title-card {
 			color: $c_sub;
@@ -58,28 +59,16 @@
 
 	.st-image {
 		--aspect-ratio: 1/1;
-		position: relative;
+		@include aspect-ratio(var(--aspect-ratio));
 		margin-bottom: 15px;
 		flex-shrink: 0;
-		@include aspect-ratio(var(--aspect-ratio));
 		@include addTransition();
 
-
-		figure {
-			figcaption {
-				display: none;
-			}
+		img {
+			border-radius: $border-radius;
 		}
 
-
-		.st-btn-favorite {
-			position: absolute;
-			bottom: 0;
-			right: 0;
-			z-index: 0;
-		}
-
-		[class^="st-icon-"]:not(.st-btn-favorite), [class*=" st-icon-"]:not(.st-btn-favorite) {
+		/*[class^="st-icon-"]:not(.st-btn-favorite), [class*=" st-icon-"]:not(.st-btn-favorite) {
 			width: 24px;
 			height: 24px;
 			background-color: $c_main;
@@ -95,7 +84,7 @@
 				left: 50%;
 				transform: translate(-50%, -50%);
 			}
-		}
+		}*/
 	}
 
 	.st-badge-price {
@@ -278,15 +267,17 @@
 	}
 
 	.st-ouverture {
-		@include ft($f_txt, 12px, 500, $c_main, 1);
-		@include letter-spacing(150);
-		text-transform: uppercase;
-		display: inline-block;
-		padding: 6px 8px;
-		background-color: $c_sub;
 		position: absolute;
 		left: -8px;
 		top: 6px;
+		display: inline-block;
+		padding: 6px 8px;
+		@include ft($f_txt, 12px, 500, $c_main, 1);
+		@include letter-spacing(150);
+		text-transform: uppercase;
+		background-color: $c_sub;
+		border-radius: $border-radius-small;
+
 		@include mobile {
 			font-size: 10px;
 		}
@@ -299,7 +290,7 @@
 	// Card sur le listing agenda au format horizontal
 	&.st-card-agenda {
 		@include card-horizontale();
-		@include btn-favoris-card();
+		@include btn-favorite-card();
 
 		.st-image {
 			@include min-mobile {

@@ -34,10 +34,11 @@
 	// =============================================
 
 	.st-network-list {
+		@include reset-styles;
 		position: absolute;
 		top: 0;
-		pointer-events: none;
 		left: 20px;
+		pointer-events: none;
 
 		li {
 			position: absolute;
@@ -86,31 +87,6 @@
 
 			li:nth-child(6) {
 				top: -320px;
-			}
-		}
-	}
-
-	// =============================================
-	// Boutton social
-
-	.st-btn-social {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 40px;
-		height: 40px;
-		background-color: $c_main;
-		border: 1px solid $c_sub;
-
-		&:before {
-			color: $c_white;
-		}
-
-		@include can-hover {
-			background-color: $c_white;
-			border-color: $c_white;
-			&:before {
-				color: $c_dark_navy;
 			}
 		}
 	}

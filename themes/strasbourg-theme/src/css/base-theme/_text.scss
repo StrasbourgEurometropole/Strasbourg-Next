@@ -1,22 +1,20 @@
-a {
-	text-decoration: none;
-	color: $c_sub;
-	@include addTransition();
-}
-
-li {
-	list-style-type: none;
-}
-
-strong {
-	font-weight: 600;
-}
 
 
 // Styles de textes globaux
 // ==========================================================================
 
-h1, .st-h1 {
+
+.st-h1,
+.st-h2,
+.st-h3,
+.st-surtitre,
+.st-surtitre-cat,
+.st-location,
+.st-figure {
+	@include reset-styles;
+}
+
+.st-h1 {
 	display: block;
 	@include ft($f_hx, $s_h1, 600, $c_white, 1);
 
@@ -27,7 +25,7 @@ h1, .st-h1 {
 
 }
 
-h2, .st-h2 {
+.st-h2 {
 	display: block;
 	@include ft($f_hx, $s_h2, 600, $c_white, 1);
 
@@ -37,7 +35,7 @@ h2, .st-h2 {
 
 }
 
-h3, .st-h3 {
+.st-h3 {
 	display: block;
 	@include ft($f_hx, $s_h3, 700, $c_white, 1);
 
@@ -50,7 +48,7 @@ h3, .st-h3 {
 // Styles de textes additionnels
 // ==========================================================================
 
-.st-surtitre {
+.st-page-wrapper .st-surtitre {
 	display: block;
 	@include ft($f_txt, $s_medium, 700, $c_white, 1.33);
 	@include letter-spacing(25);
@@ -59,7 +57,7 @@ h3, .st-h3 {
 	}
 }
 
-.st-surtitre-cat {
+.st-page-wrapper .st-surtitre-cat {
 	display: block;
 	@include ft($f_txt, 12px, 400, $c_sub, 1);
 	@include letter-spacing(25);
@@ -71,7 +69,7 @@ h3, .st-h3 {
 }
 
 
-.st-location {
+.st-page-wrapper .st-location {
 	@include ft($f_txt, 12px, 300, $c_txt, 1);
 	@include letter-spacing(25);
 	font-style: italic;
@@ -149,6 +147,7 @@ h3, .st-h3 {
 	.st-surtitre {
 		margin-top: 35px;
 		margin-bottom: 30px;
+
 		@include tablet-portrait {
 			margin-top: 20px;
 			margin-bottom: 20px;
@@ -192,13 +191,14 @@ h3, .st-h3 {
 	h2, .st-h2 {
 		margin-top: 60px;
 		margin-bottom: 35px;
+
 		@include tablet-portrait {
 			margin-top: 30px;
 			margin-bottom: 20px;
 		}
 
 		& + .st-surtitre {
-			margin-top: 0px;
+			margin-top: 0;
 		}
 
 		& + h3,
@@ -219,6 +219,7 @@ h3, .st-h3 {
 	h3, .st-h3 {
 		margin-top: 40px;
 		margin-bottom: 30px;
+
 		@include tablet-portrait {
 			margin-top: 20px;
 			margin-bottom: 20px;
@@ -353,9 +354,9 @@ h3, .st-h3 {
 	}
 
 	a:not([class]) {
+		@include reset-button;
 		color: $c_sub;
 		text-decoration: underline;
-		@include create-outline();
 
 		@include can-hover {
 			color: $c_white;
@@ -410,88 +411,6 @@ h3, .st-h3 {
 
 		@include mobile {
 			margin-bottom: 5px;
-		}
-	}
-
-	// Gestion iFame
-	iframe:not(.instagram-media) {
-		width: 100%;
-		height: 430px;
-
-		@include mobile {
-			height: 100%;
-		}
-	}
-
-
-	// Gestion des éléments dans le Wysiwyg
-	p {
-		margin-bottom: 20px;
-
-		iframe {
-			margin-bottom: 0;
-		}
-
-		&.st-alignleft {
-			float: left;
-			margin: 15px auto;
-			margin-right: 40px;
-
-			@include mobile {
-				float: none;
-				margin: 10px auto;
-			}
-		}
-
-		&.st-aligncenter {
-			display: block;
-			margin: 30px auto;
-		}
-
-		&.st-alignright {
-			float: right;
-			margin: 30px auto;
-			margin-left: 40px;
-
-			@include mobile {
-				float: none;
-				margin: 10px auto;
-			}
-		}
-
-		&.st-alignnone {
-			margin: 30px 0;
-		}
-
-		img {
-			margin: 15px auto;
-
-			&.alignleft {
-				float: left;
-				padding-right: 40px;
-
-				@include mobile {
-					float: none;
-					margin: 10px 0;
-					padding: 0;
-				}
-			}
-
-			&.aligncenter {
-				display: block;
-				margin: 30px auto;
-			}
-
-			&.alignright {
-				float: right;
-				padding-left: 40px;
-
-				@include mobile {
-					float: none;
-					margin: 10px 0;
-					padding-left: 0;
-				}
-			}
 		}
 	}
 

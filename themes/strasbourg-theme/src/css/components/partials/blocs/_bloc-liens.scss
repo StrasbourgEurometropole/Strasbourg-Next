@@ -1,5 +1,6 @@
 .st-bloc-liens {
 	.st-liste {
+		@include reset-styles;
 		border: 1px solid rgba($c_white, 0.40);
 	}
 
@@ -51,15 +52,17 @@
 	}
 
 	.st-lien {
+		@include reset-button;
 		position: relative;
 		display: flex;
 		align-items: center;
 		width: 100%;
-		@include create-outline();
+
 		@include tablet-portrait {
 			flex-direction: column;
 			align-items: flex-start;
 		}
+
 		@include can-hover {
 			.st-title-lien {
 				color: $c_sub;

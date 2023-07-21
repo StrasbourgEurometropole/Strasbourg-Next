@@ -21,6 +21,7 @@
 	}
 
 	.st-toolbar-inner {
+		@include reset-styles;
 		display: flex;
 		align-items: center;
 		height: 100%;
@@ -28,14 +29,18 @@
 
 	.st-has-logo {
 		margin-right: auto;
+	}
 
-		.st-logo img {
+	.st-logo {
+		@include reset-button;
+
+		img {
 			max-height: 30px;
+
 			@include mobile {
 				max-height: 20px;
 				width: auto;
 			}
-
 		}
 	}
 
@@ -60,11 +65,6 @@
 	.st-has-lang-dropdown {
 		position: relative;
 
-		select {
-			border: 1px solid $c_border;
-			padding: 5px;
-		}
-
 		&:after {
 			display: block;
 			@include icomoon($st-icon-arrow-down);
@@ -76,13 +76,20 @@
 			transform: translateY(-50%);
 			pointer-events: none;
 		}
+
+		.select-lang {
+			border: 1px solid $c_border;
+			padding: 5px;
+		}
 	}
 
 	.st-lien-libre {
+		@include reset-button;
 		border: 1px solid $c_sub;
 	}
 
 	.st-btn-search {
+		@include reset-button;
 		background-color: $c_white;
 
 		[class^="st-icon-"], [class*=" st-icon-"] {
@@ -92,15 +99,16 @@
 	}
 
 	.st-btn-menu {
+		@include reset-button;
 		background-color: $c_sub;
 	}
 
-	.st-icon-container {
+	.st-btn-menu__icon {
 		display: block;
 		width: 16px;
 		height: 12px;
 
-		.st-line {
+		.st-btn-menu__line {
 			display: block;
 			width: 100%;
 			height: 2px;

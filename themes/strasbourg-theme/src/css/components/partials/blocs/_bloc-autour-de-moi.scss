@@ -4,6 +4,8 @@
 		align-items: center;
 		padding: 30px;
 		background-color: $c_greydark;
+		border-radius: $border-radius $border-radius 0 0;
+
 		@include mobile {
 			flex-direction: column;
 			padding: 20px;
@@ -43,7 +45,7 @@
 		}
 	}
 
-	.maps {
+	.st-maps {
 		height: 520px;
 		z-index: 1;
 		@include mobile {

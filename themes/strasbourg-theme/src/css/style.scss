@@ -8,16 +8,16 @@
 @import "abstracts/breakpoints";
 @import "abstracts/mixins";
 
-// Styles de base_thurias, reset
+// Styles de bases, reset
 //=====================================
-@import "base_thuria/reset";
-@import "base_thuria/font-face";
-@import "base_thuria/auto";
-@import "base_thuria/text";
-@import "base_thuria/images";
-@import "base_thuria/animations";
-@import "base_thuria/utilities";
-@import "base_thuria/rgaa";
+@import "base-theme/reset";
+@import "base-theme/font-face";
+@import "base-theme/auto";
+@import "base-theme/text";
+@import "base-theme/images";
+@import "base-theme/animations";
+@import "base-theme/utilities";
+@import "base-theme/rgaa";
 
 // Styles des librairies js utilisées dans le projet + fichiers pour faire un overriding des styles de ces librairies
 // ==========================================================================
@@ -77,41 +77,7 @@
 @import "artboards/artboard-boutons";
 @import "artboards/artboard-grille";
 
-// Styles pour les surcharger les style de liferay
-// ==========================================================================
-@import "override_liferay";
+
+@import "components/partials/**/*.scss";
 
 
-// Styles pour les templates (temp fix par sully)
-// ==========================================================================
-@import "templates/barre-des-ancres";
-@import "templates/barre-liens-en-avant";
-@import "templates/barre-listing-sit";
-@import "templates/barre-navigation";
-@import "templates/barre-single-sit";
-@import "templates/bloc-actualites-home";
-@import "templates/bloc-agenda-home";
-@import "templates/bloc-agenda";
-@import "templates/bloc-autour-de-moi";
-@import "templates/bloc-chiffres-cles";
-@import "templates/bloc-citation";
-@import "templates/bloc-contact";
-@import "templates/bloc-documents";
-@import "templates/bloc-editions-dossiers";
-@import "templates/bloc-focus";
-@import "templates/bloc-galerie";
-@import "templates/bloc-image-texte";
-@import "templates/bloc-info-acces";
-@import "templates/bloc-info-complementaires";
-@import "templates/bloc-liens";
-@import "templates/bloc-onglet";
-@import "templates/bloc-presentation";
-@import "templates/bloc-services-handicap";
-@import "templates/bloc-services";
-@import "templates/bloc-une";
-@import "templates/bloc-video";
-@import "templates/couverture-edito";
-@import "templates/couverture-introduction";
-@import "templates/pagination";
-@import "templates/strate-footer";
-@import "templates/toolbar-navigation"

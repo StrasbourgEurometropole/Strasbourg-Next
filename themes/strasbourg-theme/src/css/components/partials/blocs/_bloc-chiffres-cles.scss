@@ -1,5 +1,6 @@
 .st-bloc-chiffres-cles {
 	.st-chiffres-container {
+		@include reset-styles;
 		// Déclaration des variables contenant la largeur du gap entre les éléments
 		--col-gap: 40px;
 		--row-gap: 20px;
@@ -10,6 +11,7 @@
 		margin-left: calc(var(--col-gap) * -1 / 2);
 		margin-right: calc(var(--col-gap) * -1 / 2);
 		margin-top: calc(var(--row-gap) * -1);
+
 		@include desktop {
 			--col-gap: 20px;
 		}
@@ -26,6 +28,7 @@
 			margin-right: calc(var(--col-gap) / 2);
 			margin-top: var(--row-gap);
 			width: calc(25% - var(--col-gap));
+
 			@include tablet-portrait {
 				width: calc(33.33% - var(--col-gap));
 			}
@@ -38,14 +41,15 @@
 				margin-right: 0;
 			}
 		}
-
 	}
 
 	.st-container {
 		position: relative;
-		background-color: $c_greydark;
 		height: 0;
 		padding-bottom: calc(25% - var(--col-gap));
+		background-color: $c_greydark;
+		border-radius: $border-radius;
+
 		@include tablet-portrait {
 			padding-bottom: calc(33.33% - var(--col-gap));
 		}

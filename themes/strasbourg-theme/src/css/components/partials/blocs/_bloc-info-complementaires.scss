@@ -28,12 +28,19 @@
 	}
 
 	.st-component-container {
+		@include reset-button;
 		position: relative;
 		display: block;
-		border: 1px solid rgba($c_white, 0.40);
 		padding: 40px;
+		border: 1px solid rgba($c_white, 0.25);
+		border-radius: $border-radius;
+
 		@include mobile {
 			padding: 20px;
+		}
+
+		.st-liens {
+			@include reset-styles;
 		}
 	}
 
@@ -41,7 +48,7 @@
 		.st-component-container {
 			display: flex;
 			align-items: center;
-			@include create-outline();
+
 			@include can-hover {
 				.st-btn-arrow {
 					background-color: $c_sub;
@@ -80,12 +87,14 @@
 			position: relative;
 
 			.st-lien {
+				@include reset-button;
 				display: block;
 				padding: 25px 40px;
-				@include create-outline();
+
 				@include mobile {
 					padding: 16px 20px;
 				}
+
 				@include can-hover {
 					.st-text {
 						color: $c_white;
@@ -150,7 +159,9 @@
 		}
 
 		.st-liste {
-			border: 1px solid rgba($c_white, 0.40);
+			@include reset-styles;
+			border: 1px solid rgba($c_white, 0.25);
+			border-radius: $border-radius;
 		}
 	}
 
@@ -170,6 +181,7 @@
 		}
 
 		.st-liste-icons {
+			@include reset-styles;
 			display: flex;
 			align-items: center;
 			flex-wrap: wrap;

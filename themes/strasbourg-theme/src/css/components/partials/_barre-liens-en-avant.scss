@@ -51,13 +51,13 @@
 			.st-container {
 				&:after {
 					content: "";
-					display: block;
-					width: 1px;
-					height: 60px;
-					background-color: $c_border;
 					position: absolute;
 					right: 0;
-					top: 10px;
+					top: 20px;
+					bottom: 20px;
+					display: block;
+					width: 1px;
+					background-color: $c_border;
 				}
 			}
 		}
@@ -74,17 +74,19 @@
 	}
 
 	.st-text {
-		@include ft($f_hx, 12px, 400, $c_white, 1);
+		@include ft($f_hx, 12px, 400, $c_grey, 1);
 		@include letter-spacing(25);
 		@include addTransition();
 	}
 
 	.st-container {
+		@include reset-button;
 		position: relative;
 		display: flex;
 		align-items: center;
 		padding: 20px;
-		@include create-outline();
+		height: 100%;
+
 		@include can-hover {
 			.st-title, .st-content {
 				color: $c_sub;
@@ -106,6 +108,7 @@
 
 			&:before {
 				font-size: 7px;
+				transform: translateX(1px);
 			}
 		}
 	}

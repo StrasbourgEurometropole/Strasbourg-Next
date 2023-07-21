@@ -19,6 +19,8 @@
 		}
 
 		.st-cards-wrapper {
+			@include reset-styles;
+
 			&.splide__list {
 				display: grid;
 				grid-template-columns: repeat(4, 1fr);

@@ -35,9 +35,11 @@
 	.st-barre-inner {
 		display: flex;
 		align-items: center;
-		background-color: $c_greydark;
-		padding: 20px;
 		height: 100%;
+		padding: 20px;
+		background-color: $c_greydark;
+		border-radius: $border-radius;
+
 		@include tablet-portrait {
 			background-color: transparent;
 			padding-left: 0;
@@ -85,6 +87,7 @@
 			align-items: center;
 			padding: 15px 20px 15px 15px;
 			@include create-outline();
+
 			@include can-hover {
 				color: $c_sub;
 				&::placeholder {

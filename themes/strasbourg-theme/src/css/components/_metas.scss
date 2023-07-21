@@ -1,4 +1,5 @@
 .st-meta-wrapper {
+	@include reset-styles;
 	display: flex;
 	flex-wrap: wrap;
 	--gap: 10px;
@@ -11,19 +12,20 @@
 	}
 
 	> li {
-		@include ft($f_txt, 14px, 400, $c_white, 1);
-		@include letter-spacing(25);
 		display: inline-flex;
 		align-items: center;
 		height: auto; // hauteur fixe constante plutôt que padding pour éviter les décalages quand on a un icône ou non
 		padding: 10px 15px;
+		@include ft($f_txt, 14px, 400, $c_white, 1);
+		@include letter-spacing(25);
 		background-color: $c_greydark;
+		border-radius: $border-radius;
 
 		[class^="st-icon-"], [class*=" st-icon-"] {
-			font-size: 18px;
-			color: $c_sub;
 			display: block;
 			margin-right: 15px;
+			font-size: 18px;
+			color: $c_sub;
 		}
 
 		// -- modifiers
@@ -49,12 +51,6 @@
 			&.st--icon-only {
 				padding: 0 5px;
 			}
-
-			&.st--iti {
-				&:before {
-					margin-right: 5px;
-				}
-			}
 		}
 
 		&.st--has-tooltip {
@@ -66,32 +62,6 @@
 					visibility: visible;
 					transform: translate(-50%);
 				}
-			}
-		}
-
-		&.st--iti {
-			--bg-color: #{$c_black};
-
-			&:before {
-				content: "";
-				display: block;
-				width: 8px;
-				height: 8px;
-				margin-right: 10px;
-				border-radius: 50%;
-				background-color: var(--bg-color);
-			}
-
-			&.st--iti-facile {
-				--bg-color: #{$c_green};
-			}
-
-			&.st--iti-moyen {
-				--bg-color: orange;
-			}
-
-			&.st--iti-difficile {
-				--bg-color: #{$c_red};
 			}
 		}
 	}

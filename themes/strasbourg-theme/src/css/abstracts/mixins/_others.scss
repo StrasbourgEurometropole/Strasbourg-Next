@@ -109,7 +109,6 @@
 			outline: 1px dashed $color;
 		}
 	}
-
 }
 
 
@@ -141,8 +140,8 @@
 }
 
 
-@mixin btn-favoris-card($taille : 100px) {
-	& + .st-btn-favoris {
+@mixin btn-favorite-card($taille : 100px) {
+	& + .st-btn-favorite-card {
 		--taille-favoris: 36px;
 		--taille-image: #{$taille};
 		position: absolute;
@@ -150,7 +149,7 @@
 		left: calc(var(--taille-image) - var(--taille-favoris));
 		width: var(--taille-favoris);
 		height: var(--taille-favoris);
-		border: none;
+
 		@include mobile {
 			--taille-image: 80px;
 		}

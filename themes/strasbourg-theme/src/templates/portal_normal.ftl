@@ -10,6 +10,7 @@
 	<meta content="initial-scale=1.0, width=device-width" name="viewport" />
 
 	<link rel="stylesheet" href="/o/strasbourg-theme/css/style.css">
+	<link rel="stylesheet" href="/o/strasbourg-theme/css/override_liferay.css">
 
 	<@liferay_util["include"] page=top_head_include />
 </head>

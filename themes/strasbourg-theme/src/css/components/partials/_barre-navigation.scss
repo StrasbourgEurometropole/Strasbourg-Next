@@ -76,86 +76,94 @@
 	}
 
 	.st-logo {
+		@include reset-button;
 		display: flex;
 		align-items: center;
 		margin-right: auto;
 		height: 100%;
-		@include create-outline();
+
 		@media screen and (max-width: 1200px) {
 			width: 120px;
 		}
 	}
 
-	.st-right-content {
+	.st-nav-primary {
 		display: flex;
 		align-items: center;
 		margin-left: auto;
 
-		> ul {
+		.st-nav-primary__menu {
+			@include reset-styles;
 			display: flex;
 			align-items: center;
 			height: 100%;
+		}
 
-			> li {
-				display: block;
-				height: 100%;
+		.st-nav-primary__item {
+			display: block;
+			height: 100%;
+		}
 
-				a:not(.st-btn-compte) {
-					@include ft($f_txt, $s_p, 300, $c_white, 1);
-					@include letter-spacing(25);
-					height: 100%;
-					display: flex;
-					align-items: center;
-					padding: 30px 20px;
-					@include create-outline();
-					@include can-hover {
-						color: $c_sub;
-					}
-					@media screen and (max-width: 1200px) {
-						padding: 30px 10px;
-					}
+		.st-nav-primary__link {
+			@include reset-button;
+			display: flex;
+			align-items: center;
+			height: 100%;
+			padding: 30px 20px;
+			@include ft($f_txt, $s_p, 300, $c_white, 1);
+			@include letter-spacing(25);
 
-					.st-is-scrolled & {
-						padding-top: 10px;
-						padding-bottom: 10px;
-					}
-				}
+			@include can-hover {
+				color: $c_sub;
+			}
+			@media screen and (max-width: 1200px) {
+				padding: 30px 10px;
+			}
+
+			.st-is-scrolled & {
+				padding-top: 10px;
+				padding-bottom: 10px;
 			}
 		}
 
 		.st-has-lang-dropdown {
 			position: relative;
+			display: block;
+			height: 100%;
 
 			&:after {
+				position: absolute;
+				right: 30px;
+				top: 51%;
 				display: block;
 				@include icomoon($st-icon-arrow-down);
 				font-size: 10px;
 				color: rgba($c_white, 0.75);
-				position: absolute;
-				right: 30px;
-				top: 51%;
 				transform: translateY(-50%);
 				pointer-events: none;
+
 				@media screen and (max-width: 1200px) {
 					right: 20px;
 				}
 			}
 		}
 
-		select {
+		.select-lang {
+			position: relative;
+			display: flex;
+			height: 100%;
+			align-items: center;
+			padding: 30px 40px 30px 20px;
 			@include ft($f_txt, $s_p, 600, $c_white, 1);
 			@include letter-spacing(25);
-			height: 100%;
-			display: flex;
-			align-items: center;
-			position: relative;
 			cursor: pointer;
-			padding: 30px 40px 30px 20px;
 			@include addTransition();
 			@include create-outline();
+
 			@include can-hover {
 				color: $c_sub;
 			}
+
 			@media screen and (max-width: 1200px) {
 				padding-right: 30px;
 			}
@@ -166,6 +174,12 @@
 			}
 		}
 
+		.st-has-btn-compte {
+			display: flex;
+			align-items: center;
+			height: 100%;
+		}
+
 		.st-btn-compte {
 			margin: 20px 0;
 
@@ -173,11 +187,6 @@
 				margin-top: 10px;
 				margin-bottom: 10px;
 			}
-		}
-
-		.st-has-btn-compte {
-			display: flex;
-			align-items: center;
 		}
 	}
 
@@ -188,12 +197,12 @@
 
 	// Styles pour le dropdown RGAA
 	.st-barre-dropdown button {
+		@include reset-button;
 		position: relative;
+		height: 100%;
+		padding: 30px 0;
 		@include ft($f_txt, $s_p, 300, $c_white, 1);
 		@include letter-spacing(25);
-		@include create-outline();
-		padding: 30px 0;
-		height: 100%;
 
 		.st-is-scrolled & {
 			padding-top: 10px;
@@ -221,6 +230,7 @@
 	}
 
 	.st-barre-dropdown [role="menu"] {
+		@include reset-styles;
 		display: none;
 		position: absolute;
 		background-color: $c_greydark;
@@ -229,14 +239,14 @@
 	}
 
 	.st-barre-dropdown [role="menuitem"] {
-		@include ft($f_txt, $s_p, 300, $c_white, 1);
-		@include letter-spacing(25);
-		margin: 0;
+		@include reset-button;
 		display: block;
 		width: auto;
+		padding: 10px;
+		@include ft($f_txt, $s_p, 300, $c_white, 1);
+		@include letter-spacing(25);
 		outline: 1px solid transparent;
 		white-space: nowrap;
-		padding: 10px;
 
 		strong {
 			font-weight: 600;
@@ -261,31 +271,31 @@
 	}
 
 	.st-barre-menu-inner {
-		width: 100%;
 		display: flex;
 		align-items: center;
-		//position: absolute;
-		//top: 100%;
+		width: 100%;
 	}
 
 	.st-btn-search {
+		@include reset-button;
+		flex: 1;
+		position: relative;
+		height: 80px;
+		padding-left: 78px;
+		margin-right: 10px;
 		@include ft($f_txt, 20px, 400, rgba($c_dim_grey, 0.75), 1);
 		@include letter-spacing(25);
 		text-align: left;
-		position: relative;
-		height: 80px;
 		background-color: $c_white;
-		padding-left: 78px;
-		flex: 1;
-		margin-right: 10px;
+		border-radius: $border-radius-small;
 
 		&:before {
 			@include icomoon($st-icon-search);
-			color: $c_dark_navy;
-			font-size: 18px;
 			position: absolute;
 			left: 30px;
 			top: 50%;
+			font-size: 18px;
+			color: $c_dark_navy;
 			transform: translateY(-50%);
 		}
 
@@ -295,32 +305,35 @@
 	}
 
 	.st-btn-menu {
+		@include reset-button;
+		display: flex;
+		align-items: center;
+		height: 80px;
+		padding: 30px;
 		@include ft($f_txt, 14px, 600, $c_dark_navy, 1);
 		@include letter-spacing(25);
 		text-transform: uppercase;
-		display: flex;
-		align-items: center;
 		background-color: $c_sub;
-		padding: 30px;
-		height: 80px;
-		@include create-outline();
+		border-radius: $border-radius-small;
+
 		@include can-hover {
 			background-color: $c_white;
-			.st-line {
+
+			.st-btn-menu__line {
 				&:nth-of-type(2) {
 					width: 100%;
 				}
 			}
 		}
-	}
 
-	.st-icon-container {
-		display: block;
-		width: 24px;
-		height: 14px;
-		margin-right: 32px;
+		.st-btn-menu__icon {
+			display: block;
+			width: 24px;
+			height: 14px;
+			margin-right: 32px;
+		}
 
-		.st-line {
+		.st-btn-menu__line {
 			display: block;
 			width: 100%;
 			height: 2px;
@@ -332,8 +345,8 @@
 				width: calc(100% - 6px);
 			}
 
-			&:last-of-type {
-				margin-bottom: 0px;
+			& + .st-btn-menu__line {
+				margin-top: 4px;
 			}
 		}
 	}

@@ -1,57 +1,15 @@
-.st-fiche {
+.st-page-fiche-lieu {
 
 	.st-bloc-title {
 		margin-bottom: 30px;
+
 		@include mobile {
 			margin-bottom: 14px;
 		}
 	}
 
-	//& ~ .st-footer {
-	//	.st-container-mentions {
-	//		padding-bottom: 140px;
-	//		@include tablet-portrait {
-	//			padding-bottom: 70px;
-	//		}
-	//	}
-	//}
-
-	// Couverture dans les fiches lieu avec image
-	.st-header-fiche-lieu.st--avec-image {
-		margin-bottom: 50px;
-
-		.st-cover-container {
-			display: flex;
-			@include tablet-small {
-				flex-direction: column;
-			}
-		}
-
-		.st-image {
-			position: relative;
-			width: 50%;
-			@include tablet-small {
-				width: 100%;
-				height: 213px;
-			}
-
-			figure {
-				height: 100%;
-			}
-		}
-
-		.maps {
-			width: 50%;
-			height: 380px;
-			z-index: 1;
-			@include tablet-small {
-				width: 100%;
-				height: 213px;
-			}
-		}
-	}
-
-	.st-header-fiche-lieu.st--sans-image {
+	// Couverture dans les fiches lieu avec map ou map + image
+	.st-header-fiche-lieu {
 		margin-bottom: 50px;
 
 		.st-top-bar {
@@ -60,25 +18,18 @@
 			justify-content: space-between;
 			padding: 30px;
 			background-color: $c_greydark;
+			border-radius: $border-radius $border-radius 0 0;
+
 			@include tablet-small {
 				flex-direction: column;
 				padding: 20px;
 			}
 		}
 
-		.st-content {
-			text-align: right;
-			max-width: 430px;
-			@include tablet-small {
-				width: 100%;
-				max-width: 100%;
-				text-align: left;
-			}
-		}
-
-		.st-title {
+		.st-top-bar__title {
 			@include ft($f_txt, 25px, 600, $c_white, 1);
 			margin-right: 20px;
+
 			@include tablet-small {
 				width: 100%;
 				margin-right: 0px;
@@ -88,9 +39,21 @@
 			}
 		}
 
+		.st-top-bar__content {
+			text-align: right;
+			max-width: 430px;
+
+			@include tablet-small {
+				width: 100%;
+				max-width: 100%;
+				text-align: left;
+			}
+		}
+
 		.st-frequentation {
 			@include ft($f_txt, 18px, 700, $c_white, 1);
 			@include letter-spacing(25);
+
 			@include mobile {
 				font-size: 14px;
 				margin-top: 8px;
@@ -108,20 +71,52 @@
 			margin-top: 7px;
 		}
 
-		.maps {
-			width: 100%;
-			height: 380px;
-			z-index: 1;
+
+		.st-cover-container {
+			display: flex;
+
+			> * {
+				flex-grow: 1;
+				flex-basis: 0;
+				height: 380px;
+
+				@include tablet-small {
+					flex-basis: auto;
+					height: 214px;
+				}
+			}
+
 			@include tablet-small {
-				height: 214px;
+				flex-direction: column;
+			}
+		}
+
+		.st-image {
+			position: relative;
+
+			@include tablet-portrait {
+				flex-grow: 3;
+			}
+
+			figure {
+				height: 100%;
+			}
+		}
+
+		.st-maps {
+
+			@include tablet-portrait {
+				flex-grow: 2;
 			}
 		}
 	}
+
 
 	.st-content {
 		> div {
 			& + div {
 				margin-top: 68px;
+
 				@include mobile {
 					margin-top: 34px;
 				}

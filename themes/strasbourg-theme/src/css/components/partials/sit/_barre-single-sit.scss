@@ -4,6 +4,7 @@
 	width: 100%;
 	z-index: z-index("barre-sticky");
 	@include addTransition();
+
 	@include tablet-portrait {
 		position: sticky;
 		bottom: auto;
@@ -11,6 +12,7 @@
 		margin-bottom: 40px;
 		background-color: $c_greydark;
 	}
+
 	@include mobile {
 		margin-bottom: 20px;
 	}
@@ -34,6 +36,8 @@
 		align-items: center;
 		background-color: $c_greydark;
 		padding: 10px;
+		border-radius: $border-radius;
+
 		@include tablet-portrait {
 			padding: 15px 0 10px 0;
 		}
@@ -45,6 +49,8 @@
 	.st-container-left {
 		display: flex;
 		align-items: center;
+		margin-right: 10px;
+
 		@include tablet-portrait {
 			width: 100%;
 		}
@@ -54,6 +60,7 @@
 		display: flex;
 		align-items: center;
 		margin-left: auto;
+
 		@include tablet-portrait {
 			width: 100%;
 		}
@@ -65,6 +72,16 @@
 	.st-image {
 		position: relative;
 		margin-right: 20px;
+
+		figure {
+			width: 80px;
+			height: 80px;
+		}
+
+		img {
+			border-radius: $border-radius-small;
+		}
+
 		@include tablet-portrait {
 			display: none;
 		}
@@ -104,6 +121,7 @@
 	}
 
 	.st-liens-rapides {
+		@include reset-styles;
 		display: flex;
 		align-items: center;
 
@@ -126,13 +144,15 @@
 		}
 	}
 
-	.st-btn-favoris {
+	.st-btn-favorite-sticky {
 		margin-left: auto;
+
 		@include tablet-portrait {
 			@include favorites-only-icon();
 			width: 48px;
 			height: 48px;
 		}
+
 		@include mobile {
 			width: 36px;
 			height: 36px;

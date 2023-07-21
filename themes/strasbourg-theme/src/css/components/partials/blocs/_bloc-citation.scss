@@ -2,8 +2,10 @@
 	.st-citation-container {
 		display: flex;
 		align-items: center;
-		background-color: $c_greydark;
 		padding: 40px 40px 40px 60px;
+		background-color: $c_greydark;
+		border-radius: $border-radius;
+
 		@include tablet-portrait {
 			flex-direction: column;
 		}

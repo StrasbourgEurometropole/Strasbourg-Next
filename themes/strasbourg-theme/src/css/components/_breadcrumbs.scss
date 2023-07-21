@@ -1,6 +1,7 @@
 // Fil d'ariane
 // ==========================================================================
 .st-breadcrumbs {
+	@include reset-styles;
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
@@ -45,6 +46,14 @@
 			}
 		}
 
+		.st-breadcrumbs__link {
+			@include reset-button;
+
+			@include can-hover {
+				color: $c_sub;
+			}
+		}
+
 		.st-breadcrumbs__link,
 		span {
 			position: relative;
@@ -54,16 +63,8 @@
 			white-space: nowrap;
 		}
 
-		.st-breadcrumbs__link {
-			@include addTransition();
-			@include create-outline();
-
-			@include can-hover {
-				color: $c_sub;
-			}
-		}
-
 		span {
+			font-weight: 500;
 			color: $c_white;
 		}
 	}
