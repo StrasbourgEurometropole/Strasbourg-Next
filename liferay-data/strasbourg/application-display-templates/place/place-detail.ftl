@@ -62,28 +62,28 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <div class="st-container-right">
                 <ul class="st-liens-rapides">
                     <li>
-                        <a href="#" class="st-btn-icon-outline" target="_blank" rel="noopener"
+                        <a href="#" class="st-btn-icon st-btn-icon--white" target="_blank" rel="noopener"
                            title="Ouvrir le lien (nouvelle )">
                             <span class="st-icon-clock" aria-hidden="true"></span>
                         </a>
                     </li>
                     <#if entry.phone?has_content>
                         <li>
-                            <a href="tel:${entry.phone}" class="st-btn-icon-outline" target="_blank" rel="noopener"
+                            <a href="tel:${entry.phone}" class="st-btn-icon st-btn-icon--white" target="_blank" rel="noopener"
                             title="<@liferay_ui.message key="phone" /> : ${entry.phone}">
                                 <span class="st-icon-phone" aria-hidden="true"></span>
                             </a>
                         </li>
                     </#if>
                     <li>
-                        <button class="st-btn-icon-outline" data-overlay-open="overlay-contactsit"
+                        <button class="st-btn-icon st-btn-icon--white" data-overlay-open="overlay-contactsit"
                                 aria-label="Nous contacter par mail">
                             <span class="st-icon-email" aria-hidden="true"></span>
                         </button>
                     </li>
                         <#if entry.getSiteLabel(locale)?has_content && entry.getSiteURL(locale)?has_content>
                             <li>
-                                <a href="${entry.getSiteURL(locale)}" class="st-btn-icon-outline" target="_blank" rel="noopener"
+                                <a href="${entry.getSiteURL(locale)}" class="st-btn-icon st-btn-icon--white" target="_blank" rel="noopener"
                                 title="${entry.getSiteLabel(locale)}">
                                     <span class="st-icon-web" aria-hidden="true"></span>
                                 </a>
@@ -91,7 +91,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         </#if>
                         <#if entry.getFacebookLabel(locale)?has_content && entry.getFacebookURL(locale)?has_content>
                             <li>
-                                <a href="${entry.getFacebookURL(locale)}" class="st-btn-icon-outline" target="_blank" rel="noopener"
+                                <a href="${entry.getFacebookURL(locale)}" class="st-btn-icon st-btn-icon--white" target="_blank" rel="noopener"
                                    title="${entry.getFacebookLabel(locale)}">
                                     <span class="st-icon-facebook" aria-hidden="true"></span>
                                 </a>
@@ -99,7 +99,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         </#if>
                         <#if entry.getInstagramLabel(locale)?has_content && entry.getInstagramURL(locale)?has_content>
                             <li>
-                                <a href="${entry.getInstagramURL(locale)}" class="st-btn-icon-outline" target="_blank" rel="noopener"
+                                <a href="${entry.getInstagramURL(locale)}" class="st-btn-icon st-btn-icon--white" target="_blank" rel="noopener"
                                    title="${entry.getInstagramLabel(locale)}">
                                     <span class="st-icon-instagram" aria-hidden="true"></span>
                                 </a>
@@ -109,7 +109,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     
                 </ul>
     
-                <button class="st-btn-favoris" data-addpanier="10525">
+                <button class="st-btn-favorite-sticky" data-addpanier="10525">
                     <@liferay_ui.message key="eu.add-to-favorite" />
                 </button>
 
@@ -122,17 +122,17 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     <ul class="st-network-list">
                         <li>
                             <a href="#facebook" id="sharefacebook" aria-label="Partagez sur Facebook"
-                               class="st-btn-social st-icon-facebook st-ga-event-facebook" target="_blank"
+                               class="st-btn-icon st-btn-icon--small st-ga-event-facebook" target="_blank"
                                title="Lien de partage sur Facebook"></a>
                         </li>
                         <li>
                             <a href="#twitter" id="sharetwitter" aria-label="Partagez sur Twitter"
-                               class="st-btn-social st-icon-twitter st-ga-event-twitter" target="_blank"
+                               class="st-btn-icon st-btn-icon--small st-ga-event-twitter" target="_blank"
                                title="Lien de partage sur Twitter"></a>
                         </li>
                         <li>
                             <a href="#linkedin" id="ShareLinkedIn" aria-label="Partagez sur LinkedIn"
-                               class="st-btn-social st-icon-linkedin st-ga-event-linkedin" target="_blank"
+                               class="st-btn-icon st-btn-icon--small st-ga-event-linkedin" target="_blank"
                                title="Lien de partage sur LinkedIn"></a>
                         </li>
                         <li>
@@ -149,14 +149,14 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 <div class="st-fiche" tabindex="-1">
     <header
-        class="st-header-fiche-lieu <#if entry.isEnabled()>st--sans-image<#else>st--avec-image</#if>"
+        class="st-header-fiche-lieu" tabindex="-1"
         role="banner">
         <div class="st-wrapper st-wrapper-small">
-            <h1>${entry.getAlias(locale)}</h1>
+            <h1 class="st-h1">${entry.getAlias(locale)}</h1>
             <@liferay.breadcrumbs />
         </div>
 
-        <div class="st-wrapper st-cover-container">
+        <div class="st-wrapper">
         
             <#if entry.isEnabled()>
                 <#assign occupationState = entry.getRealTime() />
@@ -166,7 +166,23 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <#assign isParking = entry.isParking() />
                 <#assign isVelhopStation = entry.isVelhopStation() />
                 <div class="st-top-bar">
-                    <h2 class="st-title">
+                    <h2 class="st-h2 st-top-bar__title">Affluence faible</h2>
+                    <div class="st-top-bar__content">
+                        <p class="st-frequentation">
+                            14 personnes
+                        </p>
+                        <p class="st-surtitre-cat">
+                            sur une capacité maximum de 250 personnes
+                        </p>
+                        <p class="st-small-text">
+                            La fréquentation est donnée à titre indicatif et dans la configuration où tous les bassins
+                            sont ouverts
+                        </p>
+                    </div>
+                </div>
+
+                <div class="st-top-bar">
+                    <h2 class="st-h2 st-top-bar__title">
                             <#if isSwimmingPool || isIceRink || isMairie>
                                 <@liferay_ui.message key="${occupationState.label}-short" />
                             <#else>
@@ -177,7 +193,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 </#if>
                             </#if>
                     </h2>
-                    <div class="st-content">
+                    <div class="st-top-bar__content">
                         <p class="st-frequentation">
                                     <#if isSwimmingPool || isIceRink || isMairie>
                                         ${occupationState.occupationLabel} personnes
@@ -204,14 +220,23 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         </p>
                     </div>
                 </div>
-                <#else>
-                    <div class="st-image">
-                        <@addImage imageURL=imageUrl showCopyright=true />
-                    </div>
             </#if>
+            <div class="st-image">
+
+            </div>
             <div class="maps" data-lat="${ entry.getMercatorY() }" data-lng="${ entry.getMercatorX() }" data-callback="initMap" data-zoom="17">
 
             </div>
+
+            <div class="st-cover-container">
+                <div class="st-image">
+                    <@addImage imageURL=imageUrl showCopyright=true />
+                </div>
+                <div class="st-maps" data-lat="${ entry.getMercatorY() }" data-lng="${ entry.getMercatorX() }" data-zoom="17" data-callback="callbackMapIntegration">
+
+                </div>
+            </div>
+
         </div>
     </header>
 
@@ -220,7 +245,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <!-- Horaires -->
         <#if entry.periods?has_content || entry.hasURLSchedule>
             <div class="st-sit-onglet st-wrapper st-wrapper-small">
-                <h2 class="st-bloc-title">
+                <h2 class="st-h2 st-bloc-title">
                     <@liferay_ui.message key="eu.times" />
                 </h2>
                 <div class="st-container">
@@ -678,7 +703,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <#assign placeActivityAgenda=activityLocalService.getPlaceAgenda(entry.getSIGid(), locale) />
         <#if placeActivityAgenda.periods?has_content>
             <div class="st-sit-onglet st-wrapper st-wrapper-small">
-                <h2 class="st-bloc-title">
+                <h2 class="st-h2 st-bloc-title">
                     <@liferay_ui.message key="eu.activity.activities" />
                 </h2>
                 <div class="st-container">
@@ -750,7 +775,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
           <!-- Documents Utiles/Medias -->
           <#if entry.documentURLs?has_content || entry.videos?has_content>
           <div class="st-bloc st-bloc-liens st-wrapper st-wrapper-small">
-            <h2 class="st-bloc-title"><@liferay_ui.message key="eu.place.medias" /></h2>
+            <h2 class="st-h2 -bloc-title"><@liferay_ui.message key="eu.place.medias" /></h2>
             <div class="st-component-container">
                 <ul class="st-liste st-limit-height">
                     <#list entry.documentURLs as fileURL>

@@ -45,7 +45,7 @@
                 <#if socialNetwork.getSiblings()?has_content>
                     <#list socialNetwork.getSiblings() as cur_socialNetwork>
                         <li>
-                            <a href="${cur_socialNetwork.getChild('socialNetworkURL').getData()}" class="st-social" target="_blank"
+                            <a href="${cur_socialNetwork.getChild('socialNetworkURL').getData()}" target="_blank" class="st-btn-icon"
                                 title="${cur_socialNetwork.getData()} (<@liferay_ui.message key="eu.new-window" />)">
                             <span class="st-icon-${cur_socialNetwork.getChild('classePicto').getData()}"
                                 aria-hidden="true"></span>

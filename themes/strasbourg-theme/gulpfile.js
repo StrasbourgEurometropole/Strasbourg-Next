@@ -24,7 +24,10 @@ function onError(err) {
 liferayThemeTasks.registerTasks({
 	gulp,
 	sassOptions: {
-		quietDeps: true
+		quietDeps: true,
+		sassOptions: {
+			quietDeps: true,
+		},
 	},
 	hookFn: function(gulp) {
 		gulp.task('sassGlob', function() {

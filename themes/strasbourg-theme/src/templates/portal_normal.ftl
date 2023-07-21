@@ -15,8 +15,8 @@
 	<@liferay_util["include"] page=top_head_include />
 </head>
 
-<body class="${css_class} st-theme">
-
+<body class="${css_class}">
+<div class="st-page-wrapper">
 <@liferay_ui["quick-access"] contentId="#main-content" />
 
 <@liferay_util["include"] page=body_top_include />
@@ -89,7 +89,7 @@ settingsScope="group" />
 <@liferay_util["include"] page=bottom_include />
 
 
-
+</div>
 </body>
 
 </html>

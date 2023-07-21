@@ -70,7 +70,7 @@ var th_maps = {
 
     api_key: 'AIzaSyDDqH0YjBZ3qa3QtSgh6MS4Nsb9YGqr2zQ',
 
-    maps_class: '.maps',
+    maps_class: '.st-maps',
 
     themes: {},
     markersIcons: {},

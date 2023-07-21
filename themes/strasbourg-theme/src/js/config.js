@@ -13,7 +13,7 @@ var thConfig = {
 
     map: {
         init: {
-            maps_class: '.maps:not(.no-autoload):not(.initialized)',
+            maps_class: '.st-maps:not(.no-autoload):not(.initialized)',
             tileLayerUrl: "https://wxs.ign.fr/{accessToken}/geoportail/wmts?" +
                 "&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0" +
                 "&STYLE=normal" +

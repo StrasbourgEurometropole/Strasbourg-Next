@@ -1,16 +1,9 @@
-// PAGE SINGLE SIT
-function callbackMapSingleSIT(macarte) {
-    macarte.zoomControl.setPosition('topright');
-    macarte.setZoom(14);
-    if (isTouchDevice()) {
-        macarte.dragging.disable();
-    }
-}
 
 // PAGE LISTING SIT
-function callbackMapBlockSlider(macarte) {
+function callbackMapIntegration(macarte) {
     macarte.zoomControl.setPosition('topright');
 
+    /*
     var markers = [];
     $('.js-results .card', $(macarte._container).parents('.bloc')).each(function () {
         const latlng = {lat: this.getAttribute('data-lat') * 1, lng: this.getAttribute('data-lng') * 1};
@@ -53,6 +46,7 @@ function callbackMapBlockSlider(macarte) {
 
     if (!el.getAttribute('data-kml')) {
         const group = new L.featureGroup(markers);
+        console.log('group', group);
         macarte.fitBounds(group.getBounds());
     }
 
@@ -60,5 +54,6 @@ function callbackMapBlockSlider(macarte) {
     if (isTouchDevice()) {
         macarte.dragging.disable();
     }
+    */
 
 }
