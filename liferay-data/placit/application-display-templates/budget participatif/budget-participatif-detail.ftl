@@ -299,15 +299,17 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
      <!-- Fiche de l'entité -->
      <aside class="side-budget">
     
-        <!-- Bloc : Coup de coeur -->
-        <#if entry.isCrush >
-            <div class="pro-coup-de-coeur">
-                <p>Coup de cœur</p>
-            </div>
-        </#if>
+
     
         <!-- Bloc : map -->
         <div class="bloc-iframe leaflet-map" id="mapid" ></div>
+
+         <!-- Bloc : Coup de coeur -->
+         <#if entry.isCrush >
+             <div class="pro-coup-de-coeur">
+                 <p>Coup de cœur</p>
+             </div>
+         </#if>
     
         <!-- Bloc : actions -->
         <div class="pro-wrapper-aside-budget">

@@ -28,7 +28,7 @@
 	box-shadow: 2px 1px 12px 0px rgba(0, 0, 0, 0.2);
 	@include addTransition();
 	&.btn-map-active {
-		background: $c_main;
+		@include addDynamicBackground();
 		span {
 			color: $c_white;
 		}
@@ -91,7 +91,7 @@
 
 		.pro-affiner {
 			@include ft($f_hx, 0.938em, 400, $c_main, 1.5em);
-
+			@include addDynamicTextColor();
 			display: block;
 			padding: 30px;
 			position: relative;
@@ -225,7 +225,7 @@
 						height: 4px;
 						width: 100%;
 						z-index: -1;
-						background: $c_main;
+						@include addDynamicBackground();
 						@include addTransitionCurve();
 					}
 					&:hover {
@@ -403,7 +403,7 @@
 					transform: translateX(19px);
 				}
 				input:checked + .pro-switch {
-					background: $c_main;
+					@include addDynamicBackground();
 					border-color: #e5e5e5;
 				}
 

@@ -1,3 +1,114 @@
+.pro-jalon {
+	position: relative;
+	overflow: visible;
+	&.pro-first {
+		background: #20272F;
+		color: black;
+		border-radius: 50%;
+		div {
+			.pro-date {
+				box-shadow: none !important;
+			}
+		}
+		&:before {
+			content: '';
+			height: 40px;
+			width: 2px;
+			border: solid 2px #20272F;
+			position: absolute;
+			left: 50%;
+			bottom: -40px;
+			z-index: 10;
+
+		}
+	}
+	&.pro-past:not(:last-child) {
+		border-radius: 50%;
+		&:before {
+			content: '';
+			height: 40px;
+			width: 2px;
+			border: dashed 1px #20272F;
+			position: absolute;
+			left: 50%;
+			bottom: -40px;
+			z-index: 10;
+		}
+	}
+	div {
+		margin-top: 40px;
+		cursor: pointer;
+		position: relative;
+
+		.pro-date {
+
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			align-content: center;
+			justify-content: center;
+			height: 100%;
+			width: 100px;
+			height: 100px;
+			font-size: 1.2em;
+			border-radius: 50%;
+			z-index: 5;
+			box-shadow: 0 0 0 5px rgba($c_ville, 0.3), 0 0 0 10px rgba($c_ville, 0.2), 0 0 0 15px rgba($c_ville, 0.1);
+
+			.couleur-ville & {
+				box-shadow: 0 0 0 5px rgba($c_ville, 0.3), 0 0 0 10px rgba($c_ville, 0.2), 0 0 0 15px rgba($c_ville, 0.1);
+			}
+			.couleur-eurometropole & {
+				box-shadow: 0 0 0 5px rgba($c_eurometropole, 0.3), 0 0 0 10px rgba($c_eurometropole, 0.2), 0 0 0 15px rgba($c_eurometropole, 0.1);
+			}
+			.couleur-commune & {
+				box-shadow: 0 0 0 5px rgba($c_commune, 0.3), 0 0 0 10px rgba($c_commune, 0.2), 0 0 0 15px rgba($c_commune, 0.1);
+			}
+			background: white;
+			.pro-day-more {
+				font-weight: 700;
+			}
+
+		}
+
+		.pro-titre {
+			display: none;
+			position: absolute;
+			left: -10px;
+			width: 350px;
+			height: 120px;
+			top: -50px;
+			@include addDynamicBackground();
+			flex-direction: column;
+			align-items: flex-start;
+			align-content: center;
+			justify-content: center;
+			padding-left: 120px;
+			border-radius: 60px;
+			z-index: 4;
+			span, h4 {
+				color: $c_white;
+			}
+		}
+
+		.pro-date:hover + .pro-titre {
+			display: flex; // Show the element when hovering .pro-date
+		}
+		.pro-date:hover {
+			background-color: #20272f;
+			box-shadow: none;
+			span{
+				color: $c_white;
+			}
+
+		}
+
+
+	}
+}
+
+
+
 .pro-page-detail.pro-page-detail-projet {
 
 	header.pro-project-header {
@@ -25,11 +136,11 @@
 			h1, p, span {
 				color: white;
 			}
-			.pro-soustitre.prefix-location {
-				&:before {
-					filter: brightness(0) invert(1);
-					top: 4px;
-				}
+			.pro-bloc-meta {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				gap: 10px;
 			}
 			.pro-surtitre {
 				text-transform: uppercase;
@@ -84,107 +195,6 @@
 			@include tablet_portrait {
 				display: none;
 			}
-
-			.pro-jalon {
-				position: relative;
-				overflow: visible;
-				&.pro-first {
-					background: #20272F;
-					color: white;
-					border-radius: 50%;
-					div {
-						.pro-date {
-							box-shadow: none !important;
-						}
-					}
-					&:before {
-						content: '';
-						height: 40px;
-						width: 2px;
-						border: solid 2px #20272F;
-						position: absolute;
-						left: 50%;
-						bottom: -40px;
-						z-index: 10;
-
-					}
-				}
-				&.pro-past:not(:last-child) {
-					border-radius: 50%;
-					&:before {
-						content: '';
-						height: 40px;
-						width: 2px;
-						border: dashed 1px #20272F;
-						position: absolute;
-						left: 50%;
-						bottom: -40px;
-						z-index: 10;
-					}
-				}
-				div {
-					margin-top: 40px;
-					cursor: pointer;
-					position: relative;
-
-					.pro-date {
-
-						display: flex;
-						flex-direction: column;
-						align-items: center;
-						align-content: center;
-						justify-content: center;
-						height: 100%;
-						width: 100px;
-						height: 100px;
-						font-size: 1.2em;
-						border-radius: 50%;
-						z-index: 5;
-						box-shadow: 0 0 0 5px rgba(#FCE1D0, 0.8), 0 0 0 10px rgba(#FCE1D0, 0.6), 0 0 0 15px rgba(#FCE1D0, 0.4);
-						background: white;
-					.pro-day-more {
-						font-weight: 700;
-					}
-
-					}
-
-					.pro-titre {
-						display: none;
-						position: absolute;
-						left: -10px;
-						width: 350px;
-						height: 120px;
-						top: -50px;
-						background-color: #f37021;
-						flex-direction: column;
-						align-items: flex-start;
-						align-content: center;
-						justify-content: center;
-						padding-left: 120px;
-						border-radius: 60px;
-						z-index: 4;
-						span, h4 {
-							color: $c_white;
-						}
-					}
-
-					.pro-date:hover + .pro-titre {
-						display: flex; // Show the element when hovering .pro-date
-					}
-					.pro-date:hover {
-						background-color: #20272f;
-						box-shadow: none;
-						span{
-							color: $c_white;
-						}
-
-					}
-
-
-				}
-			}
-
-
 		}
 
 
@@ -332,7 +342,7 @@
 						@include addTransition();
 
 						&:hover {
-							border-color: $c_main;
+							@include addDynamicBorderColor();
 						}
 					}
 
@@ -343,7 +353,7 @@
 						@include addTransition();
 
 						&:hover {
-							border-color: $c_main;
+							@include addDynamicBorderColor();
 						}
 					}
 				}
@@ -574,7 +584,7 @@
 							right: 0;
 							width: 100%;
 							height: 18px;
-							background: $c_main;
+							@include addDynamicBackground();
 							z-index: -1;
 						}
 					}
@@ -597,36 +607,37 @@
 		}
 	}
 }
+	.col-md-4-to-move {
+		@include tablet_portrait {
+			position: static;
+			margin-top: 0;
+			height:auto;
+		}
+		@include addTransitionCurve();
+		position: sticky;
+		top: 160px;
+		margin-top: -500px;
+		height: 100vh;
+		.is-scrolled & {
+			top: 80px;
+		}
+
+		.is-scrolled.scrolldir-top & {
+			top: 152px;
+		}
+	}
 	aside {
 		&.col-md-4 {
 			@include tablet_portrait {
 				padding: 0;
 			}
 		}
-		&.col-md-4-to-move {
-			@include tablet_portrait {
-				position: static;
-				margin-top: 0;
-				height:auto;
-			}
-			@include addTransitionCurve();
-			position: sticky;
-			top: 160px;
-			margin-top: -500px;
-			height: 100vh;
-			.is-scrolled & {
-				top: 80px;
-			}
 
-			.is-scrolled.scrolldir-top & {
-				top: 152px;
-			}
-		}
 		.pro-btn-yellow {
 			background: none;
-			color: $c_main;
+			@include addDynamicTextColor();
 			&:hover, &:focus, &.active {
-				background: $c_main;
+				@include addDynamicBackground();
 				color: $c_txt;
 			}
 			&.pro-btn-disabled{

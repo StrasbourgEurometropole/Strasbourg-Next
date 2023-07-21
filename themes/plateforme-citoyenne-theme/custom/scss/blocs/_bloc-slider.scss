@@ -152,7 +152,7 @@
 				}
 				&:hover, &:focus {
 					span{
-						color: $c_main;
+						@include addDynamicTextColor();
 					}
 				}
 				&.disabled {

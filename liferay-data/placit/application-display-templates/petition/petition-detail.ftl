@@ -59,7 +59,6 @@
 } />
 <#-- partage de la configuration open graph dans la request -->
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
-
 <div id="content" class="pro-page-detail pro-page-detail-initiative">
 
     <div class="container">
@@ -68,7 +67,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
             <article>
                 <div class="row pro-container-detail-event">
-                    <div class="col-sm-8 pr-5">
+                    <div class="col-lg-8 pr-lg-5">
                     <header>
                     <div class="pro-header-participation pro-theme-information">
                         <h1>${entry.title}</h1>
@@ -185,7 +184,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     </div>
 
                     <#-- Blocs lateraux -->
-                    <aside class="col-sm-4 side-petition">
+                    <aside class="col-lg-4 side-petition">
 
                         
 
@@ -293,7 +292,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
     <#-- Liste des suggéstions -->
     <#if suggestions?size gt 0 >
-        <section id="pro-link-petition" class="pro-bloc-slider pro-slider-event">
+        <section id="pro-link-petition" class="pro-bloc-slider pro-slider-event" style="background-color: white;">
             <div class="container">
                 <div>
                     <h2>D’autres pétitions</h2>
@@ -301,9 +300,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <#if isUserloggedIn && hasUserPactSign && !isUserBanned>
                             <a id="buttonDeposer" href="#deposerPetition" class="pro-btn-yellow" data-toggle="modal" data-target="#modalPetition">Déposer une pétition</a>
                         <#elseif !hasUserPactSign>
-                            <a class="pro-btn-black" name="#Pact-sign">Déposer une pétition</a>
+                            <a class="pro-btn-yellow" name="#Pact-sign" href="#">Déposer une pétition</a>
                         <#elseif isUserBanned>
-                            <a class="pro-btn-black" name="#IsBanned">Déposer une pétition</a>
+                            <a class="pro-btn-yellow" name="#IsBanned" href="#">Déposer une pétition</a>
                         </#if>
                         <a href="${homeURL}petitions" class="pro-btn">Toutes les pétitions</a>
                     </div>

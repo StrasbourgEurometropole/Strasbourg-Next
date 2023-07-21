@@ -20,8 +20,8 @@
             
             <div>
                 <h2>Participer <span  class='pro-listing-ems'>Eurometropole</span> <span class='pro-listing-count'>(${entries?size})</span></h2>
-                <a href="${themeDisplay.getPortalURL()}${homeURL}participations-eurometropole" class="pro-btn" title="Lien vers la page Toutes les participations">Tout voir</a>
             </div>
+            <a href="${themeDisplay.getPortalURL()}${homeURL}participations-eurometropole" class="pro-btn" title="Lien vers la page Toutes les participations">Tout voir</a>
 
             <div>
                 <div class="owl-carousel owl-opacify owl-theme owl-cards">

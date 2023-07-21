@@ -29,7 +29,6 @@
 	span {
 		white-space: nowrap;
 		overflow: hidden;
-		width: 100%;
 		text-overflow: ellipsis;
 		@include ft($f_txt, $s_p, 700, $c_txt, 1.5em);
 	}
@@ -100,13 +99,13 @@ figcaption {
 		height: 30px;
 		display: block;
 		text-align: center;
-		background: $c_main;
+		@include addDynamicBackground();
 		@include addTransition();
 		&:hover, &:focus {
 			background: $c_dark;
 			cursor: pointer;
 			> * {
-				color: $c_main;
+				@include addDynamicTextColor();
 			}
 		}
 		> * {
@@ -218,7 +217,7 @@ figcaption {
 			right: 0;
 			height: 1px;
 			width: 100%;
-			background: $c_main;
+			@include addDynamicBackground();
 			z-index: -1;
 			@include addTransition();
 		}
@@ -490,18 +489,6 @@ a.pro-btn-tel {
 
 		position: relative;
 		float: left;
-		padding: 0 13px;
-		&:after {
-			content: '';
-			height: 20px;
-			width: 1px;
-			background: #4c4c4c;
-			position: absolute;
-			right: 0;
-			top: 50%;
-			transform: translateY(-50%);
-			transform: translate3d(0, -50%, 0);
-		}
 		&:last-child {
 			&:after {
 				content: none;
@@ -554,7 +541,7 @@ a.pro-btn-tel {
 						right: 0;
 						width: 100%;
 						height: 5px;
-						background: $c_main;
+						@include addDynamicBackground();
 					}
 				}
 			}
@@ -597,8 +584,8 @@ main {
 					width: 60%;
 				}
 				&:focus {
-					background: $c_main;
-					border-color: $c_main;
+					@include addDynamicBackground();
+					@include addDynamicBorderColor();
 					color: $c_txt;
 					> span {
 						color: $c_txt;
@@ -656,10 +643,6 @@ main {
 				display: block;
 				overflow: hidden;
 				@include tablet_landscape {
-					max-width: 90%;
-					margin-left: 10%;
-				}
-				@include mobile {
 					max-width: 100%;
 					margin-left: 0;
 				}
@@ -718,6 +701,7 @@ main {
 
 .pro-line {
 	border-bottom: 10px solid $c_main;
+	@include addDynamicBorderColor();
 	text-align: right;
 	span {
 		@include ft($f_hx, 1em, 400, $c_txt, 1.2em);
@@ -740,15 +724,22 @@ main {
 	top: 0;
 	left: 0;
 	right: 0;
-	background: $c_dark;
+	@include addDynamicBackground();
+	@include tablet_portrait {
+		padding-top: 25px;
+	}
 	p {
-		@include ft($f_txt, 1.1em, 400, $c_white, 1.3em);
+		@include ft($f_txt, 1.1em, 400, $c_txt, 1.3em);
 		padding: 10px 0;
 
 
 		margin-bottom: 0;
 		text-align: center;
-		@include tablet_portrait {
+		@include tablet_landscape {
+			font-size: 0.85em;
+			padding: 30px 0 6px;
+		}
+		@include mobile {
 			font-size: 0.85em;
 			padding: 6px 0;
 		}
@@ -762,7 +753,7 @@ main {
 	right: 30px;
 	width: 120px;
 	height: 170px;
-	background: $c_main;
+	@include addDynamicBackground();
 
 	&:after {
 		content: '';

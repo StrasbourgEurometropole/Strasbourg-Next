@@ -100,7 +100,7 @@ main {
 				@include addTransition();
 				&:hover {
 					cursor: pointer;
-					color: $c_main;
+					@include addDynamicTextColor();
 				}
 				@include mobile {
 					font-size: 20px;
@@ -156,7 +156,7 @@ main {
 					@include mobile {
 						color: $c_white;
 						&:hover, &:focus {
-							color: $c_main;
+							@include addDynamicTextColor();
 						}
 					}
 				}
@@ -227,7 +227,7 @@ main {
 				padding: 0;
 				outline: none;
 				font-size: 1.5em;
-				background: $c_main;
+				@include addDynamicBackground();
 				@include addTransition();
 				@include mobile {
 					font-size: 1.5em;
@@ -239,7 +239,7 @@ main {
 					background: $c_dark;
 					cursor: pointer;
 					span {
-						color: $c_main;
+						@include addDynamicTextColor();
 					}
 				}
 			}
@@ -352,8 +352,8 @@ main {
 					}
 					@include tablet_portrait {
 						position: absolute;
-						right: 20px;
-						top: 0;
+						right: 2px;
+						top: 12px;
 						bottom: 0;
 					}
 				}
@@ -405,7 +405,7 @@ main {
 									bottom: 7px;
 								}
 								@include tablet_portrait {
-									color: $c_main;
+									@include addDynamicTextColor();
 								}
 							}
 						}
@@ -422,6 +422,9 @@ main {
 		@media (min-width: 993px){
 			position: relative;
 		}
+		@media (max-width: 1600px) {
+			max-width: none !important;
+		}
 		text-align: center;
 		// Logo du site (image)
 		.pro-logo {
@@ -432,11 +435,12 @@ main {
 			font-size: 24px;
 
 			font-weight: 300;
-			color: $c_main;
+			@include addDynamicTextColor();
 			float: left;
 			transform: translateY(15px);
 			transform: translate3d(0, 15px, 0);
 			@include addTransitionCurve();
+
 
 			@include mobile {
 				height: calc(#{$header-height} - 40px);
@@ -468,6 +472,9 @@ main {
 				transform: translate3d(0, -50%, 0);
 				img {
 					@include addTransitionCurve();
+					@media screen and (max-width: 1140px) {
+						width: 65%;
+					}
 					@include mobile {
 						height: 70px !important;
 						width: 100%;
@@ -650,7 +657,7 @@ main {
 									content: none;
 								}
 								&:hover, &:focus {
-									color: $c_main;
+									color: $c_commune;
 								}
 							}
 						}
@@ -668,7 +675,7 @@ main {
 								height: 0;
 								width: 100%;
 								transform-origin: bottom;
-								background: $c_main;
+								background-color: $c_white;
 								clip-path: polygon(calc(100% - 5px) 0, 0% 100%, 100% 100%);
 								z-index: -1;
 								@include addTransitionCurve();
@@ -694,7 +701,7 @@ main {
 									height: 15px;
 								}
 								@include tablet_portrait {
-									color: $c_main;
+									@include addDynamicTextColor();
 								}
 							}
 						}
@@ -781,7 +788,7 @@ main {
 					vertical-align: middle;
 					@include tablet_portrait {
 						&.search-menu-icon {
-							background-color: #f37021;
+							@include addDynamicBackground();
 						}
 
 						&.th-menu {
@@ -867,7 +874,7 @@ main {
 						text-transform: none;
 					}
 					&:hover, &:focus {
-						color: $c_main;
+						@include addDynamicTextColor();
 					}
 				}
 			}
@@ -887,7 +894,7 @@ main {
 			&:hover, &:focus {
 				.currentLang {
 					a, span {
-						color: $c_main;
+						@include addDynamicTextColor();
 					}
 				}
 				.sub-menu {

@@ -25,7 +25,7 @@
 									<textarea id="message" name="<portlet:namespace />message"
 											<c:choose>
 												<c:when test="${!isUserloggedIn}">
-													placeholder="<liferay-ui:message key='comment-please-connect'/>"
+													placeholder="<liferay-ui:message key='comment-please-connect' />"
 												</c:when>
 												<c:when test="${!hasUserSigned}">
 													placeholder="<liferay-ui:message key='comment-please-sign'/>"
@@ -39,6 +39,7 @@
 									<input type="text" id="inQualityOf" maxlength="150"
 										   name="<portlet:namespace />inQualityOf"
 										   placeholder="<liferay-ui:message key='comment-write-your-quality-here'/>"
+										   title="<liferay-ui:message key='comment-write-your-quality-here'/>"
 									/>
 								</div>
 								<input type="hidden" id="parentCommentId" name="<portlet:namespace />parentCommentId"/>

@@ -98,6 +98,7 @@
 
 				h4 {
 					@include ft($f_hx, 0.938em, 400, $c_main, 1.5em);
+					@include addDynamicTextColor();
 					text-transform: uppercase;
 					margin-bottom: 0;
 				}

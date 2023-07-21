@@ -10,6 +10,10 @@
 <#-- Récupération de l'ID de l'utilisateur -->
 <#assign userID = request.session.getAttribute("publik_internal_id")!"" />
 
+<#-- Recuperation du créateur du projet -->
+<#assign UserLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.UserLocalService")/>
+<#assign user = UserLocalService.getUser(entry.getStatusByUserId()) />
+
 <#-- L'utilisateur participe-t-il ? -->
 <#assign isUserFollowsActive = entry.isUserFollows(userID)?then("active", "") >
 
@@ -58,6 +62,15 @@
 <#-- partage de la configuration open graph dans la request -->
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
+<#assign cssClass>
+    <#switch user.getScreenName()>
+        <#case "placit_strasbourg">couleur-ville<#break>
+        <#case "placit_ems">couleur-eurometropole<#break>
+        <#case "placit_strasbourg_ems">couleur-commune<#break>
+        <#default>couleur-ville<#break>
+    </#switch>
+</#assign>
+
 
 <div id="breadcrumb">
     <span>
@@ -88,7 +101,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
  </div>
 
 <!-- Fiche de l'entité -->
-<aside class="col-md-4-to-move">
+<div class="col-md-4-to-move ${cssClass}">
+    <div>
+
 
     <!-- Bloc : map -->
     <div class="bloc-iframe leaflet-map" id="mapid" ></div>
@@ -130,7 +145,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <a href="tel:${entry.contactPhoneNumber}" title="Numéro de téléphone : ${entry.contactPhoneNumber}">${entry.contactPhoneNumber}</a>
     </div>
 
-</aside>
+    </div>
+</div>
  
 <style>
     .pro-page-detail.pro-page-detail-projet section>.pro-wrapper{
@@ -178,9 +194,14 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         // Déplacement du bloc de la fiche entité
         $(".col-md-4-to-move").appendTo(".pro-page-detail-projet .col-lg-12 aside.col-md-4");
         if ($('.suggested-projects-to-move').length) {
+            $('.pro-bloc-image-slider.pro-bloc-texte').parents('.portlet-boundary').appendTo('.suggested-projects-to-move');
+            $('.pro-bloc-texte.pro-bloc-telechargements').parents('.portlet-boundary').appendTo('.suggested-projects-to-move');
             $('#pro-link-participation.pro-bloc-slider.pro-slider-participation').parents('.portlet-boundary').appendTo('.suggested-projects-to-move');
         }
         $(".portlet-content>.portlet-title-text").hide();
+
+
+
 
         // Vérification de l'existance de la timeline verticale
         // et cache du cercle blanc dans le header si inexistant

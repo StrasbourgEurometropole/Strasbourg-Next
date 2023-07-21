@@ -94,6 +94,12 @@
 	@content;
 }
 
+@mixin medium_wide {
+	@media screen and (max-width: #{$breakpoint_wd}) {
+		@content;
+	}
+}
+
 @mixin tablet_landscape {
 	@media screen and (max-width: #{$breakpoint_paysage}) {
 		@content;
@@ -111,6 +117,13 @@
 		@content;
 	}
 }
+
+@mixin mobile_medium {
+	@media screen and (max-width: #{$breakpoint_mo_medium}) {
+		@content;
+	}
+}
+
 
 @mixin mobile_small {
 	@media screen and (max-width: #{$breakpoint_mo_small}) {
@@ -243,7 +256,7 @@
 					background: transparent;
 					color: $c_white;
 					&:hover, &:focus {
-						color: $c_main;
+						@include addDynamicTextColor();
 					}
 				}
 			}
@@ -304,7 +317,7 @@
 			gap: 5px;
 			h3 {
 				font-size: 1.6em;
-				height: 75px;
+				height: 85px;
 			}
 			.pro-meta {
 				display: flex;
@@ -320,7 +333,7 @@
 				}
 			}
 			.prefix-location {
-				margin: 5px 20px;
+				margin: 5px 0;
 				font-size: 0.9em;
 				font-weight: 700;
 				&:before {
@@ -372,7 +385,7 @@
 		font-size: 0.9em;
 	}
 	.prefix-location {
-		margin-left: 20px;
+		margin-left: 5px;
 		font-weight: 700;
 		&:before {
 			top: 0;
@@ -399,7 +412,7 @@
 			height: 90px;
 		}
 		span.prefix-location {
-			margin-left: 20px;
+			margin-left: 5px;
 			&:before {
 				top: 4px;
 			}
@@ -424,3 +437,44 @@
 		}
 	}
 }
+
+@mixin addDynamicBackground() {
+	.couleur-ville & {
+		background-color: $c_ville;
+	}
+	.couleur-eurometropole & {
+		background-color: $c_eurometropole;
+	}
+	.couleur-commune & {
+		background-color: $c_commune;
+	}
+	background-color: $c_ville;
+}
+
+@mixin addDynamicTextColor() {
+	.couleur-ville & {
+		color: $c_ville;
+	}
+	.couleur-eurometropole & {
+		color: $c_eurometropole;
+	}
+	.couleur-commune & {
+		color: $c_commune;
+	}
+	color: $c_ville;
+}
+
+@mixin addDynamicBorderColor() {
+	.couleur-ville & {
+		border-color: $c_ville;
+	}
+	.couleur-eurometropole & {
+		border-color: $c_eurometropole;
+	}
+	.couleur-commune & {
+		border-color: $c_commune;
+	}
+	border-color: $c_ville;
+}
+
+

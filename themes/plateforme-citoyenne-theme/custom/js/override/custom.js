@@ -1233,7 +1233,7 @@ function createInitiative(initiative) {
         <div class="pro-content-header">
           <div class="pro-info-top">
             <div class="flex-grow-1"></div>
-            ${initiative.statusLabel != "" ? `<span className="pro-encart-theme">${initiative.statusLabel}</span>` : ""}
+            ${initiative.statusLabel != "" ? `<span class="pro-encart-theme">${initiative.statusLabel}</span>` : ""}
           </div>
           <div class="pro-content-budget">
             <span class="pro-district prefix-location">${initiative.districtsLabel}</span>

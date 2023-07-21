@@ -238,7 +238,7 @@
                 @extend %appearance;
                 padding: 14px 20px;
                 text-align: center;
-                background: $c_main;
+                @include addDynamicBackground();
                 border-radius: 4px;
 
                 width: 300px;
@@ -251,7 +251,7 @@
                 }
                 &:hover, &:focus {
                     background: $c_dark;
-                    color: $c_main;
+                    @include addDynamicTextColor();
                 }
             }
         }
@@ -351,7 +351,7 @@
     }
 
     .btn:hover ~ .deleteImage, .btn:focus ~ .deleteImage, .btn:hover ~ .deleteFile, .btn:focus ~ .deleteFile{
-        color: $c_main;
+        @include addDynamicTextColor();
     }
 } 
 // Fin style pour la sélection d'images et de documents
