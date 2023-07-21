@@ -352,9 +352,27 @@ public class SaisineObservatoireWrapper
 		return _saisineObservatoire.getAssetEntry();
 	}
 
+	/**
+	 * Retourne l'URL de l'image de l'utilisateur
+	 */
+	@Override
+	public String getAuthorImageURL() {
+		return _saisineObservatoire.getAuthorImageURL();
+	}
+
 	@Override
 	public String getAuthorLabel() {
 		return _saisineObservatoire.getAuthorLabel();
+	}
+
+	/**
+	 * Retourne l'auteur en publik user
+	 *
+	 * @return
+	 */
+	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser getAuthorPublikUser() {
+		return _saisineObservatoire.getAuthorPublikUser();
 	}
 
 	/**
@@ -365,6 +383,18 @@ public class SaisineObservatoireWrapper
 		getCategories() {
 
 		return _saisineObservatoire.getCategories();
+	}
+
+	/**
+	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux communes de la pétition
+	 *
+	 * @return : null si vide, sinon la liste des catégories
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getCityCategories() {
+
+		return _saisineObservatoire.getCityCategories();
 	}
 
 	/**
@@ -405,6 +435,28 @@ public class SaisineObservatoireWrapper
 	@Override
 	public String getDescription() {
 		return _saisineObservatoire.getDescription();
+	}
+
+	/**
+	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la petition
+	 *
+	 * @return : null si vide, sinon la liste des catégories
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getDistrictCategories() {
+
+		return _saisineObservatoire.getDistrictCategories();
+	}
+
+	/**
+	 * Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
+	 *
+	 * @return : Chaine des quartiers ou description "Aucun" ou "Tous"
+	 */
+	@Override
+	public String getDistrictLabel(java.util.Locale locale) {
+		return _saisineObservatoire.getDistrictLabel(locale);
 	}
 
 	@Override
@@ -473,6 +525,14 @@ public class SaisineObservatoireWrapper
 	}
 
 	/**
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	@Override
+	public String getImageURL() {
+		return _saisineObservatoire.getImageURL();
+	}
+
+	/**
 	 * Returns the in the name of of this saisine observatoire.
 	 *
 	 * @return the in the name of of this saisine observatoire
@@ -520,6 +580,22 @@ public class SaisineObservatoireWrapper
 	@Override
 	public Date getModifiedDate() {
 		return _saisineObservatoire.getModifiedDate();
+	}
+
+	/**
+	 * Retourne le nombre de commentaires de l'entité
+	 */
+	@Override
+	public int getNbApprovedComments() {
+		return _saisineObservatoire.getNbApprovedComments();
+	}
+
+	/**
+	 * Retourne le label de 5 digits du nombre de commentaires de l'entité
+	 */
+	@Override
+	public String getNbApprovedCommentsLabel() {
+		return _saisineObservatoire.getNbApprovedCommentsLabel();
 	}
 
 	/**
@@ -638,6 +714,14 @@ public class SaisineObservatoireWrapper
 	}
 
 	/**
+	 * Retourne le projet de la petition (
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
+		return _saisineObservatoire.getProjectCategory();
+	}
+
+	/**
 	 * Returns the project target of this saisine observatoire.
 	 *
 	 * @return the project target of this saisine observatoire
@@ -645,6 +729,11 @@ public class SaisineObservatoireWrapper
 	@Override
 	public String getProjectTarget() {
 		return _saisineObservatoire.getProjectTarget();
+	}
+
+	@Override
+	public String getProjectTitle(java.util.Locale locale) {
+		return _saisineObservatoire.getProjectTitle(locale);
 	}
 
 	/**
@@ -745,6 +834,26 @@ public class SaisineObservatoireWrapper
 	@Override
 	public String getSupportedBy() {
 		return _saisineObservatoire.getSupportedBy();
+	}
+
+	/**
+	 * Retourne les catégories 'Territoire' correspondant aux pays de la petition
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getTerritoryCategories() {
+
+		return _saisineObservatoire.getTerritoryCategories();
+	}
+
+	/**
+	 * Retourne les thematiques de la petition (
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getThematicCategories() {
+
+		return _saisineObservatoire.getThematicCategories();
 	}
 
 	/**
@@ -1379,6 +1488,16 @@ public class SaisineObservatoireWrapper
 
 		return new SaisineObservatoireWrapper(
 			_saisineObservatoire.toEscapedModel());
+	}
+
+	/**
+	 * Retourne la version JSON de l'entité
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON(
+		String publikUserId) {
+
+		return _saisineObservatoire.toJSON(publikUserId);
 	}
 
 	@Override

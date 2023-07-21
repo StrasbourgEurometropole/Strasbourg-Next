@@ -202,6 +202,14 @@ public interface SaisineObservatoireLocalService
 	public SaisineObservatoire fetchSaisineObservatoire(
 		long saisineObservatoireId);
 
+	public List<SaisineObservatoire> findByKeyword(
+		String keyword, long groupId, int start, int end);
+
+	/**
+	 * Recherche par mot clés (compte)
+	 */
+	public long findByKeywordCount(String keyword, long groupId);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
@@ -263,6 +271,9 @@ public interface SaisineObservatoireLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getSaisineObservatoiresCount();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<SaisineObservatoire> getTheMostCommented(long groupId);
 
 	/**
 	 * Supprime une saisine

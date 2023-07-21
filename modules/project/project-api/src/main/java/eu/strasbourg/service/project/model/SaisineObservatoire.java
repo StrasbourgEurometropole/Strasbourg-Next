@@ -86,4 +86,79 @@ public interface SaisineObservatoire
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace>
 		getPlacitPlaces();
 
+	/**
+	 * Retourne le label de 5 digits du nombre de commentaires de l'entité
+	 */
+	public String getNbApprovedCommentsLabel();
+
+	/**
+	 * Retourne le nombre de commentaires de l'entité
+	 */
+	public int getNbApprovedComments();
+
+	/**
+	 * Retourne les thematiques de la petition (
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getThematicCategories();
+
+	/**
+	 * Retourne le projet de la petition (
+	 */
+	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory();
+
+	/**
+	 * Retourne la version JSON de l'entité
+	 */
+	public com.liferay.portal.kernel.json.JSONObject toJSON(
+		String publikUserId);
+
+	public String getProjectTitle(java.util.Locale locale);
+
+	/**
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	public String getImageURL();
+
+	/**
+	 * Retourne l'URL de l'image de l'utilisateur
+	 */
+	public String getAuthorImageURL();
+
+	/**
+	 * Retourne l'auteur en publik user
+	 *
+	 * @return
+	 */
+	public eu.strasbourg.service.oidc.model.PublikUser getAuthorPublikUser();
+
+	/**
+	 * Retourne une chaine des 'Territoires' correspondant aux quartiers de la petition
+	 *
+	 * @return : Chaine des quartiers ou description "Aucun" ou "Tous"
+	 */
+	public String getDistrictLabel(java.util.Locale locale);
+
+	/**
+	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers de la petition
+	 *
+	 * @return : null si vide, sinon la liste des catégories
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getDistrictCategories();
+
+	/**
+	 * Retourne les sous-sous-catégories 'Territoire' correspondant aux communes de la pétition
+	 *
+	 * @return : null si vide, sinon la liste des catégories
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getCityCategories();
+
+	/**
+	 * Retourne les catégories 'Territoire' correspondant aux pays de la petition
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getTerritoryCategories();
+
 }

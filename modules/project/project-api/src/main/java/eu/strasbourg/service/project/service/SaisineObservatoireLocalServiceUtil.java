@@ -217,6 +217,20 @@ public class SaisineObservatoireLocalServiceUtil {
 		return getService().fetchSaisineObservatoire(saisineObservatoireId);
 	}
 
+	public static java.util.List
+		<eu.strasbourg.service.project.model.SaisineObservatoire> findByKeyword(
+			String keyword, long groupId, int start, int end) {
+
+		return getService().findByKeyword(keyword, groupId, start, end);
+	}
+
+	/**
+	 * Recherche par mot clés (compte)
+	 */
+	public static long findByKeywordCount(String keyword, long groupId) {
+		return getService().findByKeywordCount(keyword, groupId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 
@@ -298,6 +312,13 @@ public class SaisineObservatoireLocalServiceUtil {
 	 */
 	public static int getSaisineObservatoiresCount() {
 		return getService().getSaisineObservatoiresCount();
+	}
+
+	public static java.util.List
+		<eu.strasbourg.service.project.model.SaisineObservatoire>
+			getTheMostCommented(long groupId) {
+
+		return getService().getTheMostCommented(groupId);
 	}
 
 	/**

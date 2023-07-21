@@ -18,6 +18,9 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -36,22 +39,19 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.comment.exception.NoSuchCommentException;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
-import eu.strasbourg.service.like.model.Like;
-import eu.strasbourg.service.like.model.LikeType;
-import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.SaisineObservatoire;
-import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.service.base.SaisineObservatoireLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.FriendlyURLs;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static eu.strasbourg.service.project.constants.ParticiperCategories.*;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.SOON_ARRIVED;
 
 /**
  * The implementation of the saisine observatoire local service.
@@ -230,7 +230,7 @@ public class SaisineObservatoireLocalServiceImpl
             }
 
             // Delete the AssetEntry
-            AssetEntryLocalServiceUtil.deleteEntry(Petition.class.getName(),
+            AssetEntryLocalServiceUtil.deleteEntry(SaisineObservatoire.class.getName(),
                     saisineObservatoireId);
 
             // Supprime les lieux
@@ -283,11 +283,58 @@ public class SaisineObservatoireLocalServiceImpl
         }
     }
 
+    @Override
+    public List<SaisineObservatoire> findByKeyword(String keyword, long groupId, int start, int end) {
+        DynamicQuery dynamicQuery = dynamicQuery();
+        if (keyword.length() > 0) {
+            dynamicQuery.add(
+                    RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+        }
+        if (groupId > 0) {
+            dynamicQuery
+                    .add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+        }
+        return saisineObservatoirePersistence.findWithDynamicQuery(dynamicQuery, start, end);
+    }
+
+    /**
+     * Recherche par mot clés (compte)
+     */
+    @Override
+    public long findByKeywordCount(String keyword, long groupId) {
+        DynamicQuery dynamicQuery = dynamicQuery();
+        if (keyword.length() > 0) {
+            dynamicQuery.add(
+                    RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+        }
+        if (groupId > 0) {
+            dynamicQuery
+                    .add(PropertyFactoryUtil.forName("groupId").eq(groupId));
+        }
+        return saisineObservatoirePersistence.countWithDynamicQuery(dynamicQuery);
+    }
+
     /**
      * Retourne toutes les saisines publiées d'un groupe
      */
     @Override
     public List<SaisineObservatoire> getPublishedByGroupId(long groupId) {
         return this.saisineObservatoirePersistence.findByStatusAndGroupId(WorkflowConstants.STATUS_APPROVED, groupId);
+    }
+
+    @Override
+    public List<SaisineObservatoire> getTheMostCommented(long groupId) {
+        List<SaisineObservatoire> saisineObservatoireList = saisineObservatoirePersistence.findByStatusAndGroupId(0, groupId);
+        Comparator<SaisineObservatoire> reversedCommentSizeComparator
+                = Comparator.comparingInt(SaisineObservatoire::getNbApprovedComments).reversed();
+        List<SaisineObservatoire> temp = saisineObservatoireList.stream()
+                .sorted(reversedCommentSizeComparator)
+                .collect(Collectors.toList());
+        if (temp.size() < 3) {
+            return temp;
+        }
+        else {
+            return temp.stream().limit(3).collect(Collectors.toList());
+        }
     }
 }

@@ -231,6 +231,24 @@ public class SaisineObservatoireLocalServiceWrapper
 	}
 
 	@Override
+	public java.util.List
+		<eu.strasbourg.service.project.model.SaisineObservatoire> findByKeyword(
+			String keyword, long groupId, int start, int end) {
+
+		return _saisineObservatoireLocalService.findByKeyword(
+			keyword, groupId, start, end);
+	}
+
+	/**
+	 * Recherche par mot clés (compte)
+	 */
+	@Override
+	public long findByKeywordCount(String keyword, long groupId) {
+		return _saisineObservatoireLocalService.findByKeywordCount(
+			keyword, groupId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 
@@ -322,6 +340,14 @@ public class SaisineObservatoireLocalServiceWrapper
 	@Override
 	public int getSaisineObservatoiresCount() {
 		return _saisineObservatoireLocalService.getSaisineObservatoiresCount();
+	}
+
+	@Override
+	public java.util.List
+		<eu.strasbourg.service.project.model.SaisineObservatoire>
+			getTheMostCommented(long groupId) {
+
+		return _saisineObservatoireLocalService.getTheMostCommented(groupId);
 	}
 
 	/**
