@@ -12,6 +12,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.edition.display.context.*;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -29,6 +30,7 @@ import static eu.strasbourg.portlet.edition.constants.EditionConstants.*;
 	immediate = true,
 	property = {
 		"javax.portlet.version=3.0",
+			"javax.portlet.name=" + StrasbourgPortletKeys.EDITION_BO,
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/edition-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/edition-bo-main.css",

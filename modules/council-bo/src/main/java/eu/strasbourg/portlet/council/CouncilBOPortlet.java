@@ -22,6 +22,7 @@ import eu.strasbourg.portlet.council.utils.VocabularyHelper;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -46,6 +47,7 @@ import static eu.strasbourg.portlet.council.constants.CouncilConstants.*;
 	immediate = true,
 	property = {
 		"javax.portlet.version=3.0",
+			"javax.portlet.name=" + StrasbourgPortletKeys.COUNCIL_BO,
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/council-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/council-bo-main.css",

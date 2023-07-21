@@ -17,6 +17,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.portlet.form_send.context.*;
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement;
 import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldSignalementLocalServiceUtil;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -37,6 +38,7 @@ import java.util.Locale;
 		immediate=true,
 		property= {
 				"javax.portlet.version=3.0",
+				"javax.portlet.name=" + StrasbourgPortletKeys.FORM_SEND_BO,
 				"com.liferay.portlet.instanceable=false",
 				"com.liferay.portlet.footer-portlet-javascript=/js/form-send-bo-main.js",
 				"com.liferay.portlet.header-portlet-css=/css/form-send-bo-main.css",

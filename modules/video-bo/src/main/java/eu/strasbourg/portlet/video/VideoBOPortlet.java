@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.util.PortalUtil;
 import eu.strasbourg.portlet.video.display.context.*;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -30,6 +31,7 @@ import static eu.strasbourg.portlet.video.constants.VideoConstants.*;
 	immediate = true,
 	property = {
 		"javax.portlet.version=3.0",
+			"javax.portlet.name=" + StrasbourgPortletKeys.VIDEO_BO,
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/video-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/video-bo-main.css",

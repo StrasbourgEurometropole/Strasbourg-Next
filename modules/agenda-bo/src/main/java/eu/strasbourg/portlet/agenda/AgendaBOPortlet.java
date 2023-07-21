@@ -24,6 +24,7 @@ import eu.strasbourg.portlet.agenda.display.context.ViewManifestationsDisplayCon
 import eu.strasbourg.service.agenda.model.ImportReport;
 import eu.strasbourg.service.agenda.service.ImportReportLocalServiceUtil;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -42,6 +43,7 @@ import static eu.strasbourg.portlet.agenda.constants.agendaConstants.*;
 	immediate = true,
 	property = {
 		"javax.portlet.version=3.0",
+			"javax.portlet.name=" + StrasbourgPortletKeys.AGENDA_BO,
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.header-portlet-css=/css/vendors/daterangepicker.css",
 		"com.liferay.portlet.header-portlet-css=/css/agenda-bo-main.css",

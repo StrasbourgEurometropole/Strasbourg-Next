@@ -15,6 +15,7 @@ import eu.strasbourg.service.project.constants.ParticiperCategories;
 import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -33,6 +34,7 @@ import static eu.strasbourg.portlet.project.constants.ProjectConstants.*;
 	immediate = true,
 	property = {
 		"javax.portlet.version=3.0",
+			"javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_BO,
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/project-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/project-bo-main.css",

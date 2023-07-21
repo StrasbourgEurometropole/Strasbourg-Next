@@ -24,6 +24,7 @@ import eu.strasbourg.service.notif.service.NatureNotifLocalService;
 import eu.strasbourg.service.notif.service.NotificationLocalService;
 import eu.strasbourg.service.notif.service.ServiceNotifLocalService;
 import eu.strasbourg.utils.constants.RoleNames;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -44,6 +45,7 @@ import static eu.strasbourg.portlet.notif.constants.NotifConstants.*;
 	immediate = true,
 	property = {
 		"javax.portlet.version=3.0",
+			"javax.portlet.name=" + StrasbourgPortletKeys.NOTIF_BO,
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-css=/css/notif-bo-main.css",
 		"com.liferay.portlet.footer-portlet-javascript=/js/notif-bo-main.js",

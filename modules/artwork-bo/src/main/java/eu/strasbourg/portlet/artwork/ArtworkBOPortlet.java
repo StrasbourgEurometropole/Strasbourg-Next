@@ -7,6 +7,7 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -25,6 +26,7 @@ import eu.strasbourg.portlet.artwork.display.context.ViewCollectionsDisplayConte
 	immediate = true,
 	property = {
 		"javax.portlet.version=3.0",
+			"javax.portlet.name=" + StrasbourgPortletKeys.ARTWORK_BO,
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/artwork-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/artwork-bo-main.css",

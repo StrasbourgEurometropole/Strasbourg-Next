@@ -7,6 +7,7 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -18,6 +19,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 		immediate = true,
 		property = {
 			"javax.portlet.version=3.0",
+				"javax.portlet.name=" + StrasbourgPortletKeys.OBJTP_BO,
 			"com.liferay.portlet.instanceable=false",
 			"com.liferay.portlet.footer-portlet-javascript=/js/objtp-bo-main.js",
 			"com.liferay.portlet.header-portlet-css=/css/objtp-bo-main.css",
