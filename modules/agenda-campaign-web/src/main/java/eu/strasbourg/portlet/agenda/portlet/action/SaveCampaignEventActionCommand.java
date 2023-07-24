@@ -188,7 +188,7 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			UploadPortletRequest uploadRequest = PortalUtil
 				.getUploadPortletRequest(request);
 			File image = uploadRequest.getFile("image");
-			long imageId = 0;
+			long imageId = campaignEvent.getImageId();
 			if (image != null && image.exists()) {
 				byte[] imageBytes = FileUtil.getBytes(image);
 				DLFolder folder = DLFolderLocalServiceUtil
@@ -198,7 +198,7 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 					folder.getFolderId(), image.getName(),
 					MimeTypesUtil.getContentType(image), image.getName(), "",
 					"", imageBytes, sc);
-				
+
 				imageId = fileEntry.getFileEntryId();
 				campaignEvent.setImageId(imageId);
 			}
