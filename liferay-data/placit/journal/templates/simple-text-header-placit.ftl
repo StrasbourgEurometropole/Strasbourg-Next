@@ -1,5 +1,5 @@
 <!-- BLOC SIMPLE TEXTE A ATTACHER LE STRUCTUREE TEXTE SIMPLE-->
-<div class="pro-bloc-texte-header pt-4">
+<div class="pro-bloc-texte-header pt-5">
 <div class="container">
 <div class="row pro-bloc pro-bloc-texte ${selectAlignment.getData()}">
     <div class="col-md-8">

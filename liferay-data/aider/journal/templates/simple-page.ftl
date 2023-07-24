@@ -29,6 +29,9 @@
         <header>
             <h1>${title.getData()}</h1>
             <div class="pro-meta">
+                <#if categoryList?has_content>
+                    <span class="icon-ico-location"></span>
+                </#if>
                 <#list categoryList as categoryList>
                    <span> ${categoryList.getName()} <span>
                 </#list>

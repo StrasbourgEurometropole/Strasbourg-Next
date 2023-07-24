@@ -72,82 +72,86 @@
             </div>
         </div>       
         <div class="container pro-header">
-            <a href="${themeDisplay.getPortalURL()}${homeURL}accueil" class="pro-logo" title="Lien du Logo du site Portail du Citoyen Strasbourg" aria-label="Logo du site Portail du Citoyen Strasbourg">
-                <figure role="group">
-                    <img src="/o/plateforme-citoyenne-theme/images/logos/logo-plateforme-citoyenne-2023.svg" width="203" height="123" alt="Logo du site
+            <div>
+                <a href="${themeDisplay.getPortalURL()}${homeURL}accueil" class="pro-logo" title="Lien du Logo du site Portail du Citoyen Strasbourg" aria-label="Logo du site Portail du Citoyen Strasbourg">
+                    <figure role="group">
+                        <img src="/o/plateforme-citoyenne-theme/images/logos/logo-plateforme-citoyenne-2023.svg" width="203" height="123" alt="Logo du site
                     Plateforme Citoyenne de Strasbourg"/>
-                </figure>
-            </a>
+                    </figure>
+                </a>
 
-            <div class="pro-wrapper-nav">
-                <nav id="menu">
-                    <ul>
-                        <li class="pro-home"><a href="${themeDisplay.getPortalURL()}${homeURL}accueil" title="Lien vers la page d'accueil du site" aria-label="Lien vers la page d'accueil du site"><span class="icon-ico-home"></span></a></li>
-                        <#list nav_items as item>
-                            <#assign li_css_class = "" />
-                            <#if item.hasChildren()>
-                                <#assign li_css_class = "dropdown" />
-                            </#if>
-                            <li class="${li_css_class}">
-                                <#if !item.hasChildren()>
-                                    <a href="${item.getURL()}" title="${item.getName()}" <#if item.isSelected()>class="active"</#if>>
-                                        ${item.getName()}
-                                    </a>
-                                <#else>
-                                     <#assign a_css_class = item.isSelected()?then("active dropdown-toggle","dropdown-toggle") />
-                                    <a href="javascript:void(0)"  class="${a_css_class}" title="${item.getName()}" data-toggle="dropdown" data-flip="false" role="button" aria-haspopup="true" aria-expanded="false">
-                                        ${item.getName()} <span class="caret"></span>
-                                    </a>
-                                </#if>
+                <div class="pro-wrapper-nav">
+                    <nav id="menu">
+                        <ul>
+                            <li class="pro-home"><a href="${themeDisplay.getPortalURL()}${homeURL}accueil" title="Lien vers la page d'accueil du site" aria-label="Lien vers la page d'accueil du site"><span class="icon-ico-home"></span></a></li>
+                            <#list nav_items as item>
+                                <#assign li_css_class = "" />
                                 <#if item.hasChildren()>
-                                    <ul class="dropdown-menu">
-                                        <#list item.getChildren() as subItem>
-                                            <li><a href="${subItem.getURL()}"  title="${subItem.getName()}" <#if item.isSelected()>class="active"</#if>>${subItem.getName()}</a></li>
-                                        </#list>
-                                    </ul>
+                                    <#assign li_css_class = "dropdown" />
                                 </#if>
-                            </li>
-                        </#list>
+                                <li class="${li_css_class}">
+                                    <#if !item.hasChildren()>
+                                        <a href="${item.getURL()}" title="${item.getName()}" <#if item.isSelected()>class="active"</#if>>
+                                            ${item.getName()}
+                                        </a>
+                                    <#else>
+                                        <#assign a_css_class = item.isSelected()?then("active dropdown-toggle","dropdown-toggle") />
+                                        <a href="javascript:void(0)"  class="${a_css_class}" title="${item.getName()}" data-toggle="dropdown" data-flip="false" role="button" aria-haspopup="true" aria-expanded="false">
+                                            ${item.getName()} <span class="caret"></span>
+                                        </a>
+                                    </#if>
+                                    <#if item.hasChildren()>
+                                        <ul class="dropdown-menu">
+                                            <#list item.getChildren() as subItem>
+                                                <li><a href="${subItem.getURL()}"  title="${subItem.getName()}" <#if item.isSelected()>class="active"</#if>>${subItem.getName()}</a></li>
+                                            </#list>
+                                        </ul>
+                                    </#if>
+                                </li>
+                            </#list>
+                        </ul>
+                    </nav>
+                </div>
+
+                <!-- Menu de navigation : icones de droite -->
+                <div class="pro-menu-right">
+                    <ul>
+                        <li class="pro-tooltip">
+                            <#if request.session.getAttribute("publik_logged_in")!false>
+                                <a href="${themeDisplay.getPortalURL()}${homeURL}mon-activite-citoyenne" aria-label="Mon activité citoyenne" title="Lien vers mon activité citoyenne">
+                                    <span class="icon-ico-user"></span>
+                                </a>
+                                <span class="tooltiptext">Mon activité citoyenne</span>
+                            <#else>
+                                <a href="" data-toggle="modal" data-target="#myModal" aria-label="connectez-vous" title="connectez-vous avant">
+                                    <span class="icon-ico-user"></span>
+                                </a>
+                                <span class="tooltiptext">connectez-vous</span>
+                            </#if>
+                        </li>
+                        <li class="pro-tooltip">
+                            <a href="${themeDisplay.getPortalURL()}${homeURL}carte" aria-label="Carte" title="Lien vers la carte interactive">
+                                <span class="icon-ico-map"></span>
+                            </a>
+                            <span class="tooltiptext">Voir la carte</span>
+                        </li>
+                        <li class="pro-tooltip search-menu-icon">
+                            <a href="#rechercher" aria-label="Rechercher" title="Ouvrir la barre de recherche">
+                                <span class="icon-ico-search"></span>
+                            </a>
+                            <span class="tooltiptext">Rechercher</span>
+                        </li>
+                        <li class="pro-tooltip th-menu">
+                            <a href="#" aria-label="Ouvrir le menu" title="Ouvrir le menu">
+                                <span class="icon-menu"></span>
+                            </a>
+                            <span class="tooltiptext">Ouvrir le menu</span>
+                        </li>
                     </ul>
-                </nav>
+                </div>
             </div>
 
-            <!-- Menu de navigation : icones de droite -->
-            <div class="pro-menu-right">
-                <ul>
-                    <li class="pro-tooltip">
-                        <#if request.session.getAttribute("publik_logged_in")!false>
-                            <a href="${themeDisplay.getPortalURL()}${homeURL}mon-activite-citoyenne" aria-label="Mon activité citoyenne" title="Lien vers mon activité citoyenne">
-                                <span class="icon-ico-user"></span>
-                            </a>
-                            <span class="tooltiptext">Mon activité citoyenne</span>
-                            <#else>
-                            <a href="" data-toggle="modal" data-target="#myModal" aria-label="connectez-vous" title="connectez-vous avant">
-                                <span class="icon-ico-user"></span>
-                            </a>
-                            <span class="tooltiptext">connectez-vous</span>
-                        </#if>
-                    </li>
-                    <li class="pro-tooltip">
-                        <a href="${themeDisplay.getPortalURL()}${homeURL}carte" aria-label="Carte" title="Lien vers la carte interactive">
-                            <span class="icon-ico-map"></span>
-                        </a>
-                        <span class="tooltiptext">Voir la carte</span>
-                    </li>
-                    <li class="pro-tooltip search-menu-icon">
-                        <a href="#rechercher" aria-label="Rechercher" title="Ouvrir la barre de recherche">
-                            <span class="icon-ico-search"></span>
-                        </a>
-                        <span class="tooltiptext">Rechercher</span>
-                    </li>
-                    <li class="pro-tooltip th-menu">
-                        <a href="#" aria-label="Ouvrir le menu" title="Ouvrir le menu">
-                            <span class="icon-menu"></span>
-                        </a>
-                        <span class="tooltiptext">Ouvrir le menu</span>
-                    </li>
-                </ul>
-            </div>
+
 
 
         </div>

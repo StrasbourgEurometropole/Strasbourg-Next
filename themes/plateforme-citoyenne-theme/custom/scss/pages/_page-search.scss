@@ -14,7 +14,7 @@
 				}
 				a {
 					&:hover, &:focus {
-						color: $c_main;
+						@include addDynamicTextColor();
 					}
 					&:after {
 						height: 2px;
@@ -340,13 +340,13 @@
 						float: none;
 						text-align: left;
 						> * {
-							background: $c_main;
+							@include addDynamicBackground();
 							text-align: center;
 							border-radius: 4px;
 							display: inline-block;
 							&:hover, &:focus {
 								background: $c_dark;
-								color: $c_main;
+								@include addDynamicTextColor();
 							}
 						}
 					}
@@ -482,7 +482,7 @@
 		.search-header {
 			display: flex;
 			align-items: center;
-			@include mobile {
+			@include tablet_portrait {
 				flex-direction: column-reverse;
 				align-items: center;
 				gap: 10px;
@@ -518,7 +518,7 @@
 			display: flex;
 			padding: 10px 0;
 			.pro-group-title {
-				color: $c_main;
+				@include addDynamicTextColor();
 				text-transform: uppercase;
 				flex: 1;
 			}

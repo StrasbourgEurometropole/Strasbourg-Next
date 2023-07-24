@@ -238,7 +238,7 @@
                 @extend %appearance;
                 padding: 14px 20px;
                 text-align: center;
-                background: $c_main;
+                @include addDynamicBackground();
                 border-radius: 4px;
 
                 width: 300px;
@@ -251,7 +251,7 @@
                 }
                 &:hover, &:focus {
                     background: $c_dark;
-                    color: $c_main;
+                    @include addDynamicTextColor();
                 }
             }
         }
@@ -351,7 +351,7 @@
     }
 
     .btn:hover ~ .deleteImage, .btn:focus ~ .deleteImage, .btn:hover ~ .deleteFile, .btn:focus ~ .deleteFile{
-        color: $c_main;
+        @include addDynamicTextColor();
     }
 } 
 // Fin style pour la sélection d'images et de documents
@@ -395,17 +395,6 @@
   }
 // Fin affichage des menus des portlets
 
-// Correctifs d'affichage des liens après renouvellement de charte grahique de fin 2020
-.journal-content-article, .pro-comment, .pro-comment-response, .pro-bloc-accordion {
-
-    li, p, h3 {
-        a, a:hover{
-            color: $c_main;
-            text-decoration: underline;
-        }
-    }
-
-}
 .journal-content-article .pro-header-medium .caption p {
     a, a:hover{
         color: #fff;
@@ -504,4 +493,10 @@ div.reply-city {
     }
 
 
+}
+
+form {
+    .form-control.disable, .form-control[readonly], .form-control[disabled] {
+        background-color: #e8e9ea;
+    }
 }

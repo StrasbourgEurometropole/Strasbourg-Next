@@ -62,17 +62,27 @@
 <#-- partage de la configuration open graph dans la request -->
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
+<#assign cssClass>
+    <#switch user.getScreenName()>
+        <#case "placit_strasbourg">
+            couleur-ville
+            <#break>
+        <#case "placit_ems">
+            couleur-eurometropole
+            <#break>
+        <#case "placit_strasbourg_ems">
+            couleur-commune
+            <#break>
+    </#switch>
+</#assign>
+
+<div class="${cssClass}">
 <div class="pro-page-detail pro-page-detail-participation">
-
 	<div class="container">
-
         <div>
-
             <article>
-                
-
                 <div class="row pro-container-detail-event">
-                    <div class="col-sm-8">
+                    <div class="col-sm-8 pr-md-5">
                         <header>
                             <div class="pro-header-participation">
                                 
@@ -454,3 +464,4 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     });
 
 </script>
+</div>

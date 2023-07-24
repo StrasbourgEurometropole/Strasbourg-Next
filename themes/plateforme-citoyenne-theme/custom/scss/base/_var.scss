@@ -2,87 +2,6 @@
 --- VARIABLES ---
 ------------------ */
 
-// Fonts Roboto
-// ==========================================================================
-@font-face {
-    font-family: 'Roboto';
-    src: url('../fonts/roboto-bold-webfont.woff2') format('woff2'),
-         url('../fonts/roboto-bold-webfont.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Roboto';
-    src: url('../fonts/roboto-bolditalic-webfont.woff2') format('woff2'),
-         url('../fonts/roboto-bolditalic-webfont.woff') format('woff');
-    font-weight: bold;
-    font-style: italic;
-}
-@font-face {
-    font-family: 'Roboto';
-    src: url('../fonts/roboto-italic-webfont.woff2') format('woff2'),
-         url('../fonts/roboto-italic-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: italic;
-}
-@font-face {
-    font-family: 'Roboto';
-    src: url('../fonts/roboto-medium-webfont.woff2') format('woff2'),
-         url('../fonts/roboto-medium-webfont.woff') format('woff');
-    font-weight: 600;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Roboto';
-    src: url('../fonts/roboto-mediumitalic-webfont.woff2') format('woff2'),
-         url('../fonts/roboto-mediumitalic-webfont.woff') format('woff');
-    font-weight: 600;
-    font-style: italic;
-}
-@font-face {
-    font-family: 'Roboto';
-    src: url('../fonts/roboto-regular-webfont.woff2') format('woff2'),
-         url('../fonts/roboto-regular-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-// Fonts Montserrat
-// ==========================================================================
-@font-face {
-    font-family: 'Montserrat';
-    src: url('../fonts/montserrat-bold-webfont.woff2') format('woff2'),
-    url('../fonts/montserrat-bold-webfont.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
-
-}
-
-// Fonts Oswald
-// ==========================================================================
-@font-face {
-    font-family: 'Oswald';
-    src: url('../fonts/oswald-bold-webfont.woff2') format('woff2'),
-    url('../fonts/oswald-bold-webfont.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Oswald';
-    src: url('../fonts/oswald-regular-webfont.woff2') format('woff2'),
-    url('../fonts/oswald-regular-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Oswald';
-    src: url('../fonts/oswald-light-webfont.woff2') format('woff2'),
-    url('../fonts/oswald-light-webfont.woff') format('woff');
-    font-weight: 300;
-    font-style: normal;
-
-}
-
 // Fonts TT Fors
 // ==========================================================================
 @font-face {
@@ -125,7 +44,7 @@ $f_spe: 'TT Fors', Sans-Serif;
 
 // Colors
 // ==========================================================================
-$c_main: #8DC63F;
+$c_main: #F37021;
 $c_sub: #32455c;
 $c_orange: #F37021;
 $c_grey: #3a3a3a;
@@ -137,6 +56,10 @@ $c_white: #FFFFFF;
 $c_filet: #cacaca;
 $c_grey50 : #505050;
 $c_nav : #20272F;
+
+$c_ville: #F37021;
+$c_eurometropole: #00AEEF;
+$c_commune: #8DC63F;
 
 
 // Thème de couleur des participations
@@ -174,6 +97,7 @@ $breakpoint_wd: 1600px;
 $breakpoint_paysage: 1024px; // taille ipad
 $breakpoint_portrait: 992px;
 $breakpoint_mo: 767px;
+$breakpoint_mo_medium: 575px;
 $breakpoint_mo_small: 360px;
 
 // Cookies

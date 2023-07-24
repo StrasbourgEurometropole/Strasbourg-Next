@@ -32,7 +32,7 @@
           &:last-child {
             @include prefixLocationIcon();
             font-weight: 700;
-            margin-left: 20px;
+            padding-left: 20px;
             &:before {
               top: 3px;
             }

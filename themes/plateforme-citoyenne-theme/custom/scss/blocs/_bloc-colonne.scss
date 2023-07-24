@@ -70,7 +70,7 @@
 					bottom: 0;
 					height: 1px;
 					width: 100%;
-					background: $c_main;
+					@include addDynamicBackground();
 					@include addTransition();
 				}
 				h3{

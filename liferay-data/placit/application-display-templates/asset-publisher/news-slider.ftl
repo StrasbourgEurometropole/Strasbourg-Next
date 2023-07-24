@@ -61,7 +61,7 @@
 	                        </span>
 	                        <h3>${title}</h3>
 	                        <p>${chapo?replace("<[^>]*>", "", "r")[0..*100]}...</p>
-	                        	<span class="actu-location"> ${territoriesLabel} </span>		
+	                        	<span class="actu-location"> <span class="icon-ico-location"></span>${territoriesLabel} </span>
 	                       
 	                    </div>
 						<div class="footer-news">

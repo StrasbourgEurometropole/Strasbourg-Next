@@ -43,7 +43,10 @@
                     </#list>
                 </select>
             </form>
-            <a href="${homeURL}projets" class="pro-btn pro-btn-white" title="Lien vers la page de tous les projets">Tout voir</a>
+            <div class="pro-wrapper">
+                <a href="${homeURL}projets" class="pro-btn pro-btn-white" title="Lien vers la page de tous les projets">Tout voir</a>
+            </div>
+
 
             <!-- SlIDER LISTE DES PROJETS - TOUS LES PROJETS -->
             <div id="pro-projet-all" class="owl-carousel owl-opacify owl-theme owl-cards owl-projet" >

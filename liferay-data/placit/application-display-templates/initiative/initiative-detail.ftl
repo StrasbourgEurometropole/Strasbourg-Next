@@ -59,13 +59,13 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 		<div class="col-lg-12">
 			<article>
 				<div class="row pro-container-detail-event">
-					<div class="col-sm-8">
+					<div class="col-sm-8 pr-5">
 						<header>
 							<div class="pro-header-participation pro-theme-croissance">
 								<h1>${entry.title}</h1>
 								<div class="pro-wrapper-meta">
 									<#if entry.getStatusCategory()?has_content>
-										<div class="pro-statut" ><span style="background : #${entry.getStatusCategoryColor()};">${entry.getStatusCategory().getTitle(locale)}</span></div>
+										<div class="pro-statut" ><span>${entry.getStatusCategory().getTitle(locale)}</span></div>
 									</#if>
 									<div class="pro-meta">
 									

@@ -42,7 +42,6 @@
 <!-- --></div>
 
 <div class="pro-footer-bottom">
-<div class="container">
 <ul>
 	<li><a href="/glossaire" title="le glossaire">Glossaire &amp; règles d'utilisation</a></li>
 	<li><a href="/mentions-legales" title="les mentions légales">Mentions légales</a></li>

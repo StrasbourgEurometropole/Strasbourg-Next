@@ -62,10 +62,6 @@
 			}
 			.pro-meta {
 				margin-bottom: 0;
-				> * {
-					&:first-child {
-						padding-left: 0;
-					}
 				}
 			}
 			#breadcrumb {
@@ -89,6 +85,16 @@
 
 		.pro-container-detail-event {
 			margin:0;
+			> .col-sm-8 {
+				@include tablet_portrait {
+					margin-bottom: 1rem;
+				}
+			}
+			> .col-sm-4 {
+				@include tablet_portrait {
+					margin-top: 0
+				}
+			}
 
 			.pro-main-img {
 				figure {
@@ -154,7 +160,7 @@
 					top: 0px;
 					left: -30px;
 					font-size: 100px;
-					color: $c_main;
+					@include addDynamicTextColor();
 					transform: rotate(-10deg);
 					@include tablet_portrait{
 						top: 20px;
@@ -176,7 +182,7 @@
 					bottom: 5px;
 					width: calc(100% - 60px);
 					height: 4px;
-					background: $c_main;
+					@include addDynamicBackground();
 					@include tablet_portrait{
 						width: 100%;
 						left: 0;
@@ -259,5 +265,3 @@
 
 		}
 	}
-
-}

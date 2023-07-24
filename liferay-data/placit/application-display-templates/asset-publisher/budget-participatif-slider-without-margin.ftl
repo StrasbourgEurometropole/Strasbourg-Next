@@ -38,7 +38,7 @@
                 <h2><@liferay_ui.message key="eu.budgetParticipatif" /></h2>
                 <#if pageListing?? >
                     <div class="pro-wrapper">
-                        <a href="${homeURL2}${pageListing}" class="pro-btn pro-btn-white">Voir tous les projets</a>
+                        <a href="${homeURL2}${pageListing}" class="pro-btn pro-btn-white">Tout voir</a>
                     </div>
                 </#if>
             </div>

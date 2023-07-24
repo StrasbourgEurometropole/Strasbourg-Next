@@ -44,6 +44,7 @@
 
 		h4 {
 			@include ft($f_hx, 0.938em, 700, $c_main, normal);
+			@include addDynamicTextColor();
 			display: block;
 			margin-bottom: 10px;
 		}
@@ -97,7 +98,7 @@
 				padding: 7px 0;
 				@include addTransition();
 				&:hover, &:focus {
-					color: $c_main;
+					@include addDynamicTextColor();
 				}
 			}
 		}
@@ -106,16 +107,16 @@
 	.pro-footer-bottom {
 		background: #2d2d2d;
 		color: $c_white;
-		height: 50px;
+		height: 100%;
 		@include tablet_portrait {
 			height: auto;
 		}
-		.container {
 			ul {
 				display: flex;
 				justify-content: center;
 				align-items: center;
 				margin-bottom: 0;
+				flex-wrap: wrap;
 				@include tablet_portrait {
 					flex-direction: column;
 				}
@@ -128,11 +129,10 @@
 						padding: 0 20px;
 						@include addTransition();
 						&:hover, &:focus {
-							color: $c_main;
+							color: $c_commune;
 						}
 					}
 				}
 			}
-		}
 	}
 }

@@ -28,14 +28,13 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-md-8 pro-bloc-listing-participation">
+            <div class="col-lg-8 pro-bloc-listing-participation">
                 <!-- Affiner votre recherche - Tablette portrait + Mobile -->
                  <div class="pro-inside-affine-search"></div>
 
                 <!-- Resultat -->
                 <div class="row pro-wrapper-listing-participation">
                     <div class="col-xs-12">
-                        <h3 style="text-align: right;">Toutes</h3>
                         <aui:form method="post" name="fm">
                             <div class="pro-listing-participation">
                             </div>
@@ -44,7 +43,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4 pro-wrapper-aside">
+            <div class="col-lg-4 pro-wrapper-aside">
                 <div class="pro-bloc-facette pro-bloc-facette-participation">
                     <span class="pro-affiner"><liferay-ui:message key="eu.refine-research" /> <span class="icon-ico-chevron-down"></span></span>
 

@@ -44,7 +44,6 @@
 					</div>
 					<a href="${timeline.getLink()}" class="pro-jalon-hover">
 						<div class="pro-wrapper-date">
-							<div>
 								<#switch timeline.getFreeMarkerFormatDate()>
 									<#case "dd/MM/yyyy">
 										<span class="pro-day-month">${timeline.getDate()?string["dd MMMM"]}</span>
@@ -59,7 +58,6 @@
 										<span class="pro-year">${timeline.getDate()?string["yyyy"]}</span>
 										  <#break>			                      
 								</#switch>
-							</div>
 						</div>
 						<div class="pro-txt-jalon">
 							<p>${timeline.getTitle()}</p>
@@ -85,7 +83,12 @@
 		<div class="row">
 			<div class="pro-title col-md-8">
 				<div><h1>${currEntry.title}</h1></div>
-				<div class="pro-bloc-meta"><span class="pro-surtitre">${currEntry.getProjectStatus(locale)}</span> <span class="pro-soustitre"><strong>${currEntry.getDistrictLabel(locale)}</strong></span></div>
+				<div class="pro-bloc-meta">
+					<span class="pro-surtitre">${currEntry.getProjectStatus(locale)}</span>
+				</div>
+				<div class="pro-bloc-meta">
+					<span class="pro-soustitre"><span class="icon-ico-location"></span><strong>${currEntry.getDistrictLabel(locale)}</strong></span>
+				</div>
 				<div class="pro-bloc-display-desc"><p>${currEntry.description}</p></div>
 			</div>
 		</div>

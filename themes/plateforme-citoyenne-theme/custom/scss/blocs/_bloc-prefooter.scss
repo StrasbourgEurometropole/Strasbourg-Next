@@ -114,7 +114,7 @@
 						}
 						&:hover {
 							> span {
-								color: $c_main;
+								@include addDynamicTextColor();
 							}
 						}
 						&:focus {
@@ -174,12 +174,13 @@
 			font-weight: 700;
 			@include addTransition();
 			&:hover, &:focus{
-				color: $c_main;
+				@include addDynamicTextColor();
 			}
 		}
 	}
 	.pro-you {
 		@include ft($f_hx, 1.125em, 700, #f37021, 1.444em);
+		@include addDynamicTextColor();
 	}
 
 	.pro-signature-btn {
@@ -199,16 +200,17 @@
 		top: 3px;
 		width: 60px;
 		height: 60px;
-		background: $c_main;
+		@include addDynamicBackground();
 		border-radius: 50%;
 		display: inline-block;
 		border: 2px solid $c_main;
+		@include addDynamicBorderColor();
 		@include addTransition();
 		&:hover, &.active {
 			cursor: pointer;
 			background: transparent;
 			> span {
-				color: $c_main;
+				@include addDynamicTextColor();
 			}
 		}
 		&:focus {
@@ -241,7 +243,7 @@
 				a {
 					font-size: 2em;
 					padding: 0 3px;
-					color: $c_main;
+					@include addDynamicTextColor();
 					&:hover, &:focus {
 						color: $c_white;
 					}
@@ -334,7 +336,7 @@
 			> a {
 				box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.2);
 				position: absolute;
-				background: $c_main;
+				@include addDynamicBackground();
 				padding: 40px 0 15px 0;
 				width: 430px;
 				text-align: center;
@@ -342,6 +344,7 @@
 				display: inline-block;
 				left: 50%;
 				border: 2px solid $c_main;
+				@include addDynamicBorderColor();
 				transform: translate(-50%, -60%) rotate(-4.6deg);
 				transform: translate3d(-50%, -60%, 0) rotate(-4.6deg);
 				@include addTransition();
@@ -378,7 +381,7 @@
 					background: $c_dark;
 					.pro-svg {
 						> * {
-							color: $c_main;
+							@include addDynamicTextColor();
 							.cls-1 {
 								stroke: $c_main;
 							}
@@ -392,7 +395,7 @@
 						}
 					}
 					h3, p, span {
-						color: $c_main;
+						@include addDynamicTextColor();
 					}
 				}
 				&:focus {

@@ -41,7 +41,7 @@ div.tac_activate .tarteaucitronAllow{
 
         &:hover {
             background-color: $c_dark;
-            color: $c_main;
+            @include addDynamicTextColor();
         }
     }
     
@@ -106,7 +106,7 @@ div#tarteaucitron {
 
             &:hover {
                 background-color: $c_dark;
-                color: $c_main;
+                @include addDynamicTextColor();
             }
         }
         
@@ -148,7 +148,7 @@ div.tac_activate {
 
         &:hover {
             background-color: $c_dark;
-            color: $c_main;
+            @include addDynamicTextColor();
         }
     }
 }

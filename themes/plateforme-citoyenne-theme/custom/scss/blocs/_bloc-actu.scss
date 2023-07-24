@@ -33,7 +33,6 @@
 		}
 		.pro-meta {
 			position: relative;
-			@include prefixLocationIcon();
 			span {
 				@include ft($f_hx, 1em, 700, $c_txt);
 			}

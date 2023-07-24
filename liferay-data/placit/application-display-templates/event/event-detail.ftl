@@ -98,7 +98,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
                 <div class="row pro-container-detail-event">
 
-                    <div class="col-sm-8">
+                    <div class="col-sm-8 pr-5">
                         <div class="pro-main-img">
                             <figure role="group">
                                 <#if entry.imageURL?has_content>

@@ -27,6 +27,9 @@
             </div>
         </div>
 	</div>
+    <div class="suggested-projects-to-move">
+
+    </div>
 
 	<div class="portlet-layout row">
 		<div class="col-md-12 portlet-column portlet-column-only" id="column-4">
