@@ -107,7 +107,8 @@ div#tarteaucitron {
     
     #tarteaucitronServices {
     
-        .tarteaucitronLine .tarteaucitronAsk .tarteaucitronAllow,
+        #tarteaucitronServices_mandatory .tarteaucitronLine .tarteaucitronAsk button.tarteaucitronAllow,
+        .tarteaucitronLine .tarteaucitronAsk button.tarteaucitronAllow,
         #tarteaucitronAllAllowed.tarteaucitronIsSelected {
             background-color: $c_main;
             color: $c_dark;
