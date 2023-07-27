@@ -26,7 +26,7 @@
 
                 .search-asset-form {
     
-                    &:first-child{
+                    &:first-child(){
                         grid-area: search;
                     } 
 
@@ -142,7 +142,7 @@
         
         
                     @include RWD(tablet_portrait){
-                        &:not(:first-child){
+                        &:not(:first-child()){
                             margin-top: -20px;
                         }
                     }
@@ -227,7 +227,7 @@
                             label{
                                 margin: 10px;
 
-                                &:first-child{
+                                &:first-child(){
                                     margin-top: 0;
 
                                     @include RWD(tablet_landscape){

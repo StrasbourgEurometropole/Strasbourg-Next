@@ -1,7 +1,6 @@
 {
   "name": "tarteaucitronjs",
-  "version": "1.13.0",
-  "main": "tarteaucitron.js",
+  "version": "1.9.0",
   "description": "Comply to the European cookie law",
   "dependencies": {},
   "devDependencies": {},
@@ -19,7 +18,7 @@
     "gdpr",
     "cookie"
   ],
-  "author": "amauri.io",
+  "author": "Amauri.IO",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/AmauriC/tarteaucitron.js/issues"

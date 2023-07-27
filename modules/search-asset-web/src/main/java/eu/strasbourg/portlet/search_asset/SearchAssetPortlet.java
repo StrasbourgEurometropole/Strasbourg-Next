@@ -163,7 +163,7 @@ public class SearchAssetPortlet extends MVCPortlet {
             // Recuperation de l'URL de "base" du site
             String homeURL = "/";
             String virtualHostName= PortalHelper.getVirtualHostname(themeDisplay.getScopeGroup(), themeDisplay.getLanguageId());
-            if (Validator.isNotNull(virtualHostName) || themeDisplay.getScopeGroup().isStagingGroup()) {
+            if (virtualHostName.isEmpty() || themeDisplay.getScopeGroup().isStagingGroup()) {
                 homeURL = "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL() + "/";
             }
             renderRequest.setAttribute("homeURL", homeURL);
