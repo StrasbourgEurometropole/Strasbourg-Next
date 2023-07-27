@@ -1,18 +1,18 @@
 package eu.strasbourg.portlet.edition.template;
 
-import com.liferay.dynamic.data.mapping.template.BaseDDMTemplateHandler;
-import com.liferay.dynamic.data.mapping.template.DDMTemplateVariableCodeHandler;
-import com.liferay.portal.kernel.portletdisplaytemplate.PortletDisplayTemplateManager;
-import com.liferay.portal.kernel.template.TemplateHandler;
-import com.liferay.portal.kernel.template.TemplateVariableCodeHandler;
-import com.liferay.portal.kernel.template.TemplateVariableGroup;
-import eu.strasbourg.service.edition.model.EditionGallery;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import org.osgi.service.component.annotations.Component;
-
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import org.osgi.service.component.annotations.Component;
+
+import com.liferay.portlet.display.template.BasePortletDisplayTemplateHandler;
+import com.liferay.portal.kernel.portletdisplaytemplate.PortletDisplayTemplateManager;
+import com.liferay.portal.kernel.template.TemplateHandler;
+import com.liferay.portal.kernel.template.TemplateVariableGroup;
+
+import eu.strasbourg.service.edition.model.EditionGallery;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 
 @Component(
@@ -23,7 +23,7 @@ import java.util.Map;
 	service = TemplateHandler.class
 )
 public class EditionGalleryDisplayTemplateHandler
-	extends BaseDDMTemplateHandler {
+	extends BasePortletDisplayTemplateHandler {
 
 	@Override
 	public String getClassName() {
@@ -60,15 +60,4 @@ public class EditionGalleryDisplayTemplateHandler
 		
 		return templateVariableGroups;
 	}
-
-	@Override
-	protected TemplateVariableCodeHandler getTemplateVariableCodeHandler() {
-		return _templateVariableCodeHandler ;
-	}
-
-	private final TemplateVariableCodeHandler _templateVariableCodeHandler =
-			new DDMTemplateVariableCodeHandler(
-					EditionGalleryDisplayTemplateHandler.class.getClassLoader(),
-					null,
-					null);
 }

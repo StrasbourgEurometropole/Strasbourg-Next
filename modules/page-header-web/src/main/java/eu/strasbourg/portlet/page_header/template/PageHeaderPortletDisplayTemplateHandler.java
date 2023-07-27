@@ -1,17 +1,17 @@
 package eu.strasbourg.portlet.page_header.template;
 
-import com.liferay.dynamic.data.mapping.template.BaseDDMTemplateHandler;
-import com.liferay.dynamic.data.mapping.template.DDMTemplateVariableCodeHandler;
-import com.liferay.portal.kernel.model.Layout;
-import com.liferay.portal.kernel.model.LayoutSet;
-import com.liferay.portal.kernel.template.TemplateHandler;
-import com.liferay.portal.kernel.template.TemplateVariableCodeHandler;
-import com.liferay.portal.kernel.template.TemplateVariableGroup;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import org.osgi.service.component.annotations.Component;
-
 import java.util.Locale;
 import java.util.Map;
+
+import org.osgi.service.component.annotations.Component;
+
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.LayoutSet;
+import com.liferay.portlet.display.template.BasePortletDisplayTemplateHandler;
+import com.liferay.portal.kernel.template.TemplateHandler;
+import com.liferay.portal.kernel.template.TemplateVariableGroup;
+
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 
 @Component(
@@ -22,7 +22,7 @@ import java.util.Map;
 	service = TemplateHandler.class
 )
 public class PageHeaderPortletDisplayTemplateHandler
-	extends BaseDDMTemplateHandler {
+	extends BasePortletDisplayTemplateHandler {
 
 	@Override
 	public String getClassName() {
@@ -55,15 +55,4 @@ public class PageHeaderPortletDisplayTemplateHandler
 		
 		return templateVariableGroups;
 	}
-
-	@Override
-	protected TemplateVariableCodeHandler getTemplateVariableCodeHandler() {
-		return _templateVariableCodeHandler ;
-	}
-
-	private final TemplateVariableCodeHandler _templateVariableCodeHandler =
-			new DDMTemplateVariableCodeHandler(
-					PageHeaderPortletDisplayTemplateHandler.class.getClassLoader(),
-					null,
-					null);
 }
