@@ -324,7 +324,7 @@ public class SaisineObservatoireLocalServiceImpl
 
     @Override
     public List<SaisineObservatoire> getTheMostCommented(long groupId) {
-        List<SaisineObservatoire> saisineObservatoireList = saisineObservatoirePersistence.findByStatusAndGroupId(0, groupId);
+        List<SaisineObservatoire> saisineObservatoireList = saisineObservatoirePersistence.findByGroupId(groupId);
         Comparator<SaisineObservatoire> reversedCommentSizeComparator
                 = Comparator.comparingInt(SaisineObservatoire::getNbApprovedComments).reversed();
         List<SaisineObservatoire> temp = saisineObservatoireList.stream()

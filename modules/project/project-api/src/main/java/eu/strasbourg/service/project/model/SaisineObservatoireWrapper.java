@@ -345,6 +345,16 @@ public class SaisineObservatoireWrapper
 	}
 
 	/**
+	 * Retourne les commentaires de l'entité
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Comment>
+		getApprovedComments() {
+
+		return _saisineObservatoire.getApprovedComments();
+	}
+
+	/**
 	 * Retourne l'AssetEntry rattaché cet item
 	 */
 	@Override
@@ -505,6 +515,16 @@ public class SaisineObservatoireWrapper
 	}
 
 	/**
+	 * méthode de récupération du status
+	 *
+	 * @return le status.
+	 */
+	@Override
+	public String getFrontStatusFR() {
+		return _saisineObservatoire.getFrontStatusFR();
+	}
+
+	/**
 	 * Returns the group ID of this saisine observatoire.
 	 *
 	 * @return the group ID of this saisine observatoire
@@ -512,6 +532,14 @@ public class SaisineObservatoireWrapper
 	@Override
 	public long getGroupId() {
 		return _saisineObservatoire.getGroupId();
+	}
+
+	/**
+	 * Retourne le copyright de l'image principale
+	 */
+	@Override
+	public String getImageCopyright(java.util.Locale locale) {
+		return _saisineObservatoire.getImageCopyright(locale);
 	}
 
 	/**
@@ -714,7 +742,7 @@ public class SaisineObservatoireWrapper
 	}
 
 	/**
-	 * Retourne le projet de la petition (
+	 * Retourne le projet de la saisine (
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
@@ -817,6 +845,25 @@ public class SaisineObservatoireWrapper
 	}
 
 	/**
+	 * Retourne X suggestions max pour une pétition
+	 *
+	 * @param request
+	 la requete
+	 * @param nbSuggestions
+	 le nombre de suggestions.
+	 * @return la liste de pétition.
+	 */
+	@Override
+	public java.util.List
+		<eu.strasbourg.service.project.model.SaisineObservatoire>
+			getSuggestions(
+				javax.servlet.http.HttpServletRequest request,
+				int nbSuggestions) {
+
+		return _saisineObservatoire.getSuggestions(request, nbSuggestions);
+	}
+
+	/**
 	 * Returns the summary of this saisine observatoire.
 	 *
 	 * @return the summary of this saisine observatoire
@@ -847,13 +894,18 @@ public class SaisineObservatoireWrapper
 	}
 
 	/**
-	 * Retourne les thematiques de la petition (
+	 * Retourne les thematiques de la saisine (
 	 */
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getThematicCategories() {
 
 		return _saisineObservatoire.getThematicCategories();
+	}
+
+	@Override
+	public String getThematicLabel(java.util.Locale locale) {
+		return _saisineObservatoire.getThematicLabel(locale);
 	}
 
 	/**

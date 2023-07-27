@@ -61,6 +61,14 @@ public class AssetVocabularyAccessor {
 			return null;
 		}		
 	}
+
+	public AssetVocabulary getSaisineStatus(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.SAISINE_STATUS, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 	
 	public AssetVocabulary getBudgetParticipatifStatus(long groupID) {
 		try {

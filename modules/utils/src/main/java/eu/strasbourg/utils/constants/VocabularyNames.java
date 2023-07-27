@@ -32,6 +32,7 @@ public class VocabularyNames {
 	public static final String BUDGET_PARTICIPATIF_STATUS= "Statut BP";
 	public static final String INITIATIVE_STATUS = "statut de l'initiative";
 	public static final String PLACIT_STATUS = "statut participer";
+	public static final String SAISINE_STATUS = "statut saisine";
 	public static final String THEMATIC = "thematique";
 	public static final String PROJECT_STATUS = "statut projet";
 	public static final String SIGNALEMENT_CATEGORIE = "Signalements Categorie";

@@ -60,6 +60,8 @@ public interface SaisineObservatoire
 
 			};
 
+	public String getThematicLabel(java.util.Locale locale);
+
 	/**
 	 * Retourne l'AssetEntry rattaché cet item
 	 */
@@ -87,6 +89,26 @@ public interface SaisineObservatoire
 		getPlacitPlaces();
 
 	/**
+	 * Retourne X suggestions max pour une pétition
+	 *
+	 * @param request
+	 la requete
+	 * @param nbSuggestions
+	 le nombre de suggestions.
+	 * @return la liste de pétition.
+	 */
+	public java.util.List
+		<eu.strasbourg.service.project.model.SaisineObservatoire>
+			getSuggestions(
+				javax.servlet.http.HttpServletRequest request,
+				int nbSuggestions);
+
+	/**
+	 * Retourne le copyright de l'image principale
+	 */
+	public String getImageCopyright(java.util.Locale locale);
+
+	/**
 	 * Retourne le label de 5 digits du nombre de commentaires de l'entité
 	 */
 	public String getNbApprovedCommentsLabel();
@@ -97,13 +119,19 @@ public interface SaisineObservatoire
 	public int getNbApprovedComments();
 
 	/**
-	 * Retourne les thematiques de la petition (
+	 * Retourne les commentaires de l'entité
+	 */
+	public java.util.List<eu.strasbourg.service.comment.model.Comment>
+		getApprovedComments();
+
+	/**
+	 * Retourne les thematiques de la saisine (
 	 */
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getThematicCategories();
 
 	/**
-	 * Retourne le projet de la petition (
+	 * Retourne le projet de la saisine (
 	 */
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory();
 
@@ -119,6 +147,13 @@ public interface SaisineObservatoire
 	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	 */
 	public String getImageURL();
+
+	/**
+	 * méthode de récupération du status
+	 *
+	 * @return le status.
+	 */
+	public String getFrontStatusFR();
 
 	/**
 	 * Retourne l'URL de l'image de l'utilisateur

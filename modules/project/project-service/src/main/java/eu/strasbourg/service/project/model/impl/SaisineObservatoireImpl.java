@@ -17,29 +17,34 @@ package eu.strasbourg.service.project.model.impl;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
-import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.SaisineObservatoire;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
-import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
+import eu.strasbourg.service.project.service.SaisineObservatoireLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
-import java.sql.Timestamp;
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -61,7 +66,16 @@ public class SaisineObservatoireImpl extends SaisineObservatoireBaseImpl {
      *
      * Never reference this class directly. All methods that expect a saisine observatoire model instance should use the {@link eu.strasbourg.service.project.model.SaisineObservatoire} interface instead.
      */
+
+    public final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+
     public SaisineObservatoireImpl() {
+    }
+
+    @Override
+    public String getThematicLabel(Locale locale) {
+        List<AssetCategory> thematics = getThematicCategories();
+        return AssetVocabularyHelper.getThematicTitle(locale, thematics);
     }
 
     /**
@@ -114,6 +128,94 @@ public class SaisineObservatoireImpl extends SaisineObservatoireBaseImpl {
     }
 
     /**
+     * Retourne X suggestions max pour une pétition
+     *
+     * @param request
+     *            la requete
+     * @param nbSuggestions
+     *            le nombre de suggestions.
+     * @return la liste de pétition.
+     */
+    @Override
+    public List<SaisineObservatoire> getSuggestions(HttpServletRequest request, int nbSuggestions) {
+
+        List<SaisineObservatoire> suggestions = new ArrayList<>();
+
+        try {
+            // Initialisation du seachContext
+            SearchContext searchContext = SearchContextFactory.getInstance(request);
+            searchContext.setStart(0);
+            searchContext.setEnd(nbSuggestions);
+
+            // utilisation de l'indexer de l'entite pétition (Permet de rechercher uniquement des pétitions)
+            Indexer indexer = IndexerRegistryUtil.getIndexer(SaisineObservatoire.class.getName());
+
+            // création de la query avec des filtre sur les entités publiées uniquement
+            BooleanQuery mainQuery = new BooleanQueryImpl();
+            mainQuery.addRequiredTerm(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
+            mainQuery.addRequiredTerm("visible", true);
+
+            // Un ou plusieurs territoire
+            BooleanQuery territoryQuery = new BooleanQueryImpl();
+            for (AssetCategory category : this.getTerritoryCategories()) {
+                BooleanQuery categoryQuery = new BooleanQueryImpl();
+                categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(category.getCategoryId()));
+                territoryQuery.add(categoryQuery, BooleanClauseOccur.SHOULD);
+            }
+            mainQuery.add(territoryQuery, BooleanClauseOccur.MUST);
+
+            // Une ou plusieurs thématiques
+            BooleanQuery thematiqueQuery = new BooleanQueryImpl();
+            for (AssetCategory category : this.getThematicCategories()) {
+                BooleanQuery categoryQuery = new BooleanQueryImpl();
+                categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(category.getCategoryId()));
+                thematiqueQuery.add(categoryQuery, BooleanClauseOccur.SHOULD);
+            }
+            mainQuery.add(thematiqueQuery, BooleanClauseOccur.MUST);
+
+            // Le même projet
+            if (this.getProjectCategory() != null) {
+                BooleanQuery projetQuery = new BooleanQueryImpl();
+                projetQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(this.getProjectCategory().getCategoryId()));
+                mainQuery.add(projetQuery, BooleanClauseOccur.MUST);
+            }
+
+            BooleanClause booleanClause = BooleanClauseFactoryUtil.create(mainQuery, BooleanClauseOccur.MUST.getName());
+            searchContext.setBooleanClauses(new BooleanClause[] { booleanClause });
+
+            // Lance la recherche elasticSearch
+            Hits hits = indexer.search(searchContext);
+
+            // Generation de notre liste de suggestion
+            for (Document document : hits.getDocs()) {
+                // récupération de l'élément en base
+                SaisineObservatoire saisineObservatoire = SaisineObservatoireLocalServiceUtil.fetchSaisineObservatoire(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+
+                // Vérification que la pétition recherchée existe bien base (En théorie ne devrait pas arriver) et qu'elle est
+                // différente de la pétition courante
+                if (saisineObservatoire != null && saisineObservatoire.getSaisineObservatoireId() != this.getSaisineObservatoireId())
+                    suggestions.add(saisineObservatoire);
+            }
+        } catch (Exception ex) {
+            _log.error(ex.getMessage(), ex);
+        }
+
+        return suggestions;
+    }
+
+    /**
+     * Retourne le copyright de l'image principale
+     */
+    @Override
+    public String getImageCopyright(Locale locale) {
+        if (Validator.isNotNull(this.getExternalImageCopyright())) {
+            return this.getExternalImageCopyright();
+        } else {
+            return FileEntryHelper.getImageCopyright(this.getImageId(), locale);
+        }
+    }
+
+    /**
      * Retourne le label de 5 digits du nombre de commentaires de l'entité
      */
     @Override
@@ -136,7 +238,15 @@ public class SaisineObservatoireImpl extends SaisineObservatoireBaseImpl {
     }
 
     /**
-     * Retourne les thematiques de la petition (
+     * Retourne les commentaires de l'entité
+     */
+    @Override
+    public List<Comment> getApprovedComments() {
+        return CommentLocalServiceUtil.getByAssetEntry(this.getAssetEntry().getEntryId(), WorkflowConstants.STATUS_APPROVED);
+    }
+
+    /**
+     * Retourne les thematiques de la saisine (
      */
     @Override
     public List<AssetCategory> getThematicCategories() {
@@ -144,7 +254,7 @@ public class SaisineObservatoireImpl extends SaisineObservatoireBaseImpl {
     }
 
     /**
-     * Retourne le projet de la petition (
+     * Retourne le projet de la saisine (
      */
     @Override
     public AssetCategory getProjectCategory() {
@@ -170,7 +280,7 @@ public class SaisineObservatoireImpl extends SaisineObservatoireBaseImpl {
         jsonSaisineObservatoire.put("author", this.getAuthorLabel());
         jsonSaisineObservatoire.put("authorImageURL", this.getAuthorImageURL());
         jsonSaisineObservatoire.put("nbApprovedComments", this.getNbApprovedComments());
-//        jsonSaisineObservatoire.put("frontStatusFR", this.getFrontStatusFR());
+        jsonSaisineObservatoire.put("frontStatusFR", this.getFrontStatusFR());
         jsonSaisineObservatoire.put("districtLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDistrictLabel(Locale.FRENCH))));
         jsonSaisineObservatoire.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
 //        jsonPetition.put("proDureeFR", this.getProDureeFR());
@@ -201,6 +311,25 @@ public class SaisineObservatoireImpl extends SaisineObservatoireBaseImpl {
         } else {
             return FileEntryHelper.getFileEntryURL(this.getImageId());
         }
+    }
+
+    /**
+     * méthode de récupération du status
+     *
+     * @return le status.
+     */
+    @Override
+    public String getFrontStatusFR() {
+        String result;
+        String status = this.getSaisineObservatoireStatus();
+        if (ACCEPTED.getName().equals(status))
+            result = "Accept&eacute;e";
+        else if (REFUSED.getName().equals(status)) {
+            result = "Refus&eacute;e";
+        } else {
+            result = "En cours";
+        }
+        return result;
     }
 
     /**

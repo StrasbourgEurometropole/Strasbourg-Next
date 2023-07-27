@@ -543,6 +543,20 @@ public class SearchAssetPortlet extends MVCPortlet {
             sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
         }
 
+        if (resourceID.equals("entrySelectionSaisineObservatoire")) {
+            keywords = ParamUtil.getString(request, "selectedKeyWords");
+            startDay = ParamUtil.getInteger(request, "selectedStartDay");
+            startMonth = ParamUtil.getString(request, "selectedStartMonth");
+            startYear = ParamUtil.getInteger(request, "selectedStartYear");
+            endDay = ParamUtil.getInteger(request, "selectedEndDay");
+            endMonth = ParamUtil.getString(request, "selectedEndMonth");
+            endYear = ParamUtil.getInteger(request, "selectedEndYear");
+            projects = ParamUtil.getLongValues(request, "selectedProject");
+            districts = ParamUtil.getLongValues(request, "selectedDistricts");
+            thematics = ParamUtil.getLongValues(request, "selectedThematics");
+            sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
+        }
+
         if (resourceID.equals("entrySelectionBudgetParticipatif")) {
             keywords = ParamUtil.getString(request, "selectedKeyWords");
             startDay = ParamUtil.getInteger(request, "selectedStartDay");
@@ -631,7 +645,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         // Préfiltre catégories
         String prefilterCategoriesIdsString = configuration.prefilterCategoriesIds();
         List<Long[]> prefilterCategoriesIds = new ArrayList<>();
-        for (String prefilterCategoriesIdsGroupByVocabulary : prefilterCategoriesIdsString.split(";")) {
+            for (String prefilterCategoriesIdsGroupByVocabulary : prefilterCategoriesIdsString.split(";")) {
             Long[] prefilterCategoriesIdsForVocabulary = ArrayUtil
                     .toLongArray(StringUtil.split(prefilterCategoriesIdsGroupByVocabulary, ",", 0));
             prefilterCategoriesIds.add(prefilterCategoriesIdsForVocabulary);
@@ -1042,6 +1056,11 @@ public class SearchAssetPortlet extends MVCPortlet {
     @Reference(unbind = "-")
     protected void setPetitionLocalService(PetitionLocalService petitionLocalService) {
         _petitionLocalService = petitionLocalService;
+    }
+
+    @Reference(unbind = "-")
+    protected void setSaisineObservatoireLocalService(SaisineObservatoireLocalService saisineObservatoireLocalService) {
+        _saisineObservatoireLocalService = saisineObservatoireLocalService;
     }
 
     @Reference(unbind = "-")

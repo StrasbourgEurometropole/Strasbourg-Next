@@ -9,7 +9,10 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.SaisineObservatoire;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalService;
@@ -39,8 +42,6 @@ public class SaveSaisineObservatoireActionCommand implements MVCActionCommand {
 	private SaisineObservatoireLocalService _saisineObservatoireLocalService;
 
 	private PlacitPlaceLocalService _placitPlaceLocalService;
-
-	private SignataireLocalServiceUtil _signataireLocalService;
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
@@ -227,7 +228,7 @@ public class SaveSaisineObservatoireActionCommand implements MVCActionCommand {
 					}
 
                     // Rattachement a la participation
-                    placitPlace.setPetitionId(saisineObservatoire.getSaisineObservatoireId());
+                    placitPlace.setSaisineObservatoireId(saisineObservatoire.getSaisineObservatoireId());
 
                     // Mise à jour en base
 					ServiceContext scPlacitPlace = (ServiceContext) sc.clone();
