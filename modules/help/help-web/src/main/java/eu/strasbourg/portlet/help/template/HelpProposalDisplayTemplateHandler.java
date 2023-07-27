@@ -1,6 +1,6 @@
 package eu.strasbourg.portlet.help.template;
 
-import com.liferay.portal.kernel.portletdisplaytemplate.BasePortletDisplayTemplateHandler;
+import com.liferay.portlet.display.template.BasePortletDisplayTemplateHandler;
 import com.liferay.portal.kernel.portletdisplaytemplate.PortletDisplayTemplateManager;
 import com.liferay.portal.kernel.template.TemplateHandler;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
