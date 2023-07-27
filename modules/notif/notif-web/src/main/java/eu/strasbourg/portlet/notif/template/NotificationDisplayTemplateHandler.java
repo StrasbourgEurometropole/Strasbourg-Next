@@ -1,10 +1,8 @@
 package eu.strasbourg.portlet.notif.template;
 
-import com.liferay.dynamic.data.mapping.template.BaseDDMTemplateHandler;
-import com.liferay.dynamic.data.mapping.template.DDMTemplateVariableCodeHandler;
+import com.liferay.portal.kernel.portletdisplaytemplate.BasePortletDisplayTemplateHandler;
 import com.liferay.portal.kernel.portletdisplaytemplate.PortletDisplayTemplateManager;
 import com.liferay.portal.kernel.template.TemplateHandler;
-import com.liferay.portal.kernel.template.TemplateVariableCodeHandler;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
 import eu.strasbourg.service.notif.model.Notification;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -23,7 +21,7 @@ import java.util.Map;
 	service = TemplateHandler.class
 )
 public class NotificationDisplayTemplateHandler
-	extends BaseDDMTemplateHandler {
+	extends BasePortletDisplayTemplateHandler {
 
 	@Override
 	public String getClassName() {
@@ -60,15 +58,4 @@ public class NotificationDisplayTemplateHandler
 		
 		return templateVariableGroups;
 	}
-
-	@Override
-	protected TemplateVariableCodeHandler getTemplateVariableCodeHandler() {
-		return _templateVariableCodeHandler ;
-	}
-
-	private final TemplateVariableCodeHandler _templateVariableCodeHandler =
-			new DDMTemplateVariableCodeHandler(
-					NotificationDisplayTemplateHandler.class.getClassLoader(),
-					null,
-					null);
 }
