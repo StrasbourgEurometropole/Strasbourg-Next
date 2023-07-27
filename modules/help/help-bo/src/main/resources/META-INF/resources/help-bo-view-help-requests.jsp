@@ -27,6 +27,7 @@
                     <portlet:param name="backURL" value="${helpRequestsURL}" />
                     <portlet:param name="helpProposalId" value="${helpRequest.helpProposalId}" />
                     <portlet:param name="mvcPath" value="/help-bo-edit-help-proposal.jsp" />
+                    <portlet:param name="tab" value="helpRequests" />
                 </liferay-portlet:renderURL>
 
                 <%-- URL : definit le lien vers la page d'edition de l'entite selectionne --%>
@@ -35,6 +36,7 @@
                     <portlet:param name="helpRequestId" value="${helpRequest.helpRequestId}" />
                     <portlet:param name="backURL" value="${helpRequestsURL}" />
                     <portlet:param name="mvcPath" value="/help-bo-edit-help-request.jsp" />
+                    <portlet:param name="tab" value="helpRequests" />
                 </liferay-portlet:renderURL>
 
                 <%-- URL : definit le lien vers l'action de passage en Conforme --%>

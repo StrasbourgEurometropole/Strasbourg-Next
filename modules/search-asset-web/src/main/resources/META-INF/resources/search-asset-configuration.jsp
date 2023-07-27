@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/search-asset-init.jsp"%>
 <%@page
 	import="com.liferay.portal.kernel.security.permission.ResourceActionsUtil"%>
@@ -14,8 +15,8 @@
     <div class="portlet-configuration-body-content">
         <div class="container-fluid-1280">
 
-            <aui:fieldset-group markupView="lexicon">
-                <!-- Type d'asset -->
+            <div class="sheet"><div class="panel-group panel-group-flush">
+            <!-- Type d'asset -->
                 <aui:fieldset collapsed="false" collapsible="true"
                     label="asset-type">
                     <liferay-ui:message key="asset-types-explanations" />
@@ -343,7 +344,7 @@
                     </aui:select>
                 </aui:fieldset>
 
-            </aui:fieldset-group>
+            </div></div>
         </div>
     </div>
 

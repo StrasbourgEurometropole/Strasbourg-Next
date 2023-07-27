@@ -13,6 +13,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.gtfs.display.context.*;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -32,6 +33,7 @@ import static eu.strasbourg.portlet.gtfs.constants.GtfsConstants.*;
 	immediate = true,
 	property = {
 			"javax.portlet.version=3.0",
+			"javax.portlet.name=" + StrasbourgPortletKeys.GTFS_BO,
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/gtfs-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/gtfs-bo-main.css",

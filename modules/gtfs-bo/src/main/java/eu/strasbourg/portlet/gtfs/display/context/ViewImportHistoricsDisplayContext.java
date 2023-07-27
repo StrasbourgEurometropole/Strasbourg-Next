@@ -38,27 +38,6 @@ public class ViewImportHistoricsDisplayContext  {
 		_itemSelector = itemSelector;
 	}
 	
-	/*public List<ImportHistoric> getImportHistorics() throws PortalException {
-		if (this._importHistorics == null) {
-			Hits hits = getHits(this._themeDisplay.getCompanyGroupId());
-
-			// Création de la liste d'objet
-			List<ImportHistoric> results = new ArrayList<ImportHistoric>();
-			if (hits != null) {
-				for (Document document : hits.getDocs()) {
-					ImportHistoric importHistoric = ImportHistoricLocalServiceUtil.fetchImportHistoric(
-						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-					if (importHistoric != null) {
-						results.add(importHistoric);
-					}
-				}
-			}
-			this._importHistorics = results;
-		}
-		return this._importHistorics;
-	}*/
-	
-	
 	/**
 	 * Retourne la liste des entrees d'historique correspondant à la recherche lancée en ignorant la pagination
 	 */
@@ -150,6 +129,7 @@ public class ViewImportHistoricsDisplayContext  {
 					.setMVCPath("/gtfs-bo-view-import-historics.jsp")
 					.setKeywords(ParamUtil.getString(_request, "keywords"))
 					.setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+					.setParameter("tab", "importHistorics")
 					.buildPortletURL();
 			_searchContainer = new SearchContainer<>(_request, null, null,
 					SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");

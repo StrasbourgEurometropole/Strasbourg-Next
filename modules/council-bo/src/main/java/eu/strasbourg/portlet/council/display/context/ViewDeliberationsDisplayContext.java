@@ -123,6 +123,7 @@ public class ViewDeliberationsDisplayContext {
                     .setMVCPath("/council-bo-view-deliberations.jsp")
                     .setKeywords(ParamUtil.getString(_request, "keywords"))
                     .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+                    .setParameter("tab","deliberations")
                     .buildPortletURL();
             _searchContainer = new SearchContainer<>(_request, null, null,
                     SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");

@@ -362,7 +362,7 @@ public class SiteUpdater {
                                     + "), updating it...");
                     ddmStructure =
                             updateExistingStructure(
-                                    ddmStructure, nameMap, structureDefinition, ddmFormLayout, layoutDefinition, sc);
+                                    ddmStructure, structureKey, nameMap, structureDefinition, ddmFormLayout, layoutDefinition, sc);
                 }
 
                 for (Element templateElement : templateElements) {
@@ -453,7 +453,7 @@ public class SiteUpdater {
         }
     }
 
-    private DDMStructure updateExistingStructure( DDMStructure existingDdmStructure, Map<Locale, String> nameMap,
+    private DDMStructure updateExistingStructure( DDMStructure existingDdmStructure, String structureKey, Map<Locale, String> nameMap,
                                                   String structureDefinition, DDMFormLayout ddmFormLayout, String layoutDefinition,
                                                   ServiceContext sc) throws SiteUpdaterException {
         try {
@@ -480,10 +480,12 @@ public class SiteUpdater {
                                 userId,
                                 existingDdmStructure.getStructureId(),
                                 existingDdmStructure.getParentStructureId(),
+                                structureKey,
                                 nameMap,
                                 new HashMap<>(),
                                 structureDefinition,
                                 sc);
+
                 log.info("[" + ddmStructure.getStructureKey() + "] Structure updated");
             } else {
                 log.debug("[" + existingDdmStructure.getStructureKey() + "] No change for structure");

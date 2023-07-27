@@ -12,6 +12,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.comment.display.context.*;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -31,6 +32,7 @@ import java.io.IOException;
         immediate=true,
         property= {
                 "javax.portlet.version=3.0",
+                "javax.portlet.name=" + StrasbourgPortletKeys.COMMENT_BO,
                 "com.liferay.portlet.instanceable=false",
                 "com.liferay.portlet.footer-portlet-javascript=/js/comment-bo-main.js",
                 "com.liferay.portlet.header-portlet-css=/css/comment-bo-main.css",

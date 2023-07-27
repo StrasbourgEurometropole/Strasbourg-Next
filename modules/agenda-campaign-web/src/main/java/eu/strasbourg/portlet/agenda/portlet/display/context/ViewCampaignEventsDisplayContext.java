@@ -1,20 +1,29 @@
 package eu.strasbourg.portlet.agenda.portlet.display.context;
 
+import com.liferay.asset.categories.item.selector.AssetCategoryTreeNodeItemSelectorReturnType;
+import com.liferay.asset.categories.item.selector.criterion.AssetCategoryTreeNodeItemSelectorCriterion;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
+import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.*;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import eu.strasbourg.portlet.agenda.portlet.util.CampaignEventActionDropdownItemsProvider;
 import eu.strasbourg.service.agenda.model.Campaign;
 import eu.strasbourg.service.agenda.model.CampaignEvent;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.CampaignEventLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
+import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.display.context.BaseDisplayContext;
@@ -22,12 +31,10 @@ import eu.strasbourg.utils.display.context.BaseDisplayContext;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
-public class ViewCampaignEventsDisplayContext extends BaseDisplayContext {
+public class ViewCampaignEventsDisplayContext {
 
 	protected SearchContainer<CampaignEvent> _searchContainer;
 	private String _keywords;
@@ -35,78 +42,102 @@ public class ViewCampaignEventsDisplayContext extends BaseDisplayContext {
 	private Long _themeId;
 	private Long _typeId;
 	private Long _campaignId;
-	private List<CampaignEvent> _campaignEvents;
-	private List<AssetCategory> _themes;
-	private List<AssetCategory> _types;
 	private List<Campaign> _campaigns;
 	private Map<Integer, String> _statuses;
+	private final RenderRequest _request;
+	private final RenderResponse _response;
+	protected ThemeDisplay _themeDisplay;
+	private Map<String, String> _categVocabularies;
+	private final HttpServletRequest _httpServletRequest;
+	private final ItemSelector _itemSelector;
+	private List<CampaignEvent> _campaignEvents;
 
 	public ViewCampaignEventsDisplayContext(RenderRequest request,
-		RenderResponse response) {
-		super(request, response);
+		RenderResponse response, ItemSelector itemSelector) {
+		_request = request;
+		_response = response;
+		_themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
+		_httpServletRequest = PortalUtil.getHttpServletRequest(request);
+		_itemSelector = itemSelector;
+	}
+	/**
+	 * Retourne le dropdownItemsProvider de CampaignEvent
+	 *
+	 */
+	@SuppressWarnings("unused")
+	public CampaignEventActionDropdownItemsProvider getActionsCampaignEvent(CampaignEvent campaignEvent) {
+		return new CampaignEventActionDropdownItemsProvider(campaignEvent, _request,
+				_response);
+	}
+	public boolean hasVocabulary(String vocabularyName){
+		return getCategVocabularies().containsKey(vocabularyName);
+	}
+	public Map<String, String> getCategVocabularies() {
+		if (_categVocabularies == null) {
+			_categVocabularies = new HashMap<>();
+			_categVocabularies.put("vocabulary1", ParamUtil.getString(
+					_httpServletRequest, "vocabulary1", ""));
+		}
+
+		return _categVocabularies;
+	}
+
+	@SuppressWarnings("unused")
+	public String getSelectCategoriesByVocabularyIdURL(long vocabularyId) {
+		RequestBackedPortletURLFactory requestBackedPortletURLFactory =
+				RequestBackedPortletURLFactoryUtil.create(_request);
+		AssetCategoryTreeNodeItemSelectorCriterion categoryTreeNodeItemSelectorCriterion =
+				new AssetCategoryTreeNodeItemSelectorCriterion();
+		categoryTreeNodeItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
+				new AssetCategoryTreeNodeItemSelectorReturnType());
+
+		return String.valueOf(
+				_itemSelector.getItemSelectorURL(
+						requestBackedPortletURLFactory,
+						_response.getNamespace() + "selectAssetCategory",
+						categoryTreeNodeItemSelectorCriterion));
 	}
 
 	/**
 	 * Retourne le SearchContainer
 	 */
-	public SearchContainer<CampaignEvent> getSearchContainer()
-		throws PortalException {
-		if (this._searchContainer == null) {
-			PortletURL iteratorURL = this._response.createRenderURL();
-			iteratorURL.setParameter("keywords", this.getKeywords());
-			iteratorURL.setParameter("themeId", String.valueOf(this.getThemeId()));
-			iteratorURL.setParameter("typeId", String.valueOf(this.getTypeId()));
-			iteratorURL.setParameter("campaignId", String.valueOf(this.getCampaignId()));
-			iteratorURL.setParameter("statusId", String.valueOf(this.getStatusId()));
-			
-			this._searchContainer = new SearchContainer<CampaignEvent>(
-				this._request, iteratorURL, null, "no-entries-were-found");
+	public SearchContainer<CampaignEvent> getSearchContainer() {
 
-			this._searchContainer.setEmptyResultsMessageCssClass(
-				"taglib-empty-result-message-header-has-plus-btn");
-			this._searchContainer
-				.setRowChecker(new EmptyOnClickRowChecker(this._response));
-			this._searchContainer.setOrderByColParam("orderByCol");
-			this._searchContainer.setOrderByTypeParam("orderByType");
+		if (_searchContainer == null) {
+
+			PortletURL portletURL;
+			portletURL = PortletURLBuilder.createRenderURL(_response)
+					.setMVCPath("/campaign-view.jsp")
+					.setKeywords(ParamUtil.getString(_request, "keywords"))
+					.setParameter("themeId", String.valueOf(this.getThemeId()))
+					.setParameter("typeId", String.valueOf(this.getTypeId()))
+					.setParameter("campaignId", String.valueOf(this.getCampaignId()))
+					.setParameter("statusId", String.valueOf(this.getStatusId()))
+					.setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+					.buildPortletURL();
+			_searchContainer = new SearchContainer<>(_request, null, null,
+					SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
+			_searchContainer.setEmptyResultsMessageCssClass(
+					"taglib-empty-result-message-header-has-plus-btn");
+			try {
+				getHits();
+			} catch (PortalException e) {
+				throw new RuntimeException(e);
+			}
+			_searchContainer.setResultsAndTotal(
+					() -> {
+						int start = this._searchContainer.getStart();
+						int end = this._searchContainer.getEnd();
+						int total = this._searchContainer.getTotal();
+						_campaignEvents = _campaignEvents.subList(start, end > total ? total : end);
+						return _campaignEvents;
+					}, _campaignEvents.size()
+			);
 		}
+		_searchContainer.setRowChecker(
+				new EmptyOnClickRowChecker(_response));
+
 		return _searchContainer;
-	}
-
-	/**
-	 * Retourne la liste des thèmes
-	 */
-	public List<AssetCategory> getThemes() throws PortalException {
-		if (Validator.isNull(_themes)) {
-			long companyId = PortalUtil.getDefaultCompanyId();
-			long companyGroupId = CompanyLocalServiceUtil.getCompany(companyId)
-					.getGroup().getGroupId();
-			AssetVocabulary vocabulary = AssetVocabularyHelper
-					.getEntityVocabulary(Event.class.getName(), VocabularyNames.EVENT_THEME,
-							companyGroupId);
-			if (vocabulary != null) {
-				_themes = vocabulary.getCategories();
-			}
-		}
-		return _themes;
-	}
-
-	/**
-	 * Retourne la liste des types
-	 */
-	public List<AssetCategory> getTypes() throws PortalException {
-		if (Validator.isNull(_types)) {
-			long companyId = PortalUtil.getDefaultCompanyId();
-			long companyGroupId = CompanyLocalServiceUtil.getCompany(companyId)
-					.getGroup().getGroupId();
-			AssetVocabulary vocabulary = AssetVocabularyHelper
-					.getEntityVocabulary(Event.class.getName(), VocabularyNames.EVENT_TYPE,
-							companyGroupId);
-			if (vocabulary != null) {
-				_types
-						= vocabulary.getCategories();
-			}
-		}
-		return _types;
 	}
 
 	/**
@@ -118,6 +149,20 @@ public class ViewCampaignEventsDisplayContext extends BaseDisplayContext {
 					-1);
 		}
 		return _campaigns;
+	}
+	/**
+	 * Retourne les Hits de recherche pour un delta
+	 */
+	private void getHits() throws PortalException {
+		if (_campaignEvents == null) {
+			_campaignEvents = CampaignEventLocalServiceUtil
+					.findByKeywordThemeTypeCampaignAndStatus(this.getKeywords(),
+							this.getThemeId(), this.getTypeId(), this.getCampaignId(), this.getStatusId(),
+							this._themeDisplay.getUserId(),
+							this._themeDisplay.getScopeGroupId(),
+							this.getSearchContainer().getStart(),
+							this.getSearchContainer().getEnd());
+		}
 	}
 
 	/**
@@ -176,49 +221,6 @@ public class ViewCampaignEventsDisplayContext extends BaseDisplayContext {
 		}
 		return _campaignId;
 	}
-
-	/**
-	 * Retourne le nom du filtre "thème" sélectionné
-	 * @throws PortalException
-	 */
-	public String getThemeLabel() throws PortalException {
-		Optional<AssetCategory> optionalTheme = this.getThemes().stream()
-				.filter(t -> t.getCategoryId() == this.getThemeId()).findFirst();
-		if(optionalTheme.isPresent()) {
-			return optionalTheme.get().getTitleCurrentValue();
-		} else {
-			return "";
-		}
-	}
-
-	/**
-	 * Retourne le nom du filtre "type" sélectionné
-	 * @throws PortalException
-	 */
-	public String getTypeLabel() throws PortalException {
-		Optional<AssetCategory> optionalType = this.getTypes().stream()
-				.filter(t -> t.getCategoryId() == this.getTypeId()).findFirst();
-		if(optionalType.isPresent()) {
-			return optionalType.get().getTitleCurrentValue();
-		} else {
-			return "";
-		}
-	}
-
-	/**
-	 * Retourne le nom du filtre "campagne" sélectionné
-	 * @throws PortalException
-	 */
-	public String getCampaignLabel() throws PortalException {
-		Optional<Campaign> optionalCampaign = this.getCampaigns().stream()
-				.filter(t -> t.getCampaignId() == this.getCampaignId()).findFirst();
-		if(optionalCampaign.isPresent()) {
-			return optionalCampaign.get().getTitleCurrentValue();
-		} else {
-			return "";
-		}
-	}
-
 	/**
 	 * Retourne le filtre "statut"
 	 */
@@ -228,26 +230,7 @@ public class ViewCampaignEventsDisplayContext extends BaseDisplayContext {
 		}
 		return _status;
 	}
-
-	public List<CampaignEvent> getCampaignEvents() throws PortalException {
-		if (_campaignEvents == null) {
-			_campaignEvents = CampaignEventLocalServiceUtil
-				.findByKeywordThemeTypeCampaignAndStatus(this.getKeywords(),
-					this.getThemeId(), this.getTypeId(), this.getCampaignId(), this.getStatusId(),
-					this._themeDisplay.getUserId(),
-					this._themeDisplay.getScopeGroupId(),
-					this.getSearchContainer().getStart(),
-					this.getSearchContainer().getEnd());
-			long total = CampaignEventLocalServiceUtil
-				.findByKeywordThemeTypeCampaignAndStatusCount(this.getKeywords(),
-					this.getThemeId(), this.getTypeId(), this.getCampaignId(), this.getStatusId(),
-					this._themeDisplay.getUserId(),
-					this._themeDisplay.getScopeGroupId());
-			this.getSearchContainer().setResultsAndTotal(null,(int) total);
-		}
-		return _campaignEvents;
-	}
-
+	
 	public boolean isUserAManager() {
 		List<Campaign> campaigns = CampaignLocalServiceUtil.getCampaigns(-1,
 			-1);

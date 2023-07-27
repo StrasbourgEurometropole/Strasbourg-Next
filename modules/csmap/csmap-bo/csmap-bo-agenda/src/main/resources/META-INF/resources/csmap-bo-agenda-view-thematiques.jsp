@@ -3,6 +3,7 @@
 <%-- URL : definit le lien avec les parametres de recherche des entites--%>
 <liferay-portlet:renderURL varImpl="agendaThematiqueURL">
 	<portlet:param name="tab" value="agendaThematique" />
+	<portlet:param name="mvcPath" value="/csmap-bo-agenda-view-thematiques.jsp"/>
 </liferay-portlet:renderURL>
 <%-- URL : definit le lien vers la page d'edition d'une entite --%>
 <liferay-portlet:renderURL varImpl="addAgendaThematiqueURL">
@@ -29,6 +30,7 @@
                     <portlet:param name="cmd" value="editAgendaThematique" />
                     <portlet:param name="agendaId" value="${agenda.agendaId}" />
                     <portlet:param name="backURL" value="${agendaThematiqueURL}" />
+					<portlet:param name="tab" value="agendaThematique" />
                     <portlet:param name="mvcPath" value="/csmap-bo-agenda-edit-thematique.jsp" />
                 </liferay-portlet:renderURL>
                 <%-- URL : definit le lien vers l'action de supprimer l'entite selectionnee --%>

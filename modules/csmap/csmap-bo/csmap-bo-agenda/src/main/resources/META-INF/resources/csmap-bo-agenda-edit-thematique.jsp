@@ -1,7 +1,10 @@
 <%@ include file="/csmap-bo-agenda-init.jsp" %>
 
 <%@page import="eu.strasbourg.service.csmap.model.Agenda"%>
-
+<liferay-portlet:renderURL varImpl="agendaThematiqueURL">
+	<portlet:param name="tab" value="agendaThematique" />
+	<portlet:param name="mvcPath" value="/csmap-bo-agenda-view-thematiques.jsp"/>
+</liferay-portlet:renderURL>
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveAgendaThematique" varImpl="saveAgendaThematiqueURL">
 	<portlet:param name="tab" value="agendaThematique" />
@@ -80,10 +83,10 @@
                     </c:forEach>
                 </select>
 
-                <liferay-ui:asset-categories-selector
+                <liferay-asset:asset-categories-selector
                     className="${dc.className}"
                     hiddenInput="Vocabulary"
-                    curCategoryIds="${dc.allCategoriesAgenda}" />
+                    categoryIds="${dc.allCategoriesAgenda}" />
 
                 <label><span>Tags</span></label>
                 <liferay-asset:asset-tags-selector

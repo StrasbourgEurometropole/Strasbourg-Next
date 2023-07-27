@@ -345,12 +345,12 @@ public class ObjtpImporter {
 				}
 				// S'il n'existe pas, on le crée
 				if(objtpFolder == null) {
-					objtpFolder = DLAppServiceUtil.addFolder(
+					objtpFolder = DLAppServiceUtil.addFolder(null,
 				             repositoryId
 				             ,DLFolderConstants.DEFAULT_PARENT_FOLDER_ID
 				             , "Objets trouves"
 				            , "Objets trouves"
-				            , serviceContext);;
+				            , serviceContext);
 				}
 				
 				

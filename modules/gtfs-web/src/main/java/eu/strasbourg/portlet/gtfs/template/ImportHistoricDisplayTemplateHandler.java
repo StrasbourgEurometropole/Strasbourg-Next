@@ -1,18 +1,18 @@
 package eu.strasbourg.portlet.gtfs.template;
 
-import com.liferay.portal.kernel.portletdisplaytemplate.BasePortletDisplayTemplateHandler;
+import com.liferay.dynamic.data.mapping.template.BaseDDMTemplateHandler;
+import com.liferay.dynamic.data.mapping.template.DDMTemplateVariableCodeHandler;
 import com.liferay.portal.kernel.portletdisplaytemplate.PortletDisplayTemplateManager;
 import com.liferay.portal.kernel.template.TemplateHandler;
+import com.liferay.portal.kernel.template.TemplateVariableCodeHandler;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
+import eu.strasbourg.service.gtfs.model.ImportHistoric;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import org.osgi.service.component.annotations.Component;
-
-import eu.strasbourg.service.gtfs.model.ImportHistoric;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
 	immediate = true,
@@ -21,7 +21,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
     },
 	service = TemplateHandler.class
 )
-public class ImportHistoricDisplayTemplateHandler extends BasePortletDisplayTemplateHandler {
+public class ImportHistoricDisplayTemplateHandler extends BaseDDMTemplateHandler {
 
 	@Override
 	public String getClassName() {
@@ -59,5 +59,16 @@ public class ImportHistoricDisplayTemplateHandler extends BasePortletDisplayTemp
 		fieldsTemplateVariableGroup.addVariable("Featured", Boolean.class, "isFeatured");
 		return templateVariableGroups;
 	}
+
+	@Override
+	protected TemplateVariableCodeHandler getTemplateVariableCodeHandler() {
+		return _templateVariableCodeHandler ;
+	}
+
+	private final TemplateVariableCodeHandler _templateVariableCodeHandler =
+			new DDMTemplateVariableCodeHandler(
+					ImportHistoricDisplayTemplateHandler.class.getClassLoader(),
+					null,
+					null);
 
 }

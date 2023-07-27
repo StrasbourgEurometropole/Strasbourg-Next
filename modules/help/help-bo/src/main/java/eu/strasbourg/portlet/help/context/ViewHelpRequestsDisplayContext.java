@@ -57,6 +57,7 @@ public class ViewHelpRequestsDisplayContext  {
                     .setMVCPath("/help-bo-view-help-requests.jsp")
                     .setKeywords(ParamUtil.getString(_request, "keywords"))
                     .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+                    .setParameter("tab","helpRequests")
                     .buildPortletURL();
             _searchContainer = new SearchContainer<>(_request, null, null,
                     SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");

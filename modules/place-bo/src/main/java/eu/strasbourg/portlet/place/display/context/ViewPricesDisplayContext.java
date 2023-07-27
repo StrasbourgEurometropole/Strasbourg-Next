@@ -1,23 +1,29 @@
 package eu.strasbourg.portlet.place.display.context;
 
 import com.liferay.item.selector.ItemSelector;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
-import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.place.util.PriceActionDropdownItemsProvider;
+import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.place.model.Price;
 import eu.strasbourg.service.place.service.PriceLocalServiceUtil;
+import eu.strasbourg.utils.SearchHelper;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,13 +64,16 @@ public class ViewPricesDisplayContext {
 					.setMVCPath("/place-bo-view-prices.jsp")
 					.setKeywords(ParamUtil.getString(_request, "keywords"))
 					.setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+					.setParameter("tab","prices")
 					.buildPortletURL();
+
 			_searchContainer = new SearchContainer<>(_request, null, null,
 					SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
 			_searchContainer.setEmptyResultsMessageCssClass(
 					"taglib-empty-result-message-header-has-plus-btn");
 			_searchContainer.setOrderByColParam("orderByCol");
 			_searchContainer.setOrderByTypeParam("orderByType");
+
 			try {
 				getHits();
 			} catch (PortalException e) {
@@ -73,10 +82,15 @@ public class ViewPricesDisplayContext {
 			_searchContainer.setResultsAndTotal(
 					() -> {
 						// Création de la liste d'objet
+						int start = this._searchContainer.getStart();
+						int end = this._searchContainer.getEnd();
+						int total = this._searchContainer.getTotal();
+						_prices = _prices.subList(start, end > total ? total : end);
 						return _prices;
 					}, _prices.size()
 			);
 		}
+
 		_searchContainer.setRowChecker(new EmptyOnClickRowChecker(_response));
 		return _searchContainer;
 	}
@@ -85,7 +99,7 @@ public class ViewPricesDisplayContext {
 		if (this._prices == null) {
 
 			// Récupération de la liste des prix
-			this._prices= PriceLocalServiceUtil.getPrices(this.getSearchContainer().getStart(), this.getSearchContainer().getEnd());
+			this._prices= PriceLocalServiceUtil.getPrices(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 
 		}
 	}

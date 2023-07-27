@@ -32,7 +32,6 @@ import java.util.Map;
  */
 public class ViewBudgetParticipatifDisplayContext {
 
-    private List<BudgetParticipatif> _budgetParticipatifs;
 
     public ViewBudgetParticipatifDisplayContext(RenderRequest request, RenderResponse response, ItemSelector itemSelector) {
         _request = request;
@@ -88,9 +87,10 @@ public class ViewBudgetParticipatifDisplayContext {
 
             PortletURL portletURL;
             portletURL = PortletURLBuilder.createRenderURL(_response)
-                    .setMVCPath("/project-bo-edit-budget-participatif.jsp")
+                    .setMVCPath("/project-bo-view-budgets-participatifs.jsp")
                     .setKeywords(ParamUtil.getString(_request, "keywords"))
                     .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+                    .setParameter("tab", "budgets-participatifs")
                     .buildPortletURL();
             _searchContainer = new SearchContainer<>(_request, null, null,
                     SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");

@@ -15,6 +15,7 @@ import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.util.PortalUtil;
 import eu.strasbourg.portlet.interest.display.context.ManagementInterestsToolBarDisplayContext;
 import eu.strasbourg.portlet.interest.display.context.NavigationBarDisplayContext;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -33,6 +34,7 @@ import org.osgi.service.component.annotations.Reference;
 	immediate = true,
 	property = {
 		"javax.portlet.version=3.0",
+			"javax.portlet.name=" + StrasbourgPortletKeys.INTEREST_BO,
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.header-portlet-css=/css/interest-bo-main.css",
 		"com.liferay.portlet.single-page-application=false",

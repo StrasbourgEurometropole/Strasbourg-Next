@@ -41,25 +41,6 @@ public class ViewOfficialsDisplayContext {
 	}
 
 
-	/*public List<Official> getOfficials() throws PortalException {
-		if (this._officials == null) {
-			Hits hits = getHits(this._themeDisplay.getScopeGroupId());
-
-			// Création de la liste d'objet
-			List<Official> results = new ArrayList<Official>();
-			if (hits != null) {
-				for (Document document : hits.getDocs()) {
-					Official official = OfficialLocalServiceUtil.fetchOfficial(
-						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-					if (official != null) {
-						results.add(official);
-					}
-				}
-			}
-			this._officials = results;
-		}
-		return this._officials;
-	}*/
 	/**
 	 * Retourne le dropdownItemsProvider de official
 	 *

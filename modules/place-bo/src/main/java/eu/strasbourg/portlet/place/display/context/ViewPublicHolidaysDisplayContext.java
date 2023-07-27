@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.place.display.context;
 
 import com.liferay.item.selector.ItemSelector;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -52,6 +53,7 @@ public class ViewPublicHolidaysDisplayContext {
 					.setMVCPath("/place-bo-view-public-holidays.jsp")
 					.setKeywords(ParamUtil.getString(_request, "keywords"))
 					.setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+					.setParameter("tab","publicHolidays")
 					.buildPortletURL();
 			_searchContainer = new SearchContainer<>(_request, null, null,
 					SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
@@ -67,6 +69,10 @@ public class ViewPublicHolidaysDisplayContext {
 			_searchContainer.setResultsAndTotal(
 					() -> {
 						// Création de la liste d'objet
+						int start = this._searchContainer.getStart();
+						int end = this._searchContainer.getEnd();
+						int total = this._searchContainer.getTotal();
+						_publicHolidays= _publicHolidays.subList(start, end > total ? total : end);
 						return _publicHolidays;
 					}, _publicHolidays.size()
 			);
@@ -80,8 +86,8 @@ public class ViewPublicHolidaysDisplayContext {
 
 			// Récupération de la liste des prix
 			this._publicHolidays = PublicHolidayLocalServiceUtil
-					.getPublicHolidays(this.getSearchContainer().getStart(),
-							this.getSearchContainer().getEnd());
+					.getPublicHolidays(QueryUtil.ALL_POS,
+							QueryUtil.ALL_POS);
 		}
 	}
 

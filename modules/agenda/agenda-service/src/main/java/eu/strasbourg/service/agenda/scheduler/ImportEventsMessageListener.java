@@ -1,92 +1,39 @@
 package eu.strasbourg.service.agenda.scheduler;
 
+import com.liferay.petra.function.UnsafeRunnable;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.messaging.BaseMessageListener;
-import com.liferay.portal.kernel.messaging.DestinationNames;
-import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
-import com.liferay.portal.kernel.scheduler.SchedulerEntry;
-import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
-import com.liferay.portal.kernel.scheduler.TimeUnit;
-import com.liferay.portal.kernel.scheduler.Trigger;
-import com.liferay.portal.kernel.scheduler.TriggerFactory;
+import com.liferay.portal.kernel.scheduler.SchedulerJobConfiguration;
+import com.liferay.portal.kernel.scheduler.TriggerConfiguration;
 import eu.strasbourg.service.agenda.service.EventLocalService;
 import eu.strasbourg.service.agenda.service.ImportReportLocalService;
 import eu.strasbourg.service.place.service.PlaceLocalService;
-import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
-
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 /**
  * Importe automatiquement les événements et les manifestations des fichiers
  * JSON présents dans le dossier d'import.
  */
-@Component(immediate = true, service = ImportEventsMessageListener.class)
+@Component(service = SchedulerJobConfiguration.class)
 public class ImportEventsMessageListener
-		extends BaseMessageListener {
+		implements SchedulerJobConfiguration {
 
-	@Activate
-	@Modified
-	protected void activate() {
-		log.info("Start import events scheduler activation");
-
-		String listenerClass = getClass().getName();
-
-		LocalDateTime now = LocalDateTime.now();
-		LocalDateTime firstTrigger = now.withHour(1).withMinute(30).withSecond(0);
-		LocalDateTime secondTrigger = now.withHour(13).withMinute(30).withSecond(0);
-		LocalDateTime thirdTrigger = now.plusDays(1).withHour(1).withMinute(30).withSecond(0);
-		// Création du trigger "Tous à 1h30 ou 13h30 toutes les 12 heures"
-		Trigger trigger;
-		if(now.isBefore(firstTrigger)){
-			trigger = _triggerFactory.createTrigger(
-					listenerClass,
-					listenerClass,
-					java.util.Date
-							.from(firstTrigger.atZone(ZoneId.systemDefault())
-									.toInstant()),
-					null,
-					12, TimeUnit.HOUR);
-		} else if(now.isBefore(secondTrigger)) {
-			trigger = _triggerFactory.createTrigger(
-					listenerClass,
-					listenerClass,
-					java.util.Date
-							.from(secondTrigger.atZone(ZoneId.systemDefault())
-									.toInstant()),
-					null,
-					12, TimeUnit.HOUR);
-		} else {
-			trigger = _triggerFactory.createTrigger(
-					listenerClass,
-					listenerClass,
-					java.util.Date
-							.from(thirdTrigger.atZone(ZoneId.systemDefault())
-									.toInstant()),
-					null,
-					12, TimeUnit.HOUR);
-		}
-
-		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
-				listenerClass, trigger);
-
-		_schedulerEngineHelper.register(
-				this, schedulerEntry, DestinationNames.SCHEDULER_DISPATCH);
-
-		log.info("Finish import events scheduler activation");
+	@Override
+	public TriggerConfiguration getTriggerConfiguration() {
+		// Création du trigger "Tous les jours à 1h30 ou 13h30"
+		return TriggerConfiguration.createTriggerConfiguration("0 30 1,13 ? * * *");
 	}
 
 	@Override
-	protected void doReceive(Message message) throws Exception {
-		log.info("Start importing events");
-		// Import des événements =
-		_eventLocalService.doImport();
-		log.info("Finish importing events");
+	public UnsafeRunnable<Exception> getJobExecutorUnsafeRunnable() {
+		return () -> {
+			log.info("Start importing events");
+			// Import des événements =
+			_eventLocalService.doImport();
+			log.info("Finish importing events");
+		};
 	}
 
 	@Reference(unbind = "-")
@@ -104,23 +51,10 @@ public class ImportEventsMessageListener
 		_importReportLocalService = importReportLocalService;
 	}
 
-	@Reference(unbind = "-")
-	protected void setSchedulerEngineHelper(
-			SchedulerEngineHelper schedulerEngineHelper) {
-
-		_schedulerEngineHelper = schedulerEngineHelper;
-	}
-
-	@Reference(unbind = "-")
-	protected void setTriggerFactory(TriggerFactory triggerFactory) {
-		_triggerFactory = triggerFactory;
-	}
-
 	private volatile SchedulerEngineHelper _schedulerEngineHelper;
 	private EventLocalService _eventLocalService;
 	private PlaceLocalService _placeLocalService;
 	private ImportReportLocalService _importReportLocalService;
-	private TriggerFactory _triggerFactory;
 
 	private Log log = LogFactoryUtil.getLog(this.getClass());
 }

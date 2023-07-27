@@ -22,6 +22,7 @@
                     <portlet:param name="helpRequestId" value="${helpRequest.helpRequestId}" />
                     <portlet:param name="mvcPath" value="/help-bo-edit-help-request.jsp" />
                     <portlet:param name="backURL" value="${dc.currentUrl}" />
+					<portlet:param name="tab" value="helpRequests" />
                 </liferay-portlet:renderURL>
 
 				<%-- Colonne : Date de creation --%>

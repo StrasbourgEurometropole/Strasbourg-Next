@@ -6,6 +6,7 @@
 	<portlet:param name="helpProposalId" value="${dc.helpProposal.helpProposalId}" />
 	<portlet:param name="backURL" value="${dc.currentUrl}" />
 	<portlet:param name="mvcPath" value="/help-bo-edit-help-proposal.jsp" />
+	<portlet:param name="tab" value="helpRequests" />
 </liferay-portlet:renderURL>
 
 <div class="container-fluid container-fluid-max-xl main-content-body">

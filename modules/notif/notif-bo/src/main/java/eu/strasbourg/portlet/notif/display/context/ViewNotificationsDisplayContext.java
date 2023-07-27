@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.notif.display.context;
 
 import com.liferay.item.selector.ItemSelector;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -68,6 +69,7 @@ public class ViewNotificationsDisplayContext {
 					.setMVCPath("/notif-bo-view-notifications.jsp")
 					.setKeywords(ParamUtil.getString(_request, "keywords"))
 					.setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+					.setParameter("tab", "notifications")
 					.buildPortletURL();
 			_searchContainer = new SearchContainer<>(_request, null, null,
 					SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
@@ -85,6 +87,10 @@ public class ViewNotificationsDisplayContext {
 			_searchContainer.setResultsAndTotal(
 					() -> {
 						// Création de la liste d'objet
+						int start = this._searchContainer.getStart();
+						int end = this._searchContainer.getEnd();
+						int total = this._searchContainer.getTotal();
+						notifications = notifications.subList(start, end > total ? total : end);
 						return notifications;
 					}, notifications.size()
 			);
@@ -102,8 +108,8 @@ public class ViewNotificationsDisplayContext {
 		if (this.notifications == null) {
 			if (isAdminNotification())
 				this.notifications = NotificationLocalServiceUtil.getNotifications(
-						this.getSearchContainer().getStart(),
-						this.getSearchContainer().getEnd());
+						QueryUtil.ALL_POS,
+						QueryUtil.ALL_POS);
 			else {
 				if (getServicesId().length > 0) {
 					this.notifications = NotificationLocalServiceUtil.getByServiceIds(getServicesId());

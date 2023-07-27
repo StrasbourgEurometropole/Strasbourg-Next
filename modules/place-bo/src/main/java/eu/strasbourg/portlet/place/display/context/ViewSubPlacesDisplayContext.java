@@ -9,6 +9,7 @@ import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import com.liferay.item.selector.ItemSelector;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -54,6 +55,7 @@ public class ViewSubPlacesDisplayContext {
 					.setMVCPath("/place-bo-view-subplaces.jsp")
 					.setKeywords(ParamUtil.getString(_request, "keywords"))
 					.setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+					.setParameter("tab","subPlaces")
 					.buildPortletURL();
 			_searchContainer = new SearchContainer<>(_request, null, null,
 					SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
@@ -69,6 +71,10 @@ public class ViewSubPlacesDisplayContext {
 			_searchContainer.setResultsAndTotal(
 					() -> {
 						// Création de la liste d'objet
+						int start = this._searchContainer.getStart();
+						int end = this._searchContainer.getEnd();
+						int total = this._searchContainer.getTotal();
+						_subPlaces= _subPlaces.subList(start, end > total ? total : end);
 						return _subPlaces;
 					}, _subPlaces.size()
 			);
@@ -82,8 +88,8 @@ public class ViewSubPlacesDisplayContext {
 
 			// Récupération de la liste des prix
 			this._subPlaces = SubPlaceLocalServiceUtil.getSubPlaces(
-					this._searchContainer.getStart(),
-					this._searchContainer.getEnd());
+					QueryUtil.ALL_POS,
+					QueryUtil.ALL_POS);
 		}
 	}
 

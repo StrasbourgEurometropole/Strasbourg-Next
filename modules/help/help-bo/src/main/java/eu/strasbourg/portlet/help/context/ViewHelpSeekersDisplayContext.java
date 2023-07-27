@@ -57,6 +57,7 @@ public class ViewHelpSeekersDisplayContext {
                     .setKeywords(ParamUtil.getString(_request, "keywords"))
                     .setTabs1("helpSeekers")
                     .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+                    .setParameter("tab","helpSeekers")
                     .buildPortletURL();
             _searchContainer = new SearchContainer<>(_request, null, null,
                     SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
@@ -74,6 +75,10 @@ public class ViewHelpSeekersDisplayContext {
             _searchContainer.setResultsAndTotal(
                     () -> {
                         // Création de la liste d'objet
+                        int start = this._searchContainer.getStart();
+                        int end = this._searchContainer.getEnd();
+                        int total = this._searchContainer.getTotal();
+                        _helpSeekers = _helpSeekers.subList(start, end > total ? total : end);
                         return _helpSeekers;
                     }, _helpSeekers.size()
             );

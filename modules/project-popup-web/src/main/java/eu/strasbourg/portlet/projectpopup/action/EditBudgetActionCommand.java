@@ -320,7 +320,7 @@ public class EditBudgetActionCommand implements MVCActionCommand {
                                             folderUpload.getFolderId(),
                                             budgetParticipatif.getPhase().getTitle());
                                 }catch(Exception e) {
-                                    folderPhase = DLAppLocalServiceUtil.addFolder(
+                                    folderPhase = DLAppLocalServiceUtil.addFolder(null,
                                             sc.getUserId(), repositoryId,
                                             folderUpload.getFolderId(), budgetParticipatif.getPhase().getTitle(),
                                             "", sc);
@@ -333,7 +333,7 @@ public class EditBudgetActionCommand implements MVCActionCommand {
                                             folderPhase.getFolderId(),
                                             budgetParticipatif.getTitle());
                                 }catch(Exception e) {
-                                    folder = DLAppLocalServiceUtil.addFolder(
+                                    folder = DLAppLocalServiceUtil.addFolder(null,
                                             sc.getUserId(), repositoryId,
                                             folderPhase.getFolderId(), budgetParticipatif.getTitle(),
                                             "", sc);

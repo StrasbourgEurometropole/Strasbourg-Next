@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.agenda.panel;
 
+import com.liferay.portal.kernel.model.Portlet;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.application.list.BasePanelApp;
@@ -7,6 +8,7 @@ import com.liferay.application.list.PanelApp;
 import com.liferay.application.list.constants.PanelCategoryKeys;
 
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Reference;
 
 @Component(
     immediate = true,
@@ -21,4 +23,14 @@ public class EventBOPanelApp extends BasePanelApp {
 	public String getPortletId() {
 		return StrasbourgPortletKeys.AGENDA_BO;
 	}
+
+	@Override
+	public Portlet getPortlet() {
+		return _portlet;
+	}
+
+	@Reference(
+			target = "(javax.portlet.name=" + StrasbourgPortletKeys.AGENDA_BO + ")"
+	)
+	private Portlet _portlet;
 }

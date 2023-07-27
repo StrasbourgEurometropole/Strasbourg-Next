@@ -1,8 +1,10 @@
 package eu.strasbourg.portlet.edition.template;
 
-import com.liferay.portal.kernel.portletdisplaytemplate.BasePortletDisplayTemplateHandler;
+import com.liferay.dynamic.data.mapping.template.BaseDDMTemplateHandler;
+import com.liferay.dynamic.data.mapping.template.DDMTemplateVariableCodeHandler;
 import com.liferay.portal.kernel.portletdisplaytemplate.PortletDisplayTemplateManager;
 import com.liferay.portal.kernel.template.TemplateHandler;
+import com.liferay.portal.kernel.template.TemplateVariableCodeHandler;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -21,7 +23,7 @@ import java.util.Map;
 	service = TemplateHandler.class
 )
 public class EditionDisplayTemplateHandler
-	extends BasePortletDisplayTemplateHandler {
+	extends BaseDDMTemplateHandler {
 
 	@Override
 	public String getClassName() {
@@ -58,4 +60,15 @@ public class EditionDisplayTemplateHandler
 		
 		return templateVariableGroups;
 	}
+
+	@Override
+	protected TemplateVariableCodeHandler getTemplateVariableCodeHandler() {
+		return _templateVariableCodeHandler ;
+	}
+
+	private final TemplateVariableCodeHandler _templateVariableCodeHandler =
+			new DDMTemplateVariableCodeHandler(
+					EditionDisplayTemplateHandler.class.getClassLoader(),
+					null,
+					null);
 }

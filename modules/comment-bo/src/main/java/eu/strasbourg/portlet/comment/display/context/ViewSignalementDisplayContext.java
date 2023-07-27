@@ -53,12 +53,6 @@ public class ViewSignalementDisplayContext  {
         _itemSelector=itemSelector;
     }
 
-
-    /*public String getOrderByCol() {
-        return ParamUtil.getString(this._request, "orderByCol",
-                "reporting-date");
-    }*/
-
     /**
      * Méthode permettant la création de liste d'objets.
      * @param hits les hits d'elastic search
@@ -152,6 +146,7 @@ public class ViewSignalementDisplayContext  {
                     .setMVCPath("/comment-bo-view-signalements.jsp")
                     .setKeywords(ParamUtil.getString(_request, "keywords"))
                     .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+                    .setParameter("tab","reportings")
                     .buildPortletURL();
             _searchContainer = new SearchContainer<>(_request, null, null,
                     SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");

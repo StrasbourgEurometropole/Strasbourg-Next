@@ -113,6 +113,7 @@ public class ViewTypesDisplayContext {
                     .setMVCPath("/council-bo-view-types.jsp")
                     .setKeywords(ParamUtil.getString(_request, "keywords"))
                     .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+                    .setParameter("tab","types")
                     .buildPortletURL();
             _searchContainer = new SearchContainer<>(_request, null, null,
                     SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");

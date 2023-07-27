@@ -10,7 +10,7 @@
 		value="${param.themeId}" />
 </liferay-portlet:actionURL>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form action="${updateCampaignStatusURL}" method="post" name="fm">
 		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="campaignEventId" type="hidden" value="${param.campaignEventId}" />

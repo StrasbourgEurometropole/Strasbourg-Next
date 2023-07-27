@@ -1,12 +1,13 @@
 package eu.strasbourg.portlet.help.template;
 
-import com.liferay.portal.kernel.portletdisplaytemplate.BasePortletDisplayTemplateHandler;
+import com.liferay.dynamic.data.mapping.template.BaseDDMTemplateHandler;
+import com.liferay.dynamic.data.mapping.template.DDMTemplateVariableCodeHandler;
 import com.liferay.portal.kernel.portletdisplaytemplate.PortletDisplayTemplateManager;
 import com.liferay.portal.kernel.template.TemplateHandler;
+import com.liferay.portal.kernel.template.TemplateVariableCodeHandler;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-
 import eu.strasbourg.service.help.model.HelpProposal;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.Map;
         },
         service = TemplateHandler.class
 )
-public class HelpProposalDisplayTemplateHandler extends BasePortletDisplayTemplateHandler {
+public class HelpProposalDisplayTemplateHandler extends BaseDDMTemplateHandler {
     @Override
     public String getClassName() {
         return HelpProposal.class.getName();
@@ -57,4 +58,15 @@ public class HelpProposalDisplayTemplateHandler extends BasePortletDisplayTempla
 
         return templateVariableGroups;
     }
+
+    @Override
+    protected TemplateVariableCodeHandler getTemplateVariableCodeHandler() {
+        return _templateVariableCodeHandler ;
+    }
+
+    private final TemplateVariableCodeHandler _templateVariableCodeHandler =
+            new DDMTemplateVariableCodeHandler(
+                    HelpProposalDisplayTemplateHandler.class.getClassLoader(),
+                    null,
+                    null);
 }

@@ -1,67 +1,34 @@
 package eu.strasbourg.service.agenda.scheduler;
 
+import com.liferay.petra.function.UnsafeRunnable;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.messaging.BaseMessageListener;
-import com.liferay.portal.kernel.messaging.DestinationNames;
-import com.liferay.portal.kernel.messaging.Message;
-import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
-import com.liferay.portal.kernel.scheduler.SchedulerEntry;
-import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
-import com.liferay.portal.kernel.scheduler.Trigger;
-import com.liferay.portal.kernel.scheduler.TriggerFactory;
+import com.liferay.portal.kernel.scheduler.SchedulerJobConfiguration;
+import com.liferay.portal.kernel.scheduler.TriggerConfiguration;
 import eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalService;
-import eu.strasbourg.utils.constants.GlobalConstants;
-import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Deactivate;
-import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
 
 /**
  * remettre à jour le JSON des caches actifs dont regeneratedDate <= aujourd’hui – 30j
  */
-@Component(immediate = true, service = RegenerateJsonEventMessageListener.class)
+@Component(service = SchedulerJobConfiguration.class)
 public class RegenerateJsonEventMessageListener
-	extends BaseMessageListener {
+		implements SchedulerJobConfiguration {
 
-	@Activate
-	@Modified
-	protected void activate() {
-		String listenerClass = getClass().getName();
-
-		// Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
-		Calendar now = Calendar.getInstance();
-		now.add(Calendar.MINUTE, 5);
-		Date fiveMinutesFromNow = now.getTime();
-
-		// Création du trigger "Tous les jours à XXh"
-		Trigger trigger = _triggerFactory.createTrigger(
-				listenerClass, listenerClass, fiveMinutesFromNow, null,
-				"0 30 4 * * ?", TimeZone.getTimeZone(GlobalConstants.TIMEZONE));
-
-
-		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
-				listenerClass, trigger);
-
-		_schedulerEngineHelper.register(
-				this, schedulerEntry, DestinationNames.SCHEDULER_DISPATCH);
-	}
-
-	@Deactivate
-	protected void deactivate() {
-		_schedulerEngineHelper.unregister(this);
+	@Override
+	public TriggerConfiguration getTriggerConfiguration() {
+		// Création du trigger "Tous les jours à 4h30"
+		return TriggerConfiguration.createTriggerConfiguration("0 30 4 * * ?");
 	}
 
 	@Override
-	protected void doReceive(Message message) throws Exception {
-		log.info("Start updateJsonEvent");
-		_csmapCacheJsonLocalService.updateJsonEvent();
-		log.info("Finish updateJsonEvent");
+	public UnsafeRunnable<Exception> getJobExecutorUnsafeRunnable() {
+		return () -> {
+			log.info("Start updateJsonEvent");
+			_csmapCacheJsonLocalService.updateJsonEvent();
+			log.info("Finish updateJsonEvent");
+		};
 	}
 
 	@Reference(unbind = "-")
@@ -69,21 +36,6 @@ public class RegenerateJsonEventMessageListener
 
 		_csmapCacheJsonLocalService = csmapCacheJsonLocalService;
 	}
-
-	@Reference(unbind = "-")
-	protected void setSchedulerEngineHelper(
-			SchedulerEngineHelper schedulerEngineHelper) {
-
-		_schedulerEngineHelper = schedulerEngineHelper;
-	}
-
-	@Reference(unbind = "-")
-	protected void setTriggerFactory(TriggerFactory triggerFactory) {
-		_triggerFactory = triggerFactory;
-	}
-
-	private volatile SchedulerEngineHelper _schedulerEngineHelper;
 	private CsmapCacheJsonLocalService _csmapCacheJsonLocalService;
-	private TriggerFactory _triggerFactory;
 	private Log log = LogFactoryUtil.getLog(this.getClass());
 }

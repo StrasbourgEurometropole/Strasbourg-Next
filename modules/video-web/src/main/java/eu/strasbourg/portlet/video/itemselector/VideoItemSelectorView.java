@@ -1,26 +1,25 @@
 package eu.strasbourg.portlet.video.itemselector;
 
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemBuilder;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuilder;
 import com.liferay.item.selector.ItemSelectorReturnType;
 import com.liferay.item.selector.ItemSelectorView;
 import com.liferay.item.selector.criteria.URLItemSelectorReturnType;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.ListUtil;
-import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.util.*;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.PortletURL;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -93,16 +92,14 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 				(delta * cur));
 
 		long videosCount = VideoLocalServiceUtil.findByKeywordCount(keywords, filterGroupId);
-
+		List<DropdownItem> groupFilterItems = getFilterGroupDropdownItems(portletURL, themeDisplay.getCompanyId(),
+				filterGroupId);
 		servletRequest.setAttribute("total", videosCount);
 		servletRequest.setAttribute("videos", videos);
 		servletRequest.setAttribute("portletURL", portletURL);
 		servletRequest.setAttribute("itemSelectedEventName", itemSelectedEventName);
 		servletRequest.setAttribute("multiple", multiple);
-
-		/*List<ManagementBarFilterItem> groupFilterItems = getGroupFilterItems(portletURL, themeDisplay.getCompanyId(),
-				filterGroupId);
-		servletRequest.setAttribute("groupFilterItems", groupFilterItems);*/
+		servletRequest.setAttribute("groupFilterItems", groupFilterItems);
 		Group filterGroup = GroupLocalServiceUtil.fetchGroup(filterGroupId);
 		if (filterGroup != null) {
 			servletRequest.setAttribute("filterGroupName", filterGroup.getName(Locale.FRANCE));
@@ -115,23 +112,29 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 		requestDispatcher.include(servletRequest, servletResponse);
 	}
 
-	/*private List<ManagementBarFilterItem> getGroupFilterItems(PortletURL portletURL, long currentCompanyId,
-			long filterGroupId) {
+
+	protected List<DropdownItem> getFilterGroupDropdownItems(PortletURL portletURL, long currentCompanyId,
+																  long filterGroupId) {
+		List<DropdownItem> filterVocabularyDropdownItems = new DropdownItemList();
 		List<Group> groups = GroupLocalServiceUtil.getCompanyGroups(currentCompanyId, -1, -1);
-		List<ManagementBarFilterItem> items = new ArrayList<>();
+
 		for (Group group : groups) {
-			boolean isActive = group.getGroupId() == filterGroupId;
-			// TODO : A corriger lorsque portlet 3.0 OK sur itemSelectorPortlet
-			portletURL.setParameter("filterGroupId", String.valueOf(group.getGroupId()));
 			if (Validator.isNotNull(group.getName(Locale.FRANCE)) && group.getType() == 1) {
-				ManagementBarFilterItem item = new ManagementBarFilterItem(isActive, group.getName(Locale.FRANCE),
-						portletURL.toString());
-				items.add(item);
+				boolean isActive = group.getGroupId() == filterGroupId;
+				portletURL.setParameter("filterGroupId", String.valueOf(group.getGroupId()));
+				portletURL.setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA));
+				filterVocabularyDropdownItems.add(
+						DropdownItemBuilder
+								.setActive(isActive)
+								.setHref(portletURL)
+								.setLabel(group.getName(Locale.FRANCE))
+								.build()
+				);
 			}
-			// TODO : A corriger lorsque portlet 3.0 OK sur itemSelectorPortlet
-			portletURL.setParameter("filterGroupId", String.valueOf(filterGroupId));
 		}
-		return items;
-	}*/
+
+		return filterVocabularyDropdownItems;
+	}
+
 
 }

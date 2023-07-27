@@ -27,6 +27,7 @@
 					<portlet:param name="cmd" value="editOfficial" />
 					<portlet:param name="officialId" value="${official.officialId}" />
 					<portlet:param name="backURL" value="${officialsURL}" />
+					<portlet:param name="tab" value="officials" />
 					<portlet:param name="mvcPath" value="/council-bo-edit-official.jsp" />
 				</liferay-portlet:renderURL>
 

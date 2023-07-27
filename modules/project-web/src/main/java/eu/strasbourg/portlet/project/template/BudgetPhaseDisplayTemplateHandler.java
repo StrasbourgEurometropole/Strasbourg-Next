@@ -1,18 +1,18 @@
 package eu.strasbourg.portlet.project.template;
 
+import com.liferay.dynamic.data.mapping.template.BaseDDMTemplateHandler;
+import com.liferay.dynamic.data.mapping.template.DDMTemplateVariableCodeHandler;
+import com.liferay.portal.kernel.portletdisplaytemplate.PortletDisplayTemplateManager;
+import com.liferay.portal.kernel.template.TemplateHandler;
+import com.liferay.portal.kernel.template.TemplateVariableCodeHandler;
+import com.liferay.portal.kernel.template.TemplateVariableGroup;
+import eu.strasbourg.service.project.model.BudgetPhase;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import org.osgi.service.component.annotations.Component;
-
-import com.liferay.portal.kernel.portletdisplaytemplate.BasePortletDisplayTemplateHandler;
-import com.liferay.portal.kernel.portletdisplaytemplate.PortletDisplayTemplateManager;
-import com.liferay.portal.kernel.template.TemplateHandler;
-import com.liferay.portal.kernel.template.TemplateVariableGroup;
-
-import eu.strasbourg.service.project.model.BudgetPhase;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
     immediate = true,
@@ -21,7 +21,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
     },
     service = TemplateHandler.class
 )
-public class BudgetPhaseDisplayTemplateHandler extends BasePortletDisplayTemplateHandler {
+public class BudgetPhaseDisplayTemplateHandler extends BaseDDMTemplateHandler {
 
 	@Override
     public String getClassName() {
@@ -58,5 +58,16 @@ public class BudgetPhaseDisplayTemplateHandler extends BasePortletDisplayTemplat
 
         return templateVariableGroups;
     }
+
+    @Override
+    protected TemplateVariableCodeHandler getTemplateVariableCodeHandler() {
+        return _templateVariableCodeHandler ;
+    }
+
+    private final TemplateVariableCodeHandler _templateVariableCodeHandler =
+            new DDMTemplateVariableCodeHandler(
+                    BudgetPhaseDisplayTemplateHandler.class.getClassLoader(),
+                    null,
+                    null);
 
 }

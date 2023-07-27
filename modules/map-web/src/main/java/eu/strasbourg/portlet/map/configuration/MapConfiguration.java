@@ -98,7 +98,7 @@ public interface MapConfiguration {
 	@Meta.AD(name = "dateField", deflt = "", required = false)
 	public boolean dateField();
 
-	@Meta.AD(name = "defaultDateRange", deflt = "", required = false)
+	@Meta.AD(name = "defaultDateRange", deflt = "0", required = false)
 	public long defaultDateRange();
 	
 	@Meta.AD(name = "widgetIntro", required = false)

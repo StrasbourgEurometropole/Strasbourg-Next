@@ -17,6 +17,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.place.display.context.*;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -30,6 +31,7 @@ import java.io.IOException;
 
 @Component(immediate = true, property = {
 		"javax.portlet.version=3.0",
+		"javax.portlet.name=" + StrasbourgPortletKeys.PLACE_BO,
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/place-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/place-bo-main.css",

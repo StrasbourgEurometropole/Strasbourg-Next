@@ -27,10 +27,10 @@
 
                 <p style="font-style:italic"><liferay-ui:message key="csmap.bo.place.categories.select" /></p>
 
-                <liferay-ui:asset-categories-selector
+                <liferay-asset:asset-categories-selector
                     className="${dc.className}"
                     hiddenInput="Vocabulary"
-                    curCategoryIds="${dc.placeCategories.getCategoriesIds()}" />
+                    categoryIds="${dc.placeCategories.getCategoriesIds()}" />
 
             </aui:fieldset>
 

@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.notif.display.context;
 
 import com.liferay.item.selector.ItemSelector;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -78,6 +79,10 @@ public class ViewServicesDisplayContext{
 			_searchContainer.setResultsAndTotal(
 					() -> {
 						// Création de la liste d'objet
+						int start = this._searchContainer.getStart();
+						int end = this._searchContainer.getEnd();
+						int total = this._searchContainer.getTotal();
+						_services = _services.subList(start, end > total ? total : end);
 						return _services;
 					}, _services.size()
 			);
@@ -93,10 +98,9 @@ public class ViewServicesDisplayContext{
 	 */
 	private void getHits() throws PortalException {
 		if (this._services == null) {
-
 			this._services = ServiceNotifLocalServiceUtil.getServiceNotifs(
-					this.getSearchContainer().getStart(),
-					this.getSearchContainer().getEnd());
+					QueryUtil.ALL_POS,
+					QueryUtil.ALL_POS);
 		}
 	}
 	public String getOrderByType() {
