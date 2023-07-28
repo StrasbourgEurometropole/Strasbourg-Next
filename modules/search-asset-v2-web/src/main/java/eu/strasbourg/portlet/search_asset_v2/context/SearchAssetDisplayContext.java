@@ -537,11 +537,11 @@ public class SearchAssetDisplayContext {
 					}
 				}
 			}
-			this.getSearchContainer().setResultsAndTotal(results);
+			this.getSearchContainer().setResultsAndTotal(()->results, (int) this._searchHits.getTotalHits());
 		}
 
 		this._entries = results;
-		this._entriesCount = this._entries.size();
+		this._entriesCount = (int) this._searchHits.getTotalHits();
 	}
 
 	/**

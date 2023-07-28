@@ -10,7 +10,7 @@
         @include ft($proximaNova, 0.8125rem, 400, $color_txt, 1.25rem, "");
         padding: 0 20px;
 
-        >:not(:last-child()){
+        >:not(:last-child){
             &:after {
                 content: '';
                 width: 10px;
@@ -24,7 +24,7 @@
             }
         }
 
-        :last-child(){
+        :last-child{
             color: $color_main;
             font-weight: 700;
         }
