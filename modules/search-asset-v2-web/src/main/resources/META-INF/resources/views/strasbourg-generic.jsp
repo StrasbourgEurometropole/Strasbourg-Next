@@ -2,6 +2,11 @@
 
 <liferay-portlet:actionURL varImpl="searchActionURL" />
 <main class="st-listing st--listing-cards-horizontales" role="main" tabindex="-1">
+	<!-- Formulaire -->
+	<aui:form action="${searchActionURL}" method="get" name="fm" id="search-asset-form" cssClass="seu-view-filters">
+		<liferay-portlet:renderURLParams varImpl="searchActionURL" />
+		<liferay-util:include page="/forms/strasbourg-generic-form.jsp" servletContext="<%=application %>" />
+	</aui:form>
 	<header class="st-small-header st-wrapper st-wrapper-small" role="banner">
 		<c:if test="${not empty dc.getPortletTitle('')}">
 			<h1 class="st-h1">${dc.getPortletTitle('')}</h1>

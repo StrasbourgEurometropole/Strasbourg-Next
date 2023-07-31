@@ -42,20 +42,18 @@ liferayThemeTasks.registerTasks({
 		gulp.hook('before:build:war', function(done) {
 			// Fires before build `war` task
 			gulp.src([
-					'./build/js/libs/jquery.js',
-					'./build/js/libs/moment.min.js',
-					'./build/js/libs/*.js',
-					'./build/js/libs/**/*.js',
-				    './build/js/templates/*.js',
-					'./build/js/*.js',
-					'./build/js/**/*.js',
-
+					'build/js/libs/moment.min.js',
+				'build/js/libs/splide.min.js',
+					'build/js/libs/*.js',
+					'build/js/libs/**/*.js',
+					'build/js/*.js',
+					'build/js/**/*.js',
 				]
 			)
 				.pipe(sourcemaps.init())
 				.pipe(concat("strasbourg.min.js")).on('error', onError)
 				.pipe(sourcemaps.write('./build/js'))
-				.pipe(gulp.dest('./build/js/'))
+				.pipe(gulp.dest('./build/js'))
 				.on('end', done);
 		});
 

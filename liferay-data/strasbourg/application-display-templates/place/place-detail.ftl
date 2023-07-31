@@ -37,7 +37,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <div class="st-barre-inner st-wrapper">
             <div class="st-container-left">
                 <div class="st-image">
-                    <@addImage imageURL="https://placehold.co/80x80"  />
+                    <@addImage imageURL=imageUrl  />
                 </div>
                 <div class="st-content">
                     <p class="st-title">${entry.getAlias(locale)}</p>
@@ -113,41 +113,52 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     <@liferay_ui.message key="eu.add-to-favorite" />
                 </button>
 
+
                 <div class="st-social-share">
                     <input class="st-toggle-input" id="toggle-input" type="checkbox">
                     <label for="toggle-input" class="st-toggle">
                         <span class="st-icon-social-share"></span>
                     </label>
-                
+
                     <ul class="st-network-list">
                         <li>
-                            <a href="#facebook" id="sharefacebook" aria-label="Partagez sur Facebook"
-                               class="st-btn-icon st-btn-icon--small st-ga-event-facebook" target="_blank"
-                               title="Lien de partage sur Facebook"></a>
+                            <a href="#facebook" id="sharefacebook" target="_blank" aria-label="Partagez sur Facebook"
+                               class="st-btn-icon st-btn-icon--small st-ga-event-facebook"
+                               title="Lien de partage sur Facebook">
+                                <span class="st-icon-facebook" aria-hidden="true"></span>
+                            </a>
                         </li>
                         <li>
-                            <a href="#twitter" id="sharetwitter" aria-label="Partagez sur Twitter"
-                               class="st-btn-icon st-btn-icon--small st-ga-event-twitter" target="_blank"
-                               title="Lien de partage sur Twitter"></a>
+                            <a href="#twitter" id="sharetwitter"  target="_blank" aria-label="Partagez sur Twitter"
+                               class="st-btn-icon st-btn-icon--small st-ga-event-twitter"
+                               title="Lien de partage sur Twitter">
+                                <span class="st-icon-twitter" aria-hidden="true"></span>
+                            </a>
                         </li>
                         <li>
-                            <a href="#linkedin" id="ShareLinkedIn" aria-label="Partagez sur LinkedIn"
-                               class="st-btn-icon st-btn-icon--small st-ga-event-linkedin" target="_blank"
-                               title="Lien de partage sur LinkedIn"></a>
+                            <a href="#linkedin" id="ShareLinkedIn" target="_blank" aria-label="Partagez sur LinkedIn"
+                               class="st-btn-icon st-btn-icon--small st-ga-event-linkedin"
+                               title="Lien de partage sur LinkedIn">
+                                <span class="st-icon-linkedin" aria-hidden="true"></span>
+                            </a>
                         </li>
                         <li>
-                            <a href="#Mail" id="ShareMail" aria-label="Partagez par Email" class="st-btn-social st-icon-email st-ga-event-mail"
-                               title="Lien de partage par Email"></a>
+                            <a href="#Mail" id="ShareMail"  target="_blank" aria-label="Partagez par Email"
+                               class="st-btn-icon st-btn-icon--small st-ga-event-mail"
+                               title="Lien de partage par Email">
+                                <span class="st-icon-email" aria-hidden="true"></span>
+                            </a>
                         </li>
                     </ul>
                 </div>
-                
+
+
             </div>
         </div>
     </div>
     
 
-<div class="st-fiche" tabindex="-1">
+<div class="st-page-fiche-lieu" tabindex="-1">
     <header
         class="st-header-fiche-lieu" tabindex="-1"
         role="banner">
@@ -166,67 +177,44 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <#assign isParking = entry.isParking() />
                 <#assign isVelhopStation = entry.isVelhopStation() />
                 <div class="st-top-bar">
-                    <h2 class="st-h2 st-top-bar__title">Affluence faible</h2>
-                    <div class="st-top-bar__content">
-                        <p class="st-frequentation">
-                            14 personnes
-                        </p>
-                        <p class="st-surtitre-cat">
-                            sur une capacité maximum de 250 personnes
-                        </p>
-                        <p class="st-small-text">
-                            La fréquentation est donnée à titre indicatif et dans la configuration où tous les bassins
-                            sont ouverts
-                        </p>
-                    </div>
-                </div>
-
-                <div class="st-top-bar">
                     <h2 class="st-h2 st-top-bar__title">
-                            <#if isSwimmingPool || isIceRink || isMairie>
-                                <@liferay_ui.message key="${occupationState.label}-short" />
+                        <#if isSwimmingPool || isIceRink || isMairie>
+                            <@liferay_ui.message key="${occupationState.label}-short" />
+                        <#else>
+                            <#if entry.isOpenNow()>
+                                <p class="st-ouverture st--open"> <@liferay_ui.message key="eu.currently-open" /></p>
                             <#else>
-                                <#if entry.isOpenNow()>
-                                    <p class="st-ouverture st--open"> <@liferay_ui.message key="eu.currently-open" /></p>
-                                <#else>
-                                    <p class="st-ouverture st--closed"> <@liferay_ui.message key="eu.currently-closed" /></p>
-                                </#if>
+                                <p class="st-ouverture st--closed"> <@liferay_ui.message key="eu.currently-closed" /></p>
                             </#if>
+                        </#if>
                     </h2>
                     <div class="st-top-bar__content">
                         <p class="st-frequentation">
-                                    <#if isSwimmingPool || isIceRink || isMairie>
-                                        ${occupationState.occupationLabel} personnes
-                                    <#elseif isParking || isVelhopStation>
-                                        ${occupationState.available} places
-                                    </#if>
+                            <#if isSwimmingPool || isIceRink || isMairie>
+                                ${occupationState.occupationLabel} personnes
+                            <#elseif isParking || isVelhopStation>
+                                ${occupationState.available} places
+                            </#if>
                         </p>
                         <p class="st-surtitre-cat">
-                         <#if isSwimmingPool >
+                            <#if isSwimmingPool >
                                 <@liferay_ui.message key="eu.place.total-capacity-long" /> ${occupationState.capacity} personnes
-                        <#elseif isParking>
+                            <#elseif isParking>
                                 <@liferay_ui.message key="eu.place.total-capacity-long" /> ${occupationState.capacity} places
-                        </#if>
+                            </#if>
                         </p>
-                        
                         <p class="st-small-text">
-                         <#if isSwimmingPool>
+                            <#if isSwimmingPool>
                                 <@liferay_ui.message key="live-occupation-explanation" />
                             <#elseif isMairie>
                                 <@liferay_ui.message key="estimated-time-explanation" />
                             <#elseif isIceRink>
                                 <@liferay_ui.message key="live-ice-rink-occupation-explanation" />
-                        </#if>
+                            </#if>
                         </p>
                     </div>
                 </div>
             </#if>
-            <div class="st-image">
-
-            </div>
-            <div class="maps" data-lat="${ entry.getMercatorY() }" data-lng="${ entry.getMercatorX() }" data-callback="initMap" data-zoom="17">
-
-            </div>
 
             <div class="st-cover-container">
                 <div class="st-image">
@@ -629,7 +617,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     <@liferay_ui.message key="eu.presentation" />
                 </h2>
                 <div class="st-component-container">
-                    <div class="st-limit-height st--is-overflowing">
+                    <div class="st-limit-height ">
                         <p>${entry.getPresentation(locale)}</p>
                     </div>
                     <@showMore />
@@ -822,7 +810,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <h2 class="st-h2 st-sit-title">
                             <@liferay_ui.message key="eu.place.additional-information" />
                         </h2>
-                        <div class="st-limit-height st--is-overflowing">
+                        <div class="st-limit-height ">
                             ${entry.getAdditionalInformation(locale)}
                         </div>
                         <@showMore />
@@ -890,11 +878,11 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 </ul>
                 <div class="st-component-container">
                     <#if entry.getAccessForDisabled(locale)?has_content>
-                        <div class="st-limit-height st--is-overflowing">
+                        <div class="st-limit-height ">
                             ${entry.getAccessForDisabled(locale)}
                         </div>
                     </#if>
-                    
+                    <@showMore />
                 </div>
             </div>
         </#if>
@@ -921,7 +909,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <h2 class="st-h2 st-sit-title">
                             <@liferay_ui.message key="eu.features" />
                         </h2>
-                        <div class="st-limit-height st--is-overflowing">
+                        <div class="st-limit-height ">
                             ${entry.getCharacteristics(locale)}
                         </div>
                         <@showMore />

@@ -10,7 +10,6 @@
 	<meta content="initial-scale=1.0, width=device-width" name="viewport" />
 
 	<link rel="stylesheet" href="/o/strasbourg-theme/css/style.css">
-	<link rel="stylesheet" href="/o/strasbourg-theme/css/override_liferay.css">
 
 	<@liferay_util["include"] page=top_head_include />
 </head>
@@ -42,14 +41,14 @@
 
 <#--End Content of the page-->
 
-<#-- liferay_portlet["runtime"] - Structure footer-->
+	<#-- liferay_portlet["runtime"] - Structure footer-->
 <@liferay_portlet["runtime"]
 portletProviderAction=portletProviderAction.VIEW
 portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
 instanceId="footer"
 settingsScope="group" />
 
-<script src="/o/strasbourg-theme/js/strasbourg.min.js" type="text/javascript"></script>
+
 
 <script type="text/javascript">
 	window.onload = function(){
@@ -65,6 +64,7 @@ settingsScope="group" />
 
 <@liferay_util["include"] page=bottom_include />
 	</div>
+<script src="/o/strasbourg-theme/js/strasbourg.min.js" type="text/javascript"></script>
 </body>
 
 </html>

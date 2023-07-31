@@ -6,7 +6,7 @@
                    title="Accueil, site de la ville et l'eurométropole de Strasbourg">
                     <figure class="st-figure st-fit-cover" role="group">
                         <picture>
-                            <img src="/o/strasbourg-theme/images/logo.png">
+                            <img src="/o/strasbourg-theme/images/medias/logo.png">
                         </picture>
                     </figure>
 
@@ -14,28 +14,13 @@
             </h1>
 
             <nav class="st-nav-primary" role="navigation">
-                <div class="st-barre-dropdown">
-                    <button type="button" id="menubutton" aria-haspopup="true" aria-controls="menu2">
-                        Je suis <strong>un habitant</strong>
-                    </button>
-                    <ul id="menu2" role="menu" aria-labelledby="menubutton">
-                        <li role="none">
-                            <a role="menuitem" href="https://www.w3.org/"> Je suis <strong>un élu </strong></a>
-                        </li>
-                        <li role="none">
-                            <a role="menuitem" href="https://www.w3.org/standards/webdesign/accessibility">Je suis
-                                <strong>un enseignant</strong></a>
-                        </li>
-                        <li role="none">
-                            <a role="menuitem" href="https://www.w3.org/TR/wai-aria/">Je suis <strong>un
-                                    étudiant</strong></a>
-                        </li>
-                        <li role="none">
-                            <a role="menuitem" href="https://www.w3.org/TR/wai-aria-practices/">Je suis <strong>demandeur
-                                    d'emploi</strong></a>
-                        </li>
-                    </ul>
-                </div>
+                <#-- liferay_portlet["runtime"] - Structure footer-->
+                <@liferay_portlet["runtime"]
+                portletProviderAction=portletProviderAction.VIEW
+                portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+                instanceId="je-suis-header"
+                settingsScope="group" />
+
                 <ul class="st-nav-primary__menu">
                     <li class="st-nav-primary__item">
                         <a href="#" class="st-nav-primary__link">Mon quartier / Ma commune</a>
@@ -45,17 +30,27 @@
                     </li>
                     <li class="st-has-lang-dropdown">
                         <select onchange="document.location.href = this.value;" class="select-lang">
-                            <option value="https://strasbourg-refonte.s3.dev-thuria.com/"
+                            <option value="https://strasbourg.eu"
                                     selected="selected">Fr
                             </option>
-                            <option value="https://strasbourg-refonte.s3.dev-thuria.com//en">En
+                            <option value="https://int.strasbourg.eu/en">En
+                            </option>
+                            <option value="https://int.strasbourg.eu/de">De
                             </option>
                         </select>
                     </li>
                     <li class="st-has-btn-compte">
-                        <a href="#" class="st-btn-compte">
+                        <#if request.session.getAttribute("publik_logged_in")!false>
+                        <a href="https://services.strasbourg.eu/" class="st-btn-compte">
                             <span class="st-icon-demarche" aria-hidden="true"></span>Mes démarches
                         </a>
+                        <#else>
+                            <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
+                            <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="st-btn-compte">
+                                <span class="st-icon-person" aria-hidden="true"></span>
+                                <strong>MonStrasbourg</strong>.eu
+                            </a>
+                        </#if>
                     </li>
                 </ul>
 
