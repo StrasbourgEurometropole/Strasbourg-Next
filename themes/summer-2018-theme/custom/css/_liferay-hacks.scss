@@ -73,3 +73,11 @@
 .portlet-layout .portlet-header {
   margin-bottom: 0;
 }
+
+.radio label, .checkbox label {
+    padding-left: 20px !important;
+}
+
+.radio input[type='radio'], .radio-inline input[type='radio'], .checkbox input[type='checkbox'], .checkbox-inline input[type='checkbox'] {
+    margin-left: -20px !important;
+}
