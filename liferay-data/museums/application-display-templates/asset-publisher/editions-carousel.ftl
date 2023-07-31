@@ -11,7 +11,7 @@
             <@liferay_ui["message"] key="eu.editions" />
             <#assign PortalUtil = staticUtil["com.liferay.portal.kernel.util.PortalUtil"] />
             <!-- Le lien vers la page de toutes les éditions est défini comme étant la page "/videos", modifier la ligne ci-dessous si besoin -->
-            <a href="${PortalUtil.getGroupFriendlyURL(themeDisplay.getLayoutSet(), themeDisplay)}/editions"><@liferay_ui.message key="eu.edition.all-editions" /></a>    
+            <a href="${PortalUtil.getGroupFriendlyURL(themeDisplay.getLayoutSet(), themeDisplay, locale)}/editions"><@liferay_ui.message key="eu.edition.all-editions" /></a>
         </h3>
         <div class="owl-carousel">
           <#list entries as curEntry>
