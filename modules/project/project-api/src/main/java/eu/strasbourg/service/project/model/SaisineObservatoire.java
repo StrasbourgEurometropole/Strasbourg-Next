@@ -196,4 +196,6 @@ public interface SaisineObservatoire
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getTerritoryCategories();
 
+	public com.liferay.asset.kernel.model.AssetCategory getStatusCategorie();
+
 }

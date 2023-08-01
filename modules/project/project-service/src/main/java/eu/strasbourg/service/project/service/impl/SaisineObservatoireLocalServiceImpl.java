@@ -169,13 +169,13 @@ public class SaisineObservatoireLocalServiceImpl
                 }
                 String saisineObservatoireStatus = saisineObservatoire.getSaisineObservatoireStatus();
                 if (ACCEPTED.getName().equals(saisineObservatoireStatus))
-                    addedCategory = AssetVocabularyHelper.getCategory("acceptee", groupId);
+                    addedCategory = AssetVocabularyHelper.getCategory("accepted", groupId);
                 else if (REFUSED.getName().equals(saisineObservatoireStatus))
-                    addedCategory = AssetVocabularyHelper.getCategory("refusee", groupId);
+                    addedCategory = AssetVocabularyHelper.getCategory("refused", groupId);
                 else if (DRAFT.getName().equals(saisineObservatoireStatus))
-                    addedCategory = AssetVocabularyHelper.getCategory("brouillon", groupId);
+                    addedCategory = AssetVocabularyHelper.getCategory("draft", groupId);
                 else
-                    addedCategory = AssetVocabularyHelper.getCategory("brouillon", groupId);
+                    addedCategory = AssetVocabularyHelper.getCategory("draft", groupId);
 
                 // Si il y a eu changement de statut
                 boolean isChanged = removedCategory != null && removedCategory.getCategoryId() != addedCategory.getCategoryId();

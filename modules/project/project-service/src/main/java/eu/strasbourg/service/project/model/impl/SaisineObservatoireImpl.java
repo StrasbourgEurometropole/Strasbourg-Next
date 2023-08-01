@@ -105,7 +105,10 @@ public class SaisineObservatoireImpl extends SaisineObservatoireBaseImpl {
         //Statut par défaut quand déposée
         String result = DRAFT.getName();
 
-        // TODO : implémenter les bonnes propriétés
+        AssetCategory category = this.getStatusCategorie();
+        if (category != null) {
+            result = category.getName();
+        }
 
         return result;
     }
@@ -327,7 +330,7 @@ public class SaisineObservatoireImpl extends SaisineObservatoireBaseImpl {
         else if (REFUSED.getName().equals(status)) {
             result = "Refus&eacute;e";
         } else {
-            result = "En cours";
+            result = "Brouillon";
         }
         return result;
     }
@@ -394,5 +397,16 @@ public class SaisineObservatoireImpl extends SaisineObservatoireBaseImpl {
     @Override
     public List<AssetCategory> getTerritoryCategories() {
         return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(), VocabularyNames.TERRITORY);
+    }
+
+    @Override
+    public AssetCategory getStatusCategorie() {
+        AssetCategory category = null;
+        List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(), VocabularyNames.SAISINE_STATUS);
+        if (!assetCategories.isEmpty()) {
+            category = assetCategories.get(0);
+        }
+
+        return category;
     }
 }

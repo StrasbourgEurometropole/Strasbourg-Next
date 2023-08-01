@@ -834,6 +834,11 @@ public class SaisineObservatoireWrapper
 		return _saisineObservatoire.getStatusByUserUuid();
 	}
 
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getStatusCategorie() {
+		return _saisineObservatoire.getStatusCategorie();
+	}
+
 	/**
 	 * Returns the status date of this saisine observatoire.
 	 *
