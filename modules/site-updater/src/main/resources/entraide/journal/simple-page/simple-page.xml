@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<root>
+    <name>	Page simple</name>
+    <key>PAGE</key>
+    <structure>
+        <definition>simple-page-structure.json</definition>
+        <layout>simple-page-layout.json</layout>
+    </structure>
+    <template>
+        <name>Toto</name>
+        <key>TOTO</key>
+        <script>toto.ftl</script>
+    </template>
+    <template>
+        <name>Toto bis</name>
+        <key>TOTO_BIS</key>
+        <script>toto-bis.ftl</script>
+    </template>
+</root>

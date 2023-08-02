@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<root>
+    <name>Entête listing entité</name>
+    <key>LISTING</key>
+    <structure>
+        <definition>header-image-listing-structure.json</definition>
+        <layout>header-image-listing-layout.json</layout>
+    </structure>
+    <template>
+        <name>Toto</name>
+        <key>TOTO</key>
+        <script>toto.ftl</script>
+    </template>
+    <template>
+        <name>Toto bis</name>
+        <key>TOTO_BIS</key>
+        <script>toto-bis.ftl</script>
+    </template>
+</root>

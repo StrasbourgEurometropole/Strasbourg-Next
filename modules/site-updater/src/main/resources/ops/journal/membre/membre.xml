@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<root>
+    <name>Membre</name>
+    <key>MEMBER</key>
+    <structure>
+        <definition>membre-structure.json</definition>
+        <layout>membre-layout.json</layout>
+    </structure>
+    <template>
+        <name>Toto</name>
+        <key>TOTO</key>
+        <script>toto.ftl</script>
+    </template>
+    <template>
+        <name>Toto bis</name>
+        <key>TOTO_BIS</key>
+        <script>toto-bis.ftl</script>
+    </template>
+</root>

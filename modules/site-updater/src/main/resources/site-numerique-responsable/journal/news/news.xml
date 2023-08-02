@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<root>
+    <name>Actualité</name>
+    <key>NEWS</key>
+    <structure>
+        <definition>news-structure.json</definition>
+        <layout>news-layout.json</layout>
+    </structure>
+    <template>
+        <name>Toto</name>
+        <key>TOTO</key>
+        <script>toto.ftl</script>
+    </template>
+    <template>
+        <name>Toto bis</name>
+        <key>TOTO_BIS</key>
+        <script>toto-bis.ftl</script>
+    </template>
+</root>

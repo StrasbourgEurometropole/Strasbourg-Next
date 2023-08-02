@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<root>
+    <name>Réseaux sociaux</name>
+    <key>NETWORK</key>
+    <structure>
+        <definition>social-network-structure.json</definition>
+        <layout>social-network-layout.json</layout>
+    </structure>
+    <template>
+        <name>Toto</name>
+        <key>TOTO</key>
+        <script>toto.ftl</script>
+    </template>
+    <template>
+        <name>Toto bis</name>
+        <key>TOTO_BIS</key>
+        <script>toto-bis.ftl</script>
+    </template>
+</root>
