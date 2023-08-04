@@ -151,7 +151,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
                             <div class="row pro-bloc pro-bloc-texte">
                                 ${entry.description}
-                                ${entry.cityResponse}
+                            </div>
+                            <div style="padding:5px; background-color:#9ba0ee; border:2px solid #656ab0; -moz-border-radius:9px; -khtml-border-radius:9px; -webkit-border-radius:9px; border-radius:9px;">
+                                <div style="font-size: 2em; float: left; width: 40px; text-align: center; margin-right: 5px; height: 20px; padding:3px;">!</div>
+                                <p><strong>Commentaires des services thématiques de la collectivité : "${entry.getFrontStatusFR()}"</strong><br />
+                                    &nbsp;</p>
+                                <p><em>"${entry.cityResponse}"</em></p>
                             </div>
                             <#if entry.filesURLs?has_content>
                                 <div class="pro-bloc-texte pro-bloc-telechargements">
