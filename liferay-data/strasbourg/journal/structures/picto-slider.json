@@ -1,0 +1,53 @@
+{
+  "name": {
+    "fr_FR": "Slider Galaxie"
+  },
+  "dataDefinitionFields": [
+    {
+      "name": "GalaxiesFieldset",
+      "fieldType": "fieldset",
+      "label": {
+        "fr_FR": "Galaxies"
+      },
+      "repeatable": true,
+      "nestedDataDefinitionFields": [
+        {
+          "name": "NomText",
+          "fieldType": "text",
+          "label": {
+            "fr_FR": "Nom"
+          },
+          "repeatable": false,
+          "nestedDataDefinitionFields": []
+        },
+        {
+          "name": "ImagePicto",
+          "fieldType": "image",
+          "label": {
+            "fr_FR": "Picto"
+          },
+          "repeatable": false,
+          "nestedDataDefinitionFields": []
+        },
+        {
+          "name": "ExternalLinkText",
+          "fieldType": "text",
+          "label": {
+            "fr_FR": "Lien Externe"
+          },
+          "repeatable": false,
+          "nestedDataDefinitionFields": []
+        },
+        {
+          "name": "InternalLink",
+          "fieldType": "link_to_layout",
+          "label": {
+            "fr_FR": "Lien interne"
+          },
+          "repeatable": false,
+          "nestedDataDefinitionFields": []
+        }
+      ]
+    }
+  ]
+}
