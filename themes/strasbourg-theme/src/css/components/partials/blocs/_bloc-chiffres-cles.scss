@@ -4,6 +4,7 @@
 		// Déclaration des variables contenant la largeur du gap entre les éléments
 		--col-gap: 40px;
 		--row-gap: 20px;
+		--col-number: 4;
 
 		display: flex;
 		justify-content: center;
@@ -17,59 +18,59 @@
 		}
 
 		@include mobile {
-			margin-left: 0;
-			margin-right: 0;
-			flex-direction: column;
 			--row-gap: 10px;
+			flex-direction: column;
+			margin-left: initial;
+			margin-right: initial;
 		}
 
 		> * {
+			width: calc(100% / var(--col-number) - var(--col-gap));		// 4 colonnes -> (25% - 40px)
 			margin-left: calc(var(--col-gap) / 2);
 			margin-right: calc(var(--col-gap) / 2);
 			margin-top: var(--row-gap);
-			width: calc(25% - var(--col-gap));
 
 			@include tablet-portrait {
-				width: calc(33.33% - var(--col-gap));
+				--col-number: 3;
 			}
 			@include tablet-small {
-				width: calc(50% - var(--col-gap));
+				--col-number: 2;
 			}
 			@include mobile {
 				width: 100%;
-				margin-left: 0;
-				margin-right: 0;
+				margin-left: initial;
+				margin-right: initial;
 			}
 		}
 	}
 
 	.st-container {
-		position: relative;
-		height: 0;
-		padding-bottom: calc(25% - var(--col-gap));
+		@include flex-center;
+		aspect-ratio: 1 / 1;
+		padding: 20px;
+		text-align: center;
 		background-color: $c_greydark;
 		border-radius: $border-radius;
 
-		@include tablet-portrait {
-			padding-bottom: calc(33.33% - var(--col-gap));
-		}
 		@include mobile {
-			padding-bottom: calc(45% - var(--col-gap));
+			aspect-ratio: 320 / 135;
 		}
-
 	}
 
 	.st-inner-container {
-		position: absolute;
-		top: 50%;
-		transform: translate(-50%, -50%);
-		left: 50%;
-		text-align: center;
-		width: calc(100% - 80px);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
 	}
 
 	.number {
-		@include ft($f_txt, 30px, 600, $c_white, 1);
+		@include ft('', 30px, 600, $c_white, 1);
+		max-width: 140px;
+
+		@include mobile {
+			max-width: 260px;
+		}
 
 		& + .text {
 			margin-top: 8px;
@@ -77,8 +78,9 @@
 	}
 
 	.text {
-		@include ft($f_txt, 12px, 400, $c_sub, 1.2);
+		@include ft('', 12px, 400, $c_sub, 1.2);
 		@include letter-spacing(25);
 		text-transform: uppercase;
+		max-width: 140px;
 	}
 }

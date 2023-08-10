@@ -15,12 +15,11 @@
 </head>
 
 <body class="${css_class}">
-
-<div class="st-page-wrapper">
 <@liferay_ui["quick-access"] contentId="#main-content" />
 <@liferay_util["include"] page=body_top_include />
 <@liferay.control_menu />
 
+<div class="st-page-wrapper">
 
 <#include "${full_templates_path}/header.ftl" />
 
@@ -48,6 +47,9 @@ portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
 instanceId="footer"
 settingsScope="group" />
 
+
+	<#include "${full_templates_path}/overlay-menu.ftl" />
+<!--	${full_templates_path}-->
 
 
 <script type="text/javascript">

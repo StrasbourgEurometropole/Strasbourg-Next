@@ -2,20 +2,23 @@
 	position: sticky;
 	top: 120px;
 	left: 0;
-	transform: translateX(-40px);
-	height: 0px;
 	z-index: z-index("barre-sticky");
+	height: 0;
+	transform: translateX(-40px);
+	pointer-events: none;
+
 	@include tablet-landscape {
 		transform: translateX(-20px);
 	}
+
 	@include tablet-portrait {
 		position: fixed;
 		top: 0;
-		transform: none;
 		height: var(--ancres-height-mobile);
 		width: 100%;
-		margin-left: 0px;
-		margin-right: 0px;
+		margin-left: initial;
+		margin-right: initial;
+		transform: initial;
 	}
 
 	&.st-footer-is-visible {
@@ -26,6 +29,8 @@
 		padding: 15px 0;
 		width: 220px;
 		background-color: $c_greydark;
+		pointer-events: initial;
+		
 		@include tablet-portrait {
 			padding: 0;
 			width: 100%;
@@ -82,6 +87,7 @@
 
 	.splide {
 		@include addTransition();
+
 		@include tablet-portrait {
 			padding-left: 10px;
 			padding-right: 120px;
@@ -94,6 +100,7 @@
 	.splide__track {
 		overflow-x: visible;
 		overflow-y: clip;
+
 		@include tablet-portrait {
 			overflow-y: visible;
 		}
@@ -107,8 +114,9 @@
 
 	.st-nav-arrows {
 		@include min-tablet-portrait {
-			height: 0px;
+			height: 0;
 		}
+
 		@include tablet-portrait {
 			position: absolute;
 			top: 15px;

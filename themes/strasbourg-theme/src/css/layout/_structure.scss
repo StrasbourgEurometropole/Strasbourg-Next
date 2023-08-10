@@ -1,15 +1,13 @@
 // Définition de l'espace vertical entre les blocs, sections et strates
 // ==========================================================================
 
-.st-section {
-	& + & {
-		margin-top: var(--section-spacing);
-	}
-}
-
 .st-bloc {
-	& + & {
-		margin-top: var(--bloc-spacing);
+	&.st--has-margin {
+		margin-bottom: var(--bloc-spacing);
+	}
+
+	&.st--has-margin-small {
+		margin-bottom: 30px;
 	}
 }
 
@@ -30,9 +28,3 @@
 		}
 	}
 }
-
-.st-footer {
-	margin-top: $border-gutter;
-}
-
-

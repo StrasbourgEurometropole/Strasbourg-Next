@@ -14,7 +14,7 @@
             </h1>
 
             <nav class="st-nav-primary" role="navigation">
-                <#-- liferay_portlet["runtime"] - Structure footer-->
+                <#-- liferay_portlet["runtime"] - Structure Je suis-->
                 <@liferay_portlet["runtime"]
                 portletProviderAction=portletProviderAction.VIEW
                 portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"

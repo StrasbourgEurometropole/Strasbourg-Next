@@ -13,6 +13,8 @@ const concat = require('gulp-concat');
 var sourcemaps = require('gulp-sourcemaps');
 const sassGlob = require('gulp-sass-glob');
 var runSequence = require('gulp4-run-sequence').use(gulp);
+var postcss = require('gulp-postcss');
+var cleancss = require('gulp-clean-css');
 
 /** Gestion de erreurs */
 function onError(err) {
@@ -36,8 +38,17 @@ liferayThemeTasks.registerTasks({
 				.pipe(sassGlob())
 				.pipe(gulp.dest('./build/_css/'));
 		});
+		gulp.task('compressCss', function() {
+			return gulp
+				.src('./build/_css/*.css')
+				.pipe(cleancss({keepBreaks: false}))
+				.pipe(gulp.dest('./build/_css/'));
+		})
 		gulp.hook('before:build:compile-css', function(done) {
 			runSequence('sassGlob', done);
+		});
+		gulp.hook('before:build:move-compiled-css', function(done) {
+			runSequence('compressCss', done);
 		});
 		gulp.hook('before:build:war', function(done) {
 			// Fires before build `war` task
@@ -50,9 +61,8 @@ liferayThemeTasks.registerTasks({
 					'build/js/**/*.js',
 				]
 			)
-				.pipe(sourcemaps.init())
+
 				.pipe(concat("strasbourg.min.js")).on('error', onError)
-				.pipe(sourcemaps.write('./build/js'))
 				.pipe(gulp.dest('./build/js'))
 				.on('end', done);
 		});

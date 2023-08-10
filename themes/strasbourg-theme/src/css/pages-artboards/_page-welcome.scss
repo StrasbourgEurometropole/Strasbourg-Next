@@ -1,0 +1,45 @@
+.st-page-welcome {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	min-height: 100vh;
+	background-color: $c_main;
+
+	.st-grille-container {
+		padding: 100px 0;
+	}
+
+	.st-container {
+		@include reset-styles;
+		display: flex;
+		flex-direction: column;
+		padding: 0 40px;
+		border: 1px solid rgba($c_white, 0.25);
+		border-radius: $border-radius;
+
+		@include mobile {
+			padding: 0 20px;
+		}
+
+		li {
+			& + li {
+				border-top: 1px dashed rgba($c_white, 0.25);
+			}
+
+			a {
+				@include reset-button;
+				@include ft($f_txt, $s_p, 300, $c_sub, 1.5);
+				text-transform: uppercase;
+				display: block;
+				padding: 36px 0;
+
+				@include mobile {
+					padding: 20px 0;
+				}
+				@include can-hover {
+					color: $c_white;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,27 @@
+.st-page-grille {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	min-height: 100vh;
+	background-color: $c_main;
+
+	.st-wrapper {
+		& + .st-wrapper {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 10px;
+			margin-top: calc($small-margin * 2);
+			border: 1px dashed $c_guidelines;
+		}
+	}
+	span:first-child {
+		font-weight: 700;
+		color: $c_white;
+	}
+
+	span:last-child {
+		font-size: 14px;
+		color: $c_sub;
+	}
+}

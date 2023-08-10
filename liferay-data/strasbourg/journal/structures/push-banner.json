@@ -1,0 +1,99 @@
+{
+  "name": {
+    "fr_FR": "Bloc push"
+  },
+  "dataDefinitionFields": [
+    {
+      "name": "PushFieldset",
+      "fieldType": "fieldset",
+      "label": {
+        "fr_FR": "Groupe de champs"
+      },
+      "repeatable": true,
+      "nestedDataDefinitionFields": [
+        {
+          "name": "TitleText",
+          "fieldType": "text",
+          "label": {
+            "fr_FR": "Titre"
+          },
+          "repeatable": false,
+          "nestedDataDefinitionFields": []
+        },
+        {
+          "name": "SubtitleText",
+          "fieldType": "text",
+          "label": {
+            "fr_FR": "Sous-titre"
+          },
+          "repeatable": false,
+          "nestedDataDefinitionFields": []
+        },
+        {
+          "name": "PictoImage",
+          "fieldType": "image",
+          "label": {
+            "fr_FR": "Picto"
+          },
+          "repeatable": false,
+          "nestedDataDefinitionFields": []
+        },
+        {
+          "name": "DescriptionText",
+          "fieldType": "text",
+          "label": {
+            "fr_FR": "Description"
+          },
+          "repeatable": false,
+          "nestedDataDefinitionFields": []
+        },
+        {
+          "name": "ActionFieldSet",
+          "fieldType": "fieldset",
+          "label": {
+            "fr_FR": "Button Actions"
+          },
+          "repeatable": true,
+          "nestedDataDefinitionFields": [
+            {
+              "name": "LinkLabelText",
+              "fieldType": "text",
+              "label": {
+                "fr_FR": "Label Lien"
+              },
+              "repeatable": false,
+              "nestedDataDefinitionFields": []
+            },
+            {
+              "name": "ExternalLinkText",
+              "fieldType": "text",
+              "label": {
+                "fr_FR": "Lien Externe"
+              },
+              "repeatable": false,
+              "nestedDataDefinitionFields": []
+            },
+            {
+              "name": "InternalLinkText",
+              "fieldType": "link_to_layout",
+              "label": {
+                "fr_FR": "Lien interne"
+              },
+              "repeatable": false,
+              "nestedDataDefinitionFields": []
+            },
+            {
+              "name": "GreenBackgroundCheckbox",
+              "fieldType": "checkbox",
+              "label": {
+                "fr_FR": "Font Vert"
+              },
+              "repeatable": false,
+              "nestedDataDefinitionFields": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -2,10 +2,16 @@
 	.st-container {
 		--grid-gap: 40px;
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: var(--grid-gap);
+
+		@include tablet-small {
+			--grid-gap: 20px;
+		}
+
 		@include mobile {
-			grid-template-columns: 1fr;
+			--grid-gap: 40px;
+			grid-template-columns: minmax(10px, 1fr);
 		}
 
 		& + .st-container {
@@ -23,14 +29,12 @@
 	}
 
 	p {
-		@include ft($f_txt, 12px, 400, $c_txt, 1.16);
+		@include ft('', 12px, 400, $c_txt, 1.16);
 		@include letter-spacing(25);
 	}
 
 	.st-component-container {
-		@include reset-button;
 		position: relative;
-		display: block;
 		padding: 40px;
 		border: 1px solid rgba($c_white, 0.25);
 		border-radius: $border-radius;
@@ -73,8 +77,6 @@
 			flex-shrink: 0;
 			margin-left: auto;
 		}
-
-
 	}
 
 	.st-component-type-2 {
@@ -85,76 +87,90 @@
 
 		.st-lien-container {
 			position: relative;
+			--link-padding-top: 36px;		// Premier lien si plusieurs dans la liste
+			--link-padding-bottom: 24px;
 
-			.st-lien {
-				@include reset-button;
-				display: block;
-				padding: 25px 40px;
-
-				@include mobile {
-					padding: 16px 20px;
-				}
-
-				@include can-hover {
-					.st-text {
-						color: $c_white;
-					}
-				}
-			}
-
-			&:first-of-type {
-				.st-lien {
-
-					@include min-mobile {
-						padding-top: 40px;
-					}
-				}
-			}
-
-			&:last-of-type {
-				@include min-mobile {
-					.st-lien {
-						padding-bottom: 40px;
-					}
-				}
+			&:only-child {
+				--link-padding-top: 36px;		// Un seul lien dans la liste
+				--link-padding-bottom: 36px;
 			}
 
 			& + .st-lien-container {
+				--link-padding-top: 24px;		// Liens entre le premier et le dernier
+				--link-padding-bottom: 24px;
+
 				&:before {
 					content: "";
-					display: block;
-					background-image: url(../images/deco/dotted-line.svg);
-					width: calc(100% - 80px);
-					height: 1px;
-					pointer-events: none;
 					position: absolute;
 					top: 0;
 					left: 40px;
+					right: 40px;
+					height: 1px;
+					background-image: url(../images/deco/dotted-line.svg);
+					pointer-events: none;
+
 					@include mobile {
-						width: calc(100% - 40px);
 						left: 20px;
+						right: 20px;
 					}
+				}
+			}
+
+			& + .st-lien-container:last-child {
+				--link-padding-top: 24px;		// Dernier lien si plusieurs dans la liste
+				--link-padding-bottom: 36px;
+			}
+
+			.st-lien {
+				padding: var(--link-padding-top) 40px var(--link-padding-bottom);
+
+				@include mobile {
+					--link-padding-top: 16px;
+					--link-padding-bottom: 16px;
+					padding: var(--link-padding-top) 20px var(--link-padding-bottom);
+				}
+			}
+		}
+
+		.st-lien {
+			@include reset-button;
+			display: block;
+
+			@include can-hover {
+				.st-text {
+					color: $c_white;
 				}
 			}
 		}
 
 		.st-title-lien {
-			@include ft($f_txt, $s_p, 300, $c_white, 1);
+			@include ft('', $s_p, 400, $c_white, 1);
 			@include addTransition();
 
 			& + .st-text {
 				margin-top: 5px;
 			}
+			@include mobile {
+				font-size: 12px;
+			}
 		}
 
 		.st-text {
-			@include ft($f_txt, $s_p, 600, $c_sub, 1);
+			@include ft('', $s_p, 600, $c_sub, 1);
 			@include letter-spacing(25);
 			@include addTransition();
 
+			@include mobile {
+				font-size: 12px;
+			}
+
 			.st-type {
-				@include ft($f_txt, 14px, 300, $c_txt, 1);
+				@include ft('', 14px, 300, $c_txt, 1);
 				margin-right: 10px;
+
+				@include mobile {
+					font-size: 12px;
+				}
 			}
 		}
 
@@ -171,8 +187,20 @@
 		}
 
 		.st-lien-container {
-			.st-btn + .st-btn {
-				margin-top: 10px;
+			display: flex;
+			flex-wrap: wrap;
+			--gap: 10px;
+			margin-left: calc(var(--gap) * -1);
+			margin-top: calc(var(--gap) * -1);
+			font-size: 0;
+
+			> * {
+				margin-left: var(--gap);
+				margin-top: var(--gap);
+
+				@include mobile {
+					width: 100%;
+				}
 			}
 		}
 
@@ -183,17 +211,20 @@
 		.st-liste-icons {
 			@include reset-styles;
 			display: flex;
-			align-items: center;
 			flex-wrap: wrap;
+			--gap: 10px;
+			margin-left: calc(var(--gap) * -1);
+			margin-top: calc(var(--gap) * -1);
+			font-size: 0;
+
+			> * {
+				margin-left: var(--gap);
+				margin-top: var(--gap);
+			}
 
 			[class^="st-icon-"], [class*=" st-icon-"] {
 				font-size: 20px;
 			}
-
-			li {
-				margin-right: 10px;
-			}
 		}
 	}
-
 }

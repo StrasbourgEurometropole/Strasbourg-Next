@@ -3,21 +3,20 @@
     // Init des sliders
     const sliders = document.querySelectorAll('.st-js-slider-partenaires');
     sliders.forEach(slider => {
+        const splide = new Splide(slider);
 
-        const splide = new Splide(slider, {
-            pagination: false,
-            autoplay: false,
-            easing: "ease",
-            lazyLoad: 'nearby',
-            autoWidth: true,
-            focus: 0,
-            omitEnd: true,
-            breakpoints: {
-                600: {
-                    pagination: true,
-                }
+        // Masque / affiche le dégradé du track si on arrive à la fin du carousel
+        splide.on( 'mounted move', function () {
+            const end  = splide.Components.Controller.getEnd() + 1;
+            const current = splide.index + 1;
+
+            if (current === end) {
+                slider.classList.add('has-ended');
+            } else {
+                slider.classList.remove('has-ended');
             }
-        }).mount();
-    });
+        } );
 
+         splide.mount();
+    });
 })();

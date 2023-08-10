@@ -71,9 +71,9 @@ $small-margin: 20px;
 // Wrappers
 // ==========================================================================
 
-$wrapper-width: 1120px; // /!\ anciennement $max-width, taille par défaut quand classe .wrapper seule
-$wrapper-small-width: 900px; // /!\ anciennement $grid-small
-$wrapper-large-width: 1440px; // /!\ anciennement $max-width-large ($max-width-large: 1600px - $border-gutter - $border-gutter;)
+$wrapper-width: 1120px;
+$wrapper-small-width: 900px;
+$wrapper-large-width: 1440px;
 
 
 // ---- nouvelles variables pour gérer le layout général -----
@@ -82,15 +82,12 @@ $border-gutter: 80px; // marges gauche et droite minimum autour des wrappers
 $border-gutter-tablet: 40px;
 $border-gutter-mobile: 20px;
 
-$grid-gap: 40px; // /!\ anciennement $content-gutter
+$grid-gap: 40px;
 $grid-gap-small: 20px;
 $grid-gap-mobile: 20px;
 
-$section-spacing: 80px;
-$section-spacing-mobile: 40px;
-
-$bloc-spacing: 40px; // /!\ anciennement $content-spacing
-$bloc-spacing-mobile: 20px;
+$bloc-spacing: 80px;
+$bloc-spacing-mobile: 40px;
 
 $strate-spacing: 80px;
 $strate-spacing-mobile: 50px;
@@ -155,7 +152,6 @@ $transition-overlay-easing: cubic-bezier(0.86, 0, 0.07, 1);
 :root {
 	--border-gutter: #{$border-gutter};
 
-	--section-spacing: #{$section-spacing};
 	--bloc-spacing: #{$bloc-spacing};
 	--strate-spacing: #{$strate-spacing};
 
@@ -185,7 +181,6 @@ $transition-overlay-easing: cubic-bezier(0.86, 0, 0.07, 1);
 	@media screen and (max-width: map-get($breakpoints, 'mobile')) {
 		--border-gutter: #{$border-gutter-mobile};
 
-		--section-spacing: #{$section-spacing-mobile};
 		--bloc-spacing: #{$bloc-spacing-mobile};
 		--strate-spacing: #{$strate-spacing-mobile};
 

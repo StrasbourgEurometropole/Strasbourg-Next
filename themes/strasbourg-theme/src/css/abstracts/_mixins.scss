@@ -15,16 +15,26 @@
 //  Mixins theme specifics
 // -----------------------------------------------
 
+
+// Card au format portrait
+// ==========================================================================
+@mixin card-verticale() {
+	flex-direction: column-reverse;
+	justify-content: flex-end;
+
+	.st-image {
+		margin-bottom: 15px;
+		flex-shrink: 0;
+	}
+}
+
 // Card à l'Horizontale
 // ==========================================================================
 @mixin card-horizontale() {
-	width: 100%;
 	min-height: 100px;
-	display: flex;
 	flex-direction: row-reverse;
 	justify-content: flex-end;
-	align-items: center;
-	@include addTransition();
+	align-items: flex-start;
 	@include btn-favorite-card();
 
 	@include mobile {
@@ -33,24 +43,8 @@
 	}
 
 	.st-image {
-		--aspect-ratio: 1/1;
-		position: relative;
-		width: 100px;
-		height: 100px;
+		width: var(--image-size);
 		margin-right: 10px;
-		margin-bottom: 0;
-		flex-shrink: 0;
-
-		@include mobile {
-			width: 80px;
-			height: 80px;
-		}
-
-		figure, .no-photo {
-			&:before, &:after {
-				content: none;
-			}
-		}
 
 		figure {
 			&:after {
@@ -70,10 +64,6 @@
 					opacity: 0.6;
 				}
 			}
-		}
-		&:after {
-			width: 100%;
-			height: 100%;
 		}
 	}
 
@@ -165,5 +155,22 @@
 
 	&:hover {
 		text-decoration: none;
+	}
+}
+
+
+@mixin reset-select {
+	@include create-outline();
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+
+	background: none;
+	border-radius: 0;
+	appearance: none;
+
+	&:not([disabled]) {
+		cursor: pointer;
 	}
 }

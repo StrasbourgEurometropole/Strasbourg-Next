@@ -236,16 +236,30 @@
 
 		a {
 			box-sizing: border-box;
+			display: flex;
+			justify-content: center;
+			align-items: center;
 			border: 1px solid $c_grey;
-			border-radius: 0px !important;
 			width: 30px;
 			height: 30px;
 			font-family: $f_txt;
 			font-weight: 400;
 			text-decoration: none !important;
+			color: $c_border;
+
+			&:first-child {
+				border-radius: $border-radius-small $border-radius-small 0 0;
+			}
 
 			&:last-child {
+				border-radius: 0 0 $border-radius-small $border-radius-small;
 				border-top: 0;
+			}
+
+			&:hover {
+				color: $c_white;
+				background-color: $c_greydark;
+				border-color: $c_greydark;
 			}
 		}
 	}

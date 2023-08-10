@@ -5,6 +5,13 @@ var th_overlay = {
     callbackOpen: [],
     callbackClose: [],
 
+    // RGAA
+    isEscapeListening: false,
+    lastOpenedId: [],
+    focusElOnClose: {},
+    noFocusOnPreviousOverlay: false,
+    doNotCloseOverlay: false,
+
     preventDefault: true,
 
     init: function (settings) {
@@ -16,6 +23,23 @@ var th_overlay = {
             $.each(settings, function (key, setting) {
                 if (th_overlay[key]) {
                     th_overlay[key] = setting;
+                }
+            });
+        }
+
+        // RGAA on ecoute la touche echap pour fermer les overlay ouvert
+        if (!th_overlay.isEscapeListening) {
+            th_overlay.isEscapeListening = true;
+            document.addEventListener('keydown', function (e) {
+                if (th_overlay.lastOpenedId.length > 0 && e.key === "Escape") {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    // on ferme le dernier ouvert
+                    if (th_overlay.doNotCloseOverlay === false || th_overlay.doNotCloseOverlay === null) {
+                        th_overlay.close(th_overlay.lastOpenedId[th_overlay.lastOpenedId.length - 1]);
+                    }
+
                 }
             });
         }
@@ -39,7 +63,7 @@ var th_overlay = {
 
         $(th_overlay.selector_overlay).each(function () {
             var overlayId = this.id;
-            var targetOpen = $('a[href="#' + overlayId + '"]:not(.st-parsed-overlay):not(.st-close), [data-overlay-open="' + overlayId + '"]:not(.st-parsed-overlay)');
+            var targetOpen = $('a[href="#' + overlayId + '"]:not(.st-parsed-overlay):not(.close), [data-overlay-open="' + overlayId + '"]:not(.st-parsed-overlay)');
 
             targetOpen.addClass('st-parsed-overlay')
                 .on('click', function (e) {
@@ -51,14 +75,13 @@ var th_overlay = {
                         idOverlay = idOverlay.replace('#', '');
                     }
 
-                    // ajout de l'option data-overlay-disable-hash (sans valeur) pour désactiver à l'ouverture l'ajout du hash dans l'url
-                    var disableHash = $(this).attr('data-overlay-disable-hash');
-                    var enableHash = (typeof disableHash !== 'undefined' && disableHash !== false && disableHash !== 'false') ? false : true;
+                    // RGAA : On stock l'element qui a ouvert l'overlay pour y revenir a sa fermeture
+                    th_overlay.focusElOnClose[idOverlay] = this;
 
-                    th_overlay.open(idOverlay, true, true, enableHash);
+                    th_overlay.open(idOverlay);
                 });
 
-            $('a[href="#' + overlayId + '"].close:not(.parsed-overlay), [data-overlay-close="' + overlayId + '"]:not(.parsed-overlay)')
+            $('a[href="#' + overlayId + '"].close:not(.st-parsed-overlay), [data-overlay-close="' + overlayId + '"]:not(.st-parsed-overlay)')
                 .addClass('st-parsed-overlay')
                 .on('click', function (e) {
                     e.preventDefault();
@@ -88,13 +111,13 @@ var th_overlay = {
             $.each(current_hash, function (index, overlay_id) {
                 if (overlay_id && overlay_id.length) {
                     try {
-                        var corresponding_overlay = $("#" + overlay_id);
-                        var notOpenOnLoad = corresponding_overlay.attr('not-open-onload');
 
-                        if ($(corresponding_overlay).hasClass("st-overlay") && notOpenOnLoad !== "true") {
+                        var corresponding_overlay = $("#" + overlay_id);
+
+                        if ($(corresponding_overlay).hasClass("st-overlay")) {
                             return th_overlay.open(overlay_id);
                         }
-                    } catch (error) {
+                    } catch(error) {
                         return false;
                     }
                 }
@@ -102,30 +125,34 @@ var th_overlay = {
         }
     },
 
-    open: function (overlayId, openShadow, doCallback, enableHash) {
-
+    open: function (overlayId, openShadow, doCallback) {
         if (openShadow !== false) {
             openShadow = true;
         }
         if (doCallback !== false) {
             doCallback = true;
         }
-        if (enableHash !== false) {
-            enableHash = true;
-        }
 
-        $(th_overlay.selector_overlay + ".st-open").each(function (e) {
+        // RGAA : On liste les overlay ouvert pour les fermer sur echap
+        th_overlay.lastOpenedId.push(overlayId);
+        // RGAA : Focus de la croix de fermeture a l'ouverture de l'overlay
+        setTimeout(function () {
+            $('#' + overlayId).find('button[data-overlay-close]').first().focus();
+        }, 250);
+
+
+        $(th_overlay.selector_overlay + ".st-is-open").each(function (e) {
             th_overlay.close($(this).attr('id'), false, true)
         });
 
-        $('#' + overlayId).addClass('st-open');
+        $('#' + overlayId).addClass('st-is-open');
 
-        if (enableHash == true) {
+        if (!$('#' + overlayId).attr("data-disable-hash")) {
             window.location.hash = overlayId;
         }
 
         if (openShadow == true) {
-            $(th_overlay.selector_overlay_shadow).addClass('st-open');
+            $(th_overlay.selector_overlay_shadow).addClass('st-is-open');
         }
 
         if (doCallback == true) {
@@ -133,8 +160,6 @@ var th_overlay = {
                 callback(overlayId);
             });
         }
-
-
     },
 
     close: function (overlayId, closeShadow, doCallback) {
@@ -151,14 +176,20 @@ var th_overlay = {
 
 
         if (overlayId) {
-            $('#' + overlayId).removeClass('st-open');
-            if ($(th_overlay.selector_overlay + '.st-open').length == 0 && closeShadow) {
-                $(th_overlay.selector_overlay_shadow).removeClass('st-open');
+
+            if (th_overlay.lastOpenedId[th_overlay.lastOpenedId.length - 1] == overlayId) {
+                th_overlay.lastOpenedId.pop();
+            }
+
+            $('#' + overlayId).removeClass('st-is-open');
+
+            if ($(th_overlay.selector_overlay + '.st-is-open').length == 0 && closeShadow) {
+                $(th_overlay.selector_overlay_shadow).removeClass('st-is-open');
             }
         } else {
-            $(th_overlay.selector_overlay + '.st-open').removeClass('st-open');
+            $(th_overlay.selector_overlay + '.st-is-open').removeClass('st-is-open');
             if (closeShadow) {
-                $(th_overlay.selector_overlay_shadow).removeClass('st-open');
+                $(th_overlay.selector_overlay_shadow).removeClass('st-is-open');
             }
         }
 
@@ -166,6 +197,15 @@ var th_overlay = {
             $.each(th_overlay.callbackClose, function (k, callback) {
                 callback(overlayId);
             });
+        }
+
+        // RGAA : focus a nouveau sur l'element qui a ouvert l'overlay
+        if (th_overlay.focusElOnClose[overlayId]) {
+            setTimeout(function () {
+                if (!th_overlay.noFocusOnPreviousOverlay) {
+                    $(th_overlay.focusElOnClose[overlayId]).focus();
+                }
+            }, 850);
         }
 
     }

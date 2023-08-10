@@ -1,52 +1,53 @@
 .st-bloc-liens {
 	.st-liste {
 		@include reset-styles;
-		border: 1px solid rgba($c_white, 0.40);
+		border: 1px solid rgba($c_white, 0.25);
+		border-radius: $border-radius;
 	}
 
 	.st-lien-container {
 		position: relative;
+		--link-padding-top: 36px;		// Premier lien si plusieurs dans la liste
+		--link-padding-bottom: 24px;
 
-		&:first-of-type {
-			.st-lien {
-				padding: 40px 40px 30px 40px;
-				@include mobile {
-					padding: 20px;
-				}
-			}
-		}
-
-		&:last-of-type {
-			.st-lien {
-				padding: 30px 40px 40px 40px;
-				@include mobile {
-					padding: 20px;
-				}
-			}
-		}
-
-		.st-lien {
-			padding: 30px 40px 30px 40px;
-			@include mobile {
-				padding: 20px;
-			}
+		&:only-child {
+			--link-padding-top: 36px;		// Un seul lien dans la liste
+			--link-padding-bottom: 36px;
 		}
 
 		& + .st-lien-container {
+			--link-padding-top: 24px;		// Liens entre le premier et le dernier
+			--link-padding-bottom: 24px;
+
 			&:before {
 				content: "";
-				display: block;
-				background-image: url("../images/deco/dotted-line.svg");
-				width: calc(100% - 80px);
-				height: 1px;
-				pointer-events: none;
 				position: absolute;
 				top: 0;
 				left: 40px;
+				right: 40px;
+				height: 1px;
+				background-image: url("../images/deco/dotted-line.svg");
+				pointer-events: none;
+
 				@include mobile {
-					width: calc(100% - 40px);
 					left: 20px;
+					right: 20px;
 				}
+			}
+		}
+
+		& + .st-lien-container:last-child {
+			--link-padding-top: 24px;		// Dernier lien si plusieurs dans la liste
+			--link-padding-bottom: 36px;
+		}
+
+		.st-lien {
+			padding: var(--link-padding-top) 40px var(--link-padding-bottom);
+
+			@include mobile {
+				--link-padding-top: 16px;
+				--link-padding-bottom: 16px;
+				padding: var(--link-padding-top) 20px var(--link-padding-bottom);
 			}
 		}
 	}
@@ -68,16 +69,16 @@
 				color: $c_sub;
 			}
 		}
-
 	}
 
 	.st-title-lien {
-		@include ft($f_txt, $s_p, 400, $c_white, 1);
+		@include ft('', $s_p, 400, $c_white, 1);
 		@include letter-spacing(25);
 		@include addTransition();
 		margin-right: 20px;
+
 		@include tablet-portrait {
-			margin-right: 0px;
+			margin-right: initial;
 		}
 		@include mobile {
 			font-size: 12px;
@@ -85,12 +86,16 @@
 	}
 
 	.st-lien-content {
-		margin-left: auto;
 		display: flex;
 		align-items: center;
+		margin-left: auto;
+
 		@include tablet-portrait {
-			margin-left: 0;
+			margin-left: initial;
 			margin-top: 8px;
+		}
+		@include mobile {
+			margin-top: 4px;
 		}
 	}
 
@@ -98,6 +103,7 @@
 		@include ft($f_txt, $s_p, 300, $c_txt, 1);
 		@include letter-spacing(25);
 		text-transform: uppercase;
+
 		@include mobile {
 			font-size: 12px;
 		}
@@ -110,6 +116,7 @@
 	.st-text {
 		@include ft($f_txt, $s_p, 600, $c_sub, 1);
 		@include letter-spacing(25);
+
 		@include mobile {
 			font-size: 12px;
 		}

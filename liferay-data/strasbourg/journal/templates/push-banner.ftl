@@ -4,10 +4,9 @@
             <div class="st-container st--with-image">
                 <div class="st-col-left">
                     <div class="st-visual-container">
-                        <#if (cur_PushFieldset.PictoImage.getData())?? && cur_PushFieldset.PictoImage.getData() != "">
+                        <#if (cur_PushFieldset.PictoImage.getData())?? && cur_PushFieldset.PictoImage.getData() !="">
                             <img alt="${cur_PushFieldset.PictoImage.getAttribute("alt")}" data-fileentryid="${cur_PushFieldset.PictoImage.getAttribute("fileEntryId")}" src="${cur_PushFieldset.PictoImage.getData()}" />
                         </#if>
-
                     </div>
                     <div class="st-content">
                         <h2 class="st-h2">
@@ -30,9 +29,8 @@
                 <div class="st-col-right">
                     <#if cur_PushFieldset.ActionFieldSet.getSiblings()?has_content>
                         <#list cur_PushFieldset.ActionFieldSet.getSiblings() as cur_PushFieldset_ActionFieldSet>
-                            <a href="<#if (PushFieldset.ActionFieldSet.ExternalLinkText.getData())??>
-	${PushFieldset.ActionFieldSet.ExternalLinkText.getData()}
-</#if>" class="st-btn st--btn-secondary">
+                            <a href="<#if (cur_PushFieldset_ActionFieldSet.ExternalLinkText.getData())??>${cur_PushFieldset_ActionFieldSet.ExternalLinkText.getData()}<#else>${cur_PushFieldset_ActionFieldSet.InternalLinkText.getFriendlyUrl()}</#if>"
+                               class="st-btn <#if !getterUtil.getBoolean(cur_PushFieldset_ActionFieldSet.GreenBackgroundCheckbox.getData())>st--btn-secondary</#if>">
                                 <#if (cur_PushFieldset_ActionFieldSet.LinkLabelText.getData())??>
                                     ${cur_PushFieldset_ActionFieldSet.LinkLabelText.getData()}
                                 </#if>
@@ -43,5 +41,4 @@
             </div>
         </#list>
     </#if>
-
 </div>

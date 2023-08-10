@@ -6,12 +6,7 @@
 
         const splide = new Splide(slider, {
             pagination: true,
-            autoplay: false,
-            easing: "ease",
-            lazyLoad: 'nearby',
-            autoWidth: true,
-            focus: 0,
-            omitEnd: true,
+            padding: { right: 40 }
         }).mount();
     });
 

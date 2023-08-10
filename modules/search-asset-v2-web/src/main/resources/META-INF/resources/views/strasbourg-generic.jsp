@@ -105,63 +105,45 @@
 
 		<!-- Pagination -->
 		<c:if test="${dc.pager.lastPage > 1}">
-			<ul class="seu-pagination unstyled">
-				<!-- Page précédente -->
-				<li class="seu-pagin-prev disabled seu-pagin-item">
-					<c:if test="${not dc.pager.onFirstPage}">
-						<a class="seu-btn-square seu-bordered seu-core" data-action="prev" title="<liferay-ui:message key="go-to-previous-page" />"
-						   href="${dc.getURLForPage(dc.pager.currentPage - 1)}">
-			                        <span class="seu-flexbox">
-			                            <span class="seu-btn-text"><liferay-ui:message key="previous" /></span>
-			                            <span class="seu-btn-arrow"></span>
-			                        </span>
-						</a>
-					</c:if>
-				</li>
-				<c:forEach var="page" items="${dc.pager.pages}">
-					<c:choose>
-						<c:when test="${page.isALink() and not (page.index eq dc.pager.currentPage)}">
-							<!-- Lien vers page -->
-							<li class="seu-pagin-item">
-								<a data-page="${page.index}" href="${dc.getURLForPage(page.index)}">
-					                        <span class="seu-flexbox">
-					                            <span class="seu-btn-text">${page.label}</span>
-					                        </span>
-								</a>
-							</li>
-						</c:when>
-						<c:when test="${page.isALink() and (page.index eq dc.pager.currentPage)}">
-							<!-- Page en cours -->
-							<li class="seu-pagin-item seu-is-active">
-				                        <span class="seu-flexbox">
-				                            <span class="seu-btn-text">${page.label}</span>
-				                        </span>
-							</li>
-						</c:when>
-						<c:otherwise>
-							<!-- Texte -->
-							<li class="seu-pagin-item">
-				                        <span class="seu-flexbox">
-				                            <span class="seu-btn-text">${page.label}</span>
-				                        </span>
-							</li>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
+			<nav id="st-pagination" class="st-wrapper st-wrapper-small st-pagination st-js-listing-pagination" role="navigation">
+				<div class="container">
+					<a rel="prev" class="st-nav-links st-prev st-btn-arrow st--prev" data-action="prev" title="<liferay-ui:message key="go-to-previous-page" />"
+					   href="${dc.getURLForPage(dc.pager.currentPage - 1)}">
+           <span class="st-sr-only">
+                Précédent
+           </span>
+					</a>
 
-				<!-- Page suivante -->
-				<li class="seu-pagin-next seu-pagin-item">
-					<c:if test="${not dc.pager.onLastPage}">
-						<a class="seu-btn-square seu-bordered seu-core" title="<liferay-ui:message key="go-to-next-page" />"
-						   data-action="next" href="${dc.getURLForPage(dc.pager.currentPage + 1)}">
-			                        <span class="seu-flexbox">
-			                            <span class="seu-btn-text"><liferay-ui:message key="next" /></span>
-			                            <span class="seu-btn-arrow"></span>
-			                        </span>
-						</a>
-					</c:if>
-				</li>
-			</ul>
+					<!-- Note pour le cablage changer dynamiquement les numéros de page dans les aria-label. Aussi, l'aria-label pour l'élément actif doit être différent par rapport aux autres -->
+					<div class="st-pagination-number">
+						<c:forEach var="page" items="${dc.pager.pages}">
+							<c:choose>
+								<c:when test="${page.isALink() and not (page.index eq dc.pager.currentPage)}">
+									<!-- Lien vers page -->
+									<a data-page="${page.index}" href="${dc.getURLForPage(page.index)}" class="st-pagination-link" role="button" aria-label="Aller à ${page.label}"
+									   aria-current="false">${page.label}</a>
+								</c:when>
+								<c:when test="${page.isALink() and (page.index eq dc.pager.currentPage)}">
+									<!-- Page en cours -->
+									<a href="#" class="st-pagination-link active" role="button" aria-label="Page courante ${page.label}"
+									   aria-current="true">${page.label}</a>
+								</c:when>
+								<c:otherwise>
+									<!-- Texte -->
+									<span class="st-dots">...</span>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</div>
+
+					<a rel="next" class="st-nav-links st-next st-btn-arrow st--next" title="<liferay-ui:message key="go-to-next-page" />"
+					   data-action="next" href="${dc.getURLForPage(dc.pager.currentPage + 1)}">
+              <span class="st-sr-only">
+                Suivant
+              </span>
+					</a>
+				</div>
+			</nav>
 		</c:if>
 	</div>
 			</aui:form>

@@ -155,3 +155,54 @@
 		}
 	}
 }
+
+
+// Génère un masque sur un contenu en overflow avec les bords verticaux en gradient
+@mixin fade-out-overflow($fade-distance:70px, $scrollbar-size:16px) {
+	$debug: false;
+
+	// scroll bar width, for use in mask calculations
+	--scrollbar-size: #{$scrollbar-size};
+
+	// mask fade distance, for use in mask calculations
+	--fade-distance: #{$fade-distance};
+
+	// The content mask is a linear gradient from top to bottom
+	--mask-image-content: linear-gradient(to bottom,
+			transparent, red var(--fade-distance),
+			red calc(100% - var(--fade-distance)), transparent
+	);
+
+	// The scrollbar mask is a black pixel
+	--mask-image-scrollbar: linear-gradient(pink, pink);
+
+	/* Here we scale the content gradient to the width of the container
+    minus the scrollbar width. The height is the full container height */
+	--mask-size-content: calc(100% - var(--scrollbar-size)) 100%;
+
+	/* The width of our black pixel is the width of the scrollbar.
+    The height is the full container height */
+	--mask-size-scrollbar: var(--scrollbar-size) 100%;
+
+	@if ($debug != true) {
+		// Apply the mask image and mask size variables
+		-webkit-mask-image: var(--mask-image-content), var(--mask-image-scrollbar);
+		-webkit-mask-size: var(--mask-size-content), var(--mask-size-scrollbar);
+
+		/* Position the content gradient in the top left, and the
+        scrollbar gradient in the top right */
+		-webkit-mask-position: 0 0, 100% 0;
+
+		// We don't repeat our mask images
+		-webkit-mask-repeat: no-repeat, no-repeat;
+
+		// Debug mode with background-image
+	} @else {
+		background-image: var(--mask-image-content), var(--mask-image-scrollbar);
+		background-size: var(--mask-size-content), var(--mask-size-scrollbar);
+
+		background-position: 0 0, 100% 0;
+
+		background-repeat: no-repeat, no-repeat;
+	}
+}

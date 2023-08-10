@@ -9,7 +9,7 @@
 		display: none;
 	}
 
-	& ~ main {
+	/*& ~ main {
 		margin-top: 219px;
 		@include tablet-portrait {
 			margin-top: 0;
@@ -24,17 +24,7 @@
 		@include mobile {
 			margin-top: calc(var(--ancres-height-mobile) + 20px);
 		}
-	}
-
-	& ~ .st-page-edito {
-		margin-top: 219px;
-		@include tablet-portrait {
-			margin-top: calc(var(--ancres-height-mobile) + 40px);
-		}
-		@include mobile {
-			margin-top: calc(var(--ancres-height-mobile) + 20px);
-		}
-	}
+	}*/
 
 
 	.st-is-scrolled & {
@@ -149,16 +139,15 @@
 		}
 
 		.select-lang {
+			@include reset-select;
 			position: relative;
 			display: flex;
-			height: 100%;
 			align-items: center;
+			height: 100%;
 			padding: 30px 40px 30px 20px;
 			@include ft($f_txt, $s_p, 600, $c_white, 1);
 			@include letter-spacing(25);
-			cursor: pointer;
 			@include addTransition();
-			@include create-outline();
 
 			@include can-hover {
 				color: $c_sub;

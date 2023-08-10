@@ -23,20 +23,9 @@
 // ==========================================================================
 @import "libs/splide";
 @import "libs/zoombox";
-@import "libs/selectric/selectric";
-@import "libs/selectric/selectric-custom";
-@import "libs/tarteaucitron/tarteaucitron";
-@import "libs/tarteaucitron/tarteaucitron_custom";
 @import "libs/leaflet/leaflet";
 @import "libs/leaflet/leaflet_cluster";
 @import "libs/leaflet/leaflet_custom_popup";
-@import "libs/matomo-custom";
-@import "libs/formidable/grid";
-@import "libs/formidable/dropzone";
-@import "libs/formidable/theme";
-@import "libs/formidable/components";
-@import "libs/formidable/progressbar";
-@import "libs/daterangepicker_custom";
 
 // Styles des éléments structurants des pages
 // ==========================================================================
@@ -65,17 +54,14 @@
 
 // Styles pour la page édito
 // ==========================================================================
-@import "pages/page-welcome";
-@import "pages/page-grille";
-@import "pages/page-edito";
-@import "pages/page-accueil";
 @import "pages/page-listing";
 @import "pages/page-fiche-lieu";
 
 // Styles pour les artboards
 // ==========================================================================
-@import "artboards/artboard-boutons";
-@import "artboards/artboard-grille";
+@import "pages-artboards/page-welcome";
+@import "pages-artboards/artboard-boutons";
+@import "pages-artboards/artboard-grille";
 
 
 @import "components/partials/**/*.scss";

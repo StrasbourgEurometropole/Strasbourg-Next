@@ -1,67 +1,48 @@
 .st-bloc-focus {
 
-	@include tablet-portrait {
-		padding-top: 50px;
-	}
-
 	.st-container {
 		display: flex;
-		align-items: center;
-		background-color: $c_greydark;
 		padding: 20px;
-		@include tablet-portrait {
-			flex-direction: column;
-		}
-
-		& + .st--with-image {
-			@include tablet-portrait {
-				margin-top: 75px;
-			}
-		}
+		background-color: $c_greydark;
+		border-radius: $border-radius;
 	}
 
 	.st-col-left {
 		display: flex;
-		align-items: center;
 		width: 100%;
-		@include tablet-portrait {
-			flex-direction: column;
-			margin-top: -70px;
-		}
-
-		[class^="st-icon-"], [class*=" st-icon-"] {
-			font-size: 120px;
-			color: $c_sub;
-			flex-shrink: 0;
-			@include tablet-portrait {
-				font-size: 80px;
-			}
-		}
 
 		.st-visual-container {
 			position: relative;
 			flex-shrink: 0;
-			margin-right: 20px;
-			width: 200px;
-			height: 200px;
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			width: 200px;
+			height: 200px;
+			margin-right: 20px;
+
 			@include tablet-portrait {
 				width: 100px;
 				height: 100px;
-				margin-right: 0px;
+				margin-right: initial;
+			}
+
+			[class^="st-icon-"], [class*=" st-icon-"] {
+				flex-shrink: 0;
+				font-size: 120px;
+				color: $c_sub;
+
+				@include tablet-portrait {
+					font-size: 80px;
+				}
+			}
+
+			img {
+				border-radius: $border-radius-small;
 			}
 		}
 
 		.st-content {
-			margin-right: 80px;
-			@include tablet-portrait {
-				margin-right: 0px;
-				margin-bottom: 20px;
-				margin-top: 20px;
-			}
-
 			.st-surtitre-cat {
 				margin-top: 8px;
 			}
@@ -76,71 +57,127 @@
 
 	.st-col-right {
 		display: flex;
-		flex-direction: column;
-		align-items: flex-end;
-		flex-shrink: 0;
-		@include tablet-portrait {
-			width: 100%;
-			flex-direction: row;
-		}
 
 		.st-btn {
-			@include tablet-portrait {
-				width: 100%;
-			}
 			@include mobile {
-				font-size: 12px;
 				padding-left: 20px;
 				padding-right: 20px;
 			}
+		}
+	}
 
-			& + .st-btn {
-				margin-top: 10px;
-				@include tablet-portrait {
-					margin-top: 0px;
-					margin-left: 10px;
+	// --modifiers
+	&.st--with-icon,
+	&.st--with-image {
+		@include tablet-portrait {
+			padding-top: 50px;
+		}
+
+		.st-container {
+			align-items: center;
+
+			@include tablet-portrait {
+				flex-direction: column;
+			}
+		}
+
+		.st-col-left {
+			align-items: center;
+			width: 100%;
+
+			@include tablet-portrait {
+				flex-direction: column;
+				margin-top: -70px;
+			}
+
+			.st-content {
+				margin-right: 80px;
+
+				@include desktop {
+					margin-right: 60px;
 				}
+
+				@include tablet-portrait {
+					margin-right: initial;
+					margin-bottom: 20px;
+					margin-top: 20px;
+				}
+
+				@include mobile {
+					margin-top: 5px;
+				}
+			}
+		}
+
+		.st-col-right {
+			flex-shrink: 0;
+			flex-direction: column;
+			padding-right: 60px;
+
+			@include desktop {
+				padding-right: 20px;
+			}
+
+			@include tablet-portrait {
+				width: 100%;
+				flex-direction: row;
+				padding-right: initial;
+			}
+
+			.st-btn {
+				@include tablet-portrait {
+					flex: 1;
+				}
+
+				& + .st-btn {
+					margin-top: 10px;
+
+					@include tablet-portrait {
+						margin-top: initial;
+						margin-left: 10px;
+					}
+				}
+			}
+		}
+	}
+
+
+	&.st--with-image {
+		@include tablet-portrait {
+			.st-visual-container {
+				margin-bottom: 10px;
 			}
 		}
 	}
 
 	&.st--two-elements {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 		grid-gap: 30px;
-		@include tablet-landscape {
-			grid-template-columns: 1fr;
-		}
+
 		@include tablet-portrait {
-			padding-top: 0px;
+			grid-template-columns: minmax(0, 1fr);
 		}
 
 		.st-container {
 			flex-direction: column;
-
-			& + .st-container {
-				@include tablet-portrait {
-					margin-top: 0px;
-				}
-			}
 		}
 
 		.st-col-left {
-			@include tablet-portrait {
-				margin-top: 0px;
-				flex-direction: row;
-			}
+			align-items: flex-start;
 
 			.st-content {
-				margin: 0;
+				margin: auto 0;
 			}
 
 			.st-visual-container {
 				width: 120px;
 				height: 120px;
+				
 				@include tablet-portrait {
 					margin-right: 20px;
 				}
+				
 				@include mobile {
 					width: 100px;
 					height: 100px;
@@ -149,7 +186,6 @@
 		}
 
 		.st-col-right {
-			width: 100%;
 			flex-direction: row;
 			margin-top: 20px;
 
@@ -157,15 +193,23 @@
 				flex: 1;
 
 				& + .st-btn {
-					margin-top: 0;
 					margin-left: 10px;
+					margin-top: initial;
 				}
 			}
 		}
 	}
 
 	&.st--has-line {
+		padding-top: 40px;
 		padding-bottom: 40px;
 		border-bottom: 1px solid $c_border;
+
+		&.st--with-icon,
+		&.st--with-image {
+			@include tablet-portrait {
+				padding-top: 90px;
+			}
+		}
 	}
 }

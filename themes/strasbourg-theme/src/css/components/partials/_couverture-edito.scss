@@ -1,6 +1,10 @@
 .st-header-edito {
 	margin-bottom: 36px;
 
+	@include min-tablet-portrait {
+		padding-top: 40px;
+	}
+
 	.st-img-wrapper figure {
 		@include mobile {
 			--aspect-ratio: 320/214;

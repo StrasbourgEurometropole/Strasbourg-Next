@@ -1,0 +1,28 @@
+.st-bloc-sit-agenda {
+	.st-cards-wrapper {
+		@include reset-styles;
+		column-gap: 40px;
+		row-gap: 20px;
+
+		@include tablet-portrait {
+			column-gap: 20px;
+		}
+
+		@include mobile {
+			row-gap: 10px;
+		}
+
+		& + .st-btn {
+			width: 100%;
+			margin-top: 40px;
+
+			@include mobile {
+				margin-top: 20px;
+			}
+		}
+	}
+
+	.st-image {
+		width: 100px;
+	}
+}

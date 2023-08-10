@@ -1,101 +1,92 @@
-.st-actu-home {
-	padding-top: 40px;
-	@include tablet-portrait {
-		overflow: hidden;
-	}
-
-	> .st-wrapper {
+.st-bloc-actu-home {
+	.st-bloc-actu-home__inner {
+		display: flex;
+		flex-direction: column;
+		padding-top: 40px;
 		padding-bottom: 40px;
 		border-bottom: 1px solid $c_border;
 	}
 
 	.st-titre {
 		margin-bottom: 30px;
+
+		@include mobile {
+			margin-bottom: 16px;
+		}
 	}
 
 	.splide__track {
 		@include tablet-portrait {
-			overflow: visible;
+			margin-left: calc(var(--border-gutter) * -1);
+			margin-right: calc(var(--border-gutter) * -1);
+			padding-left: var(--border-gutter) !important;
+			padding-right: var(--border-gutter) !important;
+			-webkit-mask-image: linear-gradient(to left, transparent, red var(--border-gutter), red calc(100% - var(--border-gutter)), transparent);
+			//background-image: linear-gradient(to left, transparent, red var(--border-gutter), red calc(100% - var(--border-gutter)), transparent);
+		}
+	}
+
+	.st-cards-wrapper {
+		@include reset-styles;
+
+		// passe du mode slider au mode grille
+		@include min-tablet-portrait {
+			display: grid !important;
+			gap: 20px;
+			grid-template-columns: repeat(4, minmax(10px, 1fr));
+
+			> li:nth-child(1),
+			> li:nth-child(2) {
+				grid-column: span 2;
+			}
 		}
 
-		.st-cards-wrapper {
-			@include reset-styles;
-
-			&.splide__list {
-				display: grid;
-				grid-template-columns: repeat(4, 1fr);
-				grid-gap: 20px;
-				max-height: 646px;
-				overflow: hidden;
-				@include tablet-portrait {
-					display: flex;
-					max-height: none;
-					overflow: visible;
-					grid-gap: 0px;
-				}
+		.splide__slide {
+			@include tablet-portrait {
+				width: calc(100% - 20px);
+				max-width: 220px;
+				margin-right: var(--slide-gap);
 			}
 		}
 	}
 
-	.splide__slide {
-		@include tablet-portrait {
-			width: 220px;
-			margin-right: var(--slide-gap);
+	.st-btn-cta {
+		align-self: flex-end;
+		margin-top: 20px;
+
+		@include min-tablet-portrait {
+			margin-bottom: 20px;
 		}
 	}
 
 	.st-nav-dots {
-		display: none;
-		@include tablet-portrait {
+		margin-top: 20px;
+		justify-content: flex-end;
+	}
+
+
+	// actus dans un composant view-more seulement au-dessus de tablette
+	.st-component-container {
+		.st-limit-height {
+			--max-height-desktop: 670px;
 			display: flex;
-			justify-content: flex-end;
-			margin-top: 20px;
-		}
-	}
+			flex-direction: column;
 
-
-	.st-view-more {
-		position: relative;
-		display: flex;
-		align-items: center;
-		margin-top: -24px;
-		@include tablet-portrait {
-			margin-top: 20px;
-		}
-
-		&:before {
-			content: "";
-			display: block;
-			width: 100%;
-			height: 1px;
-			background-image: url("../images/deco/dotted-line.svg");
 			@include tablet-portrait {
-				display: none;
+				max-height: initial;
+				overflow: initial;
+				padding-bottom: initial;
+
+				&:after {
+					display: none;
+				}
 			}
 		}
 
-		&:after {
-			content: '';
-			width: 100%;
-			height: var(--gradient-height);
-			background: linear-gradient(180deg, rgba($c_main, 0), rgba($c_main, 1));
-			position: absolute;
-			left: 0;
-			bottom: 24px;
-			pointer-events: none;
-			z-index: 0;
+		.st-show-more {
 			@include tablet-portrait {
-				display: none;
-			}
-		}
-
-		.st-btn {
-			flex-shrink: 0;
-			z-index: 1;
-			@include mobile {
-				width: 100%;
+				display: none !important;
 			}
 		}
 	}
-
 }

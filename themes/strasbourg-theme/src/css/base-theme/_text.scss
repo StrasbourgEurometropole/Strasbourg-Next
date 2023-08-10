@@ -86,6 +86,21 @@
 }
 
 
+.st-page-wrapper .st-text-small {
+	@include ft($f_txt, 12px, '', $c_txt, 1.16);
+	@include letter-spacing(25);
+}
+
+
+.st-page-wrapper .st-title-medium {
+	@include ft($f_txt, 16px, 700, $c_white, 1);
+
+	@include mobile {
+		font-size: 14px;
+	}
+}
+
+
 // Styles et positionnement au sein d'un bloc de texte
 // ==========================================================================
 

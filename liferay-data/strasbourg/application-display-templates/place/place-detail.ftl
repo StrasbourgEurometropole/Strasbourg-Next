@@ -1,6 +1,8 @@
 <!-- Detail lieu -->
 <#setting locale=locale />
 
+<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 <#assign imageUrl="" />
 <!-- 1ere image au dessus de l'adresse -->
 <#if entry.imagesURLs?first?has_content>
@@ -105,10 +107,10 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 </a>
                             </li>
                         </#if>
-                    
-                    
+
+
                 </ul>
-    
+
                 <button class="st-btn-favorite-sticky" data-addpanier="10525">
                     <@liferay_ui.message key="eu.add-to-favorite" />
                 </button>
@@ -156,11 +158,11 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             </div>
         </div>
     </div>
-    
 
-<div class="st-page-fiche-lieu" tabindex="-1">
+
+<div class="st-page-fiche-lieu"=>
     <header
-        class="st-header-fiche-lieu" tabindex="-1"
+        class="st-header-fiche-lieu"
         role="banner">
         <div class="st-wrapper st-wrapper-small">
             <h1 class="st-h1">${entry.getAlias(locale)}</h1>
@@ -168,7 +170,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         </div>
 
         <div class="st-wrapper">
-        
+
             <#if entry.isEnabled()>
                 <#assign occupationState = entry.getRealTime() />
                 <#assign isSwimmingPool = entry.isSwimmingPool() />
@@ -232,8 +234,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
         <!-- Horaires -->
         <#if entry.periods?has_content || entry.hasURLSchedule>
-            <div class="st-sit-onglet st-wrapper st-wrapper-small">
-                <h2 class="st-h2 st-bloc-title">
+            <div class="st-bloc st-bloc-sit-onglets st-wrapper st-wrapper-small st--has-margin">
+                <h2 class="st-h2 st-bloc-sit-title">
                     <@liferay_ui.message key="eu.times" />
                 </h2>
                 <div class="st-container">
@@ -257,7 +259,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <#list entry.nonDefaultPeriods as period>
                                     <li class="splide__slide st-single-ancre">
                                         <p class="st-title">${period.getName(locale)}</p>
-                                        <p class="st-date">${period.getDisplay(locale)}</p>
+                                        <p class="st-surtitre-cat">${period.getDisplay(locale)}</p>
                                     </li>
                                 </#list>
 
@@ -281,7 +283,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                     <#if entry.publishedSubPlaces?has_content>
                                         <p class="st-title">${entry.getAlias(locale)}</p>
                                     </#if>
-                                    
+
                                     <ul class="st-single-slide-container">
                                         <#assign daySchedulesMap=entry.getFollowingWeekSchedules(.now,
                                             locale) />
@@ -461,7 +463,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                         <#if entry.publishedSubPlaces?has_content>
                                             <p class="st-title">${entry.getAlias(locale)}</p>
                                         </#if>
-                                        
+
                                         <ul class="st-single-slide-container">
                                             <#assign weekSchedules=period.getWeekSchedule() />
                                             <#assign day=0 />
@@ -517,7 +519,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             <#if exceptions?has_content || (hasAnyException?has_content &&
                                 hasAnyException)>
                                 <#assign totalExceptionsCount=0 />
-                                <p class="st-small-title">
+                                <p class="st-title-medium">
                                     <@liferay_ui.message key="eu.exceptional-closings-openings" />
                                 </p>
                                 <ul>
@@ -584,7 +586,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 </#if>
             </#list>
             <!-- Listing Lieu meme type -->
-            <div class="st-sit-contact st--contact-with-icon st-wrapper st-wrapper-small ">
+            <div class="st-bloc st-bloc-sit-focus st--with-icon st-wrapper st-wrapper-small st--has-margin">
                 <div class="st-container">
 
                     <div class="st-col-left">
@@ -596,6 +598,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             <p class="st-surtitre-cat">Il y a d'autres
                                 ${category.getTitle(locale)?lower_case} dans l'eurometropole</p>
                         </div>
+                    </div>
+                    <div class="st-col-right">
                         <a href="${homeURL}horaires-lieux/-/schedules/category/${category.categoryId}"
                             class="st-btn st--btn-secondary">
                             <@liferay_ui.message key="eu.see-all-schedule-of" />
@@ -612,8 +616,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
         <!-- Presentation -->
         <#if entry.getPresentation(locale)?has_content>
-            <div class="st-sit-presentation st-wrapper st-wrapper-small">
-                <h2 class="st-h2 st-bloc-title">
+            <div class="st-bloc st-bloc-sit-presentation st-wrapper st-wrapper-small st--has-margin">
+                <h2 class="st-h2 st-bloc-sit-title">
                     <@liferay_ui.message key="eu.presentation" />
                 </h2>
                 <div class="st-component-container">
@@ -721,7 +725,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                     <li class="splide__slide st-single-slide">
                                         <#list period.courses as course>
                                             <div class="st-detail-lien">
-                                                <p class="st-small-title">${course.courseName}</p>
+                                                <p class="st-title-medium">${course.courseName}</p>
                                                 <a href="${homeURL}cours/-/entity/id/${course.courseId}"
                                                     class="st-btn st--btn-secondary st--btn-xs">
                                                     <@liferay_ui.message key="eu.see-detail" />
@@ -762,8 +766,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
           <!-- Documents Utiles/Medias -->
           <#if entry.documentURLs?has_content || entry.videos?has_content>
-          <div class="st-bloc st-bloc-liens st-wrapper st-wrapper-small">
-            <h2 class="st-h2 -bloc-title"><@liferay_ui.message key="eu.place.medias" /></h2>
+          <div class="st-bloc st-bloc-liens st-wrapper st-wrapper-small st--has-margin">
+            <h2 class="st-h2 st-bloc-sit-title"><@liferay_ui.message key="eu.place.medias" /></h2>
             <div class="st-component-container">
                 <ul class="st-liste st-limit-height">
                     <#list entry.documentURLs as fileURL>
@@ -777,37 +781,25 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                     <div class="st-lien-content">
                                         <p class="st-type">(${file.getExtension()?upper_case} - ${size})</p>
                                         <p class="st-text"><@liferay_ui.message key="eu.download" /></p>
-                
+
                                     </div>
                                     <span class="st-sr-only"><@liferay_ui.message key="eu.download" /></span>
                                 </a>
                             </li>
                         </#if>
                     </#list>
-                    <!-- A fix pour les video TODO -->
-                    <#list entry.videos as video>
-                            <li class="st-lien-container">
-                                <a href="#" class="st-lien">
-                                    <p class="st-title-lien">${video.getTitle(locale)}</p>
-                                    <div class="st-lien-content">
-                                        <p class="st-type">Video</p>
-                                        <p class="st-text">Regarder</p>
-                                    </div>
-                                </a>
-                            </li>
-                        </#list>
                 </ul>
                 <@showMore />
             </div>
         </div>
         </#if>
 
-        <div class="st-sit-info-acces st-wrapper st-wrapper-small">
+        <div class="st-bloc st-bloc-sit-colonnes st-wrapper st-wrapper-small st-basic-grid st-col-2@mobile st--has-margin">
             <!-- Informations complementaires -->
             <#if entry.getAdditionalInformation(locale)?has_content>
-                <div class="st-infos">
+                <div class="st-col">
                     <div class="st-component-container st-text-styles">
-                        <h2 class="st-h2 st-sit-title">
+                        <h2 class="st-h2 st-bloc-sit-title">
                             <@liferay_ui.message key="eu.place.additional-information" />
                         </h2>
                         <div class="st-limit-height ">
@@ -818,13 +810,13 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 </div>
             </#if>
 
-          
+
 
             <!-- Acces -->
             <#if entry.getAccess(locale)?has_content>
-                <div class="st-acces">
+                <div class="st-col">
                     <div class="st-component-container st-text-styles">
-                        <h2 class="st-h2 st-sit-title">
+                        <h2 class="st-h2 st-bloc-sit-title">
                             <@liferay_ui.message key="access" />
                         </h2>
                         <div class="st-limit-height">
@@ -838,8 +830,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         </div>
         <!-- Acces pour handicapes -->
         <#if entry.hasAnyAccessForDisabled() || entry.getAccessForDisabled(locale)?has_content>
-            <div class="st-sit-bloc-services-handicap st-wrapper st-wrapper-small">
-                <h2 class="st-h2 st-sit-title">
+            <div class="st-bloc st-bloc-sit-services-handicap st-wrapper st-wrapper-small st--has-margin">
+                <h2 class="st-h2 st-bloc-sit-title">
                     <@liferay_ui.message key="eu.access-for-disabled" />
                 </h2>
                 <ul class="st-meta-wrapper">
@@ -887,12 +879,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             </div>
         </#if>
 
-        <div class="st-sit-services st-wrapper st-wrapper-small">
+        <div class="st-bloc st-bloc-sit-colonnes st-wrapper st-wrapper-small st-basic-grid st-col-2@mobile st--has-margin">
             <!-- Services -->
             <#if entry.getServiceAndActivities(locale)?has_content>
                 <div class="st-services">
                     <div class="st-component-container st-text-styles">
-                        <h2 class="st-h2 st-sit-title">
+                        <h2 class="st-h2 st-bloc-sit-title">
                             <@liferay_ui.message key="eu.services-and-activities" />
                         </h2>
                         <div class="st-limit-height">
@@ -906,7 +898,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <#if entry.getCharacteristics(locale)?has_content>
                 <div class="st-caracteristiques">
                     <div class="st-component-container st-text-styles">
-                        <h2 class="st-h2 st-sit-title">
+                        <h2 class="st-h2 st-bloc-sit-title">
                             <@liferay_ui.message key="eu.features" />
                         </h2>
                         <div class="st-limit-height ">
@@ -921,7 +913,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         </div>
 
         <!-- Contact -->
-        <div class="st-sit-contact st--contact-two-links st-wrapper">
+        <div class="st-bloc st-bloc-sit-focus st-wrapper st--has-margin">
             <div class="st-container">
                 <div class="st-col-left">
                     <h2 class="st-h2"><@liferay_ui.message key="contact" /></h2>
@@ -931,12 +923,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     <#if entry.phone?has_content>
                     <a href="tel:${entry.phone}" class="st-btn st--btn-secondary">${entry.phone}</a>
                     </#if>
-                    
+
                     <a href="#" class="st-btn st--btn-secondary"><@liferay_ui.message key="eu.contact-mail" /></a>
                 </div>
             </div>
         </div>
-    
+
 
 
     </div>
@@ -990,47 +982,4 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     </li>
 </#macro>
 
-<#macro addImage imageURL showLegende=false showCopyright=false>
-    <#if  fileEntryHelper.getFileEntryByRelativeURL(imageURL)?has_content>
-        <#assign image = fileEntryHelper.getFileEntryByRelativeURL(imageURL) />
-        <#assign title = fileEntryHelper.getFileTitle(image.getFileEntryId(), locale) />
-        <#assign legend = fileEntryHelper.getImageLegend(image.getFileEntryId(), locale) />
-        <#assign copyright = fileEntryHelper.getImageCopyright(image.getFileEntryId(), locale) />
-        <#assign hasCredits = copyright?has_content />
-        <#assign hasLegende = legend?has_content />
-        <#assign creditsVisible = hasCredits && hasLegende>
 
-        <#if creditsVisible && showCopyright>
-            <span class="st-credits" aria-hidden="true">${copyright}</span>
-        </#if>
-
-        <figure class="st-fit-cover<#if !creditsVisible> figcaption-only-credits</#if>" role="group" aria-label<#if creditsVisible && showCopyright>="Photo, \u00A9 ${copyright}"</#if>>
-            <img data-fileentryid="${image.getFileEntryId()}" src="${imageURL}">
-            <#if creditsVisible && showLegende>
-                <figcaption>
-                    <span class="st-sr-only">Photo, ${copyright}</span>
-                    ${legend}
-                </figcaption>
-            </#if>
-        </figure>
-        <#if !creditsVisible && hasLegende && showLegende>
-            <figcaption>
-                ${legend}
-            </figcaption>
-        </#if>
-        <#else>
-        <figure class="st-fit-cover" role="group">
-            <img src="${imageURL}">
-        </figure>
-    </#if>
-</#macro>
-
-
-<#macro showMore>
-<div class="st-show-more">
-    <button class="st-btn-arrow st--down" aria-expanded="false" aria-controls="123"
-        aria-label="<@liferay_ui.message key='eu.view-more' />" data-open-label="<@liferay_ui.message key='eu.view-more' />"
-        data-close-label="<@liferay_ui.message key='eu.view-less' />">
-    </button>
-</div>
-</#macro>

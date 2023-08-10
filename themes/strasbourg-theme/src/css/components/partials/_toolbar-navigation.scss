@@ -1,5 +1,4 @@
 .st-toolbar-navigation {
-	display: none;
 	position: fixed;
 	bottom: 0;
 	left: 0;
@@ -7,17 +6,13 @@
 	height: var(--toolbar-height);
 	z-index: z-index("barre-navigation");
 	background-color: $c_greydark;
-	@include tablet-portrait {
-		display: block;
+
+	@include min-tablet-portrait {
+		display: none;
 	}
 
-	& ~ .st-footer {
-		@include tablet-portrait {
-			padding-bottom: 60px;
-		}
-		@include mobile {
-			padding-bottom: 0px;
-		}
+	.st-wrapper {
+		height: 100%;
 	}
 
 	.st-toolbar-inner {
@@ -45,47 +40,42 @@
 	}
 
 	li:not(.st-has-logo) {
-		width: 44px;
-		height: 44px;
-		margin-right: 5px;
+		& + li {
+			margin-left: 10px;
 
-		&:last-of-type {
-			margin-right: 0px;
+			@include mobile {
+				margin-left: 5px;
+			}
 		}
 
-		button, a, select {
+		button, a, .select-lang {
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			width: 100%;
-			height: 100%;
+			width: 46px;
+			height: 46px;
+			border-radius: $border-radius;
 		}
 	}
 
 	.st-has-lang-dropdown {
-		position: relative;
-
-		&:after {
-			display: block;
-			@include icomoon($st-icon-arrow-down);
-			font-size: 10px;
-			color: rgba($c_white, 0.75);
-			position: absolute;
-			right: 10px;
-			top: 51%;
-			transform: translateY(-50%);
-			pointer-events: none;
-		}
-
 		.select-lang {
-			border: 1px solid $c_border;
-			padding: 5px;
+			@include reset-select;
+			@include ft('', 14px, 600, $c_white, 1);
+			@include letter-spacing(25);
+			text-align: center;
+			border: 1px solid rgba($c_white, 0.25);
 		}
 	}
 
 	.st-lien-libre {
 		@include reset-button;
 		border: 1px solid $c_sub;
+
+		span {
+			font-size: 20px;
+			color: $c_sub;
+		}
 	}
 
 	.st-btn-search {
@@ -94,30 +84,29 @@
 
 		[class^="st-icon-"], [class*=" st-icon-"] {
 			font-size: 16px;
-			color: $c_dim_grey;
+			color: $c_greydark;
 		}
 	}
 
 	.st-btn-menu {
 		@include reset-button;
 		background-color: $c_sub;
-	}
 
-	.st-btn-menu__icon {
-		display: block;
-		width: 16px;
-		height: 12px;
-
-		.st-btn-menu__line {
+		.st-btn-menu__icon {
 			display: block;
-			width: 100%;
-			height: 2px;
-			background-color: $c_dark_navy;
-			margin-bottom: 3px;
-			@include addTransition();
+			width: 16px;
+			height: 12px;
 
-			&:last-of-type {
-				margin-bottom: 0px;
+			.st-btn-menu__line {
+				display: block;
+				width: 100%;
+				height: 2px;
+				background-color: $c_dark_navy;
+				@include addTransition();
+
+				& + .st-btn-menu__line {
+					margin-top: 3px;
+				}
 			}
 		}
 	}

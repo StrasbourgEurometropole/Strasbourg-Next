@@ -4,7 +4,7 @@
         constructor(container) {
             this.container = container;
             this.height = container.offsetHeight;
-            this.btnClamp = container.nextElementSibling.querySelector(".st-btn-arrow");
+            this.btnClamp = container.nextElementSibling.querySelector(".st-btn-show-more");
             this.maxHeightVariable = getComputedStyle(container).getPropertyValue('--max-height-desktop')
             this.maxHeightValue = parseInt(this.maxHeightVariable);
 

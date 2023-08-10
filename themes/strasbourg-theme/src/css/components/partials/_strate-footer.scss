@@ -1,64 +1,72 @@
 .st-strate-footer {
-	margin-top: 40px;
 	overflow: hidden;
+	padding-top: 40px;
 
 	.st-strate-partenaires {
+		margin-bottom: 40px;
+
+		&.has-ended .splide__track:after {
+			opacity: 0;
+		}
+
 		.st-h2 {
 			margin-bottom: 40px;
+
 			@include mobile {
 				margin-bottom: 20px;
 			}
 		}
+	}
 
-		& + .st-strate-newsletter {
-			margin-top: 40px;
-		}
+	.st-slider-container {
+		position: relative;
 
-		.st-nav-dots {
-			justify-content: flex-end;
-			margin-top: 20px;
+		@include tablet-landscape {
+			display: flex;
+			flex-direction: column-reverse;
+			align-items: flex-end;
 		}
 	}
 
 	.splide__track {
 		&:after {
 			content: "";
-			display: block;
-			width: 60px;
-			height: 100%;
-			background: linear-gradient(90deg, rgba($c_main, 0), rgba($c_main, 1));
 			position: absolute;
 			top: 0;
 			right: 0;
+			width: 60px;
+			height: 100%;
+			background: linear-gradient(to left, rgba($c_main, 1), rgba($c_main, 0));
 			pointer-events: none;
-			@include mobile {
-				width: 40px;
-			}
+			@include addTransition();
 		}
 	}
 
 	.splide__arrows {
+		@include tablet-landscape {
+			margin-top: 20px;
+		}
+
 		.st-btn-arrow {
-			position: absolute;
-			top: 50%;
-			transform: translateY(-50%);
+			@include min-tablet-landscape {
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
 
-			&.st--prev {
-				left: -50px;
-			}
+				&.st--prev {
+					left: -50px;
+				}
 
-			&.st--next {
-				right: -50px;
+				&.st--next {
+					right: -50px;
+				}
 			}
 		}
 	}
 
 	.splide__slide {
 		margin-right: var(--slide-gap);
-		@include mobile {
-			width: 80px;
-			height: 80px;
-		}
+
 		// On affiche la tooltip au hover seulement sur les slides visibles
 		&.is-visible {
 			.st-container {
@@ -83,35 +91,41 @@
 		@include create-outline();
 
 		img {
-			opacity: 0.50;
+			width: 100px;
+			height: 100px;
+			border-radius: $border-radius-small;
+			opacity: 0.5;
 			filter: grayscale(100%);
 			@include addTransition();
+
+			@include mobile {
+				width: 80px;
+				height: 80px;
+			}
 		}
 
 		.st-tooltip-logo {
-			@include ft($f_txt, 14px, 600, $c_white, 1);
-			@include letter-spacing(25);
-			white-space: nowrap;
-			padding: 5px 10px;
-			background-color: $c_main;
-			opacity: 0;
-			visibility: hidden;
 			position: absolute;
 			bottom: 20px;
 			left: 50%;
-			transform: translateY(10px);
 			z-index: 1;
+			transform: translateY(10px);
+			padding: 5px 10px;
+			@include ft($f_txt, 14px, 600, $c_white, 1);
+			@include letter-spacing(25);
+			white-space: nowrap;
+			background-color: $c_greydark;
+			border-radius: $border-radius-small;
+			opacity: 0;
+			visibility: hidden;
 			pointer-events: none;
 			@include addTransition();
 		}
 	}
 
-	.st-slider-container {
-		position: relative;
-	}
-
 	.st-strate-newsletter {
 		background-color: $c_greydark;
+		border-radius: $border-radius;
 
 		.st-container {
 			display: flex;
@@ -121,7 +135,8 @@
 			width: 100%;
 			margin-left: auto;
 			margin-right: auto;
-			padding: 58px 0;
+			padding: 60px 0;
+
 			@media screen and (max-width: 1200px) {
 				width: auto;
 				margin-left: var(--border-gutter);
@@ -134,10 +149,11 @@
 		}
 
 		.st-col-left {
-			max-width: 383px;
+			max-width: 380px;
 			margin-right: 20px;
+
 			@include mobile {
-				max-width: 100%;
+				max-width: initial;
 				margin-right: 0px;
 				margin-bottom: 20px;
 			}

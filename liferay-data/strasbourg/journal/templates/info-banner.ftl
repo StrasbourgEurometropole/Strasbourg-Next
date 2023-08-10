@@ -6,7 +6,7 @@
                     ${TitleText.getData()}
                 </#if></strong>
         </h2>
-        <p class="st-surtitre-cat"><#if (SubtitleText.getData())??>
+        <p class="st-text-small"><#if (SubtitleText.getData())??>
                 ${SubtitleText.getData()}
             </#if></p>
         <p><#if (DescriptionRichText.getData())??></p>

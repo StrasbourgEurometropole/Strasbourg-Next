@@ -1,30 +1,29 @@
 // Style General - Overlay - All site
 // ==========================================================================
 .st-overlay {
+	--padding-horizontal: 80px;
 	position: fixed;
 	top: 0;
 	bottom: 0;
 	right: 0;
 	z-index: z-index('overlay');
-	overflow: hidden;
-	width: 100vw;
+	width: 100%;
 	max-width: 640px;
-	background-color: $c_white;
+	background-color: $c_greydark;
 	transition: transform 400ms $transition-overlay-easing, visibility 400ms $transition-overlay-easing;
 	visibility: hidden;
-	transform: translateX(100%);
+	transform: translateX(calc(100% + 30px));		// espace pour le bouton close
 
 	@include mobile {
 		max-width: 100%;
+		--padding-horizontal: 20px;
 	}
 
-	&:not(.st-overlay-absolute) {
-		.st-overlay-load & {
-			display: block;
-		}
+	.st-overlay-load & {
+		display: block;
 	}
 
-	&.st-open {
+	&.st-is-open {
 		visibility: initial;
 		transform: initial;
 	}
@@ -33,7 +32,7 @@
 	&.st--from-top {
 		transform: translateY(-100%);
 
-		&.st-open {
+		&.st-is-open {
 			transform: initial;
 		}
 	}
@@ -42,50 +41,182 @@
 	&.st--from-bottom {
 		transform: translateY(100%);
 
-		&.st-open {
+		&.st-is-open {
 			transform: initial;
-		}
-	}
-
-	.st-error-container {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		width: 75%;
-		transform: translate(-50%, -50%);
-		text-align: center;
-		z-index: 999999;
-
-		@include mobile {
-			width: 100%;
-		}
-	}
-
-	.st-scroller {
-		padding: 40px 80px 80px 80px;
-		height: 100%;
-		overflow-y: auto;
-
-		@include mobile {
-			padding: 40px 40px 40px 40px;
-		}
-		@include mobile {
-			padding: 40px 20px 40px 20px;
 		}
 	}
 
 	.st-btn-close {
 		position: absolute;
-		top: 40px;
-		right: 40px;
+		top: 80px;
+		left: 0;
+		transform: translateX(-50%);
 		z-index: 10;
+	}
+
+	.st-title-overlay {
+		display: block;
+		margin-bottom: 40px;
+		@include ft('', 30px, 600, $c_white, 1.5);
 
 		@include mobile {
-			top: 20px;
-			right: 20px;
+			margin-bottom: 20px;
+			font-size: 22px;
 		}
 	}
 }
+
+
+
+.st-overlay-menu {
+	@include tablet-small {
+		background-color: $c_main;
+	}
+
+	.st-btn-close {
+		@include tablet-small {
+			top: initial;
+			left: initial;
+			bottom: 8px;
+			right: var(--padding-horizontal);
+			transform: initial;
+			width: 48px;
+			height: 48px;
+		}
+	}
+
+	// layout général des overlays
+	.st-overlay__inner {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	.st-overlay__body {
+		flex-grow: 1;
+		overflow: auto;
+		padding: 70px var(--padding-horizontal) 70px;
+		@include fade-out-overflow();
+
+		@include tablet-small {
+			padding: 20px var(--padding-horizontal) 50px;
+			--mask-image-content: linear-gradient(to bottom, transparent, red 20px, red calc(100% - var(--fade-distance)), transparent );
+		}
+	}
+
+	.st-overlay__footer {
+		display: flex;
+		padding: 8px var(--padding-horizontal);
+		background-color: $c_greydark;
+
+		@include mobile {
+			padding: 8px var(--padding-horizontal) 8px;
+		}
+
+		.select-lang {
+			@include reset-select;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 48px;
+			height: 48px;
+			@include ft('', 14px, 600, $c_white, 1);
+			@include letter-spacing(25);
+			text-align: center;
+			border: 1px solid rgba($c_white, 0.25);
+			border-radius: $border-radius;
+			margin-left: 8px;
+		}
+	}
+
+	.st-scroll-indicator {
+		position: absolute;
+		right: 20px;
+		bottom: 20px;
+
+		@include tablet-small {
+			bottom: 80px;
+			width: 20px;
+			height: 20px;
+
+			&:before {
+				font-size: 8px;
+			}
+		}
+	}
+
+	// Menu
+	.st-nav-menu {
+		.st-nav-menu__list {
+			@include reset-styles;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.st-nav-menu__link {
+			display: inline-block;
+			padding: 13px 0;
+			@include ft('', 12px, 700, $c_white, '');
+			@include letter-spacing(25);
+			text-transform: uppercase;
+			@include addTransition();
+
+			@include can-hover {
+				color: $c_sub;
+				text-decoration: underline;
+			}
+		}
+	}
+
+	// Menu mobile
+	.st-nav-menu-mobile {
+		margin-bottom: 16px;
+		padding-bottom: 8px;
+		border-bottom: 1px solid rgba($c_white, 0.25);
+	}
+
+	.st-select-visitor {
+		@include ft('', $s_p, 300, $c_white, 1);
+		@include letter-spacing(25);
+
+		&:after {
+			@include icomoon($st-icon-arrow-down);
+			display: inline-block;
+			font-size: 10px;
+			color: rgba($c_white, 0.75);
+			margin-left: 2px;
+			margin-top: -2px;
+		}
+
+		select {
+			@include reset-select;
+			font-weight: 600;
+			padding: 8px 0;
+		}
+
+		strong {
+			font-weight: 600;
+		}
+	}
+
+	.st-nav-menu-mobile__link {
+		@include reset-button;
+		display: block;
+		padding: 8px 0;
+		width: fit-content;
+		@include ft('', $s_p, 300, $c_white, 1);
+		@include letter-spacing(25);
+
+		@include can-hover {
+			color: $c_sub;
+		}
+	}
+}
+
+
+
 
 // Overlay - focus SIT
 // ==========================================================================
@@ -585,12 +716,12 @@
 	right: 0;
 	bottom: 0;
 	z-index: z-index('overlay-shadow');
-	background-color: rgba($c_dark, 0.5);
+	background-color: rgba($c_main, 0.8);
 	opacity: 0;
 	visibility: hidden;
 	transition: opacity 400ms $transition-overlay-easing, visibility 400ms $transition-overlay-easing;
 
-	&.st-open {
+	&.st-is-open {
 		opacity: initial;
 		visibility: initial;
 	}

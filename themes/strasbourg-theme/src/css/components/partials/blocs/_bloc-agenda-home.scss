@@ -1,0 +1,25 @@
+.st-bloc-agenda-home {
+    display: flex;
+    flex-direction: column;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid $c_border;
+
+    .st-titre {
+        margin-bottom: 30px;
+
+        @include mobile {
+            margin-bottom: 16px;
+        }
+    }
+
+    .st-cards-wrapper {
+        @include reset-styles;
+        --gap: 20px;
+    }
+
+    .st-btn-cta {
+        align-self: flex-end;
+        margin-top: 20px;
+    }
+}

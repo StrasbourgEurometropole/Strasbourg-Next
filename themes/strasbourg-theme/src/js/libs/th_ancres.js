@@ -49,7 +49,7 @@ var th_ancres = {
 
                 // Synchronise le slider avec l'élément courant
                 var onlyIdNumber = parseInt(entryId.replace(/\D/g, ""));
-                sliderAncre.go(onlyIdNumber - 1);
+                sliderAncre.go(onlyIdNumber);
             }
         }
     },
