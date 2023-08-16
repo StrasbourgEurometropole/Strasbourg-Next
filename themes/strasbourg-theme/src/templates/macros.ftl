@@ -1,4 +1,4 @@
-<#macro addImage imageURL showLegende=false showCopyright=false>
+<#macro addImage imageURL showLegende=false showCopyright=false isFigure=false>
     <#if  fileEntryHelper.getFileEntryByRelativeURL(imageURL)?has_content>
         <#assign image = fileEntryHelper.getFileEntryByRelativeURL(imageURL) />
         <#assign title = fileEntryHelper.getFileTitle(image.getFileEntryId(), locale) />
@@ -27,7 +27,7 @@
             </figcaption>
         </#if>
     <#else>
-        <figure class="st-fit-cover" role="group">
+        <figure class="<#if isFigure>st-figure</#if> st-fit-cover" role="group">
             <img src="${imageURL}">
         </figure>
     </#if>

@@ -1,42 +1,5 @@
-// Styles pour l'affichage des cards en format horizontale
-// ==========================================================================
-.zst-cards-horizontales {
-	.st-card {
-		@include card-horizontale();
-
-		.st-image {
-			.st-info-desktop {
-				bottom: auto;
-				top: 10px;
-				display: none;
-			}
-
-			.st-info-mobile {
-				display: block;
-			}
-		}
-	}
-
-	// On fait un exception pour le bloc agenda :
-	// dans ce bloc vu que les cards ont des images plus grandes on peut se permettre d'avoir un font-size plus grand
-	// et aussi d'afficher les metas à côté. Dans le reste du site les cards sont trop petites, donc il faut cacher les metas
-	// et réduire le font size des dates
-
-	&:not(.st-bloc-agenda) {
-		.st-meta-wrapper {
-			display: none;
-		}
-
-		.st-date-event {
-			.st-day, .st-month {
-				font-size: 14px;
-				line-height: 1;
-			}
-		}
-	}
-}
-
 // Container qui englobe chaque card
+// ==========================================================================
 .st-card-container {
 	position: relative;
 	display: flex;
@@ -45,24 +8,32 @@
 
 // Card - Default Styles
 // ==========================================================================
+// Cards en format portrait par défaut : image en haut et contenu en-dessous
 .st-card {
 	--image-size: 100px;
 	--aspect-ratio: 1/1;
 	@include reset-button;
 	position: relative;
 	display: flex;
+	flex-direction: column-reverse;
+	justify-content: flex-end;
 	width: 100%;
-	@include btn-favorite-card(210px);
 
 	@include can-hover {
 		.st-title-card {
 			color: $c_sub;
 		}
+		.st-image:after {
+			opacity: 0.8
+		}
 	}
 
 	.st-image {
-		@include aspect-ratio(var(--aspect-ratio));
+		@include aspect-ratio(var(--aspect-ratio), '.st-figure');
 		flex-shrink: 0;
+		margin-bottom: 15px;
+		background-color: $c_white;
+		border-radius: $border-radius-small;
 		@include addTransition();
 
 		img {
@@ -132,31 +103,40 @@
 
 		.st-surtitre-cat {
 			order: 1;
-			margin-top: 0;
-			margin-bottom: 10px;
+			margin-bottom: 4px;
 		}
 
 		.st-title-card {
 			order: 2;
 			@include ft('', 15px, 700, $c_white, 1);
 			display: block;
+			margin-bottom: 6px;
 			@include addTransition();
 
 			@include mobile {
 				font-size: 14px;
-				margin-bottom: 6px;
 			}
 		}
 
 		.st-text {
 			order: 3;
-			margin-top: 7px;
 			@include ft($f_txt, 12px, 400, $c_txt, 1.16);
 		}
 
 		.st-location {
 			order: 4;
-			margin-top: 5px;
+		}
+
+		.st-date {
+			order: 1;
+			@include ft($f_txt, 12px, 600, $c_white, 1);
+			@include letter-spacing(25);
+			text-transform: uppercase;
+			margin-bottom: 2px;
+
+			@include mobile {
+				font-size: 11px;
+			}
 		}
 	}
 
@@ -173,44 +153,78 @@
 		}
 	}
 
-	.st-ouverture {
+	.st-badge-ouverture {
 		position: absolute;
+		bottom: 6px;
 		left: -8px;
-		top: 6px;
+		z-index: 5;
 		display: inline-block;
 		padding: 6px 8px;
-		@include ft($f_txt, 12px, 500, $c_main, 1);
+		@include ft('', 12px, 500, $c_main, 1);
 		@include letter-spacing(150);
 		text-transform: uppercase;
 		background-color: $c_sub;
 		border-radius: $border-radius-small;
 
 		@include mobile {
+			bottom: 4px;
+			left: -4px;
 			font-size: 10px;
+			@include letter-spacing(100);
 		}
 
 		&.st--closed {
-			background-color: $c_rose;
+			background-color: $c_pink;
+		}
+	}
+
+	& + .st-btn-favorite-card {
+		--btn-favorite-size: 36px;
+		--image-size: 100%;
+		position: absolute;
+		top: 0;
+		left: calc(var(--image-size) - var(--btn-favorite-size));
+		margin-top: calc(var(--image-size) - var(--btn-favorite-size));
+		width: var(--btn-favorite-size);
+		height: var(--btn-favorite-size);
+	}
+
+	// --modifiers
+	// Format paysage : image en taille fixe à gauche et contenu à droite
+	&.st--card-horizontal {
+		@include card-horizontal();
+	}
+
+	// gradient sur l'image pour mettre en avant le bouton de favoris
+	&.st--with-gradient {
+		.st-image:after {
+			content: '';
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			width: var(--image-size);
+			height: var(--image-size);
+			background-image: radial-gradient(circle farthest-side at 100% 100%, #291E21 0%, transparent 100%);
+			//background-image: radial-gradient(circle farthest-side at 100% 100%, red 0%, green 99%, transparent 100%);
+			pointer-events: none;
+			border-radius: $border-radius-small;
+			@include addTransition();
 		}
 	}
 
 
-	// --modifiers
 	&.st-card-actu {
-		@include card-verticale();
-
 		.st-caption {
 			.st-title-card {
+				margin-top: 4px;
 				@include min-tablet-portrait {
 					font-size: 18px;
 				}
 			}
 
 			.st-date {
-				@include ft('', $s_link_small, '', $c_txt, 1);
-				@include letter-spacing(25);
-				text-transform: uppercase;
-				margin-bottom: 2px;
+				order: -1;
+				@include ft($f_txt, 12px, 400, $c_txt, 1);
 
 				@include mobile {
 					font-size: 11px;
@@ -227,46 +241,15 @@
 		}
 	}
 
-	&.st-card-dossier {
-		@include card-verticale();
-	}
-
 	// Card sur le listing agenda au format horizontal
 	&.st-card-agenda {
-		--image-size: 100px;
-		@include card-horizontale();
-
-		@include mobile {
-			--image-size: 80px;
-		}
-
-		.st-caption {
-			display: flex;
-			flex-direction: column;
-			margin-top: auto;
-			margin-bottom: auto;
-
-			.st-date {
-				order: 1;
-				@include ft($f_txt, $s_link_small, 600, $c_white, 1);
-				@include letter-spacing(25);
-				text-transform: uppercase;
-			}
-
+		 .st-caption {
 			.st-surtitre-cat {
 				order: 2;
-				text-transform: uppercase;
-				margin-top: 4px;
-				margin-bottom: 8px;
-
-				@include mobile {
-					font-size: 10px;
-				}
 			}
 
 			.st-title-card {
 				order: 3;
-				margin-bottom: 0;
 			}
 
 			.st-location {
@@ -289,18 +272,18 @@
 			}
 
 			& + .st-btn-favorite-card {
-				--taille-image: calc(100% - 5px);
+				top: initial;
+				left: initial;
+				right: 5px;
+				bottom: 5px;
 			}
 		}
 	}
 
-	// Card au format horizontal
-	&.st-card-horizontal {
-		@include card-horizontale();
-	}
+
 
 	// Card avec effet de box-shadow au hover
-	&.st-card-shadow {
+	&.st--with-shadow {
 		// pas de shadow pour les cards dans un leaflet
 		:not(.leaflet-popup-content) > & {
 			@include card-shadow();

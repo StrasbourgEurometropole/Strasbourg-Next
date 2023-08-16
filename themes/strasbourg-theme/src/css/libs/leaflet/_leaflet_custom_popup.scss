@@ -86,6 +86,6 @@
 	}
 
 	.card {
-		@include card-horizontale();
+		@include card-horizontal();
 	}
 }

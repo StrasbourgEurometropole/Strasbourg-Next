@@ -22,7 +22,6 @@
 	@include tablet_portrait {
 		font-size: 26px;
 	}
-
 }
 
 .st-h2 {
@@ -32,7 +31,6 @@
 	@include tablet_portrait {
 		font-size: 20px;
 	}
-
 }
 
 .st-h3 {
@@ -52,6 +50,7 @@
 	display: block;
 	@include ft($f_txt, $s_medium, 700, $c_white, 1.33);
 	@include letter-spacing(25);
+
 	@include tablet-portrait {
 		font-size: 16px;
 	}
@@ -62,7 +61,7 @@
 	@include ft($f_txt, 12px, 400, $c_sub, 1);
 	@include letter-spacing(25);
 	text-transform: uppercase;
-	margin-top: 10px;
+
 	@include tablet-portrait {
 		font-size: 11px;
 	}
@@ -81,19 +80,20 @@
 		@include icomoon($st-icon-location);
 		font-size: 14px;
 		color: $c_txt;
-		margin-right: 5px;
+		margin-right: 3px;
 	}
 }
 
 
+
 .st-page-wrapper .st-text-small {
-	@include ft($f_txt, 12px, '', $c_txt, 1.16);
+	@include ft('', 12px, '', $c_txt, 1.16);
 	@include letter-spacing(25);
 }
 
 
 .st-page-wrapper .st-title-medium {
-	@include ft($f_txt, 16px, 700, $c_white, 1);
+	@include ft('', 16px, 700, $c_white, 1);
 
 	@include mobile {
 		font-size: 14px;
@@ -429,4 +429,31 @@
 		}
 	}
 
+}
+
+.st-text-mentions {
+	@include ft('', 12px, '', $c_txt, 1.16);
+	@include letter-spacing(25);
+
+	.st-title-mentions {
+		@include ft('', 13px, 700, $c_white, '');
+	}
+
+	p {
+		margin-bottom: 16px;
+
+		strong {
+			color: $c_white;
+		}
+	}
+
+	a {
+		color: $c_white;
+		font-weight: 700;
+		text-decoration: underline;
+
+		@include can-hover {
+			color: $c_sub;
+		}
+	}
 }

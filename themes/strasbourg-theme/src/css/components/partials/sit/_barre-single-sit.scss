@@ -7,8 +7,8 @@
 
 	@include tablet-portrait {
 		position: sticky;
-		bottom: auto;
 		top: 0;
+		bottom: auto;
 		margin-bottom: 40px;
 		background-color: $c_greydark;
 	}
@@ -30,29 +30,31 @@
 		}
 	}
 
-
 	.st-barre-inner {
 		display: flex;
 		align-items: center;
-		background-color: $c_greydark;
+		min-height: 100px;
 		padding: 10px;
+		background-color: $c_greydark;
 		border-radius: $border-radius;
 
 		@include tablet-portrait {
 			padding: 15px 0 10px 0;
+			min-height: initial;
 		}
-		@include mobile {
+		@include tablet-small {
 			flex-direction: column;
+			align-items: initial;
 		}
 	}
 
 	.st-container-left {
 		display: flex;
 		align-items: center;
-		margin-right: 10px;
+		margin-right: 20px;
 
-		@include tablet-portrait {
-			width: 100%;
+		@include tablet-small {
+			margin-right: initial;
 		}
 	}
 
@@ -60,11 +62,10 @@
 		display: flex;
 		align-items: center;
 		margin-left: auto;
+		flex-shrink: 0;
 
-		@include tablet-portrait {
-			width: 100%;
-		}
-		@include mobile {
+		@include tablet-small {
+			margin-left: initial;
 			margin-top: 10px;
 		}
 	}
@@ -104,6 +105,7 @@
 			@include ft($f_txt, 12px, 400, $c_txt, 1.16);
 			@include letter-spacing(25);
 			margin-bottom: 5px;
+
 			@include mobile {
 				margin-bottom: 3px;
 			}
@@ -115,7 +117,7 @@
 			text-transform: uppercase;
 
 			&.st--closed {
-				color: $c_rose;
+				color: $c_pink;
 			}
 		}
 	}
@@ -127,6 +129,7 @@
 
 		li {
 			margin-right: 10px;
+
 			@include mobile-small {
 				margin-right: 5px;
 			}
@@ -134,23 +137,37 @@
 	}
 
 	.st-social-share {
+		margin-right: 15px;
+		margin-left: 10px;
+
 		@include tablet-portrait {
 			display: none;
 		}
 
 		label {
-			width: 80px;
-			height: 80px;
+			width: 50px;
+			height: 50px;
+		}
+
+		.st-network-list {
+			left: 5px;
+			top: -10px;
 		}
 	}
 
 	.st-btn-favorite-sticky {
-		margin-left: auto;
+		flex-shrink: 0;
 
-		@include tablet-portrait {
+		@include desktop {
 			@include favorites-only-icon();
 			width: 48px;
 			height: 48px;
+		}
+
+		@include tablet-portrait {
+			width: 48px;
+			height: 48px;
+			margin-left: auto;
 		}
 
 		@include mobile {

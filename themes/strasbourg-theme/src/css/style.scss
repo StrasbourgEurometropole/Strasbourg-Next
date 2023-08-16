@@ -18,6 +18,7 @@
 @import "base-theme/animations";
 @import "base-theme/utilities";
 @import "base-theme/rgaa";
+@import "base-theme/form-styles";
 
 // Styles des librairies js utilisées dans le projet + fichiers pour faire un overriding des styles de ces librairies
 // ==========================================================================
@@ -59,9 +60,7 @@
 
 // Styles pour les artboards
 // ==========================================================================
-@import "pages-artboards/page-welcome";
-@import "pages-artboards/artboard-boutons";
-@import "pages-artboards/artboard-grille";
+@import "pages-artboards/*";
 
 
 @import "components/partials/**/*.scss";

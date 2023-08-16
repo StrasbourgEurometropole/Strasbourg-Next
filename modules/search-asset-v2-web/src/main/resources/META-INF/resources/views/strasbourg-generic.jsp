@@ -25,8 +25,9 @@
 				</c:forEach>
 			</select>
 		</div>
-		<div class="st-listing-two-col st-cards-horizontales js-listing-card-container"
+		<div class="st-listing-cards st-wrapper st-wrapper-small"
 			 data-loading="Chargement en cours" data-noresults="Aucun résultat trouvé pour votre recherche.">
+			<ul class="st-cards-wrapper st--has-cards-horizontal st-basic-grid st-col-2@t-small">
 
 				<liferay-ui:search-container id="entriesSearchContainer"
 											 searchContainer="${dc.searchContainer}">
@@ -87,6 +88,7 @@
 
 
 				</liferay-ui:search-container>
+			</ul>
 
 		</div>
 		<!-- Export -->
@@ -105,8 +107,8 @@
 
 		<!-- Pagination -->
 		<c:if test="${dc.pager.lastPage > 1}">
-			<nav id="st-pagination" class="st-wrapper st-wrapper-small st-pagination st-js-listing-pagination" role="navigation">
-				<div class="container">
+			<nav class="st-wrapper st-wrapper-small st-pagination" role="navigation">
+				<div class="st-container">
 					<a rel="prev" class="st-nav-links st-prev st-btn-arrow st--prev" data-action="prev" title="<liferay-ui:message key="go-to-previous-page" />"
 					   href="${dc.getURLForPage(dc.pager.currentPage - 1)}">
            <span class="st-sr-only">

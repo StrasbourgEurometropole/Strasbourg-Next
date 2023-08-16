@@ -54,6 +54,10 @@
 		}
 	}
 
+	.st-surtitre-cat {
+		margin-top: 5px;
+	}
+
 	.st-text {
 		@include ft('', 12px, 400, $c_txt, 1.16);
 		@include letter-spacing(25);

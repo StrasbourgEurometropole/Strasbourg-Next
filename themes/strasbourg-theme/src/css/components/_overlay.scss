@@ -52,15 +52,18 @@
 		left: 0;
 		transform: translateX(-50%);
 		z-index: 10;
+
+		@include bp-down(660px) {
+			left: 15px;
+			transform: initial;
+		}
 	}
 
 	.st-title-overlay {
 		display: block;
-		margin-bottom: 40px;
 		@include ft('', 30px, 600, $c_white, 1.5);
 
 		@include mobile {
-			margin-bottom: 20px;
 			font-size: 22px;
 		}
 	}
@@ -68,24 +71,12 @@
 
 
 
-.st-overlay-menu {
-	@include tablet-small {
+.st-overlay-menu,
+.st-overlay-contact {
+	@include mobile {
 		background-color: $c_main;
 	}
 
-	.st-btn-close {
-		@include tablet-small {
-			top: initial;
-			left: initial;
-			bottom: 8px;
-			right: var(--padding-horizontal);
-			transform: initial;
-			width: 48px;
-			height: 48px;
-		}
-	}
-
-	// layout général des overlays
 	.st-overlay__inner {
 		position: relative;
 		display: flex;
@@ -100,9 +91,31 @@
 		padding: 70px var(--padding-horizontal) 70px;
 		@include fade-out-overflow();
 
-		@include tablet-small {
-			padding: 20px var(--padding-horizontal) 50px;
+		@include mobile {
+			padding: 30px var(--padding-horizontal) 50px;
 			--mask-image-content: linear-gradient(to bottom, transparent, red 20px, red calc(100% - var(--fade-distance)), transparent );
+		}
+	}
+
+	.st-overlay__heading {
+		margin-bottom: 30px;
+
+		@include mobile {
+			margin-bottom: 20px;
+		}
+	}
+}
+
+.st-overlay-menu {
+	.st-btn-close {
+		@include mobile {
+			top: initial;
+			left: initial;
+			bottom: 8px;
+			right: var(--padding-horizontal);
+			transform: initial;
+			width: 48px;
+			height: 48px;
 		}
 	}
 
@@ -112,7 +125,7 @@
 		background-color: $c_greydark;
 
 		@include mobile {
-			padding: 8px var(--padding-horizontal) 8px;
+			padding: 8px var(--padding-horizontal);
 		}
 
 		.select-lang {
@@ -136,7 +149,7 @@
 		right: 20px;
 		bottom: 20px;
 
-		@include tablet-small {
+		@include mobile {
 			bottom: 80px;
 			width: 20px;
 			height: 20px;
@@ -215,6 +228,36 @@
 	}
 }
 
+
+.st-overlay-contact {
+	.st-btn-close {
+		@include mobile {
+			top: initial;
+			left: var(--padding-horizontal);
+			bottom: 8px;
+			transform: initial;
+			width: 42px;
+			height: 42px;
+		}
+	}
+
+	.st-overlay__footer {
+		display: flex;
+		padding: 26px var(--padding-horizontal);
+		background-color: $c_main;
+
+		@include mobile {
+			padding: 8px var(--padding-horizontal);
+			background-color: $c_greydark;
+		}
+
+		.st-btn {
+			@include mobile {
+				margin-left: calc(42px + 10px);		// espace pour le bouton close
+			}
+		}
+	}
+}
 
 
 

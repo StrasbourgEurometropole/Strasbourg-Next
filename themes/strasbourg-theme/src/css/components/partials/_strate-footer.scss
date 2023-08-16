@@ -159,6 +159,8 @@
 			}
 
 			.st-surtitre-cat {
+				margin-top: 5px;
+
 				@include mobile {
 					max-width: calc(100% - 40px);
 				}

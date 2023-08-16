@@ -31,12 +31,18 @@
 		@include create-outline();
 	}
 
-	& + .st-btn {
+	&[disabled] {
+		opacity: 0.25;
+		pointer-events: none;
+	}
 
+	& + .st-btn {
 		@include mobile {
 			margin-top: 10px;
 		}
 	}
+
+
 
 	// Btn secondaire
 	&.st--btn-secondary {
@@ -162,8 +168,10 @@
 		}
 	}
 
-	&[disabled] {
+	&[disabled],
+	&[aria-disabled="true"] {
 		opacity: 0.25;
+		pointer-events: none;
 	}
 
 	// -- modifiers
@@ -321,7 +329,7 @@
 	&:after {
 		@include icomoon($st-icon-favorite);
 		color: $c_white;
-		font-size: 14px;
+		font-size: 16px;
 		@include addTransition();
 	}
 
@@ -388,7 +396,7 @@
 	width: 30px;
 	height: 30px;
 	color: $c_dark_navy;
-	background-color: $c_rose;
+	background-color: $c_pink;
 	border-radius: $border-radius-small;
 
 	@include mobile {
@@ -450,6 +458,7 @@
 		@include mobile {
 			width: 36px;
 			height: 36px;
+			font-size: 12px;
 		}
 
 		@include can-hover {

@@ -19,10 +19,11 @@ body {
 	padding-top: 180px;
 
 	@include tablet-portrait {
-		padding-top: calc(var(--ancres-height-mobile) + 40px);
+		padding-top: 0;
+		//padding-top: calc(var(--ancres-height-mobile) + 40px);
 	}
 	@include mobile {
-		padding-top: calc(var(--ancres-height-mobile) + 20px);
+		//padding-top: calc(var(--ancres-height-mobile) + 20px);
 	}
 }
 

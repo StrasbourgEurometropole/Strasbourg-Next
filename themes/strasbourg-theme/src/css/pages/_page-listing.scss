@@ -1,28 +1,38 @@
-.st-listing {
-	.st-listing-two-col {
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		grid-gap: 32px;
+
+.st-listing-cards {
+	// Grille de 2 colonnes de card horizontales
+	.st-cards-wrapper.st--has-cards-horizontal {
+		column-gap: 40px;
 		row-gap: 20px;
-		@include tablet-portrait {
-			grid-template-columns: 1fr;
+
+		@include tablet-small {
+			column-gap: 20px;
+		}
+
+		@include mobile {
+			row-gap: 10px;
+		}
+
+		.st-card-container {
+			height: auto;
 		}
 	}
 
-	.st-listing-four-col {
-		display: grid;
-		grid-template-columns: repeat(4, 1fr);
-		grid-gap: 20px;
-		row-gap: 55px;
-		@include tablet-portrait {
-			grid-template-columns: 1fr;
-			row-gap: 20px;
-		}
-	}
+	// Grille de 4 colonnes de card verticales
+	.st-cards-wrapper.st--has-cards-vertical {
+		column-gap: 20px;
+		row-gap: 40px;
 
-	.st-card {
-		@include tablet-portrait {
-			@include card-horizontale();
+		@include mobile {
+			row-gap: 10px;
+
+			// Passage des cards en vue horizontale sur mobile
+			.st-card-container {
+				height: auto;
+			}
+			.st-card {
+				@include card-horizontal();
+			}
 		}
 	}
 }

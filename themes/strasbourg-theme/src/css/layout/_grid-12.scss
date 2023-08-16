@@ -3,25 +3,36 @@
 // -----------------------------------------------
 
 .st-grid-12 {
-	--gap: var(--grid-gap); // espacement horizontal / vertical par défaut entre les enfants de la grille
+	$col-max: 12; // Grille générée jusqu'à 12 colonnes
+	--column-gap: var(--grid-gap); // espacement horizontal / vertical par défaut entre les enfants de la grille
+	--row-gap: var(--grid-gap);
 	display: grid;
-	grid-template-columns: repeat(12, minmax(10px, 1fr));
-	gap: var(--gap);
+	grid-template-columns: repeat($col-max, minmax(3px, 1fr));
+	column-gap: var(--column-gap);
+	row-gap: var(--row-gap);
 
 	// par défaut, colonnes "stackées" en 1 colonne
 	> * {
-		grid-column: span 12;
+		grid-column: span $col-max;
 	}
 
-	.st-col-4 {
-		grid-column: span 4; // col 1/3
+	// Génére les classes de colonnes sans suffixe : col-2, col-3...
+	@for $col from 1 through $col-max {
+		.st-col-#{$col} {
+			grid-column: span $col;
+		}
 	}
 
-	.st-col-6 {
-		grid-column: span 6; // col 1/2
-	}
+	// Génére les classes de colonnes pour chaque breakpoint : col-2@mobile, col-3@mobile...
+	@each $breakpoint-name in map-keys($breakpoints) {
+		@include bp-up($breakpoint-name) {
+			$prefix: get-breakpoint-prefix($breakpoint-name);
 
-	.st-col-8 {
-		grid-column: span 8; // col 2/3
+			@for $col from 1 through $col-max {
+				.st-col-#{$col}\@#{$prefix} {
+					grid-column: span $col;
+				}
+			}
+		}
 	}
 }

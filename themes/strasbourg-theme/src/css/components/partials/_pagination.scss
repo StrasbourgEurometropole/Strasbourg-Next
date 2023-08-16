@@ -3,9 +3,12 @@
 	align-items: center;
 	margin-top: 60px;
 	text-align: center;
-	clear: both;
 
-	.container {
+	@include mobile {
+		margin-top: 20px;
+	}
+
+	.st-container {
 		display: flex;
 		align-items: center;
 		width: 100%;
@@ -14,7 +17,6 @@
 	&:empty {
 		display: none;
 	}
-
 
 	.st-pagination-number {
 		position: relative;
@@ -38,7 +40,7 @@
 			justify-content: center;
 			width: var(--taille);
 			height: var(--taille);
-			@include ft($f_txt, 14px, 400, $c_white, 1);
+			@include ft('', 14px, 400, $c_white, 1);
 			@include letter-spacing(25);
 			border: 1px solid $c_border;
 			text-align: center;
@@ -55,10 +57,10 @@
 			}
 
 			&.active {
+				font-weight: 500;
+				color: $c_main;
 				background-color: $c_white;
 				border-color: transparent;
-				color: $c_main;
-				font-weight: 500;
 			}
 
 			@include can-hover {
@@ -69,8 +71,8 @@
 		}
 
 		.st-dots {
-			margin-left: 29px;
-			margin-right: 29px;
+			margin-left: 26px;
+			margin-right: 26px;
 			vertical-align: bottom;
 
 			@include mobile {

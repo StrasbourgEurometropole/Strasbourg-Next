@@ -15,71 +15,47 @@
 //  Mixins theme specifics
 // -----------------------------------------------
 
-
-// Card au format portrait
+// Card au format horizontal
 // ==========================================================================
-@mixin card-verticale() {
-	flex-direction: column-reverse;
-	justify-content: flex-end;
-
-	.st-image {
-		margin-bottom: 15px;
-		flex-shrink: 0;
-	}
-}
-
-// Card à l'Horizontale
-// ==========================================================================
-@mixin card-horizontale() {
-	min-height: 100px;
+@mixin card-horizontal() {
+	--image-size: 100px;
 	flex-direction: row-reverse;
-	justify-content: flex-end;
 	align-items: flex-start;
-	@include btn-favorite-card();
 
 	@include mobile {
-		min-height: 80px;
-		padding: 0;
+		--image-size: 80px;
 	}
 
 	.st-image {
 		width: var(--image-size);
 		margin-right: 10px;
-
-		figure {
-			&:after {
-				content: "";
-				position: absolute;
-				top: 0;
-				left: 0;
-				display: block;
-				width: 100%;
-				height: 100%;
-				background: radial-gradient(circle at 100% 100%, #0F0F0F 0%, transparent 100%);
-				pointer-events: none;
-				border-radius: $border-radius;
-				@include addTransition();
-
-				@include mobile {
-					opacity: 0.6;
-				}
-			}
-		}
+		margin-bottom: initial;
 	}
 
 	.st-caption {
-		.st-surtitre-cat {
-			margin-bottom: 5px;
+		margin-top: auto;
+		margin-bottom: auto;
+	}
+
+	.st-badge-ouverture {
+		bottom: initial;
+		top: 6px;
+
+		@include mobile {
+			bottom: initial;
+			top: 4px;
 		}
 	}
 
-	@include can-hover {
-		.st-image {
-			figure {
-				&:after {
-					opacity: 0.8;
-				}
-			}
+	// calage du bouton favoris
+	& + .st-btn-favorite-card {
+		--image-size: 100px;
+		top: calc(var(--image-size) - var(--btn-favorite-size));
+		left: calc(var(--image-size) - var(--btn-favorite-size));
+		margin-top: initial;
+
+		@include mobile {
+			--image-size: 80px;
 		}
 	}
 }

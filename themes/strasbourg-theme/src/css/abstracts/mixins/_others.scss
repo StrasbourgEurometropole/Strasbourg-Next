@@ -104,6 +104,8 @@
 
 // RGAA : On ajoute un outline avec un couleur dynamique
 @mixin create-outline($color : $c_white) {
+	outline-offset: 1px;
+
 	&:focus {
 		body:not(.no-hover) & {
 			outline: 1px dashed $color;
@@ -138,24 +140,6 @@
 		display: none;
 	}
 }
-
-
-@mixin btn-favorite-card($taille : 100px) {
-	& + .st-btn-favorite-card {
-		--taille-favoris: 36px;
-		--taille-image: #{$taille};
-		position: absolute;
-		top: calc(var(--taille-image) - var(--taille-favoris));
-		left: calc(var(--taille-image) - var(--taille-favoris));
-		width: var(--taille-favoris);
-		height: var(--taille-favoris);
-
-		@include mobile {
-			--taille-image: 80px;
-		}
-	}
-}
-
 
 // Génère un masque sur un contenu en overflow avec les bords verticaux en gradient
 @mixin fade-out-overflow($fade-distance:70px, $scrollbar-size:16px) {

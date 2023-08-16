@@ -7,23 +7,25 @@
 	height: var(--barre-height);
 	z-index: z-index("barre-sticky");
 	@include addTransition();
+
 	@include tablet-portrait {
-		background-color: $c_greydark;
-		bottom: auto;
+		position: sticky;
 		top: 0;
+		bottom: auto;
+		margin-bottom: 40px;
+		background-color: $c_greydark;
 	}
 
-	& ~ main {
-		@include tablet-portrait {
-			margin-top: calc(var(--barre-height) + 25px);
-		}
+	@include mobile {
+		margin-bottom: 20px;
 	}
 
+	/*
 	& ~ .st-footer .st-container-mentions {
 		@include min-tablet-portrait {
 			padding-bottom: calc(var(--barre-height) + 40px);
 		}
-	}
+	}*/
 
 	.st-is-scrolled & {
 		@include tablet-portrait {
