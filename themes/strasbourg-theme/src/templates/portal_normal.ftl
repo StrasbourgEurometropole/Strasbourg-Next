@@ -12,7 +12,8 @@
 	<link rel="stylesheet" href="/o/strasbourg-theme/css/style.css">
 
 	<@liferay_util["include"] page=top_head_include />
-</head>
+</head>+
+
 
 <body class="${css_class}">
 <@liferay_ui["quick-access"] contentId="#main-content" />
@@ -49,7 +50,6 @@ settingsScope="group" />
 
 
 	<#include "${full_templates_path}/overlay-menu.ftl" />
-<!--	${full_templates_path}-->
 
 
 <script type="text/javascript">
@@ -61,12 +61,19 @@ settingsScope="group" />
 		document.getElementById("ShareMail").setAttribute("href","mailto:?body="+url);
 	}
 </script>
+<#if themeDisplay.isSignedIn() >
+	<@liferay_util["include"] page=body_bottom_include />
+</#if>
 
-<@liferay_util["include"] page=body_bottom_include />
 
-<@liferay_util["include"] page=bottom_include />
+
 	</div>
 <script src="/o/strasbourg-theme/js/strasbourg.min.js" type="text/javascript"></script>
 </body>
+
+<#if themeDisplay.isSignedIn() >
+	<@liferay_util["include"] page=bottom_include />
+</#if>
+
 
 </html>

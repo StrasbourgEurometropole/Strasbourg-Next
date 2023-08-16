@@ -63,6 +63,7 @@ liferayThemeTasks.registerTasks({
 			)
 
 				.pipe(concat("strasbourg.min.js")).on('error', onError)
+				.pipe(uglify())
 				.pipe(gulp.dest('./build/js'))
 				.on('end', done);
 		});
