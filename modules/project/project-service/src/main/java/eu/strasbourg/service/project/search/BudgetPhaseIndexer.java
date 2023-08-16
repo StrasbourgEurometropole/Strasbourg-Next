@@ -18,6 +18,7 @@ import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
+import eu.strasbourg.utils.IndexHelper;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
@@ -67,8 +68,8 @@ public class BudgetPhaseIndexer extends BaseIndexer<BudgetPhase> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(budgetPhase.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);*/
+		IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);
 		
 		Map<Locale, String> titleFieldMap = new HashMap<Locale, String>();
 		titleFieldMap.put(Locale.FRANCE, budgetPhase.getTitle());

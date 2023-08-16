@@ -12,6 +12,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.IndexHelper;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
@@ -54,8 +55,8 @@ public class HelpProposalIndexer extends BaseIndexer<HelpProposal> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(helpProposal.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);*/
+		IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);
 		
 		Map<Locale, String> titleFieldMap = new HashMap<>();
 		titleFieldMap.put(Locale.FRANCE, helpProposal.getTitle());

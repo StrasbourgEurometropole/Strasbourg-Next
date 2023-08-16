@@ -17,6 +17,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.oidc.model.AnonymisationHistoric;
 import eu.strasbourg.service.oidc.service.AnonymisationHistoricLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.IndexHelper;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
@@ -66,8 +67,8 @@ public class AnonymisationHistoricIndexer extends BaseIndexer<AnonymisationHisto
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 				.getFullHierarchyCategories(anonymisationHistoric.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-				assetCategories);*/
+		IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+				assetCategories);
 
 		Map<Locale, String> titleFieldMap = new HashMap<Locale, String>();
 		titleFieldMap.put(Locale.FRANCE, anonymisationHistoric.getResultLabel());

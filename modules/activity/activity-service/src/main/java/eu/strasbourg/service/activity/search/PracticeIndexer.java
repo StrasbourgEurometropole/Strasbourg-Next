@@ -17,6 +17,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.activity.model.Practice;
 import eu.strasbourg.service.activity.service.PracticeLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.IndexHelper;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
@@ -61,8 +62,8 @@ public class PracticeIndexer extends BaseIndexer<Practice> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(practice.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);*/
+		IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);
 
 		Map<Locale, String> fieldMap = new HashMap<Locale, String>();
 		fieldMap.put(Locale.FRANCE, "Activité de " + practice.getAssociation().getNameCurrentValue());

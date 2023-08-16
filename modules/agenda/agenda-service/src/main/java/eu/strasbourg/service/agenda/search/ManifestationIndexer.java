@@ -18,6 +18,7 @@ import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
+import eu.strasbourg.utils.IndexHelper;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
@@ -61,8 +62,8 @@ public class ManifestationIndexer extends BaseIndexer<Manifestation> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(manifestation.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);*/
+		IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);
 		
 		document.addLocalizedText(Field.TITLE, manifestation.getTitleMap());
 		document.addLocalizedText(Field.DESCRIPTION,
