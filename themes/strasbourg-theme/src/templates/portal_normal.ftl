@@ -78,9 +78,7 @@ settingsScope="group" />
 <script src="/o/strasbourg-theme/js/strasbourg.min.js" type="text/javascript"></script>
 </body>
 
-<#if themeDisplay.isSignedIn() >
 	<@liferay_util["include"] page=bottom_include />
-</#if>
 
 
 </html>
