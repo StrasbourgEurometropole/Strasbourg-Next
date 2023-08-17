@@ -862,7 +862,6 @@ public class AssetVocabularyHelper {
 		if (assetCategory != null) {
 			assetCategory = AssetCategoryLocalServiceUtil.deleteAssetCategory(assetCategory);
 		}
-		assetCategory.id
 		return assetCategory;
 	}
 	/**
@@ -875,7 +874,6 @@ public class AssetVocabularyHelper {
 				.getAssetEntryAssetCategoryRelsByAssetEntryId(assetEntryId);
 		return assetEntryAssetCategoryRels.stream().filter(a -> a.getAssetCategoryId() == assetCategoryId).count() > 0;
 	}
-
 
 
 
