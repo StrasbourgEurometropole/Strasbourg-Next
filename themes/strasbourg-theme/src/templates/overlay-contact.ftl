@@ -12,7 +12,7 @@
         <div class="st-overlay__body st-custom-scrollbar">
 
             <div class="st-overlay__heading">
-                <span class="st-title-overlay">Piscine d’Ostwald</span>
+                <span class="st-title-overlay">${entry.getAlias(locale)}</span>
                 <span class="st-surtitre-cat"><@liferay_ui.message key="eu.contact" /></span>
             </div>
 
@@ -48,35 +48,21 @@
                 <div class="st-group-field">
                     <div class="st-group-radio">
                         <label class="st-field-checkbox">
-                            <input type="checkbox" name="group-checkbox" />
-                            Je souhaites un e-mail de confirmation de l’envoi
+                            <input checked type="checkbox" name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" id="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" />
+                            <@liferay_ui.message key="eu.do-you-want-a-notification" />
                         </label>
                     </div>
                 </div>
 
+                <div>
+                    <div id="recaptcha-contact" class="g-recaptcha" data-sitekey="${propsUtil.get('eu.strasbourg.recaptcha.public')}"></div>
+                </div>
+
+
                 <div class="st-text-mentions">
                     <p class="st-title-mentions">Mentions d’information</p>
 
-                    <p>(Article L114-8 Code des relations entre le public et l’administration)</p>
-
-                    <p>La Ville et l’Eurométropole de Strasbourg, 1 parc de l’étoile, 67076 Strasbourg Cedex, traitent vos données à caractère personnel
-                        collectées via ce formulaire de contact dans le but de répondre à votre demande.</p>
-
-                    <p>Ce traitement est réalisé par l’envoi d’une réponse immédiate ou le transfert de votre demande vers le service de la collectivité
-                        concerné. Les données collectées dans le cadre de ce traitement sont de type « données d’identification » uniquement. Les destinataires
-                        des données sont les Directions et/ou les services de la Ville et l’Eurométropole de Strasbourg concernés par la demande. Vos données
-                        sont stockées dans notre outil de création de formulaires et seront supprimées dans les trois mois suivant le traitement de votre
-                        demande. Les données sont également conservées dans notre système de messagerie interne pendant toute la durée de traitement de votre
-                        demande et sont supprimées immédiatement après qu’une réponse vous ait été envoyée.</p>
-
-                    <p>Conformément au Règlement (UE) 2016/679 du Parlement Européen et du Conseil du 27 avril 2016, règlement général sur la protection des
-                        données (RGPD) et à la Loi n°78-17 du 6 janvier 1978, loi informatique et libertés (LIL), modifiée, vous avez un droit d’accès, de
-                        rectification, d’effacement, d’opposition, de limitation du traitement et de portabilité des données que vous pouvez exercer en vous
-                        adressant à la Délégation à la Protection des Données, Ville et Eurométropole de Strasbourg, 1 parc de l’étoile, 67076 Strasbourg Cedex
-                        ou par courriel à <a href="mailto:dpo@strasbourg.eu">dpo@strasbourg.eu</a> ou <a href="#">via le formulaire dédié</a>.</p>
-
-                    <p>Si vous estimez, après nous avoir contactés, que vos droits "Informatique et Libertés" ne sont pas respectés, vous pouvez adresser une
-                        réclamation à la <a href="#">Commission Nationale de l’Informatique et des Libertés (CNIL)</a>.</p>
+                    <@liferay_ui.message key="contact.default-privacy" />
                 </div>
 
             </div>

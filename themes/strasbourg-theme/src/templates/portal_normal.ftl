@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="/o/strasbourg-theme/css/style.css">
 
 	<@liferay_util["include"] page=top_head_include />
-</head>+
+</head>
 
 
 <body class="${css_class}">
@@ -40,6 +40,14 @@
 </main>
 
 <#--End Content of the page-->
+	<div id="overlay-shadow" class="st-shadow-overlay"></div>
+
+	<#-- liferay_portlet["runtime"] - Overlay menu-->
+	<@liferay_portlet["runtime"]
+	portletProviderAction=portletProviderAction.VIEW
+	portletName="com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet"
+	instanceId="overlay-menu"
+	settingsScope="group" />
 
 	<#-- liferay_portlet["runtime"] - Structure footer-->
 <@liferay_portlet["runtime"]
@@ -49,7 +57,6 @@ instanceId="footer"
 settingsScope="group" />
 
 
-	<#include "${full_templates_path}/overlay-menu.ftl" />
 
 
 <script type="text/javascript">

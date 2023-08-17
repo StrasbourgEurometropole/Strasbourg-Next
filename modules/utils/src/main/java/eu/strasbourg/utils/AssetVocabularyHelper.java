@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portlet.asset.util.AssetVocabularySettingsHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.util.ArrayList;
@@ -861,6 +862,7 @@ public class AssetVocabularyHelper {
 		if (assetCategory != null) {
 			assetCategory = AssetCategoryLocalServiceUtil.deleteAssetCategory(assetCategory);
 		}
+		assetCategory.id
 		return assetCategory;
 	}
 	/**
@@ -873,6 +875,9 @@ public class AssetVocabularyHelper {
 				.getAssetEntryAssetCategoryRelsByAssetEntryId(assetEntryId);
 		return assetEntryAssetCategoryRels.stream().filter(a -> a.getAssetCategoryId() == assetCategoryId).count() > 0;
 	}
+
+
+
 
 	private static Log _log = LogFactoryUtil.getLog("AssetVocabularyHelper");
 }
