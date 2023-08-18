@@ -101,7 +101,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
  </div>
 
 <!-- Fiche de l'entité -->
-<div class="col-md-4-to-move ${cssClass}">
+<div class="col-lg-4-to-move ${cssClass}">
     <div>
 
 
@@ -192,7 +192,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     $(document).ready(function() {
 
         // Déplacement du bloc de la fiche entité
-        $(".col-md-4-to-move").appendTo(".pro-page-detail-projet .col-lg-12 aside.col-md-4");
+        $(".col-lg-4-to-move").appendTo(".pro-page-detail-projet .col-lg-12 aside.col-lg-4");
         if ($('.suggested-projects-to-move').length) {
             $('.pro-bloc-image-slider.pro-bloc-texte').parents('.portlet-boundary').appendTo('.suggested-projects-to-move');
             $('.pro-bloc-texte.pro-bloc-telechargements').parents('.portlet-boundary').appendTo('.suggested-projects-to-move');

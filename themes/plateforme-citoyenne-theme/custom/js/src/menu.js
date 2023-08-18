@@ -63,9 +63,9 @@ function adjusteSearch() {
 	}
 	else {
 		if ($('.pro-bloc-texte-header').length > 0 && $('.pro-wrapper-aside').length > 0) {
-			var headerHeight = $('.pro-bloc-texte-header').outerHeight();
+			var headerHeight = $('.pro-bloc-texte-header').outerHeight() - 50;;
 			if($('.search-header-wrapper').length > 0) {
-				headerHeight += $('.search-header-wrapper').outerHeight();
+				headerHeight += $('.search-header-wrapper').outerHeight()
 			}
 			$('.pro-wrapper-aside').css('top', -headerHeight + 'px');
 		}
