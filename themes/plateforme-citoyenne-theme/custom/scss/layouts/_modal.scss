@@ -231,7 +231,7 @@
 		.pro-btn-yellow{
 			&:hover, &:focus{
 				background: $c_dark;
-				@include addDynamicTextColor();
+				color: $c_vert;
 				border-color: $c_dark;
 			}
 		}
