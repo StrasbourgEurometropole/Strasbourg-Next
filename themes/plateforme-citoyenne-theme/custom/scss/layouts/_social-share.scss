@@ -7,7 +7,7 @@
 	position: fixed;
 	right: 30px;
 	bottom: 30px;
-	z-index: 140;
+	z-index: 1140;
 	opacity: 0;
 	@include addTransition();
 
@@ -241,7 +241,7 @@
 		text-decoration: none;
 		@include addTransition();
 		&:hover, &:focus {
-			@include addDynamicBackground();
+			background-color: $c_commune;
 			&:before {
 				color: $c_dark !important;
 			}

@@ -98,7 +98,7 @@
 				padding: 7px 0;
 				@include addTransition();
 				&:hover, &:focus {
-					@include addDynamicTextColor();
+					color: $c_commune;
 				}
 			}
 		}

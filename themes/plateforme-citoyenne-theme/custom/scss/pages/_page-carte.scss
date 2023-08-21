@@ -1,15 +1,25 @@
 /* STYLE PAGE CARTE INTERACTIVE */
 
 .pro-page-carte {
+	padding-top: 154px;
+
+	@include tablet_portrait() {
+		padding-top: 90px;
+	}
+	@include mobile() {
+		padding-top: 50px;
+	}
+
 
 	.pro-wrapper-map.maps {
 		position: relative;
-		height: calc(100vh - 167px);
+		height: calc(100vh - 154px);
 		@include tablet_portrait {
-			height: calc(100vh - 123px);
+			height: calc(100vh - 90px);
 		}
 		@include mobile {
 			min-height: auto;
+			height: calc(100vh - 50px);
 		}
 	}
 }
@@ -90,8 +100,7 @@
 		}
 
 		.pro-affiner {
-			@include ft($f_hx, 0.938em, 400, $c_main, 1.5em);
-			@include addDynamicTextColor();
+			@include ft($f_hx, 0.938em, 400, $c_white, 1.5em);
 			display: block;
 			padding: 30px;
 			position: relative;
@@ -216,18 +225,6 @@
 					margin: 0;
 					border-radius: 0;
 					text-align: left;
-					&:after {
-						content: '';
-						position: absolute;
-						bottom: 14px;
-						left: 0;
-						right: 0;
-						height: 4px;
-						width: 100%;
-						z-index: -1;
-						@include addDynamicBackground();
-						@include addTransitionCurve();
-					}
 					&:hover {
 						&:after {
 							height: 10px;
@@ -403,7 +400,7 @@
 					transform: translateX(19px);
 				}
 				input:checked + .pro-switch {
-					@include addDynamicBackground();
+					background-color: $c_white;
 					border-color: #e5e5e5;
 				}
 

@@ -318,14 +318,14 @@ form{
 			display: inline-block;
 			padding: 12px 0;
 			width: 100%;
-			border: 1px solid #8dba49;
+			border: 1px solid $c_orange;
 
 			@include addTransition();
 			@include mobile{
 				width: 100%;
 			}
 			&:hover, &:focus{
-				background: #8dba49;
+				background: $c_orange;
 				color: $c_dark;
 			}
 		}
@@ -467,6 +467,10 @@ form{
 				transform: scale(0);
 				@include addTransitionCurve();
 			}
+
+			.reference-mark {
+				color: $c_dark !important;
+			}
 		}
 	}
 
@@ -483,6 +487,13 @@ form{
 			margin-bottom: 15px;
 			i{
 				font-style: italic;
+			}
+		}
+
+		a {
+			color: $c_white;
+			&:hover {
+				color: $c_orange;
 			}
 		}
 	}

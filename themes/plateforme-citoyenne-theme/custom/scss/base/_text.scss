@@ -1,7 +1,7 @@
 a {
 	text-decoration: none;
 	&:hover, &:focus{
-		color: $c_white;
+		@include addDynamicTextColor();
 		text-decoration: none;
 	}
 }

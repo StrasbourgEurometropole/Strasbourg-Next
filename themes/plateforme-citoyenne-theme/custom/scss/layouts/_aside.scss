@@ -12,7 +12,7 @@ aside {
 	> * {
 		@include addDynamicBackground();
 	}
-	> .col-md-4-to-move {
+	> .col-lg-4-to-move {
 		&.couleur-ville  {
 			background-color: $c_ville;
 		}

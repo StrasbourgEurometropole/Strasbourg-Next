@@ -203,9 +203,13 @@ aside .leaflet-map {
 
 .pro-page-carte .pro-wrapper-map.leaflet-map {
     position: relative;
-    height: -webkit-calc(100vh - 167px);
-    height: -moz-calc(100vh - 167px);
-    height: calc(100vh - 167px);
+  height: calc(100vh - 157px);
+  @include tablet_portrait() {
+    height: calc(100vh - 90px);
+  }
+  @include mobile() {
+    height: calc(100vh - 50px);
+  }
 }
 
 // Correction du chemin d'image pour les bloc large (ex: les instances)
@@ -260,7 +264,7 @@ aside .leaflet-map {
 
 .pro-bloc-facette-participation {
 	.pro-affiner {
-		padding: 20px 30px;
+		padding: 20px 30px 0;
 		@include mobile {
 			margin-bottom: 0;
 			padding: 15px;
@@ -393,6 +397,9 @@ aside .leaflet-map {
 	overflow: inherit;
   &.pro-bloc-slider .pro-btn {
     top: -65px;
+    @include tablet_portrait() {
+      top: 0;
+    }
   }
 
 }
