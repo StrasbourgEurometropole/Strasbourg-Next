@@ -68,9 +68,8 @@ settingsScope="group" />
 		document.getElementById("ShareMail").setAttribute("href","mailto:?body="+url);
 	}
 </script>
-<#if themeDisplay.isSignedIn() >
+
 	<@liferay_util["include"] page=body_bottom_include />
-</#if>
 
 
 
