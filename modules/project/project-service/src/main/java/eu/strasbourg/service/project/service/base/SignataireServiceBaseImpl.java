@@ -44,6 +44,7 @@ import eu.strasbourg.service.project.service.persistence.PlacitPlacePersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectFollowedPersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectPersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectTimelinePersistence;
+import eu.strasbourg.service.project.service.persistence.SaisineObservatoirePersistence;
 import eu.strasbourg.service.project.service.persistence.SignatairePersistence;
 
 import javax.sql.DataSource;
@@ -812,6 +813,72 @@ public abstract class SignataireServiceBaseImpl
 	}
 
 	/**
+	 * Returns the saisine observatoire local service.
+	 *
+	 * @return the saisine observatoire local service
+	 */
+	public eu.strasbourg.service.project.service.SaisineObservatoireLocalService
+		getSaisineObservatoireLocalService() {
+
+		return saisineObservatoireLocalService;
+	}
+
+	/**
+	 * Sets the saisine observatoire local service.
+	 *
+	 * @param saisineObservatoireLocalService the saisine observatoire local service
+	 */
+	public void setSaisineObservatoireLocalService(
+		eu.strasbourg.service.project.service.SaisineObservatoireLocalService
+			saisineObservatoireLocalService) {
+
+		this.saisineObservatoireLocalService = saisineObservatoireLocalService;
+	}
+
+	/**
+	 * Returns the saisine observatoire remote service.
+	 *
+	 * @return the saisine observatoire remote service
+	 */
+	public eu.strasbourg.service.project.service.SaisineObservatoireService
+		getSaisineObservatoireService() {
+
+		return saisineObservatoireService;
+	}
+
+	/**
+	 * Sets the saisine observatoire remote service.
+	 *
+	 * @param saisineObservatoireService the saisine observatoire remote service
+	 */
+	public void setSaisineObservatoireService(
+		eu.strasbourg.service.project.service.SaisineObservatoireService
+			saisineObservatoireService) {
+
+		this.saisineObservatoireService = saisineObservatoireService;
+	}
+
+	/**
+	 * Returns the saisine observatoire persistence.
+	 *
+	 * @return the saisine observatoire persistence
+	 */
+	public SaisineObservatoirePersistence getSaisineObservatoirePersistence() {
+		return saisineObservatoirePersistence;
+	}
+
+	/**
+	 * Sets the saisine observatoire persistence.
+	 *
+	 * @param saisineObservatoirePersistence the saisine observatoire persistence
+	 */
+	public void setSaisineObservatoirePersistence(
+		SaisineObservatoirePersistence saisineObservatoirePersistence) {
+
+		this.saisineObservatoirePersistence = saisineObservatoirePersistence;
+	}
+
+	/**
 	 * Returns the signataire local service.
 	 *
 	 * @return the signataire local service
@@ -1432,6 +1499,22 @@ public abstract class SignataireServiceBaseImpl
 
 	@BeanReference(type = ProjectTimelinePersistence.class)
 	protected ProjectTimelinePersistence projectTimelinePersistence;
+
+	@BeanReference(
+		type = eu.strasbourg.service.project.service.SaisineObservatoireLocalService.class
+	)
+	protected
+		eu.strasbourg.service.project.service.SaisineObservatoireLocalService
+			saisineObservatoireLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.project.service.SaisineObservatoireService.class
+	)
+	protected eu.strasbourg.service.project.service.SaisineObservatoireService
+		saisineObservatoireService;
+
+	@BeanReference(type = SaisineObservatoirePersistence.class)
+	protected SaisineObservatoirePersistence saisineObservatoirePersistence;
 
 	@BeanReference(
 		type = eu.strasbourg.service.project.service.SignataireLocalService.class

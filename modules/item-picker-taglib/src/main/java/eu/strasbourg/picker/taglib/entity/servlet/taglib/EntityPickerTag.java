@@ -30,12 +30,7 @@ import eu.strasbourg.portlet.help.itemselector.HelpProposalItemSelectorCriterion
 import eu.strasbourg.portlet.link.itemselector.LinkItemSelectorCriterion;
 import eu.strasbourg.portlet.official.itemselector.OfficialItemSelectorCriterion;
 import eu.strasbourg.portlet.place.itemselector.PlaceItemSelectorCriterion;
-import eu.strasbourg.portlet.project.itemselector.BudgetParticipatifItemSelectorCriterion;
-import eu.strasbourg.portlet.project.itemselector.BudgetPhaseItemSelectorCriterion;
-import eu.strasbourg.portlet.project.itemselector.InitiativeItemSelectorCriterion;
-import eu.strasbourg.portlet.project.itemselector.ParticipationItemSelectorCriterion;
-import eu.strasbourg.portlet.project.itemselector.PetitionItemSelectorCriterion;
-import eu.strasbourg.portlet.project.itemselector.ProjectItemSelectorCriterion;
+import eu.strasbourg.portlet.project.itemselector.*;
 import eu.strasbourg.portlet.video.itemselector.VideoGalleryItemSelectorCriterion;
 import eu.strasbourg.portlet.video.itemselector.VideoItemSelectorCriterion;
 
@@ -316,6 +311,16 @@ public class EntityPickerTag extends IncludeTag {
 						.getItemSelectorURL(
 								RequestBackedPortletURLFactoryUtil.create(request),
 								"itemSelected" + _name, PetitionItemSelectorCriterion);
+				break;
+			case "eu.strasbourg.service.project.model.SaisineObservatoire":
+				SaisineObservatoireItemSelectorCriterion saisineObservatoireItemSelectorCriterion = new SaisineObservatoireItemSelectorCriterion();
+				saisineObservatoireItemSelectorCriterion
+						.setDesiredItemSelectorReturnTypes(
+								desiredItemSelectorReturnTypes);
+				itemSelectorURL = ServletContextUtil.getItemSelector()
+						.getItemSelectorURL(
+								RequestBackedPortletURLFactoryUtil.create(request),
+								"itemSelected" + _name, saisineObservatoireItemSelectorCriterion);
 				break;
 			case "eu.strasbourg.service.project.model.BudgetParticipatif":
 				BudgetParticipatifItemSelectorCriterion BudgetParticipatifItemSelectorCriterion = new BudgetParticipatifItemSelectorCriterion();

@@ -73,6 +73,7 @@ public class PlacitPlaceWrapper
 		attributes.put("projectId", getProjectId());
 		attributes.put("participationId", getParticipationId());
 		attributes.put("petitionId", getPetitionId());
+		attributes.put("saisineObservatoireId", getSaisineObservatoireId());
 		attributes.put("budgetParticipatifId", getBudgetParticipatifId());
 		attributes.put("initiativeId", getInitiativeId());
 		attributes.put("placeSIGId", getPlaceSIGId());
@@ -182,6 +183,13 @@ public class PlacitPlaceWrapper
 
 		if (petitionId != null) {
 			setPetitionId(petitionId);
+		}
+
+		Long saisineObservatoireId = (Long)attributes.get(
+			"saisineObservatoireId");
+
+		if (saisineObservatoireId != null) {
+			setSaisineObservatoireId(saisineObservatoireId);
 		}
 
 		Long budgetParticipatifId = (Long)attributes.get(
@@ -587,6 +595,16 @@ public class PlacitPlaceWrapper
 	}
 
 	/**
+	 * Returns the saisine observatoire ID of this placit place.
+	 *
+	 * @return the saisine observatoire ID of this placit place
+	 */
+	@Override
+	public long getSaisineObservatoireId() {
+		return _placitPlace.getSaisineObservatoireId();
+	}
+
+	/**
 	 * Retourne le nom du lieu SIG
 	 */
 	@Override
@@ -957,6 +975,16 @@ public class PlacitPlaceWrapper
 	@Override
 	public void setProjectId(long projectId) {
 		_placitPlace.setProjectId(projectId);
+	}
+
+	/**
+	 * Sets the saisine observatoire ID of this placit place.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID of this placit place
+	 */
+	@Override
+	public void setSaisineObservatoireId(long saisineObservatoireId) {
+		_placitPlace.setSaisineObservatoireId(saisineObservatoireId);
 	}
 
 	/**

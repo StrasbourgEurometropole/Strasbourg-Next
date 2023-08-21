@@ -48,6 +48,7 @@ public class PlacitPlaceSoap implements Serializable {
 		soapModel.setProjectId(model.getProjectId());
 		soapModel.setParticipationId(model.getParticipationId());
 		soapModel.setPetitionId(model.getPetitionId());
+		soapModel.setSaisineObservatoireId(model.getSaisineObservatoireId());
 		soapModel.setBudgetParticipatifId(model.getBudgetParticipatifId());
 		soapModel.setInitiativeId(model.getInitiativeId());
 		soapModel.setPlaceSIGId(model.getPlaceSIGId());
@@ -240,6 +241,14 @@ public class PlacitPlaceSoap implements Serializable {
 		_petitionId = petitionId;
 	}
 
+	public long getSaisineObservatoireId() {
+		return _saisineObservatoireId;
+	}
+
+	public void setSaisineObservatoireId(long saisineObservatoireId) {
+		_saisineObservatoireId = saisineObservatoireId;
+	}
+
 	public long getBudgetParticipatifId() {
 		return _budgetParticipatifId;
 	}
@@ -281,6 +290,7 @@ public class PlacitPlaceSoap implements Serializable {
 	private long _projectId;
 	private long _participationId;
 	private long _petitionId;
+	private long _saisineObservatoireId;
 	private long _budgetParticipatifId;
 	private long _initiativeId;
 	private String _placeSIGId;

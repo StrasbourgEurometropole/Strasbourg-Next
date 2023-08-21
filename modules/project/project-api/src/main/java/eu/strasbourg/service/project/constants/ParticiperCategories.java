@@ -4,7 +4,10 @@ package eu.strasbourg.service.project.constants;
  * @author alexandre.quere
  */
 public enum ParticiperCategories {
-	
+
+    ACCEPTED("accepted"),
+    REFUSED("refused"),
+    DRAFT("draft"),
     COMPLETED("completed"),
     FAILED("failed"),
     SOON_ARRIVED("soon_arrived"),
