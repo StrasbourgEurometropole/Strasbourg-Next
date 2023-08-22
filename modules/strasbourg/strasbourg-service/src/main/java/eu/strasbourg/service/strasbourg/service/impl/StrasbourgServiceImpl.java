@@ -14,6 +14,10 @@
 
 package eu.strasbourg.service.strasbourg.service.impl;
 
+import com.liferay.friendly.url.model.FriendlyURLEntryLocalization;
+import com.liferay.friendly.url.service.persistence.FriendlyURLEntryLocalizationUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.*;
 import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetTag;
@@ -61,13 +65,6 @@ import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
-import com.liferay.portal.kernel.util.Base64;
-import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.MimeTypesUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.SessionParamUtil;
-import com.liferay.portal.kernel.util.TextFormatter;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.adict.AdictService;
 import eu.strasbourg.service.adict.AdictServiceTracker;
@@ -174,17 +171,39 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 		return JSONFactoryUtil.createJSONObject().put("copyright", copyright);
 	}
 
+	/**
+	 * Retourne les information d'un fichier de la doc lib à partir de sa friendly url
+	 * @param friendlyUrl
+	 * @param language
+	 * @return
+	 */
 	@Override
-	public JSONObject getFileDetails(long groupId, String uuid, String language) {
-		DLFileEntry file = DLFileEntryLocalServiceUtil.fetchDLFileEntryByUuidAndGroupId(uuid, groupId);
-
-		Locale locale = Locale.forLanguageTag(language);
-
+	public JSONObject getFileDetails(String friendlyUrl, String language) {
 		JSONObject jsonDetail = JSONFactoryUtil.createJSONObject();
-		jsonDetail.put("name", file.getName());
-		jsonDetail.put("title", FileEntryHelper.getFileTitle(file.getFileEntryId(), locale));
-		jsonDetail.put("size", TextFormatter.formatStorageSize(file.getSize(), locale));
-		jsonDetail.put("type", file.getExtension());
+		DLFileEntry file = null;
+		String[] urlParts = friendlyUrl.split("/");
+
+		//Nouvelle ecriture des friendly URL pour les DLFileEntry
+		if(friendlyUrl.contains("/documents/d/")){
+			long companyId = PortalUtil.getDefaultCompanyId();
+			long groupId = GroupLocalServiceUtil.fetchFriendlyURLGroup(companyId, "/" + urlParts[3]).getGroupId();
+			var entries = FriendlyURLEntryLocalizationUtil.findByG_C_U(groupId,28821, urlParts[4]);
+
+			if(entries.size() > 0){
+				file = DLFileEntryLocalServiceUtil.fetchDLFileEntry(entries.get(0).getClassPK());
+			}
+		}//Ancienne ecriture
+		else{
+			file = DLFileEntryLocalServiceUtil.fetchDLFileEntryByUuidAndGroupId(urlParts[5].substring(0,36), Long.parseLong(urlParts[2]));
+		}
+
+		if(file != null) {
+			Locale locale = Locale.forLanguageTag(language);
+			jsonDetail.put("name", file.getName());
+			jsonDetail.put("title", FileEntryHelper.getFileTitle(file.getFileEntryId(), locale));
+			jsonDetail.put("size", TextFormatter.formatStorageSize(file.getSize(), locale));
+			jsonDetail.put("type", file.getExtension());
+		}
 
 		return jsonDetail;
 	}

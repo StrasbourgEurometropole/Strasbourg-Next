@@ -117,13 +117,8 @@
 					var fileSrc = instance._getItemSrc(editor, selectedItem);
 
 					if (fileSrc) {
-						var urlInterstingPart = fileSrc.split("/documents/")[1];
-		                var groupId = urlInterstingPart.split("/")[0];
-		                var urlParts = urlInterstingPart.split("/");
-		                var uuid = urlParts[urlParts.length - 1].substring(0, 36);
 						Liferay.Service('/strasbourg.strasbourg/get-file-details', {
-							groupId : groupId,
-							uuid: uuid,
+							url : fileSrc,
 							language : 'fr_FR'
 						}, function(response) {
 							var htmlToInsert = instance._fileTPL.output(

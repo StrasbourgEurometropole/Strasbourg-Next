@@ -85,8 +85,7 @@ public class StrasbourgServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getFileDetails(
-		HttpPrincipal httpPrincipal, long groupId, String uuid,
-		String language) {
+		HttpPrincipal httpPrincipal, String url, String language) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -94,7 +93,7 @@ public class StrasbourgServiceHttp {
 				_getFileDetailsParameterTypes4);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, groupId, uuid, language);
+				methodKey, url, language);
 
 			Object returnObj = null;
 
@@ -806,7 +805,7 @@ public class StrasbourgServiceHttp {
 		long.class, String.class, String.class
 	};
 	private static final Class<?>[] _getFileDetailsParameterTypes4 =
-		new Class[] {long.class, String.class, String.class};
+		new Class[] {String.class, String.class};
 	private static final Class<?>[] _searchStreetsParameterTypes5 =
 		new Class[] {String.class};
 	private static final Class<?>[] _searchStreetsParameterTypes6 =
