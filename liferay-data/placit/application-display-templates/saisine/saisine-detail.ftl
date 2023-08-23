@@ -66,7 +66,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             <div class="pro-header-participation pro-theme-information">
                                 <h1>${entry.title}</h1>
                                 <div class="pro-wrapper-meta">
-                                    <div class="pro-statut"><span>${entry.getFrontStatusFR()}</span></div>
+                                    <div class="pro-statut"><span>${entry.getSaisineObservatoireStatus()}</span></div>
                                     <div class="pro-meta">
                                         <#-- Liste des quartiers de la saisine observatoire -->
                                         <span class="prefix-location">${entry.getDistrictLabel(locale)}</span>
@@ -132,14 +132,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                     </#if>
                                 </figure>
                                 </#if>
-                                <#if entry.isSupported >
-                                    <div class="pro-bookmark">
-                                        <div>
-                                            <span class="icon-ico-cathedrale"></span>
-                                            <p>Saisine soutenue par${entry.supportedBy}</p>
-                                        </div>
-                                    </div>
-                                </#if>
                             </div>
 
                             <div class="row pro-bloc pro-bloc-texte">
@@ -152,12 +144,19 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             <div class="row pro-bloc pro-bloc-texte">
                                 ${entry.description}
                             </div>
-                            <div style="padding:5px; background-color:#9ba0ee; border:2px solid #656ab0; -moz-border-radius:9px; -khtml-border-radius:9px; -webkit-border-radius:9px; border-radius:9px;">
-                                <div style="font-size: 2em; float: left; width: 40px; text-align: center; margin-right: 5px; height: 20px; padding:3px;">!</div>
-                                <p><strong>Commentaires des services thématiques de la collectivité : "${entry.getFrontStatusFR()}"</strong><br />
-                                    &nbsp;</p>
-                                <p><em>"${entry.cityResponse}"</em></p>
+
+                            <div class="row pro-bloc pro-bloc-texte">
+                                ${entry.projectTarget}
                             </div>
+
+                            <#if entry.cityResponse?has_content>
+                                <div style="padding:5px; background-color:#9ba0ee; border:2px solid #656ab0; -moz-border-radius:9px; -khtml-border-radius:9px; -webkit-border-radius:9px; border-radius:9px;">
+                                    <div style="font-size: 2em; float: left; width: 40px; text-align: center; margin-right: 5px; height: 20px; padding:3px;">!</div>
+                                    <p><strong>Commentaires des services thématiques de la collectivité : "${entry.getSaisineObservatoireStatus()}"</strong><br />
+                                        &nbsp;</p>
+                                    <em>${entry.cityResponse}</em>
+                                </div>
+                            </#if>
                             <#if entry.filesURLs?has_content>
                                 <div class="pro-bloc-texte pro-bloc-telechargements">
                                     <h3>Document(s) téléchargé(s)</h3>
@@ -176,18 +175,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                     </div>
                                 </div>
                             </#if>
-                            <div class="pro-contact-petition">
-                                <span class="title">Saisine adressée à :</span>
-                                <div>
-                                    <p><strong>Maire de Strasbourg</strong></p>
-
-                                    <@liferay_portlet["runtime"]
-                                    portletProviderAction=portletProviderAction.VIEW
-                                    portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-                                    instanceId="${entry.getSaisineObservatoireId()}"/>
-
-                                </div>
-                            </div>
                         </div>
 
                         <#-- Blocs lateraux -->
@@ -251,7 +238,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 </div>
                                 <div class="pro-content-petition">
                                     <div class="pro-meta">
-                                        <span>${suggestion.getFrontStatusFR()}</span>
+                                        <span>${suggestion.getSaisineObservatoireStatus()}</span>
                                         <span>${suggestion.getThematicLabel(locale)}</span>
                                     </div>
                                     <span class="prefix-location">

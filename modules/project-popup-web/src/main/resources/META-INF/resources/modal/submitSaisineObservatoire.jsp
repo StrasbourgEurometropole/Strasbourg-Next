@@ -26,6 +26,9 @@
                         <aui:input id="saisinedescription" type="textarea" name="description" label="modal.submitsaisineobservatoire.information.description" required="true" value=""/>
                     </div>
                     <div class="form-group">
+                        <aui:input id="saisineProjectTarget" type="textarea" name="projectTarget" label="modal.submitsaisineobservatoire.information.projectTarget" required="true" value=""/>
+                    </div>
+                    <div class="form-group">
                         <aui:input id="saisineInTheNameOf" name="inTheNameOf" label="modal.submitsaisineobservatoire.information.inTheNameOf" required="false" maxlength="400" value=""/>
                     </div>
                     <div class="pro-row">
@@ -59,9 +62,6 @@
                     </div>
                     <div class="form-group">
                         <aui:input id="saisineobservatoirelieux" name="consultationPlacesText" label="modal.submitsaisineobservatoire.information.lieu" maxlength="256" value=""/>
-                    </div>
-                    <div class="pro-txt-form">
-                        <p><liferay-ui:message key="modal.submitsaisineobservatoire.information.mayor"/></p>
                     </div>
                 </div>
                 <div class="pro-wrapper last-wrapper">
@@ -271,6 +271,7 @@
         $("#"+namespaceSubmitSaisineObservatoire+"saisinetitle").val("");
          $("#"+namespaceSubmitSaisineObservatoire+"saisinesummary").val("");
         $("#"+namespaceSubmitSaisineObservatoire+"saisinedescription").val("");
+        $("#"+namespaceSubmitSaisineObservatoire+"saisineProjectTarget").val("");
         $("#"+namespaceSubmitSaisineObservatoire+"saisineInTheNameOf").val("");
         $("#"+namespaceSubmitSaisineObservatoire+"saisinelieux").val("");
         $("#"+namespaceSubmitSaisineObservatoire+"project option[value='0']").prop('selected', true);
@@ -320,6 +321,7 @@
         var saisinetitle = $("#"+namespaceSubmitSaisineObservatoire+"saisinetitle").val();
         var saisinesummary = $("#"+namespaceSubmitSaisineObservatoire+"saisinesummary").val();
         var saisinedescription = $("#"+namespaceSubmitSaisineObservatoire+"saisinedescription").val();
+        var saisineProjectTarget = $("#"+namespaceSubmitSaisineObservatoire+"saisineProjectTarget").val();
         var birthday = $("#"+namespaceSubmitSaisineObservatoire+"birthday").val();
         var city = $("#"+namespaceSubmitSaisineObservatoire+"city").val();
         var address = $("#"+namespaceSubmitSaisineObservatoire+"address").val();
@@ -342,6 +344,11 @@
             $("#"+namespaceSubmitSaisineObservatoire+"saisinedescription").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#"+namespaceSubmitSaisineObservatoire+"saisinedescription").css({ "box-shadow" : "" });
+
+        if (saisineProjectTarget==null || saisineProjectTarget==""){
+            $("#"+namespaceSubmitSaisineObservatoire+"saisineProjectTarget").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#"+namespaceSubmitSaisineObservatoire+"saisineProjectTarget").css({ "box-shadow" : "" });
 
         if (birthday==null || birthday==""){
             $("#"+namespaceSubmitSaisineObservatoire+"birthday").css({ "box-shadow" : "0 0 10px #CC0000" });
