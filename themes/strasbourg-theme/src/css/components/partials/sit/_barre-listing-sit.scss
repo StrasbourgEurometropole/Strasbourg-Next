@@ -20,13 +20,6 @@
 		margin-bottom: 20px;
 	}
 
-	/*
-	& ~ .st-footer .st-container-mentions {
-		@include min-tablet-portrait {
-			padding-bottom: calc(var(--barre-height) + 40px);
-		}
-	}*/
-
 	.st-is-scrolled & {
 		@include tablet-portrait {
 			transform: translateY(-100%);
@@ -43,9 +36,9 @@
 		border-radius: $border-radius;
 
 		@include tablet-portrait {
-			background-color: transparent;
 			padding-left: 0;
 			padding-right: 0;
+			background-color: transparent;
 		}
 		@include mobile {
 			padding-top: 9px;
@@ -56,76 +49,47 @@
 	// Pour le moment j'ai mis ici les styles des filtres vu qu'on n'as pas encore la maquette de l'overlay filtres, donc je ne sais pas si les styles vont être globales au projet, ou s'ils vont être différents entre la barre et l'overlay
 	.st-filtre {
 		position: relative;
-		display: flex;
-		align-items: center;
 		margin-right: 10px;
+
+		&:first-child {
+			flex-grow: 1;
+			max-width: 320px;
+		}
+
 		@include tablet-portrait {
 			display: none;
 		}
 
 		label {
-			display: block;
-			@include ft($f_txt, 14px, 600, $c_sub, 1);
-			@include letter-spacing(25);
-			padding: 5px;
-			background-color: $c_greydark;
 			position: absolute;
 			top: -10px;
 			left: 10px;
-			pointer-events: none;
-		}
-
-		input, input::placeholder, select {
-			@include reset-appearance();
-			@include ft($f_txt, 14px, 300, $c_white, 1);
+			margin-bottom: initial;
+			padding: 0 5px;
+			font-weight: 600;
 			@include letter-spacing(25);
-			@include addTransition();
+			background-color: $c_greydark;
 		}
 
-		input, select {
-			border: 1px solid $c_border;
-			background-color: transparent;
-			display: flex;
-			align-items: center;
-			padding: 15px 20px 15px 15px;
-			@include create-outline();
-
-			@include can-hover {
-				color: $c_sub;
-				&::placeholder {
-					color: $c_sub;
-				}
-			}
+		input[type="text"] {
+			padding: 13px 15px;
 		}
 
-		//input {
-		//	min-width: 320px;
-		//}
-		//select {
-		//	min-width: 220px;
-		//}
-		&.st--is-select {
-			select {
-				text-align: right;
-				padding-right: 50px;
-			}
-
-			&:after {
-				@include icomoon($st-icon-arrow-down);
-				color: $c_txt;
-				font-size: 10px;
-				margin-left: 20px;
-				position: absolute;
-				right: 20px;
-				pointer-events: none;
-			}
+		select {
+			padding: 13px 35px 13px 15px;
 		}
 	}
+
 
 	.col-right {
 		display: flex;
 		align-items: center;
 		margin-left: auto;
+
+		@include min-tablet-portrait {
+			padding-left: 20px;
+		}
+
 		@include tablet-portrait {
 			width: 100%;
 		}
@@ -134,8 +98,9 @@
 	.st-resultats {
 		margin-right: 20px;
 		text-align: right;
-		@include ft($f_txt, 14px, 300, $c_txt, 1);
+		@include ft('', 14px, 300, $c_txt, 1);
 		@include letter-spacing(25);
+
 		@include tablet-portrait {
 			margin-right: auto;
 			text-align: left;

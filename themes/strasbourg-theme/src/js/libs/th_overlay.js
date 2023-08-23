@@ -84,6 +84,7 @@ var th_overlay = {
             $('a[href="#' + overlayId + '"].close:not(.st-parsed-overlay), [data-overlay-close="' + overlayId + '"]:not(.st-parsed-overlay)')
                 .addClass('st-parsed-overlay')
                 .on('click', function (e) {
+                    console.log("mama")
                     e.preventDefault();
                     var idOverlay = $(this).attr('href');
                     if (!idOverlay) {
@@ -150,8 +151,7 @@ var th_overlay = {
         if (!$('#' + overlayId).attr("data-disable-hash")) {
             window.location.hash = overlayId;
         }
-
-        if (openShadow == true) {
+        if (openShadow == true && overlayId != 'st-overlay-search') {
             $(th_overlay.selector_overlay_shadow).addClass('st-is-open');
         }
 

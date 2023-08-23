@@ -29,7 +29,7 @@
 				width: 3px;
 				height: 1px;
 				vertical-align: middle;
-				background-color: $c_grey;
+				background-color: $c_txt;
 				transform: translateY(100%);
 			}
 		}
@@ -66,28 +66,6 @@
 		span {
 			font-weight: 500;
 			color: $c_white;
-		}
-	}
-
-
-	// --modifiers
-	&.st--text-white {
-		.st-breadcrumbs__item {
-			&:after {
-				background-color: $c_white;
-			}
-
-			.st-breadcrumbs__link {
-				color: $c_white;
-
-				@include can-hover {
-					color: rgba($c_white, 0.75);
-				}
-			}
-
-			span {
-				color: rgba($c_white, 0.5);
-			}
 		}
 	}
 }

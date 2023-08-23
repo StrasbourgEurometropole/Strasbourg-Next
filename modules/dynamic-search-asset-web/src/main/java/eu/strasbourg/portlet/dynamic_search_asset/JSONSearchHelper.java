@@ -80,6 +80,7 @@ public class JSONSearchHelper {
                         event.getNbEventParticipations()
                 );
                 break;
+            case Constants.SEARCH_FORM_STRASBOURG_INT :
             case Constants.SEARCH_FORM_STRASBOURG :
                 jsonEvent.put(
                         Constants.ATTRIBUTE_CATEGORIES,
@@ -97,9 +98,22 @@ public class JSONSearchHelper {
                 );
 
                 jsonEvent.put(
+                        Constants.ATTRIBUTE_CITY,
+                        event.getCity(locale)
+                );
+
+                jsonEvent.put(
                         Constants.ATTRIBUTE_ID,
                         event.getEventId()
                 );
+
+                jsonEvent.put(
+                        Constants.ATTRIBUTE_IMAGE_URL,
+                        event.getImageURL()
+                );
+
+
+
 
                 String description = HtmlUtil.stripHtml(event.getDescription(locale));
                 if(tailleMax != -1)
@@ -155,6 +169,7 @@ public class JSONSearchHelper {
                         project.getImageURL()
                 );
                 break;
+            case Constants.SEARCH_FORM_STRASBOURG_INT :
             case Constants.SEARCH_FORM_STRASBOURG:
                 break;
         }
@@ -233,6 +248,7 @@ public class JSONSearchHelper {
                         participation.getStatusDetailLabel()
                 );
                 break;
+            case Constants.SEARCH_FORM_STRASBOURG_INT :
             case Constants.SEARCH_FORM_STRASBOURG:
                 break;
         }
@@ -286,6 +302,7 @@ public class JSONSearchHelper {
                         video.getNbViews(site,videoId)
                 );
                 break;
+            case Constants.SEARCH_FORM_STRASBOURG_INT :
             case Constants.SEARCH_FORM_STRASBOURG:
                 break;
         }
@@ -352,6 +369,7 @@ public class JSONSearchHelper {
                         petition.getQuotaSignature()
                 );
                 break;
+            case Constants.SEARCH_FORM_STRASBOURG_INT :
             case Constants.SEARCH_FORM_STRASBOURG:
                 break;
         }
@@ -412,6 +430,7 @@ public class JSONSearchHelper {
                         bp.getNbSupports()
                 );
                 break;
+            case Constants.SEARCH_FORM_STRASBOURG_INT :
             case Constants.SEARCH_FORM_STRASBOURG:
                 break;
         }
@@ -469,6 +488,7 @@ public class JSONSearchHelper {
                         initiative.getNbHelps()
                 );
                 break;
+            case Constants.SEARCH_FORM_STRASBOURG_INT :
             case Constants.SEARCH_FORM_STRASBOURG:
                 break;
         }
@@ -517,13 +537,15 @@ public class JSONSearchHelper {
                 chapo
         );
 
+        jsonArticle.put(
+                Constants.ATTRIBUTE_IMAGE_URL,
+                AssetPublisherTemplateHelper.getDocumentUrl(JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "thumbnail", locale))
+        );
+
         switch (configAffichage) {
             case Constants.SEARCH_FORM_PLACIT:
-                jsonArticle.put(
-                        Constants.ATTRIBUTE_IMAGE_URL,
-                        AssetPublisherTemplateHelper.getDocumentUrl(JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "thumbnail", locale))
-                );
                 break;
+            case Constants.SEARCH_FORM_STRASBOURG_INT :
             case Constants.SEARCH_FORM_STRASBOURG:
                 List<AssetCategory> newsType = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(assetEntry, VocabularyNames.NEWS_TYPE);
                 StringBuilder newsTypeLabel = new StringBuilder();
@@ -537,6 +559,7 @@ public class JSONSearchHelper {
                         Constants.ATTRIBUTE_CATEGORIES,
                         newsTypeLabel.toString()
                 );
+
 
                 jsonArticle.put(
                         Constants.ATTRIBUTE_ID,
@@ -582,6 +605,7 @@ public class JSONSearchHelper {
         switch (configAffichage){
             case Constants.SEARCH_FORM_PLACIT :
                 break;
+            case Constants.SEARCH_FORM_STRASBOURG_INT :
             case Constants.SEARCH_FORM_STRASBOURG :
                 if(Validator.isNotNull(official.getTown()))
                     jsonOfficial.put(
@@ -623,6 +647,11 @@ public class JSONSearchHelper {
                 official.getFirstName() + " " + official.getLastName()
         );
 
+        jsonOfficial.put(
+                Constants.ATTRIBUTE_IMAGE_URL,
+                official.getImageURL()
+        );
+
         return jsonOfficial;
     }
 
@@ -645,6 +674,7 @@ public class JSONSearchHelper {
         switch (configAffichage){
             case Constants.SEARCH_FORM_PLACIT :
                 break;
+            case Constants.SEARCH_FORM_STRASBOURG_INT :
             case Constants.SEARCH_FORM_STRASBOURG :
                 jsonEdition.put(
                         Constants.ATTRIBUTE_CATEGORIES,
@@ -673,6 +703,11 @@ public class JSONSearchHelper {
                         edition.getEditionId()
                 );
 
+                jsonEdition.put(
+                        Constants.ATTRIBUTE_DOWNLOAD_URL,
+                        edition.getFileDownloadURL(locale)
+                );
+
                 String description = HtmlUtil.stripHtml(edition.getDescription(locale));
                 if(tailleMax != -1)
                     description = description.substring(0,Math.min(description.length(), tailleMax)) + (description.length() > tailleMax?"...":"");
@@ -682,6 +717,11 @@ public class JSONSearchHelper {
                 );
                 break;
         }
+
+        jsonEdition.put(
+                Constants.ATTRIBUTE_IMAGE_URL,
+                edition.getImageURL()
+        );
 
         return jsonEdition;
     }
@@ -705,6 +745,7 @@ public class JSONSearchHelper {
         switch (configAffichage) {
             case Constants.SEARCH_FORM_PLACIT:
                 break;
+            case Constants.SEARCH_FORM_STRASBOURG_INT :
             case Constants.SEARCH_FORM_STRASBOURG:
                 jsonManifestation.put(
                         Constants.ATTRIBUTE_CATEGORIES,
@@ -763,6 +804,7 @@ public class JSONSearchHelper {
         switch (configAffichage) {
             case Constants.SEARCH_FORM_PLACIT:
                 break;
+            case Constants.SEARCH_FORM_STRASBOURG_INT :
             case Constants.SEARCH_FORM_STRASBOURG:
                 jsonEditionGallery.put(
                         Constants.ATTRIBUTE_CATEGORIES,
@@ -782,6 +824,11 @@ public class JSONSearchHelper {
                 jsonEditionGallery.put(
                         Constants.ATTRIBUTE_ID,
                         editionGallery.getGalleryId()
+                );
+
+                jsonEditionGallery.put(
+                        Constants.ATTRIBUTE_IMAGE_URL,
+                        editionGallery.getImageURL()
                 );
 
                 String description = HtmlUtil.stripHtml(editionGallery.getDescription(locale));
@@ -816,10 +863,16 @@ public class JSONSearchHelper {
         switch (configAffichage) {
             case Constants.SEARCH_FORM_PLACIT:
                 break;
+            case Constants.SEARCH_FORM_STRASBOURG_INT :
             case Constants.SEARCH_FORM_STRASBOURG:
                 jsonPlace.put(
                         Constants.ATTRIBUTE_CATEGORIES,
                         place.getTypeLabel(locale)
+                );
+
+                jsonPlace.put(
+                        Constants.ATTRIBUTE_IMAGE_URL,
+                        place.getImageURL()
                 );
 
                 jsonPlace.put(
@@ -830,6 +883,11 @@ public class JSONSearchHelper {
                 jsonPlace.put(
                         Constants.ATTRIBUTE_ID,
                         place.getPlaceId()
+                );
+
+                jsonPlace.put(
+                        Constants.ATTRIBUTE_IS_OPEN,
+                        place.isOpenNow()
                 );
 
                 if(Validator.isNotNull(place.getCityCategory()))
@@ -867,10 +925,16 @@ public class JSONSearchHelper {
         switch (configAffichage) {
             case Constants.SEARCH_FORM_PLACIT:
                 break;
+            case Constants.SEARCH_FORM_STRASBOURG_INT :
             case Constants.SEARCH_FORM_STRASBOURG:
                 jsonActivityCourse.put(
                         Constants.ATTRIBUTE_CATEGORIES,
                         activityCourse.getActivity().getTitle(locale)
+                );
+
+                jsonActivityCourse.put(
+                        Constants.ATTRIBUTE_IMAGE_URL,
+                        activityCourse.getImageURL()
                 );
 
                 jsonActivityCourse.put(
@@ -912,6 +976,7 @@ public class JSONSearchHelper {
         switch (configAffichage) {
             case Constants.SEARCH_FORM_PLACIT:
                 break;
+            case Constants.SEARCH_FORM_STRASBOURG_INT :
             case Constants.SEARCH_FORM_STRASBOURG:
                 jsonActivity.put(
                         Constants.ATTRIBUTE_CATEGORIES,
@@ -926,6 +991,11 @@ public class JSONSearchHelper {
                 jsonActivity.put(
                         Constants.ATTRIBUTE_TITLE,
                         activity.getTitle(locale)
+                );
+
+                jsonActivity.put(
+                        Constants.ATTRIBUTE_IMAGE_URL,
+                        activity.getImageURL()
                 );
 
                 jsonActivity.put(

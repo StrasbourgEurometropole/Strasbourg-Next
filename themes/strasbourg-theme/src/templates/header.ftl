@@ -59,11 +59,12 @@
 
         <div class="st-wrapper st-barre-menu" role="search">
             <div class="st-barre-menu-inner">
-                <button class="st-btn-search" data-overlay-open="overlay-search"
+                <button class="st-btn-search" data-overlay-open="st-overlay-search"
+                        onclick="focusOnInput('recherche-input')"
                         aria-label="Rechercher - Ouvrir le moteur de recherche">
                     J’ai besoin d’informations sur…
                 </button>
-                <button class="st-btn-menu" data-overlay-open="st-overlay-menu">
+                <button class="st-btn-menu " data-overlay-open="st-overlay-menu">
                    <span class="st-btn-menu__icon" aria-hidden="true">
                        <span class="st-btn-menu__line"></span>
                         <span class="st-btn-menu__line"></span>
@@ -116,7 +117,7 @@
                 </#if>
             </li>
             <li>
-                <button class="st-btn-search" data-overlay-open="overlay-search"
+                <button class="st-btn-search" data-overlay-open="st-overlay-search"
                         aria-label="Rechercher - Ouvrir le moteur de recherche">
                     <span class="st-icon-search" aria-hidden="true"></span>
                 </button>

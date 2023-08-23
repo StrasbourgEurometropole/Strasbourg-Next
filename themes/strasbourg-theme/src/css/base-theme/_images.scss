@@ -91,7 +91,7 @@ figcaption {
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	background-color: $c_dark_navy;
+	background-color: $c_greydark;
 	border-radius: $border-radius-small;
 
 	@include addTransition(all, 0.25s);

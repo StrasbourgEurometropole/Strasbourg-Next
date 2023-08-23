@@ -58,6 +58,17 @@
 			--image-size: 80px;
 		}
 	}
+
+	// card avec une icone à la place de l'image
+	&.st--with-icon {
+		.st-icon {
+			font-size: 40px;
+
+			@include mobile {
+				font-size: 30px;
+			}
+		}
+	}
 }
 
 // Card avec effet de box-shadow au hover
@@ -90,7 +101,7 @@
 
 
 @mixin shadow() {
-	box-shadow: 0 30px 60px rgba($c_dark, 0.10);
+	box-shadow: 0 30px 60px rgba($c_black, 0.10);
 }
 
 // Étend un bouton dans son container en version mobile

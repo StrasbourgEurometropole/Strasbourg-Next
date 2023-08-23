@@ -222,7 +222,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
             <div class="st-image">
                 <@addImage imageURL=imageUrl showCopyright=true />
             </div>
-            <div class="st-maps" data-lat="${ entry.getMercatorY() }" data-lng="${ entry.getMercatorX() }" data-zoom="17" data-callback="callbackMapIntegration">
+            <div class="st-maps" data-lat="${ entry.getMercatorY() }" data-lng="${ entry.getMercatorX() }" data-zoom="17" data-callback="initMap">
 
             </div>
         </div>
@@ -940,7 +940,8 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 
 <!-- Mise en place adict strasbourg pour les cartes -->
 <script type="text/javascript">
-    function initMap() {
+    function initMap(t) {
+        t.zoomControl.setPosition("topright")
         L.tileLayer.wms('https://adict.strasbourg.eu/mapproxy/service?', {
             layers: 'monstrasbourg'
         }).addTo(th_maps.maps[0]);

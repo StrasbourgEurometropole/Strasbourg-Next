@@ -19,12 +19,14 @@
 	justify-content: flex-end;
 	width: 100%;
 
-	@include can-hover {
-		.st-title-card {
-			color: $c_sub;
-		}
-		.st-image:after {
-			opacity: 0.8
+	&:not(.st-card-contact) {
+		@include can-hover {
+			.st-title-card {
+				color: $c_sub;
+			}
+			.st-image:after {
+				opacity: 0.8
+			}
 		}
 	}
 
@@ -41,59 +43,11 @@
 		}
 	}
 
-	.st-container {
-		display: flex;
-		flex-wrap: wrap;
-		@include ft($f_txt, 12px, 300, $c_txt, 1.25);
-
-		.st-classement {
-			display: inline-block;
-			vertical-align: top;
-			margin-right: 5px;
-
-			&:first-of-type {
-				margin-left: 4px;
-			}
-
-			span {
-				font-size: 12px;
-				line-height: 1;
-
-				@include mobile {
-					font-size: 10px;
-				}
-
-				&.st-icon-cle, &.st-icon-epis {
-					position: relative;
-					top: 1px;
-				}
-
-				&.st-icon-stars {
-					& + .st-icon-epis, & + .st-icon-cle {
-						margin-left: 5px;
-					}
-				}
-
-				&.st-icon-epis {
-					@include mobile {
-						top: 0;
-						margin-left: -3px;
-					}
-				}
-			}
-
-			&.st-classement-epis {
-				@include mobile {
-					margin-left: 2px;
-				}
-			}
-		}
-	}
-
 	.st-caption {
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
+		@include letter-spacing(25);
 
 		& > * {
 			&:last-child {
@@ -101,13 +55,29 @@
 			}
 		}
 
-		.st-surtitre-cat {
+		.st-date,
+		.st-role {
 			order: 1;
+			@include ft($f_txt, 12px, 400, $c_txt, 1.16);
+			text-transform: uppercase;
+			margin-bottom: 1px;
+
+			@include mobile {
+				font-size: 10px;
+			}
+		}
+
+		.st-surtitre-cat {
+			order: 2;
 			margin-bottom: 4px;
+
+			@include mobile {
+				font-size: 10px;
+			}
 		}
 
 		.st-title-card {
-			order: 2;
+			order: 3;
 			@include ft('', 15px, 700, $c_white, 1);
 			display: block;
 			margin-bottom: 6px;
@@ -119,37 +89,16 @@
 		}
 
 		.st-text {
-			order: 3;
-			@include ft($f_txt, 12px, 400, $c_txt, 1.16);
-		}
-
-		.st-location {
 			order: 4;
-		}
-
-		.st-date {
-			order: 1;
-			@include ft($f_txt, 12px, 600, $c_white, 1);
-			@include letter-spacing(25);
-			text-transform: uppercase;
-			margin-bottom: 2px;
+			@include ft($f_txt, 12px, 400, $c_txt, 1.16);
 
 			@include mobile {
 				font-size: 11px;
 			}
 		}
-	}
 
-	.st-meta-wrapper {
-		&.st-meta-heure {
-			background-color: $c_main;
-			font-weight: 700;
-		}
-
-		& + .st-location {
-			@include min-mobile {
-				margin-top: 10px;
-			}
+		.st-location {
+			order: 5;
 		}
 	}
 
@@ -190,11 +139,6 @@
 	}
 
 	// --modifiers
-	// Format paysage : image en taille fixe à gauche et contenu à droite
-	&.st--card-horizontal {
-		@include card-horizontal();
-	}
-
 	// gradient sur l'image pour mettre en avant le bouton de favoris
 	&.st--with-gradient {
 		.st-image:after {
@@ -204,7 +148,7 @@
 			right: 0;
 			width: var(--image-size);
 			height: var(--image-size);
-			background-image: radial-gradient(circle farthest-side at 100% 100%, #291E21 0%, transparent 100%);
+			background-image: radial-gradient(circle farthest-side at 100% 100%, $c_gradient 0%, transparent 100%);
 			//background-image: radial-gradient(circle farthest-side at 100% 100%, red 0%, green 99%, transparent 100%);
 			pointer-events: none;
 			border-radius: $border-radius-small;
@@ -212,23 +156,44 @@
 		}
 	}
 
+	// card avec une icone à la place de l'image
+	&.st--with-icon {
+		@include can-hover {
+			.st-image {
+				background-color: $c_sub;
+			}
+			.st-icon {
+				color: $c_main;
+			}
+		}
+
+		.st-image {
+			@include flex-center;
+			background-color: $c_greydark;
+		}
+		.st-icon {
+			font-size: 60px;
+			color: $c_sub;
+
+			@include mobile {
+				font-size: 30px;
+			}
+		}
+	}
+
+	// Format paysage : image en taille fixe à gauche et contenu à droite
+	&.st--card-horizontal {
+		@include card-horizontal();
+	}
+
+	
+
 
 	&.st-card-actu {
 		.st-caption {
-			.st-title-card {
-				margin-top: 4px;
-				@include min-tablet-portrait {
-					font-size: 18px;
-				}
-			}
-
 			.st-date {
-				order: -1;
-				@include ft($f_txt, 12px, 400, $c_txt, 1);
-
-				@include mobile {
-					font-size: 11px;
-				}
+				font-weight: 400;
+				color: $c_txt;
 			}
 		}
 
@@ -237,21 +202,29 @@
 			@include min-tablet-portrait {
 				--aspect-ratio: 550/320;
 				padding-bottom: 16px;
+
+				.st-caption .st-title-card {
+					margin-top: 4px;
+					font-size: 18px;
+				}
 			}
 		}
 	}
 
+
 	// Card sur le listing agenda au format horizontal
 	&.st-card-agenda {
 		 .st-caption {
+			 .st-date {
+				 font-weight: 600;
+				 color: $c_white;
+			 }
 			.st-surtitre-cat {
 				order: 2;
 			}
-
 			.st-title-card {
 				order: 3;
 			}
-
 			.st-location {
 				order: 4;
 			}
@@ -267,7 +240,7 @@
 				background-color: $c_main;
 
 				.st-surtitre-cat {
-					color: $c_grey;
+					color: $c_txt;
 				}
 			}
 
@@ -280,13 +253,82 @@
 		}
 	}
 
+	&.st-card-person {
+		.st-caption {
+			.st-title-card {
+				order: 1;
+			}
+			.st-role {
+				order: 2;
+			}
+			.st-surtitre-cat {
+				order: 3;
+			}
+			.st-text {
+				font-style: italic;
+			}
+		}
+	}
+
+	&.st-card-lost-and-found {
+		.st-caption {
+			.st-title-card {
+				order: 1;
+			}
+
+			.st-date {
+				order: 3;
+
+				span {
+					color: $c_sub;
+				}
+			}
+		}
+	}
+
+	&.st-card-contact,
+	&.st-card-magazine {
+		cursor: initial;
+
+		.st-caption {
+			.st-title-card {
+				order: 1;
+			}
+			.st-surtitre-cat {
+				order: 2;
+			}
+		}
+
+		.st-btns-wrapper {
+			order: 3;
+			display: flex;
+			flex-wrap: wrap;
+			--col-gap: 10px;
+			--row-gap: 10px;
+			margin-left: calc(var(--col-gap) * -1);
+			margin-top: calc(var(--row-gap) * -1 + 4px);
+
+			> * {
+				margin-left: var(--col-gap);
+				margin-top: var(--row-gap);
+			}
+
+			.st-btn {
+				min-height: 44px;
+
+				@include mobile {
+					min-height: initial;
+				}
+			}
+		}
+	}
 
 
 	// Card avec effet de box-shadow au hover
-	&.st--with-shadow {
+	/*&.st--with-shadow {
 		// pas de shadow pour les cards dans un leaflet
 		:not(.leaflet-popup-content) > & {
 			@include card-shadow();
 		}
-	}
+	}*/
 }

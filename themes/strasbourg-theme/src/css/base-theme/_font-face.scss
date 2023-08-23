@@ -53,3 +53,13 @@
 	font-style: normal;
 	font-display: swap;
 }
+
+// Version italic
+@font-face {
+	font-family: 'TTForsTrial';
+	src: url('../fonts/TTForsTrial/TTForsTrial-Italic.woff2') format('woff2'),
+	url('../fonts/TTForsTrial/TTForsTrial-Italic.woff') format('woff');
+	font-weight: 400;
+	font-style: italic;
+	font-display: swap;
+}

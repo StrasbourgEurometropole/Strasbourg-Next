@@ -126,4 +126,46 @@
 		display: flex;
 		align-items: center;
 	}
+	
+	
+	// --modifiers
+	&.st--in-overlay {
+		.st-lien-container {
+			& + .st-lien-container {
+				&:before {
+					left: 20px;
+					right: 20px;
+				}
+			}
+
+			.st-lien {
+				--link-padding-top: 16px;
+				--link-padding-bottom: 16px;
+				padding: var(--link-padding-top) 20px var(--link-padding-bottom);
+			}
+		}
+
+		.st-lien {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		.st-title-lien {
+			margin-right: initial;
+			font-size: 12px;
+		}
+
+		.st-lien-content {
+			margin-left: initial;
+			margin-top: 4px;
+		}
+
+		.st-type {
+			font-size: 12px;
+		}
+
+		.st-text {
+			font-size: 12px;
+		}
+	}
 }

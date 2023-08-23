@@ -142,7 +142,7 @@
 }
 
 // Génère un masque sur un contenu en overflow avec les bords verticaux en gradient
-@mixin fade-out-overflow($fade-distance:70px, $scrollbar-size:16px) {
+@mixin fade-out-overflow($fade-distance:50px, $scrollbar-size:16px) {
 	$debug: false;
 
 	// scroll bar width, for use in mask calculations

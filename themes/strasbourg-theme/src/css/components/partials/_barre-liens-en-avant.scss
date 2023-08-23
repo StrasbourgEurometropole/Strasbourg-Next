@@ -74,7 +74,7 @@
 	}
 
 	.st-text {
-		@include ft($f_hx, 12px, 400, $c_grey, 1);
+		@include ft($f_hx, 12px, 400, $c_txt, 1);
 		@include letter-spacing(25);
 		@include addTransition();
 	}
@@ -96,7 +96,7 @@
 				border-color: transparent;
 
 				&:before {
-					color: $c_dark_navy;
+					color: $c_main;
 				}
 			}
 		}

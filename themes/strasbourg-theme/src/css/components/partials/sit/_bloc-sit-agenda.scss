@@ -1,7 +1,6 @@
 .st-bloc-sit-agenda {
 	// Grille de 2 colonnes de card horizontales
 	.st-cards-wrapper.st--has-cards-horizontal {
-		@include reset-styles;
 		column-gap: 40px;
 		row-gap: 20px;
 

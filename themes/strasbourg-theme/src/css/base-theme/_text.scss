@@ -16,28 +16,36 @@
 
 .st-h1 {
 	display: block;
-	@include ft($f_hx, $s_h1, 600, $c_white, 1);
-
+	@include ft($f_hx, 45px, 600, $c_white, 1);
 
 	@include tablet_portrait {
+		font-size: 36px;
+	}
+	@include mobile {
 		font-size: 26px;
 	}
 }
 
 .st-h2 {
 	display: block;
-	@include ft($f_hx, $s_h2, 600, $c_white, 1);
+	@include ft($f_hx, 30px, 600, $c_white, 1);
 
 	@include tablet_portrait {
+		font-size: 26px;
+	}
+	@include mobile {
 		font-size: 20px;
 	}
 }
 
 .st-h3 {
 	display: block;
-	@include ft($f_hx, $s_h3, 700, $c_white, 1);
+	@include ft($f_hx, 18px, 700, $c_white, 1);
 
 	@include tablet_portrait {
+		font-size: 17px;
+	}
+	@include mobile {
 		font-size: 16px;
 	}
 }
@@ -46,59 +54,66 @@
 // Styles de textes additionnels
 // ==========================================================================
 
-.st-page-wrapper .st-surtitre {
-	display: block;
-	@include ft($f_txt, $s_medium, 700, $c_white, 1.33);
-	@include letter-spacing(25);
+.st-page-wrapper {
+	.st-surtitre {
+		display: block;
+		@include ft($f_txt, $s_medium, 700, $c_white, 1.33);
+		@include letter-spacing(25);
 
-	@include tablet-portrait {
-		font-size: 16px;
+		@include tablet-portrait {
+			font-size: 16px;
+		}
+	}
+
+	.st-surtitre-cat {
+		display: block;
+		@include ft($f_txt, 12px, 400, $c_sub, 1.16);
+		@include letter-spacing(25);
+		text-transform: uppercase;
+
+		@include tablet-portrait {
+			font-size: 11px;
+		}
+	}
+
+
+	.st-location {
+		@include ft($f_txt, 12px, 300, $c_txt, 1.16);
+		@include letter-spacing(25);
+		font-style: italic;
+		position: relative;
+		display: flex;
+		align-items: center;
+
+		&:before {
+			@include icomoon($st-icon-location);
+			font-size: 14px;
+			color: $c_txt;
+			margin-right: 3px;
+		}
+	}
+
+
+
+	.st-text-small {
+		@include ft('', 12px, '', $c_txt, 1.16);
+		@include letter-spacing(25);
+	}
+
+
+	.st-title-medium {
+		@include ft('', 16px, 700, $c_white, 1);
+
+		@include mobile {
+			font-size: 14px;
+		}
+	}
+
+	.st-text-bold-white {
+		@include ft('', 14px, 700, $c_white, 1.5);
 	}
 }
 
-.st-page-wrapper .st-surtitre-cat {
-	display: block;
-	@include ft($f_txt, 12px, 400, $c_sub, 1);
-	@include letter-spacing(25);
-	text-transform: uppercase;
-
-	@include tablet-portrait {
-		font-size: 11px;
-	}
-}
-
-
-.st-page-wrapper .st-location {
-	@include ft($f_txt, 12px, 300, $c_txt, 1);
-	@include letter-spacing(25);
-	font-style: italic;
-	position: relative;
-	display: flex;
-	align-items: center;
-
-	&:before {
-		@include icomoon($st-icon-location);
-		font-size: 14px;
-		color: $c_txt;
-		margin-right: 3px;
-	}
-}
-
-
-
-.st-page-wrapper .st-text-small {
-	@include ft('', 12px, '', $c_txt, 1.16);
-	@include letter-spacing(25);
-}
-
-
-.st-page-wrapper .st-title-medium {
-	@include ft('', 16px, 700, $c_white, 1);
-
-	@include mobile {
-		font-size: 14px;
-	}
-}
 
 
 // Styles et positionnement au sein d'un bloc de texte
@@ -194,12 +209,16 @@
 	h1, .st-h1 {
 		margin-bottom: 30px;
 
-		& + p {
-			margin-top: 10px;
+		@include tablet-portrait {
+			margin-bottom: 20px;
 		}
 
 		@include mobile {
 			margin-bottom: 10px;
+		}
+
+		& + p {
+			margin-top: 10px;
 		}
 	}
 
@@ -208,6 +227,11 @@
 		margin-bottom: 35px;
 
 		@include tablet-portrait {
+			margin-top: 40px;
+			margin-bottom: 26px;
+		}
+
+		@include mobile {
 			margin-top: 30px;
 			margin-bottom: 20px;
 		}
@@ -276,6 +300,10 @@
 		strong {
 			color: $c_white;
 		}
+	}
+
+	.st-text-bold-white {
+		margin-bottom: 15px;
 	}
 
 	li:not([class]) {
@@ -375,7 +403,6 @@
 
 		@include can-hover {
 			color: $c_white;
-			text-decoration: none;
 		}
 	}
 
@@ -428,7 +455,6 @@
 			margin-bottom: 5px;
 		}
 	}
-
 }
 
 .st-text-mentions {
@@ -455,5 +481,22 @@
 		@include can-hover {
 			color: $c_sub;
 		}
+	}
+}
+
+.st-link-overlay {
+	@include reset-button;
+	color: $c_sub;
+	text-decoration: underline;
+	font-weight: 600;
+
+	&:before {
+		@include icomoon($st-icon-info);
+		margin-right: 3px;
+	}
+
+	@include can-hover {
+		color: $c_white;
+		text-decoration: underline;
 	}
 }

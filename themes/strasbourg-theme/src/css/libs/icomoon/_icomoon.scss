@@ -2,12 +2,11 @@
 
 @font-face {
 	font-family: '#{$icomoon-font-family}';
-	src: url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?5d9kv7');
-	src: url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?5d9kv7#iefix') format('embedded-opentype'),
-	url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff2?5d9kv7') format('woff2'),
-	url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?5d9kv7') format('truetype'),
-	url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?5d9kv7') format('woff'),
-	url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?5d9kv7##{$icomoon-font-family}') format('svg');
+	src:
+			url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff2?bqn8s2') format('woff2'),
+			url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?bqn8s2') format('truetype'),
+			url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?bqn8s2') format('woff'),
+			url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?bqn8s2##{$icomoon-font-family}') format('svg');
 	font-weight: normal;
 	font-style: normal;
 	font-display: block;
@@ -26,6 +25,12 @@
 	/* Better Font Rendering =========== */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+.st-icon-info {
+	&:before {
+		content: $st-icon-info;
+	}
 }
 
 .st-icon-cathedrale {

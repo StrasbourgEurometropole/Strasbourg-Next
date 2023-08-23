@@ -27,8 +27,6 @@
 	}
 
 	.st-cards-wrapper {
-		@include reset-styles;
-
 		// passe du mode slider au mode grille
 		@include min-tablet-portrait {
 			display: grid !important;

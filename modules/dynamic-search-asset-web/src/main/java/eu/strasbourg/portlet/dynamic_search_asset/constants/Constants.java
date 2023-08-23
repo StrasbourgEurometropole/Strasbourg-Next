@@ -4,6 +4,7 @@ public class Constants {
 	/* formulaire de recherche */
 	public static final String SEARCH_FORM_PLACIT = "placit";
 	public static final String SEARCH_FORM_STRASBOURG = "strasbourg";
+	public static final String SEARCH_FORM_STRASBOURG_INT = "strasbourg-int";
 
 	/* utile pour les atgs de placit */
 	public static final String PLACIT_TAG = "participer";
@@ -18,6 +19,9 @@ public class Constants {
 
 	/* utile pour édition, événement, manif, galerie dédition, activité, projet */
 	public static final String ATTRIBUTE_DESCRIPTION = "description";
+
+
+	public static final String ATTRIBUTE_DOWNLOAD_URL = "downloadURL";
 
 	/* utile pour journalArticle, vidéo, projet, pétition, initiative */
 	public static final String ATTRIBUTE_IMAGE_URL = "imageURL";
@@ -59,6 +63,7 @@ public class Constants {
 
 	/* utile pour lieu */
 	public static final String ATTRIBUTE_CITY = "city";
+	public static final String ATTRIBUTE_IS_OPEN = "isOpen";
 
 	/* utile pour vidéo */
 	public static final String ATTRIBUTE_NB_VIEWS = "nbViews";

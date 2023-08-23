@@ -30,10 +30,12 @@
 
 	// Arrivée du haut de l'écran
 	&.st--from-top {
-		transform: translateY(-100%);
+		transform: initial;
+		clip-path: inset(0 0 100% 0);
+		transition: clip-path 400ms $transition-overlay-easing, visibility 400ms $transition-overlay-easing;
 
 		&.st-is-open {
-			transform: initial;
+			clip-path: inset(0 0 0 0);
 		}
 	}
 
@@ -48,7 +50,7 @@
 
 	.st-btn-close {
 		position: absolute;
-		top: 80px;
+		top: 70px;
 		left: 0;
 		transform: translateX(-50%);
 		z-index: 10;
@@ -59,24 +61,6 @@
 		}
 	}
 
-	.st-title-overlay {
-		display: block;
-		@include ft('', 30px, 600, $c_white, 1.5);
-
-		@include mobile {
-			font-size: 22px;
-		}
-	}
-}
-
-
-
-.st-overlay-menu,
-.st-overlay-contact {
-	@include mobile {
-		background-color: $c_main;
-	}
-
 	.st-overlay__inner {
 		position: relative;
 		display: flex;
@@ -85,10 +69,41 @@
 		overflow: hidden;
 	}
 
+	.st-overlay__heading {
+		margin-bottom: 30px;
+
+		@include mobile {
+			margin-bottom: 20px;
+		}
+
+		* + .st-title-overlay {
+			margin-top: 2px;
+
+			@include mobile {
+				margin-top: initial;
+			}
+		}
+
+		* + .st-surtitre-cat {
+			margin-top: 6px;
+
+			@include mobile {
+				margin-top: 4px;
+			}
+		}
+	}
+}
+
+
+
+.st-overlay-menu,
+.st-overlay-contact,
+.st-overlay-liste,
+.st-overlay-info {
 	.st-overlay__body {
 		flex-grow: 1;
 		overflow: auto;
-		padding: 70px var(--padding-horizontal) 70px;
+		padding: 70px var(--padding-horizontal);
 		@include fade-out-overflow();
 
 		@include mobile {
@@ -96,37 +111,18 @@
 			--mask-image-content: linear-gradient(to bottom, transparent, red 20px, red calc(100% - var(--fade-distance)), transparent );
 		}
 	}
-
-	.st-overlay__heading {
-		margin-bottom: 30px;
-
-		@include mobile {
-			margin-bottom: 20px;
-		}
-	}
 }
 
-.st-overlay-menu {
-	.st-btn-close {
-		@include mobile {
-			top: initial;
-			left: initial;
-			bottom: 8px;
-			right: var(--padding-horizontal);
-			transform: initial;
-			width: 48px;
-			height: 48px;
-		}
+.st-overlay-menu,
+.st-overlay-search {
+	@include mobile {
+		background-color: $c_main;
 	}
-
 	.st-overlay__footer {
 		display: flex;
 		padding: 8px var(--padding-horizontal);
 		background-color: $c_greydark;
-
-		@include mobile {
-			padding: 8px var(--padding-horizontal);
-		}
+		//min-height: 60px;
 
 		.select-lang {
 			@include reset-select;
@@ -141,6 +137,25 @@
 			border: 1px solid rgba($c_white, 0.25);
 			border-radius: $border-radius;
 			margin-left: 8px;
+		}
+	}
+}
+
+
+.st-overlay-menu {
+	@include mobile {
+		background-color: $c_main;
+	}
+
+	.st-btn-close {
+		@include mobile {
+			top: initial;
+			left: initial;
+			bottom: 8px;
+			right: var(--padding-horizontal);
+			transform: initial;
+			width: 48px;
+			height: 48px;
 		}
 	}
 
@@ -185,8 +200,8 @@
 
 	// Menu mobile
 	.st-nav-menu-mobile {
-		margin-bottom: 16px;
-		padding-bottom: 8px;
+		margin-bottom: 24px;
+		padding-bottom: 12px;
 		border-bottom: 1px solid rgba($c_white, 0.25);
 	}
 
@@ -230,12 +245,15 @@
 
 
 .st-overlay-contact {
+	@include mobile {
+		background-color: $c_main;
+	}
+
 	.st-btn-close {
 		@include mobile {
 			top: initial;
 			left: var(--padding-horizontal);
 			bottom: 8px;
-			transform: initial;
 			width: 42px;
 			height: 42px;
 		}
@@ -260,6 +278,345 @@
 }
 
 
+// Overlay - infos
+// ==========================================================================
+.st-overlay-info {
+	@include mobile {
+		background-color: $c_main;
+	}
+
+	.st-btn-close {
+		@include mobile {
+			top: initial;
+			left: initial;
+			bottom: 8px;
+			right: var(--padding-horizontal);
+			width: 42px;
+			height: 42px;
+		}
+	}
+
+	.st-overlay__footer {
+		display: flex;
+		padding: 26px var(--padding-horizontal);
+		background-color: $c_main;
+
+		@include mobile {
+			padding: 8px var(--padding-horizontal);
+			background-color: $c_greydark;
+		}
+
+		.st-btn {
+			margin-left: auto;
+
+			@include mobile {
+				margin-left: initial;
+				margin-right: calc(42px + 10px);		// espace pour le bouton close
+			}
+		}
+	}
+
+	.st-bloc-liens {
+		margin-top: 15px;
+		margin-bottom: 40px;
+	}
+
+	.st-callout {
+		margin-top: 50px;
+
+		* + .st-surtitre-cat {
+			margin-top: 6px;
+
+			@include mobile {
+				margin-top: 4px;
+			}
+		}
+		* + .st-btn {
+			margin-top: 20px;
+		}
+	}
+}
+
+
+// Overlay - Liste de cards
+// ==========================================================================
+.st-overlay-liste {
+	.st-btn-close {
+		@include mobile {
+			top: initial;
+			left: initial;
+			bottom: 8px;
+			right: var(--padding-horizontal);
+			width: 46px;
+			height: 46px;
+		}
+	}
+
+	// bg des cards pour contraster avec le fond de l'overlay
+	.st-cards-wrapper {
+		row-gap: 20px;
+
+		@include mobile {
+			row-gap: 10px;
+		}
+
+		.st-card .st-image {
+			background-color: #353D46;
+		}
+	}
+}
+
+
+// Overlay - Search
+// ==========================================================================
+.st-overlay-search {
+	top: 88px;
+	left: 0;
+	max-width: initial;
+	background-image: linear-gradient(to bottom, #20272f 42px, $c_main 42px);
+
+	@include tablet-portrait {
+		--padding-horizontal: 40px;
+		top: 0;
+		padding-top: 40px;
+		background-image: initial;
+		background-color: $c_main;
+	}
+
+	@include mobile {
+		--padding-horizontal: 20px;
+		padding-top: 20px;
+	}
+
+	.st-btn-close {
+		left: initial;
+		top: 25px;
+		right: 20px;
+		transform: initial;
+
+		@include tablet-portrait {
+			top: initial;
+			bottom: 8px;
+			right: var(--padding-horizontal);
+			transform: initial;
+			width: 48px;
+			height: 48px;
+		}
+	}
+
+
+
+	// Overlay - header
+	// ----------------------------------------------------------------
+
+	.st-overlay__header-row1 {
+		display: flex;
+		align-items: center;
+	}
+
+	.st-input-search-wrapper {
+		position: relative;
+		flex: 1;
+
+		&:before {
+			@include icomoon($st-icon-search);
+			position: absolute;
+			left: 30px;
+			top: 50%;
+			font-size: 18px;
+			color: $c_main;
+			transform: translateY(-50%);
+
+			@include tablet-portrait {
+				left: 20px;
+			}
+		}
+	}
+
+	.st-input-search {
+		@include reset-styles;
+		height: 80px;
+		width: 100%;
+		padding: 0 30px 0 78px;
+		@include ft('', 20px, 400, rgba($c_greydark, 0.75), 1);
+		@include letter-spacing(25);
+		text-align: left;
+		background-color: $c_white;
+		border-radius: $border-radius-small;
+
+		@include can-hover {
+			color: $c_main;
+		}
+
+		@include tablet-portrait {
+			height: 60px;
+			padding: 0 20px 0 56px;
+			font-size: 18px;
+		}
+
+		@include mobile {
+			font-size: 14px;
+		}
+	}
+
+	.st-btn-menu {
+		margin-left: 10px;
+
+		@include tablet-portrait {
+			display: none;
+		}
+	}
+
+	.st-overlay__header-row2 {
+		display: flex;
+		align-items: flex-start;
+		padding: 10px 0;
+		border-bottom: 1px solid rgba($c_white, 0.25);
+
+		@include tablet-landscape {
+			flex-direction: column;
+		}
+
+		> span:first-child {
+			flex-shrink: 0;
+			padding: 6px 0;
+			margin-right: 10px;
+			@include ft('', 14px, 600, $c_white, 1);
+
+			@include tablet-landscape {
+				display: none;
+			}
+		}
+	}
+
+	.st-filters-list {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		--col-gap: 10px;
+		--row-gap: 10px;
+		margin-left: calc(var(--col-gap) * -1);
+		margin-top: calc(var(--row-gap) * -1);
+
+		> .st-btn-filter-search {
+			margin-left: var(--col-gap);
+			margin-top: var(--row-gap);
+		}
+	}
+
+	.st-results {
+		flex-shrink: 0;
+		padding: 6px 0;
+		@include ft('', 14px, 300, $c_txt, 1.25);
+		@include letter-spacing(25);
+		text-transform: uppercase;
+
+		@include min-tablet-landscape {
+			margin-left: auto;
+			padding-left: 20px;
+		}
+
+		@include tablet-landscape {
+			margin-top: 6px;
+		}
+
+		@include mobile {
+			font-size: 12px;
+		}
+
+		.st-results__total {
+			color: $c_white;
+		}
+	}
+
+	.st-btn-filter-search {
+		@include reset-button;
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		padding: 6px 5px;
+		background-color: $c_greydark;
+		border-radius: $border-radius-small;
+		@include ft('', 14px, 400, $c_txt, 1);
+		@include letter-spacing(25);
+		@include addTransition();
+
+		@include can-hover {
+			color: $c_white;
+		}
+
+		&.st-is-active {
+			color: $c_white;
+
+			&:after {
+				opacity: initial;
+				transform: initial;
+			}
+		}
+
+		&:before {
+			content: '';
+			width: 16px;
+			height: 16px;
+			margin-right: 5px;
+			border-radius: $border-radius-small;
+			border: 1px solid rgba($c_white, 0.5);
+		}
+
+		&:after {
+			content: '';
+			position: absolute;
+			top: 10px;
+			left: 9px;
+			width: 8px;
+			height: 8px;
+			background-color: $c_sub;
+			border-radius: 1px;
+			opacity: 0;
+			transform: scale(0.5);
+			transition: all 150ms;
+		}
+	}
+
+
+	// Overlay - cards
+	// ----------------------------------------------------------------
+
+	.st-overlay__body {
+		flex-grow: 1;
+		overflow: auto;
+		padding: 30px 0 70px;
+		@include fade-out-overflow(30px);
+
+		@include mobile {
+			padding: 30px 0 50px;
+		}
+	}
+
+
+	// Grille de 2 colonnes de card horizontales
+	.st-cards-wrapper {
+		column-gap: 40px;
+		row-gap: 20px;
+
+		@include tablet-small {
+			column-gap: 20px;
+		}
+
+		@include mobile {
+			row-gap: 10px;
+		}
+
+		.st-card-container {
+			height: auto;
+		}
+	}
+}
+
+
+
+
+
 
 // Overlay - focus SIT
 // ==========================================================================
@@ -274,7 +631,7 @@
 		align-items: center;
 		min-height: 100px;
 		background-color: $c_white;
-		box-shadow: 0 -30px 60px rgba($c_dark, 0.10);
+		box-shadow: 0 -30px 60px rgba($c_black, 0.10);
 
 		@include mobile {
 			padding-right: 20px;
@@ -300,7 +657,7 @@
 				content: "";
 				@include icomoon();
 				display: block;
-				color: $c_dark;
+				color: $c_black;
 				font-size: 20px;
 
 				@include mobile {
@@ -370,17 +727,6 @@
 // ==========================================================================
 .st-overlay-filtres {
 
-	// layout général des overlays
-	.st-overlay__inner {
-		--padding-horizontal: 80px;
-		display: flex;
-		flex-direction: column;
-		height: 100%;
-
-		@include mobile {
-			--padding-horizontal: 20px;
-		}
-	}
 
 	.st-overlay__body {
 		flex-grow: 1;
@@ -392,7 +738,7 @@
 		display: flex;
 		justify-content: space-between;
 		padding: 20px var(--padding-horizontal) 20px;
-		box-shadow: 0 -30px 60px rgba($c_dark, 0.10);
+		box-shadow: 0 -30px 60px rgba($c_black, 0.10);
 	}
 
 	.st-title-overlay {
@@ -428,7 +774,7 @@
 			display: block;
 			margin-right: 10px;
 			font-size: 20px;
-			color: $c_dark;
+			color: $c_black;
 			@include addTransition();
 		}
 	}
@@ -437,7 +783,7 @@
 	.st-group-filtres {
 		padding-bottom: 40px;
 		margin-bottom: 40px;
-		border-bottom: 1px solid rgba($c_dark, 0.10);
+		border-bottom: 1px solid rgba($c_black, 0.10);
 
 		@include mobile {
 			padding-bottom: 20px;
@@ -495,7 +841,7 @@
 		position: absolute;
 		top: 100px !important;
 		left: 20px !important;
-		box-shadow: 5px 5px 20px rgba($c_dark, 0.2);
+		box-shadow: 5px 5px 20px rgba($c_black, 0.2);
 		padding: 20px;
 		transform: scale(0.7);
 
@@ -546,112 +892,6 @@
 }
 
 
-// Overlay - Search
-// ==========================================================================
-.st-overlay-search {
-	left: 0;
-	display: flex !important;
-	flex-direction: column;
-	width: initial;
-	max-width: initial;
-
-	.st-wrapper-form {
-		display: flex;
-		align-items: center;
-		padding: 40px 0;
-		border-bottom: 1px dashed rgba($c_main, 0.25);
-
-		@include mobile {
-			padding: 20px 0;
-		}
-	}
-
-	.st-form-search {
-		flex-grow: 1;
-		display: flex;
-		height: 40px;
-
-		input {
-			flex-grow: 1;
-			padding-right: 40px;
-			@include ft($f_txt, 18px, 700, $c_txt, 1);
-			border: none;
-			outline: none;
-			text-overflow: ellipsis;
-
-			@include mobile {
-				padding-right: 15px;
-			}
-
-			&::placeholder {
-				opacity: 0.4;
-			}
-		}
-	}
-
-	.st-btn-search {
-		@include reset-button;
-		@include flex-center;
-		padding: 0 20px;
-		font-size: 20px;
-		color: $c_main;
-
-		@include mobile {
-			padding: 0 10px;
-		}
-
-		&:before {
-			@include icomoon($st-icon-search);
-		}
-
-		@include can-hover {
-			color: $c_sub;
-		}
-	}
-
-	.st-results {
-		flex-shrink: 0;
-		padding-right: 40px;
-		@include ft($f_txt, 14px, 300, $c_txt, 1.4);
-
-		@include mobile {
-			padding-right: 15px;
-		}
-
-		&.st-is-empty {
-			display: none;
-		}
-	}
-
-	.st-btn-close {
-		flex-shrink: 0;
-		position: static;
-	}
-
-	.st-overlay__body {
-		flex-grow: 1;
-		overflow: auto;
-	}
-
-	.st-wrapper-cards {
-		min-height: 100%;
-		padding-bottom: 80px;
-	}
-
-	.st-alert-instruction {
-		grid-column: 1 / -1; // stretch sur tout le wrapper
-		align-self: center;
-		@include ft($f_txt, 65px, 700, $c_txt, 1);
-		opacity: 0.15;
-
-		@include tablet-portrait {
-			font-size: 40px;
-		}
-		@include mobile {
-			font-size: 30px;
-		}
-	}
-}
 
 
 // Overlay - map (SIT)

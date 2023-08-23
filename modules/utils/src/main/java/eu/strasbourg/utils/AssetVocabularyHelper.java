@@ -7,6 +7,7 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -21,16 +22,13 @@ import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portlet.asset.util.AssetVocabularySettingsHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -873,6 +871,24 @@ public class AssetVocabularyHelper {
 		List<AssetEntryAssetCategoryRel> assetEntryAssetCategoryRels=AssetEntryAssetCategoryRelLocalServiceUtil
 				.getAssetEntryAssetCategoryRelsByAssetEntryId(assetEntryId);
 		return assetEntryAssetCategoryRels.stream().filter(a -> a.getAssetCategoryId() == assetCategoryId).count() > 0;
+	}
+
+	public static List<AssetEntry> getAssetEntryCountByAssetCategory(AssetCategory assetCategory) throws PortalException {
+		// Récupère tous les lieux publiés de la catégorie
+		List<AssetEntry> entries = new ArrayList<>();
+			List<AssetEntryAssetCategoryRel> assetEntriesAssetCategories = new ArrayList<>(AssetEntryAssetCategoryRelLocalServiceUtil
+					.getAssetEntryAssetCategoryRelsByAssetCategoryId(assetCategory.getCategoryId()));
+			for (AssetEntryAssetCategoryRel assetEntryAssetCategory : assetEntriesAssetCategories) {
+				if (Validator.isNotNull(assetEntryAssetCategory)) {
+					AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(assetEntryAssetCategory.getAssetEntryId());
+					if (Validator.isNotNull(assetEntry) ) {
+
+						entries.add(assetEntry);
+					}
+				}
+			}
+
+		return entries;
 	}
 
 
