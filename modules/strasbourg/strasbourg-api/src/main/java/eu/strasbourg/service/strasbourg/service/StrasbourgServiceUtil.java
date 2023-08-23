@@ -144,9 +144,9 @@ public class StrasbourgServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getFileDetails(
-		long groupId, java.lang.String uuid, java.lang.String language) {
+		java.lang.String url, java.lang.String language) {
 
-		return getService().getFileDetails(groupId, uuid, language);
+		return getService().getFileDetails(url, language);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getInterestsPois(

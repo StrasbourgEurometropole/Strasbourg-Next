@@ -74,10 +74,10 @@
   ],
   '/',
   [
-  	'KeyNumbers',
-  	'Quote',
-  	'LinkBlock',
-  	'BlockFileSelector',
-  	'VideoSelector'
+    'KeyNumbers',
+    'Quote',
+    'LinkBlock',
+    'BlockFileSelector',
+    'VideoSelector'
   ]
 ]
