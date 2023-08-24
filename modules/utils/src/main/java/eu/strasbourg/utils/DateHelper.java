@@ -200,6 +200,9 @@ public class DateHelper {
 		} else if (locale.equals(Locale.US)) { // EEE dd MMMM yyyy
 			DateFormat df = new SimpleDateFormat("EEEE dd MMMM yyyy", Locale.US);
 			result = df.format(date);
+		} else {
+			DateFormat df = new SimpleDateFormat("EEEE dd MMMM yyyy", locale);
+			result = df.format(date);
 		}
 
 		return result;
