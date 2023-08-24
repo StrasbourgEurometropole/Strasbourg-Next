@@ -104,6 +104,7 @@
         background: $color_main;
         display: grid;
         grid-template-columns: 3fr 1fr;
+        grid-template-areas: 'acces-speed more';
         padding: 0 15px;
         width: 100%;
 
@@ -119,6 +120,7 @@
             padding: 10px 0;
             z-index: 1;
             flex-grow: 1;
+            grid-area: more;
 
             &:hover{
                 color: white;
