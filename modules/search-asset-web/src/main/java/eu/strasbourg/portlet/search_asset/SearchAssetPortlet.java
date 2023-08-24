@@ -551,6 +551,7 @@ public class SearchAssetPortlet extends MVCPortlet {
             endDay = ParamUtil.getInteger(request, "selectedEndDay");
             endMonth = ParamUtil.getString(request, "selectedEndMonth");
             endYear = ParamUtil.getInteger(request, "selectedEndYear");
+            states = ParamUtil.getLongValues(request, "selectedStates");
             projects = ParamUtil.getLongValues(request, "selectedProject");
             districts = ParamUtil.getLongValues(request, "selectedDistricts");
             thematics = ParamUtil.getLongValues(request, "selectedThematics");

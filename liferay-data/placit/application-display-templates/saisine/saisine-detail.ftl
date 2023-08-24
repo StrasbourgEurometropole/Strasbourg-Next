@@ -294,7 +294,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         var marker;
 
         for (var i = 0; i < saisineObservatoireJSON.placitPlaces.length; i++) {
-            marker = getSaisineObservatoireMarker(
+            marker = getSaisineMarker(
                 saisineObservatoireJSON,
                 [saisineObservatoireJSON.placitPlaces[i].mercatorY, saisineObservatoireJSON.placitPlaces[i].mercatorX]
             );

@@ -62,6 +62,7 @@ public class SubmitSaisineObservatoireResourceCommand implements MVCResourceComm
     private static final String SAISINETITLE = "title";
     private static final String SAISINESUMMARY = "summary";
     private static final String SAISINEDESCRIPTION = "description";
+    private static final String PROJECTTARGET = "projectTarget";
     private static final String IN_THE_NAME_OF = "inTheNameOf";
     private static final String LIEU = "consultationPlacesText";
     private static final String PROJECT = "project";
@@ -115,6 +116,7 @@ public class SubmitSaisineObservatoireResourceCommand implements MVCResourceComm
         String title = HtmlUtil.stripHtml(ParamUtil.getString(request, SAISINETITLE));
         String summary = HtmlUtil.stripHtml(ParamUtil.getString(request, SAISINESUMMARY));
         String description = HtmlUtil.stripHtml(ParamUtil.getString(request, SAISINEDESCRIPTION).replace("\n", "<br>"));
+        String projectTarget = HtmlUtil.stripHtml(ParamUtil.getString(request, PROJECTTARGET).replace("\n", "<br>"));
         String inTheNameOf = HtmlUtil.stripHtml(ParamUtil.getString(request, IN_THE_NAME_OF));
         long projectId = ParamUtil.getLong(request, PROJECT);
         long quartierId = ParamUtil.getLong(request, QUARTIER);
@@ -174,6 +176,7 @@ public class SubmitSaisineObservatoireResourceCommand implements MVCResourceComm
                 saisineObservatoire.setTitle(title);
                 saisineObservatoire.setSummary(summary);
                 saisineObservatoire.setDescription(description);
+                saisineObservatoire.setProjectTarget(projectTarget);
                 saisineObservatoire.setInTheNameOf(inTheNameOf);
                 saisineObservatoire.setPetitionnaireAdresse(address);
                 saisineObservatoire.setPetitionnaireBirthday(birthday);

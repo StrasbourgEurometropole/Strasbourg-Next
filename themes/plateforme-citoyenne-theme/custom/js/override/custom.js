@@ -337,6 +337,13 @@ function getMarkerIcon(entityType) {
                 iconAnchor: [37, 78],
                 popupAnchor: [1, -78]
             });
+        case 'saisine':
+            return new L.Icon({
+                iconUrl: '/o/plateforme-citoyenne-theme/images/ico/ico-marker-saisine.png',
+                iconSize: [75, 95],
+                iconAnchor: [37, 78],
+                popupAnchor: [1, -78]
+            });
         case 'initiative':
             return new L.Icon({
                 iconUrl: '/o/plateforme-citoyenne-theme/images/ico/ico-marker-initiative.png',
@@ -530,6 +537,36 @@ function getPetitionMarker(petition, mercators) {
                 '<p class="pro-txt-progress"><strong>' + petition.nombreSignature + '</strong> Signataire(s) sur ' + petition.quotaSignature + ' nécessaires</p> ' +
             '</div>' +
         '</div></a></div>'
+        ,{maxHeight: 240, minWidth: 330, maxWidth: 350}
+    );
+
+    return marker;
+
+}
+
+/**
+ * Retourne le marqueurs de leaflet d'une saisine sur la carte intéractive
+ */
+function getSaisineMarker(saisineObservatoire, mercators) {
+
+    var saisineObservatoireMarkerIcon = getMarkerIcon("saisine");
+    var marker = L.marker(mercators, {icon: saisineObservatoireMarkerIcon});
+
+    console.log("saisine marker. createDate=" + saisineObservatoire.createDate);
+    marker.bindPopup(
+        '<div class="item pro-bloc-card-petition"><a href="' + saisineObservatoire.link + '">' +
+            '<div class="pro-header-petition">' +
+                '<figure role="group">' +
+                    '<img src="' + saisineObservatoire.authorImageURL + '" width="40" height="40" alt="Image saisine"/>' +
+                '</figure>' +
+                '<p>Saisine publiée par :</p><p><strong>' + saisineObservatoire.author + '</strong></p>' +
+            '</div>' +
+            '<div class="pro-content-petition">' +
+                '<h3>' + saisineObservatoire.title + '</h3><p>Saisine adressée à <u>Ville de Strasbourg</u></p>' +
+                '<span class="pro-time">Publiée le <time datetime="' + saisineObservatoire.createDate + '">' + saisineObservatoire.createDate +
+                '</time></span>' +
+            '</div> ' +
+            '</a></div>'
         ,{maxHeight: 240, minWidth: 330, maxWidth: 350}
     );
 
@@ -1181,7 +1218,7 @@ function createSaisineObservatoire(saisineObservatoire) {
             </figure>
             <div class="pro-header-author">
             <p>Saisine publiée par :</p>
-            <p><strong>${saisineObservatoire.author} adressé à : Ville de Strasbourg</strong></p>
+            <p><strong>${saisineObservatoire.author} adressée à : Ville de Strasbourg</strong></p>
           </div>
           <div class="pro-comments">
             <span><span class="icon-ico-comment"></span>${saisineObservatoire.nbApprovedComments} Commentaire(s)</span>
