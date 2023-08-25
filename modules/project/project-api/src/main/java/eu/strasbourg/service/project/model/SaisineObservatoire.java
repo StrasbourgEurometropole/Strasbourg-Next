@@ -144,16 +144,14 @@ public interface SaisineObservatoire
 	public String getProjectTitle(java.util.Locale locale);
 
 	/**
+	 * Retourne la liste des URLs des documents
+	 */
+	public java.util.List<String> getFilesURLs();
+
+	/**
 	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	 */
 	public String getImageURL();
-
-	/**
-	 * méthode de récupération du status
-	 *
-	 * @return le status.
-	 */
-	public String getFrontStatusFR();
 
 	/**
 	 * Retourne l'URL de l'image de l'utilisateur

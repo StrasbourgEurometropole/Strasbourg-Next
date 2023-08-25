@@ -283,12 +283,11 @@ public class SaisineObservatoireImpl extends SaisineObservatoireBaseImpl {
         jsonSaisineObservatoire.put("author", this.getAuthorLabel());
         jsonSaisineObservatoire.put("authorImageURL", this.getAuthorImageURL());
         jsonSaisineObservatoire.put("nbApprovedComments", this.getNbApprovedComments());
-        jsonSaisineObservatoire.put("frontStatusFR", this.getFrontStatusFR());
+        jsonSaisineObservatoire.put("frontStatusFR", this.getSaisineObservatoireStatus());
         jsonSaisineObservatoire.put("districtLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDistrictLabel(Locale.FRENCH))));
         jsonSaisineObservatoire.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
-//        jsonPetition.put("proDureeFR", this.getProDureeFR());
-//        jsonPetition.put("quotaSignature", this.getQuotaSignature());
         jsonSaisineObservatoire.put("projectTitle", this.getProjectTitle(Locale.FRANCE));
+        jsonSaisineObservatoire.put("projectTarget", this.getProjectTarget());
 
         // Lieux placit
         for (PlacitPlace placitPlace : this.getPlacitPlaces()) {
@@ -305,6 +304,22 @@ public class SaisineObservatoireImpl extends SaisineObservatoireBaseImpl {
     }
 
     /**
+     * Retourne la liste des URLs des documents
+     */
+    @Override
+    public List<String> getFilesURLs() {
+        List<String> URLs = new ArrayList<>();
+        for (String fileIdStr : this.getFilesIds().split(",")) {
+            Long fileId = GetterUtil.getLong(fileIdStr);
+            if (Validator.isNotNull(fileId)) {
+                String fileURL = FileEntryHelper.getFileEntryURL(fileId);
+                URLs.add(fileURL);
+            }
+        }
+        return URLs;
+    }
+
+    /**
      * Retourne l'URL de l'image à partir de l'id du DLFileEntry
      */
     @Override
@@ -314,25 +329,6 @@ public class SaisineObservatoireImpl extends SaisineObservatoireBaseImpl {
         } else {
             return FileEntryHelper.getFileEntryURL(this.getImageId());
         }
-    }
-
-    /**
-     * méthode de récupération du status
-     *
-     * @return le status.
-     */
-    @Override
-    public String getFrontStatusFR() {
-        String result;
-        String status = this.getSaisineObservatoireStatus();
-        if (ACCEPTED.getName().equals(status))
-            result = "Accept&eacute;e";
-        else if (REFUSED.getName().equals(status)) {
-            result = "Refus&eacute;e";
-        } else {
-            result = "Brouillon";
-        }
-        return result;
     }
 
     /**

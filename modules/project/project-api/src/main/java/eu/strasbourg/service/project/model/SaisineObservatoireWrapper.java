@@ -515,13 +515,11 @@ public class SaisineObservatoireWrapper
 	}
 
 	/**
-	 * méthode de récupération du status
-	 *
-	 * @return le status.
+	 * Retourne la liste des URLs des documents
 	 */
 	@Override
-	public String getFrontStatusFR() {
-		return _saisineObservatoire.getFrontStatusFR();
+	public java.util.List<String> getFilesURLs() {
+		return _saisineObservatoire.getFilesURLs();
 	}
 
 	/**
