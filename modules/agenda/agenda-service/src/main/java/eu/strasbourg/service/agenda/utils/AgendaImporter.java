@@ -635,7 +635,7 @@ public class AgendaImporter {
 					manifestation.getAssetEntry().getTagNames());
 			}
 
-			if(manifestation.getModifiedDateSource().compareTo(modifiedDateSource) != 0) {
+			if(Validator.isNull(manifestation.getModifiedDateSource()) || manifestation.getModifiedDateSource().compareTo(modifiedDateSource) != 0) {
 				// On set les champs obligatoires
 				manifestation.setIdSource(id);
 				manifestation.setSource(provider);
