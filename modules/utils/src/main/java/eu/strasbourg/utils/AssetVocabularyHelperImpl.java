@@ -126,6 +126,6 @@ public class AssetVocabularyHelperImpl implements AssetVocabularyHelperService {
 
 	@Override
 	public List<AssetEntry> getAssetEntryCountByAssetCategory(AssetCategory assetCategory) throws PortalException {
-		return AssetVocabularyHelper.getAssetEntryCountByAssetCategory(assetCategory);
+		return AssetVocabularyHelper.getAssetEntriesByAssetCategory(assetCategory);
 	}
 }

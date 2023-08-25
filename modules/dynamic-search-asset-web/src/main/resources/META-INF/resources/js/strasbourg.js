@@ -139,16 +139,18 @@ function createManifestationVignette(data) {
 
 function createEditionGalleryVignette(data) {
     return `
-     <li>
-    <div href="${data.link}" class="st-card st--card-horizontal  ${!data.imageURL ? 'st--with-icon': ''}">
-        <div class="st-caption">
-             ${data.title ? `<p class="st-title-card">${data.title}</p>` : ''}
+<li>
+    <div class="st-card-container">
+        <a href="${data.link}" class="st-card st--card-horizontal  ${!data.imageURL ? 'st--with-icon': ''}">
+            <div class="st-caption">
+               ${data.title ? `<p class="st-title-card">${data.title}</p>` : ''}
                ${data.categories ? `<p class="st-surtitre-cat">${data.categories}</p>` : ''}
                ${data.description ?`<p class="st-text">${data.description}</p>` : ''}
-        </div>
-        <div class="st-image">
-            ${generateImage(data.imageURL)}
             </div>
+          <div class="st-image">
+                ${generateImage(data.imageURL)}
+            </div>
+        </a>
     </div>
 </li>
     `;

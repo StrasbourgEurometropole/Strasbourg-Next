@@ -22,10 +22,8 @@ import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ListUtil;
-import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portlet.asset.util.AssetVocabularySettingsHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.util.*;
@@ -873,24 +871,25 @@ public class AssetVocabularyHelper {
 		return assetEntryAssetCategoryRels.stream().filter(a -> a.getAssetCategoryId() == assetCategoryId).count() > 0;
 	}
 
-	public static List<AssetEntry> getAssetEntryCountByAssetCategory(AssetCategory assetCategory) throws PortalException {
-		// Récupère tous les lieux publiés de la catégorie
-		List<AssetEntry> entries = new ArrayList<>();
-			List<AssetEntryAssetCategoryRel> assetEntriesAssetCategories = new ArrayList<>(AssetEntryAssetCategoryRelLocalServiceUtil
-					.getAssetEntryAssetCategoryRelsByAssetCategoryId(assetCategory.getCategoryId()));
-			for (AssetEntryAssetCategoryRel assetEntryAssetCategory : assetEntriesAssetCategories) {
-				if (Validator.isNotNull(assetEntryAssetCategory)) {
-					AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(assetEntryAssetCategory.getAssetEntryId());
-					if (Validator.isNotNull(assetEntry) ) {
 
-						entries.add(assetEntry);
-					}
-				}
-			}
+	/**
+	 * Récupère une liste d'objets AssetEntry publiés associés à la catégorie d'actifs spécifiée.
+	 *
+	 * @param assetCategory La catégorie d'actifs pour laquelle récupérer les AssetEntry associés.
+	 * @return Une liste d'objets AssetEntry publiés associés à la catégorie d'actifs spécifiée.
+	 * @throws PortalException Si une erreur se produit lors de la récupération des entrées d'actifs.
+	 */
+	public static List<AssetEntry> getAssetEntriesByAssetCategory(AssetCategory assetCategory) throws PortalException {
+		List<AssetEntry> entries = AssetEntryAssetCategoryRelLocalServiceUtil
+				.getAssetEntryAssetCategoryRelsByAssetCategoryId(assetCategory.getCategoryId())
+				.parallelStream()
+				.map(AssetEntryAssetCategoryRel::getAssetEntryId)
+				.map(AssetEntryLocalServiceUtil::fetchAssetEntry)
+				.filter(Objects::nonNull)
+				.collect(Collectors.toList());
 
 		return entries;
 	}
-
 
 
 	private static Log _log = LogFactoryUtil.getLog("AssetVocabularyHelper");

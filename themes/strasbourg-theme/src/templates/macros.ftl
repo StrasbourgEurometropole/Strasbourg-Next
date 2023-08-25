@@ -1,3 +1,25 @@
+<#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+    <#assign homeURL = "/" />
+</#if>
+<#function getRootElement curEntry>
+
+    <#assign journalArticle = curEntry.getAssetRenderer().getArticle()>
+    <#assign document = saxReaderUtil.read(journalArticle.getContent()) />
+    <#assign rootElement = document.getRootElement() />
+    <#return rootElement>
+</#function>
+
+
+<#function getFieldValue rootElement name>
+    <#assign xPathSelector = saxReaderUtil.createXPath("dynamic-element[@name='${name}']")/>
+    <#assign value = xPathSelector.selectSingleNode(rootElement).getStringValue()/>
+
+    <#return value>
+</#function>
+
 <#macro addImage imageURL showLegende=false showCopyright=false isFigure=false>
     <#if  fileEntryHelper.getFileEntryByRelativeURL(imageURL)?has_content>
         <#assign image = fileEntryHelper.getFileEntryByRelativeURL(imageURL) />
