@@ -4,6 +4,7 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuilder;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -155,10 +156,11 @@ public class CouncilSessionsActionDropdownItemsProvider {
     private UnsafeConsumer<DropdownItem, Exception> _getExportCouncilSessionActionUnsafeConsumer() {
 
         return dropdownItem -> {
-            ResourceURL resourceURL =
-                    _response.createResourceURL();
+            LiferayPortletURL resourceURL =
+                    (LiferayPortletURL) _response.createResourceURL();
             resourceURL.setResourceID("exportCouncilSessionResults");
             resourceURL.setParameter("councilSessionId", String.valueOf(_councilSession.getCouncilSessionId()));
+            resourceURL.setCopyCurrentRenderParameters(false);
             dropdownItem.setHref(resourceURL.toString());
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "export-results"));
 
@@ -171,10 +173,11 @@ public class CouncilSessionsActionDropdownItemsProvider {
     private UnsafeConsumer<DropdownItem, Exception> _getExportActionUnsafeConsumer() {
 
         return dropdownItem -> {
-            ResourceURL resourceURL =
-                    _response.createResourceURL();
+            LiferayPortletURL resourceURL =
+                    (LiferayPortletURL) _response.createResourceURL();
             resourceURL.setResourceID("exportProcurationsHistoric");
             resourceURL.setParameter("councilSessionId", String.valueOf(_councilSession.getCouncilSessionId()));
+            resourceURL.setCopyCurrentRenderParameters(false);
             dropdownItem.setHref(resourceURL.toString());
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "export-procurations"));
         };

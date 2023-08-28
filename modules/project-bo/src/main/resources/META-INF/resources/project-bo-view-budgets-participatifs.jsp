@@ -93,7 +93,7 @@
 	
 
 
-	<liferay-portlet:resourceURL var="exportBudgetsXlsxURL" id="exportBudgetsXlsx">
+	<liferay-portlet:resourceURL var="exportBudgetsXlsxURL" id="exportBudgetsXlsx" copyCurrentRenderParameters="false">
     </liferay-portlet:resourceURL>
     
    	<form method="POST" action="${exportBudgetsXlsxURL}">
@@ -102,7 +102,6 @@
    			<aui:button cssClass="btn-lg" type="submit" value="export-budgets-participatifs-xlsx" />
    		</aui:button-row>
    	</form>
-
 </div>
 
 
