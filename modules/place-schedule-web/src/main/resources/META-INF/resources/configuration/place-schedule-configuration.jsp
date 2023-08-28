@@ -45,7 +45,7 @@
 		</aui:fieldset>
 
 		<aui:fieldset>
-            <aui:input type="checkbox" name="hideAffluence" value="${hideAffluence}" label="hide-affluence" inlineField="true" />
+            <aui:input type="checkbox" name="hideAffluence" value="${hideAffluence}" label="hide-affluence" />
         </aui:fieldset>
 		
 		<aui:button-row>

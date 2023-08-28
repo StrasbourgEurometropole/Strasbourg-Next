@@ -28,12 +28,12 @@
 				<c:forEach var="category" varStatus="categoryStatus" items="${allCategories}">
 					<c:set var="categoryIsChecked"
 						   value="${fn:contains(categoryCodes, category.code)}" />
-										
+
 					<aui:input type="checkbox"
 								name="categoryCode_${categoryStatus.index}"
 								label="${category.name}"
 								checked="${categoryIsChecked}"
-								value="${category.code}" inlineField="true"/>					
+								value="${category.code}"/>
 				</c:forEach>
 			</aui:fieldset>
 		</div></div>

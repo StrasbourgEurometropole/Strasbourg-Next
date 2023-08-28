@@ -31,7 +31,7 @@
 								name="assetClassNameId_${assetStatus.index}"
 								label="<%= ResourceActionsUtil.getModelResource(locale, assetRendererFactory.getClassName()) %>"
 								checked="${classNameIsChecked}"
-								value="${assetRendererFactory.classNameId}" inlineField="true" />
+								value="${assetRendererFactory.classNameId}" />
 
 							<c:if test="${classNameIsChecked}">
 								<c:set var="i" value="${i + 1}" />
@@ -42,15 +42,13 @@
 						<aui:input type="checkbox" 
 							name="searchNews" 
 							value="${searchNews}" 
-							label="com.liferay.journal.model.JournalArticle" 
-							inlineField="true" />
+							label="com.liferay.journal.model.JournalArticle" />
 					</div>
 					<div class="asset-type-configuration">
 						<aui:input type="checkbox" 
 							name="searchDocument" 
 							value="${searchDocument}" 
-							label="file" 
-							inlineField="true" />
+							label="file" />
 					</div>
 				</div>
 
@@ -60,7 +58,7 @@
 			<aui:fieldset collapsed="true" collapsible="true" label="scope">
 			
 				<liferay-ui:message key="scope-explanations" />
-				<aui:input type="checkbox" name="globalScope" value="${globalScope}" label="global-scope" inlineField="true" />
+				<aui:input type="checkbox" name="globalScope" value="${globalScope}" label="global-scope" />
 				
 			</aui:fieldset>
 			
@@ -106,7 +104,7 @@
 				<!-- Utilisation du filtre par date -->
 				<div>
 					<liferay-ui:message key="date-explanations" />
-					<aui:input type="checkbox" name="dateField" value="${dateField}" label="date-field" inlineField="true" />
+					<aui:input type="checkbox" name="dateField" value="${dateField}" label="date-field" />
 				</div>
 				
 				<!-- Filtre par date par defaut  -->
@@ -149,7 +147,7 @@
 				<!-- Utilisation de la recherche dynamique -->
 				<div>
 					<liferay-ui:message key="search-type-explanations" />
-					<aui:input type="checkbox" name="dynamicSearch" value="${dynamicSearch}" label="dynamicSearch" inlineField="true" />
+					<aui:input type="checkbox" name="dynamicSearch" value="${dynamicSearch}" label="dynamicSearch" />
 				</div>
 				
 			</aui:fieldset>

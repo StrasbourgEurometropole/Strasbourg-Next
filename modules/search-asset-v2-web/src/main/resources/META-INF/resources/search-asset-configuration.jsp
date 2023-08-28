@@ -69,25 +69,25 @@
                         <!-- CHAMP : Affichage du filtre par date -->
                         <div>
                             <liferay-ui:message key="eu.search.asset.web.configuration.date-explanations" />
-                            <aui:input type="checkbox" name="displayDateField" value="${dc.configurationData.isDisplayDateField()}" label="eu.search.asset.web.configuration.date-field" inlineField="true" />
+                            <aui:input type="checkbox" name="displayDateField" value="${dc.configurationData.isDisplayDateField()}" label="eu.search.asset.web.configuration.date-field" />
                         </div>
 
                         <!-- CHAMP : Affichage des boutons de dates -->
                         <div>
                             <liferay-ui:message key="eu.search.asset.web.configuration.dates-buttons-explanations" />
-                            <aui:input type="checkbox" name="displayDatesButtons" value="${dc.configurationData.isDisplayDatesButtons()}" label="eu.search.asset.web.configuration.show-dates-buttons-field" inlineField="true" />
+                            <aui:input type="checkbox" name="displayDatesButtons" value="${dc.configurationData.isDisplayDatesButtons()}" label="eu.search.asset.web.configuration.show-dates-buttons-field" />
                         </div>
 
                         <!-- CHAMP : Affichage du selecteur de tri -->
                         <div>
                             <liferay-ui:message key="eu.search.asset.web.configuration.date-sorting-explanations" />
-                            <aui:input type="checkbox" name="displaySorting" value="${dc.configurationData.isDisplaySorting()}" label="eu.search.asset.web.configuration.date-sorting-field" inlineField="true" />
+                            <aui:input type="checkbox" name="displaySorting" value="${dc.configurationData.isDisplaySorting()}" label="eu.search.asset.web.configuration.date-sorting-field" />
                         </div>
 
                         <!-- CHAMP : Affichage des types d'asset -->
                         <div>
                             <liferay-ui:message key="eu.search.asset.web.configuration.asset-type-explanations" />
-                            <aui:input type="checkbox" name="displayAssetType" value="${dc.configurationData.isDisplayAssetType()}" label="eu.search.asset.web.configuration.asset-type-field" inlineField="true" />
+                            <aui:input type="checkbox" name="displayAssetType" value="${dc.configurationData.isDisplayAssetType()}" label="eu.search.asset.web.configuration.asset-type-field" />
                         </div>
 
                     </aui:fieldset>
@@ -340,7 +340,7 @@
 
                         <!-- CHAMP : Bouton exporter -->
                         <aui:input type="checkbox" name="displayExport" value="${dc.configurationData.isDisplayExport()}"
-                            label="eu.search.asset.web.configuration.display-export" inlineField="true" />
+                            label="eu.search.asset.web.configuration.display-export" />
 
                         <!-- CHAMP : Type d'export -->
                         <aui:select name="exportType" showEmptyOption="true" label="eu.search.asset.web.configuration.export-type">
