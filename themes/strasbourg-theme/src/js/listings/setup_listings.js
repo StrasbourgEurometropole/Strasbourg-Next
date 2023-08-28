@@ -1,5 +1,5 @@
 //spécificités listing Agenda
-parseCardAgendaClickOverlay();
+//parseCardAgendaClickOverlay();
 
 // OVERLAY MAP
 function callbackMapOverlayMap(macarte) {
@@ -65,7 +65,7 @@ var listingSitFMA = new thListingManager({
         // si composant favoris :
         // th_favoris.parseItems();
         // th_favoris.addEvents();
-        parseCardAgendaClickOverlay();
+        //parseCardAgendaClickOverlay();
     }
 });
 

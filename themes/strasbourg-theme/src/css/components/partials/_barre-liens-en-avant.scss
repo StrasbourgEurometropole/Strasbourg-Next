@@ -80,7 +80,7 @@
 	}
 
 	.st-container {
-		@include reset-button;
+		@include create-outline;
 		position: relative;
 		display: flex;
 		align-items: center;

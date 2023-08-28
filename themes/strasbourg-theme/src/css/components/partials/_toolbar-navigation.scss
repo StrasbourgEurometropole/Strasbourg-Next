@@ -16,7 +16,6 @@
 	}
 
 	.st-toolbar-inner {
-		@include reset-styles;
 		display: flex;
 		align-items: center;
 		height: 100%;
@@ -27,7 +26,9 @@
 	}
 
 	.st-logo {
-		@include reset-button;
+		display: flex;
+		align-items: center;
+		@include create-outline;
 
 		img {
 			max-height: 30px;
@@ -69,7 +70,7 @@
 	}
 
 	.st-lien-libre {
-		@include reset-button;
+		@include create-outline;
 		border: 1px solid $c_sub;
 
 		span {
@@ -79,7 +80,7 @@
 	}
 
 	.st-btn-search {
-		@include reset-button;
+		@include create-outline;
 		background-color: $c_white;
 
 		[class^="st-icon-"], [class*=" st-icon-"] {
@@ -89,8 +90,8 @@
 	}
 
 	.st-btn-menu {
-		@include reset-button;
 		background-color: $c_sub;
+		padding: 0;
 
 		.st-btn-menu__icon {
 			display: block;

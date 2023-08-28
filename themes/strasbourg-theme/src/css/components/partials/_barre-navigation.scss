@@ -66,7 +66,7 @@
 	}
 
 	.st-logo {
-		@include reset-button;
+		@include create-outline;
 		display: flex;
 		align-items: center;
 		margin-right: auto;
@@ -83,7 +83,6 @@
 		margin-left: auto;
 
 		.st-nav-primary__menu {
-			@include reset-styles;
 			display: flex;
 			align-items: center;
 			height: 100%;
@@ -95,7 +94,7 @@
 		}
 
 		.st-nav-primary__link {
-			@include reset-button;
+			@include create-outline;
 			display: flex;
 			align-items: center;
 			height: 100%;
@@ -186,7 +185,7 @@
 
 	// Styles pour le dropdown RGAA
 	.st-barre-dropdown button {
-		@include reset-button;
+		@include create-outline;
 		position: relative;
 		height: 100%;
 		padding: 30px 0;
@@ -219,7 +218,6 @@
 	}
 
 	.st-barre-dropdown [role="menu"] {
-		@include reset-styles;
 		display: none;
 		position: absolute;
 		background-color: $c_greydark;
@@ -228,7 +226,7 @@
 	}
 
 	.st-barre-dropdown [role="menuitem"] {
-		@include reset-button;
+		@include create-outline;
 		display: block;
 		width: auto;
 		padding: 10px;
@@ -266,7 +264,7 @@
 	}
 
 	.st-btn-search {
-		@include reset-button;
+		@include create-outline;
 		flex: 1;
 		position: relative;
 		height: 80px;

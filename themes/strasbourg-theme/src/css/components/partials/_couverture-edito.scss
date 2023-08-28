@@ -1,14 +1,27 @@
 .st-header-edito {
-	margin-bottom: 36px;
+	margin-bottom: 50px;
 
 	@include min-tablet-portrait {
 		padding-top: 40px;
 	}
 
-	.st-img-wrapper figure {
+	.st-img-wrapper {
+		margin-top: 40px;
+
 		@include mobile {
-			--aspect-ratio: 320/214;
-			@include aspect-ratio(var(--aspect-ratio));
+			margin-top: 16px;
 		}
+
+		figure {
+			@include mobile {
+				--aspect-ratio: 320/214;
+				@include aspect-ratio(var(--aspect-ratio));
+			}
+
+			img {
+				border-radius: $border-radius-small;
+			}
+		}
+
 	}
 }

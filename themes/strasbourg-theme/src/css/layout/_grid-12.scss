@@ -2,7 +2,7 @@
 // On définit la largeur d'une colonne en ajoutant les classes sur les enfants
 // -----------------------------------------------
 
-.st-grid-12 {
+.st-page-wrapper .st-grid-12 {
 	$col-max: 12; // Grille générée jusqu'à 12 colonnes
 	--column-gap: var(--grid-gap); // espacement horizontal / vertical par défaut entre les enfants de la grille
 	--row-gap: var(--grid-gap);

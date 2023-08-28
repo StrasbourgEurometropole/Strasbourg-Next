@@ -12,30 +12,63 @@
 		}
 	}
 
+	// zone fixe hors du slider
 	.st-bottom-part {
 		margin-top: 40px;
+
+		@include mobile {
+			margin-top: 20px;
+		}
+
+		.st-btn {
+			margin-bottom: 20px;
+		}
+
+		li {
+			@include mobile {
+				font-size: 12px;
+			}
+		}
 	}
+
+
+	// Slider de navigation
+	// ==========================================================================
 
 	.st-slider-thumb {
 		position: relative;
-		padding-right: 70px;
 		border-bottom: 1px solid $c_border;
 
+		&:before,
 		&:after {
 			content: "";
 			position: absolute;
 			top: 0;
-			right: -40px;
-			z-index: 1;
+			z-index: 2;
 			width: 40px;
-			height: 100%;
-			background: linear-gradient(to left, rgba($c_main, 1), rgba($c_main, 0));
+			height: calc(100% + 20px);
 			pointer-events: none;
+		}
+
+		&:before {
+			left: -40px;
+			background: linear-gradient(to right, rgba($c_main, 1), rgba($c_main, 0));
 
 			@include mobile {
+				width: 20px;
+				left: -20px;
+			}
+		}
+		&:after {
+			right: -40px;
+			background: linear-gradient(to left, rgba($c_main, 1), rgba($c_main, 0));
+
+			@include mobile {
+				width: 20px;
 				right: -20px;
 			}
 		}
+
 
 		.splide__track {
 			overflow: visible;
@@ -53,6 +86,12 @@
 			@include mobile {
 				padding: 25px 0;
 				margin-right: 20px;
+			}
+
+			@include can-hover {
+				.st-title {
+					color: $c_white;
+				}
 			}
 
 			&:after {
@@ -79,9 +118,22 @@
 				}
 			}
 
-			@include can-hover {
-				.st-title {
-					color: $c_white;
+			.st-surtitre-cat {
+				@include mobile {
+					font-size: 10px;
+				}
+			}
+
+			.st-title {
+				@include ft('', 16px, 700, rgba($c_white, 0.6), 1);
+				@include addTransition();
+
+				@include mobile {
+					font-size: 12px;
+				}
+
+				& + * {
+					margin-bottom: 2px;
 				}
 			}
 		}
@@ -113,27 +165,13 @@
 				}
 			}
 		}
-
-		.st-surtitre-cat {
-			@include mobile {
-				font-size: 10px;
-			}
-		}
-
-		.st-title {
-			@include ft($f_txt, 16px, 700, rgba($c_white, 0.60), 1);
-			margin-top: 5px;
-			@include addTransition();
-
-			@include mobile {
-				font-size: 12px;
-			}
-		}
 	}
 
-	.st-title-medium {
-		@include addTransition();
-	}
+
+
+
+	// Slider de contenu principal
+	// ==========================================================================
 
 	.st-slider-content {
 		margin-top: 20px;
@@ -146,75 +184,71 @@
 			width: 100%;
 		}
 
-		.st-single-slide-container {
-			@include reset-styles;
-			width: 100%;
+		.st-list-rows {
+			column-gap: 40px;
+			row-gap: 0;
 
-			li {
-				position: relative;
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				padding: 20px 0;
-				@include ft($f_txt, 14px, 300, $c_white, 1);
+			.st-item-row {
+				padding: 16px 0;
+				@include ft('', 14px, 400, $c_white, 1.42);
 				@include letter-spacing(25);
+				background-image: url("../images/deco/dotted-line.svg");
+				background-position: bottom;
+				background-repeat: repeat-x;
 
-				&:after {
-					content: "";
-					display: block;
-					width: 100%;
-					height: 1px;
-					background-image: url("../images/deco/dotted-line.svg");
-					position: absolute;
-					left: 0;
-					bottom: 0;
+				@include tablet-small {
+					display: grid;
+					grid-template-columns: auto auto;
+					justify-content: space-between;
+					align-items: center;
+					column-gap: 20px;
 				}
 
-				&:last-of-type {
-					padding-bottom: 0px;
-
-					&:after {
-						display: none;
-					}
+				@include mobile {
+					font-size: 12px;
+					line-height: 1.33;
 				}
-			}
-
-			.st-title {
-				margin-right: 20px;
-				white-space: nowrap;
 			}
 
 			.st-info {
-				text-align: right;
-			}
+				display: flex;
 
-			.st-info p {
-				line-height: 20px;
-			}
+				@include min-tablet-small {
+					flex-wrap: wrap;
+					--col-gap: 30px;
+					--row-gap: 0px;
+					margin-left: calc(var(--col-gap) * -1);
+					margin-top: calc(var(--row-gap) * -1);
 
-			.st-ouverture {
-				color: $c_sub;
+					> * {
+						margin-left: var(--col-gap);
+						margin-top: var(--row-gap);
+					}
+				}
 
-				&.st--closed {
-					color: $c_pink;
+				@include tablet-small {
+					flex-direction: column;
+					text-align: right;
+					font-size: 12px;
 				}
 			}
 
-			.st-symbol {
-				color: $c_sub;
-			}
-
 			.st-note {
-				@include ft($f_txt, 12px, 300, $c_txt, 1);
+				@include ft('', 12px, 300, $c_txt, 1);
 				font-style: italic;
 				@include letter-spacing(25);
-			}
 
+				@include tablet-small {
+					grid-row: 2;
+					grid-column: 1 / -1;
+				}
+			}
 		}
 	}
 
 	.st-info {
 		.st-title {
+			@include bd(red,1);
 			@include ft('', 18px, 700, $c_white, 1);
 			@include letter-spacing(25);
 
@@ -235,6 +269,107 @@
 
 		.st-title-medium {
 			margin-right: 15px;
+		}
+
+		.st-btn {
+			flex-shrink: 0;
+		}
+	}
+
+
+	// --modifiers
+	&.st--in-overlay {
+		.st-container {
+			padding: 0 20px 20px;
+		}
+
+		// zone fixe hors du slider
+		.st-bottom-part {
+			margin-top: 20px;
+
+			li {
+				font-size: 12px;
+			}
+		}
+
+		.st-slider-thumb {
+			&:before {
+				width: 20px;
+				left: -20px;
+				background: linear-gradient(to right, rgba($c_greydark, 1), rgba($c_greydark, 0));
+			}
+			&:after {
+				width: 20px;
+				right: -20px;
+				background: linear-gradient(to left, rgba($c_greydark, 1), rgba($c_greydark, 0));
+			}
+
+			.splide__slide {
+				padding: 25px 0;
+				margin-right: 20px;
+
+				.st-surtitre-cat {
+					font-size: 10px;
+				}
+
+				.st-title {
+					font-size: 12px;
+				}
+			}
+
+			.st-nav-arrows {
+				bottom: auto;
+				top: 50%;
+				transform: translateY(-50%);
+				margin-top: 0;
+
+				.st-btn-arrow {
+					width: 20px;
+					height: 20px;
+
+					&:before {
+						font-size: 7px;
+					}
+				}
+			}
+		}
+
+		// Slider de contenu principal
+		// ==========================================================================
+
+		.st-slider-content {
+			margin-top: 10px;
+
+			.st-list-rows {
+				.st-item-row {
+					display: grid;
+					grid-template-columns: auto auto;
+					justify-content: space-between;
+					align-items: center;
+					column-gap: 20px;
+					font-size: 12px;
+					line-height: 1.33;
+				}
+
+				.st-info {
+					flex-direction: column;
+					text-align: right;
+					font-size: 12px;
+				}
+
+				.st-note {
+					grid-row: 2;
+					grid-column: 1 / -1;
+				}
+			}
+		}
+
+		.st-detail-lien {
+			justify-content: space-between;
+
+			.st-title-medium {
+				font-size: 14px;
+			}
 		}
 	}
 }

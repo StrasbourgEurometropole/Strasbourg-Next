@@ -7,6 +7,19 @@
 	}
 
 	@include mobile {
-		margin-bottom: 20px;
+		margin-bottom: 16px;
+	}
+
+	// --modifiers
+	&.st--two-columns {
+		row-gap: 16px;
+
+		@include mobile {
+			row-gap: 12px;
+			margin-bottom: 26px;
+		}
 	}
 }
+
+
+

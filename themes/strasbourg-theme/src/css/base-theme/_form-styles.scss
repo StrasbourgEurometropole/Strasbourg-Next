@@ -142,7 +142,7 @@
 		}
 
 		.st-btn-localize {
-			@include reset-button;
+			@include create-outline;
 			display: inline-flex;
 			align-items: center;
 			justify-content: center;

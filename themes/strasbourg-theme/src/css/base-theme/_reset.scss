@@ -8,6 +8,18 @@
 	// Reset
 	// ==========================================================================
 
+	object, iframe,
+	h1, h2, h3, h4, h5, h6, p,
+	blockquote, img, ol, ul, li,
+	fieldset, legend, label, figure {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		outline: 0;
+		font: inherit;
+		vertical-align: baseline;
+	}
+
 	ol, ul {
 		list-style: none;
 	}
@@ -30,9 +42,13 @@
 	// Reset additionnel
 	// ==========================================================================
 
-	label,
-	p{
-		@include reset-styles;
+	a {
+		text-decoration: none;
+		@include addTransition();
+
+		&:hover {
+			text-decoration: none;		// surcharge de clay
+		}
 	}
 
 	b, strong {
@@ -44,6 +60,7 @@
 	}
 
 	input,
+	button,
 	select,
 	optgroup,
 	textarea {
@@ -53,6 +70,7 @@
 		line-height: inherit;
 		color: inherit;
 		outline: none;
+		border: 0;
 	}
 
 	input[type="date"]::-webkit-inner-spin-button,
@@ -73,4 +91,22 @@
 		height: auto;
 	}
 
+
+	// Styles généraux pour les boutons de base
+	button {
+		padding: 0;
+		border: none;
+		outline: none;
+		background: none;
+		border-radius: 0;
+		@include addTransition();
+
+		&:not([disabled]) {
+			cursor: pointer;
+		}
+
+		&:focus {
+			outline: none;
+		}
+	}
 }

@@ -1,23 +1,13 @@
 // Fil d'ariane
 // ==========================================================================
-.st-breadcrumbs {
-	@include reset-styles;
+.st-page-wrapper .st-breadcrumbs {
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
-	margin: 14px 0 40px 0;
-	text-overflow: ellipsis;
-
-	@include tablet-portrait {
-		margin-top: 20px;
-	}
-	@include mobile {
-		margin: 5px 0 10px 0;
-	}
+	padding-top: 8px;
 
 	.st-breadcrumbs__item {
 		position: relative;
-		padding: 0;
 
 		&:not(:last-of-type) {
 			&:after {
@@ -47,7 +37,7 @@
 		}
 
 		.st-breadcrumbs__link {
-			@include reset-button;
+			@include create-outline;
 
 			@include can-hover {
 				color: $c_sub;

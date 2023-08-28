@@ -36,3 +36,127 @@
 		}
 	}
 }
+
+
+// Listing agenda
+// ==========================================================================
+
+// Filtres de date dans la page de listing d'agenda
+.st-filters-agenda {
+	display: flex;
+	flex-wrap: wrap;
+	--col-gap: 10px;
+	--row-gap: 10px;
+	margin-left: calc(var(--col-gap) * -1);
+	margin-top: calc(var(--row-gap) * -1);
+
+	> * {
+		margin-left: var(--col-gap);
+		margin-top: var(--row-gap);
+	}
+
+	.st-filter-agenda {
+		input {
+			border: 0;
+			clip: rect(1px, 1px, 1px, 1px);
+			clip-path: inset(50%);
+			height: 1px;
+			margin: -1px;
+			overflow: hidden;
+			padding: 0;
+			position: absolute;
+			width: 1px;
+			white-space: nowrap;
+		}
+
+		input:checked {
+			& + label {
+				color: $c_main;
+				background-color: $c_white;
+				border-color: transparent;
+			}
+		}
+
+		input:focus {
+			& + label {
+				outline: 1px dashed $c_white;
+			}
+		}
+
+		label {
+			@include inline-flex-center;
+			padding: 16px 28px;
+			@include ft('', $s_link, 600, $c_white, 1);
+			@include letter-spacing(25);
+			text-align: center;
+			border: 1px solid $c_sub;
+			border-radius: $border-radius;
+			outline-offset: 1px;
+			@include addTransition();
+
+			@include mobile {
+				padding: 14px 15px;
+				font-size: $s_link_small;
+			}
+
+			@include can-hover {
+				color: $c_main;
+				background-color: $c_white;
+				border-color: transparent;
+			}
+		}
+	}
+}
+
+.st-listing-cards.st--listing-agenda {
+	.st-date-wrapper {
+		position: relative;
+		padding-bottom: 30px;
+
+		&:first-child .st-date-title {
+			padding-top: initial;
+		}
+		&:last-child {
+			padding-bottom: initial;
+
+			&:before {
+				display: none;
+			}
+		}
+		
+		&.st--is-empty {
+			padding-bottom: initial;
+
+			.st-date-title {
+				color: $c_grey;
+
+				@include mobile {
+					padding-bottom: 26px;
+				}
+			}
+		}
+
+		&:before {
+			@include pseudo-block(100%, 1px);
+			bottom: 0;
+			background-image: url("../images/deco/dotted-line.svg");
+			background-repeat: repeat-x;
+			opacity: 0.25;
+		}
+
+		.st-date-title {
+			display: block;
+			padding: 26px 0;
+			@include ft('', 18px, '', $c_white, 1);
+			@include letter-spacing(25);
+
+			strong {
+				font-weight: 700;
+			}
+
+			@include mobile {
+				padding-bottom: 16px;
+			}
+		}
+	}
+}

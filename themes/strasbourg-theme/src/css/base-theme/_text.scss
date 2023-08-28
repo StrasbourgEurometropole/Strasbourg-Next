@@ -1,60 +1,47 @@
 
 
-// Styles de textes globaux
-// ==========================================================================
-
-
-.st-h1,
-.st-h2,
-.st-h3,
-.st-surtitre,
-.st-surtitre-cat,
-.st-location,
-.st-figure {
-	@include reset-styles;
-}
-
-.st-h1 {
-	display: block;
-	@include ft($f_hx, 45px, 600, $c_white, 1);
-
-	@include tablet_portrait {
-		font-size: 36px;
-	}
-	@include mobile {
-		font-size: 26px;
-	}
-}
-
-.st-h2 {
-	display: block;
-	@include ft($f_hx, 30px, 600, $c_white, 1);
-
-	@include tablet_portrait {
-		font-size: 26px;
-	}
-	@include mobile {
-		font-size: 20px;
-	}
-}
-
-.st-h3 {
-	display: block;
-	@include ft($f_hx, 18px, 700, $c_white, 1);
-
-	@include tablet_portrait {
-		font-size: 17px;
-	}
-	@include mobile {
-		font-size: 16px;
-	}
-}
-
-
-// Styles de textes additionnels
-// ==========================================================================
-
 .st-page-wrapper {
+	// Styles de textes globaux
+	// ==========================================================================
+	.st-h1 {
+		display: block;
+		@include ft($f_hx, 45px, 600, $c_white, 1);
+
+		@include tablet_portrait {
+			font-size: 36px;
+		}
+		@include mobile {
+			font-size: 26px;
+		}
+	}
+
+	.st-h2 {
+		display: block;
+		@include ft($f_hx, 30px, 600, $c_white, 1);
+
+		@include tablet_portrait {
+			font-size: 26px;
+		}
+		@include mobile {
+			font-size: 20px;
+		}
+	}
+
+	.st-h3 {
+		display: block;
+		@include ft($f_hx, 18px, 700, $c_white, 1);
+
+		@include tablet_portrait {
+			font-size: 17px;
+		}
+		@include mobile {
+			font-size: 16px;
+		}
+	}
+
+
+	// Styles de textes additionnels
+	// ==========================================================================
 	.st-surtitre {
 		display: block;
 		@include ft($f_txt, $s_medium, 700, $c_white, 1.33);
@@ -76,12 +63,10 @@
 		}
 	}
 
-
 	.st-location {
 		@include ft($f_txt, 12px, 300, $c_txt, 1.16);
 		@include letter-spacing(25);
 		font-style: italic;
-		position: relative;
 		display: flex;
 		align-items: center;
 
@@ -93,13 +78,10 @@
 		}
 	}
 
-
-
 	.st-text-small {
 		@include ft('', 12px, '', $c_txt, 1.16);
 		@include letter-spacing(25);
 	}
-
 
 	.st-title-medium {
 		@include ft('', 16px, 700, $c_white, 1);
@@ -397,7 +379,7 @@
 	}
 
 	a:not([class]) {
-		@include reset-button;
+		@include create-outline;
 		color: $c_sub;
 		text-decoration: underline;
 
@@ -485,7 +467,7 @@
 }
 
 .st-link-overlay {
-	@include reset-button;
+	@include create-outline;
 	color: $c_sub;
 	text-decoration: underline;
 	font-weight: 600;

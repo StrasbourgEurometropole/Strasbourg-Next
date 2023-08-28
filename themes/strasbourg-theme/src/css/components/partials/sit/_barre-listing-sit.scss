@@ -51,9 +51,20 @@
 		position: relative;
 		margin-right: 10px;
 
-		&:first-child {
+		&.st--is-expanded {
 			flex-grow: 1;
 			max-width: 320px;
+		}
+
+		&.st--is-date {
+			flex-grow: 1;
+			max-width: 144px;
+		}
+
+		.st-field-date {
+			&:before {
+				margin-right: 16px;
+			}
 		}
 
 		@include tablet-portrait {
@@ -68,11 +79,14 @@
 			padding: 0 5px;
 			font-weight: 600;
 			@include letter-spacing(25);
+			white-space: nowrap;
 			background-color: $c_greydark;
 		}
 
-		input[type="text"] {
+		input[type="text"],
+		input[type="date"] {
 			padding: 13px 15px;
+			font-weight: 300;
 		}
 
 		select {
@@ -118,6 +132,36 @@
 			color: $c_white;
 			font-weight: 700;
 			margin-top: 2px;
+		}
+
+		// --modifiers
+		&.st--resultats-agenda {
+			padding-right: 10px;
+
+			.st-resultats-total {
+				display: inline-block;
+				margin-left: 2px;
+			}
+
+			.st-resultats-period {
+				display: block;
+				margin-top: 2px;
+			}
+
+			.st-resultats-date {
+				font-weight: 700;
+				color: $c_white;
+			}
+		}
+	}
+
+
+	// --modifiers
+	&.st--listing-agenda {
+		.st-filtre {
+			@include bp-down(1190px) {
+				display: none;
+			}
 		}
 	}
 }

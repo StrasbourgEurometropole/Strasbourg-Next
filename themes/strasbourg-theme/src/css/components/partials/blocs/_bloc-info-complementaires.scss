@@ -42,18 +42,17 @@
 		@include mobile {
 			padding: 20px;
 		}
-
-		.st-liens {
-			@include reset-styles;
-		}
 	}
 
 	.st-component-type-1 {
 		.st-component-container {
+			@include create-outline;
 			display: flex;
 			align-items: center;
 
 			@include can-hover {
+				text-decoration: none;
+
 				.st-btn-arrow {
 					background-color: $c_sub;
 					border-color: transparent;
@@ -133,7 +132,7 @@
 		}
 
 		.st-lien {
-			@include reset-button;
+			@include create-outline;
 			display: block;
 
 			@include can-hover {
@@ -175,7 +174,6 @@
 		}
 
 		.st-liste {
-			@include reset-styles;
 			border: 1px solid rgba($c_white, 0.25);
 			border-radius: $border-radius;
 		}
@@ -209,7 +207,6 @@
 		}
 
 		.st-liste-icons {
-			@include reset-styles;
 			display: flex;
 			flex-wrap: wrap;
 			--gap: 10px;

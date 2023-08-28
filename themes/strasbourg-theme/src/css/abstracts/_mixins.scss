@@ -120,30 +120,9 @@
 	font: inherit;
 }
 
-@mixin reset-button {
+/*@mixin reset-button {
 	@include create-outline();
-	margin: 0;
-	padding: 0;
-	border: 0;
-	outline: 0;
-
-	font-family: inherit;
-	font-size: inherit;
-	line-height: inherit;
-	color: inherit;
-	background: none;
-	border-radius: 0;
-	text-decoration: none;
-	@include addTransition();
-
-	&:not([disabled]) {
-		cursor: pointer;
-	}
-
-	&:hover {
-		text-decoration: none;
-	}
-}
+}*/
 
 
 @mixin reset-select {

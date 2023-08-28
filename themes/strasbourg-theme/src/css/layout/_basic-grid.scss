@@ -2,8 +2,7 @@
 // On définit le nombre de colonnes en ajoutant les classes directement sur le container, pas sur les enfants
 // -----------------------------------------------
 
-.st-basic-grid {
-	@include reset-styles;
+.st-page-wrapper .st-basic-grid {
 	$col-max: 6; // Grille générée jusqu'à 6 colonnes
 	--gap: var(--grid-gap, 40px); // espacement horizontal / vertical par défaut entre les enfants de la grille
 	display: grid;

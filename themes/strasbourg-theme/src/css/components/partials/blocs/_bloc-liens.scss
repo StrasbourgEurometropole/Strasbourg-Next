@@ -1,6 +1,5 @@
 .st-bloc-liens {
 	.st-liste {
-		@include reset-styles;
 		border: 1px solid rgba($c_white, 0.25);
 		border-radius: $border-radius;
 	}
@@ -53,7 +52,7 @@
 	}
 
 	.st-lien {
-		@include reset-button;
+		@include create-outline;
 		position: relative;
 		display: flex;
 		align-items: center;

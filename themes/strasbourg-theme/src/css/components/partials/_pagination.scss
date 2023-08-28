@@ -31,7 +31,7 @@
 		}
 
 		.st-pagination-link {
-			@include reset-button;
+			@include create-outline;
 			--taille: 48px;
 			position: relative;
 			display: flex;
@@ -45,6 +45,7 @@
 			text-align: center;
 			vertical-align: middle;
 			border-radius: $border-radius;
+			@include addTransition();
 
 			@include mobile {
 				--taille: 30px;

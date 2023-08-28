@@ -1,7 +1,7 @@
 
 // Styles pour la classe btn, btn et btn-primary.
-.st-btn {
-	@include reset-button;
+.st-page-wrapper .st-btn {
+	@include create-outline();
 	@include inline-flex-center;
 	max-width: 100%;
 	padding: 16px 60px;
@@ -138,8 +138,8 @@
 }
 
 // Styles pour les boutons et les dots utilisés dans les sliders et dans la pagination
-.st-btn-arrow {
-	@include reset-button;
+.st-page-wrapper .st-btn-arrow {
+	@include create-outline;
 	position: relative;
 	z-index: z-index('btn-slider');
 	@include inline-flex-center;
@@ -214,8 +214,7 @@
 	}
 }
 
-.st-nav-dots {
-	@include reset-styles;
+.st-page-wrapper .st-nav-dots {
 	display: flex;
 	align-items: center;
 
@@ -228,7 +227,7 @@
 	}
 
 	button {
-		@include reset-button;
+		@include create-outline;
 		position: relative;
 		@include inline-flex-center();
 		width: 10px;
@@ -258,8 +257,8 @@
 	}
 }
 
-.st-btn-play {
-	@include reset-button;
+.st-page-wrapper .st-btn-play {
+	@include create-outline;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -284,8 +283,8 @@
 	}
 }
 
-.st-btn-compte {
-	@include reset-button;
+.st-page-wrapper .st-btn-compte {
+	@include create-outline;
 	display: inline-flex;
 	align-items: center;
 	padding: 11px 20px;
@@ -314,8 +313,8 @@
 
 
 // Bouton d'ajout aux favoris sur les cards
-.st-btn-favorite-card {
-	@include reset-button;
+.st-page-wrapper .st-btn-favorite-card {
+	@include create-outline;
 	@include inline-flex-center;
 	font-size: 0;
 	width: 36px;
@@ -344,8 +343,8 @@
 
 
 // Bouton d'ajout aux favoris sur les barres en sticky
-.st-btn-favorite-sticky {
-	@include reset-button;
+.st-page-wrapper .st-btn-favorite-sticky {
+	@include create-outline;
 	@include inline-flex-center;
 	max-width: 100%;
 	padding: 16px 20px;
@@ -389,8 +388,8 @@
 }
 
 
-.st-btn-close {
-	@include reset-button;
+.st-page-wrapper .st-btn-close {
+	@include create-outline;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -422,8 +421,8 @@
 }
 
 
-.st-btn-icon {
-	@include reset-button;
+.st-page-wrapper .st-btn-icon {
+	@include create-outline;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -511,8 +510,8 @@
 	}
 }
 
-.st-btn-menu {
-	@include reset-button;
+.st-page-wrapper .st-btn-menu {
+	@include create-outline;
 	display: flex;
 	align-items: center;
 	height: 80px;

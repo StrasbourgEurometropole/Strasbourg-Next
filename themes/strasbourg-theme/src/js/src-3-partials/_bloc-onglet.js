@@ -1,36 +1,33 @@
 (function () {
 
-    var sliderThumbs = document.querySelectorAll(".st-js-slider-onglet");
+    const sliderThumbs = document.querySelectorAll('.st-js-slider-onglet');
+    sliderThumbs.forEach(slider => {
 
-    if (sliderThumbs) {
-        sliderThumbs.forEach(slider => {
+        // Init du slider avec les horaires sous forme d'onglet
+        const splideThumbs = new Splide(slider, {
+            isNavigation: true,
+            focus: "center",
+            omitEnd: false,
+        });
 
-            // Init du slider avec les horaires sous forme d'onglet
-            const thumbnails = new Splide(slider, {
-                pagination: false,
-                isNavigation: true,
-                focus: "center",
-                omitEnd: false,
-            });
+        // Slider du contenu
+        const container = slider.closest('.st-container');
+        const sliderContent = container && container.querySelector('.st-js-slider-onglet-content');
 
-            let sliderContent = slider.nextElementSibling;
-
-            // Init du slider avec les horaires sous forme d'onglets
-            const main = new Splide(sliderContent, {
+        // Init du slider avec les horaires sous forme d'onglets
+        if(sliderContent) {
+            const splideContent = new Splide(sliderContent, {
                 type: 'fade',
                 rewind: false,
-                pagination: false,
                 arrows: false,
                 drag: false,
                 focus: "center",
                 omitEnd: false,
             });
 
-
-            main.sync(thumbnails);
-            main.mount();
-            thumbnails.mount();
-        });
-    }
-
+            splideContent.sync(splideThumbs);
+            splideContent.mount();
+            splideThumbs.mount();
+        }
+    });
 })();

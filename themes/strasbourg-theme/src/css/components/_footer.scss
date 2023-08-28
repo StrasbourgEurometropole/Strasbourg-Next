@@ -43,7 +43,6 @@
 	}
 
 	.st-liens-rapides {
-		@include reset-styles;
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;
@@ -56,7 +55,7 @@
 		}
 
 		.st-lien {
-			@include reset-button;
+			@include create-outline;
 			display: flex;
 			align-items: center;
 			padding: 15px 38px 15px 0;
@@ -107,8 +106,6 @@
 	}
 
 	.st-liens-contact {
-		@include reset-styles;
-
 		li + li {
 			margin-top: 10px;
 		}
@@ -141,7 +138,6 @@
 	}
 
 	.st-menu-footer {
-		@include reset-styles;
 		margin-top: 30px;
 
 		@include mobile {
@@ -149,7 +145,7 @@
 		}
 
 		a {
-			@include reset-button;
+			@include create-outline;
 			@include ft($f_txt, 16px, 700, $c_white, 1);
 			display: inline-flex;
 			padding: 9px 0;
@@ -174,7 +170,6 @@
 		}
 
 		.st-liens {
-			@include reset-styles;
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: center;
@@ -188,7 +183,7 @@
 		}
 
 		a {
-			@include reset-button;
+			@include create-outline;
 			display: flex;
 			align-items: center;
 			height: 100%;

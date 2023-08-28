@@ -24,8 +24,6 @@
 	}
 
 	.st-editions-container {
-		@include reset-styles;
-
 		& + .st-btn {
 			width: 100%;
 			margin-top: 40px;

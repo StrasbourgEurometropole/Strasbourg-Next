@@ -68,10 +68,9 @@ var th_overlay = {
             targetOpen.addClass('st-parsed-overlay')
                 .on('click', function (e) {
                     e.preventDefault();
-                    var idOverlay = $(this).attr('href');
+                    var idOverlay = $(this).data("overlay-open");
                     if (!idOverlay) {
-                        idOverlay = $(this).attr('data-overlay-open');
-                    } else {
+                        idOverlay = $(this).attr('href');
                         idOverlay = idOverlay.replace('#', '');
                     }
 
@@ -84,7 +83,6 @@ var th_overlay = {
             $('a[href="#' + overlayId + '"].close:not(.st-parsed-overlay), [data-overlay-close="' + overlayId + '"]:not(.st-parsed-overlay)')
                 .addClass('st-parsed-overlay')
                 .on('click', function (e) {
-                    console.log("mama")
                     e.preventDefault();
                     var idOverlay = $(this).attr('href');
                     if (!idOverlay) {
@@ -140,7 +138,6 @@ var th_overlay = {
         setTimeout(function () {
             $('#' + overlayId).find('button[data-overlay-close]').first().focus();
         }, 250);
-
 
         $(th_overlay.selector_overlay + ".st-is-open").each(function (e) {
             th_overlay.close($(this).attr('id'), false, true)

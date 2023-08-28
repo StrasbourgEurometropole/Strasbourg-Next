@@ -12,7 +12,7 @@
 .st-card {
 	--image-size: 100px;
 	--aspect-ratio: 1/1;
-	@include reset-button;
+	@include create-outline;
 	position: relative;
 	display: flex;
 	flex-direction: column-reverse;

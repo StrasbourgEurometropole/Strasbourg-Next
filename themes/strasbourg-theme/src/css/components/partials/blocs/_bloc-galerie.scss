@@ -44,7 +44,7 @@
 	}
 
 	.st-slide-galerie {
-		@include reset-button;
+		@include create-outline;
 		position: relative;
 
 		// Figure en table pour contraindre la légende à la largeur de l'image

@@ -38,7 +38,7 @@
 	}
 
 	.st-menu-ancre {
-		@include reset-button;
+		@include create-outline;
 		position: relative;
 		display: block;
 		padding: 15px 20px;

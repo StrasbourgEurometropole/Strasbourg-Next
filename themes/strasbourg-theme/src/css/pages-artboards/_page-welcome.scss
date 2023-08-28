@@ -10,7 +10,6 @@
 	}
 
 	.st-container {
-		@include reset-styles;
 		display: flex;
 		flex-direction: column;
 		padding: 0 40px;
@@ -27,7 +26,7 @@
 			}
 
 			a {
-				@include reset-button;
+				@include create-outline;
 				@include ft($f_txt, $s_p, 300, $c_sub, 1.5);
 				text-transform: uppercase;
 				display: block;

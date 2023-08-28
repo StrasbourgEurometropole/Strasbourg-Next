@@ -3,7 +3,7 @@
 // =============================================
 
 // Share Button Wrapper
-.st-social-share {
+.st-page-wrapper .st-social-share {
 	position: relative;
 	z-index: z-index('social-share');
 	@include addTransition();
@@ -34,7 +34,6 @@
 	// =============================================
 
 	.st-network-list {
-		@include reset-styles;
 		position: absolute;
 		top: 0;
 		left: 20px;
