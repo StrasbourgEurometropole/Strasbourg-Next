@@ -6,7 +6,7 @@
 <liferay-portlet:renderURL portletConfiguration="true"
 	var="configurationRenderURL" />
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid-1280 main-content-body lfr-form-content">
 	<aui:form action="${configurationActionURL}" method="post" name="fm">
 	
 		<aui:input name="cmd" type="hidden"
