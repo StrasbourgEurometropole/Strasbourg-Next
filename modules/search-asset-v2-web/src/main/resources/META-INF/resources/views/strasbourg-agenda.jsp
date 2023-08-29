@@ -56,7 +56,7 @@
 				</c:forEach>
 			</select>
 		</div>
-	</div>
+
 	<aui:form method="post" name="fm">
 		<!-- Résultats -->
 		<liferay-ui:search-container id="entriesSearchContainer"
@@ -139,5 +139,7 @@
 		</liferay-ui:search-container>
 	</aui:form>
 
-
 </div>
+
+<!-- hihi -->
+<liferay-util:include page="/includes/overlay-event.jsp" servletContext="<%=application %>" />

@@ -19,7 +19,7 @@
 					<input type="hidden" name="<portlet:namespace />toYear" data-name="toYear" value="${dc.toYear}" />
 				</div>
 			</c:if>
-		<div class="st-filtre">
+		<div class="st-filtre  st--is-expanded">
 			<label for="name"><liferay-ui:message key="keywords" /></label>
 			<input type="text" id="name" name="<portlet:namespace />keywords"
 				   placeholder="<liferay-ui:message key="please-enter-keyword" />" value="${dc.keywords}" >
@@ -44,6 +44,13 @@
 		    </c:forEach>
 		<aui:input type="hidden" name="vocabulariesCount" value="${fn:length(dc.vocabularies)}" />
 		<div class="col-right">
+			<p class="st-resultats st--resultats-agenda">
+                <span class="st-resultats-range">${(dc.pager.currentPage - 1) * dc.delta + 1} <liferay-ui:message key="eu.to" />
+                ${(dc.pager.currentPage * dc.delta) > dc.searchContainer.total ? dc.searchContainer.total : dc.pager.currentPage * dc.delta}
+                </span>
+				<span class="st-resultats-total">${dc.searchContainer.total} <liferay-ui:message key="results" /></span>
+				<span class="st-resultats-period st-hide-from@t-portrait">Du </span>
+			</p>
 			<liferay-portlet:renderURL var="formURL" />
 			    <button type="button" onclick="window.location.href = '${formURL}'" class="st-btn st--btn-filtres">
 					<liferay-ui:message key="cancel" />

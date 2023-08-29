@@ -51,7 +51,7 @@
             </div>
         </div>
 
-        <div class="st-filtre st-group-field">
+        <div class="st-filtre st-group-field  st--is-expanded">
             <label for="filter-lieu"><liferay-ui:message key="keywords" /></label>
             <input id="filter-lieu" type="text" name="<portlet:namespace />keywords"
                    placeholder="<liferay-ui:message key="please-enter-keyword" />" value="${dc.keywords}" />
