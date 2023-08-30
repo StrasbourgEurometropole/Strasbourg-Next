@@ -1,17 +1,12 @@
 <%@ include file="/init.jsp"%>
-
-<link rel="stylesheet" href="/o/sliderune/css/slider-une.css" />
-<script src="/o/sliderune/js/Sortable.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.8/lib/draggable.bundle.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.8/lib/draggable.js"></script>
-
+<script src="/o/news-home/js/Sortable.js"></script>
 <liferay-portlet:actionURL portletConfiguration="true"
 	var="configurationActionURL" />
 
 <liferay-portlet:renderURL portletConfiguration="true"
 	var="configurationRenderURL" />
+<div class="container" id="configuration-news-home">
 
-<div class="container main-content-body">
 	<aui:form action="${configurationActionURL}" method="post" name="fm">
 
 		<aui:input name="cmd" type="hidden"
@@ -19,43 +14,99 @@
 
 		<aui:input name="redirect" type="hidden"
 			value="${configurationRenderURL}" />
-
         <aui:input type="text"
             name="link"
             value="${link}"
             label="Lien vers toutes les actus"
             inlineField="false" />
 
-		<div id="vignettes" class="vignettes">
+		<h3>A la une</h3>
+		<div id="vignettes-a-la-une" class="vignettes">
+			<c:forEach begin="1" end="1" step="1" var="i">
+				<div id="vignette_${i}" class="vignette" >
+					<liferay-util:include page="/configuration/news-home-configuration-selectors.jsp" servletContext="<%=application %>">
+						<liferay-util:param name="index" value="${i}" />
+						<liferay-util:param name="classPK" value="${classPKs[i - 1]}" />
+					</liferay-util:include>
+				</div>
+			</c:forEach>
 
-            <c:forEach begin="1" end="24" step="1" var="i">
-                <div id="vignette_${i}" class="vignette" >
-                    <liferay-util:include page="/configuration/news-home-configuration-selectors.jsp" servletContext="<%=application %>">
-                        <liferay-util:param name="index" value="${i}" />
-                        <liferay-util:param name="classPK" value="${classPKs[i - 1]}" />
-                    </liferay-util:include>
-                </div>
-            </c:forEach>
+		</div>
+		<h3>2 premier</h3>
+		<div id="vignettes-headline" class="vignettes">
+			<c:forEach begin="2" end="3" step="1" var="i">
+				<div id="vignette_${i}" class="vignette" >
+					<liferay-util:include page="/configuration/news-home-configuration-selectors.jsp" servletContext="<%=application %>">
+						<liferay-util:param name="index" value="${i}" />
+						<liferay-util:param name="classPK" value="${classPKs[i - 1]}" />
+					</liferay-util:include>
+				</div>
+			</c:forEach>
 
-        </div>
+		</div>
+		<h3>Les autres</h3>
+		<div id="vignettes-items" class="vignettes">
+			<c:forEach begin="4" end="11" step="1" var="i">
+				<div id="vignette_${i}" class="vignette" >
+					<liferay-util:include page="/configuration/news-home-configuration-selectors.jsp" servletContext="<%=application %>">
+						<liferay-util:param name="index" value="${i}" />
+						<liferay-util:param name="classPK" value="${classPKs[i - 1]}" />
+					</liferay-util:include>
+				</div>
+			</c:forEach>
+
+		</div>
+			<aui:button-row>
+				<clay:button
+						displayType="primary"
+						label="save"
+						type="submit"
+				/>
+			</aui:button-row>
 
 
-		<aui:button-row>
-			<aui:button type="submit"></aui:button>
-		</aui:button-row>
 	</aui:form>
 </div>
-
 <script>
-    new Sortable(vignettes, {
+	var vignettesHeadline = document.getElementById('vignettes-headline');
+	var vignettesALaUne = document.getElementById('vignettes-a-la-une');
+	var vignettesItem = document.getElementById('vignettes-items');
+
+    new Sortable(vignettesHeadline, {
+		group: 'vignette-actu',
         handle: '.vignette-move',
         animation: 150,
-
-        // Change la valeur des ids et names des itemspickers
+		swap: true,
+		swapClass: 'highlight',
+		// Change la valeur des ids et names des itemspickers
         onSort: function (evt) {
             reindex();
         }
     });
+
+	new Sortable(vignettesALaUne, {
+		group: 'vignette-actu',
+		handle: '.vignette-move',
+		animation: 150,
+		swap: true,
+		swapClass: 'highlight',
+		// Change la valeur des ids et names des itemspickers
+		onSort: function (evt) {
+			reindex();
+		}
+	});
+
+	new Sortable(vignettesItem, {
+		group: 'vignette-actu',
+		handle: '.vignette-move',
+		animation: 150,
+		swap: true,
+		swapClass: 'highlight',
+		// Change la valeur des ids et names des itemspickers
+		onSort: function (evt) {
+			reindex();
+		}
+	});
 
     $('.vignette-delete').on('click', function(event){
         var index = $(this).attr('data-index');
