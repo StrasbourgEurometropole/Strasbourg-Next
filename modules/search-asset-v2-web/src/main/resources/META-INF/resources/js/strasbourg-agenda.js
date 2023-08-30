@@ -1,5 +1,7 @@
 function updateDescription(clickedElement) {
 	var parentElement = clickedElement.parentElement
+	var address = clickedElement.getAttribute("data-address");
+	var detailURL = clickedElement.getAttribute("data-detailurl");
 	var descriptionHtml = parentElement.querySelector('.st-description').innerHTML; // Find the description element using class name
 	var title = clickedElement.querySelector('.st-title-card').textContent
 	var category = clickedElement.querySelector('.st-surtitre-cat').textContent
@@ -12,8 +14,9 @@ function updateDescription(clickedElement) {
 	overlayDiv.querySelector(".st-title-overlay").textContent = title;
 	overlayDiv.querySelector(".st-surtitre-cat").textContent = category;
 	overlayDiv.querySelector(".st-date").textContent = date;
-	overlayDiv.querySelector(".st-location").textContent = location;
+	overlayDiv.querySelector(".st-location").innerHTML = `${location}<br> ${address}`;
 	overlayDiv.querySelector(".st-overlay__content").innerHTML = descriptionHtml;
+	overlayDiv.querySelector(".detail-button").href = detailURL;
 	overlayDiv.querySelector(".st-img").src = imageURL;
 	if(bookingURL) {
 		var elementFooter = overlayDiv.querySelector(".st-overlay__footer")

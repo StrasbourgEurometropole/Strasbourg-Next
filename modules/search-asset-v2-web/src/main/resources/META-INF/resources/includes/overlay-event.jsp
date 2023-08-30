@@ -36,7 +36,7 @@
         </div>
 
         <div class="st-overlay__footer">
-            <a href="#" class="st-btn st--btn-full-width-mobile st--btn-secondary-ghost">En savoir plus</a>
+            <a href="#" class="st-btn st--btn-full-width-mobile st--btn-secondary-ghost detail-button">En savoir plus</a>
         </div>
 
     </div>

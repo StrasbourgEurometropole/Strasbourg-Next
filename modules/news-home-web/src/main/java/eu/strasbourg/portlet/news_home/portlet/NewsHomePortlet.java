@@ -12,6 +12,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import eu.strasbourg.portlet.news_home.context.NewsHomeDisplayContext;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import java.io.IOException;
@@ -20,14 +21,16 @@ import java.io.IOException;
  * @author thomas.tse
  */
 @Component(
+	immediate = true,
 	property = {
 		"com.liferay.portlet.display-category=Strasbourg",
-		"com.liferay.portlet.header-portlet-css=/css/main.css",
+		"com.liferay.portlet.header-portlet-css=/css/news-home.css",
 		"com.liferay.portlet.instanceable=true",
 		"javax.portlet.display-name=NewsHome",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/view.jsp",
-		"javax.portlet.name=" + NewsHomePortletKeys.NEWSHOME,
+		"javax.portlet.init-param.config-template=/configuration/news-home-configuration.jsp",
+		"javax.portlet.name=" + StrasbourgPortletKeys.NEWSHOME,
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user"
 	},
