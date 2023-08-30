@@ -62,13 +62,10 @@
 								callback
 							);
 
-							instance._getItemSelectorDialog(
+							instance._openSelectionModal(
 								editor,
 								editor.config.filebrowserFileBrowseUrl,
-								function(itemSelectorDialog) {
-									itemSelectorDialog.once('selectedItemChange', onSelectedFileChangeFn);
-									itemSelectorDialog.open();
-								}
+								onSelectedFileChangeFn
 							);
 						}
 					}
@@ -126,40 +123,15 @@
 					}
 				}
 			},
-			
-			_getItemSelectorDialog: function(editor, url, callback) {
-				var instance = this;
 
-				var eventName = editor.name + 'selectItem';
-
-				var itemSelectorDialog = instance._itemSelectorDialog;
-
-				if (itemSelectorDialog) {
-					itemSelectorDialog.set('eventName', eventName);
-					itemSelectorDialog.set('url', url);
-					itemSelectorDialog.set('zIndex', CKEDITOR.getNextZIndex());
-
-					callback(itemSelectorDialog);
-				}
-				else {
-					AUI().use(
-						'liferay-item-selector-dialog',
-						function(A) {
-
-							itemSelectorDialog = new A.LiferayItemSelectorDialog(
-								{
-									eventName: eventName,
-									url: url,
-									zIndex: CKEDITOR.getNextZIndex()
-								}
-							);
-
-							instance._itemSelectorDialog = itemSelectorDialog;
-
-							callback(itemSelectorDialog);
-						}
-					);
-				}
+			_openSelectionModal(editor, url, callback) {
+				Liferay.Util.openSelectionModal({
+					onSelect: callback,
+					selectEventName: editor.name + 'selectItem',
+					title: Liferay.Language.get('select-item'),
+					url,
+					zIndex: CKEDITOR.getNextZIndex(),
+				});
 			},
 
 			_getItemSrc: function(editor, selectedItem) {
@@ -178,22 +150,15 @@
 				return itemSrc;
 			},
 
-			_onSelectedFileChange: function(editor, callback, event) {
+			_onSelectedFileChange: function(editor, callback, selectedItem) {
 				var instance = this;
-
-				var selectedItem = event.newVal;
 
 				if (selectedItem) {
 					var fileSrc = instance._getItemSrc(editor, selectedItem);
 
 					if (fileSrc) {
-						var urlInterstingPart = fileSrc.split("/documents/")[1];
-		                var groupId = urlInterstingPart.split("/")[0];
-		                var urlParts = urlInterstingPart.split("/");
-		                var uuid = urlParts[urlParts.length - 1].substring(0, 36);
 						Liferay.Service('/strasbourg.strasbourg/get-file-details', {
-							groupId : groupId,
-							uuid: uuid,
+							url : fileSrc,
 							language : 'fr_FR'
 						}, function(response) {
 							var htmlToInsert = instance._fileTPL.output(

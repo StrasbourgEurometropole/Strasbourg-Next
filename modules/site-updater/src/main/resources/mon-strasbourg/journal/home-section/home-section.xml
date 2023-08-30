@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<root>
+    <name>Section accueil</name>
+    <key>HOME</key>
+    <structure>
+        <definition>home-section-structure.json</definition>
+        <layout>home-section-layout.json</layout>
+    </structure>
+    <template>
+        <name>Toto</name>
+        <key>TOTO</key>
+        <script>toto.ftl</script>
+    </template>
+    <template>
+        <name>Toto bis</name>
+        <key>TOTO_BIS</key>
+        <script>toto-bis.ftl</script>
+    </template>
+</root>

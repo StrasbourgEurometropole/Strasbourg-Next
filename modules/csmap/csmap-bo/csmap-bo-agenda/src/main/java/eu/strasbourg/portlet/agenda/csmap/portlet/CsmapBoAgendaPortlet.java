@@ -33,6 +33,7 @@ import java.io.IOException;
 	property = {
 			"javax.portlet.version=3.0",
 			"com.liferay.portlet.instanceable=false",
+			"com.liferay.portlet.header-portlet-css=/css/main.css",
 			"com.liferay.portlet.layout-cacheable=true",
 			"javax.portlet.display-name=CsmapBoAgenda",
 			"com.liferay.portlet.single-page-application=false",

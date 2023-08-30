@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<root>
+    <name>Bloc côte à côte</name>
+    <key>BLOC</key>
+    <structure>
+        <definition>bloc-cote-a-cote-structure.json</definition>
+        <layout>bloc-cote-a-cote-layout.json</layout>
+    </structure>
+    <template>
+        <name>Toto</name>
+        <key>TOTO</key>
+        <script>toto.ftl</script>
+    </template>
+    <template>
+        <name>Toto bis</name>
+        <key>TOTO_BIS</key>
+        <script>toto-bis.ftl</script>
+    </template>
+</root>

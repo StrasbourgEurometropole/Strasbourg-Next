@@ -17,6 +17,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.IndexHelper;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
@@ -61,8 +62,8 @@ public class EditionGalleryIndexer extends BaseIndexer<EditionGallery> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(editionGallery.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);*/
+		IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);
 		
 		document.addLocalizedText(Field.TITLE, editionGallery.getTitleMap());
 		document.addLocalizedText(Field.DESCRIPTION,

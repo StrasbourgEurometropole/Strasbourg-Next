@@ -149,9 +149,9 @@ public class StrasbourgServiceWrapper
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getFileDetails(
-		long groupId, String uuid, String language) {
+		String url, String language) {
 
-		return _strasbourgService.getFileDetails(groupId, uuid, language);
+		return _strasbourgService.getFileDetails(url, language);
 	}
 
 	@Override

@@ -256,7 +256,7 @@
 
                         <!-- Filtre par date -->
                         <div class="dateField">
-                            <aui:input type="checkbox" name="dateField" value="${dateField}" label="date-field" inlineField="true" />
+                            <aui:input type="checkbox" name="dateField" value="${dateField}" label="date-field" />
 
                             <div class="defaultDateRange">
                                 <aui:input type="number" name="defaultDateRange" min="-1000" max="+1000" cssClass="date-range" value="${defaultDateRange}" label="default-date-range" inlineField="true"/>

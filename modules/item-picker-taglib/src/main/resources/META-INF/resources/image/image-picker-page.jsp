@@ -23,7 +23,7 @@
 		<c:forEach items="${files}" var="file">
 			<div class="image-thumbnail figure figure-rounded">
 				<a href="#" class="remove-image" data-entry-id="${file.id}"></a>
-				<img src="${file.url}" class="img-responsive" />
+				<img src="${file.url}" class="img-fluid" />
 				<div class="figcaption-bottom">${file.title}</div>
 			</div>
 		</c:forEach>
@@ -39,38 +39,35 @@
 		</aui:input>
 	</div>
 </div>
-<aui:script use="liferay-item-selector-dialog">
+<aui:script>
 $('#<portlet:namespace />choose-image-${name}').on('click',
 	function(event) {
 		var multipleSelection = ${multiple};
-		var itemSelectorDialog = new A.LiferayItemSelectorDialog(
+		Liferay.Util.openSelectionModal(
 			{
-				eventName: 'itemSelected${name}',
-				on: {
-					selectedItemChange: function(event) {
-						var selectedItem = event.newVal;
-						if (!!selectedItem && !!selectedItem.value) {
-							var itemValue = JSON.parse(selectedItem.value);
-							var htmlToAppend = '<div class="image-thumbnail figure figure-rounded">'
-									+ '<a href="#" class="remove-image" data-entry-id="' + itemValue.fileEntryId + '"></a>'
-									+ '<img src="' + itemValue.url + '" class="img-responsive" />'
-									+ '<div class="figcaption-bottom">' + itemValue.title + '</div>'
-									+ '</div>';
-							if (!multipleSelection) {
-								$('#images-thumbnails-${name}').empty();
+				selectEventName: 'itemSelected${name}',
+				onSelect: function(selectedItem) {
+					if (!!selectedItem && !!selectedItem.value) {
+						var itemValue = JSON.parse(selectedItem.value);
+						var htmlToAppend = '<div class="image-thumbnail figure figure-rounded">'
+								+ '<a href="#" class="remove-image" data-entry-id="' + itemValue.fileEntryId + '"></a>'
+								+ '<img src="' + itemValue.url + '" class="img-fluid" />'
+								+ '<div class="figcaption-bottom">' + itemValue.title + '</div>'
+								+ '</div>';
+						if (!multipleSelection) {
+							$('#images-thumbnails-${name}').empty();
+						}
+						$('#images-thumbnails-${name}').append(htmlToAppend);
+						if (!multipleSelection) {
+							$('#<portlet:namespace />${name}').val(itemValue.fileEntryId);
+						} else {
+							var currentValue = $('#<portlet:namespace />${name}').val();
+							var newValue = currentValue;
+							if (currentValue.length > 0) {
+								newValue += ',';
 							}
-							$('#images-thumbnails-${name}').append(htmlToAppend);
-							if (!multipleSelection) {
-								$('#<portlet:namespace />${name}').val(itemValue.fileEntryId);
-							} else {
-								var currentValue = $('#<portlet:namespace />${name}').val();
-								var newValue = currentValue;
-								if (currentValue.length > 0) {
-									newValue += ',';
-								}
-								newValue += itemValue.fileEntryId;
-								$('#<portlet:namespace />${name}').val(newValue);
-							}
+							newValue += itemValue.fileEntryId;
+							$('#<portlet:namespace />${name}').val(newValue);
 						}
 					}
 				},
@@ -78,7 +75,6 @@ $('#<portlet:namespace />choose-image-${name}').on('click',
 				url: '${itemSelectorURL}'
 			}
 		);
-		itemSelectorDialog.open();
 	}
 );
 $('#images-thumbnails-${name}').on('click', '.remove-image', function(e) {

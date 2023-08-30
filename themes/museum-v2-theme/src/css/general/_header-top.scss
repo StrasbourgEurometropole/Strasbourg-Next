@@ -11,7 +11,11 @@
             position: relative;
                 
             @include RWD(tablet_portrait){
-                padding: 30px 130px 30px 20px
+                padding: 30px 100px 30px 20px;
+            }
+    
+            @include RWD(tablet_landscape){
+                padding-right: 130px;
             }
 
             .title{

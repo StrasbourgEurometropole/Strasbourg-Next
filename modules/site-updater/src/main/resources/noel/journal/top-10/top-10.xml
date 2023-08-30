@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<root>
+    <name>Top 10</name>
+    <key>TOP</key>
+    <structure>
+        <definition>top-10-structure.json</definition>
+        <layout>top-10-layout.json</layout>
+    </structure>
+    <template>
+        <name>Toto</name>
+        <key>TOTO</key>
+        <script>toto.ftl</script>
+    </template>
+    <template>
+        <name>Toto bis</name>
+        <key>TOTO_BIS</key>
+        <script>toto-bis.ftl</script>
+    </template>
+</root>

@@ -17,6 +17,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.video.model.VideoGallery;
 import eu.strasbourg.service.video.service.VideoGalleryLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.IndexHelper;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
@@ -61,8 +62,8 @@ public class VideoGalleryIndexer extends BaseIndexer<VideoGallery> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(videoGallery.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);*/
+		IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);
 		
 		document.addLocalizedText(Field.TITLE, videoGallery.getTitleMap());
 		document.addLocalizedText(Field.DESCRIPTION,

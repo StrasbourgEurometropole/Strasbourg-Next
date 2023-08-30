@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<root>
+    <name>Welcome fond blanc</name>
+    <key>WELCOME4</key>
+    <structure>
+        <definition>welcome-white-structure.json</definition>
+        <layout>welcome-white-layout.json</layout>
+    </structure>
+    <template>
+        <name>Toto</name>
+        <key>TOTO</key>
+        <script>toto.ftl</script>
+    </template>
+    <template>
+        <name>Toto bis</name>
+        <key>TOTO_BIS</key>
+        <script>toto-bis.ftl</script>
+    </template>
+</root>

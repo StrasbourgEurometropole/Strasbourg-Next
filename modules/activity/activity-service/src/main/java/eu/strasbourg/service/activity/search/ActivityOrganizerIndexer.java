@@ -17,6 +17,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.activity.model.ActivityOrganizer;
 import eu.strasbourg.service.activity.service.ActivityOrganizerLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.IndexHelper;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
@@ -59,8 +60,8 @@ public class ActivityOrganizerIndexer extends BaseIndexer<ActivityOrganizer> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(activityOrganizer.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		/*addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);*/
+		IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+			assetCategories);
 
 		document.addLocalizedText(Field.TITLE, activityOrganizer.getNameMap());
 		document.addLocalizedText(Field.DESCRIPTION,

@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
+import com.liferay.portal.kernel.util.*;
 
 import java.io.File;
 
@@ -131,8 +132,7 @@ public interface StrasbourgService extends BaseService {
 		long groupId, String typeContenu, String localeId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getFileDetails(
-		long groupId, String uuid, String language);
+	public JSONObject getFileDetails(String url, String language);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getInterestsPois(

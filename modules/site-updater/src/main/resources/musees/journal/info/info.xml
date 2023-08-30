@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<root>
+    <name>Information pratique</name>
+    <key>INFO</key>
+    <structure>
+        <definition>info-structure.json</definition>
+        <layout>info-layout.json</layout>
+    </structure>
+    <template>
+        <name>Toto</name>
+        <key>TOTO</key>
+        <script>toto.ftl</script>
+    </template>
+    <template>
+        <name>Toto bis</name>
+        <key>TOTO_BIS</key>
+        <script>toto-bis.ftl</script>
+    </template>
+</root>

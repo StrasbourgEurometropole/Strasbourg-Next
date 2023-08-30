@@ -16,6 +16,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.IndexHelper;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
@@ -96,7 +97,7 @@ public class CommentIndexer extends BaseIndexer<Comment> {
 		long[] assetCategorIds = AssetVocabularyHelper.getFullHierarchyCategoriesIds(comment.getCategories());
 		List<AssetCategory> assetCategories = AssetVocabularyHelper.getFullHierarchyCategories(comment.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS,assetCategorIds);
-		//addSearchAssetCategoryTitles(document,Field.ASSET_CATEGORY_TITLES,assetCategories);
+		IndexHelper.addAssetCategoryTitles(document,Field.ASSET_CATEGORY_TITLES,assetCategories);
 		document.addNumber(Field.STATUS, comment.getStatus());
 		document.addNumber("reportings", comment.getCountSignalements());
 		document.addTextSortable(Field.USER_NAME,comment.getUserName());

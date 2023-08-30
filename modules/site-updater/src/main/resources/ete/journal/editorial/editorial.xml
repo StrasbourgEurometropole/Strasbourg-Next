@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<root>
+    <name>Editorial</name>
+    <key>EDITORIAL</key>
+    <structure>
+        <definition>editorial-structure.json</definition>
+        <layout>editorial-layout.json</layout>
+    </structure>
+    <template>
+        <name>Toto</name>
+        <key>TOTO</key>
+        <script>toto.ftl</script>
+    </template>
+    <template>
+        <name>Toto bis</name>
+        <key>TOTO_BIS</key>
+        <script>toto-bis.ftl</script>
+    </template>
+</root>

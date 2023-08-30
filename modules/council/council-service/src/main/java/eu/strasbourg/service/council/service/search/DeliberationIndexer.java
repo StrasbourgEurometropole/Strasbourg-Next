@@ -17,6 +17,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.service.DeliberationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.IndexHelper;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
@@ -64,7 +65,7 @@ public class DeliberationIndexer extends BaseIndexer<Deliberation> {
         List<AssetCategory> assetCategories = AssetVocabularyHelper
                 .getFullHierarchyCategories(deliberation.getCategories());
         document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-       // addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES, assetCategories);
+        IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES, assetCategories);
 
         Map<Locale, String> titleFieldMap = new HashMap<>();
         titleFieldMap.put(Locale.FRANCE, deliberation.getTitle());

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<root>
+    <name>Atelier de projet</name>
+    <key>WORKSHOP</key>
+    <structure>
+        <definition>project-workshop-structure.json</definition>
+        <layout>project-workshop-layout.json</layout>
+    </structure>
+    <template>
+        <name>Toto</name>
+        <key>TOTO</key>
+        <script>toto.ftl</script>
+    </template>
+    <template>
+        <name>Toto bis</name>
+        <key>TOTO_BIS</key>
+        <script>toto-bis.ftl</script>
+    </template>
+</root>

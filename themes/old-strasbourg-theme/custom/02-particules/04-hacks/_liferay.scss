@@ -263,3 +263,11 @@ input#_com_liferay_login_web_portlet_LoginPortlet_captchaText,input#_com_liferay
 
 
 // 
+
+.radio label, .checkbox label {
+    padding-left: 20px !important;
+}
+
+.radio input[type='radio'], .radio-inline input[type='radio'], .checkbox input[type='checkbox'], .checkbox-inline input[type='checkbox'] {
+    margin-left: -20px !important;
+}

@@ -12,13 +12,4 @@
             </li>
     	</#list>
     </#if>
-	<li class="access-item language">
-    	<div class="language-menu">
-			<@liferay_portlet["runtime"]
-				portletProviderAction=portletProviderAction.VIEW
-				portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-				instanceId="langues"
-				settingsScope="group" />
-    	</div>
-	</li>
 </ul>

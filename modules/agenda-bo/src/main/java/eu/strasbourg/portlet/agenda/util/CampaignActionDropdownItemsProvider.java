@@ -4,6 +4,7 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuilder;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -174,11 +175,12 @@ public class CampaignActionDropdownItemsProvider {
     private UnsafeConsumer<DropdownItem, Exception> _getExportJsonActionUnsafeConsumer() {
 
         return dropdownItem -> {
-            ResourceURL resourceURL =
-                    _response.createResourceURL();
+            LiferayPortletURL resourceURL =
+                    (LiferayPortletURL) _response.createResourceURL();
             resourceURL.setResourceID("exportJson");
             resourceURL.setParameter("campaignId", String.valueOf(_campaign.getCampaignId()));
 
+            resourceURL.setCopyCurrentRenderParameters(false);
             dropdownItem.setHref(resourceURL.toString());
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "export-json"));
         };
@@ -190,11 +192,12 @@ public class CampaignActionDropdownItemsProvider {
     private UnsafeConsumer<DropdownItem, Exception> _getExportDocxActionUnsafeConsumer() {
 
         return dropdownItem -> {
-            ResourceURL resourceURL =
-                    _response.createResourceURL();
+            LiferayPortletURL resourceURL =
+                    (LiferayPortletURL) _response.createResourceURL();
             resourceURL.setResourceID("exportDocx");
             resourceURL.setParameter("campaignId", String.valueOf(_campaign.getCampaignId()));
 
+            resourceURL.setCopyCurrentRenderParameters(false);
             dropdownItem.setHref(resourceURL.toString());
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "export-docx"));
         };

@@ -37,7 +37,7 @@
                                     name="assetClassNameId_${assetStatus.index}"
                                     label="<%= ResourceActionsUtil.getModelResource(locale, assetRendererFactory.getClassName()) %>"
                                     checked="${classNameIsChecked}"
-                                    value="${assetRendererFactory.classNameId}" inlineField="true" />
+                                    value="${assetRendererFactory.classNameId}" />
 
                                 <aui:select name="templateKey_${assetStatus.index}"
                                     inlineField="true">
@@ -64,8 +64,7 @@
                             <aui:input type="checkbox"
                                 name="searchJournalArticle"
                                 value="${searchJournalArticle}"
-                                label="web-content"
-                                inlineField="true" />
+                                label="web-content" />
                             <aui:select name="journalArticleTemplateKey"
                                 inlineField="true">
                                 <aui:option value="0"><liferay-ui:message key="select-a-template" /></aui:option>
@@ -82,8 +81,7 @@
                             <aui:input type="checkbox"
                                        name="searchDocument"
                                        value="${searchDocument}"
-                                       label="file"
-                                       inlineField="true" />
+                                       label="file" />
                             <aui:select name="documentTemplateKey"
                                         inlineField="true">
                                 <aui:option value="0"><liferay-ui:message key="select-a-template" /></aui:option>
@@ -100,8 +98,7 @@
                             <aui:input type="checkbox"
                                        name="searchDemarche"
                                        value="${searchDemarche}"
-                                       label="procedure"
-                                       inlineField="true" />
+                                       label="procedure" />
                         </div>
                     </div>
                     <div>
@@ -112,7 +109,7 @@
                 <!-- Portee -->
                 <aui:fieldset collapsed="true" collapsible="true" label="scope">
                     <liferay-ui:message key="scope-explanations" />
-                    <aui:input type="checkbox" name="globalScope" value="${globalScope}" label="global-scope" inlineField="true" />
+                    <aui:input type="checkbox" name="globalScope" value="${globalScope}" label="global-scope" />
                 </aui:fieldset>
 
                 <!-- Prefiltre -->
@@ -159,8 +156,7 @@
                             </c:if>
                             <aui:input type="checkbox" name="vocabularyId_${vocStatus.index}"
                                 label="${vocabularyLabel}" value="${vocabulary.vocabularyId}"
-                                checked="${fn:contains(vocabulariesIds, vocabulary.vocabularyId)}"
-                                inlineField="true" />
+                                checked="${fn:contains(vocabulariesIds, vocabulary.vocabularyId)}" />
 
                             <aui:select name="vocabularyControlType_${vocStatus.index}"
                                 inlineField="true">
@@ -181,13 +177,13 @@
                     <!-- Filtre par date -->
                     <div>
                         <liferay-ui:message key="date-explanations" />
-                        <aui:input type="checkbox" name="dateField" value="${dateField}" label="date-field" inlineField="true" />
+                        <aui:input type="checkbox" name="dateField" value="${dateField}" label="date-field" />
                     </div>
 
                     <!-- Tri par date -->
                     <div>
                         <liferay-ui:message key="date-sorting-explanations" />
-                        <aui:input type="checkbox" name="displayDateSorting" value="${displayDateSorting}" label="date-sorting-field" inlineField="true" />
+                        <aui:input type="checkbox" name="displayDateSorting" value="${displayDateSorting}" label="date-sorting-field" />
                     </div>
                 </aui:fieldset>
 
@@ -331,7 +327,7 @@
 
                     <!-- Bouton exporter -->
                     <aui:input type="checkbox" name="displayExport" value="${displayExport}"
-                        label="display-export" inlineField="true" />
+                        label="display-export" />
 
                     <!-- Type d'export -->
                     <aui:select name="exportType" showEmptyOption="true">
