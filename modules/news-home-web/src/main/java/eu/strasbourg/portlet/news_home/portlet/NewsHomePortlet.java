@@ -26,7 +26,7 @@ import java.io.IOException;
 		"com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.header-portlet-css=/css/news-home.css",
 		"com.liferay.portlet.instanceable=true",
-		"javax.portlet.display-name=NewsHome",
+		"javax.portlet.display-name=Accueil Actualité",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/view.jsp",
 		"javax.portlet.init-param.config-template=/configuration/news-home-configuration.jsp",

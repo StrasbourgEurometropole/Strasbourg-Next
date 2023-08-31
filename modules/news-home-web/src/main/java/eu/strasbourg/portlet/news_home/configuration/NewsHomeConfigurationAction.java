@@ -25,6 +25,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 @Component(
         configurationPid = "eu.strasbourg.portlet.news_home.configuration.NewsHomeConfiguration",
@@ -36,62 +39,51 @@ import java.util.Date;
 public class NewsHomeConfigurationAction
         extends DefaultConfigurationAction {
 
+
     /**
-     * Action : Sauvegarde de la configuration si on a validé le formulaire ou
-     * envoi de la JSP des sélecteurs si on a changé la liste déroulante des
-     * types d'entité
+     * Sauvegarde les informations entrées par l'utilisateur dans le formulaire de configuration
+     * @param portletConfig
+     * @param request
+     * @param response
+     * @throws Exception
+     * @see DefaultConfigurationAction#processAction(PortletConfig, ActionRequest, ActionResponse)
+     * @note on transforme les classPKs en String pour pouvoir les stocker dans le portlet preferences
      */
     @Override
     public void processAction(PortletConfig portletConfig,
                               ActionRequest request, ActionResponse response) throws Exception {
-
         String cmd = ParamUtil.getString(request, "cmd");
         if (cmd.equals("update")) {
 
-            // Champs selectionnés
-            String classPKsString = "";
-            for (int i = 1; i < 25; i++) {
+            // Collect selected classPKs using StringJoiner
+            StringJoiner classPKsString = new StringJoiner(",");
+            for (int i = 1; i < 12; i++) {
                 String classPK = ParamUtil.getString(request, "classPK_" + i);
-                if(Validator.isNotNull(classPK))
-                    classPKsString += classPKsString.length() > 0 ? "," + classPK : classPK;
-            }
-            String classPKs = "";
-            if(!classPKsString.isEmpty()) {
-                for (String classPK : classPKsString.split(",")) {
-                    if(classPKs.isEmpty())
-                        classPKs = classPK;
-                    else {
-                        // Vérifie si le contenu web a le tag "focus"
-                        AssetEntry journalArticleEntry = null;
-                        journalArticleEntry = AssetEntryLocalServiceUtil.fetchEntry(JournalArticle.class.getName(),
-                                Long.parseLong(classPK));
-                        if (journalArticleEntry != null && Arrays.toString(journalArticleEntry.getTagNames()).contains("focus")){
-                            // on insert l'élément au début du String
-                            classPKs = classPK + "," + classPKs;
-                        }else{
-                            classPKs = classPKs + "," + classPK;
-                        }
-                    }
+                if (Validator.isNotNull(classPK)) {
+                    classPKsString.add(classPK);
+                }
+                else {
+                    classPKsString.add("");
                 }
             }
-            setPreference(request, "classPKs", classPKs);
+            setPreference(request, "classPKs", classPKsString.toString());
 
-            // Affichage des tags
-            boolean showTags = ParamUtil.getBoolean(request,
-                    "showTags");
-            setPreference(request, "showTags",
-                    String.valueOf(showTags));
-
-            // Lien ver toutes les actu
+            // Set the preference for the link
             String link = ParamUtil.getString(request, "link");
             setPreference(request, "link", link);
-
         }
         super.processAction(portletConfig, request, response);
     }
 
+
     /**
-     * Envoie à la JSP de configuration des informations nécessaires
+     * Envoie à la JSP de configuration des informations nécessaires à son affichage
+     * @param portletConfig
+     * @param request
+     * @param response
+     * @throws Exception
+     * @see DefaultConfigurationAction#include(PortletConfig, HttpServletRequest, HttpServletResponse)
+     * @note On transforme les classPKs en liste pour pouvoir les afficher dans le formulaire
      */
     @Override
     public void include(PortletConfig portletConfig, HttpServletRequest request,
@@ -104,75 +96,21 @@ public class NewsHomeConfigurationAction
                     .getPortletDisplay().getPortletInstanceConfiguration(
                             NewsHomeConfiguration.class);
 
-            // items selectionnés
-            String classPKsString = "";
-            for (int i = 1; i < 25; i++) {
-                String classPK = ParamUtil.getString(request, "classPK_" + i);
-                if(Validator.isNotNull(classPK)) {
-                    classPKsString += classPKsString.length() > 0 ? "," + classPK : classPK;
-                }
-            }
-            if(classPKsString.length() == 0)
-                classPKsString = configuration.classPKs();
-            String[] classPKs = new String[24];
-            int index = 0;
-            if(!classPKsString.isEmpty()) {
-                for (String classPK : classPKsString.split(",")) {
-                    // Vérifie si le contenu web n'est pas dépublié
-                    AssetEntry journalArticleEntry = null;
-                    journalArticleEntry = AssetEntryLocalServiceUtil.fetchEntry(JournalArticle.class.getName(),
-                            Long.parseLong(classPK));
-                    if (journalArticleEntry != null) {
-                        int[] statuses = {0,7};
-                        JournalArticle journalArticle = JournalArticleLocalServiceUtil.fetchLatestArticle(Long.parseLong(classPK), statuses);
-                        if(journalArticle != null) {
-                            // Vérifie si le contenu web a le tag "focus"
-                            if (Arrays.toString(journalArticleEntry.getTagNames()).contains("focus")) {
-                                // on déplace de 2 tous les éléments du tableau
-                                for (int i = classPKs.length - 1; i >= 0; i--) {
-                                    if (i >= 22)
-                                        i = 21;
-                                    classPKs[i + 2] = classPKs[i];
-                                }
-                                // on insert l'élément au début du tableau
-                                classPKs[0] = classPK;
-                                // on rend null le 2me élément
-                                classPKs[1] = null;
-                                index++;
-                            } else {
-                                classPKs[index] = classPK;
-                            }
-                            index++;
-                        }
-                    }
-                    // Vérifie si l'évènement n'est pas dépublié
-                    AssetEntry eventEntry = null;
-                    eventEntry = AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(),
-                            Long.parseLong(classPK));
-                    if (eventEntry != null && (eventEntry.isVisible() || eventEntry.getStartDate().after(new Date()))) {
-                        classPKs[index] = classPK;
-                        index++;
-                    }
-                }
-            }
-            request.setAttribute("classPKs", classPKs);
+            List<String> classPKsList = Arrays.asList(configuration.classPKs().split(",", -1));
 
-            // Affichage des tags
-            boolean showTags = ParamUtil.getBoolean(request,
-                    "showTags", configuration.showTags());
-            request.setAttribute("showTags", showTags);
+            request.setAttribute("classPKs", classPKsList);
 
             // Lien vers toutes les actus
             String link = ParamUtil.getString(request,
                     "link", configuration.link());
             request.setAttribute("link", link);
 
-
         } catch (ConfigurationException e) {
-            _log.error(e);
+            _log.error("An error occurred while processing the configuration.", e);
         }
         super.include(portletConfig, request, response);
     }
+
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

@@ -1,5 +1,5 @@
 <%@ include file="/init.jsp"%>
-<script src="/o/news-home/js/Sortable.js"></script>
+<script src="/o/news-home/js/Sortable.min.js"></script>
 <liferay-portlet:actionURL portletConfiguration="true"
 	var="configurationActionURL" />
 
@@ -56,6 +56,15 @@
 			</c:forEach>
 
 		</div>
+		<div class="vignette_empty">
+			<div id="vignette_12" class="vignette" >
+				<liferay-util:include page="/configuration/news-home-configuration-selectors.jsp" servletContext="<%=application %>">
+					<liferay-util:param name="index" value="25" />
+					<liferay-util:param name="classPK" value="" />
+				</liferay-util:include>
+			</div>
+		</div>
+
 			<aui:button-row>
 				<clay:button
 						displayType="primary"
@@ -73,7 +82,7 @@
 	var vignettesItem = document.getElementById('vignettes-items');
 
     new Sortable(vignettesHeadline, {
-		group: 'vignette-actu',
+		group: "vignettes",
         handle: '.vignette-move',
         animation: 150,
 		swap: true,
@@ -85,7 +94,7 @@
     });
 
 	new Sortable(vignettesALaUne, {
-		group: 'vignette-actu',
+		group: "vignettes",
 		handle: '.vignette-move',
 		animation: 150,
 		swap: true,
@@ -97,7 +106,7 @@
 	});
 
 	new Sortable(vignettesItem, {
-		group: 'vignette-actu',
+		group: "vignettes",
 		handle: '.vignette-move',
 		animation: 150,
 		swap: true,
@@ -110,8 +119,7 @@
 
     $('.vignette-delete').on('click', function(event){
         var index = $(this).attr('data-index');
-        $('#vignette_' + index).remove();
-        $('.vignettes').append($('#vignette_25').clone());
+        $('#vignette_' + index).replaceWith($('#vignette_12').clone())
         reindex();
     });
 

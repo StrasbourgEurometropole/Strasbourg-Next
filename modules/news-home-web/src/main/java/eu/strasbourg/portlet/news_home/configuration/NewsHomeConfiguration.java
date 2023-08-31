@@ -12,9 +12,6 @@ public interface NewsHomeConfiguration {
     @Meta.AD(name="classPKs", required = false)
     public String classPKs();
 
-    @Meta.AD(name="showTags", required = false)
-    public boolean showTags();
-
     @Meta.AD(name="link", required = false)
     public String link();
 }

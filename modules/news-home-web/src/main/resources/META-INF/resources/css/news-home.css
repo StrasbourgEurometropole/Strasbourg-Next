@@ -4,6 +4,10 @@ html:not(#__):not(#___):not(#____) .vignettes{
     gap: 10px;
 }
 
+html:not(#__):not(#___):not(#____) .vignette_empty{
+    display: none;
+}
+
 html:not(#__):not(#___):not(#____) .vignette{
     display: flex;
     flex-direction: column;
@@ -35,6 +39,10 @@ html:not(#__):not(#___):not(#____) .strasbourg-slider-picker .detail li a{
     position: absolute;
     top: 0;
     left: calc(100% - 5px);
+}
+
+html:not(#__):not(#___):not(#____) .highlight{
+    background-color: grey;
 }
 
 html:not(#__):not(#___):not(#____) .strasbourg-slider-picker .detail + p{

@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.news_home.context;
 
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.publisher.util.AssetPublisherHelper;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -30,11 +31,11 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
 public class NewsHomeDisplayContext extends BaseDisplayContext {
 
     private NewsHomeConfiguration configuration;
     private List<AssetEntry> assetEntries;
+    private ThemeDisplay _themeDisplay;
 
     public NewsHomeDisplayContext(RenderRequest request, RenderResponse response) {
         super(request, response);
@@ -46,54 +47,67 @@ public class NewsHomeDisplayContext extends BaseDisplayContext {
         }
     }
 
+    /**
+     * Récupère la configuration du portlet NewsHome.
+     *
+     * @return Configuration du portlet NewsHome.
+     */
     public NewsHomeConfiguration getConfiguration() {
         return configuration;
     }
 
-    public boolean showTags() {
-        return configuration.showTags();
-    }
-
+    /**
+     * Récupère l'URL de la page d'accueil.
+     *
+     * @return URL de la page d'accueil.
+     */
     public String getHomeURL() {
         return PortalHelper.getHomeURL(_themeDisplay);
     }
 
+    /**
+     * Récupère l'URL du portail.
+     *
+     * @return URL du portail.
+     */
     public String getPortalURL() {
         return PortalHelper.getPortalURL(_themeDisplay);
     }
 
+    /**
+     * Récupère le lien configuré dans la portlet.
+     *
+     * @return Lien configuré.
+     */
     public String getLink() {
         return configuration.link();
     }
 
-    // récupération des actu
+    /**
+     * Récupère et retourne une liste de NewsHomeItem à partir des configurations des actualités.
+     *
+     * @return Liste de NewsHomeItem contenant les actualités configurées.
+     */
     public List<NewsHomeItem> getAssetEntries() {
-        List<NewsHomeItem> newsHomeItemList = Arrays.stream(configuration.classPKs().split(","))
-                .mapToLong(Long::parseLong)
-                .filter(Validator::isNotNull)
-                .mapToObj(classPK -> JournalArticleLocalServiceUtil.fetchLatestArticle(classPK, 0))
-                .filter(Validator::isNotNull)
-                .map(journalArticle -> new NewsHomeItem(journalArticle, _themeDisplay.getLocale()))
+        List<NewsHomeItem> newsItems = Arrays.stream(configuration.classPKs().split(","))
+                .map(s -> s.isEmpty() ? null : Long.parseLong(s))
+                .map(classPK -> {
+                    if (classPK == null) {
+                        return null;
+                    }
+                    try {
+                        AssetEntry entry = AssetEntryLocalServiceUtil.getEntry(JournalArticle.class.getName(), classPK);
+                        JournalArticle journalArticle = JournalArticleLocalServiceUtil.fetchLatestArticle(classPK, 0);
+                        // Crée un nouvel objet NewsHomeItem si l'article existe, sinon retourne null
+                        return journalArticle != null ? new NewsHomeItem(journalArticle, entry ,  _themeDisplay.getLocale(), _request, _response) : null;
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+
+                })
                 .collect(Collectors.toList());
 
-        return newsHomeItemList;
-    }
-
-    public String DeleteTag(String html) {
-        Pattern p = Pattern.compile("<[^>]*>");
-        Matcher m = p.matcher(html);
-        return m.replaceAll("");
-    }
-
-    public String getJSONEncodedString(String source) {
-        return HtmlUtil.escapeJS(source);
-    }
-
-    public boolean hasFocus(String[] tagNames) {
-        if (Arrays.toString(tagNames).contains("focus"))
-            return true;
-        else
-            return false;
+        return newsItems;
     }
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass());
