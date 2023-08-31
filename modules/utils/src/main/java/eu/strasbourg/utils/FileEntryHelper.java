@@ -10,6 +10,7 @@ import com.liferay.document.library.util.DLURLHelperUtil;
 import com.liferay.dynamic.data.mapping.kernel.DDMFormFieldValue;
 import com.liferay.dynamic.data.mapping.kernel.DDMFormValues;
 import com.liferay.dynamic.data.mapping.kernel.Value;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -63,28 +64,33 @@ public class FileEntryHelper {
 	}
 
 	public static String getFileEntryURLWithTimeStamp(long fileEntryId) {
-		String url = "";
 		DLFileEntry fileEntry = DLFileEntryLocalServiceUtil.fetchDLFileEntry(fileEntryId);
 
 		return getFileEntryURLWithTimeStamp(fileEntry);
 	}
 
-	public static String getFileEntryURLWithTimeStamp(DLFileEntry fileEntry) {
+	public static String getFileEntryURLWithTimeStamp(DLFileEntry dlFileEntry) {
 		String url = "";
-		if (fileEntry != null) {
-			FileEntryHelper.getImageCopyright(fileEntry.getFileEntryId(), null);
-			if (fileEntry != null) {
-				url = "/documents/" + fileEntry.getGroupId() + "/" + fileEntry.getFolderId() + "/0/" + fileEntry.getUuid() + "?version=" + fileEntry.getVersion() + "&t=" + fileEntry.getModifiedDate().getTime();
+		if (dlFileEntry != null) {
+			FileEntry fileEntry = FileEntryUtil.fetchByPrimaryKey(dlFileEntry.getFileEntryId());
+			try {
+				url = DLURLHelperUtil.getPreviewURL(fileEntry, fileEntry.getFileVersion(), null, StringPool.BLANK, true, true);
+			} catch (PortalException e) {
+				_log.error(e);
 			}
 		}
 		return url;
 	}
 
-	public static String getFileEntryURL(DLFileEntry fileEntry) {
+	public static String getFileEntryURL(DLFileEntry dlFileEntry) {
 		String url = "";
-		FileEntryHelper.getImageCopyright(fileEntry.getFileEntryId(), null);
-		if (fileEntry != null) {
-			url = "/documents/" + fileEntry.getGroupId() + "/" + fileEntry.getFolderId() + "/0/" + fileEntry.getUuid();
+		if (dlFileEntry != null) {
+			FileEntry fileEntry = FileEntryUtil.fetchByPrimaryKey(dlFileEntry.getFileEntryId());
+			try {
+				url = DLURLHelperUtil.getPreviewURL(fileEntry, fileEntry.getFileVersion(), null, StringPool.BLANK, !fileEntry.getFileVersion().equals(fileEntry.getLatestFileVersion()), true);
+			} catch (PortalException e) {
+				_log.error(e);
+			}
 		}
 		return url;
 	}
@@ -228,23 +234,6 @@ public class FileEntryHelper {
 	}
 
 	/**
-	 * Retourne le fileEntry via l'URL relative de l'image
-	 */
-	public static DLFileEntry getFileEntryByRelativeURL(String url) {
-		try {
-			String urlInterstingPart = url.split("/documents/")[1];
-			String groupIdString = urlInterstingPart.split("/")[0];
-			String[] urlParts = urlInterstingPart.split("/");
-			String uuid = urlParts[urlParts.length - 1].substring(0, 36);
-			DLFileEntry file = DLFileEntryLocalServiceUtil.fetchDLFileEntryByUuidAndGroupId(uuid,
-					Long.parseLong(groupIdString));
-			return file;
-		} catch (Exception ex) {
-			return null;
-		}
-	}
-
-	/**
 	 * @param file  fichier a scnner
 	 * @return l'erreur si il y en a :
 	 *    unable-to-scan-file-for-viruses
@@ -354,6 +343,14 @@ public class FileEntryHelper {
 			}
 		}
 
+		return "";
+	}
+
+	public static String getFileExtension(long fileEntryId) {
+		DLFileEntry fileEntry = DLFileEntryLocalServiceUtil.fetchDLFileEntry(fileEntryId);
+		if (Validator.isNotNull(fileEntry)) {
+			return fileEntry.getExtension();
+		}
 		return "";
 	}
 

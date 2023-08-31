@@ -1,6 +1,7 @@
 
 package eu.strasbourg.service.place.model.impl;
 
+import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import eu.strasbourg.utils.PortalHelper;
 import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
@@ -504,8 +505,8 @@ public class PlaceImpl extends PlaceBaseImpl {
         for (String documentIdStr : this.getDocumentsIds().split(",")) {
             Long documentId = GetterUtil.getLong(documentIdStr);
             if (Validator.isNotNull(documentId)) {
-                String documentURL = FileEntryHelper.getFileEntryURL(documentId);
-                DLFileEntry document = FileEntryHelper.getFileEntryByRelativeURL(documentURL);
+                DLFileEntry document = DLFileEntryLocalServiceUtil.fetchDLFileEntry(documentId);
+                String documentURL = FileEntryHelper.getFileEntryURL(document);
                 String documentTitle = document.getTitle();
                 documents.put(documentTitle, documentURL);
             }

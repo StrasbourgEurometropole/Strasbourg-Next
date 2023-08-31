@@ -22,6 +22,8 @@
 <#assign LayoutLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.LayoutLocalService")/>
 <#assign assetEntryAssetCategoryRels = AssetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(activePhase.getPhaseCategory().getCategoryId())  />
 
+<#assign dlFileEntryLocalService = serviceLocator.findService("com.liferay.document.library.kernel.service.DLFileEntryLocalService") />
+
 <#-- Récupération de la page de listing de BP qui correspond à la phase active. Chaque page de listing est configurée avec la catégorie qui correspond à la phase -->
 <#list assetEntryAssetCategoryRels as assetEntryAssetCategoryRel>
     <#assign asset = AssetEntryService.getAssetEntry(assetEntryAssetCategoryRel.getAssetEntryId()) />
@@ -69,7 +71,7 @@
 
                                 <#if file.getData()?has_content >
 
-                                    <#assign fileEntry = fileEntryHelper.getFileEntryByRelativeURL(file.getData()) />
+                                    <#assign fileEntry = dlFileEntryLocalService.fetchDLFileEntryByUuidAndGroupId(file.data?eval["uuid"],file.data?eval["groupId"]?number) />
                                     <#assign title = fileEntryHelper.getFileTitle(fileEntry.getFileEntryId(), locale) />
                                     <#assign size = fileEntryHelper.getReadableFileEntrySize(fileEntry.getFileEntryId(), locale) />
 

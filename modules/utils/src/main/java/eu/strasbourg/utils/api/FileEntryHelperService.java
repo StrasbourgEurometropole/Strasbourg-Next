@@ -33,8 +33,6 @@ public interface FileEntryHelperService {
 
 	public String getFileThumbnail(long fileEntryId, ThemeDisplay themeDisplay);
 
-	public DLFileEntry getFileEntryByRelativeURL(String url);
-
 	public String scanFile(File file);
 
 	public Map<String, DLFileEntry> getPictoForVocabulary(String nomRepertoireVocabulaire, String nomRepertoire)
@@ -42,4 +40,5 @@ public interface FileEntryHelperService {
 
 	public String getRandomFileURLByGroupIdAndFolderName(long groupId, String nomRepertoire);
 
+    String getFileExtension(long fileEntryId);
 }

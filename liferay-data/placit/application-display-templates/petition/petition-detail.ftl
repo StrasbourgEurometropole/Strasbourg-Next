@@ -153,16 +153,16 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         </div>
 
                         <div class="row pro-bloc pro-bloc-texte">${entry.description}</div>
-                        <#if entry.filesURLs?has_content>
+                        <#if entry.filesIds?has_content>
                             <div class="pro-bloc-texte pro-bloc-telechargements">
                                 <h3>Document(s) téléchargé(s)</h3>
                                 <div class="row">
-                                    <#list entry.filesURLs as fileURL>
-                                        <#assign file = fileEntryHelper.getFileEntryByRelativeURL(fileURL) />
-                                        <#assign title = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
-                                        <#assign size = fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale) />
+						            <#list entry.filesIds?split(",") as fileId>
+                                        <#assign url = fileEntryHelper.getFileEntryURL(fileId?number) />
+                                        <#assign title = fileEntryHelper.getFileTitle(fileId?number, locale) />
+                                        <#assign size = fileEntryHelper.getReadableFileEntrySize(fileId?number, locale) />
                                         <div class="col-sm-6">
-                                            <a href="${fileURL}" download title="${title}">
+                                            <a href="${url}" download title="${title}">
                                                 <span class="pro-filename">${title}</span>
                                                 <span class="pro-poids">Poids ${size}</span>
                                             </a>

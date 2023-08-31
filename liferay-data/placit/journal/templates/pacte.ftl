@@ -10,6 +10,7 @@
 
 <!-- Recuperation du gestionnaire de fichiers Liferay -->
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
+<#assign dlFileEntryLocalService = serviceLocator.findService("com.liferay.document.library.kernel.service.DLFileEntryLocalService") />
 
 <div class="pro-page-pacte">
     <div class="container">
@@ -59,10 +60,9 @@
 
                                 <#if file.getData()?has_content >
 
-                                    <#assign fileEntry = fileEntryHelper.getFileEntryByRelativeURL(file.getData()) />    
+                                    <#assign fileEntry = dlFileEntryLocalService.fetchDLFileEntryByUuidAndGroupId(file.data?eval["uuid"],file.data?eval["groupId"]?number) />
                                     <#assign title = fileEntryHelper.getFileTitle(fileEntry.getFileEntryId(), locale) />
                                     <#assign size = fileEntryHelper.getReadableFileEntrySize(fileEntry.getFileEntryId(), locale) />
-
                                     <li>
                                         <a href="${file.getData()}" download title="${title}">
                                             ${title}

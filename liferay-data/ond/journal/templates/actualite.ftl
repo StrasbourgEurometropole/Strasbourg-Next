@@ -1,7 +1,6 @@
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
-<#assign file = fileEntryHelper.getFileEntryByRelativeURL(illustration.getData()) />
-<#assign editorialTitle = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
-<#assign copyright = fileEntryHelper.getImageCopyright(file.getFileEntryId(), locale) />
+<#assign editorialTitle = fileEntryHelper.getFileTitle(illustration.getAttribute("fileEntryId")?number, locale) />
+<#assign copyright = fileEntryHelper.getImageCopyright(illustration.getAttribute("fileEntryId")?number, locale) />
 
 
 <div class="article-detail">

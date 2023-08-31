@@ -49,7 +49,8 @@
                 <#list images.getSiblings() as image>
                     <#if image.getData()?? && image.getData() != "">
                         <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
-                        <#assign file = fileEntryHelper.getFileEntryByRelativeURL(image.getData()) />
+                        <#assign dlFileEntryLocalService = serviceLocator.findService("com.liferay.document.library.kernel.service.DLFileEntryLocalService") />
+                        <#assign file = dlFileEntryLocalService.fetchDLFileEntry(image.getAttribute("fileEntryId")?number) />
                         <#assign title = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
                         <#assign copyright = fileEntryHelper.getImageCopyright(file.getFileEntryId(), locale) />
                         <#assign legend = fileEntryHelper.getImageLegend(file.getFileEntryId(), locale) />

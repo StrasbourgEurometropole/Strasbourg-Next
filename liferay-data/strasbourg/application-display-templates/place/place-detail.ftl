@@ -553,26 +553,27 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 </#if>
 
                 <!-- Médias -->
-                <#if entry.documentURLs?has_content || entry.videos?has_content>
+                <#if entry.documentsIds?has_content || entry.videos?has_content>
                     <div class="seu-wi--collapsing">
                         <button class="seu-toggle-collapse">
                             <h2 class="media"><span><@liferay_ui.message key="eu.place.medias" /></span></h2>
                         </button>
                         <div class="seu-collapsing-box">
-                            <#list entry.documentURLs as fileURL>
-                                <#if fileURL?has_content>
-                                    <#assign file = fileEntryHelper.getFileEntryByRelativeURL(fileURL) />
-                                    <#assign title = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
-                                    <#assign size = fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale) />
+                            <#list entry.documentsIds?split(",") as fileId>
+                                <#if fileId?has_content>
+                                    <#assign url = fileEntryHelper.getFileEntryURL(fileId?number) />
+                                    <#assign title = fileEntryHelper.getFileTitle(fileId?number, locale) />
+                                    <#assign size = fileEntryHelper.getReadableFileEntrySize(fileId?number, locale) />
+                                    <#assign extension = fileEntryHelper.getFileExtension(fileId?number) />
                                     <div class="seu-wi seu-media seu-wi-download">  
                                         <div class="seu-media-container">  
                                             <div class="seu-media-left"><div class="seu-media-picto"></div></div>  
                                             <div class="seu-media-right">  
                                                 <div class="seu-media-text">  
                                                     <div class="seu-media-title">${title}</div>  
-                                                    <p>${file.getExtension()?upper_case} - ${size}</p>  
+                                                    <p>${extension?upper_case} - ${size}</p>
                                                 </div>  
-                                                <a href="${fileURL}" target="_blank" class="seu-media-download seu-btn-square seu-filled seu-second" title="${title} (<@liferay_ui.message key="eu.new-window" />)">  
+                                                <a href="${url}" target="_blank" class="seu-media-download seu-btn-square seu-filled seu-second" title="${title} (<@liferay_ui.message key="eu.new-window" />)">
                                                     <div class="seu-btn-text-editable">
                                                         <span class="seu-flexbox">  
                                                             <span class="seu-btn-text"><@liferay_ui.message key="download" /></span>  
@@ -779,11 +780,11 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     <div class="seu-wi-slideNpop">
                         <div class="slide">
                             <ul class="slider">
-                                <#list entry.imagesURLs as imageURL>
-                                    <#assign image = fileEntryHelper.getFileEntryByRelativeURL(imageURL) />
-                                    <#assign title = fileEntryHelper.getFileTitle(image.getFileEntryId(), locale) />
-                                    <#assign legend = fileEntryHelper.getImageLegend(image.getFileEntryId(), locale) />
-                                    <#assign copyright = fileEntryHelper.getImageCopyright(image.getFileEntryId(), locale) />
+                                <#list entry.imageIds?split(",") as imageId>
+                                    <#assign imageURL = fileEntryHelper.getFileEntryURL(imageId?number) />
+                                    <#assign title = fileEntryHelper.getFileTitle(imageId?number, locale) />
+                                    <#assign legend = fileEntryHelper.getImageLegend(imageId?number, locale) />
+                                    <#assign copyright = fileEntryHelper.getImageCopyright(imageId?number, locale) />
                                     <li style="background-image: url(${imageURL});"  data-title="${title}" data-description="${legend} <#if copyright?has_content>&copy; ${copyright}</#if>">
                                         <img src="${imageURL}" alt="${title}">
                                     </li>

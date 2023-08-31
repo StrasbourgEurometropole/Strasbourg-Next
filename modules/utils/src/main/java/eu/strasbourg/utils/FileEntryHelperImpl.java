@@ -53,11 +53,6 @@ public class FileEntryHelperImpl implements FileEntryHelperService {
 	}
 
 	@Override
-	public DLFileEntry getFileEntryByRelativeURL(String url) {
-		return FileEntryHelper.getFileEntryByRelativeURL(url);
-	}
-
-	@Override
 	public String getStructureFieldValue(Long fileEntryId, String fieldName,
 		Locale locale) {
 		return FileEntryHelper.getStructureFieldValue(fileEntryId, fieldName, locale);
@@ -77,6 +72,11 @@ public class FileEntryHelperImpl implements FileEntryHelperService {
 	@Override
 	public String getRandomFileURLByGroupIdAndFolderName(long groupId, String nomRepertoire) {
 		return FileEntryHelper.getRandomFileURLByGroupIdAndFolderName(groupId, nomRepertoire);
+	}
+
+	@Override
+	public String getFileExtension(long fileEntryId) {
+		return FileEntryHelper.getFileExtension(fileEntryId);
 	}
 
 }
