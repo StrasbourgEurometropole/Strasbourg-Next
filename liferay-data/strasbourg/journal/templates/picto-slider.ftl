@@ -3,7 +3,7 @@
         <div class="st-wrapper st-wrapper-small">
             <h2 class="st-h2">La galaxie Strasbourg.eu</h2>
             <div class="st-slider-container">
-                <div class="splide__arrows st-nav-arrows">
+                <div class="splide__arrows st-nav-arrows st-hide-until@mobile">
                     <button class="splide__arrow splide__arrow--prev st-btn-arrow st--prev"></button>
                     <button class="splide__arrow splide__arrow--next st-btn-arrow st--next"></button>
                 </div>
@@ -29,7 +29,9 @@
                     </ul>
                 </div>
             </div>
-            <ul class="splide__pagination st-nav-dots"></ul>
+            <ul class="splide__pagination st-nav-dots st--color-dark"></ul>
         </div>
     </div>
 </div>
+
+<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />

@@ -1,11 +1,11 @@
 <!-- Fil d'ariane -->
 <#setting locale = locale />
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-  <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
-  <#assign homeURL = "/" />
+    <#assign homeURL = "/" />
 </#if>
- <ul class="st-breadcrumbs" aria-label="Fil d'ariane de la page">
+<ul class="st-breadcrumbs" aria-label="Fil d'ariane de la page">
     <li class="st-breadcrumbs__item">
         <a href="${homeURL}" class="st-breadcrumbs__link"><@liferay_ui.message key="home" /></a>
     </li>

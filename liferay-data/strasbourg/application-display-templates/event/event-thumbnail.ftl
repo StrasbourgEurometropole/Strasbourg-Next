@@ -8,9 +8,9 @@
 <#assign plId = renderRequest.getAttribute("classNameLayoutId")[entry.getModelClassName()] />
 
 <@liferay_portlet.renderURL plid=plId var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
-  <@liferay_portlet.param name="classPK" value="${entry.assetEntry.classPK}" />
-  <@liferay_portlet.param name="title" value="${entry.getNormalizedTitle(locale)}" />
-  <@liferay_portlet.param name="returnURL" value="${currentURL}" />
+    <@liferay_portlet.param name="classPK" value="${entry.assetEntry.classPK}" />
+    <@liferay_portlet.param name="title" value="${entry.getNormalizedTitle(locale)}" />
+    <@liferay_portlet.param name="returnURL" value="${currentURL}" />
 </@liferay_portlet.renderURL>
 
 <@liferay_portlet.actionURL var="detailURLFilter">
@@ -23,46 +23,47 @@
 
 <!-- Vignette événement -->
 <#if isFeatured>
-    <#assign cssClass = 'seu-coup-de-coeur' />
+    <#assign cssClass = 'coup-de-coeur' />
 <#else>
     <#assign cssClass = '' />
 </#if>
-<li class="grid-item ${cssClass}">
-    <div class="item-visu">
-        <!-- <button class="item-favoris"></button> -->
-        <div class="item-background" style="background-image: url(${entry.imageURL});"></div>
-    </div>
-    <div class="item-right">
-        <a href="${detailURLFilter}" class="item-content">
-            <#if isFeatured>
-                <div class="item-coup-de-coeur">Coup de coeur de strasbourg.eu</div>
-            </#if>
-            <#if entry.firstStartDate?has_content && entry.lastEndDate?has_content>
-                <#if entry.firstStartDate?date == entry.lastEndDate?date>
-                    <div class="item-date"><@liferay_ui.message key="eu.event.the" /> <strong>${entry.firstStartDate?date?string.short?replace('/', '.')}</strong></div>
-                <#else>
-                    <div class="item-date"><@liferay_ui.message key="eu.event.from-date" /> <strong>${entry.firstStartDate?date?string.short?replace('/', '.')}</strong> <@liferay_ui.message key="eu.event.to" /> <strong>${entry.lastEndDate?date?string.short?replace('/', '.')}</strong></div>
-                </#if>
-            </#if>
-            <h3 class="item-title" data-dot="2">${entry.getTitle(locale)}</h3>
-            <div class="item-categories" data-dot="1">${entry.getTypeLabel(locale)}</div>
-        </a>
-        <div class="item-infos">
-            <div class="item-geoloc">
-                <span class="text">${entry.getPlaceAlias(locale)} - ${entry.getPlaceCity(locale)}</span>
-            </div>
-            <!--
-            <a href="" class="item-misc">
-                <span>Ajouter au calendrier</span>
-            </a>
-            -->
-            <a href="#" class="item-misc"
-            data-type="2" 
-            data-title="${entry.getTitle(locale)}" 
-            data-url="${themeDisplay.getPortalURL()}${homeURL}evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}" 
-            data-id="${entry.eventId}">
-                <span><@liferay_ui.message key='eu.add-to-favorite' /></span>
-            </a>
+<li>
+    <div class="st-card-container ${cssClass}">
+        <div class="st-description st-hide">
+            ${entry.getDescription(locale)}
         </div>
+        <a href="#" class="st-card st-card-agenda st--card-horizontal st--with-gradient" onclick="updateDescription(this)" data-overlay-open="st-overlay-preview-agenda" data-classpk="${entry.assetEntry.classPK}"
+           <#if entry.bookingURL?has_content>data-bookingURL="${entry.bookingURL}"</#if>
+           data-address="${entry.getPlaceAddress(locale)}"
+           data-detailurl="${detailURLFilter}"
+        >
+
+            <div class="st-caption">
+                <p class="st-title-card">${entry.getTitle(locale)}</p>
+                <p class="st-surtitre-cat">${entry.getTypeLabel(locale)}</p>
+                <p class="st-date">
+                    <#if entry.firstStartDate?has_content && entry.lastEndDate?has_content>
+                        <#if entry.firstStartDate?date == entry.lastEndDate?date>
+                            <@liferay_ui.message key="eu.event.the" /> ${entry.firstStartDate?date?string.short?replace('/', '.')}
+                        <#else>
+                            <@liferay_ui.message key="eu.event.from-date" /> ${entry.firstStartDate?date?string.short?replace('/', '.')} <@liferay_ui.message key="eu.event.to" /> ${entry.lastEndDate?date?string.short?replace('/', '.')}
+                        </#if>
+                    </#if>
+                </p>
+                <p class="st-location">${entry.getPlaceAlias(locale)} - ${entry.getPlaceCity(locale)}</p>
+            </div>
+
+            <div class="st-image">
+                <figure class="st-figure st-fit-cover" role="group">
+                    <picture>
+                        <img class="st-img" alt="" src="${entry.imageURL}" />
+                    </picture>
+                </figure>
+            </div>
+        </a>
+        <button class="st-btn-favorite-card" data-addpanier="postID">
+            Ajouter à mes favoris
+        </button>
+
     </div>
 </li>

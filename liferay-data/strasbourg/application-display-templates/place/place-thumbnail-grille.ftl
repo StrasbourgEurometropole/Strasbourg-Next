@@ -8,7 +8,7 @@
 </#if>
 <li>
     <div class="st-card-container">
-        <a href="${homeURL}lieu/-/entity/sig/${entry.getSIGid()}/${entry.getNormalizedAlias(locale)}" class="st-card st--card-horizontal st--with-gradient">
+        <a href="${homeURL}lieu/-/entity/sig/${entry.getSIGid()}/${entry.getNormalizedAlias(locale)}" class="st-card st--with-gradient">
             <div class="st-caption">
                 <p class="st-title-card">${entry.getAlias(locale)}
                 </p>

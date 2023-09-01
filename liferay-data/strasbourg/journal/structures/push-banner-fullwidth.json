@@ -72,7 +72,7 @@
         "fr_FR": "Bloc"
       },
       "localizable": false,
-      "name": "Fieldset07280482",
+      "name": "CopyOfFieldset07280482",
       "nestedDataDefinitionFields": [
         {
           "customProperties": {
@@ -512,7 +512,7 @@
         }
       ],
       "readOnly": false,
-      "repeatable": true,
+      "repeatable": false,
       "required": false,
       "showLabel": true,
       "tip": {}
@@ -528,7 +528,7 @@
               {
                 "columnSize": 12,
                 "fieldNames": [
-                  "Fieldset07280482"
+                  "CopyOfFieldset07280482"
                 ]
               }
             ]
@@ -545,14 +545,14 @@
     "dataRules": [],
     "description": {},
     "name": {
-      "fr_FR": "Bloc push"
+      "fr_FR": "Bloc push Full width"
     },
     "paginationMode": "single-page"
   },
   "defaultLanguageId": "fr_FR",
   "description": {},
   "name": {
-    "fr_FR": "Bloc push"
+    "fr_FR": "Bloc push Full width"
   },
   "storageType": "default"
 }

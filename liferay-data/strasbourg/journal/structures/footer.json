@@ -2,606 +2,1695 @@
     "availableLanguageIds": [
         "fr_FR"
     ],
-    "defaultLanguageId": "fr_FR",
-    "fields": [
+    "contentType": "journal",
+    "dataDefinitionFields": [
         {
+            "customProperties": {
+                "labelAtStructureLevel": false,
+                "confirmationErrorMessage": {},
+                "hideField": false,
+                "autocomplete": false,
+                "ddmDataProviderInstanceId": [],
+                "dataType": "string",
+                "tooltip": {
+                    "fr_FR": ""
+                },
+                "requireConfirmation": false,
+                "displayStyle": "singleline",
+                "fieldNamespace": "",
+                "visibilityExpression": "",
+                "ddmDataProviderInstanceOutput": [],
+                "options": {
+                    "fr_FR": [
+                        {
+                            "reference": "",
+                            "label": "Option",
+                            "value": "Option"
+                        }
+                    ]
+                },
+                "nativeField": false,
+                "confirmationLabel": {},
+                "fieldReference": "addressLine1",
+                "placeholder": {
+                    "fr_FR": ""
+                },
+                "dataSourceType": "manual",
+                "direction": []
+            },
+            "defaultValue": {},
+            "fieldType": "text",
+            "indexType": "none",
+            "indexable": true,
             "label": {
                 "fr_FR": "Adresse ligne 1"
             },
-            "predefinedValue": {
-                "fr_FR": "Ville et Eurométropole de Strasbourg"
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "string",
-            "indexType": "",
             "localizable": true,
             "name": "addressLine1",
+            "nestedDataDefinitionFields": [],
             "readOnly": false,
             "repeatable": false,
             "required": false,
             "showLabel": true,
-            "type": "text"
+            "tip": {
+                "fr_FR": ""
+            }
         },
         {
+            "customProperties": {
+                "labelAtStructureLevel": false,
+                "confirmationErrorMessage": {},
+                "hideField": false,
+                "autocomplete": false,
+                "ddmDataProviderInstanceId": [],
+                "dataType": "string",
+                "tooltip": {
+                    "fr_FR": ""
+                },
+                "requireConfirmation": false,
+                "displayStyle": "singleline",
+                "fieldNamespace": "",
+                "visibilityExpression": "",
+                "ddmDataProviderInstanceOutput": [],
+                "options": {
+                    "fr_FR": [
+                        {
+                            "reference": "",
+                            "label": "Option",
+                            "value": "Option"
+                        }
+                    ]
+                },
+                "nativeField": false,
+                "confirmationLabel": {},
+                "fieldReference": "addressLine2",
+                "placeholder": {
+                    "fr_FR": ""
+                },
+                "dataSourceType": "manual",
+                "direction": []
+            },
+            "defaultValue": {},
+            "fieldType": "text",
+            "indexType": "none",
+            "indexable": true,
             "label": {
                 "fr_FR": "Adresse ligne 2"
             },
-            "predefinedValue": {
-                "fr_FR": "1 parc de l'étoile"
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "string",
-            "indexType": "",
             "localizable": true,
             "name": "addressLine2",
+            "nestedDataDefinitionFields": [],
             "readOnly": false,
             "repeatable": false,
             "required": false,
             "showLabel": true,
-            "type": "text"
+            "tip": {
+                "fr_FR": ""
+            }
         },
         {
+            "customProperties": {
+                "labelAtStructureLevel": false,
+                "confirmationErrorMessage": {},
+                "hideField": false,
+                "autocomplete": false,
+                "ddmDataProviderInstanceId": [],
+                "dataType": "string",
+                "tooltip": {
+                    "fr_FR": ""
+                },
+                "requireConfirmation": false,
+                "displayStyle": "singleline",
+                "fieldNamespace": "",
+                "visibilityExpression": "",
+                "ddmDataProviderInstanceOutput": [],
+                "options": {
+                    "fr_FR": [
+                        {
+                            "reference": "",
+                            "label": "Option",
+                            "value": "Option"
+                        }
+                    ]
+                },
+                "nativeField": false,
+                "confirmationLabel": {},
+                "fieldReference": "addressLine3",
+                "placeholder": {
+                    "fr_FR": ""
+                },
+                "dataSourceType": "manual",
+                "direction": []
+            },
+            "defaultValue": {},
+            "fieldType": "text",
+            "indexType": "none",
+            "indexable": true,
             "label": {
                 "fr_FR": "Adresse ligne 3"
             },
-            "predefinedValue": {
-                "fr_FR": "67076 Strasbourg Cedex"
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "string",
-            "indexType": "",
             "localizable": true,
             "name": "addressLine3",
+            "nestedDataDefinitionFields": [],
             "readOnly": false,
             "repeatable": false,
             "required": false,
             "showLabel": true,
-            "type": "text"
-        },
-        {
-            "label": {
-                "fr_FR": "Lien localisation"
-            },
-            "predefinedValue": {
-                "fr_FR": "Plan d'accès - horaires"
-            },
-            "style": {
-                "fr_FR": ""
-            },
             "tip": {
                 "fr_FR": ""
+            }
+        },
+        {
+            "customProperties": {
+                "labelAtStructureLevel": true,
+                "ddmStructureLayoutId": "",
+                "ddmStructureId": "",
+                "upgradedStructure": false,
+                "fieldReference": "locationLinkLabelFieldSet",
+                "rows": [
+                    {
+                        "columns": [
+                            {
+                                "size": 12,
+                                "fields": [
+                                    "locationLinkLabel"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "columns": [
+                            {
+                                "size": 12,
+                                "fields": [
+                                    "locationLinkURL"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "collapsible": false
             },
-            "dataType": "string",
-            "indexType": "",
-            "localizable": true,
-            "name": "locationLinkLabel",
-            "readOnly": false,
-            "repeatable": false,
-            "required": false,
-            "showLabel": true,
-            "type": "text",
-            "nestedFields": [
+            "defaultValue": {},
+            "fieldType": "fieldset",
+            "indexable": false,
+            "label": {
+                "fr_FR": "Groupe de champs"
+            },
+            "localizable": false,
+            "name": "locationLinkLabelFieldSet",
+            "nestedDataDefinitionFields": [
                 {
+                    "customProperties": {
+                        "labelAtStructureLevel": false,
+                        "confirmationErrorMessage": {},
+                        "hideField": false,
+                        "autocomplete": false,
+                        "ddmDataProviderInstanceId": [],
+                        "dataType": "string",
+                        "tooltip": {
+                            "fr_FR": ""
+                        },
+                        "requireConfirmation": false,
+                        "displayStyle": "singleline",
+                        "fieldNamespace": "",
+                        "visibilityExpression": "",
+                        "ddmDataProviderInstanceOutput": [],
+                        "options": {
+                            "fr_FR": [
+                                {
+                                    "reference": "",
+                                    "label": "Option",
+                                    "value": "Option"
+                                }
+                            ]
+                        },
+                        "nativeField": false,
+                        "confirmationLabel": {},
+                        "fieldReference": "locationLinkLabel",
+                        "placeholder": {
+                            "fr_FR": ""
+                        },
+                        "dataSourceType": "manual",
+                        "direction": []
+                    },
+                    "defaultValue": {},
+                    "fieldType": "text",
+                    "indexType": "none",
+                    "indexable": true,
+                    "label": {
+                        "fr_FR": "Lien localisation"
+                    },
+                    "localizable": true,
+                    "name": "locationLinkLabel",
+                    "nestedDataDefinitionFields": [],
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "tip": {
+                        "fr_FR": ""
+                    }
+                },
+                {
+                    "customProperties": {
+                        "fieldNamespace": "",
+                        "visibilityExpression": "null",
+                        "dataType": "link-to-page",
+                        "fieldReference": "locationLinkURL"
+                    },
+                    "defaultValue": {},
+                    "fieldType": "link_to_layout",
+                    "indexType": "none",
+                    "indexable": true,
                     "label": {
                         "fr_FR": "Lien"
                     },
-                    "predefinedValue": {
-                        "fr_FR": ""
-                    },
-                    "style": {
-                        "fr_FR": ""
-                    },
-                    "tip": {
-                        "fr_FR": ""
-                    },
-                    "dataType": "link-to-page",
-                    "fieldNamespace": "ddm",
-                    "indexType": "",
                     "localizable": true,
                     "name": "locationLinkURL",
+                    "nestedDataDefinitionFields": [],
                     "readOnly": false,
                     "repeatable": false,
                     "required": false,
                     "showLabel": true,
-                    "type": "ddm-link-to-page"
+                    "tip": {
+                        "fr_FR": ""
+                    }
                 }
-            ]
-        },
-        {
-            "label": {
-                "fr_FR": "Lien mairies de quartiers"
-            },
-            "predefinedValue": {
-                "fr_FR": "Mairies de quartiers"
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "string",
-            "indexType": "",
-            "localizable": true,
-            "name": "cityHallLinkLabel",
+            ],
             "readOnly": false,
             "repeatable": false,
             "required": false,
             "showLabel": true,
-            "type": "text",
-            "nestedFields": [
+            "tip": {}
+        },
+        {
+            "customProperties": {
+                "labelAtStructureLevel": true,
+                "ddmStructureLayoutId": "",
+                "ddmStructureId": "",
+                "upgradedStructure": false,
+                "fieldReference": "cityHallLinkLabelFieldSet",
+                "rows": [
+                    {
+                        "columns": [
+                            {
+                                "size": 12,
+                                "fields": [
+                                    "cityHallLinkLabel"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "columns": [
+                            {
+                                "size": 12,
+                                "fields": [
+                                    "cityHallLinkURL"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "collapsible": false
+            },
+            "defaultValue": {},
+            "fieldType": "fieldset",
+            "indexable": false,
+            "label": {
+                "fr_FR": "Groupe de champs"
+            },
+            "localizable": false,
+            "name": "cityHallLinkLabelFieldSet",
+            "nestedDataDefinitionFields": [
                 {
+                    "customProperties": {
+                        "labelAtStructureLevel": false,
+                        "confirmationErrorMessage": {},
+                        "hideField": false,
+                        "autocomplete": false,
+                        "ddmDataProviderInstanceId": [],
+                        "dataType": "string",
+                        "tooltip": {
+                            "fr_FR": ""
+                        },
+                        "requireConfirmation": false,
+                        "displayStyle": "singleline",
+                        "fieldNamespace": "",
+                        "visibilityExpression": "",
+                        "ddmDataProviderInstanceOutput": [],
+                        "options": {
+                            "fr_FR": [
+                                {
+                                    "reference": "",
+                                    "label": "Option",
+                                    "value": "Option"
+                                }
+                            ]
+                        },
+                        "nativeField": false,
+                        "confirmationLabel": {},
+                        "fieldReference": "cityHallLinkLabel",
+                        "placeholder": {
+                            "fr_FR": ""
+                        },
+                        "dataSourceType": "manual",
+                        "direction": []
+                    },
+                    "defaultValue": {},
+                    "fieldType": "text",
+                    "indexType": "none",
+                    "indexable": true,
+                    "label": {
+                        "fr_FR": "Lien mairies de quartiers"
+                    },
+                    "localizable": true,
+                    "name": "cityHallLinkLabel",
+                    "nestedDataDefinitionFields": [],
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "tip": {
+                        "fr_FR": ""
+                    }
+                },
+                {
+                    "customProperties": {
+                        "fieldNamespace": "",
+                        "visibilityExpression": "null",
+                        "dataType": "link-to-page",
+                        "fieldReference": "cityHallLinkURL"
+                    },
+                    "defaultValue": {},
+                    "fieldType": "link_to_layout",
+                    "indexType": "none",
+                    "indexable": true,
                     "label": {
                         "fr_FR": "Lien"
                     },
-                    "predefinedValue": {
-                        "fr_FR": ""
-                    },
-                    "style": {
-                        "fr_FR": ""
-                    },
-                    "tip": {
-                        "fr_FR": ""
-                    },
-                    "dataType": "link-to-page",
-                    "fieldNamespace": "ddm",
-                    "indexType": "",
                     "localizable": true,
                     "name": "cityHallLinkURL",
+                    "nestedDataDefinitionFields": [],
                     "readOnly": false,
                     "repeatable": false,
                     "required": false,
                     "showLabel": true,
-                    "type": "ddm-link-to-page"
+                    "tip": {
+                        "fr_FR": ""
+                    }
                 }
-            ]
-        },
-        {
-            "label": {
-                "fr_FR": "Téléphone"
-            },
-            "predefinedValue": {
-                "fr_FR": "+33 (0)3 68 98 50 00"
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "string",
-            "indexType": "",
-            "localizable": true,
-            "name": "phoneNumber",
+            ],
             "readOnly": false,
             "repeatable": false,
             "required": false,
             "showLabel": true,
-            "type": "text",
-            "nestedFields": [
+            "tip": {}
+        },
+        {
+            "customProperties": {
+                "labelAtStructureLevel": true,
+                "ddmStructureLayoutId": "",
+                "ddmStructureId": "",
+                "upgradedStructure": false,
+                "fieldReference": "phoneNumberFieldSet",
+                "rows": [
+                    {
+                        "columns": [
+                            {
+                                "size": 12,
+                                "fields": [
+                                    "phoneNumber"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "columns": [
+                            {
+                                "size": 12,
+                                "fields": [
+                                    "phoneLink"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "collapsible": false
+            },
+            "defaultValue": {},
+            "fieldType": "fieldset",
+            "indexable": false,
+            "label": {
+                "fr_FR": "Groupe de champs"
+            },
+            "localizable": false,
+            "name": "phoneNumberFieldSet",
+            "nestedDataDefinitionFields": [
                 {
+                    "customProperties": {
+                        "labelAtStructureLevel": false,
+                        "confirmationErrorMessage": {},
+                        "hideField": false,
+                        "autocomplete": false,
+                        "ddmDataProviderInstanceId": [],
+                        "dataType": "string",
+                        "tooltip": {
+                            "fr_FR": ""
+                        },
+                        "requireConfirmation": false,
+                        "displayStyle": "singleline",
+                        "fieldNamespace": "",
+                        "visibilityExpression": "",
+                        "ddmDataProviderInstanceOutput": [],
+                        "options": {
+                            "fr_FR": [
+                                {
+                                    "reference": "",
+                                    "label": "Option",
+                                    "value": "Option"
+                                }
+                            ]
+                        },
+                        "nativeField": false,
+                        "confirmationLabel": {},
+                        "fieldReference": "phoneNumber",
+                        "placeholder": {
+                            "fr_FR": ""
+                        },
+                        "dataSourceType": "manual",
+                        "direction": []
+                    },
+                    "defaultValue": {},
+                    "fieldType": "text",
+                    "indexType": "none",
+                    "indexable": true,
+                    "label": {
+                        "fr_FR": "Téléphone"
+                    },
+                    "localizable": true,
+                    "name": "phoneNumber",
+                    "nestedDataDefinitionFields": [],
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "tip": {
+                        "fr_FR": ""
+                    }
+                },
+                {
+                    "customProperties": {
+                        "labelAtStructureLevel": false,
+                        "confirmationErrorMessage": {},
+                        "hideField": false,
+                        "autocomplete": false,
+                        "ddmDataProviderInstanceId": [],
+                        "dataType": "string",
+                        "tooltip": {
+                            "fr_FR": ""
+                        },
+                        "requireConfirmation": false,
+                        "displayStyle": "singleline",
+                        "fieldNamespace": "",
+                        "visibilityExpression": "",
+                        "ddmDataProviderInstanceOutput": [],
+                        "options": {
+                            "fr_FR": [
+                                {
+                                    "reference": "",
+                                    "label": "Option",
+                                    "value": "Option"
+                                }
+                            ]
+                        },
+                        "nativeField": false,
+                        "confirmationLabel": {},
+                        "fieldReference": "phoneLink",
+                        "placeholder": {
+                            "fr_FR": ""
+                        },
+                        "dataSourceType": "manual",
+                        "direction": []
+                    },
+                    "defaultValue": {},
+                    "fieldType": "text",
+                    "indexType": "none",
+                    "indexable": true,
                     "label": {
                         "fr_FR": "Cible lien téléphone"
                     },
-                    "predefinedValue": {
-                        "fr_FR": "+33368985000"
-                    },
-                    "style": {
-                        "fr_FR": ""
-                    },
-                    "tip": {
-                        "fr_FR": ""
-                    },
-                    "dataType": "string",
-                    "indexType": "",
                     "localizable": true,
                     "name": "phoneLink",
+                    "nestedDataDefinitionFields": [],
                     "readOnly": false,
                     "repeatable": false,
                     "required": false,
                     "showLabel": true,
-                    "type": "text"
+                    "tip": {
+                        "fr_FR": ""
+                    }
                 }
-            ]
+            ],
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "tip": {}
         },
         {
+            "customProperties": {
+                "labelAtStructureLevel": false,
+                "confirmationErrorMessage": {},
+                "hideField": false,
+                "autocomplete": false,
+                "ddmDataProviderInstanceId": [],
+                "dataType": "string",
+                "tooltip": {
+                    "fr_FR": ""
+                },
+                "requireConfirmation": false,
+                "displayStyle": "singleline",
+                "fieldNamespace": "",
+                "visibilityExpression": "",
+                "ddmDataProviderInstanceOutput": [],
+                "options": {
+                    "fr_FR": [
+                        {
+                            "reference": "",
+                            "label": "Option",
+                            "value": "Option"
+                        }
+                    ]
+                },
+                "nativeField": false,
+                "confirmationLabel": {},
+                "fieldReference": "followUs",
+                "placeholder": {
+                    "fr_FR": ""
+                },
+                "dataSourceType": "manual",
+                "direction": []
+            },
+            "defaultValue": {},
+            "fieldType": "text",
+            "indexType": "none",
+            "indexable": true,
             "label": {
                 "fr_FR": "Titre \"Suivez-nous\""
             },
-            "predefinedValue": {
-                "fr_FR": "Suivez-nous"
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "string",
-            "indexType": "",
             "localizable": true,
             "name": "followUs",
+            "nestedDataDefinitionFields": [],
             "readOnly": false,
             "repeatable": false,
             "required": false,
             "showLabel": true,
-            "type": "text"
-        },
-        {
-            "label": {
-                "fr_FR": "Réseau social"
-            },
-            "predefinedValue": {
-                "fr_FR": ""
-            },
-            "style": {
-                "fr_FR": ""
-            },
             "tip": {
                 "fr_FR": ""
+            }
+        },
+        {
+            "customProperties": {
+                "labelAtStructureLevel": true,
+                "ddmStructureLayoutId": "",
+                "ddmStructureId": "",
+                "upgradedStructure": false,
+                "fieldReference": "socialNetwork",
+                "rows": [
+                    {
+                        "columns": [
+                            {
+                                "size": 12,
+                                "fields": [
+                                    "Select83299526"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "columns": [
+                            {
+                                "size": 12,
+                                "fields": [
+                                    "socialNetworkURL"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "collapsible": false
             },
-            "dataType": "string",
-            "indexType": "",
-            "localizable": true,
-            "name": "socialNetwork",
-            "readOnly": false,
-            "repeatable": true,
-            "required": false,
-            "showLabel": true,
-            "type": "text",
-            "nestedFields": [
+            "defaultValue": {},
+            "fieldType": "fieldset",
+            "indexable": false,
+            "label": {
+                "fr_FR": "Reseau social"
+            },
+            "localizable": false,
+            "name": "socialNetworkFieldSet",
+            "nestedDataDefinitionFields": [
                 {
+                    "customProperties": {
+                        "labelAtStructureLevel": true,
+                        "ddmDataProviderInstanceId": [],
+                        "dataType": "string",
+                        "multiple": false,
+                        "fieldNamespace": "",
+                        "requiredErrorMessage": {
+                            "fr_FR": ""
+                        },
+                        "visibilityExpression": "",
+                        "objectFieldName": "",
+                        "ddmDataProviderInstanceOutput": [],
+                        "alphabeticalOrder": false,
+                        "options": {
+                            "fr_FR": [
+                                {
+                                    "reference": "instagram",
+                                    "label": "Instagram",
+                                    "value": "Option07207421"
+                                },
+                                {
+                                    "reference": "twitter",
+                                    "label": "Twitter",
+                                    "value": "Option34089306"
+                                },
+                                {
+                                    "reference": "linkedin",
+                                    "label": "Linkedin",
+                                    "value": "Option48684765"
+                                },
+                                {
+                                    "reference": "dailymotion",
+                                    "label": "Dailymotion",
+                                    "value": "Option43063224"
+                                },
+                                {
+                                    "reference": "soundcloud",
+                                    "label": "Soundcloud",
+                                    "value": "Option44111286"
+                                },
+                                {
+                                    "reference": "facebook",
+                                    "label": "Facebook",
+                                    "value": "Option47950781"
+                                }
+                            ]
+                        },
+                        "nativeField": false,
+                        "fieldReference": "classePicto",
+                        "dataSourceType": [
+                            "manual"
+                        ]
+                    },
+                    "defaultValue": {
+                        "fr_FR": []
+                    },
+                    "fieldType": "select",
+                    "indexType": "keyword",
+                    "indexable": true,
+                    "label": {
+                        "fr_FR": "Sélectionnez le reseau social"
+                    },
+                    "localizable": true,
+                    "name": "Select83299526",
+                    "nestedDataDefinitionFields": [],
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": true,
+                    "showLabel": true,
+                    "tip": {
+                        "fr_FR": ""
+                    }
+                },
+                {
+                    "customProperties": {
+                        "labelAtStructureLevel": false,
+                        "confirmationErrorMessage": {
+                            "fr_FR": ""
+                        },
+                        "hideField": false,
+                        "autocomplete": false,
+                        "ddmDataProviderInstanceId": [],
+                        "dataType": "string",
+                        "tooltip": {
+                            "fr_FR": ""
+                        },
+                        "requireConfirmation": false,
+                        "displayStyle": "singleline",
+                        "fieldNamespace": "",
+                        "visibilityExpression": "",
+                        "ddmDataProviderInstanceOutput": [],
+                        "options": {
+                            "fr_FR": [
+                                {
+                                    "reference": "",
+                                    "label": "Option",
+                                    "value": "Option"
+                                }
+                            ]
+                        },
+                        "nativeField": false,
+                        "confirmationLabel": {
+                            "fr_FR": ""
+                        },
+                        "fieldReference": "socialNetworkURL",
+                        "placeholder": {
+                            "fr_FR": ""
+                        },
+                        "dataSourceType": "manual",
+                        "direction": []
+                    },
+                    "defaultValue": {},
+                    "fieldType": "text",
+                    "indexType": "none",
+                    "indexable": true,
                     "label": {
                         "fr_FR": "Lien"
                     },
-                    "predefinedValue": {
-                        "fr_FR": ""
-                    },
-                    "style": {
-                        "fr_FR": ""
-                    },
-                    "tip": {
-                        "fr_FR": ""
-                    },
-                    "dataType": "string",
-                    "indexType": "",
                     "localizable": true,
                     "name": "socialNetworkURL",
+                    "nestedDataDefinitionFields": [],
                     "readOnly": false,
                     "repeatable": false,
                     "required": false,
                     "showLabel": true,
-                    "type": "text"
-                },
-                {
-                    "label": {
-                        "fr_FR": "Balise SVG"
-                    },
-                    "predefinedValue": {
-                        "fr_FR": ""
-                    },
-                    "style": {
-                        "fr_FR": ""
-                    },
                     "tip": {
                         "fr_FR": ""
-                    },
-                    "dataType": "string",
-                    "indexType": "",
-                    "localizable": true,
-                    "name": "svgTag",
-                    "readOnly": false,
-                    "repeatable": false,
-                    "required": false,
-                    "showLabel": true,
-                    "type": "text"
+                    }
                 }
-            ]
-        },
-        {
-            "label": {
-                "fr_FR": "Lien presse"
-            },
-            "predefinedValue": {
-                "fr_FR": "Espace presse"
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "string",
-            "indexType": "",
-            "localizable": true,
-            "name": "mediaLinkLabel",
-            "readOnly": false,
-            "repeatable": false,
-            "required": false,
-            "showLabel": true,
-            "type": "text",
-            "nestedFields": [
-                {
-                    "label": {
-                        "fr_FR": "Lien"
-                    },
-                    "predefinedValue": {
-                        "fr_FR": ""
-                    },
-                    "style": {
-                        "fr_FR": ""
-                    },
-                    "tip": {
-                        "fr_FR": ""
-                    },
-                    "dataType": "link-to-page",
-                    "fieldNamespace": "ddm",
-                    "indexType": "",
-                    "localizable": true,
-                    "name": "mediaLinkURL",
-                    "readOnly": false,
-                    "repeatable": false,
-                    "required": false,
-                    "showLabel": true,
-                    "type": "ddm-link-to-page"
-                }
-            ]
-        },
-        {
-            "label": {
-                "fr_FR": "Lien newsletter"
-            },
-            "predefinedValue": {
-                "fr_FR": "Recevoir la newsletter"
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "string",
-            "indexType": "",
-            "localizable": true,
-            "name": "newsletterLinkLabel",
-            "readOnly": false,
-            "repeatable": false,
-            "required": false,
-            "showLabel": true,
-            "type": "text",
-            "nestedFields": [
-                {
-                    "label": {
-                        "fr_FR": "Lien"
-                    },
-                    "predefinedValue": {
-                        "fr_FR": ""
-                    },
-                    "style": {
-                        "fr_FR": ""
-                    },
-                    "tip": {
-                        "fr_FR": ""
-                    },
-                    "dataType": "link-to-page",
-                    "fieldNamespace": "ddm",
-                    "indexType": "",
-                    "localizable": true,
-                    "name": "newsletterLinkURL",
-                    "readOnly": false,
-                    "repeatable": false,
-                    "required": false,
-                    "showLabel": true,
-                    "type": "ddm-link-to-page"
-                }
-            ]
-        },
-        {
-            "label": {
-                "fr_FR": "Lien offre d'emploi"
-            },
-            "predefinedValue": {
-                "fr_FR": "Emploi"
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "string",
-            "indexType": "",
-            "localizable": true,
-            "name": "offerLinkLabel",
-            "readOnly": false,
-            "repeatable": false,
-            "required": false,
-            "showLabel": true,
-            "type": "text",
-            "nestedFields": [
-                {
-                    "label": {
-                        "fr_FR": "Lien"
-                    },
-                    "predefinedValue": {
-                        "fr_FR": ""
-                    },
-                    "style": {
-                        "fr_FR": ""
-                    },
-                    "tip": {
-                        "fr_FR": ""
-                    },
-                    "dataType": "link-to-page",
-                    "fieldNamespace": "ddm",
-                    "indexType": "",
-                    "localizable": true,
-                    "name": "offerLinkURL",
-                    "readOnly": false,
-                    "repeatable": false,
-                    "required": false,
-                    "showLabel": true,
-                    "type": "ddm-link-to-page"
-                }
-            ]
-        },
-        {
-            "label": {
-                "fr_FR": "Lien StrasApp"
-            },
-            "predefinedValue": {
-                "fr_FR": "StrasApp"
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "string",
-            "indexType": "",
-            "localizable": true,
-            "name": "strasAppLinkLabel",
-            "readOnly": false,
-            "repeatable": false,
-            "required": false,
-            "showLabel": true,
-            "type": "text",
-            "nestedFields": [
-                {
-                    "label": {
-                        "fr_FR": "Lien"
-                    },
-                    "predefinedValue": {
-                        "fr_FR": ""
-                    },
-                    "style": {
-                        "fr_FR": ""
-                    },
-                    "tip": {
-                        "fr_FR": ""
-                    },
-                    "dataType": "string",
-                    "indexType": "keyword",
-                    "localizable": true,
-                    "name": "strasAppLinkURL",
-                    "readOnly": false,
-                    "repeatable": false,
-                    "required": false,
-                    "showLabel": true,
-                    "type": "text"
-                }
-            ]
-        },
-        {
-            "label": {
-                "fr_FR": "Lien sous-footer"
-            },
-            "predefinedValue": {
-                "fr_FR": ""
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "string",
-            "indexType": "",
-            "localizable": true,
-            "name": "subfooterLinkLabel",
+            ],
             "readOnly": false,
             "repeatable": true,
             "required": false,
             "showLabel": true,
-            "type": "text",
-            "nestedFields": [
+            "tip": {}
+        },
+        {
+            "customProperties": {
+                "labelAtStructureLevel": true,
+                "ddmStructureLayoutId": "",
+                "ddmStructureId": "",
+                "upgradedStructure": false,
+                "fieldReference": "mediaLinkLabelFieldSet",
+                "rows": [
+                    {
+                        "columns": [
+                            {
+                                "size": 12,
+                                "fields": [
+                                    "mediaLinkLabel"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "columns": [
+                            {
+                                "size": 12,
+                                "fields": [
+                                    "mediaLinkURL"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "collapsible": false
+            },
+            "defaultValue": {},
+            "fieldType": "fieldset",
+            "indexable": false,
+            "label": {
+                "fr_FR": "Groupe de champs"
+            },
+            "localizable": false,
+            "name": "mediaLinkLabelFieldSet",
+            "nestedDataDefinitionFields": [
                 {
+                    "customProperties": {
+                        "labelAtStructureLevel": false,
+                        "confirmationErrorMessage": {},
+                        "hideField": false,
+                        "autocomplete": false,
+                        "ddmDataProviderInstanceId": [],
+                        "dataType": "string",
+                        "tooltip": {
+                            "fr_FR": ""
+                        },
+                        "requireConfirmation": false,
+                        "displayStyle": "singleline",
+                        "fieldNamespace": "",
+                        "visibilityExpression": "",
+                        "ddmDataProviderInstanceOutput": [],
+                        "options": {
+                            "fr_FR": [
+                                {
+                                    "reference": "",
+                                    "label": "Option",
+                                    "value": "Option"
+                                }
+                            ]
+                        },
+                        "nativeField": false,
+                        "confirmationLabel": {},
+                        "fieldReference": "mediaLinkLabel",
+                        "placeholder": {
+                            "fr_FR": ""
+                        },
+                        "dataSourceType": "manual",
+                        "direction": []
+                    },
+                    "defaultValue": {},
+                    "fieldType": "text",
+                    "indexType": "none",
+                    "indexable": true,
                     "label": {
-                        "fr_FR": "Lien"
+                        "fr_FR": "Lien presse"
                     },
-                    "predefinedValue": {
-                        "fr_FR": ""
-                    },
-                    "style": {
-                        "fr_FR": ""
-                    },
-                    "tip": {
-                        "fr_FR": ""
-                    },
-                    "dataType": "link-to-page",
-                    "fieldNamespace": "ddm",
-                    "indexType": "",
                     "localizable": true,
-                    "name": "Lien2ga2",
+                    "name": "mediaLinkLabel",
+                    "nestedDataDefinitionFields": [],
                     "readOnly": false,
                     "repeatable": false,
                     "required": false,
                     "showLabel": true,
-                    "type": "ddm-link-to-page"
+                    "tip": {
+                        "fr_FR": ""
+                    }
                 },
                 {
+                    "customProperties": {
+                        "fieldNamespace": "",
+                        "visibilityExpression": "null",
+                        "dataType": "link-to-page",
+                        "fieldReference": "mediaLinkURL"
+                    },
+                    "defaultValue": {},
+                    "fieldType": "link_to_layout",
+                    "indexType": "none",
+                    "indexable": true,
+                    "label": {
+                        "fr_FR": "Lien"
+                    },
+                    "localizable": true,
+                    "name": "mediaLinkURL",
+                    "nestedDataDefinitionFields": [],
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "tip": {
+                        "fr_FR": ""
+                    }
+                }
+            ],
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "tip": {}
+        },
+        {
+            "customProperties": {
+                "labelAtStructureLevel": true,
+                "ddmStructureLayoutId": "",
+                "ddmStructureId": "",
+                "upgradedStructure": false,
+                "fieldReference": "newsletterLinkLabelFieldSet",
+                "rows": [
+                    {
+                        "columns": [
+                            {
+                                "size": 12,
+                                "fields": [
+                                    "newsletterLinkLabel"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "columns": [
+                            {
+                                "size": 12,
+                                "fields": [
+                                    "newsletterLinkURL"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "collapsible": false
+            },
+            "defaultValue": {},
+            "fieldType": "fieldset",
+            "indexable": false,
+            "label": {
+                "fr_FR": "Groupe de champs"
+            },
+            "localizable": false,
+            "name": "newsletterLinkLabelFieldSet",
+            "nestedDataDefinitionFields": [
+                {
+                    "customProperties": {
+                        "labelAtStructureLevel": false,
+                        "confirmationErrorMessage": {},
+                        "hideField": false,
+                        "autocomplete": false,
+                        "ddmDataProviderInstanceId": [],
+                        "dataType": "string",
+                        "tooltip": {
+                            "fr_FR": ""
+                        },
+                        "requireConfirmation": false,
+                        "displayStyle": "singleline",
+                        "fieldNamespace": "",
+                        "visibilityExpression": "",
+                        "ddmDataProviderInstanceOutput": [],
+                        "options": {
+                            "fr_FR": [
+                                {
+                                    "reference": "",
+                                    "label": "Option",
+                                    "value": "Option"
+                                }
+                            ]
+                        },
+                        "nativeField": false,
+                        "confirmationLabel": {},
+                        "fieldReference": "newsletterLinkLabel",
+                        "placeholder": {
+                            "fr_FR": ""
+                        },
+                        "dataSourceType": "manual",
+                        "direction": []
+                    },
+                    "defaultValue": {},
+                    "fieldType": "text",
+                    "indexType": "none",
+                    "indexable": true,
+                    "label": {
+                        "fr_FR": "Lien newsletter"
+                    },
+                    "localizable": true,
+                    "name": "newsletterLinkLabel",
+                    "nestedDataDefinitionFields": [],
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "tip": {
+                        "fr_FR": ""
+                    }
+                },
+                {
+                    "customProperties": {
+                        "fieldNamespace": "",
+                        "visibilityExpression": "null",
+                        "dataType": "link-to-page",
+                        "fieldReference": "newsletterLinkURL"
+                    },
+                    "defaultValue": {},
+                    "fieldType": "link_to_layout",
+                    "indexType": "none",
+                    "indexable": true,
+                    "label": {
+                        "fr_FR": "Lien"
+                    },
+                    "localizable": true,
+                    "name": "newsletterLinkURL",
+                    "nestedDataDefinitionFields": [],
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "tip": {
+                        "fr_FR": ""
+                    }
+                }
+            ],
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "tip": {}
+        },
+        {
+            "customProperties": {
+                "labelAtStructureLevel": true,
+                "ddmStructureLayoutId": "",
+                "ddmStructureId": "",
+                "upgradedStructure": false,
+                "fieldReference": "offerLinkLabelFieldSet",
+                "rows": [
+                    {
+                        "columns": [
+                            {
+                                "size": 12,
+                                "fields": [
+                                    "offerLinkLabel"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "columns": [
+                            {
+                                "size": 12,
+                                "fields": [
+                                    "offerLinkURL"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "collapsible": false
+            },
+            "defaultValue": {},
+            "fieldType": "fieldset",
+            "indexable": false,
+            "label": {
+                "fr_FR": "Groupe de champs"
+            },
+            "localizable": false,
+            "name": "offerLinkLabelFieldSet",
+            "nestedDataDefinitionFields": [
+                {
+                    "customProperties": {
+                        "labelAtStructureLevel": false,
+                        "confirmationErrorMessage": {},
+                        "hideField": false,
+                        "autocomplete": false,
+                        "ddmDataProviderInstanceId": [],
+                        "dataType": "string",
+                        "tooltip": {
+                            "fr_FR": ""
+                        },
+                        "requireConfirmation": false,
+                        "displayStyle": "singleline",
+                        "fieldNamespace": "",
+                        "visibilityExpression": "",
+                        "ddmDataProviderInstanceOutput": [],
+                        "options": {
+                            "fr_FR": [
+                                {
+                                    "reference": "",
+                                    "label": "Option",
+                                    "value": "Option"
+                                }
+                            ]
+                        },
+                        "nativeField": false,
+                        "confirmationLabel": {},
+                        "fieldReference": "offerLinkLabel",
+                        "placeholder": {
+                            "fr_FR": ""
+                        },
+                        "dataSourceType": "manual",
+                        "direction": []
+                    },
+                    "defaultValue": {},
+                    "fieldType": "text",
+                    "indexType": "none",
+                    "indexable": true,
+                    "label": {
+                        "fr_FR": "Lien offre d'emploi"
+                    },
+                    "localizable": true,
+                    "name": "offerLinkLabel",
+                    "nestedDataDefinitionFields": [],
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "tip": {
+                        "fr_FR": ""
+                    }
+                },
+                {
+                    "customProperties": {
+                        "fieldNamespace": "",
+                        "visibilityExpression": "null",
+                        "dataType": "link-to-page",
+                        "fieldReference": "offerLinkURL"
+                    },
+                    "defaultValue": {},
+                    "fieldType": "link_to_layout",
+                    "indexType": "none",
+                    "indexable": true,
+                    "label": {
+                        "fr_FR": "Lien"
+                    },
+                    "localizable": true,
+                    "name": "offerLinkURL",
+                    "nestedDataDefinitionFields": [],
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "tip": {
+                        "fr_FR": ""
+                    }
+                }
+            ],
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "tip": {}
+        },
+        {
+            "customProperties": {
+                "labelAtStructureLevel": true,
+                "ddmStructureLayoutId": "",
+                "ddmStructureId": "",
+                "upgradedStructure": false,
+                "fieldReference": "strasAppLinkLabelFieldSet",
+                "rows": [
+                    {
+                        "columns": [
+                            {
+                                "size": 12,
+                                "fields": [
+                                    "strasAppLinkLabel"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "columns": [
+                            {
+                                "size": 12,
+                                "fields": [
+                                    "strasAppLinkURL"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "collapsible": false
+            },
+            "defaultValue": {},
+            "fieldType": "fieldset",
+            "indexable": false,
+            "label": {
+                "fr_FR": "Groupe de champs"
+            },
+            "localizable": false,
+            "name": "strasAppLinkLabelFieldSet",
+            "nestedDataDefinitionFields": [
+                {
+                    "customProperties": {
+                        "labelAtStructureLevel": false,
+                        "confirmationErrorMessage": {},
+                        "hideField": false,
+                        "autocomplete": false,
+                        "ddmDataProviderInstanceId": [],
+                        "dataType": "string",
+                        "tooltip": {
+                            "fr_FR": ""
+                        },
+                        "requireConfirmation": false,
+                        "displayStyle": "singleline",
+                        "fieldNamespace": "",
+                        "visibilityExpression": "",
+                        "ddmDataProviderInstanceOutput": [],
+                        "options": {
+                            "fr_FR": [
+                                {
+                                    "reference": "",
+                                    "label": "Option",
+                                    "value": "Option"
+                                }
+                            ]
+                        },
+                        "nativeField": false,
+                        "confirmationLabel": {},
+                        "fieldReference": "strasAppLinkLabel",
+                        "placeholder": {
+                            "fr_FR": ""
+                        },
+                        "dataSourceType": "manual",
+                        "direction": []
+                    },
+                    "defaultValue": {},
+                    "fieldType": "text",
+                    "indexType": "none",
+                    "indexable": true,
+                    "label": {
+                        "fr_FR": "Lien StrasApp"
+                    },
+                    "localizable": true,
+                    "name": "strasAppLinkLabel",
+                    "nestedDataDefinitionFields": [],
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "tip": {
+                        "fr_FR": ""
+                    }
+                },
+                {
+                    "customProperties": {
+                        "labelAtStructureLevel": false,
+                        "confirmationErrorMessage": {},
+                        "hideField": false,
+                        "autocomplete": false,
+                        "ddmDataProviderInstanceId": [],
+                        "dataType": "string",
+                        "tooltip": {
+                            "fr_FR": ""
+                        },
+                        "requireConfirmation": false,
+                        "displayStyle": "singleline",
+                        "fieldNamespace": "",
+                        "visibilityExpression": "",
+                        "ddmDataProviderInstanceOutput": [],
+                        "options": {
+                            "fr_FR": [
+                                {
+                                    "reference": "",
+                                    "label": "Option",
+                                    "value": "Option"
+                                }
+                            ]
+                        },
+                        "nativeField": false,
+                        "confirmationLabel": {},
+                        "fieldReference": "strasAppLinkURL",
+                        "placeholder": {
+                            "fr_FR": ""
+                        },
+                        "dataSourceType": "manual",
+                        "direction": []
+                    },
+                    "defaultValue": {},
+                    "fieldType": "text",
+                    "indexType": "keyword",
+                    "indexable": true,
+                    "label": {
+                        "fr_FR": "Lien"
+                    },
+                    "localizable": true,
+                    "name": "strasAppLinkURL",
+                    "nestedDataDefinitionFields": [],
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "tip": {
+                        "fr_FR": ""
+                    }
+                }
+            ],
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "tip": {}
+        },
+        {
+            "customProperties": {
+                "labelAtStructureLevel": true,
+                "ddmStructureLayoutId": "",
+                "ddmStructureId": "",
+                "upgradedStructure": false,
+                "fieldReference": "subfooterLinkLabelFieldSet",
+                "rows": [
+                    {
+                        "columns": [
+                            {
+                                "size": 12,
+                                "fields": [
+                                    "subfooterLinkLabel"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "columns": [
+                            {
+                                "size": 12,
+                                "fields": [
+                                    "Lien2ga2"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "columns": [
+                            {
+                                "size": 12,
+                                "fields": [
+                                    "ExtLink"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "columns": [
+                            {
+                                "size": 12,
+                                "fields": [
+                                    "activeTab"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "collapsible": false
+            },
+            "defaultValue": {},
+            "fieldType": "fieldset",
+            "indexable": false,
+            "label": {
+                "fr_FR": "Groupe de champs"
+            },
+            "localizable": false,
+            "name": "subfooterLinkLabelFieldSet",
+            "nestedDataDefinitionFields": [
+                {
+                    "customProperties": {
+                        "labelAtStructureLevel": false,
+                        "confirmationErrorMessage": {},
+                        "hideField": false,
+                        "autocomplete": false,
+                        "ddmDataProviderInstanceId": [],
+                        "dataType": "string",
+                        "tooltip": {
+                            "fr_FR": ""
+                        },
+                        "requireConfirmation": false,
+                        "displayStyle": "singleline",
+                        "fieldNamespace": "",
+                        "visibilityExpression": "",
+                        "ddmDataProviderInstanceOutput": [],
+                        "options": {
+                            "fr_FR": [
+                                {
+                                    "reference": "",
+                                    "label": "Option",
+                                    "value": "Option"
+                                }
+                            ]
+                        },
+                        "nativeField": false,
+                        "confirmationLabel": {},
+                        "fieldReference": "subfooterLinkLabel",
+                        "placeholder": {
+                            "fr_FR": ""
+                        },
+                        "dataSourceType": "manual",
+                        "direction": []
+                    },
+                    "defaultValue": {},
+                    "fieldType": "text",
+                    "indexType": "none",
+                    "indexable": true,
+                    "label": {
+                        "fr_FR": "Lien sous-footer"
+                    },
+                    "localizable": true,
+                    "name": "subfooterLinkLabel",
+                    "nestedDataDefinitionFields": [],
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "tip": {
+                        "fr_FR": ""
+                    }
+                },
+                {
+                    "customProperties": {
+                        "fieldNamespace": "",
+                        "visibilityExpression": "null",
+                        "dataType": "link-to-page",
+                        "fieldReference": "Lien2ga2"
+                    },
+                    "defaultValue": {},
+                    "fieldType": "link_to_layout",
+                    "indexType": "none",
+                    "indexable": true,
+                    "label": {
+                        "fr_FR": "Lien"
+                    },
+                    "localizable": true,
+                    "name": "Lien2ga2",
+                    "nestedDataDefinitionFields": [],
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "tip": {
+                        "fr_FR": ""
+                    }
+                },
+                {
+                    "customProperties": {
+                        "labelAtStructureLevel": false,
+                        "confirmationErrorMessage": {},
+                        "hideField": false,
+                        "autocomplete": false,
+                        "ddmDataProviderInstanceId": [],
+                        "dataType": "string",
+                        "tooltip": {
+                            "fr_FR": ""
+                        },
+                        "requireConfirmation": false,
+                        "displayStyle": "singleline",
+                        "fieldNamespace": "",
+                        "visibilityExpression": "",
+                        "ddmDataProviderInstanceOutput": [],
+                        "options": {
+                            "fr_FR": [
+                                {
+                                    "reference": "",
+                                    "label": "Option",
+                                    "value": "Option"
+                                }
+                            ]
+                        },
+                        "nativeField": false,
+                        "confirmationLabel": {},
+                        "fieldReference": "ExtLink",
+                        "placeholder": {
+                            "fr_FR": ""
+                        },
+                        "dataSourceType": "manual",
+                        "direction": []
+                    },
+                    "defaultValue": {},
+                    "fieldType": "text",
+                    "indexType": "keyword",
+                    "indexable": true,
                     "label": {
                         "fr_FR": "Lien externe"
                     },
-                    "predefinedValue": {
-                        "fr_FR": ""
-                    },
-                    "style": {
-                        "fr_FR": ""
-                    },
-                    "tip": {
-                        "fr_FR": ""
-                    },
-                    "dataType": "string",
-                    "indexType": "keyword",
                     "localizable": true,
                     "name": "ExtLink",
+                    "nestedDataDefinitionFields": [],
                     "readOnly": false,
                     "repeatable": false,
                     "required": false,
                     "showLabel": true,
-                    "type": "text"
+                    "tip": {
+                        "fr_FR": ""
+                    }
                 },
                 {
+                    "customProperties": {
+                        "labelAtStructureLevel": false,
+                        "fieldNamespace": "null",
+                        "visibilityExpression": "null",
+                        "dataType": "boolean",
+                        "options": {},
+                        "fieldReference": "activeTab",
+                        "showAsSwitcher": false
+                    },
+                    "defaultValue": {},
+                    "fieldType": "checkbox",
+                    "indexType": "keyword",
+                    "indexable": true,
                     "label": {
                         "fr_FR": "Ouverture onglet actif"
                     },
-                    "predefinedValue": {
-                        "fr_FR": false
-                    },
-                    "style": {
-                        "fr_FR": ""
-                    },
-                    "tip": {
-                        "fr_FR": ""
-                    },
-                    "dataType": "boolean",
-                    "indexType": "keyword",
                     "localizable": true,
                     "name": "activeTab",
+                    "nestedDataDefinitionFields": [],
                     "readOnly": false,
                     "repeatable": false,
                     "required": false,
                     "showLabel": true,
-                    "type": "checkbox"
+                    "tip": {
+                        "fr_FR": ""
+                    }
                 }
-            ]
+            ],
+            "readOnly": false,
+            "repeatable": true,
+            "required": false,
+            "showLabel": true,
+            "tip": {}
         }
-    ]
+    ],
+    "defaultDataLayout": {
+        "dataLayoutFields": {},
+        "dataLayoutPages": [
+            {
+                "dataLayoutRows": [
+                    {
+                        "dataLayoutColumns": [
+                            {
+                                "columnSize": 12,
+                                "fieldNames": [
+                                    "addressLine1"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "dataLayoutColumns": [
+                            {
+                                "columnSize": 12,
+                                "fieldNames": [
+                                    "addressLine2"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "dataLayoutColumns": [
+                            {
+                                "columnSize": 12,
+                                "fieldNames": [
+                                    "addressLine3"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "dataLayoutColumns": [
+                            {
+                                "columnSize": 12,
+                                "fieldNames": [
+                                    "locationLinkLabelFieldSet"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "dataLayoutColumns": [
+                            {
+                                "columnSize": 12,
+                                "fieldNames": [
+                                    "cityHallLinkLabelFieldSet"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "dataLayoutColumns": [
+                            {
+                                "columnSize": 12,
+                                "fieldNames": [
+                                    "phoneNumberFieldSet"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "dataLayoutColumns": [
+                            {
+                                "columnSize": 12,
+                                "fieldNames": [
+                                    "followUs"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "dataLayoutColumns": [
+                            {
+                                "columnSize": 12,
+                                "fieldNames": [
+                                    "socialNetworkFieldSet"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "dataLayoutColumns": [
+                            {
+                                "columnSize": 12,
+                                "fieldNames": [
+                                    "mediaLinkLabelFieldSet"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "dataLayoutColumns": [
+                            {
+                                "columnSize": 12,
+                                "fieldNames": [
+                                    "newsletterLinkLabelFieldSet"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "dataLayoutColumns": [
+                            {
+                                "columnSize": 12,
+                                "fieldNames": [
+                                    "offerLinkLabelFieldSet"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "dataLayoutColumns": [
+                            {
+                                "columnSize": 12,
+                                "fieldNames": [
+                                    "strasAppLinkLabelFieldSet"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "dataLayoutColumns": [
+                            {
+                                "columnSize": 12,
+                                "fieldNames": [
+                                    "subfooterLinkLabelFieldSet"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "description": {
+                    "fr_FR": "Abonnement"
+                },
+                "title": {
+                    "fr_FR": "Page"
+                }
+            }
+        ],
+        "dataRules": [],
+        "description": {},
+        "name": {
+            "fr_FR": "Footer"
+        },
+        "paginationMode": "single-page"
+    },
+    "defaultLanguageId": "fr_FR",
+    "description": {},
+    "name": {
+        "fr_FR": "Footer"
+    },
+    "storageType": "default"
 }

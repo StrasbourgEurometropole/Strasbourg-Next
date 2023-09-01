@@ -169,7 +169,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
         <@liferay.breadcrumbs />
     </div>
 
-    <div class="st-wrapper">
+    <div class="st-visual-container st-wrapper">
 
         <#if entry.isEnabled()>
             <#assign occupationState = entry.getRealTime() />
@@ -243,13 +243,13 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                      aria-label="Slider avec des informations sur les horaires de visite">
                     <div class="splide__track">
                         <ul class="splide__list">
-                            <li class="splide__slide st-single-ancre">
+                            <li class="splide__slide">
                                 <p class="st-title">
                                     <@liferay_ui.message key="eu.place.next-days" />
                                 </p>
                             </li>
                             <#if entry.defaultPeriod?has_content>
-                                <li class="splide__slide st-single-ancre">
+                                <li class="splide__slide">
                                     <p class="st-title">${entry.defaultPeriod.getName(locale)}
                                     </p>
                                 </li>
@@ -257,7 +257,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 
                             <!-- Autres periodes -->
                             <#list entry.nonDefaultPeriods as period>
-                                <li class="splide__slide st-single-ancre">
+                                <li class="splide__slide">
                                     <p class="st-title">${period.getName(locale)}</p>
                                     <p class="st-surtitre-cat">${period.getDisplay(locale)}</p>
                                 </li>
@@ -284,7 +284,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                     <p class="st-title">${entry.getAlias(locale)}</p>
                                 </#if>
 
-                                <ul class="st-single-slide-container">
+                                <ul class="st-list-rows st-basic-grid st-col-2@t-small">
                                     <#assign daySchedulesMap=entry.getFollowingWeekSchedules(.now,
                                     locale) />
                                     <#assign hasException=false />
@@ -295,9 +295,9 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                         daySchedulesMap[day][0]?? &&
                                         daySchedulesMap[day][0]?has_content)>
 
-                                            <li>
+                                            <li  class="st-item-row">
                                                 <p class="st-title">${day}</p>
-                                                <div class="st-info">
+                                                <div class="st-info st-u-color-secondary">
                                                     <#list daySchedulesMap[day] as schedule>
                                                         <#if schedule.isException() ||
                                                         schedule.isPublicHoliday()>
@@ -347,7 +347,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                 <!-- Jours suivants pour les sous-lieux -->
                                 <#list entry.publishedSubPlaces as subPlace>
                                     <p class="st-title">${subPlace.getName(locale)}</p>
-                                    <ul class="st-single-slide-container">
+                                    <ul class="st-list-rows st-basic-grid st-col-2@t-small">
                                         <#assign
                                         daySchedulesMap=subPlace.getFollowingWeekSchedules(.now,
                                         locale) />
@@ -357,9 +357,9 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                             (daySchedulesMap[day]?size==1 &&
                                             daySchedulesMap[day][0]?? &&
                                             daySchedulesMap[day][0]?has_content)>
-                                                <li>
+                                                <li class="st-item-row">
                                                     <p class="st-title">${day}</p>
-                                                    <div class="st-info">
+                                                    <div class="st-info  st-u-color-secondary">
                                                         <#list daySchedulesMap[day] as schedule>
                                                             <#if schedule.isException() ||
                                                             schedule.isPublicHoliday()>
@@ -423,7 +423,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                     <#if entry.publishedSubPlaces?has_content>
                                         <p class="st-title">${entry.getAlias(locale)}</p>
                                     </#if>
-                                    <ul class="st-single-slide-container">
+                                    <ul class="st-list-rows st-basic-grid st-col-2@t-small">
                                         <#assign
                                         weekSchedules=entry.defaultPeriod.getWeekSchedule() />
                                         <#assign day=0 />
@@ -436,7 +436,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                     <#list entry.publishedSubPlaces as subPlace>
                                         <p class="st-small-title">${subPlace.getName(locale)}
                                         </p>
-                                        <ul class="st-single-slide-container">
+                                        <ul class="st-list-rows st-basic-grid st-col-2@t-small">
                                             <#assign
                                             weekSchedules=subPlace.defaultPeriod.getWeekSchedule(subPlace.subPlaceId) />
                                             <#assign day=0 />
@@ -464,7 +464,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                         <p class="st-title">${entry.getAlias(locale)}</p>
                                     </#if>
 
-                                    <ul class="st-single-slide-container">
+                                    <ul class="st-list-rows st-basic-grid st-col-2@t-small">
                                         <#assign weekSchedules=period.getWeekSchedule() />
                                         <#assign day=0 />
                                         <#list weekSchedules as schedule>
@@ -476,7 +476,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                     <#list entry.publishedSubPlaces as subPlace>
                                         <p class="st-small-title">${subPlace.getName(locale)}
                                         </p>
-                                        <ul class="st-single-slide-container">
+                                        <ul class="st-list-rows st-basic-grid st-col-2@t-small">
                                             <#assign
                                             weekSchedules=subPlace.defaultPeriod.getWeekSchedule(subPlace.subPlaceId) />
                                             <#assign day=0 />
@@ -580,6 +580,8 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
     <#if entry.hasScheduleTable()>
         <#assign
         assetVocabularyHelper=serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
+        <#assign
+        placeLocalService=serviceLocator.findService("eu.strasbourg.service.place.service.PlaceLocalService") />
         <#list entry.types as type>
             <#if (assetVocabularyHelper.getCategoryProperty(type.categoryId, 'schedule' )=='true' )>
                 <#assign category=type />
@@ -595,7 +597,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                 <div class="st-col-right">
                     <div class="st-content">
                         <h2 class="st-h2">Vous preferez aller ailleurs ?</h2>
-                        <p class="st-surtitre-cat">Il y a d'autres
+                        <p class="st-surtitre-cat">Il y a ${placeLocalService.getPlaceCountByAssetCategory(category, themeDisplay.getCompanyGroupId())} autres
                             ${category.getTitle(locale)?lower_case} dans l'eurometropole</p>
                     </div>
                 </div>
@@ -704,7 +706,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                     <div class="splide__track">
                         <ul class="splide__list">
                             <#list placeActivityAgenda.periods as period>
-                                <li class="splide__slide st-single-ancre">
+                                <li class="splide__slide">
                                     <p class="st-title">${period.periodName}</p>
                                 </li>
                             </#list>
@@ -731,16 +733,16 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                                 <@liferay_ui.message key="eu.see-detail" />
                                             </a>
                                         </div>
-                                        <ul class="st-single-slide-container">
+                                        <ul class="st-list-rows st-basic-grid st-col-2@t-small">
                                             <#list 0..6 as day>
                                                 <#assign schedules=course.getSchedulesForDay(day) />
                                                 <#if schedules?has_content>
-                                                    <li>
+                                                    <li class="st-item-row">
                                                         <p class="st-title">
                                                             <@liferay_ui.message
                                                             key="${course.getDayName(day)}" />
                                                         </p>
-                                                        <div class="st-info">
+                                                        <div class="st-info st-u-color-secondary">
                                                             <p>
                                                                 <#list schedules as schedule>
                                                                     ${schedule.startTime} -
@@ -950,11 +952,11 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 
 
 <#macro showTime day schedule hasException>
-    <li>
+    <li class="st-item-row">
         <p class="st-title">
             <@liferay_ui.message key="jour-semaine${day}" />
         </p>
-        <div class="st-info">
+        <div class="st-info st-u-color-secondary">
             <#if schedule.isClosed()>
                 <p class="st-ouverture st--closed">
                     <@liferay_ui.message key="eu.closed" />
