@@ -6,20 +6,7 @@
 
     <div class="st-overlay__inner">
         <div class="st-overlay__body st-custom-scrollbar">
-            <div class="st-nav-menu-mobile st-hide-from@mobile">
-                <div class="st-select-visitor">
-                    <span>Je suis</span>
-                    <select class="st-js-select-autoresize">
-                        <option value="habitant" selected="selected">un habitant</option>
-                        <option value="elu">un élu</option>
-                        <option value="enseignant">un enseignant</option>
-                        <option value="etudiant">un étudiant</option>
-                        <option value="demandeur">demandeur d'emploi</option>
-                    </select>
-                </div>
-                <a href="#" class="st-nav-menu-mobile__link">Mon quartier / Ma commune</a>
-                <a href="#" class="st-nav-menu-mobile__link">Contact</a>
-            </div>
+            <@nav_menu_mobile_top />
             <#list entries as nav_item>
                 <#assign
                 nav_item_attr_has_popup = ""
@@ -58,19 +45,40 @@
         </div>
 
         <div class="st-overlay__footer st-hide-from@t-small">
-            <a href="#" class="st-btn-compte">
-                <span class="st-icon-demarche" aria-hidden="true"></span>Mes démarches
-            </a>
-            <select onchange="document.location.href = this.value;" class="select-lang">
-                <option value="https://strasbourg.eu/" selected="selected">
-                    Fr
-                </option>
-                <option value="https://int.strasbourg.eu/en">En</option>
-                <option value="https://int.strasbourg.eu/de">De</option>
-            </select>
+            <@nav_menu_mobile_bottom />
         </div>
 
         <button class="st-btn-arrow st--down st-scroll-indicator st-js-scroll-overlay" aria-label="Faire défiler le menu"></button>
     </div>
 
 </div>
+
+<#macro nav_menu_mobile_top >
+    <div class="st-nav-menu-mobile st-hide-from@mobile">
+        <div class="st-select-visitor">
+            <span>Je suis</span>
+            <select class="st-js-select-autoresize">
+                <option value="habitant" selected="selected">un habitant</option>
+                <option value="elu">un élu</option>
+                <option value="enseignant">un enseignant</option>
+                <option value="etudiant">un étudiant</option>
+                <option value="demandeur">demandeur d'emploi</option>
+            </select>
+        </div>
+        <a href="#" class="st-nav-menu-mobile__link">Mon quartier / Ma commune</a>
+        <a href="#" class="st-nav-menu-mobile__link">Contact</a>
+    </div>
+</#macro>
+
+<#macro nav_menu_mobile_bottom >
+    <a href="#" class="st-btn-compte">
+        <span class="st-icon-demarche" aria-hidden="true"></span>Mes démarches
+    </a>
+    <select onchange="document.location.href = this.value;" class="select-lang">
+        <option value="https://strasbourg.eu/" selected="selected">
+            Fr
+        </option>
+        <option value="https://int.strasbourg.eu/en">En</option>
+        <option value="https://int.strasbourg.eu/de">De</option>
+    </select>
+</#macro>

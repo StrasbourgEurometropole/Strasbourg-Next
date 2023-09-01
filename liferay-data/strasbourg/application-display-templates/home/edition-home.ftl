@@ -2,7 +2,9 @@
 
 <div class="st-bloc st-bloc-editions-dossiers st-wrapper ">
     <div class="st-col-left">
-        <h2 class="st-h2">Nos éditions</h2>
+        <h2 class="st-h2">
+            <@liferay_ui["message"] key="eu.our-editions" />
+        </h2>
         <ul class="st-editions-container">
             <#list entries as curEntry>
                 <#assign entry = curEntry.getAssetRenderer().getEdition() />
@@ -25,7 +27,7 @@
             </#list>
         </ul>
         <a href="#" class="st-btn st--btn-secondary">
-            Toutes nos éditions
+            <@liferay_ui["message"] key="eu.all-editions" />
         </a>
     </div>
 

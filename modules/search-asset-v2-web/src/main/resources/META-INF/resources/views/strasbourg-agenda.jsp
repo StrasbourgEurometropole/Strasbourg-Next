@@ -1,3 +1,4 @@
+<%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/site-navigation" %>
 <%@ include file="/search-asset-init.jsp" %>
 
 <liferay-portlet:actionURL varImpl="searchActionURL" />
@@ -10,36 +11,24 @@
 
 <header class="st-small-header st--two-columns st-basic-grid st-col-2@t-landscape st-wrapper st-wrapper-small" role="banner">
 	<div class="col-left">
-		<h1 class="st-h1">Agenda</h1>
-		<ul class="st-breadcrumbs" aria-label="Fil d'ariane de la page">
-			<li class="st-breadcrumbs__item">
-				<a href="#" class="st-breadcrumbs__link">Accueil</a>
-			</li>
-
-			<li class="st-breadcrumbs__item">
-				<a href="#" class="st-breadcrumbs__link">L'actu</a>
-			</li>
-
-
-			<li class="st-breadcrumbs__item">
-				<span>Agenda</span>
-			</li>
-		</ul>            </div>
+		<h1 class="st-h1"><liferay-ui:message key="eu.agenda" /></h1>
+		<liferay-ui:breadcrumb />
+	</div>
 
 	<div class="col-right">
 		<div class="st-filters-agenda">
 
 			<div class="st-filter-agenda">
 				<input type="radio" name="filters-agenda" value="filter-aujourdhui" id="today">
-				<label for="today">Aujourd'hui</label>
+				<label for="today"><liferay-ui:message key="today" /> </label>
 			</div>
 			<div class="st-filter-agenda">
 				<input type="radio" name="filters-agenda" value="filter-demain" id="tomorrow">
-				<label for="tomorrow">Demain</label>
+				<label for="tomorrow"><liferay-ui:message key="tomorrow" /></label>
 			</div>
 			<div class="st-filter-agenda">
 				<input type="radio" name="filters-agenda" value="filter-weekend" id="week-end">
-				<label for="week-end">Ce week-end</label>
+				<label for="week-end"><liferay-ui:message key="weekend" /></label>
 			</div>
 
 		</div>
@@ -141,5 +130,4 @@
 
 </div>
 
-<!-- hihi -->
 <liferay-util:include page="/includes/overlay-event.jsp" servletContext="<%=application %>" />

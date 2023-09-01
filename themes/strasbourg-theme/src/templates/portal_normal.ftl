@@ -5,13 +5,14 @@
 <html class="${root_css_class}" dir="<@liferay.language key="lang.dir" />" lang="${w3c_language_id}">
 
 <head>
-	<title>${html_title}</title>
+	<title>${the_title?replace('-', '|')}</title>
 
 	<meta content="initial-scale=1.0, width=device-width" name="viewport" />
 
 	<link rel="stylesheet" href="/o/strasbourg-theme/css/style.css">
 
 	<@liferay_util["include"] page=top_head_include />
+<#--	<#include "${full_templates_path}/seo.ftl" />-->
 </head>
 
 
