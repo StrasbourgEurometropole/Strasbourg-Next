@@ -62,7 +62,7 @@ public class AssetVocabularyAccessor {
 		}		
 	}
 
-	public AssetVocabulary setSaisineDispositif(long groupID) {
+	public AssetVocabulary getSaisineDispositif(long groupID) {
 		try {
 			return AssetVocabularyHelper.getVocabulary(VocabularyNames.SAISINE_DISPOSITIF, groupID);
 		} catch (Exception e) {
@@ -70,7 +70,7 @@ public class AssetVocabularyAccessor {
 		}
 	}
 
-	public AssetVocabulary setSaisineEnTantQue(long groupID) {
+	public AssetVocabulary getSaisineEnTantQue(long groupID) {
 		try {
 			return AssetVocabularyHelper.getVocabulary(VocabularyNames.SAISINE_EN_TANT_QUE, groupID);
 		} catch (Exception e) {
