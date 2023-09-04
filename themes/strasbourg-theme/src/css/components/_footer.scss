@@ -161,7 +161,7 @@
 	}
 
 	.st-container-mentions {
-		padding: 14px 0;
+		padding: 14px 0 calc(var(--barre-height) + 20px) 0;
 		background-color: $c_greydark;
 
 		@include tablet-portrait {

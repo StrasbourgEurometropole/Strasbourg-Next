@@ -1,4 +1,6 @@
 .st-bloc-infos-complementaires {
+
+
 	.st-container {
 		--grid-gap: 40px;
 		display: grid;
@@ -206,6 +208,16 @@
 			margin-top: 10px;
 		}
 
+		p a {
+			@include create-outline;
+			color: $c_sub;
+			text-decoration: underline;
+
+			@include can-hover {
+				color: $c_white;
+			}
+		}
+
 		.st-liste-icons {
 			display: flex;
 			flex-wrap: wrap;
@@ -221,6 +233,30 @@
 
 			[class^="st-icon-"], [class*=" st-icon-"] {
 				font-size: 20px;
+			}
+		}
+	}
+
+
+	// -- modifiers
+	// mode multi-colonnes sur les single-agenda
+	&.st--two-columns {
+		.st-container {
+			display: block;
+			column-count: 2;
+			column-gap: var(--grid-gap);
+
+			@include tablet-portrait {
+				--grid-gap: 20px;
+			}
+
+			@include tablet-small {
+				column-count: initial;
+			}
+
+			> * {
+				margin-bottom: var(--grid-gap);
+				break-inside: avoid;
 			}
 		}
 	}

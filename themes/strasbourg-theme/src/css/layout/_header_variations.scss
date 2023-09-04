@@ -10,6 +10,13 @@
 		margin-bottom: 16px;
 	}
 
+	// régle spé pour les h1 des headers
+	.st-h1 {
+		@include mobile {
+			font-size: 30px;
+		}
+	}
+
 	// --modifiers
 	&.st--two-columns {
 		row-gap: 16px;

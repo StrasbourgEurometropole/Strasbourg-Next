@@ -45,6 +45,10 @@
 		.st-image {
 			margin-right: 20px;
 			flex-shrink: 0;
+
+			img {
+				border-radius: $border-radius-small;
+			}
 		}
 
 		.st-content {
@@ -56,6 +60,7 @@
 
 		.st-h3 {
 			margin-bottom: 20px;
+			line-height: 1;
 
 			@include mobile {
 				font-size: 14px;

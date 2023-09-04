@@ -23,7 +23,6 @@
 // Styles des librairies js utilisées dans le projet + fichiers pour faire un overriding des styles de ces librairies
 // ==========================================================================
 @import "libs/splide";
-@import "libs/zoombox";
 @import "libs/leaflet/leaflet";
 @import "libs/leaflet/leaflet_cluster";
 @import "libs/leaflet/leaflet_custom_popup";
@@ -55,8 +54,7 @@
 
 // Styles pour la page édito
 // ==========================================================================
-@import "pages/page-listing";
-@import "pages/page-fiche-lieu";
+@import "pages/*";
 
 // Styles pour les artboards
 // ==========================================================================

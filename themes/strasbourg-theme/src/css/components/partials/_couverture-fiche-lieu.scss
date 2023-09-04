@@ -1,6 +1,14 @@
 // Couverture dans les fiches lieu avec map ou map + image
 .st-header-fiche-lieu {
-	margin-bottom: 50px;
+	margin-bottom: 70px;
+
+	@include tablet-portrait {
+		margin-bottom: 50px;
+	}
+
+	@include mobile {
+		margin-bottom: 30px;
+	}
 
 	@include min-tablet-portrait {
 		padding-top: 40px;
@@ -77,9 +85,12 @@
 			flex-basis: 0;
 			height: 380px;
 
+			@include tablet-portrait {
+				height: 350px;
+			}
+
 			@include tablet-small {
 				flex-basis: auto;
-				height: 214px;
 			}
 		}
 
@@ -94,15 +105,33 @@
 		@include tablet-portrait {
 			flex-grow: 3;
 		}
+		@include tablet-small {
+			height: auto;
+		}
 
 		figure {
 			height: 100%;
 		}
+
+		img {
+			border-bottom-left-radius: $border-radius-small;
+		}
+
+		& + .st-maps {
+			@include min-tablet-small {
+				border-radius: 0 0 $border-radius-small 0;
+			}
+		}
 	}
 
 	.st-maps {
+		border-radius: 0 0 $border-radius-small $border-radius-small;
+
 		@include tablet-portrait {
 			flex-grow: 2;
+		}
+		@include tablet-small {
+			height: 214px;
 		}
 	}
 }

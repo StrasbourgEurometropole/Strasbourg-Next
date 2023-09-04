@@ -165,7 +165,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
         class="st-header-fiche-lieu"
         role="banner">
     <div class="st-wrapper st-wrapper-small">
-        <h1 class="st-h1">${entry.getAlias(locale)}</h1>
+        <h1 class="st-h1 st-hide-until@t-portrait">${entry.getAlias(locale)}</h1>
         <@liferay.breadcrumbs />
     </div>
 
@@ -622,7 +622,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
             <h2 class="st-h2 st-bloc-sit-title">
                 <@liferay_ui.message key="eu.presentation" />
             </h2>
-            <div class="st-component-container">
+            <div class="st-component-container st-text-styles">
                 <div class="st-limit-height ">
                     <p>${entry.getPresentation(locale)}</p>
                 </div>
@@ -796,7 +796,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
         </div>
     </#if>
 
-    <div class="st-bloc st-bloc-sit-colonnes st-wrapper st-wrapper-small st-basic-grid st-col-2@mobile st--has-margin">
+    <div class="st-bloc st-bloc-sit-colonnes st-wrapper st-wrapper-small st-basic-grid st-col-2@t-small st--has-margin">
         <!-- Informations complementaires -->
         <#if entry.getAdditionalInformation(locale)?has_content>
             <div class="st-col">
@@ -870,7 +870,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                     </li>
                 </#if>
             </ul>
-            <div class="st-component-container">
+            <div class="st-component-container st-text-styles">
                 <#if entry.getAccessForDisabled(locale)?has_content>
                     <div class="st-limit-height ">
                         ${entry.getAccessForDisabled(locale)}
@@ -881,7 +881,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
         </div>
     </#if>
 
-    <div class="st-bloc st-bloc-sit-colonnes st-wrapper st-wrapper-small st-basic-grid st-col-2@mobile st--has-margin">
+    <div class="st-bloc st-bloc-sit-colonnes st-wrapper st-wrapper-small st-basic-grid st-col-2@t-small st--has-margin">
         <!-- Services -->
         <#if entry.getServiceAndActivities(locale)?has_content>
             <div class="st-services">

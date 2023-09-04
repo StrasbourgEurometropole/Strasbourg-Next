@@ -7,12 +7,4 @@
 			height: 320px;
 		}
 	}
-
-	// -- modifiers
-	&.st--in-overlay {
-		.st-maps .leaflet-top.leaflet-right {
-			top: 10px;
-			right: 10px;
-		}
-	}
 }

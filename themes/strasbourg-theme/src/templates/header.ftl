@@ -1,8 +1,14 @@
+<div class="st-btn-search-mobile-wrapper st-hide-from@mobile">
+    <button class="st-btn-search-mobile" data-overlay-open="st-overlay-search"
+            aria-label="Rechercher - Ouvrir le moteur de recherche">
+        <@liferay_ui.message key="eu.need-info" />
+    </button>
+</div>
 <header id="st-barre-navigation" class="st-barre-navigation" role="banner">
     <div class="st-barre-liens">
         <div class="st-wrapper st-barre-inner-container">
             <h1 class="st-h1">
-                <a href="/" class="st-logo"
+                <a href="${homeURL}" class="st-logo"
                    title="Accueil, site de la ville et l'eurométropole de Strasbourg">
                     <figure class="st-figure st-fit-cover" role="group">
                         <picture>
@@ -23,32 +29,34 @@
 
                 <ul class="st-nav-primary__menu">
                     <li class="st-nav-primary__item">
-                        <a href="#" class="st-nav-primary__link">Mon quartier / Ma commune</a>
+                        <a href="#" class="st-nav-primary__link">
+                            <@liferay_ui.message key="eu.mycity" />
+                        </a>
                     </li>
                     <li class="st-nav-primary__item">
-                        <a href="#" class="st-nav-primary__link">Contact</a>
+                        <a href="#" class="st-nav-primary__link"><@liferay_ui.message key="eu.ops.contact" /></a>
                     </li>
                     <li class="st-has-lang-dropdown">
                         <select onchange="document.location.href = this.value;" class="select-lang">
                             <option value="https://strasbourg.eu"
-                                    selected="selected">Fr
+                                    selected="selected"><@liferay_ui.message key="eu.fr" />
                             </option>
-                            <option value="https://int.strasbourg.eu/en">En
+                            <option value="https://int.strasbourg.eu/en"><@liferay_ui.message key="eu.en" />
                             </option>
-                            <option value="https://int.strasbourg.eu/de">De
+                            <option value="https://int.strasbourg.eu/de"><@liferay_ui.message key="eu.de" />
                             </option>
                         </select>
                     </li>
                     <li class="st-has-btn-compte">
                         <#if request.session.getAttribute("publik_logged_in")!false>
                         <a href="https://services.strasbourg.eu/" class="st-btn-compte">
-                            <span class="st-icon-demarche" aria-hidden="true"></span>Mes démarches
+                            <span class="st-icon-demarche" aria-hidden="true"></span><@liferay_ui.message key="eu.my-procedures" />
                         </a>
                         <#else>
                             <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
                             <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="st-btn-compte">
                                 <span class="st-icon-person" aria-hidden="true"></span>
-                                <strong>MonStrasbourg</strong>.eu
+                                <strong><@liferay_ui.message key="eu.mystrasbourg" /></strong>.eu
                             </a>
                         </#if>
                     </li>
@@ -57,12 +65,14 @@
             </nav>
         </div>
 
+
+
         <div class="st-wrapper st-barre-menu" role="search">
             <div class="st-barre-menu-inner">
                 <button class="st-btn-search" data-overlay-open="st-overlay-search"
                         onclick="focusOnInput('recherche-input')"
                         aria-label="Rechercher - Ouvrir le moteur de recherche">
-                    J’ai besoin d’informations sur…
+                    <@liferay_ui.message key="eu.need-info" />
                 </button>
                 <button class="st-btn-menu " data-overlay-open="st-overlay-menu">
                    <span class="st-btn-menu__icon" aria-hidden="true">
@@ -70,7 +80,7 @@
                         <span class="st-btn-menu__line"></span>
                         <span class="st-btn-menu__line"></span>
                    </span>
-                    Menu
+                    <@liferay_ui.message key="eu.museum.menu" />
                 </button>
             </div>
         </div>
@@ -81,8 +91,8 @@
     <div class="st-wrapper">
         <ul class="st-toolbar-inner">
             <li class="st-has-logo">
-                <a href="/" class="st-logo"
-                   title="Accueil, site de la ville et l'eurométropole de Strasbourg">
+                <a href="${homeURL}" class="st-logo"
+                   title="<@liferay_ui.message key="eu.title-home" />">
 
                     <figure class="st-figure st-fit-cover" role="group">
                         <picture>

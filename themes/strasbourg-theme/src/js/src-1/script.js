@@ -30,9 +30,6 @@ var lazyLoadInstance = new LazyLoad({
     elements_selector: ".lazy"
 });
 
-// Lancement du script Librairie Zoombox
-$('.zoombox').zoombox();
-
 /* Detect the scroll of the page down */
 document.addEventListener('scroll', function () {
     var st = $(this).scrollTop();

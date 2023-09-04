@@ -1,33 +1,17 @@
 .st-barre-single-sit {
-	position: fixed;
-	bottom: 20px;
 	width: 100%;
 	z-index: z-index("barre-sticky");
-	@include addTransition();
+
+	@include min-tablet-portrait {
+		position: fixed;
+		bottom: 20px;
+	}
 
 	@include tablet-portrait {
 		position: sticky;
 		top: 0;
-		bottom: auto;
-		margin-bottom: 40px;
+		margin-bottom: 10px;
 		background-color: $c_greydark;
-	}
-
-	@include mobile {
-		margin-bottom: 20px;
-	}
-
-	& ~ .st-footer .st-container-mentions {
-		@include min-tablet-portrait {
-			padding-bottom: calc(var(--barre-height) + 40px);
-		}
-	}
-
-	.st-is-scrolled & {
-		@include tablet-portrait {
-			transform: translateY(-100%);
-			opacity: 0;
-		}
 	}
 
 	.st-barre-inner {
@@ -48,31 +32,22 @@
 		}
 	}
 
+
+	// Vignette et texte / infos à gauche
+	// ==========================================================================
+
 	.st-container-left {
 		display: flex;
 		align-items: center;
-		margin-right: 20px;
 
-		@include tablet-small {
-			margin-right: initial;
-		}
-	}
-
-	.st-container-right {
-		display: flex;
-		align-items: center;
-		margin-left: auto;
-		flex-shrink: 0;
-
-		@include tablet-small {
-			margin-left: initial;
-			margin-top: 10px;
+		@include min-tablet-small {
+			margin-right: 20px;
 		}
 	}
 
 	.st-image {
 		position: relative;
-		margin-right: 20px;
+		margin-right: 10px;
 
 		figure {
 			width: 80px;
@@ -89,20 +64,24 @@
 	}
 
 	.st-content {
-		max-width: 264px;
+		@include min-tablet-portrait {
+			max-width: 480px;
+			margin-left: 10px;
+		}
 
 		.st-title {
-			@include ft($f_txt, 15px, 700, $c_white, 1);
+			@include ft('', 15px, 700, $c_white, 1);
 			@include letter-spacing(25);
 			margin-bottom: 5px;
+
 			@include mobile {
-				font-size: 14px;
 				margin-bottom: 3px;
+				font-size: 14px;
 			}
 		}
 
 		address {
-			@include ft($f_txt, 12px, 400, $c_txt, 1.16);
+			@include ft('', 12px, 400, $c_txt, 1.16);
 			@include letter-spacing(25);
 			margin-bottom: 5px;
 
@@ -112,7 +91,7 @@
 		}
 
 		.st-ouverture {
-			@include ft($f_txt, 12px, 500, $c_sub, 1);
+			@include ft('', 12px, 500, $c_sub, 1);
 			@include letter-spacing(200);
 			text-transform: uppercase;
 
@@ -122,12 +101,32 @@
 		}
 	}
 
+
+	// Boutons et liens à droite
+	// ==========================================================================
+
+	.st-container-right {
+		display: flex;
+		align-items: center;
+		margin-left: auto;
+		flex-shrink: 0;
+
+		@include tablet-small {
+			margin-left: initial;
+			margin-top: 10px;
+		}
+	}
+
 	.st-liens-rapides {
 		display: flex;
 		align-items: center;
 
 		li {
 			margin-right: 10px;
+
+			@include mobile {
+				margin-right: 7px;
+			}
 
 			@include mobile-small {
 				margin-right: 5px;
@@ -172,6 +171,44 @@
 		@include mobile {
 			width: 36px;
 			height: 36px;
+		}
+	}
+
+
+	// --modifiers
+	// Dans les single agenda
+	&.st--agenda,
+	&.st--actualite,
+	&.st--association {
+		.st-date {
+			@include ft('', 13px, 600, $c_white, 1.16);
+			text-transform: uppercase;
+			margin-bottom: 1px;
+
+			@include mobile {
+				font-size: 11px;
+			}
+		}
+
+		.st-surtitre-cat {
+			margin-bottom: 2px;
+		}
+
+		.st-title {
+			margin-bottom: initial;
+		}
+
+		.st-location {
+			margin-top: 4px;
+		}
+	}
+
+	// Dans les single actualites
+	&.st--actualite {
+		.st-content {
+			@include min-tablet-portrait {
+				max-width: 380px;
+			}
 		}
 	}
 }

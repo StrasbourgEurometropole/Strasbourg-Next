@@ -6,7 +6,6 @@
         // Init du slider avec les horaires sous forme d'onglet
         const splideThumbs = new Splide(slider, {
             isNavigation: true,
-            focus: "center",
             omitEnd: false,
         });
 

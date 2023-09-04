@@ -3,6 +3,7 @@
 .st-page-wrapper {
 	// Styles de textes globaux
 	// ==========================================================================
+	h1,
 	.st-h1 {
 		display: block;
 		@include ft($f_hx, 45px, 600, $c_white, 1);
@@ -15,6 +16,7 @@
 		}
 	}
 
+	h2,
 	.st-h2 {
 		display: block;
 		@include ft($f_hx, 30px, 600, $c_white, 1);
@@ -27,9 +29,11 @@
 		}
 	}
 
+	h3,
 	.st-h3 {
 		display: block;
-		@include ft($f_hx, 18px, 700, $c_white, 1);
+		@include ft($f_hx, 18px, 700, $c_white, 1.33);
+		@include letter-spacing(25);
 
 		@include tablet_portrait {
 			font-size: 17px;
@@ -44,7 +48,7 @@
 	// ==========================================================================
 	.st-surtitre {
 		display: block;
-		@include ft($f_txt, $s_medium, 700, $c_white, 1.33);
+		@include ft($f_txt, 18px, 700, $c_white, 1.33);
 		@include letter-spacing(25);
 
 		@include tablet-portrait {

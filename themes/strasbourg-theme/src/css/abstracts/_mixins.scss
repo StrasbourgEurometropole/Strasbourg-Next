@@ -120,9 +120,9 @@
 	font: inherit;
 }
 
-/*@mixin reset-button {
+@mixin reset-button {
 	@include create-outline();
-}*/
+}
 
 
 @mixin reset-select {

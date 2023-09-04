@@ -9,7 +9,7 @@
 		align-items: center;
 		justify-content: space-between;
 		width: 100%;
-		max-width: $wrapper-small-width;
+		max-width: calc($wrapper-small-width + 40px * 2);
 		min-height: 170px;
 		padding: 40px;
 

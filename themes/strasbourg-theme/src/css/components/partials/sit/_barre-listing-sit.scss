@@ -1,36 +1,23 @@
 .st-barre-listing-sit {
-	position: fixed;
-	bottom: 20px;
-	left: 0;
-	right: 0;
 	width: 100%;
-	height: var(--barre-height);
 	z-index: z-index("barre-sticky");
-	@include addTransition();
+
+	@include min-tablet-portrait {
+		position: fixed;
+		bottom: 20px;
+	}
 
 	@include tablet-portrait {
 		position: sticky;
 		top: 0;
-		bottom: auto;
-		margin-bottom: 40px;
-		background-color: $c_greydark;
-	}
-
-	@include mobile {
 		margin-bottom: 20px;
-	}
-
-	.st-is-scrolled & {
-		@include tablet-portrait {
-			transform: translateY(-100%);
-			opacity: 0;
-		}
+		background-color: $c_greydark;
 	}
 
 	.st-barre-inner {
 		display: flex;
 		align-items: center;
-		height: 100%;
+		height: var(--barre-height);
 		padding: 20px;
 		background-color: $c_greydark;
 		border-radius: $border-radius;
@@ -89,7 +76,7 @@
 			font-weight: 300;
 		}
 
-		select {
+		.st-field-select select {
 			padding: 13px 35px 13px 15px;
 		}
 	}

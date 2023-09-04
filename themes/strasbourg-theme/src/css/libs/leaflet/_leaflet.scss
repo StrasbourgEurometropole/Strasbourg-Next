@@ -209,23 +209,13 @@
 
 
 .leaflet-top.leaflet-left {
-	top: 40px;
-	left: 40px;
-
-	@include mobile {
-		top: 20px;
-		left: 20px;
-	}
+	top: 10px;
+	left: 10px;
 }
 
 .leaflet-top.leaflet-right {
-	top: 40px;
-	right: 40px;
-
-	@include mobile {
-		top: 10px;
-		right: 10px;
-	}
+	top: 10px;
+	right: 10px;
 }
 
 .leaflet-top.leaflet-left,

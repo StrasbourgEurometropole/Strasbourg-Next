@@ -13,7 +13,7 @@
 	border-radius: $border-radius;
 
 	@include mobile {
-		padding: 14px 30px;
+		padding: 15px 30px;
 		min-height: 40px;
 		font-size: $s_link_small;
 	}
@@ -288,7 +288,6 @@
 	display: inline-flex;
 	align-items: center;
 	padding: 11px 20px;
-	min-height: 48px;
 	@include ft($f_txt, $s_link, 600, $c_white, 1);
 	@include letter-spacing(25);
 	border: 1px solid $c_sub;
@@ -459,7 +458,7 @@
 		@include mobile {
 			width: 36px;
 			height: 36px;
-			font-size: 12px;
+			font-size: 14px;
 		}
 
 		@include can-hover {
@@ -544,7 +543,6 @@
 		width: 100%;
 		height: 2px;
 		background-color: $c_main;
-		margin-bottom: 4px;
 		@include addTransition();
 
 		&:nth-of-type(2) {
@@ -554,5 +552,49 @@
 		& + .st-btn-menu__line {
 			margin-top: 4px;
 		}
+	}
+}
+
+
+.st-page-wrapper .st-btn-reset-filters {
+	display: inline-flex;
+	align-items: center;
+	text-align: left;
+	padding: 5px 20px 5px 0;
+	@include ft('', 14px, 300, $c_txt, 1);
+	@include letter-spacing(25);
+
+	@include mobile {
+		font-size: 11px;
+	}
+
+	&:before {
+		@include icomoon($st-icon-trash);
+		font-size: 16px;
+		margin-right: 8px;
+	}
+
+	@include can-hover {
+		color: $c_white;
+	}
+}
+
+
+.st-page-wrapper .select-lang {
+	@include reset-select;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	@include ft('', 14px, 600, $c_white, 1);
+	@include letter-spacing(25);
+	text-align: center;
+	border: 1px solid rgba($c_white, 0.25);
+	border-radius: $border-radius;
+	@include addTransition();
+
+	@include can-hover {
+		color: $c_sub;
 	}
 }

@@ -10,13 +10,14 @@
 	width: 100%;
 	max-width: 640px;
 	background-color: $c_greydark;
-	transition: transform 400ms $transition-overlay-easing, visibility 400ms $transition-overlay-easing;
 	visibility: hidden;
 	transform: translateX(calc(100% + 30px));		// espace pour le bouton close
+	transition: transform 400ms $transition-overlay-easing, visibility 400ms $transition-overlay-easing;
 
 	@include mobile {
 		max-width: 100%;
 		--padding-horizontal: 20px;
+		background-color: $c_main;
 	}
 
 	.st-overlay-load & {
@@ -41,10 +42,13 @@
 
 	// Arrivée du bas de l'écran
 	&.st--from-bottom {
-		transform: translateY(100%);
+		transform: translateY(150px);
+		opacity: 0;
+		transition: transform 400ms $transition-overlay-easing, visibility 400ms $transition-overlay-easing, opacity 400ms $transition-overlay-easing;
 
 		&.st-is-open {
 			transform: initial;
+			opacity: initial;
 		}
 	}
 
@@ -100,14 +104,9 @@
 			}
 		}
 	}
-}
 
 
-
-.st-overlay-menu,
-.st-overlay-contact,
-.st-overlay-edito,
-.st-overlay-preview-agenda {
+	// Zone scrollable sur le body
 	.st-overlay__body {
 		flex-grow: 1;
 		overflow: auto;
@@ -121,52 +120,58 @@
 	}
 }
 
-.st-overlay-menu,
-.st-overlay-search {
-	@include mobile {
-		background-color: $c_main;
-	}
-	.st-overlay__footer {
-		display: flex;
-		padding: 8px var(--padding-horizontal);
-		background-color: $c_greydark;
-		//min-height: 60px;
 
-		.select-lang {
-			@include reset-select;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			width: 48px;
-			height: 48px;
-			@include ft('', 14px, 600, $c_white, 1);
-			@include letter-spacing(25);
-			text-align: center;
-			border: 1px solid rgba($c_white, 0.25);
-			border-radius: $border-radius;
-			margin-left: 8px;
+
+
+
+
+
+// Bouton close à gauche en mobile
+.st-overlay-contact,
+.st-overlay-preview-agenda,
+.st-overlay-filters {
+	.st-btn-close {
+		@include mobile {
+			top: initial;
+			left: var(--padding-horizontal);
+			bottom: 8px;
+		}
+	}
+}
+
+// Bouton close à droite en mobile
+.st-overlay-edito,
+.st-overlay-menu {
+	.st-btn-close {
+		@include mobile {
+			top: initial;
+			left: initial;
+			right: var(--padding-horizontal);
+			bottom: 8px;
 		}
 	}
 }
 
 
+.st-overlay-menu,
+.st-overlay-search {
+	.st-overlay__footer {
+		display: flex;
+		padding: 8px calc(var(--padding-horizontal) + 44px + 10px) 8px var(--padding-horizontal);		// espace pour le bouton close
+		background-color: $c_greydark;
+	}
+
+	.st-btn-compte {
+		margin-right: 8px;
+	}
+
+	.select-lang {
+		flex-shrink: 0;
+	}
+}
+
+
 .st-overlay-menu {
-	@include mobile {
-		background-color: $c_main;
-	}
-
-	.st-btn-close {
-		@include mobile {
-			top: initial;
-			left: initial;
-			bottom: 8px;
-			right: var(--padding-horizontal);
-			transform: initial;
-			width: 48px;
-			height: 48px;
-		}
-	}
-
 	.st-scroll-indicator {
 		position: absolute;
 		right: 20px;
@@ -254,28 +259,45 @@
 // Overlay - formulaire de contact
 // ==========================================================================
 .st-overlay-contact {
-	@include mobile {
-		background-color: $c_main;
-	}
-
-	.st-btn-close {
-		@include mobile {
-			top: initial;
-			left: var(--padding-horizontal);
-			bottom: 8px;
-			width: 42px;
-			height: 42px;
-		}
-	}
-
 	.st-overlay__footer {
 		display: flex;
 		padding: 26px var(--padding-horizontal);
 		background-color: $c_main;
 
 		@include mobile {
-			padding: 8px var(--padding-horizontal) 8px calc(var(--padding-horizontal) + 42px + 10px);		// espace pour le bouton close
+			padding: 8px var(--padding-horizontal) 8px calc(var(--padding-horizontal) + 44px + 10px);		// espace pour le bouton close
 			background-color: $c_greydark;
+		}
+	}
+}
+
+
+
+// Overlay - formulaire de filtres
+// ==========================================================================
+.st-overlay-filters {
+	.st-overlay__footer {
+		display: flex;
+		padding: 26px var(--padding-horizontal);
+		background-color: $c_main;
+
+		@include mobile {
+			padding: 8px var(--padding-horizontal) 8px calc(var(--padding-horizontal) + 44px + 10px);		// espace pour le bouton close
+			background-color: $c_greydark;
+		}
+
+		.st-btn {
+			flex-shrink: 0;
+
+			@include mobile {
+				flex-grow: 1;
+				padding-left: 20px;
+				padding-right: 20px;
+			}
+		}
+
+		.st-btn-reset-filters {
+			margin-right: auto;
 		}
 	}
 }
@@ -284,28 +306,13 @@
 // Overlay - edito (infos, liste, fiche)
 // ==========================================================================
 .st-overlay-edito {
-	@include mobile {
-		background-color: $c_main;
-	}
-
-	.st-btn-close {
-		@include mobile {
-			top: initial;
-			left: initial;
-			bottom: 8px;
-			right: var(--padding-horizontal);
-			width: 42px;
-			height: 42px;
-		}
-	}
-
 	.st-overlay__footer {
 		display: flex;
 		padding: 26px var(--padding-horizontal);
 		background-color: $c_main;
 
 		@include mobile {
-			padding: 8px calc(var(--padding-horizontal) + 42px + 10px) 8px var(--padding-horizontal);		// espace pour le bouton close
+			padding: 8px calc(var(--padding-horizontal) + 44px + 10px) 8px var(--padding-horizontal);		// espace pour le bouton close
 			background-color: $c_greydark;
 		}
 
@@ -362,27 +369,13 @@
 // Overlay - preview agenda
 // ==========================================================================
 .st-overlay-preview-agenda {
-	@include mobile {
-		background-color: $c_main;
-	}
-
-	.st-btn-close {
-		@include mobile {
-			top: initial;
-			left: var(--padding-horizontal);
-			bottom: 8px;
-			width: 42px;
-			height: 42px;
-		}
-	}
-
 	.st-overlay__footer {
 		display: flex;
 		padding: 26px var(--padding-horizontal);
 		background-color: $c_main;
 
 		@include mobile {
-			padding: 8px var(--padding-horizontal) 8px calc(var(--padding-horizontal) + 42px + 5px);		// espace pour le bouton close
+			padding: 8px var(--padding-horizontal) 8px calc(var(--padding-horizontal) + 44px + 5px);		// espace pour le bouton close
 			background-color: $c_greydark;
 		}
 
@@ -390,8 +383,8 @@
 			flex-shrink: 0;
 
 			@include mobile {
-				width: 42px;
-				height: 42px;
+				width: 44px;
+				height: 44px;
 				font-size: 16px;
 			}
 
@@ -407,7 +400,6 @@
 			}
 		}
 	}
-
 
 	.st-overlay__heading-top {
 		--image-size: 100px;
@@ -441,7 +433,6 @@
 			margin-bottom: auto;
 		}
 	}
-
 
 	.st-overlay__heading-infos {
 		display: flex;
@@ -515,7 +506,16 @@
 	top: 88px;
 	left: 0;
 	max-width: initial;
-	background-image: linear-gradient(to bottom, #20272f 42px, $c_main 42px);
+	background-image: linear-gradient(to bottom, $c_greydark 42px, $c_main 42px);
+
+	// Réduction de la barre de nav
+	.st-is-scrolled & {
+		top: 58px;
+
+		@include tablet-portrait {
+			top: 0;
+		}
+	}
 
 	@include tablet-portrait {
 		--padding-horizontal: 40px;
@@ -531,21 +531,32 @@
 	}
 
 	.st-btn-close {
-		left: initial;
 		top: 25px;
-		right: 20px;
+		left: initial;
 		transform: initial;
+		right: calc(100vw / 2 - 1120px / 2 + 200px);
+
+		@include bp-down(1280px) {
+			right: 280px;
+		}
+		@include tablet-landscape() {
+			right: 230px;
+		}
 
 		@include tablet-portrait {
 			top: initial;
 			bottom: 8px;
 			right: var(--padding-horizontal);
-			transform: initial;
-			width: 48px;
-			height: 48px;
+			width: 44px;
+			height: 44px;
+		}
+
+		@include min-tablet-portrait {
+			&:focus {
+				outline: 1px dashed $c_black !important;
+			}
 		}
 	}
-
 
 
 	// Overlay - header
@@ -724,10 +735,8 @@
 	// ----------------------------------------------------------------
 
 	.st-overlay__body {
-		flex-grow: 1;
-		overflow: auto;
 		padding: 30px 0 70px;
-		@include fade-out-overflow(30px);
+		--fade-distance: 30px;
 
 		@include mobile {
 			padding: 30px 0 50px;
@@ -757,378 +766,95 @@
 
 
 
-
-
-
-
-
-
-// Overlay - focus SIT
+// Overlay - Mon quartier / Ma commune sous forme de modale
 // ==========================================================================
-.st-overlay-focus-sit {
-	.st-barre {
-		position: sticky;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		padding-right: 40px;
-		display: flex;
-		align-items: center;
-		min-height: 100px;
-		background-color: $c_white;
-		box-shadow: 0 -30px 60px rgba($c_black, 0.10);
+.st-overlay-location {
+	--padding-horizontal: 40px;
+	left: 0;
+	max-width: initial;
+	background-color: initial;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	overflow: auto;
+	pointer-events: none;		// pour rendre cliquable l'overlay-shadow en-dessous
+
+	@include mobile {
+		--padding-horizontal: 35px;
+	}
+
+	.st-btn-close {
+		position: fixed;		// reset des props pour avoir un positionnement fixed par rapport au container, pas au viewport
+		top: initial;
+		left: initial;
+		right: initial;
+		bottom: initial;
+		transform: translateY(40px) translateX(50%);		// ajustement seulement avec transform, pas top, left etc...
+
+		@include bp-down(660px) {
+			transform: translateY(15px) translateX(-15px);
+		}
 
 		@include mobile {
-			padding-right: 20px;
-			min-height: 50px;
-		}
-
-		[data-content] {
-			position: relative;
-			width: 60px;
-			height: 60px;
-			border: 1px solid $c_sub;
-			margin-right: 10px;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-
-			@include mobile {
-				width: 30px;
-				height: 30px;
-			}
-
-			&:before {
-				content: "";
-				@include icomoon();
-				display: block;
-				color: $c_black;
-				font-size: 20px;
-
-				@include mobile {
-					font-size: 12px;
-				}
-			}
-
-			@include can-hover {
-				.st-tooltip {
-					opacity: 1;
-					visibility: visible;
-					transform: translate(-50%);
-				}
-			}
-
-			&[data-content="telephone"] {
-				&:before {
-					content: $st-icon-phone;
-				}
-			}
-
-			&[data-content="email"] {
-				&:before {
-					content: $st-icon-email;
-				}
-			}
-
-			&[data-content="site"] {
-				&:before {
-					content: $st-icon-link;
-				}
-			}
-		}
-
-		.st-lien {
-			max-width: 248px;
-			padding: 42px 70px 42px 80px;
-			font-size: 16px;
-			white-space: nowrap;
-			margin-right: auto;
-
-			@include tablet-portrait {
-				padding: 42px 40px 42px 40px;
-			}
-			@include mobile {
-				font-size: 12px;
-				padding: 22px 20px 22px 20px;
-			}
-		}
-
-		.st-btn, .st-btn-primary, .st-btn {
-			max-width: 142px;
-
-			@include mobile {
-				position: absolute;
-				bottom: 56px;
-				width: 100%;
-				max-width: none;
-				height: auto;
-				font-size: 12px;
-			}
-		}
-	}
-}
-
-// Overlay - Filtres
-// ==========================================================================
-.st-overlay-filtres {
-
-
-	.st-overlay__body {
-		flex-grow: 1;
-		overflow: auto;
-		padding: 40px var(--padding-horizontal) 80px;
-	}
-
-	.st-overlay__footer {
-		display: flex;
-		justify-content: space-between;
-		padding: 20px var(--padding-horizontal) 20px;
-		box-shadow: 0 -30px 60px rgba($c_black, 0.10);
-	}
-
-	.st-title-overlay {
-		display: block;
-		@include ft($f_hx, 40px, 700, $c_txt, 1);
-		margin-bottom: 40px;
-
-		@include mobile {
-			font-size: 30px;
+			position: fixed;
+			transform: initial;
+			top: initial;
+			left: var(--padding-horizontal);
+			bottom: var(--padding-horizontal);
 		}
 	}
 
-	.st-btn-reset {
-		@include ft('', $s_p, 300, $c_txt, 1.25);
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		padding: 10px 0;
-		@include addTransition();
-
-		@include mobile {
-			font-size: 13px;
-		}
-
-		@include can-hover {
-			&:before {
-				transform: rotate(180deg);
-			}
-		}
-
-		&:before {
-			@include icomoon($st-icon-refresh);
-			display: block;
-			margin-right: 10px;
-			font-size: 20px;
-			color: $c_black;
-			@include addTransition();
-		}
-	}
-
-	// styles communs des groupes de filtres
-	.st-group-filtres {
-		padding-bottom: 40px;
-		margin-bottom: 40px;
-		border-bottom: 1px solid rgba($c_black, 0.10);
-
-		@include mobile {
-			padding-bottom: 20px;
-			margin-bottom: 20px;
-		}
-
-		&:last-of-type {
-			margin-bottom: 0;
-			border-bottom: none;
-		}
-	}
-
-
-	.st-group-checkbox {
+	.st-overlay__inner {
 		display: flex;
 		flex-direction: column;
-		align-items: flex-start;
-	}
-
-
-	/* Facette Select */
-	.st-group-select {
-		.selectric-wrapper {
-			max-width: 100%;
-		}
-
-		.select {
-			.selectric-open {
-				z-index: 10;
-			}
-		}
-	}
-
-
-	.st-group-date {
-		> * {
-			flex-grow: 1;
-			flex-shrink: 0;
-			flex-basis: 0;
-		}
-
-		input {
-			min-width: 10ch;
-			flex-grow: 1;
-		}
-
-		// Checkbox "Aujourd'hui..." juste aprés le sélecteur de dates
-		& + .st-group-checkbox {
-			margin-top: 40px;
-		}
-	}
-
-
-	.date-picker-wrapper {
-		position: absolute;
-		top: 100px !important;
-		left: 20px !important;
-		box-shadow: 5px 5px 20px rgba($c_black, 0.2);
-		padding: 20px;
-		transform: scale(0.7);
-
-		// règles pour forcer la largeur à rentrer dans l'overlay filtres
-		.gap {
-			visibility: hidden !important;
-		}
-
-		.month-wrapper {
-			//width: 680px !important;
-			display: flex;
-			padding-left: 15px;
-
-			th {
-				padding-bottom: 15px;
-
-				&.month-name {
-					padding-bottom: 0;
-				}
-			}
-
-			.month1 {
-				.month-name {
-					padding-left: 10px;
-				}
-			}
-
-			.month2 {
-				.month-name {
-					padding-right: 10px;
-				}
-			}
-		}
-
-		.month-wrapper table {
-			width: calc(50% - 15px);
-
-			&:first-child {
-				padding-right: 30px;
-			}
-		}
-
-		.month-wrapper table .day {
-			//padding: 8px;
-			margin: 2px;
-		}
-	}
-}
-
-
-
-
-// Overlay - map (SIT)
-// ==========================================================================
-.st-overlay-map {
-	display: flex;
-	flex-direction: column;
-	max-width: initial;
-
-	&:not(.st-overlay-absolute) {
-		.st-overlay-load & {
-			display: flex;
-		}
-	}
-
-	.st-maps {
-		flex-grow: 1;
-		position: relative;
-		z-index: 1;
-	}
-
-	.st-nav-arrows {
-		@include absolute-stretch();
-
-		.st-btn-arrow {
-			position: absolute;
-			top: 80px;
-
-			&.st--prev {
-				left: 60px;
-				transform: translate(-50%, -50%);
-			}
-
-			&.st--next {
-				right: 60px;
-				transform: translate(50%, -50%);
-			}
-		}
-	}
-
-	.st-results {
-		position: relative;
-		min-height: 160px;
-		padding: 10px 60px;
+		align-items: flex-end;		// pour le calage du bouton close
+		height: auto;
+		width: 100%;
+		max-width: 600px;
+		margin-top: auto;		// centrage vertical
+		margin-bottom: auto;
+		overflow: initial;
+		pointer-events: initial;
+		background-color: $c_greydark;
+		border-radius: $border-radius;
 
 		@include mobile {
-			min-height: 110px;
-			padding: 10px 20px;
+			border-radius: $border-radius $border-radius 0 0;
+			margin-bottom: initial;		// calage en bas
+		}
+	}
+
+	.st-overlay__heading {
+		margin-bottom: 30px;
+
+		@include mobile {
+			margin-bottom: 15px;
 		}
 
-		// gradient pour le slider
-		&:before,
-		&:after {
-			content: '';
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			z-index: 1;
-			width: 60px;
-			pointer-events: none;
+		p {
+			@include ft('', 14px, 300, $c_txt, 1.57);
+			@include letter-spacing(25);
+		}
+
+		* + p {
+			margin-top: 12px;
+		}
+	}
+
+	.st-overlay__body {
+		padding: var(--padding-horizontal);
+		--fade-distance: 0;
+	}
+
+	.form-styles .st-grid-fields {
+		--row-gap: 15px;
+
+		.st-btn {
+			margin-top: 15px;
 
 			@include mobile {
-				width: 40px;
-			}
-		}
-
-		&:before {
-			left: 0;
-			background-image: linear-gradient(to right, rgba(white, 1), rgba(white, 0));
-
-			@include mobile {
-				display: none;
-			}
-		}
-
-		&:after {
-			right: 0;
-			background-image: linear-gradient(to left, rgba(white, 1), rgba(white, 0));
-		}
-
-		.splide__slide {
-			--slide-gap: 10px;
-			--slide-width: 360px;
-			width: var(--slide-width);
-			margin-right: var(--slide-gap);
-
-			@include mobile {
-				--slide-width: 320px;
-			}
-
-			@media screen and (max-width: 420px) {
-				--slide-width: calc(100% - 40px);
+				margin-top: 5px;
+				margin-left: calc(42px + 10px);
 			}
 		}
 	}

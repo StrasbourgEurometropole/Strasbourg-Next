@@ -160,3 +160,12 @@
 		}
 	}
 }
+
+
+.st-listing-introduction {
+	margin-bottom: 35px;
+
+	@include mobile {
+		margin-bottom: 25px;
+	}
+}

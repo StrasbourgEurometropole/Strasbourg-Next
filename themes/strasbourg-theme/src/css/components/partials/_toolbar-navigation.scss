@@ -2,23 +2,18 @@
 	position: fixed;
 	bottom: 0;
 	left: 0;
-	width: 100%;
-	height: var(--toolbar-height);
 	z-index: z-index("barre-navigation");
+	width: 100%;
 	background-color: $c_greydark;
 
 	@include min-tablet-portrait {
 		display: none;
 	}
 
-	.st-wrapper {
-		height: 100%;
-	}
-
 	.st-toolbar-inner {
 		display: flex;
 		align-items: center;
-		height: 100%;
+		height: var(--toolbar-height);
 	}
 
 	.st-has-logo {
@@ -49,23 +44,13 @@
 			}
 		}
 
-		button, a, .select-lang {
+		button, a {
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			width: 46px;
-			height: 46px;
+			width: 44px;
+			height: 44px;
 			border-radius: $border-radius;
-		}
-	}
-
-	.st-has-lang-dropdown {
-		.select-lang {
-			@include reset-select;
-			@include ft('', 14px, 600, $c_white, 1);
-			@include letter-spacing(25);
-			text-align: center;
-			border: 1px solid rgba($c_white, 0.25);
 		}
 	}
 
@@ -90,21 +75,15 @@
 	}
 
 	.st-btn-menu {
-		background-color: $c_sub;
 		padding: 0;
 
 		.st-btn-menu__icon {
-			display: block;
 			width: 16px;
 			height: 12px;
 			margin-right: initial;
 
 			.st-btn-menu__line {
-				display: block;
 				width: 100%;
-				height: 2px;
-				background-color: $c_main;
-				@include addTransition();
 
 				& + .st-btn-menu__line {
 					margin-top: 3px;

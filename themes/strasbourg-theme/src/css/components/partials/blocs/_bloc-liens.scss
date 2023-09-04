@@ -167,4 +167,19 @@
 			font-size: 12px;
 		}
 	}
+
+	// Tout le contenu aligné à gauche
+	&.st--align-left  {
+		.st-lien-content {
+			margin-left: initial;
+		}
+
+		.st-title-lien {
+			margin-right: 10px;
+
+			@include tablet-portrait {
+				margin-right: initial;
+			}
+		}
+	}
 }

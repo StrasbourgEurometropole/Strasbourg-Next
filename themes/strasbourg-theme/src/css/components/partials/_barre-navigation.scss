@@ -5,43 +5,10 @@
 	width: 100%;
 	margin-bottom: 46px;
 	z-index: z-index('barre-navigation');
+	
 	@include tablet-portrait {
 		display: none;
 	}
-
-	/*& ~ main {
-		margin-top: 219px;
-		@include tablet-portrait {
-			margin-top: 0;
-		}
-	}
-
-	& ~ .st-page-accueil {
-		margin-top: 180px;
-		@include tablet-portrait {
-			margin-top: calc(var(--ancres-height-mobile) + 40px);
-		}
-		@include mobile {
-			margin-top: calc(var(--ancres-height-mobile) + 20px);
-		}
-	}*/
-
-
-	/*.st-is-scrolled & {
-		.st-barre-menu {
-			opacity: 0;
-			visibility: hidden;
-			pointer-events: none;
-			max-height: 0;
-		}
-
-		.st-barre-liens {
-			&:after {
-				height: 70px;
-			}
-
-		}
-	}*/
 
 	.st-barre-liens {
 		position: relative;
@@ -49,20 +16,32 @@
 		&:after {
 			content: "";
 			display: block;
-			width: 100%;
-			height: 130px;
 			position: absolute;
 			top: 0;
 			left: 0;
-			background-color: $c_greydark;
 			z-index: -1;
+			width: 100%;
+			height: 130px;
+			background-color: $c_greydark;
 			pointer-events: none;
 			@include addTransition();
+
+			// Réduction de la barre de nav
+			.st-is-scrolled & {
+				height: 100px;
+			}
 		}
 	}
 
 	.st-barre-inner-container {
 		display: flex;
+		height: 88px;
+		transition: height 0.2s easeInOutQuad;
+
+		// Réduction de la barre de nav
+		.st-is-scrolled & {
+			height: 58px;
+		}
 	}
 
 	.st-logo {
@@ -98,7 +77,7 @@
 			display: flex;
 			align-items: center;
 			height: 100%;
-			padding: 30px 20px;
+			padding: 0 20px;
 			@include ft($f_txt, $s_p, 300, $c_white, 1);
 			@include letter-spacing(25);
 
@@ -106,13 +85,8 @@
 				color: $c_sub;
 			}
 			@media screen and (max-width: 1200px) {
-				padding: 30px 10px;
+				padding: 0 10px;
 			}
-
-			/*.st-is-scrolled & {
-				padding-top: 10px;
-				padding-bottom: 10px;
-			}*/
 		}
 
 		.st-has-lang-dropdown {
@@ -138,43 +112,33 @@
 		}
 
 		.select-lang {
-			@include reset-select;
-			position: relative;
-			display: flex;
-			align-items: center;
+			width: auto;
 			height: 100%;
-			padding: 30px 40px 30px 20px;
-			@include ft($f_txt, $s_p, 600, $c_white, 1);
-			@include letter-spacing(25);
-			@include addTransition();
-
-			@include can-hover {
-				color: $c_sub;
-			}
+			padding: 0 40px 0 20px;
+			border: initial;
+			border-radius: initial;
 
 			@media screen and (max-width: 1200px) {
 				padding-right: 30px;
 			}
-
-			/*.st-is-scrolled & {
-				padding-top: 0;
-				padding-bottom: 0;
-			}*/
 		}
 
 		.st-has-btn-compte {
 			display: flex;
 			align-items: center;
 			height: 100%;
-		}
 
-		.st-btn-compte {
-			margin: 20px 0;
+			.st-btn-compte {
+				padding-top: 13px;
+				padding-bottom: 13px;
+				transition: all 0.2s easeInOutQuad;
+			}
 
-			/*.st-is-scrolled & {
-				margin-top: 10px;
-				margin-bottom: 10px;
-			}*/
+			// Réduction de la barre de nav
+			.st-is-scrolled & .st-btn-compte {
+				padding-top: 11px;
+				padding-bottom: 11px;
+			}
 		}
 	}
 
@@ -188,14 +152,8 @@
 		@include create-outline;
 		position: relative;
 		height: 100%;
-		padding: 30px 0;
 		@include ft($f_txt, $s_p, 300, $c_white, 1);
 		@include letter-spacing(25);
-
-		/*.st-is-scrolled & {
-			padding-top: 10px;
-			padding-bottom: 10px;
-		}*/
 
 		strong {
 			font-weight: 600;
