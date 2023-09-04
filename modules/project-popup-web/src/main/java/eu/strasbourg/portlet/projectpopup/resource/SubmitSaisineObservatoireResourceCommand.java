@@ -60,10 +60,12 @@ public class SubmitSaisineObservatoireResourceCommand implements MVCResourceComm
     private static final String PHONE = "phone";
     private static final String MOBILE = "mobile";
     private static final String SAISINETITLE = "title";
-    private static final String SAISINESUMMARY = "summary";
     private static final String SAISINEDESCRIPTION = "description";
     private static final String PROJECTTARGET = "projectTarget";
-    private static final String IN_THE_NAME_OF = "inTheNameOf";
+    private static final String COLLECTIVENAME = "collectiveName";
+    private static final String OTHERMECHANISM = "otherMechanism";
+    private static final String DISPOSITIF = "dispositif";
+    private static final String AKA = "aka";
     private static final String LIEU = "consultationPlacesText";
     private static final String PROJECT = "project";
     private static final String QUARTIER = "quartier";
@@ -108,22 +110,24 @@ public class SubmitSaisineObservatoireResourceCommand implements MVCResourceComm
         String city = HtmlUtil.stripHtml(ParamUtil.getString(request, CITY));
         long postalcode = ParamUtil.getLong(request, POSTALCODE);
         String phone = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE));
+        String collectiveName = HtmlUtil.stripHtml(ParamUtil.getString(request, COLLECTIVENAME));
+        String otherMechanism = HtmlUtil.stripHtml(ParamUtil.getString(request, OTHERMECHANISM));
         String mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, MOBILE));
         String lastname = HtmlUtil.stripHtml(ParamUtil.getString(request, LASTNAME));
         String firstname = HtmlUtil.stripHtml(ParamUtil.getString(request, FIRSTNAME));
         String email = HtmlUtil.stripHtml(ParamUtil.getString(request, EMAIL));
         String lieu = HtmlUtil.stripHtml(ParamUtil.getString(request, LIEU));
         String title = HtmlUtil.stripHtml(ParamUtil.getString(request, SAISINETITLE));
-        String summary = HtmlUtil.stripHtml(ParamUtil.getString(request, SAISINESUMMARY));
         String description = HtmlUtil.stripHtml(ParamUtil.getString(request, SAISINEDESCRIPTION).replace("\n", "<br>"));
-        String projectTarget = HtmlUtil.stripHtml(ParamUtil.getString(request, PROJECTTARGET).replace("\n", "<br>"));
-        String inTheNameOf = HtmlUtil.stripHtml(ParamUtil.getString(request, IN_THE_NAME_OF));
+        String projectTarget = HtmlUtil.stripHtml(ParamUtil.getString(request, PROJECTTARGET));
         long projectId = ParamUtil.getLong(request, PROJECT);
         long quartierId = ParamUtil.getLong(request, QUARTIER);
         long themeId = ParamUtil.getLong(request, THEME);
+        long dispositifId = ParamUtil.getLong(request, QUARTIER);
+        long enTantQueId = ParamUtil.getLong(request, AKA);
 
         // Verification de la validite des informations
-        String message = validate(publikID, user, title, summary,
+        String message = validate(publikID, user, title,
                 description, birthday, city, address, postalcode);
         if (message.equals("")) {
 
@@ -160,6 +164,12 @@ public class SubmitSaisineObservatoireResourceCommand implements MVCResourceComm
             if (themeId != 0) {
                 identifiants.add(themeId);
             }
+            if (dispositifId != 0) {
+                identifiants.add(dispositifId);
+            }
+            if (enTantQueId != 0) {
+                identifiants.add(enTantQueId);
+            }
             long[] ids = new long[identifiants.size()];
             for (int i = 0; i < identifiants.size(); i++) {
                 ids[i] = identifiants.get(i);
@@ -174,10 +184,10 @@ public class SubmitSaisineObservatoireResourceCommand implements MVCResourceComm
             try {
                 saisineObservatoire = SaisineObservatoireLocalServiceUtil.createSaisineObservatoire(sc);
                 saisineObservatoire.setTitle(title);
-                saisineObservatoire.setSummary(summary);
                 saisineObservatoire.setDescription(description);
+                saisineObservatoire.setOtherMechanism(otherMechanism);
+                saisineObservatoire.setCollectiveName(collectiveName);
                 saisineObservatoire.setProjectTarget(projectTarget);
-                saisineObservatoire.setInTheNameOf(inTheNameOf);
                 saisineObservatoire.setPetitionnaireAdresse(address);
                 saisineObservatoire.setPetitionnaireBirthday(birthday);
                 saisineObservatoire.setPetitionnaireCity(city);
@@ -285,7 +295,7 @@ public class SubmitSaisineObservatoireResourceCommand implements MVCResourceComm
         }
     }
 
-    private String validate(String publikID, PublikUser user, String title, String summary, String description,
+    private String validate(String publikID, PublikUser user, String title, String description,
                             Date birthday, String city, String address, long postalcode) {
 
         // utilisateur
@@ -305,11 +315,6 @@ public class SubmitSaisineObservatoireResourceCommand implements MVCResourceComm
         }
         if (title.length() > 45) {
             return "Taille du titre trop grande";
-        }
-
-        // Summary
-        if (summary.length() > 500) {
-            return "Taille du r\u00e9sum\u00e9 trop grande";
         }
 
         // description

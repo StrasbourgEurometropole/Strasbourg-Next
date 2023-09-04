@@ -19,30 +19,26 @@
                     <div class="form-group">
                         <aui:input id="saisinetitle" name="title" label="modal.submitsaisineobservatoire.information.title" required="true" maxlength="45" value=""/>
                     </div>
-                     <div class="form-group">
-                        <aui:input id="saisinesummary" type="textarea" name="summary" label="modal.submitsaisineobservatoire.information.summary" required="true" maxlength="500" value=""/>
-                    </div>
                     <div class="form-group">
-                        <aui:input id="saisinedescription" type="textarea" name="description" label="modal.submitsaisineobservatoire.information.description" required="true" value=""/>
-                    </div>
-                    <div class="form-group">
-                        <aui:input id="saisineProjectTarget" type="textarea" name="projectTarget" label="modal.submitsaisineobservatoire.information.projectTarget" required="true" value=""/>
-                    </div>
-                    <div class="form-group">
-                        <aui:input id="saisineInTheNameOf" name="inTheNameOf" label="modal.submitsaisineobservatoire.information.inTheNameOf" required="false" maxlength="400" value=""/>
+                        <aui:input id="saisineProjectTarget" type="text" name="projectTarget" label="modal.submitsaisineobservatoire.information.projectTarget" required="true" maxlength="150" value=""/>
                     </div>
                     <div class="pro-row">
-                        <div class="form-group form-triple">
-                            <label for="saisine"><liferay-ui:message key="modal.submitsaisineobservatoire.information.projet"/></label>
-                            <select id="<portlet:namespace />project" name="<portlet:namespace />project">
+                        <div class="form-group form-half">
+                            <label for="dispositif"><liferay-ui:message key="modal.submitsaisineobservatoire.information.dispositif"/></label>
+                            <select id="<portlet:namespace />dispositif" name="<portlet:namespace />dispositif" required="true" >
                                 <option value="0" selected ></option>
-                                <c:forEach var="project" items="${projects}">
-                                    <option value="${project.categoryId}">${project.name}</option>
+                                <c:forEach var="dispositif" items="${dispositifs}">
+                                    <option value="${dispositif.categoryId}">${dispositif.name}</option>
                                 </c:forEach>
                             </select>
                         </div>
-                        <div class="form-group form-triple">
-                            <label for="territoire"><liferay-ui:message key="modal.submitsaisineobservatoire.information.territoire"/></label>
+                        <div class="form-half">
+                            <aui:input id="saisineOtherMechanism" type="text" name="otherMechanism" label="modal.submitsaisineobservatoire.information.otherMechanism" required="true" maxlength="150" value=""/>
+                        </div>
+                    </div>
+                    <div class="pro-row">
+                        <div class="form-group form-half">
+                            <label for="quartier"><liferay-ui:message key="modal.submitsaisineobservatoire.information.territoire"/></label>
                             <select id="<portlet:namespace />quartier" name="<portlet:namespace />quartier">
                                 <option value="0" selected ><liferay-ui:message key="modal.submitsaisineobservatoire.information.territoire.town"/></option>
                                 <c:forEach var="quartier" items="${quartiers}">
@@ -50,8 +46,8 @@
                                 </c:forEach>
                             </select>
                         </div>
-                        <div class="form-group form-triple">
-                            <label for="thematique"><liferay-ui:message key="modal.submitsaisineobservatoire.information.thematique"/></label>
+                        <div class="form-group form-half">
+                            <label for="theme"><liferay-ui:message key="modal.submitsaisineobservatoire.information.thematique"/></label>
                             <select id="<portlet:namespace />theme" name="<portlet:namespace />theme">
                                 <option value="0" selected ></option>
                                 <c:forEach var="theme" items="${thematics}">
@@ -62,6 +58,9 @@
                     </div>
                     <div class="form-group">
                         <aui:input id="saisineobservatoirelieux" name="consultationPlacesText" label="modal.submitsaisineobservatoire.information.lieu" maxlength="256" value=""/>
+                    </div>
+                    <div class="form-group">
+                        <aui:input id="saisinedescription" type="textarea" name="description" label="modal.submitsaisineobservatoire.information.description" required="true" value=""/>
                     </div>
                 </div>
                 <div class="pro-wrapper last-wrapper">
@@ -103,6 +102,20 @@
                         </div>
                         <div class="form-group form-half">
                             <aui:input id="mobile" name="mobile" label="modal.user.mobile" placeholder="0611111111" maxlength="20" onInput="checkValuesSubmitSaisineObservatoire();"/>
+                        </div>
+                    </div>
+                    <div class="pro-row">
+                        <div class="form-group form-half">
+                            <label for="as"><liferay-ui:message key="modal.submitsaisineobservatoire.information.as"/></label>
+                            <select id="<portlet:namespace />aka" name="<portlet:namespace />aka" required="true" >
+                                <option value="0" selected ></option>
+                                <c:forEach var="aka" items="${aka}">
+                                    <option value="${aka.categoryId}">${aka.name}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div class="form-group form-half">
+                            <aui:input id="saisineCollectiveName" name="collectiveName" label="modal.submitsaisineobservatoire.information.collectiveName" required="false" maxlength="150" value=""/>
                         </div>
                     </div>
                     <div class="form-group form-checkbox" id="checkboxSaveInfo">
@@ -269,13 +282,17 @@
     function resetValuesSubmitSaisineObservatoire()
     {
         $("#"+namespaceSubmitSaisineObservatoire+"saisinetitle").val("");
-         $("#"+namespaceSubmitSaisineObservatoire+"saisinesummary").val("");
         $("#"+namespaceSubmitSaisineObservatoire+"saisinedescription").val("");
         $("#"+namespaceSubmitSaisineObservatoire+"saisineProjectTarget").val("");
-        $("#"+namespaceSubmitSaisineObservatoire+"saisineInTheNameOf").val("");
+        $("#"+namespaceSubmitSaisineObservatoire+"saisineOtherMechanism").val("");
+        $("#"+namespaceSubmitSaisineObservatoire+"saisineCollectiveName").val("");
         $("#"+namespaceSubmitSaisineObservatoire+"saisinelieux").val("");
         $("#"+namespaceSubmitSaisineObservatoire+"project option[value='0']").prop('selected', true);
         $("#"+namespaceSubmitSaisineObservatoire+"project").selectric();
+        $("#"+namespaceSubmitSaisineObservatoire+"dispositif option[value='0']").prop('selected', true);
+        $("#"+namespaceSubmitSaisineObservatoire+"dispositif").selectric();
+        $("#"+namespaceSubmitSaisineObservatoire+"aka option[value='0']").prop('selected', true);
+        $("#"+namespaceSubmitSaisineObservatoire+"aka").selectric();
         $("#"+namespaceSubmitSaisineObservatoire+"quartier option[value='0']").prop('selected', true);
         $("#"+namespaceSubmitSaisineObservatoire+"quartier").selectric();
         $("#"+namespaceSubmitSaisineObservatoire+"theme option[value='0']").prop('selected', true);
@@ -319,7 +336,6 @@
     function validateFormSubmitSaisineObservatoire(){
         var result = true;
         var saisinetitle = $("#"+namespaceSubmitSaisineObservatoire+"saisinetitle").val();
-        var saisinesummary = $("#"+namespaceSubmitSaisineObservatoire+"saisinesummary").val();
         var saisinedescription = $("#"+namespaceSubmitSaisineObservatoire+"saisinedescription").val();
         var saisineProjectTarget = $("#"+namespaceSubmitSaisineObservatoire+"saisineProjectTarget").val();
         var birthday = $("#"+namespaceSubmitSaisineObservatoire+"birthday").val();
@@ -332,11 +348,6 @@
 
         if (saisinetitle==null || saisinetitle==""){
             $("#"+namespaceSubmitSaisineObservatoire+"saisinetitle").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#"+namespaceSubmitSaisineObservatoire+"saisinetitle").css({ "box-shadow" : "" });
-
-        if (saisinesummary==null || saisinesummary==""){
-            $("#"+namespaceSubmitSaisineObservatoire+"saisinesummary").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#"+namespaceSubmitSaisineObservatoire+"saisinetitle").css({ "box-shadow" : "" });
 
