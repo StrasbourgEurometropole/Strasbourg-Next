@@ -6,5 +6,6 @@ ALTER TABLE project_SaisineObservatoire DROP COLUMN supportedBy;
 
 ALTER TABLE project_SaisineObservatoire ADD otherMechanism VARCHAR(150) null;
 ALTER TABLE project_SaisineObservatoire ADD collectiveName VARCHAR(150) null;
+ALTER TABLE project_SaisineObservatoire MODIFY projectTarget VARCHAR(150) null;
 
 COMMIT_TRANSACTION;
