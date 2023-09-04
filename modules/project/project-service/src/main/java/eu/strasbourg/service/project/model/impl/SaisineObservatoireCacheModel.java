@@ -370,7 +370,7 @@ public class SaisineObservatoireCacheModel
 		placeTextArea = objectInput.readUTF();
 		filesDownload = objectInput.readUTF();
 		cityResponse = (String)objectInput.readObject();
-		projectTarget = (String)objectInput.readObject();
+		projectTarget = objectInput.readUTF();
 		otherMechanism = objectInput.readUTF();
 		collectiveName = objectInput.readUTF();
 		petitionnaireLastname = objectInput.readUTF();
@@ -462,10 +462,10 @@ public class SaisineObservatoireCacheModel
 		}
 
 		if (projectTarget == null) {
-			objectOutput.writeObject("");
+			objectOutput.writeUTF("");
 		}
 		else {
-			objectOutput.writeObject(projectTarget);
+			objectOutput.writeUTF(projectTarget);
 		}
 
 		if (otherMechanism == null) {

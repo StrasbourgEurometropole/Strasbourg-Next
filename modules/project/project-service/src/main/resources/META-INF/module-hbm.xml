@@ -322,7 +322,7 @@
 		<property name="placeTextArea" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="filesDownload" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="cityResponse" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
-		<property name="projectTarget" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="projectTarget" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="otherMechanism" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="collectiveName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="petitionnaireLastname" type="com.liferay.portal.dao.orm.hibernate.StringType" />

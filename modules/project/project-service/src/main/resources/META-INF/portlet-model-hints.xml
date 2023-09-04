@@ -400,10 +400,14 @@
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="projectTarget" type="String">
-			<hint-collection name="EDITOR" />
+			<hint name="max-length">150</hint>
 		</field>
-		<field name="otherMechanism" type="String" />
-		<field name="collectiveName" type="String" />
+		<field name="otherMechanism" type="String">
+			<hint name="max-length">150</hint>
+		</field>
+		<field name="collectiveName" type="String">
+			<hint name="max-length">150</hint>
+		</field>
 		<field name="petitionnaireLastname" type="String" />
 		<field name="petitionnaireFirstname" type="String" />
 		<field name="petitionnaireBirthday" type="Date" />

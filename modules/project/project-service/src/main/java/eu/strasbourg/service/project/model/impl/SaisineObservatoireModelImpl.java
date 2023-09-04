@@ -83,7 +83,7 @@ public class SaisineObservatoireModelImpl
 		{"statusDate", Types.TIMESTAMP}, {"title", Types.VARCHAR},
 		{"description", Types.CLOB}, {"placeTextArea", Types.VARCHAR},
 		{"filesDownload", Types.VARCHAR}, {"cityResponse", Types.CLOB},
-		{"projectTarget", Types.CLOB}, {"otherMechanism", Types.VARCHAR},
+		{"projectTarget", Types.VARCHAR}, {"otherMechanism", Types.VARCHAR},
 		{"collectiveName", Types.VARCHAR},
 		{"petitionnaireLastname", Types.VARCHAR},
 		{"petitionnaireFirstname", Types.VARCHAR},
@@ -119,7 +119,7 @@ public class SaisineObservatoireModelImpl
 		TABLE_COLUMNS_MAP.put("placeTextArea", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("filesDownload", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("cityResponse", Types.CLOB);
-		TABLE_COLUMNS_MAP.put("projectTarget", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("projectTarget", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("otherMechanism", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("collectiveName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("petitionnaireLastname", Types.VARCHAR);
@@ -140,7 +140,7 @@ public class SaisineObservatoireModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table project_SaisineObservatoire (saisineObservatoireId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,placeTextArea VARCHAR(400) null,filesDownload VARCHAR(75) null,cityResponse TEXT null,projectTarget TEXT null,otherMechanism VARCHAR(75) null,collectiveName VARCHAR(75) null,petitionnaireLastname VARCHAR(75) null,petitionnaireFirstname VARCHAR(75) null,petitionnaireBirthday DATE null,petitionnaireAdresse VARCHAR(400) null,petitionnairePostalCode LONG,petitionnaireCity VARCHAR(400) null,petitionnairePhone VARCHAR(75) null,petitionnaireEmail VARCHAR(400) null,videoUrl VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(400) null)";
+		"create table project_SaisineObservatoire (saisineObservatoireId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,placeTextArea VARCHAR(400) null,filesDownload VARCHAR(75) null,cityResponse TEXT null,projectTarget VARCHAR(150) null,otherMechanism VARCHAR(150) null,collectiveName VARCHAR(150) null,petitionnaireLastname VARCHAR(75) null,petitionnaireFirstname VARCHAR(75) null,petitionnaireBirthday DATE null,petitionnaireAdresse VARCHAR(400) null,petitionnairePostalCode LONG,petitionnaireCity VARCHAR(400) null,petitionnairePhone VARCHAR(75) null,petitionnaireEmail VARCHAR(400) null,videoUrl VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(400) null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table project_SaisineObservatoire";
