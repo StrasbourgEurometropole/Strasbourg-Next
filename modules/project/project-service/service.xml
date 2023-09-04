@@ -369,14 +369,13 @@
 
 		<!-- main fields -->
 		<column name="title" type="String" />
-		<column name="summary" type="String" />
 		<column name="description" type="String" />
 		<column name="placeTextArea" type="String" />
 		<column name="filesDownload" type="String" />
-		<column name="inTheNameOf" type="String" />
-		<column name="isOfficial" type="boolean"/>
 		<column name="cityResponse" type="String" />
 		<column name="projectTarget" type="String" />
+		<column name="otherMechanism" type="String" />
+		<column name="collectiveName" type="String" />
 
 		<!-- petitionnaire fields -->
 		<column name="petitionnaireLastname" type="String" />
@@ -388,9 +387,6 @@
 		<column name="petitionnairePhone" type="String" />
 		<column name="petitionnaireEmail" type="String" />
 
-		<!-- Support fields -->
-		<column name="isSupported" type="boolean" />
-		<column name="supportedBy" type="String" />
 
 		<!-- Medias -->
 		<column name="videoUrl" type="String" />

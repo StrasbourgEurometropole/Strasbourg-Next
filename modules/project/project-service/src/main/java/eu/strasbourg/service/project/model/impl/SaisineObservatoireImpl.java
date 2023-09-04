@@ -114,12 +114,14 @@ public class SaisineObservatoireImpl extends SaisineObservatoireBaseImpl {
     }
 
     @Override
+    // TODO SAISINE
     public String getAuthorLabel() {
-        if (this.getInTheNameOf() != "" && this.getInTheNameOf() != null) {
+ /*       if (this.getInTheNameOf() != "" && this.getInTheNameOf() != null) {
             return this.getInTheNameOf();
         } else {
             return StringUtil.upperCaseFirstLetter(this.getPetitionnaireFirstname()) + " " + StringUtil.toUpperCase(StringUtil.shorten(this.getPetitionnaireLastname(), 2, "."));
-        }
+        }*/
+ return null;
     }
 
     /**

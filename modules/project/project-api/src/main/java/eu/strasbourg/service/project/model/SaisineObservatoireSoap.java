@@ -45,14 +45,13 @@ public class SaisineObservatoireSoap implements Serializable {
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setTitle(model.getTitle());
-		soapModel.setSummary(model.getSummary());
 		soapModel.setDescription(model.getDescription());
 		soapModel.setPlaceTextArea(model.getPlaceTextArea());
 		soapModel.setFilesDownload(model.getFilesDownload());
-		soapModel.setInTheNameOf(model.getInTheNameOf());
-		soapModel.setIsOfficial(model.isIsOfficial());
 		soapModel.setCityResponse(model.getCityResponse());
 		soapModel.setProjectTarget(model.getProjectTarget());
+		soapModel.setOtherMechanism(model.getOtherMechanism());
+		soapModel.setCollectiveName(model.getCollectiveName());
 		soapModel.setPetitionnaireLastname(model.getPetitionnaireLastname());
 		soapModel.setPetitionnaireFirstname(model.getPetitionnaireFirstname());
 		soapModel.setPetitionnaireBirthday(model.getPetitionnaireBirthday());
@@ -62,8 +61,6 @@ public class SaisineObservatoireSoap implements Serializable {
 		soapModel.setPetitionnaireCity(model.getPetitionnaireCity());
 		soapModel.setPetitionnairePhone(model.getPetitionnairePhone());
 		soapModel.setPetitionnaireEmail(model.getPetitionnaireEmail());
-		soapModel.setIsSupported(model.isIsSupported());
-		soapModel.setSupportedBy(model.getSupportedBy());
 		soapModel.setVideoUrl(model.getVideoUrl());
 		soapModel.setExternalImageURL(model.getExternalImageURL());
 		soapModel.setExternalImageCopyright(model.getExternalImageCopyright());
@@ -229,14 +226,6 @@ public class SaisineObservatoireSoap implements Serializable {
 		_title = title;
 	}
 
-	public String getSummary() {
-		return _summary;
-	}
-
-	public void setSummary(String summary) {
-		_summary = summary;
-	}
-
 	public String getDescription() {
 		return _description;
 	}
@@ -261,26 +250,6 @@ public class SaisineObservatoireSoap implements Serializable {
 		_filesDownload = filesDownload;
 	}
 
-	public String getInTheNameOf() {
-		return _inTheNameOf;
-	}
-
-	public void setInTheNameOf(String inTheNameOf) {
-		_inTheNameOf = inTheNameOf;
-	}
-
-	public boolean getIsOfficial() {
-		return _isOfficial;
-	}
-
-	public boolean isIsOfficial() {
-		return _isOfficial;
-	}
-
-	public void setIsOfficial(boolean isOfficial) {
-		_isOfficial = isOfficial;
-	}
-
 	public String getCityResponse() {
 		return _cityResponse;
 	}
@@ -295,6 +264,22 @@ public class SaisineObservatoireSoap implements Serializable {
 
 	public void setProjectTarget(String projectTarget) {
 		_projectTarget = projectTarget;
+	}
+
+	public String getOtherMechanism() {
+		return _otherMechanism;
+	}
+
+	public void setOtherMechanism(String otherMechanism) {
+		_otherMechanism = otherMechanism;
+	}
+
+	public String getCollectiveName() {
+		return _collectiveName;
+	}
+
+	public void setCollectiveName(String collectiveName) {
+		_collectiveName = collectiveName;
 	}
 
 	public String getPetitionnaireLastname() {
@@ -359,26 +344,6 @@ public class SaisineObservatoireSoap implements Serializable {
 
 	public void setPetitionnaireEmail(String petitionnaireEmail) {
 		_petitionnaireEmail = petitionnaireEmail;
-	}
-
-	public boolean getIsSupported() {
-		return _isSupported;
-	}
-
-	public boolean isIsSupported() {
-		return _isSupported;
-	}
-
-	public void setIsSupported(boolean isSupported) {
-		_isSupported = isSupported;
-	}
-
-	public String getSupportedBy() {
-		return _supportedBy;
-	}
-
-	public void setSupportedBy(String supportedBy) {
-		_supportedBy = supportedBy;
 	}
 
 	public String getVideoUrl() {
@@ -453,14 +418,13 @@ public class SaisineObservatoireSoap implements Serializable {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _title;
-	private String _summary;
 	private String _description;
 	private String _placeTextArea;
 	private String _filesDownload;
-	private String _inTheNameOf;
-	private boolean _isOfficial;
 	private String _cityResponse;
 	private String _projectTarget;
+	private String _otherMechanism;
+	private String _collectiveName;
 	private String _petitionnaireLastname;
 	private String _petitionnaireFirstname;
 	private Date _petitionnaireBirthday;
@@ -469,8 +433,6 @@ public class SaisineObservatoireSoap implements Serializable {
 	private String _petitionnaireCity;
 	private String _petitionnairePhone;
 	private String _petitionnaireEmail;
-	private boolean _isSupported;
-	private String _supportedBy;
 	private String _videoUrl;
 	private String _externalImageURL;
 	private String _externalImageCopyright;

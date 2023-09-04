@@ -289,21 +289,6 @@ public interface SaisineObservatoireModel
 	public void setTitle(String title);
 
 	/**
-	 * Returns the summary of this saisine observatoire.
-	 *
-	 * @return the summary of this saisine observatoire
-	 */
-	@AutoEscape
-	public String getSummary();
-
-	/**
-	 * Sets the summary of this saisine observatoire.
-	 *
-	 * @param summary the summary of this saisine observatoire
-	 */
-	public void setSummary(String summary);
-
-	/**
 	 * Returns the description of this saisine observatoire.
 	 *
 	 * @return the description of this saisine observatoire
@@ -349,42 +334,6 @@ public interface SaisineObservatoireModel
 	public void setFilesDownload(String filesDownload);
 
 	/**
-	 * Returns the in the name of of this saisine observatoire.
-	 *
-	 * @return the in the name of of this saisine observatoire
-	 */
-	@AutoEscape
-	public String getInTheNameOf();
-
-	/**
-	 * Sets the in the name of of this saisine observatoire.
-	 *
-	 * @param inTheNameOf the in the name of of this saisine observatoire
-	 */
-	public void setInTheNameOf(String inTheNameOf);
-
-	/**
-	 * Returns the is official of this saisine observatoire.
-	 *
-	 * @return the is official of this saisine observatoire
-	 */
-	public boolean getIsOfficial();
-
-	/**
-	 * Returns <code>true</code> if this saisine observatoire is is official.
-	 *
-	 * @return <code>true</code> if this saisine observatoire is is official; <code>false</code> otherwise
-	 */
-	public boolean isIsOfficial();
-
-	/**
-	 * Sets whether this saisine observatoire is is official.
-	 *
-	 * @param isOfficial the is official of this saisine observatoire
-	 */
-	public void setIsOfficial(boolean isOfficial);
-
-	/**
 	 * Returns the city response of this saisine observatoire.
 	 *
 	 * @return the city response of this saisine observatoire
@@ -413,6 +362,36 @@ public interface SaisineObservatoireModel
 	 * @param projectTarget the project target of this saisine observatoire
 	 */
 	public void setProjectTarget(String projectTarget);
+
+	/**
+	 * Returns the other mechanism of this saisine observatoire.
+	 *
+	 * @return the other mechanism of this saisine observatoire
+	 */
+	@AutoEscape
+	public String getOtherMechanism();
+
+	/**
+	 * Sets the other mechanism of this saisine observatoire.
+	 *
+	 * @param otherMechanism the other mechanism of this saisine observatoire
+	 */
+	public void setOtherMechanism(String otherMechanism);
+
+	/**
+	 * Returns the collective name of this saisine observatoire.
+	 *
+	 * @return the collective name of this saisine observatoire
+	 */
+	@AutoEscape
+	public String getCollectiveName();
+
+	/**
+	 * Sets the collective name of this saisine observatoire.
+	 *
+	 * @param collectiveName the collective name of this saisine observatoire
+	 */
+	public void setCollectiveName(String collectiveName);
 
 	/**
 	 * Returns the petitionnaire lastname of this saisine observatoire.
@@ -531,42 +510,6 @@ public interface SaisineObservatoireModel
 	 * @param petitionnaireEmail the petitionnaire email of this saisine observatoire
 	 */
 	public void setPetitionnaireEmail(String petitionnaireEmail);
-
-	/**
-	 * Returns the is supported of this saisine observatoire.
-	 *
-	 * @return the is supported of this saisine observatoire
-	 */
-	public boolean getIsSupported();
-
-	/**
-	 * Returns <code>true</code> if this saisine observatoire is is supported.
-	 *
-	 * @return <code>true</code> if this saisine observatoire is is supported; <code>false</code> otherwise
-	 */
-	public boolean isIsSupported();
-
-	/**
-	 * Sets whether this saisine observatoire is is supported.
-	 *
-	 * @param isSupported the is supported of this saisine observatoire
-	 */
-	public void setIsSupported(boolean isSupported);
-
-	/**
-	 * Returns the supported by of this saisine observatoire.
-	 *
-	 * @return the supported by of this saisine observatoire
-	 */
-	@AutoEscape
-	public String getSupportedBy();
-
-	/**
-	 * Sets the supported by of this saisine observatoire.
-	 *
-	 * @param supportedBy the supported by of this saisine observatoire
-	 */
-	public void setSupportedBy(String supportedBy);
 
 	/**
 	 * Returns the video url of this saisine observatoire.

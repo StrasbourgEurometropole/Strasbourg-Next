@@ -67,14 +67,13 @@ public class SaisineObservatoireWrapper
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
-		attributes.put("summary", getSummary());
 		attributes.put("description", getDescription());
 		attributes.put("placeTextArea", getPlaceTextArea());
 		attributes.put("filesDownload", getFilesDownload());
-		attributes.put("inTheNameOf", getInTheNameOf());
-		attributes.put("isOfficial", isIsOfficial());
 		attributes.put("cityResponse", getCityResponse());
 		attributes.put("projectTarget", getProjectTarget());
+		attributes.put("otherMechanism", getOtherMechanism());
+		attributes.put("collectiveName", getCollectiveName());
 		attributes.put("petitionnaireLastname", getPetitionnaireLastname());
 		attributes.put("petitionnaireFirstname", getPetitionnaireFirstname());
 		attributes.put("petitionnaireBirthday", getPetitionnaireBirthday());
@@ -83,8 +82,6 @@ public class SaisineObservatoireWrapper
 		attributes.put("petitionnaireCity", getPetitionnaireCity());
 		attributes.put("petitionnairePhone", getPetitionnairePhone());
 		attributes.put("petitionnaireEmail", getPetitionnaireEmail());
-		attributes.put("isSupported", isIsSupported());
-		attributes.put("supportedBy", getSupportedBy());
 		attributes.put("videoUrl", getVideoUrl());
 		attributes.put("externalImageURL", getExternalImageURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
@@ -171,12 +168,6 @@ public class SaisineObservatoireWrapper
 			setTitle(title);
 		}
 
-		String summary = (String)attributes.get("summary");
-
-		if (summary != null) {
-			setSummary(summary);
-		}
-
 		String description = (String)attributes.get("description");
 
 		if (description != null) {
@@ -195,18 +186,6 @@ public class SaisineObservatoireWrapper
 			setFilesDownload(filesDownload);
 		}
 
-		String inTheNameOf = (String)attributes.get("inTheNameOf");
-
-		if (inTheNameOf != null) {
-			setInTheNameOf(inTheNameOf);
-		}
-
-		Boolean isOfficial = (Boolean)attributes.get("isOfficial");
-
-		if (isOfficial != null) {
-			setIsOfficial(isOfficial);
-		}
-
 		String cityResponse = (String)attributes.get("cityResponse");
 
 		if (cityResponse != null) {
@@ -217,6 +196,18 @@ public class SaisineObservatoireWrapper
 
 		if (projectTarget != null) {
 			setProjectTarget(projectTarget);
+		}
+
+		String otherMechanism = (String)attributes.get("otherMechanism");
+
+		if (otherMechanism != null) {
+			setOtherMechanism(otherMechanism);
+		}
+
+		String collectiveName = (String)attributes.get("collectiveName");
+
+		if (collectiveName != null) {
+			setCollectiveName(collectiveName);
 		}
 
 		String petitionnaireLastname = (String)attributes.get(
@@ -272,18 +263,6 @@ public class SaisineObservatoireWrapper
 
 		if (petitionnaireEmail != null) {
 			setPetitionnaireEmail(petitionnaireEmail);
-		}
-
-		Boolean isSupported = (Boolean)attributes.get("isSupported");
-
-		if (isSupported != null) {
-			setIsSupported(isSupported);
-		}
-
-		String supportedBy = (String)attributes.get("supportedBy");
-
-		if (supportedBy != null) {
-			setSupportedBy(supportedBy);
 		}
 
 		String videoUrl = (String)attributes.get("videoUrl");
@@ -415,6 +394,16 @@ public class SaisineObservatoireWrapper
 	@Override
 	public String getCityResponse() {
 		return _saisineObservatoire.getCityResponse();
+	}
+
+	/**
+	 * Returns the collective name of this saisine observatoire.
+	 *
+	 * @return the collective name of this saisine observatoire
+	 */
+	@Override
+	public String getCollectiveName() {
+		return _saisineObservatoire.getCollectiveName();
 	}
 
 	/**
@@ -559,36 +548,6 @@ public class SaisineObservatoireWrapper
 	}
 
 	/**
-	 * Returns the in the name of of this saisine observatoire.
-	 *
-	 * @return the in the name of of this saisine observatoire
-	 */
-	@Override
-	public String getInTheNameOf() {
-		return _saisineObservatoire.getInTheNameOf();
-	}
-
-	/**
-	 * Returns the is official of this saisine observatoire.
-	 *
-	 * @return the is official of this saisine observatoire
-	 */
-	@Override
-	public boolean getIsOfficial() {
-		return _saisineObservatoire.getIsOfficial();
-	}
-
-	/**
-	 * Returns the is supported of this saisine observatoire.
-	 *
-	 * @return the is supported of this saisine observatoire
-	 */
-	@Override
-	public boolean getIsSupported() {
-		return _saisineObservatoire.getIsSupported();
-	}
-
-	/**
 	 * Returns the media choice of this saisine observatoire.
 	 *
 	 * @return the media choice of this saisine observatoire
@@ -622,6 +581,16 @@ public class SaisineObservatoireWrapper
 	@Override
 	public String getNbApprovedCommentsLabel() {
 		return _saisineObservatoire.getNbApprovedCommentsLabel();
+	}
+
+	/**
+	 * Returns the other mechanism of this saisine observatoire.
+	 *
+	 * @return the other mechanism of this saisine observatoire
+	 */
+	@Override
+	public String getOtherMechanism() {
+		return _saisineObservatoire.getOtherMechanism();
 	}
 
 	/**
@@ -867,26 +836,6 @@ public class SaisineObservatoireWrapper
 	}
 
 	/**
-	 * Returns the summary of this saisine observatoire.
-	 *
-	 * @return the summary of this saisine observatoire
-	 */
-	@Override
-	public String getSummary() {
-		return _saisineObservatoire.getSummary();
-	}
-
-	/**
-	 * Returns the supported by of this saisine observatoire.
-	 *
-	 * @return the supported by of this saisine observatoire
-	 */
-	@Override
-	public String getSupportedBy() {
-		return _saisineObservatoire.getSupportedBy();
-	}
-
-	/**
 	 * Retourne les catégories 'Territoire' correspondant aux pays de la petition
 	 */
 	@Override
@@ -1037,26 +986,6 @@ public class SaisineObservatoireWrapper
 	}
 
 	/**
-	 * Returns <code>true</code> if this saisine observatoire is is official.
-	 *
-	 * @return <code>true</code> if this saisine observatoire is is official; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isIsOfficial() {
-		return _saisineObservatoire.isIsOfficial();
-	}
-
-	/**
-	 * Returns <code>true</code> if this saisine observatoire is is supported.
-	 *
-	 * @return <code>true</code> if this saisine observatoire is is supported; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isIsSupported() {
-		return _saisineObservatoire.isIsSupported();
-	}
-
-	/**
 	 * Returns <code>true</code> if this saisine observatoire is media choice.
 	 *
 	 * @return <code>true</code> if this saisine observatoire is media choice; <code>false</code> otherwise
@@ -1109,6 +1038,16 @@ public class SaisineObservatoireWrapper
 	@Override
 	public void setCityResponse(String cityResponse) {
 		_saisineObservatoire.setCityResponse(cityResponse);
+	}
+
+	/**
+	 * Sets the collective name of this saisine observatoire.
+	 *
+	 * @param collectiveName the collective name of this saisine observatoire
+	 */
+	@Override
+	public void setCollectiveName(String collectiveName) {
+		_saisineObservatoire.setCollectiveName(collectiveName);
 	}
 
 	/**
@@ -1219,36 +1158,6 @@ public class SaisineObservatoireWrapper
 	}
 
 	/**
-	 * Sets the in the name of of this saisine observatoire.
-	 *
-	 * @param inTheNameOf the in the name of of this saisine observatoire
-	 */
-	@Override
-	public void setInTheNameOf(String inTheNameOf) {
-		_saisineObservatoire.setInTheNameOf(inTheNameOf);
-	}
-
-	/**
-	 * Sets whether this saisine observatoire is is official.
-	 *
-	 * @param isOfficial the is official of this saisine observatoire
-	 */
-	@Override
-	public void setIsOfficial(boolean isOfficial) {
-		_saisineObservatoire.setIsOfficial(isOfficial);
-	}
-
-	/**
-	 * Sets whether this saisine observatoire is is supported.
-	 *
-	 * @param isSupported the is supported of this saisine observatoire
-	 */
-	@Override
-	public void setIsSupported(boolean isSupported) {
-		_saisineObservatoire.setIsSupported(isSupported);
-	}
-
-	/**
 	 * Sets whether this saisine observatoire is media choice.
 	 *
 	 * @param mediaChoice the media choice of this saisine observatoire
@@ -1271,6 +1180,16 @@ public class SaisineObservatoireWrapper
 	@Override
 	public void setNew(boolean n) {
 		_saisineObservatoire.setNew(n);
+	}
+
+	/**
+	 * Sets the other mechanism of this saisine observatoire.
+	 *
+	 * @param otherMechanism the other mechanism of this saisine observatoire
+	 */
+	@Override
+	public void setOtherMechanism(String otherMechanism) {
+		_saisineObservatoire.setOtherMechanism(otherMechanism);
 	}
 
 	/**
@@ -1457,26 +1376,6 @@ public class SaisineObservatoireWrapper
 	@Override
 	public void setStatusDate(Date statusDate) {
 		_saisineObservatoire.setStatusDate(statusDate);
-	}
-
-	/**
-	 * Sets the summary of this saisine observatoire.
-	 *
-	 * @param summary the summary of this saisine observatoire
-	 */
-	@Override
-	public void setSummary(String summary) {
-		_saisineObservatoire.setSummary(summary);
-	}
-
-	/**
-	 * Sets the supported by of this saisine observatoire.
-	 *
-	 * @param supportedBy the supported by of this saisine observatoire
-	 */
-	@Override
-	public void setSupportedBy(String supportedBy) {
-		_saisineObservatoire.setSupportedBy(supportedBy);
 	}
 
 	/**

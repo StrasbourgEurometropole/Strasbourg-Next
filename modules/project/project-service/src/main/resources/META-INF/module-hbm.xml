@@ -318,14 +318,13 @@
 		<property name="statusByUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="statusDate" type="org.hibernate.type.TimestampType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="summary" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="placeTextArea" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="filesDownload" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="inTheNameOf" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="isOfficial" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="cityResponse" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="projectTarget" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="otherMechanism" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="collectiveName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="petitionnaireLastname" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="petitionnaireFirstname" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="petitionnaireBirthday" type="org.hibernate.type.TimestampType" />
@@ -334,8 +333,6 @@
 		<property name="petitionnaireCity" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="petitionnairePhone" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="petitionnaireEmail" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="isSupported" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
-		<property name="supportedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="videoUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="externalImageURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="externalImageCopyright" type="com.liferay.portal.dao.orm.hibernate.StringType" />
