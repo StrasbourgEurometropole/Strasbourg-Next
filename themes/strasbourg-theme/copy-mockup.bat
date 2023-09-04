@@ -14,8 +14,14 @@ set "destinationFontsDir=C:\liferay\sf-strasbourgeu-mockup\assets\fonts"
 
 REM Delete everything in sourceCSSDir except override_*.scss
 echo Deleting files in %sourceCSSDir% except %overridePattern%...
-for /f "delims=" %%f in ('dir /b /a-d "%sourceCSSDir%\*.scss" ^| findstr /v /i /e /c:"%overridePattern%"') do (
-    del "%sourceCSSDir%\%%f" >nul 2>&1
+
+for /r "%sourceCSSDir%" %%A in (*) do (
+    if not "%%~nxA" == "_custom.scss" (
+        del "%%A"
+    )
+)
+for /d /r "%sourceCSSDir%" %%D in (*) do (
+    rmdir "%%D" /s /q 2>nul
 )
 
 REM Copy everything from the destinationCSSDir to sourceCSSDir

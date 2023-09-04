@@ -1,25 +1,25 @@
+<#--Il faut ajouter le variable avant de l'appeler dans le template:-->
+<#--<@liferay_portlet.actionURL var="contactURL" name="contact">-->
+<#--    <@liferay_portlet.param name="classPK" value="${entry.getPlaceId()}" />-->
+<#--    <@liferay_portlet.param name="to" value="${entry.mail}" />-->
+<#--    <@liferay_portlet.param name="title" value="${entry.getAlias(locale)}" />-->
+<#--    <@liferay_portlet.param name="type" value="Place" />-->
+<#--</@liferay_portlet.actionURL>-->
+<#--<#assign overlayContactTitle=entry.getAlias(locale) />-->
+<#--<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/overlay-contact.ftl" />-->
 
 <div id="st-overlay-contact" class="st-overlay st-overlay-contact" role="dialog" aria-modal="true" tabindex="0" aria-label="Modale de contact">
     <button class="st-btn-close" data-overlay-close="st-overlay-contact" aria-label="Fermer la modale"></button>
-    <@liferay_portlet.actionURL var="contactURL" name="contact">
-        <@liferay_portlet.param name="classPK" value="${entry.getPlaceId()}" />
-        <@liferay_portlet.param name="to" value="${entry.mail}" />
-        <@liferay_portlet.param name="title" value="${entry.getAlias(locale)}" />
-        <@liferay_portlet.param name="type" value="Place" />
-    </@liferay_portlet.actionURL>
 
     <form  id="contactForm" action="${contactURL}#st-overlay-contact" name="contactForm" method="post" class="st-overlay__inner form-styles">
         <div class="st-overlay__body st-custom-scrollbar">
 
             <div class="st-overlay__heading">
-                <span class="st-title-overlay">${entry.getAlias(locale)}</span>
+                <span class="st-title-overlay st-h2">${overlayContactTitle}</span>
                 <span class="st-surtitre-cat"><@liferay_ui.message key="eu.contact" /></span>
             </div>
-
-
-
             <div class="st-grid-fields st-grid-12">
-                <p class="st-text-mandatory">Les champs marqués par * sont obligatoires</p>
+                <p class="st-text-mandatory"><@liferay_ui.message key="eu.required-field-star" /></p>
 
                 <@liferay_ui.error key="all-fields-required" message="eu.all-fields-required" targetNode="#contactForm" />
                 <@liferay_ui.error key="invalid-mail" message="eu.invalid-mail" targetNode="#contactForm" />
@@ -60,7 +60,7 @@
 
 
                 <div class="st-text-mentions">
-                    <p class="st-title-mentions">Mentions d’information</p>
+                    <p class="st-title-mentions"> <@liferay_ui.message key="contact.mention" /></p>
 
                     <@liferay_ui.message key="contact.default-privacy" />
                 </div>
