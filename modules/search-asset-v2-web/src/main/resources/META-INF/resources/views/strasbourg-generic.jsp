@@ -9,8 +9,8 @@
 	</aui:form>
 	<header class="st-small-header st-wrapper st-wrapper-small" role="banner">
 		<c:if test="${not empty dc.getPortletTitle('')}">
-			<h1 class="st-h1">${dc.getPortletTitle('')}</h1>
-		</c:if>
+		<h1 class="st-h1">${dc.getPortletTitle('')}</h1>
+	</c:if>
 
 	</header>
 			<aui:form method="post" name="fm">

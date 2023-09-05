@@ -1,113 +1,62 @@
+<%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/site-navigation" %>
 <%@ include file="/search-association-init.jsp" %>
 
 
 <liferay-portlet:actionURL varImpl="searchActionURL" />
 
+<header class="st-small-header st-wrapper st-wrapper-small" role="banner">
+	<h1 class="st-h1">	<c:if test="${not empty dc.getPortletTitle('')}">
+		<h1 class="st-h1">${dc.getPortletTitle('')}</h1>
+	</c:if></h1>
+	<liferay-ui:breadcrumb />
+</header>
+
+<div class="st-listing-introduction st-wrapper st-wrapper-small st-text-styles">
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer a erat sodales, auctor neque non,
+		varius purus. Morbi tempor finibus magna, id dignissim quam. Aliquam elementum, felis vitae sagittis
+		iaculis, est eros euismod urna, sit amet consectetur odio orci vitae nibh. Mauris at efficitur sem,
+		eget iaculis purus. Maecenas et lacinia diam.</p>
+</div>
+<div class="st-listing-cards st-wrapper st-wrapper-small">
+	<ul class="st-cards-wrapper st--has-cards-horizontal st-basic-grid st-col-2@t-small">
+		<li>
+			<div class="st-card-container">
+				<a href="/templates/pages/fiches/fiche-association.php"
+				   class="st-card st--card-horizontal ">
+					<div class="st-caption">
+						<p class="st-title-card">ASPTT Strasbourg</p>
+						<p class="st-surtitre-cat">ARTS PLASTIQUES & VISUELS, Danses</p>
+						<p class="st-location">Cronenbourg Nord, Cronenbourg Sud, Koenigshoffen</p>
+					</div>
+
+					<div class="st-image">
+
+						<figure class="st-figure st-fit-cover" role="group">
+							<picture>
+								<img alt="" src="/assets/images/medias/card-asso-1.png"
+									 srcset="/assets/images/medias/card-asso-1.png 1x, /assets/images/medias/card-asso-1@2x.png 2x">
+							</picture>
+						</figure>
+
+
+
+					</div>
+
+				</a>
+
+
+			</div>
+		</li>
+
+	</ul>
+</div>
+
+
+
 <main class="seu-container">
 	<div class="seu-view-activity">
-		<!-- Formulaire -->
-		<aui:form action="${searchActionURL}" method="get" name="fm" id="search-asset-form" cssClass="seu-view-filters">
-		 	<liferay-portlet:renderURLParams varImpl="searchActionURL" />
-	        <liferay-ui:error key="practice-error" message="practice-error" />
-	        <p class="error" style="display: none; color:#ff1818;"><liferay-ui:message key="practice-error" /></p>
-
-            <div class="seu-filter-line">
-                <div class="widget">
-                    <div class="title content">
-                        <aui:select cssClass="toCustomSelect domains" id="domain" name="domain" label="domain">
-                            <aui:option value="" disabled="disabled" />
-                            <c:forEach items="${dc.getSortedCategories(dc.domainVocabulary)}" var="category">
-                                <c:set var="category" value="${category}" scope="request" />
-                                <c:set var="level" value="0" scope="request" />
-                                <jsp:include page="/includes/category-option.jsp" />
-                            </c:forEach>
-                        </aui:select>
-                    </div>
-                </div>
-                <div class="widget speciality" <c:if test="${empty param.domain}">style="display: none;" </c:if>>
-                    <div class="title content">
-                        <aui:select cssClass="toCustomSelect specialities" id="speciality" name="speciality" label="speciality">
-                            <aui:option value="" disabled="disabled" />
-                            <c:if test="${param.domain != null}">
-                                <c:forEach items="${dc.getSortedCategories(dc.domainVocabulary, param.domain)}" var="category">
-                                    <c:set var="category" value="${category}" scope="request" />
-                                    <c:set var="level" value="0" scope="request" />
-                                    <jsp:include page="/includes/category-option.jsp" />
-                                </c:forEach>
-                            </c:if>
-                        </aui:select>
-                    </div>
-                </div>
-                <c:set value="${dc.getSortedCategories(dc.domainVocabulary, param.speciality)}" var = "subSpecialities" />
-                <div class="widget subSpeciality" <c:if test="${empty param.speciality || empty subSpecialities}">style="display: none;" </c:if>>
-                    <div class="title content">
-                        <aui:select cssClass="toCustomSelect subSpecialities" id="subSpeciality" name="subSpeciality" label="sub-speciality">
-                            <aui:option value="" disabled="disabled" />
-                            <c:if test="${param.speciality != null}">
-                                <c:forEach items="${subSpecialities}" var="category">
-                                    <c:set var="category" value="${category}" scope="request" />
-                                    <c:set var="level" value="0" scope="request" />
-                                    <jsp:include page="/includes/category-option.jsp" />
-                                </c:forEach>
-                            </c:if>
-                        </aui:select>
-                    </div>
-                </div>
-                <c:set value="${dc.getSortedCategories(dc.domainVocabulary, param.subSpeciality)}" var = "subSubSpecialities" />
-                <div class="widget subSubSpeciality" <c:if test="${empty param.subSpeciality || empty subSubSpecialities}">style="display: none;" </c:if>>
-                    <div class="title content">
-                        <aui:select cssClass="toCustomSelect subSubSpecialities" id="subSubSpeciality" name="subSubSpeciality" label="sub-sub-speciality">
-                            <aui:option value="" disabled="disabled" />
-                            <c:if test="${param.subSpeciality != null}">
-                                 <c:forEach items="${subSubSpecialities}" var="category">
-                                    <c:set var="category" value="${category}" scope="request" />
-                                    <c:set var="level" value="0" scope="request" />
-                                    <jsp:include page="/includes/category-option.jsp" />
-                                </c:forEach>
-                            </c:if>
-                        </aui:select>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="seu-filter-line">
-                <c:forEach items="${dc.vocabularies}" var="vocabulary"
-                    varStatus="vocStatus">
-	                <div class="widget otherVocabularies">
-	                    <div class="title content">
-	                        <aui:select cssClass="toCustomSelect" id="vocabulary_${vocStatus.index}" name="vocabulary_${vocStatus.index}" label="${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}">
-	                            <aui:option value="" disabled="disabled" />
-                                <c:forEach items="${dc.getSortedCategories(vocabulary)}" var="category">
-									<c:set var="category" value="${category}" scope="request" />
-									<c:set var="level" value="0" scope="request" />
-									<jsp:include page="/includes/category-option.jsp" />
-                                </c:forEach>
-	                        </aui:select>
-	                    </div>
-	                </div>
-                </c:forEach>
-            </div>
-            <aui:input type="hidden" name="vocabulariesCount" value="${fn:length(dc.vocabularies)}" />
-            <div class="seu-btn-line">
-                <liferay-portlet:renderURL var="formURL" />
-                <button type="button" onclick="window.location.href = '${formURL}'" class="seu-btn-square seu-bordered seu-core">
-                    <span class="seu-flexbox">
-                        <span class="seu-btn-text" style="margin-right: 0">
-                            <liferay-ui:message key="cancel" />
-                        </span>
-                    </span>
-                </button>
-                <button type="submit" class="seu-btn-square seu-filled seu-core">
-                    <span class="seu-flexbox">
-                        <span class="seu-btn-text">
-                            <liferay-ui:message key="search" />
-                        </span>
-                        <span class="seu-btn-arrow"></span>
-                    </span>
-                </button>
-            </div>
-		</aui:form>
+		<!-- Filtres -->
+		<%@ include file="/search-association-search-form.jsp"  %>
 
 		<!-- Nombre de rÃ©sultats et items par page -->
         <div class="seu-view-results">
@@ -137,7 +86,8 @@
 			<!-- RÃ©sultats -->
 			<liferay-ui:search-container id="entriesSearchContainer"
 						searchContainer="${dc.searchContainer}">
-				<ul id="seu-grid--list01">
+				<div class="st-listing-cards st-wrapper st-wrapper-small">
+				<ul class="st-cards-wrapper st--has-cards-horizontal st-basic-grid st-col-2@t-small">
 
 		        	<liferay-ui:search-container-results results="${dc.entries}" />
 		        	<liferay-ui:search-container-row
@@ -160,67 +110,49 @@
                             </liferay-ddm:template-renderer>
 					</liferay-ui:search-container-row>
 				</ul>
-
+	</div>
 				<!-- Pagination -->
 				<c:if test="${dc.pager.lastPage > 1}">
-		            <ul class="seu-pagination unstyled">
-		            	<!-- Page prÃ©cÃ©dente -->
-		                <li class="seu-pagin-prev disabled seu-pagin-item">
-							<c:if test="${not dc.pager.onFirstPage}">
-			                    <a class="seu-btn-square seu-bordered seu-core" data-action="prev" title="<liferay-ui:message key="previous" />"
-									href="${dc.getURLForPage(dc.pager.currentPage - 1)}">
-			                        <span class="seu-flexbox">
-			                            <span class="seu-btn-text"><liferay-ui:message key="previous" /></span>
-			                            <span class="seu-btn-arrow"></span>
-			                        </span>
-			                    </a>
-		               		</c:if>
-		                </li>
-		                <c:forEach var="page" items="${dc.pager.pages}">
-		                	<c:choose>
-		                		<c:when test="${page.isALink() and not (page.index eq dc.pager.currentPage)}">
-		                			<!-- Lien vers page -->
-			                		<li class="seu-pagin-item">
-					                    <a data-page="${page.index}" href="${dc.getURLForPage(page.index)}">
-					                        <span class="seu-flexbox">
-					                            <span class="seu-btn-text">${page.label}</span>
-					                        </span>
-					                    </a>
-					                </li>
-		                		</c:when>
-		                		<c:when test="${page.isALink() and (page.index eq dc.pager.currentPage)}">
-		                			<!-- Page en cours -->
-			                		<li class="seu-pagin-item seu-is-active">
-				                        <span class="seu-flexbox">
-				                            <span class="seu-btn-text">${page.label}</span>
-				                        </span>
-				                    </li>
-				                </c:when>
-		                		<c:otherwise>
-				                	<!-- Texte -->
-			                		<li class="seu-pagin-item">
-				                        <span class="seu-flexbox">
-				                            <span class="seu-btn-text">${page.label}</span>
-				                        </span>
-				                    </li>
-		                		</c:otherwise>
-		                	</c:choose>
-		                </c:forEach>
+					<nav class="st-wrapper st-wrapper-small st-pagination" role="navigation">
+						<div class="st-container">
+							<a rel="prev" class="st-nav-links st-prev st-btn-arrow st--prev" data-action="prev" title="<liferay-ui:message key="go-to-previous-page" />"
+							   href="${dc.getURLForPage(dc.pager.currentPage - 1)}">
+           <span class="st-sr-only">
+                Précédent
+           </span>
+							</a>
 
-		                <!-- Page suivante -->
-		                <li class="seu-pagin-next seu-pagin-item">
-							<c:if test="${not dc.pager.onLastPage}">
-			                    <a class="seu-btn-square seu-bordered seu-core" title="<liferay-ui:message key="next" />"
-			                    	data-action="next" href="${dc.getURLForPage(dc.pager.currentPage + 1)}">
-			                        <span class="seu-flexbox">
-			                            <span class="seu-btn-text"><liferay-ui:message key="next" /></span>
-			                            <span class="seu-btn-arrow"></span>
-			                        </span>
-			                    </a>
-		              	 	</c:if>
-		                </li>
-		            </ul>
-		    	</c:if>
+							<!-- Note pour le cablage changer dynamiquement les numéros de page dans les aria-label. Aussi, l'aria-label pour l'élément actif doit être différent par rapport aux autres -->
+							<div class="st-pagination-number">
+								<c:forEach var="page" items="${dc.pager.pages}">
+									<c:choose>
+										<c:when test="${page.isALink() and not (page.index eq dc.pager.currentPage)}">
+											<!-- Lien vers page -->
+											<a data-page="${page.index}" href="${dc.getURLForPage(page.index)}" class="st-pagination-link" role="button" aria-label="Aller à ${page.label}"
+											   aria-current="false">${page.label}</a>
+										</c:when>
+										<c:when test="${page.isALink() and (page.index eq dc.pager.currentPage)}">
+											<!-- Page en cours -->
+											<a href="#" class="st-pagination-link active" role="button" aria-label="Page courante ${page.label}"
+											   aria-current="true">${page.label}</a>
+										</c:when>
+										<c:otherwise>
+											<!-- Texte -->
+											<span class="st-dots">...</span>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</div>
+
+							<a rel="next" class="st-nav-links st-next st-btn-arrow st--next" title="<liferay-ui:message key="go-to-next-page" />"
+							   data-action="next" href="${dc.getURLForPage(dc.pager.currentPage + 1)}">
+              <span class="st-sr-only">
+                Suivant
+              </span>
+							</a>
+						</div>
+					</nav>
+				</c:if>
 
 			</liferay-ui:search-container>
 		</aui:form>
