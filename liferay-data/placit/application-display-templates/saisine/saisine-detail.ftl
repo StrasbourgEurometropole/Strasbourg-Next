@@ -53,6 +53,12 @@
 } />
 <#-- partage de la configuration open graph dans la request -->
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
+
+<style>
+.pro-bloc {
+    flex-direction: column;
+}
+</style>
 <div id="content" class="pro-page-detail pro-page-detail-initiative">
 
     <div class="container">
@@ -135,24 +141,19 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             </div>
 
                             <div class="row pro-bloc pro-bloc-texte">
-                                <#if entry.summary?has_content>
-                                    <h4>Résumé</h4>
-                                    <p>${entry.summary}</p>
-                                </#if>
-                            </div>
-
-                            <div class="row pro-bloc pro-bloc-texte">
-                                ${entry.description}
-                            </div>
-
-                            <div class="row pro-bloc pro-bloc-texte">
+                                <h4>Objet de la saisine</h4>
                                 ${entry.projectTarget}
+                            </div>
+
+                            <div class="row pro-bloc pro-bloc-texte">
+                                <h4>Description</h4>
+                                ${entry.description}
                             </div>
 
                             <#if entry.cityResponse?has_content>
                                 <div style="padding:5px; background-color:#9ba0ee; border:2px solid #656ab0; -moz-border-radius:9px; -khtml-border-radius:9px; -webkit-border-radius:9px; border-radius:9px;">
                                     <div style="font-size: 2em; float: left; width: 40px; text-align: center; margin-right: 5px; height: 20px; padding:3px;">!</div>
-                                    <p><strong>Commentaires des services thématiques de la collectivité : "${entry.getSaisineObservatoireStatus()}"</strong><br />
+                                    <p><strong>Commentaires de la collectivité : "${entry.getSaisineObservatoireStatus()}"</strong><br />
                                         &nbsp;</p>
                                     <em>${entry.cityResponse}</em>
                                 </div>
