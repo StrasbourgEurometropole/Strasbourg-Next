@@ -18,6 +18,10 @@
 
 <portlet:defineObjects />
 
+<liferay-portlet:actionURL name="getPeriodRow" var="periodRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+    <liferay-portlet:param name="mvcPath" value="/includes/period-row.jsp" />
+</liferay-portlet:actionURL>
+
 <jsp:useBean id="vocabularyHelper" class="eu.strasbourg.utils.AssetVocabularyHelper" />
 
 <style>

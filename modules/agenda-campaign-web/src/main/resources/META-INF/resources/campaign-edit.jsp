@@ -37,7 +37,7 @@
 			
 			<!-- Informations de contact privÃ©es-->
 			<aui:fieldset collapsed="false" collapsible="false" label="private-contact-information">
-				<div clas="row">
+				<div class="row">
 					<!-- Nom, prÃ©nom, mail, tÃ©lÃ©phone -->
 					<div class="col-md-6" style="float: left">
 						<aui:input name="lastName" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.lastName : themeDisplay.user.lastName}"/>
@@ -333,7 +333,7 @@
 						</div>
 					</div>
 					<p class="show-link-manual-place" style="${not empty dc.campaignEvent.placeSIGId ? 'display:none;' : ''}">
-					    <a class="show-manual-place" style="cursor: pointer;" /><liferay-ui:message key="show-manual-place" /></a>
+					    <a class="show-manual-place" style="cursor: pointer;" ><liferay-ui:message key="show-manual-place" /></a>
 					</p>
 				</div>
 				
@@ -599,9 +599,6 @@
 		</aui:button-row>
 	</aui:form>
 </div>
-<liferay-portlet:actionURL name="getPeriodRow" var="periodRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
-	<liferay-portlet:param name="mvcPath" value="/includes/period-row.jsp" />
-</liferay-portlet:actionURL>
 <liferay-util:html-bottom>
 	<aui:script>
 		var namespace = '<portlet:namespace />';
