@@ -1,4 +1,3 @@
-<%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/site-navigation" %>
 <%@ include file="/search-asset-init.jsp" %>
 
 <liferay-portlet:actionURL varImpl="searchActionURL" />
@@ -12,7 +11,9 @@
 <header class="st-small-header st--two-columns st-basic-grid st-col-2@t-landscape st-wrapper st-wrapper-small" role="banner">
 	<div class="col-left">
 		<h1 class="st-h1"><liferay-ui:message key="eu.agenda" /></h1>
-		<liferay-ui:breadcrumb />
+		<liferay-portlet:runtime
+				portletName="com_liferay_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
+				instanceId="breadcrumb-generic" />
 	</div>
 
 	<div class="col-right">

@@ -10,7 +10,11 @@
 	<header class="st-small-header st-wrapper st-wrapper-small" role="banner">
 		<c:if test="${not empty dc.getPortletTitle('')}">
 		<h1 class="st-h1">${dc.getPortletTitle('')}</h1>
+
 	</c:if>
+		<liferay-portlet:runtime
+				portletName="com_liferay_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
+				instanceId="breadcrumb-generic" />
 
 	</header>
 			<aui:form method="post" name="fm">
