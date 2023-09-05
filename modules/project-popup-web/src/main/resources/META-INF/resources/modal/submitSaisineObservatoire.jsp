@@ -23,8 +23,14 @@
                         <aui:input id="saisineProjectTarget" type="text" name="projectTarget" label="modal.submitsaisineobservatoire.information.projectTarget" required="true" maxlength="150" value=""/>
                     </div>
                     <div class="pro-row">
-                        <div class="form-group form-half">
-                            <label for="dispositif"><liferay-ui:message key="modal.submitsaisineobservatoire.information.dispositif"/></label>
+                        <div class="form-group form-half" id="dispositifWrapper">
+                            <label for="dispositif">
+                                <liferay-ui:message key="modal.submitsaisineobservatoire.information.dispositif"/>
+                                <span class="reference-mark text-warning" id="kwsw__column1__2"><svg aria-hidden="true" class="lexicon-icon lexicon-icon-asterisk" focusable="false" viewBox="0 0 512 512"><g data-href="https://ems-recette-liferay2.sully-group.fr/o/plateforme-citoyenne-theme/images/lexicon/icons.svg#times">
+                                    <path class="lexicon-icon-outline" d="M323.6,190l146.7-48.8L512,263.9l-149.2,47.6l93.6,125.2l-104.9,76.3l-96.1-126.4l-93.6,126.4L56.9,435.3l92.3-123.9L0,263.8l40.4-122.6L188.4,190v-159h135.3L323.6,190L323.6,190z"></path>
+                                </g></svg></span>
+                            </label>
+
                             <select id="<portlet:namespace />dispositif" name="<portlet:namespace />dispositif" required="true" >
                                 <option value="0" selected ></option>
                                 <c:forEach var="dispositif" items="${dispositifs}">
@@ -61,6 +67,7 @@
                     </div>
                     <div class="form-group">
                         <aui:input id="saisinedescription" type="textarea" name="description" label="modal.submitsaisineobservatoire.information.description" required="true" value=""/>
+                        <p><liferay-ui:message key="modal.submitsaisineobservatoire.mail.documents"/></p>
                     </div>
                     <%-- Champ : Image --%>
                     <div class="pro-row">
@@ -116,8 +123,13 @@
                         </div>
                     </div>
                     <div class="pro-row">
-                        <div class="form-group form-half">
-                            <label for="as"><liferay-ui:message key="modal.submitsaisineobservatoire.information.as"/></label>
+                        <div class="form-group form-half" id="akaWrapper">
+                            <label for="as">
+                                <liferay-ui:message key="modal.submitsaisineobservatoire.information.as"/>
+                                <span class="reference-mark text-warning" id="kwsw__column1__2"><svg aria-hidden="true" class="lexicon-icon lexicon-icon-asterisk" focusable="false" viewBox="0 0 512 512"><g data-href="https://ems-recette-liferay2.sully-group.fr/o/plateforme-citoyenne-theme/images/lexicon/icons.svg#times">
+                                    <path class="lexicon-icon-outline" d="M323.6,190l146.7-48.8L512,263.9l-149.2,47.6l93.6,125.2l-104.9,76.3l-96.1-126.4l-93.6,126.4L56.9,435.3l92.3-123.9L0,263.8l40.4-122.6L188.4,190v-159h135.3L323.6,190L323.6,190z"></path>
+                                </g></svg></span>
+                            </label>
                             <select id="<portlet:namespace />aka" name="<portlet:namespace />aka" required="true" >
                                 <option value="0" selected ></option>
                                 <c:forEach var="aka" items="${aka}">
@@ -356,6 +368,10 @@
 
     function validateFormSubmitSaisineObservatoire(){
         var result = true;
+        var dispositif = $("#"+namespaceSubmitSaisineObservatoire+"dispositif").val();
+        var dispositifWrapper = $("#dispositifWrapper .selectric");
+        var aka = $("#"+namespaceSubmitSaisineObservatoire+"aka").val();
+        var akaWrapper = $("#akaWrapper .selectric");
         var saisinetitle = $("#"+namespaceSubmitSaisineObservatoire+"saisinetitle").val();
         var saisinedescription = $("#"+namespaceSubmitSaisineObservatoire+"saisinedescription").val();
         var saisineProjectTarget = $("#"+namespaceSubmitSaisineObservatoire+"saisineProjectTarget").val();
@@ -373,6 +389,17 @@
             $("#"+namespaceSubmitSaisineObservatoire+"saisinetitle").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#"+namespaceSubmitSaisineObservatoire+"saisinetitle").css({ "box-shadow" : "" });
+
+        if (dispositif==null || dispositif==0){
+            dispositifWrapper.css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else dispositifWrapper.css({ "box-shadow" : "" });
+
+        if (aka==null || aka==0){
+            akaWrapper.css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else akaWrapper.css({ "box-shadow" : "" });
+
 
         if (photo!=null && photo!==""){
             var ext = photo.split(".").pop().toLowerCase();
