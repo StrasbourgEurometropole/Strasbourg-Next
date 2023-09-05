@@ -6,6 +6,7 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.Document;
@@ -443,6 +444,24 @@ public class SearchAssociationDisplayContext {
             return "/";
         }
 
+    }
+
+    /**
+     * Retourne le titre du portlet configuré dans la configuration Look And
+     * Feel s'il existe et si "utiliser le titre personnalisé" est coché, sinon
+     * à partir de la clé de traduction passée en paramètre
+     */
+    public String getPortletTitle(String key) {
+        String titleFromLanguageKey = LanguageUtil.get(PortalUtil.getHttpServletRequest(this._request), key);
+        String useCustomPortletPreference = this._request.getPreferences().getValue("portletSetupUseCustomTitle",
+                "false");
+        boolean useCustomPortlet = GetterUtil.get(useCustomPortletPreference, false);
+        if (useCustomPortlet) {
+            String preferenceKey = "portletSetupTitle_" + this._themeDisplay.getLocale().toString();
+            return this._request.getPreferences().getValue(preferenceKey, titleFromLanguageKey);
+        } else {
+            return titleFromLanguageKey;
+        }
     }
 
     private static Log _log = LogFactoryUtil.getLog(SearchAssociationDisplayContext.class);
