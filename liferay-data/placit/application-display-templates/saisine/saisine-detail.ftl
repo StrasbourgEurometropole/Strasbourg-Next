@@ -142,7 +142,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
                             <div class="row pro-bloc pro-bloc-texte">
                                 <h4>Objet de la saisine</h4>
-                                ${entry.projectTarget}
+                                <p>${entry.projectTarget}</p>
                             </div>
 
                             <div class="row pro-bloc pro-bloc-texte">
