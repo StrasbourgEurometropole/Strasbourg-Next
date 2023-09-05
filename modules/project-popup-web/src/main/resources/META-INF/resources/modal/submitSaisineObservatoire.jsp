@@ -33,7 +33,7 @@
                             </select>
                         </div>
                         <div class="form-half">
-                            <aui:input id="saisineOtherMechanism" type="text" name="otherMechanism" label="modal.submitsaisineobservatoire.information.otherMechanism" required="true" maxlength="150" value=""/>
+                            <aui:input id="saisineOtherMechanism" type="text" name="otherMechanism" label="modal.submitsaisineobservatoire.information.otherMechanism" maxlength="150" value=""/>
                         </div>
                     </div>
                     <div class="pro-row">
@@ -131,6 +131,14 @@
                         <input type="checkbox" id="submit-saisine-observatoire-legalage" value="legalage">
                         <label for="submit-saisine-observatoire-legalage" class="fontWhite">
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalageSubmitSaisineObservatoire"/>
+                        </label>
+                    </div>
+                </div>
+                <div class="pro-optin form-checkbox" >
+                    <div>
+                        <input type="checkbox" id="submit-saisine-understanding" value="understanding">
+                        <label for="submit-saisine-understanding" class="fontWhite">
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_understandingSubmitSaisineObservatoire"/>
                         </label>
                     </div>
                 </div>
@@ -301,6 +309,7 @@
         $('#checkboxSaveInfo').hide();
         $("#submit-saisine-observatoire-legalage").prop("checked", false);
         $("#submit-saisine-observatoire-cnil").prop("checked", false);
+        $("#submit-saisine-observatoire-understanding").prop("checked", false);
         $("#"+namespaceSubmitSaisineObservatoire+"birthday").val(saved_dateNaiss);
         $("#"+namespaceSubmitSaisineObservatoire+"city").val(saved_city);
         $("#"+namespaceSubmitSaisineObservatoire+"address").val(saved_address);
@@ -344,6 +353,7 @@
         var postalcode = $("#"+namespaceSubmitSaisineObservatoire+"postalcode").val();
         var legalage = $("#submit-saisine-observatoire-legalage").is(":checked");
         var cnil = $("#submit-saisine-observatoire-cnil").is(":checked");
+        var understanding = $("#submit-saisine-observatoire-understanding").is(":checked");
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
 
         if (saisinetitle==null || saisinetitle==""){
@@ -390,6 +400,9 @@
             result = false;
 
         if (!cnil)
+            result = false;
+
+        if (!understanding)
             result = false;
 
         if (!result)
