@@ -1,4 +1,8 @@
 // Pas de décallage du wrapper
+.has-control-menu .top-header {
+	margin-top: 65px;
+}
+
 body.open #wrapper {
   padding-left: 0 !important;
 }
@@ -31,7 +35,7 @@ header.main-header {
 }
 
 // Couleurs
-.btn-primary {
+.btn-primary.btn-default {
   background-color: #97bf0c!important;
   border-color: #97bf0c!important;
   &:hover, &:active, &:focus, &:hover:active {
@@ -40,11 +44,9 @@ header.main-header {
   }
 }
 
-.btn-secondary.btn-cancel {
+.btn-link.btn-default.btn-cancel {
   color: #97bf0c;
 	font-weight: 500;
-  box-shadow: none;
-  background-color: #fff;
   &:hover, &:active, &:focus, &:hover:active {
     color: #98d90d;
   }
