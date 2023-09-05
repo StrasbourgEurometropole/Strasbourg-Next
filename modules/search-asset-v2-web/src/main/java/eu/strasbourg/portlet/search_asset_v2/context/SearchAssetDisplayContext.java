@@ -42,6 +42,7 @@ import eu.strasbourg.utils.Pager;
 import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.SearchHelperV2;
 import eu.strasbourg.utils.StringHelper;
+import eu.strasbourg.utils.display.context.BaseDisplayContext;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
@@ -66,13 +67,11 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 @SuppressWarnings({"deprecation", "unused"})
-public class SearchAssetDisplayContext {
+public class SearchAssetDisplayContext extends BaseDisplayContext {
 
 	public SearchAssetDisplayContext(RenderRequest request, RenderResponse response) throws PortalException {
 
-		this._response = response;
-		this._request = request;
-		this._themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
+		super(request, response);
 		this.initSearchContainer();
 		if (!getConfigurationData().isHideResultsBeforeSearch() || this.isUserSearch()
 				|| ParamUtil.getBoolean(this._request, "paginate")) {
@@ -1039,10 +1038,6 @@ public class SearchAssetDisplayContext {
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(SearchAssetDisplayContext.class);
-
-	private final RenderRequest _request;
-	private final RenderResponse _response;
-	private final ThemeDisplay _themeDisplay;
 	private SearchAssetConfiguration _configuration;
 	private ConfigurationData _configurationData;
 

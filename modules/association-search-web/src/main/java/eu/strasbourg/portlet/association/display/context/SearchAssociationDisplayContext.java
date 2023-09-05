@@ -31,6 +31,7 @@ import eu.strasbourg.utils.Pager;
 import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import eu.strasbourg.utils.display.context.BaseDisplayContext;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
@@ -43,13 +44,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class SearchAssociationDisplayContext {
+public class SearchAssociationDisplayContext extends BaseDisplayContext {
 
     public SearchAssociationDisplayContext(RenderRequest request, RenderResponse response) throws PortalException {
-
-        this._response = response;
-        this._request = request;
-        this._themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
+        super(request, response);
         this._configuration = this._themeDisplay.getPortletDisplay()
                 .getPortletInstanceConfiguration(SearchAssociationConfiguration.class);
         this.initSearchContainer();
@@ -466,9 +464,6 @@ public class SearchAssociationDisplayContext {
 
     private static Log _log = LogFactoryUtil.getLog(SearchAssociationDisplayContext.class);
 
-    private final RenderRequest _request;
-    private final RenderResponse _response;
-    private final ThemeDisplay _themeDisplay;
     private SearchAssociationConfiguration _configuration;
 
     private SearchContainer<AssetEntry> _searchContainer;
