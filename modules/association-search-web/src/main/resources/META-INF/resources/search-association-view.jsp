@@ -9,6 +9,9 @@
 	<h1 class="st-h1">	<c:if test="${not empty dc.getPortletTitle('')}">
 		<h1 class="st-h1">${dc.getPortletTitle('')}</h1>
 	</c:if></h1>
+	<liferay-portlet:runtime
+			portletName="com_liferay_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
+			instanceId="breadcrumb-generic" />
 </header>
 
 <div class="st-listing-introduction st-wrapper st-wrapper-small st-text-styles">
