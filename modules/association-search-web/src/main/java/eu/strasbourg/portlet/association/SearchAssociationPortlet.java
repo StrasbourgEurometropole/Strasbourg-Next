@@ -34,13 +34,14 @@ import java.util.Map;
 	property = {
 			"javax.portlet.version=3.0",
 			"com.liferay.portlet.display-category=Strasbourg",
+			"com.liferay.portlet.header-portlet-css=/css/search-association-main.css",
 			"com.liferay.portlet.instanceable=false",
-			"com.liferay.portlet.css-class-wrapper=search-association-portlet",
-			"com.liferay.portlet.single-page-application=false",
+			"javax.portlet.display-name=Recherche d'association",
 			"javax.portlet.init-param.template-path=/",
 			"javax.portlet.init-param.view-template=/search-association-view.jsp",
-			"javax.portlet.init-param.check-auth-token=false",
 			"javax.portlet.init-param.config-template=/configuration/search-association-configuration.jsp",
+			"javax.portlet.init-param.check-auth-token=false",
+			"javax.portlet.name=" + StrasbourgPortletKeys.ASSOCIATION_SEARCH_WEB,
 			"javax.portlet.resource-bundle=content.Language",
 			"javax.portlet.security-role-ref=power-user,user"}, service = Portlet.class)
 public class SearchAssociationPortlet extends MVCPortlet {
