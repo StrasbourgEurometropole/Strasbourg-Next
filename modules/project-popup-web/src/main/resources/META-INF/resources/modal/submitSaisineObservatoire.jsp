@@ -62,6 +62,17 @@
                     <div class="form-group">
                         <aui:input id="saisinedescription" type="textarea" name="description" label="modal.submitsaisineobservatoire.information.description" required="true" value=""/>
                     </div>
+                    <%-- Champ : Image --%>
+                    <div class="pro-row">
+                        <div class="form-group form-two-tiers">
+                            <span class="browsePicture input-group-btn">
+                                <aui:input name="photo" type="file" label="modal.submit.initiative.information.picture"
+                                    cssClass="btn btn-default btn-choose">
+                                    <aui:validator name="acceptFiles">'jpg,png,jpeg'</aui:validator>
+                                </aui:input>
+                            </span>
+                        </div>
+                    </div>
                 </div>
                 <div class="pro-wrapper last-wrapper">
                     <h4><liferay-ui:message key="modal.submitsaisineobservatoire.user"/></h4>
@@ -136,8 +147,8 @@
                 </div>
                 <div class="pro-optin form-checkbox" >
                     <div>
-                        <input type="checkbox" id="submit-saisine-understanding" value="understanding">
-                        <label for="submit-saisine-understanding" class="fontWhite">
+                        <input type="checkbox" id="submit-saisine-observatoire-understanding" value="understanding">
+                        <label for="submit-saisine-observatoire-understanding" class="fontWhite">
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_understandingSubmitSaisineObservatoire"/>
                         </label>
                     </div>
@@ -291,6 +302,7 @@
     {
         $("#"+namespaceSubmitSaisineObservatoire+"saisinetitle").val("");
         $("#"+namespaceSubmitSaisineObservatoire+"saisinedescription").val("");
+        $("#"+namespaceSubmitSaisineObservatoire+"photo").val("");
         $("#"+namespaceSubmitSaisineObservatoire+"saisineProjectTarget").val("");
         $("#"+namespaceSubmitSaisineObservatoire+"saisineOtherMechanism").val("");
         $("#"+namespaceSubmitSaisineObservatoire+"saisineCollectiveName").val("");
@@ -355,11 +367,20 @@
         var cnil = $("#submit-saisine-observatoire-cnil").is(":checked");
         var understanding = $("#submit-saisine-observatoire-understanding").is(":checked");
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
+        var photo = $("#"+namespaceSubmitSaisineObservatoire+"photo").val();
 
         if (saisinetitle==null || saisinetitle==""){
             $("#"+namespaceSubmitSaisineObservatoire+"saisinetitle").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#"+namespaceSubmitSaisineObservatoire+"saisinetitle").css({ "box-shadow" : "" });
+
+        if (photo!=null && photo!==""){
+            var ext = photo.split(".").pop().toLowerCase();
+            if($.inArray(ext, ['png','jpg','jpeg']) == -1) {
+            $("#"+namespaceSubmitSaisineObservatoire+"photo").css({ "box-shadow" : "0 0 10px #CC0000" });
+                result = false;
+            }else $("#"+namespaceSubmitSaisineObservatoire+"photo").css({ "box-shadow" : "" });
+        }
 
         if (saisinedescription==null || saisinedescription==""){
             $("#"+namespaceSubmitSaisineObservatoire+"saisinedescription").css({ "box-shadow" : "0 0 10px #CC0000" });
