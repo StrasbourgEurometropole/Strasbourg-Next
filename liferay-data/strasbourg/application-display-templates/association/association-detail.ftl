@@ -69,7 +69,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <ul class="category-list" style="margin-bottom: 10px;">
                                     <li>
                                         <span><@liferay_ui.message key="eu.association.public" /></span>
-                                        <span>${practiceCategories.getPublics(locale)}</span>
+                                            <span>${practiceCategories.getPublics(locale)}</span>
                                     </li>
                                     <li>
                                         <span><@liferay_ui.message key="eu.association.district" /></span>
