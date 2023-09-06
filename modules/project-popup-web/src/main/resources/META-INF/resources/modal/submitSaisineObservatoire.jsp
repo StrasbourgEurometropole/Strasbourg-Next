@@ -20,7 +20,9 @@
                         <aui:input id="saisinetitle" name="title" label="modal.submitsaisineobservatoire.information.title" required="true" maxlength="45" value=""/>
                     </div>
                     <div class="form-group">
-                        <aui:input id="saisineProjectTarget" type="text" name="projectTarget" label="modal.submitsaisineobservatoire.information.projectTarget" required="true" maxlength="150" value=""/>
+                        <label for="<portlet:namespace />saisineProjectTarget" ><liferay-ui:message key="modal.submitsaisineobservatoire.information.projectTarget"/></label>
+                        <div class="help-input"><liferay-ui:message key="modal.submitsaisineobservatoire.mail.help.target"/></div>
+                        <input id="<portlet:namespace />saisineProjectTarget" class="field form-control" type="text" name="<portlet:namespace />projectTarget" required="true" maxlength="150" value=""/>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half" id="dispositifWrapper">

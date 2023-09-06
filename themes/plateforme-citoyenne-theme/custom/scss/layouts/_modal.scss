@@ -223,6 +223,11 @@
 					z-index: 120;
 				}
 			}
+			.help-input{
+				font-size: 0.875em;
+				font-style: italic;
+				margin-bottom: 5px;
+			}
 		}
 
 		.pro-btn, .pro-btn-yellow{
@@ -347,6 +352,7 @@
 					label {
 						display: none;
 					}
+
 					input {
 						@include ft($f_txt, 0.875em, 400, $c_txt, 1.571em);
 						@extend %appearance;
