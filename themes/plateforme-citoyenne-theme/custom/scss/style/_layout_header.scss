@@ -789,7 +789,7 @@ main {
 					@include tablet_portrait {
 						&.search-menu-icon {
 							background-color: $c_commune;
-							border-right: solid 3px black;
+							border-right: solid 1px black;
 						}
 
 						&.th-menu {
