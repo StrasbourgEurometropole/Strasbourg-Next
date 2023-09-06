@@ -52,12 +52,21 @@
                 <%-- Champ : Auteur nom --%>
                 <aui:input name="petitionnaireLastname" required="true" />
 
-                <%-- Champ : Au nom de ... --%>
-                <aui:input name="collectiveName" required="false">
-                    <aui:validator name="maxLength">75</aui:validator>
+
+                <aui:input name="projectTarget" required="true" />
+
+                <%-- Champ : Autre dispositif --%>
+                <aui:input name="otherMechanism" required="false">
+                    <aui:validator name="maxLength">150</aui:validator>
                 </aui:input>
 
-                <aui:input name="projectTarget" required="false" />
+                <%-- Champ : Nom Collectif --%>
+                <aui:input name="collectiveName" required="false">
+                    <aui:validator name="maxLength">150</aui:validator>
+                </aui:input>
+
+
+
 
             </aui:fieldset>
 
