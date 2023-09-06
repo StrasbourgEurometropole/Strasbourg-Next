@@ -50,16 +50,7 @@ public class ActivityBOPortlet extends MVCPortlet {
 
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest
 			.getAttribute(WebKeys.THEME_DISPLAY);
-		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
-		// Si on est sur une page d'édition, on ajoute un bouton "retour"
-		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
-		boolean showBackButton = Validator.isNotNull(returnURL);
-		if (showBackButton) {
-			portletDisplay.setShowBackIcon(true);
-			portletDisplay.setURLBack(returnURL.toString());
-		}
-		String title = PortalUtil.getPortletTitle(renderRequest);
 		try {
 			NavigationBarDisplayContext navigationDC = new NavigationBarDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("navigationDC", navigationDC);
@@ -118,13 +109,23 @@ public class ActivityBOPortlet extends MVCPortlet {
 		} catch (PortalException e) {
 			e.printStackTrace();
 		}
+		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
-		super.render(renderRequest, renderResponse);
-
+		String title = PortalUtil.getPortletTitle(renderRequest);
 		title = LanguageUtil
-			.get(PortalUtil.getHttpServletRequest(renderRequest), title);
+				.get(PortalUtil.getHttpServletRequest(renderRequest), title);
 		renderResponse.setTitle(title);
 
+		// If we are on an "add" page, we set a return URL and show the "back"
+		// button
+		String backURL = ParamUtil.getString(renderRequest, "backURL");
+		boolean showBackButton = Validator.isNotNull(backURL);
+		if (showBackButton) {
+			portletDisplay.setShowBackIcon(true);
+			portletDisplay.setURLBack(backURL.toString());
+		}
+
+		super.render(renderRequest, renderResponse);
 	}
 	@Reference
 	private ItemSelector _itemSelector;

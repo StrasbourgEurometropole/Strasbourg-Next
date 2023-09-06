@@ -20,6 +20,7 @@
 				className="eu.strasbourg.service.activity.model.Activity"
 				modelVar="activity" keyProperty="activityId" >
 				<liferay-portlet:renderURL varImpl="editActivityURL">
+					<portlet:param name="tab" value="activities" />
 					<portlet:param name="cmd" value="editActivity" />
 					<portlet:param name="activityId" value="${activity.activityId}" />
 					<portlet:param name="backURL" value="${activitiesURL}" />

@@ -116,7 +116,7 @@ public class ViewActivityOrganizersDisplayContext {
 		String keywords = ParamUtil.getString(servletRequest, "keywords");
 		_hits = SearchHelper.getBOSearchHits(searchContext,
 				getSearchContainer().getStart(),
-				getSearchContainer().getEnd(), Activity.class.getName(), groupId,
+				getSearchContainer().getEnd(), ActivityOrganizer.class.getName(), groupId,
 				"", keywords,
 				getOrderByColSearchField(),
 				"desc".equals(getOrderByType()));

@@ -22,6 +22,7 @@
 				className="eu.strasbourg.service.activity.model.Association"
 				modelVar="association" keyProperty="associationId" >
 				<liferay-portlet:renderURL varImpl="editAssociationURL">
+					<portlet:param name="tab" value="associations" />
 					<portlet:param name="cmd" value="editAssociation" />
 					<portlet:param name="associationId" value="${association.associationId}" />
 					<portlet:param name="backURL" value="${associationsURL}" />

@@ -21,6 +21,7 @@
 				className="eu.strasbourg.service.activity.model.ActivityCourse"
 				modelVar="activityCourse" keyProperty="activityCourseId" >
 				<liferay-portlet:renderURL varImpl="editActivityCourseURL">
+					<portlet:param name="tab" value="activityCourses" />
 					<portlet:param name="cmd" value="editActivityCourse" />
 					<portlet:param name="activityCourseId" value="${activityCourse.activityCourseId}" />
 					<portlet:param name="backURL" value="${activityCoursesURL}" />

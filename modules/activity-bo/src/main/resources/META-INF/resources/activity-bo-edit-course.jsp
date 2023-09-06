@@ -10,7 +10,7 @@
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveActivityCourse" varImpl="saveActivityCourseURL">
-	<portlet:param name="cmd" value="saveActivityCourse" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 	<portlet:param name="tab" value="activityCourses" />
 </liferay-portlet:actionURL>
 

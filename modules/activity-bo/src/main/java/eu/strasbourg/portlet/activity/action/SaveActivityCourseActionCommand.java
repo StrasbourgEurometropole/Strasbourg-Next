@@ -298,12 +298,7 @@ public class SaveActivityCourseActionCommand extends BaseMVCActionCommand {
 
 		// Update de l'entité
 		activityCourseLocalService.updateActivityCourse(activityCourse, sc);
-
-		// Post / Redirect / Get si tout est bon
-		PortletURL renderURL = PortletURLFactoryUtil.create(request,
-			portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
-		renderURL.setParameter("tab", request.getParameter("tab"));
-		response.sendRedirect(renderURL.toString());
+		response.setRenderParameter("mvcPath", "/activity-bo-view-courses.jsp");
 	}
 
 	/**

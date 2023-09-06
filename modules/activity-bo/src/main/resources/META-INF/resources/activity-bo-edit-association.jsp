@@ -10,7 +10,7 @@
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveAssociation" varImpl="saveAssociationURL">
-	<portlet:param name="cmd" value="saveAssociation" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 	<portlet:param name="tab" value="associations" />
 </liferay-portlet:actionURL>
 

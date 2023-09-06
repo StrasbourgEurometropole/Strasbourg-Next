@@ -22,6 +22,7 @@
 				className="eu.strasbourg.service.activity.model.ActivityOrganizer"
 				modelVar="activityOrganizer" keyProperty="activityOrganizerId" >
 				<liferay-portlet:renderURL varImpl="editActivityOrganizerURL">
+					<portlet:param name="tab" value="activityOrganizers" />
 					<portlet:param name="cmd" value="editActivityOrganizer" />
 					<portlet:param name="activityOrganizerId" value="${activityOrganizer.activityOrganizerId}" />
 					<portlet:param name="backURL" value="${activityOrganizersURL}" />

@@ -195,12 +195,7 @@ public class SaveAssociationActionCommand extends BaseMVCActionCommand {
 				_practiceLocalService.removePractice(practice.getPracticeId());
 			}
 		}
-
-		// Post / Redirect / Get si tout est bon
-		PortletURL renderURL = PortletURLFactoryUtil.create(request,
-			portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
-		renderURL.setParameter("tab", request.getParameter("tab"));
-		response.sendRedirect(renderURL.toString());
+		response.setRenderParameter("mvcPath", "/activity-bo-view-associations.jsp");
 	}
 
 	private boolean validate(ActionRequest request) {

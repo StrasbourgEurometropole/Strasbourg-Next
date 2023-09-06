@@ -114,7 +114,7 @@ public class ViewAssociationsDisplayContext{
 		String keywords = ParamUtil.getString(servletRequest, "keywords");
 		_hits = SearchHelper.getBOSearchHits(searchContext,
 				getSearchContainer().getStart(),
-				getSearchContainer().getEnd(), Activity.class.getName(), groupId,
+				getSearchContainer().getEnd(), Association.class.getName(), groupId,
 				"", keywords,
 				getOrderByColSearchField(),
 				"desc".equals(getOrderByType()));
