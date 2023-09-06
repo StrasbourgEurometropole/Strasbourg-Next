@@ -97,7 +97,6 @@
 		if (${phaseInDepositPeriod?string("false", "true")}) {
 			$(".deposit-button").each(function() {
 				$(this).remove();
-				adjusteSearch();
 			});
 		}
 	});

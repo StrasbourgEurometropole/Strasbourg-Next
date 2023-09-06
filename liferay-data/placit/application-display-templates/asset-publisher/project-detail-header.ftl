@@ -22,7 +22,7 @@
 				<span>Début</span>
 				<span class="pro-datetime">${firstTimeLine.getDate()?string[firstTimeLine.getFreeMarkerFormatDate()]}</span>
 			</div>
-			 <div class="owl-carousel owl-timeline col-6">
+			 <div class="owl-carousel owl-timeline col-10">
 
 			<#list currEntry.getProjectTimelines() as timeline>
 				<div class="pro-item">
