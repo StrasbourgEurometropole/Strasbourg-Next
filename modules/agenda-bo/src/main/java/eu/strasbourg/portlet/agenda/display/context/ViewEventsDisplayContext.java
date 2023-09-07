@@ -1,13 +1,8 @@
 package eu.strasbourg.portlet.agenda.display.context;
 
-import com.liferay.asset.categories.item.selector.AssetCategoryTreeNodeItemSelectorReturnType;
-import com.liferay.asset.categories.item.selector.criterion.AssetCategoryTreeNodeItemSelectorCriterion;
-import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
-import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
@@ -30,18 +25,15 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ViewEventsDisplayContext {
 
-	public ViewEventsDisplayContext(RenderRequest request, RenderResponse response, ItemSelector itemSelector) {
+	public ViewEventsDisplayContext(RenderRequest request, RenderResponse response) {
 		_request = request;
 		_response = response;
 		_themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
 		_httpServletRequest = PortalUtil.getHttpServletRequest(request);
-		_itemSelector = itemSelector;
 	}
 
 	/**
@@ -121,7 +113,7 @@ public class ViewEventsDisplayContext {
 		_hits = SearchHelper.getBOSearchHits(searchContext,
 				getSearchContainer().getStart(),
 				getSearchContainer().getEnd(), Event.class.getName(), groupId,
-				"", keywords,
+				getFilterCategoriesIds(), keywords,
 				getOrderByColSearchField(),
 				"desc".equals(getOrderByType()));
 	}
@@ -177,35 +169,26 @@ public class ViewEventsDisplayContext {
 	}
 
 	public boolean hasVocabulary(String vocabularyName){
-		return getCategVocabularies().containsKey(vocabularyName);
+		return getFilterCategoriesIdByVocabulariesName().contains(vocabularyName+"_");
 	}
 
-	public Map<String, String> getCategVocabularies() {
+	public List<String[]> getCategVocabularies() {
 		if (_categVocabularies == null) {
-			_categVocabularies = new HashMap<>();
-			_categVocabularies.put("vocabulary1", ParamUtil.getString(
-					_httpServletRequest, "vocabulary1", ""));
+			_categVocabularies = new ArrayList<>();
+			List<String> filterCategoriesIdByVocabulariesName = List.of(getFilterCategoriesIdByVocabulariesName()
+					.split("__"));
+			for(String filterCategoryIdByVocabularyName : filterCategoriesIdByVocabulariesName){
+				if(Validator.isNotNull(filterCategoryIdByVocabularyName)) {
+					_categVocabularies.add(filterCategoryIdByVocabularyName.split("_"));
+				}
+			}
 		}
 
 		return _categVocabularies;
 	}
 
-	@SuppressWarnings("unused")
-	public String getSelectCategoriesByVocabularyIdURL(long vocabularyId) {
-		RequestBackedPortletURLFactory requestBackedPortletURLFactory =
-				RequestBackedPortletURLFactoryUtil.create(_request);
-		AssetCategoryTreeNodeItemSelectorCriterion categoryTreeNodeItemSelectorCriterion =
-				new AssetCategoryTreeNodeItemSelectorCriterion();
-//		categoryTreeNodeItemSelectorCriterion.setClassNameId(
-//				PortalUtil.getClassNameId(JournalArticle.class));
-		categoryTreeNodeItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-				new AssetCategoryTreeNodeItemSelectorReturnType());
-
-		return String.valueOf(
-				_itemSelector.getItemSelectorURL(
-						requestBackedPortletURLFactory,
-						_response.getNamespace() + "selectAssetCategory",
-						categoryTreeNodeItemSelectorCriterion));
+	public String getFilterCategoriesIdByVocabulariesName() {
+		return ParamUtil.getString(_httpServletRequest, "filterCategoriesIdByVocabulariesName","");
 	}
 
 	@SuppressWarnings("unused")
@@ -242,7 +225,7 @@ public class ViewEventsDisplayContext {
 	/**
 	 * Retourne tous les Hits de recherche
 	 */
-	private Hits getAllHits(long groupId) throws PortalException {
+	private Hits getAllHits(long groupId) {
 		HttpServletRequest servletRequest = PortalUtil
 				.getHttpServletRequest(_request);
 		SearchContext searchContext = SearchContextFactory
@@ -253,20 +236,39 @@ public class ViewEventsDisplayContext {
 
 		return SearchHelper.getBOSearchHits(searchContext,
 				-1, -1, Event.class.getName(), groupId,
-				"", keywords,
+				getFilterCategoriesIds(), keywords,
 				getOrderByColSearchField(),
 				"desc".equals(getOrderByType()));
 	}
 
+	/**
+	 * Retourne la liste des IDs des catégories sur lesquels on doit filtrer
+	 *  sous forme de string qui se présente comme suit :
+	 * ",categoryId1,categoryId2,categoryId3,"
+	 */
+	public String getFilterCategoriesIds() {
+		if (Validator.isNotNull(_filterCategoriesIds)) {
+			return _filterCategoriesIds;
+		}
+		List<String> filterCategoriesIdByVocabulariesName = List.of(getFilterCategoriesIdByVocabulariesName()
+				.split("__"));
+		_filterCategoriesIds = ",";
+		for(String filterCategoryIdByVocabularyName : filterCategoriesIdByVocabulariesName){
+			if(Validator.isNotNull(filterCategoryIdByVocabularyName)) {
+				_filterCategoriesIds += filterCategoryIdByVocabularyName.split("_")[2] + ",";
+			}
+		}
+		return _filterCategoriesIds;
+	}
+
 	private Hits _hits;
 	protected SearchContainer<Event> _searchContainer;
-	private Map<String, String> _categVocabularies;
+	private List<String[]> _categVocabularies;
 	private String _keywords;
 	private final RenderRequest _request;
 	private final RenderResponse _response;
 	protected ThemeDisplay _themeDisplay;
 	private final HttpServletRequest _httpServletRequest;
-	private final ItemSelector _itemSelector;
-	private List<Event> _events;
+	protected String _filterCategoriesIds;
 
 }

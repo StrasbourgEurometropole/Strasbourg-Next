@@ -6,9 +6,7 @@
 	<portlet:param name="mvcPath" value="/agenda-bo-view-manifestations.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<%--	TODO Il faudra remettre le filtre par vocabulaire
-    <portlet:param name="filterCategoriesIds"--%>
-	<%--		value="${dc.filterCategoriesIds}" />--%>
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
@@ -84,9 +82,7 @@
 	<portlet:param name="mvcPath" value="/agenda-bo-view-manifestations.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<%--	TODO Il faudra remettre le filtre par vocabulaire
-    <portlet:param name="filterCategoriesIds"--%>
-	<%--		value="${dc.filterCategoriesIds}" />--%>
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>
@@ -97,9 +93,7 @@
 	<portlet:param name="mvcPath" value="/agenda-bo-view-manifestations.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<%--	TODO Il faudra remettre le filtre par vocabulaire
-    <portlet:param name="filterCategoriesIds"--%>
-	<%--		value="${dc.filterCategoriesIds}" />--%>
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>
@@ -110,9 +104,7 @@
 	<portlet:param name="mvcPath" value="/agenda-bo-view-manifestations.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<%--	TODO Il faudra remettre le filtre par vocabulaire
-    <portlet:param name="filterCategoriesIds"--%>
-	<%--		value="${dc.filterCategoriesIds}" />--%>
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>
@@ -123,6 +115,7 @@
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:renderURL>
 
 <aui:script>
@@ -146,32 +139,38 @@
 		}
 	}
 
-	function getCategoriesByVocabulary(vocabularyId) {
+	function getCategoriesByVocabulary(vocabularyId, vocabularyName) {
+		const portletURL = "${eventsURL}";
+
+		const url = Liferay.Util.PortletURL.createPortletURL(portletURL, {
+			p_p_id: "com_liferay_asset_categories_selector_web_portlet_AssetCategoriesSelectorPortlet",
+			p_p_lifecycle: 0,
+			p_p_state: "pop_up",
+			eventName: "com_liferay_asset_categories_selector_web_portlet_AssetCategoriesSelectorPortlet_selectCategory",
+			selectedCategories: "",
+			singleSelect : true,
+			vocabularyIds: vocabularyId,
+		});
+
 		Liferay.Util.openSelectionModal(
 			{
 				onSelect: function (selectedItem) {
-					console.log("test : " + selectedItem.value);
-					alert("category : " + selectedItem.value.title);
-					if (selectedItem) {
-						const itemValue = selectedItem.value;
-						//submitForm(form, '${filterSelectionURL}');
-						//Liferay.SPA.app.navigate(urlString);
-
-						navigate(
-							addParams(
-								{
-									["${portletNamespace}vocabulary_" + vocabularyId]: itemValue.title,
-								},
-								PortletURLBuilder.create(getPortletURL())
-									.setParameter("vocabulary_" + vocabularyId, itemValue.title)
-									.buildString()
-							)
-						);
+				if (selectedItem) {
+					var selection = selectedItem[Object.keys(selectedItem)];
+					var url = "${filterSelectionURL}";
+					if(!url.includes("filterCategoriesIdByVocabulariesName"))
+						url += "&<portlet:namespace />filterCategoriesIdByVocabulariesName=";
+					if(url.includes(vocabularyName.replace(" ","+")+'_')){
+						const regex = vocabularyName.replace(" ","\\+") + "(.(?<!__))*__";
+						const re = new RegExp(regex, 'gi');
+						url = url.replace(re,"");
 					}
-				},
-				selectEventName: '<portlet:namespace />selectAssetCategory',
-				title: Liferay.Language.get('select-category'),
-				url: '${dc.getSelectCategoriesByVocabularyIdURL(vocabularyId)}'
+					submitForm(form, url + vocabularyName + '_' + selection.title + '_' + selection.categoryId + '__');
+				}
+			},
+				selectEventName: 'com_liferay_asset_categories_selector_web_portlet_AssetCategoriesSelectorPortlet_selectCategory',
+				title: vocabularyName,
+				url: url
 			}
 		)
 	}

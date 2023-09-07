@@ -24,9 +24,11 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
+import javax.portlet.MutableRenderParameters;
+import javax.portlet.PortletException;
+import javax.portlet.PortletURL;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -141,11 +143,11 @@ public class ManagementEventsToolBarDisplayContext extends SearchContainerManage
 
         for (AssetVocabulary vocabulary : getEventVocabularies()) {
             filterVocabularyDropdownItems.add(
-                    DropdownItemBuilder
-                            .setActive(_viewEventsDisplayContext.hasVocabulary(vocabulary.getName()))
-                            .setHref("javascript:getCategoriesByVocabulary("+vocabulary.getVocabularyId()+");")
-                            .setLabel(vocabulary.getName())
-                            .build()
+                DropdownItemBuilder
+                    .setActive(_viewEventsDisplayContext.hasVocabulary(vocabulary.getName()))
+                    .setHref("javascript:getCategoriesByVocabulary(" + vocabulary.getVocabularyId() + ", '" + vocabulary.getName() + "');")
+                    .setLabel(vocabulary.getName())
+                    .build()
             );
         }
 
@@ -155,30 +157,38 @@ public class ManagementEventsToolBarDisplayContext extends SearchContainerManage
     /**
      * Sets the search container’s filter labels to display
      */
-    // TODO : A revoir car pas testé ni fini
     @Override
     public List<LabelItem> getFilterLabelItems() {
-        Map<String, String> categVocabulariesSelected = _viewEventsDisplayContext.getCategVocabularies();
+        List<String[]> categoriesSelected = _viewEventsDisplayContext.getCategVocabularies();
         LabelItemListBuilder.LabelItemListWrapper vocabulariesLabelItems = new LabelItemListBuilder.LabelItemListWrapper();
-
-        for (AssetVocabulary vocabulary : getEventVocabularies()) {
-            vocabulariesLabelItems.add(
-                    () -> categVocabulariesSelected.keySet().contains(vocabulary.getName()),
-                    labelItem -> {
-                        labelItem.putData(
-                                "removeLabelURL",
-                                PortletURLBuilder.create(
-                                                PortletURLUtil.clone(currentURLObj, liferayPortletResponse))
-                                        .setParameter(vocabulary.getName(), "")
-                                        .buildString());
-
-                        labelItem.setCloseable(true);
-
-                        String categ = categVocabulariesSelected.get(vocabulary.getName());
-
-                        labelItem.setLabel(vocabulary.getName() + ": " + categ);
-                    }
-            );
+        MutableRenderParameters parameters = this.currentURLObj.getRenderParameters();
+        String originalFilterCategoriesIdByVocabulariesName = parameters.getValue("filterCategoriesIdByVocabulariesName");
+        for (String[] categorySelected : categoriesSelected) {
+            try {
+                PortletURL newURL = PortletURLUtil.clone(currentURLObj, liferayPortletResponse);
+                String filterCategoriesIdByVocabulariesName;
+                if (originalFilterCategoriesIdByVocabulariesName.contains(categorySelected[0] + '_')) {
+                    String regex = categorySelected[0] + "(.(?<!__))*__";
+                    filterCategoriesIdByVocabulariesName = originalFilterCategoriesIdByVocabulariesName.replaceAll(regex, "");
+                } else {
+                    filterCategoriesIdByVocabulariesName = originalFilterCategoriesIdByVocabulariesName;
+                }
+                newURL.getRenderParameters().removeParameter("filterCategoriesIdByVocabulariesName");
+                vocabulariesLabelItems.add(
+                        labelItem -> {
+                            labelItem.putData(
+                                    "removeLabelURL",
+                                    PortletURLBuilder.create(
+                                                    PortletURLUtil.clone(newURL, liferayPortletResponse))
+                                            .setParameter("filterCategoriesIdByVocabulariesName", filterCategoriesIdByVocabulariesName)
+                                            .buildString());
+                            labelItem.setCloseable(true);
+                            labelItem.setLabel(categorySelected[0] + " : " + categorySelected[1]);
+                        }
+                );
+            } catch (PortletException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         return vocabulariesLabelItems.build();
@@ -198,13 +208,13 @@ public class ManagementEventsToolBarDisplayContext extends SearchContainerManage
     /**
      * The URL to reset the search
      */
-    // TODO : Il faudra rajouter la réinitialisation des vocabulaires
     @Override
     public String getClearResultsURL() {
         return PortletURLBuilder.create(getPortletURL())
                 .setKeywords("")
                 .setParameter( "orderByCol", "modified-date")
                 .setParameter( "orderByType", "desc")
+                .setParameter( "filterCategoriesIdByVocabulariesName", "")
                 .buildString();
     }
 
