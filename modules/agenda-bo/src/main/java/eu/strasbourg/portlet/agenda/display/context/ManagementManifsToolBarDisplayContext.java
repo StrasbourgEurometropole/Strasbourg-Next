@@ -147,7 +147,7 @@ public class ManagementManifsToolBarDisplayContext extends SearchContainerManage
             filterVocabularyDropdownItems.add(
                     DropdownItemBuilder
                             .setActive(_viewManifsDisplayContext.hasVocabulary(vocabulary.getName()))
-                            .setHref("javascript:getCategoriesByVocabulary("+vocabulary.getVocabularyId()+", '\" + vocabulary.getName() + \"');")
+                            .setHref("javascript:getCategoriesByVocabulary("+vocabulary.getVocabularyId()+", '" + vocabulary.getName() + "');")
                             .setLabel(vocabulary.getName())
                             .build()
             );

@@ -140,7 +140,7 @@
 	}
 
 	function getCategoriesByVocabulary(vocabularyId, vocabularyName) {
-		const portletURL = "${eventsURL}";
+		const portletURL = "${manifestationsURL}";
 
 		const url = Liferay.Util.PortletURL.createPortletURL(portletURL, {
 			p_p_id: "com_liferay_asset_categories_selector_web_portlet_AssetCategoriesSelectorPortlet",
