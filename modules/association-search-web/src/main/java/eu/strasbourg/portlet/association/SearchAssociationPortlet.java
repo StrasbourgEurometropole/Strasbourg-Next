@@ -13,6 +13,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.association.configuration.SearchAssociationConfiguration;
 import eu.strasbourg.portlet.association.display.context.SearchAssociationDisplayContext;
 import eu.strasbourg.service.activity.model.Association;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.ActionRequest;
