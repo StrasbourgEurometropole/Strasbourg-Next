@@ -177,7 +177,7 @@ public class ViewManifestationsDisplayContext {
 
 
 	public boolean hasVocabulary(String vocabularyName){
-		return getFilterCategoriesIdByVocabulariesName().contains(vocabularyName);
+		return getFilterCategoriesIdByVocabulariesName().contains(vocabularyName+"_");
 	}
 
 	public List<String[]> getCategVocabularies() {

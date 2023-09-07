@@ -170,8 +170,8 @@
 						var url = "${filterSelectionURL}";
 						if(!url.includes("filterCategoriesIdByVocabulariesName"))
 							url += "&<portlet:namespace />filterCategoriesIdByVocabulariesName=";
-						if(url.includes(vocabularyName.replace(" ","+")+'_')){
-							const regex = vocabularyName.replace(" ","\\+") + "(.(?<!__))*__";
+						if(url.includes(encodeURI(vocabularyName.replaceAll(" ","+"))+'_')){
+							const regex = encodeURI(vocabularyName).replaceAll("%20","\\+") + "(.(?<!__))*__";
 							const re = new RegExp(regex, 'gi');
 							url = url.replace(re,"");
 						}

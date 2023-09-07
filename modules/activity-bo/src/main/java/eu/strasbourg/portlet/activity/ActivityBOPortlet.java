@@ -61,7 +61,7 @@ public class ActivityBOPortlet extends MVCPortlet {
 						EditActivityOrganizerDisplayContext  dc = new EditActivityOrganizerDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewActivityOrganizersDisplayContext dc = new ViewActivityOrganizersDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ViewActivityOrganizersDisplayContext dc = new ViewActivityOrganizersDisplayContext(renderRequest, renderResponse);
 						ManagementOrganizersToolBarDisplayContext managementDC = new ManagementOrganizersToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
 								(LiferayPortletResponse) renderResponse, dc);
 						renderRequest.setAttribute("dc", dc);
@@ -73,7 +73,7 @@ public class ActivityBOPortlet extends MVCPortlet {
 						EditAssociationDisplayContext  dc = new EditAssociationDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewAssociationsDisplayContext dc = new ViewAssociationsDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ViewAssociationsDisplayContext dc = new ViewAssociationsDisplayContext(renderRequest, renderResponse);
 						ManagementAssociationsToolBarDisplayContext managementDC = new ManagementAssociationsToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
 								(LiferayPortletResponse) renderResponse, dc);
 						renderRequest.setAttribute("dc", dc);
@@ -85,7 +85,7 @@ public class ActivityBOPortlet extends MVCPortlet {
 						EditActivityCourseDisplayContext  dc = new EditActivityCourseDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewActivityCoursesDisplayContext dc = new ViewActivityCoursesDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ViewActivityCoursesDisplayContext dc = new ViewActivityCoursesDisplayContext(renderRequest, renderResponse);
 						ManagementActivityCoursesToolBarDisplayContext managementDC = new ManagementActivityCoursesToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
 								(LiferayPortletResponse) renderResponse, dc);
 						renderRequest.setAttribute("dc", dc);
@@ -98,7 +98,7 @@ public class ActivityBOPortlet extends MVCPortlet {
 						EditActivityDisplayContext dc = new EditActivityDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewActivitiesDisplayContext dc = new ViewActivitiesDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ViewActivitiesDisplayContext dc = new ViewActivitiesDisplayContext(renderRequest, renderResponse);
 						ManagementActivitiesToolBarDisplayContext managementDC = new ManagementActivitiesToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
 								(LiferayPortletResponse) renderResponse, dc);
 						renderRequest.setAttribute("dc", dc);
@@ -127,7 +127,5 @@ public class ActivityBOPortlet extends MVCPortlet {
 
 		super.render(renderRequest, renderResponse);
 	}
-	@Reference
-	private ItemSelector _itemSelector;
 
 }

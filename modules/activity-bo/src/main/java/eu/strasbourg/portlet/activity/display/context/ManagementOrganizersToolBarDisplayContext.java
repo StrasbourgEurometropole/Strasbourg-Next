@@ -3,7 +3,14 @@ package eu.strasbourg.portlet.activity.display.context;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.SearchContainerManagementToolbarDisplayContext;
-import com.liferay.frontend.taglib.clay.servlet.taglib.util.*;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenuBuilder;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemBuilder;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuilder;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.LabelItem;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.LabelItemListBuilder;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -15,13 +22,14 @@ import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.service.activity.model.ActivityCourse;
 import eu.strasbourg.service.activity.model.ActivityOrganizer;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
+import javax.portlet.MutableRenderParameters;
+import javax.portlet.PortletException;
+import javax.portlet.PortletURL;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -137,7 +145,7 @@ public class ManagementOrganizersToolBarDisplayContext extends SearchContainerMa
             filterVocabularyDropdownItems.add(
                     DropdownItemBuilder
                             .setActive(_viewActivityOrganizersDisplayContext.hasVocabulary(vocabulary.getName()))
-                            .setHref("javascript:getCategoriesByVocabulary("+vocabulary.getVocabularyId()+");")
+                            .setHref("javascript:getCategoriesByVocabulary(" + vocabulary.getVocabularyId() + ", '" + vocabulary.getName() + "');")
                             .setLabel(vocabulary.getName())
                             .build()
             );
@@ -149,30 +157,39 @@ public class ManagementOrganizersToolBarDisplayContext extends SearchContainerMa
     /**
      * Sets the search container’s filter labels to display
      */
-    // TODO : A revoir car pas testé ni fini
     @Override
     public List<LabelItem> getFilterLabelItems() {
-        Map<String, String> categVocabulariesSelected = _viewActivityOrganizersDisplayContext.getCategVocabularies();
+        List<String[]> categoriesSelected = _viewActivityOrganizersDisplayContext.getCategVocabularies();
         LabelItemListBuilder.LabelItemListWrapper vocabulariesLabelItems = new LabelItemListBuilder.LabelItemListWrapper();
 
-        for (AssetVocabulary vocabulary : getActivityOrganizerVocabularies()) {
-            vocabulariesLabelItems.add(
-                    () -> categVocabulariesSelected.keySet().contains(vocabulary.getName()),
-                    labelItem -> {
-                        labelItem.putData(
-                                "removeLabelURL",
-                                PortletURLBuilder.create(
-                                                PortletURLUtil.clone(currentURLObj, liferayPortletResponse))
-                                        .setParameter(vocabulary.getName(), "")
-                                        .buildString());
-
-                        labelItem.setCloseable(true);
-
-                        String categ = categVocabulariesSelected.get(vocabulary.getName());
-
-                        labelItem.setLabel(vocabulary.getName() + ": " + categ);
-                    }
-            );
+        MutableRenderParameters parameters = this.currentURLObj.getRenderParameters();
+        String originalFilterCategoriesIdByVocabulariesName = parameters.getValue("filterCategoriesIdByVocabulariesName");
+        for (String[] categorySelected : categoriesSelected) {
+            try {
+                PortletURL newURL = PortletURLUtil.clone(currentURLObj, liferayPortletResponse);
+                String filterCategoriesIdByVocabulariesName;
+                if (originalFilterCategoriesIdByVocabulariesName.contains(categorySelected[0] + '_')) {
+                    String regex = categorySelected[0] + "(.(?<!__))*__";
+                    filterCategoriesIdByVocabulariesName = originalFilterCategoriesIdByVocabulariesName.replaceAll(regex, "");
+                } else {
+                    filterCategoriesIdByVocabulariesName = originalFilterCategoriesIdByVocabulariesName;
+                }
+                newURL.getRenderParameters().removeParameter("filterCategoriesIdByVocabulariesName");
+                vocabulariesLabelItems.add(
+                        labelItem -> {
+                            labelItem.putData(
+                                    "removeLabelURL",
+                                    PortletURLBuilder.create(
+                                                    PortletURLUtil.clone(newURL, liferayPortletResponse))
+                                            .setParameter("filterCategoriesIdByVocabulariesName", filterCategoriesIdByVocabulariesName)
+                                            .buildString());
+                            labelItem.setCloseable(true);
+                            labelItem.setLabel(categorySelected[0] + " : " + categorySelected[1]);
+                        }
+                );
+            } catch (PortletException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         return vocabulariesLabelItems.build();
@@ -198,6 +215,7 @@ public class ManagementOrganizersToolBarDisplayContext extends SearchContainerMa
                 .setKeywords("")
                 .setParameter( "orderByCol", "modified-date")
                 .setParameter( "orderByType", "desc")
+                .setParameter( "filterCategoriesIdByVocabulariesName", "")
                 .buildString();
     }
 

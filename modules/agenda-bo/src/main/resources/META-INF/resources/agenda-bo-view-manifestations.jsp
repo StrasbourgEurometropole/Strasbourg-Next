@@ -155,19 +155,19 @@
 		Liferay.Util.openSelectionModal(
 			{
 				onSelect: function (selectedItem) {
-				if (selectedItem) {
-					var selection = selectedItem[Object.keys(selectedItem)];
-					var url = "${filterSelectionURL}";
-					if(!url.includes("filterCategoriesIdByVocabulariesName"))
-						url += "&<portlet:namespace />filterCategoriesIdByVocabulariesName=";
-					if(url.includes(vocabularyName.replace(" ","+")+'_')){
-						const regex = vocabularyName.replace(" ","\\+") + "(.(?<!__))*__";
-						const re = new RegExp(regex, 'gi');
-						url = url.replace(re,"");
+					if (selectedItem) {
+						var selection = selectedItem[Object.keys(selectedItem)];
+						var url = "${filterSelectionURL}";
+						if(!url.includes("filterCategoriesIdByVocabulariesName"))
+							url += "&<portlet:namespace />filterCategoriesIdByVocabulariesName=";
+						if(url.includes(encodeURI(vocabularyName.replaceAll(" ","+"))+'_')){
+							const regex = encodeURI(vocabularyName).replaceAll("%2C0","\\+") + "(.(?<!__))*__";
+							const re = new RegExp(regex, 'gi');
+							url = url.replace(re,"");
+						}
+						submitForm(form, url + vocabularyName + '_' + selection.title + '_' + selection.categoryId + '__');
 					}
-					submitForm(form, url + vocabularyName + '_' + selection.title + '_' + selection.categoryId + '__');
-				}
-			},
+				},
 				selectEventName: 'com_liferay_asset_categories_selector_web_portlet_AssetCategoriesSelectorPortlet_selectCategory',
 				title: vocabularyName,
 				url: url
