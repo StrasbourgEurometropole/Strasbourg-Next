@@ -10,33 +10,27 @@ import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.*;
-import eu.strasbourg.portlet.council.util.CouncilSessionsActionDropdownItemsProvider;
 import eu.strasbourg.portlet.council.util.TypesActionDropdownItemsProvider;
-import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.service.council.service.TypeLocalServiceUtil;
 import eu.strasbourg.utils.SearchHelper;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class ViewTypesDisplayContext {
 
 
 
-    public ViewTypesDisplayContext(RenderRequest request, RenderResponse response, ItemSelector itemSelector) {
+    public ViewTypesDisplayContext(RenderRequest request, RenderResponse response) {
         _request = request;
         _response = response;
         _themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
         _httpServletRequest = PortalUtil.getHttpServletRequest(request);
-        _itemSelector = itemSelector;
     }
     /**
      * Retourne le dropdownItemsProvider de l’entité
@@ -80,7 +74,7 @@ public class ViewTypesDisplayContext {
 
         return SearchHelper.getBOSearchHits(searchContext,
                 -1, -1, Type.class.getName(), groupId,
-                "", keywords,
+                new ArrayList<>(), keywords,
                 getOrderByColSearchField(),
                 "desc".equals(getOrderByType()));
     }
@@ -165,7 +159,7 @@ public class ViewTypesDisplayContext {
         _hits = SearchHelper.getBOSearchHits(searchContext,
                 getSearchContainer().getStart(),
                 getSearchContainer().getEnd(), Type.class.getName(), groupId,
-                "", keywords,
+                new ArrayList<>(), keywords,
                 getOrderByColSearchField(),
                 "desc".equals(getOrderByType()));
     }
@@ -222,7 +216,6 @@ public class ViewTypesDisplayContext {
 
     private final RenderResponse _response;
     private final HttpServletRequest _httpServletRequest;
-    private final ItemSelector _itemSelector;
     private String _keywords;
 
 }

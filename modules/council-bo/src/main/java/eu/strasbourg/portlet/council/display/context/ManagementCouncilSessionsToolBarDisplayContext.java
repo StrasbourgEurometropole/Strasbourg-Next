@@ -1,7 +1,5 @@
 package eu.strasbourg.portlet.council.display.context;
 
-import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.SearchContainerManagementToolbarDisplayContext;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenuBuilder;
@@ -13,18 +11,13 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
-import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.service.council.model.CouncilSession;
-import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 
 public class ManagementCouncilSessionsToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
 
@@ -78,7 +71,6 @@ public class ManagementCouncilSessionsToolBarDisplayContext extends SearchContai
     /**
      * The URL to reset the search
      */
-    // TODO : Il faudra rajouter la réinitialisation des vocabulaires
     @Override
     public String getClearResultsURL() {
         return PortletURLBuilder.create(getPortletURL())
@@ -89,20 +81,6 @@ public class ManagementCouncilSessionsToolBarDisplayContext extends SearchContai
     }
 
     /**
-     * The action URL to send the search form
-     */
-    @Override
-    public String getSearchActionURL() {
-
-        return PortletURLBuilder.createRenderURL(liferayPortletResponse)
-                .setMVCPath("/council-bo-view-council-sessions.jsp")
-                .setParameter("O")
-                .setParameter( "orderByCol", ParamUtil.getString( liferayPortletRequest, "orderByCol"))
-                .setParameter( "orderByType", ParamUtil.getString(liferayPortletRequest, " orderByType "))
-                .setParameter("tab","councilSessions").buildString();
-    }
-
-    /**
      * The search form’s name
      */
     @Override
@@ -110,29 +88,6 @@ public class ManagementCouncilSessionsToolBarDisplayContext extends SearchContai
         return "fm1";
     }
 
-
-    /**
-     * Get Help councilSession Vocabularies
-     */
-    protected List<AssetVocabulary> getCouncilSessionVocabularies() {
-        if(_vocabularies == null) {
-            ThemeDisplay themeDisplay =
-                    (ThemeDisplay) httpServletRequest.getAttribute(
-                            WebKeys.THEME_DISPLAY);
-            long companyGroupId = themeDisplay.getCompanyGroupId();
-            long classNameId = ClassNameLocalServiceUtil.getClassNameId(CouncilSession.class);
-            long scopeGroupId = themeDisplay.getScopeGroupId();
-            List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
-                    .getAssetVocabularies(-1, -1).stream()
-                    .filter(v -> (v.getGroupId() == companyGroupId || v.getGroupId() == scopeGroupId)
-                            && LongStream.of(v.getSelectedClassNameIds())
-                            .anyMatch(c -> c == classNameId))
-                    .collect(Collectors.toList());
-            _vocabularies = vocabularies;
-        }
-
-        return _vocabularies;
-    }
     /**
      * creates an add menu button
      */
@@ -178,6 +133,5 @@ public class ManagementCouncilSessionsToolBarDisplayContext extends SearchContai
 
     private final ViewCouncilSessionsDisplayContext _ViewCouncilSessionsDisplayContext;
     private final ThemeDisplay _themeDisplay;
-    private List<AssetVocabulary> _vocabularies;
 
 }

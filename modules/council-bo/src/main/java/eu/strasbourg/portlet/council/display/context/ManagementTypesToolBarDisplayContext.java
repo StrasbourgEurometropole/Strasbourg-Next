@@ -76,7 +76,6 @@ public class ManagementTypesToolBarDisplayContext extends SearchContainerManagem
     /**
      * The URL to reset the search
      */
-    // TODO : Il faudra rajouter la réinitialisation des vocabulaires
     @Override
     public String getClearResultsURL() {
         return PortletURLBuilder.create(getPortletURL())
@@ -87,49 +86,11 @@ public class ManagementTypesToolBarDisplayContext extends SearchContainerManagem
     }
 
     /**
-     * The action URL to send the search form
-     */
-    @Override
-    public String getSearchActionURL() {
-
-        return PortletURLBuilder.createRenderURL(liferayPortletResponse)
-                .setMVCPath("/council-bo-view-types.jsp")
-                .setParameter("O")
-                .setParameter( "orderByCol", ParamUtil.getString( liferayPortletRequest, "orderByCol"))
-                .setParameter( "orderByType", ParamUtil.getString(liferayPortletRequest, " orderByType "))
-                .setParameter("tab","types").buildString();
-    }
-
-    /**
      * The search form’s name
      */
     @Override
     public String getSearchFormName() {
         return "fm1";
-    }
-
-
-    /**
-     * Get Help Type Vocabularies
-     */
-    protected List<AssetVocabulary> getTypeVocabularies() {
-        if(_vocabularies == null) {
-            ThemeDisplay themeDisplay =
-                    (ThemeDisplay) httpServletRequest.getAttribute(
-                            WebKeys.THEME_DISPLAY);
-            long companyGroupId = themeDisplay.getCompanyGroupId();
-            long classNameId = ClassNameLocalServiceUtil.getClassNameId(Type.class);
-            long scopeGroupId = themeDisplay.getScopeGroupId();
-            List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
-                    .getAssetVocabularies(-1, -1).stream()
-                    .filter(v -> (v.getGroupId() == companyGroupId || v.getGroupId() == scopeGroupId)
-                            && LongStream.of(v.getSelectedClassNameIds())
-                            .anyMatch(c -> c == classNameId))
-                    .collect(Collectors.toList());
-            _vocabularies = vocabularies;
-        }
-
-        return _vocabularies;
     }
 
     /**
@@ -178,6 +139,5 @@ public class ManagementTypesToolBarDisplayContext extends SearchContainerManagem
 
     private final ViewTypesDisplayContext _viewTypesDisplayContext;
     private final ThemeDisplay _themeDisplay;
-    private List<AssetVocabulary> _vocabularies;
 
 }

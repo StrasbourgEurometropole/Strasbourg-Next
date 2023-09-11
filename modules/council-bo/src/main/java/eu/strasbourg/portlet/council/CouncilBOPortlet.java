@@ -4,7 +4,6 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
-import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
@@ -16,7 +15,21 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.council.constants.CouncilConstants;
-import eu.strasbourg.portlet.council.display.context.*;
+import eu.strasbourg.portlet.council.display.context.EditCouncilSessionDisplayContext;
+import eu.strasbourg.portlet.council.display.context.EditDeliberationDisplayContext;
+import eu.strasbourg.portlet.council.display.context.EditOfficialDisplayContext;
+import eu.strasbourg.portlet.council.display.context.EditTypeDisplayContext;
+import eu.strasbourg.portlet.council.display.context.ManageProcurationsDisplayContext;
+import eu.strasbourg.portlet.council.display.context.ManagementCouncilSessionsToolBarDisplayContext;
+import eu.strasbourg.portlet.council.display.context.ManagementDeliberationsToolBarDisplayContext;
+import eu.strasbourg.portlet.council.display.context.ManagementOfficialsToolBarDisplayContext;
+import eu.strasbourg.portlet.council.display.context.ManagementTypesToolBarDisplayContext;
+import eu.strasbourg.portlet.council.display.context.NavigationBarDisplayContext;
+import eu.strasbourg.portlet.council.display.context.ViewCouncilSessionsDisplayContext;
+import eu.strasbourg.portlet.council.display.context.ViewDeliberationsDisplayContext;
+import eu.strasbourg.portlet.council.display.context.ViewOfficialsConnectionDisplayContext;
+import eu.strasbourg.portlet.council.display.context.ViewOfficialsDisplayContext;
+import eu.strasbourg.portlet.council.display.context.ViewTypesDisplayContext;
 import eu.strasbourg.portlet.council.utils.UserRoleType;
 import eu.strasbourg.portlet.council.utils.VocabularyHelper;
 import eu.strasbourg.service.council.model.CouncilSession;
@@ -25,7 +38,6 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -39,6 +51,7 @@ import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import static eu.strasbourg.portlet.council.constants.CouncilConstants.*;
 /**
  * @author jeremy.zwickert
@@ -92,7 +105,7 @@ public class CouncilBOPortlet extends MVCPortlet {
 						ManageProcurationsDisplayContext dc = new ManageProcurationsDisplayContext(renderRequest);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewCouncilSessionsDisplayContext dc = new ViewCouncilSessionsDisplayContext(renderRequest, renderResponse, _itemSelector);
+						ViewCouncilSessionsDisplayContext dc = new ViewCouncilSessionsDisplayContext(renderRequest, renderResponse);
 						ManagementCouncilSessionsToolBarDisplayContext managementDC = new ManagementCouncilSessionsToolBarDisplayContext(
 								servletRequest, (LiferayPortletRequest) renderRequest,
 								(LiferayPortletResponse) renderResponse, dc);
@@ -120,7 +133,7 @@ public class CouncilBOPortlet extends MVCPortlet {
 							categoryCouncilId = VocabularyHelper.getCategorieCouncilId(themeDisplay, councilSession);
 							session.setAttribute("categoryCouncilId", categoryCouncilId);
 						}*/
-						ViewDeliberationsDisplayContext dc = new ViewDeliberationsDisplayContext(renderRequest, renderResponse, sessionCategoryId, _itemSelector);
+						ViewDeliberationsDisplayContext dc = new ViewDeliberationsDisplayContext(renderRequest, renderResponse, sessionCategoryId);
 						ManagementDeliberationsToolBarDisplayContext managementDC = new ManagementDeliberationsToolBarDisplayContext(
 								servletRequest, (LiferayPortletRequest) renderRequest,
 								(LiferayPortletResponse) renderResponse, dc);
@@ -135,7 +148,7 @@ public class CouncilBOPortlet extends MVCPortlet {
 						EditOfficialDisplayContext dc = new EditOfficialDisplayContext(renderRequest);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewOfficialsDisplayContext dc = new ViewOfficialsDisplayContext(renderRequest, renderResponse, _itemSelector);
+						ViewOfficialsDisplayContext dc = new ViewOfficialsDisplayContext(renderRequest, renderResponse);
 						ManagementOfficialsToolBarDisplayContext managementDC = new ManagementOfficialsToolBarDisplayContext(
 								servletRequest, (LiferayPortletRequest) renderRequest,
 								(LiferayPortletResponse) renderResponse, dc);
@@ -154,7 +167,7 @@ public class CouncilBOPortlet extends MVCPortlet {
 						EditTypeDisplayContext dc = new EditTypeDisplayContext(renderRequest);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewTypesDisplayContext dc = new ViewTypesDisplayContext(renderRequest, renderResponse, _itemSelector);
+						ViewTypesDisplayContext dc = new ViewTypesDisplayContext(renderRequest, renderResponse);
 						ManagementTypesToolBarDisplayContext managementDC = new ManagementTypesToolBarDisplayContext(
 								servletRequest, (LiferayPortletRequest) renderRequest,
 								(LiferayPortletResponse) renderResponse, dc);
@@ -287,6 +300,4 @@ public class CouncilBOPortlet extends MVCPortlet {
 
 		return categoryId;
 	}
-	@Reference
-	private ItemSelector _itemSelector;
 }

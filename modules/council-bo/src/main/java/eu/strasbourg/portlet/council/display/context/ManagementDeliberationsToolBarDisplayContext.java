@@ -19,6 +19,9 @@ import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
+import javax.portlet.MutableRenderParameters;
+import javax.portlet.PortletException;
+import javax.portlet.PortletURL;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
@@ -110,28 +113,14 @@ public class ManagementDeliberationsToolBarDisplayContext extends SearchContaine
     /**
      * The URL to reset the search
      */
-    // TODO : Il faudra rajouter la réinitialisation des vocabulaires
     @Override
     public String getClearResultsURL() {
         return PortletURLBuilder.create(getPortletURL())
                 .setKeywords("")
                 .setParameter( "orderByCol", "modified-date")
                 .setParameter( "orderByType", "desc")
+                .setParameter( "filterCategoriesIdByVocabulariesName", "")
                 .buildString();
-    }
-
-    /**
-     * The action URL to send the search form
-     */
-    @Override
-    public String getSearchActionURL() {
-
-        return PortletURLBuilder.createRenderURL(liferayPortletResponse)
-                .setMVCPath("/council-bo-view-deliberations.jsp")
-                .setParameter("O")
-                .setParameter( "orderByCol", ParamUtil.getString( liferayPortletRequest, "orderByCol"))
-                .setParameter( "orderByType", ParamUtil.getString(liferayPortletRequest, " orderByType "))
-                .setParameter("tab","deliberations").buildString();
     }
 
     /**
@@ -198,7 +187,9 @@ public class ManagementDeliberationsToolBarDisplayContext extends SearchContaine
             filterVocabularyDropdownItems.add(
                     DropdownItemBuilder
                             .setActive(_viewDeliberationsDisplayContext.hasVocabulary(vocabulary.getName()))
-                            .setHref("javascript:getCategoriesByVocabulary("+vocabulary.getVocabularyId()+");")
+                            .setHref("javascript:getCategoriesByVocabulary(" + vocabulary.getVocabularyId()
+                                    + ", '" + vocabulary.getName() + "', '"
+                                    + _viewDeliberationsDisplayContext.getFilterCategoriesIdsByVocabularyName(vocabulary.getName()) +"');")
                             .setLabel(vocabulary.getName())
                             .build()
             );
@@ -209,30 +200,42 @@ public class ManagementDeliberationsToolBarDisplayContext extends SearchContaine
     /**
      * Sets the search container’s filter labels to display
      */
-    // TODO : A revoir car pas testé ni fini
     @Override
     public List<LabelItem> getFilterLabelItems() {
-        Map<String, String> categVocabulariesSelected = _viewDeliberationsDisplayContext.getCategVocabularies();
+        List<String[]> categoriesSelected = _viewDeliberationsDisplayContext.getCategVocabularies();
         LabelItemListBuilder.LabelItemListWrapper vocabulariesLabelItems = new LabelItemListBuilder.LabelItemListWrapper();
 
-        for (AssetVocabulary vocabulary : getDeliberationVocabularies()) {
-            vocabulariesLabelItems.add(
-                    () -> categVocabulariesSelected.keySet().contains(vocabulary.getName()),
-                    labelItem -> {
-                        labelItem.putData(
-                                "removeLabelURL",
-                                PortletURLBuilder.create(
-                                                PortletURLUtil.clone(currentURLObj, liferayPortletResponse))
-                                        .setParameter(vocabulary.getName(), "")
-                                        .buildString());
-
-                        labelItem.setCloseable(true);
-
-                        String categ = categVocabulariesSelected.get(vocabulary.getName());
-
-                        labelItem.setLabel(vocabulary.getName() + ": " + categ);
-                    }
-            );
+        MutableRenderParameters parameters = this.currentURLObj.getRenderParameters();
+        String originalFilterCategoriesIdByVocabulariesName = parameters.getValue("filterCategoriesIdByVocabulariesName");
+        for (String[] categorySelected : categoriesSelected) {
+            try {
+                PortletURL newURL = PortletURLUtil.clone(currentURLObj, liferayPortletResponse);
+                String filterCategoriesIdByVocabulariesName;
+                // on enlève le vocabularyName_CategoryName_CategoryId__ correspondant du paramètre
+                String CategoryToDelete = categorySelected[0] + '_' + categorySelected[1] + '_' + categorySelected[2] + "__";
+                if (originalFilterCategoriesIdByVocabulariesName
+                        .contains(CategoryToDelete)) {
+                    filterCategoriesIdByVocabulariesName = originalFilterCategoriesIdByVocabulariesName
+                            .replace(CategoryToDelete, "");
+                } else {
+                    filterCategoriesIdByVocabulariesName = originalFilterCategoriesIdByVocabulariesName;
+                }
+                newURL.getRenderParameters().removeParameter("filterCategoriesIdByVocabulariesName");
+                vocabulariesLabelItems.add(
+                        labelItem -> {
+                            labelItem.putData(
+                                    "removeLabelURL",
+                                    PortletURLBuilder.create(
+                                                    PortletURLUtil.clone(newURL, liferayPortletResponse))
+                                            .setParameter("filterCategoriesIdByVocabulariesName", filterCategoriesIdByVocabulariesName)
+                                            .buildString());
+                            labelItem.setCloseable(true);
+                            labelItem.setLabel(categorySelected[0] + " : " + categorySelected[1]);
+                        }
+                );
+            } catch (PortletException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         return vocabulariesLabelItems.build();

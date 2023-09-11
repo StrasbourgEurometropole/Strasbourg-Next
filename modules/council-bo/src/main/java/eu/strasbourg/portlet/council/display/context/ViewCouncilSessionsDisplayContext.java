@@ -25,12 +25,11 @@ public class ViewCouncilSessionsDisplayContext {
 
     private List<Long> typeCouncilIds;
 
-    public ViewCouncilSessionsDisplayContext(RenderRequest request, RenderResponse response, ItemSelector itemSelector) {
+    public ViewCouncilSessionsDisplayContext(RenderRequest request, RenderResponse response) {
         _request = request;
         _response = response;
         _themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
         _httpServletRequest = PortalUtil.getHttpServletRequest(request);
-        _itemSelector = itemSelector;
         typeCouncilIds = new ArrayList<>();
         initAuthorizedTypeCouncilsIds();
     }
@@ -84,7 +83,7 @@ public class ViewCouncilSessionsDisplayContext {
 
         return SearchHelper.getBOSearchHits(searchContext,
                 -1, -1,CouncilSession.class.getName(), groupId,
-                "", keywords,
+                new ArrayList<>(), keywords,
                 getOrderByColSearchField(),
                 "desc".equals(getOrderByType()));
     }
@@ -171,7 +170,7 @@ public class ViewCouncilSessionsDisplayContext {
         _hits = SearchHelper.getBOSearchHits(searchContext,
                 getSearchContainer().getStart(),
                 getSearchContainer().getEnd(), CouncilSession.class.getName(), groupId,
-                "", keywords,
+                new ArrayList<>(), keywords,
                 getOrderByColSearchField(),
                 "desc".equals(getOrderByType()));
     }
@@ -215,6 +214,5 @@ public class ViewCouncilSessionsDisplayContext {
 
     private final RenderResponse _response;
     private final HttpServletRequest _httpServletRequest;
-    private final ItemSelector _itemSelector;
     private String _keywords;
 }
