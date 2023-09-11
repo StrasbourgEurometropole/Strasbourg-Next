@@ -1,12 +1,11 @@
+<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 <#if (PushFieldset.PictoImage.getData())?? && PushFieldset.PictoImage.getData() !="">
     <div class="st-wrapper st-bloc st-bloc-focus st--with-image st--has-line">
         <div class="st-container">
             <div class="st-col-left">
                 <div class="st-visual-container">
-
-                    <figure class="st-figure st-fit-cover" role="group">
-                        <img alt="${PushFieldset.PictoImage.getAttribute("alt")}" data-fileentryid="${PushFieldset.PictoImage.getAttribute("fileEntryId")}" src="${PushFieldset.PictoImage.getData()}" />
-                    </figure>
+                    <@getImage imageNode=PushFieldset.PictoImage />
 
                 </div>
                 <div class="st-content">
@@ -80,6 +79,3 @@
 
 
 </#if>
-
-
-

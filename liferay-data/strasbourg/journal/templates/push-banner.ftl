@@ -1,3 +1,6 @@
+<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
+
 <div class="st-wrapper st-bloc st-bloc-focus st--two-elements st--has-line">
     <#if PushFieldset.getSiblings()?has_content>
         <#list PushFieldset.getSiblings() as cur_PushFieldset>
@@ -5,7 +8,7 @@
                 <div class="st-col-left">
                     <div class="st-visual-container">
                         <#if (cur_PushFieldset.PictoImage.getData())?? && cur_PushFieldset.PictoImage.getData() !="">
-                            <img alt="${cur_PushFieldset.PictoImage.getAttribute("alt")}" data-fileentryid="${cur_PushFieldset.PictoImage.getAttribute("fileEntryId")}" src="${cur_PushFieldset.PictoImage.getData()}" />
+                            <@getImage imageNode=cur_PushFieldset.PictoImage showCopyright=true/>
                         </#if>
                     </div>
                     <div class="st-content">
