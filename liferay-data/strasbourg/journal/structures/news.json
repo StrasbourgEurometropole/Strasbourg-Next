@@ -2,124 +2,339 @@
     "availableLanguageIds": [
         "fr_FR"
     ],
-    "defaultLanguageId": "fr_FR",
-    "fields": [{
+    "contentType": "journal",
+    "dataDefinitionFields": [
+        {
+            "customProperties": {
+                "labelAtStructureLevel": false,
+                "confirmationErrorMessage": {},
+                "hideField": false,
+                "autocomplete": false,
+                "ddmDataProviderInstanceId": [],
+                "dataType": "string",
+                "tooltip": {
+                    "fr_FR": ""
+                },
+                "requireConfirmation": false,
+                "displayStyle": "singleline",
+                "fieldNamespace": "",
+                "visibilityExpression": "",
+                "ddmDataProviderInstanceOutput": [],
+                "options": {
+                    "fr_FR": [
+                        {
+                            "reference": "",
+                            "label": "Option",
+                            "value": "Option"
+                        }
+                    ]
+                },
+                "nativeField": false,
+                "confirmationLabel": {},
+                "fieldReference": "title",
+                "placeholder": {
+                    "fr_FR": ""
+                },
+                "dataSourceType": "manual",
+                "direction": []
+            },
+            "defaultValue": {},
+            "fieldType": "text",
+            "indexType": "keyword",
+            "indexable": true,
             "label": {
                 "fr_FR": "Titre"
             },
-            "predefinedValue": {
-                "fr_FR": ""
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "string",
-            "indexType": "keyword",
             "localizable": true,
             "name": "title",
+            "nestedDataDefinitionFields": [],
             "readOnly": false,
             "repeatable": false,
             "required": false,
             "showLabel": true,
-            "type": "text"
+            "tip": {
+                "fr_FR": ""
+            }
         },
         {
+            "customProperties": {
+                "labelAtStructureLevel": true,
+                "confirmationErrorMessage": {
+                    "fr_FR": ""
+                },
+                "hideField": false,
+                "autocomplete": false,
+                "ddmDataProviderInstanceId": [],
+                "dataType": "string",
+                "tooltip": {
+                    "fr_FR": ""
+                },
+                "requireConfirmation": false,
+                "displayStyle": "singleline",
+                "fieldNamespace": "",
+                "visibilityExpression": "",
+                "requiredErrorMessage": {
+                    "fr_FR": ""
+                },
+                "objectFieldName": "",
+                "ddmDataProviderInstanceOutput": [],
+                "options": {
+                    "fr_FR": [
+                        {
+                            "reference": "Option66741640",
+                            "label": "Option",
+                            "value": "Option66741640"
+                        }
+                    ]
+                },
+                "nativeField": false,
+                "confirmationLabel": {
+                    "fr_FR": ""
+                },
+                "fieldReference": "TitleShort",
+                "placeholder": {
+                    "fr_FR": ""
+                },
+                "dataSourceType": "manual",
+                "direction": [
+                    "vertical"
+                ]
+            },
+            "defaultValue": {
+                "fr_FR": ""
+            },
+            "fieldType": "text",
+            "indexType": "keyword",
+            "indexable": true,
+            "label": {
+                "fr_FR": "Titre Court"
+            },
+            "localizable": true,
+            "name": "Text14138812",
+            "nestedDataDefinitionFields": [],
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "tip": {
+                "fr_FR": ""
+            }
+        },
+        {
+            "customProperties": {
+                "labelAtStructureLevel": false,
+                "confirmationErrorMessage": {},
+                "hideField": false,
+                "autocomplete": false,
+                "ddmDataProviderInstanceId": [],
+                "dataType": "string",
+                "tooltip": {
+                    "fr_FR": ""
+                },
+                "requireConfirmation": false,
+                "displayStyle": "singleline",
+                "fieldNamespace": "",
+                "visibilityExpression": "",
+                "ddmDataProviderInstanceOutput": [],
+                "options": {
+                    "fr_FR": [
+                        {
+                            "reference": "",
+                            "label": "Option",
+                            "value": "Option"
+                        }
+                    ]
+                },
+                "nativeField": false,
+                "confirmationLabel": {},
+                "fieldReference": "chapo",
+                "placeholder": {
+                    "fr_FR": ""
+                },
+                "dataSourceType": "manual",
+                "direction": []
+            },
+            "defaultValue": {},
+            "fieldType": "text",
+            "indexType": "text",
+            "indexable": true,
             "label": {
                 "fr_FR": "Chapô"
             },
-            "predefinedValue": {
-                "fr_FR": ""
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "string",
-            "indexType": "text",
             "localizable": true,
             "name": "chapo",
+            "nestedDataDefinitionFields": [],
             "readOnly": false,
             "repeatable": false,
             "required": false,
             "showLabel": true,
-            "type": "text"
+            "tip": {
+                "fr_FR": ""
+            }
         },
         {
+            "customProperties": {
+                "fieldNamespace": "",
+                "visibilityExpression": "",
+                "dataType": "image",
+                "requiredDescription": true,
+                "fieldReference": "thumbnail"
+            },
+            "defaultValue": {},
+            "fieldType": "image",
+            "indexType": "keyword",
+            "indexable": true,
             "label": {
                 "fr_FR": "Vignette"
             },
-            "predefinedValue": {
-                "fr_FR": ""
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "image",
-            "fieldNamespace": "ddm",
-            "indexType": "keyword",
             "localizable": true,
             "name": "thumbnail",
+            "nestedDataDefinitionFields": [],
             "readOnly": false,
             "repeatable": false,
             "required": true,
             "showLabel": true,
-            "type": "ddm-image"
+            "tip": {
+                "fr_FR": ""
+            }
         },
         {
+            "customProperties": {
+                "fieldNamespace": "",
+                "visibilityExpression": "",
+                "dataType": "image",
+                "requiredDescription": true,
+                "fieldReference": "image"
+            },
+            "defaultValue": {},
+            "fieldType": "image",
+            "indexType": "keyword",
+            "indexable": true,
             "label": {
                 "fr_FR": "Image panoramique"
             },
-            "predefinedValue": {
-                "fr_FR": ""
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "image",
-            "fieldNamespace": "ddm",
-            "indexType": "keyword",
             "localizable": true,
             "name": "image",
+            "nestedDataDefinitionFields": [],
             "readOnly": false,
             "repeatable": false,
             "required": false,
             "showLabel": true,
-            "type": "ddm-image"
+            "tip": {
+                "fr_FR": ""
+            }
         },
         {
+            "customProperties": {
+                "fieldNamespace": "",
+                "visibilityExpression": "",
+                "dataType": "string",
+                "fieldReference": "content"
+            },
+            "defaultValue": {},
+            "fieldType": "rich_text",
+            "indexType": "text",
+            "indexable": true,
             "label": {
                 "fr_FR": "Contenu"
             },
-            "predefinedValue": {
-                "fr_FR": ""
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "html",
-            "fieldNamespace": "ddm",
-            "indexType": "text",
             "localizable": true,
             "name": "content",
+            "nestedDataDefinitionFields": [],
             "readOnly": false,
             "repeatable": false,
             "required": false,
             "showLabel": true,
-            "type": "ddm-text-html"
+            "tip": {
+                "fr_FR": ""
+            }
         }
-    ]
+    ],
+    "defaultDataLayout": {
+        "dataLayoutFields": {},
+        "dataLayoutPages": [
+            {
+                "dataLayoutRows": [
+                    {
+                        "dataLayoutColumns": [
+                            {
+                                "columnSize": 12,
+                                "fieldNames": [
+                                    "title"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "dataLayoutColumns": [
+                            {
+                                "columnSize": 12,
+                                "fieldNames": [
+                                    "Text14138812"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "dataLayoutColumns": [
+                            {
+                                "columnSize": 12,
+                                "fieldNames": [
+                                    "chapo"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "dataLayoutColumns": [
+                            {
+                                "columnSize": 12,
+                                "fieldNames": [
+                                    "thumbnail"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "dataLayoutColumns": [
+                            {
+                                "columnSize": 12,
+                                "fieldNames": [
+                                    "image"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "dataLayoutColumns": [
+                            {
+                                "columnSize": 12,
+                                "fieldNames": [
+                                    "content"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "description": {
+                    "fr_FR": "Abonnement"
+                },
+                "title": {
+                    "fr_FR": "Page"
+                }
+            }
+        ],
+        "dataRules": [],
+        "description": {},
+        "name": {
+            "fr_FR": "Actualité"
+        },
+        "paginationMode": "single-page"
+    },
+    "defaultLanguageId": "fr_FR",
+    "description": {},
+    "name": {
+        "fr_FR": "Actualité"
+    },
+    "storageType": "default"
 }

@@ -37,6 +37,7 @@ public class NewsHomeItem {
     String description;
     String imageURL;
     String detailURL;
+    String titleCourt;
 
     /**
      * Construit un objet NewsHomeItem en utilisant les informations d'un JournalArticle et d'une AssetEntry.
@@ -57,6 +58,7 @@ public class NewsHomeItem {
                 .collect(Collectors.joining(" - "));
 
         this.title = JournalArticleHelper.getJournalArticleFieldValue(article, "title", locale);
+        this.titleCourt = JournalArticleHelper.getJournalArticleFieldValue(article, "TitleShort", locale);
         this.description = JournalArticleHelper.getJournalArticleFieldValue(article, "chapo", locale);
 
         // Récupère la structure du document de la vignette et obtient l'URL de l'image

@@ -9,6 +9,7 @@
         <div class="st-content st-text-styles">
             <h2 class="st-h2">
                 <liferay-ui:message key="eu.slider-one" /> :<br>
+                    ${newsItemAlaUne.titleCourt != '' ? newsItemAlaUne.titleCourt : newsItemAlaUne.title}
                 <strong>${newsItemAlaUne.title}</strong>
             </h2>
             <p class="st-surtitre-cat">${newsItemAlaUne.category}</p>
