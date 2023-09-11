@@ -139,19 +139,6 @@ public class ManagementAssociationsToolBarDisplayContext extends SearchContainer
     }
 
     /**
-     * The action URL to send the search form
-     */
-    @Override
-    public String getSearchActionURL() {
-        return PortletURLBuilder.createRenderURL(liferayPortletResponse)
-                .setMVCPath("/activity-bo-view-associations.jsp")
-                .setParameter("O")
-                .setParameter( "orderByCol", ParamUtil.getString( liferayPortletRequest, "orderByCol"))
-                .setParameter( "orderByType", ParamUtil.getString(liferayPortletRequest, " orderByType "))
-                .setParameter("tab","associations").buildString();
-    }
-
-    /**
      * The search form’s name
      */
     @Override

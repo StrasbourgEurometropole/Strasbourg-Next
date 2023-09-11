@@ -139,19 +139,6 @@ public class ManagementCampaignsToolBarDisplayContext extends SearchContainerMan
     }
 
     /**
-     * The action URL to send the search form
-     */
-    @Override
-    public String getSearchActionURL() {
-        return PortletURLBuilder.createRenderURL(liferayPortletResponse)
-                .setMVCPath("/agenda-bo-view-campaigns.jsp")
-                .setParameter("O")
-                .setParameter( "orderByCol", ParamUtil.getString( liferayPortletRequest, "orderByCol"))
-                .setParameter( "orderByType", ParamUtil.getString(liferayPortletRequest, " orderByType "))
-                .setParameter("tab","campaigns").buildString();
-    }
-
-    /**
      * The search form’s name
      */
     @Override

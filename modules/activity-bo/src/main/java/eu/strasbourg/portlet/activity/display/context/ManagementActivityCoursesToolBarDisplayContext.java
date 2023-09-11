@@ -226,19 +226,6 @@ public class ManagementActivityCoursesToolBarDisplayContext extends SearchContai
     }
 
     /**
-     * The action URL to send the search form
-     */
-    @Override
-    public String getSearchActionURL() {
-        return PortletURLBuilder.createRenderURL(liferayPortletResponse)
-                .setMVCPath("/activity-bo-view-courses.jsp")
-                .setParameter("O")
-                .setParameter( "orderByCol", ParamUtil.getString( liferayPortletRequest, "orderByCol"))
-                .setParameter( "orderByType", ParamUtil.getString(liferayPortletRequest, " orderByType "))
-                .setParameter("tab","activityCourses").buildString();
-    }
-
-    /**
      * The search form’s name
      */
     @Override

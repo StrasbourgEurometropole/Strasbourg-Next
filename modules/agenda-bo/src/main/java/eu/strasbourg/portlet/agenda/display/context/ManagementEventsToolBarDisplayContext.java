@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -220,15 +221,6 @@ public class ManagementEventsToolBarDisplayContext extends SearchContainerManage
                 .setParameter( "orderByCol", "modified-date")
                 .setParameter( "orderByType", "desc")
                 .setParameter( "filterCategoriesIdByVocabulariesName", "")
-                .buildString();
-    }
-
-    /**
-     * The action URL to send the search form
-     */
-    @Override
-    public String getSearchActionURL() {
-        return PortletURLBuilder.createRenderURL(liferayPortletResponse)
                 .buildString();
     }
 
