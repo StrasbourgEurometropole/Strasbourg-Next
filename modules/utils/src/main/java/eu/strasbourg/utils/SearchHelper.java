@@ -35,7 +35,7 @@ public class SearchHelper {
 	 * Retourne les Hits correspondant aux paramètres pour les portlets du BO
 	 */
 	public static Hits getBOSearchHits(SearchContext searchContext, int start, int end, String className, long groupId,
-									   String categoriesIds, String keywords, String sortField, boolean isSortDesc) {
+									   List<Long[]> categoriesIds, String keywords, String sortField, boolean isSortDesc) {
 		return SearchHelper.getBOSearchHits(searchContext, start, end, className, groupId, categoriesIds, keywords,
 				sortField, isSortDesc, BooleanClauseOccur.MUST);
 	}
@@ -44,7 +44,7 @@ public class SearchHelper {
 	 * Retourne les Hits correspondant aux paramètres pour les portlets du BO
 	 */
 	public static Hits getBOSearchHits(SearchContext searchContext, int start, int end, String className, long groupId,
-									   String categoriesIds, String keywords, String sortField, boolean isSortDesc,
+									   List<Long[]> categoriesIds, String keywords, String sortField, boolean isSortDesc,
 									   BooleanClauseOccur categoriesBooleanClause) {
 		try {
 			// Pagination
@@ -104,7 +104,7 @@ public class SearchHelper {
 	 * portlets du BO
 	 */
 	public static long getBOSearchCount(SearchContext searchContext, String className, long groupId,
-										String categoriesIds, String keywords) {
+										List<Long[]> categoriesIds, String keywords) {
 		return SearchHelper.getBOSearchCount(searchContext, className, groupId, categoriesIds, keywords,
 				BooleanClauseOccur.MUST);
 	}
@@ -114,7 +114,7 @@ public class SearchHelper {
 	 * portlets du BO
 	 */
 	public static long getBOSearchCount(SearchContext searchContext, String className, long groupId,
-										String categoriesIds, String keywords, BooleanClauseOccur categoriesBooleanClause) {
+										List<Long[]> categoriesIds, String keywords, BooleanClauseOccur categoriesBooleanClause) {
 		try {
 			Query query = SearchHelper.getBOSearchQuery(className, groupId, categoriesIds, keywords,
 					categoriesBooleanClause);
@@ -130,7 +130,7 @@ public class SearchHelper {
 	 * Retourne la requête à exécuter correspondant aux paramètres pour les
 	 * portlets du BO
 	 */
-	private static Query getBOSearchQuery(String className, long groupId, String categoriesIds, String keywords,
+	private static Query getBOSearchQuery(String className, long groupId, List<Long[]> categoriesIds, String keywords,
 										  BooleanClauseOccur categoriesBooleanClause) {
 		try {
 			// Construction de la requète
@@ -146,16 +146,18 @@ public class SearchHelper {
 			groupIdQuery.addExactTerm(Field.GROUP_ID, groupId);
 			query.add(groupIdQuery, BooleanClauseOccur.MUST);
 
-			// Categories
-			BooleanQuery categoriesQuery = new BooleanQueryImpl();
-			for (String categoryId : categoriesIds.split(",")) {
-				if (Validator.isNotNull(categoryId)) {
+			// Catégories
+			// On fait un "ou" entre les catégories d'un même vocabulaire et un
+			// "et" entre les différents vocabulaires
+			for (Long[] categoriesIdsGroupByVocabulary : categoriesIds) {
+				BooleanQuery vocabularyQuery = new BooleanQueryImpl();
+				for (long categoryId : categoriesIdsGroupByVocabulary) {
 					BooleanQuery categoryQuery = new BooleanQueryImpl();
-					categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, categoryId, false);
-					categoriesQuery.add(categoryQuery, categoriesBooleanClause);
+					categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(categoryId));
+					vocabularyQuery.add(categoryQuery, BooleanClauseOccur.SHOULD);
 				}
+				query.add(vocabularyQuery, BooleanClauseOccur.MUST);
 			}
-			query.add(categoriesQuery, BooleanClauseOccur.MUST);
 
 			// Mots-clés
 			if (Validator.isNotNull(keywords)) {

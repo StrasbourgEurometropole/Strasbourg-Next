@@ -10,9 +10,11 @@ import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.agenda.util.EventActionDropdownItemsProvider;
@@ -26,6 +28,7 @@ import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ViewEventsDisplayContext {
 
@@ -252,23 +255,43 @@ public class ViewEventsDisplayContext {
 	}
 
 	/**
-	 * Retourne la liste des IDs des catégories sur lesquels on doit filtrer
-	 *  sous forme de string qui se présente comme suit :
-	 * ",categoryId1,categoryId2,categoryId3,"
+	 * Renvoie la liste des catégories sur lesquelles on souhaite filtrer les
+	 * entries. L'opérateur entre chaque id de catégorie d'un array est un "OU", celui entre chaque liste d'array est un "ET"
 	 */
-	public String getFilterCategoriesIds() {
-		if (Validator.isNotNull(_filterCategoriesIds)) {
-			return _filterCategoriesIds;
-		}
-		List<String> filterCategoriesIdByVocabulariesName = List.of(getFilterCategoriesIdByVocabulariesName()
-				.split("__"));
-		_filterCategoriesIds = ",";
-		for(String filterCategoryIdByVocabularyName : filterCategoriesIdByVocabulariesName){
-			if(Validator.isNotNull(filterCategoryIdByVocabularyName)) {
-				_filterCategoriesIds += filterCategoryIdByVocabularyName.split("_")[2] + ",";
+	private List<Long[]> getFilterCategoriesIds() {
+		if (_filterCategoriesIds == null) {
+			List<Long[]> filterCategoriesIds = new ArrayList<>();
+
+			// récupère les catégories triées par nom de vocabulaire
+			List<String> filterCategoriesIdByVocabulariesName = List.of(getFilterCategoriesIdByVocabulariesName()
+					.split("__")).stream().sorted().collect(Collectors.toList());
+			if(!filterCategoriesIdByVocabulariesName.isEmpty()) {
+				String oldVocabularyName = "";
+				String categoriesIds = "";
+				for (String filterCategoryIdByVocabularyName : filterCategoriesIdByVocabulariesName) {
+					if (Validator.isNotNull(filterCategoryIdByVocabularyName)) {
+						String vocabularyName = filterCategoryIdByVocabularyName.split("_")[0];
+						String categoryId = filterCategoryIdByVocabularyName.split("_")[2];
+						if (oldVocabularyName.equals("") || oldVocabularyName.equals(vocabularyName)) {
+							if (Validator.isNotNull(categoriesIds)) {
+								categoriesIds += ",";
+							}
+							categoriesIds += categoryId;
+							oldVocabularyName = vocabularyName;
+						} else {
+							Long[] categoriesIdsOr = ArrayUtil.toLongArray(StringUtil.split(categoriesIds, ",", 0));
+							filterCategoriesIds.add(categoriesIdsOr);
+							oldVocabularyName = vocabularyName;
+							categoriesIds = categoryId;
+						}
+					}
+				}
+				Long[] categoriesIdsOr = ArrayUtil.toLongArray(StringUtil.split(categoriesIds, ",", 0));
+				filterCategoriesIds.add(categoriesIdsOr);
 			}
+			this._filterCategoriesIds = filterCategoriesIds;
 		}
-		return _filterCategoriesIds;
+		return this._filterCategoriesIds;
 	}
 
 	/**
@@ -298,6 +321,6 @@ public class ViewEventsDisplayContext {
 	private final RenderResponse _response;
 	protected ThemeDisplay _themeDisplay;
 	private final HttpServletRequest _httpServletRequest;
-	protected String _filterCategoriesIds;
+	protected List<Long[]> _filterCategoriesIds;
 
 }

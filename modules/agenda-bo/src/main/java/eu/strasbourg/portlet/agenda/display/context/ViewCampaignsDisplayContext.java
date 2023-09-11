@@ -112,7 +112,7 @@ public class ViewCampaignsDisplayContext {
 		_hits = SearchHelper.getBOSearchHits(searchContext,
 				getSearchContainer().getStart(),
 				getSearchContainer().getEnd(), Campaign.class.getName(), groupId,
-				"", keywords,
+				new ArrayList<>(), keywords,
 				getOrderByColSearchField(),
 				"desc".equals(getOrderByType()));
 	}
