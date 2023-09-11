@@ -20,38 +20,15 @@
     <#return value>
 </#function>
 
-<#macro addImage imageURL showLegende=false showCopyright=false isFigure=false>
-    <#if  fileEntryHelper.getFileEntryByRelativeURL(imageURL)?has_content>
-        <#assign image = fileEntryHelper.getFileEntryByRelativeURL(imageURL) />
-        <#assign title = fileEntryHelper.getFileTitle(image.getFileEntryId(), locale) />
-        <#assign legend = fileEntryHelper.getImageLegend(image.getFileEntryId(), locale) />
-        <#assign copyright = fileEntryHelper.getImageCopyright(image.getFileEntryId(), locale) />
-        <#assign hasCredits = copyright?has_content />
-        <#assign hasLegende = legend?has_content />
-        <#assign creditsVisible = hasCredits && hasLegende>
-
-        <#if creditsVisible && showCopyright>
-            <span class="st-credits" aria-hidden="true">${copyright}</span>
-        </#if>
-
-        <figure class="st-fit-cover<#if !creditsVisible> figcaption-only-credits</#if>" role="group" aria-label<#if creditsVisible && showCopyright>="Photo, \u00A9 ${copyright}"</#if>>
-            <img data-fileentryid="${image.getFileEntryId()}" src="${imageURL}">
-            <#if creditsVisible && showLegende>
-                <figcaption>
-                    <span class="st-sr-only">Photo, ${copyright}</span>
-                    ${legend}
-                </figcaption>
-            </#if>
-        </figure>
-        <#if !creditsVisible && hasLegende && showLegende>
-            <figcaption>
-                ${legend}
-            </figcaption>
-        </#if>
-    <#else>
+<#macro addImage fileEntryId showLegende=false showCopyright=false isFigure=false>
+    <#if  fileEntryId?has_content && fileEntryId != 0>
         <figure class="<#if isFigure>st-figure</#if> st-fit-cover" role="group">
-            <img src="${imageURL}">
+         <@getImageByFileEntry fileEntryId=fileEntryId />
         </figure>
+        <#else>
+            <figure class="<#if isFigure>st-figure</#if> st-fit-cover" role="group">
+                <img src="https://placehold.co/600x400?text=404" />
+            </figure>
     </#if>
 </#macro>
 
@@ -89,3 +66,27 @@
     </#if>
 
 </#function>
+
+
+<#macro getImage imageNode showCopyright=false>
+    <#assign imageURL = imageNode.getData()>
+    <#assign fileEntryId = imageNode.getAttribute("fileEntryId")>
+    <#assign copyright = imageNode.getAttribute("alt")>
+    <#assign legende = imageNode.getAttribute("alt")>
+
+    <#if showCopyright == true>
+        <span class="st-credits" aria-hidden="true">${copyright}</span>
+    </#if>
+    <figure class="st-figure st-fit-cover<#if !legende?has_content && copyright?has_content> figcaption-only-credits</#if>" role="group" aria-label="${legende} © ${copyright}">
+        <picture>
+            <img data-fileentryid="${fileEntryId}"
+                    alt="${legende}"
+                    src="${imageURL}">
+        </picture>
+    </figure>
+</#macro>
+
+<#macro getImageByFileEntry fileEntryId>
+    <#assign dlAppServiceUtil = serviceLocator.findService("com.liferay.document.library.kernel.service.DLAppService")>
+    <@adaptive_media_image["img"] fileVersion=dlAppServiceUtil.getFileEntry(fileEntryId).getFileVersion() />
+</#macro>

@@ -3,33 +3,17 @@
 
 <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
 
-<#assign imageUrl="" />
-<!-- 1ere image au dessus de l'adresse -->
-<#if entry.imagesURLs?first?has_content>
-    <#assign imageUrl=themeDisplay.getPortalURL() + entry.imagesURLs?first?replace('@', ""
-    )?replace('cdn_hostroot_path', "" ) />
-</#if>
-<!-- banniere -->
-<#if entry.imageURL?has_content>
-    <#assign imageUrl=themeDisplay.getPortalURL() + entry.imageURL?replace('@', "" )?replace('cdn_hostroot_path', ""
-    ) />
-</#if>
 
-<#-- Liste des infos a partager -->
-<#assign openGraph={ "og:title" :"${entry.getAlias(locale)?html}", "og:description"
-:'${entry.getPresentation(locale)?replace("<[^>]*>", "", "r")?html}',
-"og:image":"${imageUrl}"
-} />
 
 <#-- partage de la configuration open graph dans la request -->
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content ||
-themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL="/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL="/" />
-</#if>
+<#-- Liste des infos a partager -->
+<#assign openGraph={ "og:title" :"${entry.getAlias(locale)?html}", "og:description"
+:'${entry.getPresentation(locale)?replace("<[^>]*>", "", "r")?html}',
+"og:image":"${homeURL}${entry.imageURL}"
+} />
+
 
 <#assign fileEntryHelper=serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 <#assign
@@ -39,7 +23,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
     <div class="st-barre-inner st-wrapper">
         <div class="st-container-left">
             <div class="st-image">
-                <@addImage imageURL=imageUrl  />
+                <@addImage fileEntryId=entry.imageId  />
             </div>
             <div class="st-content">
                 <p class="st-title">${entry.getAlias(locale)}</p>
@@ -122,7 +106,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                     <span class="st-icon-social-share"></span>
                 </label>
 
-
+                <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/network-list.ftl" />
             </div>
 
 
@@ -191,7 +175,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 
         <div class="st-cover-container">
             <div class="st-image">
-                <@addImage imageURL=imageUrl showCopyright=true />
+                <@addImage fileEntryId=entry.imageId showCopyright=true />
             </div>
             <div class="st-maps" data-lat="${ entry.getMercatorY() }" data-lng="${ entry.getMercatorX() }" data-zoom="17" data-callback="initMap">
 
@@ -622,7 +606,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                class="st-card st-card-agenda st--card-horizontal st--with-gradient" title="${event.getTitle(locale)}">
                                 <div class="st-caption">
                                     <p class="st-title-card">${event.getTitle(locale)}</p>
-                                    <p class="st-surtitre-cat">Categories event</p>
+                                    <p class="st-surtitre-cat">${entry.getTypeLabel(locale)}</p>
                                     <p class="st-date">
                                         <#if event.firstStartDate?date==event.lastEndDate?date>
                                             <@liferay_ui.message key="eu.event.the" />
@@ -643,7 +627,13 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                     </p>
                                 </div>
                                 <div class="st-image">
-                                    <@addImage imageURL=event.getImageURL() isFigure=true />
+                                    <#if event.getImageId() != 0 >
+                                        <@addImage fileEntryId=event.getImageId() isFigure=true />
+                                    <#else>
+                                        <figure class="st-figure st-fit-cover" role="group">
+                                            <img src="${event.getImageURL()}" />
+                                        </figure>
+                                    </#if>
 
                                 </div>
                             </a>
@@ -817,7 +807,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                 <#if entry.accessForDeaf>
                     <li>
                         <span class="st-icon-handicap-vision" aria-hidden="true"></span>
-                        <@liferay_ui.message key='eu.access-for-deaf' />">
+                        <@liferay_ui.message key='eu.access-for-deaf' />
                     </li>
                 </#if>
                 <#if entry.accessForBlind>
@@ -908,6 +898,15 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 
 
 </div>
+
+
+<@liferay_portlet.actionURL var="contactURL" name="contact">
+    <@liferay_portlet.param name="classPK" value="${entry.getPlaceId()}" />
+    <@liferay_portlet.param name="to" value="${entry.mail}" />
+    <@liferay_portlet.param name="title" value="${entry.getAlias(locale)}" />
+    <@liferay_portlet.param name="type" value="Place" />
+</@liferay_portlet.actionURL>
+<#assign overlayContactTitle=entry.getAlias(locale) />
 
 <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/overlay-contact.ftl" />
 

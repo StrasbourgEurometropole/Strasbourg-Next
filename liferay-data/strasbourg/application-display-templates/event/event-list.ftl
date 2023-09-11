@@ -1,11 +1,8 @@
-
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+    <#assign homeURL="/web${layout.group.friendlyURL}/" />
 <#else>
-    <#assign homeURL = "/" />
+    <#assign homeURL="/" />
 </#if>
-
-
 <div class="st-wrapper st-bloc st-bloc-agenda-home ">
     <h2 class="st-h2 st-titre">L’agenda</h2>
     <ul class="st-cards-wrapper st--has-cards-horizontal st-basic-grid st-col-2@t-small">
@@ -15,8 +12,9 @@
                 <div class="st-card-container">
                     <a href="${homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}" class="st-card st-card-agenda st--text-only st--card-horizontal st--with-gradient">
                         <div class="st-caption">
-                            <p class="st-title-card">${event.getTitle(locale)}</p>
-
+                            <p class="st-title-card">
+                                ${event.getTitle(locale)}
+                            </p>
                             <p class="st-surtitre-cat">
                                 ${event.getTypeLabel(locale)}
                             </p>
@@ -36,17 +34,15 @@
                                 - ${event.getPlaceCity(locale)}
                             </p>
                         </div>
-
-
                     </a>
-
                     <button class="st-btn-favorite-card" data-addpanier="postID">
-                        Ajouter à mes favoris
+                        <@liferay_ui.message key='eu.add-to-favorite' />
                     </button>
-                </div>            </li>
+                </div>
+            </li>
         </#list>
-
-
     </ul>
-    <a href="${homeURL}agenda" class="st-btn st--btn-secondary st--btn-full-width-mobile st-btn-cta"><@liferay_ui.message key="eu.all-events" /></a>
+    <a href="${homeURL}agenda" class="st-btn st--btn-secondary st--btn-full-width-mobile st-btn-cta">
+        <@liferay_ui.message key="eu.all-events" />
+    </a>
 </div>
