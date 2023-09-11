@@ -34,14 +34,14 @@ public class ViewCommentDisplayContext {
 
 
 
-    public ViewCommentDisplayContext(RenderRequest request, RenderResponse response,ItemSelector itemSelector) {
+    public ViewCommentDisplayContext(RenderRequest request, RenderResponse response) {
         _request = request;
         _response = response;
         _themeDisplay = (ThemeDisplay) _request
                 .getAttribute(WebKeys.THEME_DISPLAY);
         _httpServletRequest = PortalUtil.getHttpServletRequest(request);
-        _itemSelector=itemSelector;
     }
+
     @SuppressWarnings("unused")
     public String getAllCommentIds() throws PortalException {
         StringBuilder commentIds = new StringBuilder();
@@ -53,6 +53,7 @@ public class ViewCommentDisplayContext {
         }
         return commentIds.toString();
     }
+
     public List<Comment> getComments() throws PortalException {
 
         if (this._comments == null) {
@@ -62,6 +63,7 @@ public class ViewCommentDisplayContext {
         }
         return this._comments;
     }
+
     private Hits getAllHits(long groupId) throws PortalException {
         HttpServletRequest servletRequest = PortalUtil
                 .getHttpServletRequest(_request);
@@ -73,11 +75,12 @@ public class ViewCommentDisplayContext {
 
         return SearchHelper.getBOSearchHits(searchContext,
                 -1, -1, Comment.class.getName(), groupId,
-                "", keywords,
+                new ArrayList<>(), keywords,
                 getOrderByColSearchField(),
                 "desc".equals(getOrderByType()));
     }
-    /**x²
+
+    /**
      * Retourne le dropdownItemsProvider de commentaire
      *
      * @return CommentActionDropdownItemsProvider
@@ -104,6 +107,7 @@ public class ViewCommentDisplayContext {
         }
         return results;
     }
+
     /**
      * Retourne le searchContainer des commentaires
      *
@@ -150,6 +154,7 @@ public class ViewCommentDisplayContext {
         _searchContainer.setRowChecker(new EmptyOnClickRowChecker(_response));
         return _searchContainer;
     }
+
     /**
      * Retourne les Hits de recherche pour un delta
      */
@@ -162,7 +167,7 @@ public class ViewCommentDisplayContext {
         _hits = SearchHelper.getBOSearchHits(searchContext,
                 getSearchContainer().getStart(),
                 getSearchContainer().getEnd(), Comment.class.getName(), groupId,
-                "", keywords,
+                new ArrayList<>(), keywords,
                 getOrderByColSearchField(),
                 "desc".equals(getOrderByType()));
     }
@@ -192,35 +197,6 @@ public class ViewCommentDisplayContext {
         }
     }
 
-    public boolean hasVocabulary(String vocabularyName){
-        return getCategVocabularies().containsKey(vocabularyName);
-    }
-
-    public Map<String, String> getCategVocabularies() {
-        if (_categVocabularies == null) {
-            _categVocabularies = new HashMap<>();
-            _categVocabularies.put("vocabulary1", ParamUtil.getString(
-                    _httpServletRequest, "vocabulary1", ""));
-        }
-
-        return _categVocabularies;
-    }
-
-    @SuppressWarnings("unused")
-    public String getSelectCategoriesByVocabularyIdURL(long vocabularyId) {
-        RequestBackedPortletURLFactory requestBackedPortletURLFactory =
-                RequestBackedPortletURLFactoryUtil.create(_request);
-        AssetCategoryTreeNodeItemSelectorCriterion categoryTreeNodeItemSelectorCriterion =
-                new AssetCategoryTreeNodeItemSelectorCriterion();
-        categoryTreeNodeItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-                new AssetCategoryTreeNodeItemSelectorReturnType());
-
-        return String.valueOf(
-                _itemSelector.getItemSelectorURL(
-                        requestBackedPortletURLFactory,
-                        _response.getNamespace() + "selectAssetCategory",
-                        categoryTreeNodeItemSelectorCriterion));
-    }
     /**
      * Renvoie la colonne sur laquelle on fait le tri
      *
@@ -253,13 +229,11 @@ public class ViewCommentDisplayContext {
 
     private Hits _hits;
     protected SearchContainer<Comment> _searchContainer;
-    private Map<String, String> _categVocabularies;
     private String _keywords;
     private final RenderRequest _request;
     private final RenderResponse _response;
     protected ThemeDisplay _themeDisplay;
     private final HttpServletRequest _httpServletRequest;
-    private final ItemSelector _itemSelector;
     private List<Comment> _comments;
 
 }

@@ -14,13 +14,9 @@ import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.*;
-import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.model.Signalement;
-import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import eu.strasbourg.utils.SearchHelper;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
@@ -44,13 +40,12 @@ public class ViewSignalementDisplayContext  {
         }
         return _signalements;
     }
-    public ViewSignalementDisplayContext(RenderRequest request, RenderResponse response,ItemSelector itemSelector) {
+    public ViewSignalementDisplayContext(RenderRequest request, RenderResponse response) {
         _request = request;
         _response = response;
         _themeDisplay = (ThemeDisplay) _request
                 .getAttribute(WebKeys.THEME_DISPLAY);
         _httpServletRequest = PortalUtil.getHttpServletRequest(request);
-        _itemSelector=itemSelector;
     }
 
     /**
@@ -87,35 +82,7 @@ public class ViewSignalementDisplayContext  {
                 return "modified_sortable";
         }
     }
-    public boolean hasVocabulary(String vocabularyName){
-        return getCategVocabularies().containsKey(vocabularyName);
-    }
 
-    public Map<String, String> getCategVocabularies() {
-        if (_categVocabularies == null) {
-            _categVocabularies = new HashMap<>();
-            _categVocabularies.put("vocabulary1", ParamUtil.getString(
-                    _httpServletRequest, "vocabulary1", ""));
-        }
-
-        return _categVocabularies;
-    }
-
-    @SuppressWarnings("unused")
-    public String getSelectCategoriesByVocabularyIdURL(long vocabularyId) {
-        RequestBackedPortletURLFactory requestBackedPortletURLFactory =
-                RequestBackedPortletURLFactoryUtil.create(_request);
-        AssetCategoryTreeNodeItemSelectorCriterion categoryTreeNodeItemSelectorCriterion =
-                new AssetCategoryTreeNodeItemSelectorCriterion();
-        categoryTreeNodeItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-                new AssetCategoryTreeNodeItemSelectorReturnType());
-
-        return String.valueOf(
-                _itemSelector.getItemSelectorURL(
-                        requestBackedPortletURLFactory,
-                        _response.getNamespace() + "selectAssetCategory",
-                        categoryTreeNodeItemSelectorCriterion));
-    }
     /**
      * Renvoie la colonne sur laquelle on fait le tri
      *
@@ -192,7 +159,7 @@ public class ViewSignalementDisplayContext  {
         _hits = SearchHelper.getBOSearchHits(searchContext,
                 getSearchContainer().getStart(),
                 getSearchContainer().getEnd(), Signalement.class.getName(), groupId,
-                "", keywords,
+                new ArrayList<>(), keywords,
                 getOrderByColSearchField(),
                 "desc".equals(getOrderByType()));
     }
@@ -209,12 +176,10 @@ public class ViewSignalementDisplayContext  {
 
     private Hits _hits;
     protected SearchContainer<Signalement> _searchContainer;
-    private Map<String, String> _categVocabularies;
     private String _keywords;
     private final RenderRequest _request;
     private final RenderResponse _response;
     protected ThemeDisplay _themeDisplay;
     private final HttpServletRequest _httpServletRequest;
-    private final ItemSelector _itemSelector;
     private List<Signalement> _signalements;
 }
