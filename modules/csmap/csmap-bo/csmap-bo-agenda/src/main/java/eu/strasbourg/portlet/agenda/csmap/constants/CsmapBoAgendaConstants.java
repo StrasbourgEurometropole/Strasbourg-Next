@@ -3,7 +3,7 @@ package eu.strasbourg.portlet.agenda.csmap.constants;
 public class CsmapBoAgendaConstants {
 
     public static final String AGENDA_PRINCIPAL = "agendaPrincipal";
-    public static final String AGENDA_PRINCIPAL_PATH = "csmap-bo-agenda-edit-thematique.jsp";
+    public static final String AGENDA_PRINCIPAL_PATH = "/csmap-bo-agenda-edit-principal.jsp";
 
     public static final String AGENDA_THEMATIQUES = "agendaThematique";
     public static final String AGENDA_THEMATIQUES_PATH = "/csmap-bo-agenda-view-thematiques.jsp";

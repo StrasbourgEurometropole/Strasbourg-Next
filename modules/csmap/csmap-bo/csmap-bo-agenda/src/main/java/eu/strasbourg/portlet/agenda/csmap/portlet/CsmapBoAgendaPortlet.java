@@ -1,6 +1,5 @@
 package eu.strasbourg.portlet.agenda.csmap.portlet;
 
-import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
@@ -11,12 +10,13 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.portlet.agenda.csmap.display.context.*;
+import eu.strasbourg.portlet.agenda.csmap.display.context.EditCsmapPrincipalAgendaDisplayContext;
+import eu.strasbourg.portlet.agenda.csmap.display.context.EditCsmapThematiqueAgendaDisplayContext;
+import eu.strasbourg.portlet.agenda.csmap.display.context.ManagementCsmapThematiqueAgendaToolBarDisplayContext;
+import eu.strasbourg.portlet.agenda.csmap.display.context.NavigationBarDisplayContext;
+import eu.strasbourg.portlet.agenda.csmap.display.context.ViewCsmapAgendaThematiqueDisplayContext;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
-import static eu.strasbourg.portlet.agenda.csmap.constants.CsmapBoAgendaConstants.*;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -24,6 +24,8 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+
+import static eu.strasbourg.portlet.agenda.csmap.constants.CsmapBoAgendaConstants.*;
 
 /**
  * @author quentin.mayer
@@ -68,7 +70,7 @@ public class CsmapBoAgendaPortlet extends MVCPortlet {
 						EditCsmapThematiqueAgendaDisplayContext dc = new EditCsmapThematiqueAgendaDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewCsmapAgendaThematiqueDisplayContext dc = new ViewCsmapAgendaThematiqueDisplayContext(renderRequest, renderResponse, _itemSelector);
+						ViewCsmapAgendaThematiqueDisplayContext dc = new ViewCsmapAgendaThematiqueDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 						ManagementCsmapThematiqueAgendaToolBarDisplayContext managementDC= new ManagementCsmapThematiqueAgendaToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
 								(LiferayPortletResponse) renderResponse, dc);
@@ -98,6 +100,4 @@ public class CsmapBoAgendaPortlet extends MVCPortlet {
 
 		super.render(renderRequest, renderResponse);
 	}
-	@Reference
-	private ItemSelector _itemSelector;
 }

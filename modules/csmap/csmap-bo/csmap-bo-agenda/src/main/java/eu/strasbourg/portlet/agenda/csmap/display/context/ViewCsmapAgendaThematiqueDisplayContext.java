@@ -5,18 +5,14 @@ import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
-import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.agenda.csmap.util.AgendaThematiqueActionDropdownItemsProvider;
-import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.csmap.model.Agenda;
 import eu.strasbourg.service.csmap.service.AgendaLocalServiceUtil;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
@@ -24,19 +20,17 @@ import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ViewCsmapAgendaThematiqueDisplayContext {
 
     private List<Agenda> _agendas;
 
     public ViewCsmapAgendaThematiqueDisplayContext(RenderRequest request,
-                                                   RenderResponse response, ItemSelector itemSelector) {
+                                                   RenderResponse response) {
         _request = request;
         _response = response;
         _themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
         _httpServletRequest = PortalUtil.getHttpServletRequest(request);
-        _itemSelector = itemSelector;
     }
 
     /**
@@ -121,5 +115,4 @@ public class ViewCsmapAgendaThematiqueDisplayContext {
     private final RenderResponse _response;
     protected ThemeDisplay _themeDisplay;
     private final HttpServletRequest _httpServletRequest;
-    private final ItemSelector _itemSelector;
 }
