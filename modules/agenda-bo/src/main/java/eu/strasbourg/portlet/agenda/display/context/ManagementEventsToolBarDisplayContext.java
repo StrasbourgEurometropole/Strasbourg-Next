@@ -145,7 +145,9 @@ public class ManagementEventsToolBarDisplayContext extends SearchContainerManage
             filterVocabularyDropdownItems.add(
                 DropdownItemBuilder
                     .setActive(_viewEventsDisplayContext.hasVocabulary(vocabulary.getName()))
-                    .setHref("javascript:getCategoriesByVocabulary(" + vocabulary.getVocabularyId() + ", '" + vocabulary.getName() + "');")
+                    .setHref("javascript:getCategoriesByVocabulary(" + vocabulary.getVocabularyId()
+                            + ", '" + vocabulary.getName() + "', '"
+                            + _viewEventsDisplayContext.getFilterCategoriesIdsByVocabularyName(vocabulary.getName()) +"');")
                     .setLabel(vocabulary.getName())
                     .build()
             );
@@ -167,9 +169,12 @@ public class ManagementEventsToolBarDisplayContext extends SearchContainerManage
             try {
                 PortletURL newURL = PortletURLUtil.clone(currentURLObj, liferayPortletResponse);
                 String filterCategoriesIdByVocabulariesName;
-                if (originalFilterCategoriesIdByVocabulariesName.contains(categorySelected[0] + '_')) {
-                    String regex = categorySelected[0] + "(.(?<!__))*__";
-                    filterCategoriesIdByVocabulariesName = originalFilterCategoriesIdByVocabulariesName.replaceAll(regex, "");
+                // on enlève le vocabularyName_CategoryName_CategoryId__ correspondant du paramètre
+                String CategoryToDelete = categorySelected[0] + '_' + categorySelected[1] + '_' + categorySelected[2] + "__";
+                if (originalFilterCategoriesIdByVocabulariesName
+                        .contains(CategoryToDelete)) {
+                    filterCategoriesIdByVocabulariesName = originalFilterCategoriesIdByVocabulariesName
+                            .replace(CategoryToDelete, "");
                 } else {
                     filterCategoriesIdByVocabulariesName = originalFilterCategoriesIdByVocabulariesName;
                 }
