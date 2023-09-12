@@ -98,4 +98,8 @@ public class NewsHomeItem {
     public String getDetailURL() {
         return detailURL;
     }
+
+    public String getTitleCourt() {
+        return titleCourt;
+    }
 }

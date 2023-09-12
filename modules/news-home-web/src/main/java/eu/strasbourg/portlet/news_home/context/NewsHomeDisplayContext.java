@@ -35,7 +35,6 @@ public class NewsHomeDisplayContext extends BaseDisplayContext {
 
     private NewsHomeConfiguration configuration;
     private List<AssetEntry> assetEntries;
-    private ThemeDisplay _themeDisplay;
 
     public NewsHomeDisplayContext(RenderRequest request, RenderResponse response) {
         super(request, response);
