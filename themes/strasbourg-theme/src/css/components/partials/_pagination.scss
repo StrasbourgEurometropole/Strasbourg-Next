@@ -45,15 +45,17 @@
 			text-align: center;
 			vertical-align: middle;
 			border-radius: $border-radius;
-			@include addTransition();
+			@include transition(color, background-color, border-color);
 
 			@include mobile {
 				--taille: 30px;
 				font-size: 12px;
 			}
 
-			& + .st-pagination-link {
-				margin-left: 10px;
+			@include can-hover {
+				color: $c_main;
+				background-color: $c_sub;
+				border-color: $c_sub;
 			}
 
 			&.st-is-active {
@@ -63,10 +65,8 @@
 				border-color: transparent;
 			}
 
-			@include can-hover {
-				color: $c_main;
-				background-color: $c_sub;
-				border-color: $c_sub;
+			& + .st-pagination-link {
+				margin-left: 10px;
 			}
 		}
 

@@ -146,7 +146,6 @@
 
 		.st-title-lien {
 			@include ft('', $s_p, 400, $c_white, 1);
-			@include addTransition();
 
 			& + .st-text {
 				margin-top: 5px;
@@ -159,7 +158,7 @@
 		.st-text {
 			@include ft('', $s_p, 600, $c_sub, 1);
 			@include letter-spacing(25);
-			@include addTransition();
+			@include transition(color);
 
 			@include mobile {
 				font-size: 12px;

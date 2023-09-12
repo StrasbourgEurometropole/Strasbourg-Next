@@ -24,6 +24,19 @@
 			.st-title-card {
 				color: $c_sub;
 			}
+			.st-location {
+				color: $c_white;
+
+				&:before {
+					color: $c_white;
+				}
+			}
+			.st-date,
+			.st-text,
+			.st-role {
+				color: $c_white;
+			}
+
 			.st-image:after {
 				opacity: 0.8
 			}
@@ -36,7 +49,7 @@
 		margin-bottom: 15px;
 		background-color: $c_white;
 		border-radius: $border-radius-small;
-		@include addTransition();
+		@include transition(background-color);
 
 		img {
 			border-radius: $border-radius-small;
@@ -61,6 +74,7 @@
 			@include ft($f_txt, 12px, 400, $c_txt, 1.16);
 			text-transform: uppercase;
 			margin-bottom: 1px;
+			@include transition(color);
 
 			@include mobile {
 				font-size: 10px;
@@ -81,7 +95,7 @@
 			@include ft('', 15px, 700, $c_white, 1);
 			display: block;
 			margin-bottom: 6px;
-			@include addTransition();
+			@include transition(color);
 
 			@include mobile {
 				font-size: 14px;
@@ -91,6 +105,7 @@
 		.st-text {
 			order: 4;
 			@include ft($f_txt, 12px, 400, $c_txt, 1.16);
+			@include transition(color);
 
 			@include mobile {
 				font-size: 11px;
@@ -99,6 +114,11 @@
 
 		.st-location {
 			order: 5;
+			@include transition(color);
+
+			&:before {
+				@include transition(color);
+			}
 		}
 	}
 
@@ -152,7 +172,7 @@
 			//background-image: radial-gradient(circle farthest-side at 100% 100%, red 0%, green 99%, transparent 100%);
 			pointer-events: none;
 			border-radius: $border-radius-small;
-			@include addTransition();
+			@include transition(opacity);
 		}
 	}
 
@@ -160,10 +180,10 @@
 	&.st--with-icon {
 		@include can-hover {
 			.st-image {
-				background-color: $c_sub;
+				background-color: $c_greymedium;
 			}
 			.st-icon {
-				color: $c_main;
+				color: $c_white;
 			}
 		}
 
@@ -237,11 +257,7 @@
 			padding: 16px 40px 16px 20px;
 
 			@include can-hover {
-				background-color: $c_main;
-
-				.st-surtitre-cat {
-					color: $c_txt;
-				}
+				background-color: $c_greymedium;
 			}
 
 			& + .st-btn-favorite-card {

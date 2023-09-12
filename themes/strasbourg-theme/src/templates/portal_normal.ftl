@@ -70,6 +70,13 @@ portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
 instanceId="footer"
 settingsScope="group" />
 
+	<#-- liferay_portlet["runtime"] - Overlay Location-->
+	<@liferay_portlet["runtime"]
+	portletProviderAction=portletProviderAction.VIEW
+	portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+	instanceId="overlay-location"
+	settingsScope="group" />
+
 
 
 

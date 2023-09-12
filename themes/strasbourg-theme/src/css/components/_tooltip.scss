@@ -16,7 +16,7 @@
 	opacity: 0;
 	visibility: hidden;
 	pointer-events: none;
-	@include addTransition();
+	@include transition(opacity, visibility, transform);
 
 	.st-no-hover & {
 		display: none;
@@ -30,29 +30,5 @@
 		left: 50%;
 		top: 100%;
 		transform: translateX(-50%);
-	}
-
-	// --modifiers
-	&.st--theme-light {
-		color: $c_black;
-		background-color: $c_white;
-
-		&:after {
-			border-top-color: $c_white;
-		}
-	}
-
-	// Tooltip en-dessous, flèche vers le haut
-	&.st--position-bottom {
-		bottom: initial;
-		top: calc(100% - 4px);
-		transform: translate(-50%, -6px);
-
-		&:after {
-			top: initial;
-			bottom: 100%;
-			border-top-color: transparent;
-			border-bottom: 6px solid $c_black;
-		}
 	}
 }

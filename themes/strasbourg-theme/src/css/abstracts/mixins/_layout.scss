@@ -80,27 +80,6 @@
 	}
 }
 
-// Ancien système
-/*@mixin aspect-ratio($width, $height, $add: 0px) {
-    position: relative;
-    overflow: hidden;
-    &:before {
-        display: block;
-        content: "";
-        width: 100%;
-        padding-bottom: $add;
-        padding-top: ($height / $width) * 100%;
-    }
-    > .content, > .wrapper {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-    }
-}*/
-
-
 // Pseudo-block en absolue et dimensionné, son positionnement se fait en dehors du mixin
 /// @param {Length} $width - Largeur
 /// @param {Length} $height - Hauteur

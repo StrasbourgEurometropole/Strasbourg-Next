@@ -93,6 +93,7 @@
 	height: 36px;
 	padding: 0;
 	border: 1px solid $c_sub;
+	@include transition(color, background-color, border-color);
 
 	@include can-hover {
 		background-color: transparent;
@@ -114,5 +115,4 @@
 			color: $c_sub;
 		}
 	}
-
 }

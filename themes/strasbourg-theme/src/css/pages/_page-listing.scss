@@ -92,7 +92,7 @@
 			border: 1px solid $c_sub;
 			border-radius: $border-radius;
 			outline-offset: 1px;
-			@include addTransition();
+			@include transition(color, background-color, border-color);
 
 			@include mobile {
 				padding: 14px 15px;

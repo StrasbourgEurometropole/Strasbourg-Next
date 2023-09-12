@@ -24,7 +24,7 @@
 			height: 130px;
 			background-color: $c_greydark;
 			pointer-events: none;
-			@include addTransition();
+			@include transition(height 0.2s easeInOutQuad);
 
 			// Réduction de la barre de nav
 			.st-is-scrolled & {
@@ -80,6 +80,7 @@
 			padding: 0 20px;
 			@include ft($f_txt, $s_p, 300, $c_white, 1);
 			@include letter-spacing(25);
+			@include transition(color);
 
 			@include can-hover {
 				color: $c_sub;
@@ -131,7 +132,7 @@
 			.st-btn-compte {
 				padding-top: 13px;
 				padding-bottom: 13px;
-				transition: all 0.2s easeInOutQuad;
+				@include transition(color, background-color, border-color, padding-top 0.2s easeInOutQuad, padding-top 0.2s easeInOutQuad);
 			}
 
 			// Réduction de la barre de nav
@@ -154,6 +155,7 @@
 		height: 100%;
 		@include ft($f_txt, $s_p, 300, $c_white, 1);
 		@include letter-spacing(25);
+		@include transition(color);
 
 		strong {
 			font-weight: 600;
@@ -163,7 +165,7 @@
 			@include icomoon($st-icon-arrow-down);
 			font-size: 10px;
 			color: rgba($c_white, 0.75);
-			@include addTransition();
+			@include transition(transform);
 		}
 
 		@include can-hover {
@@ -212,7 +214,6 @@
 		position: relative;
 		display: flex;
 		align-items: center;
-		@include addTransition();
 	}
 
 	.st-barre-menu-inner {

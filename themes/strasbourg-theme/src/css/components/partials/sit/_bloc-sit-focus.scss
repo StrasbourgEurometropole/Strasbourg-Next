@@ -10,8 +10,11 @@
 		justify-content: space-between;
 		width: 100%;
 		max-width: calc($wrapper-small-width + 40px * 2);
-		min-height: 170px;
 		padding: 40px;
+
+		@include min-mobile {
+			min-height: 170px;
+		}
 
 		@include tablet-small {
 			flex-direction: column;

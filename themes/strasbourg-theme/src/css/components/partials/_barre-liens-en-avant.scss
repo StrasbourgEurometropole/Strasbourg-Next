@@ -95,13 +95,14 @@
 	.st-title {
 		@include ft($f_hx, 13px, 700, $c_white, 1);
 		@include letter-spacing(25);
-		@include addTransition();
+		margin-bottom: 2px;
+		@include transition(color);
 	}
 
 	.st-text {
 		@include ft($f_hx, 12px, 400, $c_txt, 1);
 		@include letter-spacing(25);
-		@include addTransition();
+		@include transition(color);
 	}
 
 	.st-container {
@@ -117,7 +118,8 @@
 		}
 
 		@include can-hover {
-			.st-title, .st-content {
+			.st-title,
+			.st-content {
 				color: $c_sub;
 			}
 			.st-btn-arrow {

@@ -29,7 +29,7 @@ body {
 
 
 [class^="st-icon-"], [class*=" st-icon-"] {
-	@include addTransition();
+	@include transition(color);
 }
 
 // container leaflet

@@ -1,4 +1,12 @@
 .st-bloc-focus {
+	--image-size: 200px;
+
+	@include tablet-portrait {
+		--image-size: 120px;
+	}
+	@include mobile {
+		--image-size: 100px;
+	}
 
 	.st-container {
 		display: flex;
@@ -17,13 +25,11 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			width: 200px;
-			height: 200px;
+			width: var(--image-size);
+			height: var(--image-size);
 			margin-right: 20px;
 
 			@include tablet-portrait {
-				width: 100px;
-				height: 100px;
 				margin-right: initial;
 			}
 
@@ -42,16 +48,14 @@
 			}
 		}
 
-		.st-content {
-			.st-surtitre-cat {
-				margin-top: 8px;
-			}
+		.st-surtitre-cat {
+			margin-top: 4px;
+		}
 
-			p:not([class]) {
-				font-size: 12px;
-				line-height: 1.16;
-				margin-top: 8px;
-			}
+		.st-desc {
+			font-size: 12px;
+			line-height: 1.16;
+			margin-top: 8px;
 		}
 	}
 
@@ -67,6 +71,7 @@
 	}
 
 	// --modifiers
+
 	&.st--with-icon,
 	&.st--with-image {
 		@include tablet-portrait {
@@ -101,6 +106,7 @@
 					margin-right: initial;
 					margin-bottom: 20px;
 					margin-top: 20px;
+					align-self: flex-start;
 				}
 
 				@include mobile {
@@ -150,10 +156,12 @@
 		}
 	}
 
+
 	&.st--two-elements {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		grid-gap: 30px;
+		--image-size: 120px;
 
 		@include tablet-portrait {
 			grid-template-columns: minmax(0, 1fr);
@@ -164,23 +172,39 @@
 		}
 
 		.st-col-left {
-			align-items: flex-start;
+			display: grid;
+			grid-template-columns: min-content minmax(10px, 1fr);
+			grid-template-rows: auto 1fr;
+			grid-template-areas: "image content"
+								 "image desc";
 
-			.st-content {
-				margin: auto 0;
+			@include mobile {
+				grid-template-rows: auto auto;
+				grid-template-areas: "image content"
+								 	 "desc desc";
 			}
 
 			.st-visual-container {
-				width: 120px;
-				height: 120px;
-				
+				grid-area: image;
+
 				@include tablet-portrait {
 					margin-right: 20px;
 				}
-				
+			}
+			.st-content {
+				grid-area: content;
+
 				@include mobile {
-					width: 100px;
-					height: 100px;
+					margin-top: auto;
+					margin-bottom: auto;
+				}
+			}
+			.st-desc {
+				grid-area: desc;
+				margin-top: 4px;
+
+				@include mobile {
+					margin-top: 16px;
 				}
 			}
 		}

@@ -17,14 +17,14 @@
 	.st-barre-inner {
 		display: flex;
 		align-items: center;
-		height: var(--barre-height);
+		min-height: 100px;
 		padding: 20px;
 		background-color: $c_greydark;
 		border-radius: $border-radius;
 
 		@include tablet-portrait {
-			padding-left: 0;
-			padding-right: 0;
+			min-height: initial;
+			padding: 15px 0 15px 0;
 			background-color: transparent;
 		}
 		@include mobile {
@@ -148,6 +148,68 @@
 		.st-filtre {
 			@include bp-down(1190px) {
 				display: none;
+			}
+		}
+	}
+
+
+	&.st--listing-lost-and-found {
+
+		.col-right {
+			.st-btn {
+				@include mobile {
+					padding: 11px 12px;
+					flex-basis: min-content;
+
+					&:first-of-type {
+						flex-grow: 1;
+
+					}
+					&:last-of-type {
+						flex-grow: 2;
+					}
+				}
+
+				& + .st-btn {
+					margin-left: 10px;
+
+					@include mobile {
+						margin-top: initial;
+					}
+				}
+			}
+
+			@include tablet-small {
+				flex-wrap: wrap;
+			}
+
+			@include mobile {
+				align-items: initial;
+			}
+		}
+
+		.st-resultats {
+			@include tablet-small {
+				flex-basis: 100%;
+				margin-bottom: 10px;
+			}
+		}
+
+		.st-social-share {
+			margin-left: 10px;
+
+			@include tablet-portrait {
+				display: none;
+			}
+
+			label {
+				width: 50px;
+				height: 50px;
+			}
+
+			.st-network-list {
+				left: 5px;
+				top: -10px;
 			}
 		}
 	}

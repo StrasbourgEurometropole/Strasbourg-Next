@@ -104,7 +104,7 @@
 				transform: translateX(-50%) scale(0);
 				opacity: 0;
 				pointer-events: none;
-				@include addTransition();
+				@include transition(opacity, transform);
 			}
 
 			&.is-active {
@@ -126,7 +126,7 @@
 
 			.st-title {
 				@include ft('', 16px, 700, rgba($c_white, 0.6), 1);
-				@include addTransition();
+				@include transition(color);
 
 				@include mobile {
 					font-size: 12px;

@@ -85,11 +85,57 @@
 //  Autres
 // -----------------------------------------------
 
+
+@function unfoldTransition ($transition) {
+	// Default values
+	$property: all;
+	$duration: 0.2s;
+	$easing: null; // Browser default is ease, which is what we want
+	$delay: null; // Browser default is 0, which is what we want
+	$defaultProperties: ($property, $duration, $easing, $delay);
+
+	// Grab transition properties if they exist
+	$unfoldedTransition: ();
+	@for $i from 1 through length($defaultProperties) {
+		$p: null;
+		@if $i <= length($transition) {         // prop passé en param -> on la concatène
+			$p: nth($transition, $i);
+		} @else {                               // prop non passé en param -> on complète avec la valeur par défaut
+			$p: nth($defaultProperties, $i);
+		}
+
+		$unfoldedTransition: append($unfoldedTransition, $p);
+	}
+	@return $unfoldedTransition;
+}
+
+
+// Génère une propriété de transition unique à partir de plusieurs propriétés
+/// @param {Object} $transitions - Liste des transitions à passer séparés par des virgules
+// @usage:   @include transition(width, height 0.3s ease-in-out);
+// @output:  transition(width 0.2s, height 0.3s ease-in-out);
+/// @see https://gist.github.com/tobiasahlin/7a421fb9306a4f518aab
+@mixin transition($transitions...) {
+	$unfoldedTransitions: ();
+	//@warn " #{$transitions}.";
+	// boucle sur les props séparées par des virgules et concatène la prop globale
+	@each $transition in $transitions {
+		$unfoldedTransitions: append($unfoldedTransitions, unfoldTransition($transition), comma);
+		//@warn " >>> #{$transition}  -> #{$unfoldedTransitions}";
+	}
+
+	//@warn "🙂 #{$unfoldedTransitions}.";
+	transition: $unfoldedTransitions;
+}
+
+
 // Génére une transition
+/*
 @mixin addTransition($effect: all, $duration: 0.2s, $easeing:ease) {
 	$anim: $effect $duration $easeing;
 	transition: $anim;
 }
+*/
 
 
 // Comportement de hover sauf si touchscreen

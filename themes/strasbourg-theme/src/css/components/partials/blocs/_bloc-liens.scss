@@ -6,6 +6,8 @@
 
 	.st-lien-container {
 		position: relative;
+		display: flex;
+		align-items: center;
 		--link-padding-top: 36px;		// Premier lien si plusieurs dans la liste
 		--link-padding-bottom: 24px;
 
@@ -73,12 +75,8 @@
 	.st-title-lien {
 		@include ft('', $s_p, 400, $c_white, 1);
 		@include letter-spacing(25);
-		@include addTransition();
-		margin-right: 20px;
+		@include transition(color);
 
-		@include tablet-portrait {
-			margin-right: initial;
-		}
 		@include mobile {
 			font-size: 12px;
 		}
@@ -87,10 +85,13 @@
 	.st-lien-content {
 		display: flex;
 		align-items: center;
-		margin-left: auto;
+		flex-grow: 1;
+
+		@include min-tablet-portrait {
+			margin-left: 10px;
+		}
 
 		@include tablet-portrait {
-			margin-left: initial;
 			margin-top: 8px;
 		}
 		@include mobile {
@@ -99,22 +100,23 @@
 	}
 
 	.st-type {
-		@include ft($f_txt, $s_p, 300, $c_txt, 1);
+		@include ft('', $s_p, 300, $c_txt, 1);
 		@include letter-spacing(25);
 		text-transform: uppercase;
+		margin-right: 10px;
 
 		@include mobile {
 			font-size: 12px;
 		}
-
-		& + * {
-			margin-left: 10px;
-		}
 	}
 
 	.st-text {
-		@include ft($f_txt, $s_p, 600, $c_sub, 1);
+		@include ft('', $s_p, 600, $c_sub, 1);
 		@include letter-spacing(25);
+
+		@include min-tablet-portrait {
+			margin-left: auto;
+		}
 
 		@include mobile {
 			font-size: 12px;
@@ -122,8 +124,7 @@
 	}
 
 	.st-lien-container {
-		display: flex;
-		align-items: center;
+
 	}
 	
 	
@@ -150,7 +151,6 @@
 		}
 
 		.st-title-lien {
-			margin-right: initial;
 			font-size: 12px;
 		}
 
@@ -170,16 +170,8 @@
 
 	// Tout le contenu aligné à gauche
 	&.st--align-left  {
-		.st-lien-content {
+		.st-text {
 			margin-left: initial;
-		}
-
-		.st-title-lien {
-			margin-right: 10px;
-
-			@include tablet-portrait {
-				margin-right: initial;
-			}
 		}
 	}
 }

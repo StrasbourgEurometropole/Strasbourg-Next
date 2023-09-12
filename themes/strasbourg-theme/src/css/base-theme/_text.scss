@@ -386,6 +386,7 @@
 		@include create-outline;
 		color: $c_sub;
 		text-decoration: underline;
+		@include transition(color);
 
 		@include can-hover {
 			color: $c_white;
@@ -475,6 +476,7 @@
 	color: $c_sub;
 	text-decoration: underline;
 	font-weight: 600;
+	@include transition(color);
 
 	&:before {
 		@include icomoon($st-icon-info);

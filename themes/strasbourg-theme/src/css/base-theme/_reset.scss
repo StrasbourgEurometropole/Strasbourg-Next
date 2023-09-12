@@ -44,7 +44,6 @@
 
 	a {
 		text-decoration: none;
-		@include addTransition();
 
 		&:hover {
 			text-decoration: none;		// surcharge de clay
@@ -99,7 +98,6 @@
 		outline: none;
 		background: none;
 		border-radius: 0;
-		@include addTransition();
 
 		&:not([disabled]) {
 			cursor: pointer;
@@ -108,5 +106,10 @@
 		&:focus {
 			outline: none;
 		}
+	}
+
+	sup {
+		font-size: 0.6em;
+		top: -0.5em;
 	}
 }

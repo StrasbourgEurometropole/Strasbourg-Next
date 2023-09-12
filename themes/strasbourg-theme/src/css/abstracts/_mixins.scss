@@ -89,7 +89,6 @@
 		opacity: 0;
 		background-color: $c_white;
 		@include shadow();
-		@include addTransition();
 	}
 
 	@include can-hover {

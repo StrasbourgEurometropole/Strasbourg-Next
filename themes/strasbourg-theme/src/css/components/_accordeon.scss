@@ -3,7 +3,6 @@
 	text-align: left;
 	margin: auto;
 	border: 1px solid $c_sub;
-	@include addTransition();
 
 	@include tablet-portrait {
 		margin: 0;
@@ -34,7 +33,7 @@
 		padding: 35px 0;
 		text-align: left;
 		background: none;
-		@include addTransition();
+		@include transition(color, background-color);
 
 		@include mobile {
 			font-size: 14px;
@@ -99,10 +98,6 @@
 				padding-left: 20px;
 				padding-right: 20px;
 			}
-		}
-
-		&.st-anim {
-			@include addTransition();
 		}
 
 		> * {

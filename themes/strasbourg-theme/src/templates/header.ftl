@@ -29,7 +29,7 @@
 
                 <ul class="st-nav-primary__menu">
                     <li class="st-nav-primary__item">
-                        <a href="#" class="st-nav-primary__link">
+                        <a href="#" class="st-nav-primary__link" data-overlay-open="st-overlay-location">
                             <@liferay_ui.message key="eu.mycity" />
                         </a>
                     </li>

@@ -58,7 +58,7 @@ public class NewsHomeItem {
                 .collect(Collectors.joining(" - "));
 
         this.title = JournalArticleHelper.getJournalArticleFieldValue(article, "title", locale);
-        this.titleCourt = JournalArticleHelper.getJournalArticleFieldValue(article, "TitleShort", locale);
+        this.titleCourt = JournalArticleHelper.getJournalArticleFieldValue(article, "TitleShort", locale, true);
         this.description = JournalArticleHelper.getJournalArticleFieldValue(article, "chapo", locale);
 
         // Récupère la structure du document de la vignette et obtient l'URL de l'image

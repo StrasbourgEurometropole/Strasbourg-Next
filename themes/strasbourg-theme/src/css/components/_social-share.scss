@@ -6,7 +6,6 @@
 .st-page-wrapper .st-social-share {
 	position: relative;
 	z-index: z-index('social-share');
-	@include addTransition();
 
 	input {
 		display: none;
@@ -18,9 +17,10 @@
 		@include inline-flex-center();
 		width: 40px;
 		height: 30px;
+		margin-bottom: 0;
 		font-size: 20px;
+		color: $c_txt;
 		cursor: pointer;
-		@include addTransition();
 
 		@include can-hover {
 			span {
@@ -45,7 +45,7 @@
 			left: 0;
 			display: block;
 			opacity: 0;
-			transition: all 0.25s cubic-bezier(0.43, 1.17, 0.69, 1.24);
+			@include transition(opacity 0.25s cubic-bezier(0.43, 1.17, 0.69, 1.24), top 0.25s cubic-bezier(0.43, 1.17, 0.69, 1.24));
 		}
 	}
 

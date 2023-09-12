@@ -48,7 +48,7 @@
 		border: 1px solid rgba($c_white, 0.5);
 		border-radius: $border-radius;
 		background-color: transparent;
-		@include addTransition();
+		@include transition(color, border-color);
 
 		@include mobile {
 			padding: 18px 16px;
@@ -108,7 +108,7 @@
 			border-radius: $border-radius;
 			text-overflow: ellipsis;
 			overflow: hidden;
-			@include addTransition();
+			@include transition(border-color);
 
 			@include mobile {
 				padding: 19px 40px 19px 16px;
@@ -241,7 +241,7 @@
 			border: 1px solid rgba($c_white, 0.5);
 			transform: translateY(-1px);
 			cursor: pointer;
-			transition: all 150ms;
+			@include transition(border-color);
 
 			&:before {
 				content: "";
@@ -250,7 +250,7 @@
 				opacity: 0;
 				transform: scale(0.5);
 				background-color: $c_sub;
-				transition: all 150ms;
+				@include transition(opacity 150ms, transform 150ms);
 			}
 
 			&:checked:before {

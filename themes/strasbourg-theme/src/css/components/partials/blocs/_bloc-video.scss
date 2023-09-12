@@ -11,15 +11,15 @@
 			@include absolute-stretch();
 			z-index: 1;
 			opacity: 1;
-			transition: all 0.7s ease-in-out;
 
 			& ~ .st-embed-container {
-				opacity: 0;
+				opacity: 1;
 			}
 
 			&.st-hide-mask {
 				figure {
 					opacity: 0;
+
 					@media screen and (max-width: 750px) {
 						opacity: 1;
 					}
@@ -36,7 +36,7 @@
 				position: relative;
 				height: auto;
 				opacity: 1;
-				transition: all 0.7s ease-in-out;
+				@include transition(opacity 0.7s ease-in-out);
 
 				img {
 					height: 100%;
@@ -54,12 +54,12 @@
 					background: linear-gradient(-90deg, rgba($c_main, 0), rgba($c_main, 1));
 					opacity: 0.75;
 					pointer-events: none;
-					@include addTransition();
+					@include transition(opacity);
 				}
 
 				@include can-hover {
 					&:after {
-						opacity: 0.80;
+						opacity: 0.9;
 					}
 				}
 			}
@@ -111,7 +111,8 @@
 			display: none;
 		}
 
-		.st-embed-container, video {
+		.st-embed-container,
+		video {
 			& + .st-caption {
 				margin-top: 40px;
 			}
@@ -139,25 +140,4 @@
 		justify-content: flex-end;
 		margin-top: 20px;
 	}
-
-	@include can-hover {
-		.st-btn-play-video {
-			[class^="icon-"], [class*=" icon-"] {
-				color: $c_main;
-				font-size: 25px;
-			}
-
-			&:after {
-				background-color: $c_sub;
-				transform: scale(0.8);
-			}
-		}
-
-		.st-caption {
-			[class^="icon-"], [class*=" icon-"] {
-				opacity: 1;
-			}
-		}
-	}
-
 }
