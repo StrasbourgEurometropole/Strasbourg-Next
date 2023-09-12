@@ -23,16 +23,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ViewHelpProposalsDisplayContext{
 
 
-	public ViewHelpProposalsDisplayContext(RenderRequest request, RenderResponse response, ItemSelector itemSelector) {
+	public ViewHelpProposalsDisplayContext(RenderRequest request, RenderResponse response) {
 		_request = request;
 		_response = response;
 		_themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
 		_httpServletRequest = PortalUtil.getHttpServletRequest(request);
-		_itemSelector = itemSelector;
 	}
 
 	/**
@@ -110,23 +110,42 @@ public class ViewHelpProposalsDisplayContext{
 		_hits = SearchHelper.getBOSearchHits(searchContext,
 				getSearchContainer().getStart(),
 				getSearchContainer().getEnd(), HelpProposal.class.getName(), groupId,
-				"", keywords,
+				getFilterCategoriesIds(), keywords,
 				getOrderByColSearchField(),
 				"desc".equals(getOrderByType()));
 	}
 
 	public boolean hasVocabulary(String vocabularyName){
-		return getCategVocabularies().containsKey(vocabularyName);
+		return getFilterCategoriesIdByVocabulariesName().contains(vocabularyName+"_");
 	}
 
-	public Map<String, String> getCategVocabularies() {
+	/**
+	 * Retourne la liste des IDs des catégories sur lesquels on doit filtrer
+	 *  chaque entrée de liste contient un tableau de String :
+	 * [vocabularyName, categoryName, categoryId]
+	 */
+	public List<String[]> getCategVocabularies() {
 		if (_categVocabularies == null) {
-			_categVocabularies = new HashMap<>();
-			_categVocabularies.put("vocabulary1", ParamUtil.getString(
-					_httpServletRequest, "vocabulary1", ""));
+			_categVocabularies = new ArrayList<>();
+			List<String> filterCategoriesIdByVocabulariesName = List.of(getFilterCategoriesIdByVocabulariesName()
+					.split("__"));
+			for(String filterCategoryIdByVocabularyName : filterCategoriesIdByVocabulariesName){
+				if(Validator.isNotNull(filterCategoryIdByVocabularyName)) {
+					_categVocabularies.add(filterCategoryIdByVocabularyName.split("_"));
+				}
+			}
 		}
 
 		return _categVocabularies;
+	}
+
+	/**
+	 * Retourne un String des IDs des catégories sur lesquels on doit filtrer
+	 *  sous forme de string qui se présente comme suit :
+	 * "vocabularyName_categoryName_categoryId__..."
+	 */
+	public String getFilterCategoriesIdByVocabulariesName() {
+		return ParamUtil.getString(_httpServletRequest, "filterCategoriesIdByVocabulariesName","");
 	}
 
 
@@ -187,6 +206,65 @@ public class ViewHelpProposalsDisplayContext{
 		}
 		return _helpRequestsByProposal;
 	}
+
+	/**
+	 * Renvoie la liste des catégories sur lesquelles on souhaite filtrer les
+	 * entries. L'opérateur entre chaque id de catégorie d'un array est un "OU", celui entre chaque liste d'array est un "ET"
+	 */
+	private List<Long[]> getFilterCategoriesIds() {
+		if (_filterCategoriesIds == null) {
+			List<Long[]> filterCategoriesIds = new ArrayList<Long[]>();
+
+			// récupère les catégories triées par nom de vocabulaire
+			List<String> filterCategoriesIdByVocabulariesName = List.of(getFilterCategoriesIdByVocabulariesName()
+					.split("__")).stream().sorted().collect(Collectors.toList());
+			if(!filterCategoriesIdByVocabulariesName.isEmpty()) {
+				String oldVocabularyName = "";
+				String categoriesIds = "";
+				for (String filterCategoryIdByVocabularyName : filterCategoriesIdByVocabulariesName) {
+					if (Validator.isNotNull(filterCategoryIdByVocabularyName)) {
+						String vocabularyName = filterCategoryIdByVocabularyName.split("_")[0];
+						String categoryId = filterCategoryIdByVocabularyName.split("_")[2];
+						if (oldVocabularyName.equals("") || oldVocabularyName.equals(vocabularyName)) {
+							if (Validator.isNotNull(categoriesIds)) {
+								categoriesIds += ",";
+							}
+							categoriesIds += categoryId;
+							oldVocabularyName = vocabularyName;
+						} else {
+							Long[] categoriesIdsOr = ArrayUtil.toLongArray(StringUtil.split(categoriesIds, ",", 0));
+							filterCategoriesIds.add(categoriesIdsOr);
+							oldVocabularyName = vocabularyName;
+							categoriesIds = categoryId;
+						}
+					}
+				}
+				Long[] categoriesIdsOr = ArrayUtil.toLongArray(StringUtil.split(categoriesIds, ",", 0));
+				filterCategoriesIds.add(categoriesIdsOr);
+			}
+			this._filterCategoriesIds = filterCategoriesIds;
+		}
+		return this._filterCategoriesIds;
+	}
+
+	/**
+	 * Retourne la liste des IDs des catégories d'un vocabulaire, sur lequel on doit filtrer
+	 *  sous forme de string qui se présente comme suit :
+	 * "categoryId1,categoryId2,categoryId3,"
+	 */
+	public String getFilterCategoriesIdsByVocabularyName(String vocabularyName) {
+		List<String> filterCategoriesIdByVocabulariesName = List.of(getFilterCategoriesIdByVocabulariesName()
+				.split("__"));
+		String filterCategoriesIdsByVocabulary = "";
+		for(String filterCategoryIdByVocabularyName : filterCategoriesIdByVocabulariesName){
+			if(Validator.isNotNull(filterCategoryIdByVocabularyName)) {
+				String[] arrayCategoryIdByVocabularyName = filterCategoryIdByVocabularyName.split("_");
+				if(arrayCategoryIdByVocabularyName[0].equals(vocabularyName))
+					filterCategoriesIdsByVocabulary += arrayCategoryIdByVocabularyName[2] + ",";
+			}
+		}
+		return filterCategoriesIdsByVocabulary;
+	}
 	private Hits _hits;
 	protected SearchContainer<HelpProposal> _searchContainer;
 	private String _keywords;
@@ -194,9 +272,9 @@ public class ViewHelpProposalsDisplayContext{
 	private final RenderResponse _response;
 	protected ThemeDisplay _themeDisplay;
 	private final HttpServletRequest _httpServletRequest;
-	private final ItemSelector _itemSelector;
 
-	private Map<String, String> _categVocabularies;
+	private List<String[]> _categVocabularies;
 	private HashMap<Long, Integer> _helpRequestsByProposal;
 	private List <HelpProposal> _helpProposals;
+	protected List<Long[]> _filterCategoriesIds;
 }

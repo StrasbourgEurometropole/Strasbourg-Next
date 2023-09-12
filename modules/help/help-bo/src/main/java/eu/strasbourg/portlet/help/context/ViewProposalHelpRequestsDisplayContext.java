@@ -29,13 +29,11 @@ import java.util.Map;
 public class ViewProposalHelpRequestsDisplayContext{
 
 
-    public ViewProposalHelpRequestsDisplayContext(RenderRequest request, RenderResponse response
-       , ItemSelector itemSelector) {
+    public ViewProposalHelpRequestsDisplayContext(RenderRequest request, RenderResponse response) {
             _request = request;
             _response = response;
             _themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
             _httpServletRequest = PortalUtil.getHttpServletRequest(request);
-            _itemSelector = itemSelector;
         }
 
     /**
@@ -123,7 +121,6 @@ public class ViewProposalHelpRequestsDisplayContext{
     protected ThemeDisplay _themeDisplay;
 
     private final HttpServletRequest _httpServletRequest;
-    private final ItemSelector _itemSelector;
 
     private HelpProposal _helpProposal;
     private List <HelpRequest> _helpRequests;

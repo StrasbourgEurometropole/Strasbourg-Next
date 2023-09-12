@@ -30,12 +30,11 @@ public class ViewHelpSeekersDisplayContext {
 
     private List<HelpSeeker> _helpSeekers;
 
-    public ViewHelpSeekersDisplayContext(RenderRequest request, RenderResponse response, ItemSelector itemSelector) {
+    public ViewHelpSeekersDisplayContext(RenderRequest request, RenderResponse response) {
         _request = request;
         _response = response;
         _themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
         _httpServletRequest = PortalUtil.getHttpServletRequest(request);
-        _itemSelector = itemSelector;
     }
     @SuppressWarnings("unused")
     public SeekerHelpActionDropdownItemsProvider getActionsHelpSeeker(ViewHelpSeekersDisplayContext.HelpSeeker helpSeeker) {
@@ -160,19 +159,6 @@ public class ViewHelpSeekersDisplayContext {
      */
     public String getOrderByType() {
         return ParamUtil.getString(_request, "orderByType", "desc");
-    }
-    public boolean hasVocabulary(String vocabularyName){
-        return getCategVocabularies().containsKey(vocabularyName);
-    }
-
-    public Map<String, String> getCategVocabularies() {
-        if (_categVocabularies == null) {
-            _categVocabularies = new HashMap<>();
-            _categVocabularies.put("vocabulary1", ParamUtil.getString(
-                    _httpServletRequest, "vocabulary1", ""));
-        }
-
-        return _categVocabularies;
     }
 
 
@@ -322,8 +308,4 @@ public class ViewHelpSeekersDisplayContext {
     private final RenderResponse _response;
     protected ThemeDisplay _themeDisplay;
     private final HttpServletRequest _httpServletRequest;
-    private final ItemSelector _itemSelector;
-
-    private Map<String, String> _categVocabularies;
-
 }

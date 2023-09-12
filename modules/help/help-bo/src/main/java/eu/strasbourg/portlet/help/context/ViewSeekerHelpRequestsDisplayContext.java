@@ -1,6 +1,5 @@
 package eu.strasbourg.portlet.help.context;
 
-import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -28,12 +27,11 @@ import java.util.List;
 
 public class ViewSeekerHelpRequestsDisplayContext {
 
-    public ViewSeekerHelpRequestsDisplayContext(RenderRequest request, RenderResponse response,ItemSelector itemSelector) {
+    public ViewSeekerHelpRequestsDisplayContext(RenderRequest request, RenderResponse response) {
         _request = request;
         _response = response;
         _themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
         _httpServletRequest = PortalUtil.getHttpServletRequest(request);
-        _itemSelector = itemSelector;
     }
 
     @SuppressWarnings("unused")
@@ -146,6 +144,5 @@ public class ViewSeekerHelpRequestsDisplayContext {
 
     private final RenderResponse _response;
     private final HttpServletRequest _httpServletRequest;
-    private final ItemSelector _itemSelector;
 
 }

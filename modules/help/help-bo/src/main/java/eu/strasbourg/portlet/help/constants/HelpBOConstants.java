@@ -12,7 +12,7 @@ public class HelpBOConstants {
     public static final String PARAM_CMD = "cmd";
     public static final String PARAM_TAB = "tab";
     public static final String PARAM_MVC_PATH = "mvcPath";
-    public static final String PARAM_RETURN_URL = "returnURL";
+    public static final String PARAM_RETURN_URL = "backURL";
     public static final String PARAM_REDIRECT_URL = "redirectURL";
     public static final String PARAM_PUBLIK_ID = "publikUserLiferayId";
     public static final String PARAM_EDIT_PUBLIK_USER = "editPublikUser";
