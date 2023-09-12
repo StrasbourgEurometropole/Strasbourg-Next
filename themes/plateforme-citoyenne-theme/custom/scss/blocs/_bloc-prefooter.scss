@@ -1,12 +1,12 @@
 .pro-bloc-prefooter {
 	background: $c_dark;
 	min-height: 90px;
+	z-index: 130;
 	&.pro-sticky-bar{
 		position: fixed;
 		left: 0;
 		right: 0;
 		bottom: 0;
-		z-index: 130;
 		@include mobile{
 			position: relative;
 		}
@@ -81,6 +81,8 @@
 
 
 		.pro-bloc-pcs-form{
+			margin-top: 25px;
+			margin-bottom: 20px;
 			float: left;
 			@include tablet_portrait{
 				margin-bottom: 20px;
@@ -88,14 +90,14 @@
 			.pro-optin{
 				padding: 0;
 				label{
-					max-width: 420px;
+					max-width: 500px;
 				}
 			}
 		}
 
 
 		&.pro-pencil {
-			padding: 20px 0;
+			padding: 0;
 			> * {
 				text-align: right;
 				> * {
@@ -112,7 +114,7 @@
 						}
 						&:hover {
 							> span {
-								color: $c_main;
+								@include addDynamicTextColor();
 							}
 						}
 						&:focus {
@@ -120,7 +122,7 @@
 						}
 						> span {
 							@include ft($f_hx, 0.938em, 700, $c_txt, normal);
-							text-transform: uppercase;
+
 							position: absolute;
 							left: 0;
 							right: 0;
@@ -169,15 +171,27 @@
 		a{
 			color: $c_white;
 			text-decoration: underline;
+			font-weight: 700;
 			@include addTransition();
 			&:hover, &:focus{
-				color: $c_main;
+				@include addDynamicTextColor();
 			}
 		}
 	}
 	.pro-you {
-		@include ft($f_hx, 1.125em, 700, $c_main, 1.444em);
-		text-transform: uppercase;
+		@include ft($f_hx, 1.125em, 700, #f37021, 1.444em);
+		@include addDynamicTextColor();
+	}
+
+	.pro-signature-btn {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		@include tablet_portrait {
+			flex-direction: column;
+			align-items: stretch;
+			margin-bottom: 30px;
+		}
 	}
 
 	.pro-ico {
@@ -186,16 +200,17 @@
 		top: 3px;
 		width: 60px;
 		height: 60px;
-		background: $c_main;
+		@include addDynamicBackground();
 		border-radius: 50%;
 		display: inline-block;
 		border: 2px solid $c_main;
+		@include addDynamicBorderColor();
 		@include addTransition();
 		&:hover, &.active {
 			cursor: pointer;
 			background: transparent;
 			> span {
-				color: $c_main;
+				@include addDynamicTextColor();
 			}
 		}
 		&:focus {
@@ -217,7 +232,7 @@
 		text-align: center;
 		> span {
 			@include ft($f_hx, $s_small, 400, $c_white, normal);
-			text-transform: uppercase;
+
 		}
 		ul {
 			list-style-type: none;
@@ -228,7 +243,7 @@
 				a {
 					font-size: 2em;
 					padding: 0 3px;
-					color: $c_main;
+					@include addDynamicTextColor();
 					&:hover, &:focus {
 						color: $c_white;
 					}
@@ -296,7 +311,7 @@
 						margin-right: 0 !important;
 						display: block;
 						@include ft($f_txt, 12px, 600, $c_white, 20px);
-						text-transform: uppercase;
+
 
 						margin: 0;
 						margin-bottom: 10px;
@@ -321,7 +336,7 @@
 			> a {
 				box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.2);
 				position: absolute;
-				background: $c_main;
+				@include addDynamicBackground();
 				padding: 40px 0 15px 0;
 				width: 430px;
 				text-align: center;
@@ -329,6 +344,7 @@
 				display: inline-block;
 				left: 50%;
 				border: 2px solid $c_main;
+				@include addDynamicBorderColor();
 				transform: translate(-50%, -60%) rotate(-4.6deg);
 				transform: translate3d(-50%, -60%, 0) rotate(-4.6deg);
 				@include addTransition();
@@ -365,7 +381,7 @@
 					background: $c_dark;
 					.pro-svg {
 						> * {
-							color: $c_main;
+							@include addDynamicTextColor();
 							.cls-1 {
 								stroke: $c_main;
 							}
@@ -379,7 +395,7 @@
 						}
 					}
 					h3, p, span {
-						color: $c_main;
+						@include addDynamicTextColor();
 					}
 				}
 				&:focus {
@@ -414,7 +430,7 @@
 
 				h3 {
 					@include ft($f_hx, 1.563em, 700, $c_txt, 1.2em);
-					text-transform: uppercase;
+
 					margin: 0;
 					@include addTransition();
 				}
@@ -424,7 +440,7 @@
 				}
 				span {
 					@include ft($f_hx, 0.938em, 700, $c_txt, normal);
-					text-transform: uppercase;
+
 					@include addTransition();
 				}
 			}

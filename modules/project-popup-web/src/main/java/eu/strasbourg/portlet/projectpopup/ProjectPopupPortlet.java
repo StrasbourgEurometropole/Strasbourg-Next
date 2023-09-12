@@ -104,6 +104,10 @@ public class ProjectPopupPortlet extends MVCPortlet {
                 request.setAttribute("thematics", thematics);
                 request.setAttribute("projects", projects);
 
+                request.setAttribute("dispositifs", assetVocabularyAccessor.getSaisineDispositif(groupId).getCategories());
+                request.setAttribute("aka", assetVocabularyAccessor.getSaisineEnTantQue(groupId).getCategories());
+
+
                 if (entryID != -1)
                     request.setAttribute("entryId", entryID);
                 request.setAttribute("userConnected", user);

@@ -1,6 +1,6 @@
 <nav class="modal_connexion">
     <!-- HTML pour la modal de connexion -->
-    <div class="pro-modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal">
+    <div class="pro-modal fade couleur-commune" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal">
             <div class="modal-dialog" role="document">                              
 					<#if request.session.getAttribute("publik_logged_in")!false>
 						<div class="modal-content">

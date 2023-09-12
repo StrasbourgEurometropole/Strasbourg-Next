@@ -6,6 +6,7 @@ var markersCluster = null;
 var projects = null;
 var participations = null;
 var petitions = null;
+var saisines = null;
 var budgets = null;
 var initiatives = null;
 var events = null;
@@ -14,6 +15,7 @@ var events = null;
 var projectMarkers = [];
 var participationMarkers = [];
 var petitionMarkers = [];
+var saisineMarkers = [];
 var budgetMarkers = [];
 var initiativeMarkers = [];
 var eventMarkers = [];
@@ -22,6 +24,7 @@ var eventMarkers = [];
 var selectedProjectIds = [];
 var selectedParticipationIds = [];
 var selectedPetitionIds = [];
+var selectedSaisineIds = [];
 var selectedBudgetIds = [];
 var selectedInitiativeIds = [];
 var selectedEventIds = [];
@@ -30,6 +33,7 @@ var entityType = {
 		PROJECT : 'project',
 		PARTICIPATION : 'participation',
 		PETITION : 'petition',
+		SAISINE : 'saisine',
 		BUDGET : 'budget',
 		INITIATIVE : 'initiative',
 		EVENT : 'event'
@@ -81,6 +85,15 @@ function removeMarkerElements(entityName) {
 				petitionMarkers = [];
 			}
 			break;
+
+		case entityType.SAISINE:
+			if (saisineMarkers != null) {
+				saisineMarkers.forEach(function(saisineMarker) {
+					markersCluster.removeLayer(saisineMarker);
+				})
+				saisineMarkers = [];
+			}
+			break;
 			
 		case entityType.BUDGET:
 			if (budgetMarkers != null) {
@@ -123,6 +136,7 @@ function updateFilterElements(onReady) {
     var refreshedSelectedProjectIds = [];
     var refreshedSelectedParticipationIds = [];
     var refreshedSelectedPetitionIds = [];
+	var refreshedSelectedSaisineIds = [];
     var refreshedSelectedBudgetIds = [];
     var refreshedSelectedInitiativeIds = [];
     var refreshedSelectedEventIds = [];
@@ -173,6 +187,22 @@ function updateFilterElements(onReady) {
 	                "<input type='checkbox' id='petition_" + petition.id + "' class='hide-checkbox' value='" + petition.id + "' " + checker + ">" +
 	                "<label for='petition_" + petition.id + "'>" + petition.title + "</label>" +
 	            "</div>"
+			);
+		});
+	}
+
+	if (saisines != null) {
+		saisines.forEach(function(saisine, index) {
+			checker = "";
+			if (onReady || selectedSaisineIds.indexOf(saisine.id) > -1) {
+				refreshedSelectedSaisineIds.push(saisine.id);
+				checker = "checked";
+			}
+			$("fieldset[id='saisines_fieldset']").append(
+				"<div>" +
+				"<input type='checkbox' id='saisine_" + saisine.id + "' class='hide-checkbox' value='" + saisine.id + "' " + checker + ">" +
+				"<label for='saisine_" + saisine.id + "'>" + saisine.title + "</label>" +
+				"</div>"
 			);
 		});
 	}
@@ -302,6 +332,23 @@ function updateMarkerElements(entityName) {
 				});
 			}
 			break;
+
+		case entityType.SAISINE:
+			// Même processus que l'entité Pétition
+			if (saisines != null) {
+				saisines.forEach(function(saisine, index) {
+					if (checkPrintatorState(entityType.SAISINE) && checkMarkerState(entityType.SAISINE, saisine.id)) {
+						saisine.placitPlaces.forEach(function(placitPlace) {
+							if (placitPlace.mercatorY != 0 && placitPlace.mercatorX != 0) {
+								var marker = getSaisineMarker(saisine, [placitPlace.mercatorY, placitPlace.mercatorX]);
+								markersCluster.addLayer(marker);
+								petitionMarkers.push(marker);
+							}
+						})
+					}
+				})
+			}
+			break;
 			
 		case entityType.BUDGET:
 			// Même processus que l'entité Project
@@ -381,6 +428,7 @@ function saveSelectedFilters() {
 	selectedProjectIds = [];
 	selectedParticipationIds = [];
 	selectedPetitionIds = [];
+	selectedSaisineIds = [];
 	selectedBudgetIds = [];
 	selectedInitiativeIds = [];
 	selectedEventIds = [];
@@ -393,6 +441,9 @@ function saveSelectedFilters() {
 	});
 	$("input[id^='petition_']:checked").each(function() {
 		selectedPetitionIds.push(this.value);
+	});
+	$("input[id^='saisine_']:checked").each(function() {
+		selectedSaisineIds.push(this.value);
 	});
 	$("input[id^='budget_']:checked").each(function() {
 		selectedBudgetIds.push(this.value);
@@ -439,6 +490,7 @@ function refreshEntitiesSelectionByDistrict(districtId, onReady = false) {
                 	projects = data.projects;
                 	participations = data.participations;
                 	petitions = data.petitions;
+					saisines = data.saisines;
                 	budgets = data.budgets;
                 	initiatives = data.initiatives;
                 	events = data.events;

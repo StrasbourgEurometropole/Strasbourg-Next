@@ -52,7 +52,6 @@ gulp.task('css', function () {
             console.log(err.toString());
             this.emit('end');
         })
-        .pipe(plugins.autoprefixer())
         .pipe(gulp.dest('./src/css/'));
 });
 

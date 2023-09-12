@@ -1,0 +1,65 @@
+﻿<!--?xml version="1.0"?--><root available-locales="fr_FR" default-locale="fr_FR"> <dynamic-element index-type="keyword" instance-id="fhpn" name="content" type="text_area"> <dynamic-content language-id="fr_FR"> <!-- Social Share sur chaque page - Apparait au moment du scroll de la page -->
+<div class="social-share"><input class="toggle-input" id="toggle-input" type="checkbox" /> <label aria-hidden="true" aria-label="Partagez sur les réseaux sociaux" class="toggle" for="toggle-input"><span>Réseaux sociaux</span></label>
+<ul class="network-list">
+	<li class="facebook"><a aria-label="Partagez sur Facebook" data-href="#" id="sharefacebook" target="_blank" title="Lien de partage sur Facebook"></a></li>
+	<li class="twitter"><a aria-label="Partagez sur Twitter" id="sharetwitter" target="_blank" title="Lien de partage sur Twitter"></a></li>
+	<li class="linkedin"><a aria-label="Partagez sur LinkedIn" id="ShareLinkedIn" target="_blank" title="Lien de partage sur LinkedIn"></a></li>
+	<li class="mail"><a aria-label="Partagez par Email" id="ShareMail" title="Lien de partage par Email"></a></li>
+</ul>
+</div>
+
+<div class="container pb-5">
+<div class="row ">
+<div class="col-md-6 col-sm-6 col-xs-12">
+<div class="pro-contact">
+<h3 class="mb-2">Ville et Eurométropole de Strasbourg</h3>
+
+<p>1 parc de l'Étoile<br />
+67076 Strasbourg Cedex</p>
+
+<div><a class="pro-btn-tel" href="tel:0368985000" title="Numéro de téléphone : 03 68 98 50 00">+33 (0)3 68 98 50 00</a> <a class="pro-btn-tel" href="/nous-contacter" title="formulaire de contact">Nous contacter</a></div>
+</div>
+</div>
+<!-- test -->
+
+<div class="col-md-6 col-sm-6 col-xs-11 mx-auto social-footer">
+<h3 class="mb-2">Suivez-nous</h3>
+
+<ul>
+	<li class="facebook"><a aria-label="Partagez sur Facebook" data-href="#" href="https://www.facebook.com/strasbourg.eu" id="sharefacebook" target="_blank" title="Lien de partage sur Facebook"></a></li>
+	<li class="twitter"><a aria-label="Partagez sur Twitter" id="sharetwitter" href="https://twitter.com/strasbourg" target="_blank" title="Lien de partage sur Twitter"></a></li>
+	<li class="linkedin"><a aria-label="Partagez sur LinkedIn" id="ShareLinkedIn" href="https://www.linkedin.com/company/strasbourg-eurometropole" target="_blank" title="Lien de partage sur LinkedIn"></a></li>
+	<li class="instagram"><a aria-label="Partagez par Instragram" id="ShareInstragram" href="https://www.instagram.com/strasbourg_eurometropole" title="Lien de partage par Instragram"></a></li>
+	<li class="dailymotion"><a aria-label="Partagez par Dailymotion" id="ShareDailymotion" href="https://www.dailymotion.com/villedestrasbourg" title="Lien de partage par Dailymotion"></a></li>
+	<li class="tumblr"><a aria-label="Partagez par Tumblr" id="ShareTumblr" href="https://www.strasblr.eu/" title="Lien de partage par Tumblr"></a></li>
+	<li class="snapchat"><a aria-label="Partagez par Snapchat" id="ShareSnapchat" href="https://www.strasbourg.eu/reseaux-sociaux#snap" title="Lien de partage par Snapchat"></a></li>
+	<li class="soundcloud"><a aria-label="Partagez par Soundchat" id="ShareSoundchat" href="https://soundcloud.com/strasbourg_eu" title="Lien de partage par Soundchat"></a></li>
+</ul>
+
+<h3 class="mt-4"><a href="/pacte" class="link-pacte" style="color: white;text-decoration: none;">Le pacte</a></h3>
+</div>
+</div>
+<!-- --></div>
+
+<div class="pro-footer-bottom">
+<ul>
+	<li><a href="/glossaire" title="le glossaire">Glossaire &amp; règles d'utilisation</a></li>
+	<li><a href="/mentions-legales" title="les mentions légales">Mentions légales</a></li>
+	<li><a href="https://www.strasbourg.eu/donnees-personnelles" target="_blank" title="Politique de gestion des données à caractère personnel">Données personnelles</a></li>
+	<li><a href="javascript:tarteaucitron.userInterface.openPanel();">Gestion des cookies</a></li>
+	<li><a href="https://www.strasbourg.eu/politique cookies" target="_blank" title="Politique cookies">Politique cookies</a></li>
+	<li><a href="/accessibilite" title="le glossaire">Accessibilité (partiellement conforme)</a></li>
+	<li><a href="/plan-du-site" title="le glossaire">Plan du site</a></li>
+</ul>
+</div>
+<script type="text/javascript">
+          window.onload = function () {
+            var url = window.location.toString();
+            document.getElementById("sharefacebook").setAttribute("href", "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(document.URL));
+            document.getElementById("sharetwitter").setAttribute("href", "https://twitter.com/intent/tweet?text=" + url);
+            document.getElementById("ShareLinkedIn").setAttribute("href", "http://www.linkedin.com/shareArticle?mini=true&url=" + url);
+            document.getElementById("ShareMail").setAttribute("href", "mailto:?body=" + url);
+
+          }
+        </script></div>
+</dynamic-content> </dynamic-element> </root>

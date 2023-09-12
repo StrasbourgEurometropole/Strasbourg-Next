@@ -54,6 +54,7 @@
 
 		.link {
 			@include ft($f_hx, 24px, 700, $c_main, 24px);
+			@include addDynamicTextColor();
 			@include addTransition();
 			&:hover, &:focus {
 				color: $c_white;

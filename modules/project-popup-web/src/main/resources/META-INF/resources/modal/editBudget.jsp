@@ -36,7 +36,7 @@
             </div>
 
             <form id="uploadForm"  method="post" action="${editBudgetURL}" enctype="multipart/form-data">
-                <div class="pro-wrapper">
+                <div class="pro-wrapper last-wrapper">
                     <h4><liferay-ui:message key="modal.editbudget.information"/></h4>
                     <div class="form-group">
                         <aui:input id="budgettitle" name="title" label="modal.editbudget.information.title" maxlength="256" required="true" value=""/>
@@ -109,6 +109,7 @@
                     <div class="form-group budgetDocuments">
                     </div>
                 </div>
+                <div class="top-slope"></div>
                 <div class="pro-optin form-checkbox">
                     <div>
                         <input type="checkbox" id="edit-budget-legalage" value="legalage">

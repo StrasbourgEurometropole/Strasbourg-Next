@@ -25,6 +25,9 @@
 
 				<!-- Formulaire de recherche -->
 				<aui:select name="popupTemplateId">
+					<aui:option value="submitSaisineObservatoire" selected="${popupTemplateId eq 'submitSaisineObservatoire'}">
+						<liferay-ui:message key="submitSaisine" />
+					</aui:option>
 					<aui:option value="submitPetition" selected="${popupTemplateId eq 'submitPetition'}">
 						<liferay-ui:message key="submitPetition" />
 					</aui:option>

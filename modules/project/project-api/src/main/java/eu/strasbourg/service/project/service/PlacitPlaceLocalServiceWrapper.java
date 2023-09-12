@@ -332,6 +332,14 @@ public class PlacitPlaceLocalServiceWrapper
 		return _placitPlaceLocalService.getByProject(projectId);
 	}
 
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace>
+		getBySaisineObservatoire(long saisineObservatoireId) {
+
+		return _placitPlaceLocalService.getBySaisineObservatoire(
+			saisineObservatoireId);
+	}
+
 	/**
 	 * Retourne toutes les lieux de cours d'un lieu
 	 */
