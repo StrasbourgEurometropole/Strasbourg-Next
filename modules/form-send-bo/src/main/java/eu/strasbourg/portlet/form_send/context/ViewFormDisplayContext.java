@@ -34,13 +34,12 @@ public class ViewFormDisplayContext{
 
 
 
-    public ViewFormDisplayContext(RenderRequest request, RenderResponse response, ItemSelector itemSelector) {
+    public ViewFormDisplayContext(RenderRequest request, RenderResponse response) {
         _request = request;
         _response = response;
         _themeDisplay = (ThemeDisplay) _request
                 .getAttribute(WebKeys.THEME_DISPLAY);
         _httpServletRequest = PortalUtil.getHttpServletRequest(request);
-        _itemSelector=itemSelector;
 
     }
 
@@ -123,7 +122,7 @@ public class ViewFormDisplayContext{
         _hits = SearchHelper.getBOSearchHits(searchContext,
                 getSearchContainer().getStart(),
                 getSearchContainer().getEnd(), DDMFormInstance.class.getName(), groupId,
-                "", keywords,
+                new ArrayList<>(), keywords,
                 getOrderByColSearchField(),
                 "desc".equals(getOrderByType()));
     }
@@ -138,35 +137,6 @@ public class ViewFormDisplayContext{
         }
     }
 
-    public boolean hasVocabulary(String vocabularyName){
-        return getCategVocabularies().containsKey(vocabularyName);
-    }
-
-    public Map<String, String> getCategVocabularies() {
-        if (_categVocabularies == null) {
-            _categVocabularies = new HashMap<>();
-            _categVocabularies.put("vocabulary1", ParamUtil.getString(
-                    _httpServletRequest, "vocabulary1", ""));
-        }
-
-        return _categVocabularies;
-    }
-
-    @SuppressWarnings("unused")
-    public String getSelectCategoriesByVocabularyIdURL(long vocabularyId) {
-        RequestBackedPortletURLFactory requestBackedPortletURLFactory =
-                RequestBackedPortletURLFactoryUtil.create(_request);
-        AssetCategoryTreeNodeItemSelectorCriterion categoryTreeNodeItemSelectorCriterion =
-                new AssetCategoryTreeNodeItemSelectorCriterion();
-        categoryTreeNodeItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-                new AssetCategoryTreeNodeItemSelectorReturnType());
-
-        return String.valueOf(
-                _itemSelector.getItemSelectorURL(
-                        requestBackedPortletURLFactory,
-                        _response.getNamespace() + "selectAssetCategory",
-                        categoryTreeNodeItemSelectorCriterion));
-    }
     /**
      * Renvoie la colonne sur laquelle on fait le tri
      *
@@ -197,13 +167,9 @@ public class ViewFormDisplayContext{
     }
     private Hits _hits;
     protected SearchContainer<DDMFormInstance> _searchContainer;
-    private Map<String, String> _categVocabularies;
     private String _keywords;
     private final RenderRequest _request;
     private final RenderResponse _response;
     protected ThemeDisplay _themeDisplay;
     private final HttpServletRequest _httpServletRequest;
-    private final ItemSelector _itemSelector;
-
-    private List<DDMFormInstance> _forms;
 }

@@ -78,7 +78,6 @@ public class ManagementFormsToolBarDisplayContext extends SearchContainerManagem
     /**
      * The URL to reset the search
      */
-    // TODO : Il faudra rajouter la réinitialisation des vocabulaires
     @Override
     public String getClearResultsURL() {
         return PortletURLBuilder.create(getPortletURL())
@@ -88,14 +87,6 @@ public class ManagementFormsToolBarDisplayContext extends SearchContainerManagem
                 .buildString();
     }
 
-    /**
-     * The action URL to send the search form
-     */
-    @Override
-    public String getSearchActionURL() {
-        return PortletURLBuilder.createRenderURL(liferayPortletResponse)
-                .buildString();
-    }
 
     /**
      * The search form’s name
@@ -106,31 +97,7 @@ public class ManagementFormsToolBarDisplayContext extends SearchContainerManagem
     }
 
 
-
-    /**
-     * Get form Vocabularies
-     */
-    protected List<AssetVocabulary> getFormVocabularies() {
-        if(_vocabularies == null) {
-            ThemeDisplay themeDisplay =
-                    (ThemeDisplay) httpServletRequest.getAttribute(
-                            WebKeys.THEME_DISPLAY);
-            long companyGroupId = themeDisplay.getCompanyGroupId();
-            long classNameId = ClassNameLocalServiceUtil.getClassNameId(DDMFormInstance.class);
-            long scopeGroupId = themeDisplay.getScopeGroupId();
-            List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getAssetVocabularies(-1, -1).stream()
-                    .filter(v -> (v.getGroupId() == companyGroupId || v.getGroupId() == scopeGroupId) && LongStream.of(v.getSelectedClassNameIds())
-                            .anyMatch(c -> c == classNameId))
-                    .collect(Collectors.toList());
-            _vocabularies = vocabularies;
-        }
-
-
-            return _vocabularies;
-    }
-
     private final ViewFormDisplayContext _viewFormDisplayContext;
     private final ThemeDisplay _themeDisplay;
-    private List<AssetVocabulary> _vocabularies;
 
 }

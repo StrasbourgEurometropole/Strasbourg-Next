@@ -72,22 +72,12 @@ public class ManagementFormsSendToolBarDisplayContext extends SearchContainerMan
     /**
      * The URL to reset the search
      */
-    // TODO : Il faudra rajouter la réinitialisation des vocabulaires
     @Override
     public String getClearResultsURL() {
         return PortletURLBuilder.create(getPortletURL())
                 .setKeywords("")
                 .setParameter( "orderByCol", "modified-date")
                 .setParameter( "orderByType", "desc")
-                .buildString();
-    }
-
-    /**
-     * The action URL to send the search form
-     */
-    @Override
-    public String getSearchActionURL() {
-        return PortletURLBuilder.createRenderURL(liferayPortletResponse)
                 .buildString();
     }
 
@@ -103,6 +93,5 @@ public class ManagementFormsSendToolBarDisplayContext extends SearchContainerMan
 
     private final ViewFormSendDisplayContext _viewFormSendDisplayContext;
     private final ThemeDisplay _themeDisplay;
-    private List<AssetVocabulary> _vocabularies;
 
 }

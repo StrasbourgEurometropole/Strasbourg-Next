@@ -70,7 +70,7 @@ public class FormSendBOPortlet extends MVCPortlet {
 						EditFormSendDisplayContext dc = new EditFormSendDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewFormSendDisplayContext dc = new ViewFormSendDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ViewFormSendDisplayContext dc = new ViewFormSendDisplayContext(renderRequest, renderResponse);
 						ManagementFormsSendToolBarDisplayContext managementDC = new ManagementFormsSendToolBarDisplayContext
 								(servletRequest,(LiferayPortletRequest) renderRequest,
 										(LiferayPortletResponse) renderResponse, dc);
@@ -87,8 +87,8 @@ public class FormSendBOPortlet extends MVCPortlet {
 						long formSendRecordFieldId = ParamUtil.getLong(renderRequest,"formSendRecordFieldId");
 						displayResponse(false, formSendRecordFieldId);
 					}
-					ViewReportingDisplayContext dc = new ViewReportingDisplayContext(renderRequest, renderResponse, _itemSelector);
-					ManagementRportingToolBarDisplayContext managementDC = new ManagementRportingToolBarDisplayContext
+					ViewReportingDisplayContext dc = new ViewReportingDisplayContext(renderRequest, renderResponse);
+					ManagementReportingToolBarDisplayContext managementDC = new ManagementReportingToolBarDisplayContext
 							(servletRequest, (LiferayPortletRequest) renderRequest,
 									(LiferayPortletResponse) renderResponse, dc);
 					renderRequest.setAttribute("dc", dc);
@@ -97,7 +97,7 @@ public class FormSendBOPortlet extends MVCPortlet {
 					break;
 				}
 				case FORMS: {
-					ViewFormDisplayContext dc = new ViewFormDisplayContext(renderRequest, renderResponse, _itemSelector);
+					ViewFormDisplayContext dc = new ViewFormDisplayContext(renderRequest, renderResponse);
 					ManagementFormsToolBarDisplayContext managementDC = new ManagementFormsToolBarDisplayContext
 							(servletRequest, (LiferayPortletRequest) renderRequest,
 									(LiferayPortletResponse) renderResponse, dc);
@@ -133,6 +133,4 @@ public class FormSendBOPortlet extends MVCPortlet {
 		}
 		return true;
 	}
-	@Reference
-	private ItemSelector _itemSelector;
 }
