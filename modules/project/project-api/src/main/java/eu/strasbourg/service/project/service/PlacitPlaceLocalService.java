@@ -268,6 +268,10 @@ public interface PlacitPlaceLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<PlacitPlace> getByProject(long projectId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<PlacitPlace> getBySaisineObservatoire(
+		long saisineObservatoireId);
+
 	/**
 	 * Retourne toutes les lieux de cours d'un lieu
 	 */

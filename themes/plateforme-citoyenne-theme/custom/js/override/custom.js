@@ -337,6 +337,13 @@ function getMarkerIcon(entityType) {
                 iconAnchor: [37, 78],
                 popupAnchor: [1, -78]
             });
+        case 'saisine':
+            return new L.Icon({
+                iconUrl: '/o/plateforme-citoyenne-theme/images/ico/ico-marker-saisine.png',
+                iconSize: [75, 95],
+                iconAnchor: [37, 78],
+                popupAnchor: [1, -78]
+            });
         case 'initiative':
             return new L.Icon({
                 iconUrl: '/o/plateforme-citoyenne-theme/images/ico/ico-marker-initiative.png',
@@ -538,6 +545,36 @@ function getPetitionMarker(petition, mercators) {
 }
 
 /**
+ * Retourne le marqueurs de leaflet d'une saisine sur la carte intéractive
+ */
+function getSaisineMarker(saisineObservatoire, mercators) {
+
+    var saisineObservatoireMarkerIcon = getMarkerIcon("saisine");
+    var marker = L.marker(mercators, {icon: saisineObservatoireMarkerIcon});
+
+    console.log("saisine marker. createDate=" + saisineObservatoire.createDate);
+    marker.bindPopup(
+        '<div class="item pro-bloc-card-petition"><a href="' + saisineObservatoire.link + '">' +
+            '<div class="pro-header-petition">' +
+                '<figure role="group">' +
+                    '<img src="' + saisineObservatoire.authorImageURL + '" width="40" height="40" alt="Image saisine"/>' +
+                '</figure>' +
+                '<p>Saisine publiée par :</p><p><strong>' + saisineObservatoire.author + '</strong></p>' +
+            '</div>' +
+            '<div class="pro-content-petition">' +
+                '<h3>' + saisineObservatoire.title + '</h3><p>Saisine adressée à <u>Ville de Strasbourg</u></p>' +
+                '<span class="pro-time">Publiée le <time datetime="' + saisineObservatoire.createDate + '">' + saisineObservatoire.createDate +
+                '</time></span>' +
+            '</div> ' +
+            '</a></div>'
+        ,{maxHeight: 240, minWidth: 330, maxWidth: 350}
+    );
+
+    return marker;
+
+}
+
+/**
 * Retourne le marqueurs de leaflet d'un budget participatif sur la carte intéractive
 */
 function getBudgetParticipatifMarker(budgetParticipatif, mercators) {
@@ -663,6 +700,10 @@ function getResult(searchPage, data) {
 
             if(json.class == "eu.strasbourg.service.project.model.Petition"){
                 listing += createPetition(json.json);
+            }
+
+            if(json.class == "eu.strasbourg.service.project.model.SaisineObservatoire"){
+                listing += createSaisineObservatoire(json.json);
             }
 
             if(json.class == "eu.strasbourg.service.project.model.BudgetParticipatif"){
@@ -1166,6 +1207,57 @@ function createPetition(petition) {
     return vignette;
 }
 
+
+function createSaisineObservatoire(saisineObservatoire) {
+    let vignette = `
+    <div class="item pro-bloc-card-participation vignette" data-linkall="a">
+      <div>
+        <div class="pro-header-participation">
+            <figure role="group">
+              <img src="${saisineObservatoire.authorImageURL}?imagePreview=1" loading="lazy" width="40" height="40" alt="Image saisine"/>
+            </figure>
+            <div class="pro-header-author">
+            <p>Saisine publiée par :</p>
+            <p><strong>${saisineObservatoire.author} adressée à : Ville de Strasbourg</strong></p>
+          </div>
+          <div class="pro-comments">
+            <span><span class="icon-ico-comment"></span>${saisineObservatoire.nbApprovedComments} Commentaire(s)</span>
+          </div>
+          <div class="pro-info-top">
+            <span class="pro-encart-theme">
+              ${saisineObservatoire.frontStatusFR}
+            </span>
+          </div>
+        </div>
+        <div class="pro-content-participation">
+          <div class="pro-content-header">
+            <div class="pro-meta">
+              <!-- Liste des thématiques de la participation -->
+              ${saisineObservatoire.jsonThematicCategoriesTitle
+        .map((thematic) => `<span class="pro-encart-theme">${thematic["fr_FR"]}</span>`)
+        .join("")}
+            </div>
+            
+            
+          </div>
+          <div>
+          <!-- Liste des quartiers de la participation -->
+          <span class="location-participation prefix-location">${saisineObservatoire.districtLabel}</span>
+            </div>
+          <a href="${homeURL}detail-saisine-observatoire/-/entity/id/${saisineObservatoire.id}" title="Lien vers la page détail Participation - Lien des commentaires">
+            <h3>${saisineObservatoire.title}</h3>
+          </a>
+          <span class="pro-time">
+            Publiée le <time datetime="${saisineObservatoire.createDate}">${saisineObservatoire.createDate}</time>
+          </span>
+        </div>
+      </div>
+    </div>
+    <!-- Cree le style de couleur hexa a la volee pour l'application de la couleur !-->
+  `;
+
+    return vignette;
+}
 
 
 /**
