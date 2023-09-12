@@ -1,45 +1,43 @@
 package eu.strasbourg.portlet.council.display.context;
 
-import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
-import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.SearchContainerManagementToolbarDisplayContext;
-import com.liferay.frontend.taglib.clay.servlet.taglib.util.*;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenuBuilder;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
-import com.liferay.portal.kernel.portlet.PortletURLUtil;
-import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
-import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.display.context.ManagementBaseToolBarDisplayContext;
 
-import javax.portlet.MutableRenderParameters;
-import javax.portlet.PortletException;
-import javax.portlet.PortletURL;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 
-public class ManagementOfficialsToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
+public class ManagementOfficialsToolBarDisplayContext extends ManagementBaseToolBarDisplayContext<Official> {
 
     public ManagementOfficialsToolBarDisplayContext(
             HttpServletRequest httpServletRequest,
             LiferayPortletRequest liferayPortletRequest,
             LiferayPortletResponse liferayPortletResponse,
-            ViewOfficialsDisplayContext viewOfficialsDisplayContext) throws PortalException {
+            SearchContainer searchContainer) throws PortalException {
         super(httpServletRequest, liferayPortletRequest, liferayPortletResponse,
-                viewOfficialsDisplayContext.getSearchContainer());
-        _viewViewOfficialsDisplayContext = viewOfficialsDisplayContext;
+                Official.class, searchContainer);
 
         _themeDisplay = (ThemeDisplay)liferayPortletRequest.getAttribute(
                 WebKeys.THEME_DISPLAY);
+    }
+
+    /**
+     * On ne veut pas d'options de lélection
+     */
+    @Override
+    public List<DropdownItem> getActionDropdownItems() {
+        return null;
     }
 
 
@@ -52,31 +50,6 @@ public class ManagementOfficialsToolBarDisplayContext extends SearchContainerMan
     }
 
     /**
-     * Sets the search container’s filtering options
-     */
-    @Override
-    public List<DropdownItem> getFilterDropdownItems() {
-        return DropdownItemListBuilder
-                .addGroup(
-                        dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(
-                                    getFilterVocabularyDropdownItems());
-                            dropdownGroupItem.setLabel(
-                                    LanguageUtil.get(httpServletRequest, "filter-by"));
-                        }
-                )
-                .addGroup(
-                        dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(getOrderByDropdownItems());
-                            dropdownGroupItem.setLabel(
-                                    LanguageUtil.get(httpServletRequest, "order-by")
-                            );
-                        }
-                )
-                .build();
-    }
-
-    /**
      * Fields that can be sorted
      */
     @Override
@@ -84,50 +57,6 @@ public class ManagementOfficialsToolBarDisplayContext extends SearchContainerMan
         return new String[] { "full-name"};
     }
 
-    /**
-     * The URL to reset the search
-     */
-    @Override
-    public String getClearResultsURL() {
-        return PortletURLBuilder.create(getPortletURL())
-                .setKeywords("")
-                .setParameter( "orderByCol", "modified-date")
-                .setParameter( "orderByType", "desc")
-                .setParameter( "filterCategoriesIdByVocabulariesName", "")
-                .buildString();
-    }
-
-    /**
-     * The search form’s name
-     */
-    @Override
-    public String getSearchFormName() {
-        return "fm1";
-    }
-
-
-    /**
-     * Get Help Official Vocabularies
-     */
-    protected List<AssetVocabulary> getOfficialVocabularies() {
-        if(_vocabularies == null) {
-            ThemeDisplay themeDisplay =
-                    (ThemeDisplay) httpServletRequest.getAttribute(
-                            WebKeys.THEME_DISPLAY);
-            long companyGroupId = themeDisplay.getCompanyGroupId();
-            long classNameId = ClassNameLocalServiceUtil.getClassNameId(Official.class);
-            long scopeGroupId = themeDisplay.getScopeGroupId();
-            List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
-                    .getAssetVocabularies(-1, -1).stream()
-                    .filter(v -> (v.getGroupId() == companyGroupId || v.getGroupId() == scopeGroupId)
-                            && LongStream.of(v.getSelectedClassNameIds())
-                            .anyMatch(c -> c == classNameId))
-                    .collect(Collectors.toList());
-            _vocabularies = vocabularies;
-        }
-
-        return _vocabularies;
-    }
     /**
      * creates an add menu button
      */
@@ -169,74 +98,7 @@ public class ManagementOfficialsToolBarDisplayContext extends SearchContainerMan
         }
         return false;
     }
-    /**
-     * Add filtering options to Vocabulary
-     */
-    protected List<DropdownItem> getFilterVocabularyDropdownItems() {
-        List<DropdownItem> filterVocabularyDropdownItems = new DropdownItemList();
-
-        for (AssetVocabulary vocabulary : getOfficialVocabularies()) {
-            filterVocabularyDropdownItems.add(
-                    DropdownItemBuilder
-                            .setActive(_viewViewOfficialsDisplayContext.hasVocabulary(vocabulary.getName()))
-                            .setHref("javascript:getCategoriesByVocabulary(" + vocabulary.getVocabularyId()
-                                    + ", \"" + vocabulary.getName() + "\", '"
-                                    + _viewViewOfficialsDisplayContext.getFilterCategoriesIdsByVocabularyName(vocabulary.getName()) +"');")
-                            .setLabel(vocabulary.getName())
-                            .build()
-            );
-        }
-
-        return filterVocabularyDropdownItems;
-    }
-
-    /**
-     * Sets the search container’s filter labels to display
-     */
-    @Override
-    public List<LabelItem> getFilterLabelItems() {
-        List<String[]> categoriesSelected = _viewViewOfficialsDisplayContext.getCategVocabularies();
-        LabelItemListBuilder.LabelItemListWrapper vocabulariesLabelItems = new LabelItemListBuilder.LabelItemListWrapper();
-
-        MutableRenderParameters parameters = this.currentURLObj.getRenderParameters();
-        String originalFilterCategoriesIdByVocabulariesName = parameters.getValue("filterCategoriesIdByVocabulariesName");
-        for (String[] categorySelected : categoriesSelected) {
-            try {
-                PortletURL newURL = PortletURLUtil.clone(currentURLObj, liferayPortletResponse);
-                String filterCategoriesIdByVocabulariesName;
-                // on enlève le vocabularyName_CategoryName_CategoryId__ correspondant du paramètre
-                String CategoryToDelete = categorySelected[0] + '_' + categorySelected[1] + '_' + categorySelected[2] + "__";
-                if (originalFilterCategoriesIdByVocabulariesName
-                        .contains(CategoryToDelete)) {
-                    filterCategoriesIdByVocabulariesName = originalFilterCategoriesIdByVocabulariesName
-                            .replace(CategoryToDelete, "");
-                } else {
-                    filterCategoriesIdByVocabulariesName = originalFilterCategoriesIdByVocabulariesName;
-                }
-                newURL.getRenderParameters().removeParameter("filterCategoriesIdByVocabulariesName");
-                vocabulariesLabelItems.add(
-                        labelItem -> {
-                            labelItem.putData(
-                                    "removeLabelURL",
-                                    PortletURLBuilder.create(
-                                                    PortletURLUtil.clone(newURL, liferayPortletResponse))
-                                            .setParameter("filterCategoriesIdByVocabulariesName", filterCategoriesIdByVocabulariesName)
-                                            .buildString());
-                            labelItem.setCloseable(true);
-                            labelItem.setLabel(categorySelected[0] + " : " + categorySelected[1]);
-                        }
-                );
-            } catch (PortletException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        return vocabulariesLabelItems.build();
-    }
 
 
-    private final ViewOfficialsDisplayContext _viewViewOfficialsDisplayContext;
     private final ThemeDisplay _themeDisplay;
-    private List<AssetVocabulary> _vocabularies;
-
 }

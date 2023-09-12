@@ -63,7 +63,7 @@ public class CommentBOPortlet extends MVCPortlet{
                        ViewSignalementDisplayContext dc = new ViewSignalementDisplayContext(renderRequest, renderResponse);
                         renderRequest.setAttribute("dc", dc);
                        ManagementSignalementsToolBarDisplayContext managementDC=new ManagementSignalementsToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
-                          (LiferayPortletResponse) renderResponse, dc);
+                          (LiferayPortletResponse) renderResponse, dc.getSearchContainer());
                         renderRequest.setAttribute("dc", dc);
                         renderRequest.setAttribute("managementDC", managementDC);
                     }
@@ -76,7 +76,7 @@ public class CommentBOPortlet extends MVCPortlet{
                     } else {
                         ViewCommentDisplayContext dc = new ViewCommentDisplayContext(renderRequest, renderResponse);
                         ManagementCommentsToolBarDisplayContext managementDC=new ManagementCommentsToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
-                            (LiferayPortletResponse) renderResponse, dc);
+                            (LiferayPortletResponse) renderResponse, dc.getSearchContainer());
                         renderRequest.setAttribute("dc", dc);
                         renderRequest.setAttribute("managementDC", managementDC);
                     }

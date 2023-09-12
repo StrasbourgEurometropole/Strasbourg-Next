@@ -1,6 +1,5 @@
 package eu.strasbourg.portlet.council.display.context;
 
-import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -29,7 +28,6 @@ import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ViewOfficialsDisplayContext {
@@ -183,29 +181,6 @@ public class ViewOfficialsDisplayContext {
         }
         return _keywords;
     }
-    public boolean hasVocabulary(String vocabularyName){
-        return getFilterCategoriesIdByVocabulariesName().contains(vocabularyName+"_");
-    }
-
-    /**
-     * Retourne la liste des IDs des catégories sur lesquels on doit filtrer
-     *  chaque entrée de liste contient un tableau de String :
-     * [vocabularyName, categoryName, categoryId]
-     */
-    public List<String[]> getCategVocabularies() {
-        if (_categVocabularies == null) {
-            _categVocabularies = new ArrayList<>();
-            List<String> filterCategoriesIdByVocabulariesName = List.of(getFilterCategoriesIdByVocabulariesName()
-                    .split("__"));
-            for(String filterCategoryIdByVocabularyName : filterCategoriesIdByVocabulariesName){
-                if(Validator.isNotNull(filterCategoryIdByVocabularyName)) {
-                    _categVocabularies.add(filterCategoryIdByVocabularyName.split("_"));
-                }
-            }
-        }
-
-        return _categVocabularies;
-    }
 
     /**
      * Retourne un String des IDs des catégories sur lesquels on doit filtrer
@@ -256,25 +231,6 @@ public class ViewOfficialsDisplayContext {
         return this._filterCategoriesIds;
     }
 
-    /**
-     * Retourne la liste des IDs des catégories d'un vocabulaire, sur lequel on doit filtrer
-     *  sous forme de string qui se présente comme suit :
-     * "categoryId1,categoryId2,categoryId3,"
-     */
-    public String getFilterCategoriesIdsByVocabularyName(String vocabularyName) {
-        List<String> filterCategoriesIdByVocabulariesName = List.of(getFilterCategoriesIdByVocabulariesName()
-                .split("__"));
-        String filterCategoriesIdsByVocabulary = "";
-        for(String filterCategoryIdByVocabularyName : filterCategoriesIdByVocabulariesName){
-            if(Validator.isNotNull(filterCategoryIdByVocabularyName)) {
-                String[] arrayCategoryIdByVocabularyName = filterCategoryIdByVocabularyName.split("_");
-                if(arrayCategoryIdByVocabularyName[0].equals(vocabularyName))
-                    filterCategoriesIdsByVocabulary += arrayCategoryIdByVocabularyName[2] + ",";
-            }
-        }
-        return filterCategoriesIdsByVocabulary;
-    }
-
 
     private Hits _hits;
     private final RenderRequest _request;
@@ -285,7 +241,6 @@ public class ViewOfficialsDisplayContext {
     private final RenderResponse _response;
     private final HttpServletRequest _httpServletRequest;
     private List<Official> officials;
-    private List<String[]> _categVocabularies;
     public static final String CATEGORY_ACTIVE = "Actif";
     public static final String CATEGORY_INACTIVE = "Inactif";
     private String _keywords;

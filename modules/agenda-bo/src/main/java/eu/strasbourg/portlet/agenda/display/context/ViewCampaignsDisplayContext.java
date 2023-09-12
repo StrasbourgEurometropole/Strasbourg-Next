@@ -26,7 +26,6 @@ import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ViewCampaignsDisplayContext {
 
@@ -169,7 +168,6 @@ public class ViewCampaignsDisplayContext {
 
 	private Hits _hits;
 	protected SearchContainer<Campaign> _searchContainer;
-	private Map<String, String> _categVocabularies;
 	private String _keywords;
 	private final RenderRequest _request;
 	private final RenderResponse _response;

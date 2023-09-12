@@ -87,7 +87,7 @@ public class HelpBOPortlet extends MVCPortlet {
 					else {
 						ViewHelpProposalsDisplayContext dc = new ViewHelpProposalsDisplayContext(renderRequest, renderResponse);
 						ManagementHelpProposalsToolBarDisplayContext managementDC = new ManagementHelpProposalsToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -99,7 +99,7 @@ public class HelpBOPortlet extends MVCPortlet {
 					} else {
 						ViewHelpRequestsDisplayContext dc = new ViewHelpRequestsDisplayContext(renderRequest, renderResponse);
 						ManagementHelpRequestsToolBarDisplayContext managementDC = new ManagementHelpRequestsToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -117,7 +117,7 @@ public class HelpBOPortlet extends MVCPortlet {
 					else {
 						ViewHelpSeekersDisplayContext dc = new ViewHelpSeekersDisplayContext(renderRequest, renderResponse);
 						ManagementHelpSeekersToolBarDisplayContext managementDC = new ManagementHelpSeekersToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}

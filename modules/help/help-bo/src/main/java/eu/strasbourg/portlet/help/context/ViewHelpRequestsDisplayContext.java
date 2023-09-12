@@ -1,6 +1,5 @@
 package eu.strasbourg.portlet.help.context;
 
-import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
@@ -8,9 +7,19 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
-import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.help.constants.HelpBOConstants;
 import eu.strasbourg.portlet.help.util.RequestHelpActionDropdownItemsProvider;
 import eu.strasbourg.service.help.model.HelpRequest;
@@ -18,9 +27,20 @@ import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
-import javax.portlet.*;
+import javax.portlet.PortletMode;
+import javax.portlet.PortletModeException;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.portlet.WindowState;
+import javax.portlet.WindowStateException;
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 
@@ -116,29 +136,6 @@ public class ViewHelpRequestsDisplayContext  {
     }
     public String getOrderByType() {
         return ParamUtil.getString(_request, "orderByType", "desc");
-    }
-    public boolean hasVocabulary(String vocabularyName){
-        return getFilterCategoriesIdByVocabulariesName().contains(vocabularyName+"_");
-    }
-
-    /**
-     * Retourne la liste des IDs des catégories sur lesquels on doit filtrer
-     *  chaque entrée de liste contient un tableau de String :
-     * [vocabularyName, categoryName, categoryId]
-     */
-    public List<String[]> getCategVocabularies() {
-        if (_categVocabularies == null) {
-            _categVocabularies = new ArrayList<>();
-            List<String> filterCategoriesIdByVocabulariesName = List.of(getFilterCategoriesIdByVocabulariesName()
-                    .split("__"));
-            for(String filterCategoryIdByVocabularyName : filterCategoriesIdByVocabulariesName){
-                if(Validator.isNotNull(filterCategoryIdByVocabularyName)) {
-                    _categVocabularies.add(filterCategoryIdByVocabularyName.split("_"));
-                }
-            }
-        }
-
-        return _categVocabularies;
     }
 
     /**
@@ -276,25 +273,6 @@ public class ViewHelpRequestsDisplayContext  {
         return this._filterCategoriesIds;
     }
 
-    /**
-     * Retourne la liste des IDs des catégories d'un vocabulaire, sur lequel on doit filtrer
-     *  sous forme de string qui se présente comme suit :
-     * "categoryId1,categoryId2,categoryId3,"
-     */
-    public String getFilterCategoriesIdsByVocabularyName(String vocabularyName) {
-        List<String> filterCategoriesIdByVocabulariesName = List.of(getFilterCategoriesIdByVocabulariesName()
-                .split("__"));
-        String filterCategoriesIdsByVocabulary = "";
-        for(String filterCategoryIdByVocabularyName : filterCategoriesIdByVocabulariesName){
-            if(Validator.isNotNull(filterCategoryIdByVocabularyName)) {
-                String[] arrayCategoryIdByVocabularyName = filterCategoryIdByVocabularyName.split("_");
-                if(arrayCategoryIdByVocabularyName[0].equals(vocabularyName))
-                    filterCategoriesIdsByVocabulary += arrayCategoryIdByVocabularyName[2] + ",";
-            }
-        }
-        return filterCategoriesIdsByVocabulary;
-    }
-
     private Hits _hits;
     protected SearchContainer<HelpRequest> _searchContainer;
     private String _keywords;
@@ -303,7 +281,6 @@ public class ViewHelpRequestsDisplayContext  {
     protected ThemeDisplay _themeDisplay;
     private final HttpServletRequest _httpServletRequest;
 
-    private List<String[]> _categVocabularies;
     protected List<Long[]> _filterCategoriesIds;
 
 }

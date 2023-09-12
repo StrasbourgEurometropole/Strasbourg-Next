@@ -1,40 +1,37 @@
 package eu.strasbourg.portlet.help.context;
 
-import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
-import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.SearchContainerManagementToolbarDisplayContext;
-import com.liferay.frontend.taglib.clay.servlet.taglib.util.*;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
-import com.liferay.portal.kernel.portlet.PortletURLUtil;
-import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
-import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.utils.display.context.ManagementBaseToolBarDisplayContext;
 
-import javax.portlet.PortletURL;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 
-public class ManagementHelpSeekersToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
+public class ManagementHelpSeekersToolBarDisplayContext extends ManagementBaseToolBarDisplayContext<ViewHelpSeekersDisplayContext.HelpSeeker> {
 
     public ManagementHelpSeekersToolBarDisplayContext(
             HttpServletRequest httpServletRequest,
             LiferayPortletRequest liferayPortletRequest,
             LiferayPortletResponse liferayPortletResponse,
-            ViewHelpSeekersDisplayContext viewHelpSeekersDisplayContext) throws PortalException {
+            SearchContainer searchContainer) throws PortalException {
         super(httpServletRequest, liferayPortletRequest, liferayPortletResponse,
-                viewHelpSeekersDisplayContext.getSearchContainer());
-        _viewHelpSeekersDisplayContext = viewHelpSeekersDisplayContext;
+                ViewHelpSeekersDisplayContext.HelpSeeker.class, searchContainer);
 
         _themeDisplay = (ThemeDisplay)liferayPortletRequest.getAttribute(
                 WebKeys.THEME_DISPLAY);
+    }
+
+    /**
+     * On ne veut pas d'options de sélection
+     */
+    @Override
+    public List<DropdownItem> getActionDropdownItems() {
+        return null;
     }
 
 
@@ -47,23 +44,6 @@ public class ManagementHelpSeekersToolBarDisplayContext extends SearchContainerM
     }
 
     /**
-     * Sets the search container’s filtering options
-     */
-    @Override
-    public List<DropdownItem> getFilterDropdownItems() {
-        return DropdownItemListBuilder
-                .addGroup(
-                        dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(getOrderByDropdownItems());
-                            dropdownGroupItem.setLabel(
-                                    LanguageUtil.get(httpServletRequest, "order-by")
-                            );
-                        }
-                )
-                .build();
-    }
-
-    /**
      * Fields that can be sorted
      */
     @Override
@@ -71,32 +51,13 @@ public class ManagementHelpSeekersToolBarDisplayContext extends SearchContainerM
         return new String[] { "last-name", "first-name", "email", "request-create-date", "nb-requests"};
     }
 
-
-
-
-    /**
-     * The URL to reset the search
-     */
+    // Masquer la case à cocher "Select All"
     @Override
-    public String getClearResultsURL() {
-        return PortletURLBuilder.create(getPortletURL())
-                .setKeywords("")
-                .setParameter( "orderByCol", "modified-date")
-                .setParameter( "orderByType", "desc")
-                .buildString();
-    }
-
-    /**
-     * The search form’s name
-     */
-    @Override
-    public String getSearchFormName() {
-        return "fm1";
+    public Boolean isSelectable() {
+        return false;
     }
 
 
-
-    private final ViewHelpSeekersDisplayContext _viewHelpSeekersDisplayContext;
     private final ThemeDisplay _themeDisplay;
 
 }

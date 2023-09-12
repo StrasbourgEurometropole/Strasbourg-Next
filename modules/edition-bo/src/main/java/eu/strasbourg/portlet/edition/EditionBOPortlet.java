@@ -61,7 +61,7 @@ public class EditionBOPortlet extends MVCPortlet {
 					} else {
 						ViewGalleriesDisplayContext dc = new ViewGalleriesDisplayContext(renderRequest, renderResponse);
 						ManagementGalleriesToolBarDisplayContext managementDC=new ManagementGalleriesToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -74,7 +74,7 @@ public class EditionBOPortlet extends MVCPortlet {
 					} else {
 						ViewEditionsDisplayContext dc = new ViewEditionsDisplayContext(renderRequest, renderResponse);
 						ManagementEditionsToolBarDisplayContext managementDC=new ManagementEditionsToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}

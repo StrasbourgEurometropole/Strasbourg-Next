@@ -73,7 +73,7 @@ public class CsmapBoAgendaPortlet extends MVCPortlet {
 						ViewCsmapAgendaThematiqueDisplayContext dc = new ViewCsmapAgendaThematiqueDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 						ManagementCsmapThematiqueAgendaToolBarDisplayContext managementDC= new ManagementCsmapThematiqueAgendaToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("managementDC", managementDC);
 
 					}

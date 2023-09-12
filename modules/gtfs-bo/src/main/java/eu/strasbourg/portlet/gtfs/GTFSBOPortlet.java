@@ -89,7 +89,7 @@ public class GTFSBOPortlet extends MVCPortlet {
 					} else {
 						ViewArretsDisplayContext dc = new ViewArretsDisplayContext(renderRequest, renderResponse);
 						ManagementArretsToolBarDisplayContext managementDC = new ManagementArretsToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}

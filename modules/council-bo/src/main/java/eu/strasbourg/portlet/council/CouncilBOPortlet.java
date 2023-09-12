@@ -108,7 +108,7 @@ public class CouncilBOPortlet extends MVCPortlet {
 						ViewCouncilSessionsDisplayContext dc = new ViewCouncilSessionsDisplayContext(renderRequest, renderResponse);
 						ManagementCouncilSessionsToolBarDisplayContext managementDC = new ManagementCouncilSessionsToolBarDisplayContext(
 								servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("managementDC", managementDC);
 						renderRequest.setAttribute("dc", dc);
 					}
@@ -136,7 +136,7 @@ public class CouncilBOPortlet extends MVCPortlet {
 						ViewDeliberationsDisplayContext dc = new ViewDeliberationsDisplayContext(renderRequest, renderResponse, sessionCategoryId);
 						ManagementDeliberationsToolBarDisplayContext managementDC = new ManagementDeliberationsToolBarDisplayContext(
 								servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("managementDC", managementDC);
 						renderRequest.setAttribute("dc", dc);
 
@@ -151,7 +151,7 @@ public class CouncilBOPortlet extends MVCPortlet {
 						ViewOfficialsDisplayContext dc = new ViewOfficialsDisplayContext(renderRequest, renderResponse);
 						ManagementOfficialsToolBarDisplayContext managementDC = new ManagementOfficialsToolBarDisplayContext(
 								servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("managementDC", managementDC);
 						renderRequest.setAttribute("dc", dc);
 					}
@@ -170,7 +170,7 @@ public class CouncilBOPortlet extends MVCPortlet {
 						ViewTypesDisplayContext dc = new ViewTypesDisplayContext(renderRequest, renderResponse);
 						ManagementTypesToolBarDisplayContext managementDC = new ManagementTypesToolBarDisplayContext(
 								servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("managementDC", managementDC);
 						renderRequest.setAttribute("dc", dc);
 					}

@@ -1,17 +1,22 @@
 package eu.strasbourg.portlet.edition.display.context;
 
-import com.liferay.asset.categories.item.selector.AssetCategoryTreeNodeItemSelectorReturnType;
-import com.liferay.asset.categories.item.selector.criterion.AssetCategoryTreeNodeItemSelectorCriterion;
-import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
-import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
-import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.edition.util.GalleryActionDropdownItemsProvider;
 import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil;
@@ -23,9 +28,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ViewGalleriesDisplayContext {
@@ -182,31 +185,6 @@ public class ViewGalleriesDisplayContext {
 		return _keywords;
 	}
 
-
-	public boolean hasVocabulary(String vocabularyName){
-		return getFilterCategoriesIdByVocabulariesName().contains(vocabularyName+"_");
-	}
-
-	/**
-	 * Retourne la liste des IDs des catégories sur lesquels on doit filtrer
-	 *  chaque entrée de liste contient un tableau de String :
-	 * [vocabularyName, categoryName, categoryId]
-	 */
-	public List<String[]> getCategVocabularies() {
-		if (_categVocabularies == null) {
-			_categVocabularies = new ArrayList<>();
-			List<String> filterCategoriesIdByVocabulariesName = List.of(getFilterCategoriesIdByVocabulariesName()
-					.split("__"));
-			for(String filterCategoryIdByVocabularyName : filterCategoriesIdByVocabulariesName){
-				if(Validator.isNotNull(filterCategoryIdByVocabularyName)) {
-					_categVocabularies.add(filterCategoryIdByVocabularyName.split("_"));
-				}
-			}
-		}
-
-		return _categVocabularies;
-	}
-
 	/**
 	 * Retourne un String des IDs des catégories sur lesquels on doit filtrer
 	 *  sous forme de string qui se présente comme suit :
@@ -306,28 +284,8 @@ public class ViewGalleriesDisplayContext {
 		return this._filterCategoriesIds;
 	}
 
-	/**
-	 * Retourne la liste des IDs des catégories d'un vocabulaire, sur lequel on doit filtrer
-	 *  sous forme de string qui se présente comme suit :
-	 * "categoryId1,categoryId2,categoryId3,"
-	 */
-	public String getFilterCategoriesIdsByVocabularyName(String vocabularyName) {
-		List<String> filterCategoriesIdByVocabulariesName = List.of(getFilterCategoriesIdByVocabulariesName()
-				.split("__"));
-		String filterCategoriesIdsByVocabulary = "";
-		for(String filterCategoryIdByVocabularyName : filterCategoriesIdByVocabulariesName){
-			if(Validator.isNotNull(filterCategoryIdByVocabularyName)) {
-				String[] arrayCategoryIdByVocabularyName = filterCategoryIdByVocabularyName.split("_");
-				if(arrayCategoryIdByVocabularyName[0].equals(vocabularyName))
-					filterCategoriesIdsByVocabulary += arrayCategoryIdByVocabularyName[2] + ",";
-			}
-		}
-		return filterCategoriesIdsByVocabulary;
-	}
-
 	private Hits _hits;
 	protected SearchContainer<EditionGallery> _searchContainer;
-	private List<String[]> _categVocabularies;
 	private String _keywords;
 	private final RenderRequest _request;
 	private final RenderResponse _response;

@@ -1,33 +1,39 @@
 package eu.strasbourg.portlet.form_send.context;
 
-import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.SearchContainerManagementToolbarDisplayContext;
-import com.liferay.frontend.taglib.clay.servlet.taglib.util.*;
+import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
-import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.utils.display.context.ManagementBaseToolBarDisplayContext;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-public class ManagementFormsSendToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
+public class ManagementFormsSendToolBarDisplayContext extends ManagementBaseToolBarDisplayContext<DDMFormInstanceRecord> {
 
     public ManagementFormsSendToolBarDisplayContext(
             HttpServletRequest httpServletRequest,
             LiferayPortletRequest liferayPortletRequest,
             LiferayPortletResponse liferayPortletResponse,
-            ViewFormSendDisplayContext viewFormSendDisplayContext) throws PortalException {
+            SearchContainer searchContainer) throws PortalException {
         super(httpServletRequest, liferayPortletRequest, liferayPortletResponse,
-                viewFormSendDisplayContext.getSearchContainer());
+                DDMFormInstanceRecord.class, searchContainer);
 
-        _viewFormSendDisplayContext=viewFormSendDisplayContext;
 
         _themeDisplay = (ThemeDisplay)liferayPortletRequest.getAttribute(
                 WebKeys.THEME_DISPLAY);
+    }
+
+    /**
+     * On ne veut pas d'options de sélection
+     */
+    @Override
+    public List<DropdownItem> getActionDropdownItems() {
+        return null;
     }
 
 
@@ -37,23 +43,6 @@ public class ManagementFormsSendToolBarDisplayContext extends SearchContainerMan
     @Override
     public String getSearchContainerId() {
         return "formsSearchContainer";
-    }
-
-    /**
-     * Sets the search container’s filtering options
-     */
-    @Override
-    public List<DropdownItem> getFilterDropdownItems() {
-        return DropdownItemListBuilder
-                .addGroup(
-                        dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(getOrderByDropdownItems());
-                            dropdownGroupItem.setLabel(
-                                    LanguageUtil.get(httpServletRequest, "order-by")
-                            );
-                        }
-                )
-                .build();
     }
 
 
@@ -67,31 +56,19 @@ public class ManagementFormsSendToolBarDisplayContext extends SearchContainerMan
     }
 
 
-
-
-    /**
-     * The URL to reset the search
-     */
+    // Masquer la case à cocher "la barre de recherche"
     @Override
-    public String getClearResultsURL() {
-        return PortletURLBuilder.create(getPortletURL())
-                .setKeywords("")
-                .setParameter( "orderByCol", "modified-date")
-                .setParameter( "orderByType", "desc")
-                .buildString();
+    public Boolean isShowSearch() {
+        return false;
     }
 
-    /**
-     * The search form’s name
-     */
+    // Masquer la case à cocher "Select All"
     @Override
-    public String getSearchFormName() {
-        return "fm1";
+    public Boolean isSelectable() {
+        return false;
     }
 
 
-
-    private final ViewFormSendDisplayContext _viewFormSendDisplayContext;
     private final ThemeDisplay _themeDisplay;
 
 }

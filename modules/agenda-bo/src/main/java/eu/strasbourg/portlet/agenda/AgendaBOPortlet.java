@@ -75,7 +75,7 @@ public class AgendaBOPortlet extends MVCPortlet {
 						ViewManifestationsDisplayContext dc = new ViewManifestationsDisplayContext(renderRequest, renderResponse);
 						ManagementManifsToolBarDisplayContext managementDC = new ManagementManifsToolBarDisplayContext(
 								servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("managementDC", managementDC);
 						renderRequest.setAttribute("dc", dc);
 					}
@@ -89,7 +89,7 @@ public class AgendaBOPortlet extends MVCPortlet {
 						ViewCampaignsDisplayContext dc = new ViewCampaignsDisplayContext(renderRequest, renderResponse);
 						ManagementCampaignsToolBarDisplayContext managementDC = new ManagementCampaignsToolBarDisplayContext(
 								servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("managementDC", managementDC);
 						renderRequest.setAttribute("dc", dc);
 					}
@@ -105,7 +105,7 @@ public class AgendaBOPortlet extends MVCPortlet {
 						ViewEventsDisplayContext dc = new ViewEventsDisplayContext(renderRequest, renderResponse);
 						ManagementEventsToolBarDisplayContext managementDC = new ManagementEventsToolBarDisplayContext(
 								servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}

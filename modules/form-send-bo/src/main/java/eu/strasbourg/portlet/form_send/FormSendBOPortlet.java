@@ -73,7 +73,7 @@ public class FormSendBOPortlet extends MVCPortlet {
 						ViewFormSendDisplayContext dc = new ViewFormSendDisplayContext(renderRequest, renderResponse);
 						ManagementFormsSendToolBarDisplayContext managementDC = new ManagementFormsSendToolBarDisplayContext
 								(servletRequest,(LiferayPortletRequest) renderRequest,
-										(LiferayPortletResponse) renderResponse, dc);
+										(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -90,7 +90,7 @@ public class FormSendBOPortlet extends MVCPortlet {
 					ViewReportingDisplayContext dc = new ViewReportingDisplayContext(renderRequest, renderResponse);
 					ManagementReportingToolBarDisplayContext managementDC = new ManagementReportingToolBarDisplayContext
 							(servletRequest, (LiferayPortletRequest) renderRequest,
-									(LiferayPortletResponse) renderResponse, dc);
+									(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 					renderRequest.setAttribute("dc", dc);
 					renderRequest.setAttribute("managementDC", managementDC);
 
@@ -100,7 +100,7 @@ public class FormSendBOPortlet extends MVCPortlet {
 					ViewFormDisplayContext dc = new ViewFormDisplayContext(renderRequest, renderResponse);
 					ManagementFormsToolBarDisplayContext managementDC = new ManagementFormsToolBarDisplayContext
 							(servletRequest, (LiferayPortletRequest) renderRequest,
-									(LiferayPortletResponse) renderResponse, dc);
+									(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 					renderRequest.setAttribute("dc", dc);
 					renderRequest.setAttribute("managementDC", managementDC);
 					break;

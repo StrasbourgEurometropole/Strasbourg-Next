@@ -273,15 +273,12 @@ public abstract class ManagementBaseToolBarDisplayContext<T> extends SearchConta
      */
     @Override
     public String getClearResultsURL() {
-        PortletURLBuilder.AfterParameterStep url = PortletURLBuilder.create(getPortletURL())
+        return PortletURLBuilder.create(getPortletURL())
                 .setKeywords("")
                 .setParameter("orderByCol", "modified-date")
-                .setParameter("orderByType", "desc");
-
-        if(! getVocabularies().isEmpty())
-                url.setParameter( "filterCategoriesIdByVocabulariesName", "");
-
-        return url.buildString();
+                .setParameter("orderByType", "desc")
+                .setParameter( "filterCategoriesIdByVocabulariesName", "")
+                .buildString();
     }
 
     /**

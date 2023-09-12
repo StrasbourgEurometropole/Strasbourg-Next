@@ -1,30 +1,26 @@
 package eu.strasbourg.portlet.help.context;
 
-import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
-import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
-import eu.strasbourg.portlet.help.util.ProposalHelpActionDropdownItemsProvider;
+import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.help.util.ProposalHelpRequestActionDropdownItemsProvider;
 import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.service.help.model.HelpRequest;
 import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
 import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
-import eu.strasbourg.utils.SearchHelper;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 public class ViewProposalHelpRequestsDisplayContext{
 
