@@ -146,7 +146,7 @@ public class ManagementOrganizersToolBarDisplayContext extends SearchContainerMa
                     DropdownItemBuilder
                             .setActive(_viewActivityOrganizersDisplayContext.hasVocabulary(vocabulary.getName()))
                             .setHref("javascript:getCategoriesByVocabulary(" + vocabulary.getVocabularyId()
-                                    + ", '" + vocabulary.getName() + "', '"
+                                    + ", \"" + vocabulary.getName() + "\", '"
                                     + _viewActivityOrganizersDisplayContext.getFilterCategoriesIdsByVocabularyName(vocabulary.getName()) +"');")
                             .setLabel(vocabulary.getName())
                             .build()

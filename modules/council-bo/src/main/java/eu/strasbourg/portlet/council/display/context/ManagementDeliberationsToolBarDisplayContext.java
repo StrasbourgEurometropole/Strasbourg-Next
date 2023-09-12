@@ -188,7 +188,7 @@ public class ManagementDeliberationsToolBarDisplayContext extends SearchContaine
                     DropdownItemBuilder
                             .setActive(_viewDeliberationsDisplayContext.hasVocabulary(vocabulary.getName()))
                             .setHref("javascript:getCategoriesByVocabulary(" + vocabulary.getVocabularyId()
-                                    + ", '" + vocabulary.getName() + "', '"
+                                    + ", \"" + vocabulary.getName() + "\", '"
                                     + _viewDeliberationsDisplayContext.getFilterCategoriesIdsByVocabularyName(vocabulary.getName()) +"');")
                             .setLabel(vocabulary.getName())
                             .build()

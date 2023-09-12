@@ -147,7 +147,7 @@ public class ManagementActivityCoursesToolBarDisplayContext extends SearchContai
                     DropdownItemBuilder
                             .setActive(_viewActivityCoursesDisplayContext.hasVocabulary(vocabulary.getName()))
                             .setHref("javascript:getCategoriesByVocabulary(" + vocabulary.getVocabularyId()
-                                    + ", '" + vocabulary.getName() + "', '"
+                                    + ", \"" + vocabulary.getName() + "\", '"
                                     + _viewActivityCoursesDisplayContext.getFilterCategoriesIdsByVocabularyName(vocabulary.getName()) +"');")
                             .setLabel(vocabulary.getName())
                             .build()

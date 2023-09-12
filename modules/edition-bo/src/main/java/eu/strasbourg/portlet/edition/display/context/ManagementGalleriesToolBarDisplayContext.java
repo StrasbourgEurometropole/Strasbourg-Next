@@ -141,7 +141,7 @@ public class ManagementGalleriesToolBarDisplayContext extends SearchContainerMan
                     DropdownItemBuilder
                             .setActive(_viewGalleriesDisplayContext.hasVocabulary(vocabulary.getName()))
                             .setHref("javascript:getCategoriesByVocabulary(" + vocabulary.getVocabularyId()
-                                    + ", '" + vocabulary.getName() + "', '"
+                                    + ", \"" + vocabulary.getName() + "\", '"
                                     + _viewGalleriesDisplayContext.getFilterCategoriesIdsByVocabularyName(vocabulary.getName()) +"');")
                             .setLabel(vocabulary.getName())
                             .build()

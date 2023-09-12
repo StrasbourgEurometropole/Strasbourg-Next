@@ -180,7 +180,7 @@ public class ManagementOfficialsToolBarDisplayContext extends SearchContainerMan
                     DropdownItemBuilder
                             .setActive(_viewViewOfficialsDisplayContext.hasVocabulary(vocabulary.getName()))
                             .setHref("javascript:getCategoriesByVocabulary(" + vocabulary.getVocabularyId()
-                                    + ", '" + vocabulary.getName() + "', '"
+                                    + ", \"" + vocabulary.getName() + "\", '"
                                     + _viewViewOfficialsDisplayContext.getFilterCategoriesIdsByVocabularyName(vocabulary.getName()) +"');")
                             .setLabel(vocabulary.getName())
                             .build()
