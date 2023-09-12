@@ -63,7 +63,7 @@ public class ActivityBOPortlet extends MVCPortlet {
 					} else {
 						ViewActivityOrganizersDisplayContext dc = new ViewActivityOrganizersDisplayContext(renderRequest, renderResponse);
 						ManagementOrganizersToolBarDisplayContext managementDC = new ManagementOrganizersToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -75,7 +75,7 @@ public class ActivityBOPortlet extends MVCPortlet {
 					} else {
 						ViewAssociationsDisplayContext dc = new ViewAssociationsDisplayContext(renderRequest, renderResponse);
 						ManagementAssociationsToolBarDisplayContext managementDC = new ManagementAssociationsToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -87,7 +87,7 @@ public class ActivityBOPortlet extends MVCPortlet {
 					} else {
 						ViewActivityCoursesDisplayContext dc = new ViewActivityCoursesDisplayContext(renderRequest, renderResponse);
 						ManagementActivityCoursesToolBarDisplayContext managementDC = new ManagementActivityCoursesToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -100,7 +100,7 @@ public class ActivityBOPortlet extends MVCPortlet {
 					} else {
 						ViewActivitiesDisplayContext dc = new ViewActivitiesDisplayContext(renderRequest, renderResponse);
 						ManagementActivitiesToolBarDisplayContext managementDC = new ManagementActivitiesToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
