@@ -39,6 +39,14 @@
 				orderColumns='<%= new String[] {"order", "title"} %>'
 				portletURL="${deliberationsURL}" />
 		</liferay-frontend:management-bar-filters>
+
+		<liferay-frontend:management-bar-action-buttons>
+			<c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
+				<liferay-frontend:management-bar-button
+					href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
+					icon="trash" label="delete" />
+			</c:if>
+		</liferay-frontend:management-bar-action-buttons>
 </liferay-frontend:management-bar>
 
 <div class="container-fluid-1280 main-content-body">
@@ -71,16 +79,20 @@
                 name="order"
                 orderable="true" value="${deliberation.order}" />
 
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					href="${editDeliberationURL}" name="title" truncate="true"
+				<liferay-ui:search-container-column-text cssClass="content-column table-cell-content"
+					href="${editDeliberationURL}" name="title"
 					orderable="true" value="${deliberation.title}" />
 
-                <liferay-ui:search-container-column-text cssClass="content-column"
-                    name="councilSession" truncate="true"
-                    orderable="true" value="${deliberation.councilSession.title}" />
+				<fmt:formatDate value="${deliberation.councilSession.date}"
+					var="formattedDate" type="date" pattern="dd/MM/yyyy" />
+				<!-- Colonne : Date de conseil - Type de conseil -->
+				<liferay-ui:search-container-column-text cssClass="content-column"
+                    name="councilSession"
+                    orderable="true" value="${formattedDate} - ${deliberation.councilSession.typeCouncil.title}" />
+
 
                 <liferay-ui:search-container-column-text cssClass="content-column ${dc.getCSSClass(deliberation)}"
-                    name="stage" truncate="true"
+                    name="stage"
                     orderable="true" value="${deliberation.stage}" />
 
 				<liferay-ui:search-container-column-text>
@@ -182,3 +194,27 @@
 <liferay-util:html-bottom>
     <script src="/o/councilbo/js/council-bo-view-deliberations.js" type="text/javascript"></script>
 </liferay-util:html-bottom>
+
+<liferay-portlet:actionURL name="selectionAction"
+	var="deleteSelectionURL">
+	<portlet:param name="cmd" value="delete" />
+	<portlet:param name="tab" value="deliberations" />
+	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
+	<portlet:param name="orderByType" value="${dc.orderByType}" />
+	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
+	<portlet:param name="keywords" value="${dc.keywords}" />
+	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+</liferay-portlet:actionURL>
+<aui:script>
+	function <portlet:namespace />deleteSelection() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-entries" />')) {
+			var form = AUI.$(document.<portlet:namespace />fm);
+			var selectionIdsInput = document
+					.getElementsByName('<portlet:namespace />selectionIds')[0];
+			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
+					'<portlet:namespace />allRowIds');
+
+			submitForm(form, '${deleteSelectionURL}');
+		}
+	}
+</aui:script>
