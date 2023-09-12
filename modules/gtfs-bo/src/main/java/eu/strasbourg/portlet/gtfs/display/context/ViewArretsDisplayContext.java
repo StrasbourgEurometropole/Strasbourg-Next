@@ -2,9 +2,6 @@ package eu.strasbourg.portlet.gtfs.display.context;
 
 import com.liferay.asset.categories.item.selector.AssetCategoryTreeNodeItemSelectorReturnType;
 import com.liferay.asset.categories.item.selector.criterion.AssetCategoryTreeNodeItemSelectorCriterion;
-import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
@@ -20,11 +17,7 @@ import com.liferay.portal.kernel.util.*;
 import eu.strasbourg.portlet.gtfs.util.ArretActionDropdownItemsProvider;
 import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
-import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.SearchHelper;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.constants.VocabularyNames;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
@@ -39,12 +32,11 @@ import java.util.stream.Collectors;
 public class ViewArretsDisplayContext {
 
 	public ViewArretsDisplayContext(RenderRequest request,
-									RenderResponse response, ItemSelector itemSelector) {
+									RenderResponse response) {
 		_request = request;
 		_response = response;
 		_themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
 		_httpServletRequest = PortalUtil.getHttpServletRequest(request);
-		_itemSelector = itemSelector;
 	}
 
 	/*public List<Arret> getArrets() throws PortalException {
@@ -212,7 +204,7 @@ public class ViewArretsDisplayContext {
 
 		return SearchHelper.getBOSearchHits(searchContext,
 				-1, -1, Arret.class.getName(), groupId,
-				"", keywords,
+				getFilterCategoriesIds(), keywords,
 				getOrderByColSearchField(),
 				"desc".equals(getOrderByType()));
 	}
@@ -302,7 +294,7 @@ public class ViewArretsDisplayContext {
 		_hits = SearchHelper.getBOSearchHits(searchContext,
 				getSearchContainer().getStart(),
 				getSearchContainer().getEnd(), Arret.class.getName(), groupId,
-				"", keywords,
+				getFilterCategoriesIds(), keywords,
 				getOrderByColSearchField(),
 				"desc".equals(getOrderByType()));
 	}
@@ -353,45 +345,105 @@ public class ViewArretsDisplayContext {
 	}
 
 	public boolean hasVocabulary(String vocabularyName){
-		return getCategVocabularies().containsKey(vocabularyName);
+		return getFilterCategoriesIdByVocabulariesName().contains(vocabularyName+"_");
 	}
 
-	public Map<String, String> getCategVocabularies() {
+	/**
+	 * Retourne la liste des IDs des catégories sur lesquels on doit filtrer
+	 *  chaque entrée de liste contient un tableau de String :
+	 * [vocabularyName, categoryName, categoryId]
+	 */
+	public List<String[]> getCategVocabularies() {
 		if (_categVocabularies == null) {
-			_categVocabularies = new HashMap<>();
-			_categVocabularies.put("vocabulary1", ParamUtil.getString(
-					_httpServletRequest, "vocabulary1", ""));
+			_categVocabularies = new ArrayList<>();
+			List<String> filterCategoriesIdByVocabulariesName = List.of(getFilterCategoriesIdByVocabulariesName()
+					.split("__"));
+			for(String filterCategoryIdByVocabularyName : filterCategoriesIdByVocabulariesName){
+				if(Validator.isNotNull(filterCategoryIdByVocabularyName)) {
+					_categVocabularies.add(filterCategoryIdByVocabularyName.split("_"));
+				}
+			}
 		}
 
 		return _categVocabularies;
 	}
 
-	@SuppressWarnings("unused")
-	public String getSelectCategoriesByVocabularyIdURL(long vocabularyId) {
-		RequestBackedPortletURLFactory requestBackedPortletURLFactory =
-				RequestBackedPortletURLFactoryUtil.create(_request);
-		AssetCategoryTreeNodeItemSelectorCriterion categoryTreeNodeItemSelectorCriterion =
-				new AssetCategoryTreeNodeItemSelectorCriterion();
-//		categoryTreeNodeItemSelectorCriterion.setClassNameId(
-//				PortalUtil.getClassNameId(JournalArticle.class));
-		categoryTreeNodeItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-				new AssetCategoryTreeNodeItemSelectorReturnType());
+	/**
+	 * Retourne un String des IDs des catégories sur lesquels on doit filtrer
+	 *  sous forme de string qui se présente comme suit :
+	 * "vocabularyName_categoryName_categoryId__..."
+	 */
+	public String getFilterCategoriesIdByVocabulariesName() {
+		return ParamUtil.getString(_httpServletRequest, "filterCategoriesIdByVocabulariesName","");
+	}
 
-		return String.valueOf(
-				_itemSelector.getItemSelectorURL(
-						requestBackedPortletURLFactory,
-						_response.getNamespace() + "selectAssetCategory",
-						categoryTreeNodeItemSelectorCriterion));
+	/**
+	 * Renvoie la liste des catégories sur lesquelles on souhaite filtrer les
+	 * entries. L'opérateur entre chaque id de catégorie d'un array est un "OU", celui entre chaque liste d'array est un "ET"
+	 */
+	private List<Long[]> getFilterCategoriesIds() {
+		if (_filterCategoriesIds == null) {
+			List<Long[]> filterCategoriesIds = new ArrayList<Long[]>();
+
+			// récupère les catégories triées par nom de vocabulaire
+			List<String> filterCategoriesIdByVocabulariesName = List.of(getFilterCategoriesIdByVocabulariesName()
+					.split("__")).stream().sorted().collect(Collectors.toList());
+			if(!filterCategoriesIdByVocabulariesName.isEmpty()) {
+				String oldVocabularyName = "";
+				String categoriesIds = "";
+				for (String filterCategoryIdByVocabularyName : filterCategoriesIdByVocabulariesName) {
+					if (Validator.isNotNull(filterCategoryIdByVocabularyName)) {
+						String vocabularyName = filterCategoryIdByVocabularyName.split("_")[0];
+						String categoryId = filterCategoryIdByVocabularyName.split("_")[2];
+						if (oldVocabularyName.equals("") || oldVocabularyName.equals(vocabularyName)) {
+							if (Validator.isNotNull(categoriesIds)) {
+								categoriesIds += ",";
+							}
+							categoriesIds += categoryId;
+							oldVocabularyName = vocabularyName;
+						} else {
+							Long[] categoriesIdsOr = ArrayUtil.toLongArray(StringUtil.split(categoriesIds, ",", 0));
+							filterCategoriesIds.add(categoriesIdsOr);
+							oldVocabularyName = vocabularyName;
+							categoriesIds = categoryId;
+						}
+					}
+				}
+				Long[] categoriesIdsOr = ArrayUtil.toLongArray(StringUtil.split(categoriesIds, ",", 0));
+				filterCategoriesIds.add(categoriesIdsOr);
+			}
+			this._filterCategoriesIds = filterCategoriesIds;
+		}
+		return this._filterCategoriesIds;
+	}
+
+	/**
+	 * Retourne la liste des IDs des catégories d'un vocabulaire, sur lequel on doit filtrer
+	 *  sous forme de string qui se présente comme suit :
+	 * "categoryId1,categoryId2,categoryId3,"
+	 */
+	public String getFilterCategoriesIdsByVocabularyName(String vocabularyName) {
+		List<String> filterCategoriesIdByVocabulariesName = List.of(getFilterCategoriesIdByVocabulariesName()
+				.split("__"));
+		String filterCategoriesIdsByVocabulary = "";
+		for(String filterCategoryIdByVocabularyName : filterCategoriesIdByVocabulariesName){
+			if(Validator.isNotNull(filterCategoryIdByVocabularyName)) {
+				String[] arrayCategoryIdByVocabularyName = filterCategoryIdByVocabularyName.split("_");
+				if(arrayCategoryIdByVocabularyName[0].equals(vocabularyName))
+					filterCategoriesIdsByVocabulary += arrayCategoryIdByVocabularyName[2] + ",";
+			}
+		}
+		return filterCategoriesIdsByVocabulary;
 	}
 
 	private Hits _hits;
 	protected SearchContainer<Arret> _searchContainer;
-	private Map<String, String> _categVocabularies;
+	private List<String[]> _categVocabularies;
 	private String _keywords;
 	private final RenderRequest _request;
 	private final RenderResponse _response;
 	protected ThemeDisplay _themeDisplay;
 	private final HttpServletRequest _httpServletRequest;
-	private final ItemSelector _itemSelector;
+	protected List<Long[]> _filterCategoriesIds;
 
 }

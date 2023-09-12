@@ -11,7 +11,6 @@ import com.liferay.portal.kernel.util.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
@@ -20,22 +19,18 @@ import javax.servlet.http.HttpServletRequest;
 
 import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.gtfs.model.ImportHistoric;
-import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.ImportHistoricLocalServiceUtil;
 import eu.strasbourg.utils.SearchHelper;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
 public class ViewImportHistoricsDisplayContext  {
 
 	private List <ImportHistoric> _importHistorics;
 	
-	public ViewImportHistoricsDisplayContext(RenderRequest request, RenderResponse response, ItemSelector itemSelector) {
+	public ViewImportHistoricsDisplayContext(RenderRequest request, RenderResponse response) {
 		_request = request;
 		_response = response;
 		_themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
 		_httpServletRequest = PortalUtil.getHttpServletRequest(request);
-		_itemSelector = itemSelector;
 	}
 	
 	/**
@@ -68,7 +63,7 @@ public class ViewImportHistoricsDisplayContext  {
 
 		return SearchHelper.getBOSearchHits(searchContext,
 				-1, -1, Arret.class.getName(), groupId,
-				"", keywords,
+				new ArrayList<>(), keywords,
 				getOrderByColSearchField(),
 				"desc".equals(getOrderByType()));
 	}
@@ -182,7 +177,7 @@ public class ViewImportHistoricsDisplayContext  {
 		_hits = SearchHelper.getBOSearchHits(searchContext,
 				getSearchContainer().getStart(),
 				getSearchContainer().getEnd(), Arret.class.getName(), groupId,
-				"", keywords,
+				new ArrayList<>(), keywords,
 				getOrderByColSearchField(),
 				"desc".equals(getOrderByType()));
 	}
@@ -201,5 +196,4 @@ public class ViewImportHistoricsDisplayContext  {
 	private final RenderResponse _response;
 	protected ThemeDisplay _themeDisplay;
 	private final HttpServletRequest _httpServletRequest;
-	private final ItemSelector _itemSelector;
 }
