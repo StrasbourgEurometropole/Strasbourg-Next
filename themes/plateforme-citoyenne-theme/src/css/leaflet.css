@@ -274,14 +274,14 @@
 	}
 .leaflet-bar a,
 .leaflet-bar a:hover {
-	background-color: #2ad1a8;
+	background-color: #20272f;
 	width: 26px;
 	height: 26px;
 	line-height: 26px;
 	display: block;
 	text-align: center;
 	text-decoration: none;
-	color: black;
+	color: white;
 	}
 .leaflet-bar a,
 .leaflet-control-layers-toggle {
@@ -290,8 +290,8 @@
 	display: block;
 	}
 .leaflet-bar a:hover {
-	background-color: #000000;
-	color: #2ad1a8;
+	background-color: #fff;
+	color: #20272f;
 	}
 .leaflet-bar a:first-child {
 	border-top-left-radius: 4px;

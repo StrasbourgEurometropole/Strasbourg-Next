@@ -169,35 +169,41 @@ function createParticipationThumbnail(participation) {
                 'background:#'+ participation.typeColor + ' !important;' +
             '}' +
         '</style>';
-    
-    var participationThumbnail = 
-    	'<div class="col-lg-4 col-sm-6 col-xs-12">' +
-		    '<div class="item pro-bloc-card-participation type-color-hexa-' + participation.typeColor + '" data-linkall="a">' +
-		        '<div>' +
-		            '<div class="pro-header-participation">' +
-		                '<figure role="group">' +
-		                    '<img src="' + participation.authorImageURL + '" width="40" height="40" alt="Image de la participation"/>' +
-		                '</figure>' +
-		                '<p>Concertation publiée par :</p>' +
-		                '<p><strong>' + participation.author + '</strong></p>' +
-		                '<div class="pro-info-top-right">' +
-		                    '<span class="pro-encart-theme" style="background : #' + participation.typeColor + '">' + participation.typeLabel + '</span>' +
-		                '</div>' +
-		            '</div>' +
-		            '<div class="pro-content-participation">' +
-		                '<a href="' + participation.link + '" title="Lien vers le détail de la participation">' + 
-		                	'<h3>' + participation.title + '</h3>' + 
-		                '</a>' +
-		                '<span class="pro-time">Publiée le <time datetime="' + participation.createDate + '">' + participation.createDate + '</time>';
-    if(participation.statusDetailLabel != "" && participation.statusDetailLabel != undefined)
-        participationThumbnail += ' - <span class="pro-duree">' + participation.statusDetailLabel + '</span></span>' ;
-    participationThumbnail +=
-		            '</div>' +
-		            footerContent +
-		        '</div>' +
-		    '</div>' +
-		'</div>' + colorHack;
-		
+
+	var participationThumbnail = `
+    <div class="col-lg-4 col-sm-6 col-xs-12">
+        <div class="item pro-bloc-card-participation type-color-hexa-${participation.typeColor}" data-linkall="a">
+            <div>
+                <div class="pro-header-participation">
+                    <figure role="group">
+                        <img src="${participation.authorImageURL}" width="40" height="40" alt="Image de la participation"/>
+                    </figure>
+                    <div>
+                     <p>Concertation publiée par :</p>
+                    <p><strong>${participation.author}</strong></p>
+</div>
+                </div>
+                <div class="pro-content-participation">
+                <div>
+                	<span class="pro-encart-theme" style="background : #${participation.typeColor}">${participation.typeLabel}</span>
+				</div>
+                    <a href="${participation.link}" title="Lien vers le détail de la participation">
+                        <h3>${participation.title}</h3>
+                    </a>
+                    <span class="pro-time">Publiée le <time datetime="${participation.createDate}">${participation.createDate}</time>${
+		participation.statusDetailLabel !== "" && participation.statusDetailLabel !== undefined
+			? `\n                    - <span class="pro-duree">${participation.statusDetailLabel}</span>`
+			: ""
+	}</span>
+                </div>
+                ${footerContent}
+            </div>
+        </div>
+    </div>
+    ${colorHack}
+`;
+
+
 	addThumbnail(participationThumbnail);
 }
 
@@ -254,25 +260,27 @@ function createBudgetParticipatifThumbnail(bp) {
 		footer = "<p><strong>" + bp.nbSupports + "</strong> vote(s) pour ce projet</p>";
 		cssClassBPStatus = "pro-theme-faisable";
 	}
-	
-	var bpThumbnail =
-		'<div class="col-lg-4 col-sm-6 col-xs-12">' +
-		    '<div class="item pro-bloc-card-budget ' + cssClassBPStatus + '"  data-linkall="a">' +
-		        '<div class="pro-header-budget">' +
-		            '<figure role="group">' +
-		                '<img src="' + bp.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' +
-		            '</figure>' +
-		            '<p>Projet déposé par :</p>' +
-		            '<p><strong>' + bp.author + '</strong></p>' +
-		        '</div>' +
-		        '<div class="pro-content-budget">' +
-		            '<a href="' + bp.link + '" title="lien détail du projet citoyen"><h3>' + bp.title + '</h3></a>' +
-		            '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + bp.createDate + '</time>' +
-		        '</div>' +
-		        '<div class="pro-footer-budget">' + footer +		            
-		        '</div>' +
-		    '</div>' +
-		'</div>';
+
+	var bpThumbnail = `
+    <div class="col-lg-4 col-sm-6 col-xs-12">
+        <div class="item pro-bloc-card-budget ${cssClassBPStatus}" data-linkall="a">
+            <div class="pro-header-budget">
+                <figure role="group">
+                    <img src="${bp.authorImageURL}" width="40" height="40" alt="Arrière plan page standard"/>
+                </figure>
+                <p>Projet déposé par :</p>
+                <p><strong>${bp.author}</strong></p>
+            </div>
+            <div class="pro-content-budget">
+                <a href="${bp.link}" title="lien détail du projet citoyen"><h3>${bp.title}</h3></a>
+                <span class="pro-time">Publiée le <time datetime="2018-01-10">${bp.createDate}</time></span>
+            </div>
+            <div class="pro-footer-budget">
+                ${footer}
+            </div>
+        </div>
+    </div>
+`;
 
 	addThumbnail(bpThumbnail);
 }

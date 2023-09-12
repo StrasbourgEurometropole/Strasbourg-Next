@@ -41,17 +41,38 @@ $('.currentLang > a').on('focus',function(){
 });
 
 
+function ready(fn) {
+	if (document.readyState !== 'loading') {
+		fn();
+	} else {
+		document.addEventListener('DOMContentLoaded', fn);
+	}
+}
+function adjusteSearch() {
+
 // Move Affiner la recherche on Tablet Portrait
 
-if ($(window).width() < 992) {
-	$(".pro-inside-affine-search").prepend($('.pro-bloc-facette-participation'));
-	$('.pro-wrapper-nav').append($('.pro-top-header'));
+	if ($(window).width() < 992) {
+		$(".pro-inside-affine-search").prepend($('.pro-bloc-facette-participation'));
+		$('.pro-wrapper-nav').append($('.pro-top-header'));
 
-	$('.pro-affiner').on('click',function(){
-		$(this).next().toggleClass('is-display');
-		$(this).toggleClass('menu-is-display');
-	});
+		$('.pro-affiner').on('click',function(){
+			$(this).next().toggleClass('is-display');
+			$(this).toggleClass('menu-is-display');
+		});
+	}
+	else {
+		if ($('.pro-bloc-texte-header').length > 0 && $('.pro-wrapper-aside').length > 0) {
+			var headerHeight = $('.pro-bloc-texte-header').outerHeight() - 50;;
+			if($('.search-header-wrapper').length > 0) {
+				headerHeight += $('.search-header-wrapper').outerHeight()
+			}
+			$('.pro-wrapper-aside').css('top', -headerHeight + 'px');
+		}
+	}
 }
+
+ready(adjusteSearch);
 
 var menuEmplacement = 0;
 var timeoutResizeMenuEmplacement = null;

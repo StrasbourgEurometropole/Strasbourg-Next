@@ -42,7 +42,7 @@
                         <a href="/mentions-legales" class="pro-link-form"><liferay-ui:message key="modal.signpetition.knowmore"/></a>
                     </div>
                 </div>
-                <div class="pro-wrapper">
+                <div class="pro-wrapper last-wrapper">
                     <h4><liferay-ui:message key="modal.signpetition.user"/></h4>
                     <div class="pro-row">
                         <div class="form-group form-triple">
@@ -91,6 +91,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="top-slope"></div>
                 <div class="pro-optin form-checkbox">
                     <div>
                         <input type="checkbox" id="signlegalage" value="legalage">
