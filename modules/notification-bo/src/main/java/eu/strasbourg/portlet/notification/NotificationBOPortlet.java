@@ -64,9 +64,9 @@ public class NotificationBOPortlet extends MVCPortlet {
 						EditNotificationDisplayContext dc = new EditNotificationDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse);
 						ManagementNotificationsToolBarDisplayContext managementDC = new ManagementNotificationsToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -88,6 +88,4 @@ public class NotificationBOPortlet extends MVCPortlet {
 
 		super.render(renderRequest, renderResponse);
 	}
-	@Reference
-	private ItemSelector _itemSelector;
 }

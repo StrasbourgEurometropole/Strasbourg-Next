@@ -4,6 +4,7 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.SearchContainerManagementToolbarDisplayContext;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.*;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -16,6 +17,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.notification.model.Notification;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.display.context.ManagementBaseToolBarDisplayContext;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -23,74 +25,18 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
-public class ManagementNotificationsToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
+public class ManagementNotificationsToolBarDisplayContext extends ManagementBaseToolBarDisplayContext<Notification> {
 
     public ManagementNotificationsToolBarDisplayContext(
             HttpServletRequest httpServletRequest,
             LiferayPortletRequest liferayPortletRequest,
             LiferayPortletResponse liferayPortletResponse,
-            ViewNotificationsDisplayContext viewNotificationsDisplayContext) throws PortalException {
+            SearchContainer searchContainer) throws PortalException {
         super(httpServletRequest, liferayPortletRequest, liferayPortletResponse,
-                viewNotificationsDisplayContext.getSearchContainer());
-        _viewNotificationsDisplayContext = viewNotificationsDisplayContext;
+                Notification.class, searchContainer);
 
         _themeDisplay = (ThemeDisplay)liferayPortletRequest.getAttribute(
                 WebKeys.THEME_DISPLAY);
-    }
-
-    /**
-     * The list of dropdown items to display when a result is checked
-     * or the master checkbox in the Management Toolbar is checked
-     */
-    @Override
-    public List<DropdownItem> getActionDropdownItems() {
-        return DropdownItemListBuilder
-                .addGroup(
-                        dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(
-                                    DropdownItemListBuilder.add(
-                                            dropdownItem -> {
-                                                dropdownItem.put("href", "javascript:publishSelection();");
-                                                dropdownItem.setIcon("check");
-                                                dropdownItem.setLabel(
-                                                        LanguageUtil.get(httpServletRequest, "publish"));
-                                                dropdownItem.setQuickAction(true);
-                                            }
-                                    ).build());
-                            dropdownGroupItem.setSeparator(true);
-                        }
-                )
-                .addGroup(
-                        dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(
-                                    DropdownItemListBuilder.add(
-                                            dropdownItem -> {
-                                                dropdownItem.put("href", "javascript:unpublishSelection();");
-                                                dropdownItem.setIcon("times");
-                                                dropdownItem.setLabel(
-                                                        LanguageUtil.get(httpServletRequest, "unpublish"));
-                                                dropdownItem.setQuickAction(true);
-                                            }
-                                    ).build());
-                            dropdownGroupItem.setSeparator(true);
-                        }
-                )
-                .addGroup(
-                        dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(
-                                    DropdownItemListBuilder.add(
-                                            dropdownItem -> {
-                                                dropdownItem.put("href", "javascript:deleteSelection();");
-                                                dropdownItem.setIcon("trash");
-                                                dropdownItem.setLabel(
-                                                        LanguageUtil.get(httpServletRequest, "delete"));
-                                                dropdownItem.setQuickAction(true);
-                                            }
-                                    ).build());
-                            dropdownGroupItem.setSeparator(true);
-                        }
-                )
-                .build();
     }
 
     /**
@@ -101,23 +47,6 @@ public class ManagementNotificationsToolBarDisplayContext extends SearchContaine
         return "notificationsSearchContainer";
     }
 
-    /**
-     * Sets the search container’s filtering options
-     */
-    @Override
-    public List<DropdownItem> getFilterDropdownItems() {
-        return DropdownItemListBuilder
-                .addGroup(
-                        dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(getOrderByDropdownItems());
-                            dropdownGroupItem.setLabel(
-                                    LanguageUtil.get(httpServletRequest, "order-by")
-                            );
-                        }
-                )
-                .build();
-    }
-
 
     /**
      * Fields that can be sorted
@@ -126,36 +55,6 @@ public class ManagementNotificationsToolBarDisplayContext extends SearchContaine
     protected String[] getOrderByKeys() {
         return new String[] {"title", "publication-date",
                 "status" };
-    }
-
-    /**
-     * The URL to reset the search
-     */
-    // TODO : Il faudra rajouter la réinitialisation des vocabulaires
-    @Override
-    public String getClearResultsURL() {
-        return PortletURLBuilder.create(getPortletURL())
-                .setKeywords("")
-                .setParameter( "orderByCol", "modified-date")
-                .setParameter( "orderByType", "desc")
-                .buildString();
-    }
-
-    /**
-     * The action URL to send the search form
-     */
-    @Override
-    public String getSearchActionURL() {
-        return PortletURLBuilder.createRenderURL(liferayPortletResponse)
-                .buildString();
-    }
-
-    /**
-     * The search form’s name
-     */
-    @Override
-    public String getSearchFormName() {
-        return "fm1";
     }
 
     /**
@@ -201,8 +100,5 @@ public class ManagementNotificationsToolBarDisplayContext extends SearchContaine
 
     }
 
-    private final ViewNotificationsDisplayContext _viewNotificationsDisplayContext;
     private final ThemeDisplay _themeDisplay;
-
-
 }
