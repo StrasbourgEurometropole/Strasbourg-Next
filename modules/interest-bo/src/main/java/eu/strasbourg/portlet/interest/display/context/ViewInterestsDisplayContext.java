@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
@@ -27,18 +28,15 @@ import eu.strasbourg.portlet.interest.util.InterestActionDropdownItemsProvider;
 import eu.strasbourg.service.interest.model.Interest;
 import eu.strasbourg.service.interest.service.InterestLocalServiceUtil;
 import eu.strasbourg.utils.SearchHelper;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
 public class ViewInterestsDisplayContext  {
 
 	public ViewInterestsDisplayContext(RenderRequest request,
-		RenderResponse response, ItemSelector itemSelector) {
+		RenderResponse response) {
 		_request = request;
 		_response = response;
 		_themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
 		_httpServletRequest = PortalUtil.getHttpServletRequest(request);
-		_itemSelector = itemSelector;
 	}
 
 	/**
@@ -116,7 +114,7 @@ public class ViewInterestsDisplayContext  {
 		_hits = SearchHelper.getBOSearchHits(searchContext,
 				getSearchContainer().getStart(),
 				getSearchContainer().getEnd(), Interest.class.getName(), groupId,
-				"", keywords,
+				getFilterCategoriesIds(), keywords,
 				getOrderByColSearchField(),
 				"desc".equals(getOrderByType()));
 	}
@@ -165,44 +163,57 @@ public class ViewInterestsDisplayContext  {
 		}
 		return _keywords;
 	}
-
-	public boolean hasVocabulary(String vocabularyName){
-		return getCategVocabularies().containsKey(vocabularyName);
+	public String getFilterCategoriesIdByVocabulariesName() {
+		return ParamUtil.getString(_httpServletRequest, "filterCategoriesIdByVocabulariesName","");
 	}
 
-	public Map<String, String> getCategVocabularies() {
-		if (_categVocabularies == null) {
-			_categVocabularies = new HashMap<>();
-			_categVocabularies.put("vocabulary1", ParamUtil.getString(
-					_httpServletRequest, "vocabulary1", ""));
+	/**
+	 * Renvoie la liste des catégories sur lesquelles on souhaite filtrer les
+	 * entries. L'opérateur entre chaque id de catégorie d'un array est un "OU", celui entre chaque liste d'array est un "ET"
+	 */
+	private List<Long[]> getFilterCategoriesIds() {
+		if (_filterCategoriesIds == null) {
+			List<Long[]> filterCategoriesIds = new ArrayList<Long[]>();
+
+			// récupère les catégories triées par nom de vocabulaire
+			List<String> filterCategoriesIdByVocabulariesName = List.of(getFilterCategoriesIdByVocabulariesName()
+					.split("__")).stream().sorted().collect(Collectors.toList());
+			if(!filterCategoriesIdByVocabulariesName.isEmpty()) {
+				String oldVocabularyName = "";
+				String categoriesIds = "";
+				for (String filterCategoryIdByVocabularyName : filterCategoriesIdByVocabulariesName) {
+					if (Validator.isNotNull(filterCategoryIdByVocabularyName)) {
+						String vocabularyName = filterCategoryIdByVocabularyName.split("_")[0];
+						String categoryId = filterCategoryIdByVocabularyName.split("_")[2];
+						if (oldVocabularyName.equals("") || oldVocabularyName.equals(vocabularyName)) {
+							if (Validator.isNotNull(categoriesIds)) {
+								categoriesIds += ",";
+							}
+							categoriesIds += categoryId;
+							oldVocabularyName = vocabularyName;
+						} else {
+							Long[] categoriesIdsOr = ArrayUtil.toLongArray(StringUtil.split(categoriesIds, ",", 0));
+							filterCategoriesIds.add(categoriesIdsOr);
+							oldVocabularyName = vocabularyName;
+							categoriesIds = categoryId;
+						}
+					}
+				}
+				Long[] categoriesIdsOr = ArrayUtil.toLongArray(StringUtil.split(categoriesIds, ",", 0));
+				filterCategoriesIds.add(categoriesIdsOr);
+			}
+			this._filterCategoriesIds = filterCategoriesIds;
 		}
-
-		return _categVocabularies;
+		return this._filterCategoriesIds;
 	}
 
-	@SuppressWarnings("unused")
-	public String getSelectCategoriesByVocabularyIdURL(long vocabularyId) {
-		RequestBackedPortletURLFactory requestBackedPortletURLFactory =
-				RequestBackedPortletURLFactoryUtil.create(_request);
-		AssetCategoryTreeNodeItemSelectorCriterion categoryTreeNodeItemSelectorCriterion =
-				new AssetCategoryTreeNodeItemSelectorCriterion();
-		categoryTreeNodeItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-				new AssetCategoryTreeNodeItemSelectorReturnType());
-
-		return String.valueOf(
-				_itemSelector.getItemSelectorURL(
-						requestBackedPortletURLFactory,
-						_response.getNamespace() + "selectAssetCategory",
-						categoryTreeNodeItemSelectorCriterion));
-	}
 	private Hits _hits;
 	protected SearchContainer<Interest> _searchContainer;
-	private Map<String, String> _categVocabularies;
 	private String _keywords;
 	private final RenderRequest _request;
 	private final RenderResponse _response;
 	protected ThemeDisplay _themeDisplay;
 	private final HttpServletRequest _httpServletRequest;
-	private final ItemSelector _itemSelector;
+	protected List<Long[]> _filterCategoriesIds;
 
 }
