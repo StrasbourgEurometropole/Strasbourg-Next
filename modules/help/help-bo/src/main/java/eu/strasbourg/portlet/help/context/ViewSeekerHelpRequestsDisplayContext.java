@@ -3,8 +3,6 @@ package eu.strasbourg.portlet.help.context;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ListUtil;
@@ -16,22 +14,22 @@ import eu.strasbourg.service.help.model.HelpRequest;
 import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class ViewSeekerHelpRequestsDisplayContext {
+public class ViewSeekerHelpRequestsDisplayContext extends ViewBaseDisplayContext<HelpRequest> {
 
     public ViewSeekerHelpRequestsDisplayContext(RenderRequest request, RenderResponse response) {
+        super(request, response, HelpRequest.class);
         _request = request;
         _response = response;
         _themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
-        _httpServletRequest = PortalUtil.getHttpServletRequest(request);
     }
 
     @SuppressWarnings("unused")
@@ -40,6 +38,7 @@ public class ViewSeekerHelpRequestsDisplayContext {
                 _response);
     }
 
+    @SuppressWarnings("unused")
     public PublikUser getHelpSeeker() {
         if (_helpSeeker == null) {
             this.getSearchContainer();
@@ -51,6 +50,7 @@ public class ViewSeekerHelpRequestsDisplayContext {
      * Retourne le searchContainer des help seekers
      *
      */
+    @Override
     public SearchContainer<HelpRequest> getSearchContainer() {
 
         if (_searchContainer == null) {
@@ -62,6 +62,7 @@ public class ViewSeekerHelpRequestsDisplayContext {
                     .setTabs1("helpSeekers")
                     .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
                     .setParameter("tab","viewProposalHelpRequests")
+                    .setParameter("filterCategoriesIdByVocabulariesName", getFilterCategoriesIdByVocabulariesName())
                     .buildPortletURL();
             _searchContainer = new SearchContainer<>(_request, null, null,
                     SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
@@ -112,37 +113,18 @@ public class ViewSeekerHelpRequestsDisplayContext {
 
         }
     }
-    /**
-     * Renvoie la colonne sur laquelle on fait le tri
-     *
-     * @return String
-     */
-    public String getOrderByCol() {
-        return ParamUtil.getString(_request, "orderByCol", "modified-date");
-    }
 
-    /**
-     * Retourne le type de tri (desc ou asc)
-     *
-     * @return String
-     */
-    public String getOrderByType() {
-        return ParamUtil.getString(_request, "orderByType", "desc");
-    }
-
+    @SuppressWarnings("unused")
     public String getCurrentUrl() {
         return PortalUtil.getCurrentURL(this._request);
     }
 
 
-    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
     private final RenderRequest _request;
-    private final ThemeDisplay _themeDisplay;
     private List<HelpRequest> _helpRequests;
     private PublikUser _helpSeeker;
     protected SearchContainer<HelpRequest> _searchContainer;
 
     private final RenderResponse _response;
-    private final HttpServletRequest _httpServletRequest;
 
 }

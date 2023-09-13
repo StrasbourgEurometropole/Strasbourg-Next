@@ -7,36 +7,31 @@ import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
-import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.council.util.CouncilSessionsActionDropdownItemsProvider;
 import eu.strasbourg.portlet.council.utils.UserRoleType;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
-import eu.strasbourg.utils.SearchHelper;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewCouncilSessionsDisplayContext {
+public class ViewCouncilSessionsDisplayContext extends ViewBaseDisplayContext<CouncilSession> {
 
     private List<Long> typeCouncilIds;
 
     public ViewCouncilSessionsDisplayContext(RenderRequest request, RenderResponse response) {
+        super(request, response, CouncilSession.class);
         _request = request;
         _response = response;
         _themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
-        _httpServletRequest = PortalUtil.getHttpServletRequest(request);
         typeCouncilIds = new ArrayList<>();
         initAuthorizedTypeCouncilsIds();
     }
@@ -76,24 +71,6 @@ public class ViewCouncilSessionsDisplayContext {
 
         return results;
     }
-    /**
-     * Retourne tous les Hits de recherche
-     */
-    private Hits getAllHits(long groupId) throws PortalException {
-        HttpServletRequest servletRequest = PortalUtil
-                .getHttpServletRequest(_request);
-        SearchContext searchContext = SearchContextFactory
-                .getInstance(servletRequest);
-
-        // Recherche des hits
-        String keywords = ParamUtil.getString(servletRequest, "keywords");
-
-        return SearchHelper.getBOSearchHits(searchContext,
-                -1, -1,CouncilSession.class.getName(), groupId,
-                new ArrayList<>(), keywords,
-                getOrderByColSearchField(),
-                "desc".equals(getOrderByType()));
-    }
 
     /**
      * Retourne la liste des PK de toutes les sessions
@@ -115,6 +92,7 @@ public class ViewCouncilSessionsDisplayContext {
      * Retourne le searchContainer des councilSessions
      *
      */
+    @Override
     public SearchContainer<CouncilSession> getSearchContainer() {
 
         if (_searchContainer == null) {
@@ -125,6 +103,7 @@ public class ViewCouncilSessionsDisplayContext {
                     .setKeywords(ParamUtil.getString(_request, "keywords"))
                     .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
                     .setParameter("tab","councilSessions")
+                    .setParameter("filterCategoriesIdByVocabulariesName", getFilterCategoriesIdByVocabulariesName())
                     .buildPortletURL();
             _searchContainer = new SearchContainer<>(_request, null, null,
                     SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
@@ -134,17 +113,18 @@ public class ViewCouncilSessionsDisplayContext {
             _searchContainer.setOrderByTypeParam("orderByType");
             _searchContainer.setOrderByCol(getOrderByCol());
             _searchContainer.setOrderByType(getOrderByType());
+            Hits hits;
             try {
-                getHits(this._themeDisplay.getScopeGroupId());
+                hits = getHits(this._themeDisplay.getScopeGroupId());
             } catch (PortalException e) {
                 throw new RuntimeException(e);
             }
             _searchContainer.setResultsAndTotal(
                     () -> {
                         // Création de la liste d'objet
-                        List<CouncilSession> results = new ArrayList<CouncilSession>();
-                        if (_hits != null) {
-                            for (Document document : _hits.getDocs()) {
+                        List<CouncilSession> results = new ArrayList<>();
+                        if (hits != null) {
+                            for (Document document : hits.getDocs()) {
                                 CouncilSession councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(
                                         GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
                                 // Seuls les conseils ayant un type de conseil autorisé par les droits du User sont ajoutés aux résultats
@@ -154,7 +134,7 @@ public class ViewCouncilSessionsDisplayContext {
                             }
                         }
                         return results;
-                    }, _hits.getLength()
+                    }, hits.getLength()
             );
         }
         _searchContainer.setRowChecker(
@@ -163,25 +143,7 @@ public class ViewCouncilSessionsDisplayContext {
         return _searchContainer;
     }
 
-    /**
-     * Retourne les Hits de recherche pour un delta
-     */
-    private void getHits(long groupId) throws PortalException {
-        HttpServletRequest servletRequest = PortalUtil
-                .getHttpServletRequest(_request);
-        SearchContext searchContext = SearchContextFactory
-                .getInstance(servletRequest);
-
-        // Recherche des hits
-        String keywords = ParamUtil.getString(servletRequest, "keywords");
-        _hits = SearchHelper.getBOSearchHits(searchContext,
-                getSearchContainer().getStart(),
-                getSearchContainer().getEnd(), CouncilSession.class.getName(), groupId,
-                new ArrayList<>(), keywords,
-                getOrderByColSearchField(),
-                "desc".equals(getOrderByType()));
-    }
-
+    @Override
     public String getOrderByColSearchField() {
         switch (this.getOrderByCol()) {
             case "title":
@@ -193,33 +155,14 @@ public class ViewCouncilSessionsDisplayContext {
         }
     }
 
-
+    @Override
     public String getOrderByCol() {
         return ParamUtil.getString(this._request, "orderByCol",
                 "date");
     }
 
-
-    public String getOrderByType() {
-        return ParamUtil.getString(this._request, "orderByType", "desc");
-    }
-    /**
-     * Retourne les mots clés de recherche saisis
-     */
-    @SuppressWarnings("unused")
-    public String getKeywords() {
-        if (Validator.isNull(_keywords)) {
-            _keywords = ParamUtil.getString(_request, "keywords");
-        }
-        return _keywords;
-    }
-
-    private Hits _hits;
     private final RenderRequest _request;
     private final ThemeDisplay _themeDisplay;
     protected SearchContainer<CouncilSession> _searchContainer;
-
     private final RenderResponse _response;
-    private final HttpServletRequest _httpServletRequest;
-    private String _keywords;
 }

@@ -1,36 +1,33 @@
 package eu.strasbourg.portlet.gtfs.display.context;
 
-import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
-import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.service.gtfs.model.ImportHistoric;
+import eu.strasbourg.service.gtfs.service.ImportHistoricLocalServiceUtil;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
-import eu.strasbourg.service.gtfs.model.Arret;
-import eu.strasbourg.service.gtfs.model.ImportHistoric;
-import eu.strasbourg.service.gtfs.service.ImportHistoricLocalServiceUtil;
-import eu.strasbourg.utils.SearchHelper;
+public class ViewImportHistoricsDisplayContext extends ViewBaseDisplayContext<ImportHistoric> {
 
-public class ViewImportHistoricsDisplayContext  {
-
-	private List <ImportHistoric> _importHistorics;
-	
 	public ViewImportHistoricsDisplayContext(RenderRequest request, RenderResponse response) {
+		super(request, response, ImportHistoric.class);
 		_request = request;
 		_response = response;
 		_themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
-		_httpServletRequest = PortalUtil.getHttpServletRequest(request);
 	}
 	
 	/**
@@ -40,7 +37,7 @@ public class ViewImportHistoricsDisplayContext  {
 		Hits hits = getAllHits(this._themeDisplay.getCompanyGroupId());
 
 		// Création de la liste d'objet
-		List<ImportHistoric> results = new ArrayList<ImportHistoric>();
+		List<ImportHistoric> results = new ArrayList<>();
 		if (hits != null) {
 			for (Document document : hits.getDocs()) {
 				ImportHistoric importHistoric = ImportHistoricLocalServiceUtil
@@ -52,21 +49,8 @@ public class ViewImportHistoricsDisplayContext  {
 		}
 		return results;
 	}
-	private Hits getAllHits(long groupId) throws PortalException {
-		HttpServletRequest servletRequest = PortalUtil
-				.getHttpServletRequest(_request);
-		SearchContext searchContext = SearchContextFactory
-				.getInstance(servletRequest);
 
-		// Recherche des hits
-		String keywords = ParamUtil.getString(servletRequest, "keywords");
-
-		return SearchHelper.getBOSearchHits(searchContext,
-				-1, -1, Arret.class.getName(), groupId,
-				new ArrayList<>(), keywords,
-				getOrderByColSearchField(),
-				"desc".equals(getOrderByType()));
-	}
+	@Override
 	public String getOrderByColSearchField() {
 		switch (getOrderByCol()) {
 			case "title":
@@ -78,27 +62,10 @@ public class ViewImportHistoricsDisplayContext  {
 	}
 
 	/**
-	 * Renvoie la colonne sur laquelle on fait le tri
-	 *
-	 * @return String
-	 */
-	public String getOrderByCol() {
-		return ParamUtil.getString(_request, "orderByCol", "modified-date");
-	}
-
-	/**
-	 * Retourne le type de tri (desc ou asc)
-	 *
-	 * @return String
-	 */
-	public String getOrderByType() {
-		return ParamUtil.getString(_request, "orderByType", "desc");
-	}
-	/**
 	 * Retourne la liste des PK de toutes les entrees d'historique
 	 * @return liste de PK (ex: "1,5,7,8")
 	 */
-	public String getAllImportHistoricIds() throws PortalException {
+	/*public String getAllImportHistoricIds() throws PortalException {
 		String importHistoricIds = "";
 		for (ImportHistoric importHistoric : this.getAllImportHistorics()) {
 			if (importHistoricIds.length() > 0) {
@@ -107,14 +74,13 @@ public class ViewImportHistoricsDisplayContext  {
 			importHistoricIds += importHistoric.getImportHistoricId();
 		}
 		return importHistoricIds;
-	}
-	/**
-	 * Retourne les mots clés de recherche saisis
-	 */
+	}*/
+
 	/**
 	 * Retourne le searchContainer
 	 *
 	 */
+	@Override
 	public SearchContainer<ImportHistoric> getSearchContainer() {
 
 		if (_searchContainer == null) {
@@ -125,6 +91,7 @@ public class ViewImportHistoricsDisplayContext  {
 					.setKeywords(ParamUtil.getString(_request, "keywords"))
 					.setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
 					.setParameter("tab", "importHistorics")
+					.setParameter("filterCategoriesIdByVocabulariesName", getFilterCategoriesIdByVocabulariesName())
 					.buildPortletURL();
 			_searchContainer = new SearchContainer<>(_request, null, null,
 					SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
@@ -134,8 +101,9 @@ public class ViewImportHistoricsDisplayContext  {
 			_searchContainer.setOrderByTypeParam("orderByType");
 			_searchContainer.setOrderByCol(getOrderByCol());
 			_searchContainer.setOrderByType(getOrderByType());
+			Hits hits;
 			try {
-				getHits(_themeDisplay.getCompanyGroupId());
+				hits = getHits(_themeDisplay.getCompanyGroupId());
 			} catch (PortalException e) {
 				throw new RuntimeException(e);
 			}
@@ -143,8 +111,8 @@ public class ViewImportHistoricsDisplayContext  {
 					() -> {
 						// Création de la liste d'objet
 						List<ImportHistoric> results = new ArrayList<>();
-						if (_hits != null) {
-							for (Document document : _hits.getDocs()) {
+						if (hits != null) {
+							for (Document document : hits.getDocs()) {
 								ImportHistoric importHistoric = ImportHistoricLocalServiceUtil
 										.fetchImportHistoric(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
 								if (importHistoric != null) {
@@ -154,7 +122,7 @@ public class ViewImportHistoricsDisplayContext  {
 						}
 
 						return results;
-					}, _hits.getLength()
+					}, hits.getLength()
 			);
 		}
 		_searchContainer.setRowChecker(
@@ -163,37 +131,8 @@ public class ViewImportHistoricsDisplayContext  {
 		return _searchContainer;
 	}
 
-	/**
-	 * Retourne les Hits de recherche pour un delta
-	 */
-	private void getHits(long groupId) throws PortalException {
-		HttpServletRequest servletRequest = PortalUtil
-				.getHttpServletRequest(_request);
-		SearchContext searchContext = SearchContextFactory
-				.getInstance(servletRequest);
-
-		// Recherche des hits
-		String keywords = ParamUtil.getString(servletRequest, "keywords");
-		_hits = SearchHelper.getBOSearchHits(searchContext,
-				getSearchContainer().getStart(),
-				getSearchContainer().getEnd(), Arret.class.getName(), groupId,
-				new ArrayList<>(), keywords,
-				getOrderByColSearchField(),
-				"desc".equals(getOrderByType()));
-	}
-
-	@SuppressWarnings("unused")
-	public String getKeywords() {
-		if (Validator.isNull(_keywords)) {
-			_keywords = ParamUtil.getString(_request, "keywords");
-		}
-		return _keywords;
-	}
-	private Hits _hits;
 	protected SearchContainer<ImportHistoric> _searchContainer;
-	private String _keywords;
 	private final RenderRequest _request;
 	private final RenderResponse _response;
 	protected ThemeDisplay _themeDisplay;
-	private final HttpServletRequest _httpServletRequest;
 }

@@ -13,6 +13,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.agenda.csmap.util.AgendaThematiqueActionDropdownItemsProvider;
 import eu.strasbourg.service.csmap.model.Agenda;
 import eu.strasbourg.service.csmap.service.AgendaLocalServiceUtil;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
@@ -21,16 +22,16 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewCsmapAgendaThematiqueDisplayContext {
+public class ViewCsmapAgendaThematiqueDisplayContext extends ViewBaseDisplayContext<Agenda> {
 
     private List<Agenda> _agendas;
 
     public ViewCsmapAgendaThematiqueDisplayContext(RenderRequest request,
                                                    RenderResponse response) {
+        super(request, response, Agenda.class);
         _request = request;
         _response = response;
         _themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
-        _httpServletRequest = PortalUtil.getHttpServletRequest(request);
     }
 
     /**
@@ -41,6 +42,7 @@ public class ViewCsmapAgendaThematiqueDisplayContext {
         return new AgendaThematiqueActionDropdownItemsProvider(agenda, this._request,
                 this._response);
     }
+
     /**
      * Class CSS de la couleur du Statut
      */
@@ -53,11 +55,12 @@ public class ViewCsmapAgendaThematiqueDisplayContext {
 
         return cssClass;
     }
+
     /**
      * Retourne le searchContainer
      *
      */
-
+    @Override
     public SearchContainer<Agenda> getSearchContainer() {
 
         if (_searchContainer == null) {
@@ -68,6 +71,7 @@ public class ViewCsmapAgendaThematiqueDisplayContext {
                     .setKeywords(ParamUtil.getString(_request, "keywords"))
                     .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
                     .setParameter("tab","agendaThematique")
+                    .setParameter("filterCategoriesIdByVocabulariesName", getFilterCategoriesIdByVocabulariesName())
                     .buildPortletURL();
             _searchContainer = new SearchContainer<>(_request, null, null,
                     SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
@@ -114,5 +118,4 @@ public class ViewCsmapAgendaThematiqueDisplayContext {
     private final RenderRequest _request;
     private final RenderResponse _response;
     protected ThemeDisplay _themeDisplay;
-    private final HttpServletRequest _httpServletRequest;
 }

@@ -11,7 +11,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.form_send.util.FormSendSignalementActionDropdownItemsProvider;
@@ -19,11 +18,11 @@ import eu.strasbourg.service.formSendRecordField.model.FormSendRecordField;
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement;
 import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldLocalServiceUtil;
 import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldSignalementLocalServiceUtil;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,19 +30,20 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ViewReportingDisplayContext {
+public class ViewReportingDisplayContext extends ViewBaseDisplayContext<FormSendRecordFieldSignalement> {
 
     private List<FormSendRecordFieldSignalement> _allSignalements;
 
     public ViewReportingDisplayContext(RenderRequest request, RenderResponse response) {
+        super(request, response, FormSendRecordFieldSignalement.class);
         _request = request;
         _response = response;
         _themeDisplay = (ThemeDisplay) _request
                 .getAttribute(WebKeys.THEME_DISPLAY);
-        _httpServletRequest = PortalUtil.getHttpServletRequest(request);
     }
 
 
+    @Override
     public SearchContainer<FormSendRecordFieldSignalement> getSearchContainer() {
 
         if (_searchContainer == null) {
@@ -53,6 +53,7 @@ public class ViewReportingDisplayContext {
                     .setKeywords(ParamUtil.getString(_request, "keywords"))
                     .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
                     .setParameter("tab","viewReportings")
+                    .setParameter("filterCategoriesIdByVocabulariesName", getFilterCategoriesIdByVocabulariesName())
                     .buildPortletURL();
             _searchContainer = new SearchContainer<>(_request, null, null,
                     SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
@@ -83,6 +84,7 @@ public class ViewReportingDisplayContext {
     }
 
     // Récupération de la réponse lié au signalement
+    @SuppressWarnings("unused")
     public String getResponse(long formSendRecordFieldId){
         String response = "";
         //récupère le formSendRecordField correspondant
@@ -167,6 +169,7 @@ public class ViewReportingDisplayContext {
         }
     }
 
+    @Override
     public String getOrderByColSearchField() {
         switch (getOrderByCol()) {
             case "title":
@@ -177,40 +180,10 @@ public class ViewReportingDisplayContext {
         }
     }
 
-    /**
-     * Renvoie la colonne sur laquelle on fait le tri
-     *
-     * @return String
-     */
-    public String getOrderByCol() {
-        return ParamUtil.getString(_request, "orderByCol", "modified-date");
-    }
-
-    /**
-     * Retourne le type de tri (desc ou asc)
-     *
-     * @return String
-     */
-    public String getOrderByType() {
-        return ParamUtil.getString(_request, "orderByType", "desc");
-    }
-
-    /**
-     * Retourne les mots clés de recherche saisis
-     */
-    @SuppressWarnings("unused")
-    public String getKeywords() {
-        if (Validator.isNull(_keywords)) {
-            _keywords = ParamUtil.getString(_request, "keywords");
-        }
-        return _keywords;
-    }
     protected SearchContainer <FormSendRecordFieldSignalement> _searchContainer;
-    private String _keywords;
     private final RenderRequest _request;
     private final RenderResponse _response;
     protected ThemeDisplay _themeDisplay;
-    private final HttpServletRequest _httpServletRequest;
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass());
 }

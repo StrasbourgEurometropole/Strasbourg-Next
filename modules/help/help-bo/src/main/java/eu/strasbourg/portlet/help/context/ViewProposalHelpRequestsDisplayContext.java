@@ -14,6 +14,7 @@ import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.service.help.model.HelpRequest;
 import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
 import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
@@ -22,14 +23,14 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Comparator;
 import java.util.List;
 
-public class ViewProposalHelpRequestsDisplayContext{
+public class ViewProposalHelpRequestsDisplayContext extends ViewBaseDisplayContext<HelpRequest> {
 
 
     public ViewProposalHelpRequestsDisplayContext(RenderRequest request, RenderResponse response) {
+        super(request, response, HelpRequest.class);
             _request = request;
             _response = response;
             _themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
-            _httpServletRequest = PortalUtil.getHttpServletRequest(request);
         }
 
     /**
@@ -49,10 +50,12 @@ public class ViewProposalHelpRequestsDisplayContext{
         }
         return _helpProposal;
     }
+
     /**
      * Retourne le searchContainer des help proposals
      *
      */
+    @Override
     public SearchContainer<HelpRequest> getSearchContainer() {
 
         if (_searchContainer == null) {
@@ -63,6 +66,7 @@ public class ViewProposalHelpRequestsDisplayContext{
                     .setKeywords(ParamUtil.getString(_request, "keywords"))
                     .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
                     .setParameter("tab","viewProposalHelpRequests")
+                    .setParameter("filterCategoriesIdByVocabulariesName", getFilterCategoriesIdByVocabulariesName())
                     .buildPortletURL();
             _searchContainer = new SearchContainer<>(_request, null, null,
                     SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
@@ -106,6 +110,8 @@ public class ViewProposalHelpRequestsDisplayContext{
 
         }
     }
+
+    @SuppressWarnings("unused")
     public String getCurrentUrl() {
         return PortalUtil.getCurrentURL(this._request);
     }
@@ -115,10 +121,6 @@ public class ViewProposalHelpRequestsDisplayContext{
     private final RenderRequest _request;
     private final RenderResponse _response;
     protected ThemeDisplay _themeDisplay;
-
-    private final HttpServletRequest _httpServletRequest;
-
     private HelpProposal _helpProposal;
     private List <HelpRequest> _helpRequests;
-
 }

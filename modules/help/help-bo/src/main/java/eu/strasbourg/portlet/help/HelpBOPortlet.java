@@ -106,11 +106,11 @@ public class HelpBOPortlet extends MVCPortlet {
 					break;
 
 				case HELP_SEEKERS:
-					if(navigationDC.getSelectedCmd().equals(EDIT_HELP_PROPOSAL)){
+					/*if(navigationDC.getSelectedCmd().equals(EDIT_HELP_PROPOSAL)){
 						ViewSeekerHelpRequestsDisplayContext dc = new ViewSeekerHelpRequestsDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					}
-					else if(navigationDC.getSelectedCmd().equals(SEEKER_HELP_REQUESTS)) {
+					else*/ if(navigationDC.getSelectedCmd().equals(SEEKER_HELP_REQUESTS)) {
 						ViewSeekerHelpRequestsDisplayContext dc = new ViewSeekerHelpRequestsDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					}

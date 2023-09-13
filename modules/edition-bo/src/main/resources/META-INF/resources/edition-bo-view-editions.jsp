@@ -146,7 +146,7 @@
 	}
 
 	function getCategoriesByVocabulary(vocabularyId, vocabularyName, categoriesId) {
-		const portletURL = "${activityCoursesURL}";
+		const portletURL = "${editionsURL}";
 
 		const url = Liferay.Util.PortletURL.createPortletURL(portletURL, {
 			p_p_id: "com_liferay_asset_categories_selector_web_portlet_AssetCategoriesSelectorPortlet",
@@ -165,8 +165,8 @@
 						var url = "${filterSelectionURL}";
 						if(!url.includes("filterCategoriesIdByVocabulariesName"))
 							url += "&<portlet:namespace />filterCategoriesIdByVocabulariesName=";
-						if(url.includes(encodeURI(vocabularyName.replaceAll(" ","+"))+'_')){
-							const regex = encodeURI(vocabularyName).replaceAll("%20","\\+") + "(.(?<!__))*__";
+						if(url.includes(encodeURI(vocabularyName.replaceAll(" ","+")).replaceAll("'","%27")+'_')){
+							const regex = encodeURI(vocabularyName).replaceAll("%20","\\+").replaceAll("'","%27") + "(.(?<!__))*__";
 							const re = new RegExp(regex, 'gi');
 							url = url.replace(re,"");
 						}

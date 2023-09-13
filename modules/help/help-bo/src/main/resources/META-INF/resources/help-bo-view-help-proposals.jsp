@@ -156,6 +156,15 @@
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:actionURL>
+<liferay-portlet:renderURL varImpl="filterSelectionURL">
+	<portlet:param name="tab" value="helpProposals" />
+	<portlet:param name="mvcPath" value="/help-bo-view-help-proposals.jsp" />
+	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
+	<portlet:param name="orderByType" value="${dc.orderByType}" />
+	<portlet:param name="keywords" value="${dc.keywords}" />
+	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
+</liferay-portlet:renderURL>
 
 
 <%-- Script : Permet d'accéeder directement la proposition par son identifiant--%>
@@ -208,7 +217,7 @@
 		}
 	}
 	function getCategoriesByVocabulary(vocabularyId, vocabularyName, categoriesId) {
-		const portletURL = "${activitiesURL}";
+		const portletURL = "${helpProposalsURL}";
 
 		const url = Liferay.Util.PortletURL.createPortletURL(portletURL, {
 			p_p_id: "com_liferay_asset_categories_selector_web_portlet_AssetCategoriesSelectorPortlet",
@@ -227,8 +236,8 @@
 						var url = "${filterSelectionURL}";
 						if(!url.includes("filterCategoriesIdByVocabulariesName"))
 							url += "&<portlet:namespace />filterCategoriesIdByVocabulariesName=";
-						if(url.includes(encodeURI(vocabularyName.replaceAll(" ","+"))+'_')){
-							const regex = encodeURI(vocabularyName).replaceAll("%20","\\+") + "(.(?<!__))*__";
+						if(url.includes(encodeURI(vocabularyName.replaceAll(" ","+")).replaceAll("'","%27")+'_')){
+							const regex = encodeURI(vocabularyName).replaceAll("%20","\\+").replaceAll("'","%27") + "(.(?<!__))*__";
 							const re = new RegExp(regex, 'gi');
 							url = url.replace(re,"");
 						}
