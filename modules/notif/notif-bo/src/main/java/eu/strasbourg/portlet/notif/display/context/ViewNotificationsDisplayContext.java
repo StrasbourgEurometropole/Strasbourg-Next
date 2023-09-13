@@ -1,6 +1,5 @@
 package eu.strasbourg.portlet.notif.display.context;
 
-import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
@@ -11,10 +10,8 @@ import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserGroupRoleLocalServiceUtil;
-import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.notif.constants.NotifConstants;
@@ -26,25 +23,23 @@ import eu.strasbourg.service.notif.service.NatureNotifLocalServiceUtil;
 import eu.strasbourg.service.notif.service.NotificationLocalServiceUtil;
 import eu.strasbourg.service.notif.service.ServiceNotifLocalServiceUtil;
 import eu.strasbourg.utils.constants.RoleNames;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-public class ViewNotificationsDisplayContext {
+public class ViewNotificationsDisplayContext extends ViewBaseDisplayContext<Notification> {
 
 
 	public ViewNotificationsDisplayContext(RenderRequest request,
 										   RenderResponse response,
-										   String filter,
-										   ItemSelector itemSelector) {
+										   String filter) {
+		super(request, response, Notification.class);
 		_request = request;
 		_response = response;
 		_themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
-		_httpServletRequest = PortalUtil.getHttpServletRequest(request);
-		_itemSelector = itemSelector;
 		this.filter = filter;
 	}
 	/**
@@ -60,6 +55,7 @@ public class ViewNotificationsDisplayContext {
 	 * Retourne le searchContainer des notifications
 	 *
 	 */
+	@Override
 	public SearchContainer<Notification> getSearchContainer() {
 
 		if (_searchContainer == null) {
@@ -117,14 +113,12 @@ public class ViewNotificationsDisplayContext {
 			}
 		}
 	}
-	public String getOrderByType() {
-		return ParamUtil.getString(_request, "orderByType", "desc");
-	}
 
 
 	/**
 	 * Renvoie la colonne sur laquelle on fait le tri
 	 */
+	@Override
 	public String getOrderByCol() {
 		return null;
 	}
@@ -243,16 +237,7 @@ public class ViewNotificationsDisplayContext {
 		}
 		return false;
 	}
-	/**
-	 * Retourne les mots clés de recherche saisis
-	 */
-	@SuppressWarnings("unused")
-	public String getKeywords() {
-		if (Validator.isNull(_keywords)) {
-			_keywords = ParamUtil.getString(_request, "keywords");
-		}
-		return _keywords;
-	}
+
 	@SuppressWarnings("unused")
 	public String getFilter() {
 		return filter;
@@ -280,12 +265,9 @@ public class ViewNotificationsDisplayContext {
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass());
 	protected SearchContainer<Notification> _searchContainer;
-	private String _keywords;
 	private final RenderRequest _request;
 	private final RenderResponse _response;
 	protected ThemeDisplay _themeDisplay;
-	private final HttpServletRequest _httpServletRequest;
-	private final ItemSelector _itemSelector;
 	private List<Notification> notifications;
 	private String filter;
 	private long[] serviceIds;
