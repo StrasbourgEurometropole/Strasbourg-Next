@@ -4,6 +4,7 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.SearchContainerManagementToolbarDisplayContext;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.*;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -16,6 +17,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.link.model.Link;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.display.context.ManagementBaseToolBarDisplayContext;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -23,75 +25,18 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
-public class ManagementLinksToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
+public class ManagementLinksToolBarDisplayContext extends ManagementBaseToolBarDisplayContext<Link> {
 
     public ManagementLinksToolBarDisplayContext(
             HttpServletRequest httpServletRequest,
             LiferayPortletRequest liferayPortletRequest,
             LiferayPortletResponse liferayPortletResponse,
-            ViewLinksDisplayContext viewLinksDisplayContext) throws PortalException {
+            SearchContainer searchContainer) throws PortalException {
         super(httpServletRequest, liferayPortletRequest, liferayPortletResponse,
-                viewLinksDisplayContext.getSearchContainer());
-
-        _viewLinksDisplayContext= viewLinksDisplayContext;
+                Link.class, searchContainer);
 
         _themeDisplay = (ThemeDisplay)liferayPortletRequest.getAttribute(
                 WebKeys.THEME_DISPLAY);
-    }
-
-    /**
-     * The list of dropdown items to display when a result is checked
-     * or the master checkbox in the Management Toolbar is checked
-     */
-    @Override
-    public List<DropdownItem> getActionDropdownItems() {
-        return DropdownItemListBuilder
-                .addGroup(
-                        dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(
-                                    DropdownItemListBuilder.add(
-                                            dropdownItem -> {
-                                                dropdownItem.put("href", "javascript:publishSelection();");
-                                                dropdownItem.setIcon("check");
-                                                dropdownItem.setLabel(
-                                                        LanguageUtil.get(httpServletRequest, "publish"));
-                                                dropdownItem.setQuickAction(true);
-                                            }
-                                    ).build());
-                            dropdownGroupItem.setSeparator(true);
-                        }
-                )
-                .addGroup(
-                        dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(
-                                    DropdownItemListBuilder.add(
-                                            dropdownItem -> {
-                                                dropdownItem.put("href", "javascript:unpublishSelection();");
-                                                dropdownItem.setIcon("times");
-                                                dropdownItem.setLabel(
-                                                        LanguageUtil.get(httpServletRequest, "unpublish"));
-                                                dropdownItem.setQuickAction(true);
-                                            }
-                                    ).build());
-                            dropdownGroupItem.setSeparator(true);
-                        }
-                )
-                .addGroup(
-                        dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(
-                                    DropdownItemListBuilder.add(
-                                            dropdownItem -> {
-                                                dropdownItem.put("href", "javascript:deleteSelection();");
-                                                dropdownItem.setIcon("trash");
-                                                dropdownItem.setLabel(
-                                                        LanguageUtil.get(httpServletRequest, "delete"));
-                                                dropdownItem.setQuickAction(true);
-                                            }
-                                    ).build());
-                            dropdownGroupItem.setSeparator(true);
-                        }
-                )
-                .build();
     }
 
     /**
@@ -103,112 +48,11 @@ public class ManagementLinksToolBarDisplayContext extends SearchContainerManagem
     }
 
     /**
-     * Sets the search container’s filtering options
-     */
-    @Override
-    public List<DropdownItem> getFilterDropdownItems() {
-        return DropdownItemListBuilder
-                .addGroup(
-                        dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(getOrderByDropdownItems());
-                            dropdownGroupItem.setLabel(
-                                    LanguageUtil.get(httpServletRequest, "order-by")
-                            );
-                        }
-                )
-                .build();
-    }
-
-    /**
-     * Add filtering options to Vocabulary
-     */
-    protected List<DropdownItem> getFilterVocabularyDropdownItems() {
-        List<DropdownItem> filterVocabularyDropdownItems = new DropdownItemList();
-
-        for (AssetVocabulary vocabulary : getLinkVocabularies()) {
-            filterVocabularyDropdownItems.add(
-                    DropdownItemBuilder
-                            .setActive(_viewLinksDisplayContext.hasVocabulary(vocabulary.getName()))
-                            .setHref("javascript:getCategoriesByVocabulary("+vocabulary.getVocabularyId()+");")
-                            .setLabel(vocabulary.getName())
-                            .build()
-            );
-        }
-
-        return filterVocabularyDropdownItems;
-    }
-
-    /**
-     * Sets the search container’s filter labels to display
-     */
-    // TODO : A revoir car pas testé ni fini
-    @Override
-    public List<LabelItem> getFilterLabelItems() {
-        Map<String, String> categVocabulariesSelected = _viewLinksDisplayContext.getCategVocabularies();
-        LabelItemListBuilder.LabelItemListWrapper vocabulariesLabelItems = new LabelItemListBuilder.LabelItemListWrapper();
-
-        for (AssetVocabulary vocabulary : getLinkVocabularies()) {
-            vocabulariesLabelItems.add(
-                    () -> categVocabulariesSelected.keySet().contains(vocabulary.getName()),
-                    labelItem -> {
-                        labelItem.putData(
-                                "removeLabelURL",
-                                PortletURLBuilder.create(
-                                                PortletURLUtil.clone(currentURLObj, liferayPortletResponse))
-                                        .setParameter(vocabulary.getName(), "")
-                                        .buildString());
-
-                        labelItem.setCloseable(true);
-
-                        String categ = categVocabulariesSelected.get(vocabulary.getName());
-
-                        labelItem.setLabel(vocabulary.getName() + ": " + categ);
-                    }
-            );
-        }
-
-        return vocabulariesLabelItems.build();
-    }
-
-    /**
      * Fields that can be sorted
      */
     @Override
     protected String[] getOrderByKeys() {
         return new String[] { "modified-date","title" };
-    }
-
-
-
-
-    /**
-     * The URL to reset the search
-     */
-    // TODO : Il faudra rajouter la réinitialisation des vocabulaires
-    @Override
-    public String getClearResultsURL() {
-        return PortletURLBuilder.create(getPortletURL())
-                .setKeywords("")
-                .setParameter( "orderByCol", "modified-date")
-                .setParameter( "orderByType", "desc")
-                .buildString();
-    }
-
-    /**
-     * The action URL to send the search form
-     */
-    @Override
-    public String getSearchActionURL() {
-        return PortletURLBuilder.createRenderURL(liferayPortletResponse)
-                .buildString();
-    }
-
-    /**
-     * The search form’s name
-     */
-    @Override
-    public String getSearchFormName() {
-        return "fm1";
     }
 
 
@@ -256,31 +100,5 @@ public class ManagementLinksToolBarDisplayContext extends SearchContainerManagem
 
     }
 
-
-    /**
-     * Get link Vocabularies
-     */
-    protected List<AssetVocabulary> getLinkVocabularies() {
-        if(_vocabularies == null) {
-            ThemeDisplay themeDisplay =
-                    (ThemeDisplay) httpServletRequest.getAttribute(
-                            WebKeys.THEME_DISPLAY);
-            long companyGroupId = themeDisplay.getCompanyGroupId();
-            long classNameId = ClassNameLocalServiceUtil.getClassNameId(Link.class);
-            long scopeGroupId = themeDisplay.getScopeGroupId();
-            List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getAssetVocabularies(-1, -1).stream()
-                    .filter(v -> (v.getGroupId() == companyGroupId || v.getGroupId() == scopeGroupId) && LongStream.of(v.getSelectedClassNameIds())
-                            .anyMatch(c -> c == classNameId))
-                    .collect(Collectors.toList());
-            _vocabularies = vocabularies;
-        }
-
-
-            return _vocabularies;
-    }
-
-    private final ViewLinksDisplayContext _viewLinksDisplayContext;
     private final ThemeDisplay _themeDisplay;
-    private List<AssetVocabulary> _vocabularies;
-
 }
