@@ -93,14 +93,14 @@
 						var url = "${filterSelectionURL}";
 						if(!url.includes("filterCategoriesIdByVocabulariesName"))
 							url += "&<portlet:namespace />filterCategoriesIdByVocabulariesName=";
-						if(url.includes(encodeURI(vocabularyName.replaceAll(" ","+")).replaceAll("'","%27")+'_')){
-							const regex = encodeURI(vocabularyName).replaceAll("%20","\\+").replaceAll("'","%27") + "(.(?<!__))*__";
+						if(url.includes(encodeURIComponent(vocabularyName).replaceAll("%20","+").replaceAll("'","%27")+'__')){
+							const regex = encodeURIComponent(vocabularyName).replaceAll("%20","\\+").replaceAll("'","%27") + "(.(?<!___))*___";
 							const re = new RegExp(regex, 'gi');
 							url = url.replace(re,"");
 						}
 						for(index in Object.keys(selectedItem)){
 							var selection = selectedItem[Object.keys(selectedItem)[index]];
-							url += vocabularyName + '_' + selection.title + '_' + selection.categoryId + '__';
+							url += encodeURIComponent(vocabularyName) + '__' + encodeURIComponent(selection.title) + '__' + selection.categoryId + '___';
 						}
 						submitForm(form, url);
 					}

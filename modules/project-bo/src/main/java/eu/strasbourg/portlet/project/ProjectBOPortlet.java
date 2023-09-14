@@ -1,23 +1,42 @@
 package eu.strasbourg.portlet.project;
 
 import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
-import eu.strasbourg.portlet.project.display.context.*;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.project.display.context.EditBudgetParticipatifDisplayContext;
+import eu.strasbourg.portlet.project.display.context.EditBudgetPhaseDisplayContext;
+import eu.strasbourg.portlet.project.display.context.EditInitiativeDisplayContext;
+import eu.strasbourg.portlet.project.display.context.EditParticipationDisplayContext;
+import eu.strasbourg.portlet.project.display.context.EditPetitionDisplayContext;
+import eu.strasbourg.portlet.project.display.context.EditProjectDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ManagementBudgetParticipatifsToolBarDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ManagementBudgetPhasesToolBarDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ManagementInitiativesToolBarDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ManagementParticipationsToolBarDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ManagementPetitionsToolBarDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ManagementProjectsToolBarDisplayContext;
+import eu.strasbourg.portlet.project.display.context.NavigationBarDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ViewBudgetParticipatifDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ViewBudgetPhasesDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ViewInitiativesDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ViewParticipationsDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ViewPetitionsDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ViewProjectsDisplayContext;
 import eu.strasbourg.service.project.constants.ParticiperCategories;
 import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -25,6 +44,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+
 import static eu.strasbourg.portlet.project.constants.ProjectConstants.*;
 
 /**
@@ -71,9 +91,9 @@ public class ProjectBOPortlet extends MVCPortlet {
 						EditProjectDisplayContext dc = new EditProjectDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewProjectsDisplayContext dc = new ViewProjectsDisplayContext(renderRequest, renderResponse, _itemSelector);
+						ViewProjectsDisplayContext dc = new ViewProjectsDisplayContext(renderRequest, renderResponse);
 						ManagementProjectsToolBarDisplayContext managementDC = new ManagementProjectsToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -83,9 +103,9 @@ public class ProjectBOPortlet extends MVCPortlet {
 						EditParticipationDisplayContext dc = new EditParticipationDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewParticipationsDisplayContext dc = new ViewParticipationsDisplayContext(renderRequest, renderResponse, _itemSelector);
+						ViewParticipationsDisplayContext dc = new ViewParticipationsDisplayContext(renderRequest, renderResponse);
 						ManagementParticipationsToolBarDisplayContext managementDC = new ManagementParticipationsToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -98,9 +118,9 @@ public class ProjectBOPortlet extends MVCPortlet {
 						renderRequest.setAttribute("dc", dc);
 
 					} else {
-						ViewPetitionsDisplayContext dc = new ViewPetitionsDisplayContext(renderRequest, renderResponse, _itemSelector);
+						ViewPetitionsDisplayContext dc = new ViewPetitionsDisplayContext(renderRequest, renderResponse);
 						ManagementPetitionsToolBarDisplayContext managementDC = new ManagementPetitionsToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -110,9 +130,9 @@ public class ProjectBOPortlet extends MVCPortlet {
 						EditInitiativeDisplayContext dc = new EditInitiativeDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewInitiativesDisplayContext dc = new ViewInitiativesDisplayContext(renderRequest, renderResponse, _itemSelector);
+						ViewInitiativesDisplayContext dc = new ViewInitiativesDisplayContext(renderRequest, renderResponse);
 						ManagementInitiativesToolBarDisplayContext managementDC = new ManagementInitiativesToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -140,9 +160,9 @@ public class ProjectBOPortlet extends MVCPortlet {
 
 						renderRequest.setAttribute("dc", dc);
 					}else {
-						ViewBudgetParticipatifDisplayContext dc = new ViewBudgetParticipatifDisplayContext(renderRequest, renderResponse, _itemSelector);
+						ViewBudgetParticipatifDisplayContext dc = new ViewBudgetParticipatifDisplayContext(renderRequest, renderResponse);
 						ManagementBudgetParticipatifsToolBarDisplayContext managementDC = new ManagementBudgetParticipatifsToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -152,9 +172,9 @@ public class ProjectBOPortlet extends MVCPortlet {
 						EditBudgetPhaseDisplayContext dc = new EditBudgetPhaseDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewBudgetPhasesDisplayContext dc = new ViewBudgetPhasesDisplayContext(renderRequest, renderResponse, _itemSelector);
+						ViewBudgetPhasesDisplayContext dc = new ViewBudgetPhasesDisplayContext(renderRequest, renderResponse);
 						ManagementBudgetPhasesToolBarDisplayContext managementDC = new ManagementBudgetPhasesToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -187,6 +207,4 @@ public class ProjectBOPortlet extends MVCPortlet {
 		//renderResponse.setTitle(title);
 
 	}
-	@Reference
-	private ItemSelector _itemSelector;
 }

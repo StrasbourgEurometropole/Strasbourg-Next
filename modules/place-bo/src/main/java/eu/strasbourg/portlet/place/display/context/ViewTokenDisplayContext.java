@@ -1,6 +1,5 @@
 package eu.strasbourg.portlet.place.display.context;
 
-import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
@@ -26,7 +25,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ViewTokenDisplayContext {
@@ -35,30 +33,17 @@ public class ViewTokenDisplayContext {
     private final RenderResponse _response;
     private String refreshToken;
     private Ticket lastAccesToken;
-    private List<String> _locationIds;
 
     public ViewTokenDisplayContext(RenderRequest request,
-                                   RenderResponse response, ItemSelector itemSelector) {
+                                   RenderResponse response) {
         _request = request;
         _response = response;
         _themeDisplay = (ThemeDisplay) _request
                 .getAttribute(WebKeys.THEME_DISPLAY);
         _httpServletRequest = PortalUtil.getHttpServletRequest(request);
-        _itemSelector=itemSelector;
     }
 
-    public String getOrderByCol() {
-        return null;
-    }
-
-    public String getOrderByType() {
-        return null;
-    }
-
-    public String getFilterCategoriesIds() throws PortalException {
-        return null;
-    }
-
+    @SuppressWarnings("unused")
     public String getRefeshToken() throws PortalException {
         if (this.refreshToken == null) {
             // récupération du ticket de type 98 (refresh-token)
@@ -80,6 +65,7 @@ public class ViewTokenDisplayContext {
         return this.lastAccesToken;
     }
 
+    @SuppressWarnings("unused")
     public Map<String, String> getLocationIds(){
         Map<String, String> locationIds = new HashMap<String, String>();
         //récupère les infos des lieux
@@ -174,5 +160,4 @@ public class ViewTokenDisplayContext {
 
     protected ThemeDisplay _themeDisplay;
     private final HttpServletRequest _httpServletRequest;
-    private final ItemSelector _itemSelector;
 }

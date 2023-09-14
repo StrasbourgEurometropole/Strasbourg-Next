@@ -1,6 +1,5 @@
 package eu.strasbourg.portlet.place.display.context;
 
-import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
@@ -8,32 +7,26 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.place.util.PublicHolidayActionDropdownItemsProvider;
-import eu.strasbourg.service.place.model.Price;
 import eu.strasbourg.service.place.model.PublicHoliday;
-import eu.strasbourg.service.place.service.PriceLocalServiceUtil;
 import eu.strasbourg.service.place.service.PublicHolidayLocalServiceUtil;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class ViewPublicHolidaysDisplayContext {
+public class ViewPublicHolidaysDisplayContext extends ViewBaseDisplayContext<PublicHoliday> {
 
 	public ViewPublicHolidaysDisplayContext(RenderRequest request,
-		RenderResponse response, ItemSelector itemSelector) {
+		RenderResponse response) {
+		super(request, response, PublicHoliday.class);
 		_request = request;
 		_response = response;
 		_themeDisplay = (ThemeDisplay) _request
 				.getAttribute(WebKeys.THEME_DISPLAY);
-		_httpServletRequest = PortalUtil.getHttpServletRequest(request);
-		_itemSelector=itemSelector;
 	}
 	/**
 	 * Retourne le dropdownItemsProvider de place
@@ -45,6 +38,7 @@ public class ViewPublicHolidaysDisplayContext {
 				_response);
 	}
 
+	@Override
 	public SearchContainer<PublicHoliday> getSearchContainer() {
 
 		if (_searchContainer == null) {
@@ -94,13 +88,7 @@ public class ViewPublicHolidaysDisplayContext {
 
 	private List<PublicHoliday> _publicHolidays;
 	protected SearchContainer<PublicHoliday> _searchContainer;
-	private Map<String, String> _categVocabularies;
 	private final RenderRequest _request;
 	private final RenderResponse _response;
 	protected ThemeDisplay _themeDisplay;
-	private final HttpServletRequest _httpServletRequest;
-	private final ItemSelector _itemSelector;
-
-
-
 }

@@ -141,6 +141,7 @@ public abstract class ManagementBaseToolBarDisplayContext<T> extends SearchConta
 
     /**
      * Add filtering options to Vocabulary
+     * fonction js à ajouter dans chaque JSP où il y a un filtre par vocabulaire
      */
     protected List<DropdownItem> getFilterVocabularyDropdownItems() {
         List<DropdownItem> filterVocabularyDropdownItems = new DropdownItemList();
@@ -150,7 +151,7 @@ public abstract class ManagementBaseToolBarDisplayContext<T> extends SearchConta
                     DropdownItemBuilder
                             .setActive(hasVocabulary(vocabulary.getName()))
                             .setHref("javascript:getCategoriesByVocabulary(" + vocabulary.getVocabularyId()
-                                    + ", \"" + vocabulary.getName() + "\", '"
+                                    + ", \"" + vocabulary.getName().replace("\"", "\\\"") + "\", '"
                                     + getFilterCategoriesIdsByVocabularyName(vocabulary.getName()) +"');")
                             .setLabel(vocabulary.getName())
                             .build()
@@ -160,31 +161,48 @@ public abstract class ManagementBaseToolBarDisplayContext<T> extends SearchConta
         return filterVocabularyDropdownItems;
     }
 
-    public boolean hasVocabulary(String vocabularyName){
-        return getFilterCategoriesIdByVocabulariesName().contains(vocabularyName+"_");
-    }
-
     /**
-     * Retourne un String des IDs des catégories sur lesquels on doit filtrer
-     *  sous forme de string qui se présente comme suit :
-     * "vocabularyName_categoryName_categoryId__..."
+     * Récupère le String des Vocabulaire/catégorie/categId sur lesquels on doit filtrer
+     *  qui se présente comme suit :
+     * "vocabularyName__categoryName__categoryId___..."
      */
     public String getFilterCategoriesIdByVocabulariesName() {
         return ParamUtil.getString(_httpServletRequest, "filterCategoriesIdByVocabulariesName","");
     }
 
+
     /**
-     * Retourne la liste des IDs des catégories d'un vocabulaire, sur lequel on doit filtrer
-     *  sous forme de string qui se présente comme suit :
+     * Utilisé pour vérifier si il y a déjà un filtre sur ce vocabulaire
+     */
+    public boolean hasVocabulary(String vocabularyName){
+        return getFilterCategoriesIdByVocabulariesName().contains(vocabularyName+"_");
+    }
+
+    /**
+     * Retourne la liste des Vocabulaire/catégorie/categId sur lesquels on doit filtrer
+     *  chaque entrée de liste contient un String :
+     * ["vocabularyName--categoryName--categoryId", ...]
+     */
+    public List<String> getListFilterCategoriesIdByVocabulariesName() {
+        String filterCategoriesIdByVocabulariesName = getFilterCategoriesIdByVocabulariesName();
+        if (Validator.isNotNull(filterCategoriesIdByVocabulariesName)) {
+            return List.of(filterCategoriesIdByVocabulariesName.split("___"));
+        }
+
+        return new ArrayList<>();
+    }
+
+    /**
+     * Retourne un String des IDs des catégories du vocabulaire, sur lequel on doit filtrer
+     *  qui se présente comme suit :
      * "categoryId1,categoryId2,categoryId3,"
+     * Utilisé pour récupérer les catégories déjà sélectionnées d'un vocabulaire pour les filtres
      */
     public String getFilterCategoriesIdsByVocabularyName(String vocabularyName) {
-        List<String> filterCategoriesIdByVocabulariesName = List.of(getFilterCategoriesIdByVocabulariesName()
-                .split("__"));
         StringBuilder filterCategoriesIdsByVocabulary = new StringBuilder();
-        for(String filterCategoryIdByVocabularyName : filterCategoriesIdByVocabulariesName){
+        for(String filterCategoryIdByVocabularyName : getListFilterCategoriesIdByVocabulariesName()){
             if(Validator.isNotNull(filterCategoryIdByVocabularyName)) {
-                String[] arrayCategoryIdByVocabularyName = filterCategoryIdByVocabularyName.split("_");
+                String[] arrayCategoryIdByVocabularyName = filterCategoryIdByVocabularyName.split("__");
                 if(arrayCategoryIdByVocabularyName[0].equals(vocabularyName))
                     filterCategoriesIdsByVocabulary.append(arrayCategoryIdByVocabularyName[2]).append(",");
             }
@@ -197,34 +215,28 @@ public abstract class ManagementBaseToolBarDisplayContext<T> extends SearchConta
      */
     @Override
     public List<LabelItem> getFilterLabelItems() {
-        List<String[]> categoriesSelected = getCategVocabularies();
         LabelItemListBuilder.LabelItemListWrapper vocabulariesLabelItems = new LabelItemListBuilder.LabelItemListWrapper();
 
         MutableRenderParameters parameters = this.currentURLObj.getRenderParameters();
         String originalFilterCategoriesIdByVocabulariesName = parameters.getValue("filterCategoriesIdByVocabulariesName");
-        for (String[] categorySelected : categoriesSelected) {
+
+        for (String filterCategoryIdByVocabularyName : getListFilterCategoriesIdByVocabulariesName()) {
             try {
                 PortletURL newURL = PortletURLUtil.clone(currentURLObj, liferayPortletResponse);
                 String filterCategoriesIdByVocabulariesName;
-                // on enlève le vocabularyName_CategoryName_CategoryId__ correspondant du paramètre
-                String CategoryToDelete = categorySelected[0] + '_' + categorySelected[1] + '_' + categorySelected[2] + "__";
-                if (originalFilterCategoriesIdByVocabulariesName
-                        .contains(CategoryToDelete)) {
-                    filterCategoriesIdByVocabulariesName = originalFilterCategoriesIdByVocabulariesName
-                            .replace(CategoryToDelete, "");
-                } else {
-                    filterCategoriesIdByVocabulariesName = originalFilterCategoriesIdByVocabulariesName;
-                }
+                // on enlève le vocabularyName__CategoryName__CategoryId___ correspondant du paramètre
+                filterCategoriesIdByVocabulariesName = originalFilterCategoriesIdByVocabulariesName
+                            .replace(filterCategoryIdByVocabularyName + "___", "");
                 newURL.getRenderParameters().removeParameter("filterCategoriesIdByVocabulariesName");
                 vocabulariesLabelItems.add(
                         labelItem -> {
-                            labelItem.putData(
-                                    "removeLabelURL",
-                                    PortletURLBuilder.create(
-                                                    PortletURLUtil.clone(newURL, liferayPortletResponse))
-                                            .setParameter("filterCategoriesIdByVocabulariesName", filterCategoriesIdByVocabulariesName)
-                                            .buildString());
+                            labelItem.putData("removeLabelURL",
+                                PortletURLBuilder.create(PortletURLUtil.clone(newURL, liferayPortletResponse))
+                                    .setParameter("filterCategoriesIdByVocabulariesName", filterCategoriesIdByVocabulariesName)
+                                    .buildString()
+                            );
                             labelItem.setCloseable(true);
+                            String[] categorySelected = filterCategoryIdByVocabularyName.split("__");
                             labelItem.setLabel(categorySelected[0] + " : " + categorySelected[1]);
                         }
                 );
@@ -237,26 +249,6 @@ public abstract class ManagementBaseToolBarDisplayContext<T> extends SearchConta
     }
 
     /**
-     * Retourne la liste des IDs des catégories sur lesquels on doit filtrer
-     *  chaque entrée de liste contient un tableau de String :
-     * [vocabularyName, categoryName, categoryId]
-     */
-    public List<String[]> getCategVocabularies() {
-        if (_categVocabularies == null) {
-            _categVocabularies = new ArrayList<>();
-            List<String> filterCategoriesIdByVocabulariesName = List.of(getFilterCategoriesIdByVocabulariesName()
-                    .split("__"));
-            for(String filterCategoryIdByVocabularyName : filterCategoriesIdByVocabulariesName){
-                if(Validator.isNotNull(filterCategoryIdByVocabularyName)) {
-                    _categVocabularies.add(filterCategoryIdByVocabularyName.split("_"));
-                }
-            }
-        }
-
-        return _categVocabularies;
-    }
-
-    /**
      * Fields that can be sorted
      * cntent : "publication-date", "modified-date","title", "status"
      */
@@ -264,9 +256,6 @@ public abstract class ManagementBaseToolBarDisplayContext<T> extends SearchConta
     protected String[] getOrderByKeys() {
         return new String[] {  "publication-date", "modified-date","title", "status" };
     }
-
-
-
 
     /**
      * The URL to reset the search
@@ -288,7 +277,6 @@ public abstract class ManagementBaseToolBarDisplayContext<T> extends SearchConta
     public String getSearchFormName() {
         return "fm1";
     }
-
 
     /**
      * Get Vocabularies

@@ -1,97 +1,35 @@
 package eu.strasbourg.portlet.place.display.context;
 
-import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
-import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.SearchContainerManagementToolbarDisplayContext;
-import com.liferay.frontend.taglib.clay.servlet.taglib.util.*;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenuBuilder;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
-import com.liferay.portal.kernel.portlet.PortletURLUtil;
-import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
-import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.service.place.model.Place;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.service.place.model.Price;
+import eu.strasbourg.utils.display.context.ManagementBaseToolBarDisplayContext;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 
-public class ManagementPricesToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
+public class ManagementPricesToolBarDisplayContext extends ManagementBaseToolBarDisplayContext<Price> {
 
     public ManagementPricesToolBarDisplayContext(
             HttpServletRequest httpServletRequest,
             LiferayPortletRequest liferayPortletRequest,
             LiferayPortletResponse liferayPortletResponse,
-            ViewPricesDisplayContext viewPricesDisplayContext) throws PortalException {
+            SearchContainer searchContainer) throws PortalException {
         super(httpServletRequest, liferayPortletRequest, liferayPortletResponse,
-                viewPricesDisplayContext.getSearchContainer());
+                Price.class, searchContainer);
 
-        _viewPricesDisplayContext = viewPricesDisplayContext;
 
         _themeDisplay = (ThemeDisplay)liferayPortletRequest.getAttribute(
                 WebKeys.THEME_DISPLAY);
-    }
-
-    /**
-     * The list of dropdown items to display when a result is checked
-     * or the master checkbox in the Management Toolbar is checked
-     */
-    @Override
-    public List<DropdownItem> getActionDropdownItems() {
-        return DropdownItemListBuilder
-                .addGroup(
-                        dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(
-                                    DropdownItemListBuilder.add(
-                                            dropdownItem -> {
-                                                dropdownItem.put("href", "javascript:publishSelection();");
-                                                dropdownItem.setIcon("check");
-                                                dropdownItem.setLabel(
-                                                        LanguageUtil.get(httpServletRequest, "publish"));
-                                                dropdownItem.setQuickAction(true);
-                                            }
-                                    ).build());
-                            dropdownGroupItem.setSeparator(true);
-                        }
-                )
-                .addGroup(
-                        dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(
-                                    DropdownItemListBuilder.add(
-                                            dropdownItem -> {
-                                                dropdownItem.put("href", "javascript:unpublishSelection();");
-                                                dropdownItem.setIcon("times");
-                                                dropdownItem.setLabel(
-                                                        LanguageUtil.get(httpServletRequest, "unpublish"));
-                                                dropdownItem.setQuickAction(true);
-                                            }
-                                    ).build());
-                            dropdownGroupItem.setSeparator(true);
-                        }
-                )
-                .addGroup(
-                        dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(
-                                    DropdownItemListBuilder.add(
-                                            dropdownItem -> {
-                                                dropdownItem.put("href", "javascript:deleteSelection();");
-                                                dropdownItem.setIcon("trash");
-                                                dropdownItem.setLabel(
-                                                        LanguageUtil.get(httpServletRequest, "delete"));
-                                                dropdownItem.setQuickAction(true);
-                                            }
-                                    ).build());
-                            dropdownGroupItem.setSeparator(true);
-                        }
-                )
-                .build();
     }
 
     // Masquer la zone de recherche
@@ -101,12 +39,11 @@ public class ManagementPricesToolBarDisplayContext extends SearchContainerManage
     }
 
     /**
-     * The action URL to send the search form
+     * on ne veut ni filtre ni tri
      */
     @Override
-    public String getSearchActionURL() {
-        return PortletURLBuilder.createRenderURL(liferayPortletResponse)
-                .buildString();
+    public List<DropdownItem> getFilterDropdownItems() {
+        return null;
     }
 
     /**
@@ -154,8 +91,5 @@ public class ManagementPricesToolBarDisplayContext extends SearchContainerManage
         return "pricesSearchContainer";
     }
 
-    private final ViewPricesDisplayContext _viewPricesDisplayContext;
     private final ThemeDisplay _themeDisplay;
-    private List<AssetVocabulary> _vocabularies;
-
 }

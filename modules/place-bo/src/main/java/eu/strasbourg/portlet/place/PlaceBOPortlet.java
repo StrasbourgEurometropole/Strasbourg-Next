@@ -1,11 +1,10 @@
 package eu.strasbourg.portlet.place;
 
-import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
-import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
+import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
@@ -16,18 +15,33 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.portlet.place.display.context.*;
+import eu.strasbourg.portlet.place.display.context.EditGoogleDisplayContext;
+import eu.strasbourg.portlet.place.display.context.EditPlaceDisplayContext;
+import eu.strasbourg.portlet.place.display.context.EditPriceDisplayContext;
+import eu.strasbourg.portlet.place.display.context.EditPublicHolidayDisplayContext;
+import eu.strasbourg.portlet.place.display.context.EditSubPlaceDisplayContext;
+import eu.strasbourg.portlet.place.display.context.ManagementPlacesToolBarDisplayContext;
+import eu.strasbourg.portlet.place.display.context.ManagementPricesToolBarDisplayContext;
+import eu.strasbourg.portlet.place.display.context.ManagementPublicHolidayToolBarDisplayContext;
+import eu.strasbourg.portlet.place.display.context.ManagementSubPlaceToolBarDisplayContext;
+import eu.strasbourg.portlet.place.display.context.NavigationBarDisplayContext;
+import eu.strasbourg.portlet.place.display.context.ViewGoogleDisplayContext;
+import eu.strasbourg.portlet.place.display.context.ViewPlacesDisplayContext;
+import eu.strasbourg.portlet.place.display.context.ViewPricesDisplayContext;
+import eu.strasbourg.portlet.place.display.context.ViewPublicHolidaysDisplayContext;
+import eu.strasbourg.portlet.place.display.context.ViewSubPlacesDisplayContext;
+import eu.strasbourg.portlet.place.display.context.ViewTokenDisplayContext;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
-import static eu.strasbourg.portlet.place.constants.PlaceConstants.*;
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+
+import static eu.strasbourg.portlet.place.constants.PlaceConstants.*;
 
 @Component(immediate = true, property = {
 		"javax.portlet.version=3.0",
@@ -64,9 +78,9 @@ public class PlaceBOPortlet extends MVCPortlet {
 						EditPriceDisplayContext dc = new EditPriceDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewPricesDisplayContext dc = new ViewPricesDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ViewPricesDisplayContext dc = new ViewPricesDisplayContext(renderRequest, renderResponse);
 						ManagementPricesToolBarDisplayContext managementDC = new ManagementPricesToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -77,9 +91,9 @@ public class PlaceBOPortlet extends MVCPortlet {
 						EditPublicHolidayDisplayContext dc = new EditPublicHolidayDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewPublicHolidaysDisplayContext dc = new ViewPublicHolidaysDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ViewPublicHolidaysDisplayContext dc = new ViewPublicHolidaysDisplayContext(renderRequest, renderResponse);
 						ManagementPublicHolidayToolBarDisplayContext managementDC = new ManagementPublicHolidayToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -90,9 +104,9 @@ public class PlaceBOPortlet extends MVCPortlet {
 						EditSubPlaceDisplayContext dc = new EditSubPlaceDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewSubPlacesDisplayContext dc = new ViewSubPlacesDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ViewSubPlacesDisplayContext dc = new ViewSubPlacesDisplayContext(renderRequest, renderResponse);
 						ManagementSubPlaceToolBarDisplayContext managementDC = new ManagementSubPlaceToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -103,7 +117,7 @@ public class PlaceBOPortlet extends MVCPortlet {
 						EditGoogleDisplayContext dc = new EditGoogleDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewGoogleDisplayContext dc = new ViewGoogleDisplayContext(renderRequest, renderResponse, _itemSelector);
+						ViewGoogleDisplayContext dc = new ViewGoogleDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					}
 					break;
@@ -117,7 +131,7 @@ public class PlaceBOPortlet extends MVCPortlet {
 						TicketLocalServiceUtil.addDistinctTicket(_themeDisplay.getCompanyId(),"",0,98,
 								refreshToken,null, _serviceContext);
 					} else {
-						ViewTokenDisplayContext dc = new ViewTokenDisplayContext(renderRequest, renderResponse, _itemSelector);
+						ViewTokenDisplayContext dc = new ViewTokenDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					}
 					break;
@@ -128,9 +142,9 @@ public class PlaceBOPortlet extends MVCPortlet {
 						EditPlaceDisplayContext dc = new EditPlaceDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewPlacesDisplayContext dc = new ViewPlacesDisplayContext(renderRequest, renderResponse, _itemSelector);
+						ViewPlacesDisplayContext dc = new ViewPlacesDisplayContext(renderRequest, renderResponse);
 						ManagementPlacesToolBarDisplayContext managementDC = new ManagementPlacesToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -160,8 +174,6 @@ public class PlaceBOPortlet extends MVCPortlet {
 
 		super.render(renderRequest, renderResponse);
 	}
-	@Reference
-	private ItemSelector _itemSelector;
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass());
 

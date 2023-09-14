@@ -111,12 +111,11 @@ public abstract class ViewBaseDisplayContext<T> {
 			case "title":
 			case "alias":
 				return "localized_title_fr_FR_sortable";
-			case "modified-date":
-				return "modified_sortable";
 			case "publication-date":
 				return "publishDate_sortable";
 			case "status":
 				return "status_sortable";
+			case "modified-date":
 			default:
 				return "modified_sortable";
 		}
@@ -152,9 +151,11 @@ public abstract class ViewBaseDisplayContext<T> {
 	}
 
 	/**
-	 * Retourne un String des IDs des catégories sur lesquels on doit filtrer
-	 *  sous forme de string qui se présente comme suit :
-	 * "vocabularyName_categoryName_categoryId__..."
+	 * Récupère le String des Vocabulaire/catégorie/categId sur lesquels on doit filtrer
+	 *  qui se présente comme suit :
+	 * "vocabularyName__categoryName__categoryId___..."
+	 * Utilisé dans tous les render et action URL des JSP de listing qui ont un
+	 * filtre par vocabulaire pour le garder à chaque action
 	 */
 	public String getFilterCategoriesIdByVocabulariesName() {
 		if (_filterCategoriesIdByVocabulariesName == null) {
@@ -164,23 +165,39 @@ public abstract class ViewBaseDisplayContext<T> {
 	}
 
 	/**
-	 * Renvoie la liste des catégories sur lesquelles on souhaite filtrer les
-	 * entries. L'opérateur entre chaque id de catégorie d'un array est un "OU", celui entre chaque liste d'array est un "ET"
+	 * Retourne la liste des Vocabulaire/catégorie/categId sur lesquels on doit filtrer
+	 *  chaque entrée de liste contient un String :
+	 * ["vocabularyName--categoryName--categoryId", ...]
+	 */
+	public List<String> getListFilterCategoriesIdByVocabulariesName() {
+		String filterCategoriesIdByVocabulariesName = getFilterCategoriesIdByVocabulariesName();
+		if (Validator.isNotNull(filterCategoriesIdByVocabulariesName)) {
+			return List.of(filterCategoriesIdByVocabulariesName.split("___"));
+		}
+
+		return new ArrayList<>();
+	}
+
+	/**
+	 * Renvoie la liste des catégories sur lesquelles on souhaite filtrer les entries.
+	 * L'opérateur entre chaque id de catégorie d'un array est un "OU", celui entre chaque liste d'array est un "ET"
 	 */
 	private List<Long[]> getFilterCategoriesIds() {
 		if (_filterCategoriesIds == null) {
 			List<Long[]> filterCategoriesIds = new ArrayList<>();
 
 			// récupère les catégories triées par nom de vocabulaire
-			if(Validator.isNotNull(getFilterCategoriesIdByVocabulariesName())) {
-				List<String> listCategoriesIdByVocabulariesName = List.of(getFilterCategoriesIdByVocabulariesName()
-						.split("__")).stream().sorted().collect(Collectors.toList());
+			List<String> filterCategoriesIdByVocabulariesName = getListFilterCategoriesIdByVocabulariesName();
+			if(!filterCategoriesIdByVocabulariesName.isEmpty()) {
+				List<String> listCategoriesIdByVocabulariesName = filterCategoriesIdByVocabulariesName
+						.stream().sorted().collect(Collectors.toList());
 				String oldVocabularyName = "";
 				String categoriesIds = "";
 				for (String filterCategoryIdByVocabularyName : listCategoriesIdByVocabulariesName) {
 					if (Validator.isNotNull(filterCategoryIdByVocabularyName)) {
-						String vocabularyName = filterCategoryIdByVocabularyName.split("_")[0];
-						String categoryId = filterCategoryIdByVocabularyName.split("_")[2];
+						String[] categorySelected = filterCategoryIdByVocabularyName.split("__");
+						String vocabularyName = categorySelected[0];
+						String categoryId = categorySelected[2];
 						if (oldVocabularyName.equals("") || oldVocabularyName.equals(vocabularyName)) {
 							if (Validator.isNotNull(categoriesIds)) {
 								categoriesIds += ",";
