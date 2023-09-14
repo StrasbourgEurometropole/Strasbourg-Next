@@ -142,6 +142,7 @@
 
 // Bouton close à droite en mobile
 .st-overlay-edito,
+.st-overlay-preview-activite,
 .st-overlay-menu {
 	.st-btn-close {
 		@include mobile {
@@ -626,6 +627,72 @@
 		}
 	}
 }
+
+
+
+// Overlay - preview activite
+// ==========================================================================
+.st-overlay-preview-activite {
+
+	.st-intro {
+		margin-bottom: 40px;
+	}
+
+	.st-overlay__content .st-container {
+		display: flex;
+		flex-direction: column;
+		padding: 40px;
+		border: 1px solid rgba($c_white, 0.25);
+		border-radius: $border-radius;
+
+		@include mobile {
+			padding: 20px;
+		}
+
+		& + .st-container {
+			margin-top: 20px;
+		}
+
+		.st-title-small {
+			@include ft('', 15px, 700, $c_white, 1);
+			@include letter-spacing(25);
+
+			& + * {
+				margin-top: 6px;
+			}
+		}
+
+		.st-surtitre-alt {
+			@include ft('', 12px, '', $c_txt, 1.16);
+			@include letter-spacing(25);
+			text-transform: uppercase;
+		}
+
+		* + .st-location {
+			margin-top: 6px;
+		}
+
+		.st-text {
+			p {
+				@include ft('', 12px, 400, $c_txt, 1.16);
+				@include letter-spacing(25);
+
+				& + p {
+					margin-top: 12px;
+				}
+			}
+		}
+		* + .st-text {
+			margin-top: 14px;
+		}
+
+		.st-btn {
+			align-self: flex-end;
+			margin-top: 20px;
+		}
+	}
+}
+
 
 // Overlay - Search
 // ==========================================================================

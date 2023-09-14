@@ -1,6 +1,5 @@
 .st-bloc-infos-complementaires {
 
-
 	.st-container {
 		--grid-gap: 40px;
 		display: grid;
@@ -9,10 +8,6 @@
 
 		@include tablet-small {
 			--grid-gap: 20px;
-		}
-
-		@include mobile {
-			--grid-gap: 40px;
 			grid-template-columns: minmax(10px, 1fr);
 		}
 
@@ -46,6 +41,7 @@
 		}
 	}
 
+	// variantes
 	.st-component-type-1 {
 		.st-component-container {
 			@include create-outline;
@@ -234,6 +230,9 @@
 				font-size: 20px;
 			}
 		}
+	}
+
+	.st-component-type-4 {
 	}
 
 

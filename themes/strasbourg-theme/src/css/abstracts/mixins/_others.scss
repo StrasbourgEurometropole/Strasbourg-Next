@@ -85,7 +85,6 @@
 //  Autres
 // -----------------------------------------------
 
-
 @function unfoldTransition ($transition) {
 	// Default values
 	$property: all;
@@ -127,16 +126,6 @@
 	//@warn "🙂 #{$unfoldedTransitions}.";
 	transition: $unfoldedTransitions;
 }
-
-
-// Génére une transition
-/*
-@mixin addTransition($effect: all, $duration: 0.2s, $easeing:ease) {
-	$anim: $effect $duration $easeing;
-	transition: $anim;
-}
-*/
-
 
 // Comportement de hover sauf si touchscreen
 @mixin can-hover() {

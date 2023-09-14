@@ -17,7 +17,9 @@ echo Deleting files in %sourceCSSDir% except %overridePattern%...
 
 for /r "%sourceCSSDir%" %%A in (*) do (
     if not "%%~nxA" == "_custom.scss" (
-        del "%%A"
+    if not "%%~nxA" == "_clay_variables.scss" (
+            del "%%A"
+        )
     )
 )
 for /d /r "%sourceCSSDir%" %%D in (*) do (
