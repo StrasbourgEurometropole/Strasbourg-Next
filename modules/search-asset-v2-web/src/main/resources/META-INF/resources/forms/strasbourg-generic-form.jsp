@@ -61,3 +61,7 @@
 		</div>
 	</div>
 </div>
+
+<liferay-util:html-bottom>
+	<script src="/o/searchassetv2web/js/strasbourg-generic.js"></script>
+</liferay-util:html-bottom>

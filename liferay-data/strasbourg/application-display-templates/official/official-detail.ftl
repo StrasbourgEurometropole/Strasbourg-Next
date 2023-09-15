@@ -1,5 +1,6 @@
 <!-- Détail élu -->
-<#setting locale = locale />
+<#setting locale=locale />
+<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
 
 <#assign fonction = "" />
 <#if entry.fonctionCity?has_content>
@@ -20,34 +21,52 @@
 <#if entry.imageURL?has_content>
     <#assign imageUrl = themeDisplay.getPortalURL() + entry.imageURL?replace('@', "")?replace('cdn_hostroot_path', "") />
 </#if>
-
 <#-- Liste des infos a partager -->
-<#assign openGraph = {
-"og:title":"${entry.lastName?html} - ${entry.firstName?html}",
-"og:description":'${fonction?html}', 
-"og:image":"${imageUrl}"
+<#assign openGraph={ "og:title" :"${entry.firstName?html} ${entry.lastName?html}", "og:description" :'${fonction?html}', "og:image" :"${imageUrl}"
 } />
 <#-- partage de la configuration open graph dans la request -->
-${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)} 
-
-<div class="seu-container official-detail">
-    <h1>${entry.firstName} ${entry.lastName}</h1>
-    <div class="rte">
-        <div class="official-portrait">
-            <img title="${entry.firstName} ${entry.lastName}" src="${entry.imageURL}" />
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
+<header class="st-header-fiche-person" role="banner">
+    <div class="st-wrapper st-wrapper-small">
+        <div class="st-heading">
+            <div class="st-caption">
+                <h1 class="st-h1 st-title">
+                    ${entry.firstName} ${entry.lastName}
+                </h1>
+                <p class="st-role">
+                    ${entry.getName(entry.fonctionCity, locale)}
+                </p>
+                <p class="st-surtitre-cat">
+                    ${entry.getName(entry.fonctionEurometropole, locale)}
+                </p>
+                <#if entry.fonctionTown?has_content>
+                    <p class="st-surtitre-cat">
+                        ${entry.getName(entry.fonctionTown, locale)}
+                        <@liferay_ui.message key="eu.official.of-the-city-of" />
+                        ${entry.getTown().getTitle(locale)}
+                    </p>
+                </#if>
+                <@liferay.breadcrumbs />
+            </div>
+            <div class="st-image">
+                <@addImage fileEntryId=entry.imageId isFigure=true />
+            </div>
         </div>
-        <#if entry.fonctionCity?has_content>
-            <h2><@liferay_ui.message key="eu.official.city-of-strasbourg" /></h2>
-            <h3>${entry.getName(entry.fonctionCity, locale)}</h3>
-            <#if entry.getThematicDelegation(locale)?has_content>
-                <h4><@liferay_ui.message key="eu.official.in-charge-of" /></h4>
-                ${entry.getThematicDelegation(locale)}
-            </#if>
+    </div>
+</header>
+<div class="st-content">
+    <#if entry.fonctionCity?has_content>
+        <div class="st-bloc st-bloc-sit-text-person st-wrapper st-wrapper-small st-text-styles st--has-margin">
+            <h2 class="st-h2">
+                <@liferay_ui.message key="eu.official.city-of-strasbourg" /> :<br><span class="st-text-light">
+                        ${entry.getName(entry.fonctionCity, locale)}
+                    </span>
+            </h2>
             <#if entry.districts?has_content>
                 <#if entry.getGender() == 1>
-                    <h4><@liferay_ui.message key="male-official-of-the-district" /></h4>
+                    <p class="st-surtitre-cat"><@liferay_ui.message key="male-official-of-the-district" /></p>
                 <#else>
-                    <h4><@liferay_ui.message key="female-official-of-the-district" /></h4>
+                    <p class="st-surtitre-cat"><@liferay_ui.message key="female-official-of-the-district" /></p>
                 </#if>
                 <ul>
                     <#list entry.districts as district>
@@ -55,43 +74,67 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     </#list>
                 </ul>
             </#if>
-            <#if entry.getPoliticalGroupCity()?has_content>
-                <h4><@liferay_ui.message key="eu.official.political-group" /></h4>
-                ${entry.getPoliticalGroupCity().getTitle(locale)}
+            <#if entry.getThematicDelegation(locale)?has_content>
+                <p class="st-surtitre-cat">
+                    <@liferay_ui.message key="eu.official.in-charge-of" /> :
+                </p>
+                <p class="st-intro">
+                    ${entry.getThematicDelegation(locale)}
+                </p>
             </#if>
-            <br>
-        </#if>
-        <#if entry.fonctionEurometropole?has_content>
-            <h2><@liferay_ui.message key="eu.official.eurometropole-of-strasbourg" /></h2>
-            <h3>
-                ${entry.getName(entry.fonctionEurometropole, locale)}<#if entry.fonctionTown?has_content>, 
-                    ${entry.getName(entry.fonctionTown, locale)} 
-                    <@liferay_ui.message key="eu.official.of-the-city-of" /> ${entry.getTown().getTitle(locale)}
-                </#if>
-            </h3>
+            <#if entry.getPoliticalGroupCity()?has_content>
+                <p class="st-surtitre-cat">
+                    <@liferay_ui.message key="eu.official.political-group" />
+                </p>
+                <p class="st-note">
+                    ${entry.getPoliticalGroupCity().getTitle(locale)}
+                </p>
+            </#if>
+        </div>
+    </#if>
+    <#if entry.fonctionEurometropole?has_content>
+        <div class="st-bloc st-bloc-sit-text-person st-wrapper st-wrapper-small st-text-styles st--has-margin">
+            <h2 class="st-h2">
+                <@liferay_ui.message key="eu.official.eurometropole-of-strasbourg" /> :<br><span class="st-text-light">
+                        ${entry.getName(entry.fonctionEurometropole, locale)}
+                    <#if entry.fonctionTown?has_content>,
+                        ${entry.getName(entry.fonctionTown, locale)}
+                        <@liferay_ui.message key="eu.official.of-the-city-of" />
+                        ${entry.getTown().getTitle(locale)}
+                    </#if>
+                    </span>
+            </h2>
+
             <#if entry.getMissions(locale)?has_content>
-                <h4><@liferay_ui.message key="eu.official.in-charge-of" /></h4>
-                ${entry.getMissions(locale)}
+                <p class="st-surtitre-cat">
+                    <@liferay_ui.message key="eu.official.in-charge-of" />
+                </p>
+                <p class="st-intro"> ${entry.getMissions(locale)}
+                </p>
             </#if>
             <#if entry.getPoliticalGroupEurometropole()?has_content>
-                <h4><@liferay_ui.message key="eu.official.political-group" /></h4>
-                ${entry.getPoliticalGroupEurometropole().getTitle(locale)}
+                <p class="st-surtitre-cat">
+                    <@liferay_ui.message key="eu.official.political-group" />
+                </p>
+                <p class="st-note">
+                    ${entry.getPoliticalGroupEurometropole().getTitle(locale)}
+                </p>
             </#if>
-        </#if>
-    </div>
-
-    <div class="seu-wi seu-wi-quote official-contact"> 
-        <div class="seu-container"> 
-            <h2 class="seu-section-title">
-                <span class="seu-title">Écrire à un élu</span>
-                <div class="rte">
-                    <div>Les adresses emails des élus sont composées de la manière suivante : </div>
-                    <div>prenom.nom@strasbourg.eu</div>
-                    <br>
-                    <div>Pour les noms composés :</div>
-                    <div>prenom1-prenom2.nom1-nom2@strasbourg.eu</div>
-                </div>
-            </h2>
+        </div>
+    </#if>
+    <div class="st-bloc st-bloc-sit-focus st-wrapper ">
+        <div class="st-container">
+            <div class="st-col-left">
+                <h2 class="st-h2">Contact</h2>
+                <p class="st-surtitre-cat">
+                    ${entry.firstName} ${entry.lastName}
+                </p>
+            </div>
+            <div class="st-col-right">
+                <a href="mailto:${entry.firstName?lower_case?replace(" ", "-")}.${entry.lastName?lower_case?replace(" ", "-")}@strasbourg.eu" class="st-btn st--btn-secondary-ghost">
+                    <@liferay_ui.message key="eu.contact-mail" />
+                </a>
+            </div>
         </div>
     </div>
 </div>

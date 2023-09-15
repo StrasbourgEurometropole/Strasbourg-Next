@@ -23,7 +23,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
     <div class="st-barre-inner st-wrapper">
         <div class="st-container-left">
             <div class="st-image">
-                <@addImage fileEntryId=entry.imageId  />
+                <@addImage fileEntryId=entry.imageId isFigure=true  />
             </div>
             <div class="st-content">
                 <p class="st-title">${entry.getAlias(locale)}</p>

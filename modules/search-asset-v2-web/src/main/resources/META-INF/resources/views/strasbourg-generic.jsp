@@ -1,7 +1,6 @@
 <%@ include file="/search-asset-init.jsp" %>
 
 <liferay-portlet:actionURL varImpl="searchActionURL" />
-<main class="st-listing st--listing-cards-horizontales" role="main" tabindex="-1">
 	<!-- Formulaire -->
 	<aui:form action="${searchActionURL}" method="get" name="fm" id="search-asset-form" cssClass="seu-view-filters">
 		<liferay-portlet:renderURLParams varImpl="searchActionURL" />
@@ -19,7 +18,7 @@
 	</header>
 			<aui:form method="post" name="fm">
 				<!-- Résultats -->
-	<div class="listing st-wrapper st-wrapper-small">
+	<div class="st-listing st--listing-cards-horizontales listing st-wrapper st-wrapper-small">
 		<div>
 			<span><liferay-ui:message key="results-per-page" /></span>
 			<select name="filter" id="" class="toCustomSelect" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
@@ -154,4 +153,4 @@
 	</div>
 			</aui:form>
 
-</main>
+<liferay-util:include page="/includes/overlay-official.jsp" servletContext="<%=application %>" />

@@ -19,7 +19,8 @@
 <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
 <li>
     <div class="st-card-container">
-        <a href="${detailURLFilter}" class="st-card st-card-person st-parsed-overlay" data-overlay-open="st-overlay-preview-person">
+        <a href="#" class="st-card st-card-person" onclick="updateModalOfficial(this)" data-detailurl="${detailURLFilter}" data-mailaddress="mailto:${entry.firstName?lower_case?replace(' ', '-')}.${entry.lastName?lower_case?replace(' ', '-')}@strasbourg.eu" data-overlay-open="st-overlay-preview-person">
+
             <div class="st-caption">
                 <p class="st-title-card">
                     ${entry.firstName} ${entry.lastName}
@@ -36,8 +37,37 @@
                 </#if>
             </div>
             <div class="st-image">
-                <@addImage fileEntryId=entry.imageId />
+                <@addImage fileEntryId=entry.imageId isFigure=true />
             </div>
         </a>
+        <div class="st-hide st-description">
+            <#if entry.fonctionCity?has_content>
+                <div class="st-container">
+                    <p class="st-title-small">
+                        ${entry.getName(entry.fonctionCity, locale)}
+                    </p>
+                    ${entry.getThematicDelegation(locale)}
+                    <p class="st-note">
+                        <@liferay_ui.message key="eu.official.political-group" /> : ${entry.getPoliticalGroupCity().getTitle(locale)}
+                    </p>
+                </div>
+            </#if>
+            <#if entry.fonctionEurometropole?has_content>
+                <div class="st-container">
+                    <p class="st-title-small">
+                        ${entry.getName(entry.fonctionEurometropole, locale)}
+                        <#if entry.fonctionTown?has_content>,
+                            ${entry.getName(entry.fonctionTown, locale)}
+                            <@liferay_ui.message key="eu.official.of-the-city-of" />
+                            ${entry.getTown().getTitle(locale)}
+                        </#if>
+                    </p>
+                    ${entry.getMissions(locale)}
+                    <p class="st-note">
+                        <@liferay_ui.message key="eu.official.political-group" /> : ${entry.getPoliticalGroupEurometropole().getTitle(locale)}
+                    </p>
+                </div>
+            </#if>
+        </div>
     </div>
 </li>
