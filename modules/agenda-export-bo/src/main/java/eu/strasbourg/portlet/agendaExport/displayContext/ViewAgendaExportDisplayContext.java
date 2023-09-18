@@ -9,31 +9,26 @@ import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
-import com.liferay.portal.kernel.service.UserService;
 import com.liferay.portal.kernel.service.UserServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
-
-import java.util.ArrayList;
-import java.util.List;
+import eu.strasbourg.service.agenda.model.AgendaExport;
+import eu.strasbourg.service.agenda.service.AgendaExportLocalServiceUtil;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import java.util.ArrayList;
+import java.util.List;
 
-import eu.strasbourg.service.agenda.model.AgendaExport;
-import eu.strasbourg.service.agenda.service.AgendaExportLocalServiceUtil;
-import eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService;
-import eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalServiceUtil;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
-
-public class ViewAgendaExportDisplayContext extends  ViewListBaseDisplayContext<AgendaExport> {
+public class ViewAgendaExportDisplayContext extends ViewBaseDisplayContext<AgendaExport> {
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
     private List<AgendaExport> _agendaExports;
 
     public ViewAgendaExportDisplayContext(RenderRequest request, RenderResponse response) {
-        super(AgendaExport.class, request, response);
+        super(request, response, AgendaExport.class);
     }
     
     public List<AgendaExport> getAgendaExports() throws PortalException {

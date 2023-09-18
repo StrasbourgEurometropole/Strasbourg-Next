@@ -1,29 +1,27 @@
 package eu.strasbourg.portlet.artwork.display.context;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.util.GetterUtil;
-
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
 import eu.strasbourg.service.artwork.service.ArtworkCollectionLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
+
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ViewCollectionsDisplayContext
-	extends ViewListBaseDisplayContext<ArtworkCollection> {
+	extends ViewBaseDisplayContext<ArtworkCollection> {
 	private List<ArtworkCollection> _collections;
 
 	public ViewCollectionsDisplayContext(RenderRequest request,
 		RenderResponse response) {
-		super(ArtworkCollection.class, request, response);
+		super(request, response, ArtworkCollection.class);
 	}
 
 	public List<ArtworkCollection> getCollections() throws PortalException {
