@@ -39,7 +39,7 @@ import java.io.IOException;
 
 @Component(
 	immediate = true,
-	property = { "javaxaddFileEntry.portlet.name=" + StrasbourgPortletKeys.CAMPAIGN_WEB,
+	property = { "javax.portlet.name=" + StrasbourgPortletKeys.CAMPAIGN_WEB,
 		"mvc.command.name=deleteCampaignEvent" },
 	service = MVCActionCommand.class)
 public class DeleteCampaignEventActionCommand implements MVCActionCommand {
@@ -50,8 +50,7 @@ public class DeleteCampaignEventActionCommand implements MVCActionCommand {
 		try {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
 				.getAttribute(WebKeys.THEME_DISPLAY);
-			long[] selectionIds = ParamUtil.getLongValues(request,
-				"selectionIds");
+			long[] selectionIds = ParamUtil.getLongValues(request, "rowIds");
 			if (selectionIds.length == 0) {
 				long campaignEventId = ParamUtil.getLong(request,
 					"campaignEventId");
@@ -78,6 +77,14 @@ public class DeleteCampaignEventActionCommand implements MVCActionCommand {
 			renderUrl.setParameter("statusId", ParamUtil.getString(request, "statusId"));
 			renderUrl.setParameter("themeId",
 				ParamUtil.getString(request, "themeId"));
+			renderUrl.setParameter("campaignId",
+					ParamUtil.getString(request, "campaignId"));
+			renderUrl.setParameter("typeId",
+					ParamUtil.getString(request, "typeId"));
+			renderUrl.setParameter("keywords",
+					ParamUtil.getString(request, "keywords"));
+			renderUrl.setParameter("delta",
+					ParamUtil.getString(request, "delta"));
 			response.sendRedirect(renderUrl.toString());
 		} catch (PortalException | IOException e) {
 			_log.error(e);

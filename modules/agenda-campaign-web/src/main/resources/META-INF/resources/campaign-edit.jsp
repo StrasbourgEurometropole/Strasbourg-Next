@@ -9,10 +9,10 @@
 <liferay-portlet:actionURL name="deleteCampaignEvent"
 	varImpl="deleteURL">
 	<liferay-portlet:param name="campaignEventId" value="${dc.campaignEvent.campaignEventId}" />
-</liferay-portlet:actionURL>	
+</liferay-portlet:actionURL>
 
 <div class="container-fluid container-fluid-max-xl main-content-body">
-	<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" value="back-to-list" />
+	<aui:button type="button" value="back-to-list" cssClass="btn-lg btn-cancel" href="${param.backURL}"  />
 	<liferay-ui:error key="last-name-error" message="last-name-error" />
 	<liferay-ui:error key="first-name-error" message="first-name-error" />
 	<liferay-ui:error key="phone-error" message="phone-error" />
@@ -595,7 +595,8 @@
 			<c:if test="${not empty dc.campaignEvent and dc.campaignEvent.status ne 8}">
 				<aui:button cssClass="btn-lg" type="submit" name="save-and-request-deletion" value="save-and-request-deletion" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
+
 		</aui:button-row>
 	</aui:form>
 </div>

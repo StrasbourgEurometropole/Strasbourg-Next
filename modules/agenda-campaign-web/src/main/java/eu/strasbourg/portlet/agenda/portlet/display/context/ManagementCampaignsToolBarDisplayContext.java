@@ -2,38 +2,36 @@ package eu.strasbourg.portlet.agenda.portlet.display.context;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
-import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.SearchContainerManagementToolbarDisplayContext;
-import com.liferay.frontend.taglib.clay.servlet.taglib.util.*;
-import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemBuilder;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuilder;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.LabelItem;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.LabelItemListBuilder;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
-import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
-import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.agenda.model.Campaign;
 import eu.strasbourg.service.agenda.model.CampaignEvent;
-import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import eu.strasbourg.utils.display.context.ManagementBaseToolBarDisplayContext;
 
-import javax.portlet.PortletURL;
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
-public class ManagementCampaignsToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
+public class ManagementCampaignsToolBarDisplayContext extends ManagementBaseToolBarDisplayContext<CampaignEvent> {
 
     public ManagementCampaignsToolBarDisplayContext(
             HttpServletRequest httpServletRequest,
@@ -41,11 +39,115 @@ public class ManagementCampaignsToolBarDisplayContext extends SearchContainerMan
             LiferayPortletResponse liferayPortletResponse,
             ViewCampaignEventsDisplayContext viewCampaignEventsDisplayContext) throws PortalException {
         super(httpServletRequest, liferayPortletRequest, liferayPortletResponse,
-                viewCampaignEventsDisplayContext.getSearchContainer());
+                CampaignEvent.class, viewCampaignEventsDisplayContext.getSearchContainer());
         _viewCampaignEventsDisplayContext = viewCampaignEventsDisplayContext;
 
         _themeDisplay = (ThemeDisplay)liferayPortletRequest.getAttribute(
                 WebKeys.THEME_DISPLAY);
+    }
+
+    /**
+     * The list of dropdown items to display when a result is checked
+     * or the master checkbox in the Management Toolbar is checked
+     * Content : publish, unpublish and delete
+     */
+    @Override
+    public List<DropdownItem> getActionDropdownItems() {
+        if(isUserAManager()) {
+            return DropdownItemListBuilder
+                    .addGroup(
+                            dropdownGroupItem -> {
+                                dropdownGroupItem.setDropdownItems(
+                                        DropdownItemListBuilder.add(
+                                                dropdownItem -> {
+                                                    dropdownItem.put("href", "javascript:updateSelectionStatus(1);");
+                                                    dropdownItem.setIcon("check");
+                                                    dropdownItem.setLabel(
+                                                            LanguageUtil.get(httpServletRequest, "submit-to-validation"));
+                                                    dropdownItem.setQuickAction(true);
+                                                }
+                                        ).build());
+                                dropdownGroupItem.setSeparator(true);
+                            }
+                    )
+                    .addGroup(
+                            dropdownGroupItem -> {
+                                dropdownGroupItem.setDropdownItems(
+                                        DropdownItemListBuilder.add(
+                                                dropdownItem -> {
+                                                    dropdownItem.put("href", "javascript:updateSelectionStatus(0);");
+                                                    dropdownItem.setIcon("thumbs-up");
+                                                    dropdownItem.setLabel(
+                                                            LanguageUtil.get(httpServletRequest, "approve"));
+                                                    dropdownItem.setQuickAction(true);
+                                                }
+                                        ).build());
+                                dropdownGroupItem.setSeparator(true);
+                            }
+                    )
+                    .addGroup(
+                            dropdownGroupItem -> {
+                                dropdownGroupItem.setDropdownItems(
+                                        DropdownItemListBuilder.add(
+                                                dropdownItem -> {
+                                                    dropdownItem.put("href", "javascript:updateSelectionStatus(4);");
+                                                    dropdownItem.setIcon("thumbs-down");
+                                                    dropdownItem.setLabel(
+                                                            LanguageUtil.get(httpServletRequest, "deny"));
+                                                    dropdownItem.setQuickAction(true);
+                                                }
+                                        ).build());
+                                dropdownGroupItem.setSeparator(true);
+                            }
+                    )
+                    .addGroup(
+                            dropdownGroupItem -> {
+                                dropdownGroupItem.setDropdownItems(
+                                        DropdownItemListBuilder.add(
+                                                dropdownItem -> {
+                                                    dropdownItem.put("href", "javascript:updateSelectionStatus(8);");
+                                                    dropdownItem.setIcon("times");
+                                                    dropdownItem.setLabel(
+                                                            LanguageUtil.get(httpServletRequest, "request-deletion"));
+                                                    dropdownItem.setQuickAction(true);
+                                                }
+                                        ).build());
+                                dropdownGroupItem.setSeparator(true);
+                            }
+                    )
+                    .addGroup(
+                            dropdownGroupItem -> {
+                                dropdownGroupItem.setDropdownItems(
+                                        DropdownItemListBuilder.add(
+                                                dropdownItem -> {
+                                                    dropdownItem.put("href", "javascript:deleteSelection();");
+                                                    dropdownItem.setIcon("trash");
+                                                    dropdownItem.setLabel(
+                                                            LanguageUtil.get(httpServletRequest, "delete"));
+                                                    dropdownItem.setQuickAction(true);
+                                                }
+                                        ).build());
+                                dropdownGroupItem.setSeparator(true);
+                            }
+                    )
+                    .addGroup(
+                            dropdownGroupItem -> {
+                                dropdownGroupItem.setDropdownItems(
+                                        DropdownItemListBuilder.add(
+                                                dropdownItem -> {
+                                                    dropdownItem.put("href", "javascript:updateSelectionStatus(-1);");
+                                                    dropdownItem.setIcon("undo");
+                                                    dropdownItem.setLabel(
+                                                            LanguageUtil.get(httpServletRequest, "deny-deletion"));
+                                                    dropdownItem.setQuickAction(true);
+                                                }
+                                        ).build());
+                                dropdownGroupItem.setSeparator(true);
+                            }
+                    )
+                    .build();
+        }
+        return null;
     }
 
     /**
@@ -69,91 +171,161 @@ public class ManagementCampaignsToolBarDisplayContext extends SearchContainerMan
                                     getFilterByStatusDropdownItems());
                             dropdownGroupItem.setLabel(
                                     LanguageUtil.get(httpServletRequest, "filter-by-status"));
-
-                        }
-                )
-              .addGroup(
-                        dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(getFilterVocabularyDropdownItems());
-                            dropdownGroupItem.setLabel(LanguageUtil.get(httpServletRequest, "filter-by-vocabulaire"));
-
-
                         }
                 )
                .addGroup(
                         dropdownGroupItem -> {
-                            dropdownGroupItem.setDropdownItems(getFilterCampaignDropdownItems());
+                            dropdownGroupItem.setDropdownItems(
+                                    getFilterCampaignDropdownItems());
                             dropdownGroupItem.setLabel(
                                     LanguageUtil.get(httpServletRequest, "filter-by-campaign")
                             );
                         }
                 )
+                .addGroup(
+
+                        dropdownGroupItem -> {
+                            dropdownGroupItem.setDropdownItems(
+                                    getFilterTypeDropdownItems());
+                            dropdownGroupItem.setLabel(
+                                    LanguageUtil.get(httpServletRequest, "filter-by-type"));
+                        }
+                )
+                .addGroup(
+
+                        dropdownGroupItem -> {
+                            dropdownGroupItem.setDropdownItems(
+                                    getFilterThemeDropdownItems());
+                            dropdownGroupItem.setLabel(
+                                    LanguageUtil.get(httpServletRequest, "filter-by-theme"));
+                        }
+                )
                 .build();
     }
 
-    protected List<DropdownItem> getFilterCampaignDropdownItems() throws PortalException {
-        List<DropdownItem> filterCampagnDropdownItems = new DropdownItemList();
-        PortletURL portletURL=getPortletURL();
-        portletURL.setParameter("statusId",String.valueOf(_viewCampaignEventsDisplayContext.getStatusId()));
-        portletURL.setParameter(ParamUtil.getString(request, _viewCampaignEventsDisplayContext.getKeywords()));
-        portletURL.setParameter("campaignId", "");
-        portletURL.setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA));
-        filterCampagnDropdownItems.add(
-                DropdownItemBuilder
-                        .setActive(_viewCampaignEventsDisplayContext.getStatusId()==0)
-                        .setHref(portletURL)
-                        .setLabel(LanguageUtil.get(httpServletRequest, "filter-by-campaign-any-of-theme"))
-                        .build()
-        );
-        for (Campaign campaign : _viewCampaignEventsDisplayContext.getCampaigns()) {
-
-            portletURL.setParameter("campaignId", String.valueOf(campaign.getCampaignId()));
-            portletURL.setParameter(ParamUtil.getString(request, _viewCampaignEventsDisplayContext.getKeywords()));
-            portletURL.setParameter("statusId", String.valueOf(_viewCampaignEventsDisplayContext.getStatusId()));
-            portletURL.setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA));
-
-            filterCampagnDropdownItems.add(
-                    DropdownItemBuilder
-                            .setActive(_viewCampaignEventsDisplayContext.getCampaignId()==campaign.getCampaignId())
-                            .setHref(portletURL)
-                            .setLabel(campaign.getTitle(Locale.FRANCE))
-                            .build()
-            );
-        }
-
-        return filterCampagnDropdownItems;
-    }
-    protected List<DropdownItem> getFilterByStatusDropdownItems() throws PortalException {
+    protected List<DropdownItem> getFilterByStatusDropdownItems() {
         List<DropdownItem> filterStatusDropdownItems = new DropdownItemList();
-        PortletURL portletURL=getPortletURL();
-        portletURL.setParameter("campaignId",String.valueOf(_viewCampaignEventsDisplayContext.getCampaignId()));
-        portletURL.setParameter(ParamUtil.getString(request, _viewCampaignEventsDisplayContext.getKeywords()));
-        portletURL.setParameter("statusId", "");
-        portletURL.setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA));
-        filterStatusDropdownItems.add(
-                DropdownItemBuilder
-                        .setActive(_viewCampaignEventsDisplayContext.getStatusId()==0)
-                        .setHref(portletURL)
-                        .setLabel(LanguageUtil.get(httpServletRequest, "filter-by-status-any-of-theme"))
-                        .build()
-        );
-        for (Integer idStatus : _viewCampaignEventsDisplayContext.getStatuses().keySet()) {
-
-            portletURL.setParameter("campaignId",String.valueOf(_viewCampaignEventsDisplayContext.getCampaignId()));
-            portletURL.setParameter(ParamUtil.getString(request, _viewCampaignEventsDisplayContext.getKeywords()));
-            portletURL.setParameter("statusId", String.valueOf(idStatus));
-            portletURL.setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA));
+        for (Integer idStatus : getStatuses().keySet()) {
             filterStatusDropdownItems.add(
                     DropdownItemBuilder
-                            .setActive(_viewCampaignEventsDisplayContext.getStatusId()==idStatus)
-                            .setHref(portletURL)
-                            .setLabel(_viewCampaignEventsDisplayContext.getStatuses().get(idStatus))
+                            .setActive(_viewCampaignEventsDisplayContext.getStatusId() == idStatus)
+                            .setHref(getPortletURL(), "statusId", String.valueOf(idStatus))
+                            .setLabel(getStatuses().get(idStatus))
                             .build()
             );
         }
 
         return filterStatusDropdownItems;
     }
+
+    protected List<DropdownItem> getFilterCampaignDropdownItems() {
+        List<DropdownItem> filterCampaignDropdownItems = new DropdownItemList();
+        for (Campaign campaign : getCampaigns()) {
+            filterCampaignDropdownItems.add(
+                    DropdownItemBuilder
+                            .setActive(_viewCampaignEventsDisplayContext.getCampaignId() == campaign.getCampaignId())
+                            .setHref(getPortletURL(), "campaignId", String.valueOf(campaign.getCampaignId()))
+                            .setLabel(campaign.getTitleCurrentValue())
+                            .build()
+            );
+        }
+        return filterCampaignDropdownItems;
+    }
+
+    protected List<DropdownItem> getFilterTypeDropdownItems() {
+        List<DropdownItem> filterCampaignDropdownItems = new DropdownItemList();
+        try {
+            for (AssetCategory type : getTypes()) {
+                filterCampaignDropdownItems.add(
+                        DropdownItemBuilder
+                                .setActive(_viewCampaignEventsDisplayContext.getTypeId() == type.getCategoryId())
+                                .setHref(getPortletURL(), "typeId", String.valueOf(type.getCategoryId()))
+                                .setLabel(type.getTitleCurrentValue())
+                                .build()
+                );
+            }
+        } catch (PortalException e) {
+            throw new RuntimeException(e);
+        }
+        return filterCampaignDropdownItems;
+    }
+
+    protected List<DropdownItem> getFilterThemeDropdownItems() {
+        List<DropdownItem> filterCampaignDropdownItems = new DropdownItemList();
+        try {
+            for (AssetCategory theme : getThemes()) {
+                filterCampaignDropdownItems.add(
+                        DropdownItemBuilder
+                                .setActive(_viewCampaignEventsDisplayContext.getCampaignId() == theme.getCategoryId())
+                                .setHref(getPortletURL(), "themeId", String.valueOf(theme.getCategoryId()))
+                                .setLabel(theme.getTitleCurrentValue())
+                                .build()
+                );
+            }
+        } catch (PortalException e) {
+            throw new RuntimeException(e);
+        }
+        return filterCampaignDropdownItems;
+    }
+
+    /**
+     * Sets the search container’s filter labels to display
+     */
+    @Override
+    public List<LabelItem> getFilterLabelItems() {
+        LabelItemListBuilder.LabelItemListWrapper vocabulariesLabelItems = new LabelItemListBuilder.LabelItemListWrapper();
+
+        vocabulariesLabelItems.add( () -> _viewCampaignEventsDisplayContext.getStatusId() != -1,
+                labelItem -> {
+                    labelItem.putData("removeLabelURL",
+                            PortletURLBuilder.create(PortletURLUtil.clone(currentURLObj, liferayPortletResponse))
+                                    .setParameter("statusId", -1)
+                                    .buildString()
+                    );
+                    labelItem.setCloseable(true);
+                    labelItem.setLabel(LanguageUtil.get(httpServletRequest, "status") + " : " + getStatuses().get(_viewCampaignEventsDisplayContext.getStatusId()));
+                }
+        );
+
+        vocabulariesLabelItems.add( () -> _viewCampaignEventsDisplayContext.getCampaignId() != -1,
+                labelItem -> {
+                    labelItem.putData("removeLabelURL",
+                            PortletURLBuilder.create(PortletURLUtil.clone(currentURLObj, liferayPortletResponse))
+                                    .setParameter("campaignId", -1)
+                                    .buildString()
+                    );
+                    labelItem.setCloseable(true);
+                    labelItem.setLabel(LanguageUtil.get(httpServletRequest, "campaign") + " : " + getCampaignLabel());
+                }
+        );
+
+        vocabulariesLabelItems.add( () -> _viewCampaignEventsDisplayContext.getTypeId() != -1,
+                labelItem -> {
+                    labelItem.putData("removeLabelURL",
+                            PortletURLBuilder.create(PortletURLUtil.clone(currentURLObj, liferayPortletResponse))
+                                    .setParameter("typeId", -1)
+                                    .buildString()
+                    );
+                    labelItem.setCloseable(true);
+                    labelItem.setLabel(LanguageUtil.get(httpServletRequest, "type") + " : " + getTypeLabel());
+                }
+        );
+
+        vocabulariesLabelItems.add( () -> _viewCampaignEventsDisplayContext.getThemeId() != -1,
+                labelItem -> {
+                    labelItem.putData("removeLabelURL",
+                            PortletURLBuilder.create(PortletURLUtil.clone(currentURLObj, liferayPortletResponse))
+                                    .setParameter("themeId", -1)
+                                    .buildString()
+                    );
+                    labelItem.setCloseable(true);
+                    labelItem.setLabel(LanguageUtil.get(httpServletRequest, "theme") + " : " + getThemeLabel());
+                }
+        );
+
+        return vocabulariesLabelItems.build();
+    }
+
     /**
      * The URL to reset the search
      */
@@ -161,78 +333,118 @@ public class ManagementCampaignsToolBarDisplayContext extends SearchContainerMan
     public String getClearResultsURL() {
         return PortletURLBuilder.create(getPortletURL())
                 .setKeywords("")
-                .setParameter( "orderByCol", "modified-date")
-                .setParameter( "orderByType", "desc")
+                .setParameter( "statusId", -1)
+                .setParameter( "campaignId", -1)
+                .setParameter( "typeId", -1)
+                .setParameter( "themeId", -1)
                 .buildString();
     }
 
     /**
-     * The action URL to send the search form
+     * Retourne la liste des statuts possibles
      */
-    @Override
-    public String getSearchActionURL() {
-        return PortletURLBuilder.createRenderURL(liferayPortletResponse)
-                .setMVCPath("/campaign-view.jsp")
-                .setParameter("O")
-        .buildString();
-    }
-    /**
-     * Add filtering options to Vocabulary
-     */
-    protected List<DropdownItem> getFilterVocabularyDropdownItems() throws PortalException {
-
-        List<DropdownItem> filterVocabularyDropdownItems = new DropdownItemList();
-        for (AssetVocabulary vocabulary : getCompaignEventVocabularies()) {
-            filterVocabularyDropdownItems.add(
-                    DropdownItemBuilder
-                            .setHref("javascript:getCategoriesByVocabulary("+vocabulary.getVocabularyId()+");")
-                            .setLabel(vocabulary.getName())
-                            .build()
-            );
+    public Map<Integer, String> getStatuses() {
+        if (Validator.isNull(_statuses)) {
+            Map<Integer, String> statuses = new HashMap<>();
+            statuses.put(WorkflowConstants.STATUS_DRAFT, LanguageUtil.get(httpServletRequest, "draft"));
+            statuses.put(WorkflowConstants.STATUS_APPROVED, LanguageUtil.get(httpServletRequest, "approved"));
+            statuses.put(WorkflowConstants.STATUS_DENIED, LanguageUtil.get(httpServletRequest, "denied"));
+            statuses.put(WorkflowConstants.STATUS_PENDING, LanguageUtil.get(httpServletRequest, "submitted"));
+            statuses.put(WorkflowConstants.STATUS_IN_TRASH,
+                    LanguageUtil.get(httpServletRequest, "deletion-requested"));
+            _statuses = statuses;
         }
-
-        return filterVocabularyDropdownItems;
+        return _statuses;
     }
+
     /**
-     * Get Vocabularies
+     * Retourne la liste des campagnes
      */
-    protected List<AssetVocabulary> getCompaignEventVocabularies() throws PortalException {
-        if (Validator.isNull(_vocabularies)) {
-            _vocabularies=new ArrayList<>();
-            long companyId = PortalUtil.getDefaultCompanyId();
-            long companyGroupId = CompanyLocalServiceUtil.getCompany(companyId)
-                    .getGroup().getGroupId();
-            AssetVocabulary vocabularyTheme = AssetVocabularyHelper
-                    .getEntityVocabulary(Event.class.getName(), VocabularyNames.EVENT_THEME,
-                            companyGroupId);
-            if(vocabularyTheme!=null)
-                _vocabularies.add(vocabularyTheme);
-            AssetVocabulary vocabularyType = AssetVocabularyHelper
-                    .getEntityVocabulary(Event.class.getName(), VocabularyNames.EVENT_TYPE,
-                            companyGroupId);
-            if(vocabularyType!=null)
-                _vocabularies.add(vocabularyType);
+    public List<Campaign> getCampaigns() {
+        if (Validator.isNull(_campaigns)) {
+            _campaigns = CampaignLocalServiceUtil.getCampaigns(-1,
+                    -1);
         }
-        return _vocabularies;
+        return _campaigns;
     }
 
+    public String getCampaignLabel() {
+        String label = "";
+        Campaign campaign = CampaignLocalServiceUtil.fetchCampaign(_viewCampaignEventsDisplayContext.getCampaignId());
+        if(Validator.isNotNull(campaign)){
+            label = campaign.getTitleCurrentValue();
+        }
+        return label;
+    }
 
     /**
-     * The search form’s name
+     * Retourne la liste des types
      */
-    @Override
-    public String getSearchFormName() {
-        return "fm1";
+    public List<AssetCategory> getTypes() throws PortalException {
+        if (Validator.isNull(_types)) {
+            AssetVocabulary vocabulary = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.EVENT_TYPE);
+            if (vocabulary != null) {
+                _types = vocabulary.getCategories();
+            }
+        }
+        return _types;
     }
 
-    @Override
-    public Boolean isShowFiltersDoneButton() {
+    /**
+     * Retourne le nom du filtre "type" sélectionné
+     * @throws PortalException
+     */
+    public String getTypeLabel() throws PortalException {
+        Optional<AssetCategory> optionalType = this.getTypes().stream()
+                .filter(t -> t.getCategoryId() == _viewCampaignEventsDisplayContext.getTypeId()).findFirst();
+        if(optionalType.isPresent()) {
+            return optionalType.get().getTitleCurrentValue();
+        } else {
+            return "";
+        }
+    }
+
+    /**
+     * Retourne la liste des themes
+     */
+    public List<AssetCategory> getThemes() throws PortalException {
+        if (Validator.isNull(_themes)) {
+            AssetVocabulary vocabulary = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.EVENT_THEME);
+            if (vocabulary != null) {
+                _themes = vocabulary.getCategories();
+            }
+        }
+        return _themes;
+    }
+
+    /**
+     * Retourne le nom du filtre "thème" sélectionné
+     * @throws PortalException
+     */
+    public String getThemeLabel() throws PortalException {
+        Optional<AssetCategory> optionalTheme = this.getThemes().stream()
+                .filter(t -> t.getCategoryId() == _viewCampaignEventsDisplayContext.getThemeId()).findFirst();
+        if(optionalTheme.isPresent()) {
+            return optionalTheme.get().getTitleCurrentValue();
+        } else {
+            return "";
+        }
+    }
+
+    public boolean isUserAManager() {
+        for (Campaign campaign : getCampaigns()) {
+            if (campaign.isManagedByUser(this._themeDisplay.getUserId())) {
+                return true;
+            }
+        }
         return false;
     }
 
 
     private final ViewCampaignEventsDisplayContext _viewCampaignEventsDisplayContext;
     private final ThemeDisplay _themeDisplay;
-    private List<AssetVocabulary> _vocabularies;
-
+    private Map<Integer, String> _statuses;
+    private List<Campaign> _campaigns;
+    private List<AssetCategory> _types;
+    private List<AssetCategory> _themes;
 }

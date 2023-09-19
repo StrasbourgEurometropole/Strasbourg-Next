@@ -48,6 +48,17 @@ public class DuplicateCampaignEventActionCommand implements MVCActionCommand {
 			PortletURL renderUrl = PortletURLFactoryUtil.create(actionRequest,
 				portletName, themeDisplay.getPlid(),
 				PortletRequest.RENDER_PHASE);
+			renderUrl.setParameter("statusId", ParamUtil.getString(actionRequest, "statusId"));
+			renderUrl.setParameter("themeId",
+					ParamUtil.getString(actionRequest, "themeId"));
+			renderUrl.setParameter("campaignId",
+					ParamUtil.getString(actionRequest, "campaignId"));
+			renderUrl.setParameter("typeId",
+					ParamUtil.getString(actionRequest, "typeId"));
+			renderUrl.setParameter("keywords",
+					ParamUtil.getString(actionRequest, "keywords"));
+			renderUrl.setParameter("delta",
+					ParamUtil.getString(actionRequest, "delta"));
 			actionResponse.sendRedirect(renderUrl.toString());
 			return SessionErrors.isEmpty(actionRequest);
 		} catch (PortletException pe) {

@@ -1,30 +1,15 @@
 <%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState" %>
 <%@ page import="com.liferay.portal.kernel.portlet.LiferayPortletMode" %>
 <%@ include file="/campaign-init.jsp"%>
+
 <liferay-portlet:renderURL var="campaignEventsURL">
+	<portlet:param name="keywords" value="${dc.keywords}" />
+	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="campaignId" value="${dc.campaignId}" />
+	<portlet:param name="statusId" value="${dc.statusId}" />
+	<portlet:param name="typeId" value="${dc.typeId}" />
+	<portlet:param name="themeId" value="${dc.themeId}" />
 </liferay-portlet:renderURL>
-
-<liferay-portlet:actionURL varImpl="searchURL">
-	<liferay-portlet:param name="statusId" value="${dc.statusId}" />
-	<liferay-portlet:param name="themeId" value="${dc.themeId}" />
-</liferay-portlet:actionURL>
-
-
-<liferay-portlet:renderURL varImpl="updateStatusURL">
-	<liferay-portlet:param name="mvcPath"
-		value="/campaign-update-status.jsp" />
-	<liferay-portlet:param name="statusFilterId"
-		value="${dc.statusId}" />
-	<liferay-portlet:param name="themeId"
-		value="${dc.themeId}" />
-</liferay-portlet:renderURL>
-
-<liferay-portlet:actionURL varImpl="deleteSelectionURL" name="deleteCampaignEvent">
-	<liferay-portlet:param name="statusId"
-		value="${dc.statusId}" />
-	<liferay-portlet:param name="themeId"
-		value="${dc.themeId}" />
-</liferay-portlet:actionURL>
 
 <liferay-portlet:renderURL varImpl="addCampaignEventURL">
 	<portlet:param name="cmd" value="editCampaignEvent" />
@@ -58,12 +43,13 @@
 						value="${campaignEvent.campaignEventId}" />
 					<portlet:param name="backURL" value="${campaignEventsURL}" />
 					<portlet:param name="mvcPath" value="/campaign-edit.jsp" />
+					<portlet:param name="keywords" value="${dc.keywords}" />
+					<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+					<portlet:param name="campaignId" value="${dc.campaignId}" />
+					<portlet:param name="statusId" value="${dc.statusId}" />
+					<portlet:param name="typeId" value="${dc.typeId}" />
+					<portlet:param name="themeId" value="${dc.themeId}" />
 				</liferay-portlet:renderURL>
-				<liferay-portlet:actionURL varImpl="deleteURL"
-					name="deleteCampaignEvent">
-					<portlet:param name="campaignEventId"
-						value="${campaignEvent.campaignEventId}" />
-				</liferay-portlet:actionURL>
 
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${editCampaignEventURL}" name="title" truncate="true"
@@ -123,62 +109,49 @@
 			value="add-campaign-event" primary="true" />
 	</aui:button-row>
 </div>
-<liferay-portlet:renderURL var="anyStatusURL">
-	<liferay-portlet:param name="statusId" value="" />
-	<liferay-portlet:param name="themeId" value="${dc.themeId}" />
-	<liferay-portlet:param name="typeId" value="${dc.typeId}" />
-	<liferay-portlet:param name="campaignId" value="${dc.campaignId}" />
-	<liferay-portlet:param name="keywords" value="${dc.keywords}" />
-	<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
+
+<liferay-portlet:renderURL varImpl="updateStatusURL">
+	<liferay-portlet:param name="mvcPath"
+						   value="/campaign-update-status.jsp" />
+	<portlet:param name="keywords" value="${dc.keywords}" />
+	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="campaignId" value="${dc.campaignId}" />
+	<portlet:param name="statusFilterId" value="${dc.statusId}" />
+	<portlet:param name="typeId" value="${dc.typeId}" />
+	<portlet:param name="themeId" value="${dc.themeId}" />
 </liferay-portlet:renderURL>
-<liferay-portlet:renderURL var="anyCampaignURL">
-	<liferay-portlet:param name="statusId" value="${dc.statusId}" />
-	<liferay-portlet:param name="themeId" value="${dc.themeId}" />
-	<liferay-portlet:param name="typeId" value="${dc.typeId}" />
-	<liferay-portlet:param name="campaignId" value=""  />
-	<liferay-portlet:param name="keywords" value="${dc.keywords}" />
-	<liferay-portlet:param name="delta" value="${dc.searchContainer.delta}" />
-</liferay-portlet:renderURL>
+
+<liferay-portlet:actionURL varImpl="deleteSelectionURL" name="deleteCampaignEvent">
+	<portlet:param name="keywords" value="${dc.keywords}" />
+	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="campaignId" value="${dc.campaignId}" />
+	<portlet:param name="statusId" value="${dc.statusId}" />
+	<portlet:param name="typeId" value="${dc.typeId}" />
+	<portlet:param name="themeId" value="${dc.themeId}" />
+</liferay-portlet:actionURL>
+
 <aui:script>
 	var form = document.querySelector("[name='<portlet:namespace />fm']");
 
 	function deleteSelection() {
 		submitForm(form, '${deleteSelectionURL}');
 	}
-	function updateSelectionStatus() {
+	function updateSelectionStatus(newStatus) {
+		var selectionIdsInput = document.getElementsByName('<portlet:namespace />selectionIds')[0];
+		selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,'<portlet:namespace />allRowIds');
+
+		var newStatusInput = document.getElementsByName('<portlet:namespace />newStatus')[0];
+		newStatusInput.value = newStatus;
+
 		submitForm(form, '${updateStatusURL}');
 	}
 	function updateCampaignEventStatus(campaignEventId,newStatus) {
+		var newStatusInput = document.getElementsByName('<portlet:namespace />newStatus')[0];
+		newStatusInput.value = newStatus;
+
+		var campaignEventIdInput = document.getElementsByName('<portlet:namespace />campaignEventId')[0];
+		campaignEventIdInput.value = campaignEventId;
+
 		submitForm(form, '${updateStatusURL}');
-	}
-
-	function getCategoriesByVocabulary(vocabularyId) {
-		Liferay.Util.openSelectionModal(
-			{
-				onSelect: function (selectedItem) {
-					console.log("test : " + selectedItem.value);
-					alert("category : " + selectedItem.value.title);
-					if (selectedItem) {
-						const itemValue = selectedItem.value;
-						//submitForm(form, '${filterSelectionURL}');
-						//Liferay.SPA.app.navigate(urlString);
-
-						navigate(
-							addParams(
-							{
-								["${portletNamespace}vocabulary_" + vocabularyId]: itemValue.title,
-							},
-							PortletURLBuilder.create(getPortletURL())
-							.setParameter("vocabulary_" + vocabularyId, itemValue.title)
-							.buildString()
-							)
-						);
-					}
-				},
-				selectEventName: '<portlet:namespace />selectAssetCategory',
-				title: Liferay.Language.get('select-category'),
-				url: '${dc.getSelectCategoriesByVocabularyIdURL(vocabularyId)}'
-			}
-		)
 	}
 </aui:script>
