@@ -64,7 +64,8 @@
 
 <c:if test="${not empty fromAjaxParticipation 
 				or not empty fromAjaxProject 
-				or not empty fromAjaxPetition 
+				or not empty fromAjaxPetition
+				or not empty fromAjaxSaisineObservatoire
 				or not empty fromAjaxBudgetParticipatif
 				or not empty fromAjaxInitiative}">
 	<aui:script>

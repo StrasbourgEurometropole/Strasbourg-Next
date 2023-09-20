@@ -22,6 +22,7 @@
 					background: $c_dark;
 					border-color: $c_dark;
 					border: 2px solid $c_main;
+					@include addDynamicBorderColor();
 				}
 			}
 		}
@@ -105,7 +106,7 @@
 			left: -70px;
 			height: 13px;
 			width: 72px;
-			background: $c_main;
+			@include addDynamicBackground();
 		}
 }
 
@@ -135,7 +136,7 @@
 			top: 30px;
 			width: 90px;
 			height: 40px;
-			background: $c_main;
+			@include addDynamicBackground();
 			@include tablet_landscape {
 				top: 20px;
 				left: -42px;
@@ -173,7 +174,8 @@
 		}
 
 		.pro-title-question {
-			@include ft($f_hx, 1.250em, 700, $c_dark, 1.625em);
+			@include ft($f_hx, 1.4em, 700, $c_dark, 1em);
+			letter-spacing: -0.5px;
 			position: relative;
 			display: block;
 			margin: 10px 0 5px 0;
@@ -205,7 +207,7 @@
 							position: relative;
 							z-index: 10;
 							display: inline;
-							background: $c_main;
+							@include addDynamicBackground();
 							color: $c_dark;
 							padding: 0 5px;
 						}
@@ -299,7 +301,7 @@
 					@include ft($f_txt, 0.813em, 400, $c_dark, 1.188em);
 					position: relative;
 					display: block;
-					text-transform: uppercase;
+
 					span {
 						margin-right: 12px;
 						font-size: 19px;
@@ -338,7 +340,7 @@
 		@include ft($f_hx, 2.5em, 700, $c_dark, normal);
 		position: relative;
 		display: block;
-		text-transform: uppercase;
+
 		margin-bottom: 5px;
 		@include tablet_landscape {
 			font-size: 2em;
@@ -384,7 +386,7 @@
 					width: 100%;
 					height: 18px;
 					z-index: -1;
-					background: $c_main;
+					@include addDynamicBackground();
 				}
 			}
 			strong {

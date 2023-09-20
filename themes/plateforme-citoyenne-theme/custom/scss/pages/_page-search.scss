@@ -14,7 +14,7 @@
 				}
 				a {
 					&:hover, &:focus {
-						color: $c_main;
+						@include addDynamicTextColor();
 					}
 					&:after {
 						height: 2px;
@@ -91,7 +91,7 @@
 			}
 
 			.pro-bloc-actu {
-				height: 219px;
+				height: 259px;
 				border: 1px solid rgba($c_dark, 0.25);
 				border-radius: 4px;
 				margin: 0;
@@ -180,7 +180,7 @@
 			}
 
 			.pro-bloc-card-event {
-				height: 219px;
+				height: 259px;
 				@include mobile {
 					height: 100%;
 				}
@@ -228,7 +228,7 @@
 			}
 
 			.pro-bloc-card-participation {
-				height: 219px;
+				height: 259px;
 				@include mobile {
 					height: 100%;
 				}
@@ -242,8 +242,8 @@
 				}
 
 				.pro-header-participation {
-					padding: 13px 20px 0 20px;
-					margin-bottom: 17px;
+					padding: 7px 20px;
+					margin-bottom: 5px;
 				}
 				.pro-footer-participation {
 					padding: 11px 20px;
@@ -258,7 +258,7 @@
 			}
 
 			.pro-card-video {
-				height: 219px;
+				height: 259px;
 				border: 1px solid rgba($c_dark, 0.25);
 				border-radius: 4px;
 				@include mobile {
@@ -340,13 +340,13 @@
 						float: none;
 						text-align: left;
 						> * {
-							background: $c_main;
+							@include addDynamicBackground();
 							text-align: center;
 							border-radius: 4px;
 							display: inline-block;
 							&:hover, &:focus {
 								background: $c_dark;
-								color: $c_main;
+								@include addDynamicTextColor();
 							}
 						}
 					}
@@ -469,4 +469,108 @@
 
 		}
 	}
+}
+
+
+.pro-search-listing {
+	.pro-listing-container > .col-md-3.pro-bloc-facette {
+		background-color: black;
+	}
+	.search-header-wrapper {
+		background-color: #20272f;
+		padding-bottom: 1em;
+		.search-header {
+			display: flex;
+			align-items: center;
+			@include tablet_portrait {
+				flex-direction: column-reverse;
+				align-items: center;
+				gap: 10px;
+			}
+			#breadcrumb {
+				flex: 1;
+				a , span {
+					color: $c_white;
+					&:after {
+						background-color: $c_white;
+					}
+				}
+			}
+		}
+	}
+
+	.pro-group {
+		padding: 15px 0;
+		border-bottom: dashed 1px #585d63;
+		.pro-checkbox {
+			overflow: hidden;
+			max-height: 0;
+			transition: all 0.2s ease;
+
+		}
+
+		input[type="checkbox"] {
+			display: none;
+		}
+
+		label {
+			cursor: pointer;
+			display: flex;
+			padding: 10px 0;
+			.pro-group-title {
+				@include addDynamicTextColor();
+				text-transform: uppercase;
+				flex: 1;
+			}
+
+			span:not(.pro-group-title) {
+				color: $c_white;
+			}
+
+			.see-less {
+				display: none;
+				&:after {
+					content: "\23F6";
+					PADDING: 2px 7px;
+					background-color: white;
+					color: black;
+					margin-left: 10px;
+					border: solid 1px #9c9fa3;
+				}
+			}
+
+			.see-more {
+				&:after {
+					content: "\23F7";
+					PADDING: 2px 7px;
+					background-color: transparent;
+					color: white;
+					margin-left: 10px;
+					border: solid 1px #9c9fa3;
+				}
+			}
+
+		}
+
+		input[type="checkbox"]:checked + label > .see-more{
+			display: none;
+		}
+
+		input[type="checkbox"]:checked + label > .see-less{
+			display: block;
+		}
+
+		input[type="checkbox"]:checked + label + .pro-checkbox {
+			max-height: 200vh;
+			@include tablet_portrait {
+				max-height: 40vh;
+				overflow: scroll;
+			}
+		}
+
+		input[type="checkbox"]:checked + label + .pro-checkbox + .pro-remove {
+			display: block;
+		}
+	}
+
 }

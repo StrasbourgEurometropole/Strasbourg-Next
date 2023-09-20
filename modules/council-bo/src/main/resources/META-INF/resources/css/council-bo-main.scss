@@ -24,7 +24,7 @@
         font-weight: bold;
         background-color: #FFF;
     }
-    
+
     /* Headers de la connexion des élus */
     .officials-unconnected .panel-heading {
 	    background: #C73C42;
@@ -323,4 +323,12 @@ button:focus {
 
 .button-holder button{
     margin-right: 12px;
+}
+
+.warnDiv, .errorDiv{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    transform: translateX(-50%);
 }

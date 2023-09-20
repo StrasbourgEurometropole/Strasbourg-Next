@@ -54,7 +54,7 @@
                 </div>
                 
                 <%-- Groupe de champs : Information utilisateur --%>
-                <div class="pro-wrapper">
+                <div class="pro-wrapper last-wrapper">
                 
                 	<%-- Label : Informations utilisateur --%>
                     <h4><liferay-ui:message key="modal.give.initiative.help.user"/></h4>
@@ -139,6 +139,7 @@
                     </div>
                     
                 </div>
+                <div class="top-slope"></div>
                 
                 <%-- Champ : Demande de verification de l'age legal --%>
                 <div class="pro-optin form-checkbox">

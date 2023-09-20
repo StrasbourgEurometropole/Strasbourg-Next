@@ -46,6 +46,7 @@ create index IX_8FD2F0EE on project_PlacitPlace (participationId);
 create index IX_1C0D6D6B on project_PlacitPlace (petitionId);
 create index IX_AE47DC77 on project_PlacitPlace (placeSIGId[$COLUMN_LENGTH:75$]);
 create index IX_9B962C6 on project_PlacitPlace (projectId);
+create index IX_E9CCEA9E on project_PlacitPlace (saisineObservatoireId);
 create index IX_740C1DB2 on project_PlacitPlace (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_DD0468B4 on project_PlacitPlace (uuid_[$COLUMN_LENGTH:75$], groupId);
 
@@ -59,6 +60,10 @@ create index IX_2A9E13B0 on project_ProjectFollowed (publikUserId[$COLUMN_LENGTH
 
 create index IX_C5DB5312 on project_ProjectTimeline (budgetParticipatifId);
 create index IX_6F4E9C8A on project_ProjectTimeline (projectId);
+
+create index IX_A2FB6E19 on project_SaisineObservatoire (groupId);
+create index IX_E32F07D1 on project_SaisineObservatoire (publikId[$COLUMN_LENGTH:75$]);
+create index IX_5881B2F3 on project_SaisineObservatoire (status, groupId);
 
 create index IX_86C956F3 on project_Signataire (groupId);
 create index IX_2FAA258F on project_Signataire (petitionId, publikUserId[$COLUMN_LENGTH:75$]);

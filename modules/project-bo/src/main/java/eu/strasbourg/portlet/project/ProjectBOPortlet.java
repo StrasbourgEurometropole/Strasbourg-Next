@@ -5,6 +5,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -12,25 +14,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.portlet.project.display.context.EditBudgetParticipatifDisplayContext;
-import eu.strasbourg.portlet.project.display.context.EditBudgetPhaseDisplayContext;
-import eu.strasbourg.portlet.project.display.context.EditInitiativeDisplayContext;
-import eu.strasbourg.portlet.project.display.context.EditParticipationDisplayContext;
-import eu.strasbourg.portlet.project.display.context.EditPetitionDisplayContext;
-import eu.strasbourg.portlet.project.display.context.EditProjectDisplayContext;
-import eu.strasbourg.portlet.project.display.context.ManagementBudgetParticipatifsToolBarDisplayContext;
-import eu.strasbourg.portlet.project.display.context.ManagementBudgetPhasesToolBarDisplayContext;
-import eu.strasbourg.portlet.project.display.context.ManagementInitiativesToolBarDisplayContext;
-import eu.strasbourg.portlet.project.display.context.ManagementParticipationsToolBarDisplayContext;
-import eu.strasbourg.portlet.project.display.context.ManagementPetitionsToolBarDisplayContext;
-import eu.strasbourg.portlet.project.display.context.ManagementProjectsToolBarDisplayContext;
-import eu.strasbourg.portlet.project.display.context.NavigationBarDisplayContext;
-import eu.strasbourg.portlet.project.display.context.ViewBudgetParticipatifDisplayContext;
-import eu.strasbourg.portlet.project.display.context.ViewBudgetPhasesDisplayContext;
-import eu.strasbourg.portlet.project.display.context.ViewInitiativesDisplayContext;
-import eu.strasbourg.portlet.project.display.context.ViewParticipationsDisplayContext;
-import eu.strasbourg.portlet.project.display.context.ViewPetitionsDisplayContext;
-import eu.strasbourg.portlet.project.display.context.ViewProjectsDisplayContext;
+import eu.strasbourg.portlet.project.display.context.*;
 import eu.strasbourg.service.project.constants.ParticiperCategories;
 import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
@@ -78,6 +62,7 @@ public class ProjectBOPortlet extends MVCPortlet {
 		Boolean fromAjaxProject = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxProject"));
 		Boolean fromAjaxParticipation = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxParticipation"));
 		Boolean fromAjaxPetition = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxPetition"));
+		Boolean fromAjaxSaisineObservatoire = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxSaisineObservatoire"));
 		Boolean fromAjaxBudgetParticipatif = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxBudgetParticipatif"));
 		Boolean fromAjaxInitiative = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxInitiative"));
 
@@ -179,6 +164,17 @@ public class ProjectBOPortlet extends MVCPortlet {
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
 					break;
+
+			} else if (cmd.equals("editSaisineObservatoire") || mvcPath.equals("/project-bo-edit-saisine-observatoire.jsp") || fromAjaxSaisineObservatoire) {
+				EditSaisineObservatoireDisplayContext dc = new EditSaisineObservatoireDisplayContext(renderRequest, renderResponse);
+				String signatureNumber = Integer.toString((int) themeDisplay.getSiteGroup().getExpandoBridge().getAttribute("number_of_signatures_required_per_petition"));
+				renderRequest.setAttribute("signatureNumber", signatureNumber);
+				renderRequest.setAttribute("dc", dc);
+				title = "saisines-observatoire";
+			}else if (tab.equals("saisines-observatoire")) {
+				ViewSaisineObservatoireDisplayContext dc = new ViewSaisineObservatoireDisplayContext(renderRequest, renderResponse);
+				renderRequest.setAttribute("dc", dc);
+				title = "saisines-observatoire";
 			}
 		} catch (PortalException e) {
 			e.printStackTrace();

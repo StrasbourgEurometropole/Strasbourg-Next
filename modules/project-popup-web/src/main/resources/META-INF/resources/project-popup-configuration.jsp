@@ -23,34 +23,37 @@
 				<aui:fieldset collapsed="true" collapsible="true"
 					label="display">
 
-					<!-- Formulaire de recherche -->
-					<aui:select name="popupTemplateId">
-						<aui:option value="submitPetition" selected="${popupTemplateId eq 'submitPetition'}">
-							<liferay-ui:message key="submitPetition" />
-						</aui:option>
-						<aui:option value="signPetition" selected="${popupTemplateId eq 'signPetition'}">
-							<liferay-ui:message key="signPetition" />
-						</aui:option>
-						<aui:option value="giveInitiativeHelp" selected="${popupTemplateId eq 'giveInitiativeHelp'}">
-							<liferay-ui:message key="giveInitiativeHelp" />
-						</aui:option>
-						<aui:option value="contactInitiativeAuthor" selected="${popupTemplateId eq 'contactInitiativeAuthor'}">
-							<liferay-ui:message key="contactInitiativeAuthor" />
-						</aui:option>
-						<aui:option value="submitInitiative" selected="${popupTemplateId eq 'submitInitiative'}">
-							<liferay-ui:message key="submitInitiative" />
-						</aui:option>
-						<aui:option value="submitBudget" selected="${popupTemplateId eq 'submitBudget'}">
-							<liferay-ui:message key="submitBudget" />
-						</aui:option>
-						<aui:option value="editBudget" selected="${popupTemplateId eq 'editBudget'}">
-							<liferay-ui:message key="editBudget" />
-						</aui:option>
-						<aui:option value="giveBudgetSupport" selected="${popupTemplateId eq 'giveBudgetSupport'}">
-							<liferay-ui:message key="giveBudgetSupport" />
-						</aui:option>
-					</aui:select>
-				</aui:fieldset>
+				<!-- Formulaire de recherche -->
+				<aui:select name="popupTemplateId">
+					<aui:option value="submitSaisineObservatoire" selected="${popupTemplateId eq 'submitSaisineObservatoire'}">
+						<liferay-ui:message key="submitSaisine" />
+					</aui:option>
+					<aui:option value="submitPetition" selected="${popupTemplateId eq 'submitPetition'}">
+						<liferay-ui:message key="submitPetition" />
+					</aui:option>
+					<aui:option value="signPetition" selected="${popupTemplateId eq 'signPetition'}">
+						<liferay-ui:message key="signPetition" />
+					</aui:option>
+					<aui:option value="giveInitiativeHelp" selected="${popupTemplateId eq 'giveInitiativeHelp'}">
+						<liferay-ui:message key="giveInitiativeHelp" />
+					</aui:option>
+					<aui:option value="contactInitiativeAuthor" selected="${popupTemplateId eq 'contactInitiativeAuthor'}">
+						<liferay-ui:message key="contactInitiativeAuthor" />
+					</aui:option>
+					<aui:option value="submitInitiative" selected="${popupTemplateId eq 'submitInitiative'}">
+						<liferay-ui:message key="submitInitiative" />
+					</aui:option>
+					<aui:option value="submitBudget" selected="${popupTemplateId eq 'submitBudget'}">
+						<liferay-ui:message key="submitBudget" />
+					</aui:option>
+					<aui:option value="editBudget" selected="${popupTemplateId eq 'editBudget'}">
+						<liferay-ui:message key="editBudget" />
+					</aui:option>
+					<aui:option value="giveBudgetSupport" selected="${popupTemplateId eq 'giveBudgetSupport'}">
+						<liferay-ui:message key="giveBudgetSupport" />
+					</aui:option>
+				</aui:select>
+			</aui:fieldset>
 
 				<!-- Desactivation de la popup -->
 				<aui:fieldset collapsed="true" collapsible="true"

@@ -36,12 +36,12 @@ div.tac_activate .tarteaucitronAllow{
 #tarteaucitronRoot #tarteaucitronAlertBig {
     /* Bouton accepter */
     #tarteaucitronPersonalize2 {
-        background-color: $c_main;
+        background-color: $c_vert;
         color: $c_dark;
 
         &:hover {
             background-color: $c_dark;
-            color: $c_main;
+            color: $c_vert;
         }
     }
     
@@ -102,12 +102,12 @@ div#tarteaucitron {
         #tarteaucitronServices_mandatory .tarteaucitronLine .tarteaucitronAsk button.tarteaucitronAllow,
         .tarteaucitronLine .tarteaucitronAsk button.tarteaucitronAllow,
         #tarteaucitronAllAllowed.tarteaucitronIsSelected {
-            background-color: $c_main;
+            background-color: $c_vert;
             color: $c_dark;
 
             &:hover {
                 background-color: $c_dark;
-                color: $c_main;
+                color: $c_vert;
             }
         }
         
@@ -144,12 +144,12 @@ div.tac_activate {
     background: #3a3a3a;
 
     .tac_float .tarteaucitronAllow{
-        background-color: $c_main;
+        background-color: $c_vert;
         color: $c_dark;
 
         &:hover {
             background-color: $c_dark;
-            color: $c_main;
+            color: $c_vert;
         }
     }
 }

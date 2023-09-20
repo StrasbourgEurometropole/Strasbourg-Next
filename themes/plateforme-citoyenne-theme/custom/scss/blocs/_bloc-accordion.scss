@@ -1,86 +1,79 @@
 .pro-bloc-accordion {
-	margin: 50px 0 130px 0;
+	margin-bottom: 5em;
+	position: relative;
 	@include clearfix();
-	@include mobile {
-		margin: 100px 0 60px 0;
-	}
-
-	> * {
-		@include mobile {
-			float: none;
-		}
-	}
+	@include addTopSlope(30px, $c_white);
 
 	h2 {
 		@include ft($f_hx, 2.813em, 700, $c_dark, normal);
 		text-transform: none;
-		margin-bottom: 100px;
+		margin-top: 20px;
+		margin-bottom: 30px;
+		text-align: right;
 		@include mobile {
 			font-size: 1.5em;
 			margin-bottom: 40px;
 		}
-		&:before {
-			content: '';
-			position: absolute;
-			left: -105px;
-			top: 12px;
-			bottom: 0;
-			width: 90px;
-			height: 40px;
-			background: $c_main;
-		}
 	}
-
+.panel-group {
+	padding: 0;
+	border: solid 1px #c5c6c7;
+	margin-bottom: 20px;
 	.panel {
 		border: none;
-		border-bottom: 4px solid $c_main;
-		background: none;
-		border-radius: 0;
-
+		&:not(:last-child) {
+			border-bottom: dashed 2px #d3d5d6;
+		}
+		&:last-child {
+			border-bottom: solid 1px #c5c6c7;
+		}
 		.panel-heading {
 			background: none;
-			border: none;
+			padding: 10px 20px;
 			padding: 0;
+
+			&[aria-expanded="true"] {
+				h3 {
+					background-color: #20272f;
+					color: $c_white;
+					&:after {
+						content: '\23F6';
+						color: $c_white;
+						border-color: $c_white;
+					}
+				}
+			}
+			&[aria-expanded="false"] {
+				h3 {
+					&:after {
+						content: '\23F7';
+					}
+				}
+			}
+
 			h3 {
+				@include addTransition();
 				position: relative;
 				@include ft($f_hx, 1.5em, 700, $c_dark, normal);
-				text-transform: uppercase;
+
 				margin: 0;
+				display: flex;
+				align-items: center;
 				@include mobile {
 					font-size: 1em;
 				}
-				a {
+				span {
+					flex: 1;
 					position: relative;
-					display: block;
-					padding: 15px 0;
-					&[aria-expanded="true"] {
-						&:after {
-							content: "\e91b";
-						}
-					}
-					&[aria-expanded="false"] {
-						&:after {
-							content: "\e903";
-							transform: rotate(90deg);
-							transform-origin: top;
-							right: -7px;
-						}
-					}
-					&:after {
-						@include font();
-						position: absolute;
-						right: 0;
-						top: 50%;
-						transform: translateY(-50%);
-						transform: translate3d(0, -50%, 0);
-					}
-					@include mobile {
-						padding-right: 50px;
-					}
-					&:hover, &:focus{
-						color: $c_txt;
-						text-decoration: underline;
-					}
+					display: inline-block;
+					padding: 25px;
+					text-decoration: none;
+				}
+				&:after {
+					padding: 5px 11px;
+					border: solid 1px #d9d9d9;
+					line-height: normal;
+					margin-right: 17px;
 				}
 			}
 		}
@@ -88,33 +81,11 @@
 		.panel-collapse.in {
 			position: relative;
 			transform: translate3d(0, 0, 0);
-			.panel-body {
-				background: #edf0f2;
-				&:before, &:after {
-					content: '';
-					display: block;
-					position: absolute;
-					top: 0;
-					bottom: 0;
-					background: #edf0f2;
-					width: 999999px;
-					height: 100%;
-					transform: translate3d(0, 0, 0);
-					transition-delay: 0.4s;
-					transition: all 0.5s ease;
-				}
-				&:before {
-					right: 100%;
-				}
-				&:after {
-					left: 100%;
-				}
-			}
 		}
 
 		.panel-body {
 			position: relative;
-			padding: 20px 0 40px;
+			padding: 25px;
 			border: none;
 			background: none;
 			transition-delay: 0.4s;
@@ -122,11 +93,11 @@
 
 
 			h4 {
-				@include ft($f_txt, 1.125em, 700, $c_dark, normal);
+				@include ft($f_hx, 1.125em, 700, $c_dark, normal);
 				margin-top: 30px;
 			}
 			p {
-				@include ft($f_txt, 1em, 400, #606060, 1.5em);
+				@include ft($f_hx, 1em, 400, #606060, 1.5em);
 				margin-bottom: 10px;
 			}
 
@@ -136,7 +107,7 @@
 				list-style-type: none;
 				@include clearfix();
 				li {
-					@include ft($f_txt, 1em, 400, #606060, 1.5em);
+					@include ft($f_hx, 1em, 400, #606060, 1.5em);
 					padding-left: 22px;
 					&:before {
 						content: "";
@@ -149,7 +120,7 @@
 					}
 					a {
 						color: $c_txt;
-						text-decoration: underline;
+						text-decoration: none;
 						@include addTransition();
 						&:hover, &:focus {
 							color: $c_grey;
@@ -164,11 +135,11 @@
 				list-style-type: decimal;
 				@include clearfix();
 				li {
-					@include ft($f_txt, 1em, 400, #606060, 1.5em);
+					@include ft($f_hx, 1em, 400, #606060, 1.5em);
 					margin-left: 15px;
 					a {
 						color: $c_txt;
-						text-decoration: underline;
+						text-decoration: none;
 						@include addTransition();
 						&:hover, &:focus {
 							color: $c_grey;
@@ -180,32 +151,7 @@
 
 	}
 
-	.pro-bloc-facette {
-		form {
-			.pro-group {
-				.pro-checkbox {
-					> * {
-						label {
-							@include ft($f_txt, 1.1em, 700, $c_dark, normal);
-							padding-left: 25px;
-							@include addTransition();
-							&:before {
-								position: absolute;
-								left: 0;
-								top: 4px;
-							}
-							&:after {
-								left: 5px;
-								top: 3px;
-							}
-							&:hover, &:focus {
-								color: $c_main;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+}
+
 
 }

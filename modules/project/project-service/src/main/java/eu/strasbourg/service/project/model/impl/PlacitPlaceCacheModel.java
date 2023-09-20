@@ -63,7 +63,7 @@ public class PlacitPlaceCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(41);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -99,6 +99,8 @@ public class PlacitPlaceCacheModel
 		sb.append(participationId);
 		sb.append(", petitionId=");
 		sb.append(petitionId);
+		sb.append(", saisineObservatoireId=");
+		sb.append(saisineObservatoireId);
 		sb.append(", budgetParticipatifId=");
 		sb.append(budgetParticipatifId);
 		sb.append(", initiativeId=");
@@ -180,6 +182,7 @@ public class PlacitPlaceCacheModel
 		placitPlaceImpl.setProjectId(projectId);
 		placitPlaceImpl.setParticipationId(participationId);
 		placitPlaceImpl.setPetitionId(petitionId);
+		placitPlaceImpl.setSaisineObservatoireId(saisineObservatoireId);
 		placitPlaceImpl.setBudgetParticipatifId(budgetParticipatifId);
 		placitPlaceImpl.setInitiativeId(initiativeId);
 
@@ -223,6 +226,8 @@ public class PlacitPlaceCacheModel
 		participationId = objectInput.readLong();
 
 		petitionId = objectInput.readLong();
+
+		saisineObservatoireId = objectInput.readLong();
 
 		budgetParticipatifId = objectInput.readLong();
 
@@ -295,6 +300,8 @@ public class PlacitPlaceCacheModel
 
 		objectOutput.writeLong(petitionId);
 
+		objectOutput.writeLong(saisineObservatoireId);
+
 		objectOutput.writeLong(budgetParticipatifId);
 
 		objectOutput.writeLong(initiativeId);
@@ -324,6 +331,7 @@ public class PlacitPlaceCacheModel
 	public long projectId;
 	public long participationId;
 	public long petitionId;
+	public long saisineObservatoireId;
 	public long budgetParticipatifId;
 	public long initiativeId;
 	public String placeSIGId;

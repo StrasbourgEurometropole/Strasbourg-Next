@@ -145,7 +145,7 @@
         loop: true,
         autoplay: {
           delay: 10000,
-          disableOnInteraction: true
+          disableOnInteraction: false
         },
 
         // Navigation arrows
@@ -153,6 +153,15 @@
           nextEl: '#headerMuseum .swiper-button-next',
           prevEl: '#headerMuseum .swiper-button-prev',
         },
+
+        on: {
+          autoplayStop(){
+            this.slides.at(this.activeIndex).querySelector('.image').style.animationPlayState = 'paused';
+          },
+          autoplayStart(){
+            this.slides.at(this.activeIndex).querySelector('.image').style.animationPlayState = 'running';
+          }
+        }
 
       });
     }
