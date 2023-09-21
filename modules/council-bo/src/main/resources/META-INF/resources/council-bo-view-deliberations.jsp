@@ -68,6 +68,7 @@
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.council.model.Deliberation"
 				modelVar="deliberation" keyProperty="deliberationId" rowIdProperty="deliberationId">
+
 				<liferay-portlet:renderURL varImpl="editDeliberationURL">
 					<portlet:param name="cmd" value="editDeliberation" />
 					<portlet:param name="deliberationId" value="${deliberation.deliberationId}" />
@@ -81,7 +82,9 @@
 
 				<liferay-ui:search-container-column-text cssClass="content-column table-cell-content"
 					href="${editDeliberationURL}" name="title"
-					orderable="true" value="${deliberation.title}" />
+					orderable="true" >
+					<div id="delib-${deliberation.deliberationId}">${deliberation.title}</div>
+                </liferay-ui:search-container-column-text>
 
 				<fmt:formatDate value="${deliberation.councilSession.date}"
 					var="formattedDate" type="date" pattern="dd/MM/yyyy" />

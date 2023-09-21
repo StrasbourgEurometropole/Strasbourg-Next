@@ -151,7 +151,7 @@ public class CloseDeliberationActionCommand extends BaseMVCActionCommand {
         PortletURL renderURL = PortletURLFactoryUtil.create(request,
                 portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
         renderURL.setParameter("tab", request.getParameter("tab"));
-        response.sendRedirect(renderURL.toString());
+        response.sendRedirect(renderURL.toString()+"#delib-"+deliberationId);
     }
 
 }
