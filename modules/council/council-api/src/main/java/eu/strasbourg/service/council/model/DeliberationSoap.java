@@ -43,6 +43,7 @@ public class DeliberationSoap implements Serializable {
 		soapModel.setStatusByUserId(model.getStatusByUserId());
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
+		soapModel.setAmendement(model.getAmendement());
 		soapModel.setTitle(model.getTitle());
 		soapModel.setOrder(model.getOrder());
 		soapModel.setStage(model.getStage());
@@ -201,6 +202,14 @@ public class DeliberationSoap implements Serializable {
 		_statusDate = statusDate;
 	}
 
+	public String getAmendement() {
+		return _amendement;
+	}
+
+	public void setAmendement(String amendement) {
+		_amendement = amendement;
+	}
+
 	public String getTitle() {
 		return _title;
 	}
@@ -285,6 +294,7 @@ public class DeliberationSoap implements Serializable {
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
+	private String _amendement;
 	private String _title;
 	private int _order;
 	private String _stage;

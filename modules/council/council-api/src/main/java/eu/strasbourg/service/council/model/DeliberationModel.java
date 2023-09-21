@@ -292,6 +292,21 @@ public interface DeliberationModel
 	public void setStatusDate(Date statusDate);
 
 	/**
+	 * Returns the amendement of this deliberation.
+	 *
+	 * @return the amendement of this deliberation
+	 */
+	@AutoEscape
+	public String getAmendement();
+
+	/**
+	 * Sets the amendement of this deliberation.
+	 *
+	 * @param amendement the amendement of this deliberation
+	 */
+	public void setAmendement(String amendement);
+
+	/**
 	 * Returns the title of this deliberation.
 	 *
 	 * @return the title of this deliberation

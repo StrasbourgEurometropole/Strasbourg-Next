@@ -68,6 +68,7 @@ public class DeliberationWrapper
 		attributes.put("statusByUserId", getStatusByUserId());
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
+		attributes.put("amendement", getAmendement());
 		attributes.put("title", getTitle());
 		attributes.put("order", getOrder());
 		attributes.put("stage", getStage());
@@ -155,6 +156,12 @@ public class DeliberationWrapper
 			setStatusDate(statusDate);
 		}
 
+		String amendement = (String)attributes.get("amendement");
+
+		if (amendement != null) {
+			setAmendement(amendement);
+		}
+
 		String title = (String)attributes.get("title");
 
 		if (title != null) {
@@ -222,6 +229,16 @@ public class DeliberationWrapper
 		eu.strasbourg.service.council.model.Deliberation deliberation) {
 
 		return _deliberation.compareTo(deliberation);
+	}
+
+	/**
+	 * Returns the amendement of this deliberation.
+	 *
+	 * @return the amendement of this deliberation
+	 */
+	@Override
+	public String getAmendement() {
+		return _deliberation.getAmendement();
 	}
 
 	/**
@@ -637,6 +654,16 @@ public class DeliberationWrapper
 	@Override
 	public void persist() {
 		_deliberation.persist();
+	}
+
+	/**
+	 * Sets the amendement of this deliberation.
+	 *
+	 * @param amendement the amendement of this deliberation
+	 */
+	@Override
+	public void setAmendement(String amendement) {
+		_deliberation.setAmendement(amendement);
 	}
 
 	/**
