@@ -63,7 +63,7 @@ public class DeliberationCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(43);
+		StringBundler sb = new StringBundler(45);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -89,6 +89,8 @@ public class DeliberationCacheModel
 		sb.append(statusByUserName);
 		sb.append(", statusDate=");
 		sb.append(statusDate);
+		sb.append(", amendement=");
+		sb.append(amendement);
 		sb.append(", title=");
 		sb.append(title);
 		sb.append(", order=");
@@ -166,6 +168,13 @@ public class DeliberationCacheModel
 			deliberationImpl.setStatusDate(new Date(statusDate));
 		}
 
+		if (amendement == null) {
+			deliberationImpl.setAmendement("");
+		}
+		else {
+			deliberationImpl.setAmendement(amendement);
+		}
+
 		if (title == null) {
 			deliberationImpl.setTitle("");
 		}
@@ -227,6 +236,7 @@ public class DeliberationCacheModel
 		statusByUserId = objectInput.readLong();
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
+		amendement = objectInput.readUTF();
 		title = objectInput.readUTF();
 
 		order = objectInput.readInt();
@@ -283,6 +293,13 @@ public class DeliberationCacheModel
 
 		objectOutput.writeLong(statusDate);
 
+		if (amendement == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(amendement);
+		}
+
 		if (title == null) {
 			objectOutput.writeUTF("");
 		}
@@ -322,6 +339,7 @@ public class DeliberationCacheModel
 	public long statusByUserId;
 	public String statusByUserName;
 	public long statusDate;
+	public String amendement;
 	public String title;
 	public int order;
 	public String stage;
