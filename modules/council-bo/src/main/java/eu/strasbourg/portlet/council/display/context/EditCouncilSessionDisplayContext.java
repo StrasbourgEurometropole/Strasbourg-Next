@@ -152,7 +152,7 @@ public class EditCouncilSessionDisplayContext {
         try {
             startDeliberation = DeliberationLocalServiceUtil.getDeliberation(startDelib);
             if(Validator.isNotNull(startDeliberation)){
-                getStartDelibOrder = startDelib == -1?"": String.valueOf(startDeliberation.getOrder());
+                getStartDelibOrder = startDelib == -1?"": startDeliberation.getOrder()+startDeliberation.getAmendement();
             }
         } catch (PortalException e) {
             _log.error(e.getMessage() + " : " + startDelib);
@@ -171,7 +171,7 @@ public class EditCouncilSessionDisplayContext {
         try {
             endDeliberation = DeliberationLocalServiceUtil.getDeliberation(endDelib);
             if(Validator.isNotNull(endDeliberation)){
-                getEndDelibOrder = endDelib == -1?"": String.valueOf(endDeliberation.getOrder());
+                getEndDelibOrder = endDelib == -1?"": endDeliberation.getOrder()+endDeliberation.getAmendement();
             }
         } catch (PortalException e) {
             _log.error(e.getMessage() + " : " + endDelib);
