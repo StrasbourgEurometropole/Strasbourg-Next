@@ -70,6 +70,7 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
 
         long deliberationId = ParamUtil.getLong(request, "deliberationId");
         int order = ParamUtil.getInteger(request, "order");
+        String amendement = ParamUtil.getString(request, "amendement");
         String title = ParamUtil.getString(request, "title");
         long councilSessionId = ParamUtil.getLong(request, "councilSessionId");
 
@@ -109,6 +110,7 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
 
         // Set des champs de la délibération
         deliberation.setOrder(order);
+        deliberation.setAmendement(amendement);
         deliberation.setTitle(title);
         deliberation.setCouncilSessionId(councilSessionId);
 
@@ -161,6 +163,10 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
 
         if (Validator.isNull(ParamUtil.getString(request, "order"))) {
             SessionErrors.add(request, "order-error");
+            isValid = false;
+        }
+        if (Validator.isNull(ParamUtil.getString(request, "amendement"))) {
+            SessionErrors.add(request, "amendement-error");
             isValid = false;
         }
         if (Validator.isNull(ParamUtil.getString(request, "title"))) {
