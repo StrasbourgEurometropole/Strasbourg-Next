@@ -26,6 +26,7 @@
             <div class="mns-filler"></div>
             <div class="mns-result-filter">
                 <span><liferay-ui:message key="results-per-page" /></span>
+                <span class="sr-only"><liferay-ui:message key="reload-after-select" /></span>
                 <select name="filter" id="" class="toCustomSelect" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
                     <c:forEach var="delta" items="${[5, 10, 20, 50, 100]}">
                     	<c:set var="selected" value="${delta eq dc.delta ? 'selected' : ''}" />
