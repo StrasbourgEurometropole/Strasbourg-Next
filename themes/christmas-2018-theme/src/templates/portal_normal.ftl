@@ -161,13 +161,13 @@
                 <a href="#" class="hidden-xs hidden-sm menu-search" aria-label="<@liferay_ui.message key='to-research' />"><span class="icon-search"></span></a>
                 <#assign entity = themeDisplay.getURLCurrent()?keep_after(layout.friendlyURL)?keep_before('\\?','r') />
                 <#if homeURL != "/">
-                    <a href="/fr${homeURL}${layout.friendlyURL}${entity}" title="FR- Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>
-                    <a href="/de${homeURL}${layout.friendlyURL}${entity}" title="DE - Deutsch" class="${(locale.language =='de')?then('active','')}" >DE</a>
-                    <a href="/en${homeURL}${layout.friendlyURL}${entity}" title="EN - English" class="${(locale.language =='en')?then('active','')}" >EN</a>
+                    <a href="/fr${homeURL}${layout.friendlyURL}${entity}" title="FR- Français"  class="${(locale.language =='fr')?then('active','')}" lang="fr">FR</a>
+                    <a href="/de${homeURL}${layout.friendlyURL}${entity}" title="DE - Deutsch" class="${(locale.language =='de')?then('active','')}" lang="de">DE</a>
+                    <a href="/en${homeURL}${layout.friendlyURL}${entity}" title="EN - English" class="${(locale.language =='en')?then('active','')}" lang="en">EN</a>
                 <#else>
-                    <a href="/fr${layout.friendlyURL}${entity}" title="Fr - Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>
-                    <a href="/de${layout.friendlyURL}${entity}" title="DE - Deutsch" class="${(locale.language =='de')?then('active','')}" >DE</a>
-                    <a href="/en${layout.friendlyURL}${entity}" title="EN - English" class="${(locale.language =='en')?then('active','')}" >EN</a>
+                    <a href="/fr${layout.friendlyURL}${entity}" title="Fr - Français"  class="${(locale.language =='fr')?then('active','')}" lang="fr">FR</a>
+                    <a href="/de${layout.friendlyURL}${entity}" title="DE - Deutsch" class="${(locale.language =='de')?then('active','')}" lang="de">DE</a>
+                    <a href="/en${layout.friendlyURL}${entity}" title="EN - English" class="${(locale.language =='en')?then('active','')}" lang="en">EN</a>
                 </#if>
             </div>
         </div>
