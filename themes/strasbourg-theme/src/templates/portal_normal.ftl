@@ -49,6 +49,13 @@
 <#--End Content of the page-->
 	<div id="overlay-shadow" class="st-shadow-overlay"></div>
 
+	<#-- liferay_portlet["runtime"] - Structure footer-->
+	<@liferay_portlet["runtime"]
+	portletProviderAction=portletProviderAction.VIEW
+	portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+	instanceId="footer"
+	settingsScope="group" />
+
 	<#-- liferay_portlet["runtime"] - Overlay menu-->
 	<@liferay_portlet["runtime"]
 	portletProviderAction=portletProviderAction.VIEW
@@ -63,12 +70,7 @@
 	instanceId="DynamicResearch"
 	settingsScope="group" />
 
-	<#-- liferay_portlet["runtime"] - Structure footer-->
-<@liferay_portlet["runtime"]
-portletProviderAction=portletProviderAction.VIEW
-portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-instanceId="footer"
-settingsScope="group" />
+
 
 	<#-- liferay_portlet["runtime"] - Overlay Location-->
 	<@liferay_portlet["runtime"]

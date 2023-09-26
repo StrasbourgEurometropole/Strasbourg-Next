@@ -52,17 +52,6 @@ public class AssociationIndexer extends BaseIndexer<Association> {
 	@Override
 	protected Document doGetDocument(Association association) throws Exception {
 		Document document = getBaseModelDocument(CLASS_NAME, association);
-
-		// On indexe toute la hiérarchie de catégories (parents et enfants des
-		// catégories de l'entité)
-		long[] assetCategoryIds = AssetVocabularyHelper
-			.getFullHierarchyCategoriesIds(association.getCategories());
-		List<AssetCategory> assetCategories = AssetVocabularyHelper
-			.getFullHierarchyCategories(association.getCategories());
-		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
-			assetCategories);
-
 		document.addLocalizedText(Field.TITLE, association.getNameMap());
 		document.addLocalizedText(Field.DESCRIPTION,
 				association.getPresentationMap());

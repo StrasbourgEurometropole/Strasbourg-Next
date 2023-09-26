@@ -59,7 +59,13 @@ public class PlaceAssetRenderer extends BaseJSPAssetRenderer<Place> {
 	@Override
 	public String getSummary(PortletRequest portletRequest,
 		PortletResponse portletResponse) {
-		return _entry.getPresentation(portletRequest.getLocale());
+		if(portletRequest != null)
+		{
+			return _entry.getPresentation(portletRequest.getLocale());
+		}
+		else {
+			return _entry.getPresentation(Locale.FRANCE);
+		}
 	}
 
 	@Override

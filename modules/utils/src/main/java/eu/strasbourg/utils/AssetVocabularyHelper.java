@@ -9,6 +9,9 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.commerce.product.constants.CPAttachmentFileEntryConstants;
+import com.liferay.commerce.product.model.CPAttachmentFileEntry;
+import com.liferay.commerce.product.service.CPAttachmentFileEntryServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -24,6 +27,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.util.*;
@@ -229,6 +233,32 @@ public class AssetVocabularyHelper {
 		} catch (Exception e) {
 			return "";
 		}
+	}
+
+	/**
+	 * Retourne l'image de la catégorie passée en paramètre avec son titre
+	 * null si l'image n'existe pas
+	 * @note Les images des catégories sont stockées via le CPAttachmentFileEntry
+	 */
+	static CPAttachmentFileEntry getCategoryImage(long categoryId, String title) {
+		try {
+			List<CPAttachmentFileEntry> entries = CPAttachmentFileEntryServiceUtil.getCPAttachmentFileEntries(
+					PortalUtil.getClassNameId(AssetCategory.class),
+					categoryId,
+					CPAttachmentFileEntryConstants.TYPE_IMAGE,
+					WorkflowConstants.STATUS_ANY,
+					0,
+					100
+			);
+			for (CPAttachmentFileEntry entry : entries) {
+				if (entry.getTitle(Locale.FRANCE).equals(title)) {
+					return entry;
+				}
+			}
+		} catch (Exception e) {
+			return null;
+		}
+		return null;
 	}
 
 	/**

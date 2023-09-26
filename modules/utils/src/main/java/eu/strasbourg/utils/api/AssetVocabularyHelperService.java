@@ -4,6 +4,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.commerce.product.model.CPAttachmentFileEntry;
 import com.liferay.portal.kernel.exception.PortalException;
 
 import java.util.List;
@@ -34,6 +35,11 @@ public interface AssetVocabularyHelperService {
      * Retourne une chaîne vide si la propriété n'existe pas
      */
     String getCategoryProperty(long categoryId, String key);
+
+    /**
+     * Retourne l'image de la catégorie passée en paramètre avec son titre
+     */
+    CPAttachmentFileEntry getCategoryImage(long categoryId, String title);
 
     /**
      * Retourne la catégorie passée en paramètre avec ses parents

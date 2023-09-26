@@ -4,18 +4,14 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.ListUtil;
-import com.liferay.portal.kernel.util.LocalizationUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.util.*;
 import eu.strasbourg.portlet.activity.configuration.SearchActivityConfiguration;
 import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.service.activity.model.ActivityCourse;
@@ -374,6 +370,24 @@ public class SearchActivityDisplayContext {
 	public Pager getPager() {
 		return new Pager(this.getSearchContainer().getTotal(), (int) this.getDelta(),
 				this.getSearchContainer().getCur());
+	}
+
+	/**
+	 * Retourne le titre du portlet configuré dans la configuration Look And
+	 * Feel s'il existe et si "utiliser le titre personnalisé" est coché, sinon
+	 * à partir de la clé de traduction passée en paramètre
+	 */
+	public String getPortletTitle(String key) {
+		String titleFromLanguageKey = LanguageUtil.get(PortalUtil.getHttpServletRequest(this.request), key);
+		String useCustomPortletPreference = this.request.getPreferences().getValue("portletSetupUseCustomTitle",
+				"false");
+		boolean useCustomPortlet = GetterUtil.get(useCustomPortletPreference, false);
+		if (useCustomPortlet) {
+			String preferenceKey = "portletSetupTitle_" + this.themeDisplay.getLocale().toString();
+			return this.request.getPreferences().getValue(preferenceKey, titleFromLanguageKey);
+		} else {
+			return titleFromLanguageKey;
+		}
 	}
 
 	/**

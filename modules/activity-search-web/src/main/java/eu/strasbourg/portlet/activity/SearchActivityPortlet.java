@@ -28,6 +28,7 @@ import java.util.ArrayList;
 		"javax.portlet.name=" + StrasbourgPortletKeys.ACTIVITY_SEARCH_WEB,
 		"com.liferay.portlet.header-portlet-css=/css/search-activity-main.css",
 		"javax.portlet.init-param.template-path=/", "javax.portlet.init-param.view-template=/search-activity-view.jsp",
+		"com.liferay.portlet.header-portlet-js=/js/search-activity-main.js",
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
 public class SearchActivityPortlet extends MVCPortlet {

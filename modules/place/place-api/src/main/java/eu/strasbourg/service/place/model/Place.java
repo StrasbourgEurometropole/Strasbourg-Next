@@ -20,6 +20,8 @@ import com.liferay.portal.kernel.util.Accessor;
 
 import org.osgi.annotation.versioning.ProviderType;
 
+import java.util.Locale;
+
 /**
  * The extended model interface for the Place service. Represents a row in the &quot;place_Place&quot; database table, with each column mapped to a property of this class.
  *
@@ -164,6 +166,11 @@ public interface Place extends PersistedModel, PlaceModel {
 	 * Retourne true si le type du lieu doit avoir un calendrier d'horaires
 	 */
 	public Boolean hasScheduleTable();
+
+	/**
+	 * Retourne true si le type du lieu est recherchable (utilisé pour affiche tous les lieux de meme type)
+	 */
+	public Boolean isSearchable();
 
 	/**
 	 * Retourne la catégorie Territoire correspondant à la ville du lieu

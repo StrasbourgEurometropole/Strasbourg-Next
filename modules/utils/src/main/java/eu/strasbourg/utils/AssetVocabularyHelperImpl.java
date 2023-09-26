@@ -3,6 +3,7 @@ package eu.strasbourg.utils;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.commerce.product.model.CPAttachmentFileEntry;
 import com.liferay.portal.kernel.exception.PortalException;
 import eu.strasbourg.utils.api.AssetVocabularyHelperService;
 import org.osgi.service.component.annotations.Component;
@@ -55,6 +56,15 @@ public class AssetVocabularyHelperImpl implements AssetVocabularyHelperService {
 	public String getCategoryProperty(long categoryId, String key) {
 		return AssetVocabularyHelper.getCategoryProperty(categoryId, key);
 	}
+
+	/**
+	 * Retourne l'image de la catégorie passée en paramètre avec son titre
+	 */
+	@Override
+	public CPAttachmentFileEntry getCategoryImage(long categoryId, String title) {
+		return AssetVocabularyHelper.getCategoryImage(categoryId, title);
+	}
+
 
 	/**
 	 * Retourne la catégorie passée en paramètre avec ses parents

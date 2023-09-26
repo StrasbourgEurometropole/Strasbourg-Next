@@ -7,7 +7,11 @@
 <#--</@liferay_portlet.actionURL>-->
 <#--<#assign overlayContactTitle=entry.getAlias(locale) />-->
 <#--<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/overlay-contact.ftl" />-->
-
+<#if themeDisplay.isSignedIn() >
+    <@clay["alert"] message="Overlay de contact est present sur cette page"
+    displayType="secondary"
+    title="Overlay" />
+</#if>
 <div id="st-overlay-contact" class="st-overlay st-overlay-contact" role="dialog" aria-modal="true" tabindex="0" aria-label="Modale de contact">
     <button class="st-btn-close" data-overlay-close="st-overlay-contact" aria-label="Fermer la modale"></button>
 

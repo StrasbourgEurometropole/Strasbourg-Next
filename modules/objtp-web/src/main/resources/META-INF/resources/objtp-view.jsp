@@ -1,129 +1,103 @@
 <%@ include file="/objtp-init.jsp" %>
 
+<header class="st-small-header st-wrapper st-wrapper-small" role="banner">
+	<h1 class="st-h1">${title}</h1>
+	<liferay-portlet:runtime
+			portletName="com_liferay_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
+			instanceId="breadcrumb-generic" />
+</header>
+
 <c:set var="numeroLabel"><liferay-ui:message key="objtp-numero" /></c:set>
 <c:set var="dateLabel"><liferay-ui:message key="objtp-date" /></c:set>
 
-<main class="seu-container">
-    <h1>${title}</h1>
-    
-    <!-- Nombre de rÃÂ©sultats et items par page -->
-    <div class="seu-view-agenda" style="border-top: solid 2px #f6f6f6;">
-		<div class="seu-view-results">
-		    <div class="seu-result-count"> 
-		    	<c:choose>
-		    		<c:when test="${dc.searchContainer.total == 0}">
-		    			<liferay-ui:message key="no-found-objects" />
-		    		</c:when>
-		    		<c:when test="${dc.searchContainer.total gt 1}">
-		    			${dc.searchContainer.total} <liferay-ui:message key="objtp-found-objects" />
-		    		</c:when>
-		    		<c:otherwise>
-		    			${dc.searchContainer.total} <liferay-ui:message key="objtp-found-object" />
-		    		</c:otherwise>
-		    	</c:choose>
-		   	</div>
-		    <div class="seu-filler"></div>
-		    <div class="seu-result-filter">
-		        <span><liferay-ui:message key="results-per-page" /></span>
-		        <select name="filter" id="" class="toCustomSelect silencedSelect" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-		            <c:forEach var="delta" items="${[10, 20, 50, 100]}">
-		            	<c:set var="selected" value="${delta eq dc.delta ? 'selected' : ''}" />
-		            	<option value="${dc.getURLForDelta(delta)}" ${selected} >${delta}</option>
-		            </c:forEach>
-		        </select>
-		    </div> 
-		</div>
-	</div>
-    
-    <aui:form method="post" name="fm">
-		<!-- RÃÂ©sultats -->
-		<liferay-ui:search-container id="entriesSearchContainer"
-					searchContainer="${dc.searchContainer}">
-		<div class="objtp-gallery">
-		    <div id="objtp-detail-container"style="position: relative">
-		    	<c:forEach items="${dc.paginatedResults}" var="object"> 
-		    		<c:if test="${not empty object.imageUrl}">
-		    		<fmt:formatDate value="${object.date}"
-					var="formattedDate" type="date" pattern="dd/MM/yyyy" />
-			    		<c:set var="legend" value="${title} : ${numeroLabel} ${object.number} ${dateLabel} ${formattedDate}"/>		    		
-				        <div class="objtp-detail-item">
-				        	<div class="objtp-image-container">
-					        	<a href="${object.imageUrl}?imagePreview=1" title="${legend}">
-					            	<img class="objtp-picture" src="${object.imageUrl}?imagePreview=1" title="${legend}"></img>
-					            </a>
-				            </div>
-				            <div class="objtp-info">
-				            	<p>${numeroLabel} ${object.number}</p>
-				            	<p>${dateLabel} ${formattedDate}</p>
-				            </div>
-				        </div>
-			        </c:if>
-		        </c:forEach>
-		    </div>
- 		</div>
-		    
-		    <!-- Pagination -->
-			<c:if test="${dc.pager.lastPage > 1}">
-	            <ul class="seu-pagination unstyled">
+<div class="seu-result-filter">
+	<span><liferay-ui:message key="results-per-page" /></span>
+	<select name="filter" id="" class="toCustomSelect silencedSelect" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+		<c:forEach var="delta" items="${[10, 20, 50, 100]}">
+			<c:set var="selected" value="${delta eq dc.delta ? 'selected' : ''}" />
+			<option value="${dc.getURLForDelta(delta)}" ${selected} >${delta}</option>
+		</c:forEach>
+	</select>
+</div>
 
-	            	<!-- Page prÃÂÃÂ©cÃÂÃÂ©dente -->
-	                <li class="seu-pagin-prev seu-pagin-item">
-						<c:if test="${not dc.pager.onFirstPage}">
-		                    <a class="seu-btn-square seu-bordered seu-core" data-action="prev" title="<liferay-ui:message key="go-to-previous-page" />"
-								href="${dc.getURLForPage(dc.pager.currentPage - 1)}">
-		                        <span class="seu-flexbox">
-		                            <span class="seu-btn-text"><liferay-ui:message key="previous" /></span>
-		                            <span class="seu-btn-arrow"></span>
-		                        </span>
-		                    </a>
-	               		</c:if>
-	                </li>
-	                <c:forEach var="page" items="${dc.pager.pages}">
-	                	<c:choose>
-	                		<c:when test="${page.isALink() and not (page.index eq dc.pager.currentPage)}">
-	                			<!-- Lien vers page -->
-		                		<li class="seu-pagin-item">
-				                    <a data-page="${page.index}" href="${dc.getURLForPage(page.index)}">
-				                        <span class="seu-flexbox">
-				                            <span class="seu-btn-text">${page.label}</span>
-				                        </span>
-				                    </a>
-				                </li>
-	                		</c:when>
-	                		<c:when test="${page.isALink() and (page.index eq dc.pager.currentPage)}">
-	                			<!-- Page en cours -->
-		                		<li class="seu-pagin-item seu-is-active">
-			                        <span class="seu-flexbox">
-			                            <span class="seu-btn-text">${page.label}</span>
-			                        </span>
-			                    </li>
-			                </c:when>
-	                		<c:otherwise>
-			                	<!-- Texte -->
-		                		<li class="seu-pagin-item">
-			                        <span class="seu-flexbox">
-			                            <span class="seu-btn-text">${page.label}</span>
-			                        </span>
-			                    </li>
-	                		</c:otherwise>
-	                	</c:choose>
-	                </c:forEach>
-	                
-	                <!-- Page suivante -->
-	                <li class="seu-pagin-next seu-pagin-item">
-						<c:if test="${not dc.pager.onLastPage}">
-		                    <a class="seu-btn-square seu-bordered seu-core" title="<liferay-ui:message key="go-to-next-page" />" 
-		                    	data-action="next" href="${dc.getURLForPage(dc.pager.currentPage + 1)}">
-		                        <span class="seu-flexbox">
-		                            <span class="seu-btn-text"><liferay-ui:message key="next" /></span>
-		                            <span class="seu-btn-arrow"></span>
-		                        </span>
-		                    </a>
-	              	 	</c:if>
-	                </li>
-	            </ul>
-	        </c:if>
-		    
-    	</liferay-ui:search-container>
+<aui:form method="post" name="fm">
+		<liferay-ui:search-container id="entriesSearchContainer"
+									 searchContainer="${dc.searchContainer}">
+	<div class="st-listing-cards st-wrapper st-wrapper-small">
+		<ul class="st-cards-wrapper st--has-cards-vertical st-basic-grid st-col-3@mobile st-col-4@t-small">
+			<c:forEach items="${dc.paginatedResults}" var="object">
+				<c:if test="${not empty object.imageUrl}">
+					<fmt:formatDate value="${object.date}"
+									var="formattedDate" type="date" pattern="dd/MM/yyyy" />
+					<c:set var="legend" value="${title} : ${numeroLabel} ${object.number} ${dateLabel} ${formattedDate}"/>
+
+
+					<li>
+						<div class="st-card-container">
+							<a href="#" class="st-card st-card-lost-and-found ">
+								<div class="st-caption">
+									<p class="st-title-card">${numeroLabel} ${object.number}</p>
+									<p class="st-date">${dateLabel} <span>${formattedDate}</span></p>
+								</div>
+								<div class="st-image">
+									<figure class="st-figure st-fit-cover" role="group">
+										<picture>
+											<img class="objtp-picture" src="${object.imageUrl}?imagePreview=1" title="${legend}"></img>
+										</picture>
+									</figure>
+								</div>
+							</a>
+						</div>
+					</li>
+				</c:if>
+			</c:forEach>
+
+		</ul>
+	</div>
+
+			<!-- Pagination -->
+			<c:if test="${dc.pager.lastPage > 1}">
+				<nav class="st-wrapper st-wrapper-small st-pagination" role="navigation">
+					<div class="st-container">
+						<a rel="prev" class="st-nav-links st-prev st-btn-arrow st--prev" data-action="prev" title="<liferay-ui:message key="go-to-previous-page" />"
+						   href="${dc.getURLForPage(dc.pager.currentPage - 1)}">
+           <span class="st-sr-only">
+                Précédent
+           </span>
+						</a>
+
+						<!-- Note pour le cablage changer dynamiquement les numéros de page dans les aria-label. Aussi, l'aria-label pour l'élément actif doit être différent par rapport aux autres -->
+						<div class="st-pagination-number">
+							<c:forEach var="page" items="${dc.pager.pages}">
+								<c:choose>
+									<c:when test="${page.isALink() and not (page.index eq dc.pager.currentPage)}">
+										<!-- Lien vers page -->
+										<a data-page="${page.index}" href="${dc.getURLForPage(page.index)}" class="st-pagination-link" role="button" aria-label="Aller à ${page.label}"
+										   aria-current="false">${page.label}</a>
+									</c:when>
+									<c:when test="${page.isALink() and (page.index eq dc.pager.currentPage)}">
+										<!-- Page en cours -->
+										<a href="#" class="st-pagination-link st-is-active" role="button" aria-label="Page courante ${page.label}"
+										   aria-current="true">${page.label}</a>
+									</c:when>
+									<c:otherwise>
+										<!-- Texte -->
+										<span class="st-dots">...</span>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</div>
+
+						<a rel="next" class="st-nav-links st-next st-btn-arrow st--next" title="<liferay-ui:message key="go-to-next-page" />"
+						   data-action="next" href="${dc.getURLForPage(dc.pager.currentPage + 1)}">
+              <span class="st-sr-only">
+                Suivant
+              </span>
+						</a>
+					</div>
+				</nav>
+			</c:if>
+		</liferay-ui:search-container>
 	</aui:form>
-</main>
+
+<%@ include file="/objtp-filter.jsp" %>

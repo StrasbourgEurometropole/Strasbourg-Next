@@ -1,6 +1,6 @@
 <%@ include file="/search-asset-init.jsp"%>
-<div class="st-barre-listing-sit st-js-barre-listing-filtre">
-	<div class="st-barre-inner st-wrapper">
+<div class="st-barre-listing-sit">
+	<div class="st-barre-inner st-wrapper form-styles">
 			<c:if test="${dc.dateField}">
 				<div class="st-filtre">
 					<label for="date-start"><liferay-ui:message key="eu.event.from-date" /></label>
@@ -19,7 +19,7 @@
 					<input type="hidden" name="<portlet:namespace />toYear" data-name="toYear" value="${dc.toYear}" />
 				</div>
 			</c:if>
-		<div class="st-filtre  st--is-expanded">
+		<div class="st-filtre st-group-field st--is-expanded">
 			<label for="name"><liferay-ui:message key="keywords" /></label>
 			<input type="text" id="name" name="<portlet:namespace />keywords"
 				   placeholder="<liferay-ui:message key="please-enter-keyword" />" value="${dc.keywords}" >
@@ -28,18 +28,20 @@
 
 		<c:forEach items="${dc.vocabularies}" var="vocabulary"
 				varStatus="vocStatus">
-		<div class="st-filtre st--is-select">
+		<div class="st-filtre st-group-field st--is-select">
 			<label for="vocabulary_${vocStatus.index}" >
 				${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}
 			</label>
-			<select class="" id="vocabulary_${vocStatus.index}" name="<portlet:namespace />vocabulary_${vocStatus.index}">
-				<c:forEach items="${dc.getSortedCategories(vocabulary)}" var="category">
-					<c:set var="category" value="${category}" scope="request"/>
-					<c:set var="dc" value="${dc}" scope="request"/>
-					<c:set var="level" value="0" scope="request" />
-					<jsp:include page="/forms/category-option.jsp"/>
-				</c:forEach>
-			</select>
+			<div class="st-field-select">
+				<select class="" id="vocabulary_${vocStatus.index}" name="<portlet:namespace />vocabulary_${vocStatus.index}">
+					<c:forEach items="${dc.getSortedCategories(vocabulary)}" var="category">
+						<c:set var="category" value="${category}" scope="request"/>
+						<c:set var="dc" value="${dc}" scope="request"/>
+						<c:set var="level" value="0" scope="request" />
+						<jsp:include page="/forms/category-option.jsp"/>
+					</c:forEach>
+				</select>
+			</div>
 		</div>
 		    </c:forEach>
 		<aui:input type="hidden" name="vocabulariesCount" value="${fn:length(dc.vocabularies)}" />

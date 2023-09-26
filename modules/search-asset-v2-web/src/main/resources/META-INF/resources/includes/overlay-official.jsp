@@ -1,5 +1,4 @@
 <%@ include file="/search-asset-init.jsp"%>
-
 <div id="st-overlay-preview-person" class="st-overlay st-overlay-preview-person" role="dialog" aria-modal="true" tabindex="0" aria-label="Modale de liste">
     <button class="st-btn-close" data-overlay-close="st-overlay-preview-person" aria-label="Fermer la modale"></button>
 

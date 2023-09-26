@@ -7,6 +7,7 @@
 <%@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://liferay.com/tld/asset" prefix="liferay-asset" %>
+<%@ taglib uri="http://liferay.com/tld/clay" prefix="clay" %>
 <%@ taglib uri="http://strasbourg.eu/tld/asset-category-selector" prefix="asset-category-selector" %>
 
 <%@ page import="java.util.List" %>

@@ -2,7 +2,11 @@
 
 <portlet:resourceURL id="searchSubmit" var="searchSubmitURL">
 </portlet:resourceURL>
-
+<c:if test="${themeDisplay.isSignedIn()}" >
+<clay:alert message="Overlay de recherche est present sur cette page"
+displayType="secondary"
+title="Overlay" />
+</c:if>
 <div id="st-overlay-search" class="st-overlay st-overlay-search st--from-top" role="dialog" aria-modal="true" tabindex="0" aria-label="Fenêtre modale contenante le moteur de recherche">
     <button class="st-btn-close" data-overlay-close="st-overlay-search" aria-label="Fermer la modale"></button>
 
@@ -24,7 +28,15 @@
             </div>
 
             <div class="st-overlay__header-row2 st-wrapper">
+                <span>Afficher :</span>
+                <div class="st-filters-list">
+                    <button id="st-pages" class="st-btn-filter-search st-is-active">Pages</button>
+                    <button id="st-events" class="st-btn-filter-search st-is-active"><liferay-ui:message key="eu.strasbourg.events" /></button>
+                    <button id="st-places" class="st-btn-filter-search st-is-active">Lieux</button>
+                    <button id="st-editions" class="st-btn-filter-search">Editions</button>
+                    <button id="st-officals" class="st-btn-filter-search"><liferay-ui:message key="officals" /></button>
 
+                </div>
                 <div class="st-results">
                     <liferay-ui:message key="eu.strasbourg.dynamic-search-strasbourg-result-search" /> <span class="st-results__total" id="results-total">0</span>
                 </div>

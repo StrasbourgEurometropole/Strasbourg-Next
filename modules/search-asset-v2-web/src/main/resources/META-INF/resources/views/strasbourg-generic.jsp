@@ -130,7 +130,7 @@
 								</c:when>
 								<c:when test="${page.isALink() and (page.index eq dc.pager.currentPage)}">
 									<!-- Page en cours -->
-									<a href="#" class="st-pagination-link active" role="button" aria-label="Page courante ${page.label}"
+									<a href="#" class="st-pagination-link st-is-active" role="button" aria-label="Page courante ${page.label}"
 									   aria-current="true">${page.label}</a>
 								</c:when>
 								<c:otherwise>
