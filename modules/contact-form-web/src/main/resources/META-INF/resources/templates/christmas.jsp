@@ -21,15 +21,15 @@
 	            <form method="post" action="${contactURL}">
 	                <div class="form-group">
 	                    <label for="lastName"><liferay-ui:message key="contact.lastname" /></label>
-	                    <input type="text" class="form-control" id="lastName" name="lastName" value="${param.lastName}" aria-label="<liferay-ui:message key='contact.your-lastname' />">
+	                    <input type="text" autocomplete="family-name" class="form-control" id="lastName" name="lastName" value="${param.lastName}" aria-label="<liferay-ui:message key='contact.your-lastname' />">
 	                </div>
 	                <div class="form-group">
 	                    <label for="firstname"><liferay-ui:message key="contact.firstname" /></label>
-	                    <input type="text" class="form-control" id="firstName" name="firstName" value="${param.firstName}" aria-label="<liferay-ui:message key='contact.your-firstname' />">
+	                    <input type="text" autocomplete="given-name" class="form-control" id="firstName" name="firstName" value="${param.firstName}" aria-label="<liferay-ui:message key='contact.your-firstname' />">
 	                </div>
 	                <div class="form-group">
 	                    <label for="emailFrom"><liferay-ui:message key="contact.mail" /></label>
-	                    <input type="email" class="form-control" id="emailFrom" name="emailFrom" value="${param.emailFrom}" aria-label="<liferay-ui:message key='contact.your-mail' />">
+	                    <input type="email" autocomplete="email" class="form-control" id="emailFrom" name="emailFrom" value="${param.emailFrom}" aria-label="<liferay-ui:message key='contact.your-mail' />">
 	                </div>
 	                <div class="form-group" style="visibility: hidden;">
 	                    <label for="tel">Phone</label>
