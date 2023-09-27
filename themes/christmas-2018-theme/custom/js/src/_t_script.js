@@ -101,6 +101,12 @@ if ($(window).width() > 1200) {
     $('.navbar-nav > li.dropdown').mouseleave(function () {
         $(this).removeClass('open');
     });
+
+    $(document).keyup(function(e) {
+       if (e.key === "Escape") { 
+        $('.navbar-nav > li.dropdown.open').removeClass('open');
+       }
+    });
 }
 
 
