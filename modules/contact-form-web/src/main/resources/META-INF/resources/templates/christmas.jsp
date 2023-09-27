@@ -17,6 +17,7 @@
 		            </p>
 	            </c:if>
 	            <liferay-portlet:actionURL name="contact" var="contactURL" />
+                <span><liferay-ui:message key="contact.required-fields" /></span>
 	            <form method="post" action="${contactURL}">
 	                <div class="form-group">
 	                    <label for="lastName"><liferay-ui:message key="contact.lastname" /></label>
@@ -37,7 +38,6 @@
 	                <div class="form-group mns-textarea">
 	                    <label for="demande"><liferay-ui:message key="contact.request" /></label>
 	                    <textarea class="form-control" rows="3" id="demande" name="content" aria-label="<liferay-ui:message key='contact.your-message' />">${param.content}</textarea>
-	                    <span><liferay-ui:message key="contact.required-fields" /></span>
 	                </div>
 	                <div class="checkbox">
 	                    <label>
