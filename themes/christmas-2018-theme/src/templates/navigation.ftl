@@ -3,11 +3,11 @@
 <#else>
   <#assign homeURL = "" />
 </#if>
-<nav class="navbar mns-nav navbar-light">
+<nav role="navigation" class="navbar mns-nav navbar-light">
     <div id="search-bar" class="mns-search-bar">
         <div class="container">
             <div class="row">
-                <form action="${homeURL}/recherche" method="get">
+                <form role="search" action="${homeURL}/recherche" method="get">
                     <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_SearchAssetPortlet" />
                     <input type="text" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" id="search" placeholder="Rechercher..." />
                 </form>

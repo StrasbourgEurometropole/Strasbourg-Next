@@ -112,7 +112,7 @@
 
     <@liferay.control_menu />
 
-    <header id="mns-header">
+    <header id="mns-header" role="banner">
     <div id="layer"></div>
     
         <!-- Top header bar -->
@@ -216,7 +216,7 @@
 
     <#if !isExperientiel>
       <!-- Footer -->
-        <footer id="mns-footer">
+        <footer role="contentinfo" id="mns-footer">
             <@liferay_portlet["runtime"]
                 portletProviderAction=portletProviderAction.VIEW
                 portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
