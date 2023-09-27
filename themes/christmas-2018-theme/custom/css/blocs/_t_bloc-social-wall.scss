@@ -205,7 +205,7 @@
 				}
 			}
 
-			&:hover{
+			&:hover, &:focus{
 				.item:before{
 					transform: none;
 				}
@@ -291,7 +291,7 @@
 				}
 			}
 
-			&:hover{
+			&:hover, &:focus{
 				background-color: #000;
 				border-color: #000;
 			}

@@ -55,7 +55,7 @@
 				right: 15px;
 				@include ft($f_txt, 12px, 400, $c_txt, 26px);
 				@include addTransition();
-				&:hover{
+				&:hover, &:focus{
 					cursor: pointer;
 					color: $c_main;
 				}

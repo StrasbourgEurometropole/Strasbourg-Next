@@ -30,7 +30,7 @@ figure{
 			width: 100%;
 		}
 
-		&:hover {
+		&:hover, &:focus {
 			transform: translateY(-20px);
 			img {
 				box-shadow: 0 -20px 28px rgba(0, 0, 0, 0.15), 0 0px 0px rgba(0, 0, 0, 0.22);
@@ -40,7 +40,7 @@ figure{
 			}
 		}
 		.no-hover & {
-			&:hover {
+			&:hover, &:focus {
 				transform: none;
 				img {
 					box-shadow: none;

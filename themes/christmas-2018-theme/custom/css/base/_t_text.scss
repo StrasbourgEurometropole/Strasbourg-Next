@@ -20,17 +20,6 @@ header, main, footer {
 		}
 	}
 
-	a,
-	a:hover,
-	a:active,
-	a:focus,
-	input,
-	input:hover,
-	input:active,
-	input:focus {
-		outline: none;
-	}
-
 	a img {
 		border: none;
 	}
@@ -146,7 +135,7 @@ header, main, footer {
 		@include an(all, 0.3);
 		border: none;
 		border-style: none;
-		&:hover {
+		&:hover, &:focus {
 			color: $c_main;
 		}
 
@@ -227,7 +216,7 @@ header, main, footer {
 			top: 10px;
 			@include an(ease-in, 0.3);
 		}
-		&:hover:after {
+		&:hover:after, &:focus:after {
 			width: 100%;
 		}
 
@@ -280,7 +269,7 @@ header, main, footer {
 			left: calc(50% - 90px);
 			@include an(ease-in, 0.3);
 		}
-		&:hover:after {
+		&:hover:after, &:focus:after {
 			width: 100%;
 			left: 0;
 		}
