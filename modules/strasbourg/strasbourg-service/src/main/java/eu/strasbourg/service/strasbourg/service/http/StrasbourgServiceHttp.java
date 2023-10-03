@@ -85,7 +85,7 @@ public class StrasbourgServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getFileDetails(
-		HttpPrincipal httpPrincipal, String url, String language) {
+		HttpPrincipal httpPrincipal, String friendlyUrl, String language) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -93,7 +93,7 @@ public class StrasbourgServiceHttp {
 				_getFileDetailsParameterTypes4);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, url, language);
+				methodKey, friendlyUrl, language);
 
 			Object returnObj = null;
 

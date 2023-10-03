@@ -147,11 +147,18 @@ public class StrasbourgServiceWrapper
 			groupId, typeContenu, localeId);
 	}
 
+	/**
+	 * Retourne les information d'un fichier de la doc lib à partir de sa friendly url
+	 *
+	 * @param friendlyUrl
+	 * @param language
+	 * @return
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getFileDetails(
-		String url, String language) {
+		String friendlyUrl, String language) {
 
-		return _strasbourgService.getFileDetails(url, language);
+		return _strasbourgService.getFileDetails(friendlyUrl, language);
 	}
 
 	@Override

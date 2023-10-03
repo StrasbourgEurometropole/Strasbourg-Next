@@ -143,10 +143,17 @@ public class StrasbourgServiceUtil {
 		return getService().getFavoritesPois(groupId, typeContenu, localeId);
 	}
 
+	/**
+	 * Retourne les information d'un fichier de la doc lib à partir de sa friendly url
+	 *
+	 * @param friendlyUrl
+	 * @param language
+	 * @return
+	 */
 	public static com.liferay.portal.kernel.json.JSONObject getFileDetails(
-		java.lang.String url, java.lang.String language) {
+		java.lang.String friendlyUrl, java.lang.String language) {
 
-		return getService().getFileDetails(url, language);
+		return getService().getFileDetails(friendlyUrl, language);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getInterestsPois(
