@@ -63,7 +63,7 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 					PortletRequest.RENDER_PHASE);
 				
 				response.setRenderParameter("backURL", backURL.toString());
-				response.setRenderParameter("cmd", "editParticipation");
+				response.setRenderParameter("cmd", "saveParticipation");
 				response.setRenderParameter("mvcPath","/project-bo-edit-participation.jsp");
 				return false;
 			}
@@ -256,7 +256,7 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			participation.setExpirationDate(expirationDate);
 			
 			_participationLocalService.updateParticipation(participation, sc);
-			response.setRenderParameter("mvcPath", "/project-bo-view-budgets-participations.jsp");
+			response.setRenderParameter("mvcPath", "/project-bo-view-participations.jsp");
 
 		} catch (PortalException e) {
 			_log.error(e);

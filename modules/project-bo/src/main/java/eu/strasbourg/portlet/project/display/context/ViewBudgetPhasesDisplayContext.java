@@ -52,10 +52,10 @@ public class ViewBudgetPhasesDisplayContext  extends ViewBaseDisplayContext<Budg
 
 			PortletURL portletURL;
 			portletURL = PortletURLBuilder.createRenderURL(_response)
-					.setMVCPath("/project-bo-view-budgets-phases.jsp")
+					.setMVCPath("/project-bo-view-budget-phases.jsp")
 					.setKeywords(ParamUtil.getString(_request, "keywords"))
 					.setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
-					.setParameter("tab", "budgets-phases")
+					.setParameter("tab", "budget-phases")
 					.setParameter("filterCategoriesIdByVocabulariesName", getFilterCategoriesIdByVocabulariesName())
 					.buildPortletURL();
 			_searchContainer = new SearchContainer<>(_request, null, null,

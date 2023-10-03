@@ -66,7 +66,6 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
  			boolean isValid = validate(request);
  			if (!isValid) {
  				setResponse(request, response);
-				response.setRenderParameter("cmd", "saveBudgetParticipatif");
  				return false;
  			}
  			
@@ -377,7 +376,7 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
 				PortletRequest.RENDER_PHASE);
 
 			response.setRenderParameter("backURL", backURL.toString());
-			response.setRenderParameter("cmd","editBudgetParticipatif");
+			response.setRenderParameter("cmd","saveBudgetParticipatif");
 			response.setRenderParameter("mvcPath","/project-bo-edit-budget-participatif.jsp");
 	}
 	

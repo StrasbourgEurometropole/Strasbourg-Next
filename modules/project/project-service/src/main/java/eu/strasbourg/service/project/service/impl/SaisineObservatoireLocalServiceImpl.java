@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.project.service.impl;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
@@ -205,10 +206,8 @@ public class SaisineObservatoireLocalServiceImpl
 
         if (entry != null) {
             // Delete the link with categories
-            for (long categoryId : entry.getCategoryIds()) {
-                this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-                        categoryId, entry.getEntryId());
-            }
+            AssetEntryAssetCategoryRelLocalServiceUtil.
+                    deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
             // Delete the link with tags
             long[] tagIds = AssetEntryLocalServiceUtil

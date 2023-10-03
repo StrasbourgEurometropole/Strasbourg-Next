@@ -72,7 +72,7 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 					PortletRequest.RENDER_PHASE);
 				
 				response.setRenderParameter("backURL", backURL.toString());
-				response.setRenderParameter("cmd", "editPetition");
+				response.setRenderParameter("cmd", "savePetition");
 				response.setRenderParameter("mvcPath","/project-bo-edit-petition.jsp");
 				return false;
 			}
@@ -265,7 +265,7 @@ public class SavePetitionActionCommand implements MVCActionCommand {
             	petition.setExtensionDate(expirationDate);
             }
             _petitionLocalService.updatePetition(petition,sc);
-			response.setRenderParameter("mvcPath", "/project-bo-view-budgets-petitions.jsp");
+			response.setRenderParameter("mvcPath", "/project-bo-view-petitions.jsp");
 		} catch (PortalException e) {
 			_log.error(e);
 		}

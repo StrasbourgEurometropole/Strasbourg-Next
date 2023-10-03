@@ -27,6 +27,10 @@ public class SaisineObservatoireLocalServiceWrapper
 	implements SaisineObservatoireLocalService,
 			   ServiceWrapper<SaisineObservatoireLocalService> {
 
+	public SaisineObservatoireLocalServiceWrapper() {
+		this(null);
+	}
+
 	public SaisineObservatoireLocalServiceWrapper(
 		SaisineObservatoireLocalService saisineObservatoireLocalService) {
 
@@ -51,6 +55,18 @@ public class SaisineObservatoireLocalServiceWrapper
 
 		return _saisineObservatoireLocalService.addSaisineObservatoire(
 			saisineObservatoire);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _saisineObservatoireLocalService.createPersistedModel(
+			primaryKeyObj);
 	}
 
 	/**
@@ -129,6 +145,18 @@ public class SaisineObservatoireLocalServiceWrapper
 
 		return _saisineObservatoireLocalService.deleteSaisineObservatoire(
 			saisineObservatoire);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _saisineObservatoireLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _saisineObservatoireLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override

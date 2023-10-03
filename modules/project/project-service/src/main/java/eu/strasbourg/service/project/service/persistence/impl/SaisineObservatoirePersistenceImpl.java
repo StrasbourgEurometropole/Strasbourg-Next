@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.project.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -27,26 +28,27 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.project.exception.NoSuchSaisineObservatoireException;
 import eu.strasbourg.service.project.model.SaisineObservatoire;
+import eu.strasbourg.service.project.model.SaisineObservatoireTable;
 import eu.strasbourg.service.project.model.impl.SaisineObservatoireImpl;
 import eu.strasbourg.service.project.model.impl.SaisineObservatoireModelImpl;
 import eu.strasbourg.service.project.service.persistence.SaisineObservatoirePersistence;
+import eu.strasbourg.service.project.service.persistence.SaisineObservatoireUtil;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -238,10 +240,6 @@ public class SaisineObservatoirePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -576,8 +574,6 @@ public class SaisineObservatoirePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -761,10 +757,6 @@ public class SaisineObservatoirePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1122,8 +1114,6 @@ public class SaisineObservatoirePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1308,10 +1298,6 @@ public class SaisineObservatoirePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1674,8 +1660,6 @@ public class SaisineObservatoirePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1694,6 +1678,11 @@ public class SaisineObservatoirePersistenceImpl
 
 	public SaisineObservatoirePersistenceImpl() {
 		setModelClass(SaisineObservatoire.class);
+
+		setModelImplClass(SaisineObservatoireImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(SaisineObservatoireTable.INSTANCE);
 	}
 
 	/**
@@ -1704,12 +1693,11 @@ public class SaisineObservatoirePersistenceImpl
 	@Override
 	public void cacheResult(SaisineObservatoire saisineObservatoire) {
 		entityCache.putResult(
-			SaisineObservatoireModelImpl.ENTITY_CACHE_ENABLED,
 			SaisineObservatoireImpl.class, saisineObservatoire.getPrimaryKey(),
 			saisineObservatoire);
-
-		saisineObservatoire.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the saisine observatoires in the entity cache if it is enabled.
@@ -1718,16 +1706,20 @@ public class SaisineObservatoirePersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<SaisineObservatoire> saisineObservatoires) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (saisineObservatoires.size() >
+				 _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (SaisineObservatoire saisineObservatoire : saisineObservatoires) {
 			if (entityCache.getResult(
-					SaisineObservatoireModelImpl.ENTITY_CACHE_ENABLED,
 					SaisineObservatoireImpl.class,
 					saisineObservatoire.getPrimaryKey()) == null) {
 
 				cacheResult(saisineObservatoire);
-			}
-			else {
-				saisineObservatoire.resetOriginalValues();
 			}
 		}
 	}
@@ -1743,9 +1735,7 @@ public class SaisineObservatoirePersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(SaisineObservatoireImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(SaisineObservatoireImpl.class);
 	}
 
 	/**
@@ -1758,35 +1748,23 @@ public class SaisineObservatoirePersistenceImpl
 	@Override
 	public void clearCache(SaisineObservatoire saisineObservatoire) {
 		entityCache.removeResult(
-			SaisineObservatoireModelImpl.ENTITY_CACHE_ENABLED,
-			SaisineObservatoireImpl.class, saisineObservatoire.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+			SaisineObservatoireImpl.class, saisineObservatoire);
 	}
 
 	@Override
 	public void clearCache(List<SaisineObservatoire> saisineObservatoires) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (SaisineObservatoire saisineObservatoire : saisineObservatoires) {
 			entityCache.removeResult(
-				SaisineObservatoireModelImpl.ENTITY_CACHE_ENABLED,
-				SaisineObservatoireImpl.class,
-				saisineObservatoire.getPrimaryKey());
+				SaisineObservatoireImpl.class, saisineObservatoire);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(SaisineObservatoireImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				SaisineObservatoireModelImpl.ENTITY_CACHE_ENABLED,
-				SaisineObservatoireImpl.class, primaryKey);
+			entityCache.removeResult(SaisineObservatoireImpl.class, primaryKey);
 		}
 	}
 
@@ -1926,25 +1904,25 @@ public class SaisineObservatoirePersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (saisineObservatoire.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				saisineObservatoire.setCreateDate(now);
+				saisineObservatoire.setCreateDate(date);
 			}
 			else {
 				saisineObservatoire.setCreateDate(
-					serviceContext.getCreateDate(now));
+					serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!saisineObservatoireModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				saisineObservatoire.setModifiedDate(now);
+				saisineObservatoire.setModifiedDate(date);
 			}
 			else {
 				saisineObservatoire.setModifiedDate(
-					serviceContext.getModifiedDate(now));
+					serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -1953,10 +1931,8 @@ public class SaisineObservatoirePersistenceImpl
 		try {
 			session = openSession();
 
-			if (saisineObservatoire.isNew()) {
+			if (isNew) {
 				session.save(saisineObservatoire);
-
-				saisineObservatoire.setNew(false);
 			}
 			else {
 				saisineObservatoire = (SaisineObservatoire)session.merge(
@@ -1970,110 +1946,13 @@ public class SaisineObservatoirePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!SaisineObservatoireModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				saisineObservatoireModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {
-				saisineObservatoireModelImpl.getStatus(),
-				saisineObservatoireModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByStatusAndGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByStatusAndGroupId, args);
-
-			args = new Object[] {saisineObservatoireModelImpl.getPublikId()};
-
-			finderCache.removeResult(_finderPathCountByPublikId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPublikId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((saisineObservatoireModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					saisineObservatoireModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {saisineObservatoireModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((saisineObservatoireModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByStatusAndGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					saisineObservatoireModelImpl.getOriginalStatus(),
-					saisineObservatoireModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByStatusAndGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStatusAndGroupId, args);
-
-				args = new Object[] {
-					saisineObservatoireModelImpl.getStatus(),
-					saisineObservatoireModelImpl.getGroupId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByStatusAndGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStatusAndGroupId, args);
-			}
-
-			if ((saisineObservatoireModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPublikId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					saisineObservatoireModelImpl.getOriginalPublikId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPublikId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikId, args);
-
-				args = new Object[] {
-					saisineObservatoireModelImpl.getPublikId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPublikId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikId, args);
-			}
-		}
-
 		entityCache.putResult(
-			SaisineObservatoireModelImpl.ENTITY_CACHE_ENABLED,
-			SaisineObservatoireImpl.class, saisineObservatoire.getPrimaryKey(),
-			saisineObservatoire, false);
+			SaisineObservatoireImpl.class, saisineObservatoireModelImpl, false,
+			true);
+
+		if (isNew) {
+			saisineObservatoire.setNew(false);
+		}
 
 		saisineObservatoire.resetOriginalValues();
 
@@ -2122,168 +2001,12 @@ public class SaisineObservatoirePersistenceImpl
 	/**
 	 * Returns the saisine observatoire with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the saisine observatoire
-	 * @return the saisine observatoire, or <code>null</code> if a saisine observatoire with the primary key could not be found
-	 */
-	@Override
-	public SaisineObservatoire fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			SaisineObservatoireModelImpl.ENTITY_CACHE_ENABLED,
-			SaisineObservatoireImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		SaisineObservatoire saisineObservatoire =
-			(SaisineObservatoire)serializable;
-
-		if (saisineObservatoire == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				saisineObservatoire = (SaisineObservatoire)session.get(
-					SaisineObservatoireImpl.class, primaryKey);
-
-				if (saisineObservatoire != null) {
-					cacheResult(saisineObservatoire);
-				}
-				else {
-					entityCache.putResult(
-						SaisineObservatoireModelImpl.ENTITY_CACHE_ENABLED,
-						SaisineObservatoireImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					SaisineObservatoireModelImpl.ENTITY_CACHE_ENABLED,
-					SaisineObservatoireImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return saisineObservatoire;
-	}
-
-	/**
-	 * Returns the saisine observatoire with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param saisineObservatoireId the primary key of the saisine observatoire
 	 * @return the saisine observatoire, or <code>null</code> if a saisine observatoire with the primary key could not be found
 	 */
 	@Override
 	public SaisineObservatoire fetchByPrimaryKey(long saisineObservatoireId) {
 		return fetchByPrimaryKey((Serializable)saisineObservatoireId);
-	}
-
-	@Override
-	public Map<Serializable, SaisineObservatoire> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, SaisineObservatoire> map =
-			new HashMap<Serializable, SaisineObservatoire>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			SaisineObservatoire saisineObservatoire = fetchByPrimaryKey(
-				primaryKey);
-
-			if (saisineObservatoire != null) {
-				map.put(primaryKey, saisineObservatoire);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				SaisineObservatoireModelImpl.ENTITY_CACHE_ENABLED,
-				SaisineObservatoireImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (SaisineObservatoire)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_SAISINEOBSERVATOIRE_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (SaisineObservatoire saisineObservatoire :
-					(List<SaisineObservatoire>)query.list()) {
-
-				map.put(
-					saisineObservatoire.getPrimaryKeyObj(),
-					saisineObservatoire);
-
-				cacheResult(saisineObservatoire);
-
-				uncachedPrimaryKeys.remove(
-					saisineObservatoire.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					SaisineObservatoireModelImpl.ENTITY_CACHE_ENABLED,
-					SaisineObservatoireImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2412,10 +2135,6 @@ public class SaisineObservatoirePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2462,9 +2181,6 @@ public class SaisineObservatoirePersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2476,6 +2192,21 @@ public class SaisineObservatoirePersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "saisineObservatoireId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_SAISINEOBSERVATOIRE;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return SaisineObservatoireModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2484,109 +2215,100 @@ public class SaisineObservatoirePersistenceImpl
 	 * Initializes the saisine observatoire persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			SaisineObservatoireModelImpl.ENTITY_CACHE_ENABLED,
-			SaisineObservatoireModelImpl.FINDER_CACHE_ENABLED,
-			SaisineObservatoireImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			SaisineObservatoireModelImpl.ENTITY_CACHE_ENABLED,
-			SaisineObservatoireModelImpl.FINDER_CACHE_ENABLED,
-			SaisineObservatoireImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			SaisineObservatoireModelImpl.ENTITY_CACHE_ENABLED,
-			SaisineObservatoireModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			SaisineObservatoireModelImpl.ENTITY_CACHE_ENABLED,
-			SaisineObservatoireModelImpl.FINDER_CACHE_ENABLED,
-			SaisineObservatoireImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"groupId"}, true);
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			SaisineObservatoireModelImpl.ENTITY_CACHE_ENABLED,
-			SaisineObservatoireModelImpl.FINDER_CACHE_ENABLED,
-			SaisineObservatoireImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
-			SaisineObservatoireModelImpl.GROUPID_COLUMN_BITMASK |
-			SaisineObservatoireModelImpl.TITLE_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			true);
 
 		_finderPathCountByGroupId = new FinderPath(
-			SaisineObservatoireModelImpl.ENTITY_CACHE_ENABLED,
-			SaisineObservatoireModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			false);
 
 		_finderPathWithPaginationFindByStatusAndGroupId = new FinderPath(
-			SaisineObservatoireModelImpl.ENTITY_CACHE_ENABLED,
-			SaisineObservatoireModelImpl.FINDER_CACHE_ENABLED,
-			SaisineObservatoireImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStatusAndGroupId",
 			new String[] {
 				Integer.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"status", "groupId"}, true);
 
 		_finderPathWithoutPaginationFindByStatusAndGroupId = new FinderPath(
-			SaisineObservatoireModelImpl.ENTITY_CACHE_ENABLED,
-			SaisineObservatoireModelImpl.FINDER_CACHE_ENABLED,
-			SaisineObservatoireImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStatusAndGroupId",
 			new String[] {Integer.class.getName(), Long.class.getName()},
-			SaisineObservatoireModelImpl.STATUS_COLUMN_BITMASK |
-			SaisineObservatoireModelImpl.GROUPID_COLUMN_BITMASK |
-			SaisineObservatoireModelImpl.TITLE_COLUMN_BITMASK);
+			new String[] {"status", "groupId"}, true);
 
 		_finderPathCountByStatusAndGroupId = new FinderPath(
-			SaisineObservatoireModelImpl.ENTITY_CACHE_ENABLED,
-			SaisineObservatoireModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByStatusAndGroupId",
-			new String[] {Integer.class.getName(), Long.class.getName()});
+			new String[] {Integer.class.getName(), Long.class.getName()},
+			new String[] {"status", "groupId"}, false);
 
 		_finderPathWithPaginationFindByPublikId = new FinderPath(
-			SaisineObservatoireModelImpl.ENTITY_CACHE_ENABLED,
-			SaisineObservatoireModelImpl.FINDER_CACHE_ENABLED,
-			SaisineObservatoireImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"publikId"}, true);
 
 		_finderPathWithoutPaginationFindByPublikId = new FinderPath(
-			SaisineObservatoireModelImpl.ENTITY_CACHE_ENABLED,
-			SaisineObservatoireModelImpl.FINDER_CACHE_ENABLED,
-			SaisineObservatoireImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikId",
-			new String[] {String.class.getName()},
-			SaisineObservatoireModelImpl.PUBLIKID_COLUMN_BITMASK |
-			SaisineObservatoireModelImpl.TITLE_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"publikId"},
+			true);
 
 		_finderPathCountByPublikId = new FinderPath(
-			SaisineObservatoireModelImpl.ENTITY_CACHE_ENABLED,
-			SaisineObservatoireModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"publikId"},
+			false);
+
+		_setSaisineObservatoireUtilPersistence(this);
 	}
 
 	public void destroy() {
+		_setSaisineObservatoireUtilPersistence(null);
+
 		entityCache.removeCache(SaisineObservatoireImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+	}
+
+	private void _setSaisineObservatoireUtilPersistence(
+		SaisineObservatoirePersistence saisineObservatoirePersistence) {
+
+		try {
+			Field field = SaisineObservatoireUtil.class.getDeclaredField(
+				"_persistence");
+
+			field.setAccessible(true);
+
+			field.set(null, saisineObservatoirePersistence);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
+		}
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -2597,9 +2319,6 @@ public class SaisineObservatoirePersistenceImpl
 
 	private static final String _SQL_SELECT_SAISINEOBSERVATOIRE =
 		"SELECT saisineObservatoire FROM SaisineObservatoire saisineObservatoire";
-
-	private static final String _SQL_SELECT_SAISINEOBSERVATOIRE_WHERE_PKS_IN =
-		"SELECT saisineObservatoire FROM SaisineObservatoire saisineObservatoire WHERE saisineObservatoireId IN (";
 
 	private static final String _SQL_SELECT_SAISINEOBSERVATOIRE_WHERE =
 		"SELECT saisineObservatoire FROM SaisineObservatoire saisineObservatoire WHERE ";
@@ -2620,5 +2339,10 @@ public class SaisineObservatoirePersistenceImpl
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		SaisineObservatoirePersistenceImpl.class);
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

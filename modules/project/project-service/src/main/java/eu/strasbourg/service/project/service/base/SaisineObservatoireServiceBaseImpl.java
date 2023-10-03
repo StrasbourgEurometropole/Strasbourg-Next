@@ -23,6 +23,8 @@ import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
@@ -32,6 +34,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.project.model.SaisineObservatoire;
 import eu.strasbourg.service.project.service.SaisineObservatoireService;
+import eu.strasbourg.service.project.service.SaisineObservatoireServiceUtil;
 import eu.strasbourg.service.project.service.persistence.BudgetParticipatifFinder;
 import eu.strasbourg.service.project.service.persistence.BudgetParticipatifPersistence;
 import eu.strasbourg.service.project.service.persistence.BudgetPhasePersistence;
@@ -46,6 +49,8 @@ import eu.strasbourg.service.project.service.persistence.ProjectPersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectTimelinePersistence;
 import eu.strasbourg.service.project.service.persistence.SaisineObservatoirePersistence;
 import eu.strasbourg.service.project.service.persistence.SignatairePersistence;
+
+import java.lang.reflect.Field;
 
 import javax.sql.DataSource;
 
@@ -67,7 +72,7 @@ public abstract class SaisineObservatoireServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>SaisineObservatoireService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.project.service.SaisineObservatoireServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>SaisineObservatoireService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>SaisineObservatoireServiceUtil</code>.
 	 */
 
 	/**
@@ -1286,9 +1291,11 @@ public abstract class SaisineObservatoireServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
+		_setServiceUtilService(saisineObservatoireService);
 	}
 
 	public void destroy() {
+		_setServiceUtilService(null);
 	}
 
 	/**
@@ -1331,6 +1338,22 @@ public abstract class SaisineObservatoireServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
+		}
+	}
+
+	private void _setServiceUtilService(
+		SaisineObservatoireService saisineObservatoireService) {
+
+		try {
+			Field field = SaisineObservatoireServiceUtil.class.getDeclaredField(
+				"_service");
+
+			field.setAccessible(true);
+
+			field.set(null, saisineObservatoireService);
+		}
+		catch (ReflectiveOperationException reflectiveOperationException) {
+			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1609,5 +1632,8 @@ public abstract class SaisineObservatoireServiceBaseImpl
 
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		SaisineObservatoireServiceBaseImpl.class);
 
 }

@@ -27,6 +27,10 @@ public class SaisineObservatoireServiceWrapper
 	implements SaisineObservatoireService,
 			   ServiceWrapper<SaisineObservatoireService> {
 
+	public SaisineObservatoireServiceWrapper() {
+		this(null);
+	}
+
 	public SaisineObservatoireServiceWrapper(
 		SaisineObservatoireService saisineObservatoireService) {
 

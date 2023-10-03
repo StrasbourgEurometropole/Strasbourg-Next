@@ -16,7 +16,6 @@
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveInitiative" varImpl="saveInitiativeURL">
-	<portlet:param name="cmd" value="saveInitiative" />
 	<portlet:param name="tab" value="initiatives" />
 </liferay-portlet:actionURL>
 

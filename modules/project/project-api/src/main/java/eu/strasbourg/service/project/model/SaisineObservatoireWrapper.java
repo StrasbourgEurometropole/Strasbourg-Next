@@ -14,16 +14,12 @@
 
 package eu.strasbourg.service.project.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +31,11 @@ import java.util.Objects;
  * @generated
  */
 public class SaisineObservatoireWrapper
+	extends BaseModelWrapper<SaisineObservatoire>
 	implements ModelWrapper<SaisineObservatoire>, SaisineObservatoire {
 
 	public SaisineObservatoireWrapper(SaisineObservatoire saisineObservatoire) {
-		_saisineObservatoire = saisineObservatoire;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return SaisineObservatoire.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return SaisineObservatoire.class.getName();
+		super(saisineObservatoire);
 	}
 
 	@Override
@@ -310,17 +297,8 @@ public class SaisineObservatoireWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new SaisineObservatoireWrapper(
-			(SaisineObservatoire)_saisineObservatoire.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.project.model.SaisineObservatoire
-			saisineObservatoire) {
-
-		return _saisineObservatoire.compareTo(saisineObservatoire);
+	public SaisineObservatoire cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -330,7 +308,7 @@ public class SaisineObservatoireWrapper
 	public java.util.List<eu.strasbourg.service.comment.model.Comment>
 		getApprovedComments() {
 
-		return _saisineObservatoire.getApprovedComments();
+		return model.getApprovedComments();
 	}
 
 	/**
@@ -338,7 +316,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _saisineObservatoire.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	/**
@@ -346,12 +324,12 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getAuthorImageURL() {
-		return _saisineObservatoire.getAuthorImageURL();
+		return model.getAuthorImageURL();
 	}
 
 	@Override
 	public String getAuthorLabel() {
-		return _saisineObservatoire.getAuthorLabel();
+		return model.getAuthorLabel();
 	}
 
 	/**
@@ -361,7 +339,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public eu.strasbourg.service.oidc.model.PublikUser getAuthorPublikUser() {
-		return _saisineObservatoire.getAuthorPublikUser();
+		return model.getAuthorPublikUser();
 	}
 
 	/**
@@ -371,7 +349,7 @@ public class SaisineObservatoireWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _saisineObservatoire.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -383,7 +361,7 @@ public class SaisineObservatoireWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCityCategories() {
 
-		return _saisineObservatoire.getCityCategories();
+		return model.getCityCategories();
 	}
 
 	/**
@@ -393,7 +371,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getCityResponse() {
-		return _saisineObservatoire.getCityResponse();
+		return model.getCityResponse();
 	}
 
 	/**
@@ -403,7 +381,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getCollectiveName() {
-		return _saisineObservatoire.getCollectiveName();
+		return model.getCollectiveName();
 	}
 
 	/**
@@ -413,7 +391,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _saisineObservatoire.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -423,7 +401,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _saisineObservatoire.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -433,7 +411,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getDescription() {
-		return _saisineObservatoire.getDescription();
+		return model.getDescription();
 	}
 
 	/**
@@ -445,7 +423,7 @@ public class SaisineObservatoireWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getDistrictCategories() {
 
-		return _saisineObservatoire.getDistrictCategories();
+		return model.getDistrictCategories();
 	}
 
 	/**
@@ -455,12 +433,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getDistrictLabel(java.util.Locale locale) {
-		return _saisineObservatoire.getDistrictLabel(locale);
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _saisineObservatoire.getExpandoBridge();
+		return model.getDistrictLabel(locale);
 	}
 
 	/**
@@ -470,7 +443,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getExternalImageCopyright() {
-		return _saisineObservatoire.getExternalImageCopyright();
+		return model.getExternalImageCopyright();
 	}
 
 	/**
@@ -480,7 +453,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getExternalImageURL() {
-		return _saisineObservatoire.getExternalImageURL();
+		return model.getExternalImageURL();
 	}
 
 	/**
@@ -490,7 +463,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getFilesDownload() {
-		return _saisineObservatoire.getFilesDownload();
+		return model.getFilesDownload();
 	}
 
 	/**
@@ -500,7 +473,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getFilesIds() {
-		return _saisineObservatoire.getFilesIds();
+		return model.getFilesIds();
 	}
 
 	/**
@@ -508,7 +481,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public java.util.List<String> getFilesURLs() {
-		return _saisineObservatoire.getFilesURLs();
+		return model.getFilesURLs();
 	}
 
 	/**
@@ -518,7 +491,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _saisineObservatoire.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -526,7 +499,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getImageCopyright(java.util.Locale locale) {
-		return _saisineObservatoire.getImageCopyright(locale);
+		return model.getImageCopyright(locale);
 	}
 
 	/**
@@ -536,7 +509,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public long getImageId() {
-		return _saisineObservatoire.getImageId();
+		return model.getImageId();
 	}
 
 	/**
@@ -544,7 +517,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getImageURL() {
-		return _saisineObservatoire.getImageURL();
+		return model.getImageURL();
 	}
 
 	/**
@@ -554,7 +527,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public boolean getMediaChoice() {
-		return _saisineObservatoire.getMediaChoice();
+		return model.getMediaChoice();
 	}
 
 	/**
@@ -564,7 +537,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _saisineObservatoire.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -572,7 +545,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public int getNbApprovedComments() {
-		return _saisineObservatoire.getNbApprovedComments();
+		return model.getNbApprovedComments();
 	}
 
 	/**
@@ -580,7 +553,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getNbApprovedCommentsLabel() {
-		return _saisineObservatoire.getNbApprovedCommentsLabel();
+		return model.getNbApprovedCommentsLabel();
 	}
 
 	/**
@@ -590,7 +563,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getOtherMechanism() {
-		return _saisineObservatoire.getOtherMechanism();
+		return model.getOtherMechanism();
 	}
 
 	/**
@@ -600,7 +573,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getPetitionnaireAdresse() {
-		return _saisineObservatoire.getPetitionnaireAdresse();
+		return model.getPetitionnaireAdresse();
 	}
 
 	/**
@@ -610,7 +583,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public Date getPetitionnaireBirthday() {
-		return _saisineObservatoire.getPetitionnaireBirthday();
+		return model.getPetitionnaireBirthday();
 	}
 
 	/**
@@ -620,7 +593,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getPetitionnaireCity() {
-		return _saisineObservatoire.getPetitionnaireCity();
+		return model.getPetitionnaireCity();
 	}
 
 	/**
@@ -630,7 +603,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getPetitionnaireEmail() {
-		return _saisineObservatoire.getPetitionnaireEmail();
+		return model.getPetitionnaireEmail();
 	}
 
 	/**
@@ -640,7 +613,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getPetitionnaireFirstname() {
-		return _saisineObservatoire.getPetitionnaireFirstname();
+		return model.getPetitionnaireFirstname();
 	}
 
 	/**
@@ -650,7 +623,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getPetitionnaireLastname() {
-		return _saisineObservatoire.getPetitionnaireLastname();
+		return model.getPetitionnaireLastname();
 	}
 
 	/**
@@ -660,7 +633,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getPetitionnairePhone() {
-		return _saisineObservatoire.getPetitionnairePhone();
+		return model.getPetitionnairePhone();
 	}
 
 	/**
@@ -670,7 +643,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public long getPetitionnairePostalCode() {
-		return _saisineObservatoire.getPetitionnairePostalCode();
+		return model.getPetitionnairePostalCode();
 	}
 
 	/**
@@ -680,7 +653,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getPlaceTextArea() {
-		return _saisineObservatoire.getPlaceTextArea();
+		return model.getPlaceTextArea();
 	}
 
 	/**
@@ -690,7 +663,7 @@ public class SaisineObservatoireWrapper
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace>
 		getPlacitPlaces() {
 
-		return _saisineObservatoire.getPlacitPlaces();
+		return model.getPlacitPlaces();
 	}
 
 	/**
@@ -700,12 +673,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _saisineObservatoire.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _saisineObservatoire.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -713,7 +681,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
-		return _saisineObservatoire.getProjectCategory();
+		return model.getProjectCategory();
 	}
 
 	/**
@@ -723,12 +691,12 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getProjectTarget() {
-		return _saisineObservatoire.getProjectTarget();
+		return model.getProjectTarget();
 	}
 
 	@Override
 	public String getProjectTitle(java.util.Locale locale) {
-		return _saisineObservatoire.getProjectTitle(locale);
+		return model.getProjectTitle(locale);
 	}
 
 	/**
@@ -738,7 +706,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getPublikId() {
-		return _saisineObservatoire.getPublikId();
+		return model.getPublikId();
 	}
 
 	/**
@@ -748,7 +716,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public long getSaisineObservatoireId() {
-		return _saisineObservatoire.getSaisineObservatoireId();
+		return model.getSaisineObservatoireId();
 	}
 
 	/**
@@ -758,7 +726,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getSaisineObservatoireStatus() {
-		return _saisineObservatoire.getSaisineObservatoireStatus();
+		return model.getSaisineObservatoireStatus();
 	}
 
 	/**
@@ -768,7 +736,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public int getStatus() {
-		return _saisineObservatoire.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -778,7 +746,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _saisineObservatoire.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -788,7 +756,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _saisineObservatoire.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -798,12 +766,12 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _saisineObservatoire.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getStatusCategorie() {
-		return _saisineObservatoire.getStatusCategorie();
+		return model.getStatusCategorie();
 	}
 
 	/**
@@ -813,7 +781,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _saisineObservatoire.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -832,7 +800,7 @@ public class SaisineObservatoireWrapper
 				javax.servlet.http.HttpServletRequest request,
 				int nbSuggestions) {
 
-		return _saisineObservatoire.getSuggestions(request, nbSuggestions);
+		return model.getSuggestions(request, nbSuggestions);
 	}
 
 	/**
@@ -842,7 +810,7 @@ public class SaisineObservatoireWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getTerritoryCategories() {
 
-		return _saisineObservatoire.getTerritoryCategories();
+		return model.getTerritoryCategories();
 	}
 
 	/**
@@ -852,12 +820,12 @@ public class SaisineObservatoireWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getThematicCategories() {
 
-		return _saisineObservatoire.getThematicCategories();
+		return model.getThematicCategories();
 	}
 
 	@Override
 	public String getThematicLabel(java.util.Locale locale) {
-		return _saisineObservatoire.getThematicLabel(locale);
+		return model.getThematicLabel(locale);
 	}
 
 	/**
@@ -867,7 +835,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getTitle() {
-		return _saisineObservatoire.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -877,7 +845,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _saisineObservatoire.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -887,7 +855,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _saisineObservatoire.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -897,7 +865,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _saisineObservatoire.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -907,12 +875,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public String getVideoUrl() {
-		return _saisineObservatoire.getVideoUrl();
-	}
-
-	@Override
-	public int hashCode() {
-		return _saisineObservatoire.hashCode();
+		return model.getVideoUrl();
 	}
 
 	/**
@@ -922,12 +885,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public boolean isApproved() {
-		return _saisineObservatoire.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _saisineObservatoire.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -937,7 +895,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public boolean isDenied() {
-		return _saisineObservatoire.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -947,12 +905,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public boolean isDraft() {
-		return _saisineObservatoire.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _saisineObservatoire.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -962,7 +915,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public boolean isExpired() {
-		return _saisineObservatoire.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -972,7 +925,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public boolean isInactive() {
-		return _saisineObservatoire.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -982,7 +935,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _saisineObservatoire.isIncomplete();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -992,12 +945,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public boolean isMediaChoice() {
-		return _saisineObservatoire.isMediaChoice();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _saisineObservatoire.isNew();
+		return model.isMediaChoice();
 	}
 
 	/**
@@ -1007,7 +955,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public boolean isPending() {
-		return _saisineObservatoire.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -1017,17 +965,12 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _saisineObservatoire.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_saisineObservatoire.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_saisineObservatoire.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -1037,7 +980,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setCityResponse(String cityResponse) {
-		_saisineObservatoire.setCityResponse(cityResponse);
+		model.setCityResponse(cityResponse);
 	}
 
 	/**
@@ -1047,7 +990,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setCollectiveName(String collectiveName) {
-		_saisineObservatoire.setCollectiveName(collectiveName);
+		model.setCollectiveName(collectiveName);
 	}
 
 	/**
@@ -1057,7 +1000,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_saisineObservatoire.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -1067,7 +1010,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_saisineObservatoire.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -1077,24 +1020,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setDescription(String description) {
-		_saisineObservatoire.setDescription(description);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_saisineObservatoire.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_saisineObservatoire.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_saisineObservatoire.setExpandoBridgeAttributes(serviceContext);
+		model.setDescription(description);
 	}
 
 	/**
@@ -1104,7 +1030,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setExternalImageCopyright(String externalImageCopyright) {
-		_saisineObservatoire.setExternalImageCopyright(externalImageCopyright);
+		model.setExternalImageCopyright(externalImageCopyright);
 	}
 
 	/**
@@ -1114,7 +1040,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setExternalImageURL(String externalImageURL) {
-		_saisineObservatoire.setExternalImageURL(externalImageURL);
+		model.setExternalImageURL(externalImageURL);
 	}
 
 	/**
@@ -1124,7 +1050,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setFilesDownload(String filesDownload) {
-		_saisineObservatoire.setFilesDownload(filesDownload);
+		model.setFilesDownload(filesDownload);
 	}
 
 	/**
@@ -1134,7 +1060,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setFilesIds(String filesIds) {
-		_saisineObservatoire.setFilesIds(filesIds);
+		model.setFilesIds(filesIds);
 	}
 
 	/**
@@ -1144,7 +1070,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_saisineObservatoire.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -1154,7 +1080,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setImageId(long imageId) {
-		_saisineObservatoire.setImageId(imageId);
+		model.setImageId(imageId);
 	}
 
 	/**
@@ -1164,7 +1090,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setMediaChoice(boolean mediaChoice) {
-		_saisineObservatoire.setMediaChoice(mediaChoice);
+		model.setMediaChoice(mediaChoice);
 	}
 
 	/**
@@ -1174,12 +1100,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_saisineObservatoire.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_saisineObservatoire.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -1189,7 +1110,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setOtherMechanism(String otherMechanism) {
-		_saisineObservatoire.setOtherMechanism(otherMechanism);
+		model.setOtherMechanism(otherMechanism);
 	}
 
 	/**
@@ -1199,7 +1120,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setPetitionnaireAdresse(String petitionnaireAdresse) {
-		_saisineObservatoire.setPetitionnaireAdresse(petitionnaireAdresse);
+		model.setPetitionnaireAdresse(petitionnaireAdresse);
 	}
 
 	/**
@@ -1209,7 +1130,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setPetitionnaireBirthday(Date petitionnaireBirthday) {
-		_saisineObservatoire.setPetitionnaireBirthday(petitionnaireBirthday);
+		model.setPetitionnaireBirthday(petitionnaireBirthday);
 	}
 
 	/**
@@ -1219,7 +1140,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setPetitionnaireCity(String petitionnaireCity) {
-		_saisineObservatoire.setPetitionnaireCity(petitionnaireCity);
+		model.setPetitionnaireCity(petitionnaireCity);
 	}
 
 	/**
@@ -1229,7 +1150,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setPetitionnaireEmail(String petitionnaireEmail) {
-		_saisineObservatoire.setPetitionnaireEmail(petitionnaireEmail);
+		model.setPetitionnaireEmail(petitionnaireEmail);
 	}
 
 	/**
@@ -1239,7 +1160,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setPetitionnaireFirstname(String petitionnaireFirstname) {
-		_saisineObservatoire.setPetitionnaireFirstname(petitionnaireFirstname);
+		model.setPetitionnaireFirstname(petitionnaireFirstname);
 	}
 
 	/**
@@ -1249,7 +1170,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setPetitionnaireLastname(String petitionnaireLastname) {
-		_saisineObservatoire.setPetitionnaireLastname(petitionnaireLastname);
+		model.setPetitionnaireLastname(petitionnaireLastname);
 	}
 
 	/**
@@ -1259,7 +1180,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setPetitionnairePhone(String petitionnairePhone) {
-		_saisineObservatoire.setPetitionnairePhone(petitionnairePhone);
+		model.setPetitionnairePhone(petitionnairePhone);
 	}
 
 	/**
@@ -1269,8 +1190,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setPetitionnairePostalCode(long petitionnairePostalCode) {
-		_saisineObservatoire.setPetitionnairePostalCode(
-			petitionnairePostalCode);
+		model.setPetitionnairePostalCode(petitionnairePostalCode);
 	}
 
 	/**
@@ -1280,7 +1200,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setPlaceTextArea(String placeTextArea) {
-		_saisineObservatoire.setPlaceTextArea(placeTextArea);
+		model.setPlaceTextArea(placeTextArea);
 	}
 
 	/**
@@ -1290,12 +1210,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_saisineObservatoire.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_saisineObservatoire.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -1305,7 +1220,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setProjectTarget(String projectTarget) {
-		_saisineObservatoire.setProjectTarget(projectTarget);
+		model.setProjectTarget(projectTarget);
 	}
 
 	/**
@@ -1315,7 +1230,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setPublikId(String publikId) {
-		_saisineObservatoire.setPublikId(publikId);
+		model.setPublikId(publikId);
 	}
 
 	/**
@@ -1325,7 +1240,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setSaisineObservatoireId(long saisineObservatoireId) {
-		_saisineObservatoire.setSaisineObservatoireId(saisineObservatoireId);
+		model.setSaisineObservatoireId(saisineObservatoireId);
 	}
 
 	/**
@@ -1335,7 +1250,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setStatus(int status) {
-		_saisineObservatoire.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -1345,7 +1260,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_saisineObservatoire.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -1355,7 +1270,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_saisineObservatoire.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -1365,7 +1280,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_saisineObservatoire.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -1375,7 +1290,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_saisineObservatoire.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -1385,7 +1300,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setTitle(String title) {
-		_saisineObservatoire.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -1395,7 +1310,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_saisineObservatoire.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -1405,7 +1320,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_saisineObservatoire.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -1415,7 +1330,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_saisineObservatoire.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -1425,23 +1340,7 @@ public class SaisineObservatoireWrapper
 	 */
 	@Override
 	public void setVideoUrl(String videoUrl) {
-		_saisineObservatoire.setVideoUrl(videoUrl);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.project.model.SaisineObservatoire>
-			toCacheModel() {
-
-		return _saisineObservatoire.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.SaisineObservatoire
-		toEscapedModel() {
-
-		return new SaisineObservatoireWrapper(
-			_saisineObservatoire.toEscapedModel());
+		model.setVideoUrl(videoUrl);
 	}
 
 	/**
@@ -1451,70 +1350,19 @@ public class SaisineObservatoireWrapper
 	public com.liferay.portal.kernel.json.JSONObject toJSON(
 		String publikUserId) {
 
-		return _saisineObservatoire.toJSON(publikUserId);
-	}
-
-	@Override
-	public String toString() {
-		return _saisineObservatoire.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.SaisineObservatoire
-		toUnescapedModel() {
-
-		return new SaisineObservatoireWrapper(
-			_saisineObservatoire.toUnescapedModel());
+		return model.toJSON(publikUserId);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _saisineObservatoire.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
+	protected SaisineObservatoireWrapper wrap(
+		SaisineObservatoire saisineObservatoire) {
 
-		if (!(object instanceof SaisineObservatoireWrapper)) {
-			return false;
-		}
-
-		SaisineObservatoireWrapper saisineObservatoireWrapper =
-			(SaisineObservatoireWrapper)object;
-
-		if (Objects.equals(
-				_saisineObservatoire,
-				saisineObservatoireWrapper._saisineObservatoire)) {
-
-			return true;
-		}
-
-		return false;
+		return new SaisineObservatoireWrapper(saisineObservatoire);
 	}
-
-	@Override
-	public SaisineObservatoire getWrappedModel() {
-		return _saisineObservatoire;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _saisineObservatoire.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _saisineObservatoire.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_saisineObservatoire.resetOriginalValues();
-	}
-
-	private final SaisineObservatoire _saisineObservatoire;
 
 }

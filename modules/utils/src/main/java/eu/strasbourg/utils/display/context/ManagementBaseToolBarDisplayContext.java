@@ -54,6 +54,7 @@ public abstract class ManagementBaseToolBarDisplayContext<T> extends SearchConta
     public List<DropdownItem> getActionDropdownItems() {
         return DropdownItemListBuilder
                 .addGroup(
+                        () -> hasUpdatePermission(),
                         dropdownGroupItem -> {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder.add(
@@ -69,6 +70,7 @@ public abstract class ManagementBaseToolBarDisplayContext<T> extends SearchConta
                         }
                 )
                 .addGroup(
+                        () -> hasUpdatePermission(),
                         dropdownGroupItem -> {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder.add(
@@ -84,6 +86,7 @@ public abstract class ManagementBaseToolBarDisplayContext<T> extends SearchConta
                         }
                 )
                 .addGroup(
+                        () -> hasDeletePermission(),
                         dropdownGroupItem -> {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder.add(
@@ -299,7 +302,15 @@ public abstract class ManagementBaseToolBarDisplayContext<T> extends SearchConta
         return _vocabularies;
     }
 
-    private List<String[]> _categVocabularies;
+
+    protected boolean hasUpdatePermission() {
+        return true;
+    }
+
+    protected boolean hasDeletePermission() {
+        return true;
+    }
+
     private List<AssetVocabulary> _vocabularies;
     private final Class<T> tClass;
     private final HttpServletRequest _httpServletRequest;

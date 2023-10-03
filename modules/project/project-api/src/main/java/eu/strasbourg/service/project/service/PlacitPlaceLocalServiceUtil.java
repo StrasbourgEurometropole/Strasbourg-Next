@@ -308,9 +308,8 @@ public class PlacitPlaceLocalServiceUtil {
 		return getService().getByProject(projectId);
 	}
 
-	public static java.util.List
-		<eu.strasbourg.service.project.model.PlacitPlace>
-			getBySaisineObservatoire(long saisineObservatoireId) {
+	public static List<PlacitPlace> getBySaisineObservatoire(
+		long saisineObservatoireId) {
 
 		return getService().getBySaisineObservatoire(saisineObservatoireId);
 	}

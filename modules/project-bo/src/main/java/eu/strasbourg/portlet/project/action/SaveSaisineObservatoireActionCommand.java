@@ -17,7 +17,6 @@ import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.SaisineObservatoire;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalService;
 import eu.strasbourg.service.project.service.SaisineObservatoireLocalService;
-import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -67,8 +66,8 @@ public class SaveSaisineObservatoireActionCommand implements MVCActionCommand {
 					portletName, themeDisplay.getPlid(),
 					PortletRequest.RENDER_PHASE);
 				
-				response.setRenderParameter("returnURL", returnURL.toString());
-				response.setRenderParameter("cmd", "editSaisineObservatoire");
+				response.setRenderParameter("backURL", returnURL.toString());
+				response.setRenderParameter("cmd", "saveSaisineObservatoire");
 				response.setRenderParameter("mvcPath","/project-bo-edit-saisine-observatoire.jsp");
 				return false;
 			}
@@ -225,6 +224,7 @@ public class SaveSaisineObservatoireActionCommand implements MVCActionCommand {
             
 
             _saisineObservatoireLocalService.updateSaisineObservatoire(saisineObservatoire,sc);
+			response.setRenderParameter("mvcPath", "/project-bo-view-saisines-observatoire.jsp");
 		} catch (PortalException e) {
 			_log.error(e);
 		}

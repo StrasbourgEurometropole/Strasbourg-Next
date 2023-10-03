@@ -10,16 +10,16 @@
 <liferay-portlet:actionURL name="deleteSaisineObservatoire" var="deleteSaisineObservatoireURL">
     <portlet:param name="cmd" value="deleteSaisineObservatoire" />
     <portlet:param name="tab" value="saisines-observatoire" />
+    <portlet:param name="mvcPath" value="/project-bo-view-saisines-observatoire.jsp" />
     <portlet:param name="saisineObservatoireId" value="${not empty dc.saisineObservatoire ? dc.saisineObservatoire.saisineObservatoireId : ''}" />
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveSaisineObservatoire" varImpl="saveSaisineObservatoireURL">
-    <portlet:param name="cmd" value="saveSaisineObservatoire" />
     <portlet:param name="tab" value="saisines-observatoire" />
 </liferay-portlet:actionURL>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 
     <%-- Composant : definit la liste des messages d'erreur
 	(voir methode "validate" dans le saveAction de l'entite) --%>
@@ -29,11 +29,11 @@
     <liferay-ui:error key="place-error" message="place-error" />
 
     <%-- Composant : formulaire de saisie de l'entite --%>
-    <aui:form action="${saveSaisineObservatoireURL}" method="post" name="fm" onSubmit="submitForm(event);">
+    <aui:form action="${saveSaisineObservatoireURL}" method="post" name="fm" onSubmit="alert('toto'); submitForm(event);">
 
         <%-- Propriete : definit l'entite de reference pour le formulaire--%>
         <aui:model-context bean="${dc.saisineObservatoire}" model="<%=SaisineObservatoire.class %>" />
-        <aui:fieldset-group markupView="lexicon">
+        <div class="sheet"><div class="panel-group panel-group-flush">
 
             <%-- Champ : (cache) PK de l'entite --%>
             <aui:input name="saisineObservatoireId" type="hidden" />
@@ -194,7 +194,7 @@
 
             </aui:fieldset>
 
-        </aui:fieldset-group>
+        </div></div>
 
         <%-- Composant : Menu de gestion de l'entite --%>
         <aui:button-row>
@@ -218,7 +218,7 @@
             </c:if>
 
             <%-- Composant : bouton de retour a la liste des entites --%>
-            <aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+            <aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 
         </aui:button-row>
 

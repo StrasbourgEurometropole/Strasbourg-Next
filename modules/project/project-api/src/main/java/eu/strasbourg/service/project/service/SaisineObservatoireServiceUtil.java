@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.project.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * Provides the remote service utility for SaisineObservatoire. This utility wraps
  * <code>eu.strasbourg.service.project.service.impl.SaisineObservatoireServiceImpl</code> and is an
@@ -43,32 +39,14 @@ public class SaisineObservatoireServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static SaisineObservatoireService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<SaisineObservatoireService, SaisineObservatoireService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			SaisineObservatoireService.class);
-
-		ServiceTracker<SaisineObservatoireService, SaisineObservatoireService>
-			serviceTracker =
-				new ServiceTracker
-					<SaisineObservatoireService, SaisineObservatoireService>(
-						bundle.getBundleContext(),
-						SaisineObservatoireService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
-	}
+	private static volatile SaisineObservatoireService _service;
 
 }

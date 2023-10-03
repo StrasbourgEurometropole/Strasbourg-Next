@@ -158,7 +158,7 @@ public class SaveManifestationActionCommand implements MVCActionCommand {
 
 			_eventManifestationLocalService
 				.updateManifestation(eventManifestation, sc);
-			response.setRenderParameter("mvcPath", "/agenda-bo-view-manifestation.jsp");
+			response.setRenderParameter("mvcPath", "/agenda-bo-view-manifestations.jsp");
 		} catch (PortalException e) {
 			_log.error(e);
 		} catch (ParseException e) {

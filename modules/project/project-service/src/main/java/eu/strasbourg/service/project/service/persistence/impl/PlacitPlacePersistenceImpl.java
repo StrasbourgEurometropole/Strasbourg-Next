@@ -3429,6 +3429,519 @@ public class PlacitPlacePersistenceImpl
 	private static final String _FINDER_COLUMN_PETITION_PETITIONID_2 =
 		"placitPlace.petitionId = ?";
 
+	private FinderPath _finderPathWithPaginationFindBySaisineObservatoire;
+	private FinderPath _finderPathWithoutPaginationFindBySaisineObservatoire;
+	private FinderPath _finderPathCountBySaisineObservatoire;
+
+	/**
+	 * Returns all the placit places where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @return the matching placit places
+	 */
+	@Override
+	public List<PlacitPlace> findBySaisineObservatoire(
+		long saisineObservatoireId) {
+
+		return findBySaisineObservatoire(
+			saisineObservatoireId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the placit places where saisineObservatoireId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PlacitPlaceModelImpl</code>.
+	 * </p>
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param start the lower bound of the range of placit places
+	 * @param end the upper bound of the range of placit places (not inclusive)
+	 * @return the range of matching placit places
+	 */
+	@Override
+	public List<PlacitPlace> findBySaisineObservatoire(
+		long saisineObservatoireId, int start, int end) {
+
+		return findBySaisineObservatoire(
+			saisineObservatoireId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the placit places where saisineObservatoireId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PlacitPlaceModelImpl</code>.
+	 * </p>
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param start the lower bound of the range of placit places
+	 * @param end the upper bound of the range of placit places (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching placit places
+	 */
+	@Override
+	public List<PlacitPlace> findBySaisineObservatoire(
+		long saisineObservatoireId, int start, int end,
+		OrderByComparator<PlacitPlace> orderByComparator) {
+
+		return findBySaisineObservatoire(
+			saisineObservatoireId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the placit places where saisineObservatoireId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PlacitPlaceModelImpl</code>.
+	 * </p>
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param start the lower bound of the range of placit places
+	 * @param end the upper bound of the range of placit places (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching placit places
+	 */
+	@Override
+	public List<PlacitPlace> findBySaisineObservatoire(
+		long saisineObservatoireId, int start, int end,
+		OrderByComparator<PlacitPlace> orderByComparator,
+		boolean useFinderCache) {
+
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			if (useFinderCache) {
+				finderPath =
+					_finderPathWithoutPaginationFindBySaisineObservatoire;
+				finderArgs = new Object[] {saisineObservatoireId};
+			}
+		}
+		else if (useFinderCache) {
+			finderPath = _finderPathWithPaginationFindBySaisineObservatoire;
+			finderArgs = new Object[] {
+				saisineObservatoireId, start, end, orderByComparator
+			};
+		}
+
+		List<PlacitPlace> list = null;
+
+		if (useFinderCache) {
+			list = (List<PlacitPlace>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (PlacitPlace placitPlace : list) {
+					if (saisineObservatoireId !=
+							placitPlace.getSaisineObservatoireId()) {
+
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler sb = null;
+
+			if (orderByComparator != null) {
+				sb = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				sb = new StringBundler(3);
+			}
+
+			sb.append(_SQL_SELECT_PLACITPLACE_WHERE);
+
+			sb.append(
+				_FINDER_COLUMN_SAISINEOBSERVATOIRE_SAISINEOBSERVATOIREID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else {
+				sb.append(PlacitPlaceModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(saisineObservatoireId);
+
+				list = (List<PlacitPlace>)QueryUtil.list(
+					query, getDialect(), start, end);
+
+				cacheResult(list);
+
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first placit place in the ordered set where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching placit place
+	 * @throws NoSuchPlacitPlaceException if a matching placit place could not be found
+	 */
+	@Override
+	public PlacitPlace findBySaisineObservatoire_First(
+			long saisineObservatoireId,
+			OrderByComparator<PlacitPlace> orderByComparator)
+		throws NoSuchPlacitPlaceException {
+
+		PlacitPlace placitPlace = fetchBySaisineObservatoire_First(
+			saisineObservatoireId, orderByComparator);
+
+		if (placitPlace != null) {
+			return placitPlace;
+		}
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("saisineObservatoireId=");
+		sb.append(saisineObservatoireId);
+
+		sb.append("}");
+
+		throw new NoSuchPlacitPlaceException(sb.toString());
+	}
+
+	/**
+	 * Returns the first placit place in the ordered set where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching placit place, or <code>null</code> if a matching placit place could not be found
+	 */
+	@Override
+	public PlacitPlace fetchBySaisineObservatoire_First(
+		long saisineObservatoireId,
+		OrderByComparator<PlacitPlace> orderByComparator) {
+
+		List<PlacitPlace> list = findBySaisineObservatoire(
+			saisineObservatoireId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last placit place in the ordered set where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching placit place
+	 * @throws NoSuchPlacitPlaceException if a matching placit place could not be found
+	 */
+	@Override
+	public PlacitPlace findBySaisineObservatoire_Last(
+			long saisineObservatoireId,
+			OrderByComparator<PlacitPlace> orderByComparator)
+		throws NoSuchPlacitPlaceException {
+
+		PlacitPlace placitPlace = fetchBySaisineObservatoire_Last(
+			saisineObservatoireId, orderByComparator);
+
+		if (placitPlace != null) {
+			return placitPlace;
+		}
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("saisineObservatoireId=");
+		sb.append(saisineObservatoireId);
+
+		sb.append("}");
+
+		throw new NoSuchPlacitPlaceException(sb.toString());
+	}
+
+	/**
+	 * Returns the last placit place in the ordered set where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching placit place, or <code>null</code> if a matching placit place could not be found
+	 */
+	@Override
+	public PlacitPlace fetchBySaisineObservatoire_Last(
+		long saisineObservatoireId,
+		OrderByComparator<PlacitPlace> orderByComparator) {
+
+		int count = countBySaisineObservatoire(saisineObservatoireId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<PlacitPlace> list = findBySaisineObservatoire(
+			saisineObservatoireId, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the placit places before and after the current placit place in the ordered set where saisineObservatoireId = &#63;.
+	 *
+	 * @param placitPlaceId the primary key of the current placit place
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next placit place
+	 * @throws NoSuchPlacitPlaceException if a placit place with the primary key could not be found
+	 */
+	@Override
+	public PlacitPlace[] findBySaisineObservatoire_PrevAndNext(
+			long placitPlaceId, long saisineObservatoireId,
+			OrderByComparator<PlacitPlace> orderByComparator)
+		throws NoSuchPlacitPlaceException {
+
+		PlacitPlace placitPlace = findByPrimaryKey(placitPlaceId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			PlacitPlace[] array = new PlacitPlaceImpl[3];
+
+			array[0] = getBySaisineObservatoire_PrevAndNext(
+				session, placitPlace, saisineObservatoireId, orderByComparator,
+				true);
+
+			array[1] = placitPlace;
+
+			array[2] = getBySaisineObservatoire_PrevAndNext(
+				session, placitPlace, saisineObservatoireId, orderByComparator,
+				false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected PlacitPlace getBySaisineObservatoire_PrevAndNext(
+		Session session, PlacitPlace placitPlace, long saisineObservatoireId,
+		OrderByComparator<PlacitPlace> orderByComparator, boolean previous) {
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			sb = new StringBundler(3);
+		}
+
+		sb.append(_SQL_SELECT_PLACITPLACE_WHERE);
+
+		sb.append(_FINDER_COLUMN_SAISINEOBSERVATOIRE_SAISINEOBSERVATOIREID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				sb.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			sb.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC);
+					}
+					else {
+						sb.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			sb.append(PlacitPlaceModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = sb.toString();
+
+		Query query = session.createQuery(sql);
+
+		query.setFirstResult(0);
+		query.setMaxResults(2);
+
+		QueryPos queryPos = QueryPos.getInstance(query);
+
+		queryPos.add(saisineObservatoireId);
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(placitPlace)) {
+
+				queryPos.add(orderByConditionValue);
+			}
+		}
+
+		List<PlacitPlace> list = query.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the placit places where saisineObservatoireId = &#63; from the database.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 */
+	@Override
+	public void removeBySaisineObservatoire(long saisineObservatoireId) {
+		for (PlacitPlace placitPlace :
+				findBySaisineObservatoire(
+					saisineObservatoireId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
+			remove(placitPlace);
+		}
+	}
+
+	/**
+	 * Returns the number of placit places where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @return the number of matching placit places
+	 */
+	@Override
+	public int countBySaisineObservatoire(long saisineObservatoireId) {
+		FinderPath finderPath = _finderPathCountBySaisineObservatoire;
+
+		Object[] finderArgs = new Object[] {saisineObservatoireId};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(_SQL_COUNT_PLACITPLACE_WHERE);
+
+			sb.append(
+				_FINDER_COLUMN_SAISINEOBSERVATOIRE_SAISINEOBSERVATOIREID_2);
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(saisineObservatoireId);
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String
+		_FINDER_COLUMN_SAISINEOBSERVATOIRE_SAISINEOBSERVATOIREID_2 =
+			"placitPlace.saisineObservatoireId = ?";
+
 	private FinderPath _finderPathWithPaginationFindByBudgetParticipatif;
 	private FinderPath _finderPathWithoutPaginationFindByBudgetParticipatif;
 	private FinderPath _finderPathCountByBudgetParticipatif;
@@ -5669,6 +6182,24 @@ public class PlacitPlacePersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPetition",
 			new String[] {Long.class.getName()}, new String[] {"petitionId"},
 			false);
+
+		_finderPathWithPaginationFindBySaisineObservatoire = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBySaisineObservatoire",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			},
+			new String[] {"saisineObservatoireId"}, true);
+
+		_finderPathWithoutPaginationFindBySaisineObservatoire = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findBySaisineObservatoire", new String[] {Long.class.getName()},
+			new String[] {"saisineObservatoireId"}, true);
+
+		_finderPathCountBySaisineObservatoire = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countBySaisineObservatoire", new String[] {Long.class.getName()},
+			new String[] {"saisineObservatoireId"}, false);
 
 		_finderPathWithPaginationFindByBudgetParticipatif = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByBudgetParticipatif",

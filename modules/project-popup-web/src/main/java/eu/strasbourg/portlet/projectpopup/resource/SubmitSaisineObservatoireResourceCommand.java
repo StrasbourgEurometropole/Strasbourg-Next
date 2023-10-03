@@ -339,11 +339,11 @@ public class SubmitSaisineObservatoireResourceCommand implements MVCResourceComm
                         "Uploads");
                 // Ajout du fichier
                 FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
-                        sc.getUserId(), folder.getRepositoryId(),
+                        null, sc.getUserId(), folder.getRepositoryId(),
                         folder.getFolderId(), photo.getName(),
                         MimeTypesUtil.getContentType(photo),
-                        photo.getName(), saisine.getTitle(),
-                        "", imageBytes, sc);
+                        photo.getName(), "", saisine.getTitle(),
+                        "", imageBytes, null, null, sc);
                 // Lien de l'image a l'entite
                 saisine.setImageId(fileEntry.getFileEntryId());
 

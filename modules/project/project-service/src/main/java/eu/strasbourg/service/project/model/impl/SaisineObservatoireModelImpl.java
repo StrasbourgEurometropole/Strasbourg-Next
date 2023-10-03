@@ -16,6 +16,7 @@ package eu.strasbourg.service.project.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
@@ -27,27 +28,25 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.project.model.SaisineObservatoire;
 import eu.strasbourg.service.project.model.SaisineObservatoireModel;
-import eu.strasbourg.service.project.model.SaisineObservatoireSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -157,105 +156,48 @@ public class SaisineObservatoireModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.project.model.SaisineObservatoire"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.project.model.SaisineObservatoire"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.project.model.SaisineObservatoire"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLIKID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long TITLE_COLUMN_BITMASK = 8L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static SaisineObservatoire toModel(
-		SaisineObservatoireSoap soapModel) {
-
-		if (soapModel == null) {
-			return null;
-		}
-
-		SaisineObservatoire model = new SaisineObservatoireImpl();
-
-		model.setSaisineObservatoireId(soapModel.getSaisineObservatoireId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setTitle(soapModel.getTitle());
-		model.setDescription(soapModel.getDescription());
-		model.setPlaceTextArea(soapModel.getPlaceTextArea());
-		model.setFilesDownload(soapModel.getFilesDownload());
-		model.setCityResponse(soapModel.getCityResponse());
-		model.setProjectTarget(soapModel.getProjectTarget());
-		model.setOtherMechanism(soapModel.getOtherMechanism());
-		model.setCollectiveName(soapModel.getCollectiveName());
-		model.setPetitionnaireLastname(soapModel.getPetitionnaireLastname());
-		model.setPetitionnaireFirstname(soapModel.getPetitionnaireFirstname());
-		model.setPetitionnaireBirthday(soapModel.getPetitionnaireBirthday());
-		model.setPetitionnaireAdresse(soapModel.getPetitionnaireAdresse());
-		model.setPetitionnairePostalCode(
-			soapModel.getPetitionnairePostalCode());
-		model.setPetitionnaireCity(soapModel.getPetitionnaireCity());
-		model.setPetitionnairePhone(soapModel.getPetitionnairePhone());
-		model.setPetitionnaireEmail(soapModel.getPetitionnaireEmail());
-		model.setVideoUrl(soapModel.getVideoUrl());
-		model.setExternalImageURL(soapModel.getExternalImageURL());
-		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
-		model.setMediaChoice(soapModel.isMediaChoice());
-		model.setPublikId(soapModel.getPublikId());
-		model.setImageId(soapModel.getImageId());
-		model.setFilesIds(soapModel.getFilesIds());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<SaisineObservatoire> toModels(
-		SaisineObservatoireSoap[] soapModels) {
-
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<SaisineObservatoire> models = new ArrayList<SaisineObservatoire>(
-			soapModels.length);
-
-		for (SaisineObservatoireSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.project.service.util.PropsUtil.get(
@@ -313,9 +255,6 @@ public class SaisineObservatoireModelImpl
 				attributeGetterFunction.apply((SaisineObservatoire)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -349,34 +288,6 @@ public class SaisineObservatoireModelImpl
 		return _attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, SaisineObservatoire>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			SaisineObservatoire.class.getClassLoader(),
-			SaisineObservatoire.class, ModelWrapper.class);
-
-		try {
-			Constructor<SaisineObservatoire> constructor =
-				(Constructor<SaisineObservatoire>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
-	}
-
 	private static final Map<String, Function<SaisineObservatoire, Object>>
 		_attributeGetterFunctions;
 	private static final Map<String, BiConsumer<SaisineObservatoire, Object>>
@@ -393,808 +304,212 @@ public class SaisineObservatoireModelImpl
 
 		attributeGetterFunctions.put(
 			"saisineObservatoireId",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getSaisineObservatoireId();
-				}
-
-			});
+			SaisineObservatoire::getSaisineObservatoireId);
 		attributeSetterBiConsumers.put(
 			"saisineObservatoireId",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object saisineObservatoireIdObject) {
-
-					saisineObservatoire.setSaisineObservatoireId(
-						(Long)saisineObservatoireIdObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, Long>)
+				SaisineObservatoire::setSaisineObservatoireId);
 		attributeGetterFunctions.put(
-			"groupId",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getGroupId();
-				}
-
-			});
+			"groupId", SaisineObservatoire::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object groupIdObject) {
-
-					saisineObservatoire.setGroupId((Long)groupIdObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, Long>)
+				SaisineObservatoire::setGroupId);
 		attributeGetterFunctions.put(
-			"companyId",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getCompanyId();
-				}
-
-			});
+			"companyId", SaisineObservatoire::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object companyIdObject) {
-
-					saisineObservatoire.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getUserId();
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, Long>)
+				SaisineObservatoire::setCompanyId);
+		attributeGetterFunctions.put("userId", SaisineObservatoire::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object userIdObject) {
-
-					saisineObservatoire.setUserId((Long)userIdObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, Long>)
+				SaisineObservatoire::setUserId);
 		attributeGetterFunctions.put(
-			"userName",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getUserName();
-				}
-
-			});
+			"userName", SaisineObservatoire::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object userNameObject) {
-
-					saisineObservatoire.setUserName((String)userNameObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, String>)
+				SaisineObservatoire::setUserName);
 		attributeGetterFunctions.put(
-			"createDate",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getCreateDate();
-				}
-
-			});
+			"createDate", SaisineObservatoire::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object createDateObject) {
-
-					saisineObservatoire.setCreateDate((Date)createDateObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, Date>)
+				SaisineObservatoire::setCreateDate);
 		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getModifiedDate();
-				}
-
-			});
+			"modifiedDate", SaisineObservatoire::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object modifiedDateObject) {
-
-					saisineObservatoire.setModifiedDate(
-						(Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getStatus();
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, Date>)
+				SaisineObservatoire::setModifiedDate);
+		attributeGetterFunctions.put("status", SaisineObservatoire::getStatus);
 		attributeSetterBiConsumers.put(
 			"status",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object statusObject) {
-
-					saisineObservatoire.setStatus((Integer)statusObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, Integer>)
+				SaisineObservatoire::setStatus);
 		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getStatusByUserId();
-				}
-
-			});
+			"statusByUserId", SaisineObservatoire::getStatusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object statusByUserIdObject) {
-
-					saisineObservatoire.setStatusByUserId(
-						(Long)statusByUserIdObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, Long>)
+				SaisineObservatoire::setStatusByUserId);
 		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getStatusByUserName();
-				}
-
-			});
+			"statusByUserName", SaisineObservatoire::getStatusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object statusByUserNameObject) {
-
-					saisineObservatoire.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, String>)
+				SaisineObservatoire::setStatusByUserName);
 		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getStatusDate();
-				}
-
-			});
+			"statusDate", SaisineObservatoire::getStatusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object statusDateObject) {
-
-					saisineObservatoire.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getTitle();
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, Date>)
+				SaisineObservatoire::setStatusDate);
+		attributeGetterFunctions.put("title", SaisineObservatoire::getTitle);
 		attributeSetterBiConsumers.put(
 			"title",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object titleObject) {
-
-					saisineObservatoire.setTitle((String)titleObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, String>)
+				SaisineObservatoire::setTitle);
 		attributeGetterFunctions.put(
-			"description",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getDescription();
-				}
-
-			});
+			"description", SaisineObservatoire::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object descriptionObject) {
-
-					saisineObservatoire.setDescription(
-						(String)descriptionObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, String>)
+				SaisineObservatoire::setDescription);
 		attributeGetterFunctions.put(
-			"placeTextArea",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getPlaceTextArea();
-				}
-
-			});
+			"placeTextArea", SaisineObservatoire::getPlaceTextArea);
 		attributeSetterBiConsumers.put(
 			"placeTextArea",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object placeTextAreaObject) {
-
-					saisineObservatoire.setPlaceTextArea(
-						(String)placeTextAreaObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, String>)
+				SaisineObservatoire::setPlaceTextArea);
 		attributeGetterFunctions.put(
-			"filesDownload",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getFilesDownload();
-				}
-
-			});
+			"filesDownload", SaisineObservatoire::getFilesDownload);
 		attributeSetterBiConsumers.put(
 			"filesDownload",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object filesDownloadObject) {
-
-					saisineObservatoire.setFilesDownload(
-						(String)filesDownloadObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, String>)
+				SaisineObservatoire::setFilesDownload);
 		attributeGetterFunctions.put(
-			"cityResponse",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getCityResponse();
-				}
-
-			});
+			"cityResponse", SaisineObservatoire::getCityResponse);
 		attributeSetterBiConsumers.put(
 			"cityResponse",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object cityResponseObject) {
-
-					saisineObservatoire.setCityResponse(
-						(String)cityResponseObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, String>)
+				SaisineObservatoire::setCityResponse);
 		attributeGetterFunctions.put(
-			"projectTarget",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getProjectTarget();
-				}
-
-			});
+			"projectTarget", SaisineObservatoire::getProjectTarget);
 		attributeSetterBiConsumers.put(
 			"projectTarget",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object projectTargetObject) {
-
-					saisineObservatoire.setProjectTarget(
-						(String)projectTargetObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, String>)
+				SaisineObservatoire::setProjectTarget);
 		attributeGetterFunctions.put(
-			"otherMechanism",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getOtherMechanism();
-				}
-
-			});
+			"otherMechanism", SaisineObservatoire::getOtherMechanism);
 		attributeSetterBiConsumers.put(
 			"otherMechanism",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object otherMechanismObject) {
-
-					saisineObservatoire.setOtherMechanism(
-						(String)otherMechanismObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, String>)
+				SaisineObservatoire::setOtherMechanism);
 		attributeGetterFunctions.put(
-			"collectiveName",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getCollectiveName();
-				}
-
-			});
+			"collectiveName", SaisineObservatoire::getCollectiveName);
 		attributeSetterBiConsumers.put(
 			"collectiveName",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object collectiveNameObject) {
-
-					saisineObservatoire.setCollectiveName(
-						(String)collectiveNameObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, String>)
+				SaisineObservatoire::setCollectiveName);
 		attributeGetterFunctions.put(
 			"petitionnaireLastname",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getPetitionnaireLastname();
-				}
-
-			});
+			SaisineObservatoire::getPetitionnaireLastname);
 		attributeSetterBiConsumers.put(
 			"petitionnaireLastname",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object petitionnaireLastnameObject) {
-
-					saisineObservatoire.setPetitionnaireLastname(
-						(String)petitionnaireLastnameObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, String>)
+				SaisineObservatoire::setPetitionnaireLastname);
 		attributeGetterFunctions.put(
 			"petitionnaireFirstname",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getPetitionnaireFirstname();
-				}
-
-			});
+			SaisineObservatoire::getPetitionnaireFirstname);
 		attributeSetterBiConsumers.put(
 			"petitionnaireFirstname",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object petitionnaireFirstnameObject) {
-
-					saisineObservatoire.setPetitionnaireFirstname(
-						(String)petitionnaireFirstnameObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, String>)
+				SaisineObservatoire::setPetitionnaireFirstname);
 		attributeGetterFunctions.put(
 			"petitionnaireBirthday",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getPetitionnaireBirthday();
-				}
-
-			});
+			SaisineObservatoire::getPetitionnaireBirthday);
 		attributeSetterBiConsumers.put(
 			"petitionnaireBirthday",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object petitionnaireBirthdayObject) {
-
-					saisineObservatoire.setPetitionnaireBirthday(
-						(Date)petitionnaireBirthdayObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, Date>)
+				SaisineObservatoire::setPetitionnaireBirthday);
 		attributeGetterFunctions.put(
 			"petitionnaireAdresse",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getPetitionnaireAdresse();
-				}
-
-			});
+			SaisineObservatoire::getPetitionnaireAdresse);
 		attributeSetterBiConsumers.put(
 			"petitionnaireAdresse",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object petitionnaireAdresseObject) {
-
-					saisineObservatoire.setPetitionnaireAdresse(
-						(String)petitionnaireAdresseObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, String>)
+				SaisineObservatoire::setPetitionnaireAdresse);
 		attributeGetterFunctions.put(
 			"petitionnairePostalCode",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getPetitionnairePostalCode();
-				}
-
-			});
+			SaisineObservatoire::getPetitionnairePostalCode);
 		attributeSetterBiConsumers.put(
 			"petitionnairePostalCode",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object petitionnairePostalCodeObject) {
-
-					saisineObservatoire.setPetitionnairePostalCode(
-						(Long)petitionnairePostalCodeObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, Long>)
+				SaisineObservatoire::setPetitionnairePostalCode);
 		attributeGetterFunctions.put(
-			"petitionnaireCity",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getPetitionnaireCity();
-				}
-
-			});
+			"petitionnaireCity", SaisineObservatoire::getPetitionnaireCity);
 		attributeSetterBiConsumers.put(
 			"petitionnaireCity",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object petitionnaireCityObject) {
-
-					saisineObservatoire.setPetitionnaireCity(
-						(String)petitionnaireCityObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, String>)
+				SaisineObservatoire::setPetitionnaireCity);
 		attributeGetterFunctions.put(
-			"petitionnairePhone",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getPetitionnairePhone();
-				}
-
-			});
+			"petitionnairePhone", SaisineObservatoire::getPetitionnairePhone);
 		attributeSetterBiConsumers.put(
 			"petitionnairePhone",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object petitionnairePhoneObject) {
-
-					saisineObservatoire.setPetitionnairePhone(
-						(String)petitionnairePhoneObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, String>)
+				SaisineObservatoire::setPetitionnairePhone);
 		attributeGetterFunctions.put(
-			"petitionnaireEmail",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getPetitionnaireEmail();
-				}
-
-			});
+			"petitionnaireEmail", SaisineObservatoire::getPetitionnaireEmail);
 		attributeSetterBiConsumers.put(
 			"petitionnaireEmail",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object petitionnaireEmailObject) {
-
-					saisineObservatoire.setPetitionnaireEmail(
-						(String)petitionnaireEmailObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, String>)
+				SaisineObservatoire::setPetitionnaireEmail);
 		attributeGetterFunctions.put(
-			"videoUrl",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getVideoUrl();
-				}
-
-			});
+			"videoUrl", SaisineObservatoire::getVideoUrl);
 		attributeSetterBiConsumers.put(
 			"videoUrl",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object videoUrlObject) {
-
-					saisineObservatoire.setVideoUrl((String)videoUrlObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, String>)
+				SaisineObservatoire::setVideoUrl);
 		attributeGetterFunctions.put(
-			"externalImageURL",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getExternalImageURL();
-				}
-
-			});
+			"externalImageURL", SaisineObservatoire::getExternalImageURL);
 		attributeSetterBiConsumers.put(
 			"externalImageURL",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object externalImageURLObject) {
-
-					saisineObservatoire.setExternalImageURL(
-						(String)externalImageURLObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, String>)
+				SaisineObservatoire::setExternalImageURL);
 		attributeGetterFunctions.put(
 			"externalImageCopyright",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getExternalImageCopyright();
-				}
-
-			});
+			SaisineObservatoire::getExternalImageCopyright);
 		attributeSetterBiConsumers.put(
 			"externalImageCopyright",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object externalImageCopyrightObject) {
-
-					saisineObservatoire.setExternalImageCopyright(
-						(String)externalImageCopyrightObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, String>)
+				SaisineObservatoire::setExternalImageCopyright);
 		attributeGetterFunctions.put(
-			"mediaChoice",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getMediaChoice();
-				}
-
-			});
+			"mediaChoice", SaisineObservatoire::getMediaChoice);
 		attributeSetterBiConsumers.put(
 			"mediaChoice",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object mediaChoiceObject) {
-
-					saisineObservatoire.setMediaChoice(
-						(Boolean)mediaChoiceObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, Boolean>)
+				SaisineObservatoire::setMediaChoice);
 		attributeGetterFunctions.put(
-			"publikId",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getPublikId();
-				}
-
-			});
+			"publikId", SaisineObservatoire::getPublikId);
 		attributeSetterBiConsumers.put(
 			"publikId",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object publikIdObject) {
-
-					saisineObservatoire.setPublikId((String)publikIdObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, String>)
+				SaisineObservatoire::setPublikId);
 		attributeGetterFunctions.put(
-			"imageId",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getImageId();
-				}
-
-			});
+			"imageId", SaisineObservatoire::getImageId);
 		attributeSetterBiConsumers.put(
 			"imageId",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object imageIdObject) {
-
-					saisineObservatoire.setImageId((Long)imageIdObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, Long>)
+				SaisineObservatoire::setImageId);
 		attributeGetterFunctions.put(
-			"filesIds",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getFilesIds();
-				}
-
-			});
+			"filesIds", SaisineObservatoire::getFilesIds);
 		attributeSetterBiConsumers.put(
 			"filesIds",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object filesIdsObject) {
-
-					saisineObservatoire.setFilesIds((String)filesIdsObject);
-				}
-
-			});
+			(BiConsumer<SaisineObservatoire, String>)
+				SaisineObservatoire::setFilesIds);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -1210,6 +525,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setSaisineObservatoireId(long saisineObservatoireId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_saisineObservatoireId = saisineObservatoireId;
 	}
 
@@ -1221,19 +540,20 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -1244,6 +564,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_companyId = companyId;
 	}
 
@@ -1255,6 +579,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -1287,6 +615,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -1298,6 +630,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -1315,6 +651,10 @@ public class SaisineObservatoireModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -1326,19 +666,21 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return GetterUtil.getInteger(
+			this.<Integer>getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -1349,6 +691,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1381,6 +727,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1392,6 +742,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1408,7 +762,9 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setTitle(String title) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_title = title;
 	}
@@ -1426,6 +782,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_description = description;
 	}
 
@@ -1442,6 +802,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setPlaceTextArea(String placeTextArea) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_placeTextArea = placeTextArea;
 	}
 
@@ -1458,6 +822,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setFilesDownload(String filesDownload) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_filesDownload = filesDownload;
 	}
 
@@ -1474,6 +842,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setCityResponse(String cityResponse) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_cityResponse = cityResponse;
 	}
 
@@ -1490,6 +862,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setProjectTarget(String projectTarget) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_projectTarget = projectTarget;
 	}
 
@@ -1506,6 +882,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setOtherMechanism(String otherMechanism) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_otherMechanism = otherMechanism;
 	}
 
@@ -1522,6 +902,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setCollectiveName(String collectiveName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_collectiveName = collectiveName;
 	}
 
@@ -1538,6 +922,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setPetitionnaireLastname(String petitionnaireLastname) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_petitionnaireLastname = petitionnaireLastname;
 	}
 
@@ -1554,6 +942,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setPetitionnaireFirstname(String petitionnaireFirstname) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_petitionnaireFirstname = petitionnaireFirstname;
 	}
 
@@ -1565,6 +957,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setPetitionnaireBirthday(Date petitionnaireBirthday) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_petitionnaireBirthday = petitionnaireBirthday;
 	}
 
@@ -1581,6 +977,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setPetitionnaireAdresse(String petitionnaireAdresse) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_petitionnaireAdresse = petitionnaireAdresse;
 	}
 
@@ -1592,6 +992,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setPetitionnairePostalCode(long petitionnairePostalCode) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_petitionnairePostalCode = petitionnairePostalCode;
 	}
 
@@ -1608,6 +1012,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setPetitionnaireCity(String petitionnaireCity) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_petitionnaireCity = petitionnaireCity;
 	}
 
@@ -1624,6 +1032,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setPetitionnairePhone(String petitionnairePhone) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_petitionnairePhone = petitionnairePhone;
 	}
 
@@ -1640,6 +1052,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setPetitionnaireEmail(String petitionnaireEmail) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_petitionnaireEmail = petitionnaireEmail;
 	}
 
@@ -1656,6 +1072,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setVideoUrl(String videoUrl) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_videoUrl = videoUrl;
 	}
 
@@ -1672,6 +1092,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setExternalImageURL(String externalImageURL) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_externalImageURL = externalImageURL;
 	}
 
@@ -1688,6 +1112,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setExternalImageCopyright(String externalImageCopyright) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_externalImageCopyright = externalImageCopyright;
 	}
 
@@ -1705,6 +1133,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setMediaChoice(boolean mediaChoice) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mediaChoice = mediaChoice;
 	}
 
@@ -1721,17 +1153,20 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setPublikId(String publikId) {
-		_columnBitmask |= PUBLIKID_COLUMN_BITMASK;
-
-		if (_originalPublikId == null) {
-			_originalPublikId = _publikId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publikId = publikId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPublikId() {
-		return GetterUtil.getString(_originalPublikId);
+		return getColumnOriginalValue("publikId");
 	}
 
 	@JSON
@@ -1742,6 +1177,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setImageId(long imageId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageId = imageId;
 	}
 
@@ -1758,6 +1197,10 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void setFilesIds(String filesIds) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_filesIds = filesIds;
 	}
 
@@ -1842,6 +1285,26 @@ public class SaisineObservatoireModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1927,6 +1390,83 @@ public class SaisineObservatoireModelImpl
 	}
 
 	@Override
+	public SaisineObservatoire cloneWithOriginalValues() {
+		SaisineObservatoireImpl saisineObservatoireImpl =
+			new SaisineObservatoireImpl();
+
+		saisineObservatoireImpl.setSaisineObservatoireId(
+			this.<Long>getColumnOriginalValue("saisineObservatoireId"));
+		saisineObservatoireImpl.setGroupId(
+			this.<Long>getColumnOriginalValue("groupId"));
+		saisineObservatoireImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		saisineObservatoireImpl.setUserId(
+			this.<Long>getColumnOriginalValue("userId"));
+		saisineObservatoireImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		saisineObservatoireImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		saisineObservatoireImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		saisineObservatoireImpl.setStatus(
+			this.<Integer>getColumnOriginalValue("status"));
+		saisineObservatoireImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		saisineObservatoireImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		saisineObservatoireImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		saisineObservatoireImpl.setTitle(
+			this.<String>getColumnOriginalValue("title"));
+		saisineObservatoireImpl.setDescription(
+			this.<String>getColumnOriginalValue("description"));
+		saisineObservatoireImpl.setPlaceTextArea(
+			this.<String>getColumnOriginalValue("placeTextArea"));
+		saisineObservatoireImpl.setFilesDownload(
+			this.<String>getColumnOriginalValue("filesDownload"));
+		saisineObservatoireImpl.setCityResponse(
+			this.<String>getColumnOriginalValue("cityResponse"));
+		saisineObservatoireImpl.setProjectTarget(
+			this.<String>getColumnOriginalValue("projectTarget"));
+		saisineObservatoireImpl.setOtherMechanism(
+			this.<String>getColumnOriginalValue("otherMechanism"));
+		saisineObservatoireImpl.setCollectiveName(
+			this.<String>getColumnOriginalValue("collectiveName"));
+		saisineObservatoireImpl.setPetitionnaireLastname(
+			this.<String>getColumnOriginalValue("petitionnaireLastname"));
+		saisineObservatoireImpl.setPetitionnaireFirstname(
+			this.<String>getColumnOriginalValue("petitionnaireFirstname"));
+		saisineObservatoireImpl.setPetitionnaireBirthday(
+			this.<Date>getColumnOriginalValue("petitionnaireBirthday"));
+		saisineObservatoireImpl.setPetitionnaireAdresse(
+			this.<String>getColumnOriginalValue("petitionnaireAdresse"));
+		saisineObservatoireImpl.setPetitionnairePostalCode(
+			this.<Long>getColumnOriginalValue("petitionnairePostalCode"));
+		saisineObservatoireImpl.setPetitionnaireCity(
+			this.<String>getColumnOriginalValue("petitionnaireCity"));
+		saisineObservatoireImpl.setPetitionnairePhone(
+			this.<String>getColumnOriginalValue("petitionnairePhone"));
+		saisineObservatoireImpl.setPetitionnaireEmail(
+			this.<String>getColumnOriginalValue("petitionnaireEmail"));
+		saisineObservatoireImpl.setVideoUrl(
+			this.<String>getColumnOriginalValue("videoUrl"));
+		saisineObservatoireImpl.setExternalImageURL(
+			this.<String>getColumnOriginalValue("externalImageURL"));
+		saisineObservatoireImpl.setExternalImageCopyright(
+			this.<String>getColumnOriginalValue("externalImageCopyright"));
+		saisineObservatoireImpl.setMediaChoice(
+			this.<Boolean>getColumnOriginalValue("mediaChoice"));
+		saisineObservatoireImpl.setPublikId(
+			this.<String>getColumnOriginalValue("publikId"));
+		saisineObservatoireImpl.setImageId(
+			this.<Long>getColumnOriginalValue("imageId"));
+		saisineObservatoireImpl.setFilesIds(
+			this.<String>getColumnOriginalValue("filesIds"));
+
+		return saisineObservatoireImpl;
+	}
+
+	@Override
 	public int compareTo(SaisineObservatoire saisineObservatoire) {
 		int value = 0;
 
@@ -1966,11 +1506,19 @@ public class SaisineObservatoireModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1978,24 +1526,11 @@ public class SaisineObservatoireModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SaisineObservatoireModelImpl saisineObservatoireModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		saisineObservatoireModelImpl._originalGroupId =
-			saisineObservatoireModelImpl._groupId;
+		_setModifiedDate = false;
 
-		saisineObservatoireModelImpl._setOriginalGroupId = false;
-
-		saisineObservatoireModelImpl._setModifiedDate = false;
-
-		saisineObservatoireModelImpl._originalStatus =
-			saisineObservatoireModelImpl._status;
-
-		saisineObservatoireModelImpl._setOriginalStatus = false;
-
-		saisineObservatoireModelImpl._originalPublikId =
-			saisineObservatoireModelImpl._publikId;
-
-		saisineObservatoireModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -2266,7 +1801,7 @@ public class SaisineObservatoireModelImpl
 			attributeGetterFunctions = getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -2277,9 +1812,27 @@ public class SaisineObservatoireModelImpl
 			Function<SaisineObservatoire, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((SaisineObservatoire)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply(
+				(SaisineObservatoire)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -2292,48 +1845,17 @@ public class SaisineObservatoireModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<SaisineObservatoire, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<SaisineObservatoire, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<SaisineObservatoire, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((SaisineObservatoire)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, SaisineObservatoire>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					SaisineObservatoire.class, ModelWrapper.class);
 
 	}
 
 	private long _saisineObservatoireId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
 	private long _userId;
 	private String _userName;
@@ -2341,8 +1863,6 @@ public class SaisineObservatoireModelImpl
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
@@ -2367,9 +1887,161 @@ public class SaisineObservatoireModelImpl
 	private String _externalImageCopyright;
 	private boolean _mediaChoice;
 	private String _publikId;
-	private String _originalPublikId;
 	private long _imageId;
 	private String _filesIds;
+
+	public <T> T getColumnValue(String columnName) {
+		Function<SaisineObservatoire, Object> function =
+			_attributeGetterFunctions.get(columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((SaisineObservatoire)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put(
+			"saisineObservatoireId", _saisineObservatoireId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("description", _description);
+		_columnOriginalValues.put("placeTextArea", _placeTextArea);
+		_columnOriginalValues.put("filesDownload", _filesDownload);
+		_columnOriginalValues.put("cityResponse", _cityResponse);
+		_columnOriginalValues.put("projectTarget", _projectTarget);
+		_columnOriginalValues.put("otherMechanism", _otherMechanism);
+		_columnOriginalValues.put("collectiveName", _collectiveName);
+		_columnOriginalValues.put(
+			"petitionnaireLastname", _petitionnaireLastname);
+		_columnOriginalValues.put(
+			"petitionnaireFirstname", _petitionnaireFirstname);
+		_columnOriginalValues.put(
+			"petitionnaireBirthday", _petitionnaireBirthday);
+		_columnOriginalValues.put(
+			"petitionnaireAdresse", _petitionnaireAdresse);
+		_columnOriginalValues.put(
+			"petitionnairePostalCode", _petitionnairePostalCode);
+		_columnOriginalValues.put("petitionnaireCity", _petitionnaireCity);
+		_columnOriginalValues.put("petitionnairePhone", _petitionnairePhone);
+		_columnOriginalValues.put("petitionnaireEmail", _petitionnaireEmail);
+		_columnOriginalValues.put("videoUrl", _videoUrl);
+		_columnOriginalValues.put("externalImageURL", _externalImageURL);
+		_columnOriginalValues.put(
+			"externalImageCopyright", _externalImageCopyright);
+		_columnOriginalValues.put("mediaChoice", _mediaChoice);
+		_columnOriginalValues.put("publikId", _publikId);
+		_columnOriginalValues.put("imageId", _imageId);
+		_columnOriginalValues.put("filesIds", _filesIds);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("saisineObservatoireId", 1L);
+
+		columnBitmasks.put("groupId", 2L);
+
+		columnBitmasks.put("companyId", 4L);
+
+		columnBitmasks.put("userId", 8L);
+
+		columnBitmasks.put("userName", 16L);
+
+		columnBitmasks.put("createDate", 32L);
+
+		columnBitmasks.put("modifiedDate", 64L);
+
+		columnBitmasks.put("status", 128L);
+
+		columnBitmasks.put("statusByUserId", 256L);
+
+		columnBitmasks.put("statusByUserName", 512L);
+
+		columnBitmasks.put("statusDate", 1024L);
+
+		columnBitmasks.put("title", 2048L);
+
+		columnBitmasks.put("description", 4096L);
+
+		columnBitmasks.put("placeTextArea", 8192L);
+
+		columnBitmasks.put("filesDownload", 16384L);
+
+		columnBitmasks.put("cityResponse", 32768L);
+
+		columnBitmasks.put("projectTarget", 65536L);
+
+		columnBitmasks.put("otherMechanism", 131072L);
+
+		columnBitmasks.put("collectiveName", 262144L);
+
+		columnBitmasks.put("petitionnaireLastname", 524288L);
+
+		columnBitmasks.put("petitionnaireFirstname", 1048576L);
+
+		columnBitmasks.put("petitionnaireBirthday", 2097152L);
+
+		columnBitmasks.put("petitionnaireAdresse", 4194304L);
+
+		columnBitmasks.put("petitionnairePostalCode", 8388608L);
+
+		columnBitmasks.put("petitionnaireCity", 16777216L);
+
+		columnBitmasks.put("petitionnairePhone", 33554432L);
+
+		columnBitmasks.put("petitionnaireEmail", 67108864L);
+
+		columnBitmasks.put("videoUrl", 134217728L);
+
+		columnBitmasks.put("externalImageURL", 268435456L);
+
+		columnBitmasks.put("externalImageCopyright", 536870912L);
+
+		columnBitmasks.put("mediaChoice", 1073741824L);
+
+		columnBitmasks.put("publikId", 2147483648L);
+
+		columnBitmasks.put("imageId", 4294967296L);
+
+		columnBitmasks.put("filesIds", 8589934592L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private SaisineObservatoire _escapedModel;
 

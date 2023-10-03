@@ -571,7 +571,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public long getSaisineObservatoireId() {
-		return _placitPlace.getSaisineObservatoireId();
+		return model.getSaisineObservatoireId();
 	}
 
 	/**
@@ -902,7 +902,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setSaisineObservatoireId(long saisineObservatoireId) {
-		_placitPlace.setSaisineObservatoireId(saisineObservatoireId);
+		model.setSaisineObservatoireId(saisineObservatoireId);
 	}
 
 	/**

@@ -16,7 +16,6 @@
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="savePetition" varImpl="savePetitionURL">
-	<portlet:param name="cmd" value="savePetition" />
 	<portlet:param name="tab" value="petitions" />
 </liferay-portlet:actionURL>
 
@@ -35,7 +34,7 @@
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.petition}" model="<%=Petition.class %>" />
-		<div markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 
 			<%-- Champ : (cache) PK de l'entite --%>
 			<aui:input name="petitionId" type="hidden" />

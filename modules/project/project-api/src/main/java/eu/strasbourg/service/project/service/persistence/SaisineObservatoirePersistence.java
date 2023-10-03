@@ -14,17 +14,12 @@
 
 package eu.strasbourg.service.project.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.project.exception.NoSuchSaisineObservatoireException;
 import eu.strasbourg.service.project.model.SaisineObservatoire;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the saisine observatoire service.
@@ -46,9 +41,6 @@ public interface SaisineObservatoirePersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link SaisineObservatoireUtil} to access the saisine observatoire persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, SaisineObservatoire> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the saisine observatoires where groupId = &#63;.
