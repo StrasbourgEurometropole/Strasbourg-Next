@@ -1,9 +1,6 @@
 package eu.strasbourg.portlet.council;
 
 import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
-import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
@@ -31,11 +28,11 @@ import eu.strasbourg.portlet.council.display.context.ViewOfficialsConnectionDisp
 import eu.strasbourg.portlet.council.display.context.ViewOfficialsDisplayContext;
 import eu.strasbourg.portlet.council.display.context.ViewTypesDisplayContext;
 import eu.strasbourg.portlet.council.utils.UserRoleType;
-import eu.strasbourg.portlet.council.utils.VocabularyHelper;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.constants.VocabularyNames;
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
 
@@ -116,27 +113,49 @@ public class CouncilBOPortlet extends MVCPortlet {
 				}
 				case DELIBERATIONS: {
 
-					if (navigationDC.getSelectedCmd().equals(EDIT_DELIBERATION) || navigationDC.getSelectedCmd().equals(SAVE_DELIBERATION)|| navigationDC.getSelectedCmd().equals(IMPORT_DELIBERATION)) {
+					if (navigationDC.getSelectedCmd().equals(EDIT_DELIBERATION) || navigationDC.getSelectedCmd().equals(SAVE_DELIBERATION)
+							|| navigationDC.getSelectedCmd().equals(IMPORT_DELIBERATION)) {
 						EditDeliberationDisplayContext dc = new EditDeliberationDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
-
 					} else {
 
-						String sessionCategoryId = getCategoryIdSession(renderRequest, themeDisplay);
-						/*HttpServletRequest originalRequest = PortalUtil.getHttpServletRequest(renderRequest);
-						HttpSession session = originalRequest.getSession();
-						String categoryCouncilId = null;
+						String filterCategoryDelibStage = "";
+						// récupère le statut du filtre
+						String categoriesFilter = ParamUtil.getString(renderRequest, "filterCategoriesIdByVocabulariesName", "");
+						if (Validator.isNotNull(categoriesFilter)) {
+							List<String> filterCategoriesIdByVocabulariesName = List.of(categoriesFilter.split("___"));
+							String filterCategoryForState = filterCategoriesIdByVocabulariesName.stream()
+									.filter(c -> c.startsWith(VocabularyNames.COUNCIL_STATE+"__")).findFirst().orElse(null);
+							filterCategoryDelibStage = Validator.isNotNull(filterCategoryForState)?filterCategoryForState:"";
+						}
 
-						long councilSessionId = (long) session.getAttribute("councilSessionId");
-						CouncilSession councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
-						if (Validator.isNotNull(councilSession)) {
-							categoryCouncilId = VocabularyHelper.getCategorieCouncilId(themeDisplay, councilSession);
-							session.setAttribute("categoryCouncilId", categoryCouncilId);
-						}*/
-						ViewDeliberationsDisplayContext dc = new ViewDeliberationsDisplayContext(renderRequest, renderResponse, sessionCategoryId);
+						String filterCategoryCouncil = "";
+						if(navigationDC.getSelectedCmd().equals(VIEW_DELIBERATIONS)) {
+							HttpServletRequest originalRequest = PortalUtil.getHttpServletRequest(renderRequest);
+							HttpSession session = originalRequest.getSession();
+
+							long councilSessionId = Validator.isNotNull(session.getAttribute("councilSessionId"))?(long)session.getAttribute("councilSessionId"):-1;
+							CouncilSession councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
+							if (Validator.isNotNull(councilSession)) {
+								AssetCategory categoryCouncil = AssetVocabularyHelper.getCategory(councilSession.getTitle(), councilSession.getGroupId());
+								if (categoryCouncil != null) {
+									filterCategoryCouncil = VocabularyNames.COUNCIL_SESSION + "__" +
+											categoryCouncil.getTitleCurrentValue() + "__" +
+											categoryCouncil.getCategoryId();
+									session.setAttribute("filterCategoryCouncil", filterCategoryCouncil);
+								}
+							}
+						} else{
+							filterCategoryCouncil = getCategoriesSession(renderRequest, themeDisplay);
+						}
+
+						String filterCategories = filterCategoryCouncil + (Validator.isNotNull(filterCategoryCouncil)?"___":"") +
+								filterCategoryDelibStage + (Validator.isNotNull(filterCategoryDelibStage)?"___":"");
+
+						ViewDeliberationsDisplayContext dc = new ViewDeliberationsDisplayContext(renderRequest, renderResponse, filterCategories);
 						ManagementDeliberationsToolBarDisplayContext managementDC = new ManagementDeliberationsToolBarDisplayContext(
 								servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer(), filterCategories);
 						renderRequest.setAttribute("managementDC", managementDC);
 						renderRequest.setAttribute("dc", dc);
 
@@ -203,101 +222,103 @@ public class CouncilBOPortlet extends MVCPortlet {
 
 	/**
 	 * Récupère la catégorie du CouncilSession de la session, ou de celui du jour ou du dernier
+	 *  qui se présente comme suit :
+	 * "vocabularyName__categoryName__categoryId___..."
 	 */
-	private String getCategoryIdSession(RenderRequest renderRequest, ThemeDisplay themeDisplay) {
+	private String getCategoriesSession(RenderRequest renderRequest, ThemeDisplay themeDisplay) {
 
 		HttpServletRequest originalRequest = PortalUtil.getHttpServletRequest(renderRequest);
 		HttpSession session = originalRequest.getSession();
 
-		String categoryCouncilId = null;
-		String categoryDelibStage= null;
+		String filterCategoryCouncil = null;
 
-		String categoryToAdd = ParamUtil.getString(renderRequest, "categoryToAdd");
-		if (Validator.isNotNull(categoryToAdd)) {
-			AssetCategory ac = AssetCategoryLocalServiceUtil.fetchAssetCategory(Long.parseLong(categoryToAdd));
-			if (ac != null) {
-				AssetVocabulary vocab = AssetVocabularyLocalServiceUtil.fetchAssetVocabulary(ac.getVocabularyId());
-				if (vocab != null & vocab.getName().equals("Conseil")) {
-					categoryCouncilId = categoryToAdd;
-				} else if (vocab != null & vocab.getName().equals("Statut")) {
-					categoryDelibStage = categoryToAdd;
-				}
-			}
+		// récupère la catégorie du conseil du paramètre
+		String categoriesFilter = ParamUtil.getString(renderRequest, "filterCategoriesIdByVocabulariesName", "");
+		if (Validator.isNotNull(categoriesFilter)) {
+			List<String> filterCategoriesIdByVocabulariesName = List.of(categoriesFilter.split("___"));
+
+			String filterCategoryForCouncil = filterCategoriesIdByVocabulariesName.stream()
+					.filter(c -> c.startsWith(VocabularyNames.COUNCIL_SESSION+"__")).findFirst().orElse(null);
+			filterCategoryCouncil = filterCategoryForCouncil;
 		}
 
 		// Récupère la catégorie de conseil en session
-		Object sessionObject = session.getAttribute("categoryCouncilId");
-		String sessionCategoryCouncilId = null;
+		// au format vocabularyName__categoryTitle__categoryId
+		Object sessionObject = session.getAttribute("filterCategoryCouncil");
+		String filterCategoryCouncilSession = null;
 		if (Validator.isNotNull(sessionObject)) {
-			sessionCategoryCouncilId = sessionObject.toString();
+			filterCategoryCouncilSession = sessionObject.toString();
 		}
 
-		String categoryId = null;
 		// Si aucun conseil sélectionné, on prend celui de la session
-		if (Validator.isNull(categoryCouncilId)) {
+		if (Validator.isNull(filterCategoryCouncil)) {
+			filterCategoryCouncil = filterCategoryCouncilSession;
 
-			if (Validator.isNull(sessionCategoryCouncilId)) {
+			// Si on a rien en session, on cherche le conseil du jour ou le dernier conseil
+			// au format vocabularyName__categoryTitle__categoryId
+			if (Validator.isNull(filterCategoryCouncil)) {
 
 				// Calcul de la date
 				GregorianCalendar gc = CouncilSessionLocalServiceUtil.calculDateForFindCouncil();
-
 				List<CouncilSession> todayCouncils = CouncilSessionLocalServiceUtil.findByDate(gc.getTime());
 
-				// Si on a rien en session, on cherche le conseil du jour ou le dernier conseil
+				AssetCategory categoryCouncil = null;
+				// On récupère le conseil du jour
 				if (todayCouncils.size() == 1) {
 					CouncilSession todayCouncil = todayCouncils.get(0);
-					categoryCouncilId = VocabularyHelper.getCategorieCouncilId(themeDisplay, todayCouncil);
-					session.setAttribute("categoryCouncilId", categoryCouncilId);
-
-				} else if (todayCouncils.size() > 1) {
-
+					categoryCouncil = AssetVocabularyHelper.getCategory(todayCouncil.getTitle(), todayCouncil.getGroupId());
+				}
+				// Il y a plusieurs conseil aujourd'hui, on récupère "aucun conseil sélectionné"
+				else if (todayCouncils.size() > 1) {
 					long groupId = themeDisplay.getScopeGroupId();
-					AssetCategory category = AssetVocabularyHelper.getCategory(CouncilConstants.NO_COUNCIL_CATEGORY_NAME, groupId);
-					if (category != null) {
-						categoryCouncilId = String.valueOf(category.getCategoryId());
-						session.setAttribute("categoryCouncilId", categoryCouncilId);
-					}
-				} else {
+					categoryCouncil = AssetVocabularyHelper.getCategory(CouncilConstants.NO_COUNCIL_CATEGORY_NAME, groupId);
+				}
+				// Il n'y a pas de conseil, on prend le dernier
+				else {
 					List<CouncilSession> futureCouncilSessions = CouncilSessionLocalServiceUtil.getCouncilSessions(-1,-1);
-
-					futureCouncilSessions = futureCouncilSessions.stream()
-							.sorted(Comparator.comparing(CouncilSession::getDate).reversed())
-							.collect(Collectors.toList());
-
 					if (futureCouncilSessions.size() > 0) {
+						futureCouncilSessions = futureCouncilSessions.stream()
+								.sorted(Comparator.comparing(CouncilSession::getDate).reversed())
+								.collect(Collectors.toList());
 						CouncilSession lastCouncil = futureCouncilSessions.get(0);
-						categoryCouncilId = VocabularyHelper.getCategorieCouncilId(themeDisplay, lastCouncil);
-						session.setAttribute("categoryCouncilId", categoryCouncilId);
+						categoryCouncil = AssetVocabularyHelper.getCategory(lastCouncil.getTitle(), lastCouncil.getGroupId());
 					}
 				}
-			} else {
-				categoryCouncilId=sessionCategoryCouncilId;
+				if (categoryCouncil != null) {
+					filterCategoryCouncil = VocabularyNames.COUNCIL_SESSION + "__" +
+							categoryCouncil.getTitleCurrentValue() + "__" +
+							categoryCouncil.getCategoryId();
+					session.setAttribute("filterCategoryCouncil", filterCategoryCouncil);
+				}
 			}
 		}
 		// Si on a sélectionné une catégorie différente à celle de la session, on prend la nouvelle et on l'enregistre en session
-		else if (!categoryCouncilId.equals(sessionCategoryCouncilId)) {
-			session.setAttribute("categoryCouncilId", categoryCouncilId);
+		else if (!filterCategoryCouncil.equals(filterCategoryCouncilSession)) {
+			session.setAttribute("filterCategoryCouncil", filterCategoryCouncil);
 		}
 
-		final String finalCategoryCouncilId = categoryCouncilId;
 		// On récupère les catégories de type conseil autorisé par le rôle du USER
 		List<AssetCategory> typeCoucilCats = UserRoleType.typeCategoriesForUser(themeDisplay);
-		// On récupère totes les sous catégories de conseil liées
-		List<AssetCategory> councilCats = new ArrayList<>();
 
+		// On récupère toutes les catégories et sous catégories des types de conseils autorisés
+		List<AssetCategory> councilCats = new ArrayList<>();
 		councilCats.addAll(typeCoucilCats);
 		for (AssetCategory cat : typeCoucilCats) {
 			councilCats.addAll(AssetVocabularyHelper.getChild(cat.getCategoryId()));
 		}
-		// Si la catégorie qui était sélectionnée/choisie n'est pas dans les catégories autorisée, on donne celle du premier type de conseil autorisé
+
+		// Si la catégorie qui était sélectionnée/choisie n'est pas dans les catégories autorisée,
+		// on donne celle du premier type de conseil autorisé (même passé)
+		final String finalCategoryCouncilId = filterCategoryCouncil.split("__").length==3?filterCategoryCouncil.split("__")[2]:"-1";
 		if (!councilCats.stream().anyMatch(x -> String.valueOf(x.getCategoryId()).equals(finalCategoryCouncilId))) {
-			categoryCouncilId = StringUtils.EMPTY;
+			filterCategoryCouncil = StringUtils.EMPTY;
 			if (typeCoucilCats.size() > 0) {
-				categoryCouncilId=String.valueOf(typeCoucilCats.get(0));
+				filterCategoryCouncil = VocabularyNames.COUNCIL_SESSION + "__" +
+						typeCoucilCats.get(0).getTitleCurrentValue() + "__" +
+						typeCoucilCats.get(0).getCategoryId();
 			}
 		}
-		categoryId = categoryCouncilId +','+categoryDelibStage;
 
-		return categoryId;
+		return filterCategoryCouncil;
 	}
 }

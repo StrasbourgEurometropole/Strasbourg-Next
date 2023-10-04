@@ -25,14 +25,12 @@ import java.util.List;
 
 public class ViewDeliberationsDisplayContext extends ViewBaseDisplayContext<Deliberation> {
 
-    private String sessionCategoryToAdd;
-
-    public ViewDeliberationsDisplayContext(RenderRequest request, RenderResponse response, String categoryToAdd) {
+    public ViewDeliberationsDisplayContext(RenderRequest request, RenderResponse response, String filterCategories) {
         super(request, response, Deliberation.class);
         _request = request;
         _response = response;
         _themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
-        this.sessionCategoryToAdd=categoryToAdd;
+        _filterCategories = filterCategories;
         // Hack : forçage du delta du SearchContainer
         // TODO : Changer le ViewListBaseDisplayContext pour mettre en place la prise en compte du delta par default
         this.getSearchContainer().setDelta(100);
@@ -83,6 +81,7 @@ public class ViewDeliberationsDisplayContext extends ViewBaseDisplayContext<Deli
         }
         return deliberationsIds.toString();
     }
+
     /**
      * Retourne le searchContainer des Deliberations
      *
@@ -191,6 +190,17 @@ public class ViewDeliberationsDisplayContext extends ViewBaseDisplayContext<Deli
     }
 
     /**
+     * Récupère le String des Vocabulaire/catégorie/categId sur lesquels on doit filtrer
+     *  qui se présente comme suit :
+     * "vocabularyName__categoryName__categoryId___..."
+     * Utilisé dans tous les render et action URL des JSP de listing qui ont un
+     * filtre par vocabulaire pour le garder à chaque action
+     */
+    public String getFilterCategoriesIdByVocabulariesName() {
+        return _filterCategories;
+    }
+
+    /**
      * Récupère et ajoute à la liste la categorie correspondant à aucun conseil sélectionné
      */
     /*private void addCategorieAucunConseilSelectionne(ThemeDisplay themeDisplay, List<AssetCategory> authorizedRootCategories) {
@@ -204,4 +214,5 @@ public class ViewDeliberationsDisplayContext extends ViewBaseDisplayContext<Deli
     private final ThemeDisplay _themeDisplay;
     protected SearchContainer<Deliberation> _searchContainer;
     private final RenderResponse _response;
+    private final String _filterCategories;
 }

@@ -105,6 +105,15 @@
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:actionURL>
+<liferay-portlet:renderURL varImpl="filterSelectionURL">
+	<portlet:param name="tab" value="deliberations" />
+	<portlet:param name="mvcPath" value="/council-bo-view-deliberations.jsp" />
+	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
+	<portlet:param name="orderByType" value="${dc.orderByType}" />
+	<portlet:param name="keywords" value="${dc.keywords}" />
+	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
+</liferay-portlet:renderURL>
 <aui:script>
 	var form = document.querySelector("[name='<portlet:namespace />fm']");
 	function deleteSelection() {
@@ -122,7 +131,7 @@
 			p_p_state: "pop_up",
 			eventName: "com_liferay_asset_categories_selector_web_portlet_AssetCategoriesSelectorPortlet_selectCategory",
 			selectedCategories: categoriesId,
-			singleSelect : false,
+			singleSelect : true,
 			vocabularyIds: vocabularyId,
 		});
 

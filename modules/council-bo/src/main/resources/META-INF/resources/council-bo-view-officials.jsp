@@ -71,8 +71,18 @@
 
 </div>
 
+<liferay-portlet:renderURL varImpl="filterSelectionURL">
+	<portlet:param name="tab" value="officials" />
+	<portlet:param name="mvcPath" value="/council-bo-view-officials.jsp" />
+	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
+	<portlet:param name="orderByType" value="${dc.orderByType}" />
+	<portlet:param name="keywords" value="${dc.keywords}" />
+	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
+</liferay-portlet:renderURL>
 
 <aui:script>
+	var form = document.querySelector("[name='<portlet:namespace />fm']");
 	function getCategoriesByVocabulary(vocabularyId, vocabularyName, categoriesId) {
 		const portletURL = "${officialsURL}";
 
