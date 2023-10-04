@@ -1,65 +1,57 @@
-<!--Section Territoire-->
-<#setting locale = locale />
-<section id="seu-territory">
-    <div class="seu-container">
-        <h2 class="seu-section-title">
-            <span class="seu-title">${title.getData()}</span>
-        </h2>
-        <div class="seu-links">
-            <#if linkLabel.getSiblings()?has_content>
-              <#list linkLabel.getSiblings() as cur_linkLabel>
-                    <a href="${cur_linkLabel.getChildren()[0].getFriendlyUrl()}" class="seu-btn-square seu-bordered seu-grey" title="${cur_linkLabel.getData()}">
-                        <span class="seu-flexbox">            
-                            <span class="seu-btn-text">${cur_linkLabel.getData()}</span>
-                            <span class="seu-btn-arrow"></span>
-                        </span>
-                    </a>
-              </#list>
-            </#if>
-        </div>
-        <div class="seu-territories">
-            <div class="seu-territory seu-left" style="background-image: url(/o/strasbourg-theme/images/test/quartier.jpg);">
-                <div class="seu-text">
-                    <div class="seu-suptitle">${districtSublabel.getData()}</div>
-                    <div class="seu-title">${districtLabel.getData()}</div>
-                    <form action="post">
-                        <label for="quartier" class="sr-only">Sélectionner votre quartier</label>
-                        <select name="quartier" id="quartier" class="seu-toCustomSelect" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-                            <option value="#seu-territory">Sélectionnez votre quartier</option>
-                            <#if district.getSiblings()?has_content>
-                              <#list district.getSiblings() as cur_district>
-                                    <option value="${cur_district.getChildren()[0].getFriendlyUrl()}">${cur_district.getData()}</option>
-                                
-                              </#list>
-                            </#if>
-                        </select>
-                    </form>
-                </div>
-                <div class="seu-map">
-                    <img src="/o/strasbourg-theme/images/test/map_quartier.png" alt="">
-                </div>
+<#if themeDisplay.isSignedIn() >
+    <@clay["alert"] message="Overlay de territoire est present sur cette page"
+    displayType="secondary"
+    title="Overlay" />
+</#if>
+
+<div id="st-overlay-location" class="st-overlay st-overlay-location st--from-bottom st-custom-scrollbar" role="dialog" aria-modal="true" tabindex="0" aria-label="Modale de localisation">
+
+    <form action="" class="st-overlay__inner form-styles">
+        <button class="st-btn-close st-parsed-overlay" data-overlay-close="st-overlay-location" aria-label="Fermer la modale"></button>
+
+        <div class="st-overlay__body">
+
+            <div class="st-overlay__heading">
+                <span class="st-title-overlay st-h2">${title.getData()}</span>
+                <p>
+                    ${chapo.getData()}
+                </p>
             </div>
-            <div class="seu-territory seu-right" style="background-image: url(/o/strasbourg-theme/images/test/commune.jpg);">
-                <div class="seu-text">
-                    <div class="seu-suptitle">${citySublabel.getData()}</div>
-                    <div class="seu-title">${cityLabel.getData()}</div>
-                    <form action="post">
-                        <label for="commune" class="sr-only">Sélectionner votre commune</label>
-                        <select name="commune" id="commune" class="seu-toCustomSelect" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-                            <option value="#seu-territory">Sélectionnez votre commune</option>
-                            <#if city.getSiblings()?has_content>
-                              <#list city.getSiblings() as cur_city>
-                                    <option value="${cur_city.getChildren()[0].getFriendlyUrl()}">${cur_city.getData()}</option>
-                                
-                              </#list>
+
+
+            <div class="st-grid-fields st-grid-12">
+
+                <div class="st-group-field">
+                    <label for="field1">${citySublabel.getData()} ${cityLabel.getData()}</label>
+                    <div class="st-field-select">
+                        <select id="districtFieldSet" onchange="document.location.href = this.value;" name="districtFieldSet">
+                            <option value="" selected disabled ></option>
+                            <#if districtFieldSet.getSiblings()?has_content>
+                                <#list districtFieldSet.getSiblings() as cur_districtFieldSet>
+                                    <option value="${cur_districtFieldSet.districtLink.getFriendlyUrl()}" >${cur_districtFieldSet.district.getData()}</option>
+                                </#list>
                             </#if>
                         </select>
-                    </form>
+                    </div>
                 </div>
-                <div class="seu-map">
-                    <img src="/o/strasbourg-theme/images/test/map_commune.png" alt="">
+                <span class="st-h3" style="text-align: center;">OU</span>
+
+                <div class="st-group-field">
+                    <label for="field2">${districtSublabel.getData()} ${districtLabel.getData()}</label>
+                    <div class="st-field-select">
+                        <select id="cityFieldSet" onchange="document.location.href = this.value;" name="cityFieldSet">
+                            <option value="" selected disabled ></option>
+                            <#if cityFieldSet.getSiblings()?has_content>
+                                <#list cityFieldSet.getSiblings() as cur_cityFieldSet>
+                                    <option value="${cur_cityFieldSet.cityLink.getFriendlyUrl()}">${cur_cityFieldSet.city.getData()}</option>
+                                </#list>
+                            </#if>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+
+    </form>
+
+</div>

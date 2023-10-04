@@ -89,7 +89,7 @@
 								</c:choose>
 								<liferay-ddm:template-renderer
 										className="${className}"
-										contextObjects="${dc.getTemplateContextObjects(event)}"
+										contextObjects="${dc.getTemplateContextObjects(event,eventPeriod.key )}"
 										displayStyle="${dc.templatesMap[event.className]}"
 										displayStyleGroupId="${themeDisplay.scopeGroupId}"
 										entries="${dc.templateEntries }"

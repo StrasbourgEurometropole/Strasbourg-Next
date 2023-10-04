@@ -25,6 +25,7 @@
 
                 <div class="st-overlay__heading-infos">
                     <p class="st-date"></p>
+                    <p class="st-schedule"></p>
                     <p class="st-location"></p>
                 </div>
             </div>

@@ -80,7 +80,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 </#if>
             </div>
         </#if>
-        <div class="st-maps" data-callback="callbackMapIntegration">
+        <div class="st-maps" data-lat="${ entry.getMercatorY() }" data-lng="${ entry.getMercatorX() }" data-zoom="17" data-callback="initMap">
+
         </div>
     </div>
 </header>
@@ -345,12 +346,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             </a>
                         </li>
                     </#if>
-                    <li>
-                        <a href="#" class="st-btn-icon st-btn-icon--white" target="_blank" rel="noopener"
-                           title="Ouvrir le lien (nouvelle fenêtre)">
-                            <span class="st-icon-agenda-add" aria-hidden="true"></span>
-                        </a>
-                    </li>
                 </ul>
                 <button class="st-btn-favorite-sticky">
                     <@liferay_ui.message key="eu.add-to-favorite" />

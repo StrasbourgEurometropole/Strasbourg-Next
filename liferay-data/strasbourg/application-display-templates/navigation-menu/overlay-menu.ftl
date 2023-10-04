@@ -1,4 +1,8 @@
-<div id="overlay-shadow" class="st-shadow-overlay"></div>
+<#if themeDisplay.isSignedIn() >
+    <@clay["alert"] message="Overlay de menu est present sur cette page"
+    displayType="secondary"
+    title="Overlay" />
+</#if>
 <div id="st-overlay-menu" class="st-overlay st-overlay-menu">
     <button class="st-btn-close" data-overlay-close="st-overlay-menu" aria-label="Fermer le menu"></button>
     <div class="st-overlay__inner">

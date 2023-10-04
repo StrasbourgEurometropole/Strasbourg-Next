@@ -1,44 +1,37 @@
-<!-- Documents utiles -->
-<#setting locale = locale />
-<#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
-<#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
-
-<#if entries?has_content>
-    <div class="seu-wi seu-wi-crossreading">
-        <div class="seu-container">
-            <h2 class="seu-section-title">
-                <span class="seu-title">
-                    ${portletHelper.getPortletTitle('eu.useful-documents', renderRequest)}</span>
+<!-- Liens utiles (externes) -->
+<#setting locale=locale />
+<#assign portletHelper=serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
+<div class="st-bloc st-bloc-infos-complementaires st-wrapper st--has-margin">
+    <div class="st-container">
+        <div class="st-component st-component-type-2">
+            <h2 class="st-h2 st-title">
+                ${portletHelper.getPortletTitle('eu.useful-links', renderRequest)}
             </h2>
-            <div class="seu-wi-content">
-                <#if entries?has_content>
-                    <#list entries as curEntry>
-                        <#assign file = curEntry.getAssetRenderer().getAssetObject() />
-                        <#if fileEntryHelper.getFileTitle??>
-                            <#assign fileTitle = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
-                        <#else>
-                            <#assign fileTitle = file.getTitle() />
-                        </#if>
-                        <a  class="seu-btn-square seu-bordered seu-core" 
-                            href="${fileEntryHelper.getFileEntryURL(file.getFileEntryId())}"
-                            target="_blank"
-                            title="${fileTitle}" 
-                        >
-                            <span class="seu-flexbox">
-                                <span class="seu-btn-text">
-                                    ${fileTitle} (${file.getExtension()?upper_case} - ${fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale)})
-                                </span>
-                                <span class="seu-btn-arrow"></span>
-                            </span>
-                        </a>
-                    </#list>
-                </#if>
+            <div class="st-component-container">
+                <ul class="st-liste st-limit-height">
+                    <#if entries?has_content>
+                        <#list entries as curEntry>
+                            <#assign link=curEntry.getAssetRenderer().getLink() />
+                            <li class="st-lien-container">
+                                <a href="${link.getURL(locale)}" class="st-lien" target="_blank" title="${link.getHoverText(locale)} (<@liferay_ui.message key=" eu.new-window" />)" >
+                                    <p class="st-title-lien">
+                                        ${link.getTitle(locale)}
+                                    </p>
+                                    <p class="st-text">
+                                        <@liferay_ui.message key="eu.access-page" />
+                                    </p>
+                                </a>
+                            </li>
+                        </#list>
+                    </#if>
+                </ul>
+                <div class="st-show-more">
+                    <button class="st-btn-show-more st-btn-arrow st--down" aria-expanded="false" aria-controls="123"
+                            aria-label="Voir tout le texte" data-open-label="Voir tout le texte"
+                            data-close-label="Réduire l'affichage du texte">
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</#if>
-<#if !entries?has_content && themeDisplay.isSignedIn()>
-    <div class="seu-container">
-        Documents utiles - Aucune entrée (message non-visible par les visiteurs)
-    </div>
-</#if>
+</div>

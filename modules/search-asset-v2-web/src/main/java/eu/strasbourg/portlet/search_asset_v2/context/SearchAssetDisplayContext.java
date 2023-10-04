@@ -54,16 +54,10 @@ import javax.portlet.ResourceURL;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @SuppressWarnings({"deprecation", "unused"})
@@ -763,12 +757,18 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 	}
 
 	public Map<String, Object> getTemplateContextObjects(AssetEntry entry) {
+		return getTemplateContextObjects(entry, Date.from(Instant.now()));
+	}
+
+
+	public Map<String, Object> getTemplateContextObjects(AssetEntry entry, Date displayDate) {
 		Map<String, Object> contextObjects = new HashMap<>();
 		if (entry.getAssetRenderer() != null) {
 			contextObjects.put("entry", entry.getAssetRenderer().getAssetObject());
 
 			boolean isFeatured = this.isEntryFeatured(entry);
 			contextObjects.put("isFeatured", isFeatured);
+			contextObjects.put("displayDate", displayDate);
 		}
 		return contextObjects;
 	}

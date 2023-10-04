@@ -20,6 +20,9 @@ import com.liferay.portal.kernel.util.Accessor;
 
 import org.osgi.annotation.versioning.ProviderType;
 
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * The extended model interface for the Event service. Represents a row in the &quot;agenda_Event&quot; database table, with each column mapped to a property of this class.
  *
@@ -82,6 +85,8 @@ public interface Event extends EventModel, PersistedModel {
 	 */
 	public java.util.List<eu.strasbourg.service.agenda.model.Manifestation>
 		getManifestations();
+
+	public String getEventTimeFromDate(Date date, Locale locale);
 
 	/**
 	 * Retourne la liste des IDs des manifestations auxquelles cette édition

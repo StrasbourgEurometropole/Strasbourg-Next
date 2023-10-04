@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -1317,6 +1318,11 @@ public class EventWrapper
 		getManifestations() {
 
 		return model.getManifestations();
+	}
+
+	@Override
+	public String getEventTimeFromDate(Date date, Locale locale) {
+		return model.getEventTimeFromDate(date, locale);
 	}
 
 	/**

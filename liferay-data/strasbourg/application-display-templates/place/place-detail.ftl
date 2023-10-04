@@ -23,7 +23,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
     <div class="st-barre-inner st-wrapper">
         <div class="st-container-left">
             <div class="st-image">
-                <@addImage fileEntryId=entry.imageId isFigure=true  />
+                <@addImage fileEntryId=entry.imageId  />
             </div>
             <div class="st-content">
                 <p class="st-title">${entry.getAlias(locale)}</p>
@@ -467,6 +467,25 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                     </#if>
                 </div>
                 <div class="st-bottom-part st-text-styles">
+                    <#if entry.hasScheduleTable()>
+                        <#assign
+                        assetVocabularyHelper=serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
+                        <#assign
+                        placeLocalService=serviceLocator.findService("eu.strasbourg.service.place.service.PlaceLocalService") />
+                        <#list entry.types as type>
+                            <#if (assetVocabularyHelper.getCategoryProperty(type.categoryId, 'searchable' )=='true' )>
+                                <#assign category=type />
+                            </#if>
+                        </#list>
+                        <div>
+                            <a href="${homeURL}horaires-lieux/-/schedules/category/${category.categoryId}" class="st-btn st--btn-secondary st--btn-full-width">
+                                <@liferay_ui.message key="eu.see-all-schedule-of" />
+                                ${category.getTitle(locale)?lower_case}
+                            </a>
+                        </div>
+                    </#if>
+
+
                     <#if !entry.hasURLSchedule>
                         <!-- Liste des exceptions -->
                         <#assign exceptions=entry.getPlaceScheduleExceptionFreeMarker(.now, true,
@@ -521,6 +540,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                             </ul>
                         </#if>
                     </#if>
+
                     <#if entry.getExceptionalSchedule(locale)?has_content>
                         <p class="st-small-title">
                             <@liferay_ui.message key="eu.exceptional-schedule" />
@@ -529,38 +549,41 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 
                     </#if>
                 </div>
+
             </div>
+
         </div>
     </#if>
-    <#if entry.hasScheduleTable()>
+    <#if entry.isSearchable()>
         <#assign
         assetVocabularyHelper=serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
         <#assign
         placeLocalService=serviceLocator.findService("eu.strasbourg.service.place.service.PlaceLocalService") />
         <#list entry.types as type>
-            <#if (assetVocabularyHelper.getCategoryProperty(type.categoryId, 'schedule' )=='true' )>
+            <#if (assetVocabularyHelper.getCategoryProperty(type.categoryId, 'searchable' )=='true' )>
                 <#assign category=type />
             </#if>
         </#list>
+        <#assign imageEntryId = assetVocabularyHelper.getCategoryImage(category.categoryId,'picto-vert').getFileEntryId() />
         <!-- Listing Lieu meme type -->
         <div class="st-bloc st-bloc-sit-focus st--with-icon st-wrapper st-wrapper-small st--has-margin">
             <div class="st-container">
 
                 <div class="st-col-left">
-                    <span class="st-icon-piscine" aria-hidden="true"></span>
-                </div>
-                <div class="st-col-right">
+                    <div class="st-image">
+                        <@addImage fileEntryId=imageEntryId  />
+                    </div>
                     <div class="st-content">
                         <h2 class="st-h2">Vous preferez aller ailleurs ?</h2>
                         <p class="st-surtitre-cat">Il y a ${placeLocalService.getPlaceCountByAssetCategory(category, themeDisplay.getCompanyGroupId())} autres
                             ${category.getTitle(locale)?lower_case} dans l'eurometropole</p>
                     </div>
                 </div>
+
                 <div class="st-col-right">
-                    <a href="${homeURL}horaires-lieux/-/schedules/category/${category.categoryId}"
+                    <a href="${homeURL}rechercher-lieu-public?category=${category.categoryId}"
                        class="st-btn st--btn-secondary">
-                        <@liferay_ui.message key="eu.see-all-schedule-of" />
-                        ${category.getTitle(locale)?lower_case}
+                        <@liferay_ui.message key="eu.see-all-other-places" />
                     </a>
                 </div>
             </div>

@@ -9,15 +9,18 @@ function updateDescription(clickedElement) {
 	var location = clickedElement.querySelector('.st-location').textContent
 	var imageURL =  clickedElement.querySelector('.st-image img').src
 	var bookingURL = clickedElement.getAttribute("data-bookingurl")
+	var dateEvent = clickedElement.getAttribute("data-date")
 
 	var overlayDiv = document.getElementById('st-overlay-preview-agenda'); // Get the description-overlay element
 	overlayDiv.querySelector(".st-title-overlay").textContent = title;
 	overlayDiv.querySelector(".st-surtitre-cat").textContent = category;
-	overlayDiv.querySelector(".st-date").textContent = date;
+	overlayDiv.querySelector(".st-schedule").textContent = date;
+	overlayDiv.querySelector(".st-date").textContent = dateEvent;
 	overlayDiv.querySelector(".st-location").innerHTML = `${location}<br> ${address}`;
 	overlayDiv.querySelector(".st-overlay__content").innerHTML = descriptionHtml;
 	overlayDiv.querySelector(".detail-button").href = detailURL;
 	overlayDiv.querySelector(".st-img").src = imageURL;
+
 	if(bookingURL) {
 		var elementFooter = overlayDiv.querySelector(".st-overlay__footer")
 		elementFooter.insertAdjacentHTML("afterbegin", `<a href="${bookingURL}" class="st-btn-icon st-btn-icon--white" title="Biletterie">

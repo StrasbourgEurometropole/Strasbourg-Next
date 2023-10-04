@@ -4,6 +4,7 @@
 <#else>
     <#assign homeURL="/" />
 </#if>
+
 <#assign plId=renderRequest.getAttribute("classNameLayoutId")[entry.getModelClassName()] />
 <@liferay_portlet.renderURL plid=plId var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
     <@liferay_portlet.param name="classPK" value="${entry.assetEntry.classPK}" />
@@ -31,6 +32,12 @@
         </div>
         <a href="#" class="st-card st-card-agenda st--card-horizontal st--with-gradient" onclick="updateDescription(this)" data-overlay-open="st-overlay-preview-agenda" data-classpk="${entry.assetEntry.classPK}"
            <#if entry.bookingURL?has_content>data-bookingURL="${entry.bookingURL}"</#if>
+           data-date="<#if entry.firstStartDate?has_content && entry.lastEndDate?has_content>
+                        <#if entry.firstStartDate?date==entry.lastEndDate?date>
+                            <@liferay_ui.message key="eu.event.the" /> ${entry.firstStartDate?date?string.short?replace('/', '.')}
+                        <#else>
+                            <@liferay_ui.message key="eu.event.from-date" /> ${entry.firstStartDate?date?string.short?replace('/', '.')} <@liferay_ui.message key="eu.event.to" /> ${entry.lastEndDate?date?string.short?replace('/', '.')}
+                        </#if></#if>"
            data-address="${entry.getPlaceAddress(locale)}"
            data-detailurl="${detailURLFilter}"
         >
@@ -42,17 +49,7 @@
                     ${entry.getTypeLabel(locale)}
                 </p>
                 <p class="st-date">
-                    <#if entry.firstStartDate?has_content && entry.lastEndDate?has_content>
-                        <#if entry.firstStartDate?date==entry.lastEndDate?date>
-                            <@liferay_ui.message key="eu.event.the" />
-                            ${entry.firstStartDate?date?string.short?replace('/', '.')}
-                        <#else>
-                            <@liferay_ui.message key="eu.event.from-date" />
-                            ${entry.firstStartDate?date?string.short?replace('/', '.')}
-                            <@liferay_ui.message key="eu.event.to" />
-                            ${entry.lastEndDate?date?string.short?replace('/', '.')}
-                        </#if>
-                    </#if>
+                    ${entry.getEventTimeFromDate(displayDate, locale)}
                 </p>
                 <p class="st-location">
                     ${entry.getPlaceAlias(locale)} - ${entry.getPlaceCity(locale)}
