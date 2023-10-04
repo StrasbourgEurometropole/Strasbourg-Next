@@ -30,14 +30,15 @@ title="Overlay" />
             <div class="st-overlay__header-row2 st-wrapper">
                 <span>Afficher :</span>
                 <div class="st-filters-list">
-                    <button id="st-pages" class="st-btn-filter-search st-is-active">Pages</button>
-                    <button id="st-events" class="st-btn-filter-search st-is-active"><liferay-ui:message key="eu.strasbourg.events" /></button>
-                    <button id="st-places" class="st-btn-filter-search st-is-active">Lieux</button>
-                    <button id="st-editions" class="st-btn-filter-search">Editions</button>
-                    <button id="st-officals" class="st-btn-filter-search"><liferay-ui:message key="officals" /></button>
+                    <button id="dynamic_search_type_pages" data-entity-classname="com.liferay.journal.model.JournalArticle" class="st-btn-filter-search st-is-active">Pages</button>
+                    <button id="dynamic_search_type_events" data-entity-classname="eu.strasbourg.service.agenda.model.Event" class="st-btn-filter-search st-is-active"><liferay-ui:message key="eu.strasbourg.events" /></button>
+                    <button id="dynamic_search_type_places" data-entity-classname="eu.strasbourg.service.place.model.Place" class="st-btn-filter-search st-is-active">Lieux</button>
+                    <button id="dynamic_search_type_editions" data-entity-classname="eu.strasbourg.service.edition.model.Edition" class="st-btn-filter-search st-is-active">Editions</button>
+                    <button id="dynamic_search_type_officals" data-entity-classname="eu.strasbourg.service.official.model.Official" class="st-btn-filter-search st-is-active"><liferay-ui:message key="officals" /></button>
 
                 </div>
                 <div class="st-results">
+                    <span class="loading-small-animation st-hide"></span>
                     <liferay-ui:message key="eu.strasbourg.dynamic-search-strasbourg-result-search" /> <span class="st-results__total" id="results-total">0</span>
                 </div>
             </div>
@@ -48,6 +49,9 @@ title="Overlay" />
 
             <div class="st-wrapper">
                 <ul id="resultList" class="st-cards-wrapper st--has-cards-horizontal st-basic-grid st-col-2@t-small">
+                    <div class="loading-animation st-hide">
+                        <div></div>
+                    </div>
                 </ul>
             </div>
         </div>
@@ -76,6 +80,7 @@ title="Overlay" />
 
 		var searchSubmitURL = '${searchSubmitURL}';
 	</script>
+    <link rel="stylesheet" href="/o/dynamicsearchassetweb/css/dynamic-search.css" />
 </liferay-util:html-top>
 
 <liferay-util:html-bottom>

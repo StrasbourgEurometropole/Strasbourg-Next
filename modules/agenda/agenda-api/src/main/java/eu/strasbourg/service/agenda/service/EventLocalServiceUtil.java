@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.agenda.service;
 
+import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -24,8 +25,11 @@ import eu.strasbourg.service.agenda.model.Event;
 
 import java.io.Serializable;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Provides the local service utility for Event. This utility wraps
@@ -83,6 +87,10 @@ public class EventLocalServiceUtil {
 		long manifestationId, long[] eventIds) {
 
 		getService().addManifestationEvents(manifestationId, eventIds);
+	}
+
+	public static TreeMap<Date, List<AssetEntry>> convertEventsToTreeMap(List<AssetEntry> entries) {
+		return getService().convertEventsToTreeMap(entries);
 	}
 
 	/**

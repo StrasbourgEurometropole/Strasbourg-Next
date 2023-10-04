@@ -7,7 +7,7 @@ function updateDescription(clickedElement) {
 	var category = clickedElement.querySelector('.st-surtitre-cat').textContent
 	var date = clickedElement.querySelector('.st-date').textContent
 	var location = clickedElement.querySelector('.st-location').textContent
-	var imageURL =  clickedElement.querySelector('.st-img img').src
+	var imageURL =  clickedElement.querySelector('.st-image img').src
 	var bookingURL = clickedElement.getAttribute("data-bookingurl")
 
 	var overlayDiv = document.getElementById('st-overlay-preview-agenda'); // Get the description-overlay element

@@ -1,10 +1,7 @@
-.st-bloc-actu-home {
-	.st-bloc-actu-home__inner {
+.st-bloc-actu {
+	.st-bloc-actu__inner {
 		display: flex;
 		flex-direction: column;
-		padding-top: 40px;
-		padding-bottom: 40px;
-		border-bottom: 1px solid $c_border;
 	}
 
 	.st-titre {
@@ -32,11 +29,6 @@
 			display: grid !important;
 			gap: 20px;
 			grid-template-columns: repeat(4, minmax(10px, 1fr));
-
-			> li:nth-child(1),
-			> li:nth-child(2) {
-				grid-column: span 2;
-			}
 		}
 
 		.splide__slide {
@@ -49,7 +41,6 @@
 	}
 
 	.st-btn-cta {
-		align-self: flex-end;
 		margin-top: 20px;
 
 		@include min-tablet-portrait {
@@ -62,28 +53,67 @@
 		justify-content: flex-end;
 	}
 
+	
+	// --modifiers
+	&.st--in-home {
+		.st-bloc-actu__inner {
+			padding-top: 40px;
+			padding-bottom: 40px;
+			border-bottom: 1px solid $c_border;
+		}
 
-	// actus dans un composant view-more seulement au-dessus de tablette
-	.st-component-container {
-		.st-limit-height {
-			--max-height-desktop: 670px;
-			display: flex;
-			flex-direction: column;
+		.st-btn-cta {
+			align-self: flex-end;
+		}
 
-			@include tablet-portrait {
-				max-height: initial;
-				overflow: initial;
-				padding-bottom: initial;
-
-				&:after {
-					display: none;
+		.st-cards-wrapper {
+			// passe du mode slider au mode grille
+			@include min-tablet-portrait {
+				> li:nth-child(1),
+				> li:nth-child(2) {
+					grid-column: span 2;
 				}
 			}
 		}
 
-		.st-show-more {
+		// actus dans un composant view-more seulement au-dessus de tablette
+		.st-component-container {
+			.st-limit-height {
+				--max-height-desktop: 670px;
+				display: flex;
+				flex-direction: column;
+	
+				@include tablet-portrait {
+					max-height: initial;
+					overflow: initial;
+					padding-bottom: initial;
+	
+					&:after {
+						display: none;
+					}
+				}
+			}
+	
+			.st-show-more {
+				@include tablet-portrait {
+					display: none !important;
+				}
+			}
+		}
+	}
+
+	&.st--with-anchors {
+		// supprime les marges du wrapper pour les shadows du slider
+		@include tablet-portrait {
+			margin-left: initial;
+			margin-right: initial;
+		}
+
+		.st-bloc-actu__inner {
+			// remet les marges du wrapper pour les shadows du slider
 			@include tablet-portrait {
-				display: none !important;
+				margin-left: var(--border-gutter);
+				margin-right: var(--border-gutter);
 			}
 		}
 	}

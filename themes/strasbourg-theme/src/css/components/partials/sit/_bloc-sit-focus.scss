@@ -110,4 +110,14 @@
 			}
 		}
 	}
+
+	&.st--with-anchors {
+		background-color: initial;
+		border-radius: initial;
+
+		.st-container {
+			background-color: $c_greydark;
+			border-radius: $border-radius;
+		}
+	}
 }

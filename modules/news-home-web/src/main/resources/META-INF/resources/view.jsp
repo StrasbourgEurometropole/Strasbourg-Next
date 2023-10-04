@@ -28,8 +28,8 @@
     </div>
 </c:if>
 
-<div class="st-bloc st-bloc-actu-home st-u-overflow-x-hidden " role="group">
-    <div class="st-wrapper st-bloc-actu-home__inner st-js-slider-actu-home splide st-component-container">
+<div class="st-bloc st-bloc-actu st--in-home st-u-overflow-x-hidden" role="group">
+    <div class="st-wrapper st-bloc-actu__inner st-js-slider-actu splide st-component-container">
         <h2 class="st-h2 st-titre"><liferay-ui:message key="eu.news.header" /></h2>
         <div class="st-limit-height">
             <div class="splide__track">

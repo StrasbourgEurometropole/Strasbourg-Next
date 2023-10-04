@@ -213,4 +213,15 @@
 			}
 		}
 	}
+
+
+	&.st--communiques-presse {
+		@include tablet-portrait {
+			margin-bottom: initial;
+		}
+
+		.col-right {
+			justify-content: flex-end;
+		}
+	}
 }

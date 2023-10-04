@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.agenda.service;
 
+import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.petra.sql.dsl.query.DSLQuery;
@@ -43,8 +44,11 @@ import eu.strasbourg.service.agenda.model.Event;
 import java.io.IOException;
 import java.io.Serializable;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -109,6 +113,14 @@ public interface EventLocalService
 	 * @param event
 	 */
 	public void createCacheJSON(Event event) throws PortalException;
+
+
+	/**
+	 * Convertit une liste d'événements en TreeMap, avec pour clé les dates
+	 * @param entries
+	 * @return
+	 */
+	public TreeMap<Date, List<AssetEntry>> convertEventsToTreeMap(List<AssetEntry> entries);
 
 	/**
 	 * Creates a new event with the primary key. Does not add the event to the database.

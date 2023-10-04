@@ -74,12 +74,7 @@
 		width: 100%;
 	}
 
-	// Btn version largeur du parent sur mobile
-	&.st--btn-full-width-mobile {
-		@include mobile {
-			width: 100%;
-		}
-	}
+
 
 	// Btn format petit
 	&.st--btn-xs {
@@ -97,6 +92,12 @@
 		}
 	}
 
+	&.st--align-right {
+		display: flex;
+		margin-left: auto;
+		width: max-content;
+	}
+
 	// Btn des filtres
 	&.st--btn-filtres {
 		padding-left: 30px;
@@ -109,6 +110,13 @@
 			&:empty {
 				display: none;
 			}
+		}
+	}
+
+	// Btn version largeur du parent sur mobile
+	&.st--btn-full-width-mobile {
+		@include mobile {
+			width: 100%;
 		}
 	}
 

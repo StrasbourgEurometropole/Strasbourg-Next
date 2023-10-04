@@ -77,6 +77,10 @@
 		@include letter-spacing(25);
 		@include transition(color);
 
+		@include min-tablet-portrait {
+			max-width: 500px;
+		}
+
 		@include mobile {
 			font-size: 12px;
 		}
@@ -123,8 +127,20 @@
 		}
 	}
 
-	.st-lien-container {
+	.st-lien-left {
+		@include min-tablet-portrait {
+			max-width: 410px;
+		}
 
+		.st-type {
+			text-transform: initial;
+			margin-right: initial;
+			margin-top: 2px;
+
+			@include mobile {
+				font-size: 12px;
+			}
+		}
 	}
 	
 	

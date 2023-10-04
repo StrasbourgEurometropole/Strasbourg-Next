@@ -1,0 +1,19 @@
+// Couverture dans les pages presse
+.st-header-presse {
+	margin-bottom: 50px;
+
+	@include min-tablet-portrait {
+		padding-top: 0px;
+	}
+
+	@include mobile {
+		margin-bottom: 24px;
+	}
+
+	// régle spé pour les h1 des headers
+	.st-h1 {
+		@include mobile {
+			font-size: 30px;
+		}
+	}
+}

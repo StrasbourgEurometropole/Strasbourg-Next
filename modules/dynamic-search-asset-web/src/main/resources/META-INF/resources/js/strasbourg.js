@@ -258,8 +258,17 @@ function callSearchUrl(url, data, callback) {
 
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            callback(JSON.parse(xhr.responseText));
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                callback(JSON.parse(xhr.responseText));
+            }
+            // Remove the "loading" class when the request is complete
+            document.querySelector('.st-results .loading-small-animation').classList.add('st-hide');
+            document.querySelector('#resultList .loading-animation').classList.remove('st-hide');
+        } else {
+            // Add the "loading" class when the request is loading
+            document.querySelector('.st-results .loading-small-animation').classList.remove('st-hide');
+            document.querySelector('#resultList .loading-animation').classList.remove('st-hide');
         }
     };
     xhr.open('POST', url, true);
@@ -293,11 +302,47 @@ searchInput.addEventListener('input', function () {
     clearTimeout(typingTimer);
 
     if (searchInput.value.length >= 3) {
-        typingTimer = setTimeout(function () {
-            var searchTerm = searchInput.value;
-            var postData = `${porletNamespace}keywords=` + encodeURIComponent(searchTerm);
-
-            callSearchUrl(searchSubmitURL, postData, populateList);
-        }, doneTypingInterval);
+        typingTimer = setTimeout(sendSearch, doneTypingInterval);
     }
+});
+
+sendSearch = function () {
+    var searchTerm = searchInput.value;
+    var postData = `${porletNamespace}keywords=${encodeURIComponent(searchTerm)}&${porletNamespace}selectedClassNames=${getSelectedClassNames()}`;
+
+    callSearchUrl(searchSubmitURL, postData, populateList);
+}
+
+
+function getSelectedClassNames() {
+	var results = "";
+    const elements = document.querySelectorAll('[id^="dynamic_search_type"].st-is-active');
+
+    elements.forEach(function (element) {
+        results = results.concat(element.getAttribute("data-entity-classname"), ',');
+    })
+
+	return results;
+}
+function toggleStIsActive() {
+    // Get a reference to the current element
+    const currentElement = this;
+
+    // Toggle the "st-is-active" class on the current element
+    if (currentElement.classList.contains('st-is-active')) {
+        currentElement.classList.remove('st-is-active');
+    } else {
+        currentElement.classList.add('st-is-active');
+    }
+
+    sendSearch();
+}
+
+// Add the click event listener to elements with a specific class
+const elementsWithOnClick = document.querySelectorAll('.st-btn-filter-search');
+
+// Attach the toggleStIsActive function to each selected element
+elementsWithOnClick.forEach(function(element) {
+    element.addEventListener('click', toggleStIsActive);
+
 });

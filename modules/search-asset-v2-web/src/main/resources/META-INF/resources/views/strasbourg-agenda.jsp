@@ -1,4 +1,15 @@
+<%@ taglib prefix="aui" uri="http://liferay.com/tld/aui" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.liferay.asset.kernel.model.AssetEntry" %>
+<%@ page import="eu.strasbourg.service.agenda.service.EventLocalServiceUtil" %>
+<%@ page import="eu.strasbourg.service.agenda.model.EventPeriod" %>
+<%@ page import="eu.strasbourg.service.agenda.model.Event" %>
+<%@ page import="java.util.*" %>
+<%@ page import="eu.strasbourg.portlet.search_asset_v2.context.SearchAssetDisplayContext" %>
+<%@ page import="java.time.LocalDate" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="/search-asset-init.jsp" %>
+<%@ page isELIgnored="false" %>
 
 <liferay-portlet:actionURL varImpl="searchActionURL" />
 
@@ -7,6 +18,16 @@
 	<liferay-portlet:renderURLParams varImpl="searchActionURL" />
 	<liferay-util:include page="/forms/strasbourg-agenda-form.jsp" servletContext="<%=application %>" />
 </aui:form>
+
+<%
+
+
+// Assuming you have a list of events
+	List<AssetEntry> entries = ((SearchAssetDisplayContext) request.getAttribute("dc")).getEntries();
+	TreeMap<Date, List<AssetEntry>> eventsByDate = EventLocalServiceUtil.convertEventsToTreeMap(entries);
+	request.setAttribute("eventsByDate", eventsByDate);
+
+%>
 
 <header class="st-small-header st--two-columns st-basic-grid st-col-2@t-landscape st-wrapper st-wrapper-small" role="banner">
 	<div class="col-left">
@@ -51,37 +72,39 @@
 		<!-- Résultats -->
 		<liferay-ui:search-container id="entriesSearchContainer"
 									 searchContainer="${dc.searchContainer}">
-			<ul class="st-cards-wrapper st--has-cards-horizontal st-basic-grid st-col-2@t-small">
+				    <c:forEach var="eventPeriod" items="${eventsByDate}">
+					<div class="st-date-wrapper ">
+						<time class="st-date-title" datetime="${eventPeriod.key}"><fmt:formatDate value="${eventPeriod.key}" pattern="EEE" /> <strong><fmt:formatDate value="${eventPeriod.key}" pattern="dd MMMM" /></strong> :</time>
 
-				<liferay-ui:search-container-results results="${dc.entries}" />
-				<liferay-ui:search-container-row
-						className="com.liferay.asset.kernel.model.AssetEntry"
-						modelVar="entry" keyProperty="entryId" rowIdProperty="entryId">
-					<c:set var="className" value="${entry.className}" />
-					<c:choose>
-						<c:when test="${fn:contains(className, 'JournalArticle')}">
-							<c:set var="className" value="com.liferay.asset.kernel.model.AssetEntry" />
-						</c:when>
-						<c:when test="${fn:contains(className, 'DLFileEntry')}">
-							<c:set var="className" value="com.liferay.portal.kernel.repository.model.FileEntry" />
-						</c:when>
-					</c:choose>
-					<liferay-ddm:template-renderer
-							className="${className}"
-							contextObjects="${dc.getTemplateContextObjects(entry)}"
-							displayStyle="${dc.templatesMap[entry.className]}"
-							displayStyleGroupId="${themeDisplay.scopeGroupId}"
-							entries="${dc.templateEntries }"
-					>
-						<liferay-asset:asset-display
-								assetEntry="${entry}"
-								assetRenderer="${entry.assetRenderer}"
-								assetRendererFactory="${entry.assetRendererFactory}"
-								template="abstract"
-						/>
-					</liferay-ddm:template-renderer>
-				</liferay-ui:search-container-row>
-			</ul>
+						<ul class="st-cards-wrapper st--has-cards-horizontal st-basic-grid st-col-2@t-small">
+							<c:forEach var="event" items="${eventPeriod.value}">
+								<c:set var="className" value="${event.className}" />
+								<c:choose>
+									<c:when test="${fn:contains(className, 'JournalArticle')}">
+										<c:set var="className" value="com.liferay.asset.kernel.model.AssetEntry" />
+									</c:when>
+									<c:when test="${fn:contains(className, 'DLFileEntry')}">
+										<c:set var="className" value="com.liferay.portal.kernel.repository.model.FileEntry" />
+									</c:when>
+								</c:choose>
+								<liferay-ddm:template-renderer
+										className="${className}"
+										contextObjects="${dc.getTemplateContextObjects(event)}"
+										displayStyle="${dc.templatesMap[event.className]}"
+										displayStyleGroupId="${themeDisplay.scopeGroupId}"
+										entries="${dc.templateEntries }"
+								>
+									<liferay-asset:asset-display
+											assetEntry="${event}"
+											assetRenderer="${event.assetRenderer}"
+											assetRendererFactory="${event.assetRendererFactory}"
+											template="abstract"
+									/>
+								</liferay-ddm:template-renderer>
+							</c:forEach>
+						</ul>
+					</div>
+					</c:forEach>
 
 			<!-- Pagination -->
 			<c:if test="${dc.pager.lastPage > 1}">

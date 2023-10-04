@@ -317,6 +317,7 @@
 
 		.st-btns-wrapper {
 			order: 3;
+			align-self: stretch;
 			display: flex;
 			flex-wrap: wrap;
 			--col-gap: 10px;
@@ -330,6 +331,7 @@
 			}
 
 			.st-btn {
+				flex-grow: 1;
 				min-height: 44px;
 
 				@include mobile {

@@ -142,8 +142,7 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 			}
 			// Pas d'erreur
 			if (!hasError) {
-				SessionMessages.add(request, "mail-success");
-				request.setAttribute("mailSent", true);
+
 				boolean success = MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", websiteName, to,
 						mailSubject, mailBody);
 	
@@ -189,6 +188,14 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 					
 					MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", websiteName, email,
 							mailSubject, mailBody);
+
+				}
+				if (success) {
+					String messageKey = notificationEmail ? "mail-success-with-copy" : "mail-success";
+					SessionMessages.add(request, messageKey);
+					context.put("mailSent", true);
+				} else {
+					SessionErrors.add(request, "mail-error");
 				}
 				return success;
 			}

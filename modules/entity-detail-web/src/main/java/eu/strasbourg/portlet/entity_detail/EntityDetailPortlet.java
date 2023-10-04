@@ -86,6 +86,7 @@ public class EntityDetailPortlet extends MVCPortlet {
 			request.setAttribute("displayStyle", displayStyle);
 			request.setAttribute("displayStyleGroupId", displayStyleGroupId);
 			request.setAttribute("contextObjects", contextObjects);
+			contextObjects.put("mailSent", false);
 			
 			//Partage l'asset entry configurée dans la config. D'autres portlets peuvent ainsi la récupérer.
 			//Pour partager une variable en session il faut préfixer le nom de la variable par LIFERAY_SHARED_
