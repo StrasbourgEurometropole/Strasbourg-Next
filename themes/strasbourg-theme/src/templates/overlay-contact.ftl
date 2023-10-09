@@ -30,7 +30,7 @@
                 <@liferay_ui.error key="invalid-mail" message="eu.invalid-mail" targetNode="#contactForm" />
                 <@liferay_ui.error key="recaptcha-error" message="eu.recaptcha-error" targetNode="#contactForm" />
 
-                <#if mailSent == false>
+                <#if renderRequest.getAttribute("mailSent")?? == false>
                     <p class="st-text-mandatory"><@liferay_ui.message key="eu.required-field-star" /></p>
 
                     <div class="st-group-field">

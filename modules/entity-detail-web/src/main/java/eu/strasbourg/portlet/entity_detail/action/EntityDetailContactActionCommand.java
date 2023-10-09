@@ -193,9 +193,10 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 				if (success) {
 					String messageKey = notificationEmail ? "mail-success-with-copy" : "mail-success";
 					SessionMessages.add(request, messageKey);
-					context.put("mailSent", true);
+					request.setAttribute("mailSent", true);
 				} else {
 					SessionErrors.add(request, "mail-error");
+					request.setAttribute("mailSent", false);
 				}
 				return success;
 			}
@@ -210,7 +211,6 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 		request.setAttribute("message", message);
 		request.setAttribute("message", message);
 		request.setAttribute("notificationEmail", notificationEmail);
-		request.setAttribute("mailSent", false);
 
 		return false;
 	}

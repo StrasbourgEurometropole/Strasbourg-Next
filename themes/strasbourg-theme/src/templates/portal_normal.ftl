@@ -31,7 +31,7 @@
 
 <#include "${full_templates_path}/header.ftl" />
 
-<main>
+<main id="wrapper">
 <#-- Content of the page-->
 <#if selectable>
 	<@liferay_util["include"] page=content_include />

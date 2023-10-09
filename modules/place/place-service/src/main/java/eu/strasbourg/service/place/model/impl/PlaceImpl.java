@@ -338,8 +338,8 @@ public class PlaceImpl extends PlaceBaseImpl {
     public Boolean isSearchable() {
         List<AssetCategory> types = this.getTypes();
         for (AssetCategory type : types) {
-            String hasSchedule = AssetVocabularyHelper.getCategoryProperty(type.getCategoryId(), "searchable");
-            if (Validator.isNotNull(hasSchedule) && hasSchedule.equals("true")) {
+            String isSearchable = AssetVocabularyHelper.getCategoryProperty(type.getCategoryId(), "searchable");
+            if (Validator.isNotNull(isSearchable) && isSearchable.equals("true")) {
                 return true;
             }
         }

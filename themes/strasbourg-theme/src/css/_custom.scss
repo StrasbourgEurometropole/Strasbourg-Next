@@ -16,3 +16,13 @@
   margin: 0;
 }
 
+.st-img-fit-content {
+  picture {
+    img {
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+}
+
