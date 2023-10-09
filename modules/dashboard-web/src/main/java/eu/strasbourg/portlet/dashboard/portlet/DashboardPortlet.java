@@ -72,6 +72,7 @@ public class DashboardPortlet extends MVCPortlet {
 
     	// Récupération du group du site Participer
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+        request.setAttribute("locale", themeDisplay.getLocale());
         Group group = GroupLocalServiceUtil.fetchGroup(themeDisplay.getCompanyId(), StrasbourgPropsUtil.getParticiperName());
         long participerGroupId = group.getGroupId();
     	
@@ -105,8 +106,8 @@ public class DashboardPortlet extends MVCPortlet {
         /**
          * Projets
          */
-        List<Project> projectFolloweds = ProjectLocalServiceUtil.findProjectFollowedByProjectId(publikId);
-        
+//        List<Project> projectFolloweds = ProjectLocalServiceUtil.findProjectFollowedByProjectId(publikId);
+        List<Project> projectFolloweds = ProjectLocalServiceUtil.getProjects(0,20);
         request.setAttribute("projectFollowedsCount",projectFolloweds.size());
         request.setAttribute("projectFolloweds",projectFolloweds);
         
@@ -124,12 +125,12 @@ public class DashboardPortlet extends MVCPortlet {
         List<Initiative> initiativesFiled = InitiativeLocalServiceUtil.findByPublikUserId(publikId);
         List<Initiative> initiativesAides = InitiativeHelpLocalServiceUtil.getByPublikUserId(publikId)
         		.stream().map(x->x.getInitiative()).collect(Collectors.toList());
-        
+
         request.setAttribute("initiativeFiledsCount",initiativesFiled.size());
         request.setAttribute("initiativeFileds",initiativesFiled);
         request.setAttribute("initiativeAidesCount",initiativesAides.size());
         request.setAttribute("initiativeAides",initiativesAides);
-        
+
         /**
          * Budget participatif
          */

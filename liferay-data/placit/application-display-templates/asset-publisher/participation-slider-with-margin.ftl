@@ -17,25 +17,25 @@
 
     <section id="pro-link-participation" class="pro-bloc-slider pro-slider-participation">
         <div class="container">
-            
-            <div class="col-lg-10 col-lg-offset-1">
-                <h2>Participer Strasbourg (${entries?size})</h2>
-                <a href="${themeDisplay.getPortalURL()}${homeURL}participations" class="pro-btn" title="Lien vers la page Toutes les participations">Voir Toutes les participations</a>
+
+            <div>
+                <h2>Participer <span class='pro-listing-strasbourg'>Strasbourg</span> <span class="pro-listing-count">(${entries?size})</span></h2>
+                <a href="${themeDisplay.getPortalURL()}${homeURL}participations" class="pro-btn" title="Lien vers la page Toutes les participations">Tout voir</a>
             </div>
 
-            <div class="col-lg-10 col-lg-offset-1">
+            <div>
                 <div class="owl-carousel owl-opacify owl-theme owl-cards">
 
                     <!-- Parcours des entites de l'asset publisher -->
                     <#list entries as curEntry>
-                        
+
                         <!-- Recuperation de l'entite -->
                         <#assign entry = curEntry.getAssetRenderer().getParticipation() />
 
                         <!-- Recuperation du status de la participation (terminee, bientot, etc.) -->
                         <#assign participationStatus = entry.getParticipationStatus() />
-						
-						<#assign user = UserLocalService.getUser(entry.getStatusByUserId()) />
+
+                        <#assign user = UserLocalService.getUser(entry.getStatusByUserId()) />
 
                         <!-- Adaptation du message a afficher dans le 'span-pro-time' -->
                         <#if participationStatus == "soon_arrived">
@@ -58,24 +58,26 @@
                                     <figure role="group">
                                         <img src="${user.getPortraitURL(themeDisplay)}?imagePreview=1" loading="lazy" width="40" height="40" alt="Image participation"/>
                                     </figure>
-                                    <p>Concertation publiée par :</p>
-                                    <p><strong>${user.getFullName()}</strong></p>
-                                    <div class="pro-info-top-right">
-                                        <span class="pro-encart-theme" style="background : #${participationColor}">
-                                            ${participationType}
-                                        </span>
+                                    <div>
+                                        <p>Concertation publiée par :</p>
+                                        <p><strong>${user.getFullName()}</strong></p>
                                     </div>
+                                </div>
+                                <div class="pro-info-top">
+                                    <span class="pro-encart-theme" style="background : #${participationColor}">
+                                        ${participationType}
+                                    </span>
                                 </div>
                                 <div class="pro-content-participation">
                                     <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}" title="lien de la page">
                                         <h3>${entry.title}</h3>
                                     </a>
                                     <span class="pro-time">
-                                        Publiée le <time datetime="${entry.publicationDate?string['dd/MM/yyyy']}">${entry.publicationDate?date?string['dd/MM/yyyy']}</time> / <span class="pro-duree">${proDuree}</span>
+                                        Publiée le <time datetime="${entry.publicationDate?string['dd/MM/yyyy']}">${entry.publicationDate?date?string['dd/MM/yyyy']}</time> - <span class="pro-duree">${proDuree}</span>
                                     </span>
                                 </div>
-                                
-                                <#if participationStatus == "soon_arrived"> 
+                                <!-- Selection du type de template selon le status de la participation -->
+                                <#if participationStatus == "soon_arrived">
                                     <div class="pro-footer-participation pro-participation-soon">
                                         <div class="pro-avis">
                                             <span class="pro-like">${entry.nbLikes}</span>
@@ -88,7 +90,7 @@
                                 <#elseif participationStatus == "new" || participationStatus == "in_progress" || participationStatus == "soon_finished" >
                                     <div class="pro-footer-participation">
                                         <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">
-                                            Réagissez...
+                                            <span class="icon-ico-comment"></span> Réagissez...
                                         </a>
                                     </div>
                                 <#elseif participationStatus == "finished" >

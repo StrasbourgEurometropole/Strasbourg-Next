@@ -131,8 +131,15 @@ public interface StrasbourgService extends BaseService {
 	public JSONObject getFavoritesPois(
 		long groupId, String typeContenu, String localeId);
 
+	/**
+	 * Retourne les information d'un fichier de la doc lib à partir de sa friendly url
+	 *
+	 * @param friendlyUrl
+	 * @param language
+	 * @return
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getFileDetails(String url, String language);
+	public JSONObject getFileDetails(String friendlyUrl, String language);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getInterestsPois(

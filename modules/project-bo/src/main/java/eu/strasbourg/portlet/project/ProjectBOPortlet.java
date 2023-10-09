@@ -18,12 +18,14 @@ import eu.strasbourg.portlet.project.display.context.EditInitiativeDisplayContex
 import eu.strasbourg.portlet.project.display.context.EditParticipationDisplayContext;
 import eu.strasbourg.portlet.project.display.context.EditPetitionDisplayContext;
 import eu.strasbourg.portlet.project.display.context.EditProjectDisplayContext;
+import eu.strasbourg.portlet.project.display.context.EditSaisineObservatoireDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ManagementBudgetParticipatifsToolBarDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ManagementBudgetPhasesToolBarDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ManagementInitiativesToolBarDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ManagementParticipationsToolBarDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ManagementPetitionsToolBarDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ManagementProjectsToolBarDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ManagementSaisineObservatoireToolBarDisplayContext;
 import eu.strasbourg.portlet.project.display.context.NavigationBarDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ViewBudgetParticipatifDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ViewBudgetPhasesDisplayContext;
@@ -31,6 +33,7 @@ import eu.strasbourg.portlet.project.display.context.ViewInitiativesDisplayConte
 import eu.strasbourg.portlet.project.display.context.ViewParticipationsDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ViewPetitionsDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ViewProjectsDisplayContext;
+import eu.strasbourg.portlet.project.display.context.ViewSaisineObservatoireDisplayContext;
 import eu.strasbourg.service.project.constants.ParticiperCategories;
 import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
@@ -78,6 +81,7 @@ public class ProjectBOPortlet extends MVCPortlet {
 		Boolean fromAjaxProject = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxProject"));
 		Boolean fromAjaxParticipation = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxParticipation"));
 		Boolean fromAjaxPetition = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxPetition"));
+		Boolean fromAjaxSaisineObservatoire = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxSaisineObservatoire"));
 		Boolean fromAjaxBudgetParticipatif = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxBudgetParticipatif"));
 		Boolean fromAjaxInitiative = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjaxInitiative"));
 
@@ -99,7 +103,7 @@ public class ProjectBOPortlet extends MVCPortlet {
 					}
 					break;
 				case PARTICIPATIONS:
-					if (navigationDC.getSelectedCmd().equals(EDIT_PARTICIPATION) || navigationDC.getSelectedCmd().equals(SAVE_PARTICIPATION)|| fromAjaxParticipation) {
+					if (navigationDC.getSelectedCmd().equals(EDIT_PARTICIPATION) || navigationDC.getSelectedCmd().equals(SAVE_PARTICIPATION) || fromAjaxParticipation) {
 						EditParticipationDisplayContext dc = new EditParticipationDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
@@ -111,9 +115,9 @@ public class ProjectBOPortlet extends MVCPortlet {
 					}
 					break;
 				case PETITIONS:
-					if (navigationDC.getSelectedCmd().equals(EDIT_PETITION) || navigationDC.getSelectedCmd().equals(SAVE_PETITION)|| fromAjaxPetition) {
+					if (navigationDC.getSelectedCmd().equals(EDIT_PETITION) || navigationDC.getSelectedCmd().equals(SAVE_PETITION) || fromAjaxPetition) {
 						EditPetitionDisplayContext dc = new EditPetitionDisplayContext(renderRequest, renderResponse);
-						String signatureNumber = Integer.toString((int)themeDisplay.getSiteGroup().getExpandoBridge().getAttribute("number_of_signatures_required_per_petition"));
+						String signatureNumber = Integer.toString((int) themeDisplay.getSiteGroup().getExpandoBridge().getAttribute("number_of_signatures_required_per_petition"));
 						renderRequest.setAttribute("signatureNumber", signatureNumber);
 						renderRequest.setAttribute("dc", dc);
 
@@ -126,7 +130,7 @@ public class ProjectBOPortlet extends MVCPortlet {
 					}
 					break;
 				case INITIATIVES:
-					if (navigationDC.getSelectedCmd().equals(EDIT_INITIATIVE) || navigationDC.getSelectedCmd().equals(SAVE_INITIATIVE)|| fromAjaxInitiative) {
+					if (navigationDC.getSelectedCmd().equals(EDIT_INITIATIVE) || navigationDC.getSelectedCmd().equals(SAVE_INITIATIVE) || fromAjaxInitiative) {
 						EditInitiativeDisplayContext dc = new EditInitiativeDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
@@ -139,13 +143,13 @@ public class ProjectBOPortlet extends MVCPortlet {
 					break;
 				case BUDGET_PARICIPATIFS:
 					if (navigationDC.getSelectedCmd().equals(EDIT_BUDGET_PARICIPATIF)
-							||navigationDC.getSelectedCmd().equals(SAVE_BUDGET_PARICIPATIF)
-							||fromAjaxBudgetParticipatif) {
+							|| navigationDC.getSelectedCmd().equals(SAVE_BUDGET_PARICIPATIF)
+							|| fromAjaxBudgetParticipatif) {
 
 						EditBudgetParticipatifDisplayContext dc = new EditBudgetParticipatifDisplayContext(renderRequest, renderResponse);
 
 						//On initialise le BP avec la catégorie de la phase en cours, la catégorie et la phase en cours et la catégorie statut depose
-						if(navigationDC.getSelectedCmd().equals(SAVE_BUDGET_PARICIPATIF)) {
+						if (navigationDC.getSelectedCmd().equals(SAVE_BUDGET_PARICIPATIF)) {
 							AssetCategory category = AssetVocabularyHelper.getCategory(ParticiperCategories.BP_SUBMITTED.getName(), themeDisplay.getScopeGroupId());
 							String assetCategoryIds = Long.toString(category.getCategoryId());
 
@@ -159,7 +163,7 @@ public class ProjectBOPortlet extends MVCPortlet {
 						}
 
 						renderRequest.setAttribute("dc", dc);
-					}else {
+					} else {
 						ViewBudgetParticipatifDisplayContext dc = new ViewBudgetParticipatifDisplayContext(renderRequest, renderResponse);
 						ManagementBudgetParticipatifsToolBarDisplayContext managementDC = new ManagementBudgetParticipatifsToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
 								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
@@ -179,7 +183,22 @@ public class ProjectBOPortlet extends MVCPortlet {
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
 					break;
+				case SAISINE_OBSERVATOIRE:
+					if (navigationDC.getSelectedCmd().equals(EDIT_SAISINE_OBSERVATOIRE) || navigationDC.getSelectedCmd().equals(SAVE_SAISINE_OBSERVATOIRE) || fromAjaxSaisineObservatoire) {
+						EditSaisineObservatoireDisplayContext dc = new EditSaisineObservatoireDisplayContext(renderRequest, renderResponse);
+						String signatureNumber = Integer.toString((int) themeDisplay.getSiteGroup().getExpandoBridge().getAttribute("number_of_signatures_required_per_petition"));
+						renderRequest.setAttribute("signatureNumber", signatureNumber);
+						renderRequest.setAttribute("dc", dc);
+					} else {
+						ViewSaisineObservatoireDisplayContext dc = new ViewSaisineObservatoireDisplayContext(renderRequest, renderResponse);
+						ManagementSaisineObservatoireToolBarDisplayContext managementDC = new ManagementSaisineObservatoireToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
+						renderRequest.setAttribute("dc", dc);
+						renderRequest.setAttribute("managementDC", managementDC);
+					}
+					break;
 			}
+
 		} catch (PortalException e) {
 			e.printStackTrace();
 		}

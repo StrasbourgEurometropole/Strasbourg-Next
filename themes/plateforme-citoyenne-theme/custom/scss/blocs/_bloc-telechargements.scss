@@ -1,13 +1,57 @@
 .pro-bloc-telechargements {
-
-	h3 {
-		margin: 0 0 20px 0;
+	@include  tablet_portrait {
+		margin-bottom: 40px;
+	}
+	h2 {
+		@include ft($f_hx, 2em, 700);
+	}
+	> span {
+		margin-top: 20px;
+		margin-bottom: 20px;
+		@include ft($f_hx, 1.2em, 400);
+	}
+	.download-file-wrapper {
+		border: solid 1px #c5c6c7;
+		.download-file-row {
+		&:not(:last-child) {
+			border-bottom: dashed 1px #d1d2d4;
+		}
+			a {
+				&:hover {
+					color: black;
+				}
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: 30px;
+				gap: 10px;
+				> span {
+					flex: 1;
+					@include ft($f_hx, 1em, 400, $c_txt);
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+				> div {
+					display: flex;
+					flex-direction: column;
+					align-items: flex-end;
+					gap: 5px;
+					span {
+						@include ft($f_hx, 1em, 400, $c_txt);
+						&:first-child {
+							font-weight: 700;
+						}
+					}
+				}
+			}
+		}
 	}
 
 	.row {
 		> div {
 			> a {
 				border-bottom: 1px solid $c_main;
+				@include addDynamicBorderColor();
 				padding: 10px 0;
 				display: block;
 				position: relative;
@@ -46,5 +90,4 @@
 			}
 		}
 	}
-
 }

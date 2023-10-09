@@ -61,7 +61,7 @@ public class ManagementBudgetPhasesToolBarDisplayContext extends ManagementBaseT
 
                     dropdownItem.setHref(
                             liferayPortletResponse.createRenderURL(),
-                            "tab", "budgets-phases",
+                            "tab", "budget-phases",
                             "cmd", "editBudgetPhase",
                             "mvcPath", "/project-bo-edit-budget-phase.jsp",
                             "backURL", themeDisplay.getURLCurrent());

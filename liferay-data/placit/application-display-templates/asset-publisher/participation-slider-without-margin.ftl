@@ -19,9 +19,9 @@
         <div class="container">
             
             <div>
-                <h2>Participer Strasbourg (${entries?size})</h2>
-                <a href="${themeDisplay.getPortalURL()}${homeURL}participations" class="pro-btn" title="Lien vers la page Toutes les participations">Tout voir</a>
+                <h2>Participer <span class='pro-listing-strasbourg'>Strasbourg</span> <span class="pro-listing-count">(${entries?size})</span></h2>
             </div>
+            <a href="${themeDisplay.getPortalURL()}${homeURL}participations" class="pro-btn" title="Lien vers la page Toutes les participations">Tout voir</a>
 
             <div>
                 <div class="owl-carousel owl-opacify owl-theme owl-cards">
@@ -58,20 +58,22 @@
                                     <figure role="group">
                                         <img src="${user.getPortraitURL(themeDisplay)}?imagePreview=1" loading="lazy" width="40" height="40" alt="Image participation"/>
                                     </figure>
-                                    <p>Concertation publiée par :</p>
-                                    <p><strong>${user.getFullName()}</strong></p>
-                                    <div class="pro-info-top-right">
-                                        <span class="pro-encart-theme" style="background : #${participationColor}">
-                                            ${participationType}
-                                        </span>
+                                    <div>
+                                        <p>Concertation publiée par :</p>
+                                        <p><strong>${user.getFullName()}</strong></p>
                                     </div>
+                                </div>
+                                <div class="pro-info-top">
+                                    <span class="pro-encart-theme" style="background : #${participationColor}">
+                                        ${participationType}
+                                    </span>
                                 </div>
                                 <div class="pro-content-participation">
                                     <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}" title="lien de la page">
                                         <h3>${entry.title}</h3>
                                     </a>
                                     <span class="pro-time">
-                                        Publiée le <time datetime="${entry.publicationDate?string['dd/MM/yyyy']}">${entry.publicationDate?date?string['dd/MM/yyyy']}</time> / <span class="pro-duree">${proDuree}</span>
+                                        Publiée le <time datetime="${entry.publicationDate?string['dd/MM/yyyy']}">${entry.publicationDate?date?string['dd/MM/yyyy']}</time> - <span class="pro-duree">${proDuree}</span>
                                     </span>
                                 </div>
                                 <!-- Selection du type de template selon le status de la participation -->
@@ -88,7 +90,7 @@
                                 <#elseif participationStatus == "new" || participationStatus == "in_progress" || participationStatus == "soon_finished" >
                                     <div class="pro-footer-participation">
                                         <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">
-                                            Réagissez...
+                                            <span class="icon-ico-comment"></span> Réagissez...
                                         </a>
                                     </div>
                                 <#elseif participationStatus == "finished" >

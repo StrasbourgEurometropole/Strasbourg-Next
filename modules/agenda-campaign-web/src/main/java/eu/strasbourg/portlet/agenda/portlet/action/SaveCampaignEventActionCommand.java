@@ -17,7 +17,6 @@ package eu.strasbourg.portlet.agenda.portlet.action;
 
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
-import com.liferay.document.library.kernel.service.DLAppServiceUtil;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -187,7 +186,7 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			UploadPortletRequest uploadRequest = PortalUtil
 				.getUploadPortletRequest(request);
 			File image = uploadRequest.getFile("image");
-			long imageId = 0;
+			long imageId = campaignEvent.getImageId();
 			if (image != null && image.exists()) {
 				byte[] imageBytes = FileUtil.getBytes(image);
 				DLFolder folder = DLFolderLocalServiceUtil

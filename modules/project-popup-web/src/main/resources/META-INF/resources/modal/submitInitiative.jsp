@@ -110,7 +110,7 @@
                 </div>
                 
                 <%-- Groupe de champs : Information utilisateur --%>
-                <div class="pro-wrapper">
+                <div class="pro-wrapper last-wrapper">
                 
                 	<%-- Label : Informations utilisateur --%>
                     <h4><liferay-ui:message key="modal.submit.initiative.user"/></h4>
@@ -194,7 +194,7 @@
                     </div>
                     
                 </div>
-                
+                <div class="top-slope"></div>
                 <div class="pro-optin form-checkbox">
                     <div>
                         <input type="checkbox"  id="<portlet:namespace />legalage" value="legalage">

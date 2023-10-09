@@ -64,7 +64,7 @@ public class SaveBudgetPhaseActionCommand implements MVCActionCommand {
 				backURL.setParameter("tab", request.getParameter("tab"));
 				
 				response.setRenderParameter("backURL", backURL.toString());
-				response.setRenderParameter("cmd", "editBudgetPhase");
+				response.setRenderParameter("cmd", "saveBudgetPhase");
 				response.setRenderParameter("mvcPath","/project-bo-edit-budget-phase.jsp");
 				return false;
 			}
@@ -138,7 +138,7 @@ public class SaveBudgetPhaseActionCommand implements MVCActionCommand {
 			budgetPhase.setEndVoteDate(endVoteDate);
 
 			_budgetPhaseLocalService.updateBudgetPhase(budgetPhase, sc);
-			response.setRenderParameter("mvcPath", "/project-bo-view-budgets-phases.jsp");
+			response.setRenderParameter("mvcPath", "/project-bo-view-budget-phases.jsp");
 
 		} catch (PortalException e) {
 			_log.error(e);

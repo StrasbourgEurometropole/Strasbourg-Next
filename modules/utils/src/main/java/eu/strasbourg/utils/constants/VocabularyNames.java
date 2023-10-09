@@ -32,6 +32,7 @@ public class VocabularyNames {
 	public static final String BUDGET_PARTICIPATIF_STATUS= "Statut BP";
 	public static final String INITIATIVE_STATUS = "statut de l'initiative";
 	public static final String PLACIT_STATUS = "statut participer";
+	public static final String SAISINE_STATUS = "statut saisine";
 	public static final String THEMATIC = "thematique";
 	public static final String PROJECT_STATUS = "statut projet";
 	public static final String SIGNALEMENT_CATEGORIE = "Signalements Categorie";
@@ -49,6 +50,8 @@ public class VocabularyNames {
 	public static final String COUNCIL_OFFICIAL_ACTIVITY = "Activite elu";
 	public static final String COMMISSION = "commission des actes reglementaires et normatifs";
 	public static final String EQUIPMENT = "Equipements du lieu";
+	public static final String SAISINE_DISPOSITIF = "Saisine Dispositif";
+	public static final String SAISINE_EN_TANT_QUE = "Saisine En tant que";
 
 	public static final String HELP_HELPER_TYPE = "type d'aidant";
 	public static final String HELP_PROPOSAL_TYPE = "type proposition d'aide";

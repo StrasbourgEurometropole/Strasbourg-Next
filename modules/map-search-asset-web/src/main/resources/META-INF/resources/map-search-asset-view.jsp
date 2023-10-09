@@ -147,9 +147,7 @@
 			}
 		</c:otherwise>
 	</c:choose>
-	.pro-page-carte {
-		padding-top: 167px;
-	}
+
 	footer#pro-footer {
 	    display: none;
 	}

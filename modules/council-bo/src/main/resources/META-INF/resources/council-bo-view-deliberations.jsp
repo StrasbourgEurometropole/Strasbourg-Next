@@ -54,8 +54,8 @@
                 name="order"
                 orderable="true" value="${deliberation.order}" />
 
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					href="${editDeliberationURL}" name="title" truncate="true"
+				<liferay-ui:search-container-column-text cssClass="content-column table-cell-content"
+					href="${editDeliberationURL}" name="title"
 					orderable="true" value="${deliberation.title}" />
 
 				<fmt:formatDate value="${deliberation.councilSession.date}"

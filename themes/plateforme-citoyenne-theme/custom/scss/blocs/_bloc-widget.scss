@@ -1,6 +1,7 @@
 .pro-widget-participation {
 	padding: 0 0 0 30px;
 	margin-bottom: 35px;
+	margin-right: 20px;
 	@include clearfix();
 	@include tablet_portrait {
 		margin-top: 35px;
@@ -8,23 +9,23 @@
 	}
 
 	h4 {
-		@include ft($f_hx, 0.938em, 400, $c_txt, 1.5em);
-		text-transform: uppercase;
+		@include ft($f_hx, 1.2em, 400, $c_white, 1.5em);
+
 		margin-bottom: 5px;
 		padding: 8px 0;
 		display: block;
-		border-bottom: 1px solid #a6a6a6;
 		position: relative;
 	}
 
 	> a {
 		position: relative;
 		display: block;
-		padding: 15px 0;
+		padding: 15px;
+		background-color: white;
 		&:hover, &:focus {
 			&:after {
 				height: 4px;
-				background: $c_main;
+				@include addDynamicBackground();
 			}
 		}
 		&:after {
@@ -47,27 +48,21 @@
 			margin-bottom: 5px;
 			text-align: left;
 			> * {
-				&:first-child {
-					padding-left: 0;
-				}
 				position: relative;
 				font-size: $s_small;
 				line-height: normal;
 				display: inline-block;
 				vertical-align: middle;
-				float: none;
-				&:after {
-					height: 12px;
-					right: -1px;
-					bottom: 0;
+			}
+			.prefix-location {
+				&:before {
 					top: 3px;
-					transform: none;
 				}
 			}
 		}
 		h3 {
 			@include ft($f_hx, 1.125em, 700, $c_txt, 1.25em);
-			text-transform: uppercase;
+
 		}
 
 		.pro-meta-footer {

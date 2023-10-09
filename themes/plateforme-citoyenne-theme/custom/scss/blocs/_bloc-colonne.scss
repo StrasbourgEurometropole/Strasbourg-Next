@@ -70,11 +70,11 @@
 					bottom: 0;
 					height: 1px;
 					width: 100%;
-					background: $c_main;
+					@include addDynamicBackground();
 					@include addTransition();
 				}
 				h3{
-					@include ft($f_hx, 1.250em, 700, $c_txt, 1.300em);
+					@include ft($f_hx, 1.4em, 700, $c_txt, 1em);
 					margin-bottom: 10px;
 					margin-top: 0;
 				}
