@@ -1,14 +1,11 @@
 package eu.strasbourg.portlet.form_send.context;
 
-import com.liferay.asset.categories.item.selector.AssetCategoryTreeNodeItemSelectorReturnType;
-import com.liferay.asset.categories.item.selector.criterion.AssetCategoryTreeNodeItemSelectorCriterion;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
-import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -17,42 +14,37 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
-import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.form_send.util.FormSendActionDropdownItemsProvider;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ViewFormSendDisplayContext {
+public class ViewFormSendDisplayContext extends ViewBaseDisplayContext<DDMFormInstanceRecord> {
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 
     public ViewFormSendDisplayContext(RenderRequest request,
-                                      RenderResponse response, ItemSelector itemSelector) {
+                                      RenderResponse response) {
+        super(request, response, DDMFormInstanceRecord.class);
         _request = request;
         _response = response;
         _themeDisplay = (ThemeDisplay) _request
                 .getAttribute(WebKeys.THEME_DISPLAY);
-        _httpServletRequest = PortalUtil.getHttpServletRequest(request);
-        _itemSelector=itemSelector;
 
     }
 
@@ -100,6 +92,7 @@ public class ViewFormSendDisplayContext {
     }*/
 
     // récupère les valeurs d'un formulaire envoyé (nom du champ, valeur du champ)
+    @SuppressWarnings("unused")
     public List<String[]> getRecordFields(DDMFormInstanceRecord form, Locale locale) {
         List<String[]> recordFields = new ArrayList<String[]>();
         // récupère tous les champs qui devront être affichés
@@ -182,6 +175,7 @@ public class ViewFormSendDisplayContext {
      * Retourne le searchContainer
      *
      */
+    @Override
     public SearchContainer<DDMFormInstanceRecord> getSearchContainer() {
 
         if (_searchContainer == null) {
@@ -191,6 +185,7 @@ public class ViewFormSendDisplayContext {
                     .setKeywords(ParamUtil.getString(_request, "keywords"))
                     .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
                     .setParameter("tab","viewFormSends")
+                    .setParameter("filterCategoriesIdByVocabulariesName", getFilterCategoriesIdByVocabulariesName())
                     .buildPortletURL();
             _searchContainer = new SearchContainer<>(_request, null, null,
                     SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
@@ -246,6 +241,7 @@ public class ViewFormSendDisplayContext {
         _allFormSends=recordList;
     }
 
+    @Override
     public String getOrderByColSearchField() {
         switch (getOrderByCol()) {
             case "title":
@@ -256,71 +252,10 @@ public class ViewFormSendDisplayContext {
         }
     }
 
-    public boolean hasVocabulary(String vocabularyName){
-        return getCategVocabularies().containsKey(vocabularyName);
-    }
-
-    public Map<String, String> getCategVocabularies() {
-        if (_categVocabularies == null) {
-            _categVocabularies = new HashMap<>();
-            _categVocabularies.put("vocabulary1", ParamUtil.getString(
-                    _httpServletRequest, "vocabulary1", ""));
-        }
-
-        return _categVocabularies;
-    }
-
-    @SuppressWarnings("unused")
-    public String getSelectCategoriesByVocabularyIdURL(long vocabularyId) {
-        RequestBackedPortletURLFactory requestBackedPortletURLFactory =
-                RequestBackedPortletURLFactoryUtil.create(_request);
-        AssetCategoryTreeNodeItemSelectorCriterion categoryTreeNodeItemSelectorCriterion =
-                new AssetCategoryTreeNodeItemSelectorCriterion();
-        categoryTreeNodeItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-                new AssetCategoryTreeNodeItemSelectorReturnType());
-
-        return String.valueOf(
-                _itemSelector.getItemSelectorURL(
-                        requestBackedPortletURLFactory,
-                        _response.getNamespace() + "selectAssetCategory",
-                        categoryTreeNodeItemSelectorCriterion));
-    }
-    /**
-     * Renvoie la colonne sur laquelle on fait le tri
-     *
-     * @return String
-     */
-    public String getOrderByCol() {
-        return ParamUtil.getString(_request, "orderByCol", "modified-date");
-    }
-
-    /**
-     * Retourne le type de tri (desc ou asc)
-     *
-     * @return String
-     */
-    public String getOrderByType() {
-        return ParamUtil.getString(_request, "orderByType", "desc");
-    }
-
-    /**
-     * Retourne les mots clés de recherche saisis
-     */
-    @SuppressWarnings("unused")
-    public String getKeywords() {
-        if (Validator.isNull(_keywords)) {
-            _keywords = ParamUtil.getString(_request, "keywords");
-        }
-        return _keywords;
-    }
     protected SearchContainer <DDMFormInstanceRecord> _searchContainer;
-    private Map<String, String> _categVocabularies;
-    private String _keywords;
     private final RenderRequest _request;
     private final RenderResponse _response;
     protected ThemeDisplay _themeDisplay;
-    private final HttpServletRequest _httpServletRequest;
-    private final ItemSelector _itemSelector;
     private List<DDMFormInstanceRecord> _allFormSends;
     private Map<String, String[]> _texteAreaFields;
 }

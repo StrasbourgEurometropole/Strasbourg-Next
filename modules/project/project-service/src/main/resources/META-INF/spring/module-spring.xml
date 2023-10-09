@@ -52,6 +52,10 @@
 	<bean class="eu.strasbourg.service.project.service.impl.ProjectTimelineServiceImpl" id="eu.strasbourg.service.project.service.ProjectTimelineService" />
 	<bean class="eu.strasbourg.service.project.service.persistence.impl.ProjectTimelineModelArgumentsResolver" id="eu.strasbourg.service.project.service.persistence.impl.ProjectTimelineModelArgumentsResolver" />
 	<bean class="eu.strasbourg.service.project.service.persistence.impl.ProjectTimelinePersistenceImpl" id="eu.strasbourg.service.project.service.persistence.ProjectTimelinePersistence" />
+	<bean class="eu.strasbourg.service.project.service.impl.SaisineObservatoireLocalServiceImpl" id="eu.strasbourg.service.project.service.SaisineObservatoireLocalService" />
+	<bean class="eu.strasbourg.service.project.service.impl.SaisineObservatoireServiceImpl" id="eu.strasbourg.service.project.service.SaisineObservatoireService" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.SaisineObservatoireModelArgumentsResolver" id="eu.strasbourg.service.project.service.persistence.impl.SaisineObservatoireModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.SaisineObservatoirePersistenceImpl" id="eu.strasbourg.service.project.service.persistence.SaisineObservatoirePersistence" />
 	<bean class="eu.strasbourg.service.project.service.impl.SignataireLocalServiceImpl" id="eu.strasbourg.service.project.service.SignataireLocalService" />
 	<bean class="eu.strasbourg.service.project.service.impl.SignataireServiceImpl" id="eu.strasbourg.service.project.service.SignataireService" />
 	<bean class="eu.strasbourg.service.project.service.persistence.impl.SignataireModelArgumentsResolver" id="eu.strasbourg.service.project.service.persistence.impl.SignataireModelArgumentsResolver" />

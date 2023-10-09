@@ -3,20 +3,17 @@
 <c:set var="agendaExport" value="${dc.agendaExport}" />
 <c:set var="toExport" value="${dc.toExport}" />
 
-<liferay-portlet:renderURL varImpl="agendaExportsURL">
-	<portlet:param name="tab" value="agendaExports" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deleteAgendaExport" var="deleteAgendaExportURL">
 	<portlet:param name="cmd" value="deleteAgendaExport" />
 	<portlet:param name="tab" value="agendaExports" />
 	<portlet:param name="agendaExportId"
 		value="${not empty agendaExport ? agendaExport.agendaExportId : ''}" />
+    <portlet:param name="mvcPath" value="/agenda-export-bo-view-agenda-export.jsp" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveAgendaExport" varImpl="saveAgendaExportURL">
-	<portlet:param name="cmd" value="saveAgendaExport" />
 	<portlet:param name="tab" value="agendaExports" />
+    <portlet:param name="backURL" value="${param.backURL}" />
 	<portlet:param name="agendaExportId"
 		value="${not empty agendaExport ? agendaExport.agendaExportId : ''}" />
 </liferay-portlet:actionURL>
@@ -24,7 +21,7 @@
 <liferay-portlet:resourceURL var="exportAgendaExportURL" id="exportAgendaExport">
 </liferay-portlet:resourceURL>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
     <aui:form action="${(toExport eq true) ? dc.cleanResourceURL(exportAgendaExportURL) : saveAgendaExportURL}" method="POST" name="fm">
 
 		<aui:model-context bean="${agendaExport}" model="<%=AgendaExport.class %>" />

@@ -2,12 +2,13 @@
 <clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 <%-- URL : definit le lien avec les parametres de recherche des entites--%>
 <liferay-portlet:renderURL varImpl="budgetPhasesURL">
-	<portlet:param name="tab" value="budgets-phases" />
+	<portlet:param name="tab" value="budget-phases" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 	<portlet:param name="mvcPath" value="/project-bo-view-budget-phases.jsp" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:renderURL>
 
 
@@ -82,33 +83,36 @@
 <%-- URL : definit le lien vers l'action de suppression --%>
 <liferay-portlet:actionURL name="selectionAction" var="deleteSelectionURL">
 	<portlet:param name="cmd" value="delete" />
-	<portlet:param name="tab" value="budgets-phases" />
+	<portlet:param name="tab" value="budget-phases" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="mvcPath" value="/project-bo-view-budget-phases.jsp" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien vers l'action de publication --%>
 <liferay-portlet:actionURL name="selectionAction" var="publishSelectionURL">
 	<portlet:param name="cmd" value="publish" />
-	<portlet:param name="tab" value="budgets-phases" />
+	<portlet:param name="tab" value="budget-phases" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="mvcPath" value="/project-bo-view-budget-phases.jsp" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien vers l'action de depublication --%>
 <liferay-portlet:actionURL name="selectionAction" var="unpublishSelectionURL">
 	<portlet:param name="cmd" value="unpublish" />
-	<portlet:param name="tab" value="budgets-phases" />
+	<portlet:param name="tab" value="budget-phases" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="mvcPath" value="/project-bo-view-budget-phases.jsp" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:renderURL varImpl="filterSelectionURL">
@@ -118,6 +122,7 @@
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:renderURL>
 <%-- Script : permet l'affichage des alertes de validation d'action --%>
 <aui:script>
@@ -137,5 +142,45 @@
 		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-unpublish-selected-entries" />')) {
 			submitForm(form, '${unpublishSelectionURL}');
 		}
+	}
+
+	function getCategoriesByVocabulary(vocabularyId, vocabularyName, categoriesId) {
+		const portletURL = "${budgetPhasesURL}";
+
+		const url = Liferay.Util.PortletURL.createPortletURL(portletURL, {
+			p_p_id: "com_liferay_asset_categories_selector_web_portlet_AssetCategoriesSelectorPortlet",
+			p_p_lifecycle: 0,
+			p_p_state: "pop_up",
+			eventName: "com_liferay_asset_categories_selector_web_portlet_AssetCategoriesSelectorPortlet_selectCategory",
+			selectedCategories: categoriesId,
+			singleSelect : false,
+			vocabularyIds: vocabularyId,
+		});
+
+		Liferay.Util.openSelectionModal(
+			{
+				onSelect: function (selectedItem) {
+					if (selectedItem) {
+						var url = "${filterSelectionURL}";
+						if(!url.includes("filterCategoriesIdByVocabulariesName"))
+							url += "&<portlet:namespace />filterCategoriesIdByVocabulariesName=";
+						if(url.includes(encodeURIComponent(vocabularyName).replaceAll("%20","+").replaceAll("'","%27")+'__')){
+							const regex = encodeURIComponent(vocabularyName).replaceAll("%20","\\+").replaceAll("'","%27") + "(.(?<!___))*___";
+							const re = new RegExp(regex, 'gi');
+							url = url.replace(re,"");
+						}
+						for(index in Object.keys(selectedItem)){
+							var selection = selectedItem[Object.keys(selectedItem)[index]];
+							url += encodeURIComponent(vocabularyName) + '__' + encodeURIComponent(selection.title) + '__' + selection.categoryId + '___';
+						}
+						submitForm(form, url);
+					}
+				},
+				selectEventName: 'com_liferay_asset_categories_selector_web_portlet_AssetCategoriesSelectorPortlet_selectCategory',
+				title: vocabularyName,
+				multiple: true,
+				url: url
+			}
+		)
 	}
 </aui:script>

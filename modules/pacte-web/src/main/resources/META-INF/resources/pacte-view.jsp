@@ -3,7 +3,7 @@
 <portlet:resourceURL id="pacteSignature" var="pacteSignatureURL">
 </portlet:resourceURL>
 
-<div id="content" class="pro-page-pacte">
+<div id="content">
     <div class="pro-bloc-prefooter pro-sticky-bar">
         <div class="container">
             <div class="row pro-pencil">
@@ -23,7 +23,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-md-6 col-xs-12">
+                <div class="col-md-6 col-xs-12 pro-signature-btn">
                     <div>
                         <p><a href="/signataires">${nbSignataires} <liferay-ui:message key="pacte.adhere.personnes"/></a> <liferay-ui:message key="pacte.adhere"/></p>
                         <span class="pro-you"><liferay-ui:message key="pacte.adhere.and.you"/></span>

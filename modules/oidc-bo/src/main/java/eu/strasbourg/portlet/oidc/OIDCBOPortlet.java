@@ -1,26 +1,23 @@
 package eu.strasbourg.portlet.oidc;
 
-import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.portlet.oidc.display.context.*;
-import eu.strasbourg.service.oidc.model.PublikUser;
-import static eu.strasbourg.portlet.oidc.constants.OidcConstants.*;
-
+import eu.strasbourg.portlet.oidc.display.context.EditAnonymisationHistoricsDisplayContext;
+import eu.strasbourg.portlet.oidc.display.context.EditPublikUserDisplayContext;
+import eu.strasbourg.portlet.oidc.display.context.ManagementPublikUsersToolBarDisplayContext;
+import eu.strasbourg.portlet.oidc.display.context.NavigationBarDisplayContext;
+import eu.strasbourg.portlet.oidc.display.context.ViewAnonymisationHistoricsDisplayContext;
+import eu.strasbourg.portlet.oidc.display.context.ViewPublikUsersDisplayContext;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -28,6 +25,8 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+
+import static eu.strasbourg.portlet.oidc.constants.OidcConstants.*;
 
 /**
  * @author cedric.henry
@@ -66,7 +65,7 @@ public class OIDCBOPortlet extends MVCPortlet {
 		boolean showBackButton = Validator.isNotNull(returnURL);
 		if (showBackButton) {
 			portletDisplay.setShowBackIcon(true);
-			portletDisplay.setURLBack(returnURL.toString());
+			portletDisplay.setURLBack(returnURL);
 		}
 		try {
 			NavigationBarDisplayContext navigationDC = new NavigationBarDisplayContext(renderRequest, renderResponse);
@@ -79,9 +78,9 @@ public class OIDCBOPortlet extends MVCPortlet {
 						EditPublikUserDisplayContext dc = new EditPublikUserDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewPublikUsersDisplayContext dc = new ViewPublikUsersDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ViewPublikUsersDisplayContext dc = new ViewPublikUsersDisplayContext(renderRequest, renderResponse);
 						ManagementPublikUsersToolBarDisplayContext managementDC = new ManagementPublikUsersToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -91,7 +90,7 @@ public class OIDCBOPortlet extends MVCPortlet {
 						EditAnonymisationHistoricsDisplayContext dc = new EditAnonymisationHistoricsDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewAnonymisationHistoricsDisplayContext dc = new ViewAnonymisationHistoricsDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ViewAnonymisationHistoricsDisplayContext dc = new ViewAnonymisationHistoricsDisplayContext(renderRequest, renderResponse);
 
 						renderRequest.setAttribute("dc", dc);
 					}
@@ -107,11 +106,6 @@ public class OIDCBOPortlet extends MVCPortlet {
 
 		super.render(renderRequest, renderResponse);
 	}
-
-
-	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
-	@Reference
-	private ItemSelector _itemSelector;
 
 }
 

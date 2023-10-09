@@ -72,10 +72,10 @@ public class AgendaBOPortlet extends MVCPortlet {
 						EditManifestationDisplayContext dc = new EditManifestationDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewManifestationsDisplayContext dc = new ViewManifestationsDisplayContext(renderRequest, renderResponse, _itemSelector);
+						ViewManifestationsDisplayContext dc = new ViewManifestationsDisplayContext(renderRequest, renderResponse);
 						ManagementManifsToolBarDisplayContext managementDC = new ManagementManifsToolBarDisplayContext(
 								servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("managementDC", managementDC);
 						renderRequest.setAttribute("dc", dc);
 					}
@@ -89,7 +89,7 @@ public class AgendaBOPortlet extends MVCPortlet {
 						ViewCampaignsDisplayContext dc = new ViewCampaignsDisplayContext(renderRequest, renderResponse);
 						ManagementCampaignsToolBarDisplayContext managementDC = new ManagementCampaignsToolBarDisplayContext(
 								servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("managementDC", managementDC);
 						renderRequest.setAttribute("dc", dc);
 					}
@@ -102,10 +102,10 @@ public class AgendaBOPortlet extends MVCPortlet {
 						EditEventDisplayContext dc = new EditEventDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewEventsDisplayContext dc = new ViewEventsDisplayContext(renderRequest, renderResponse, _itemSelector);
+						ViewEventsDisplayContext dc = new ViewEventsDisplayContext(renderRequest, renderResponse);
 						ManagementEventsToolBarDisplayContext managementDC = new ManagementEventsToolBarDisplayContext(
 								servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -146,6 +146,4 @@ public class AgendaBOPortlet extends MVCPortlet {
 		super.render(renderRequest, renderResponse);
 	}
 
-	@Reference
-	private ItemSelector _itemSelector;
 }

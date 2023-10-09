@@ -16,7 +16,6 @@
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveParticipation" varImpl="saveParticipationURL">
-	<portlet:param name="cmd" value="saveParticipation" />
 	<portlet:param name="tab" value="participations" />
 </liferay-portlet:actionURL>
 

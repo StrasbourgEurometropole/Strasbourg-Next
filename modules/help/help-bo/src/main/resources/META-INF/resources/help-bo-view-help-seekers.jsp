@@ -62,13 +62,6 @@
                     href="${viewSeekerHelpRequestsURL}" name="last-request-date" truncate="true" orderable="true"
                     value="${formattedLastRequestDate}" />
 
-				<%-- URL : definit le lien vers la page de consultation des demandes d'aide --%>
-				<liferay-portlet:renderURL varImpl="editHelpSeekerURL">
-					<portlet:param name="cmd" value="editHelpSeeker" />
-					<portlet:param name="helpSeekerId" value="${helpSeeker.publikUser.publikUserLiferayId}" />
-					<portlet:param name="backURL" value="${dc.currentURL}" />
-					<portlet:param name="mvcPath" value="/oidc-bo-edit-publikuser.jsp" />
-				</liferay-portlet:renderURL>
                 <%-- Colonne : Actions possibles --%>
                 <liferay-ui:search-container-column-text>
 					<clay:dropdown-actions

@@ -48,21 +48,23 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 </div>
             </#list>
         </#if>
-        <#if entry.filesURLs?has_content>
+        <#if entry.filesIds?has_content>
             <h2><@liferay_ui.message key="eu.useful-documents" /></h2>
-            <#list entry.filesURLs as fileURL>
-                <#assign file = fileEntryHelper.getFileEntryByRelativeURL(fileURL) />
-                <#assign title = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
-                <#assign size = fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale) />
+            <#list entry.filesIds?split(",") as fileId>
+                <#assign url = fileEntryHelper.getFileEntryURL(fileId?number) />
+                <#assign title = fileEntryHelper.getFileTitle(fileId?number, locale) />
+                <#assign size = fileEntryHelper.getReadableFileEntrySize(fileId?number, locale) />
+                <#assign extension = fileEntryHelper.getFileExtension(fileId?number) />
+
                 <div class="seu-wi seu-media seu-wi-download">  
                     <div class="seu-media-container">  
                         <div class="seu-media-left"><div class="seu-media-picto"></div></div>  
                         <div class="seu-media-right">  
                             <div class="seu-media-text">  
                                 <div class="seu-media-title">${title}</div>  
-                                <p>${file.getExtension()?upper_case} - ${size}</p>  
+                                <p>${extension?upper_case} - ${size}</p>
                             </div>  
-                            <a href="{url}" target="_blank" class="seu-media-download seu-btn-square seu-filled seu-second" title="${title} (<@liferay_ui.message key="eu.new-window" />)">  
+                            <a href="${url}" target="_blank" class="seu-media-download seu-btn-square seu-filled seu-second" title="${title} (<@liferay_ui.message key="eu.new-window" />)">
                                 <div class="seu-btn-text-editable">
                                     <span class="seu-flexbox">  
                                         <span class="seu-btn-text"><@liferay_ui.message key="download" /></span>  
@@ -109,11 +111,11 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <div class="seu-slider-int-container">
                 <div class="seu-slider-overflow">
                     <div class="seu-slider">
-                        <#list entry.imagesURLs as imageURL>
-                            <#assign file = fileEntryHelper.getFileEntryByRelativeURL(imageURL) />
-                            <#assign title = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
-                            <#assign legend = fileEntryHelper.getImageLegend(file.getFileEntryId(), locale) />
-                            <#assign copyright = fileEntryHelper.getImageCopyright(file.getFileEntryId(), locale) />
+                        <#list entry.imagesIds?split(",") as imageId>
+                            <#assign imageURL = fileEntryHelper.getFileEntryURL(imageId?number) />
+                            <#assign title = fileEntryHelper.getFileTitle(imageId?number, locale) />
+                            <#assign legend = fileEntryHelper.getImageLegend(imageId?number, locale) />
+                            <#assign copyright = fileEntryHelper.getImageCopyright(imageId?number, locale) />
                             <div class="seu-item" style="background-image: url(${imageURL});">
                                 <div class="seu-text">
                                     <#if title?has_content>

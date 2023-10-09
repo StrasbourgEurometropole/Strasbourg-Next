@@ -1,8 +1,6 @@
 package eu.strasbourg.portlet.notification.display.context;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.portlet.PortletURL;
@@ -15,28 +13,21 @@ import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
-import com.liferay.portal.kernel.search.Document;
-import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.*;
 
 import eu.strasbourg.portlet.notification.util.NotificationsActionDropdownItemsProvider;
 import eu.strasbourg.service.notification.model.Notification;
 import eu.strasbourg.service.notification.service.NotificationLocalServiceUtil;
-import eu.strasbourg.utils.SearchHelper;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
-public class ViewNotificationsDisplayContext {
+public class ViewNotificationsDisplayContext extends ViewBaseDisplayContext<Notification> {
 	
-	public ViewNotificationsDisplayContext(RenderRequest request,RenderResponse response,
-										   ItemSelector itemSelector) {
+	public ViewNotificationsDisplayContext(RenderRequest request,RenderResponse response) {
+		super(request, response, Notification.class);
 		_request = request;
 		_response = response;
 		_themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
-		_httpServletRequest = PortalUtil.getHttpServletRequest(request);
-		_itemSelector = itemSelector;
 	}
 	/**
 	 * Retourne le dropdownItemsProvider de Notification
@@ -51,6 +42,7 @@ public class ViewNotificationsDisplayContext {
 	 * Retourne le searchContainer des notifications
 	 *
 	 */
+	@Override
 	public SearchContainer<Notification> getSearchContainer() {
 
 		if (_searchContainer == null) {
@@ -60,6 +52,7 @@ public class ViewNotificationsDisplayContext {
 					.setMVCPath("/notification-bo-view-notifications.jsp")
 					.setKeywords(ParamUtil.getString(_request, "keywords"))
 					.setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+					.setParameter("filterCategoriesIdByVocabulariesName", getFilterCategoriesIdByVocabulariesName())
 					.buildPortletURL();
 			_searchContainer = new SearchContainer<>(_request, null, null,
 					SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
@@ -101,14 +94,12 @@ public class ViewNotificationsDisplayContext {
 					.collect(Collectors.toList());
 		}
 	}
-	public String getOrderByType() {
-		return ParamUtil.getString(_request, "orderByType", "desc");
-	}
 
 
 	/**
 	 * Renvoie la colonne sur laquelle on fait le tri
 	 */
+	@Override
 	public String getOrderByCol() {
 		return ParamUtil.getString(this._request, "orderByCol",
 			"publication-date");
@@ -118,7 +109,7 @@ public class ViewNotificationsDisplayContext {
 	 * Renvoie le nom de la colonne sur laquelle on fait le tri pour
 	 * ElasticSearch
 	 */
-
+	@Override
 	public String getOrderByColSearchField() {
 		switch (this.getOrderByCol()) {
 		case "title":
@@ -132,24 +123,11 @@ public class ViewNotificationsDisplayContext {
 			return "publishDate_sortable";
 		}
 	}
-	/**
-	 * Retourne les mots clés de recherche saisis
-	 */
-	@SuppressWarnings("unused")
-	public String getKeywords() {
-		if (Validator.isNull(_keywords)) {
-			_keywords = ParamUtil.getString(_request, "keywords");
-		}
-		return _keywords;
-	}
 
 	protected SearchContainer<Notification> _searchContainer;
-	private String _keywords;
 	private final RenderRequest _request;
 	private final RenderResponse _response;
 	protected ThemeDisplay _themeDisplay;
-	private final HttpServletRequest _httpServletRequest;
-	private final ItemSelector _itemSelector;
 	private List<Notification> _notifications;
 
 }

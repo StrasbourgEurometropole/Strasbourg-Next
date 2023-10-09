@@ -1,43 +1,32 @@
 package eu.strasbourg.portlet.notif.display.context;
 
-import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
-import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.notif.util.ServicesActionDropdownItemsProvider;
 import eu.strasbourg.service.notif.model.ServiceNotif;
 import eu.strasbourg.service.notif.service.ServiceNotifLocalServiceUtil;
-import eu.strasbourg.utils.SearchHelper;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class ViewServicesDisplayContext{
+public class ViewServicesDisplayContext extends ViewBaseDisplayContext<ServiceNotif> {
 
 
 	public ViewServicesDisplayContext(RenderRequest request,
-									  RenderResponse response,
-									  ItemSelector itemSelector) {
+									  RenderResponse response) {
+		super(request, response, ServiceNotif.class);
 		_request = request;
 		_response = response;
 		_themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
-		_httpServletRequest = PortalUtil.getHttpServletRequest(request);
-		_itemSelector = itemSelector;
 	}
 
 	/**
@@ -53,6 +42,7 @@ public class ViewServicesDisplayContext{
 	 * Retourne le searchContainer des notifications
 	 *
 	 */
+	@Override
 	public SearchContainer<ServiceNotif> getSearchContainer() {
 
 		if (_searchContainer == null) {
@@ -103,36 +93,20 @@ public class ViewServicesDisplayContext{
 					QueryUtil.ALL_POS);
 		}
 	}
-	public String getOrderByType() {
-		return ParamUtil.getString(_request, "orderByType", "desc");
-	}
 
 
 	/**
 	 * Renvoie la colonne sur laquelle on fait le tri
 	 */
+	@Override
 	public String getOrderByCol() {
 		return null;
 	}
 
-	/**
-	 * Retourne les mots clés de recherche saisis
-	 */
-	@SuppressWarnings("unused")
-	public String getKeywords() {
-		if (Validator.isNull(_keywords)) {
-			_keywords = ParamUtil.getString(_request, "keywords");
-		}
-		return _keywords;
-	}
-
 	protected SearchContainer<ServiceNotif> _searchContainer;
-	private String _keywords;
 	private final RenderRequest _request;
 	private final RenderResponse _response;
 	protected ThemeDisplay _themeDisplay;
-	private final HttpServletRequest _httpServletRequest;
-	private final ItemSelector _itemSelector;
 
 	private List<ServiceNotif> _services;
 }

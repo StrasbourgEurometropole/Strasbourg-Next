@@ -236,7 +236,7 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 
 function setConditionalValidators() {
 		// Validation des champos obligatoires conditionnels
-    AUI().use('liferay-form', function() {
+    AUI().ready('liferay-form', function(_) {
         var registration = document.querySelectorAll('input[name=' + namespace + 'registrationValue]')[0];
         var registrationDiv = document.getElementById("registrationDiv");
         var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');

@@ -1,34 +1,30 @@
 package eu.strasbourg.portlet.interest;
 
-import java.io.IOException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
+import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.theme.PortletDisplay;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.interest.display.context.EditInterestDisplayContext;
+import eu.strasbourg.portlet.interest.display.context.ManagementInterestsToolBarDisplayContext;
+import eu.strasbourg.portlet.interest.display.context.NavigationBarDisplayContext;
+import eu.strasbourg.portlet.interest.display.context.ViewInterestsDisplayContext;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
-import com.liferay.item.selector.ItemSelector;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
-import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
-import com.liferay.portal.kernel.util.PortalUtil;
-import eu.strasbourg.portlet.interest.display.context.ManagementInterestsToolBarDisplayContext;
-import eu.strasbourg.portlet.interest.display.context.NavigationBarDisplayContext;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import org.osgi.service.component.annotations.Component;
-
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.theme.PortletDisplay;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
-
-import eu.strasbourg.portlet.interest.display.context.EditInterestDisplayContext;
-import eu.strasbourg.portlet.interest.display.context.ViewInterestsDisplayContext;
 import static eu.strasbourg.portlet.interest.constants.InterestConstants.*;
-import org.osgi.service.component.annotations.Reference;
 
 @Component(
 	immediate = true,
@@ -78,9 +74,9 @@ public class InterestBOPortlet extends MVCPortlet {
 						EditInterestDisplayContext dc = new EditInterestDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewInterestsDisplayContext dc = new ViewInterestsDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ViewInterestsDisplayContext dc = new ViewInterestsDisplayContext(renderRequest, renderResponse);
 						ManagementInterestsToolBarDisplayContext managementDC = new ManagementInterestsToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -92,6 +88,4 @@ public class InterestBOPortlet extends MVCPortlet {
 
 		super.render(renderRequest, renderResponse);
 	}
-	@Reference
-	private ItemSelector _itemSelector;
 }

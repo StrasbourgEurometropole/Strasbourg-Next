@@ -302,6 +302,9 @@
                         <aui:option value="placit-petitions" selected="${searchForm eq 'placit-petitions'}">
                             <liferay-ui:message key="placit-petitions" />
                         </aui:option>
+                        <aui:option value="placit-saisinesObservatoire" selected="${searchForm eq 'placit-saisinesObservatoire'}">
+                            <liferay-ui:message key="placit-saisinesObservatoire" />
+                        </aui:option>
                         <aui:option value="placit-budgetParticipatif" selected="${searchForm eq 'placit-budgetParticipatif'}">
                             <liferay-ui:message key="placit-budgetParticipatif" />
                         </aui:option>

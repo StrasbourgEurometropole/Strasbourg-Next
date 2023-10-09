@@ -120,12 +120,7 @@ public class SaveActivityActionCommand extends BaseMVCActionCommand {
 
 		// Update de l'entité
 		activityLocalService.updateActivity(activity, sc);
-
-		// Post / Redirect / Get si tout est bon
-		PortletURL renderURL = PortletURLFactoryUtil.create(request,
-			portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
-		renderURL.setParameter("tab", request.getParameter("tab"));
-		response.sendRedirect(renderURL.toString());
+		response.setRenderParameter("mvcPath", "/activity-bo-view-activities.jsp");
 	}
 
 	/**

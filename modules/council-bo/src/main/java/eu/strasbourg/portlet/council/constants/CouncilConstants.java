@@ -21,6 +21,7 @@ public class CouncilConstants {
     public static final String EDIT_DELIBERATION = "editDeliberation";
     public static final String SAVE_DELIBERATION = "saveDeliberation";
     public static final String IMPORT_DELIBERATION = "importDeliberation";
+    public static final String VIEW_DELIBERATIONS = "viewDeliberations";
 
 
     public static final String OFFICIALS = "officials";

@@ -26,10 +26,15 @@ public static final String INITIATIVES = "initiatives";
     public static final String EDIT_BUDGET_PARICIPATIF = "editBudgetParticipatif";
     public static final String SAVE_BUDGET_PARICIPATIF = "saveBudgetParticipatif";
 
-    public static final String BUDGET_PHASES = "budgets-phases";
+    public static final String BUDGET_PHASES = "budget-phases";
     public static final String BUDGET_PHASES_PATH = "/project-bo-view-budget-phases.jsp";
     public static final String EDIT_BUDGET_PHASE = "editBudgetPhase";
     public static final String SAVE_BUDGET_PHASE = "saveBudgetPhase";
+
+    public static final String SAISINE_OBSERVATOIRE = "saisines-observatoire";
+    public static final String SAISINE_OBSERVATOIRE_PATH = "/project-bo-view-saisines-observatoire.jsp";
+    public static final String EDIT_SAISINE_OBSERVATOIRE = "editSaisineObservatoire";
+    public static final String SAVE_SAISINE_OBSERVATOIRE = "saveSaisineObservatoire";
 
     public static final String URL_PARAM_TAB = "tab";
     public static final String URL_PARAM_MVCPATH = "mvcPath";

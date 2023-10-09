@@ -1,53 +1,38 @@
 package eu.strasbourg.portlet.oidc.display.context;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.oidc.util.PublikUserActionDropdownItemsProvider;
+import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
-import com.liferay.asset.categories.item.selector.AssetCategoryTreeNodeItemSelectorReturnType;
-import com.liferay.asset.categories.item.selector.criterion.AssetCategoryTreeNodeItemSelectorCriterion;
-import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
-import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordLocalServiceUtil;
-import com.liferay.item.selector.ItemSelector;
-import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
-import com.liferay.portal.kernel.dao.search.SearchContainer;
-import com.liferay.portal.kernel.exception.PortalException;
-
-import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
-import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactoryUtil;
-import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
-import com.liferay.portal.kernel.search.*;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
-import eu.strasbourg.portlet.oidc.util.PublikUserActionDropdownItemsProvider;
-import eu.strasbourg.service.oidc.model.PublikUser;
-import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
-import eu.strasbourg.utils.SearchHelper;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
-
-public class ViewPublikUsersDisplayContext  {
+public class ViewPublikUsersDisplayContext extends ViewBaseDisplayContext<PublikUser> {
 	
 	private List <PublikUser> _publikUsers;
 
-	public ViewPublikUsersDisplayContext(RenderRequest request, RenderResponse response, ItemSelector itemSelector) {
+	public ViewPublikUsersDisplayContext(RenderRequest request, RenderResponse response) {
+		super(request, response, PublikUser.class);
 		_request = request;
 		_response = response;
 		_themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
-		_httpServletRequest = PortalUtil.getHttpServletRequest(request);
-		_itemSelector = itemSelector;
 	}
 
 	/**
 	 * Renvoie le nom de la colonne sur laquelle on fait le tri pour PublikUser
-	 * 
-	 * @return
-	 * @throws PortalException 
+	 *
 	 */
+	@Override
 	public String getOrderByColSearchField() {
 		switch (this.getOrderByCol()) {
 			case "first-name":
@@ -75,7 +60,7 @@ public class ViewPublikUsersDisplayContext  {
 	 * Retourne le searchContainer
 	 *
 	 */
-
+	@Override
 	public SearchContainer<PublikUser> getSearchContainer() {
 
 		if (_searchContainer == null) {
@@ -132,54 +117,9 @@ public class ViewPublikUsersDisplayContext  {
 		this._publikUsers=results;
 	}
 
-	/**
-	 * Renvoie la colonne sur laquelle on fait le tri
-	 *
-	 * @return String
-	 */
-	public String getOrderByCol() {
-		return ParamUtil.getString(_request, "orderByCol", "modified-date");
-	}
-
-	/**
-	 * Retourne le type de tri (desc ou asc)
-	 *
-	 * @return String
-	 */
-	public String getOrderByType() {
-		return ParamUtil.getString(_request, "orderByType", "desc");
-	}
-	@SuppressWarnings("unused")
-	public String getKeywords() {
-		if (Validator.isNull(_keywords)) {
-			_keywords = ParamUtil.getString(_request, "keywords");
-		}
-		return _keywords;
-	}
-
-	@SuppressWarnings("unused")
-	public String getSelectCategoriesByVocabularyIdURL(long vocabularyId) {
-		RequestBackedPortletURLFactory requestBackedPortletURLFactory =
-				RequestBackedPortletURLFactoryUtil.create(_request);
-		AssetCategoryTreeNodeItemSelectorCriterion categoryTreeNodeItemSelectorCriterion =
-				new AssetCategoryTreeNodeItemSelectorCriterion();
-		categoryTreeNodeItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-				new AssetCategoryTreeNodeItemSelectorReturnType());
-
-		return String.valueOf(
-				_itemSelector.getItemSelectorURL(
-						requestBackedPortletURLFactory,
-						_response.getNamespace() + "selectAssetCategory",
-						categoryTreeNodeItemSelectorCriterion));
-	}
-	private Hits _hits;
 	protected SearchContainer<PublikUser> _searchContainer;
-	private Map<String, String> _categVocabularies;
-	private String _keywords;
 	private final RenderRequest _request;
 	private final RenderResponse _response;
 	protected ThemeDisplay _themeDisplay;
-	private final HttpServletRequest _httpServletRequest;
-	private final ItemSelector _itemSelector;
 
 }

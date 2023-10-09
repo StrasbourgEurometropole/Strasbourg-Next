@@ -1,40 +1,41 @@
 package eu.strasbourg.portlet.place.display.context;
 
-import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
-import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.place.model.GoogleMyBusinessHistoric;
 import eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalServiceUtil;
-import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-public class ViewGoogleDisplayContext  {
+public class ViewGoogleDisplayContext extends ViewBaseDisplayContext<GoogleMyBusinessHistoric> {
 
 
 
     public ViewGoogleDisplayContext(RenderRequest request,
-                                    RenderResponse response, ItemSelector itemSelector) {
+                                    RenderResponse response) {
+        super(request, response, GoogleMyBusinessHistoric.class);
         _request = request;
         _response = response;
         _themeDisplay = (ThemeDisplay) _request
                 .getAttribute(WebKeys.THEME_DISPLAY);
-        _httpServletRequest = PortalUtil.getHttpServletRequest(request);
-        _itemSelector=itemSelector;
     }
 
+    @Override
     public SearchContainer<GoogleMyBusinessHistoric> getSearchContainer() {
 
         if (_searchContainer == null) {
@@ -51,8 +52,9 @@ public class ViewGoogleDisplayContext  {
                     "taglib-empty-result-message-header-has-plus-btn");
             _searchContainer.setOrderByColParam("orderByCol");
             _searchContainer.setOrderByTypeParam("orderByType");
+            Hits hits;
             try {
-                getHits(this._themeDisplay.getCompanyGroupId());
+                hits = getHits(this._themeDisplay.getCompanyGroupId());
             } catch (PortalException e) {
                 throw new RuntimeException(e);
             }
@@ -60,8 +62,8 @@ public class ViewGoogleDisplayContext  {
                     () -> {
                         // Création de la liste d'objet
                         List<GoogleMyBusinessHistoric> results = new ArrayList<>();
-                        if (_hits != null) {
-                            for (Document document : _hits.getDocs()) {
+                        if (hits != null) {
+                            for (Document document : hits.getDocs()) {
                                 GoogleMyBusinessHistoric googleMyBusinessHistoric = GoogleMyBusinessHistoricLocalServiceUtil.fetchGoogleMyBusinessHistoric(
                                         GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
                                 if (googleMyBusinessHistoric != null) {
@@ -70,47 +72,13 @@ public class ViewGoogleDisplayContext  {
                             }
                         }
                         return results;
-                    }, _hits.getLength()
+                    }, hits.getLength()
             );
         }
         _searchContainer.setRowChecker(new EmptyOnClickRowChecker(_response));
         return _searchContainer;
     }
-    /**
-     * Retourne les mots clés de recherche saisis
-     */
-    @SuppressWarnings("unused")
-    public String getKeywords() {
-        if (Validator.isNull(_keywords)) {
-            _keywords = ParamUtil.getString(_request, "keywords");
-        }
-        return _keywords;
-    }
 
-    /**
-     * Renvoie la colonne sur laquelle on fait le tri
-     *
-     * @return String
-     */
-    public String getOrderByCol() {
-        return ParamUtil.getString(_request, "orderByCol", "modified-date");
-    }
-    private void getHits(long groupId) throws PortalException {
-        HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(_request);
-        SearchContext searchContext = SearchContextFactory.getInstance(servletRequest);
-
-        // Recherche des hits
-        String keywords = ParamUtil.getString(servletRequest, "keywords");
-        _hits = SearchHelper.getBOSearchHits(searchContext,
-                getSearchContainer().getStart(),
-                getSearchContainer().getEnd(), GoogleMyBusinessHistoric.class.getName(), groupId,
-                "", keywords,
-                getOrderByColSearchField(),
-                "desc".equals(getOrderByType()));
-    }
-    public String getOrderByType() {
-        return ParamUtil.getString(_request, "orderByType", "desc");
-    }
     public String getOrderByColSearchField() {
 
         return "modified_sortable";
@@ -119,20 +87,15 @@ public class ViewGoogleDisplayContext  {
     /**
      * @return True si on peut faire la synchronisation
      */
+    @SuppressWarnings("unused")
     public boolean canSynchronise() {
         return Boolean.parseBoolean(StrasbourgPropsUtil.getGMBActivated());
     }
 
-    private List<GoogleMyBusinessHistoric> _googleMyBusinessHistorics;
-    private Hits _hits;
     protected SearchContainer<GoogleMyBusinessHistoric> _searchContainer;
-    private Map<String, String> _categVocabularies;
-    private String _keywords;
     private final RenderRequest _request;
     private final RenderResponse _response;
 
     protected ThemeDisplay _themeDisplay;
-    private final HttpServletRequest _httpServletRequest;
-    private final ItemSelector _itemSelector;
 }
 

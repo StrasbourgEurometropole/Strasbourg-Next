@@ -66,7 +66,7 @@ public class SaveInitiativeActionCommand implements MVCActionCommand {
 					PortletRequest.RENDER_PHASE);
 				
 				response.setRenderParameter("backURL", backURL.toString());
-				response.setRenderParameter("cmd", "editInitiative");
+				response.setRenderParameter("cmd", "saveInitiative");
 				response.setRenderParameter("mvcPath","/project-bo-edit-initiative.jsp");
 				return false;
 			}
@@ -232,7 +232,7 @@ public class SaveInitiativeActionCommand implements MVCActionCommand {
 			initiative.setPublicationDate(publicationDate);
 
 			_initiativeLocalService.updateInitiative(initiative, sc);
-			response.setRenderParameter("mvcPath", "/project-bo-view-budgets-initiatives.jsp");
+			response.setRenderParameter("mvcPath", "/project-bo-view-initiatives.jsp");
 		} catch (PortalException e) {
 			_log.error(e);
 		}

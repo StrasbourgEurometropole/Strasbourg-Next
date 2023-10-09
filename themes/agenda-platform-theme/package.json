@@ -32,7 +32,6 @@
 		"watch": "gulp watch"
 	},
 	"dependencies": {
-		"@liferay/bs3-bs4-compat": "^1.0.3",
-		"clay-css": "^2.18.0"
+		"@liferay/bs3-bs4-compat": "^1.0.3"
 	}
 }

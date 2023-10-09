@@ -68,7 +68,7 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 						PortletRequest.RENDER_PHASE);
 
 				response.setRenderParameter("backURL", backURL.toString());
-				response.setRenderParameter("cmd", "editProject");
+				response.setRenderParameter("cmd", "saveProject");
 				response.setRenderParameter("mvcPath", "/project-bo-edit-project.jsp");
 				return false;
 			}
@@ -349,7 +349,7 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			}
 
 			_projectLocalService.updateProject(project, sc);
-			response.setRenderParameter("mvcPath", "/project-bo-view-budgets-projects.jsp");
+			response.setRenderParameter("mvcPath", "/project-bo-view-projects.jsp");
 
 		} catch (PortalException | IOException | AddressException e) {
 			_log.error(e);

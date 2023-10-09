@@ -409,7 +409,7 @@ main {
 							}
 						}
 						a {
-							@include ft($f_txt, $s_small, 600, $c_white, 4em);
+							@include ft($f_txt, $s_small, 600, $c_white, 3.2em);
 							text-transform: uppercase;
 							padding: 0 15px;
 							display: block;

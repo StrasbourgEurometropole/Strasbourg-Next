@@ -7,6 +7,7 @@
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 	<portlet:param name="mvcPath" value="/help-bo-view-help-proposals.jsp" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:renderURL>
 
 <%-- Composant : barre de filtres et de gestion des entites --%>
@@ -18,6 +19,7 @@
 <liferay-portlet:actionURL name="redirectToHelpProposal" var="redirectToHelpProposalURL">
 	<portlet:param name="helpProposalId" value="TO_BE_REPLACED" />
 	<portlet:param name="backURL" value="${helpProposalsURL}" />
+	<portlet:param name="mvcPath" value="/help-bo-edit-help-proposal.jsp" />
 </liferay-portlet:actionURL>
 <%-- Composant : Champ d'acces direct par reference de proposition --%>
 <div class="container-fluid container-fluid-max-xl main-content-body">
@@ -112,6 +114,7 @@
 			<portlet:param name="tab" value="helpProposals" />
 			<portlet:param name="helpProposalId" value="${helpProposal.helpProposalId}" />
 			<portlet:param name="mvcPath" value="/help-bo-view-help-proposals.jsp" />
+			<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 		</liferay-portlet:actionURL>
 	</aui:form>
 </div>
@@ -127,6 +130,7 @@
 	<portlet:param name="helpProposalId" value="${helpProposal.helpProposalId}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:actionURL>
 
 <%-- URL : defini le lien vers l'action de publication --%>
@@ -138,6 +142,7 @@
 	<portlet:param name="mvcPath" value="/help-bo-view-help-proposals.jsp" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:actionURL>
 
 <%-- URL : defini le lien vers l'action de depublication --%>
@@ -149,7 +154,17 @@
 	<portlet:param name="mvcPath" value="/help-bo-view-help-proposals.jsp" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:actionURL>
+<liferay-portlet:renderURL varImpl="filterSelectionURL">
+	<portlet:param name="tab" value="helpProposals" />
+	<portlet:param name="mvcPath" value="/help-bo-view-help-proposals.jsp" />
+	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
+	<portlet:param name="orderByType" value="${dc.orderByType}" />
+	<portlet:param name="keywords" value="${dc.keywords}" />
+	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
+</liferay-portlet:renderURL>
 
 
 <%-- Script : Permet d'accéeder directement la proposition par son identifiant--%>
@@ -200,5 +215,44 @@
 		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-entries" />')) {
 			submitForm(form, '${deleteSelectionURL}');
 		}
+	}
+	function getCategoriesByVocabulary(vocabularyId, vocabularyName, categoriesId) {
+		const portletURL = "${helpProposalsURL}";
+
+		const url = Liferay.Util.PortletURL.createPortletURL(portletURL, {
+			p_p_id: "com_liferay_asset_categories_selector_web_portlet_AssetCategoriesSelectorPortlet",
+			p_p_lifecycle: 0,
+			p_p_state: "pop_up",
+			eventName: "com_liferay_asset_categories_selector_web_portlet_AssetCategoriesSelectorPortlet_selectCategory",
+			selectedCategories: categoriesId,
+			singleSelect : false,
+			vocabularyIds: vocabularyId,
+		});
+
+		Liferay.Util.openSelectionModal(
+			{
+				onSelect: function (selectedItem) {
+					if (selectedItem) {
+						var url = "${filterSelectionURL}";
+						if(!url.includes("filterCategoriesIdByVocabulariesName"))
+							url += "&<portlet:namespace />filterCategoriesIdByVocabulariesName=";
+						if(url.includes(encodeURIComponent(vocabularyName).replaceAll("%20","+").replaceAll("'","%27")+'__')){
+							const regex = encodeURIComponent(vocabularyName).replaceAll("%20","\\+").replaceAll("'","%27") + "(.(?<!___))*___";
+							const re = new RegExp(regex, 'gi');
+							url = url.replace(re,"");
+						}
+						for(index in Object.keys(selectedItem)){
+							var selection = selectedItem[Object.keys(selectedItem)[index]];
+							url += encodeURIComponent(vocabularyName) + '__' + encodeURIComponent(selection.title) + '__' + selection.categoryId + '___';
+						}
+						submitForm(form, url);
+					}
+				},
+				selectEventName: 'com_liferay_asset_categories_selector_web_portlet_AssetCategoriesSelectorPortlet_selectCategory',
+				title: vocabularyName,
+				multiple: true,
+				url: url
+			}
+		)
 	}
 </aui:script>

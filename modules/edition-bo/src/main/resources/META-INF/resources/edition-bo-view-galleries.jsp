@@ -7,14 +7,8 @@
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 	<portlet:param name="tab" value="galleries" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 
-</liferay-portlet:renderURL>
-
-<liferay-portlet:renderURL varImpl="addGalleryURL">
-	<portlet:param name="cmd" value="editGallery" />
-	<portlet:param name="tab" value="galleries" />
-	<portlet:param name="mvcPath" value="/edition-bo-edit-gallery.jsp" />
-	<portlet:param name="backURL" value="${galleriesURL}" />
 </liferay-portlet:renderURL>
 
 <clay:management-toolbar
@@ -92,6 +86,7 @@
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:actionURL>
 <liferay-portlet:actionURL name="selectionAction"
 	var="publishSelectionURL">
@@ -102,6 +97,7 @@
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:actionURL>
 <liferay-portlet:actionURL name="selectionAction"
 	var="unpublishSelectionURL">
@@ -112,6 +108,7 @@
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:actionURL>
 <liferay-portlet:renderURL varImpl="filterSelectionURL">
 	<portlet:param name="tab" value="galleries" />
@@ -120,6 +117,7 @@
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:renderURL>
 
 <aui:script>
@@ -144,28 +142,43 @@
 		}
 	}
 
-	function getCategoriesByVocabulary(vocabularyId) {
+	function getCategoriesByVocabulary(vocabularyId, vocabularyName, categoriesId) {
+		const portletURL = "${galleriesURL}";
+
+		const url = Liferay.Util.PortletURL.createPortletURL(portletURL, {
+			p_p_id: "com_liferay_asset_categories_selector_web_portlet_AssetCategoriesSelectorPortlet",
+			p_p_lifecycle: 0,
+			p_p_state: "pop_up",
+			eventName: "com_liferay_asset_categories_selector_web_portlet_AssetCategoriesSelectorPortlet_selectCategory",
+			selectedCategories: categoriesId,
+			singleSelect : false,
+			vocabularyIds: vocabularyId,
+		});
+
 		Liferay.Util.openSelectionModal(
-		{
-			onSelect: function (selectedItem) {
-			console.log("test : " + selectedItem.value);
-			alert("category : " + selectedItem.value.title);
-			if (selectedItem) {
-				const itemValue = selectedItem.value;
-				navigate(addParams(
-				{
-					["${portletNamespace}vocabulary_" + vocabularyId]: itemValue.title,
-					},
-					PortletURLBuilder.create(getPortletURL())
-					.setParameter("vocabulary_" + vocabularyId, itemValue.title)
-					.buildString()
-					)
-					);
-				}
-			},
-			selectGalleryName: '<portlet:namespace />selectAssetCategory',
-			title: Liferay.Language.get('select-category'),
-			url: '${dc.getSelectCategoriesByVocabularyIdURL(vocabularyId)}'
-		} )
+			{
+				onSelect: function (selectedItem) {
+					if (selectedItem) {
+						var url = "${filterSelectionURL}";
+						if(!url.includes("filterCategoriesIdByVocabulariesName"))
+							url += "&<portlet:namespace />filterCategoriesIdByVocabulariesName=";
+						if(url.includes(encodeURIComponent(vocabularyName).replaceAll("%20","+").replaceAll("'","%27")+'__')){
+							const regex = encodeURIComponent(vocabularyName).replaceAll("%20","\\+").replaceAll("'","%27") + "(.(?<!___))*___";
+							const re = new RegExp(regex, 'gi');
+							url = url.replace(re,"");
+						}
+						for(index in Object.keys(selectedItem)){
+							var selection = selectedItem[Object.keys(selectedItem)[index]];
+							url += encodeURIComponent(vocabularyName) + '__' + encodeURIComponent(selection.title) + '__' + selection.categoryId + '___';
+						}
+						submitForm(form, url);
+					}
+				},
+				selectEventName: 'com_liferay_asset_categories_selector_web_portlet_AssetCategoriesSelectorPortlet_selectCategory',
+				title: vocabularyName,
+				multiple: true,
+				url: url
+			}
+		)
 	}
 </aui:script>

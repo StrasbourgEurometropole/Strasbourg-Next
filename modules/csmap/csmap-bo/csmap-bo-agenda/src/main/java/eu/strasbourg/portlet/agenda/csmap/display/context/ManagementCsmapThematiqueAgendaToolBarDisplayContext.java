@@ -1,41 +1,34 @@
 package eu.strasbourg.portlet.agenda.csmap.display.context;
 
-import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.SearchContainerManagementToolbarDisplayContext;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenuBuilder;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
-import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.service.csmap.model.Thematic;
+import eu.strasbourg.utils.display.context.ManagementBaseToolBarDisplayContext;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
-public class ManagementCsmapThematiqueAgendaToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
+public class ManagementCsmapThematiqueAgendaToolBarDisplayContext extends ManagementBaseToolBarDisplayContext<Thematic> {
 
     public ManagementCsmapThematiqueAgendaToolBarDisplayContext(
             HttpServletRequest httpServletRequest,
             LiferayPortletRequest liferayPortletRequest,
             LiferayPortletResponse liferayPortletResponse,
-            ViewCsmapAgendaThematiqueDisplayContext viewCsmapAgendaThematiqueDisplayContext) throws PortalException {
+            SearchContainer searchContainer) throws PortalException {
         super(httpServletRequest, liferayPortletRequest, liferayPortletResponse,
-                viewCsmapAgendaThematiqueDisplayContext.getSearchContainer());
+                Thematic.class, searchContainer);
 
-        _viewCsmapAgendaThematiqueDisplayContext = viewCsmapAgendaThematiqueDisplayContext;
 
         _themeDisplay = (ThemeDisplay)liferayPortletRequest.getAttribute(
                 WebKeys.THEME_DISPLAY);
-    }
-
-    /**
-     * The action URL to send the search form
-     */
-    @Override
-    public String getSearchActionURL() {
-        return PortletURLBuilder.createRenderURL(liferayPortletResponse)
-                .buildString();
     }
 
     /**
@@ -72,6 +65,14 @@ public class ManagementCsmapThematiqueAgendaToolBarDisplayContext extends Search
     public Boolean isSelectable() {
         return false;
     }
-    private final ViewCsmapAgendaThematiqueDisplayContext _viewCsmapAgendaThematiqueDisplayContext;
+
+    /**
+     * On ne veut pas de filtre ni de tri
+     */
+    @Override
+    public List<DropdownItem> getFilterDropdownItems() {
+        return null;
+    }
+
     private final ThemeDisplay _themeDisplay;
 }

@@ -1,41 +1,36 @@
 package eu.strasbourg.portlet.help.context;
 
-import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
-import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
-import eu.strasbourg.portlet.help.util.ProposalHelpActionDropdownItemsProvider;
+import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.help.util.ProposalHelpRequestActionDropdownItemsProvider;
 import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.service.help.model.HelpRequest;
 import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
 import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
-import eu.strasbourg.utils.SearchHelper;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
-public class ViewProposalHelpRequestsDisplayContext{
+public class ViewProposalHelpRequestsDisplayContext extends ViewBaseDisplayContext<HelpRequest> {
 
 
-    public ViewProposalHelpRequestsDisplayContext(RenderRequest request, RenderResponse response
-       , ItemSelector itemSelector) {
+    public ViewProposalHelpRequestsDisplayContext(RenderRequest request, RenderResponse response) {
+        super(request, response, HelpRequest.class);
             _request = request;
             _response = response;
             _themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
-            _httpServletRequest = PortalUtil.getHttpServletRequest(request);
-            _itemSelector = itemSelector;
         }
 
     /**
@@ -55,10 +50,12 @@ public class ViewProposalHelpRequestsDisplayContext{
         }
         return _helpProposal;
     }
+
     /**
      * Retourne le searchContainer des help proposals
      *
      */
+    @Override
     public SearchContainer<HelpRequest> getSearchContainer() {
 
         if (_searchContainer == null) {
@@ -69,6 +66,7 @@ public class ViewProposalHelpRequestsDisplayContext{
                     .setKeywords(ParamUtil.getString(_request, "keywords"))
                     .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
                     .setParameter("tab","viewProposalHelpRequests")
+                    .setParameter("filterCategoriesIdByVocabulariesName", getFilterCategoriesIdByVocabulariesName())
                     .buildPortletURL();
             _searchContainer = new SearchContainer<>(_request, null, null,
                     SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
@@ -112,6 +110,8 @@ public class ViewProposalHelpRequestsDisplayContext{
 
         }
     }
+
+    @SuppressWarnings("unused")
     public String getCurrentUrl() {
         return PortalUtil.getCurrentURL(this._request);
     }
@@ -121,11 +121,6 @@ public class ViewProposalHelpRequestsDisplayContext{
     private final RenderRequest _request;
     private final RenderResponse _response;
     protected ThemeDisplay _themeDisplay;
-
-    private final HttpServletRequest _httpServletRequest;
-    private final ItemSelector _itemSelector;
-
     private HelpProposal _helpProposal;
     private List <HelpRequest> _helpRequests;
-
 }

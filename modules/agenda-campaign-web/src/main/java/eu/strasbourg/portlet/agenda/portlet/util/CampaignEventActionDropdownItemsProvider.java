@@ -67,7 +67,7 @@ public class CampaignEventActionDropdownItemsProvider {
                                     DropdownItemListBuilder
                                             .add(
                                                     ()->hasSubmitValidation,
-                                                    _getEditStatusActionUnsafeConsumer(1,"submit-to-validation")
+                                                    _getEditStatusActionUnsafeConsumer(1,"check", "submit-to-validation")
                                             )
                                             .build()
                             );
@@ -79,7 +79,7 @@ public class CampaignEventActionDropdownItemsProvider {
                                     DropdownItemListBuilder
                                             .add(
                                                     ()->hasApproveValidation,
-                                                    _getEditStatusActionUnsafeConsumer(0,"approve")
+                                                    _getEditStatusActionUnsafeConsumer(0,"thumbs-up", "approve")
                                             )
                                             .build()
                             );
@@ -91,7 +91,7 @@ public class CampaignEventActionDropdownItemsProvider {
                                     DropdownItemListBuilder
                                             .add(
                                                     ()->hasApproveValidation,
-                                                    _getEditStatusActionUnsafeConsumer(4,"deny")
+                                                    _getEditStatusActionUnsafeConsumer(4,"thumbs-down", "deny")
                                             )
                                             .build()
                             );
@@ -115,7 +115,7 @@ public class CampaignEventActionDropdownItemsProvider {
                                     DropdownItemListBuilder
                                             .add(
                                                     ()->hasDelete,
-                                                    _getEditStatusActionUnsafeConsumer(-1,"deny-deletion")
+                                                    _getEditStatusActionUnsafeConsumer(-1,"undo", "deny-deletion")
                                             )
                                             .build()
                             );
@@ -126,7 +126,7 @@ public class CampaignEventActionDropdownItemsProvider {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder
                                             .add(
-                                                    _getEditStatusActionUnsafeConsumer(8,"request-deletion")
+                                                    _getEditStatusActionUnsafeConsumer(8,"times", "request-deletion")
                                             )
                                             .build()
                             );
@@ -160,6 +160,7 @@ public class CampaignEventActionDropdownItemsProvider {
                             .setParameter("campaignEventId", _campaignEvent.getCampaignEventId())
                             .buildString()
             );
+            dropdownItem.setIcon("edit");
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "edit"));
         };
     }
@@ -167,21 +168,15 @@ public class CampaignEventActionDropdownItemsProvider {
     /**
      * Action of Edit link
      */
-    private UnsafeConsumer<DropdownItem, Exception> _getEditStatusActionUnsafeConsumer(int status,String message) {
+    private UnsafeConsumer<DropdownItem, Exception> _getEditStatusActionUnsafeConsumer(int status,String icon, String message) {
 
         return dropdownItem -> {
-            dropdownItem.setHref(
-                    PortletURLBuilder.createRenderURL(_response)
-                            .setMVCPath("/campaign-update-status.jsp")
-                            .setCMD("updateStatus")
-                            .setBackURL(_themeDisplay.getURLCurrent())
-                            .setParameter("statusFilterId", status)
-                            .setParameter("campaignEventId", _campaignEvent.getCampaignEventId())
-                            .buildString()
-            );
+            dropdownItem.put("href", "javascript:updateCampaignEventStatus(" + _campaignEvent.getCampaignEventId() + "," + status + ");");
+            dropdownItem.setIcon(icon);
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, message));
         };
     }
+
     /**
      * Action of Delete link
      */
@@ -195,6 +190,7 @@ public class CampaignEventActionDropdownItemsProvider {
                             .setParameter("campaignEventId", _campaignEvent.getCampaignEventId())
                             .buildString()
             );
+            dropdownItem.setIcon("trash");
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "delete"));
         };
     }
@@ -209,9 +205,16 @@ public class CampaignEventActionDropdownItemsProvider {
                     PortletURLBuilder.createActionURL(_response)
                             .setActionName("duplicateCampaignEvent")
                             .setBackURL(_themeDisplay.getURLCurrent())
+                            .setKeywords(_httpServletRequest.getParameter("keywords"))
                             .setParameter("campaignEventId", _campaignEvent.getCampaignEventId())
+                            .setParameter("statusId", _httpServletRequest.getParameter("statusId"))
+                            .setParameter("typeId", _httpServletRequest.getParameter("typeId"))
+                            .setParameter("themeId", _httpServletRequest.getParameter("themeId"))
+                            .setParameter("campaignId", _httpServletRequest.getParameter("campaignId"))
+                            .setParameter("delta", _httpServletRequest.getParameter("delta"))
                             .buildString()
             );
+            dropdownItem.setIcon("copy");
             dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, "duplicate"));
         };
     }

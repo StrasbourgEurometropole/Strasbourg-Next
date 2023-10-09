@@ -70,6 +70,10 @@ public class PlacitPlaceTable extends BaseTable<PlacitPlaceTable> {
 		"participationId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
 	public final Column<PlacitPlaceTable, Long> petitionId = createColumn(
 		"petitionId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
+	public final Column<PlacitPlaceTable, Long> saisineObservatoireId =
+		createColumn(
+			"saisineObservatoireId", Long.class, Types.BIGINT,
+			Column.FLAG_DEFAULT);
 	public final Column<PlacitPlaceTable, Long> budgetParticipatifId =
 		createColumn(
 			"budgetParticipatifId", Long.class, Types.BIGINT,

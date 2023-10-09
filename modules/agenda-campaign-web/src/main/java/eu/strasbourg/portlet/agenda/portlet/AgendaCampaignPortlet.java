@@ -50,7 +50,7 @@ public class AgendaCampaignPortlet extends MVCPortlet {
 			renderRequest.setAttribute("dc", dc);
 		} else {
 			ViewCampaignEventsDisplayContext dc = new ViewCampaignEventsDisplayContext(
-				renderRequest, renderResponse,_itemSelector);
+				renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 			ManagementCampaignsToolBarDisplayContext managementDC = null;
 			try {
@@ -65,6 +65,4 @@ public class AgendaCampaignPortlet extends MVCPortlet {
 
 		super.render(renderRequest, renderResponse);
 	}
-	@Reference
-	private ItemSelector _itemSelector;
 }

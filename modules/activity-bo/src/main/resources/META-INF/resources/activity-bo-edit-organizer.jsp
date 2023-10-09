@@ -10,7 +10,7 @@
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveActivityOrganizer" varImpl="saveActivityOrganizerURL">
-	<portlet:param name="cmd" value="saveActivityOrganizer" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 	<portlet:param name="tab" value="activityOrganizers" />
 </liferay-portlet:actionURL>
 

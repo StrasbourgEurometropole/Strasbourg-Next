@@ -65,6 +65,8 @@ public class HelpBOPortlet extends MVCPortlet {
 			portletDisplay.setURLBack(backUrl);
 			renderRequest.setAttribute(HelpBOConstants.PARAM_RETURN_URL, backUrl);
 		}
+
+
 		try {
 			NavigationBarDisplayContext navigationDC = new NavigationBarDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("navigationDC", navigationDC);
@@ -76,16 +78,16 @@ public class HelpBOPortlet extends MVCPortlet {
 						EditHelpProposalDisplayContext dc = new EditHelpProposalDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else if (navigationDC.getSelectedCmd().equals(PROPOSAL_HELP_REQUESTS) ) {
-						ViewProposalHelpRequestsDisplayContext dc = new ViewProposalHelpRequestsDisplayContext(renderRequest, renderResponse, _itemSelector);
+						ViewProposalHelpRequestsDisplayContext dc = new ViewProposalHelpRequestsDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 
 					}/*else if(navigationDC.getSelectedCmd().equals(READ_HELP_PROPOSAL)){
 
 					}*/
 					else {
-						ViewHelpProposalsDisplayContext dc = new ViewHelpProposalsDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ViewHelpProposalsDisplayContext dc = new ViewHelpProposalsDisplayContext(renderRequest, renderResponse);
 						ManagementHelpProposalsToolBarDisplayContext managementDC = new ManagementHelpProposalsToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -95,27 +97,27 @@ public class HelpBOPortlet extends MVCPortlet {
 						EditHelpRequestDisplayContext dc = new EditHelpRequestDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewHelpRequestsDisplayContext dc = new ViewHelpRequestsDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ViewHelpRequestsDisplayContext dc = new ViewHelpRequestsDisplayContext(renderRequest, renderResponse);
 						ManagementHelpRequestsToolBarDisplayContext managementDC = new ManagementHelpRequestsToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
 					break;
 
 				case HELP_SEEKERS:
-					if(navigationDC.getSelectedCmd().equals(EDIT_HELP_PROPOSAL)){
-						ViewSeekerHelpRequestsDisplayContext dc = new ViewSeekerHelpRequestsDisplayContext(renderRequest, renderResponse,_itemSelector);
+					/*if(navigationDC.getSelectedCmd().equals(EDIT_HELP_PROPOSAL)){
+						ViewSeekerHelpRequestsDisplayContext dc = new ViewSeekerHelpRequestsDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					}
-					else if(navigationDC.getSelectedCmd().equals(SEEKER_HELP_REQUESTS)) {
-						ViewSeekerHelpRequestsDisplayContext dc = new ViewSeekerHelpRequestsDisplayContext(renderRequest, renderResponse,_itemSelector);
+					else*/ if(navigationDC.getSelectedCmd().equals(SEEKER_HELP_REQUESTS)) {
+						ViewSeekerHelpRequestsDisplayContext dc = new ViewSeekerHelpRequestsDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					}
 					else {
-						ViewHelpSeekersDisplayContext dc = new ViewHelpSeekersDisplayContext(renderRequest, renderResponse, _itemSelector);
+						ViewHelpSeekersDisplayContext dc = new ViewHelpSeekersDisplayContext(renderRequest, renderResponse);
 						ManagementHelpSeekersToolBarDisplayContext managementDC = new ManagementHelpSeekersToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -133,6 +135,4 @@ public class HelpBOPortlet extends MVCPortlet {
 		title = LanguageUtil.get(PortalUtil.getHttpServletRequest(renderRequest), title);
 		renderResponse.setTitle(title);
 	}
-	@Reference
-	private ItemSelector _itemSelector;
 }

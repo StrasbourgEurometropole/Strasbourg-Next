@@ -9,10 +9,10 @@
 <liferay-portlet:actionURL name="deleteCampaignEvent"
 	varImpl="deleteURL">
 	<liferay-portlet:param name="campaignEventId" value="${dc.campaignEvent.campaignEventId}" />
-</liferay-portlet:actionURL>	
+</liferay-portlet:actionURL>
 
 <div class="container-fluid container-fluid-max-xl main-content-body">
-	<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" value="back-to-list" />
+	<aui:button type="button" value="back-to-list" cssClass="btn-lg btn-cancel" href="${param.backURL}"  />
 	<liferay-ui:error key="last-name-error" message="last-name-error" />
 	<liferay-ui:error key="first-name-error" message="first-name-error" />
 	<liferay-ui:error key="phone-error" message="phone-error" />
@@ -37,7 +37,7 @@
 			
 			<!-- Informations de contact privÃ©es-->
 			<aui:fieldset collapsed="false" collapsible="false" label="private-contact-information">
-				<div clas="row">
+				<div class="row">
 					<!-- Nom, prÃ©nom, mail, tÃ©lÃ©phone -->
 					<div class="col-md-6" style="float: left">
 						<aui:input name="lastName" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.lastName : themeDisplay.user.lastName}"/>
@@ -333,7 +333,7 @@
 						</div>
 					</div>
 					<p class="show-link-manual-place" style="${not empty dc.campaignEvent.placeSIGId ? 'display:none;' : ''}">
-					    <a class="show-manual-place" style="cursor: pointer;" /><liferay-ui:message key="show-manual-place" /></a>
+					    <a class="show-manual-place" style="cursor: pointer;" ><liferay-ui:message key="show-manual-place" /></a>
 					</p>
 				</div>
 				
@@ -595,13 +595,11 @@
 			<c:if test="${not empty dc.campaignEvent and dc.campaignEvent.status ne 8}">
 				<aui:button cssClass="btn-lg" type="submit" name="save-and-request-deletion" value="save-and-request-deletion" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
+
 		</aui:button-row>
 	</aui:form>
 </div>
-<liferay-portlet:actionURL name="getPeriodRow" var="periodRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
-	<liferay-portlet:param name="mvcPath" value="/includes/period-row.jsp" />
-</liferay-portlet:actionURL>
 <liferay-util:html-bottom>
 	<aui:script>
 		var namespace = '<portlet:namespace />';

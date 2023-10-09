@@ -1,47 +1,36 @@
 package eu.strasbourg.portlet.council.display.context;
 
-import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
-import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
-import eu.strasbourg.portlet.council.constants.CouncilConstants;
-import eu.strasbourg.portlet.council.util.CouncilSessionsActionDropdownItemsProvider;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.council.util.DeliberationsActionDropdownItemsProvider;
 import eu.strasbourg.service.council.constants.StageDeliberation;
-import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.service.DeliberationLocalServiceUtil;
-import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.SearchHelper;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class ViewDeliberationsDisplayContext {
+public class ViewDeliberationsDisplayContext extends ViewBaseDisplayContext<Deliberation> {
 
-    private List<Deliberation> deliberations;
-    private String sessionCategoryToAdd;
-
-    public ViewDeliberationsDisplayContext(RenderRequest request, RenderResponse response, String categoryToAdd, ItemSelector itemSelector) {
+    public ViewDeliberationsDisplayContext(RenderRequest request, RenderResponse response, String filterCategories) {
+        super(request, response, Deliberation.class);
         _request = request;
         _response = response;
         _themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
-        _httpServletRequest = PortalUtil.getHttpServletRequest(request);
-        _itemSelector = itemSelector;
-        this.sessionCategoryToAdd=categoryToAdd;
+        _filterCategories = filterCategories;
         // Hack : forçage du delta du SearchContainer
         // TODO : Changer le ViewListBaseDisplayContext pour mettre en place la prise en compte du delta par default
         this.getSearchContainer().setDelta(100);
@@ -76,24 +65,6 @@ public class ViewDeliberationsDisplayContext {
         }
         return results;
     }
-    /**
-     * Retourne tous les Hits de recherche
-     */
-    private Hits getAllHits(long groupId) throws PortalException {
-        HttpServletRequest servletRequest = PortalUtil
-                .getHttpServletRequest(_request);
-        SearchContext searchContext = SearchContextFactory
-                .getInstance(servletRequest);
-
-        // Recherche des hits
-        String keywords = ParamUtil.getString(servletRequest, "keywords");
-
-        return SearchHelper.getBOSearchHits(searchContext,
-                -1, -1,Deliberation.class.getName(), groupId,
-                "", keywords,
-                getOrderByColSearchField(),
-                "desc".equals(getOrderByType()));
-    }
 
     /**
      * Retourne la liste des PK de toutes les délibérations
@@ -110,10 +81,12 @@ public class ViewDeliberationsDisplayContext {
         }
         return deliberationsIds.toString();
     }
+
     /**
      * Retourne le searchContainer des Deliberations
      *
      */
+    @Override
     public SearchContainer<Deliberation> getSearchContainer() {
 
         if (_searchContainer == null) {
@@ -124,6 +97,7 @@ public class ViewDeliberationsDisplayContext {
                     .setKeywords(ParamUtil.getString(_request, "keywords"))
                     .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
                     .setParameter("tab","deliberations")
+                    .setParameter("filterCategoriesIdByVocabulariesName", getFilterCategoriesIdByVocabulariesName())
                     .buildPortletURL();
             _searchContainer = new SearchContainer<>(_request, null, null,
                     SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
@@ -133,8 +107,9 @@ public class ViewDeliberationsDisplayContext {
             _searchContainer.setOrderByTypeParam("orderByType");
             _searchContainer.setOrderByCol(getOrderByCol());
             _searchContainer.setOrderByType(getOrderByType());
+            Hits hits;
             try {
-                getHits(this._themeDisplay.getScopeGroupId());
+                hits = getHits(this._themeDisplay.getScopeGroupId());
             } catch (PortalException e) {
                 throw new RuntimeException(e);
             }
@@ -142,8 +117,8 @@ public class ViewDeliberationsDisplayContext {
                     () -> {
                         // Création de la liste d'objet
                         List<Deliberation> results = new ArrayList<Deliberation>();
-                        if (_hits != null) {
-                            for (Document document : _hits.getDocs()) {
+                        if (hits != null) {
+                            for (Document document : hits.getDocs()) {
                                 Deliberation deliberation = DeliberationLocalServiceUtil.fetchDeliberation(
                                         GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
                                 if (deliberation != null) {
@@ -152,7 +127,7 @@ public class ViewDeliberationsDisplayContext {
                             }
                         }
                         return results;
-                    }, _hits.getLength()
+                    }, hits.getLength()
             );
         }
         _searchContainer.setRowChecker(
@@ -160,6 +135,8 @@ public class ViewDeliberationsDisplayContext {
 
         return _searchContainer;
     }
+
+    @Override
     public String getOrderByColSearchField() {
         switch (this.getOrderByCol()) {
             case "title":
@@ -178,33 +155,15 @@ public class ViewDeliberationsDisplayContext {
         }
     }
 
+    @Override
     public String getOrderByCol() {
         return ParamUtil.getString(this._request, "orderByCol",
                 "order");
     }
 
+    @Override
     public String getOrderByType() {
         return ParamUtil.getString(this._request, "orderByType", "asc");
-    }
-
-
-    /**
-     * Retourne les Hits de recherche pour un delta
-     */
-    private void getHits(long groupId) throws PortalException {
-        HttpServletRequest servletRequest = PortalUtil
-                .getHttpServletRequest(_request);
-        SearchContext searchContext = SearchContextFactory
-                .getInstance(servletRequest);
-
-        // Recherche des hits
-        String keywords = ParamUtil.getString(servletRequest, "keywords");
-        _hits = SearchHelper.getBOSearchHits(searchContext,
-                getSearchContainer().getStart(),
-                getSearchContainer().getEnd(), Deliberation.class.getName(), groupId,
-                "", keywords,
-                getOrderByColSearchField(),
-                "desc".equals(getOrderByType()));
     }
 
 
@@ -231,46 +190,29 @@ public class ViewDeliberationsDisplayContext {
     }
 
     /**
+     * Récupère le String des Vocabulaire/catégorie/categId sur lesquels on doit filtrer
+     *  qui se présente comme suit :
+     * "vocabularyName__categoryName__categoryId___..."
+     * Utilisé dans tous les render et action URL des JSP de listing qui ont un
+     * filtre par vocabulaire pour le garder à chaque action
+     */
+    public String getFilterCategoriesIdByVocabulariesName() {
+        return _filterCategories;
+    }
+
+    /**
      * Récupère et ajoute à la liste la categorie correspondant à aucun conseil sélectionné
      */
-    private void addCategorieAucunConseilSelectionne(ThemeDisplay themeDisplay, List<AssetCategory> authorizedRootCategories) {
+    /*private void addCategorieAucunConseilSelectionne(ThemeDisplay themeDisplay, List<AssetCategory> authorizedRootCategories) {
 
         long groupId = themeDisplay.getScopeGroupId();
         AssetCategory categoryAucunConseil = AssetVocabularyHelper.getCategory(CouncilConstants.NO_COUNCIL_CATEGORY_NAME, groupId);
         authorizedRootCategories.add(categoryAucunConseil);
-    }
-    /**
-     * Retourne les mots clés de recherche saisis
-     */
-    @SuppressWarnings("unused")
-    public String getKeywords() {
-        if (Validator.isNull(_keywords)) {
-            _keywords = ParamUtil.getString(_request, "keywords");
-        }
-        return _keywords;
-    }
-    public boolean hasVocabulary(String vocabularyName){
-        return getCategVocabularies().containsKey(vocabularyName);
-    }
+    }*/
 
-    public Map<String, String> getCategVocabularies() {
-        if (_categVocabularies == null) {
-            _categVocabularies = new HashMap<>();
-            _categVocabularies.put("vocabulary1", ParamUtil.getString(
-                    _httpServletRequest, "vocabulary1", ""));
-        }
-
-        return _categVocabularies;
-    }
-    private final Log _log = LogFactoryUtil.getLog(this.getClass());
-    private Hits _hits;
     private final RenderRequest _request;
     private final ThemeDisplay _themeDisplay;
     protected SearchContainer<Deliberation> _searchContainer;
-
     private final RenderResponse _response;
-    private final HttpServletRequest _httpServletRequest;
-    private final ItemSelector _itemSelector;
-    private String _keywords;
-    private Map<String, String> _categVocabularies;
+    private final String _filterCategories;
 }

@@ -101,7 +101,7 @@ public class ProjectImpl extends ProjectBaseImpl {
 		// Recupere le nombre de chiffre
 		int nbDigits = stringNum.length();
 		// Ajoute les zeros manquants avant la chaine
-		stringNum = new String(new char[5 - nbDigits]).replace("\0", "0") + stringNum;
+		stringNum = new String(new char[6 - nbDigits]).replace("\0", "0") + stringNum;
 
 		return stringNum;
 	}

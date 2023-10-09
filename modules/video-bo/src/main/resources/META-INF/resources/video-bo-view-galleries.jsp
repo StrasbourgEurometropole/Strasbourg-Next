@@ -125,29 +125,4 @@
             submitForm(form, '${unpublishSelectionURL}');
         }
     }
-
-    function getCategoriesByVocabulary(vocabularyId) {
-        Liferay.Util.openSelectionModal(
-        {
-            onSelect: function (selectedItem) {
-            console.log("test : " + selectedItem.value);
-            alert("category : " + selectedItem.value.title);
-            if (selectedItem) {
-                const itemValue = selectedItem.value;
-                navigate(addParams(
-                    {
-                        ["${portletNamespace}vocabulary_" + vocabularyId]: itemValue.title,
-                    },
-                PortletURLBuilder.create(getPortletURL())
-                .setParameter("vocabulary_" + vocabularyId, itemValue.title)
-                .buildString()
-                    )
-                 );
-            }
-        },
-            selectGalleryName: '<portlet:namespace/>selectAssetCategory',
-            title: Liferay.Language.get('select-category'),
-            url: '${dc.getSelectCategoriesByVocabularyIdURL(vocabularyId)}'
-                } )
-         }
 </aui:script>

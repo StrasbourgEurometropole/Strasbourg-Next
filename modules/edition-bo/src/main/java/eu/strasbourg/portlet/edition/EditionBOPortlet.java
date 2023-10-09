@@ -59,9 +59,9 @@ public class EditionBOPortlet extends MVCPortlet {
 						EditGalleryDisplayContext dc = new EditGalleryDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewGalleriesDisplayContext dc = new ViewGalleriesDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ViewGalleriesDisplayContext dc = new ViewGalleriesDisplayContext(renderRequest, renderResponse);
 						ManagementGalleriesToolBarDisplayContext managementDC=new ManagementGalleriesToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -72,9 +72,9 @@ public class EditionBOPortlet extends MVCPortlet {
 						EditEditionDisplayContext dc = new EditEditionDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewEditionsDisplayContext dc = new ViewEditionsDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ViewEditionsDisplayContext dc = new ViewEditionsDisplayContext(renderRequest, renderResponse);
 						ManagementEditionsToolBarDisplayContext managementDC=new ManagementEditionsToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -97,7 +97,5 @@ public class EditionBOPortlet extends MVCPortlet {
 		}
 		super.render(renderRequest, renderResponse);
 	}
-	@Reference
-	private ItemSelector _itemSelector;
 
 }

@@ -1,41 +1,44 @@
 package eu.strasbourg.portlet.help.context;
 
-import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
-import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.help.util.SeekerHelpActionDropdownItemsProvider;
 import eu.strasbourg.service.help.model.HelpRequest;
 import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
-import javax.portlet.*;
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 
 
 
-public class ViewHelpSeekersDisplayContext {
+public class ViewHelpSeekersDisplayContext extends ViewBaseDisplayContext<ViewHelpSeekersDisplayContext.HelpSeeker> {
 
     private List<HelpSeeker> _helpSeekers;
 
-    public ViewHelpSeekersDisplayContext(RenderRequest request, RenderResponse response, ItemSelector itemSelector) {
+    public ViewHelpSeekersDisplayContext(RenderRequest request, RenderResponse response) {
+        super(request, response, HelpSeeker.class);
         _request = request;
         _response = response;
         _themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
-        _httpServletRequest = PortalUtil.getHttpServletRequest(request);
-        _itemSelector = itemSelector;
     }
     @SuppressWarnings("unused")
     public SeekerHelpActionDropdownItemsProvider getActionsHelpSeeker(ViewHelpSeekersDisplayContext.HelpSeeker helpSeeker) {
@@ -46,6 +49,7 @@ public class ViewHelpSeekersDisplayContext {
      * Retourne le searchContainer des help seekers
      *
      */
+    @Override
     public SearchContainer<HelpSeeker> getSearchContainer() {
 
         if (_searchContainer == null) {
@@ -58,6 +62,7 @@ public class ViewHelpSeekersDisplayContext {
                     .setTabs1("helpSeekers")
                     .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
                     .setParameter("tab","helpSeekers")
+                    .setParameter("filterCategoriesIdByVocabulariesName", getFilterCategoriesIdByVocabulariesName())
                     .buildPortletURL();
             _searchContainer = new SearchContainer<>(_request, null, null,
                     SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
@@ -144,36 +149,6 @@ public class ViewHelpSeekersDisplayContext {
             }
         }
     }
-    /**
-     * Renvoie la colonne sur laquelle on fait le tri
-     *
-     * @return String
-     */
-    public String getOrderByCol() {
-        return ParamUtil.getString(_request, "orderByCol", "modified-date");
-    }
-
-    /**
-     * Retourne le type de tri (desc ou asc)
-     *
-     * @return String
-     */
-    public String getOrderByType() {
-        return ParamUtil.getString(_request, "orderByType", "desc");
-    }
-    public boolean hasVocabulary(String vocabularyName){
-        return getCategVocabularies().containsKey(vocabularyName);
-    }
-
-    public Map<String, String> getCategVocabularies() {
-        if (_categVocabularies == null) {
-            _categVocabularies = new HashMap<>();
-            _categVocabularies.put("vocabulary1", ParamUtil.getString(
-                    _httpServletRequest, "vocabulary1", ""));
-        }
-
-        return _categVocabularies;
-    }
 
 
     private List<HelpSeeker> getFilteredHelpSeekers(List<HelpSeeker> unfilteredSeekers) {
@@ -227,10 +202,12 @@ public class ViewHelpSeekersDisplayContext {
         return comparator;
     }
 
+    @SuppressWarnings("unused")
     public String getCurrentURL() {
         return PortalUtil.getCurrentURL(this._request);
     }
-    public String getPublikUserEditURL(String publikUserId) throws WindowStateException, PortletModeException {
+
+    /*public String getPublikUserEditURL(String publikUserId) throws WindowStateException, PortletModeException {
         PortletURL myPortletURL = PortletURLFactoryUtil.create(this._request, StrasbourgPortletKeys.OIDC_BO,
                 this._themeDisplay.getLayout().getPlid(), PortletRequest.RENDER_PHASE);
         myPortletURL.setWindowState(WindowState.MAXIMIZED);
@@ -242,11 +219,12 @@ public class ViewHelpSeekersDisplayContext {
         myPortletURL.setParameter("mvcPath", "/oidc-bo-edit-publikuser.jsp");
 
         return myPortletURL.toString();
-    }
+    }*/
 
     /**
      * Renvoie le nom de la colonne sur laquelle on fait le tri pour demandeurs (PublikUser)
      */
+    @Override
     public String getOrderByColSearchField() {
         switch (this.getOrderByCol()) {
             case "first-name":
@@ -257,7 +235,6 @@ public class ViewHelpSeekersDisplayContext {
                 return "lastName";
         }
     }
-    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
     // Classe nested pour aggreger les donnees d'un user
     public class HelpSeeker {
@@ -302,28 +279,13 @@ public class ViewHelpSeekersDisplayContext {
         }
     }
 
-    /**
-     * Retourne les mots clés de recherche saisis
-     */
     @SuppressWarnings("unused")
-    public String getKeywords() {
-        if (Validator.isNull(_keywords)) {
-            _keywords = ParamUtil.getString(_request, "keywords");
-        }
-        return _keywords;
-    }
     public Class<HelpSeeker> getHelpSeekerClass() {
         return HelpSeeker.class;
     }
     
     protected SearchContainer<HelpSeeker> _searchContainer;
-    private String _keywords;
     private final RenderRequest _request;
     private final RenderResponse _response;
     protected ThemeDisplay _themeDisplay;
-    private final HttpServletRequest _httpServletRequest;
-    private final ItemSelector _itemSelector;
-
-    private Map<String, String> _categVocabularies;
-
 }

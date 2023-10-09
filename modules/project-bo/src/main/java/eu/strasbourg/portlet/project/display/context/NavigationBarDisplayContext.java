@@ -74,6 +74,12 @@ public class NavigationBarDisplayContext {
         petitionItem.setHref(this.response.createRenderURL(), URL_PARAM_TAB, PETITIONS, URL_PARAM_MVCPATH, PETITIONS_PATH);
         navigationItems.add(petitionItem);
 
+        NavigationItem saisineObservatoireItem = new NavigationItem();
+        saisineObservatoireItem.setLabel(LanguageUtil.get(bundle, "saisines-observatoire"));
+        saisineObservatoireItem.setActive(this.selectedTab.equals(SAISINE_OBSERVATOIRE));
+        saisineObservatoireItem.setHref(this.response.createRenderURL(), URL_PARAM_TAB, SAISINE_OBSERVATOIRE,URL_PARAM_MVCPATH, SAISINE_OBSERVATOIRE_PATH);
+        navigationItems.add(saisineObservatoireItem);
+
         NavigationItem initiativeItem = new NavigationItem();
         initiativeItem.setLabel(LanguageUtil.get(bundle, "initiatives"));
         initiativeItem.setActive(this.selectedTab.equals(INITIATIVES));

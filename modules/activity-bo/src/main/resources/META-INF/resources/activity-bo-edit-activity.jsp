@@ -10,7 +10,8 @@
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveActivity" varImpl="saveActivityURL">
-	<portlet:param name="cmd" value="saveActivity" />
+	<portlet:param name="backURL" value="${param.backURL}" />
+	<portlet:param name="tab" value="activity" />
 </liferay-portlet:actionURL>
 
 <div class="container-fluid container-fluid-max-xl main-content-body">

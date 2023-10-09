@@ -50,16 +50,7 @@ public class ActivityBOPortlet extends MVCPortlet {
 
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest
 			.getAttribute(WebKeys.THEME_DISPLAY);
-		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
-		// Si on est sur une page d'édition, on ajoute un bouton "retour"
-		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
-		boolean showBackButton = Validator.isNotNull(returnURL);
-		if (showBackButton) {
-			portletDisplay.setShowBackIcon(true);
-			portletDisplay.setURLBack(returnURL.toString());
-		}
-		String title = PortalUtil.getPortletTitle(renderRequest);
 		try {
 			NavigationBarDisplayContext navigationDC = new NavigationBarDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("navigationDC", navigationDC);
@@ -70,9 +61,9 @@ public class ActivityBOPortlet extends MVCPortlet {
 						EditActivityOrganizerDisplayContext  dc = new EditActivityOrganizerDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewActivityOrganizersDisplayContext dc = new ViewActivityOrganizersDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ViewActivityOrganizersDisplayContext dc = new ViewActivityOrganizersDisplayContext(renderRequest, renderResponse);
 						ManagementOrganizersToolBarDisplayContext managementDC = new ManagementOrganizersToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -82,9 +73,9 @@ public class ActivityBOPortlet extends MVCPortlet {
 						EditAssociationDisplayContext  dc = new EditAssociationDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewAssociationsDisplayContext dc = new ViewAssociationsDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ViewAssociationsDisplayContext dc = new ViewAssociationsDisplayContext(renderRequest, renderResponse);
 						ManagementAssociationsToolBarDisplayContext managementDC = new ManagementAssociationsToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -94,9 +85,9 @@ public class ActivityBOPortlet extends MVCPortlet {
 						EditActivityCourseDisplayContext  dc = new EditActivityCourseDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewActivityCoursesDisplayContext dc = new ViewActivityCoursesDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ViewActivityCoursesDisplayContext dc = new ViewActivityCoursesDisplayContext(renderRequest, renderResponse);
 						ManagementActivityCoursesToolBarDisplayContext managementDC = new ManagementActivityCoursesToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -107,9 +98,9 @@ public class ActivityBOPortlet extends MVCPortlet {
 						EditActivityDisplayContext dc = new EditActivityDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewActivitiesDisplayContext dc = new ViewActivitiesDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ViewActivitiesDisplayContext dc = new ViewActivitiesDisplayContext(renderRequest, renderResponse);
 						ManagementActivitiesToolBarDisplayContext managementDC = new ManagementActivitiesToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -118,15 +109,23 @@ public class ActivityBOPortlet extends MVCPortlet {
 		} catch (PortalException e) {
 			e.printStackTrace();
 		}
+		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
-		super.render(renderRequest, renderResponse);
-
+		String title = PortalUtil.getPortletTitle(renderRequest);
 		title = LanguageUtil
-			.get(PortalUtil.getHttpServletRequest(renderRequest), title);
+				.get(PortalUtil.getHttpServletRequest(renderRequest), title);
 		renderResponse.setTitle(title);
 
+		// If we are on an "add" page, we set a return URL and show the "back"
+		// button
+		String backURL = ParamUtil.getString(renderRequest, "backURL");
+		boolean showBackButton = Validator.isNotNull(backURL);
+		if (showBackButton) {
+			portletDisplay.setShowBackIcon(true);
+			portletDisplay.setURLBack(backURL.toString());
+		}
+
+		super.render(renderRequest, renderResponse);
 	}
-	@Reference
-	private ItemSelector _itemSelector;
 
 }

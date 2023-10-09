@@ -5,18 +5,15 @@ import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
-import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.agenda.csmap.util.AgendaThematiqueActionDropdownItemsProvider;
-import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.csmap.model.Agenda;
 import eu.strasbourg.service.csmap.service.AgendaLocalServiceUtil;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
@@ -24,19 +21,17 @@ import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-public class ViewCsmapAgendaThematiqueDisplayContext {
+public class ViewCsmapAgendaThematiqueDisplayContext extends ViewBaseDisplayContext<Agenda> {
 
     private List<Agenda> _agendas;
 
     public ViewCsmapAgendaThematiqueDisplayContext(RenderRequest request,
-                                                   RenderResponse response, ItemSelector itemSelector) {
+                                                   RenderResponse response) {
+        super(request, response, Agenda.class);
         _request = request;
         _response = response;
         _themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
-        _httpServletRequest = PortalUtil.getHttpServletRequest(request);
-        _itemSelector = itemSelector;
     }
 
     /**
@@ -47,6 +42,7 @@ public class ViewCsmapAgendaThematiqueDisplayContext {
         return new AgendaThematiqueActionDropdownItemsProvider(agenda, this._request,
                 this._response);
     }
+
     /**
      * Class CSS de la couleur du Statut
      */
@@ -59,11 +55,12 @@ public class ViewCsmapAgendaThematiqueDisplayContext {
 
         return cssClass;
     }
+
     /**
      * Retourne le searchContainer
      *
      */
-
+    @Override
     public SearchContainer<Agenda> getSearchContainer() {
 
         if (_searchContainer == null) {
@@ -74,6 +71,7 @@ public class ViewCsmapAgendaThematiqueDisplayContext {
                     .setKeywords(ParamUtil.getString(_request, "keywords"))
                     .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
                     .setParameter("tab","agendaThematique")
+                    .setParameter("filterCategoriesIdByVocabulariesName", getFilterCategoriesIdByVocabulariesName())
                     .buildPortletURL();
             _searchContainer = new SearchContainer<>(_request, null, null,
                     SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
@@ -120,6 +118,4 @@ public class ViewCsmapAgendaThematiqueDisplayContext {
     private final RenderRequest _request;
     private final RenderResponse _response;
     protected ThemeDisplay _themeDisplay;
-    private final HttpServletRequest _httpServletRequest;
-    private final ItemSelector _itemSelector;
 }

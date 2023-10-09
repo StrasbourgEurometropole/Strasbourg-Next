@@ -89,8 +89,9 @@ public class PlacitPlaceModelImpl
 		{"placeStreetName", Types.VARCHAR}, {"placeZipCode", Types.VARCHAR},
 		{"placeCityId", Types.BIGINT}, {"imageId", Types.BIGINT},
 		{"projectId", Types.BIGINT}, {"participationId", Types.BIGINT},
-		{"petitionId", Types.BIGINT}, {"budgetParticipatifId", Types.BIGINT},
-		{"initiativeId", Types.BIGINT}, {"placeSIGId", Types.VARCHAR}
+		{"petitionId", Types.BIGINT}, {"saisineObservatoireId", Types.BIGINT},
+		{"budgetParticipatifId", Types.BIGINT}, {"initiativeId", Types.BIGINT},
+		{"placeSIGId", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -114,13 +115,14 @@ public class PlacitPlaceModelImpl
 		TABLE_COLUMNS_MAP.put("projectId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("participationId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("petitionId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("saisineObservatoireId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("budgetParticipatifId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("initiativeId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("placeSIGId", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table project_PlacitPlace (uuid_ VARCHAR(75) null,placitPlaceId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCityId LONG,imageId LONG,projectId LONG,participationId LONG,petitionId LONG,budgetParticipatifId LONG,initiativeId LONG,placeSIGId VARCHAR(75) null)";
+		"create table project_PlacitPlace (uuid_ VARCHAR(75) null,placitPlaceId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCityId LONG,imageId LONG,projectId LONG,participationId LONG,petitionId LONG,saisineObservatoireId LONG,budgetParticipatifId LONG,initiativeId LONG,placeSIGId VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table project_PlacitPlace";
@@ -207,14 +209,20 @@ public class PlacitPlaceModelImpl
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
 	 */
 	@Deprecated
-	public static final long UUID_COLUMN_BITMASK = 256L;
+	public static final long SAISINEOBSERVATOIREID_COLUMN_BITMASK = 256L;
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
+	public static final long UUID_COLUMN_BITMASK = 512L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
 	 *		#getColumnBitmask(String)}
 	 */
 	@Deprecated
-	public static final long PLACITPLACEID_COLUMN_BITMASK = 512L;
+	public static final long PLACITPLACEID_COLUMN_BITMASK = 1024L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.project.service.util.PropsUtil.get(
@@ -387,6 +395,12 @@ public class PlacitPlaceModelImpl
 		attributeSetterBiConsumers.put(
 			"petitionId",
 			(BiConsumer<PlacitPlace, Long>)PlacitPlace::setPetitionId);
+		attributeGetterFunctions.put(
+			"saisineObservatoireId", PlacitPlace::getSaisineObservatoireId);
+		attributeSetterBiConsumers.put(
+			"saisineObservatoireId",
+			(BiConsumer<PlacitPlace, Long>)
+				PlacitPlace::setSaisineObservatoireId);
 		attributeGetterFunctions.put(
 			"budgetParticipatifId", PlacitPlace::getBudgetParticipatifId);
 		attributeSetterBiConsumers.put(
@@ -868,6 +882,31 @@ public class PlacitPlaceModelImpl
 
 	@JSON
 	@Override
+	public long getSaisineObservatoireId() {
+		return _saisineObservatoireId;
+	}
+
+	@Override
+	public void setSaisineObservatoireId(long saisineObservatoireId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_saisineObservatoireId = saisineObservatoireId;
+	}
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
+	public long getOriginalSaisineObservatoireId() {
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("saisineObservatoireId"));
+	}
+
+	@JSON
+	@Override
 	public long getBudgetParticipatifId() {
 		return _budgetParticipatifId;
 	}
@@ -1091,6 +1130,7 @@ public class PlacitPlaceModelImpl
 		placitPlaceImpl.setProjectId(getProjectId());
 		placitPlaceImpl.setParticipationId(getParticipationId());
 		placitPlaceImpl.setPetitionId(getPetitionId());
+		placitPlaceImpl.setSaisineObservatoireId(getSaisineObservatoireId());
 		placitPlaceImpl.setBudgetParticipatifId(getBudgetParticipatifId());
 		placitPlaceImpl.setInitiativeId(getInitiativeId());
 		placitPlaceImpl.setPlaceSIGId(getPlaceSIGId());
@@ -1136,6 +1176,8 @@ public class PlacitPlaceModelImpl
 			this.<Long>getColumnOriginalValue("participationId"));
 		placitPlaceImpl.setPetitionId(
 			this.<Long>getColumnOriginalValue("petitionId"));
+		placitPlaceImpl.setSaisineObservatoireId(
+			this.<Long>getColumnOriginalValue("saisineObservatoireId"));
 		placitPlaceImpl.setBudgetParticipatifId(
 			this.<Long>getColumnOriginalValue("budgetParticipatifId"));
 		placitPlaceImpl.setInitiativeId(
@@ -1304,6 +1346,9 @@ public class PlacitPlaceModelImpl
 
 		placitPlaceCacheModel.petitionId = getPetitionId();
 
+		placitPlaceCacheModel.saisineObservatoireId =
+			getSaisineObservatoireId();
+
 		placitPlaceCacheModel.budgetParticipatifId = getBudgetParticipatifId();
 
 		placitPlaceCacheModel.initiativeId = getInitiativeId();
@@ -1396,6 +1441,7 @@ public class PlacitPlaceModelImpl
 	private long _projectId;
 	private long _participationId;
 	private long _petitionId;
+	private long _saisineObservatoireId;
 	private long _budgetParticipatifId;
 	private long _initiativeId;
 	private String _placeSIGId;
@@ -1446,6 +1492,8 @@ public class PlacitPlaceModelImpl
 		_columnOriginalValues.put("projectId", _projectId);
 		_columnOriginalValues.put("participationId", _participationId);
 		_columnOriginalValues.put("petitionId", _petitionId);
+		_columnOriginalValues.put(
+			"saisineObservatoireId", _saisineObservatoireId);
 		_columnOriginalValues.put(
 			"budgetParticipatifId", _budgetParticipatifId);
 		_columnOriginalValues.put("initiativeId", _initiativeId);
@@ -1507,11 +1555,13 @@ public class PlacitPlaceModelImpl
 
 		columnBitmasks.put("petitionId", 65536L);
 
-		columnBitmasks.put("budgetParticipatifId", 131072L);
+		columnBitmasks.put("saisineObservatoireId", 131072L);
 
-		columnBitmasks.put("initiativeId", 262144L);
+		columnBitmasks.put("budgetParticipatifId", 262144L);
 
-		columnBitmasks.put("placeSIGId", 524288L);
+		columnBitmasks.put("initiativeId", 524288L);
+
+		columnBitmasks.put("placeSIGId", 1048576L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

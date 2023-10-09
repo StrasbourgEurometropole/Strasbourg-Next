@@ -48,7 +48,7 @@
 					}
 					h3 {
 						@include ft($f_hx, 1.875em, 700, $c_white, 1.267em);
-						text-transform: uppercase;
+
 						margin-bottom: 10px;
 						display: inline-block;
 					}
@@ -64,7 +64,7 @@
 					a {
 						color: $c_txt;
 						&:hover, &:focus {
-							color: $c_main;
+							@include addDynamicTextColor();
 						}
 					}
 
@@ -118,7 +118,7 @@
 				width: 30px;
 				@include addTransition();
 				&:hover {
-					border-color: $c_main;
+					@include addDynamicBorderColor();
 				}
 				@media screen and (max-width: 1080px) {
 					height: 15px;

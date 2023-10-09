@@ -59,7 +59,6 @@
 } />
 <#-- partage de la configuration open graph dans la request -->
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
-
 <div id="content" class="pro-page-detail pro-page-detail-initiative">
 
     <div class="container">
@@ -67,14 +66,16 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <div class="col-lg-11 col-lg-offset-1">
 
             <article>
-                <header>
+                <div class="row pro-container-detail-event">
+                    <div class="col-lg-8 pr-lg-5">
+                    <header>
                     <div class="pro-header-participation pro-theme-information">
                         <h1>${entry.title}</h1>
                         <div class="pro-wrapper-meta">
                             <div class="pro-statut"><span>${entry.getFrontStatusFR()}</span></div>
                             <div class="pro-meta">
                                 <#-- Liste des quartiers de la petition -->
-                                <span>${entry.getDistrictLabel(locale)}</span>
+                                <span class="prefix-location">${entry.getDistrictLabel(locale)}</span>
                                 <#-- Liste des thématiques de la petition -->
                                 <#if petitionThematics?? >
                                     <#list petitionThematics as petitionThematic >
@@ -105,9 +106,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         </span>
                     </div>
                 </header>
-
-                <div class="row pro-container-detail-event">
-                    <div class="col-sm-8">
                         <#-- Test du choix du media : "true"/image, "false"/video -->
                         <#if entry.getMediaChoice() == false && entry.getVideoUrl() != "" >
                             <div class="pro-bloc-texte pro-main-img">
@@ -153,16 +151,16 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         </div>
 
                         <div class="row pro-bloc pro-bloc-texte">${entry.description}</div>
-                        <#if entry.filesURLs?has_content>
+                        <#if entry.filesIds?has_content>
                             <div class="pro-bloc-texte pro-bloc-telechargements">
                                 <h3>Document(s) téléchargé(s)</h3>
                                 <div class="row">
-                                    <#list entry.filesURLs as fileURL>
-                                        <#assign file = fileEntryHelper.getFileEntryByRelativeURL(fileURL) />
-                                        <#assign title = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
-                                        <#assign size = fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale) />
+						            <#list entry.filesIds?split(",") as fileId>
+                                        <#assign url = fileEntryHelper.getFileEntryURL(fileId?number) />
+                                        <#assign title = fileEntryHelper.getFileTitle(fileId?number, locale) />
+                                        <#assign size = fileEntryHelper.getReadableFileEntrySize(fileId?number, locale) />
                                         <div class="col-sm-6">
-                                            <a href="${fileURL}" download title="${title}">
+                                            <a href="${url}" download title="${title}">
                                                 <span class="pro-filename">${title}</span>
                                                 <span class="pro-poids">Poids ${size}</span>
                                             </a>
@@ -186,7 +184,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     </div>
 
                     <#-- Blocs lateraux -->
-                    <aside class="col-sm-4">
+                    <aside class="col-lg-4 side-petition">
+
+                        
+
+                        <#-- Bloc : map -->
+                        <div class="bloc-iframe leaflet-map" id="mapid" ></div>
 
                         <#-- Bloc : avis -->
                         <div class="pro-push-avis">
@@ -233,9 +236,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             </#if>
                         </div>
 
-                        <#-- Bloc : map -->
-                        <div class="bloc-iframe leaflet-map" id="mapid" ></div>
-
                         <#-- Bloc : compteur -->
                         <div class="pro-compteur">
                             <span class="pro-compt pro-compt-six">${entry.getNombreSignatureBoard()}</span>
@@ -248,36 +248,37 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                     <p class="pro-txt-progress">Il manque ${signataireNeeded} soutien(s) — <span>il reste ${entry.getTodayExpirationDifferenceDays()} jour(s)</span></p>
                                 </#if>
                             </div>
-                            <div class="pro-wrapper-links-petition">
-                                <#if isJudgeable>
-                                    <#if hasUserSigned?has_content>
-                                        <a id="signButton" href="#popin" class="pro-btn-yellow ${hasUserSigned}">
-                                            Petition signée
-                                        </a>
-                                    <#elseif isUserloggedIn && hasUserPactSign && !isUserBanned >
-                                        <a id="signButton" href="#popin" class="pro-btn-yellow ${hasUserSigned}" title="Ouverture d'une pop-in pour signer la pétition" data-toggle="modal" data-target="#modalSigner">
-                                            Signer la pétition
-                                        </a>
-                                    <#elseif !hasUserPactSign && !isUserBanned>
-                                        <a id="signButton" href="#popin" class="pro-btn-yellow" name="#Pact-sign">
-                                            Signer la pétition
-                                        </a>
-                                    <#elseif isUserBanned>
-                                        <a id="signButton" href="#popin" class="pro-btn-yellow" name="#IsBanned">
-                                            Signer la pétition
-                                        </a>
-                                    </#if>
-                                <#else>
-                                    <a id="signButton" href="#popin" class="pro-btn-yellow  ${hasUserSigned}" title="La pétition est terminée" data-toggle="modal">
-                                        <#if hasUserSigned?has_content>
-                                            Petition signée et terminée
-                                        <#else>
-                                            Vous ne pouvez plus signer
-                                        </#if>
+                            
+                        </div>
+                        <div class="pro-wrapper-links">
+                            <#if isJudgeable>
+                                <#if hasUserSigned?has_content>
+                                    <a id="signButton" href="#popin" class="pro-btn-black ${hasUserSigned}">
+                                        Petition signée
+                                    </a>
+                                <#elseif isUserloggedIn && hasUserPactSign && !isUserBanned >
+                                    <a id="signButton" href="#popin" class="pro-btn-black ${hasUserSigned}" title="Ouverture d'une pop-in pour signer la pétition" data-toggle="modal" data-target="#modalSigner">
+                                        Signer la pétition
+                                    </a>
+                                <#elseif !hasUserPactSign && !isUserBanned>
+                                    <a id="signButton" href="#popin" class="pro-btn-black" name="#Pact-sign">
+                                        Signer la pétition
+                                    </a>
+                                <#elseif isUserBanned>
+                                    <a id="signButton" href="#popin" class="pro-btn-black" name="#IsBanned">
+                                        Signer la pétition
                                     </a>
                                 </#if>
-                                <a href="#pro-link-commentaire" class="pro-btn-yellow" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
-                            </div>
+                            <#else>
+                                <a id="signButton" href="#popin" class="pro-btn-black  ${hasUserSigned}" title="La pétition est terminée" data-toggle="modal">
+                                    <#if hasUserSigned?has_content>
+                                        Petition signée et terminée
+                                    <#else>
+                                        Vous ne pouvez plus signer
+                                    </#if>
+                                </a>
+                            </#if>
+                            <a href="#pro-link-commentaire" class="pro-btn-black" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
                         </div>
 
                     </aside>
@@ -291,22 +292,22 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
     <#-- Liste des suggéstions -->
     <#if suggestions?size gt 0 >
-        <section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
+        <section id="pro-link-petition" class="pro-bloc-slider pro-slider-event" style="background-color: white;">
             <div class="container">
-                <div class="col-lg-10 col-lg-offset-1">
+                <div>
                     <h2>D’autres pétitions</h2>
                     <div class="pro-wrapper">
                         <#if isUserloggedIn && hasUserPactSign && !isUserBanned>
                             <a id="buttonDeposer" href="#deposerPetition" class="pro-btn-yellow" data-toggle="modal" data-target="#modalPetition">Déposer une pétition</a>
                         <#elseif !hasUserPactSign>
-                            <a class="pro-btn-yellow" name="#Pact-sign">Déposer une pétition</a>
+                            <a class="pro-btn-yellow" name="#Pact-sign" href="#">Déposer une pétition</a>
                         <#elseif isUserBanned>
-                            <a class="pro-btn-yellow" name="#IsBanned">Déposer une pétition</a>
+                            <a class="pro-btn-yellow" name="#IsBanned" href="#">Déposer une pétition</a>
                         </#if>
                         <a href="${homeURL}petitions" class="pro-btn">Toutes les pétitions</a>
                     </div>
                 </div>
-                <div class="col-lg-10 col-lg-offset-1">
+                <div>
                     <div class="owl-carousel owl-opacify owl-theme owl-cards">
 
                         <#list suggestions as suggestion >
@@ -315,31 +316,58 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             <#assign pourcentage = suggestion.getPourcentageSignature()/>
 
                             <div class="item pro-bloc-card-petition" data-linkall="a">
-                                <div class="pro-header-petition">
-                                    <figure role="group">
-                                        <img src="${suggestion.getAuthorImageURL()}" width="40" height="40" alt="Image petition"/>
-                                    </figure>
-                                    <p>Pétition publiée par :</p>
-                                    <p><strong>${suggestion.getUserName()}</strong></p>
-                                </div>
-                                <div class="pro-content-petition">
-                                    <a href="${homeURL}detail-petition/-/entity/id/${suggestion.petitionId}" title="lien de la page">
-                                        <h3>${suggestion.title}</h3>
-                                    </a>
-                                    <p>Pétition adressée à <u>la ville de Strasbourg</u></p>
-                                    <span class="pro-time">Publiée le
-                                        <time datetime="${suggestion.publicationDate?date?string['dd/MM/yyyy']}">${suggestion.publicationDate?date?string['dd/MM/yyyy']}</time> / <span class="pro-duree">${suggestion.getProDureeFR()}</span>
+								<div class="pro-header-petition">
+									<figure role="group">
+										<img src="${suggestion.getAuthorImageURL()}" width="40" height="40" alt="Portrait de ${suggestion.getUserName()}" />
+									</figure>
+									<p>
+										Pétition publiée par :
+									</p>
+									<p>
+										<strong>
+											${suggestion.petitionnaireFirstname}
+											${suggestion.petitionnaireLastname}
+										</strong>
+									</p>
+								</div>
+								<div class="pro-content-petition">
+									<div class="pro-meta">
+											<span>${suggestion.getFrontStatusFR()}</span>
+										<span>${suggestion.getThematicLabel(locale)}</span>
+									</div>
+									<span class="prefix-location">
+											${suggestion.getDistrictLabel(locale)}
+									</span>
+									<a href="${homeURL}detail-petition/-/entity/id/${suggestion.petitionId}"
+									   title="Lien vers ${suggestion.title}">
+                                       <h3>${suggestion.title}</h3>
+									</a>
+									<p>
+										Pétition adressée à <u>la ville de Strasbourg</u>
+									</p>
+									<span class="pro-time">Publiée le
+                                        <time datetime="${suggestion.publicationDate?date?string['dd/MM/yyyy']}">${suggestion.publicationDate?date?string['dd/MM/yyyy']}</time>
+                                         / 
+                                         <span class="pro-duree">${suggestion.getProDureeFR()}</span>
                                     </span>
-                                </div>
-                                <div class="pro-footer-petition">
-                                    <div class="pro-progress-bar">
-                                        <div class="pro-progress-container">
-                                            <div style="width:${pourcentage}%"></div>
-                                        </div>
-                                        <p class="pro-txt-progress"><strong>${suggestion.getNombreSignature()}</strong> Signataire(s) sur ${suggestion.getQuotaSignature()} nécessaires</p>
-                                    </div>
-                                </div>
-                            </div>
+
+								</div>
+								<div class="footer-comment">
+									<span>${suggestion.getApprovedComments()?size} Commentaires</span>
+								</div>
+								<div class="pro-footer-petition">
+									<div class="pro-progress-bar">
+										<div class="pro-progress-container">
+											<div style="width:${suggestion.getPourcentageSignature()}%"></div>
+										</div>
+										<p class="pro-txt-progress">
+                                            <strong>${suggestion.getNombreSignature()}</strong>
+                                             Signataire(s) sur 
+                                             ${suggestion.getQuotaSignature()}
+                                              nécessaires</p>
+									</div>
+								</div>
+							</div>
 
                         </#list>
 

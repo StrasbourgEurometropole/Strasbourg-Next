@@ -1,11 +1,14 @@
 #pro-footer {
+	@include addTopSlope(30px, #3a3a3a);
 	background-color: $c_grey;
 	padding: 40px 0 0;
 	//margin-top: 20px;
-	h4 {
-		@include ft($f_hx, 1.063em, 700, $c_white, 1.412em);
+	h3 {
+		@include ft($f_hx, 1.3m, 700, $c_white, 1.412em);
 		margin-bottom: 0;
-		text-transform: uppercase;
+	}
+	h2.portlet-title-text {
+		display: none;
 	}
 
 	p {
@@ -33,57 +36,48 @@
 	}
 
 	.pro-contact {
-		display: inline-block;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
 		vertical-align: top;
-		@include tablet_portrait {
-			display: block;
-		}
-	}
+		padding: 0 40px;
 
-	.pro-social {
-		display: inline-block;
-		vertical-align: top;
-		margin-left: 30px;
-		@include tablet_portrait {
-			display: block;
-			margin-left: 0;
-			margin-top: 20px;
-		}
 		h4 {
-			text-transform: none;
-			@include mobile {
-				margin-bottom: 8px;
+			@include ft($f_hx, 0.938em, 700, $c_main, normal);
+			@include addDynamicTextColor();
+			display: block;
+			margin-bottom: 10px;
+		}
+		p, a {
+			@include ft($f_txt, 0.875em, 400, $c_white, 1.714em);
+			margin-bottom: 0;
+		}
+		a {
+			font-weight: 700;
+			&:hover, &:focus {
+				color: #3a3a3a;
 			}
 		}
-		ul {
-			line-height: 24px;
-			li {
-				line-height: 28px;
-				display: inline-block;
-				margin-right: 4px;
+
+		@include tablet_portrait {
+			padding: 0 20px;
+			margin-bottom: 15px;
+			div {
+				display: grid;
+				grid-template-rows: 1fr 1fr;
+				gap: 10px;
 				a {
-					@include addTransition();
-					&:hover, &:focus {
-						span {
-							border-color: $c_main;
-							background: $c_main;
-						}
-					}
-					span {
-						border: 2px solid $c_white;
-						border-radius: 4px;
-						background: $c_white;
-						padding: 2px;
-						color: $c_grey;
-						@include addTransition();
-					}
+					text-align: center;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					line-height: normal;
 				}
 			}
 		}
 	}
-
 	.pro-copyright {
-		@include ft($f_txt, 0.688em, 700, #CCC, 1em);
+		@include ft($f_txt, 0.8em, 700, #CCC, 1em);
 		display: block;
 		margin-top: 15px;
 		margin-bottom: 35px;
@@ -95,7 +89,7 @@
 			margin-bottom: 30px;
 		}
 		li {
-			display: block;
+			display: inline-block;
 			font-size: 1em;
 			a {
 				@include ft($f_txt, $s_p, 400, #cccccc, 1em);
@@ -104,7 +98,7 @@
 				padding: 7px 0;
 				@include addTransition();
 				&:hover, &:focus {
-					color: $c_main;
+					color: $c_commune;
 				}
 			}
 		}
@@ -112,85 +106,33 @@
 
 	.pro-footer-bottom {
 		background: #2d2d2d;
-		height: 50px;
+		color: $c_white;
+		height: 100%;
 		@include tablet_portrait {
-			height: 100%;
+			height: auto;
 		}
-
-		.container {
-			> a {
-				float: left;
-				height: 50px;
-				@include tablet_portrait {
-					float: none;
-				}
-				svg {
-					width: 130px;
-					height: 40px;
-					top: 7px;
-					position: relative;
-				}
-			}
 			ul {
-				float: right;
+				display: flex;
+				justify-content: center;
+				align-items: center;
 				margin-bottom: 0;
-				@include clearfix();
+				flex-wrap: wrap;
 				@include tablet_portrait {
-					float: none;
-					text-align: left;
-					padding: 10px 0;
+					flex-direction: column;
 				}
 				li {
 					font-size: 1em;
-					float: left;
-					@include tablet_portrait {
-						float: none;
-						display: block;
-					}
-					&:first-child {
-						a {
-							@include tablet_portrait {
-								padding-left: 0;
-							}
-						}
-					}
-					&:last-child {
-						a {
-							&:after {
-								content: none;
-							}
-						}
-					}
 					a {
-						@include ft($f_txt, $s_small, 700, $c_white, 3.846em);
+						@include ft($f_txt, 0.9em, 400, $c_white, 3.5em);
+						text-decoration: none;
 						position: relative;
-						text-transform: uppercase;
-						padding: 0 10px;
+						padding: 0 20px;
 						@include addTransition();
-						@include tablet_portrait {
-							display: block;
-							padding: 8px 0;
-							line-height: normal;
-						}
-						&:after {
-							content: '';
-							position: absolute;
-							right: 1px;
-							top: 13px;
-							bottom: 13px;
-							width: 1px;
-							height: 24px;
-							background: #606060;
-							@include tablet_portrait {
-								content: none;
-							}
-						}
 						&:hover, &:focus {
-							color: $c_main;
+							color: $c_commune;
 						}
 					}
 				}
 			}
-		}
 	}
 }

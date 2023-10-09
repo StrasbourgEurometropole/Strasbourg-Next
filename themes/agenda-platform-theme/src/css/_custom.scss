@@ -1,3 +1,18 @@
+@import "clay_custom";
+@import "bourbon";
+
+@import "mixins";
+
+@import "clay/atlas-variables";
+
+@import "clay/atlas";
+
+@import "platform";
+
+//@import "compat/mixins";
+@import "variables_deprecated";
+
+
 @import "portlet_hello_world";
 
 body {
@@ -93,7 +108,7 @@ p {
 			}
 
 			li.open > a:focus {
-				@include tab-focus;
+				//@include tab-focus;
 			}
 		}
 
@@ -297,4 +312,45 @@ p {
 
 .radio input[type='radio'], .radio-inline input[type='radio'], .checkbox input[type='checkbox'], .checkbox-inline input[type='checkbox'] {
     margin-left: -20px !important;
+}
+
+/* hack liferay 7.4 */
+.hide-accessible {
+	clip: rect(0 0 0 0) !important;
+	position: absolute !important;
+	-webkit-transform: scale(0);
+	-webkit-transform-origin-x: 0;
+	-webkit-transform-origin-y: 0;
+	*position: fixed !important;
+	_position: absolute !important; }
+
+.portlet-decorate .portlet-content {
+	background: #F1F2F5;
+	border-color: transparent;
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	padding: 1rem;
+	word-wrap: break-word;
+}
+
+.sheet{
+	padding: 0;
+}
+
+legend.fieldset-legend{
+	padding: 10px 15px;
+	background: #97bf0c;
+	color: white;
+}
+
+.panel-group-flush .panel-body {
+	padding: 15px;
+}
+
+.panel-body fieldset > div {
+	padding: 15px;
+}
+
+.show-link-manual-place{
+	padding-left: 15px;
 }

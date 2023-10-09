@@ -77,7 +77,7 @@ public class GTFSBOPortlet extends MVCPortlet {
 						EditImportHistoricDisplayContext  dc = new EditImportHistoricDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewImportHistoricsDisplayContext dc = new ViewImportHistoricsDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ViewImportHistoricsDisplayContext dc = new ViewImportHistoricsDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					}
 					break;
@@ -87,9 +87,9 @@ public class GTFSBOPortlet extends MVCPortlet {
 						EditArretDisplayContext dc = new EditArretDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewArretsDisplayContext dc = new ViewArretsDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ViewArretsDisplayContext dc = new ViewArretsDisplayContext(renderRequest, renderResponse);
 						ManagementArretsToolBarDisplayContext managementDC = new ManagementArretsToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -106,6 +106,4 @@ public class GTFSBOPortlet extends MVCPortlet {
 		title = LanguageUtil.get(PortalUtil.getHttpServletRequest(renderRequest), title);
 		renderResponse.setTitle(title);
 	}
-	@Reference
-	private ItemSelector _itemSelector;
 }

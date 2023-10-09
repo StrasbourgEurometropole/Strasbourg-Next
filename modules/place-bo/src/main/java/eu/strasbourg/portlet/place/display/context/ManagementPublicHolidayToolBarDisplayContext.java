@@ -1,38 +1,51 @@
 package eu.strasbourg.portlet.place.display.context;
 
-import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.SearchContainerManagementToolbarDisplayContext;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenuBuilder;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
-import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuilder;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
-import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.service.place.model.PublicHoliday;
+import eu.strasbourg.utils.display.context.ManagementBaseToolBarDisplayContext;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-public class ManagementPublicHolidayToolBarDisplayContext extends SearchContainerManagementToolbarDisplayContext {
+public class ManagementPublicHolidayToolBarDisplayContext extends ManagementBaseToolBarDisplayContext<PublicHoliday> {
 
     public ManagementPublicHolidayToolBarDisplayContext(
             HttpServletRequest httpServletRequest,
             LiferayPortletRequest liferayPortletRequest,
             LiferayPortletResponse liferayPortletResponse,
-            ViewPublicHolidaysDisplayContext viewPublicHolidaysDisplayContext) throws PortalException {
+            SearchContainer searchContainer) throws PortalException {
         super(httpServletRequest, liferayPortletRequest, liferayPortletResponse,
-                viewPublicHolidaysDisplayContext.getSearchContainer());
+                PublicHoliday.class, searchContainer);
 
-        _viewPublicHolidaysDisplayContext = viewPublicHolidaysDisplayContext;
 
         _themeDisplay = (ThemeDisplay)liferayPortletRequest.getAttribute(
                 WebKeys.THEME_DISPLAY);
+    }
+
+    /**
+     * on ne veut pas d'options de sélection
+     */
+    @Override
+    public List<DropdownItem> getActionDropdownItems() {
+        return null;
+    }
+
+    /**
+     * on ne veut ni filtre ni tri
+     */
+    @Override
+    public List<DropdownItem> getFilterDropdownItems() {
+        return null;
     }
 
     /**
@@ -74,6 +87,7 @@ public class ManagementPublicHolidayToolBarDisplayContext extends SearchContaine
         return false;
 
     }
+
     // Masquer la zone de recherche
     @Override
     public Boolean isShowSearch() {
@@ -86,7 +100,6 @@ public class ManagementPublicHolidayToolBarDisplayContext extends SearchContaine
         return false;
     }
 
-    private final ViewPublicHolidaysDisplayContext _viewPublicHolidaysDisplayContext;
     private final ThemeDisplay _themeDisplay;
 
 

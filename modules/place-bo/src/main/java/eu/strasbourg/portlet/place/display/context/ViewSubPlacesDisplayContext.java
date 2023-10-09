@@ -1,40 +1,33 @@
 package eu.strasbourg.portlet.place.display.context;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.portlet.PortletURL;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
-
-import com.liferay.item.selector.ItemSelector;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
-
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.place.util.PublicHolidayActionDropdownItemsProvider;
 import eu.strasbourg.service.place.model.PublicHoliday;
 import eu.strasbourg.service.place.model.SubPlace;
-import eu.strasbourg.service.place.service.PublicHolidayLocalServiceUtil;
 import eu.strasbourg.service.place.service.SubPlaceLocalServiceUtil;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
-public class ViewSubPlacesDisplayContext {
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.util.List;
+
+public class ViewSubPlacesDisplayContext extends ViewBaseDisplayContext<SubPlace> {
 
 	public ViewSubPlacesDisplayContext(RenderRequest request,
-			RenderResponse response, ItemSelector itemSelector) {
+			RenderResponse response) {
+		super(request, response, SubPlace.class);
 		_request = request;
 		_response = response;
 		_themeDisplay = (ThemeDisplay) _request
 				.getAttribute(WebKeys.THEME_DISPLAY);
-		_httpServletRequest = PortalUtil.getHttpServletRequest(request);
-		_itemSelector=itemSelector;
 	}
 
 	/**
@@ -47,6 +40,7 @@ public class ViewSubPlacesDisplayContext {
 				_response);
 	}
 
+	@Override
 	public SearchContainer<SubPlace> getSearchContainer() {
 
 		if (_searchContainer == null) {
@@ -98,11 +92,7 @@ public class ViewSubPlacesDisplayContext {
 	private final RenderResponse _response;
 
 	protected ThemeDisplay _themeDisplay;
-	private final HttpServletRequest _httpServletRequest;
-	private final ItemSelector _itemSelector;
-
 
 	private SearchContainer<SubPlace> _searchContainer;
 	private List<SubPlace> _subPlaces;
-
 }

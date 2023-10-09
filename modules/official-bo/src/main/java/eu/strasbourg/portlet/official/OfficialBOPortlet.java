@@ -1,34 +1,30 @@
 package eu.strasbourg.portlet.official;
 
-import java.io.IOException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
+import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.theme.PortletDisplay;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.official.display.context.EditOfficialDisplayContext;
+import eu.strasbourg.portlet.official.display.context.ManagementLOfficialsToolBarDisplayContext;
+import eu.strasbourg.portlet.official.display.context.NavigationBarDisplayContext;
+import eu.strasbourg.portlet.official.display.context.ViewOfficialsDisplayContext;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
-import com.liferay.item.selector.ItemSelector;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
-import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
-import com.liferay.portal.kernel.util.PortalUtil;
-import eu.strasbourg.portlet.official.display.context.ManagementLOfficialsToolBarDisplayContext;
-import eu.strasbourg.portlet.official.display.context.NavigationBarDisplayContext;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import org.osgi.service.component.annotations.Component;
-
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.theme.PortletDisplay;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
 import static eu.strasbourg.portlet.official.constants.OfficialConstants.*;
-
-import eu.strasbourg.portlet.official.display.context.EditOfficialDisplayContext;
-import eu.strasbourg.portlet.official.display.context.ViewOfficialsDisplayContext;
-import org.osgi.service.component.annotations.Reference;
 
 
 @Component(
@@ -66,9 +62,9 @@ public class OfficialBOPortlet extends MVCPortlet {
 						EditOfficialDisplayContext dc = new EditOfficialDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
 					} else {
-						ViewOfficialsDisplayContext dc = new ViewOfficialsDisplayContext(renderRequest, renderResponse,_itemSelector);
+						ViewOfficialsDisplayContext dc = new ViewOfficialsDisplayContext(renderRequest, renderResponse);
 						ManagementLOfficialsToolBarDisplayContext managementDC = new ManagementLOfficialsToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc);
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
 					}
@@ -92,6 +88,4 @@ public class OfficialBOPortlet extends MVCPortlet {
 
 		super.render(renderRequest, renderResponse);
 	}
-	@Reference
-	private ItemSelector _itemSelector;
 }

@@ -2,20 +2,16 @@
 <%@page import="eu.strasbourg.service.agenda.model.AgendaExport"%>
 <c:set var="agendaExport" value="${dc.agendaExport}" />
 
-<liferay-portlet:renderURL varImpl="agendaExportsURL">
-	<portlet:param name="tab" value="agendaExports" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="saveAgendaExport" varImpl="saveAgendaExportURL">
-	<portlet:param name="cmd" value="saveAgendaExport" />
 	<portlet:param name="tab" value="agendaExports" />
 	<portlet:param name="isCopy" value="true" />
 	<portlet:param name="agendaExportId"
 		value="${not empty agendaExport ? agendaExport.agendaExportId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form action="${saveAgendaExportURL}" method="post" name="fm">
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
 			changeableDefaultLanguage="false" defaultLanguageId="${locale}"

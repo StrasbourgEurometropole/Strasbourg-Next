@@ -308,6 +308,12 @@ public class PlacitPlaceLocalServiceUtil {
 		return getService().getByProject(projectId);
 	}
 
+	public static List<PlacitPlace> getBySaisineObservatoire(
+		long saisineObservatoireId) {
+
+		return getService().getBySaisineObservatoire(saisineObservatoireId);
+	}
+
 	/**
 	 * Retourne toutes les lieux de cours d'un lieu
 	 */

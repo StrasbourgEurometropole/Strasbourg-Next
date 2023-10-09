@@ -6,8 +6,9 @@
 
       <#if images?has_content && images.getSiblings()?has_content>
         <#list images.getSiblings() as image>
-          <#assign file = fileEntryHelper.getFileEntryByRelativeURL(image.getData()) />
-          <#assign fileTitle = fileEntryHelper.getStructureFieldValue(file.getFileEntryId(), "Titre", locale)!file.getTitle(locale) />
+            <#assign dlFileEntryLocalService = serviceLocator.findService("com.liferay.document.library.kernel.service.DLFileEntryLocalService") />
+            <#assign file = dlFileEntryLocalService.fetchDLFileEntry(image.getAttribute("fileEntryId")?number) />
+            <#assign fileTitle = fileEntryHelper.getStructureFieldValue(file.getFileEntryId(), "Titre", locale)!file.getTitle(locale) />
           <li class="${file.getFileEntryId()} ${fileTitle}">
               <#if file.description?has_content && file.description?starts_with("http")>
                 <a href="${file.getDescription()}">

@@ -33,6 +33,7 @@
 
 <%-- URL : definit le lien menant vers la gestion des déliberations --%>
 <liferay-portlet:renderURL varImpl="deliberationsURL">
+    <portlet:param name="tab" value="deliberations" />
     <portlet:param name="cmd" value="viewDeliberations" />
     <portlet:param name="mvcPath" value="/council-bo-view-deliberations.jsp" />
 </liferay-portlet:renderURL>

@@ -42,8 +42,7 @@ public class SelectionBudgetParticipatifActionCommand implements MVCActionComman
                                  ActionResponse actionResponse) throws PortletException {
 
         try {
-            long[] selectionIds = StringUtil
-                    .split(ParamUtil.getString(actionRequest, "selectionIds"), 0L);
+            long[] selectionIds = ParamUtil.getLongValues(actionRequest, "rowIds");
             
             ServiceContext sc = ServiceContextFactory.getInstance(actionRequest);
             

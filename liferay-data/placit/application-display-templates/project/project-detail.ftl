@@ -10,6 +10,10 @@
 <#-- Récupération de l'ID de l'utilisateur -->
 <#assign userID = request.session.getAttribute("publik_internal_id")!"" />
 
+<#-- Recuperation du créateur du projet -->
+<#assign UserLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.UserLocalService")/>
+<#assign user = UserLocalService.getUser(entry.getStatusByUserId()) />
+
 <#-- L'utilisateur participe-t-il ? -->
 <#assign isUserFollowsActive = entry.isUserFollows(userID)?then("active", "") >
 
@@ -52,11 +56,20 @@
 <#-- Liste des infos a partager -->
 <#assign openGraph = {
 "og:title":"${entry.title?html}",
-"og:description":'${entry.description?replace("<[^>]*>", "", "r")?html}', 
+"og:description":'${entry.description?replace("<[^>]*>", "", "r")?html}',
 "og:image":"${imageUrlOG}"
 } />
 <#-- partage de la configuration open graph dans la request -->
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
+
+<#assign cssClass>
+    <#switch user.getScreenName()>
+        <#case "placit_strasbourg">couleur-ville<#break>
+        <#case "placit_ems">couleur-eurometropole<#break>
+        <#case "placit_strasbourg_ems">couleur-commune<#break>
+        <#default>couleur-ville<#break>
+    </#switch>
+</#assign>
 
 
 <div id="breadcrumb">
@@ -85,74 +98,80 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <li><span class="icon-ico-partenaire"></span> <strong>Les partenaires : </strong>${entry.partners}</li>
         </#if>
     </ul>
- </div>
+</div>
 
 <!-- Fiche de l'entité -->
-<aside class="col-sm-4-to-move">
+<div class="col-lg-4-to-move ${cssClass}">
+    <div>
 
-    <!-- Bloc : map -->
-    <div class="bloc-iframe leaflet-map" id="mapid" ></div>
 
-    <!-- Bloc : Compteur de suivi -->
-    <div class="pro-compteur">
-        <span class="pro-compt">${entry.getNbFollowerLabel()}</span>
-        <p>Citoyens(nes) suivent ce projet</p>
-        <a href="#Suivre" class="pro-btn-action ${isUserFollowsActive}" 
-            data-projectid="${entry.projectId}" 
-            data-groupid="${entry.groupId}"
-            title="Suivre ce projet">
-            <#if isUserFollowsActive?has_content>
-                Projet suivi
-            <#else>
-                Suivre ce projet
-            </#if>
-        </a>
+        <!-- Bloc : map -->
+        <div class="bloc-iframe leaflet-map" id="mapid" ></div>
+
+        <!-- Bloc : Compteur de suivi -->
+        <div class="pro-compteur">
+            <span class="pro-compt">${entry.getNbFollowerLabel()}</span>
+            <p>Citoyens(nes) suivent ce projet</p>
+            <a href="#Suivre" class="pro-btn-action ${isUserFollowsActive}"
+               data-projectid="${entry.projectId}"
+               data-groupid="${entry.groupId}"
+               title="Suivre ce projet">
+                <#if isUserFollowsActive?has_content>
+                    Projet suivi
+                <#else>
+                    Suivre ce projet
+                </#if>
+            </a>
+        </div>
+
+        <!-- Bloc : entités liées -->
+        <div class="pro-event-comming">
+            <a href="#pro-link-participation" title="Vers les participations de la page"><strong>${projectParticipations?size}</strong> Participation(s) en cours</a>
+            <a href="#pro-link-evenement" title="Vers les événements de la page"><strong>${projectEvents?size}</strong> Évènement(s) à venir</a>
+        </div>
+
+        <!-- Bloc : contact -->
+        <div class="pro-contact">
+            <h4>Contact</h4>
+            <p>
+                <#if entry.contactName?has_content>
+                    <strong> ${entry.contactName}</strong><br>
+                    <#if entry.contactLine1?has_content> ${entry.contactLine1} </#if>
+                    <#if entry.contactLine2?has_content> <br>${entry.contactLine2} </#if>
+                <#else>
+                    <strong>Aucun contact renseigné pour le moment </strong><br>
+                </#if>
+            </p>
+            <a href="tel:${entry.contactPhoneNumber}" title="Numéro de téléphone : ${entry.contactPhoneNumber}">${entry.contactPhoneNumber}</a>
+        </div>
+
     </div>
+</div>
 
-    <!-- Bloc : entités liées -->
-    <div class="pro-event-comming">
-        <a href="#pro-link-participation" title="Vers les participations de la page"><strong>${projectParticipations?size}</strong> Participation(s) en cours</a>
-        <a href="#pro-link-evenement" title="Vers les événements de la page"><strong>${projectEvents?size}</strong> Évènement(s) à venir</a>
-    </div>
-
-    <!-- Bloc : contact -->
-    <div class="pro-contact">
-        <h4>Contact</h4>
-        <p>
-            <#if entry.contactName?has_content>
-                <strong> ${entry.contactName}</strong><br>
-                <#if entry.contactLine1?has_content> ${entry.contactLine1} </#if>
-                <#if entry.contactLine2?has_content> <br>${entry.contactLine2} </#if>
-            <#else>
-                <strong>Aucun contact renseigné pour le moment </strong><br>
-            </#if>
-        </p>
-        <a href="tel:${entry.contactPhoneNumber}" title="Numéro de téléphone : ${entry.contactPhoneNumber}">${entry.contactPhoneNumber}</a>
-    </div>
-
-</aside>
- 
 <style>
     .pro-page-detail.pro-page-detail-projet section>.pro-wrapper{
         left : 0px;
-    }
-     
-    .pro-page-detail.pro-page-detail-projet aside{
-        margin-top : 124px;
     }
     .pro-page-detail.pro-page-detail-projet .pro-wrapper .portlet-body>* {
         margin: 0;
         padding: 7px 0;
     }
+    section#pro-link-participation.pro-bloc-slider.pro-slider-participation {
+        background: #EBECEE;
+    }
     .pro-btn-action.active:after{
         opacity: 0;
     }
-     
-    .col-sm-4 {
-    	z-index : 50;
+
+    .portlet-column-content.empty{
+        padding: 0;
+    }
+
+    .col-md-4 {
+        z-index : 50;
     }
 </style>
- 
+
 <script>
     // Récupération des entités en JSON à afficher sur la map et ajout des données dynamiques manquantes
     var projectJSON = ${projectJSON};
@@ -160,21 +179,29 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
     var eventsJSON = [
         <#list eventsJSON as eventJSON>
-            ${eventJSON},
+        ${eventJSON},
         </#list>
     ];
 
     var participationsJSON = [
         <#list participationsJSON as participationJSON>
-            ${participationJSON},
+        ${participationJSON},
         </#list>
     ];
 
     $(document).ready(function() {
 
         // Déplacement du bloc de la fiche entité
-        $(".col-sm-4-to-move").contents().appendTo(".col-sm-4");
+        $(".col-lg-4-to-move").appendTo(".pro-page-detail-projet .col-lg-12 aside.col-lg-4");
+        if ($('.suggested-projects-to-move').length) {
+            $('.pro-bloc-image-slider.pro-bloc-texte').parents('.portlet-boundary').appendTo('.suggested-projects-to-move');
+            $('.pro-bloc-texte.pro-bloc-telechargements').parents('.portlet-boundary').appendTo('.suggested-projects-to-move');
+            $('#pro-link-participation.pro-bloc-slider.pro-slider-participation').parents('.portlet-boundary').appendTo('.suggested-projects-to-move');
+        }
         $(".portlet-content>.portlet-title-text").hide();
+
+
+
 
         // Vérification de l'existance de la timeline verticale
         // et cache du cercle blanc dans le header si inexistant
@@ -197,7 +224,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         var projectMarkers = [];
         var participationMarkers = [];
         var eventMarkers = [];
-        
+
         // Création du cluster permettant le regroupement de points et le centrage
         var markersCluster = L.markerClusterGroup();
 
@@ -240,9 +267,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 participationMarkers.push(marker);
             }
         }
-        
+
         leafletMap.addLayer(markersCluster);
-        
+
         // Adapter le zoom si des marqueurs existent
         if (markersCluster.getBounds().isValid()) {
             leafletMap.fitBounds(markersCluster.getBounds());
