@@ -473,7 +473,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                         <#assign
                         placeLocalService=serviceLocator.findService("eu.strasbourg.service.place.service.PlaceLocalService") />
                         <#list entry.types as type>
-                            <#if (assetVocabularyHelper.getCategoryProperty(type.categoryId, 'searchable' )=='true' )>
+                            <#if (assetVocabularyHelper.getCategoryProperty(type.categoryId, 'schedule' )=='true' )>
                                 <#assign category=type />
                             </#if>
                         </#list>
@@ -564,15 +564,19 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                 <#assign category=type />
             </#if>
         </#list>
-        <#assign imageEntryId = assetVocabularyHelper.getCategoryImage(category.categoryId,'picto-vert').getFileEntryId() />
+        <#assign imageEntryId = assetVocabularyHelper.getCategoryImage(category.categoryId,'picto-vert') ! "" />
         <!-- Listing Lieu meme type -->
         <div class="st-bloc st-bloc-sit-focus st--with-icon st-wrapper st-wrapper-small st--has-margin">
             <div class="st-container">
 
                 <div class="st-col-left">
-                    <div class="st-image">
-                        <@addImage fileEntryId=imageEntryId  />
-                    </div>
+                    <#if imageEntryId?has_content>
+                        <div class="st-icon-picto" style="width: 145px;">
+                            <@addImage fileEntryId=imageEntryId.getFileEntryId()  />
+                        </div>
+
+                    </#if>
+
                     <div class="st-content">
                         <h2 class="st-h2">Vous preferez aller ailleurs ?</h2>
                         <p class="st-surtitre-cat">Il y a ${placeLocalService.getPlaceCountByAssetCategory(category, themeDisplay.getCompanyGroupId())} autres
@@ -925,7 +929,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 
 <@liferay_portlet.actionURL var="contactURL" name="contact">
     <@liferay_portlet.param name="classPK" value="${entry.getPlaceId()}" />
-    <@liferay_portlet.param name="to" value="${entry.mail}" />
+    <@liferay_portlet.param name="entityId" value="${entry.getPlaceId()}" />
     <@liferay_portlet.param name="title" value="${entry.getAlias(locale)}" />
     <@liferay_portlet.param name="type" value="Place" />
 </@liferay_portlet.actionURL>

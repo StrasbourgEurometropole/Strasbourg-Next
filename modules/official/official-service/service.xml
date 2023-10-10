@@ -39,7 +39,7 @@
 
 
 		<column name="listeContact" type="String" />
-		<column name="resumeFonction" type="String" />
+		<column name="resumeFonction" type="String"  localized="true" />
 		
 		<!-- Links with other entities -->
         <column name="imageId" type="Long" />

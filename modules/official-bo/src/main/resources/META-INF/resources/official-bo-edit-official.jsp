@@ -120,6 +120,8 @@
 
 				<aui:input name="missions" />
 
+				<aui:input name="resumeFonction"/>
+
 				<c:if test="${not empty dc.fonctionsTown}">
 					<div class="form-group input-String-wrapper">
 						<label><liferay-ui:message key="fonctions-town" /></label>
@@ -190,6 +192,9 @@
 				label="contact-official">
 
 				<aui:input name="contact"/>
+
+				<aui:input name="listeContact" helpMessage="liste-contact-help"   />
+
 
 			</aui:fieldset>
 

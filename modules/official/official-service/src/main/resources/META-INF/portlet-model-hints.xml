@@ -14,12 +14,6 @@
 		<field name="status" type="int" />
 		<field name="statusByUserId" type="long" />
 		<field name="statusByUserName" type="String" />
-		<field name="listeContact" type="String" >
-			<hint name="max-length">2000</hint>
-		</field>
-		<field name="resumeFonction" type="String" >
-			<hint name="max-length">2000</hint>
-		</field>
 		<field name="statusDate" type="Date" />
 		<field name="gender" type="int" />
 		<field name="lastName" type="String" />
@@ -39,6 +33,12 @@
 		</field>
 		<field name="orderVicePresident" type="int">
 			<hint name="max-length">2</hint>
+		</field>
+		<field name="listeContact" type="String">
+			<hint name="max-length">2000</hint>
+		</field>
+		<field localized="true" name="resumeFonction" type="String">
+			<hint name="max-length">2000</hint>
 		</field>
 		<field name="imageId" type="Long" />
 	</model>

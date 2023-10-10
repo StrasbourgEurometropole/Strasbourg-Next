@@ -279,7 +279,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 <#if entry.email?has_content>
     <@liferay_portlet.actionURL var="contactURL" name="contact">
         <@liferay_portlet.param name="classPK" value="${entry.getEventId()}" />
-        <@liferay_portlet.param name="to" value="${entry.email}" />
+        <@liferay_portlet.param name="entityId" value="${entry.getEventId()}" />
         <@liferay_portlet.param name="title" value="${entry.getTitle(locale)}" />
         <@liferay_portlet.param name="type" value="Event" />
     </@liferay_portlet.actionURL>
