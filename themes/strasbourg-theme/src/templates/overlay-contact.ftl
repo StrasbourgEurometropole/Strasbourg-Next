@@ -80,7 +80,9 @@
         </div>
 
         <div class="st-overlay__footer">
+            <#if renderRequest.getAttribute("mailSent")?? == false>
             <button class="st-btn st--btn-full-width" name="submit" value="<@liferay_ui.message key="send" />"><@liferay_ui.message key="send" /></button>
+            </#if>
         </div>
 
     </form>
