@@ -36,6 +36,10 @@
 		<column name="contact" type="String" localized="true" />
 		<column name="orderDeputyMayor" type="int" />
 		<column name="orderVicePresident" type="int" />
+
+
+		<column name="listeContact" type="String" />
+		<column name="resumeFonction" type="String" />
 		
 		<!-- Links with other entities -->
         <column name="imageId" type="Long" />
