@@ -189,7 +189,7 @@
 						</div>
 
 						<div class="pro-comment">
-							<p id="comment-${comment.commentId}">${comment.text}</p>
+							<p id="comment-${comment.commentId}">${comment.getText(locale)}</p>
 
 						</div>
 						<c:if test="${comment.modifiedByUserDate != null}">
