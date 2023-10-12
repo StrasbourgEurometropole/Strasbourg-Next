@@ -15,13 +15,17 @@
 package eu.strasbourg.service.formSendRecordField.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.GroupedModel;
+import com.liferay.portal.kernel.model.LocalizedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.StagedAuditedModel;
 import com.liferay.portal.kernel.model.WorkflowedModel;
 
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -38,8 +42,8 @@ import org.osgi.annotation.versioning.ProviderType;
  */
 @ProviderType
 public interface FormSendRecordFieldModel
-	extends BaseModel<FormSendRecordField>, GroupedModel, ShardedModel,
-			StagedAuditedModel, WorkflowedModel {
+	extends BaseModel<FormSendRecordField>, GroupedModel, LocalizedModel,
+			ShardedModel, StagedAuditedModel, WorkflowedModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -291,8 +295,58 @@ public interface FormSendRecordFieldModel
 	 *
 	 * @return the response of this form send record field
 	 */
-	@AutoEscape
 	public String getResponse();
+
+	/**
+	 * Returns the localized response of this form send record field in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized response of this form send record field
+	 */
+	@AutoEscape
+	public String getResponse(Locale locale);
+
+	/**
+	 * Returns the localized response of this form send record field in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized response of this form send record field. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getResponse(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized response of this form send record field in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized response of this form send record field
+	 */
+	@AutoEscape
+	public String getResponse(String languageId);
+
+	/**
+	 * Returns the localized response of this form send record field in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized response of this form send record field
+	 */
+	@AutoEscape
+	public String getResponse(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getResponseCurrentLanguageId();
+
+	@AutoEscape
+	public String getResponseCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized responses of this form send record field.
+	 *
+	 * @return the locales and localized responses of this form send record field
+	 */
+	public Map<Locale, String> getResponseMap();
 
 	/**
 	 * Sets the response of this form send record field.
@@ -300,6 +354,42 @@ public interface FormSendRecordFieldModel
 	 * @param response the response of this form send record field
 	 */
 	public void setResponse(String response);
+
+	/**
+	 * Sets the localized response of this form send record field in the language.
+	 *
+	 * @param response the localized response of this form send record field
+	 * @param locale the locale of the language
+	 */
+	public void setResponse(String response, Locale locale);
+
+	/**
+	 * Sets the localized response of this form send record field in the language, and sets the default locale.
+	 *
+	 * @param response the localized response of this form send record field
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setResponse(
+		String response, Locale locale, Locale defaultLocale);
+
+	public void setResponseCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized responses of this form send record field from the map of locales and localized responses.
+	 *
+	 * @param responseMap the locales and localized responses of this form send record field
+	 */
+	public void setResponseMap(Map<Locale, String> responseMap);
+
+	/**
+	 * Sets the localized responses of this form send record field from the map of locales and localized responses, and sets the default locale.
+	 *
+	 * @param responseMap the locales and localized responses of this form send record field
+	 * @param defaultLocale the default locale
+	 */
+	public void setResponseMap(
+		Map<Locale, String> responseMap, Locale defaultLocale);
 
 	/**
 	 * Returns the asset entry ID of this form send record field.
@@ -435,6 +525,19 @@ public interface FormSendRecordFieldModel
 	 */
 	@Override
 	public boolean isScheduled();
+
+	@Override
+	public String[] getAvailableLanguageIds();
+
+	@Override
+	public String getDefaultLanguageId();
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException;
+
+	@Override
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException;
 
 	@Override
 	public FormSendRecordField cloneWithOriginalValues();

@@ -19,7 +19,9 @@ import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.User;
@@ -27,9 +29,12 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordField;
@@ -46,8 +51,11 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -674,12 +682,104 @@ public class FormSendRecordFieldModelImpl
 	}
 
 	@Override
+	public String getResponse(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getResponse(languageId);
+	}
+
+	@Override
+	public String getResponse(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getResponse(languageId, useDefault);
+	}
+
+	@Override
+	public String getResponse(String languageId) {
+		return LocalizationUtil.getLocalization(getResponse(), languageId);
+	}
+
+	@Override
+	public String getResponse(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getResponse(), languageId, useDefault);
+	}
+
+	@Override
+	public String getResponseCurrentLanguageId() {
+		return _responseCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getResponseCurrentValue() {
+		Locale locale = getLocale(_responseCurrentLanguageId);
+
+		return getResponse(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getResponseMap() {
+		return LocalizationUtil.getLocalizationMap(getResponse());
+	}
+
+	@Override
 	public void setResponse(String response) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
 
 		_response = response;
+	}
+
+	@Override
+	public void setResponse(String response, Locale locale) {
+		setResponse(response, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setResponse(
+		String response, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(response)) {
+			setResponse(
+				LocalizationUtil.updateLocalization(
+					getResponse(), "Response", response, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setResponse(
+				LocalizationUtil.removeLocalization(
+					getResponse(), "Response", languageId));
+		}
+	}
+
+	@Override
+	public void setResponseCurrentLanguageId(String languageId) {
+		_responseCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setResponseMap(Map<Locale, String> responseMap) {
+		setResponseMap(responseMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setResponseMap(
+		Map<Locale, String> responseMap, Locale defaultLocale) {
+
+		if (responseMap == null) {
+			return;
+		}
+
+		setResponse(
+			LocalizationUtil.updateLocalization(
+				responseMap, getResponse(), "Response",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -910,6 +1010,73 @@ public class FormSendRecordFieldModelImpl
 		ExpandoBridge expandoBridge = getExpandoBridge();
 
 		expandoBridge.setAttributes(serviceContext);
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		Set<String> availableLanguageIds = new TreeSet<String>();
+
+		Map<Locale, String> responseMap = getResponseMap();
+
+		for (Map.Entry<Locale, String> entry : responseMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		return availableLanguageIds.toArray(
+			new String[availableLanguageIds.size()]);
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		String xml = getResponse();
+
+		if (xml == null) {
+			return "";
+		}
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		return LocalizationUtil.getDefaultLanguageId(xml, defaultLocale);
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException {
+		Locale defaultLocale = LocaleUtil.fromLanguageId(
+			getDefaultLanguageId());
+
+		Locale[] availableLocales = LocaleUtil.fromLanguageIds(
+			getAvailableLanguageIds());
+
+		Locale defaultImportLocale = LocalizationUtil.getDefaultImportLocale(
+			FormSendRecordField.class.getName(), getPrimaryKey(), defaultLocale,
+			availableLocales);
+
+		prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
+	@SuppressWarnings("unused")
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException {
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		String modelDefaultLanguageId = getDefaultLanguageId();
+
+		String response = getResponse(defaultLocale);
+
+		if (Validator.isNull(response)) {
+			setResponse(getResponse(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setResponse(
+				getResponse(defaultLocale), defaultLocale, defaultLocale);
+		}
 	}
 
 	@Override
@@ -1236,6 +1403,7 @@ public class FormSendRecordFieldModelImpl
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _response;
+	private String _responseCurrentLanguageId;
 	private long _assetEntryId;
 	private long _contentId;
 	private String _instanceId;

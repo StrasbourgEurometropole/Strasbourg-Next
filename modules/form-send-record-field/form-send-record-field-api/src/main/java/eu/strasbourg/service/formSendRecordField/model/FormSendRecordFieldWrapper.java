@@ -206,6 +206,11 @@ public class FormSendRecordFieldWrapper
 		return model.getAssetEntryId();
 	}
 
+	@Override
+	public String[] getAvailableLanguageIds() {
+		return model.getAvailableLanguageIds();
+	}
+
 	/**
 	 * Returns the company ID of this form send record field.
 	 *
@@ -244,6 +249,11 @@ public class FormSendRecordFieldWrapper
 	@Override
 	public Date getCreateDate() {
 		return model.getCreateDate();
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -337,6 +347,72 @@ public class FormSendRecordFieldWrapper
 	@Override
 	public String getResponse() {
 		return model.getResponse();
+	}
+
+	/**
+	 * Returns the localized response of this form send record field in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized response of this form send record field
+	 */
+	@Override
+	public String getResponse(java.util.Locale locale) {
+		return model.getResponse(locale);
+	}
+
+	/**
+	 * Returns the localized response of this form send record field in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized response of this form send record field. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getResponse(java.util.Locale locale, boolean useDefault) {
+		return model.getResponse(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized response of this form send record field in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized response of this form send record field
+	 */
+	@Override
+	public String getResponse(String languageId) {
+		return model.getResponse(languageId);
+	}
+
+	/**
+	 * Returns the localized response of this form send record field in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized response of this form send record field
+	 */
+	@Override
+	public String getResponse(String languageId, boolean useDefault) {
+		return model.getResponse(languageId, useDefault);
+	}
+
+	@Override
+	public String getResponseCurrentLanguageId() {
+		return model.getResponseCurrentLanguageId();
+	}
+
+	@Override
+	public String getResponseCurrentValue() {
+		return model.getResponseCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized responses of this form send record field.
+	 *
+	 * @return the locales and localized responses of this form send record field
+	 */
+	@Override
+	public Map<java.util.Locale, String> getResponseMap() {
+		return model.getResponseMap();
 	}
 
 	/**
@@ -534,6 +610,21 @@ public class FormSendRecordFieldWrapper
 		model.persist();
 	}
 
+	@Override
+	public void prepareLocalizedFieldsForImport()
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport(
+			java.util.Locale defaultImportLocale)
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
 	/**
 	 * Sets the asset entry ID of this form send record field.
 	 *
@@ -632,6 +723,61 @@ public class FormSendRecordFieldWrapper
 	@Override
 	public void setResponse(String response) {
 		model.setResponse(response);
+	}
+
+	/**
+	 * Sets the localized response of this form send record field in the language.
+	 *
+	 * @param response the localized response of this form send record field
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setResponse(String response, java.util.Locale locale) {
+		model.setResponse(response, locale);
+	}
+
+	/**
+	 * Sets the localized response of this form send record field in the language, and sets the default locale.
+	 *
+	 * @param response the localized response of this form send record field
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setResponse(
+		String response, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setResponse(response, locale, defaultLocale);
+	}
+
+	@Override
+	public void setResponseCurrentLanguageId(String languageId) {
+		model.setResponseCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized responses of this form send record field from the map of locales and localized responses.
+	 *
+	 * @param responseMap the locales and localized responses of this form send record field
+	 */
+	@Override
+	public void setResponseMap(Map<java.util.Locale, String> responseMap) {
+		model.setResponseMap(responseMap);
+	}
+
+	/**
+	 * Sets the localized responses of this form send record field from the map of locales and localized responses, and sets the default locale.
+	 *
+	 * @param responseMap the locales and localized responses of this form send record field
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setResponseMap(
+		Map<java.util.Locale, String> responseMap,
+		java.util.Locale defaultLocale) {
+
+		model.setResponseMap(responseMap, defaultLocale);
 	}
 
 	/**
