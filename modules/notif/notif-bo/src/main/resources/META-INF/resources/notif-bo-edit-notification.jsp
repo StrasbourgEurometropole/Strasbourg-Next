@@ -230,6 +230,7 @@
             <liferay-portlet:actionURL name="deleteNotification" var="deleteNotificationURL">
                 <portlet:param name="cmd" value="deleteNotification" />
                 <portlet:param name="tab" value="notifications" />
+                <portlet:param name="mvcPath" value="/notif-bo-view-notifications.jsp" />
                 <portlet:param name="notificationId"
                     value="${not empty dc.notification ? dc.notification.notificationId : ''}" />
             </liferay-portlet:actionURL>
@@ -240,7 +241,7 @@
 			</c:if>
 
 			<%-- Composant : bouton de retour a la liste des entites --%>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 
 		</aui:button-row>
 

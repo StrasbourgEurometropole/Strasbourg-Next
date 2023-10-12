@@ -129,6 +129,7 @@ public class SaveCommentActionCommand implements MVCActionCommand{
             }else banishDescription="";
             PublikUserLocalServiceUtil.updatePublikUser(publikUser);
             _commentLocalService.updateComment(comment);
+            actionResponse.setRenderParameter("mvcPath", "/comment-bo-view-comments.jsp");
 
         } catch (PortalException e) {
             _log.error(e);

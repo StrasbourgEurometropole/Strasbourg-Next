@@ -19,7 +19,6 @@
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveOfficial" varImpl="saveOfficialURL">
-	<portlet:param name="cmd" value="saveOfficial" />
 	<portlet:param name="tab" value="officials" />
 </liferay-portlet:actionURL>
 

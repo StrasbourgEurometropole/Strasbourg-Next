@@ -8,7 +8,9 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
+import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -38,7 +40,22 @@ public class ManagementVideosToolBarDisplayContext extends ManagementBaseToolBar
         return "videosSearchContainer";
     }
 
+    @Override
+    protected boolean hasUpdatePermission() {
+        return !WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
+                _themeDisplay.getCompanyId(), _themeDisplay.getScopeGroupId(),
+                Video.class.getName())
+                && _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+                StrasbourgPortletKeys.VIDEO_BO, StrasbourgPortletKeys.VIDEO_BO, "EDIT_VIDEO")
+                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+    }
 
+    @Override
+    protected boolean hasDeletePermission() {
+        return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+                StrasbourgPortletKeys.VIDEO_BO, StrasbourgPortletKeys.VIDEO_BO, "DELETE_VIDEO")
+                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+    }
 
     /**
      * creates an add menu button

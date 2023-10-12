@@ -15,7 +15,7 @@
                         <portlet:param name="cmd" value="councilDynamicView" />
                         <portlet:param name="councilSessionId" value="${council.getCouncilSessionId()}" />
                         <portlet:param name="mvcPath" value="/council-dynamic-view.jsp" />
-                        <portlet:param name="returnURL" value="/councils-view.jsp" />
+                        <portlet:param name="backURL" value="/councils-view.jsp" />
                         </liferay-portlet:renderURL>
 
                         <a href="${councilDynamicViewURL}"> <span class ="council">${council.getTitle()}</span> </a>

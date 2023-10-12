@@ -31,7 +31,7 @@
 				<liferay-portlet:renderURL varImpl="editInterestURL">
 					<portlet:param name="cmd" value="editInterest" />
 					<portlet:param name="interestId" value="${interest.interestId}" />
-					<portlet:param name="bacckURL" value="${interestsURL}" />
+					<portlet:param name="backURL" value="${interestsURL}" />
 					<portlet:param name="mvcPath" value="/interest-bo-edit-interest.jsp" />
 				</liferay-portlet:renderURL>
 

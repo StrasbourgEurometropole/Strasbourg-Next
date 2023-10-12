@@ -44,9 +44,23 @@
 
 				<%-- Champ : Titre --%>
 				<aui:input name="title" required="true" />
-				
-				<%-- Champ : Description --%>
-				<aui:input name="description" required="true" />
+
+				<aui:input name="description" label="required-description" />
+				<!-- Hack pour ajouter une validation sur la description -->
+				<div class="has-error">
+					<aui:input type="hidden" name="descriptionValidatorInputHelper" value="placeholder">
+						<aui:validator name="custom" errorMessage="requested-description-error">
+							function (val, fieldNode, ruleValue) {
+							var validate = $('#_eu_strasbourg_portlet_agenda_AgendaBOPortlet_description_fr_FR').val().length > 0;
+							if (!validate) {
+							$("#_eu_strasbourg_portlet_agenda_AgendaBOPortlet_descriptionEditorContainer").get(0).scrollIntoView();
+							event.preventDefault();
+							}
+							return validate;
+							}
+						</aui:validator>
+					</aui:input>
+				</div>
 				
 				<%-- Selecteur : Image interne ou externe ? --%>
 				<label><input type="radio" value="internalImage" name="imageType" 
@@ -100,7 +114,7 @@
 				<aui:input name="duration" required="false" />
 				
 				<%-- Champ : Liste des partenaires --%>
-				<aui:input name="partners" required="false" />
+				<aui:input name="partners" />
 				
 			</aui:fieldset>
 			

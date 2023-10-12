@@ -58,7 +58,7 @@ public class SaveTypeActionCommand implements MVCActionCommand {
                 PortletURL returnURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
                         PortletRequest.RENDER_PHASE);
 
-                response.setRenderParameter("returnURL", returnURL.toString());
+                response.setRenderParameter("backURL", returnURL.toString());
                 response.setRenderParameter("cmd", "editType");
                 response.setRenderParameter("mvcPath", "/council-bo-edit-type.jsp");
                 return false;
@@ -81,6 +81,7 @@ public class SaveTypeActionCommand implements MVCActionCommand {
 
             // Mise à jour de l'entrée en base
             this.typeLocalService.updateType(type, sc);
+            response.setRenderParameter("mvcPath", "/council-bo-view-types.jsp");
 
         } catch (PortalException e) {
             log.error(e);

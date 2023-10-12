@@ -15,7 +15,7 @@ import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -49,6 +49,7 @@ public class ManagementDeliberationsToolBarDisplayContext extends ManagementBase
     public List<DropdownItem> getActionDropdownItems() {
         return DropdownItemListBuilder
                 .addGroup(
+                        () -> hasDeletePermission(),
                         dropdownGroupItem -> {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder.add(
@@ -64,6 +65,11 @@ public class ManagementDeliberationsToolBarDisplayContext extends ManagementBase
                         }
                 )
                 .build();
+    }
+
+    @Override
+    protected boolean hasDeletePermission() {
+        return Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
     }
 
     /**

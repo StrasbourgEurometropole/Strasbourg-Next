@@ -24,7 +24,7 @@
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveComment" varImpl="saveCommentURL">
-    <portlet:param name="cmd" value="saveComment" />
+    <portlet:param name="tab" value="comments"/>
 </liferay-portlet:actionURL>
 
 
@@ -156,7 +156,7 @@
             </c:if>
 
             <%-- Composant : bouton de retour a la liste des entites --%>
-            <aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+            <aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 
         </aui:button-row>
 

@@ -15,7 +15,6 @@
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveNotification" varImpl="saveNotificationURL">
-	<portlet:param name="cmd" value="saveNotification" />
 	<portlet:param name="tab" value="notifications" />
 </liferay-portlet:actionURL>
 

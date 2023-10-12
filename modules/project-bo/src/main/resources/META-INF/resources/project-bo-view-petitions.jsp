@@ -110,18 +110,6 @@
 	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:actionURL>
 
-<%-- URL : defini le lien vers l'action de publication --%>
-<liferay-portlet:actionURL name="selectionAction" var="publishSelectionURL">
-	<portlet:param name="cmd" value="publish" />
-	<portlet:param name="tab" value="petitions" />
-	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
-	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="mvcPath" value="/project-bo-view-petitions.jsp" />
-	<portlet:param name="keywords" value="${dc.keywords}" />
-	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
-	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
-</liferay-portlet:actionURL>
-
 <%-- URL : defini le lien vers l'action de depublication --%>
 <liferay-portlet:actionURL name="selectionAction" var="unpublishSelectionURL">
 	<portlet:param name="cmd" value="unpublish" />
@@ -148,11 +136,6 @@
 	function deleteSelection() {
 		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-entries" />')) {
 			submitForm(form, '${deleteSelectionURL}');
-		}
-	}
-	function publishSelection() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-publish-selected-entries" />')) {
-			submitForm(form, '${publishSelectionURL}');
 		}
 	}
 	function unpublishSelection() {

@@ -9,6 +9,9 @@
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
 
+<clay:management-toolbar
+		managementToolbarDisplayContext="${managementDC}"
+/>
 <div class="container-fluid container-fluid-max-xl main-content-body">
 
 	<aui:form method="post" name="fm">

@@ -110,7 +110,6 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
 			notification.setExpirationDate(expirationDate);
 
 			_notificationLocalService.updateNotification(notification, sc);
-			response.setRenderParameter("mvcPath", "/notification-bo-view-notifications.jsp");
 
 			// Redirection (évite double
 			// requête POST si l'utilisateur actualise sa page)
@@ -118,6 +117,7 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
 			String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
 			PortletURL renderUrl = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
 					PortletRequest.RENDER_PHASE);
+			response.setRenderParameter("mvcPath", "/notification-bo-view-notifications.jsp");
 			response.sendRedirect(renderUrl.toString());
 		} catch (Exception e) {
 			_log.error(e);

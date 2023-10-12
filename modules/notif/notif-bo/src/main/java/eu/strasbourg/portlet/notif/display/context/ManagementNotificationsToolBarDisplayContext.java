@@ -1,52 +1,43 @@
-package eu.strasbourg.portlet.edition.display.context;
+package eu.strasbourg.portlet.notif.display.context;
 
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenuBuilder;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
-import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.service.edition.model.Edition;
+import eu.strasbourg.service.notif.model.Notification;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.display.context.ManagementBaseToolBarDisplayContext;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
-public class ManagementEditionsToolBarDisplayContext extends ManagementBaseToolBarDisplayContext<Edition> {
+public class ManagementNotificationsToolBarDisplayContext extends ManagementBaseToolBarDisplayContext<Notification> {
 
-    public ManagementEditionsToolBarDisplayContext(
+    public ManagementNotificationsToolBarDisplayContext(
             HttpServletRequest httpServletRequest,
             LiferayPortletRequest liferayPortletRequest,
             LiferayPortletResponse liferayPortletResponse,
             SearchContainer searchContainer) throws PortalException {
         super(httpServletRequest, liferayPortletRequest, liferayPortletResponse,
-                Edition.class, searchContainer);
+                Notification.class, searchContainer);
 
         _themeDisplay = (ThemeDisplay)liferayPortletRequest.getAttribute(
                 WebKeys.THEME_DISPLAY);
     }
 
+    /**
+     * on ne veut ni filtre ni tri
+     */
     @Override
-    protected boolean hasUpdatePermission() {
-        return !WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
-                _themeDisplay.getCompanyId(), _themeDisplay.getScopeGroupId(),
-                Edition.class.getName())
-                && _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.EDITION_BO, StrasbourgPortletKeys.EDITION_BO, "EDIT_EDITION")
-                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
-    }
-
-    @Override
-    protected boolean hasDeletePermission() {
-        return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.EDITION_BO, StrasbourgPortletKeys.EDITION_BO, "DELETE_EDITION")
-                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+    public List<DropdownItem> getFilterDropdownItems() {
+        return null;
     }
 
     /**
@@ -54,10 +45,13 @@ public class ManagementEditionsToolBarDisplayContext extends ManagementBaseToolB
      */
     @Override
     public String getSearchContainerId() {
-        return "editionsSearchContainer";
+        return "linksSearchContainer";
     }
 
-
+    @Override
+    public Boolean isShowSearch() {
+        return false;
+    }
 
     /**
      * creates an add menu button
@@ -72,9 +66,9 @@ public class ManagementEditionsToolBarDisplayContext extends ManagementBaseToolB
 
                     dropdownItem.setHref(
                             liferayPortletResponse.createRenderURL(),
-                            "tab", "editions",
-                            "cmd", "editEdition",
-                            "mvcPath", "/edition-bo-edit-edition.jsp",
+                            "tab", "notifications",
+                            "cmd", "editNotification",
+                            "mvcPath", "/notif-bo-edit-notification.jsp",
                             "backURL", themeDisplay.getURLCurrent());
 
                     dropdownItem.setLabel(
@@ -94,7 +88,7 @@ public class ManagementEditionsToolBarDisplayContext extends ManagementBaseToolB
 
         Group group = themeDisplay.getScopeGroup();
         if(_themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.EDITION_BO, StrasbourgPortletKeys.EDITION_BO, "ADD_EDITION") &&
+                StrasbourgPortletKeys.NOTIF_BO, StrasbourgPortletKeys.NOTIF_BO, "ADD_NOTIFICATION") &&
                 group.getStagingGroup() == null){
             return true;
         }
@@ -102,6 +96,10 @@ public class ManagementEditionsToolBarDisplayContext extends ManagementBaseToolB
 
     }
 
-    private final ThemeDisplay _themeDisplay;
+    @Override
+    public Boolean isSelectable() {
+        return false;
+    }
 
+    private final ThemeDisplay _themeDisplay;
 }

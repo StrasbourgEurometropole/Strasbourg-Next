@@ -7,6 +7,7 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.place.model.PublicHoliday;
 import eu.strasbourg.service.place.model.SubPlace;
@@ -40,12 +41,17 @@ public class SubPlaceActionDropdownItemsProvider {
      */
     public List<DropdownItem> getActionDropdownItems() {
 
+        boolean hasUpdatePermission = Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+
+        boolean hasDeletePermission = Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+
         return DropdownItemListBuilder
                 .addGroup(
                         dropdownGroupItem -> {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder
                                             .add(
+                                                    () -> hasUpdatePermission,
                                                     _getEditActionUnsafeConsumer()
                                             )
                                             .build()
@@ -57,6 +63,7 @@ public class SubPlaceActionDropdownItemsProvider {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder
                                             .add(
+                                                    () -> hasDeletePermission,
                                                     _getDeleteActionUnsafeConsumer()
                                             )
                                             .build()

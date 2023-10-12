@@ -26,4 +26,3 @@
 </liferay-util:html-bottom>
 
 <jsp:useBean id="vocabularyHelper" class="eu.strasbourg.utils.AssetVocabularyHelper" />
-

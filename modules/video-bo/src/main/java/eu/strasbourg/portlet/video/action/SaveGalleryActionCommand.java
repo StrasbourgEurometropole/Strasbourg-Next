@@ -118,6 +118,7 @@ public class SaveGalleryActionCommand
 			}
 			
 			_videoGalleryLocalService.updateVideoGallery(videoGallery, sc);
+			response.setRenderParameter("mvcPath", "/video-bo-view-galleries.jsp");
 		} catch (PortalException e) {
 			_log.error(e);
 		}

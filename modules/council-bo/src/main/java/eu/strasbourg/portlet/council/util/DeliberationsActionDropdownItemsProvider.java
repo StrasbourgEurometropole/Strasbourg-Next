@@ -189,7 +189,7 @@ public class DeliberationsActionDropdownItemsProvider {
 
         return dropdownItem -> {
             dropdownItem.setHref(
-                    PortletURLBuilder.createRenderURL(_response)
+                    PortletURLBuilder.createActionURL(_response)
                             .setActionName("closeDeliberation")
                             .setMVCPath("/council-bo-view-deliberations.jsp")
                             .setBackURL(_themeDisplay.getURLCurrent())
@@ -205,7 +205,7 @@ public class DeliberationsActionDropdownItemsProvider {
 
         return dropdownItem -> {
             dropdownItem.setHref(
-                    PortletURLBuilder.createRenderURL(_response)
+                    PortletURLBuilder.createActionURL(_response)
                             .setActionName(actionName)
                             .setMVCPath("/council-bo-view-deliberations.jsp")
                             .setCMD(actionName)

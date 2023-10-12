@@ -10,6 +10,10 @@
 	<portlet:param name="cmd" value="notifications" />
 </liferay-portlet:renderURL>
 
+<clay:management-toolbar
+		managementToolbarDisplayContext="${managementDC}"
+/>
+
 <div class="container-fluid container-fluid-max-xl main-content-body">
 
 	<liferay-portlet:renderURL varImpl="notificationsByInProgressURL">

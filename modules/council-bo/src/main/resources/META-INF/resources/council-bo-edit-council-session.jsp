@@ -18,7 +18,6 @@
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveCouncilSession" varImpl="saveCouncilSessionURL">
-	<portlet:param name="cmd" value="saveCouncilSession" />
 	<portlet:param name="tab" value="councilSessions" />
 </liferay-portlet:actionURL>
 

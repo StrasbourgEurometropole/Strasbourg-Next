@@ -8,8 +8,10 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.help.model.HelpRequest;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.display.context.ManagementBaseToolBarDisplayContext;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +39,7 @@ public class ManagementHelpRequestsToolBarDisplayContext extends ManagementBaseT
     public List<DropdownItem> getActionDropdownItems() {
         return DropdownItemListBuilder
                 .addGroup(
+                        () -> hasDeletePermission(),
                         dropdownGroupItem -> {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder.add(
@@ -52,6 +55,13 @@ public class ManagementHelpRequestsToolBarDisplayContext extends ManagementBaseT
                         }
                 )
                 .build();
+    }
+
+    @Override
+    protected boolean hasDeletePermission() {
+        return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+                StrasbourgPortletKeys.HELP_BO, StrasbourgPortletKeys.HELP_BO, "DELETE_HELP_REQUEST")
+                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
     }
 
     /**

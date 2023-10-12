@@ -106,6 +106,7 @@ jQuery(function() {
 
 //Soumission du formulaire
 function submitForm(event) {
+	setConditionalValidators();
 	placeAutoFields.save(event.target);
 	return true;
 }
