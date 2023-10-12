@@ -16,7 +16,7 @@
 	<liferay-ui:error key="nom-error" message="nom-error" />
 	<liferay-ui:error key="prenom-error" message="prenom-error" />
 	<liferay-ui:error key="image-error" message="image-error" />
-
+	<liferay-ui:error key="email-error" message="email-error" />
 	<aui:form action="${saveOfficialURL}" method="post" name="fm">
 
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
@@ -120,7 +120,7 @@
 
 				<aui:input name="missions" />
 
-				<aui:input name="resumeFonction"/>
+				<aui:input name="resumeFonction" helpMessage="resumeFonction-help" />
 
 				<c:if test="${not empty dc.fonctionsTown}">
 					<div class="form-group input-String-wrapper">

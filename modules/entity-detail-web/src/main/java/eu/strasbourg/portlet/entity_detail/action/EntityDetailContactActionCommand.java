@@ -145,7 +145,7 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 				hasError = true;
 			}
 			// Champs vides
-			if (Validator.isNull(email) || Validator.isNull(to) || Validator.isNull(firstName)
+			if (Validator.isNull(email) || Validator.isNull(firstName) || Validator.isNull(email)
 					|| Validator.isNull(lastName) || Validator.isNull(message)) { 
 				SessionErrors.add(request, "all-fields-required");
 				hasError = true;
@@ -158,7 +158,7 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 			// Pas d'erreur
 			if (!hasError) {
 
-				boolean success = MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", websiteName, to,
+				boolean success = MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", websiteName, mailTo,
 						mailSubject, mailBody);
 	
 				// Envoi du mail à l'utilisateur
@@ -201,7 +201,7 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 					bodyTemplate.processTemplate(out);
 					mailBody = out.toString();
 					
-					MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", websiteName, mailTo,
+					MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", websiteName, email,
 							mailSubject, mailBody);
 
 				}
@@ -255,6 +255,12 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 			Event event = EventLocalServiceUtil.fetchEvent(Long.parseLong(entityId));
 			if(event != null && Validator.isNotNull(event.getEmail())) {
 				email = event.getEmail();
+			}
+		}
+		if(entityClassName.equals("Official")) {
+			Official official = OfficialLocalServiceUtil.fetchOfficial(Long.parseLong(entityId));
+			if(official != null && Validator.isNotNull(official.getListeContact())) {
+				email = official.getListeContact();
 			}
 		}
 

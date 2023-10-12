@@ -94,7 +94,8 @@ public class OfficialModelImpl
 		{"thematicDelegation", Types.CLOB}, {"missions", Types.CLOB},
 		{"wasMinister", Types.BOOLEAN}, {"contact", Types.CLOB},
 		{"orderDeputyMayor", Types.INTEGER},
-		{"orderVicePresident", Types.INTEGER}, {"imageId", Types.BIGINT}
+		{"orderVicePresident", Types.INTEGER}, {"listeContact", Types.VARCHAR},
+		{"resumeFonction", Types.VARCHAR}, {"imageId", Types.BIGINT}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -123,11 +124,13 @@ public class OfficialModelImpl
 		TABLE_COLUMNS_MAP.put("contact", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("orderDeputyMayor", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("orderVicePresident", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("listeContact", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("resumeFonction", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table official_Official (uuid_ VARCHAR(75) null,officialId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,gender INTEGER,lastName VARCHAR(75) null,firstName VARCHAR(75) null,thematicDelegation TEXT null,missions TEXT null,wasMinister BOOLEAN,contact TEXT null,orderDeputyMayor INTEGER,orderVicePresident INTEGER,imageId LONG)";
+		"create table official_Official (uuid_ VARCHAR(75) null,officialId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,gender INTEGER,lastName VARCHAR(75) null,firstName VARCHAR(75) null,thematicDelegation TEXT null,missions TEXT null,wasMinister BOOLEAN,contact TEXT null,orderDeputyMayor INTEGER,orderVicePresident INTEGER,listeContact VARCHAR(2000) null,resumeFonction STRING null,imageId LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table official_Official";
 
@@ -365,6 +368,15 @@ public class OfficialModelImpl
 		attributeSetterBiConsumers.put(
 			"orderVicePresident",
 			(BiConsumer<Official, Integer>)Official::setOrderVicePresident);
+		attributeGetterFunctions.put("listeContact", Official::getListeContact);
+		attributeSetterBiConsumers.put(
+			"listeContact",
+			(BiConsumer<Official, String>)Official::setListeContact);
+		attributeGetterFunctions.put(
+			"resumeFonction", Official::getResumeFonction);
+		attributeSetterBiConsumers.put(
+			"resumeFonction",
+			(BiConsumer<Official, String>)Official::setResumeFonction);
 		attributeGetterFunctions.put("imageId", Official::getImageId);
 		attributeSetterBiConsumers.put(
 			"imageId", (BiConsumer<Official, Long>)Official::setImageId);
@@ -1102,6 +1114,139 @@ public class OfficialModelImpl
 
 	@JSON
 	@Override
+	public String getListeContact() {
+		if (_listeContact == null) {
+			return "";
+		}
+		else {
+			return _listeContact;
+		}
+	}
+
+	@Override
+	public void setListeContact(String listeContact) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_listeContact = listeContact;
+	}
+
+	@JSON
+	@Override
+	public String getResumeFonction() {
+		if (_resumeFonction == null) {
+			return "";
+		}
+		else {
+			return _resumeFonction;
+		}
+	}
+
+	@Override
+	public String getResumeFonction(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getResumeFonction(languageId);
+	}
+
+	@Override
+	public String getResumeFonction(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getResumeFonction(languageId, useDefault);
+	}
+
+	@Override
+	public String getResumeFonction(String languageId) {
+		return LocalizationUtil.getLocalization(
+			getResumeFonction(), languageId);
+	}
+
+	@Override
+	public String getResumeFonction(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getResumeFonction(), languageId, useDefault);
+	}
+
+	@Override
+	public String getResumeFonctionCurrentLanguageId() {
+		return _resumeFonctionCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getResumeFonctionCurrentValue() {
+		Locale locale = getLocale(_resumeFonctionCurrentLanguageId);
+
+		return getResumeFonction(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getResumeFonctionMap() {
+		return LocalizationUtil.getLocalizationMap(getResumeFonction());
+	}
+
+	@Override
+	public void setResumeFonction(String resumeFonction) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_resumeFonction = resumeFonction;
+	}
+
+	@Override
+	public void setResumeFonction(String resumeFonction, Locale locale) {
+		setResumeFonction(resumeFonction, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setResumeFonction(
+		String resumeFonction, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(resumeFonction)) {
+			setResumeFonction(
+				LocalizationUtil.updateLocalization(
+					getResumeFonction(), "ResumeFonction", resumeFonction,
+					languageId, defaultLanguageId));
+		}
+		else {
+			setResumeFonction(
+				LocalizationUtil.removeLocalization(
+					getResumeFonction(), "ResumeFonction", languageId));
+		}
+	}
+
+	@Override
+	public void setResumeFonctionCurrentLanguageId(String languageId) {
+		_resumeFonctionCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setResumeFonctionMap(Map<Locale, String> resumeFonctionMap) {
+		setResumeFonctionMap(resumeFonctionMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setResumeFonctionMap(
+		Map<Locale, String> resumeFonctionMap, Locale defaultLocale) {
+
+		if (resumeFonctionMap == null) {
+			return;
+		}
+
+		setResumeFonction(
+			LocalizationUtil.updateLocalization(
+				resumeFonctionMap, getResumeFonction(), "ResumeFonction",
+				LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@JSON
+	@Override
 	public Long getImageId() {
 		return _imageId;
 	}
@@ -1277,6 +1422,17 @@ public class OfficialModelImpl
 			}
 		}
 
+		Map<Locale, String> resumeFonctionMap = getResumeFonctionMap();
+
+		for (Map.Entry<Locale, String> entry : resumeFonctionMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
 		return availableLanguageIds.toArray(
 			new String[availableLanguageIds.size()]);
 	}
@@ -1348,6 +1504,17 @@ public class OfficialModelImpl
 		else {
 			setContact(getContact(defaultLocale), defaultLocale, defaultLocale);
 		}
+
+		String resumeFonction = getResumeFonction(defaultLocale);
+
+		if (Validator.isNull(resumeFonction)) {
+			setResumeFonction(
+				getResumeFonction(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setResumeFonction(
+				getResumeFonction(defaultLocale), defaultLocale, defaultLocale);
+		}
 	}
 
 	@Override
@@ -1391,6 +1558,8 @@ public class OfficialModelImpl
 		officialImpl.setContact(getContact());
 		officialImpl.setOrderDeputyMayor(getOrderDeputyMayor());
 		officialImpl.setOrderVicePresident(getOrderVicePresident());
+		officialImpl.setListeContact(getListeContact());
+		officialImpl.setResumeFonction(getResumeFonction());
 		officialImpl.setImageId(getImageId());
 
 		officialImpl.resetOriginalValues();
@@ -1440,6 +1609,10 @@ public class OfficialModelImpl
 			this.<Integer>getColumnOriginalValue("orderDeputyMayor"));
 		officialImpl.setOrderVicePresident(
 			this.<Integer>getColumnOriginalValue("orderVicePresident"));
+		officialImpl.setListeContact(
+			this.<String>getColumnOriginalValue("listeContact"));
+		officialImpl.setResumeFonction(
+			this.<String>getColumnOriginalValue("resumeFonction"));
 		officialImpl.setImageId(this.<Long>getColumnOriginalValue("imageId"));
 
 		return officialImpl;
@@ -1641,6 +1814,22 @@ public class OfficialModelImpl
 
 		officialCacheModel.orderVicePresident = getOrderVicePresident();
 
+		officialCacheModel.listeContact = getListeContact();
+
+		String listeContact = officialCacheModel.listeContact;
+
+		if ((listeContact != null) && (listeContact.length() == 0)) {
+			officialCacheModel.listeContact = null;
+		}
+
+		officialCacheModel.resumeFonction = getResumeFonction();
+
+		String resumeFonction = officialCacheModel.resumeFonction;
+
+		if ((resumeFonction != null) && (resumeFonction.length() == 0)) {
+			officialCacheModel.resumeFonction = null;
+		}
+
 		Long imageId = getImageId();
 
 		if (imageId != null) {
@@ -1734,6 +1923,9 @@ public class OfficialModelImpl
 	private String _contactCurrentLanguageId;
 	private int _orderDeputyMayor;
 	private int _orderVicePresident;
+	private String _listeContact;
+	private String _resumeFonction;
+	private String _resumeFonctionCurrentLanguageId;
 	private Long _imageId;
 
 	public <T> T getColumnValue(String columnName) {
@@ -1787,6 +1979,8 @@ public class OfficialModelImpl
 		_columnOriginalValues.put("contact", _contact);
 		_columnOriginalValues.put("orderDeputyMayor", _orderDeputyMayor);
 		_columnOriginalValues.put("orderVicePresident", _orderVicePresident);
+		_columnOriginalValues.put("listeContact", _listeContact);
+		_columnOriginalValues.put("resumeFonction", _resumeFonction);
 		_columnOriginalValues.put("imageId", _imageId);
 	}
 
@@ -1855,7 +2049,11 @@ public class OfficialModelImpl
 
 		columnBitmasks.put("orderVicePresident", 2097152L);
 
-		columnBitmasks.put("imageId", 4194304L);
+		columnBitmasks.put("listeContact", 4194304L);
+
+		columnBitmasks.put("resumeFonction", 8388608L);
+
+		columnBitmasks.put("imageId", 16777216L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

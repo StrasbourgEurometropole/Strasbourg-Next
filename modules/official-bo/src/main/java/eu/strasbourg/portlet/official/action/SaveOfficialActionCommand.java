@@ -117,6 +117,15 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
 					.getLocalizationMap(request, "missions");
 			official.setMissionsMap(missions);
 
+			String listeContact = ParamUtil.getString(request, "listeContact");
+			official.setListeContact(listeContact);
+
+
+			Map<Locale, String> resumeFonction = LocalizationUtil
+					.getLocalizationMap(request, "resumeFonction");
+
+			official.setResumeFonctionMap(resumeFonction);
+
 			boolean wasMinister = ParamUtil.getBoolean(request, "wasMinister");
 			official.setWasMinister(wasMinister);
 
@@ -220,6 +229,20 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
 			SessionErrors.add(request, "name-error");
 			isValid = false;
 		}
+
+		// listeContact, verif si separateur est bien un , et que chaque element est un mail
+		String listeContact = ParamUtil.getString(request, "listeContact");
+		if (Validator.isNotNull(listeContact)) {
+			String[] listeContactSplit = listeContact.split(",");
+			for (String contact : listeContactSplit) {
+				if (!Validator.isEmailAddress(contact)) {
+					SessionErrors.add(request, "email-error");
+					isValid = false;
+					break;
+				}
+			}
+		}
+
 
 		// Prénom
 		if (Validator.isNull(ParamUtil.getString(request, "firstName"))) {

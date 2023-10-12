@@ -9,11 +9,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.SessionParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.util.*;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.portlet.form_send.configuration.FormSendConfiguration;
 import eu.strasbourg.portlet.form_send.context.FormSendDisplayContext;
@@ -83,7 +79,6 @@ public class FormSendPortlet extends MVCPortlet {
 	 * @throws PortalException PortalException
 	 */
 	public void signalement(ActionRequest request, ActionResponse response) throws PortalException, IOException {
-
 		// Recuperation de l'URL de redirection
 		String redirectURL = ParamUtil.getString(request, "redirectURL");
 		// ... du contexte de la requete

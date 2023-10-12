@@ -90,3 +90,20 @@
     <#assign dlAppServiceUtil = serviceLocator.findService("com.liferay.document.library.kernel.service.DLAppService")>
     <@adaptive_media_image["img"] fileVersion=dlAppServiceUtil.getFileEntry(fileEntryId).getFileVersion() />
 </#macro>
+
+<#macro alertError key message>
+    <#assign multiSessionErrors = staticUtil["com.liferay.portal.kernel.servlet.MultiSessionErrors"]>
+    <#if multiSessionErrors.contains(renderRequest, key)>
+        <p class="st-alert-form st--has-error"><@liferay_ui.message key=message /></p>
+    </#if>
+
+</#macro>
+
+
+<#macro alertInfo key message>
+    <#assign sessionMessage = staticUtil["com.liferay.portal.kernel.servlet.SessionMessages"]>
+    <#if sessionMessage.contains(renderRequest, key)>
+        <p class="st-alert-form"><@liferay_ui.message key=message /></p>
+    </#if>
+
+</#macro>

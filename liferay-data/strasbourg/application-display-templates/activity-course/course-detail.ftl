@@ -224,20 +224,20 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                                     </p>
                                                     <div class="st-info st-u-color-secondary">
                                                         <#list schedules as schedule>
-                                                            <p>
-                                                                ${schedule.startTime} - ${schedule.endTime}
+                                                            <div>
+                                                                <p>
+                                                                    ${schedule.startTime} - ${schedule.endTime}
+                                                                    <#if schedule.getComments(locale)?has_content>
+                                                                        *
+                                                                    </#if>
+                                                                </p>
                                                                 <#if schedule.getComments(locale)?has_content>
-                                                                    *
+                                                                    <p class="st-note">*${schedule.getComments(locale)}
+                                                                    </p>
                                                                 </#if>
-                                                            </p>
+                                                            </div>
                                                         </#list>
                                                     </div>
-                                                    <#list schedules as schedule>
-                                                        <#if schedule.getComments(locale)?has_content>
-                                                            <p class="st-note">*${schedule.getComments(locale)}
-                                                            </p>
-                                                        </#if>
-                                                    </#list>
                                                 </li>
                                             </#if>
                                         </#list>

@@ -65,6 +65,8 @@ public class OfficialWrapper
 		attributes.put("contact", getContact());
 		attributes.put("orderDeputyMayor", getOrderDeputyMayor());
 		attributes.put("orderVicePresident", getOrderVicePresident());
+		attributes.put("listeContact", getListeContact());
+		attributes.put("resumeFonction", getResumeFonction());
 		attributes.put("imageId", getImageId());
 
 		return attributes;
@@ -204,6 +206,18 @@ public class OfficialWrapper
 
 		if (orderVicePresident != null) {
 			setOrderVicePresident(orderVicePresident);
+		}
+
+		String listeContact = (String)attributes.get("listeContact");
+
+		if (listeContact != null) {
+			setListeContact(listeContact);
+		}
+
+		String resumeFonction = (String)attributes.get("resumeFonction");
+
+		if (resumeFonction != null) {
+			setResumeFonction(resumeFonction);
 		}
 
 		Long imageId = (Long)attributes.get("imageId");
@@ -460,6 +474,16 @@ public class OfficialWrapper
 	}
 
 	/**
+	 * Returns the liste contact of this official.
+	 *
+	 * @return the liste contact of this official
+	 */
+	@Override
+	public String getListeContact() {
+		return model.getListeContact();
+	}
+
+	/**
 	 * Renvoie la version live de l'élu, si il existe
 	 */
 	@Override
@@ -636,6 +660,84 @@ public class OfficialWrapper
 	@Override
 	public long getPrimaryKey() {
 		return model.getPrimaryKey();
+	}
+
+	/**
+	 * Returns the resume fonction of this official.
+	 *
+	 * @return the resume fonction of this official
+	 */
+	@Override
+	public String getResumeFonction() {
+		return model.getResumeFonction();
+	}
+
+	/**
+	 * Returns the localized resume fonction of this official in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized resume fonction of this official
+	 */
+	@Override
+	public String getResumeFonction(java.util.Locale locale) {
+		return model.getResumeFonction(locale);
+	}
+
+	/**
+	 * Returns the localized resume fonction of this official in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized resume fonction of this official. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getResumeFonction(
+		java.util.Locale locale, boolean useDefault) {
+
+		return model.getResumeFonction(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized resume fonction of this official in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized resume fonction of this official
+	 */
+	@Override
+	public String getResumeFonction(String languageId) {
+		return model.getResumeFonction(languageId);
+	}
+
+	/**
+	 * Returns the localized resume fonction of this official in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized resume fonction of this official
+	 */
+	@Override
+	public String getResumeFonction(String languageId, boolean useDefault) {
+		return model.getResumeFonction(languageId, useDefault);
+	}
+
+	@Override
+	public String getResumeFonctionCurrentLanguageId() {
+		return model.getResumeFonctionCurrentLanguageId();
+	}
+
+	@Override
+	public String getResumeFonctionCurrentValue() {
+		return model.getResumeFonctionCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized resume fonctions of this official.
+	 *
+	 * @return the locales and localized resume fonctions of this official
+	 */
+	@Override
+	public Map<java.util.Locale, String> getResumeFonctionMap() {
+		return model.getResumeFonctionMap();
 	}
 
 	/**
@@ -1134,6 +1236,16 @@ public class OfficialWrapper
 	}
 
 	/**
+	 * Sets the liste contact of this official.
+	 *
+	 * @param listeContact the liste contact of this official
+	 */
+	@Override
+	public void setListeContact(String listeContact) {
+		model.setListeContact(listeContact);
+	}
+
+	/**
 	 * Sets the missions of this official.
 	 *
 	 * @param missions the missions of this official
@@ -1246,6 +1358,75 @@ public class OfficialWrapper
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		model.setPrimaryKey(primaryKey);
+	}
+
+	/**
+	 * Sets the resume fonction of this official.
+	 *
+	 * @param resumeFonction the resume fonction of this official
+	 */
+	@Override
+	public void setResumeFonction(String resumeFonction) {
+		model.setResumeFonction(resumeFonction);
+	}
+
+	/**
+	 * Sets the localized resume fonction of this official in the language.
+	 *
+	 * @param resumeFonction the localized resume fonction of this official
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setResumeFonction(
+		String resumeFonction, java.util.Locale locale) {
+
+		model.setResumeFonction(resumeFonction, locale);
+	}
+
+	/**
+	 * Sets the localized resume fonction of this official in the language, and sets the default locale.
+	 *
+	 * @param resumeFonction the localized resume fonction of this official
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setResumeFonction(
+		String resumeFonction, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setResumeFonction(resumeFonction, locale, defaultLocale);
+	}
+
+	@Override
+	public void setResumeFonctionCurrentLanguageId(String languageId) {
+		model.setResumeFonctionCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized resume fonctions of this official from the map of locales and localized resume fonctions.
+	 *
+	 * @param resumeFonctionMap the locales and localized resume fonctions of this official
+	 */
+	@Override
+	public void setResumeFonctionMap(
+		Map<java.util.Locale, String> resumeFonctionMap) {
+
+		model.setResumeFonctionMap(resumeFonctionMap);
+	}
+
+	/**
+	 * Sets the localized resume fonctions of this official from the map of locales and localized resume fonctions, and sets the default locale.
+	 *
+	 * @param resumeFonctionMap the locales and localized resume fonctions of this official
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setResumeFonctionMap(
+		Map<java.util.Locale, String> resumeFonctionMap,
+		java.util.Locale defaultLocale) {
+
+		model.setResumeFonctionMap(resumeFonctionMap, defaultLocale);
 	}
 
 	/**

@@ -21,5 +21,7 @@ create table official_Official (
 	contact TEXT null,
 	orderDeputyMayor INTEGER,
 	orderVicePresident INTEGER,
+	listeContact VARCHAR(2000) null,
+	resumeFonction STRING null,
 	imageId LONG
 );

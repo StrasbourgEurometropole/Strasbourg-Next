@@ -33,9 +33,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <h1 class="st-h1 st-title">
                     ${entry.firstName} ${entry.lastName}
                 </h1>
-                <p class="st-role">
-                    ${entry.getName(entry.fonctionCity, locale)}
-                </p>
+                <#if entry.fonctionCity?has_content>
+                    <p class="st-role">
+                        ${entry.getName(entry.fonctionCity, locale)}
+                    </p>
+                </#if>
+
                 <p class="st-surtitre-cat">
                     ${entry.getName(entry.fonctionEurometropole, locale)}
                 </p>
@@ -131,10 +134,21 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 </p>
             </div>
             <div class="st-col-right">
-                <a href="mailto:${entry.firstName?lower_case?replace(" ", "-")}.${entry.lastName?lower_case?replace(" ", "-")}@strasbourg.eu" class="st-btn st--btn-secondary-ghost">
+                <a href="#st-overlay-contact" class="st-btn st--btn-secondary-ghost">
                     <@liferay_ui.message key="eu.contact-mail" />
                 </a>
             </div>
         </div>
     </div>
 </div>
+
+<#if entry.listeContact?has_content>
+    <@liferay_portlet.actionURL var="contactURL" name="contact">
+        <@liferay_portlet.param name="classPK" value="${entry.getOfficialId()}" />
+        <@liferay_portlet.param name="entityId" value="${entry.getOfficialId()}" />
+        <@liferay_portlet.param name="title" value="${entry.getFirstName()} ${entry.getLastName()}" />
+        <@liferay_portlet.param name="type" value="Official" />
+    </@liferay_portlet.actionURL>
+    <#assign overlayContactTitle="${entry.getFirstName()} ${entry.getLastName()}" />
+    <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/overlay-contact.ftl" />
+</#if>
