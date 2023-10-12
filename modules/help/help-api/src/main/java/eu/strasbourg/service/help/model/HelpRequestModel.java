@@ -339,8 +339,58 @@ public interface HelpRequestModel
 	 *
 	 * @return the message of this help request
 	 */
-	@AutoEscape
 	public String getMessage();
+
+	/**
+	 * Returns the localized message of this help request in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized message of this help request
+	 */
+	@AutoEscape
+	public String getMessage(Locale locale);
+
+	/**
+	 * Returns the localized message of this help request in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized message of this help request. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getMessage(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized message of this help request in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized message of this help request
+	 */
+	@AutoEscape
+	public String getMessage(String languageId);
+
+	/**
+	 * Returns the localized message of this help request in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized message of this help request
+	 */
+	@AutoEscape
+	public String getMessage(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getMessageCurrentLanguageId();
+
+	@AutoEscape
+	public String getMessageCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized messages of this help request.
+	 *
+	 * @return the locales and localized messages of this help request
+	 */
+	public Map<Locale, String> getMessageMap();
 
 	/**
 	 * Sets the message of this help request.
@@ -348,6 +398,41 @@ public interface HelpRequestModel
 	 * @param message the message of this help request
 	 */
 	public void setMessage(String message);
+
+	/**
+	 * Sets the localized message of this help request in the language.
+	 *
+	 * @param message the localized message of this help request
+	 * @param locale the locale of the language
+	 */
+	public void setMessage(String message, Locale locale);
+
+	/**
+	 * Sets the localized message of this help request in the language, and sets the default locale.
+	 *
+	 * @param message the localized message of this help request
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setMessage(String message, Locale locale, Locale defaultLocale);
+
+	public void setMessageCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized messages of this help request from the map of locales and localized messages.
+	 *
+	 * @param messageMap the locales and localized messages of this help request
+	 */
+	public void setMessageMap(Map<Locale, String> messageMap);
+
+	/**
+	 * Sets the localized messages of this help request from the map of locales and localized messages, and sets the default locale.
+	 *
+	 * @param messageMap the locales and localized messages of this help request
+	 * @param defaultLocale the default locale
+	 */
+	public void setMessageMap(
+		Map<Locale, String> messageMap, Locale defaultLocale);
 
 	/**
 	 * Returns the student card image ID of this help request.

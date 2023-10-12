@@ -714,12 +714,104 @@ public class HelpRequestModelImpl
 	}
 
 	@Override
+	public String getMessage(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getMessage(languageId);
+	}
+
+	@Override
+	public String getMessage(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getMessage(languageId, useDefault);
+	}
+
+	@Override
+	public String getMessage(String languageId) {
+		return LocalizationUtil.getLocalization(getMessage(), languageId);
+	}
+
+	@Override
+	public String getMessage(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getMessage(), languageId, useDefault);
+	}
+
+	@Override
+	public String getMessageCurrentLanguageId() {
+		return _messageCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getMessageCurrentValue() {
+		Locale locale = getLocale(_messageCurrentLanguageId);
+
+		return getMessage(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getMessageMap() {
+		return LocalizationUtil.getLocalizationMap(getMessage());
+	}
+
+	@Override
 	public void setMessage(String message) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
 
 		_message = message;
+	}
+
+	@Override
+	public void setMessage(String message, Locale locale) {
+		setMessage(message, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setMessage(
+		String message, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(message)) {
+			setMessage(
+				LocalizationUtil.updateLocalization(
+					getMessage(), "Message", message, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setMessage(
+				LocalizationUtil.removeLocalization(
+					getMessage(), "Message", languageId));
+		}
+	}
+
+	@Override
+	public void setMessageCurrentLanguageId(String languageId) {
+		_messageCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setMessageMap(Map<Locale, String> messageMap) {
+		setMessageMap(messageMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setMessageMap(
+		Map<Locale, String> messageMap, Locale defaultLocale) {
+
+		if (messageMap == null) {
+			return;
+		}
+
+		setMessage(
+			LocalizationUtil.updateLocalization(
+				messageMap, getMessage(), "Message",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -1031,6 +1123,17 @@ public class HelpRequestModelImpl
 	public String[] getAvailableLanguageIds() {
 		Set<String> availableLanguageIds = new TreeSet<String>();
 
+		Map<Locale, String> messageMap = getMessageMap();
+
+		for (Map.Entry<Locale, String> entry : messageMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
 		Map<Locale, String> commentMap = getCommentMap();
 
 		for (Map.Entry<Locale, String> entry : commentMap.entrySet()) {
@@ -1048,7 +1151,7 @@ public class HelpRequestModelImpl
 
 	@Override
 	public String getDefaultLanguageId() {
-		String xml = getComment();
+		String xml = getMessage();
 
 		if (xml == null) {
 			return "";
@@ -1082,6 +1185,15 @@ public class HelpRequestModelImpl
 		Locale defaultLocale = LocaleUtil.getSiteDefault();
 
 		String modelDefaultLanguageId = getDefaultLanguageId();
+
+		String message = getMessage(defaultLocale);
+
+		if (Validator.isNull(message)) {
+			setMessage(getMessage(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setMessage(getMessage(defaultLocale), defaultLocale, defaultLocale);
+		}
 
 		String comment = getComment(defaultLocale);
 
@@ -1444,6 +1556,7 @@ public class HelpRequestModelImpl
 	private long _helpProposalId;
 	private String _phoneNumber;
 	private String _message;
+	private String _messageCurrentLanguageId;
 	private long _studentCardImageId;
 	private boolean _agreementSigned1;
 	private boolean _agreementSigned2;
