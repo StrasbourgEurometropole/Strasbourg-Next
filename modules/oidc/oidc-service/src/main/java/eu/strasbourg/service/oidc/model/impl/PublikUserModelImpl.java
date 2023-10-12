@@ -18,7 +18,9 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.User;
@@ -26,8 +28,11 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.model.PublikUserModel;
@@ -43,8 +48,11 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -669,12 +677,108 @@ public class PublikUserModelImpl
 	}
 
 	@Override
+	public String getBanishDescription(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getBanishDescription(languageId);
+	}
+
+	@Override
+	public String getBanishDescription(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getBanishDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getBanishDescription(String languageId) {
+		return LocalizationUtil.getLocalization(
+			getBanishDescription(), languageId);
+	}
+
+	@Override
+	public String getBanishDescription(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getBanishDescription(), languageId, useDefault);
+	}
+
+	@Override
+	public String getBanishDescriptionCurrentLanguageId() {
+		return _banishDescriptionCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getBanishDescriptionCurrentValue() {
+		Locale locale = getLocale(_banishDescriptionCurrentLanguageId);
+
+		return getBanishDescription(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getBanishDescriptionMap() {
+		return LocalizationUtil.getLocalizationMap(getBanishDescription());
+	}
+
+	@Override
 	public void setBanishDescription(String banishDescription) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
 
 		_banishDescription = banishDescription;
+	}
+
+	@Override
+	public void setBanishDescription(String banishDescription, Locale locale) {
+		setBanishDescription(
+			banishDescription, locale, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setBanishDescription(
+		String banishDescription, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(banishDescription)) {
+			setBanishDescription(
+				LocalizationUtil.updateLocalization(
+					getBanishDescription(), "BanishDescription",
+					banishDescription, languageId, defaultLanguageId));
+		}
+		else {
+			setBanishDescription(
+				LocalizationUtil.removeLocalization(
+					getBanishDescription(), "BanishDescription", languageId));
+		}
+	}
+
+	@Override
+	public void setBanishDescriptionCurrentLanguageId(String languageId) {
+		_banishDescriptionCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setBanishDescriptionMap(
+		Map<Locale, String> banishDescriptionMap) {
+
+		setBanishDescriptionMap(banishDescriptionMap, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setBanishDescriptionMap(
+		Map<Locale, String> banishDescriptionMap, Locale defaultLocale) {
+
+		if (banishDescriptionMap == null) {
+			return;
+		}
+
+		setBanishDescription(
+			LocalizationUtil.updateLocalization(
+				banishDescriptionMap, getBanishDescription(),
+				"BanishDescription", LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -816,6 +920,77 @@ public class PublikUserModelImpl
 		ExpandoBridge expandoBridge = getExpandoBridge();
 
 		expandoBridge.setAttributes(serviceContext);
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		Set<String> availableLanguageIds = new TreeSet<String>();
+
+		Map<Locale, String> banishDescriptionMap = getBanishDescriptionMap();
+
+		for (Map.Entry<Locale, String> entry :
+				banishDescriptionMap.entrySet()) {
+
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		return availableLanguageIds.toArray(
+			new String[availableLanguageIds.size()]);
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		String xml = getBanishDescription();
+
+		if (xml == null) {
+			return "";
+		}
+
+		Locale defaultLocale = LocaleUtil.getDefault();
+
+		return LocalizationUtil.getDefaultLanguageId(xml, defaultLocale);
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException {
+		Locale defaultLocale = LocaleUtil.fromLanguageId(
+			getDefaultLanguageId());
+
+		Locale[] availableLocales = LocaleUtil.fromLanguageIds(
+			getAvailableLanguageIds());
+
+		Locale defaultImportLocale = LocalizationUtil.getDefaultImportLocale(
+			PublikUser.class.getName(), getPrimaryKey(), defaultLocale,
+			availableLocales);
+
+		prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
+	@SuppressWarnings("unused")
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException {
+
+		Locale defaultLocale = LocaleUtil.getDefault();
+
+		String modelDefaultLanguageId = getDefaultLanguageId();
+
+		String banishDescription = getBanishDescription(defaultLocale);
+
+		if (Validator.isNull(banishDescription)) {
+			setBanishDescription(
+				getBanishDescription(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setBanishDescription(
+				getBanishDescription(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
 	}
 
 	@Override
@@ -1220,6 +1395,7 @@ public class PublikUserModelImpl
 	private Date _pactSignature;
 	private Date _banishDate;
 	private String _banishDescription;
+	private String _banishDescriptionCurrentLanguageId;
 	private String _imageURL;
 	private boolean _pactDisplay;
 	private String _csmapJSON;

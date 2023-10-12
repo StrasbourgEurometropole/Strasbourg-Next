@@ -15,9 +15,13 @@
 package eu.strasbourg.service.oidc.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.LocalizedModel;
 
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -33,7 +37,7 @@ import org.osgi.annotation.versioning.ProviderType;
  * @generated
  */
 @ProviderType
-public interface PublikUserModel extends BaseModel<PublikUser> {
+public interface PublikUserModel extends BaseModel<PublikUser>, LocalizedModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -293,8 +297,58 @@ public interface PublikUserModel extends BaseModel<PublikUser> {
 	 *
 	 * @return the banish description of this publik user
 	 */
-	@AutoEscape
 	public String getBanishDescription();
+
+	/**
+	 * Returns the localized banish description of this publik user in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized banish description of this publik user
+	 */
+	@AutoEscape
+	public String getBanishDescription(Locale locale);
+
+	/**
+	 * Returns the localized banish description of this publik user in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized banish description of this publik user. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getBanishDescription(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized banish description of this publik user in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized banish description of this publik user
+	 */
+	@AutoEscape
+	public String getBanishDescription(String languageId);
+
+	/**
+	 * Returns the localized banish description of this publik user in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized banish description of this publik user
+	 */
+	@AutoEscape
+	public String getBanishDescription(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getBanishDescriptionCurrentLanguageId();
+
+	@AutoEscape
+	public String getBanishDescriptionCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized banish descriptions of this publik user.
+	 *
+	 * @return the locales and localized banish descriptions of this publik user
+	 */
+	public Map<Locale, String> getBanishDescriptionMap();
 
 	/**
 	 * Sets the banish description of this publik user.
@@ -302,6 +356,43 @@ public interface PublikUserModel extends BaseModel<PublikUser> {
 	 * @param banishDescription the banish description of this publik user
 	 */
 	public void setBanishDescription(String banishDescription);
+
+	/**
+	 * Sets the localized banish description of this publik user in the language.
+	 *
+	 * @param banishDescription the localized banish description of this publik user
+	 * @param locale the locale of the language
+	 */
+	public void setBanishDescription(String banishDescription, Locale locale);
+
+	/**
+	 * Sets the localized banish description of this publik user in the language, and sets the default locale.
+	 *
+	 * @param banishDescription the localized banish description of this publik user
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setBanishDescription(
+		String banishDescription, Locale locale, Locale defaultLocale);
+
+	public void setBanishDescriptionCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized banish descriptions of this publik user from the map of locales and localized banish descriptions.
+	 *
+	 * @param banishDescriptionMap the locales and localized banish descriptions of this publik user
+	 */
+	public void setBanishDescriptionMap(
+		Map<Locale, String> banishDescriptionMap);
+
+	/**
+	 * Sets the localized banish descriptions of this publik user from the map of locales and localized banish descriptions, and sets the default locale.
+	 *
+	 * @param banishDescriptionMap the locales and localized banish descriptions of this publik user
+	 * @param defaultLocale the default locale
+	 */
+	public void setBanishDescriptionMap(
+		Map<Locale, String> banishDescriptionMap, Locale defaultLocale);
 
 	/**
 	 * Returns the image url of this publik user.
@@ -396,6 +487,19 @@ public interface PublikUserModel extends BaseModel<PublikUser> {
 	 * @param lastUpdateTimeTopics the last update time topics of this publik user
 	 */
 	public void setLastUpdateTimeTopics(long lastUpdateTimeTopics);
+
+	@Override
+	public String[] getAvailableLanguageIds();
+
+	@Override
+	public String getDefaultLanguageId();
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException;
+
+	@Override
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException;
 
 	@Override
 	public PublikUser cloneWithOriginalValues();

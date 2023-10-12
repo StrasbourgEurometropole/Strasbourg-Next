@@ -83,7 +83,7 @@ public class EditCommentDisplayContext {
         if (this._comment == null) {
             _comment = this.getComment();
         }
-        return publikUser.getBanishDescription();
+        return publikUser.getBanishDescription(Locale.FRANCE);
     }
 
     public String getDefaultIndexes(int length) {

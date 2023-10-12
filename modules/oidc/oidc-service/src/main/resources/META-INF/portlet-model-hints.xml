@@ -56,7 +56,7 @@
 		</field>
 		<field name="pactSignature" type="Date" />
 		<field name="banishDate" type="Date" />
-		<field name="banishDescription" type="String">
+		<field localized="true" name="banishDescription" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="imageURL" type="String">

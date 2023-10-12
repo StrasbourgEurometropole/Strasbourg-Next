@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -11,6 +13,7 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -107,8 +110,9 @@ public class SavePublikUserActionCommand implements MVCActionCommand {
 				publikUser.setBanishDate(null);
 
 			// Description du bannissement
-			String banishDescription = ParamUtil.getString(request, "banishDescription");
-			publikUser.setBanishDescription(banishDescription);
+			Map<Locale, String> banishDescription = LocalizationUtil
+					.getLocalizationMap(request, "banishDescription");
+			publikUser.setBanishDescriptionMap(banishDescription);
 
 			_publikUserLocalService.updatePublikUser(publikUser, sc);
 
