@@ -33,6 +33,11 @@
 		}
 		.pro-meta {
 			position: relative;
+			justify-content: center;
+			.pro-meta-item {
+				display: flex;
+				align-items: center;
+			}
 			span {
 				@include ft($f_hx, 1em, 700, $c_txt);
 			}

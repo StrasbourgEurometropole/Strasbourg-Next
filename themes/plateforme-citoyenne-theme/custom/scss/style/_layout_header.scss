@@ -25,6 +25,10 @@ main {
 	z-index: 150;
 	@include addTransitionCurve();
 
+	.pro-wrapper-top-header {
+		background-color: #171C22;
+	}
+
 	&.menu-no-header {
 		box-shadow: 0px 0px 30px 4px rgba(0, 0, 0, 0.15);
 	}
@@ -681,7 +685,7 @@ main {
 									bottom: -26px;
 								}
 							}
-							@media screen and (max-width: 1200px) {
+							@media screen and (max-width: 1300px) {
 								font-size: 1em;
 								padding: 0 10px;
 							}
@@ -702,6 +706,7 @@ main {
 									text-decoration: underline;
 									text-underline-offset: 5px;
 									text-decoration-thickness: 3px;
+									background-color: transparent;
 								}
 							}
 						}

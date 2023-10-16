@@ -307,14 +307,14 @@ form{
 
 
 	.pro-form-submit{
-		padding: 25px 20px;
+		padding: 35px 20px;
 		text-align: center;
 		background: $c_dark;
 		border-top: 1px solid rgba($c_white,0.2);
 		button{
-			@include ft($f_hx, 0.938em, 700, $c_white, 22px);
+			@include ft($f_hx, 0.938em, 700, $c_dark, 22px);
 			@extend %appearance;
-			background: transparent;
+			background: $c_orange;
 			display: inline-block;
 			padding: 12px 0;
 			width: 100%;
@@ -326,7 +326,7 @@ form{
 			}
 			&:hover, &:focus{
 				background: $c_orange;
-				color: $c_dark;
+				color: $c_white;
 			}
 		}
 	}

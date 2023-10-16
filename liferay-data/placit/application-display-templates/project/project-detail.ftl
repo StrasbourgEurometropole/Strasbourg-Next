@@ -126,8 +126,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
         <!-- Bloc : entités liées -->
         <div class="pro-event-comming">
-            <a href="#pro-link-participation" title="Vers les participations de la page"><strong>${projectParticipations?size}</strong> Participation(s) en cours</a>
-            <a href="#pro-link-evenement" title="Vers les événements de la page"><strong>${projectEvents?size}</strong> Évènement(s) à venir</a>
+            <a href="#pro-link-participation" title="Vers les participations de la page"><strong>${projectParticipations?size}</strong> démarche(s) publiée(s)</a>
+            <a href="#pro-link-evenement" title="Vers les événements de la page"><strong>${projectEvents?size}</strong> évènement(s) à venir</a>
         </div>
 
         <!-- Bloc : contact -->

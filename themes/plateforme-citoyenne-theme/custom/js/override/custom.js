@@ -819,7 +819,7 @@ function createProject(project){
                     '</div>' +
                 '</a>' +
                 '<ul>' +
-                    '<li><a href="' + homeURL + project.detailURL + '#pro-link-participation" title="lien de la page" tabindex="-1">' + project.nbParticipations + ' Participation(s) en cours</a></li>' +
+                    '<li><a href="' + homeURL + project.detailURL + '#pro-link-participation" title="lien de la page" tabindex="-1">' + project.nbParticipations + ' démarche(s) publiée(s)</a></li>' +
                     '<li><a href="' + homeURL + project.detailURL + '#pro-link-evenement" title="lien de la page" tabindex="-1">' + project.nbEvents + ' Événement(s) à venir</a></li>' +
                 '</ul>' +
             '</div>' +

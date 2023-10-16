@@ -25685,7 +25685,7 @@ function createProject(project){
                     '</div>' +
                 '</a>' +
                 '<ul>' +
-                    '<li><a href="' + homeURL + project.detailURL + '#pro-link-participation" title="lien de la page" tabindex="-1">' + project.nbParticipations + ' Participation(s) en cours</a></li>' +
+                    '<li><a href="' + homeURL + project.detailURL + '#pro-link-participation" title="lien de la page" tabindex="-1">' + project.nbParticipations + ' démarche(s) publiée(s)</a></li>' +
                     '<li><a href="' + homeURL + project.detailURL + '#pro-link-evenement" title="lien de la page" tabindex="-1">' + project.nbEvents + ' Événement(s) à venir</a></li>' +
                 '</ul>' +
             '</div>' +
@@ -26796,7 +26796,7 @@ function adjusteSearch() {
 
 // Move Affiner la recherche on Tablet Portrait
 
-	if ($(window).width() < 992) {
+	if (window.innerWidth < 1100) {
 		$(".pro-inside-affine-search").prepend($('.pro-bloc-facette-participation'));
 		$('.pro-wrapper-nav').append($('.pro-top-header'));
 
@@ -26832,13 +26832,13 @@ document.addEventListener('orientationchange', function () {
 });
 
 function moveMenuOnResize(){
-	var wW = $(window).width();
-	if (wW < 992 && menuEmplacement == 0) {
+	var wW = window.innerWidth;
+	if (wW < 1100 && menuEmplacement == 0) {
 		menuEmplacement = 1;
 		$(".pro-inside-affine-search").prepend($('.pro-bloc-facette-participation'));
 		$('.pro-wrapper-nav').append($('.pro-top-header'));
 	}
-	if (wW >= 992 && menuEmplacement == 1) {
+	if (wW >= 1100 && menuEmplacement == 1) {
 		menuEmplacement = 0;
 		$('.pro-wrapper-aside').prepend($('.pro-bloc-facette-participation'));
 		$('.pro-wrapper-top-header').prepend($('.pro-top-header'));
@@ -27621,11 +27621,13 @@ $('.pro-btn-disabled').on('click', function (e) {
 // Pour les compteurs dans les pages de détail
 var textDiscover = $('.pro-compt').first().text();
 var textDiscoverWrapped = '';
+var isNumber = false;
 for (var i = 0; i != textDiscover.length; i++) {
-    if(textDiscover[i] == '0') {
+    if(textDiscover[i] == '0' && !isNumber) {
         textDiscoverWrapped += '<span style="color: #c5c6c8;">' + textDiscover[i] + '</span>';
     }
     else {
+        isNumber = true;
         textDiscoverWrapped += '<span>' + textDiscover[i] + '</span>';
     }
 
