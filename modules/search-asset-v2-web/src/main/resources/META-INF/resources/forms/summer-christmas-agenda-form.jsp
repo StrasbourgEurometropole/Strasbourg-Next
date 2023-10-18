@@ -8,7 +8,7 @@
 	<!-- Champ mots-clés -->
 	<div class="row form-group">
         <div class="mns-label-top">
-				<label><liferay-ui:message key="keywords" /></label>
+				<legend><liferay-ui:message key="keywords" /></legend>
 			</div>
         <div class="content">
             <input type="text" id="name" name="<portlet:namespace />keywords"
@@ -19,9 +19,9 @@
 	<!-- Champ date -->
 	<c:if test="${dc.dateField}">
 
-		<div class="row form-group date-selection">
+		<fieldset class="row form-group date-selection">
 			<div class="mns-label-top">
-				<label><liferay-ui:message key="eu.dates" /></label>
+				<legend><liferay-ui:message key="eu.dates" /></legend>
 			</div>
 
             <c:if test="${dc.displayDatesButtons}">
@@ -51,7 +51,7 @@
                 <input type="hidden" name="<portlet:namespace />toMonth" data-name="toMonth" value="${dc.toMonthIndex}" />
                 <input type="hidden" name="<portlet:namespace />toYear" data-name="toYear" value="${dc.toYear}" />
 			</span>
-		</div>
+		</fieldset>
 	</c:if>
 	
 	<!-- Vocabulaires -->
@@ -59,9 +59,9 @@
 		value="${fn:length(dc.vocabularies)}" />
 	<c:forEach items="${dc.vocabularies}" var="vocabulary"
 		varStatus="vocStatus">
-		<div class="row form-group">
+		<fieldset class="row form-group">
 			<div class="mns-label-top">
-				<label>${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}</label>
+				<legend>${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}</legend>
 				<div class="mns-expand-collapse expanded" data-checkboxes-id="${vocStatus.count}">
 					<div class="mns-filter-expand" ></div>
 					<div class="mns-filter-collapse"></div>
@@ -77,7 +77,7 @@
 						label="${category.getTitle(locale)}" />
 				</c:forEach>
 			</div>
-		</div>
+		</fieldset>
 	</c:forEach>
 
 	<div class="mns-submit">
