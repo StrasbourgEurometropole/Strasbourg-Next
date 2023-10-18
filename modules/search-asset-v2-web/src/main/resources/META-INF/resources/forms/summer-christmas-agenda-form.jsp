@@ -21,7 +21,7 @@
 
 		<fieldset class="row form-group date-selection">
 			<div class="mns-label-top">
-				<legend><liferay-ui:message key="eu.dates" /></legend>
+				<legend><liferay-ui:message key="eu.dates" /> (<liferay-ui:message key="eu.format.dates" />)</legend>
 			</div>
 
             <c:if test="${dc.displayDatesButtons}">
