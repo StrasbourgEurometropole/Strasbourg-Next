@@ -10,13 +10,13 @@
 <div class="container mns-top-10">
     <#list subtitle.siblings as sibling>
         <#if sibling?counter = 3 >
-            <img src="/o/christmas-2018-theme/images/parallax-deco-triangle.svg" alt="deco parallax" class="hidden-xs mns-para para-triangle" data-stellar-offset-parent="true" data-stellar-vertical-offset="-150" data-stellar-ratio="1.25" />
+            <img src="/o/christmas-2018-theme/images/parallax-deco-triangle.svg" alt="" class="hidden-xs mns-para para-triangle" data-stellar-offset-parent="true" data-stellar-vertical-offset="-150" data-stellar-ratio="1.25" />
         </#if>
         <#if sibling?counter = 7 >
-            <img src="/o/christmas-2018-theme/images/parallax-deco-beige.png" alt="deco parallax" class="hidden-xs mns-para para-elipse" data-stellar-offset-parent="true" data-stellar-vertical-offset="-150" data-stellar-ratio="1.25" width="396" height="399" />
+            <img src="/o/christmas-2018-theme/images/parallax-deco-beige.png" alt="" class="hidden-xs mns-para para-elipse" data-stellar-offset-parent="true" data-stellar-vertical-offset="-150" data-stellar-ratio="1.25" width="396" height="399" />
         </#if>
         <#if sibling?counter = 10 >
-            <img src="/o/christmas-2018-theme/images/deco-stars-grey.png" alt="deco parallax" class="hidden-xs mns-para para-stars" data-stellar-offset-parent="true" data-stellar-vertical-offset="-150" data-stellar-ratio="1.25" width="396" height="399" />
+            <img src="/o/christmas-2018-theme/images/deco-stars-grey.png" alt="" class="hidden-xs mns-para para-stars" data-stellar-offset-parent="true" data-stellar-vertical-offset="-150" data-stellar-ratio="1.25" width="396" height="399" />
         </#if>
         <#if sibling?counter % 2 != 0>
             <div class="row">
@@ -62,7 +62,7 @@
                     </div>
                     <div class="col-lg-7 col-md-6 col-sm-6 col-xs-12 pull-right order-1">
                         <#if sibling?counter = 1 >
-                            <img src="/o/christmas-2018-theme/images/deco-elipse-or.png" alt="deco elipse" width="232" height="232" class="deco-elipse-top-1" />
+                            <img src="/o/christmas-2018-theme/images/deco-elipse-or.png" alt="" width="232" height="232" class="deco-elipse-top-1" />
                         </#if>
                         <a href="${sibling.children[3].data}">
                             <span class="mns-badge badge-left">${sibling?counter}</span>
@@ -100,10 +100,10 @@
                 <#else >
                     <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12">
                         <#if sibling?counter = 8 >
-                            <img src="/o/christmas-2018-theme/images/deco-elipse-grey.png" alt="deco elipse" width="96" height="96" class="deco-elipse-top-8" />
+                            <img src="/o/christmas-2018-theme/images/deco-elipse-grey.png" alt="" width="96" height="96" class="deco-elipse-top-8" />
                         </#if>
                         <#if sibling?counter = 10 >
-                            <img src="/o/christmas-2018-theme/images/deco-elipse-beige.png" alt="deco elipse" width="96" height="96" class="deco-elipse-top-10" />
+                            <img src="/o/christmas-2018-theme/images/deco-elipse-beige.png" alt="" width="96" height="96" class="deco-elipse-top-10" />
                         </#if>
                         <a href="${sibling.children[3].data}">
                             <span class="mns-badge badge-right-top-small mns-medium">${sibling?counter}</span>

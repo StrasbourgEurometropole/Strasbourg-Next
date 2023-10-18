@@ -52,7 +52,7 @@
       </div>
       <div class="mns-content">
           <span class="mns-location">${lieu}</span>
-          <h3>${title}</h3>
+          <h3 role="heading" aria-level="2">${title}</h3>
           <span class="icon-chevron-thin-right"></span>
           <span class="basic-link"><@liferay_ui.message key="eu.discover" /></span>
       </div>

@@ -18,7 +18,7 @@
                 <a href="${subtitle.siblings[0].children[3].data}" class="link"><@liferay_ui.message key="eu.discover" /></a>
             </div>
             <div class="col-lg-7 col-md-6 col-sm-6 col-xs-12 pull-right order-1">
-                <img src="/o/christmas-2018-theme/images/deco-elipse-or.png" alt="deco elipse" width="232" height="232" class="deco-elipse-top-1" />
+                <img src="/o/christmas-2018-theme/images/deco-elipse-or.png" alt="" width="232" height="232" class="deco-elipse-top-1" />
                 <a href="#">
                     <span class="mns-badge badge-left">1</span>
                     <figure class="mns-wrapper-img mns-wrapper-img-top1">
@@ -48,7 +48,7 @@
         </div>
     </#if>
     <#if (subtitle.siblings?size > 2)>
-        <img src="/o/christmas-2018-theme/images/parallax-deco-triangle.svg" alt="deco parallax" class="hidden-xs mns-para para-triangle" data-stellar-offset-parent="true" data-stellar-vertical-offset="-150" data-stellar-ratio="1.25" />
+        <img src="/o/christmas-2018-theme/images/parallax-deco-triangle.svg" alt="" class="hidden-xs mns-para para-triangle" data-stellar-offset-parent="true" data-stellar-vertical-offset="-150" data-stellar-ratio="1.25" />
         <div class="row">
             <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12 order-2">
                 <span>${subtitle.siblings[2].data}</span>
@@ -125,7 +125,7 @@
         </div>
     </#if>
     <#if (subtitle.siblings?size > 6)>
-        <img src="/o/christmas-2018-theme/images/parallax-deco-beige.png" alt="deco parallax" class="hidden-xs mns-para para-elipse" data-stellar-offset-parent="true" data-stellar-vertical-offset="-150" data-stellar-ratio="1.25" width="396" height="399" />
+        <img src="/o/christmas-2018-theme/images/parallax-deco-beige.png" alt="" class="hidden-xs mns-para para-elipse" data-stellar-offset-parent="true" data-stellar-vertical-offset="-150" data-stellar-ratio="1.25" width="396" height="399" />
         <div class="row">
             <div class="col-lg-offset-1 col-lg-5 col-md-6 col-sm-6 col-xs-12 order-2">
                 <span>${subtitle.siblings[6].data}</span>
@@ -147,7 +147,7 @@
     <#if (subtitle.siblings?size > 7)>
         <div class="row">
             <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12">
-                <img src="/o/christmas-2018-theme/images/deco-elipse-grey.png" alt="deco elipse" width="96" height="96" class="deco-elipse-top-8" />
+                <img src="/o/christmas-2018-theme/images/deco-elipse-grey.png" alt="" width="96" height="96" class="deco-elipse-top-8" />
                 <a href="${subtitle.siblings[7].children[3].data}">
                     <span class="mns-badge badge-right-top-small mns-medium">8</span>
                     <figure class="mns-wrapper-img mns-wrapper-img-top8">
@@ -184,10 +184,10 @@
         </div>
     </#if>
     <#if (subtitle.siblings?size > 9)>
-        <img src="/o/christmas-2018-theme/images/deco-stars-grey.png" alt="deco parallax" class="hidden-xs mns-para para-stars" data-stellar-offset-parent="true" data-stellar-vertical-offset="-150" data-stellar-ratio="1.25" width="396" height="399" />
+        <img src="/o/christmas-2018-theme/images/deco-stars-grey.png" alt="" class="hidden-xs mns-para para-stars" data-stellar-offset-parent="true" data-stellar-vertical-offset="-150" data-stellar-ratio="1.25" width="396" height="399" />
         <div class="row">
             <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12">
-                <img src="/o/christmas-2018-theme/images/deco-elipse-beige.png" alt="deco elipse" width="96" height="96" class="deco-elipse-top-10" />
+                <img src="/o/christmas-2018-theme/images/deco-elipse-beige.png" alt="" width="96" height="96" class="deco-elipse-top-10" />
                 <a href="${subtitle.siblings[9].children[3].data}">
                     <span class="mns-badge badge-right-top-small mns-medium">10</span>
                     <figure class="mns-wrapper-img mns-wrapper-img-top8">
