@@ -179,6 +179,12 @@ if ($(window).width() >= 1025) {
     $('.mns-bloc-entry > div').mouseleave(function () {
         $(this).find('.caption').removeClass('open');
     });
+    $('.mns-bloc-entry > div a').on("focus",function () {
+        $(this).find('.caption').addClass('open');
+    });
+    $('.mns-bloc-entry > div a').on("focusout", function () {
+        $(this).find('.caption').removeClass('open');
+    });
 }
 
     $('.mns-expand-collapse').click(function(){
