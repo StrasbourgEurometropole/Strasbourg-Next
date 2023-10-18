@@ -2,7 +2,7 @@
 
 <liferay-portlet:actionURL varImpl="searchActionURL" />
 
-<main class="container">
+<div class="container">
 	<div class="search-asset-portlet-page">
 		<div class="search-asset-form">
 			<aui:form action="${searchActionURL}" method="get" name="fm" id="search-asset-form" cssClass="mns-view-filters">
@@ -150,4 +150,4 @@
 			<liferay-util:include page="/form-footers/${dc.searchForm}-form-footer.jsp" servletContext="<%=application %>" />
 		</div>
 	</div>
-</main>
+</div>
