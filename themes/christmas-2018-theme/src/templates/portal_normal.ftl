@@ -178,7 +178,7 @@
             <#include "${full_templates_path}/experientiel.ftl" />
         </#if>
     </header>
-    <main>
+    <div class="main">
        
             <#if selectable>
                 <@liferay_util["include"] page=content_include />
@@ -190,7 +190,7 @@
             </#if>
 
        
-    </main>
+    </div>
     
     <!-- Social Share sur chaque page - Apparait au moment du scroll de la page -->
     <div class="social-share">
