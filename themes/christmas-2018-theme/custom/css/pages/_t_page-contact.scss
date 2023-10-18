@@ -31,7 +31,7 @@
 		> div.form-group {
 			width: 48%;
 			float: left;
-			&:nth-child(even) {
+			&:nth-child(odd) {
 				margin-left: 4%;
 				@include mobile {
 					margin-left: 0;
@@ -49,6 +49,11 @@
 			}
 
 			&.mns-textarea {
+				width: 100%;
+				margin: 0;
+			}
+
+			&.message {
 				width: 100%;
 				margin: 0;
 				> span {

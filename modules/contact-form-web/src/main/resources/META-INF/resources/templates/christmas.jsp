@@ -17,8 +17,10 @@
 		            </p>
 	            </c:if>
 	            <liferay-portlet:actionURL name="contact" var="contactURL" />
-                <span><liferay-ui:message key="contact.required-fields" /></span>
 	            <form method="post" action="${contactURL}">
+	                <div class="form-group message">
+                        <span><liferay-ui:message key="contact.required-fields" /></span>
+	                </div>
 	                <div class="form-group">
 	                    <label for="lastName"><liferay-ui:message key="contact.lastname" /></label>
 	                    <input type="text" autocomplete="family-name" class="form-control" id="lastName" name="lastName" value="${param.lastName}" aria-label="<liferay-ui:message key='contact.your-lastname' />">
