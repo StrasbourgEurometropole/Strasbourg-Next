@@ -72,6 +72,8 @@ public class DeliberationIndexer extends BaseIndexer<Deliberation> {
         document.addNumber(Field.STATUS, deliberation.getStatus());
 
         document.addNumber("order", deliberation.getOrder());
+
+        document.addTextSortable("orderAmendement", deliberation.getOrder()+deliberation.getAmendement());
         return document;
     }
 
