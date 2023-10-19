@@ -8,7 +8,7 @@
 <div class="mns-page-experience">
     <div class="mns-header mns-header-fullpage">
         <figure class="fit-cover">
-                <img src="${page.expandoBridge.getAttribute('image')}" width="1600" height="900" alt="Détail d'une expérience">
+                <img src="${page.expandoBridge.getAttribute('image')}" width="1600" height="900" alt="">
             </figure>
             <div class="container mns-caption">
                 ${page.getDescription(locale)}
