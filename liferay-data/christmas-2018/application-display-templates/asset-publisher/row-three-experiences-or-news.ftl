@@ -12,7 +12,7 @@
                 <div class="mns-bloc-actu">
                     <a href="${viewURL}" style="min-height: 201px;">
                         <figure class="mns-bloc-top-img">
-                            <img src="${image}" alt="${title}" width="370" height="250">
+                            <img src="${image}" alt="" width="370" height="250">
                         </figure>
                     </a>
                 </div>

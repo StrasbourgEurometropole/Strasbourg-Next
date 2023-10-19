@@ -38,7 +38,7 @@
     <a href="${detailURLFilter}" class="mns-bloc-exp" style="min-height: 391px;">
       <div class="mns-img">
           <figure class="fit-cover">
-              <img src="${imageURL}" width="375" height="280" alt="${title}">
+              <img src="${imageURL}" width="375" height="280" alt="">
           </figure>
           <!-- <div class="mns-wrap-tag">
             <#list typeNoel as type>
