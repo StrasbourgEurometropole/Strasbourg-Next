@@ -59,7 +59,7 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
     private final String ERROR_INFO = "</br></br></br>  Le fichier doit avoir pour header exact  : ORDER;TITLE " +
-            "</br> Il doit y avoir deux colonnes s\u00e9par\u00e9es par un point-virgule et le fichier doit \u00eatre encod\u00e9 en UTF8 et l'extension doit \u00eatre csv";
+            "</br> Il doit y avoir deux colonnes s\u00e9par\u00e9es par un point-virgule et le fichier doit \u00eatre encod\u00e9 en Western-1252 et l'extension doit \u00eatre csv";
 
     private DeliberationLocalService deliberationLocalService;
 
@@ -91,7 +91,7 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
             }
 
             CSVFormat csvFileFormat = CSVFormat.DEFAULT.withHeader(DeliberationDataConstants.DELIBERATIONS_HEADER_MAPPING).withDelimiter(';');
-            CSVParser csvFileParser = CSVParser.parse(deliberationsCsv, StandardCharsets.UTF_8, csvFileFormat);
+            CSVParser csvFileParser = CSVParser.parse(deliberationsCsv, StandardCharsets.ISO_8859_1, csvFileFormat);
 
             List<Map<String, String>> recordsListMap = new ArrayList<>();
             List<CSVRecord> csvRecords = csvFileParser.getRecords();
