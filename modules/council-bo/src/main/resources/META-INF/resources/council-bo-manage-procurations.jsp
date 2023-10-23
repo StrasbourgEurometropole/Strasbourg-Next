@@ -541,10 +541,8 @@
                     },
                      on: {
                         complete: function(e) {
-                            var refreshTable = setTimeout(function(){
-                                spinner.style.display="none";
-                                procurationsTable.style.opacity=1;
-                            }, 300);
+                            spinner.style.display="none";
+                            procurationsTable.style.opacity=1;
                             var response = e.details[1].responseText;
                             if (response != "") {
                                 var data = JSON.parse(response);
