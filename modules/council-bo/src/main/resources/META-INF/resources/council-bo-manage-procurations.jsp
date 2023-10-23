@@ -569,6 +569,8 @@
     function saveProcuration (officialId) {
 
         event.preventDefault();
+        procurationsTable.style.opacity=0.5;
+        spinner.style.display="block";
 
         var councilSessionId = ${dc.councilSession.councilSessionId};
         var beneficiaryId = $("input[name=" + namespace + officialId + "-officialVotersId]")[0].value;
@@ -592,29 +594,33 @@
                     },
                      on: {
                         complete: function(e) {
-                        var response = e.details[1].responseText;
-                        if (response != "") {
-                            var data = JSON.parse(response);
-                            var dataError = JSON.stringify(data.error);
-                            if (typeof dataError !== "undefined") {
-                                if(data.error.length != 0) {
-                                    var errorInputSpan = $("span[name=" + "errorMessageInput]")[0];
-                                    var errorDiv = $("div[name=" + "errorDiv]")[0];
-                                    errorInputSpan.innerHTML=data.error.error;
-                                    errorDiv.style.display="flex";
+                            var refreshTable = setTimeout(function(){
+                                spinner.style.display="none";
+                                procurationsTable.style.opacity=1;
+                            }, 300);
+                            var response = e.details[1].responseText;
+                            if (response != "") {
+                                var data = JSON.parse(response);
+                                var dataError = JSON.stringify(data.error);
+                                if (typeof dataError !== "undefined") {
+                                    if(data.error.length != 0) {
+                                        var errorInputSpan = $("span[name=" + "errorMessageInput]")[0];
+                                        var errorDiv = $("div[name=" + "errorDiv]")[0];
+                                        errorInputSpan.innerHTML=data.error.error;
+                                        errorDiv.style.display="flex";
+                                    }
                                 }
-                            }
-                            var dataWarn = JSON.stringify(data.warn);
-                            if (typeof dataWarn !== "undefined") {
-                                if (dataWarn.length != 0) {
-                                    var warnInputSpan = $("span[name=" + "warnMessageInput]")[0];
-                                    var warnDiv = $("div[name=" + "warnDiv]")[0];
-                                    warnInputSpan.innerHTML=data.warn.warn;
-                                    warnDiv.style.display="flex";
+                                var dataWarn = JSON.stringify(data.warn);
+                                if (typeof dataWarn !== "undefined") {
+                                    if (dataWarn.length != 0) {
+                                        var warnInputSpan = $("span[name=" + "warnMessageInput]")[0];
+                                        var warnDiv = $("div[name=" + "warnDiv]")[0];
+                                        warnInputSpan.innerHTML=data.warn.warn;
+                                        warnDiv.style.display="flex";
+                                    }
                                 }
+                                $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value=data.procurationId;
                             }
-                            $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value=data.procurationId;
-                        }
 
                             $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', true);
                             $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', true);
