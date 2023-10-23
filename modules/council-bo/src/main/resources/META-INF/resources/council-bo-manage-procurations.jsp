@@ -396,68 +396,11 @@
 
 <%-- Script : permet l'affichage des alertes de validation d'action --%>
 <aui:script>
-    function getProcurations() {
-
+    var namespace = '_eu_strasbourg_portlet_council_CouncilBOPortlet_';
     var spinner = document.getElementById('loading');
     var procurationsTable = document.getElementById("procurations-table");
-    procurationsTable.style.opacity=0.5;
-    spinner.style.display="block";
-    var refreshTable = setTimeout(function(){
-        spinner.style.display="none";
-        procurationsTable.style.opacity=1;
-    }, 300);
 
-        AUI().use('aui-io-request', function(A) {
-            try {
-                A.io.request('${reloadProcurationsURL}', {
-                    method : 'POST',
-                    dataType: 'json',
-                    on: {
-                        complete: function(e) {
-                            var data = JSON.parse(e.details[1].responseText);
-                            Array.prototype.forEach.call(data.official, function(official, i){
-                                    var officialId = official.officialId;
-                                    if(official.hasProcuration==true){
-                                        $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value=official.procurationId;
-                                        $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex = official.procurationMode;
-                                        $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex = official.presential+1;
-                                        $("input[name=" + namespace + officialId + "-officialVoters]")[0].value=official.officialVoter;
-                                        $("input[name=" + namespace + officialId + "-autre]")[0].value=official.otherProcurationMode;
-                                        if ($("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex == 4) {
-                                            $("div[name=" + officialId + "-selectMode]")[0].style.display="none";
-                                            $("div[name=" + officialId + "-inputMode]")[0].style.display="block";
-                                        }
-                                        $("button[name="+ officialId + "-saveButton]")[0].style.display="none";
-                                        $("button[name="+ officialId + "-resetButton]")[0].style.display="none";
-                                        $("button[name="+ officialId + "-closeButton]")[0].style.display="inline-block";
-                                        $("button[name="+ officialId + "-editButton]")[0].style.display="none";
-                                        $("div[name="+ officialId + "-checkAbsent]")[0].style.display="block";
-                                    } else {
-                                        $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value='';
-                                        $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex = 0;
-                                        $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex = 0;
-                                        $("input[name=" + namespace + officialId + "-officialVoters]")[0].value='';
-                                        $("input[name=" + namespace + officialId + "-autre]")[0].value='';
-                                        $("div[name=" + officialId + "-inputMode]")[0].style.display="none";
-                                        $("button[name="+ officialId + "-saveButton]")[0].style.display="none";
-                                        $("button[name="+ officialId + "-resetButton]")[0].style.display="none";
-                                        $("button[name="+ officialId + "-closeButton]")[0].style.display="none";
-                                        $("button[name="+ officialId + "-editButton]")[0].style.display="inline-block";
-                                        $("div[name="+ officialId + "-checkAbsent]")[0].style.display="none";
-                                    }
-                            });
-                            document.getElementById(namespace+"editHidden").value=false;
-                        }
-                    }
-                });
-            }
-            catch(error) {
-                if(!(error instanceof TypeError)){
-                    console.log(error);
-                } else console.log("petite erreur sans importance")
-            }
-        });
-    }
+    var refreshCount = setInterval(refreshTab, 1000);
 
     function refreshTab() {
          var timeleft = document.getElementById("refreshTimerValue").innerHTML-1000;
@@ -480,10 +423,12 @@
             document.getElementById(namespace+"editHidden").value=true;
             getProcurations();
          }
-     }
+    }
 
-    var refreshCount = setInterval(refreshTab, 1000);
 
+    /**
+    * Ajout event au click sur le bouton de rechargement du tableau
+    */
     var reloadButton = document.getElementById("reloadButton");
     reloadButton.addEventListener("click", function() {
         var editValue =  document.getElementById(namespace+"editHidden");
@@ -495,25 +440,17 @@
         }
     }, false);
 
-	function <portlet:namespace />deleteEntity() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-this-entry" />')) {
-			window.location = '${deleteCouncilSessionURL}';
-		}
-	}
 
-
-    var namespace = '_eu_strasbourg_portlet_council_CouncilBOPortlet_';
     /**
-    * Lors du click sur le bouton save
+    * Ajout event au click du bouton 'enregistrer la procuration'
     */
     var allValidateButtons = document.getElementsByClassName("saveButton");
-
-    // Permet de passer des paramètres au bouton save
     var hiddenOfficialId = document.getElementById(namespace+"officalIdHidden");
     var saveValue = document.getElementById(namespace+"actionHidden");
-
     Array.prototype.forEach.call(allValidateButtons, function(el, i) {
         el.addEventListener("click", function(element) {
+
+            // Donne les paramètres de l'élu (x2), Si ça concerne TOUTES les procurations
             hiddenOfficialId.value = element.currentTarget.attributes["data-official-id"].value;
             saveValue.value = element.currentTarget.attributes["action"].value;
             var officialId = $(this).attr("name").replace(namespace,'').replace("-saveButton",'');
@@ -528,39 +465,47 @@
 
             refreshCount = setInterval(refreshTab, 1000);
         }, false);
-     });
+    });
 
-    // Permet de passer des paramètres au bouton close
+    /**
+    * Ajout event au click des boutons 'fermer la procuration'
+    */
     var allCloseButtons = document.getElementsByClassName("closeButton");
     var procurationId = document.getElementById(namespace+"procurationIdHidden");
-        Array.prototype.forEach.call(allCloseButtons, function(el, i) {
-            el.addEventListener("click", function(element) {
-                procurationId.value = element.currentTarget.attributes["procuration-id"].value;
-                var officialId = $(this).attr("name").replace(namespace,'').replace("-closeButton",'');
+    Array.prototype.forEach.call(allCloseButtons, function(el, i) {
+        el.addEventListener("click", function(element) {
 
-                if (window.confirm("Voulez-vous vraiment fermer cette procuration ?")) {
-                    closeProcuration(officialId);
+            // Donne les paramètres de la procuration à supprimer et l'élu
+            procurationId.value = element.currentTarget.attributes["procuration-id"].value;
+            var officialId = $(this).attr("name").replace(namespace,'').replace("-closeButton",'');
 
-                     var refreshClose = setInterval(function() {
-                     getProcurations();
-                     clearInterval(refreshClose);
-                    }, 1000);
-                }
-         }, false);
-      });
+            if (window.confirm("Voulez-vous vraiment fermer cette procuration ?")) {
+                closeProcuration(officialId);
 
-    // Permet de passer des paramètres au bouton closeAllProcurations
+                 var refreshClose = setInterval(function() {
+                 getProcurations();
+                 clearInterval(refreshClose);
+                }, 1000);
+            }
+     }, false);
+    });
+
+    /**
+    * Ajout event au click du bouton 'Fermer les procurations'
+    */
     var closeAllProcurationsButton = document.getElementById("closeAllProcurationsButton");
     var action = document.getElementById(namespace+"actionHidden");
     closeAllProcurationsButton.addEventListener("click", function(element) {
+
+        // Donne le paramètre qui précise la suppression de TOUTES les procurations
         action.value = element.currentTarget.attributes["action"].value;
 
         if (window.confirm("Voulez-vous vraiment fermer toutes les procurations ?")) {
             closeProcuration(null);
 
-             var refreshCloseAll = setInterval(function() {
-             getProcurations();
-             clearInterval(refreshCloseAll);
+            var refreshCloseAll = setInterval(function() {
+                 getProcurations();
+                 clearInterval(refreshCloseAll);
             }, 1000);
         } else {
             element.preventDefault();
@@ -642,70 +587,136 @@
 
      function closeProcuration(officialId) {
 
-             event.preventDefault();
+         event.preventDefault();
 
-             var councilSessionId = ${dc.councilSession.councilSessionId}
-             if (officialId != null) {
-                 var procurationId = document.getElementById(namespace+"procurationIdHidden").value;
-             } else {
-                 var action = document.getElementById(namespace+"actionHidden").value;
-             }
+         var councilSessionId = ${dc.councilSession.councilSessionId}
+         if (officialId != null) {
+             var procurationId = document.getElementById(namespace+"procurationIdHidden").value;
+         } else {
+             var action = document.getElementById(namespace+"actionHidden").value;
+         }
 
-             AUI().use('aui-io-request', function(A) {
-                     try {
-                         A.io.request('${closeProcurationURL}', {
-                             method : 'POST',
-                             dataType: 'json',
+         AUI().use('aui-io-request', function(A) {
+             try {
+                 A.io.request('${closeProcurationURL}', {
+                     method : 'POST',
+                     dataType: 'json',
 
-                             data:{
-                                 <portlet:namespace/>action: action,
-                                 <portlet:namespace/>officialId: officialId,
-                                 <portlet:namespace/>councilSessionId: councilSessionId,
-                                 <portlet:namespace/>procurationId: procurationId
-                             },
-                              on: {
-                                 complete: function(e) {
-                                 var response = e.details[1].responseText;
-                                 if (response != "") {
-                                     window.scrollTo(0, 0);
-                                     var data = JSON.parse(response);
+                     data:{
+                         <portlet:namespace/>action: action,
+                         <portlet:namespace/>officialId: officialId,
+                         <portlet:namespace/>councilSessionId: councilSessionId,
+                         <portlet:namespace/>procurationId: procurationId
+                     },
+                      on: {
+                         complete: function(e) {
+                             var response = e.details[1].responseText;
+                             if (response != "") {
+                                 window.scrollTo(0, 0);
+                                 var data = JSON.parse(response);
 
-                                    var dataError = JSON.stringify(data.error);
-                                    if (typeof dataError !== "undefined") {
-                                         if(data.error.length != 0) {
-                                             var errorInputSpan = $("span[name=" + "errorMessageInput]")[0];
-                                             var errorDiv = $("div[name=" + "errorDiv]")[0];
-                                             errorInputSpan.innerHTML=data.error.error;
-                                             errorDiv.style.display="flex";
-                                         }
+                                var dataError = JSON.stringify(data.error);
+                                if (typeof dataError !== "undefined") {
+                                     if(data.error.length != 0) {
+                                         var errorInputSpan = $("span[name=" + "errorMessageInput]")[0];
+                                         var errorDiv = $("div[name=" + "errorDiv]")[0];
+                                         errorInputSpan.innerHTML=data.error.error;
+                                         errorDiv.style.display="flex";
                                      }
-                                    var dataWarn = JSON.stringify(data.warn);
-                                    if ( dataWarn !== {} || typeof dataWarn !== "undefined") {
-                                         if (dataWarn.length != 0) {
-                                             var warnInputSpan = $("span[name=" + "warnMessageInput]")[0];
-                                             var warnDiv = $("div[name=" + "warnDiv]")[0];
-                                             warnInputSpan.innerHTML=data.warn.warn;
-                                             warnDiv.style.display="flex";
-                                         }
-                                    }
-                                 }
-                                     $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value='';
-                                     $("input[name=" + namespace + officialId + "-officialVotersId]")[0].value='';
-                                     $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', true);
-                                     $("div[name=" + officialId + "-selectMode]")[0].style.display="block";
-                                     $("div[name=" + officialId + "-inputMode]")[0].style.display="none";
-                                     $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', true);
-                                     $("input[name=" + namespace + officialId + "-officialVoters]").prop('disabled', true);
-                                     $("input[name=" + namespace + officialId + "-autre]").prop('disabled', true);
-                                 }
+                                }
+                                var dataWarn = JSON.stringify(data.warn);
+                                if ( dataWarn !== {} || typeof dataWarn !== "undefined") {
+                                     if (dataWarn.length != 0) {
+                                         var warnInputSpan = $("span[name=" + "warnMessageInput]")[0];
+                                         var warnDiv = $("div[name=" + "warnDiv]")[0];
+                                         warnInputSpan.innerHTML=data.warn.warn;
+                                         warnDiv.style.display="flex";
+                                     }
+                                }
                              }
-                         });
-                     }
-                     catch(error) {
-                         if(!(error instanceof TypeError)){
-                             console.log(error);
-                         } else console.log("petite erreur sans importance")
+                             $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value='';
+                             $("input[name=" + namespace + officialId + "-officialVotersId]")[0].value='';
+                             $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', true);
+                             $("div[name=" + officialId + "-selectMode]")[0].style.display="block";
+                             $("div[name=" + officialId + "-inputMode]")[0].style.display="none";
+                             $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', true);
+                             $("input[name=" + namespace + officialId + "-officialVoters]").prop('disabled', true);
+                             $("input[name=" + namespace + officialId + "-autre]").prop('disabled', true);
+                         }
                      }
                  });
-                 }
+             }
+             catch(error) {
+                 if(!(error instanceof TypeError)){
+                     console.log(error);
+                 } else console.log("petite erreur sans importance")
+             }
+         });
+     }
+
+    function getProcurations() {
+        procurationsTable.style.opacity=0.5;
+        spinner.style.display="block";
+        var refreshTable = setTimeout(function(){
+            spinner.style.display="none";
+            procurationsTable.style.opacity=1;
+        }, 300);
+
+        AUI().use('aui-io-request', function(A) {
+            try {
+                A.io.request('${reloadProcurationsURL}', {
+                    method : 'POST',
+                    dataType: 'json',
+                    on: {
+                        complete: function(e) {
+                            var data = JSON.parse(e.details[1].responseText);
+                            Array.prototype.forEach.call(data.official, function(official, i){
+                                var officialId = official.officialId;
+                                if(official.hasProcuration==true){
+                                    $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value=official.procurationId;
+                                    $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex = official.procurationMode;
+                                    $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex = official.presential+1;
+                                    $("input[name=" + namespace + officialId + "-officialVoters]")[0].value=official.officialVoter;
+                                    $("input[name=" + namespace + officialId + "-autre]")[0].value=official.otherProcurationMode;
+                                    if ($("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex == 4) {
+                                        $("div[name=" + officialId + "-selectMode]")[0].style.display="none";
+                                        $("div[name=" + officialId + "-inputMode]")[0].style.display="block";
+                                    }
+                                    $("button[name="+ officialId + "-saveButton]")[0].style.display="none";
+                                    $("button[name="+ officialId + "-resetButton]")[0].style.display="none";
+                                    $("button[name="+ officialId + "-closeButton]")[0].style.display="inline-block";
+                                    $("button[name="+ officialId + "-editButton]")[0].style.display="none";
+                                    $("div[name="+ officialId + "-checkAbsent]")[0].style.display="block";
+                                } else {
+                                    $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value='';
+                                    $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex = 0;
+                                    $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex = 0;
+                                    $("input[name=" + namespace + officialId + "-officialVoters]")[0].value='';
+                                    $("input[name=" + namespace + officialId + "-autre]")[0].value='';
+                                    $("div[name=" + officialId + "-inputMode]")[0].style.display="none";
+                                    $("button[name="+ officialId + "-saveButton]")[0].style.display="none";
+                                    $("button[name="+ officialId + "-resetButton]")[0].style.display="none";
+                                    $("button[name="+ officialId + "-closeButton]")[0].style.display="none";
+                                    $("button[name="+ officialId + "-editButton]")[0].style.display="inline-block";
+                                    $("div[name="+ officialId + "-checkAbsent]")[0].style.display="none";
+                                }
+                            });
+                            document.getElementById(namespace+"editHidden").value=false;
+                        }
+                    }
+                });
+            }
+            catch(error) {
+                if(!(error instanceof TypeError)){
+                    console.log(error);
+                } else console.log("petite erreur sans importance")
+            }
+        });
+    }
+
+	function <portlet:namespace />deleteEntity() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-this-entry" />')) {
+			window.location = '${deleteCouncilSessionURL}';
+		}
+	}
 </aui:script>
