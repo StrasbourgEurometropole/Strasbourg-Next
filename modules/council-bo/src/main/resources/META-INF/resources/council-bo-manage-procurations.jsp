@@ -142,6 +142,8 @@
                         </tr>
 
                         <c:set var="allActiveOfficials" value="${dc.getAllActiveOfficials()}" />
+                        <c:set var="allProcurationMode" value="${dc.getAllProcurationMode()}" />
+                        <c:set var="allProcurationPresential" value="${dc.getAllProcurationPresential()}" />
                         <c:forEach var="official" items="${allActiveOfficials}">
 
                             <c:set var="procuration" value="${dc.findAssociatedProcuration(official.officialId)}" />
@@ -184,8 +186,8 @@
                                     <div class="selectMode" id="selectMode" name="${official.officialId}-selectMode">
                                         <aui:select cssClass="modeSelect" id="modeSelect" name="${official.officialId}-modeSelect" disabled="true" >
                                             <aui:option selected="${empty procuration}"></aui:option>
-                                            <c:forEach items="${dc.getAllProcurationMode()}" var="procurationMode">
-                                                <aui:option value="${procurationMode.getId()}" selected="${dc.verifId(procuration.procurationMode, procurationMode.getId())}">${procurationMode.name}</aui:option>
+                                            <c:forEach items="${allProcurationMode}" var="procurationMode">
+                                                <aui:option value="${procurationMode.getId()}" selected="${procuration.procurationMode == procurationMode.getId()? true : false}">${procurationMode.name}</aui:option>
                                             </c:forEach>
                                         </aui:select>
                                     </div>
@@ -197,8 +199,8 @@
                                     <div class="selectMode">
                                         <aui:select cssClass="presentialSelect" id="presentialSelect" name="${official.officialId}-presentialSelect" disabled="true">
                                             <aui:option style="display: none" selected="${empty procuration}"></aui:option>
-                                                <c:forEach items="${dc.getAllProcurationPresential()}" var="presential">
-                                                    <aui:option value="${presential.getId()}" selected="${dc.verifId(procuration.presential, presential.getId())}">${presential.getName()}</aui:option>
+                                                <c:forEach items="${allProcurationPresential}" var="presential">
+                                                    <aui:option value="${presential.getId()}" selected="${procuration.presential == presential.getId()? true : false}">${presential.getName()}</aui:option>
                                                 </c:forEach>
                                         </aui:select>
                                     </div>
