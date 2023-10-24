@@ -18,6 +18,7 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -27,8 +28,11 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.project.model.SaisineObservatoire;
@@ -45,8 +49,11 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -781,12 +788,104 @@ public class SaisineObservatoireModelImpl
 	}
 
 	@Override
+	public String getDescription(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getDescription(languageId);
+	}
+
+	@Override
+	public String getDescription(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getDescription(String languageId) {
+		return LocalizationUtil.getLocalization(getDescription(), languageId);
+	}
+
+	@Override
+	public String getDescription(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getDescription(), languageId, useDefault);
+	}
+
+	@Override
+	public String getDescriptionCurrentLanguageId() {
+		return _descriptionCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getDescriptionCurrentValue() {
+		Locale locale = getLocale(_descriptionCurrentLanguageId);
+
+		return getDescription(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getDescriptionMap() {
+		return LocalizationUtil.getLocalizationMap(getDescription());
+	}
+
+	@Override
 	public void setDescription(String description) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
 
 		_description = description;
+	}
+
+	@Override
+	public void setDescription(String description, Locale locale) {
+		setDescription(description, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setDescription(
+		String description, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(description)) {
+			setDescription(
+				LocalizationUtil.updateLocalization(
+					getDescription(), "Description", description, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setDescription(
+				LocalizationUtil.removeLocalization(
+					getDescription(), "Description", languageId));
+		}
+	}
+
+	@Override
+	public void setDescriptionCurrentLanguageId(String languageId) {
+		_descriptionCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setDescriptionMap(Map<Locale, String> descriptionMap) {
+		setDescriptionMap(descriptionMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setDescriptionMap(
+		Map<Locale, String> descriptionMap, Locale defaultLocale) {
+
+		if (descriptionMap == null) {
+			return;
+		}
+
+		setDescription(
+			LocalizationUtil.updateLocalization(
+				descriptionMap, getDescription(), "Description",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -841,12 +940,104 @@ public class SaisineObservatoireModelImpl
 	}
 
 	@Override
+	public String getCityResponse(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getCityResponse(languageId);
+	}
+
+	@Override
+	public String getCityResponse(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getCityResponse(languageId, useDefault);
+	}
+
+	@Override
+	public String getCityResponse(String languageId) {
+		return LocalizationUtil.getLocalization(getCityResponse(), languageId);
+	}
+
+	@Override
+	public String getCityResponse(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getCityResponse(), languageId, useDefault);
+	}
+
+	@Override
+	public String getCityResponseCurrentLanguageId() {
+		return _cityResponseCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getCityResponseCurrentValue() {
+		Locale locale = getLocale(_cityResponseCurrentLanguageId);
+
+		return getCityResponse(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getCityResponseMap() {
+		return LocalizationUtil.getLocalizationMap(getCityResponse());
+	}
+
+	@Override
 	public void setCityResponse(String cityResponse) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
 
 		_cityResponse = cityResponse;
+	}
+
+	@Override
+	public void setCityResponse(String cityResponse, Locale locale) {
+		setCityResponse(cityResponse, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setCityResponse(
+		String cityResponse, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(cityResponse)) {
+			setCityResponse(
+				LocalizationUtil.updateLocalization(
+					getCityResponse(), "CityResponse", cityResponse, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setCityResponse(
+				LocalizationUtil.removeLocalization(
+					getCityResponse(), "CityResponse", languageId));
+		}
+	}
+
+	@Override
+	public void setCityResponseCurrentLanguageId(String languageId) {
+		_cityResponseCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setCityResponseMap(Map<Locale, String> cityResponseMap) {
+		setCityResponseMap(cityResponseMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setCityResponseMap(
+		Map<Locale, String> cityResponseMap, Locale defaultLocale) {
+
+		if (cityResponseMap == null) {
+			return;
+		}
+
+		setCityResponse(
+			LocalizationUtil.updateLocalization(
+				cityResponseMap, getCityResponse(), "CityResponse",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -1320,6 +1511,96 @@ public class SaisineObservatoireModelImpl
 		ExpandoBridge expandoBridge = getExpandoBridge();
 
 		expandoBridge.setAttributes(serviceContext);
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		Set<String> availableLanguageIds = new TreeSet<String>();
+
+		Map<Locale, String> descriptionMap = getDescriptionMap();
+
+		for (Map.Entry<Locale, String> entry : descriptionMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> cityResponseMap = getCityResponseMap();
+
+		for (Map.Entry<Locale, String> entry : cityResponseMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		return availableLanguageIds.toArray(
+			new String[availableLanguageIds.size()]);
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		String xml = getDescription();
+
+		if (xml == null) {
+			return "";
+		}
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		return LocalizationUtil.getDefaultLanguageId(xml, defaultLocale);
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException {
+		Locale defaultLocale = LocaleUtil.fromLanguageId(
+			getDefaultLanguageId());
+
+		Locale[] availableLocales = LocaleUtil.fromLanguageIds(
+			getAvailableLanguageIds());
+
+		Locale defaultImportLocale = LocalizationUtil.getDefaultImportLocale(
+			SaisineObservatoire.class.getName(), getPrimaryKey(), defaultLocale,
+			availableLocales);
+
+		prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
+	@SuppressWarnings("unused")
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException {
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		String modelDefaultLanguageId = getDefaultLanguageId();
+
+		String description = getDescription(defaultLocale);
+
+		if (Validator.isNull(description)) {
+			setDescription(
+				getDescription(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setDescription(
+				getDescription(defaultLocale), defaultLocale, defaultLocale);
+		}
+
+		String cityResponse = getCityResponse(defaultLocale);
+
+		if (Validator.isNull(cityResponse)) {
+			setCityResponse(
+				getCityResponse(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setCityResponse(
+				getCityResponse(defaultLocale), defaultLocale, defaultLocale);
+		}
 	}
 
 	@Override
@@ -1868,9 +2149,11 @@ public class SaisineObservatoireModelImpl
 	private Date _statusDate;
 	private String _title;
 	private String _description;
+	private String _descriptionCurrentLanguageId;
 	private String _placeTextArea;
 	private String _filesDownload;
 	private String _cityResponse;
+	private String _cityResponseCurrentLanguageId;
 	private String _projectTarget;
 	private String _otherMechanism;
 	private String _collectiveName;

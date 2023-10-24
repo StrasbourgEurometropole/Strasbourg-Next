@@ -89,7 +89,7 @@
 				<div class="pro-bloc-meta">
 					<span class="pro-soustitre"><span class="icon-ico-location"></span><strong>${currEntry.getDistrictLabel(locale)}</strong></span>
 				</div>
-				<div class="pro-bloc-display-desc"><p>${currEntry.description}</p></div>
+				<div class="pro-bloc-display-desc"><p>${currEntry.getDescription(locale)}</p></div>
 			</div>
 		</div>
 		

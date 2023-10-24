@@ -51,9 +51,9 @@
 					<aui:input type="hidden" name="descriptionValidatorInputHelper" value="placeholder">
 						<aui:validator name="custom" errorMessage="requested-description-error">
 							function (val, fieldNode, ruleValue) {
-							var validate = $('#_eu_strasbourg_portlet_agenda_AgendaBOPortlet_description_fr_FR').val().length > 0;
+							var validate = $('#_eu_strasbourg_portlet_project_ProjectBOPortlet_description_fr_FR').val().length > 0;
 							if (!validate) {
-							$("#_eu_strasbourg_portlet_agenda_AgendaBOPortlet_descriptionEditorContainer").get(0).scrollIntoView();
+							$("#_eu_strasbourg_portlet_project_ProjectBOPortlet_descriptionEditorContainer").get(0).scrollIntoView();
 							event.preventDefault();
 							}
 							return validate;
@@ -61,7 +61,7 @@
 						</aui:validator>
 					</aui:input>
 				</div>
-				
+
 				<%-- Selecteur : Image interne ou externe ? --%>
 				<label><input type="radio" value="internalImage" name="imageType" 
 					<c:if test="${(not empty dc.project.imageId and dc.project.imageId gt 0) or empty dc.project.externalImageURL }">checked</c:if>> Image interne</label><br>

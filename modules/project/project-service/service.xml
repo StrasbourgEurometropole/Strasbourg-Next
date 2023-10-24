@@ -30,14 +30,14 @@
 		<column name="externalImageURL" type="String" />
 		<column name="externalImageCopyright" type="String" />
 		<column name="opacityImage" type="double" />
-		<column name="description" type="String" />
+		<column name="description" type="String" localized="true"/>
 		<column name="detailURL" type="String" />
 
 		<!-- En bref -->
 		<column name="budget" type="String" />
 		<column name="label" type="String" />
 		<column name="duration" type="String" />
-		<column name="partners" type="String" />
+		<column name="partners" type="String" localized="true" />
 
 		<!-- Contact -->
 		<column name="contactName" type="String" />
@@ -107,10 +107,10 @@
 
 		<!-- Description -->
 		<column name="descriptionChapeau" type="String" />
-		<column name="descriptionBody" type="String" />
+		<column name="descriptionBody" type="String" localized="true" />
 
 		<!-- Lieux de consultation -->
-		<column name="consultationPlacesBody" type="String" />
+		<column name="consultationPlacesBody" type="String" localized="true" />
 
 		<!-- Links with other entities -->
 		<column name="imageId" type="long" />
@@ -288,7 +288,7 @@
 		<!-- main fields -->
 		<column name="title" type="String" />
 		<column name="summary" type="String" />
-		<column name="description" type="String" />
+		<column name="description" type="String" localized="true" />
 		<column name="placeTextArea" type="String" />
 		<column name="filesDownload" type="String" />
 		<column name="publicationDate" type="Date" />
@@ -368,10 +368,10 @@
 
 		<!-- main fields -->
 		<column name="title" type="String" />
-		<column name="description" type="String" />
+		<column name="description" type="String" localized="true" />
 		<column name="placeTextArea" type="String" />
 		<column name="filesDownload" type="String" />
-		<column name="cityResponse" type="String" />
+		<column name="cityResponse" type="String" localized="true" />
 		<column name="projectTarget" type="String" />
 		<column name="otherMechanism" type="String" />
 		<column name="collectiveName" type="String" />
@@ -508,7 +508,7 @@
 
 		<!-- Main fields -->
 		<column name="title" type="String" />
-		<column name="description" type="String" />
+		<column name="description" type="String" localized="true" />
 		<column name="placeTextArea" type="String" />
 		<column name="inTheNameOf" type="String" />
 
@@ -564,7 +564,7 @@
 		<column name="initiativeId" type="long" />
 		<column name="helpTypes" type="String" />
 		<column name="groupId" type="long" />
-		<column name="message" type="String" />
+		<column name="message" type="String" localized="true" />
 		<column name="helpDisplay" type="boolean" />
 
 		<!-- Finder methods -->
@@ -609,10 +609,10 @@
 		
 		<!-- main fields -->
 		<column name="title" type="String" />
-		<column name="description" type="String" />
+		<column name="description" type="String" localized="true" />
 		<column name="summary" type="String" />
 		<column name="budget" type="String" />
-		<column name="motif" type="String" />
+		<column name="motif" type="String" localized="true" />
 		<column name="placeTextArea" type="String" />
 		<column name="inTheNameOf" type="String" />
 
@@ -635,7 +635,7 @@
 		
 		<!-- coup de coeur -->
 		<column name="isCrush" type="boolean" />
-		<column name="crushComment" type="String" />
+		<column name="crushComment" type="String" localized="true" />
 
 		<!-- Links with other entities -->
 		<column name="publikId" type="String" />
@@ -702,7 +702,7 @@
 
 		<!-- main fields -->
 		<column name="title" type="String" />
-		<column name="description" type="String" />
+		<column name="description" type="String" localized="true" />
 		<column name="numberOfVote" type="long" />
 		<column name="isActive" type="boolean" />
 		

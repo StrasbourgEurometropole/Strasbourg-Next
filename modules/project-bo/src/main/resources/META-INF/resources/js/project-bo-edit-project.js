@@ -114,11 +114,14 @@ jQuery(function() {
 		jQuery('#place-' + index + ' .place-autocomplete-input-wrapper input').autocomplete(
 				options);
 	});
+
+	$(":submit").on('click', function(e) {
+		setConditionalValidators();
+	});
 });
 
 //Soumission du formulaire
 function submitForm(event) {
-	setConditionalValidators();
 	placeAutoFields.save(event.target);
 	timelineAutoFields.save(event.target);
 	return true;

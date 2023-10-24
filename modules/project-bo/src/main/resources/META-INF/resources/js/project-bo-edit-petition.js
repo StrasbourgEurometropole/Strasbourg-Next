@@ -102,11 +102,14 @@ jQuery(function() {
 				options);
 	});
 
+	$(":submit").on('click', function(e) {
+		setConditionalValidators();
+	});
+
 });
 
 //Soumission du formulaire
 function submitForm(event) {
-	setConditionalValidators();
 	placeAutoFields.save(event.target);
 	return true;
 }

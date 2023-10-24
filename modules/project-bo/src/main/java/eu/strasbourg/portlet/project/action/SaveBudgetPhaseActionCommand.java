@@ -4,12 +4,15 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -90,8 +93,9 @@ public class SaveBudgetPhaseActionCommand implements MVCActionCommand {
 			budgetPhase.setTitle(title);
 
 			// Description
-			String description = ParamUtil.getString(request, "description");
-			budgetPhase.setDescription(description);
+			Map<Locale, String> description = LocalizationUtil
+					.getLocalizationMap(request, "description");
+			budgetPhase.setDescriptionMap(description);
 
 			// ---------------------------------------------------------------
 			// -------------------------- Gestion de la phase ----------------
@@ -166,7 +170,7 @@ public class SaveBudgetPhaseActionCommand implements MVCActionCommand {
 		}
 		
 		// Description 
-		if (Validator.isNull(ParamUtil.getString(request, "description"))) {
+		if (Validator.isNull(ParamUtil.getString(request, "descriptionEditor"))) {
 			SessionErrors.add(request, "description-error");
 			isValid = false;
 		}

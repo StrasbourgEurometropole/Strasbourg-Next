@@ -374,6 +374,11 @@ public class BudgetParticipatifWrapper
 	}
 
 	@Override
+	public String[] getAvailableLanguageIds() {
+		return model.getAvailableLanguageIds();
+	}
+
+	@Override
 	public String getBPbuttonMessageState(
 		javax.servlet.http.HttpServletRequest request) {
 
@@ -619,6 +624,77 @@ public class BudgetParticipatifWrapper
 	}
 
 	/**
+	 * Returns the localized crush comment of this budget participatif in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized crush comment of this budget participatif
+	 */
+	@Override
+	public String getCrushComment(java.util.Locale locale) {
+		return model.getCrushComment(locale);
+	}
+
+	/**
+	 * Returns the localized crush comment of this budget participatif in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized crush comment of this budget participatif. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getCrushComment(java.util.Locale locale, boolean useDefault) {
+		return model.getCrushComment(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized crush comment of this budget participatif in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized crush comment of this budget participatif
+	 */
+	@Override
+	public String getCrushComment(String languageId) {
+		return model.getCrushComment(languageId);
+	}
+
+	/**
+	 * Returns the localized crush comment of this budget participatif in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized crush comment of this budget participatif
+	 */
+	@Override
+	public String getCrushComment(String languageId, boolean useDefault) {
+		return model.getCrushComment(languageId, useDefault);
+	}
+
+	@Override
+	public String getCrushCommentCurrentLanguageId() {
+		return model.getCrushCommentCurrentLanguageId();
+	}
+
+	@Override
+	public String getCrushCommentCurrentValue() {
+		return model.getCrushCommentCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized crush comments of this budget participatif.
+	 *
+	 * @return the locales and localized crush comments of this budget participatif
+	 */
+	@Override
+	public Map<java.util.Locale, String> getCrushCommentMap() {
+		return model.getCrushCommentMap();
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		return model.getDefaultLanguageId();
+	}
+
+	/**
 	 * Returns the description of this budget participatif.
 	 *
 	 * @return the description of this budget participatif
@@ -626,6 +702,72 @@ public class BudgetParticipatifWrapper
 	@Override
 	public String getDescription() {
 		return model.getDescription();
+	}
+
+	/**
+	 * Returns the localized description of this budget participatif in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized description of this budget participatif
+	 */
+	@Override
+	public String getDescription(java.util.Locale locale) {
+		return model.getDescription(locale);
+	}
+
+	/**
+	 * Returns the localized description of this budget participatif in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized description of this budget participatif. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getDescription(java.util.Locale locale, boolean useDefault) {
+		return model.getDescription(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized description of this budget participatif in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized description of this budget participatif
+	 */
+	@Override
+	public String getDescription(String languageId) {
+		return model.getDescription(languageId);
+	}
+
+	/**
+	 * Returns the localized description of this budget participatif in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized description of this budget participatif
+	 */
+	@Override
+	public String getDescription(String languageId, boolean useDefault) {
+		return model.getDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getDescriptionCurrentLanguageId() {
+		return model.getDescriptionCurrentLanguageId();
+	}
+
+	@Override
+	public String getDescriptionCurrentValue() {
+		return model.getDescriptionCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized descriptions of this budget participatif.
+	 *
+	 * @return the locales and localized descriptions of this budget participatif
+	 */
+	@Override
+	public Map<java.util.Locale, String> getDescriptionMap() {
+		return model.getDescriptionMap();
 	}
 
 	/**
@@ -762,6 +904,72 @@ public class BudgetParticipatifWrapper
 	@Override
 	public String getMotif() {
 		return model.getMotif();
+	}
+
+	/**
+	 * Returns the localized motif of this budget participatif in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized motif of this budget participatif
+	 */
+	@Override
+	public String getMotif(java.util.Locale locale) {
+		return model.getMotif(locale);
+	}
+
+	/**
+	 * Returns the localized motif of this budget participatif in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized motif of this budget participatif. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getMotif(java.util.Locale locale, boolean useDefault) {
+		return model.getMotif(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized motif of this budget participatif in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized motif of this budget participatif
+	 */
+	@Override
+	public String getMotif(String languageId) {
+		return model.getMotif(languageId);
+	}
+
+	/**
+	 * Returns the localized motif of this budget participatif in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized motif of this budget participatif
+	 */
+	@Override
+	public String getMotif(String languageId, boolean useDefault) {
+		return model.getMotif(languageId, useDefault);
+	}
+
+	@Override
+	public String getMotifCurrentLanguageId() {
+		return model.getMotifCurrentLanguageId();
+	}
+
+	@Override
+	public String getMotifCurrentValue() {
+		return model.getMotifCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized motifs of this budget participatif.
+	 *
+	 * @return the locales and localized motifs of this budget participatif
+	 */
+	@Override
+	public Map<java.util.Locale, String> getMotifMap() {
+		return model.getMotifMap();
 	}
 
 	/**
@@ -1253,6 +1461,21 @@ public class BudgetParticipatifWrapper
 		model.persist();
 	}
 
+	@Override
+	public void prepareLocalizedFieldsForImport()
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport(
+			java.util.Locale defaultImportLocale)
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
 	/**
 	 * Remplace le statut bp actuel par celui fournis en paramètre de la méthode
 	 *
@@ -1420,6 +1643,63 @@ public class BudgetParticipatifWrapper
 	}
 
 	/**
+	 * Sets the localized crush comment of this budget participatif in the language.
+	 *
+	 * @param crushComment the localized crush comment of this budget participatif
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setCrushComment(String crushComment, java.util.Locale locale) {
+		model.setCrushComment(crushComment, locale);
+	}
+
+	/**
+	 * Sets the localized crush comment of this budget participatif in the language, and sets the default locale.
+	 *
+	 * @param crushComment the localized crush comment of this budget participatif
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setCrushComment(
+		String crushComment, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setCrushComment(crushComment, locale, defaultLocale);
+	}
+
+	@Override
+	public void setCrushCommentCurrentLanguageId(String languageId) {
+		model.setCrushCommentCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized crush comments of this budget participatif from the map of locales and localized crush comments.
+	 *
+	 * @param crushCommentMap the locales and localized crush comments of this budget participatif
+	 */
+	@Override
+	public void setCrushCommentMap(
+		Map<java.util.Locale, String> crushCommentMap) {
+
+		model.setCrushCommentMap(crushCommentMap);
+	}
+
+	/**
+	 * Sets the localized crush comments of this budget participatif from the map of locales and localized crush comments, and sets the default locale.
+	 *
+	 * @param crushCommentMap the locales and localized crush comments of this budget participatif
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setCrushCommentMap(
+		Map<java.util.Locale, String> crushCommentMap,
+		java.util.Locale defaultLocale) {
+
+		model.setCrushCommentMap(crushCommentMap, defaultLocale);
+	}
+
+	/**
 	 * Sets the description of this budget participatif.
 	 *
 	 * @param description the description of this budget participatif
@@ -1427,6 +1707,63 @@ public class BudgetParticipatifWrapper
 	@Override
 	public void setDescription(String description) {
 		model.setDescription(description);
+	}
+
+	/**
+	 * Sets the localized description of this budget participatif in the language.
+	 *
+	 * @param description the localized description of this budget participatif
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setDescription(String description, java.util.Locale locale) {
+		model.setDescription(description, locale);
+	}
+
+	/**
+	 * Sets the localized description of this budget participatif in the language, and sets the default locale.
+	 *
+	 * @param description the localized description of this budget participatif
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setDescription(
+		String description, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setDescription(description, locale, defaultLocale);
+	}
+
+	@Override
+	public void setDescriptionCurrentLanguageId(String languageId) {
+		model.setDescriptionCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized descriptions of this budget participatif from the map of locales and localized descriptions.
+	 *
+	 * @param descriptionMap the locales and localized descriptions of this budget participatif
+	 */
+	@Override
+	public void setDescriptionMap(
+		Map<java.util.Locale, String> descriptionMap) {
+
+		model.setDescriptionMap(descriptionMap);
+	}
+
+	/**
+	 * Sets the localized descriptions of this budget participatif from the map of locales and localized descriptions, and sets the default locale.
+	 *
+	 * @param descriptionMap the locales and localized descriptions of this budget participatif
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setDescriptionMap(
+		Map<java.util.Locale, String> descriptionMap,
+		java.util.Locale defaultLocale) {
+
+		model.setDescriptionMap(descriptionMap, defaultLocale);
 	}
 
 	/**
@@ -1517,6 +1854,60 @@ public class BudgetParticipatifWrapper
 	@Override
 	public void setMotif(String motif) {
 		model.setMotif(motif);
+	}
+
+	/**
+	 * Sets the localized motif of this budget participatif in the language.
+	 *
+	 * @param motif the localized motif of this budget participatif
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setMotif(String motif, java.util.Locale locale) {
+		model.setMotif(motif, locale);
+	}
+
+	/**
+	 * Sets the localized motif of this budget participatif in the language, and sets the default locale.
+	 *
+	 * @param motif the localized motif of this budget participatif
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setMotif(
+		String motif, java.util.Locale locale, java.util.Locale defaultLocale) {
+
+		model.setMotif(motif, locale, defaultLocale);
+	}
+
+	@Override
+	public void setMotifCurrentLanguageId(String languageId) {
+		model.setMotifCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized motifs of this budget participatif from the map of locales and localized motifs.
+	 *
+	 * @param motifMap the locales and localized motifs of this budget participatif
+	 */
+	@Override
+	public void setMotifMap(Map<java.util.Locale, String> motifMap) {
+		model.setMotifMap(motifMap);
+	}
+
+	/**
+	 * Sets the localized motifs of this budget participatif from the map of locales and localized motifs, and sets the default locale.
+	 *
+	 * @param motifMap the locales and localized motifs of this budget participatif
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setMotifMap(
+		Map<java.util.Locale, String> motifMap,
+		java.util.Locale defaultLocale) {
+
+		model.setMotifMap(motifMap, defaultLocale);
 	}
 
 	/**

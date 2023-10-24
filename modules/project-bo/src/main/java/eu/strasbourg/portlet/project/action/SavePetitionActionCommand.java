@@ -10,6 +10,7 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -30,6 +31,8 @@ import javax.portlet.PortletURL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 @Component(
 	immediate = true,
@@ -95,7 +98,8 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			Long imageId = ParamUtil.getLong(request, "imageId");
 			String externalImageURL = ParamUtil.getString(request, "externalImageURL");
 			String externalImageCopyright = ParamUtil.getString(request, "externalImageCopyright");
-			String description = ParamUtil.getString(request, "description");
+			Map<Locale, String> description = LocalizationUtil
+					.getLocalizationMap(request, "description");
 			String summary = ParamUtil.getString(request, "summary");
 			Boolean isSupported = ParamUtil.getBoolean(request, "isSupported");
 			String supportedBy = ParamUtil.getString(request, "supportedBy");
@@ -163,7 +167,7 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			// -------------------------- DESCRIPTION ------------------------
 			// ---------------------------------------------------------------
 
-			petition.setDescription(description);
+			petition.setDescriptionMap(description);
 
 			// ---------------------------------------------------------------
 			// -------------------------- SUMMARY ----------------------------

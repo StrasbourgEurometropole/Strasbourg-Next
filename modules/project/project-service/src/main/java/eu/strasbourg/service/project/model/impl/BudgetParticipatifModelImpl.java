@@ -19,6 +19,7 @@ import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -29,9 +30,12 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.project.model.BudgetParticipatif;
@@ -48,8 +52,11 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -873,12 +880,104 @@ public class BudgetParticipatifModelImpl
 	}
 
 	@Override
+	public String getDescription(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getDescription(languageId);
+	}
+
+	@Override
+	public String getDescription(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getDescription(String languageId) {
+		return LocalizationUtil.getLocalization(getDescription(), languageId);
+	}
+
+	@Override
+	public String getDescription(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getDescription(), languageId, useDefault);
+	}
+
+	@Override
+	public String getDescriptionCurrentLanguageId() {
+		return _descriptionCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getDescriptionCurrentValue() {
+		Locale locale = getLocale(_descriptionCurrentLanguageId);
+
+		return getDescription(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getDescriptionMap() {
+		return LocalizationUtil.getLocalizationMap(getDescription());
+	}
+
+	@Override
 	public void setDescription(String description) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
 
 		_description = description;
+	}
+
+	@Override
+	public void setDescription(String description, Locale locale) {
+		setDescription(description, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setDescription(
+		String description, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(description)) {
+			setDescription(
+				LocalizationUtil.updateLocalization(
+					getDescription(), "Description", description, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setDescription(
+				LocalizationUtil.removeLocalization(
+					getDescription(), "Description", languageId));
+		}
+	}
+
+	@Override
+	public void setDescriptionCurrentLanguageId(String languageId) {
+		_descriptionCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setDescriptionMap(Map<Locale, String> descriptionMap) {
+		setDescriptionMap(descriptionMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setDescriptionMap(
+		Map<Locale, String> descriptionMap, Locale defaultLocale) {
+
+		if (descriptionMap == null) {
+			return;
+		}
+
+		setDescription(
+			LocalizationUtil.updateLocalization(
+				descriptionMap, getDescription(), "Description",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -933,12 +1032,101 @@ public class BudgetParticipatifModelImpl
 	}
 
 	@Override
+	public String getMotif(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getMotif(languageId);
+	}
+
+	@Override
+	public String getMotif(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getMotif(languageId, useDefault);
+	}
+
+	@Override
+	public String getMotif(String languageId) {
+		return LocalizationUtil.getLocalization(getMotif(), languageId);
+	}
+
+	@Override
+	public String getMotif(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getMotif(), languageId, useDefault);
+	}
+
+	@Override
+	public String getMotifCurrentLanguageId() {
+		return _motifCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getMotifCurrentValue() {
+		Locale locale = getLocale(_motifCurrentLanguageId);
+
+		return getMotif(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getMotifMap() {
+		return LocalizationUtil.getLocalizationMap(getMotif());
+	}
+
+	@Override
 	public void setMotif(String motif) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
 
 		_motif = motif;
+	}
+
+	@Override
+	public void setMotif(String motif, Locale locale) {
+		setMotif(motif, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setMotif(String motif, Locale locale, Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(motif)) {
+			setMotif(
+				LocalizationUtil.updateLocalization(
+					getMotif(), "Motif", motif, languageId, defaultLanguageId));
+		}
+		else {
+			setMotif(
+				LocalizationUtil.removeLocalization(
+					getMotif(), "Motif", languageId));
+		}
+	}
+
+	@Override
+	public void setMotifCurrentLanguageId(String languageId) {
+		_motifCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setMotifMap(Map<Locale, String> motifMap) {
+		setMotifMap(motifMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setMotifMap(
+		Map<Locale, String> motifMap, Locale defaultLocale) {
+
+		if (motifMap == null) {
+			return;
+		}
+
+		setMotif(
+			LocalizationUtil.updateLocalization(
+				motifMap, getMotif(), "Motif",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -1265,12 +1453,104 @@ public class BudgetParticipatifModelImpl
 	}
 
 	@Override
+	public String getCrushComment(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getCrushComment(languageId);
+	}
+
+	@Override
+	public String getCrushComment(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getCrushComment(languageId, useDefault);
+	}
+
+	@Override
+	public String getCrushComment(String languageId) {
+		return LocalizationUtil.getLocalization(getCrushComment(), languageId);
+	}
+
+	@Override
+	public String getCrushComment(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getCrushComment(), languageId, useDefault);
+	}
+
+	@Override
+	public String getCrushCommentCurrentLanguageId() {
+		return _crushCommentCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getCrushCommentCurrentValue() {
+		Locale locale = getLocale(_crushCommentCurrentLanguageId);
+
+		return getCrushComment(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getCrushCommentMap() {
+		return LocalizationUtil.getLocalizationMap(getCrushComment());
+	}
+
+	@Override
 	public void setCrushComment(String crushComment) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
 
 		_crushComment = crushComment;
+	}
+
+	@Override
+	public void setCrushComment(String crushComment, Locale locale) {
+		setCrushComment(crushComment, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setCrushComment(
+		String crushComment, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(crushComment)) {
+			setCrushComment(
+				LocalizationUtil.updateLocalization(
+					getCrushComment(), "CrushComment", crushComment, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setCrushComment(
+				LocalizationUtil.removeLocalization(
+					getCrushComment(), "CrushComment", languageId));
+		}
+	}
+
+	@Override
+	public void setCrushCommentCurrentLanguageId(String languageId) {
+		_crushCommentCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setCrushCommentMap(Map<Locale, String> crushCommentMap) {
+		setCrushCommentMap(crushCommentMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setCrushCommentMap(
+		Map<Locale, String> crushCommentMap, Locale defaultLocale) {
+
+		if (crushCommentMap == null) {
+			return;
+		}
+
+		setCrushComment(
+			LocalizationUtil.updateLocalization(
+				crushCommentMap, getCrushComment(), "CrushComment",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -1509,6 +1789,116 @@ public class BudgetParticipatifModelImpl
 		ExpandoBridge expandoBridge = getExpandoBridge();
 
 		expandoBridge.setAttributes(serviceContext);
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		Set<String> availableLanguageIds = new TreeSet<String>();
+
+		Map<Locale, String> descriptionMap = getDescriptionMap();
+
+		for (Map.Entry<Locale, String> entry : descriptionMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> motifMap = getMotifMap();
+
+		for (Map.Entry<Locale, String> entry : motifMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> crushCommentMap = getCrushCommentMap();
+
+		for (Map.Entry<Locale, String> entry : crushCommentMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		return availableLanguageIds.toArray(
+			new String[availableLanguageIds.size()]);
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		String xml = getDescription();
+
+		if (xml == null) {
+			return "";
+		}
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		return LocalizationUtil.getDefaultLanguageId(xml, defaultLocale);
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException {
+		Locale defaultLocale = LocaleUtil.fromLanguageId(
+			getDefaultLanguageId());
+
+		Locale[] availableLocales = LocaleUtil.fromLanguageIds(
+			getAvailableLanguageIds());
+
+		Locale defaultImportLocale = LocalizationUtil.getDefaultImportLocale(
+			BudgetParticipatif.class.getName(), getPrimaryKey(), defaultLocale,
+			availableLocales);
+
+		prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
+	@SuppressWarnings("unused")
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException {
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		String modelDefaultLanguageId = getDefaultLanguageId();
+
+		String description = getDescription(defaultLocale);
+
+		if (Validator.isNull(description)) {
+			setDescription(
+				getDescription(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setDescription(
+				getDescription(defaultLocale), defaultLocale, defaultLocale);
+		}
+
+		String motif = getMotif(defaultLocale);
+
+		if (Validator.isNull(motif)) {
+			setMotif(getMotif(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setMotif(getMotif(defaultLocale), defaultLocale, defaultLocale);
+		}
+
+		String crushComment = getCrushComment(defaultLocale);
+
+		if (Validator.isNull(crushComment)) {
+			setCrushComment(
+				getCrushComment(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setCrushComment(
+				getCrushComment(defaultLocale), defaultLocale, defaultLocale);
+		}
 	}
 
 	@Override
@@ -2050,9 +2440,11 @@ public class BudgetParticipatifModelImpl
 	private Date _statusDate;
 	private String _title;
 	private String _description;
+	private String _descriptionCurrentLanguageId;
 	private String _summary;
 	private String _budget;
 	private String _motif;
+	private String _motifCurrentLanguageId;
 	private String _placeTextArea;
 	private String _inTheNameOf;
 	private String _citoyenLastname;
@@ -2070,6 +2462,7 @@ public class BudgetParticipatifModelImpl
 	private double _opacityImage;
 	private boolean _isCrush;
 	private String _crushComment;
+	private String _crushCommentCurrentLanguageId;
 	private String _publikId;
 	private long _imageId;
 	private String _filesIds;

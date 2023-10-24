@@ -13,6 +13,7 @@ import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.template.*;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -91,8 +92,9 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			project.setTitle(title);
 
 			// Description
-			String description = ParamUtil.getString(request, "description");
-			project.setDescription(description);
+			Map<Locale, String> description = LocalizationUtil
+					.getLocalizationMap(request, "description");
+			project.setDescriptionMap(description);
 
 			// Image
 			Long imageId = ParamUtil.getLong(request, "imageId");
@@ -134,8 +136,9 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			project.setDuration(duration);
 
 			// Partenaires
-			String partners = ParamUtil.getString(request, "partners");
-			project.setPartners(partners);
+			Map<Locale, String> partners = LocalizationUtil
+					.getLocalizationMap(request, "partners");
+			project.setPartnersMap(partners);
 
 			// ---------------------------------------------------------------
 			// -------------------------- CONTACT ----------------------------
@@ -370,7 +373,7 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 		}
 
 		// Description
-		if (Validator.isNull(ParamUtil.getString(request, "description"))) {
+		if (Validator.isNull(ParamUtil.getString(request, "descriptionEditor"))) {
 			SessionErrors.add(request, "description-error");
 			isValid = false;
 		}

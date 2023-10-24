@@ -17,6 +17,7 @@
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveBudgetPhase" varImpl="saveBudgetPhaseURL">
 	<portlet:param name="tab" value="budget-phases" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <%-- Composant : Body --%>

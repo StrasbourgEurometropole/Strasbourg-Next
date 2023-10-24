@@ -48,7 +48,7 @@
 <#-- Liste des infos a partager -->
 <#assign openGraph = {
 "og:title":"${entry.title?html}",
-"og:description":'${entry.description?replace("<[^>]*>", "", "r")?html}', 
+"og:description":'${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}',
 "og:image":"${imageUrlOG}"
 } />
 <#-- partage de la configuration open graph dans la request -->
@@ -149,7 +149,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 								<!-- Description -->
 								<div role="tabpanel" class="tab-pane fade in active pro-bloc-texte" id="description">
-									<p>${entry.description}</p>
+									<p>${entry.getDescription(locale)}</p>
 								</div>
 								<#if entry.filesIds?has_content>
 									<div class="pro-bloc-texte pro-bloc-telechargements">

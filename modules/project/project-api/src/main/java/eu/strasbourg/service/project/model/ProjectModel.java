@@ -15,13 +15,17 @@
 package eu.strasbourg.service.project.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.GroupedModel;
+import com.liferay.portal.kernel.model.LocalizedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.StagedAuditedModel;
 import com.liferay.portal.kernel.model.WorkflowedModel;
 
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -38,8 +42,8 @@ import org.osgi.annotation.versioning.ProviderType;
  */
 @ProviderType
 public interface ProjectModel
-	extends BaseModel<Project>, GroupedModel, ShardedModel, StagedAuditedModel,
-			WorkflowedModel {
+	extends BaseModel<Project>, GroupedModel, LocalizedModel, ShardedModel,
+			StagedAuditedModel, WorkflowedModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -350,8 +354,58 @@ public interface ProjectModel
 	 *
 	 * @return the description of this project
 	 */
-	@AutoEscape
 	public String getDescription();
+
+	/**
+	 * Returns the localized description of this project in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized description of this project
+	 */
+	@AutoEscape
+	public String getDescription(Locale locale);
+
+	/**
+	 * Returns the localized description of this project in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized description of this project. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getDescription(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized description of this project in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized description of this project
+	 */
+	@AutoEscape
+	public String getDescription(String languageId);
+
+	/**
+	 * Returns the localized description of this project in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized description of this project
+	 */
+	@AutoEscape
+	public String getDescription(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getDescriptionCurrentLanguageId();
+
+	@AutoEscape
+	public String getDescriptionCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized descriptions of this project.
+	 *
+	 * @return the locales and localized descriptions of this project
+	 */
+	public Map<Locale, String> getDescriptionMap();
 
 	/**
 	 * Sets the description of this project.
@@ -359,6 +413,42 @@ public interface ProjectModel
 	 * @param description the description of this project
 	 */
 	public void setDescription(String description);
+
+	/**
+	 * Sets the localized description of this project in the language.
+	 *
+	 * @param description the localized description of this project
+	 * @param locale the locale of the language
+	 */
+	public void setDescription(String description, Locale locale);
+
+	/**
+	 * Sets the localized description of this project in the language, and sets the default locale.
+	 *
+	 * @param description the localized description of this project
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setDescription(
+		String description, Locale locale, Locale defaultLocale);
+
+	public void setDescriptionCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized descriptions of this project from the map of locales and localized descriptions.
+	 *
+	 * @param descriptionMap the locales and localized descriptions of this project
+	 */
+	public void setDescriptionMap(Map<Locale, String> descriptionMap);
+
+	/**
+	 * Sets the localized descriptions of this project from the map of locales and localized descriptions, and sets the default locale.
+	 *
+	 * @param descriptionMap the locales and localized descriptions of this project
+	 * @param defaultLocale the default locale
+	 */
+	public void setDescriptionMap(
+		Map<Locale, String> descriptionMap, Locale defaultLocale);
 
 	/**
 	 * Returns the detail url of this project.
@@ -425,8 +515,58 @@ public interface ProjectModel
 	 *
 	 * @return the partners of this project
 	 */
-	@AutoEscape
 	public String getPartners();
+
+	/**
+	 * Returns the localized partners of this project in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized partners of this project
+	 */
+	@AutoEscape
+	public String getPartners(Locale locale);
+
+	/**
+	 * Returns the localized partners of this project in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized partners of this project. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getPartners(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized partners of this project in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized partners of this project
+	 */
+	@AutoEscape
+	public String getPartners(String languageId);
+
+	/**
+	 * Returns the localized partners of this project in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized partners of this project
+	 */
+	@AutoEscape
+	public String getPartners(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getPartnersCurrentLanguageId();
+
+	@AutoEscape
+	public String getPartnersCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized partnerses of this project.
+	 *
+	 * @return the locales and localized partnerses of this project
+	 */
+	public Map<Locale, String> getPartnersMap();
 
 	/**
 	 * Sets the partners of this project.
@@ -434,6 +574,42 @@ public interface ProjectModel
 	 * @param partners the partners of this project
 	 */
 	public void setPartners(String partners);
+
+	/**
+	 * Sets the localized partners of this project in the language.
+	 *
+	 * @param partners the localized partners of this project
+	 * @param locale the locale of the language
+	 */
+	public void setPartners(String partners, Locale locale);
+
+	/**
+	 * Sets the localized partners of this project in the language, and sets the default locale.
+	 *
+	 * @param partners the localized partners of this project
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setPartners(
+		String partners, Locale locale, Locale defaultLocale);
+
+	public void setPartnersCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized partnerses of this project from the map of locales and localized partnerses.
+	 *
+	 * @param partnersMap the locales and localized partnerses of this project
+	 */
+	public void setPartnersMap(Map<Locale, String> partnersMap);
+
+	/**
+	 * Sets the localized partnerses of this project from the map of locales and localized partnerses, and sets the default locale.
+	 *
+	 * @param partnersMap the locales and localized partnerses of this project
+	 * @param defaultLocale the default locale
+	 */
+	public void setPartnersMap(
+		Map<Locale, String> partnersMap, Locale defaultLocale);
 
 	/**
 	 * Returns the contact name of this project.
@@ -572,6 +748,19 @@ public interface ProjectModel
 	 */
 	@Override
 	public boolean isScheduled();
+
+	@Override
+	public String[] getAvailableLanguageIds();
+
+	@Override
+	public String getDefaultLanguageId();
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException;
+
+	@Override
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException;
 
 	@Override
 	public Project cloneWithOriginalValues();
