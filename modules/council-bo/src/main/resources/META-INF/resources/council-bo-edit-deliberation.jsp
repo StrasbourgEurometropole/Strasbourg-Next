@@ -57,7 +57,7 @@
                 <aui:input name="order" required="true" />
 
 			    <%-- Champ : Amendement --%>
-                <aui:input name="amendement" required="true" max="3"/>
+                <aui:input name="amendement" max="3"/>
 
 			    <%-- Champ : Titre --%>
 			    <c:choose>
