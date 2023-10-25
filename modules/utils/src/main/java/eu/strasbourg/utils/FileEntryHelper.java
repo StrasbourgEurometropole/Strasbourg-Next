@@ -72,6 +72,7 @@ public class FileEntryHelper {
 	public static String getFileEntryURLWithTimeStamp(DLFileEntry dlFileEntry) {
 		String url = "";
 		if (dlFileEntry != null) {
+
 			FileEntry fileEntry = FileEntryUtil.fetchByPrimaryKey(dlFileEntry.getFileEntryId());
 			try {
 				url = DLURLHelperUtil.getPreviewURL(fileEntry, fileEntry.getFileVersion(), null, StringPool.BLANK, true, true);
@@ -87,7 +88,7 @@ public class FileEntryHelper {
 		if (dlFileEntry != null) {
 			FileEntry fileEntry = FileEntryUtil.fetchByPrimaryKey(dlFileEntry.getFileEntryId());
 			try {
-				url = DLURLHelperUtil.getPreviewURL(fileEntry, fileEntry.getFileVersion(), null, StringPool.BLANK, !fileEntry.getFileVersion().equals(fileEntry.getLatestFileVersion()), true);
+				url = DLURLHelperUtil.getPreviewURL(fileEntry, fileEntry.getFileVersion(), null, StringPool.BLANK);
 			} catch (PortalException e) {
 				_log.error(e);
 			}
