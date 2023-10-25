@@ -122,7 +122,7 @@ public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<
             case "status":
                 return "status_sortable";
             case "order":
-                return "order_sortable";
+                return "orderAmendement_String_sortable";
             default:
                 return "modified_sortable";
         }
