@@ -65,7 +65,7 @@ public class SaveBudgetPhaseActionCommand implements MVCActionCommand {
 					portletName, themeDisplay.getPlid(),
 					PortletRequest.RENDER_PHASE);
 				backURL.setParameter("tab", request.getParameter("tab"));
-				
+
 				response.setRenderParameter("backURL", backURL.toString());
 				response.setRenderParameter("cmd", "saveBudgetPhase");
 				response.setRenderParameter("mvcPath","/project-bo-edit-budget-phase.jsp");
@@ -93,9 +93,8 @@ public class SaveBudgetPhaseActionCommand implements MVCActionCommand {
 			budgetPhase.setTitle(title);
 
 			// Description
-			Map<Locale, String> description = LocalizationUtil
-					.getLocalizationMap(request, "description");
-			budgetPhase.setDescriptionMap(description);
+			String description = ParamUtil.getString(request, "description");
+			budgetPhase.setDescription(description);
 
 			// ---------------------------------------------------------------
 			// -------------------------- Gestion de la phase ----------------
@@ -170,7 +169,7 @@ public class SaveBudgetPhaseActionCommand implements MVCActionCommand {
 		}
 		
 		// Description 
-		if (Validator.isNull(ParamUtil.getString(request, "descriptionEditor"))) {
+		if (Validator.isNull(ParamUtil.getString(request, "description"))) {
 			SessionErrors.add(request, "description-error");
 			isValid = false;
 		}

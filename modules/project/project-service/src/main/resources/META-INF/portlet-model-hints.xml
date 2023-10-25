@@ -82,9 +82,7 @@
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
 		<field name="title" type="String" />
-		<field localized="true" name="description" type="String">
-			<hint-collection name="EDITOR" />
-		</field>
+		<field name="description" type="String" />
 		<field name="numberOfVote" type="long" />
 		<field name="isActive" type="boolean" />
 		<field name="beginDate" type="Date" />

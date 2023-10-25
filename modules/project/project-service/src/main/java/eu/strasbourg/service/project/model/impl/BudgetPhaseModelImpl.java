@@ -19,7 +19,6 @@ import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
-import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -30,12 +29,9 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.project.model.BudgetPhase;
@@ -52,11 +48,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -89,7 +82,7 @@ public class BudgetPhaseModelImpl
 		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP},
 		{"status", Types.INTEGER}, {"statusByUserId", Types.BIGINT},
 		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP},
-		{"title", Types.VARCHAR}, {"description", Types.CLOB},
+		{"title", Types.VARCHAR}, {"description", Types.VARCHAR},
 		{"numberOfVote", Types.BIGINT}, {"isActive", Types.BOOLEAN},
 		{"beginDate", Types.TIMESTAMP}, {"endDate", Types.TIMESTAMP},
 		{"beginVoteDate", Types.TIMESTAMP}, {"endVoteDate", Types.TIMESTAMP}
@@ -112,7 +105,7 @@ public class BudgetPhaseModelImpl
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("numberOfVote", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("isActive", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("beginDate", Types.TIMESTAMP);
@@ -122,7 +115,7 @@ public class BudgetPhaseModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table project_BudgetPhase (uuid_ VARCHAR(75) null,budgetPhaseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description TEXT null,numberOfVote LONG,isActive BOOLEAN,beginDate DATE null,endDate DATE null,beginVoteDate DATE null,endVoteDate DATE null)";
+		"create table project_BudgetPhase (uuid_ VARCHAR(75) null,budgetPhaseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description VARCHAR(75) null,numberOfVote LONG,isActive BOOLEAN,beginDate DATE null,endDate DATE null,beginVoteDate DATE null,endVoteDate DATE null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table project_BudgetPhase";
@@ -670,104 +663,12 @@ public class BudgetPhaseModelImpl
 	}
 
 	@Override
-	public String getDescription(Locale locale) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-
-		return getDescription(languageId);
-	}
-
-	@Override
-	public String getDescription(Locale locale, boolean useDefault) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-
-		return getDescription(languageId, useDefault);
-	}
-
-	@Override
-	public String getDescription(String languageId) {
-		return LocalizationUtil.getLocalization(getDescription(), languageId);
-	}
-
-	@Override
-	public String getDescription(String languageId, boolean useDefault) {
-		return LocalizationUtil.getLocalization(
-			getDescription(), languageId, useDefault);
-	}
-
-	@Override
-	public String getDescriptionCurrentLanguageId() {
-		return _descriptionCurrentLanguageId;
-	}
-
-	@JSON
-	@Override
-	public String getDescriptionCurrentValue() {
-		Locale locale = getLocale(_descriptionCurrentLanguageId);
-
-		return getDescription(locale);
-	}
-
-	@Override
-	public Map<Locale, String> getDescriptionMap() {
-		return LocalizationUtil.getLocalizationMap(getDescription());
-	}
-
-	@Override
 	public void setDescription(String description) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
 
 		_description = description;
-	}
-
-	@Override
-	public void setDescription(String description, Locale locale) {
-		setDescription(description, locale, LocaleUtil.getSiteDefault());
-	}
-
-	@Override
-	public void setDescription(
-		String description, Locale locale, Locale defaultLocale) {
-
-		String languageId = LocaleUtil.toLanguageId(locale);
-		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
-
-		if (Validator.isNotNull(description)) {
-			setDescription(
-				LocalizationUtil.updateLocalization(
-					getDescription(), "Description", description, languageId,
-					defaultLanguageId));
-		}
-		else {
-			setDescription(
-				LocalizationUtil.removeLocalization(
-					getDescription(), "Description", languageId));
-		}
-	}
-
-	@Override
-	public void setDescriptionCurrentLanguageId(String languageId) {
-		_descriptionCurrentLanguageId = languageId;
-	}
-
-	@Override
-	public void setDescriptionMap(Map<Locale, String> descriptionMap) {
-		setDescriptionMap(descriptionMap, LocaleUtil.getSiteDefault());
-	}
-
-	@Override
-	public void setDescriptionMap(
-		Map<Locale, String> descriptionMap, Locale defaultLocale) {
-
-		if (descriptionMap == null) {
-			return;
-		}
-
-		setDescription(
-			LocalizationUtil.updateLocalization(
-				descriptionMap, getDescription(), "Description",
-				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -997,74 +898,6 @@ public class BudgetPhaseModelImpl
 		ExpandoBridge expandoBridge = getExpandoBridge();
 
 		expandoBridge.setAttributes(serviceContext);
-	}
-
-	@Override
-	public String[] getAvailableLanguageIds() {
-		Set<String> availableLanguageIds = new TreeSet<String>();
-
-		Map<Locale, String> descriptionMap = getDescriptionMap();
-
-		for (Map.Entry<Locale, String> entry : descriptionMap.entrySet()) {
-			Locale locale = entry.getKey();
-			String value = entry.getValue();
-
-			if (Validator.isNotNull(value)) {
-				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
-			}
-		}
-
-		return availableLanguageIds.toArray(
-			new String[availableLanguageIds.size()]);
-	}
-
-	@Override
-	public String getDefaultLanguageId() {
-		String xml = getDescription();
-
-		if (xml == null) {
-			return "";
-		}
-
-		Locale defaultLocale = LocaleUtil.getSiteDefault();
-
-		return LocalizationUtil.getDefaultLanguageId(xml, defaultLocale);
-	}
-
-	@Override
-	public void prepareLocalizedFieldsForImport() throws LocaleException {
-		Locale defaultLocale = LocaleUtil.fromLanguageId(
-			getDefaultLanguageId());
-
-		Locale[] availableLocales = LocaleUtil.fromLanguageIds(
-			getAvailableLanguageIds());
-
-		Locale defaultImportLocale = LocalizationUtil.getDefaultImportLocale(
-			BudgetPhase.class.getName(), getPrimaryKey(), defaultLocale,
-			availableLocales);
-
-		prepareLocalizedFieldsForImport(defaultImportLocale);
-	}
-
-	@Override
-	@SuppressWarnings("unused")
-	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
-		throws LocaleException {
-
-		Locale defaultLocale = LocaleUtil.getSiteDefault();
-
-		String modelDefaultLanguageId = getDefaultLanguageId();
-
-		String description = getDescription(defaultLocale);
-
-		if (Validator.isNull(description)) {
-			setDescription(
-				getDescription(modelDefaultLanguageId), defaultLocale);
-		}
-		else {
-			setDescription(
-				getDescription(defaultLocale), defaultLocale, defaultLocale);
-		}
 	}
 
 	@Override
@@ -1426,7 +1259,6 @@ public class BudgetPhaseModelImpl
 	private Date _statusDate;
 	private String _title;
 	private String _description;
-	private String _descriptionCurrentLanguageId;
 	private long _numberOfVote;
 	private boolean _isActive;
 	private Date _beginDate;

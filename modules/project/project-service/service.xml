@@ -702,7 +702,7 @@
 
 		<!-- main fields -->
 		<column name="title" type="String" />
-		<column name="description" type="String" localized="true" />
+		<column name="description" type="String" />
 		<column name="numberOfVote" type="long" />
 		<column name="isActive" type="boolean" />
 		

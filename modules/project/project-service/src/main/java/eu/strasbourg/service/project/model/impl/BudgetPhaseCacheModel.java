@@ -215,9 +215,7 @@ public class BudgetPhaseCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput)
-		throws ClassNotFoundException, IOException {
-
+	public void readExternal(ObjectInput objectInput) throws IOException {
 		uuid = objectInput.readUTF();
 
 		budgetPhaseId = objectInput.readLong();
@@ -237,7 +235,7 @@ public class BudgetPhaseCacheModel
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
-		description = (String)objectInput.readObject();
+		description = objectInput.readUTF();
 
 		numberOfVote = objectInput.readLong();
 
@@ -296,10 +294,10 @@ public class BudgetPhaseCacheModel
 		}
 
 		if (description == null) {
-			objectOutput.writeObject("");
+			objectOutput.writeUTF("");
 		}
 		else {
-			objectOutput.writeObject(description);
+			objectOutput.writeUTF(description);
 		}
 
 		objectOutput.writeLong(numberOfVote);
