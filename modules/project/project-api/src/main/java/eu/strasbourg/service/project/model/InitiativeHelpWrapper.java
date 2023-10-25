@@ -143,11 +143,6 @@ public class InitiativeHelpWrapper
 		return model.getAuthorLabel();
 	}
 
-	@Override
-	public String[] getAvailableLanguageIds() {
-		return model.getAvailableLanguageIds();
-	}
-
 	/**
 	 * Returns the create date of this initiative help.
 	 *
@@ -156,11 +151,6 @@ public class InitiativeHelpWrapper
 	@Override
 	public Date getCreateDate() {
 		return model.getCreateDate();
-	}
-
-	@Override
-	public String getDefaultLanguageId() {
-		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -245,72 +235,6 @@ public class InitiativeHelpWrapper
 	}
 
 	/**
-	 * Returns the localized message of this initiative help in the language. Uses the default language if no localization exists for the requested language.
-	 *
-	 * @param locale the locale of the language
-	 * @return the localized message of this initiative help
-	 */
-	@Override
-	public String getMessage(java.util.Locale locale) {
-		return model.getMessage(locale);
-	}
-
-	/**
-	 * Returns the localized message of this initiative help in the language, optionally using the default language if no localization exists for the requested language.
-	 *
-	 * @param locale the local of the language
-	 * @param useDefault whether to use the default language if no localization exists for the requested language
-	 * @return the localized message of this initiative help. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
-	 */
-	@Override
-	public String getMessage(java.util.Locale locale, boolean useDefault) {
-		return model.getMessage(locale, useDefault);
-	}
-
-	/**
-	 * Returns the localized message of this initiative help in the language. Uses the default language if no localization exists for the requested language.
-	 *
-	 * @param languageId the ID of the language
-	 * @return the localized message of this initiative help
-	 */
-	@Override
-	public String getMessage(String languageId) {
-		return model.getMessage(languageId);
-	}
-
-	/**
-	 * Returns the localized message of this initiative help in the language, optionally using the default language if no localization exists for the requested language.
-	 *
-	 * @param languageId the ID of the language
-	 * @param useDefault whether to use the default language if no localization exists for the requested language
-	 * @return the localized message of this initiative help
-	 */
-	@Override
-	public String getMessage(String languageId, boolean useDefault) {
-		return model.getMessage(languageId, useDefault);
-	}
-
-	@Override
-	public String getMessageCurrentLanguageId() {
-		return model.getMessageCurrentLanguageId();
-	}
-
-	@Override
-	public String getMessageCurrentValue() {
-		return model.getMessageCurrentValue();
-	}
-
-	/**
-	 * Returns a map of the locales and localized messages of this initiative help.
-	 *
-	 * @return the locales and localized messages of this initiative help
-	 */
-	@Override
-	public Map<java.util.Locale, String> getMessageMap() {
-		return model.getMessageMap();
-	}
-
-	/**
 	 * Returns the primary key of this initiative help.
 	 *
 	 * @return the primary key of this initiative help
@@ -361,21 +285,6 @@ public class InitiativeHelpWrapper
 	@Override
 	public void persist() {
 		model.persist();
-	}
-
-	@Override
-	public void prepareLocalizedFieldsForImport()
-		throws com.liferay.portal.kernel.exception.LocaleException {
-
-		model.prepareLocalizedFieldsForImport();
-	}
-
-	@Override
-	public void prepareLocalizedFieldsForImport(
-			java.util.Locale defaultImportLocale)
-		throws com.liferay.portal.kernel.exception.LocaleException {
-
-		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -446,61 +355,6 @@ public class InitiativeHelpWrapper
 	@Override
 	public void setMessage(String message) {
 		model.setMessage(message);
-	}
-
-	/**
-	 * Sets the localized message of this initiative help in the language.
-	 *
-	 * @param message the localized message of this initiative help
-	 * @param locale the locale of the language
-	 */
-	@Override
-	public void setMessage(String message, java.util.Locale locale) {
-		model.setMessage(message, locale);
-	}
-
-	/**
-	 * Sets the localized message of this initiative help in the language, and sets the default locale.
-	 *
-	 * @param message the localized message of this initiative help
-	 * @param locale the locale of the language
-	 * @param defaultLocale the default locale
-	 */
-	@Override
-	public void setMessage(
-		String message, java.util.Locale locale,
-		java.util.Locale defaultLocale) {
-
-		model.setMessage(message, locale, defaultLocale);
-	}
-
-	@Override
-	public void setMessageCurrentLanguageId(String languageId) {
-		model.setMessageCurrentLanguageId(languageId);
-	}
-
-	/**
-	 * Sets the localized messages of this initiative help from the map of locales and localized messages.
-	 *
-	 * @param messageMap the locales and localized messages of this initiative help
-	 */
-	@Override
-	public void setMessageMap(Map<java.util.Locale, String> messageMap) {
-		model.setMessageMap(messageMap);
-	}
-
-	/**
-	 * Sets the localized messages of this initiative help from the map of locales and localized messages, and sets the default locale.
-	 *
-	 * @param messageMap the locales and localized messages of this initiative help
-	 * @param defaultLocale the default locale
-	 */
-	@Override
-	public void setMessageMap(
-		Map<java.util.Locale, String> messageMap,
-		java.util.Locale defaultLocale) {
-
-		model.setMessageMap(messageMap, defaultLocale);
 	}
 
 	/**

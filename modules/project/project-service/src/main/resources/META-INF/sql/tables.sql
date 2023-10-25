@@ -123,7 +123,7 @@ create table project_InitiativeHelp (
 	initiativeId LONG,
 	helpTypes VARCHAR(75) null,
 	groupId LONG,
-	message STRING null,
+	message VARCHAR(400) null,
 	helpDisplay BOOLEAN
 );
 

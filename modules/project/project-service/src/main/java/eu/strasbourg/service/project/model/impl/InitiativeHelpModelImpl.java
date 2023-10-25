@@ -18,18 +18,14 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
-import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.project.model.InitiativeHelp;
 import eu.strasbourg.service.project.model.InitiativeHelpModel;
@@ -45,11 +41,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -99,7 +92,7 @@ public class InitiativeHelpModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table project_InitiativeHelp (uuid_ VARCHAR(75) null,initiativeHelpId LONG not null primary key,createDate DATE null,publikUserId VARCHAR(75) null,initiativeId LONG,helpTypes VARCHAR(75) null,groupId LONG,message STRING null,helpDisplay BOOLEAN)";
+		"create table project_InitiativeHelp (uuid_ VARCHAR(75) null,initiativeHelpId LONG not null primary key,createDate DATE null,publikUserId VARCHAR(75) null,initiativeId LONG,helpTypes VARCHAR(75) null,groupId LONG,message VARCHAR(400) null,helpDisplay BOOLEAN)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table project_InitiativeHelp";
@@ -485,104 +478,12 @@ public class InitiativeHelpModelImpl
 	}
 
 	@Override
-	public String getMessage(Locale locale) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-
-		return getMessage(languageId);
-	}
-
-	@Override
-	public String getMessage(Locale locale, boolean useDefault) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-
-		return getMessage(languageId, useDefault);
-	}
-
-	@Override
-	public String getMessage(String languageId) {
-		return LocalizationUtil.getLocalization(getMessage(), languageId);
-	}
-
-	@Override
-	public String getMessage(String languageId, boolean useDefault) {
-		return LocalizationUtil.getLocalization(
-			getMessage(), languageId, useDefault);
-	}
-
-	@Override
-	public String getMessageCurrentLanguageId() {
-		return _messageCurrentLanguageId;
-	}
-
-	@JSON
-	@Override
-	public String getMessageCurrentValue() {
-		Locale locale = getLocale(_messageCurrentLanguageId);
-
-		return getMessage(locale);
-	}
-
-	@Override
-	public Map<Locale, String> getMessageMap() {
-		return LocalizationUtil.getLocalizationMap(getMessage());
-	}
-
-	@Override
 	public void setMessage(String message) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
 
 		_message = message;
-	}
-
-	@Override
-	public void setMessage(String message, Locale locale) {
-		setMessage(message, locale, LocaleUtil.getDefault());
-	}
-
-	@Override
-	public void setMessage(
-		String message, Locale locale, Locale defaultLocale) {
-
-		String languageId = LocaleUtil.toLanguageId(locale);
-		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
-
-		if (Validator.isNotNull(message)) {
-			setMessage(
-				LocalizationUtil.updateLocalization(
-					getMessage(), "Message", message, languageId,
-					defaultLanguageId));
-		}
-		else {
-			setMessage(
-				LocalizationUtil.removeLocalization(
-					getMessage(), "Message", languageId));
-		}
-	}
-
-	@Override
-	public void setMessageCurrentLanguageId(String languageId) {
-		_messageCurrentLanguageId = languageId;
-	}
-
-	@Override
-	public void setMessageMap(Map<Locale, String> messageMap) {
-		setMessageMap(messageMap, LocaleUtil.getDefault());
-	}
-
-	@Override
-	public void setMessageMap(
-		Map<Locale, String> messageMap, Locale defaultLocale) {
-
-		if (messageMap == null) {
-			return;
-		}
-
-		setMessage(
-			LocalizationUtil.updateLocalization(
-				messageMap, getMessage(), "Message",
-				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -641,72 +542,6 @@ public class InitiativeHelpModelImpl
 		ExpandoBridge expandoBridge = getExpandoBridge();
 
 		expandoBridge.setAttributes(serviceContext);
-	}
-
-	@Override
-	public String[] getAvailableLanguageIds() {
-		Set<String> availableLanguageIds = new TreeSet<String>();
-
-		Map<Locale, String> messageMap = getMessageMap();
-
-		for (Map.Entry<Locale, String> entry : messageMap.entrySet()) {
-			Locale locale = entry.getKey();
-			String value = entry.getValue();
-
-			if (Validator.isNotNull(value)) {
-				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
-			}
-		}
-
-		return availableLanguageIds.toArray(
-			new String[availableLanguageIds.size()]);
-	}
-
-	@Override
-	public String getDefaultLanguageId() {
-		String xml = getMessage();
-
-		if (xml == null) {
-			return "";
-		}
-
-		Locale defaultLocale = LocaleUtil.getDefault();
-
-		return LocalizationUtil.getDefaultLanguageId(xml, defaultLocale);
-	}
-
-	@Override
-	public void prepareLocalizedFieldsForImport() throws LocaleException {
-		Locale defaultLocale = LocaleUtil.fromLanguageId(
-			getDefaultLanguageId());
-
-		Locale[] availableLocales = LocaleUtil.fromLanguageIds(
-			getAvailableLanguageIds());
-
-		Locale defaultImportLocale = LocalizationUtil.getDefaultImportLocale(
-			InitiativeHelp.class.getName(), getPrimaryKey(), defaultLocale,
-			availableLocales);
-
-		prepareLocalizedFieldsForImport(defaultImportLocale);
-	}
-
-	@Override
-	@SuppressWarnings("unused")
-	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
-		throws LocaleException {
-
-		Locale defaultLocale = LocaleUtil.getDefault();
-
-		String modelDefaultLanguageId = getDefaultLanguageId();
-
-		String message = getMessage(defaultLocale);
-
-		if (Validator.isNull(message)) {
-			setMessage(getMessage(modelDefaultLanguageId), defaultLocale);
-		}
-		else {
-			setMessage(getMessage(defaultLocale), defaultLocale, defaultLocale);
-		}
 	}
 
 	@Override
@@ -959,7 +794,6 @@ public class InitiativeHelpModelImpl
 	private String _helpTypes;
 	private long _groupId;
 	private String _message;
-	private String _messageCurrentLanguageId;
 	private boolean _helpDisplay;
 
 	public <T> T getColumnValue(String columnName) {

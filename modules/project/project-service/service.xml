@@ -564,7 +564,7 @@
 		<column name="initiativeId" type="long" />
 		<column name="helpTypes" type="String" />
 		<column name="groupId" type="long" />
-		<column name="message" type="String" localized="true" />
+		<column name="message" type="String" />
 		<column name="helpDisplay" type="boolean" />
 
 		<!-- Finder methods -->
