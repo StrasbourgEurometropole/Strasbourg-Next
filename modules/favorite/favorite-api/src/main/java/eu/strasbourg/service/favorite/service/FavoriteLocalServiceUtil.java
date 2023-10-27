@@ -340,6 +340,15 @@ public class FavoriteLocalServiceUtil {
 	}
 
 	/**
+	 * Retourne si l'entité est un favori
+	 */
+	public static boolean isFavorite(
+		long entityId, long typeId, String publikUserId) {
+
+		return getService().isFavorite(entityId, typeId, publikUserId);
+	}
+
+	/**
 	 * Updates the favorite in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
 	 * <p>

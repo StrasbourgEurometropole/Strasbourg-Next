@@ -108,3 +108,11 @@
     </#if>
 
 </#macro>
+
+<#macro isFavourite entryId entryType >
+    <#assign favoriteLocalService = serviceLocator.findService("eu.strasbourg.service.favorite.service.FavoriteLocalService")>
+    <#assign isFavouriteBool = favoriteLocalService.isFavorite(entryId, entryType, request.session.getAttribute("publik_internal_id"))>
+    <button class="st-btn-favorite-card <#if isFavouriteBool>st-is-favorite</#if>">
+        <@liferay_ui.message key='eu.add-to-favorite' />
+    </button>
+</#macro>

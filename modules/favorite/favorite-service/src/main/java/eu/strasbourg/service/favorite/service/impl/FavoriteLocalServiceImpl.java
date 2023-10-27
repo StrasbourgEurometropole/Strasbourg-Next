@@ -141,4 +141,18 @@ public class FavoriteLocalServiceImpl extends FavoriteLocalServiceBaseImpl {
 	public List<Favorite> getByTypeIdAndEntityIdAndPublikUserIdAndContent(long type, long entityId, String publikUserId, String content) {
 		return this.favoritePersistence.findByTypeIdAndEntityIdAndPublikUserIdAndContent(type,entityId,publikUserId,content);
 	}
+
+	/**
+	 * Retourne si l'entité est un favori
+	 */
+	@Override
+	public boolean isFavorite(long entityId, long typeId, String publikUserId) {
+		if(publikUserId == null || publikUserId.isEmpty()) {
+			return false;
+		}
+		List<Favorite> favorites = this.favoritePersistence.findByTypeIdAndEntityIdAndPublikUserIdAndContent(entityId, typeId, publikUserId, "");
+		return !favorites.isEmpty();
+	}
+
+
 }

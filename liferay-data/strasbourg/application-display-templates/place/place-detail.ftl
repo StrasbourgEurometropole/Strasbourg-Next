@@ -664,9 +664,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 
                                 </div>
                             </a>
-                            <button class="st-btn-favorite-card" data-addpanier="postID">
-                                <@liferay_ui.message key="eu.add-to-favorite" />
-                            </button>
+                            <@isFavourite entryId=event.eventId entryType=2 />
 
                         </div>
                     </li>

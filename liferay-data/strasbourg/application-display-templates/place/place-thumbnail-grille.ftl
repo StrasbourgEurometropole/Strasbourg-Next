@@ -39,8 +39,7 @@
                 </#if>
             </div>
         </a>
-        <button class="st-btn-favorite-card" data-id="${entry.placeId}">
-            <@liferay_ui.message key='eu.add-to-favorite' />
-        </button>
+
+        <@isFavourite entryId=entry.eventId entryType=2 />
     </div>
 </li>
