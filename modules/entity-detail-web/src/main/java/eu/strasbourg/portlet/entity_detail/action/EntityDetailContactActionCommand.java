@@ -31,6 +31,8 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.service.activity.model.ActivityOrganizer;
+import eu.strasbourg.service.activity.service.ActivityOrganizerLocalServiceUtil;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.official.model.Official;
@@ -261,6 +263,12 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 			Official official = OfficialLocalServiceUtil.fetchOfficial(Long.parseLong(entityId));
 			if(official != null && Validator.isNotNull(official.getListeContact())) {
 				email = official.getListeContact();
+			}
+		}
+		if(entityClassName.equals("ActivityOrganizer")) {
+			ActivityOrganizer activityOrganizer = ActivityOrganizerLocalServiceUtil.fetchActivityOrganizer(Long.parseLong(entityId));
+			if(activityOrganizer != null && Validator.isNotNull(activityOrganizer.getMail())) {
+				email = activityOrganizer.getMail();
 			}
 		}
 

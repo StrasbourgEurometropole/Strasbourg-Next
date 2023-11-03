@@ -63,7 +63,7 @@ public class ActivityCourseCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(45);
+		StringBundler sb = new StringBundler(47);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -101,6 +101,8 @@ public class ActivityCourseCacheModel
 		sb.append(activityId);
 		sb.append(", organizerId=");
 		sb.append(organizerId);
+		sb.append(", duration=");
+		sb.append(duration);
 		sb.append(", imageId=");
 		sb.append(imageId);
 		sb.append(", imageIds=");
@@ -198,6 +200,14 @@ public class ActivityCourseCacheModel
 
 		activityCourseImpl.setActivityId(activityId);
 		activityCourseImpl.setOrganizerId(organizerId);
+
+		if (duration == null) {
+			activityCourseImpl.setDuration("");
+		}
+		else {
+			activityCourseImpl.setDuration(duration);
+		}
+
 		activityCourseImpl.setImageId(imageId);
 
 		if (imageIds == null) {
@@ -256,6 +266,7 @@ public class ActivityCourseCacheModel
 		activityId = objectInput.readLong();
 
 		organizerId = objectInput.readLong();
+		duration = objectInput.readUTF();
 
 		imageId = objectInput.readLong();
 		imageIds = objectInput.readUTF();
@@ -335,6 +346,13 @@ public class ActivityCourseCacheModel
 
 		objectOutput.writeLong(organizerId);
 
+		if (duration == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(duration);
+		}
+
 		objectOutput.writeLong(imageId);
 
 		if (imageIds == null) {
@@ -377,6 +395,7 @@ public class ActivityCourseCacheModel
 	public String price;
 	public long activityId;
 	public long organizerId;
+	public String duration;
 	public long imageId;
 	public String imageIds;
 	public String videosIds;

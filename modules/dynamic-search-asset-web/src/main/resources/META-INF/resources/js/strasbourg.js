@@ -59,6 +59,7 @@ function createOfficialVignette(data) {
                 <p class="st-title-card">${data.firstName} ${data.lastName}</p>
                 ${data.fonctionEuro ? `<p class="st-surtitre-cat">${data.fonctionEuro}</p>` : ''}
                 ${data.fonctionCity ? `<p class="st-role">${data.fonctionCity}</p>` : ''}
+                ${data.description ? `<p class="st-text">${data.description}</p>`: ''}
             </div>
             <div class="st-image">
             ${generateImage(data.imageURL)}
@@ -79,9 +80,10 @@ function createEditionVignette(data) {
             <div class="st-btns-wrapper">
                 <a href="${data.link}" target="_blank"
                     class="st-btn st--btn-secondary st--btn-xs st--btn-small-padding">Visionner</a>
-                <a href="${data.downloadURL}" class="st-btn-icon st-btn-icon--bg-sub" download="">
-                    <span class="st-icon-download" aria-hidden="true"></span>
-                </a>
+                    ${data.galeryEditionURL ?
+                `<a href="${data.galeryEditionURL}" class="st-btn st--btn-primary st--btn-xs st--btn-small-padding">
+                    Tous les ${data.galeryEditionName}
+                </a>` : "" }
             </div>
         </div>
        <div class="st-image">
@@ -264,11 +266,11 @@ function callSearchUrl(url, data, callback) {
             }
             // Remove the "loading" class when the request is complete
             document.querySelector('.st-results .loading-small-animation').classList.add('st-hide');
-            document.querySelector('#resultList .loading-animation').classList.remove('st-hide');
+            document.querySelector('#resultList .loading-animation')?.classList.remove('st-hide');
         } else {
             // Add the "loading" class when the request is loading
             document.querySelector('.st-results .loading-small-animation').classList.remove('st-hide');
-            document.querySelector('#resultList .loading-animation').classList.remove('st-hide');
+            document.querySelector('#resultList .loading-animation')?.classList.remove('st-hide');
         }
     };
     xhr.open('POST', url, true);

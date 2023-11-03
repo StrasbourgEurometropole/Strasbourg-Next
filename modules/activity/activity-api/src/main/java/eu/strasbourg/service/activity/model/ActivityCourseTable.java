@@ -74,6 +74,8 @@ public class ActivityCourseTable extends BaseTable<ActivityCourseTable> {
 		"activityId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
 	public final Column<ActivityCourseTable, Long> organizerId = createColumn(
 		"organizerId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
+	public final Column<ActivityCourseTable, String> duration = createColumn(
+		"duration", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<ActivityCourseTable, Long> imageId = createColumn(
 		"imageId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
 	public final Column<ActivityCourseTable, String> imageIds = createColumn(

@@ -41,6 +41,9 @@
 				
 				<!-- Présentation -->
 				<aui:input name="presentation" />
+
+				<!-- Durée -->
+				<aui:input name="duration" />
 				
 				<!-- Catégories -->
 				<liferay-asset:asset-categories-selector

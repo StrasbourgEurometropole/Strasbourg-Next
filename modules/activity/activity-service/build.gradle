@@ -1,6 +1,7 @@
 dependencies {
 
-	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
+	implementation project(path: ':modules:official:official-service')
+    compileOnly group: "com.liferay.portal", name: "release.dxp.api"
 	implementation project(":modules:activity:activity-api")
 	implementation project(":modules:video:video-api")
 	implementation project(":modules:place:place-api")

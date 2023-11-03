@@ -61,6 +61,7 @@ public class ActivityCourseWrapper
 		attributes.put("price", getPrice());
 		attributes.put("activityId", getActivityId());
 		attributes.put("organizerId", getOrganizerId());
+		attributes.put("duration", getDuration());
 		attributes.put("imageId", getImageId());
 		attributes.put("imageIds", getImageIds());
 		attributes.put("videosIds", getVideosIds());
@@ -177,6 +178,12 @@ public class ActivityCourseWrapper
 
 		if (organizerId != null) {
 			setOrganizerId(organizerId);
+		}
+
+		String duration = (String)attributes.get("duration");
+
+		if (duration != null) {
+			setDuration(duration);
 		}
 
 		Long imageId = (Long)attributes.get("imageId");
@@ -421,6 +428,16 @@ public class ActivityCourseWrapper
 	@Override
 	public java.util.List<String> getDocumentURLs() {
 		return model.getDocumentURLs();
+	}
+
+	/**
+	 * Returns the duration of this activity course.
+	 *
+	 * @return the duration of this activity course
+	 */
+	@Override
+	public String getDuration() {
+		return model.getDuration();
 	}
 
 	/**
@@ -1144,6 +1161,16 @@ public class ActivityCourseWrapper
 	@Override
 	public void setDocumentsIds(String documentsIds) {
 		model.setDocumentsIds(documentsIds);
+	}
+
+	/**
+	 * Sets the duration of this activity course.
+	 *
+	 * @param duration the duration of this activity course
+	 */
+	@Override
+	public void setDuration(String duration) {
+		model.setDuration(duration);
 	}
 
 	/**

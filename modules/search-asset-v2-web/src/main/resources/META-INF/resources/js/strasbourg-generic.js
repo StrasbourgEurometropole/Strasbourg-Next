@@ -13,7 +13,11 @@ function updateModalOfficial(clickedElement) {
 	overlayDiv.querySelector(".st-surtitre-cat").textContent = roleEMS;
 	overlayDiv.querySelector(".st-role").textContent = roleCity;
 	overlayDiv.querySelector(".st-overlay__content").innerHTML = descriptionDiv;
-	overlayDiv.querySelector(".mail-button").href = mailAddress;
+	if(mailAddress != "") {
+		overlayDiv.querySelector(".mail-button").href = mailAddress;
+	} else {
+		overlayDiv.querySelector(".mail-button").classList.add("st-hide");
+	}
 	overlayDiv.querySelector(".detail-button").href = detailURL;
 	overlayDiv.querySelector(".st-image img").src = imageURL;
 }
