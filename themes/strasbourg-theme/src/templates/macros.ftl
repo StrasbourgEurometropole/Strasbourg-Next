@@ -106,13 +106,12 @@
     <#if sessionMessage.contains(renderRequest, key)>
         <p class="st-alert-form"><@liferay_ui.message key=message /></p>
     </#if>
-
 </#macro>
 
-<#macro isFavourite entryId entryType >
+<#macro isFavourite entryId entryType title="Item Favori" url="https://strasbourg.eu" entityGroupId="0" >
     <#assign favoriteLocalService = serviceLocator.findService("eu.strasbourg.service.favorite.service.FavoriteLocalService")>
     <#assign isFavouriteBool = favoriteLocalService.isFavorite(entryId, entryType, request.session.getAttribute("publik_internal_id"))>
-    <button class="st-btn-favorite-card <#if isFavouriteBool>st-is-favorite</#if>">
+    <button class="st-btn-favorite-card <#if isFavouriteBool>st-is-favorite</#if>" data-groupId="${entityGroupId}" data-title="${title}" data-url="${url}" data-id="${entryId}" data-type="${entryType}">
         <@liferay_ui.message key='eu.add-to-favorite' />
     </button>
 </#macro>

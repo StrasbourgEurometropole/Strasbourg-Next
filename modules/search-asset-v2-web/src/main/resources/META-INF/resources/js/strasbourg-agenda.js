@@ -23,6 +23,8 @@ function updateDescription(clickedElement) {
 
 	if(bookingURL) {
 		var elementFooter = overlayDiv.querySelector(".st-overlay__footer")
+		// Remove existing booking button
+		elementFooter.querySelector(".st-btn-icon.st-btn-icon--white")?.remove()
 		elementFooter.insertAdjacentHTML("afterbegin", `<a href="${bookingURL}" class="st-btn-icon st-btn-icon--white" title="Biletterie">
                 <span class="st-icon-ticket" aria-hidden="true"></span>
             </a>`)

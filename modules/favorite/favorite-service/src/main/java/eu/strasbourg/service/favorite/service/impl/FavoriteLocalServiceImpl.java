@@ -150,9 +150,7 @@ public class FavoriteLocalServiceImpl extends FavoriteLocalServiceBaseImpl {
 		if(publikUserId == null || publikUserId.isEmpty()) {
 			return false;
 		}
-		List<Favorite> favorites = this.favoritePersistence.findByTypeIdAndEntityIdAndPublikUserIdAndContent(entityId, typeId, publikUserId, "");
+		List<Favorite> favorites = this.favoritePersistence.findByTypeIdAndEntityIdAndPublikUserIdAndContent(typeId, entityId, publikUserId, null);
 		return !favorites.isEmpty();
 	}
-
-
 }
