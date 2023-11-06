@@ -63,6 +63,8 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
 
     private DeliberationLocalService deliberationLocalService;
 
+    private List<Map<String, String>> recordsListMap;
+
     @Reference(unbind = "-")
     protected void setDeliberationLocalService(DeliberationLocalService deliberationLocalService) {
 
@@ -88,19 +90,6 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
             if (!isValid) {
                 prepareErrorResponse(request, response, themeDisplay);
                 return false;
-            }
-
-            CSVFormat csvFileFormat = CSVFormat.DEFAULT.withHeader(DeliberationDataConstants.DELIBERATIONS_HEADER_MAPPING).withDelimiter(';');
-            CSVParser csvFileParser = CSVParser.parse(deliberationsCsv, StandardCharsets.ISO_8859_1, csvFileFormat);
-
-            List<Map<String, String>> recordsListMap = new ArrayList<>();
-            List<CSVRecord> csvRecords = csvFileParser.getRecords();
-
-            if (csvRecords.size() > 0) {
-                for (int i = 1; i < csvRecords.size(); i++) {
-                    CSVRecord record = csvRecords.get(i);
-                    recordsListMap.add(record.toMap());
-                }
             }
 
             long councilSessionId = ParamUtil.getLong(request, "councilSessionId");
@@ -163,6 +152,27 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
 
             _log.error(errorCsvCheck);
             return false;
+        }
+
+        CSVFormat csvFileFormat = CSVFormat.DEFAULT.withHeader(DeliberationDataConstants.DELIBERATIONS_HEADER_MAPPING).withDelimiter(';');
+        CSVParser csvFileParser = CSVParser.parse(deliberationsCsv, StandardCharsets.ISO_8859_1, csvFileFormat);
+
+        List<CSVRecord> csvRecords = csvFileParser.getRecords();
+        String errorTitleCheck = "Le titre ne doit pas exc\u00e9der 500 caract\u00e8res";
+        recordsListMap = new ArrayList<>();
+        if (csvRecords.size() > 0) {
+            for (int i = 1; i < csvRecords.size(); i++) {
+                CSVRecord record = csvRecords.get(i);
+                if(record.get("TITLE").length() > 500){
+                    errorTitleCheck += ERROR_INFO;
+                    SessionErrors.add(actionRequest, "error-import-deliberations");
+                    actionRequest.setAttribute("error", errorTitleCheck);
+
+                    _log.error(errorTitleCheck);
+                    return false;
+                }
+                recordsListMap.add(record.toMap());
+            }
         }
         return true;
     }
