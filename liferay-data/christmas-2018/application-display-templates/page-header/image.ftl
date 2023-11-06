@@ -6,7 +6,7 @@
 </#if>
 <header class="mns-header" style="background: url(${page.expandoBridge.getAttribute('image')}) no-repeat center center /cover;">
     <div class="container mns-center">
-        <h1>${page.getName(locale)}</h1>
+        <h1>${page.getTitle(locale)}</h1>
     </div>
 </header>
 

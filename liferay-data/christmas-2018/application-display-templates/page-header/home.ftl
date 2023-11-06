@@ -8,7 +8,7 @@
     <!--</video>-->
     <!--</div>-->
     <div class="container mns-center">
-                <h1>${page.getName(locale)}</h1>
+                <h1>${page.getTitle(locale)}</h1>
         <a href="/experientiel" class="mns-btn-chevron"><@liferay_ui.message key="prepare-your-program" /></a>
     </div>
 </header>
