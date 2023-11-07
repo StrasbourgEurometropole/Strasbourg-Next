@@ -43,14 +43,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <img src="${image.getData()}" width="60" height="60" alt="Nom de l'auteur de l'expérience">
                     </figure>
                 </div>
-                <a href="#" class="add-favorites"
-                    data-type="7" 
-                    data-title="${title.data}" 
-                    data-url="${currentUrl}" 
-                    data-group-id=${themeDisplay.scopeGroupId}
-                    data-id="${.vars['reserved-article-id'].data}">
-                    <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
-                </a>
             </div>
         </div>
     </header>
