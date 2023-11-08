@@ -5,7 +5,8 @@
     <#assign homeURL="/" />
 </#if>
 <#assign plId=renderRequest.getAttribute("classNameLayoutId")[entry.getModelClassName()] />
-<@liferay_portlet.renderURL plid=plId var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
+<@liferay_portlet.renderURL plid=plId var="detailURL"
+portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
     <@liferay_portlet.param name="classPK" value="${entry.officialId}" />
     <@liferay_portlet.param name="returnURL" value="${currentURL}" />
 </@liferay_portlet.renderURL>
@@ -19,7 +20,10 @@
 <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
 <li>
     <div class="st-card-container">
-        <a href="#" class="st-card st-card-person" onclick="updateModalOfficial(this)" data-detailurl="${detailURLFilter}" data-mailaddress="mailto:${entry.firstName?lower_case?replace(' ', '-')}.${entry.lastName?lower_case?replace(' ', '-')}@strasbourg.eu" data-overlay-open="st-overlay-preview-person">
+        <a href="#" class="st-card st-card-person" onclick="updateModalOfficial(this)"
+           data-detailurl="${detailURLFilter}"
+           data-mailaddress="<#if entry.listeContact?has_content>${detailURLFilter}#st-overlay-contact</#if>"
+           data-overlay-open="st-overlay-preview-person">
 
             <div class="st-caption">
                 <p class="st-title-card">
@@ -30,9 +34,11 @@
                         ${entry.getName(entry.fonctionEurometropole,locale)}
                     </p>
                 </#if>
-                <#if entry.getName(entry.fonctionCity,locale)?has_content>
+                <#if entry.fonctionTown?has_content>
                     <p class="st-role">
-                        ${entry.getName(entry.fonctionCity,locale)}
+                        ${entry.getName(entry.fonctionTown, locale)}
+                        <@liferay_ui.message key="eu.official.of-the-city-of" />
+                        ${entry.getTown().getTitle(locale)}
                     </p>
                 </#if>
             </div>
@@ -48,7 +54,8 @@
                     </p>
                     ${entry.getThematicDelegation(locale)}
                     <p class="st-note">
-                        <@liferay_ui.message key="eu.official.political-group" /> : ${entry.getPoliticalGroupCity().getTitle(locale)}
+                        <@liferay_ui.message key="eu.official.political-group" /> :
+                        ${entry.getPoliticalGroupCity().getTitle(locale)}
                     </p>
                 </div>
             </#if>
@@ -64,7 +71,8 @@
                     </p>
                     ${entry.getMissions(locale)}
                     <p class="st-note">
-                        <@liferay_ui.message key="eu.official.political-group" /> : ${entry.getPoliticalGroupEurometropole().getTitle(locale)}
+                        <@liferay_ui.message key="eu.official.political-group" /> :
+                        ${entry.getPoliticalGroupEurometropole().getTitle(locale)}
                     </p>
                 </div>
             </#if>

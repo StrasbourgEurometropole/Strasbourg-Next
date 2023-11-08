@@ -1,3 +1,5 @@
+<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL="/web${layout.group.friendlyURL}/" />
 <#else>
@@ -35,7 +37,7 @@
                             </p>
                         </div>
                     </a>
-                    <@isFavourite entryId=event.eventId entryType=2 />
+                    <@isFavourite entryId=event.eventId entryType=2  entityGroupId=0 title=entry.getTitle(locale) url="${homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}" />
                 </div>
             </li>
         </#list>

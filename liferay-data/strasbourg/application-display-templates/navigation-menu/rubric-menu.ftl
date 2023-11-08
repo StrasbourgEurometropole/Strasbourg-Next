@@ -15,28 +15,35 @@
                         <h2 class="st-h2">
                             ${nav_item.getName()}
                         </h2>
-                    </div>
-                    <div class="st-component-container">
-                        <ul class="st-liste st-limit-height">
-                            <#list nav_item.getChildren() as nav_child>
-                                <li class="st-lien-container">
-                                    <a href="${nav_child.getURL()}" ${nav_child.getTarget()} class="st-lien">
-                                        <p class="st-title-lien">
-                                            ${nav_child.getName()}
-                                        </p>
-                                        <span class="st-btn-arrow st--btn-outline st--next"
-                                              aria-hidden="true"></span>
-                                    </a>
-                                </li>
-                            </#list>
-                        </ul>
-                        <div class="st-show-more">
-                            <button class="st-btn-show-more st-btn-arrow st--down" aria-expanded="false"
-                                    aria-controls="123" aria-label="Voir tout le texte"
-                                    data-open-label="Voir tout le texte"
-                                    data-close-label="Réduire l'affichage du texte">
-                            </button>
-                        </div>
+                        <p class="st-intro">
+                            ${nav_item.getLayout().getDescription(locale)}
+                        </p>
+                        <#if nav_item.getChildren()?size !=0>
+                            <div class="st-component-container">
+                                <ul class="st-liste st-limit-height">
+                                    <#list nav_item.getChildren() as nav_child>
+                                        <li class="st-lien-container">
+                                            <a href="${nav_child.getURL()}" ${nav_child.getTarget()} class="st-lien">
+                                                <p class="st-title-lien">
+                                                    ${nav_child.getName()}
+                                                </p>
+                                                <span class="st-btn-arrow st--btn-outline st--next"
+                                                      aria-hidden="true"></span>
+                                            </a>
+                                        </li>
+                                    </#list>
+                                </ul>
+                                <div class="st-show-more">
+                                    <button class="st-btn-show-more st-btn-arrow st--down" aria-expanded="false"
+                                            aria-controls="123" aria-label="Voir tout le texte"
+                                            data-open-label="Voir tout le texte"
+                                            data-close-label="Réduire l'affichage du texte">
+                                    </button>
+                                </div>
+                            </div>
+                        <#else>
+                            <a href="${homeURL}${nav_item.getLayout().friendlyURL?remove_beginning('/')}" class="st-btn st--btn-secondary-ghost st--btn-full-width-mobile">En savoir plus</a>
+                        </#if>
                     </div>
                 </div>
                 <div class="st-st-col-image">
@@ -60,28 +67,30 @@
                         <h2 class="st-h2">
                             ${nav_item.getName()}
                         </h2>
-                        <div class="st-component-container">
-                            <ul class="st-liste st-limit-height">
-                                <#list nav_item.getChildren() as nav_child>
-                                    <li class="st-lien-container">
-                                        <a href="${nav_child.getURL()}" ${nav_child.getTarget()} class="st-lien">
-                                            <p class="st-title-lien">
-                                                ${nav_child.getName()}
-                                            </p>
-                                            <span class="st-btn-arrow st--btn-outline st--next"
-                                                  aria-hidden="true"></span>
-                                        </a>
-                                    </li>
-                                </#list>
-                            </ul>
-                            <div class="st-show-more">
-                                <button class="st-btn-show-more st-btn-arrow st--down" aria-expanded="false"
-                                        aria-controls="123" aria-label="Voir tout le texte"
-                                        data-open-label="Voir tout le texte"
-                                        data-close-label="Réduire l'affichage du texte">
-                                </button>
+                        <#if nav_item.getChildren()?size !=0>
+                            <div class="st-component-container">
+                                <ul class="st-liste st-limit-height">
+                                    <#list nav_item.getChildren() as nav_child>
+                                        <li class="st-lien-container">
+                                            <a href="${nav_child.getURL()}" ${nav_child.getTarget()} class="st-lien">
+                                                <p class="st-title-lien">
+                                                    ${nav_child.getName()}
+                                                </p>
+                                                <span class="st-btn-arrow st--btn-outline st--next"
+                                                      aria-hidden="true"></span>
+                                            </a>
+                                        </li>
+                                    </#list>
+                                </ul>
+                                <div class="st-show-more">
+                                    <button class="st-btn-show-more st-btn-arrow st--down" aria-expanded="false"
+                                            aria-controls="123" aria-label="Voir tout le texte"
+                                            data-open-label="Voir tout le texte"
+                                            data-close-label="Réduire l'affichage du texte">
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        </#if>
                     </div>
                 </div>
             </div>

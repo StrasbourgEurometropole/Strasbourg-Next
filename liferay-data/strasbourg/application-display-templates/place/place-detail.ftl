@@ -3,8 +3,6 @@
 
 <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
 
-
-
 <#-- partage de la configuration open graph dans la request -->
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
@@ -177,7 +175,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
             <div class="st-image">
                 <@addImage fileEntryId=entry.imageId showCopyright=true />
             </div>
-            <div class="st-maps" data-lat="${ entry.getMercatorY() }" data-lng="${ entry.getMercatorX() }" data-zoom="17" data-callback="initMap">
+            <div class="st-maps" data-lat="${ entry.getMercatorY() }" data-lng="${ entry.getMercatorX() }" data-zoom="17">
 
             </div>
         </div>
@@ -934,16 +932,6 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 <#assign overlayContactTitle=entry.getAlias(locale) />
 
 <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/overlay-contact.ftl" />
-
-<!-- Mise en place adict strasbourg pour les cartes -->
-<script type="text/javascript">
-    function initMap(t) {
-        t.zoomControl.setPosition("topright")
-        L.tileLayer.wms('https://adict.strasbourg.eu/mapproxy/service?', {
-            layers: 'monstrasbourg'
-        }).addTo(th_maps.maps[0]);
-    }
-</script>
 
 
 <#macro showTime day schedule hasException>

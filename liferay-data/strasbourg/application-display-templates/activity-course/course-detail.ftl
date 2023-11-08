@@ -47,27 +47,14 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     </div>
 </#if>
 <div class="st-bloc st-bloc-sit-colonnes st-wrapper st-wrapper-small st-basic-grid st-col-2@t-small st--has-margin">
-    <#if (entry.getPublics()?size !=0)>
+    <#if entry.getPrice(locale)?has_content>
         <div class="st-col">
             <div class="st-component-container st-text-styles">
                 <h2 class="st-h2 st-bloc-sit-title">
-                    <#if (entry.getPublics()?size==1)>
-                        <@liferay_ui.message key="eu.activity.public" />
-                    </#if>
-                    <#if (entry.getPublics()?size> 1)>
-                        <@liferay_ui.message key="eu.activity.publics" />
-                    </#if>
+                    <@liferay_ui.message key="eu.prices" />
                 </h2>
                 <div class="st-limit-height st--is-overflowing">
-                    <ul>
-                        <#list entry.getPublics() as public>
-                            <li>
-                                <p>
-                                    ${public.getTitle(locale)}
-                                </p>
-                            </li>
-                        </#list>
-                    </ul>
+                    ${entry.getPrice(locale)}
                 </div>
                 <div class="st-show-more">
                     <button class="st-btn-show-more st-btn-arrow st--down" aria-expanded="false" aria-controls="123"
@@ -96,14 +83,27 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             </div>
         </div>
     </#if>
-    <#if entry.getPrice(locale)?has_content>
+    <#if (entry.getPublics()?size !=0)>
         <div class="st-col">
             <div class="st-component-container st-text-styles">
                 <h2 class="st-h2 st-bloc-sit-title">
-                    <@liferay_ui.message key="eu.prices" />
+                    <#if (entry.getPublics()?size==1)>
+                        <@liferay_ui.message key="eu.activity.public" />
+                    </#if>
+                    <#if (entry.getPublics()?size> 1)>
+                        <@liferay_ui.message key="eu.activity.publics" />
+                    </#if>
                 </h2>
                 <div class="st-limit-height st--is-overflowing">
-                    ${entry.getPrice(locale)}
+                    <ul>
+                        <#list entry.getPublics() as public>
+                            <li>
+                                <p>
+                                    ${public.getTitle(locale)}
+                                </p>
+                            </li>
+                        </#list>
+                    </ul>
                 </div>
                 <div class="st-show-more">
                     <button class="st-btn-show-more st-btn-arrow st--down" aria-expanded="false" aria-controls="123"

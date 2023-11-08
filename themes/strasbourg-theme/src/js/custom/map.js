@@ -5,5 +5,3 @@ function initMap() {
         }).addTo(map);
     })
 }
-
-th_maps.onLoadAfter(initMap)

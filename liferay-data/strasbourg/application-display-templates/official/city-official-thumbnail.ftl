@@ -19,19 +19,27 @@
 <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
 <li>
     <div class="st-card-container">
-        <a href="#" class="st-card st-card-person" onclick="updateModalOfficial(this)" data-detailurl="${detailURLFilter}" data-mailaddress="mailto:${entry.firstName?lower_case?replace(' ', '-')}.${entry.lastName?lower_case?replace(' ', '-')}@strasbourg.eu" data-overlay-open="st-overlay-preview-person">
+        <a href="#" class="st-card st-card-person" onclick="updateModalOfficial(this)" data-detailurl="${detailURLFilter}" data-mailaddress="<#if entry.listeContact?has_content>${detailURLFilter}#st-overlay-contact</#if>" data-overlay-open="st-overlay-preview-person">
 
             <div class="st-caption">
                 <p class="st-title-card">
                     ${entry.firstName} ${entry.lastName}
                 </p>
-                <#if entry.getName(entry.fonctionEurometropole,locale)?has_content>
-                    <p class="st-surtitre-cat">
-                        ${entry.getName(entry.fonctionEurometropole,locale)}
+                <#if entry.districts?has_content>
+                    <#if entry.getGender() == 1>
+                        <#assign officialTranslation = "male-official-of-the-district" />
+                    <#else>
+                        <#assign officialTranslation = "female-official-of-the-district" />
+                    </#if>
+                    <p class="st-role">
+                        <@liferay_ui.message key=officialTranslation />
+                        <#list entry.districts as district>
+                            ${district.getTitle(locale)}
+                        </#list>
                     </p>
                 </#if>
                 <#if entry.getName(entry.fonctionCity,locale)?has_content>
-                    <p class="st-role">
+                    <p class="st-surtitre-cat">
                         ${entry.getName(entry.fonctionCity,locale)}
                     </p>
                 </#if>

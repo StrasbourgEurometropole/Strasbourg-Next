@@ -8,17 +8,13 @@
     <div class="st-overlay__inner">
         <div class="st-overlay__body st-custom-scrollbar">
             <div class="st-nav-menu-mobile st-hide-from@mobile">
-                <div class="st-select-visitor">
-                    <span>Je suis</span>
-                    <select class="st-js-select-autoresize">
-                        <option value="habitant" selected="selected">un habitant</option>
-                        <option value="elu">un élu</option>
-                        <option value="enseignant">un enseignant</option>
-                        <option value="etudiant">un étudiant</option>
-                        <option value="demandeur">demandeur d'emploi</option>
-                    </select>
-                </div>
-                <a href="#" class="st-nav-menu-mobile__link">Mon quartier / Ma commune</a>
+                <#-- liferay_portlet["runtime"] - Structure Je suis-->
+                <@liferay_portlet["runtime"]
+                portletProviderAction=portletProviderAction.VIEW
+                portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+                instanceId="je-suis-header-mobile"
+                settingsScope="group" />
+                <a href="#" class="st-nav-menu-mobile__link" data-overlay-open="st-overlay-location">Mon quartier / Ma commune</a>
                 <a href="#" class="st-nav-menu-mobile__link">Contact</a>
             </div>
             <#list entries as nav_item>

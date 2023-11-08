@@ -22,9 +22,9 @@
 
         </a>
         <div class="cours-list st-hide">
-            <#-- Si la recherche a renvoyé des cours pour l'activité, on affiche ceux-ci -->
-            <#-- Sinon on affiche l'ensemble des cours de ladite activité -->
-            <#-- Car si la recherche a renvoyé des activités sans ses cours, c'est certainement que ce sont des cours qui n'ont pas d'horaires mais qui doivent tout de même être affichés -->
+            <#-- Si la recherche a renvoyé des cours pour lactivité, on affiche ceux-ci -->
+            <#-- Sinon on affiche lensemble des cours de ladite activité -->
+            <#-- Car si la recherche a renvoyé des activités sans ses cours, cest certainement que ce sont des cours qui nont pas dhoraires mais qui doivent tout de même être affichés -->
             <#if courses?has_content>
                 <#assign activityCourses = courses />
             <#else>
@@ -34,8 +34,11 @@
                 <div class="st-container">
                     <p class="st-title-small">${course.getName(locale)}</p>
                     <p class="st-surtitre-cat">${course.getTypesLabels(locale)}, ${course.getPublicsLabel(locale)}</p>
-                    <p class="st-surtitre-alt">durée moyenne du cours : 45 min</p>
-                    <p class="st-location">Illkirch-Graffenstaden, Schiltigheim</p>
+                    <#if course.getDuration()?has_content &&  course.getDuration() != 0>
+                        <p class="st-surtitre-alt">durée moyenne du cours : ${course.getDuration()} mins</p>
+                    </#if>
+                    <p class="st-location">${course.getPlaceNames(locale)?join(", ")}</p>
+
                     <div class="st-text st-text-styles">
                         ${course.getPresentation(locale)}
                     </div>

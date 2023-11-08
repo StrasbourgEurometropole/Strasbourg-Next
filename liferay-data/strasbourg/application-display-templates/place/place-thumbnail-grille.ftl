@@ -39,7 +39,6 @@
                 </#if>
             </div>
         </a>
-
-        <@isFavourite entryId=entry.eventId entryType=2 />
+        <@isFavourite entryId=entry.placeId entryType=1  entityGroupId=0 title=entry.getAlias(locale) url="${homeURL}lieu/-/entity/sig/${entry.getSIGid()}/${entry.getNormalizedAlias(locale)}" />
     </div>
 </li>

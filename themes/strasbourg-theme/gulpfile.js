@@ -44,7 +44,6 @@ liferayThemeTasks.registerTasks({
 		gulp.hook('before:build:war', function(done) {
 			// Fires before build `war` task
 			gulp.src([
-					'build/js/libs/moment.min.js',
 				'build/js/libs/splide.min.js',
 					'build/js/libs/*.js',
 					'build/js/libs/**/*.js',
