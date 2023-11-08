@@ -1,5 +1,6 @@
 package eu.strasbourg.utils;
 
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -49,13 +50,13 @@ public class PortalHelper {
      * @return String virtualHostname
      */
     public static String getVirtualHostname(Group group, String languageId)  {
-        String virtualHostName = null;
+        String virtualHostName = StringPool.BLANK;
         try {
             TreeMap<String, String> virtualHostNames = group.getPublicLayoutSet().getVirtualHostnames();
             virtualHostName = virtualHostNames.entrySet().stream()
                     .filter(entry -> languageId.equals(entry.getValue()) || "".equals(entry.getValue()))
                     .findFirst().map(Map.Entry::getKey)
-                    .orElse(null);
+                    .orElse(StringPool.BLANK);
         } catch (Exception e) {
             log.error(e.getMessage());
         }

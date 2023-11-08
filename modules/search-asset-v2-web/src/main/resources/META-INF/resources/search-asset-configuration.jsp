@@ -367,7 +367,7 @@
 
 <liferay-util:html-top>
    	<script>
-	        var assetTypeNames = '${dc.availableAssetTypeNamesString}';
+	        var assetTypeNames = "${dc.getAvailableAssetTypeNamesWithTrad(locale)}";
 	        var assetTemplates = ${dc.availableAssetTemplates};
          	var scopesJson = ${dc.availableScopes};
    	</script>
