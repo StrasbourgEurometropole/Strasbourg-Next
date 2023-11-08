@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <#include init />
-
+<#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
@@ -13,7 +13,6 @@
 <head>
     <title>${the_title?replace('-', '|')}</title>
     <meta content="initial-scale=1.0, width=device-width" name="viewport"/>
-    <link rel="stylesheet" href="/o/strasbourg-theme/css/style.css">
     <@liferay_util["include"] page=top_head_include />
 </head>
 
@@ -38,6 +37,7 @@
     <div id="overlay-shadow" class="st-shadow-overlay"></div>
     <script type="text/javascript">
         window.onload = function () {
+            window.loginURL = '${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}';
             var url = window.location.toString();
             document.getElementById("sharefacebook")?.setAttribute("href", "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(document.URL));
             document.getElementById("sharetwitter")?.setAttribute("href", "https://twitter.com/intent/tweet?text=" + url);
@@ -47,9 +47,8 @@
         environment = 'desktop';
     </script>
     <@liferay_util["include"] page=body_bottom_include />
+    <#include "${full_templates_path}/alert.ftl" />
 </div>
-
-<script src="/o/strasbourg-theme/js/strasbourg.min.js" type="text/javascript"></script>
 
 </body>
 

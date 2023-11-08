@@ -1,0 +1,28 @@
+[#if configuration.fileSelector.fileEntryId?has_content]
+<li class="st-lien-container">
+  <a href="${configuration.fileSelector.fileEntryId}" class="st-lien" download="">
+    <p class="st-title-lien">
+      ${configuration.fileSelector.title}
+    </p>
+    [#if configuration.displayStyle == "complete"]
+    <div class="st-lien-content">
+      <p class="st-type">(${configuration.fileSelector.extension?upper_case} - ${(configuration.fileSelector.size?number/1024)?string("0")} Ko)</p>
+      <p class="st-text">Télécharger</p>
+    </div>
+    [#else]
+    <p class="st-text">
+      <span class="st-type">(${configuration.fileSelector.extension?upper_case} - ${(configuration.fileSelector.size?number/1024)?string("0")} Ko)</span>
+      Télécharger
+    </p>
+    [/#if]
+  </a>
+</li>
+[#else]
+<li class="st-lien-container">
+  <a href="#" class="st-lien">
+    <p class="st-title-lien" >
+      Veuillez selectionner une fichier...
+    </p>
+  </a>
+</li>
+[/#if]

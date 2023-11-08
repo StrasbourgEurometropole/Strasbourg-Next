@@ -91,7 +91,7 @@ public class ActivityCourseModelImpl
 		{"name", Types.VARCHAR}, {"presentation", Types.CLOB},
 		{"arrangements", Types.CLOB}, {"price", Types.CLOB},
 		{"activityId", Types.BIGINT}, {"organizerId", Types.BIGINT},
-		{"duration", Types.VARCHAR}, {"imageId", Types.BIGINT},
+		{"duration", Types.INTEGER}, {"imageId", Types.BIGINT},
 		{"imageIds", Types.VARCHAR}, {"videosIds", Types.VARCHAR},
 		{"documentsIds", Types.VARCHAR}
 	};
@@ -118,7 +118,7 @@ public class ActivityCourseModelImpl
 		TABLE_COLUMNS_MAP.put("price", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("activityId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("organizerId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("duration", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("duration", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("imageIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("videosIds", Types.VARCHAR);
@@ -126,7 +126,7 @@ public class ActivityCourseModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table activity_ActivityCourse (uuid_ VARCHAR(75) null,activityCourseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name STRING null,presentation TEXT null,arrangements TEXT null,price TEXT null,activityId LONG,organizerId LONG,duration VARCHAR(75) null,imageId LONG,imageIds VARCHAR(75) null,videosIds VARCHAR(75) null,documentsIds VARCHAR(75) null)";
+		"create table activity_ActivityCourse (uuid_ VARCHAR(75) null,activityCourseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name STRING null,presentation TEXT null,arrangements TEXT null,price TEXT null,activityId LONG,organizerId LONG,duration INTEGER,imageId LONG,imageIds VARCHAR(75) null,videosIds VARCHAR(75) null,documentsIds VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table activity_ActivityCourse";
@@ -382,7 +382,7 @@ public class ActivityCourseModelImpl
 		attributeGetterFunctions.put("duration", ActivityCourse::getDuration);
 		attributeSetterBiConsumers.put(
 			"duration",
-			(BiConsumer<ActivityCourse, String>)ActivityCourse::setDuration);
+			(BiConsumer<ActivityCourse, Integer>)ActivityCourse::setDuration);
 		attributeGetterFunctions.put("imageId", ActivityCourse::getImageId);
 		attributeSetterBiConsumers.put(
 			"imageId",
@@ -1151,17 +1151,12 @@ public class ActivityCourseModelImpl
 
 	@JSON
 	@Override
-	public String getDuration() {
-		if (_duration == null) {
-			return "";
-		}
-		else {
-			return _duration;
-		}
+	public int getDuration() {
+		return _duration;
 	}
 
 	@Override
-	public void setDuration(String duration) {
+	public void setDuration(int duration) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
@@ -1585,7 +1580,7 @@ public class ActivityCourseModelImpl
 		activityCourseImpl.setOrganizerId(
 			this.<Long>getColumnOriginalValue("organizerId"));
 		activityCourseImpl.setDuration(
-			this.<String>getColumnOriginalValue("duration"));
+			this.<Integer>getColumnOriginalValue("duration"));
 		activityCourseImpl.setImageId(
 			this.<Long>getColumnOriginalValue("imageId"));
 		activityCourseImpl.setImageIds(
@@ -1773,12 +1768,6 @@ public class ActivityCourseModelImpl
 
 		activityCourseCacheModel.duration = getDuration();
 
-		String duration = activityCourseCacheModel.duration;
-
-		if ((duration != null) && (duration.length() == 0)) {
-			activityCourseCacheModel.duration = null;
-		}
-
 		activityCourseCacheModel.imageId = getImageId();
 
 		activityCourseCacheModel.imageIds = getImageIds();
@@ -1889,7 +1878,7 @@ public class ActivityCourseModelImpl
 	private String _priceCurrentLanguageId;
 	private long _activityId;
 	private long _organizerId;
-	private String _duration;
+	private int _duration;
 	private long _imageId;
 	private String _imageIds;
 	private String _videosIds;

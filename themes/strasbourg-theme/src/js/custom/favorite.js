@@ -17,6 +17,16 @@ function toggleFavorite(element) {
                 if (obj.hasOwnProperty('success')) {
 // remove class st-is-favorite
                     element.classList.remove('st-is-favorite');
+                } else if (obj.hasOwnProperty('error')) {
+                    if (obj['error'] == 'notConnected') {
+                        createConfirmationDialog(Liferay.Language.get('log-in-to-add-favorite'), "", Liferay.Language.get('eu.login'), Liferay.Language.get('eu.cancel'), function() {
+                            window.location = window.loginURL;
+                        });
+                    }
+                    else {
+                        console.error(obj['error']);
+                        createDialog(Liferay.Language.get('error-occured'));
+                    }
                 }
             }
         );}
@@ -26,8 +36,17 @@ function toggleFavorite(element) {
                 favoriteToAdd,
                 function(obj) {
                     if (obj.hasOwnProperty('success')) {
-// add class st-is-favorite
                         element.classList.add('st-is-favorite');
+                    } else if (obj.hasOwnProperty('error')) {
+                        if (obj['error'] == 'notConnected') {
+                            createConfirmationDialog(Liferay.Language.get('log-in-to-add-favorite'), "", Liferay.Language.get('eu.login'), Liferay.Language.get('eu.cancel'), function() {
+                                window.location = window.loginURL;
+                            });
+                        }
+                        else {
+                            console.error(obj['error']);
+                            createDialog(Liferay.Language.get('error-occured'));
+                        }
                     }
                 }
             );
@@ -37,6 +56,10 @@ function toggleFavorite(element) {
 
 // add click event to all favorite buttons with button.st-btn-favorite-card in document ready in pure js
 document.addEventListener("DOMContentLoaded", function() {
+    addClickEventToFavoriteButtons();
+});
+
+function addClickEventToFavoriteButtons() {
     document.querySelectorAll("button.st-btn-favorite-card").forEach(function(element) {
         element.addEventListener("click", function(e) {
             // prevent default behavior
@@ -45,4 +68,4 @@ document.addEventListener("DOMContentLoaded", function() {
             toggleFavorite(element);
         });
     });
-});
+}

@@ -52,7 +52,7 @@
 		</field>
 		<field name="activityId" type="long" />
 		<field name="organizerId" type="long" />
-		<field name="duration" type="String" />
+		<field name="duration" type="int" />
 		<field name="imageId" type="long" />
 		<field name="imageIds" type="String" />
 		<field name="videosIds" type="String" />

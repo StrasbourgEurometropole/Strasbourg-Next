@@ -106,7 +106,7 @@
     <column name="price" type="String" localized="true" />
     <column name="activityId" type="long" />
     <column name="organizerId" type="long" />
-    <column name="duration" type="String" />
+    <column name="duration" type="int" />
 
 	<!-- Links with other entities -->
 	<column name="imageId" type="long" />

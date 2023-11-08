@@ -1,0 +1,34 @@
+<div class="st-bloc st-bloc-galerie st-js-slider-galerie splide st-u-overflow-x-hidden st--direction-ltr {% if blocClass %}{{ blocClass }}{% endif %}"
+     role="group">
+  <div class="st-wrapper st-bloc-galerie__inner">
+    <div class="st-slider-container">
+      <div class="splide__arrows st-nav-arrows st-hide-until@mobile">
+        <button class="splide__arrow splide__arrow--prev st-btn-arrow st--prev"></button>
+        <button class="splide__arrow splide__arrow--next st-btn-arrow st--next"></button>
+      </div>
+
+      <div class="splide__track st-u-overflow-visible">
+        <ul class="splide__list">
+          [#if configuration.numberOfImages > 0]
+          [#list 1..configuration.numberOfImages as i]
+          <li class="splide__slide">
+            <button class="st-slide-galerie">
+
+              <span class="st-credits" aria-hidden="true" data-lfr-editable-id="copyright${i+1}" data-lfr-editable-type="text">© Abraham Lebowski</span>
+              <figure class="st-figure st-fit-cover " role="group">
+                <picture>
+                  <img alt data-lfr-editable-id="img${i+1}" data-lfr-editable-type="image" src="https://placehold.co/800x450?text=Image%20#${i+1}" >
+                </picture>
+                <figcaption data-lfr-editable-id="legend${i+1}" data-lfr-editable-type="text"> Lorem ipsum dolorem   </figcaption>
+              </figure>
+            </button>
+          </li>
+          [/#list]
+          [/#if]
+        </ul>
+      </div>
+    </div>
+
+    <ul class="splide__pagination st-nav-dots"></ul>
+  </div>
+</div>

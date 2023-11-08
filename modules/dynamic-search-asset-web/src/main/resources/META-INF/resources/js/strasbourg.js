@@ -34,6 +34,18 @@ function focusOnInput(inputId) {
     }
 }
 
+function createButtonFavorite(title, url, id, type, isFavorite = false) {
+    return `
+    <button class="st-btn-favorite-card ${isFavorite ? 'st-is-favorite' : ''}" 
+    data-groupid="0" 
+    data-title="${title}" 
+    data-url="${url}" 
+    data-id="${id}" 
+    data-type="${type}"> 
+    ${Liferay.Language.get('eu.add-to-favorite')}
+    </button>`;
+}
+
 function generateImage(imageURL, icon = "info") {
     if(imageURL) {
         return `
@@ -109,10 +121,9 @@ function createEventVignette(data) {
             ${generateImage(data.imageURL)}
             </div>
         </a>
-        <button class="st-btn-favorite-card" data-addpanier="postID">
-            Ajouter à mes favoris
-        </button>
+        ${createButtonFavorite(data.title, data.link, data.id, 2, data.isFavorite)}
     </div>
+    
 </li>
 `;
 }
@@ -130,9 +141,6 @@ function createManifestationVignette(data) {
             ${generateImage(data.imageURL)}
             </div>
         </a>
-        <button class="st-btn-favorite-card" data-addpanier="postID">
-            Ajouter à mes favoris
-        </button>
     </div>
 </li>
     `;
@@ -174,9 +182,7 @@ function createPlaceVignette(data) {
                 <p class="st-badge-ouverture ${!data.isOpen ? "st--closed": ""}">${data.isOpen ? "Ouvert": "Fermé"}</p>
             </div>
         </a>
-        <button class="st-btn-favorite-card" data-addpanier="postID">
-            Ajouter à mes favoris
-        </button>
+        ${createButtonFavorite(data.title, data.link, data.id, 1, data.isFavorite)}
     </div>
 </li>
 `;
@@ -234,6 +240,7 @@ function createArticleVignette(data) {
                 ${generateImage(data.imageURL)}
             </div>
         </a>
+        ${createButtonFavorite(data.title, data.link, data.id, 7, data.isFavorite)}
     </div>
 </li>
     `;
@@ -287,6 +294,11 @@ function populateList(data) {
     var resultTotal = document.getElementById('results-total');
     resultTotal.innerHTML = totalResult;
     data = data.filter(item => !item.totalResult);
+    // Remove all click event from favorite buttons
+    var favoriteButtons = document.querySelectorAll('.st-btn-favorite-card');
+    favoriteButtons.forEach(function (button) {
+        button.removeEventListener('click', toggleFavorite);
+    });
     data.forEach(function (item) {
         if(item.description) {
             item.description = item.description.replace(/(<([^>]+)>)/ig,"");
@@ -294,6 +306,7 @@ function populateList(data) {
         var vignette = getVignette(item.className, item);
         resultList.insertAdjacentHTML('beforeend', vignette);
     });
+    addClickEventToFavoriteButtons();
 }
 
 var searchInput = document.getElementById('recherche-input');

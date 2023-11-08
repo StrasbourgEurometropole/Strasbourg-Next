@@ -125,7 +125,7 @@ public class SaveActivityCourseActionCommand extends BaseMVCActionCommand {
 		Map<Locale, String> presentation = LocalizationUtil.getLocalizationMap(request, "presentation");
 		activityCourse.setPresentationMap(presentation);
 
-		String duration = ParamUtil.getString(request, "duration");
+		Integer duration = ParamUtil.getInteger(request, "duration");
 		activityCourse.setDuration(duration);
 
 		// Activité

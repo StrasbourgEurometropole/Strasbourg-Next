@@ -723,15 +723,14 @@ public interface ActivityCourseModel
 	 *
 	 * @return the duration of this activity course
 	 */
-	@AutoEscape
-	public String getDuration();
+	public int getDuration();
 
 	/**
 	 * Sets the duration of this activity course.
 	 *
 	 * @param duration the duration of this activity course
 	 */
-	public void setDuration(String duration);
+	public void setDuration(int duration);
 
 	/**
 	 * Returns the image ID of this activity course.

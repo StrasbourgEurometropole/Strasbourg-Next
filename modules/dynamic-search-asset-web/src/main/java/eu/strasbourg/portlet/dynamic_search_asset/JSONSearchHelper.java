@@ -20,6 +20,8 @@ import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.model.EditionGallery;
+import eu.strasbourg.service.favorite.model.FavoriteType;
+import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
 import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
@@ -52,6 +54,15 @@ public class JSONSearchHelper {
         jsonEvent.put(
                 Constants.ATTRIBUTE_CLASSNAME,
                 Event.class.getName()
+        );
+
+        // Add isFavorite attribute
+        jsonEvent.put(
+                Constants.ATTRIBUTE_IS_FAVORITE,
+                FavoriteLocalServiceUtil.isFavorite(
+                        event.getEventId(),
+                        FavoriteType.EVENT.getId(),
+                        publikUserId)
         );
 
         jsonEvent.put(
@@ -275,6 +286,7 @@ public class JSONSearchHelper {
                 Constants.ATTRIBUTE_LINK,
                 Utils.getHomeURL(themeDisplay) + Constants.DETAIL_VIDEO_URL + video.getVideoId()
         );
+
 
         switch (configAffichage) {
             case Constants.SEARCH_FORM_PLACIT:
@@ -503,7 +515,7 @@ public class JSONSearchHelper {
     /**
      * création de JSON pour JournalArticle
      */
-    public static JSONObject createJournalArticleSearchJson(AssetEntry assetEntry, Locale locale, ThemeDisplay themeDisplay, String configAffichage, int tailleMax) throws PortalException {
+    public static JSONObject createJournalArticleSearchJson(AssetEntry assetEntry, Locale locale, ThemeDisplay themeDisplay, String configAffichage, int tailleMax, String publikUserId) throws PortalException {
         JSONObject jsonArticle = JSONFactoryUtil.createJSONObject();
 
         JournalArticle journalArticle = JournalArticleServiceUtil.getLatestArticle(assetEntry.getClassPK());
@@ -512,6 +524,15 @@ public class JSONSearchHelper {
         jsonArticle.put(
                 Constants.ATTRIBUTE_CLASSNAME,
                 JournalArticle.class.getName()
+        );
+
+        // Add isFavorite attribute
+        jsonArticle.put(
+                Constants.ATTRIBUTE_IS_FAVORITE,
+                FavoriteLocalServiceUtil.isFavorite(
+                        journalArticle.getId(),
+                        FavoriteType.ARTICLE.getId(),
+                        publikUserId)
         );
 
         String detailURL = LayoutHelper.getJournalArticleLayoutURL(journalArticle.getGroupId(), journalArticle.getArticleId(), themeDisplay);
@@ -675,7 +696,7 @@ public class JSONSearchHelper {
     /**
      * création de JSON pour Edition
      */
-    public static JSONObject createEditionSearchJson(Edition edition, Locale locale, ThemeDisplay themeDisplay, String configAffichage, int tailleMax) {
+    public static JSONObject createEditionSearchJson(Edition edition, Locale locale, ThemeDisplay themeDisplay, String configAffichage, int tailleMax, String publikUserId) {
         JSONObject jsonEdition = JSONFactoryUtil.createJSONObject();
 
         jsonEdition.put(
@@ -686,6 +707,15 @@ public class JSONSearchHelper {
         jsonEdition.put(
                 Constants.ATTRIBUTE_LINK,
                 edition.getURL(locale)
+        );
+
+        // Add isFavorite attribute
+        jsonEdition.put(
+                Constants.ATTRIBUTE_IS_FAVORITE,
+                FavoriteLocalServiceUtil.isFavorite(
+                        edition.getEditionId(),
+                        FavoriteType.EDITION.getId(),
+                        publikUserId)
         );
 
         switch (configAffichage) {
@@ -872,7 +902,7 @@ public class JSONSearchHelper {
     /**
      * création de JSON pour Place
      */
-    public static JSONObject createPlaceSearchJson(Place place, Locale locale, ThemeDisplay themeDisplay, String configAffichage) {
+    public static JSONObject createPlaceSearchJson(Place place, Locale locale, ThemeDisplay themeDisplay, String configAffichage, String publikUserId) {
         JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
 
         jsonPlace.put(
@@ -884,6 +914,16 @@ public class JSONSearchHelper {
                 Constants.ATTRIBUTE_LINK,
                 Utils.getHomeURL(themeDisplay) + Constants.DETAIL_PLACE_URL + place.getSIGid() + "/" + UriHelper.normalizeToFriendlyUrl(place.getAlias(locale))
         );
+
+        // Add isFavorite attribute
+        jsonPlace.put(
+                Constants.ATTRIBUTE_IS_FAVORITE,
+                FavoriteLocalServiceUtil.isFavorite(
+                        place.getPlaceId(),
+                        FavoriteType.PLACE.getId(),
+                        publikUserId)
+        );
+
 
         switch (configAffichage) {
             case Constants.SEARCH_FORM_PLACIT:

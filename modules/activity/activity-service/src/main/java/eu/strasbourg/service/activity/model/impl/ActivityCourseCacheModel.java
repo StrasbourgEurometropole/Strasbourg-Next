@@ -200,14 +200,7 @@ public class ActivityCourseCacheModel
 
 		activityCourseImpl.setActivityId(activityId);
 		activityCourseImpl.setOrganizerId(organizerId);
-
-		if (duration == null) {
-			activityCourseImpl.setDuration("");
-		}
-		else {
-			activityCourseImpl.setDuration(duration);
-		}
-
+		activityCourseImpl.setDuration(duration);
 		activityCourseImpl.setImageId(imageId);
 
 		if (imageIds == null) {
@@ -266,7 +259,8 @@ public class ActivityCourseCacheModel
 		activityId = objectInput.readLong();
 
 		organizerId = objectInput.readLong();
-		duration = objectInput.readUTF();
+
+		duration = objectInput.readInt();
 
 		imageId = objectInput.readLong();
 		imageIds = objectInput.readUTF();
@@ -346,12 +340,7 @@ public class ActivityCourseCacheModel
 
 		objectOutput.writeLong(organizerId);
 
-		if (duration == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(duration);
-		}
+		objectOutput.writeInt(duration);
 
 		objectOutput.writeLong(imageId);
 
@@ -395,7 +384,7 @@ public class ActivityCourseCacheModel
 	public String price;
 	public long activityId;
 	public long organizerId;
-	public String duration;
+	public int duration;
 	public long imageId;
 	public String imageIds;
 	public String videosIds;

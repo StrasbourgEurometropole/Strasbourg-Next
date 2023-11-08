@@ -1,0 +1,17 @@
+{
+  "fieldSets": [
+    {
+      "fields": [
+        {
+          "label": "select-content",
+          "name": "jesuis",
+          "type": "itemSelector",
+          "typeOptions": {
+            "enableSelectTemplate": true,
+            "itemType": "com.liferay.journal.model.JournalArticle"
+          }
+        }
+      ]
+    }
+  ]
+}

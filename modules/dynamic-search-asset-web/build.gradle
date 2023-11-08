@@ -1,5 +1,6 @@
 dependencies {
-	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
+	implementation project(path: ':modules:favorite:favorite-api')
+    compileOnly group: "com.liferay.portal", name: "release.dxp.api"
 	compileOnly group: "jstl", name: "jstl"
 
 	implementation project (':modules:utils')

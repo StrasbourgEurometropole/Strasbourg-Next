@@ -180,7 +180,7 @@ public class ActivityCourseWrapper
 			setOrganizerId(organizerId);
 		}
 
-		String duration = (String)attributes.get("duration");
+		Integer duration = (Integer)attributes.get("duration");
 
 		if (duration != null) {
 			setDuration(duration);
@@ -436,7 +436,7 @@ public class ActivityCourseWrapper
 	 * @return the duration of this activity course
 	 */
 	@Override
-	public String getDuration() {
+	public int getDuration() {
 		return model.getDuration();
 	}
 
@@ -1169,7 +1169,7 @@ public class ActivityCourseWrapper
 	 * @param duration the duration of this activity course
 	 */
 	@Override
-	public void setDuration(String duration) {
+	public void setDuration(int duration) {
 		model.setDuration(duration);
 	}
 
