@@ -6,7 +6,7 @@ function addNoScroll() {
 }
 
 function removeNoScroll() {
-    if (document.body.classList.contains("st-no-scroll") && !$(th_overlay.selector_overlay_fiche_sit).hasClass('open')) {
+    if (document.body.classList.contains("st-no-scroll")) {
         document.body.classList.remove("st-no-scroll");
     }
 }

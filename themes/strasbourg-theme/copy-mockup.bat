@@ -34,9 +34,22 @@ REM Add the new CSS files to git
 cd /d "%sourceCSSDir%"
 git add .
 
-REM Delete the content of sourceJSDir
-echo Deleting files in %sourceJSDir%...
-del /q "%sourceJSDir%\*" >nul 2>&1
+
+for /r "%sourceJSDir%" %%A in (*) do (
+    if not "%%~nxA" == "alert.js" (
+    if not "%%~nxA" == "favorite.js" (
+            if not "%%~nxA" == "map.js" (
+                        del "%%A"
+                    )
+        )
+    )
+)
+for /d /r "%sourceJSDir%" %%D in (*) do (
+if not "%%~nxD" == "custom" (
+            rmdir "%%D" /s /q 2>nul
+        )
+
+)
 
 REM Copy everything from the destinationJSDir to sourceJSDir
 echo Copying files from %destinationJSDir% to %sourceJSDir%...

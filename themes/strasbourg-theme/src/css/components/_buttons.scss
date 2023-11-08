@@ -224,6 +224,54 @@
 	}
 }
 
+.st-page-wrapper .st-btn-text-arrow {
+	@include create-outline;
+	display: inline-flex;
+	align-items: center;
+	padding: 13px 20px;
+	@include ft($f_txt, $s_link, 600, $c_white, 1);
+	@include letter-spacing(25);
+	border: 1px solid $c_sub;
+	border-radius: $border-radius;
+	@include transition(color, background-color, border-color);
+
+	@include mobile {
+		padding: 11px 20px;
+		font-size: 12px;
+		justify-content: space-between;
+	}
+
+	@include can-hover {
+		color: $c_main;
+		background-color: $c_white;
+		border-color: $c_white;
+
+		[class^="st-icon-"], [class*=" st-icon-"] {
+			color: $c_main;
+			border-color: $c_main;
+		}
+	}
+
+	[class^="st-icon-"], [class*=" st-icon-"] {
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+		width: 20px;
+		height: 20px;
+		margin-left: 20px;
+		border: 1px solid rgba($c_white, 0.25);
+		border-radius: $border-radius-small;
+		color: $c_white;
+		font-size: 8px;
+		@include transition(color, background-color, border-color);
+
+		@include mobile {
+			margin-left: 10px;
+		}
+	}
+}
+
+
 .st-page-wrapper .st-nav-dots {
 	display: flex;
 	align-items: center;

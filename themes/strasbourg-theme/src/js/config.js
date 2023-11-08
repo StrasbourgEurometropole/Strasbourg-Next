@@ -5,8 +5,6 @@ var thConfig = {
     desktopBreakpoint: 1280,
     mobileBreakpoint: 600,
 
-    tagmanager: "",
-
     debug: true,
 
     // MAP IGN - 6mfxn9af26z1kmx9a9jwcpng / choisirgeoportail

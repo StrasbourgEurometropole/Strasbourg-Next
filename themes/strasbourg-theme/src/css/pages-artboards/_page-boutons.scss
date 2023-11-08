@@ -1,23 +1,21 @@
 .st-page-boutons {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	min-height: 100vh;
-	background-color: $c_main;
-
 	.st-grille-container {
 		padding: 100px 0;
 	}
 
-	.st-wrapper {
-		& + .st-wrapper {
-			padding: 10px;
+	.st-wrapper-exemple {
+		& + * {
 			margin-top: calc($small-margin * 2);
-			border: 1px dashed $c_border;
 		}
 	}
 
-	.container-buttons {
+	h2 {
+		& + .st-wrapper-exemple {
+			margin-top: 10px;
+		}
+	}
+
+	.st-container-buttons {
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;

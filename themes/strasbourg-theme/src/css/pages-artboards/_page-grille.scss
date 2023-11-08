@@ -1,0 +1,18 @@
+.st-page-grille {
+	.st-wrapper-exemple {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-top: calc($small-margin * 2);
+
+		span:first-child {
+			font-weight: 700;
+			color: $c_white;
+		}
+
+		span:last-child {
+			font-size: 14px;
+			color: $c_sub;
+		}
+	}
+}

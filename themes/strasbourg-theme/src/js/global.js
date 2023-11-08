@@ -1,9 +1,4 @@
-function isIE() {
-    if (navigator.userAgent.match(/trident/gi) || navigator.appName == 'Microsoft Internet Explorer') {
-        return true;
-    }
-    return false;
-}
+
 
 function isTouchDevice() {
     return 'ontouchstart' in document.documentElement;

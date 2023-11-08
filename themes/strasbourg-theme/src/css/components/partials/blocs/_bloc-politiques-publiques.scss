@@ -1,0 +1,129 @@
+.st-bloc-politiques-publiques {
+	// supprime les marges du wrapper pour les shadows du slider
+	@include tablet-portrait {
+		margin-left: initial;
+		margin-right: initial;
+	}
+
+	.st-titre {
+		margin-bottom: 30px;
+
+		// remet les marges du wrapper pour les shadows du slider
+		@include tablet-portrait {
+			margin-left: var(--border-gutter);
+			margin-right: var(--border-gutter);
+		}
+
+		@include mobile {
+			margin-bottom: 16px;
+		}
+	}
+
+
+	.st-bloc-politiques-publiques__top {
+		// remet les marges du wrapper pour les shadows du slider
+		@include tablet-portrait {
+			margin-left: var(--border-gutter);
+			margin-right: var(--border-gutter);
+		}
+	}
+
+	.st-links {
+		display: flex !important;
+
+		// passe du mode slider au mode liste de boutons en flex
+		@include min-tablet-portrait {
+			flex-wrap: wrap;
+			--col-gap: 10px;
+			--row-gap: 10px;
+			margin-left: calc(var(--col-gap) * -1) !important;;
+			margin-top: calc(var(--row-gap) * -1) !important;;
+
+			> * {
+				margin-left: var(--col-gap);
+				margin-top: var(--row-gap);
+			}
+		}
+
+		.splide__slide {
+			@include tablet-portrait {
+				margin-right: 10px;
+			}
+		}
+	}
+
+	.st-bloc-politiques-publiques__inner {
+		display: flex;
+		flex-direction: column;
+		margin-top: 40px;
+
+		// remet les marges du wrapper pour les shadows du slider
+		@include tablet-portrait {
+			margin-left: var(--border-gutter);
+			margin-right: var(--border-gutter);
+		}
+
+		@include mobile {
+			margin-top: 20px;
+		}
+	}
+
+	.splide__track {
+		@include tablet-portrait {
+			margin-left: calc(var(--border-gutter) * -1);
+			margin-right: calc(var(--border-gutter) * -1);
+			padding-left: var(--border-gutter) !important;
+			padding-right: var(--border-gutter) !important;
+			-webkit-mask-image: linear-gradient(to left, transparent, red var(--border-gutter), red calc(100% - var(--border-gutter)), transparent);
+			//background-image: linear-gradient(to left, transparent, red var(--border-gutter), red calc(100% - var(--border-gutter)), transparent);
+		}
+	}
+
+	.st-cards-wrapper {
+		// passe du mode slider au mode grille
+		@include min-tablet-portrait {
+			display: grid !important;
+			gap: 20px;
+			grid-template-columns: repeat(4, minmax(10px, 1fr));
+		}
+
+		.splide__slide {
+			@include tablet-portrait {
+				width: calc(100% - 20px);
+				max-width: 220px;
+				margin-right: var(--slide-gap);
+			}
+		}
+	}
+
+	.st-nav-dots {
+		margin-top: 20px;
+		justify-content: flex-end;
+	}
+
+
+	// actus dans un composant view-more seulement au-dessus de tablette
+	.st-component-container {
+		.st-limit-height {
+			--max-height-desktop: 670px;
+			display: flex;
+			flex-direction: column;
+
+			@include tablet-portrait {
+				max-height: initial;
+				overflow: initial;
+				padding-bottom: initial;
+
+				&:after {
+					display: none;
+				}
+			}
+		}
+
+		.st-show-more {
+			@include tablet-portrait {
+				display: none !important;
+			}
+		}
+	}
+}
