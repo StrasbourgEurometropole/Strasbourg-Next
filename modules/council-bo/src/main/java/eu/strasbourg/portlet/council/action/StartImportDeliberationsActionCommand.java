@@ -48,6 +48,7 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -155,7 +156,7 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
         }
 
         CSVFormat csvFileFormat = CSVFormat.DEFAULT.withHeader(DeliberationDataConstants.DELIBERATIONS_HEADER_MAPPING).withDelimiter(';');
-        CSVParser csvFileParser = CSVParser.parse(deliberationsCsv, StandardCharsets.ISO_8859_1, csvFileFormat);
+        CSVParser csvFileParser = CSVParser.parse(deliberationsCsv, Charset.forName("windows-1252"), csvFileFormat);
 
         List<CSVRecord> csvRecords = csvFileParser.getRecords();
         String errorTitleCheck = "Le titre ne doit pas exc\u00e9der 500 caract\u00e8res";
