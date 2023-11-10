@@ -165,10 +165,6 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
             SessionErrors.add(request, "order-error");
             isValid = false;
         }
-        if (Validator.isNull(ParamUtil.getString(request, "amendement"))) {
-            SessionErrors.add(request, "amendement-error");
-            isValid = false;
-        }
         if (Validator.isNull(ParamUtil.getString(request, "title"))) {
             SessionErrors.add(request, "title-error");
             isValid = false;

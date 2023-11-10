@@ -81,7 +81,7 @@
                 orderable="true" value="${deliberation.order}" />
 
                 <liferay-ui:search-container-column-text
-                name="amendement"
+                name="amendement-column"
                 orderable="true" value="${deliberation.amendement}" />
 
 				<liferay-ui:search-container-column-text cssClass="content-column table-cell-content"
