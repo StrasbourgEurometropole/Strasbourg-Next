@@ -42,11 +42,13 @@ $('.pro-btn-disabled').on('click', function (e) {
 // Pour les compteurs dans les pages de détail
 var textDiscover = $('.pro-compt').first().text();
 var textDiscoverWrapped = '';
+var isNumber = false;
 for (var i = 0; i != textDiscover.length; i++) {
-    if(textDiscover[i] == '0') {
+    if(textDiscover[i] == '0' && !isNumber) {
         textDiscoverWrapped += '<span style="color: #c5c6c8;">' + textDiscover[i] + '</span>';
     }
     else {
+        isNumber = true;
         textDiscoverWrapped += '<span>' + textDiscover[i] + '</span>';
     }
 

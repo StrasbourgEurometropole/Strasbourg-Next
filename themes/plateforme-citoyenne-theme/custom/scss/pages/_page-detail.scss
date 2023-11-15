@@ -62,6 +62,9 @@
 			}
 			.pro-meta {
 				margin-bottom: 0;
+				> .prefix-location {
+					text-align: left;
+				}
 				}
 			}
 			#breadcrumb {
@@ -125,7 +128,7 @@
 				&.pro-theme-non-faisable{
 					.pro-statut{
 						span{
-							background: #ff3c58;
+							background: $c_orange !important;
 						}
 					}
 				}

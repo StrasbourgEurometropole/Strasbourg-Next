@@ -23,13 +23,14 @@
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				padding: 30px;
+				padding: 10px 30px;
 				gap: 10px;
 				> span {
 					flex: 1;
 					@include ft($f_hx, 1em, 400, $c_txt);
 					overflow: hidden;
 					text-overflow: ellipsis;
+					overflow-wrap: anywhere;
 				}
 				> div {
 					display: flex;

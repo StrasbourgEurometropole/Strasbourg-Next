@@ -51,7 +51,7 @@ $colors: #ffffff, #ffffff, #EBECEE, #F37021, #ffffff, #EBECEE, #8DC63F;
 }
 
 #pro-header .pro-header .pro-wrapper-nav nav ul li ul.show {
-    @media (max-width: 992px){
+    @media (max-width: 1100px){
         position: relative !important;
         transform: none !important;
     }
@@ -61,10 +61,10 @@ $colors: #ffffff, #ffffff, #EBECEE, #F37021, #ffffff, #EBECEE, #8DC63F;
 }
 
 #pro-header .pro-header .pro-wrapper-nav nav ul li ul li a.active {
-    @media (min-width: 993px){
+    @media (min-width: 1100px){
         background-color: white;
     }
-    @media (max-width: 992px){
+    @media (max-width: 1100px){
         background-color: black;
         color: white;
     }
