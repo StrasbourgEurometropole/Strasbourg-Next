@@ -9,7 +9,7 @@
     <a href="${homeURL}manifestation/-/entity/id/${entry.manifestationId}">
         <span class="date">${entry.getManifestationScheduleDisplay(locale)}</span>
         <figure>
-            <img src='${entry.getImageURL()}' alt="${entry.getTitle(locale)}" width="270" height="400" class="fit-cover" />
+            <img src='${entry.getImageURL()}' alt="" width="270" height="400" class="fit-cover" />
         </figure>
         <div>
             <div class="mns-indic" style="text-align: center">

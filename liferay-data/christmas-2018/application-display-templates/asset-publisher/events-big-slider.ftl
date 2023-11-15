@@ -16,7 +16,7 @@
                 <#assign event = curEntry.getAssetRenderer().getEvent() />
                 <div class="item">
                     <figure class="fit-cover">
-                        <img src="${event.imageURL}" alt="${event.getTitle(locale)}" width="1600" height="900" class="fit-cover" />
+                        <img src="${event.imageURL}" alt="" width="1600" height="900" class="fit-cover" />
                     </figure>
                     <div class="caption container">
                         <div class="row">

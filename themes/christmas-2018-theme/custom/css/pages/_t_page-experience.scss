@@ -174,7 +174,7 @@
 		}
 
 		.no-hover &{
-			&:hover{
+			&:hover, &:focus{
 				transform: none;
 				.mns-img{
 					figure{

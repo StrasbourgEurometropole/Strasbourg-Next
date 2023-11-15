@@ -23,7 +23,7 @@
 					padding: 20px 15px;
 					display: inline-block;
 					@include an(all, 0.3);
-					&:hover {
+					&:hover, &:focus {
 						color: $c_main;
 					}
 					@include desktop {
@@ -114,7 +114,7 @@
 			@include ft($f_txt, 15px, 400, $c_white, normal);
 			display: block;
 			@include an(all, 0.3);
-			&:hover {
+			&:hover, &:focus {
 				color: $c_main;
 			}
 		}
@@ -156,7 +156,7 @@
 						color: $c_white;
 						font-size: 40px;
 						@include an(all, 0.3);
-						&:hover {
+						&:hover, &:focus {
 							color: $c_main;
 						}
 					}

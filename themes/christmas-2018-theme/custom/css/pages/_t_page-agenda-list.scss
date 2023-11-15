@@ -40,22 +40,24 @@
 
 		.row.form-group{
 			display: block;
+			width: auto;
 		}
 
 		.mns-label-top {
 			padding-bottom: 5px;
 			border-bottom: 1px solid $c_filet;
 			margin-bottom: 15px;
-			label {
+			legend {
 				@include ft($f_hx, 18px, 700, $c_txt, 26px);
 				user-select: none;
+				display: contents;
 			}
 			span.mns-remove {
 				position: absolute;
 				right: 15px;
 				@include ft($f_txt, 12px, 400, $c_txt, 26px);
 				@include addTransition();
-				&:hover{
+				&:hover, &:focus{
 					cursor: pointer;
 					color: $c_main;
 				}

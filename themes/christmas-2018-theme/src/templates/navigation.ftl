@@ -3,11 +3,11 @@
 <#else>
   <#assign homeURL = "" />
 </#if>
-<nav class="navbar mns-nav navbar-light">
+<nav role="navigation" class="navbar mns-nav navbar-light">
     <div id="search-bar" class="mns-search-bar">
         <div class="container">
             <div class="row">
-                <form action="${homeURL}/recherche" method="get">
+                <form role="search" action="${homeURL}/recherche" method="get">
                     <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_SearchAssetPortlet" />
                     <input type="text" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" id="search" placeholder="Rechercher..." />
                 </form>
@@ -59,13 +59,13 @@
                         <a href="#" class="mns-w-fixe-2"><span>Pro & Presse</span></a>
                         <#assign entity = themeDisplay.getURLCurrent()?keep_after(layout.friendlyURL)?keep_before('\\?','r') />
                         <#if homeURL != "/">
-                            <a href="/fr${homeURL}${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>  
-                            <a href="/de${homeURL}${layout.friendlyURL}${entity}" title="Deutsch" class="${(locale.language =='de')?then('active','')}" >DE</a>
-                            <a href="/en${homeURL}${layout.friendlyURL}${entity}" title="English" class="${(locale.language =='en')?then('active','')}" >EN</a>
+                            <a href="/fr${homeURL}${layout.friendlyURL}${entity}" title="Français" class="${(locale.language =='fr')?then('active','')}" lang="fr">FR</a>  
+                            <a href="/de${homeURL}${layout.friendlyURL}${entity}" title="Deutsch" class="${(locale.language =='de')?then('active','')}" lang="de">DE</a>
+                            <a href="/en${homeURL}${layout.friendlyURL}${entity}" title="English" class="${(locale.language =='en')?then('active','')}" lang="en">EN</a>
                         <#else>
-                            <a href="/fr${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>  
-                            <a href="/de${layout.friendlyURL}${entity}" title="Deutsch" class="${(locale.language =='de')?then('active','')}" >DE</a>
-                            <a href="/en${layout.friendlyURL}${entity}" title="English" class="${(locale.language =='en')?then('active','')}" >EN</a>
+                            <a href="/fr${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}" lang="fr">FR</a>  
+                            <a href="/de${layout.friendlyURL}${entity}" title="Deutsch" class="${(locale.language =='de')?then('active','')}" lang="de">DE</a>
+                            <a href="/en${layout.friendlyURL}${entity}" title="English" class="${(locale.language =='en')?then('active','')}" lang="en">EN</a>
                         </#if>
                     </div>
                 </li>
@@ -78,7 +78,7 @@
                     </div>
                 </li>
                 <li class="hidden-sm hidden-xs menu-accueil">
-                    <a href="${homeURL}/" aria-label="Strasbourg <@liferay_ui.message key='christmas-capital' />">
+                    <a href="${homeURL}/" aria-label="<@liferay_ui.message key='eu.breadcrumb-home' />">
                         <span class="icon-ico-home"></span>
                     </a>
                 </li>

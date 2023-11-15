@@ -60,7 +60,7 @@
 		color: $c_white;
 		font-size: 18px;
 	}
-	&:hover {
+	&:hover, &:focus {
 		background: $c_white;
 		border-color: $c_white;
 		span {
@@ -72,7 +72,7 @@
 		span {
 			color: $c_txt;
 		}
-		&:hover {
+		&:hover, &:focus {
 			border-color: $c_main;
 			background: $c_main;
 			span {
@@ -116,7 +116,7 @@
 		transform: translate(-50%, -50%);
 		color: $c_txt;
 	}
-	&:hover {
+	&:hover, &:focus {
 		background: $c_main;
 		border-color: $c_main;
 		span {

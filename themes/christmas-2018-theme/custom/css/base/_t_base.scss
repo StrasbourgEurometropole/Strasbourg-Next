@@ -7,7 +7,7 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 
-main{
+.main{
 	overflow: hidden;
 	&.mns-overflow{
 		overflow: visible;
@@ -131,7 +131,7 @@ main{
 			vertical-align: middle;
 			margin-left: 5px;
 		}
-		&:hover {
+		&:hover, &:focus {
 			color: $c_main;
 		}
 	}

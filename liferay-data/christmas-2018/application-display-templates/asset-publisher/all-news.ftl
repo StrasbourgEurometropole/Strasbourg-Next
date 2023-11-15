@@ -21,7 +21,7 @@
                         <article class="mns-bloc-actu">
                             <a href="${viewURL}">
                                 <figure>
-                                    <img src="${imageURL}" alt="${title}" width="450" height="300" />
+                                    <img src="${imageURL}" alt="" width="450" height="300" />
                                 </figure>
                                 <div class="mns-bloc-content-actu">
                                     <span class="publication"><@liferay_ui.message key="eu.published-on" /> ${publishDate?date}</span>
