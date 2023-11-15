@@ -53,6 +53,12 @@
 } />
 <#-- partage de la configuration open graph dans la request -->
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
+
+<style>
+.pro-bloc {
+    flex-direction: column;
+}
+</style>
 <div id="content" class="pro-page-detail pro-page-detail-initiative">
 
     <div class="container">
@@ -135,24 +141,19 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             </div>
 
                             <div class="row pro-bloc pro-bloc-texte">
-                                <#if entry.summary?has_content>
-                                    <h4>Résumé</h4>
-                                    <p>${entry.summary}</p>
-                                </#if>
+                                <h4>Objet de la saisine</h4>
+                                <p>${entry.projectTarget}</p>
                             </div>
 
                             <div class="row pro-bloc pro-bloc-texte">
+                                <h4>Description</h4>
                                 ${entry.description}
-                            </div>
-
-                            <div class="row pro-bloc pro-bloc-texte">
-                                ${entry.projectTarget}
                             </div>
 
                             <#if entry.cityResponse?has_content>
                                 <div style="padding:5px; background-color:#9ba0ee; border:2px solid #656ab0; -moz-border-radius:9px; -khtml-border-radius:9px; -webkit-border-radius:9px; border-radius:9px;">
                                     <div style="font-size: 2em; float: left; width: 40px; text-align: center; margin-right: 5px; height: 20px; padding:3px;">!</div>
-                                    <p><strong>Commentaires des services thématiques de la collectivité : "${entry.getSaisineObservatoireStatus()}"</strong><br />
+                                    <p><strong>Commentaires de la collectivité : "${entry.getSaisineObservatoireStatus()}"</strong><br />
                                         &nbsp;</p>
                                     <em>${entry.cityResponse}</em>
                                 </div>
@@ -195,79 +196,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             </article>
         </div>
     </div>
-
-    <#-- Recuperation des suggéstions de la saisine -->
-    <#assign suggestions = entry.getSuggestions(request, 10) />
-
-    <#-- Liste des suggéstions -->
-    <#if suggestions?size gt 0 >
-        <section id="pro-link-petition" class="pro-bloc-slider pro-slider-event" style="background-color: white;">
-            <div class="container">
-                <div>
-                    <h2>D’autres saisines</h2>
-                    <div class="pro-wrapper">
-                        <#if isUserloggedIn && hasUserPactSign && !isUserBanned>
-                            <a id="buttonDeposer" href="#deposerSaisineObservatoire" class="pro-btn-yellow" data-toggle="modal" data-target="#modalSaisineObservatoire">Déposer une saisine</a>
-                        <#elseif !hasUserPactSign>
-                            <a class="pro-btn-yellow" name="#Pact-sign" href="#">Déposer une saisine</a>
-                        <#elseif isUserBanned>
-                            <a class="pro-btn-yellow" name="#IsBanned" href="#">Déposer une saisine</a>
-                        </#if>
-                        <a href="${homeURL}saisines-observatoire" class="pro-btn">Toutes les saisines</a>
-                    </div>
-                </div>
-                <div>
-                    <div class="owl-carousel owl-opacify owl-theme owl-cards">
-
-                        <#list suggestions as suggestion >
-                            <div class="item pro-bloc-card-petition" data-linkall="a">
-                                <div class="pro-header-petition">
-                                    <figure role="group">
-                                        <img src="${suggestion.getAuthorImageURL()}" width="40" height="40"
-                                             alt="Portrait de ${suggestion.getUserName()}"/>
-                                    </figure>
-                                    <p>
-                                        Saisine publiée par :
-                                    </p>
-                                    <p>
-                                        <strong>
-                                            ${suggestion.petitionnaireFirstname}
-                                            ${suggestion.petitionnaireLastname}
-                                        </strong>
-                                    </p>
-                                </div>
-                                <div class="pro-content-petition">
-                                    <div class="pro-meta">
-                                        <span>${suggestion.getSaisineObservatoireStatus()}</span>
-                                        <span>${suggestion.getThematicLabel(locale)}</span>
-                                    </div>
-                                    <span class="prefix-location">
-											${suggestion.getDistrictLabel(locale)}
-									</span>
-                                    <a href="${homeURL}detail-saisine-observatoire/-/entity/id/${suggestion.saisineObservatoireId}"
-                                       title="Lien vers ${suggestion.title}">
-                                        <h3>${suggestion.title}</h3>
-                                    </a>
-                                    <p>
-                                        Saisine adressée à <u>la ville de Strasbourg</u>
-                                    </p>
-                                    <span class="pro-time">Publiée le
-                                        <time datetime="${suggestion.createDate?date?string['dd/MM/yyyy']}">${suggestion.createDate?date?string['dd/MM/yyyy']}</time>
-                                    </span>
-
-                                </div>
-                                <div class="footer-comment">
-                                    <span>${suggestion.getApprovedComments()?size} Commentaires</span>
-                                </div>
-                            </div>
-
-                        </#list>
-
-                    </div>
-                </div>
-            </div>
-        </section>
-    </#if>
 </div>
 
 <script>

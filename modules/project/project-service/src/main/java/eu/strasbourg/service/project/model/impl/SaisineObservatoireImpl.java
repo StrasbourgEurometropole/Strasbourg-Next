@@ -115,8 +115,8 @@ public class SaisineObservatoireImpl extends SaisineObservatoireBaseImpl {
 
     @Override
     public String getAuthorLabel() {
-        if (this.getInTheNameOf() != "" && this.getInTheNameOf() != null) {
-            return this.getInTheNameOf();
+        if (Validator.isNotNull(this.getCollectiveName())) {
+            return this.getCollectiveName();
         } else {
             return StringUtil.upperCaseFirstLetter(this.getPetitionnaireFirstname()) + " " + StringUtil.toUpperCase(StringUtil.shorten(this.getPetitionnaireLastname(), 2, "."));
         }

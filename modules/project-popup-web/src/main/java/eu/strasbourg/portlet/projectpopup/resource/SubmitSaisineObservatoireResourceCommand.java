@@ -3,6 +3,10 @@ package eu.strasbourg.portlet.projectpopup.resource;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetCategoryModel;
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.document.library.kernel.model.DLFolder;
+import com.liferay.document.library.kernel.model.DLFolderConstants;
+import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -10,14 +14,17 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
+import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.template.*;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.upload.UploadRequest;
 import com.liferay.portal.kernel.util.*;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.SaisineObservatoire;
 import eu.strasbourg.service.project.service.SaisineObservatoireLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -29,6 +36,7 @@ import org.osgi.service.component.annotations.Component;
 import javax.mail.internet.InternetAddress;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -60,10 +68,13 @@ public class SubmitSaisineObservatoireResourceCommand implements MVCResourceComm
     private static final String PHONE = "phone";
     private static final String MOBILE = "mobile";
     private static final String SAISINETITLE = "title";
-    private static final String SAISINESUMMARY = "summary";
     private static final String SAISINEDESCRIPTION = "description";
     private static final String PROJECTTARGET = "projectTarget";
-    private static final String IN_THE_NAME_OF = "inTheNameOf";
+    private static final String COLLECTIVENAME = "collectiveName";
+    private static final String OTHERMECHANISM = "otherMechanism";
+    private static final String DISPOSITIF = "dispositif";
+    private static final String AKA = "aka";
+    private static final String PHOTO = "photo";
     private static final String LIEU = "consultationPlacesText";
     private static final String PROJECT = "project";
     private static final String QUARTIER = "quartier";
@@ -108,22 +119,24 @@ public class SubmitSaisineObservatoireResourceCommand implements MVCResourceComm
         String city = HtmlUtil.stripHtml(ParamUtil.getString(request, CITY));
         long postalcode = ParamUtil.getLong(request, POSTALCODE);
         String phone = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE));
+        String collectiveName = HtmlUtil.stripHtml(ParamUtil.getString(request, COLLECTIVENAME));
+        String otherMechanism = HtmlUtil.stripHtml(ParamUtil.getString(request, OTHERMECHANISM));
         String mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, MOBILE));
         String lastname = HtmlUtil.stripHtml(ParamUtil.getString(request, LASTNAME));
         String firstname = HtmlUtil.stripHtml(ParamUtil.getString(request, FIRSTNAME));
         String email = HtmlUtil.stripHtml(ParamUtil.getString(request, EMAIL));
         String lieu = HtmlUtil.stripHtml(ParamUtil.getString(request, LIEU));
         String title = HtmlUtil.stripHtml(ParamUtil.getString(request, SAISINETITLE));
-        String summary = HtmlUtil.stripHtml(ParamUtil.getString(request, SAISINESUMMARY));
         String description = HtmlUtil.stripHtml(ParamUtil.getString(request, SAISINEDESCRIPTION).replace("\n", "<br>"));
-        String projectTarget = HtmlUtil.stripHtml(ParamUtil.getString(request, PROJECTTARGET).replace("\n", "<br>"));
-        String inTheNameOf = HtmlUtil.stripHtml(ParamUtil.getString(request, IN_THE_NAME_OF));
+        String projectTarget = HtmlUtil.stripHtml(ParamUtil.getString(request, PROJECTTARGET));
         long projectId = ParamUtil.getLong(request, PROJECT);
         long quartierId = ParamUtil.getLong(request, QUARTIER);
         long themeId = ParamUtil.getLong(request, THEME);
+        long dispositifId = ParamUtil.getLong(request, DISPOSITIF);
+        long enTantQueId = ParamUtil.getLong(request, AKA);
 
         // Verification de la validite des informations
-        String message = validate(publikID, user, title, summary,
+        String message = validate(publikID, user, title,
                 description, birthday, city, address, postalcode);
         if (message.equals("")) {
 
@@ -160,6 +173,12 @@ public class SubmitSaisineObservatoireResourceCommand implements MVCResourceComm
             if (themeId != 0) {
                 identifiants.add(themeId);
             }
+            if (dispositifId != 0) {
+                identifiants.add(dispositifId);
+            }
+            if (enTantQueId != 0) {
+                identifiants.add(enTantQueId);
+            }
             long[] ids = new long[identifiants.size()];
             for (int i = 0; i < identifiants.size(); i++) {
                 ids[i] = identifiants.get(i);
@@ -174,10 +193,10 @@ public class SubmitSaisineObservatoireResourceCommand implements MVCResourceComm
             try {
                 saisineObservatoire = SaisineObservatoireLocalServiceUtil.createSaisineObservatoire(sc);
                 saisineObservatoire.setTitle(title);
-                saisineObservatoire.setSummary(summary);
                 saisineObservatoire.setDescription(description);
+                saisineObservatoire.setOtherMechanism(otherMechanism);
+                saisineObservatoire.setCollectiveName(collectiveName);
                 saisineObservatoire.setProjectTarget(projectTarget);
-                saisineObservatoire.setInTheNameOf(inTheNameOf);
                 saisineObservatoire.setPetitionnaireAdresse(address);
                 saisineObservatoire.setPetitionnaireBirthday(birthday);
                 saisineObservatoire.setPetitionnaireCity(city);
@@ -191,12 +210,13 @@ public class SubmitSaisineObservatoireResourceCommand implements MVCResourceComm
                 }
                 saisineObservatoire.setPetitionnaireEmail(email);
                 saisineObservatoire.setPublikId(publikID);
+                saisineObservatoire = uploadFile(saisineObservatoire, request);
                 saisineObservatoire = SaisineObservatoireLocalServiceUtil.updateSaisineObservatoire(saisineObservatoire, sc);
                 AssetEntry assetEntry = saisineObservatoire.getAssetEntry();
                 if (assetEntry == null)
                     throw new PortalException("aucune assetCategory pour la saisine "
                             + saisineObservatoire.getSaisineObservatoireId());
-            } catch (PortalException e) {
+            } catch (PortalException | IOException e) {
                 _log.error(e);
                 message = "error";
             }
@@ -285,7 +305,75 @@ public class SubmitSaisineObservatoireResourceCommand implements MVCResourceComm
         }
     }
 
-    private String validate(String publikID, PublikUser user, String title, String summary, String description,
+    /**
+     * Recuperer l'image uploadée par l'utilisateur.
+     *
+     * @return la saisine avec l'imageId
+     * @throws PortalException Fichier sans image
+     * @throws IOException Pb récupération de la photo
+     */
+    private SaisineObservatoire uploadFile(SaisineObservatoire saisine, ResourceRequest request) throws PortalException, IOException {
+
+        // Recuperation du contexte de la requete
+        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+        ServiceContext sc = ServiceContextFactory.getInstance(request);
+        UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
+
+        // Verification du nom du fichier
+        if (validateFileName(request)) {
+
+            File photo = uploadRequest.getFile(PHOTO);
+
+            // Verification de la bonne recuperation du contenu du fichier
+            if (photo != null && photo.exists()) {
+
+                byte[] imageBytes = FileUtil.getBytes(photo);
+
+                // Dossier a la racine
+                DLFolder folderparent = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
+                        DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,
+                        "[TECHNIQUE] Photo Saisine");
+                // Dossier d'upload de l'entite
+                DLFolder folder = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
+                        folderparent.getFolderId(),
+                        "Uploads");
+                // Ajout du fichier
+                FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
+                        sc.getUserId(), folder.getRepositoryId(),
+                        folder.getFolderId(), photo.getName(),
+                        MimeTypesUtil.getContentType(photo),
+                        photo.getName(), saisine.getTitle(),
+                        "", imageBytes, sc);
+                // Lien de l'image a l'entite
+                saisine.setImageId(fileEntry.getFileEntryId());
+
+                _log.info("Photo saisine uploade : [" + photo + "]");
+
+            }
+            return saisine;
+
+        } else {
+            throw new PortalException("le fichier n'est pas une image");
+        }
+    }
+
+    /**
+     * Validation du nom du fichier photo
+     * @return Valide ou pas
+     */
+    private boolean validateFileName(ResourceRequest request) {
+        boolean result = true;
+        UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
+        String fileName = uploadRequest.getFileName(PHOTO);
+        if (fileName != null && !fileName.isEmpty()) {
+            String type = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
+            result = type.equals(".jpg") || type.equals(".jpeg") || type.equals(".png");
+        }
+        return result;
+    }
+
+
+    private String validate(String publikID, PublikUser user, String title, String description,
                             Date birthday, String city, String address, long postalcode) {
 
         // utilisateur
@@ -305,11 +393,6 @@ public class SubmitSaisineObservatoireResourceCommand implements MVCResourceComm
         }
         if (title.length() > 45) {
             return "Taille du titre trop grande";
-        }
-
-        // Summary
-        if (summary.length() > 500) {
-            return "Taille du r\u00e9sum\u00e9 trop grande";
         }
 
         // description

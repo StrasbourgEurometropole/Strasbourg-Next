@@ -91,10 +91,6 @@ public class SaveSaisineObservatoireActionCommand implements MVCActionCommand {
 			String externalImageURL = ParamUtil.getString(request, "externalImageURL");
 			String externalImageCopyright = ParamUtil.getString(request, "externalImageCopyright");
 			String description = ParamUtil.getString(request, "description");
-			String summary = ParamUtil.getString(request, "summary");
-			Boolean isSupported = ParamUtil.getBoolean(request, "isSupported");
-			String supportedBy = ParamUtil.getString(request, "supportedBy");
-			
 			String placeTextArea = ParamUtil.getString(request, "placeTextArea");
 			String placitPlacesIndexesString = ParamUtil.getString(request, "placeIndexes");
 			String filesIds = ParamUtil.getString(request, "filesIds");
@@ -102,12 +98,11 @@ public class SaveSaisineObservatoireActionCommand implements MVCActionCommand {
 			String title = ParamUtil.getString(request, "title");
 			String prenomPetitionnaire = ParamUtil.getString(request, "petitionnaireFirstname");
 			String nomPetitionnaire = ParamUtil.getString(request, "petitionnaireLastname");
-			String inTheNameOf = ParamUtil.getString(request, "inTheNameOf");
-			Boolean isOfficial = ParamUtil.getBoolean(request, "isOfficial");
+			String collectiveName = ParamUtil.getString(request, "collectiveName");
+			String otherMechanism = ParamUtil.getString(request, "otherMechanism");
 			String projectTarget = ParamUtil.getString(request, "projectTarget");
 			String cityResponse = ParamUtil.getString(request, "cityResponse");
 
-			int fakeSignataire = ParamUtil.getInteger(request, "nbFakeSignataire");
 
 			// ---------------------------------------------------------------
 			// -------------------------- GENERALITES ------------------------
@@ -121,10 +116,10 @@ public class SaveSaisineObservatoireActionCommand implements MVCActionCommand {
 			saisineObservatoire.setPetitionnaireLastname(nomPetitionnaire);
 			
 			// Au nom de ...
-			saisineObservatoire.setInTheNameOf(inTheNameOf);
+			saisineObservatoire.setCollectiveName(collectiveName);
 
-			// Est un élu ?
-			saisineObservatoire.setIsOfficial(isOfficial);
+			// AUtre dispositif
+			saisineObservatoire.setOtherMechanism(otherMechanism);
 
 			// Cible
 			saisineObservatoire.setProjectTarget(projectTarget);
@@ -159,26 +154,10 @@ public class SaveSaisineObservatoireActionCommand implements MVCActionCommand {
 			saisineObservatoire.setDescription(description);
 
 			// ---------------------------------------------------------------
-			// -------------------------- SUMMARY ----------------------------
-			// ---------------------------------------------------------------
-
-			saisineObservatoire.setSummary(summary);
-
-			// ---------------------------------------------------------------
-			// -------------------------- DESCRIPTION ------------------------
-			// ---------------------------------------------------------------
-
-			saisineObservatoire.setIsSupported(isSupported);
-			saisineObservatoire.setSupportedBy(supportedBy);
-
-			// ---------------------------------------------------------------
 			// -------------------------- LIEUX DE CONSULTATIONS -------------
 			// ---------------------------------------------------------------
 
 			saisineObservatoire.setPlaceTextArea(placeTextArea);
-			
-			if (fakeSignataire>0)
-				SignataireLocalServiceUtil.createFakeSignataire(saisineObservatoireId,fakeSignataire);
 
 			for (PlacitPlace placitPlace : saisineObservatoire.getPlacitPlaces()){
 				_placitPlaceLocalService.removePlacitPlace(placitPlace.getPlacitPlaceId());

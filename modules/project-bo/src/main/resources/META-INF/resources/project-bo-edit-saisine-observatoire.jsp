@@ -52,14 +52,21 @@
                 <%-- Champ : Auteur nom --%>
                 <aui:input name="petitionnaireLastname" required="true" />
 
-                <%-- Champ : Au nom de ... --%>
-                <aui:input name="inTheNameOf" required="false">
-                    <aui:validator name="maxLength">140</aui:validator>
+
+                <aui:input name="projectTarget" required="true" />
+
+                <%-- Champ : Autre dispositif --%>
+                <aui:input name="otherMechanism" required="false">
+                    <aui:validator name="maxLength">150</aui:validator>
                 </aui:input>
 
-                <aui:input name="isOfficial" required="false" />
+                <%-- Champ : Nom Collectif --%>
+                <aui:input name="collectiveName" required="false">
+                    <aui:validator name="maxLength">150</aui:validator>
+                </aui:input>
 
-                <aui:input name="projectTarget" required="false" />
+
+
 
             </aui:fieldset>
 
@@ -109,13 +116,6 @@
             <%-- Groupe de champs : Description --%>
             <aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-describe">
                 <aui:input name="description" required="false" />
-            </aui:fieldset>
-
-            <%-- Champ : Corps du résumé --%>
-            <aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-summary">
-                <aui:input name="summary" label="input-summary" type="textarea" required="false" maxLength="500">
-                    <aui:validator name="maxLength">500</aui:validator>
-                </aui:input>
             </aui:fieldset>
 
             <%-- Groupe de champs : Lieux --%>

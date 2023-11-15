@@ -81,10 +81,10 @@ public class SaisineObservatoireModelImpl
 		{"modifiedDate", Types.TIMESTAMP}, {"status", Types.INTEGER},
 		{"statusByUserId", Types.BIGINT}, {"statusByUserName", Types.VARCHAR},
 		{"statusDate", Types.TIMESTAMP}, {"title", Types.VARCHAR},
-		{"summary", Types.VARCHAR}, {"description", Types.CLOB},
-		{"placeTextArea", Types.VARCHAR}, {"filesDownload", Types.VARCHAR},
-		{"inTheNameOf", Types.VARCHAR}, {"isOfficial", Types.BOOLEAN},
-		{"cityResponse", Types.CLOB}, {"projectTarget", Types.CLOB},
+		{"description", Types.CLOB}, {"placeTextArea", Types.VARCHAR},
+		{"filesDownload", Types.VARCHAR}, {"cityResponse", Types.CLOB},
+		{"projectTarget", Types.VARCHAR}, {"otherMechanism", Types.VARCHAR},
+		{"collectiveName", Types.VARCHAR},
 		{"petitionnaireLastname", Types.VARCHAR},
 		{"petitionnaireFirstname", Types.VARCHAR},
 		{"petitionnaireBirthday", Types.TIMESTAMP},
@@ -92,8 +92,7 @@ public class SaisineObservatoireModelImpl
 		{"petitionnairePostalCode", Types.BIGINT},
 		{"petitionnaireCity", Types.VARCHAR},
 		{"petitionnairePhone", Types.VARCHAR},
-		{"petitionnaireEmail", Types.VARCHAR}, {"isSupported", Types.BOOLEAN},
-		{"supportedBy", Types.VARCHAR}, {"videoUrl", Types.VARCHAR},
+		{"petitionnaireEmail", Types.VARCHAR}, {"videoUrl", Types.VARCHAR},
 		{"externalImageURL", Types.VARCHAR},
 		{"externalImageCopyright", Types.VARCHAR},
 		{"mediaChoice", Types.BOOLEAN}, {"publikId", Types.VARCHAR},
@@ -116,14 +115,13 @@ public class SaisineObservatoireModelImpl
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("summary", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("placeTextArea", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("filesDownload", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("inTheNameOf", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("isOfficial", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("cityResponse", Types.CLOB);
-		TABLE_COLUMNS_MAP.put("projectTarget", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("projectTarget", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("otherMechanism", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("collectiveName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("petitionnaireLastname", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("petitionnaireFirstname", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("petitionnaireBirthday", Types.TIMESTAMP);
@@ -132,8 +130,6 @@ public class SaisineObservatoireModelImpl
 		TABLE_COLUMNS_MAP.put("petitionnaireCity", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("petitionnairePhone", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("petitionnaireEmail", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("isSupported", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("supportedBy", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("videoUrl", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageCopyright", Types.VARCHAR);
@@ -144,7 +140,7 @@ public class SaisineObservatoireModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table project_SaisineObservatoire (saisineObservatoireId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,summary VARCHAR(500) null,description TEXT null,placeTextArea VARCHAR(400) null,filesDownload VARCHAR(75) null,inTheNameOf VARCHAR(400) null,isOfficial BOOLEAN,cityResponse TEXT null,projectTarget TEXT null,petitionnaireLastname VARCHAR(75) null,petitionnaireFirstname VARCHAR(75) null,petitionnaireBirthday DATE null,petitionnaireAdresse VARCHAR(400) null,petitionnairePostalCode LONG,petitionnaireCity VARCHAR(400) null,petitionnairePhone VARCHAR(75) null,petitionnaireEmail VARCHAR(400) null,isSupported BOOLEAN,supportedBy VARCHAR(75) null,videoUrl VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(400) null)";
+		"create table project_SaisineObservatoire (saisineObservatoireId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,placeTextArea VARCHAR(400) null,filesDownload VARCHAR(75) null,cityResponse TEXT null,projectTarget VARCHAR(150) null,otherMechanism VARCHAR(150) null,collectiveName VARCHAR(150) null,petitionnaireLastname VARCHAR(75) null,petitionnaireFirstname VARCHAR(75) null,petitionnaireBirthday DATE null,petitionnaireAdresse VARCHAR(400) null,petitionnairePostalCode LONG,petitionnaireCity VARCHAR(400) null,petitionnairePhone VARCHAR(75) null,petitionnaireEmail VARCHAR(400) null,videoUrl VARCHAR(400) null,externalImageURL VARCHAR(400) null,externalImageCopyright VARCHAR(75) null,mediaChoice BOOLEAN,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(400) null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table project_SaisineObservatoire";
@@ -211,14 +207,13 @@ public class SaisineObservatoireModelImpl
 		model.setStatusByUserName(soapModel.getStatusByUserName());
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setTitle(soapModel.getTitle());
-		model.setSummary(soapModel.getSummary());
 		model.setDescription(soapModel.getDescription());
 		model.setPlaceTextArea(soapModel.getPlaceTextArea());
 		model.setFilesDownload(soapModel.getFilesDownload());
-		model.setInTheNameOf(soapModel.getInTheNameOf());
-		model.setIsOfficial(soapModel.isIsOfficial());
 		model.setCityResponse(soapModel.getCityResponse());
 		model.setProjectTarget(soapModel.getProjectTarget());
+		model.setOtherMechanism(soapModel.getOtherMechanism());
+		model.setCollectiveName(soapModel.getCollectiveName());
 		model.setPetitionnaireLastname(soapModel.getPetitionnaireLastname());
 		model.setPetitionnaireFirstname(soapModel.getPetitionnaireFirstname());
 		model.setPetitionnaireBirthday(soapModel.getPetitionnaireBirthday());
@@ -228,8 +223,6 @@ public class SaisineObservatoireModelImpl
 		model.setPetitionnaireCity(soapModel.getPetitionnaireCity());
 		model.setPetitionnairePhone(soapModel.getPetitionnairePhone());
 		model.setPetitionnaireEmail(soapModel.getPetitionnaireEmail());
-		model.setIsSupported(soapModel.isIsSupported());
-		model.setSupportedBy(soapModel.getSupportedBy());
 		model.setVideoUrl(soapModel.getVideoUrl());
 		model.setExternalImageURL(soapModel.getExternalImageURL());
 		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
@@ -679,29 +672,6 @@ public class SaisineObservatoireModelImpl
 
 			});
 		attributeGetterFunctions.put(
-			"summary",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getSummary();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"summary",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object summaryObject) {
-
-					saisineObservatoire.setSummary((String)summaryObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
 			"description",
 			new Function<SaisineObservatoire, Object>() {
 
@@ -774,54 +744,6 @@ public class SaisineObservatoireModelImpl
 
 			});
 		attributeGetterFunctions.put(
-			"inTheNameOf",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getInTheNameOf();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"inTheNameOf",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object inTheNameOfObject) {
-
-					saisineObservatoire.setInTheNameOf(
-						(String)inTheNameOfObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"isOfficial",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getIsOfficial();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"isOfficial",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object isOfficialObject) {
-
-					saisineObservatoire.setIsOfficial(
-						(Boolean)isOfficialObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
 			"cityResponse",
 			new Function<SaisineObservatoire, Object>() {
 
@@ -866,6 +788,54 @@ public class SaisineObservatoireModelImpl
 
 					saisineObservatoire.setProjectTarget(
 						(String)projectTargetObject);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"otherMechanism",
+			new Function<SaisineObservatoire, Object>() {
+
+				@Override
+				public Object apply(SaisineObservatoire saisineObservatoire) {
+					return saisineObservatoire.getOtherMechanism();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"otherMechanism",
+			new BiConsumer<SaisineObservatoire, Object>() {
+
+				@Override
+				public void accept(
+					SaisineObservatoire saisineObservatoire,
+					Object otherMechanismObject) {
+
+					saisineObservatoire.setOtherMechanism(
+						(String)otherMechanismObject);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"collectiveName",
+			new Function<SaisineObservatoire, Object>() {
+
+				@Override
+				public Object apply(SaisineObservatoire saisineObservatoire) {
+					return saisineObservatoire.getCollectiveName();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"collectiveName",
+			new BiConsumer<SaisineObservatoire, Object>() {
+
+				@Override
+				public void accept(
+					SaisineObservatoire saisineObservatoire,
+					Object collectiveNameObject) {
+
+					saisineObservatoire.setCollectiveName(
+						(String)collectiveNameObject);
 				}
 
 			});
@@ -1058,54 +1028,6 @@ public class SaisineObservatoireModelImpl
 
 					saisineObservatoire.setPetitionnaireEmail(
 						(String)petitionnaireEmailObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"isSupported",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getIsSupported();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"isSupported",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object isSupportedObject) {
-
-					saisineObservatoire.setIsSupported(
-						(Boolean)isSupportedObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"supportedBy",
-			new Function<SaisineObservatoire, Object>() {
-
-				@Override
-				public Object apply(SaisineObservatoire saisineObservatoire) {
-					return saisineObservatoire.getSupportedBy();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"supportedBy",
-			new BiConsumer<SaisineObservatoire, Object>() {
-
-				@Override
-				public void accept(
-					SaisineObservatoire saisineObservatoire,
-					Object supportedByObject) {
-
-					saisineObservatoire.setSupportedBy(
-						(String)supportedByObject);
 				}
 
 			});
@@ -1493,22 +1415,6 @@ public class SaisineObservatoireModelImpl
 
 	@JSON
 	@Override
-	public String getSummary() {
-		if (_summary == null) {
-			return "";
-		}
-		else {
-			return _summary;
-		}
-	}
-
-	@Override
-	public void setSummary(String summary) {
-		_summary = summary;
-	}
-
-	@JSON
-	@Override
 	public String getDescription() {
 		if (_description == null) {
 			return "";
@@ -1557,39 +1463,6 @@ public class SaisineObservatoireModelImpl
 
 	@JSON
 	@Override
-	public String getInTheNameOf() {
-		if (_inTheNameOf == null) {
-			return "";
-		}
-		else {
-			return _inTheNameOf;
-		}
-	}
-
-	@Override
-	public void setInTheNameOf(String inTheNameOf) {
-		_inTheNameOf = inTheNameOf;
-	}
-
-	@JSON
-	@Override
-	public boolean getIsOfficial() {
-		return _isOfficial;
-	}
-
-	@JSON
-	@Override
-	public boolean isIsOfficial() {
-		return _isOfficial;
-	}
-
-	@Override
-	public void setIsOfficial(boolean isOfficial) {
-		_isOfficial = isOfficial;
-	}
-
-	@JSON
-	@Override
 	public String getCityResponse() {
 		if (_cityResponse == null) {
 			return "";
@@ -1618,6 +1491,38 @@ public class SaisineObservatoireModelImpl
 	@Override
 	public void setProjectTarget(String projectTarget) {
 		_projectTarget = projectTarget;
+	}
+
+	@JSON
+	@Override
+	public String getOtherMechanism() {
+		if (_otherMechanism == null) {
+			return "";
+		}
+		else {
+			return _otherMechanism;
+		}
+	}
+
+	@Override
+	public void setOtherMechanism(String otherMechanism) {
+		_otherMechanism = otherMechanism;
+	}
+
+	@JSON
+	@Override
+	public String getCollectiveName() {
+		if (_collectiveName == null) {
+			return "";
+		}
+		else {
+			return _collectiveName;
+		}
+	}
+
+	@Override
+	public void setCollectiveName(String collectiveName) {
+		_collectiveName = collectiveName;
 	}
 
 	@JSON
@@ -1736,39 +1641,6 @@ public class SaisineObservatoireModelImpl
 	@Override
 	public void setPetitionnaireEmail(String petitionnaireEmail) {
 		_petitionnaireEmail = petitionnaireEmail;
-	}
-
-	@JSON
-	@Override
-	public boolean getIsSupported() {
-		return _isSupported;
-	}
-
-	@JSON
-	@Override
-	public boolean isIsSupported() {
-		return _isSupported;
-	}
-
-	@Override
-	public void setIsSupported(boolean isSupported) {
-		_isSupported = isSupported;
-	}
-
-	@JSON
-	@Override
-	public String getSupportedBy() {
-		if (_supportedBy == null) {
-			return "";
-		}
-		else {
-			return _supportedBy;
-		}
-	}
-
-	@Override
-	public void setSupportedBy(String supportedBy) {
-		_supportedBy = supportedBy;
 	}
 
 	@JSON
@@ -2020,14 +1892,13 @@ public class SaisineObservatoireModelImpl
 		saisineObservatoireImpl.setStatusByUserName(getStatusByUserName());
 		saisineObservatoireImpl.setStatusDate(getStatusDate());
 		saisineObservatoireImpl.setTitle(getTitle());
-		saisineObservatoireImpl.setSummary(getSummary());
 		saisineObservatoireImpl.setDescription(getDescription());
 		saisineObservatoireImpl.setPlaceTextArea(getPlaceTextArea());
 		saisineObservatoireImpl.setFilesDownload(getFilesDownload());
-		saisineObservatoireImpl.setInTheNameOf(getInTheNameOf());
-		saisineObservatoireImpl.setIsOfficial(isIsOfficial());
 		saisineObservatoireImpl.setCityResponse(getCityResponse());
 		saisineObservatoireImpl.setProjectTarget(getProjectTarget());
+		saisineObservatoireImpl.setOtherMechanism(getOtherMechanism());
+		saisineObservatoireImpl.setCollectiveName(getCollectiveName());
 		saisineObservatoireImpl.setPetitionnaireLastname(
 			getPetitionnaireLastname());
 		saisineObservatoireImpl.setPetitionnaireFirstname(
@@ -2041,8 +1912,6 @@ public class SaisineObservatoireModelImpl
 		saisineObservatoireImpl.setPetitionnaireCity(getPetitionnaireCity());
 		saisineObservatoireImpl.setPetitionnairePhone(getPetitionnairePhone());
 		saisineObservatoireImpl.setPetitionnaireEmail(getPetitionnaireEmail());
-		saisineObservatoireImpl.setIsSupported(isIsSupported());
-		saisineObservatoireImpl.setSupportedBy(getSupportedBy());
 		saisineObservatoireImpl.setVideoUrl(getVideoUrl());
 		saisineObservatoireImpl.setExternalImageURL(getExternalImageURL());
 		saisineObservatoireImpl.setExternalImageCopyright(
@@ -2199,14 +2068,6 @@ public class SaisineObservatoireModelImpl
 			saisineObservatoireCacheModel.title = null;
 		}
 
-		saisineObservatoireCacheModel.summary = getSummary();
-
-		String summary = saisineObservatoireCacheModel.summary;
-
-		if ((summary != null) && (summary.length() == 0)) {
-			saisineObservatoireCacheModel.summary = null;
-		}
-
 		saisineObservatoireCacheModel.description = getDescription();
 
 		String description = saisineObservatoireCacheModel.description;
@@ -2231,16 +2092,6 @@ public class SaisineObservatoireModelImpl
 			saisineObservatoireCacheModel.filesDownload = null;
 		}
 
-		saisineObservatoireCacheModel.inTheNameOf = getInTheNameOf();
-
-		String inTheNameOf = saisineObservatoireCacheModel.inTheNameOf;
-
-		if ((inTheNameOf != null) && (inTheNameOf.length() == 0)) {
-			saisineObservatoireCacheModel.inTheNameOf = null;
-		}
-
-		saisineObservatoireCacheModel.isOfficial = isIsOfficial();
-
 		saisineObservatoireCacheModel.cityResponse = getCityResponse();
 
 		String cityResponse = saisineObservatoireCacheModel.cityResponse;
@@ -2255,6 +2106,22 @@ public class SaisineObservatoireModelImpl
 
 		if ((projectTarget != null) && (projectTarget.length() == 0)) {
 			saisineObservatoireCacheModel.projectTarget = null;
+		}
+
+		saisineObservatoireCacheModel.otherMechanism = getOtherMechanism();
+
+		String otherMechanism = saisineObservatoireCacheModel.otherMechanism;
+
+		if ((otherMechanism != null) && (otherMechanism.length() == 0)) {
+			saisineObservatoireCacheModel.otherMechanism = null;
+		}
+
+		saisineObservatoireCacheModel.collectiveName = getCollectiveName();
+
+		String collectiveName = saisineObservatoireCacheModel.collectiveName;
+
+		if ((collectiveName != null) && (collectiveName.length() == 0)) {
+			saisineObservatoireCacheModel.collectiveName = null;
 		}
 
 		saisineObservatoireCacheModel.petitionnaireLastname =
@@ -2339,16 +2206,6 @@ public class SaisineObservatoireModelImpl
 			(petitionnaireEmail.length() == 0)) {
 
 			saisineObservatoireCacheModel.petitionnaireEmail = null;
-		}
-
-		saisineObservatoireCacheModel.isSupported = isIsSupported();
-
-		saisineObservatoireCacheModel.supportedBy = getSupportedBy();
-
-		String supportedBy = saisineObservatoireCacheModel.supportedBy;
-
-		if ((supportedBy != null) && (supportedBy.length() == 0)) {
-			saisineObservatoireCacheModel.supportedBy = null;
 		}
 
 		saisineObservatoireCacheModel.videoUrl = getVideoUrl();
@@ -2490,14 +2347,13 @@ public class SaisineObservatoireModelImpl
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _title;
-	private String _summary;
 	private String _description;
 	private String _placeTextArea;
 	private String _filesDownload;
-	private String _inTheNameOf;
-	private boolean _isOfficial;
 	private String _cityResponse;
 	private String _projectTarget;
+	private String _otherMechanism;
+	private String _collectiveName;
 	private String _petitionnaireLastname;
 	private String _petitionnaireFirstname;
 	private Date _petitionnaireBirthday;
@@ -2506,8 +2362,6 @@ public class SaisineObservatoireModelImpl
 	private String _petitionnaireCity;
 	private String _petitionnairePhone;
 	private String _petitionnaireEmail;
-	private boolean _isSupported;
-	private String _supportedBy;
 	private String _videoUrl;
 	private String _externalImageURL;
 	private String _externalImageCopyright;

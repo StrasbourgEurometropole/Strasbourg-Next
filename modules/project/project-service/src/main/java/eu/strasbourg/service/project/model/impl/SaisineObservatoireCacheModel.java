@@ -65,7 +65,7 @@ public class SaisineObservatoireCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(75);
+		StringBundler sb = new StringBundler(69);
 
 		sb.append("{saisineObservatoireId=");
 		sb.append(saisineObservatoireId);
@@ -91,22 +91,20 @@ public class SaisineObservatoireCacheModel
 		sb.append(statusDate);
 		sb.append(", title=");
 		sb.append(title);
-		sb.append(", summary=");
-		sb.append(summary);
 		sb.append(", description=");
 		sb.append(description);
 		sb.append(", placeTextArea=");
 		sb.append(placeTextArea);
 		sb.append(", filesDownload=");
 		sb.append(filesDownload);
-		sb.append(", inTheNameOf=");
-		sb.append(inTheNameOf);
-		sb.append(", isOfficial=");
-		sb.append(isOfficial);
 		sb.append(", cityResponse=");
 		sb.append(cityResponse);
 		sb.append(", projectTarget=");
 		sb.append(projectTarget);
+		sb.append(", otherMechanism=");
+		sb.append(otherMechanism);
+		sb.append(", collectiveName=");
+		sb.append(collectiveName);
 		sb.append(", petitionnaireLastname=");
 		sb.append(petitionnaireLastname);
 		sb.append(", petitionnaireFirstname=");
@@ -123,10 +121,6 @@ public class SaisineObservatoireCacheModel
 		sb.append(petitionnairePhone);
 		sb.append(", petitionnaireEmail=");
 		sb.append(petitionnaireEmail);
-		sb.append(", isSupported=");
-		sb.append(isSupported);
-		sb.append(", supportedBy=");
-		sb.append(supportedBy);
 		sb.append(", videoUrl=");
 		sb.append(videoUrl);
 		sb.append(", externalImageURL=");
@@ -201,13 +195,6 @@ public class SaisineObservatoireCacheModel
 			saisineObservatoireImpl.setTitle(title);
 		}
 
-		if (summary == null) {
-			saisineObservatoireImpl.setSummary("");
-		}
-		else {
-			saisineObservatoireImpl.setSummary(summary);
-		}
-
 		if (description == null) {
 			saisineObservatoireImpl.setDescription("");
 		}
@@ -229,15 +216,6 @@ public class SaisineObservatoireCacheModel
 			saisineObservatoireImpl.setFilesDownload(filesDownload);
 		}
 
-		if (inTheNameOf == null) {
-			saisineObservatoireImpl.setInTheNameOf("");
-		}
-		else {
-			saisineObservatoireImpl.setInTheNameOf(inTheNameOf);
-		}
-
-		saisineObservatoireImpl.setIsOfficial(isOfficial);
-
 		if (cityResponse == null) {
 			saisineObservatoireImpl.setCityResponse("");
 		}
@@ -250,6 +228,20 @@ public class SaisineObservatoireCacheModel
 		}
 		else {
 			saisineObservatoireImpl.setProjectTarget(projectTarget);
+		}
+
+		if (otherMechanism == null) {
+			saisineObservatoireImpl.setOtherMechanism("");
+		}
+		else {
+			saisineObservatoireImpl.setOtherMechanism(otherMechanism);
+		}
+
+		if (collectiveName == null) {
+			saisineObservatoireImpl.setCollectiveName("");
+		}
+		else {
+			saisineObservatoireImpl.setCollectiveName(collectiveName);
 		}
 
 		if (petitionnaireLastname == null) {
@@ -306,15 +298,6 @@ public class SaisineObservatoireCacheModel
 		}
 		else {
 			saisineObservatoireImpl.setPetitionnaireEmail(petitionnaireEmail);
-		}
-
-		saisineObservatoireImpl.setIsSupported(isSupported);
-
-		if (supportedBy == null) {
-			saisineObservatoireImpl.setSupportedBy("");
-		}
-		else {
-			saisineObservatoireImpl.setSupportedBy(supportedBy);
 		}
 
 		if (videoUrl == null) {
@@ -383,15 +366,13 @@ public class SaisineObservatoireCacheModel
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
-		summary = objectInput.readUTF();
 		description = (String)objectInput.readObject();
 		placeTextArea = objectInput.readUTF();
 		filesDownload = objectInput.readUTF();
-		inTheNameOf = objectInput.readUTF();
-
-		isOfficial = objectInput.readBoolean();
 		cityResponse = (String)objectInput.readObject();
-		projectTarget = (String)objectInput.readObject();
+		projectTarget = objectInput.readUTF();
+		otherMechanism = objectInput.readUTF();
+		collectiveName = objectInput.readUTF();
 		petitionnaireLastname = objectInput.readUTF();
 		petitionnaireFirstname = objectInput.readUTF();
 		petitionnaireBirthday = objectInput.readLong();
@@ -401,9 +382,6 @@ public class SaisineObservatoireCacheModel
 		petitionnaireCity = objectInput.readUTF();
 		petitionnairePhone = objectInput.readUTF();
 		petitionnaireEmail = objectInput.readUTF();
-
-		isSupported = objectInput.readBoolean();
-		supportedBy = objectInput.readUTF();
 		videoUrl = objectInput.readUTF();
 		externalImageURL = objectInput.readUTF();
 		externalImageCopyright = objectInput.readUTF();
@@ -455,13 +433,6 @@ public class SaisineObservatoireCacheModel
 			objectOutput.writeUTF(title);
 		}
 
-		if (summary == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(summary);
-		}
-
 		if (description == null) {
 			objectOutput.writeObject("");
 		}
@@ -483,15 +454,6 @@ public class SaisineObservatoireCacheModel
 			objectOutput.writeUTF(filesDownload);
 		}
 
-		if (inTheNameOf == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(inTheNameOf);
-		}
-
-		objectOutput.writeBoolean(isOfficial);
-
 		if (cityResponse == null) {
 			objectOutput.writeObject("");
 		}
@@ -500,10 +462,24 @@ public class SaisineObservatoireCacheModel
 		}
 
 		if (projectTarget == null) {
-			objectOutput.writeObject("");
+			objectOutput.writeUTF("");
 		}
 		else {
-			objectOutput.writeObject(projectTarget);
+			objectOutput.writeUTF(projectTarget);
+		}
+
+		if (otherMechanism == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(otherMechanism);
+		}
+
+		if (collectiveName == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(collectiveName);
 		}
 
 		if (petitionnaireLastname == null) {
@@ -550,15 +526,6 @@ public class SaisineObservatoireCacheModel
 		}
 		else {
 			objectOutput.writeUTF(petitionnaireEmail);
-		}
-
-		objectOutput.writeBoolean(isSupported);
-
-		if (supportedBy == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(supportedBy);
 		}
 
 		if (videoUrl == null) {
@@ -613,14 +580,13 @@ public class SaisineObservatoireCacheModel
 	public String statusByUserName;
 	public long statusDate;
 	public String title;
-	public String summary;
 	public String description;
 	public String placeTextArea;
 	public String filesDownload;
-	public String inTheNameOf;
-	public boolean isOfficial;
 	public String cityResponse;
 	public String projectTarget;
+	public String otherMechanism;
+	public String collectiveName;
 	public String petitionnaireLastname;
 	public String petitionnaireFirstname;
 	public long petitionnaireBirthday;
@@ -629,8 +595,6 @@ public class SaisineObservatoireCacheModel
 	public String petitionnaireCity;
 	public String petitionnairePhone;
 	public String petitionnaireEmail;
-	public boolean isSupported;
-	public String supportedBy;
 	public String videoUrl;
 	public String externalImageURL;
 	public String externalImageCopyright;

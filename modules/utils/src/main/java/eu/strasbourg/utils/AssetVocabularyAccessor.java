@@ -62,6 +62,22 @@ public class AssetVocabularyAccessor {
 		}		
 	}
 
+	public AssetVocabulary getSaisineDispositif(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.SAISINE_DISPOSITIF, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public AssetVocabulary getSaisineEnTantQue(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.SAISINE_EN_TANT_QUE, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
 	public AssetVocabulary getSaisineStatus(long groupID) {
 		try {
 			return AssetVocabularyHelper.getVocabulary(VocabularyNames.SAISINE_STATUS, groupID);

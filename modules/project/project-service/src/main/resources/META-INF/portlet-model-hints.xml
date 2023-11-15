@@ -389,10 +389,6 @@
 		<field name="title" type="String">
 			<hint name="max-length">400</hint>
 		</field>
-		<field name="summary" type="String">
-			<hint name="max-length">500</hint>
-			<hint-collection name="EDITOR" />
-		</field>
 		<field name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
@@ -400,15 +396,17 @@
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="filesDownload" type="String" />
-		<field name="inTheNameOf" type="String">
-			<hint name="max-length">400</hint>
-		</field>
-		<field name="isOfficial" type="boolean" />
 		<field name="cityResponse" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="projectTarget" type="String">
-			<hint-collection name="EDITOR" />
+			<hint name="max-length">150</hint>
+		</field>
+		<field name="otherMechanism" type="String">
+			<hint name="max-length">150</hint>
+		</field>
+		<field name="collectiveName" type="String">
+			<hint name="max-length">150</hint>
 		</field>
 		<field name="petitionnaireLastname" type="String" />
 		<field name="petitionnaireFirstname" type="String" />
@@ -424,8 +422,6 @@
 		<field name="petitionnaireEmail" type="String">
 			<hint name="max-length">400</hint>
 		</field>
-		<field name="isSupported" type="boolean" />
-		<field name="supportedBy" type="String" />
 		<field name="videoUrl" type="String">
 			<hint name="max-length">400</hint>
 		</field>

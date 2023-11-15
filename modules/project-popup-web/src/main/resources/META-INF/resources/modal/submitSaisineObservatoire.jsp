@@ -19,30 +19,34 @@
                     <div class="form-group">
                         <aui:input id="saisinetitle" name="title" label="modal.submitsaisineobservatoire.information.title" required="true" maxlength="45" value=""/>
                     </div>
-                     <div class="form-group">
-                        <aui:input id="saisinesummary" type="textarea" name="summary" label="modal.submitsaisineobservatoire.information.summary" required="true" maxlength="500" value=""/>
-                    </div>
                     <div class="form-group">
-                        <aui:input id="saisinedescription" type="textarea" name="description" label="modal.submitsaisineobservatoire.information.description" required="true" value=""/>
-                    </div>
-                    <div class="form-group">
-                        <aui:input id="saisineProjectTarget" type="textarea" name="projectTarget" label="modal.submitsaisineobservatoire.information.projectTarget" required="true" value=""/>
-                    </div>
-                    <div class="form-group">
-                        <aui:input id="saisineInTheNameOf" name="inTheNameOf" label="modal.submitsaisineobservatoire.information.inTheNameOf" required="false" maxlength="400" value=""/>
+                        <label for="<portlet:namespace />saisineProjectTarget" ><liferay-ui:message key="modal.submitsaisineobservatoire.information.projectTarget"/></label>
+                        <div class="help-input"><liferay-ui:message key="modal.submitsaisineobservatoire.mail.help.target"/></div>
+                        <input id="<portlet:namespace />saisineProjectTarget" class="field form-control" type="text" name="<portlet:namespace />projectTarget" required="true" maxlength="150" value=""/>
                     </div>
                     <div class="pro-row">
-                        <div class="form-group form-triple">
-                            <label for="saisine"><liferay-ui:message key="modal.submitsaisineobservatoire.information.projet"/></label>
-                            <select id="<portlet:namespace />project" name="<portlet:namespace />project">
+                        <div class="form-group form-half" id="dispositifWrapper">
+                            <label for="dispositif">
+                                <liferay-ui:message key="modal.submitsaisineobservatoire.information.dispositif"/>
+                                <span class="reference-mark text-warning" id="kwsw__column1__2"><svg aria-hidden="true" class="lexicon-icon lexicon-icon-asterisk" focusable="false" viewBox="0 0 512 512"><g data-href="https://ems-recette-liferay2.sully-group.fr/o/plateforme-citoyenne-theme/images/lexicon/icons.svg#times">
+                                    <path class="lexicon-icon-outline" d="M323.6,190l146.7-48.8L512,263.9l-149.2,47.6l93.6,125.2l-104.9,76.3l-96.1-126.4l-93.6,126.4L56.9,435.3l92.3-123.9L0,263.8l40.4-122.6L188.4,190v-159h135.3L323.6,190L323.6,190z"></path>
+                                </g></svg></span>
+                            </label>
+
+                            <select id="<portlet:namespace />dispositif" name="<portlet:namespace />dispositif" required="true" >
                                 <option value="0" selected ></option>
-                                <c:forEach var="project" items="${projects}">
-                                    <option value="${project.categoryId}">${project.name}</option>
+                                <c:forEach var="dispositif" items="${dispositifs}">
+                                    <option value="${dispositif.categoryId}">${dispositif.name}</option>
                                 </c:forEach>
                             </select>
                         </div>
-                        <div class="form-group form-triple">
-                            <label for="territoire"><liferay-ui:message key="modal.submitsaisineobservatoire.information.territoire"/></label>
+                        <div class="form-half">
+                            <aui:input id="saisineOtherMechanism" type="text" name="otherMechanism" label="modal.submitsaisineobservatoire.information.otherMechanism" maxlength="150" value=""/>
+                        </div>
+                    </div>
+                    <div class="pro-row">
+                        <div class="form-group form-half">
+                            <label for="quartier"><liferay-ui:message key="modal.submitsaisineobservatoire.information.territoire"/></label>
                             <select id="<portlet:namespace />quartier" name="<portlet:namespace />quartier">
                                 <option value="0" selected ><liferay-ui:message key="modal.submitsaisineobservatoire.information.territoire.town"/></option>
                                 <c:forEach var="quartier" items="${quartiers}">
@@ -50,8 +54,8 @@
                                 </c:forEach>
                             </select>
                         </div>
-                        <div class="form-group form-triple">
-                            <label for="thematique"><liferay-ui:message key="modal.submitsaisineobservatoire.information.thematique"/></label>
+                        <div class="form-group form-half">
+                            <label for="theme"><liferay-ui:message key="modal.submitsaisineobservatoire.information.thematique"/></label>
                             <select id="<portlet:namespace />theme" name="<portlet:namespace />theme">
                                 <option value="0" selected ></option>
                                 <c:forEach var="theme" items="${thematics}">
@@ -62,6 +66,21 @@
                     </div>
                     <div class="form-group">
                         <aui:input id="saisineobservatoirelieux" name="consultationPlacesText" label="modal.submitsaisineobservatoire.information.lieu" maxlength="256" value=""/>
+                    </div>
+                    <div class="form-group">
+                        <aui:input id="saisinedescription" type="textarea" name="description" label="modal.submitsaisineobservatoire.information.description" required="true" value=""/>
+                        <p><liferay-ui:message key="modal.submitsaisineobservatoire.mail.documents"/></p>
+                    </div>
+                    <%-- Champ : Image --%>
+                    <div class="pro-row">
+                        <div class="form-group form-two-tiers">
+                            <span class="browsePicture input-group-btn">
+                                <aui:input name="photo" type="file" label="modal.submit.initiative.information.picture"
+                                    cssClass="btn btn-default btn-choose">
+                                    <aui:validator name="acceptFiles">'jpg,png,jpeg'</aui:validator>
+                                </aui:input>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="pro-wrapper last-wrapper">
@@ -105,6 +124,25 @@
                             <aui:input id="mobile" name="mobile" label="modal.user.mobile" placeholder="0611111111" maxlength="20" onInput="checkValuesSubmitSaisineObservatoire();"/>
                         </div>
                     </div>
+                    <div class="pro-row">
+                        <div class="form-group form-half" id="akaWrapper">
+                            <label for="as">
+                                <liferay-ui:message key="modal.submitsaisineobservatoire.information.as"/>
+                                <span class="reference-mark text-warning" id="kwsw__column1__2"><svg aria-hidden="true" class="lexicon-icon lexicon-icon-asterisk" focusable="false" viewBox="0 0 512 512"><g data-href="https://ems-recette-liferay2.sully-group.fr/o/plateforme-citoyenne-theme/images/lexicon/icons.svg#times">
+                                    <path class="lexicon-icon-outline" d="M323.6,190l146.7-48.8L512,263.9l-149.2,47.6l93.6,125.2l-104.9,76.3l-96.1-126.4l-93.6,126.4L56.9,435.3l92.3-123.9L0,263.8l40.4-122.6L188.4,190v-159h135.3L323.6,190L323.6,190z"></path>
+                                </g></svg></span>
+                            </label>
+                            <select id="<portlet:namespace />aka" name="<portlet:namespace />aka" required="true" >
+                                <option value="0" selected ></option>
+                                <c:forEach var="aka" items="${aka}">
+                                    <option value="${aka.categoryId}">${aka.name}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div class="form-group form-half">
+                            <aui:input id="saisineCollectiveName" name="collectiveName" label="modal.submitsaisineobservatoire.information.collectiveName" required="false" maxlength="150" value=""/>
+                        </div>
+                    </div>
                     <div class="form-group form-checkbox" id="checkboxSaveInfo">
                         <div>
                             <input type="checkbox" id="save-info" value="save-info">
@@ -118,6 +156,14 @@
                         <input type="checkbox" id="submit-saisine-observatoire-legalage" value="legalage">
                         <label for="submit-saisine-observatoire-legalage" class="fontWhite">
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalageSubmitSaisineObservatoire"/>
+                        </label>
+                    </div>
+                </div>
+                <div class="pro-optin form-checkbox" >
+                    <div>
+                        <input type="checkbox" id="submit-saisine-observatoire-understanding" value="understanding">
+                        <label for="submit-saisine-observatoire-understanding" class="fontWhite">
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_understandingSubmitSaisineObservatoire"/>
                         </label>
                     </div>
                 </div>
@@ -269,13 +315,18 @@
     function resetValuesSubmitSaisineObservatoire()
     {
         $("#"+namespaceSubmitSaisineObservatoire+"saisinetitle").val("");
-         $("#"+namespaceSubmitSaisineObservatoire+"saisinesummary").val("");
         $("#"+namespaceSubmitSaisineObservatoire+"saisinedescription").val("");
+        $("#"+namespaceSubmitSaisineObservatoire+"photo").val("");
         $("#"+namespaceSubmitSaisineObservatoire+"saisineProjectTarget").val("");
-        $("#"+namespaceSubmitSaisineObservatoire+"saisineInTheNameOf").val("");
+        $("#"+namespaceSubmitSaisineObservatoire+"saisineOtherMechanism").val("");
+        $("#"+namespaceSubmitSaisineObservatoire+"saisineCollectiveName").val("");
         $("#"+namespaceSubmitSaisineObservatoire+"saisinelieux").val("");
         $("#"+namespaceSubmitSaisineObservatoire+"project option[value='0']").prop('selected', true);
         $("#"+namespaceSubmitSaisineObservatoire+"project").selectric();
+        $("#"+namespaceSubmitSaisineObservatoire+"dispositif option[value='0']").prop('selected', true);
+        $("#"+namespaceSubmitSaisineObservatoire+"dispositif").selectric();
+        $("#"+namespaceSubmitSaisineObservatoire+"aka option[value='0']").prop('selected', true);
+        $("#"+namespaceSubmitSaisineObservatoire+"aka").selectric();
         $("#"+namespaceSubmitSaisineObservatoire+"quartier option[value='0']").prop('selected', true);
         $("#"+namespaceSubmitSaisineObservatoire+"quartier").selectric();
         $("#"+namespaceSubmitSaisineObservatoire+"theme option[value='0']").prop('selected', true);
@@ -284,6 +335,7 @@
         $('#checkboxSaveInfo').hide();
         $("#submit-saisine-observatoire-legalage").prop("checked", false);
         $("#submit-saisine-observatoire-cnil").prop("checked", false);
+        $("#submit-saisine-observatoire-understanding").prop("checked", false);
         $("#"+namespaceSubmitSaisineObservatoire+"birthday").val(saved_dateNaiss);
         $("#"+namespaceSubmitSaisineObservatoire+"city").val(saved_city);
         $("#"+namespaceSubmitSaisineObservatoire+"address").val(saved_address);
@@ -318,8 +370,11 @@
 
     function validateFormSubmitSaisineObservatoire(){
         var result = true;
+        var dispositif = $("#"+namespaceSubmitSaisineObservatoire+"dispositif").val();
+        var dispositifWrapper = $("#dispositifWrapper .selectric");
+        var aka = $("#"+namespaceSubmitSaisineObservatoire+"aka").val();
+        var akaWrapper = $("#akaWrapper .selectric");
         var saisinetitle = $("#"+namespaceSubmitSaisineObservatoire+"saisinetitle").val();
-        var saisinesummary = $("#"+namespaceSubmitSaisineObservatoire+"saisinesummary").val();
         var saisinedescription = $("#"+namespaceSubmitSaisineObservatoire+"saisinedescription").val();
         var saisineProjectTarget = $("#"+namespaceSubmitSaisineObservatoire+"saisineProjectTarget").val();
         var birthday = $("#"+namespaceSubmitSaisineObservatoire+"birthday").val();
@@ -328,17 +383,33 @@
         var postalcode = $("#"+namespaceSubmitSaisineObservatoire+"postalcode").val();
         var legalage = $("#submit-saisine-observatoire-legalage").is(":checked");
         var cnil = $("#submit-saisine-observatoire-cnil").is(":checked");
+        var understanding = $("#submit-saisine-observatoire-understanding").is(":checked");
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
+        var photo = $("#"+namespaceSubmitSaisineObservatoire+"photo").val();
 
         if (saisinetitle==null || saisinetitle==""){
             $("#"+namespaceSubmitSaisineObservatoire+"saisinetitle").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#"+namespaceSubmitSaisineObservatoire+"saisinetitle").css({ "box-shadow" : "" });
 
-        if (saisinesummary==null || saisinesummary==""){
-            $("#"+namespaceSubmitSaisineObservatoire+"saisinesummary").css({ "box-shadow" : "0 0 10px #CC0000" });
+        if (dispositif==null || dispositif==0){
+            dispositifWrapper.css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespaceSubmitSaisineObservatoire+"saisinetitle").css({ "box-shadow" : "" });
+        }else dispositifWrapper.css({ "box-shadow" : "" });
+
+        if (aka==null || aka==0){
+            akaWrapper.css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else akaWrapper.css({ "box-shadow" : "" });
+
+
+        if (photo!=null && photo!==""){
+            var ext = photo.split(".").pop().toLowerCase();
+            if($.inArray(ext, ['png','jpg','jpeg']) == -1) {
+            $("#"+namespaceSubmitSaisineObservatoire+"photo").css({ "box-shadow" : "0 0 10px #CC0000" });
+                result = false;
+            }else $("#"+namespaceSubmitSaisineObservatoire+"photo").css({ "box-shadow" : "" });
+        }
 
         if (saisinedescription==null || saisinedescription==""){
             $("#"+namespaceSubmitSaisineObservatoire+"saisinedescription").css({ "box-shadow" : "0 0 10px #CC0000" });
@@ -379,6 +450,9 @@
             result = false;
 
         if (!cnil)
+            result = false;
+
+        if (!understanding)
             result = false;
 
         if (!result)
