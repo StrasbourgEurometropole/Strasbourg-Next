@@ -159,21 +159,30 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
         CSVParser csvFileParser = CSVParser.parse(deliberationsCsv, Charset.forName("windows-1252"), csvFileFormat);
 
         List<CSVRecord> csvRecords = csvFileParser.getRecords();
-        String errorTitleCheck = "Le titre ne doit pas exc\u00e9der 500 caract\u00e8res";
         recordsListMap = new ArrayList<>();
+
+        boolean isValid=true;
+        StringBuilder errorTitleCheck = new StringBuilder();
+        errorTitleCheck.append("</br>Le titre ne doit pas exc\u00e9der 500 caract\u00e8res - Lignes en erreur : </br>");
+
         if (csvRecords.size() > 0) {
             for (int i = 1; i < csvRecords.size(); i++) {
                 CSVRecord record = csvRecords.get(i);
                 if(record.get("TITLE").length() > 500){
-                    errorTitleCheck += ERROR_INFO;
-                    SessionErrors.add(actionRequest, "error-import-deliberations");
-                    actionRequest.setAttribute("error", errorTitleCheck);
+                    isValid=false;
+                    errorTitleCheck.append("  - Ligne "+(i+1)+"</br>");
 
-                    _log.error(errorTitleCheck);
-                    return false;
                 }
                 recordsListMap.add(record.toMap());
             }
+        }
+        if(!isValid) {
+            errorTitleCheck.append(ERROR_INFO);
+            SessionErrors.add(actionRequest, "error-import-deliberations");
+            actionRequest.setAttribute("error", errorTitleCheck);
+
+            _log.error(errorTitleCheck);
+            return false;
         }
         return true;
     }
