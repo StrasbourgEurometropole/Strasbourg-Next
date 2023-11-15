@@ -300,7 +300,7 @@
 			box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.15);
 		}
 	}
-	h3 {
+	h3, h2 {
 		@include ft($f_hx, 28px, 700, $c_txt, normal);
 		margin-bottom: 10px;
 	}

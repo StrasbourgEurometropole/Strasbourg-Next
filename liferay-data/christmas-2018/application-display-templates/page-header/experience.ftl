@@ -11,7 +11,7 @@
                 <img src="${page.expandoBridge.getAttribute('image')}" width="1600" height="900" alt="">
             </figure>
             <div class="container mns-caption">
-                ${page.getDescription(locale)}
+                <h1>${page.getTitle(locale)}</h1>
             </div>
         <div class="small-container mns-wrapper-bread">
             <div class="mns-breadcrumbs">

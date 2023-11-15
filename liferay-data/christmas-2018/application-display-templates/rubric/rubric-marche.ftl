@@ -28,7 +28,7 @@
                                 </#if>
                             </figure>
                             <div class="mns-bloc-content-actu">
-                                <h4>${currentPage.getName(locale)}</h4>
+                                <h2>${currentPage.getName(locale)}</h2>
                                 <p>
                                     <#if currentPage.expandoBridge.getAttribute('introduction')?has_content>
                                     <#assign introductionAttribute = currentPage.expandoBridge.getAttribute('introduction') />

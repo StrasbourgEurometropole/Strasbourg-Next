@@ -50,7 +50,7 @@
                 </span>    
               </a>
             </#if>
-            <a class="navbar-brand" href="${homeURL}/">Strasbourg <span class="subtitle"><@liferay_ui.message key='christmas-capital' /></span></a>
+            <a class="navbar-brand" href="${homeURL}/">Strasbourg <span class="subtitle">Capitale de Noël</span></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse" style="justify-content: flex-end;">
             <ul class="nav navbar-nav navbar-right">

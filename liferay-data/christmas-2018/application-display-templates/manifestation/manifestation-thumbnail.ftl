@@ -16,7 +16,7 @@
                 <span class="icon-ico-type"></span>
                 <span style="margin: 0">${entry.getTypeLabel(locale)[0..*40]}<#if (entry.getTypeLabel(locale)?length > 40)>...</#if></span>
             </div>
-            <h3 itemprop="name">${entry.getTitle(locale)[0..*40]}<#if (entry.getTitle(locale)?length > 40)>...</#if></h3>
+            <h2 itemprop="name">${entry.getTitle(locale)[0..*40]}<#if (entry.getTitle(locale)?length > 40)>...</#if></h2>
             <span class="basic-link"><@liferay_ui.message key="eu.discover" /></span>
         </div>
     </a>

@@ -265,7 +265,7 @@
 				text-transform: uppercase;
 				margin-bottom: 6px;
 			}
-			h3{
+			h3, h2{
 				@include ft($f_hx, 22px, 700, $c_txt, 28px);
 				max-width: 80%;
 			}
