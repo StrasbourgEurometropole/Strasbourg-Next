@@ -93,6 +93,9 @@ public class EventIndexer extends BaseIndexer<Event> {
 		}
 		document.addDateSortable("dates",
 			dates.toArray(new Date[dates.size()]));
+		// On indexe les dates de début et de fin
+		document.addKeyword("datesISO",
+		dates.stream().map(date -> DateHelper.formatIso8601(date)).toArray(String[]::new));
 		document.addDateSortable("startDate", event.getFirstStartDate());
 		document.addDateSortable("endDate", event.getLastEndDate());
 		return document;

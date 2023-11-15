@@ -923,4 +923,17 @@ public class AssetVocabularyHelper {
 
 
 	private static Log _log = LogFactoryUtil.getLog("AssetVocabularyHelper");
+
+	// remove duplicate by identifying its id
+	public static List<AssetCategory> removeDuplicateCategories(List<AssetCategory> assetCategories) {
+		List<AssetCategory> result = new ArrayList<>();
+		Set<Long> ids = new HashSet<>();
+		for (AssetCategory assetCategory : assetCategories) {
+			if (!ids.contains(assetCategory.getCategoryId())) {
+				result.add(assetCategory);
+				ids.add(assetCategory.getCategoryId());
+			}
+		}
+		return result;
+	}
 }

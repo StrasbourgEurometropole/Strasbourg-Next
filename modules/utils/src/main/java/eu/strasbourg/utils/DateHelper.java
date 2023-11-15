@@ -259,4 +259,13 @@ public class DateHelper {
 
 	private static final Log _log = LogFactoryUtil.getLog(DateHelper.class.getName());
 
+    public static <R> R formatIso8601(Date date) {
+		// format date to ISO 8601
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+		return (R) sdf.format(date);
+    }
+
+	public static long formatToLong(Date date) {
+		return date.getTime();
+	}
 }

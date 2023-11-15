@@ -5,7 +5,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.*;
+import java.util.stream.Collectors;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.journal.service.JournalContentSearchLocalServiceUtil;
@@ -14,6 +18,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
+import com.liferay.portal.kernel.theme.NavItem;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
 
@@ -41,6 +46,33 @@ public class LayoutHelper {
 		} catch (PortalException e) {
 			return "";
 		}
+	}
+
+	public static List<NavItem> filterLayouts(List<NavItem> navItems, String categoryName) {
+		return navItems.stream()
+				.filter(navItem -> isLayoutInAssetCategory(navItem.getLayout(), categoryName))
+				.collect(Collectors.toList());
+	}
+
+
+	/**
+	 * Retourne si la page est dans la catégorie donnée
+	 */
+	public static boolean isLayoutInAssetCategory(Layout layout, String categoryName) {
+		if(layout == null) return false;
+		AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(Layout.class.getName(), layout.getPlid());
+		if (entry != null) {
+			List<AssetCategory> assetCategories = entry.getCategories();
+			if(categoryName.isEmpty()) {
+				return assetCategories.isEmpty();
+			}
+			for (AssetCategory assetCategory : assetCategories) {
+				if (assetCategory.getName().equals(categoryName)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**

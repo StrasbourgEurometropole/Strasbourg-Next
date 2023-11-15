@@ -58,7 +58,13 @@ public class EventAssetRenderer extends BaseJSPAssetRenderer<Event> {
 	@Override
 	public String getSummary(PortletRequest portletRequest,
 		PortletResponse portletResponse) {
-		return _entry.getDescription(portletRequest.getLocale());
+		if(portletRequest != null)
+		{
+			return _entry.getDescription(portletRequest.getLocale());
+		}
+		else {
+			return _entry.getDescription(Locale.FRANCE);
+		}
 	}
 
 	@Override
