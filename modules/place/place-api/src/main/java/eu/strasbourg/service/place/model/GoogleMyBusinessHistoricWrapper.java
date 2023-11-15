@@ -211,6 +211,11 @@ public class GoogleMyBusinessHistoricWrapper
 		return model.getAssetEntry();
 	}
 
+	@Override
+	public String[] getAvailableLanguageIds() {
+		return model.getAvailableLanguageIds();
+	}
+
 	/**
 	 * Renvoie la liste des AssetCategory rattachées à cet item (via
 	 * l'assetEntry)
@@ -242,6 +247,11 @@ public class GoogleMyBusinessHistoricWrapper
 		return model.getCreateDate();
 	}
 
+	@Override
+	public String getDefaultLanguageId() {
+		return model.getDefaultLanguageId();
+	}
+
 	/**
 	 * Returns the error description of this google my business historic.
 	 *
@@ -253,6 +263,74 @@ public class GoogleMyBusinessHistoricWrapper
 	}
 
 	/**
+	 * Returns the localized error description of this google my business historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized error description of this google my business historic
+	 */
+	@Override
+	public String getErrorDescription(java.util.Locale locale) {
+		return model.getErrorDescription(locale);
+	}
+
+	/**
+	 * Returns the localized error description of this google my business historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized error description of this google my business historic. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getErrorDescription(
+		java.util.Locale locale, boolean useDefault) {
+
+		return model.getErrorDescription(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized error description of this google my business historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized error description of this google my business historic
+	 */
+	@Override
+	public String getErrorDescription(String languageId) {
+		return model.getErrorDescription(languageId);
+	}
+
+	/**
+	 * Returns the localized error description of this google my business historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized error description of this google my business historic
+	 */
+	@Override
+	public String getErrorDescription(String languageId, boolean useDefault) {
+		return model.getErrorDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getErrorDescriptionCurrentLanguageId() {
+		return model.getErrorDescriptionCurrentLanguageId();
+	}
+
+	@Override
+	public String getErrorDescriptionCurrentValue() {
+		return model.getErrorDescriptionCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized error descriptions of this google my business historic.
+	 *
+	 * @return the locales and localized error descriptions of this google my business historic
+	 */
+	@Override
+	public Map<java.util.Locale, String> getErrorDescriptionMap() {
+		return model.getErrorDescriptionMap();
+	}
+
+	/**
 	 * Returns the error stack trace of this google my business historic.
 	 *
 	 * @return the error stack trace of this google my business historic
@@ -260,6 +338,74 @@ public class GoogleMyBusinessHistoricWrapper
 	@Override
 	public String getErrorStackTrace() {
 		return model.getErrorStackTrace();
+	}
+
+	/**
+	 * Returns the localized error stack trace of this google my business historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized error stack trace of this google my business historic
+	 */
+	@Override
+	public String getErrorStackTrace(java.util.Locale locale) {
+		return model.getErrorStackTrace(locale);
+	}
+
+	/**
+	 * Returns the localized error stack trace of this google my business historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized error stack trace of this google my business historic. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getErrorStackTrace(
+		java.util.Locale locale, boolean useDefault) {
+
+		return model.getErrorStackTrace(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized error stack trace of this google my business historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized error stack trace of this google my business historic
+	 */
+	@Override
+	public String getErrorStackTrace(String languageId) {
+		return model.getErrorStackTrace(languageId);
+	}
+
+	/**
+	 * Returns the localized error stack trace of this google my business historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized error stack trace of this google my business historic
+	 */
+	@Override
+	public String getErrorStackTrace(String languageId, boolean useDefault) {
+		return model.getErrorStackTrace(languageId, useDefault);
+	}
+
+	@Override
+	public String getErrorStackTraceCurrentLanguageId() {
+		return model.getErrorStackTraceCurrentLanguageId();
+	}
+
+	@Override
+	public String getErrorStackTraceCurrentValue() {
+		return model.getErrorStackTraceCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized error stack traces of this google my business historic.
+	 *
+	 * @return the locales and localized error stack traces of this google my business historic
+	 */
+	@Override
+	public Map<java.util.Locale, String> getErrorStackTraceMap() {
+		return model.getErrorStackTraceMap();
 	}
 
 	/**
@@ -320,6 +466,72 @@ public class GoogleMyBusinessHistoricWrapper
 	@Override
 	public String getOperations() {
 		return model.getOperations();
+	}
+
+	/**
+	 * Returns the localized operations of this google my business historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized operations of this google my business historic
+	 */
+	@Override
+	public String getOperations(java.util.Locale locale) {
+		return model.getOperations(locale);
+	}
+
+	/**
+	 * Returns the localized operations of this google my business historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized operations of this google my business historic. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getOperations(java.util.Locale locale, boolean useDefault) {
+		return model.getOperations(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized operations of this google my business historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized operations of this google my business historic
+	 */
+	@Override
+	public String getOperations(String languageId) {
+		return model.getOperations(languageId);
+	}
+
+	/**
+	 * Returns the localized operations of this google my business historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized operations of this google my business historic
+	 */
+	@Override
+	public String getOperations(String languageId, boolean useDefault) {
+		return model.getOperations(languageId, useDefault);
+	}
+
+	@Override
+	public String getOperationsCurrentLanguageId() {
+		return model.getOperationsCurrentLanguageId();
+	}
+
+	@Override
+	public String getOperationsCurrentValue() {
+		return model.getOperationsCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized operationses of this google my business historic.
+	 *
+	 * @return the locales and localized operationses of this google my business historic
+	 */
+	@Override
+	public Map<java.util.Locale, String> getOperationsMap() {
+		return model.getOperationsMap();
 	}
 
 	/**
@@ -537,6 +749,21 @@ public class GoogleMyBusinessHistoricWrapper
 		model.persist();
 	}
 
+	@Override
+	public void prepareLocalizedFieldsForImport()
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport(
+			java.util.Locale defaultImportLocale)
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
 	/**
 	 * Envoi du mail d'envoi
 	 */
@@ -576,6 +803,65 @@ public class GoogleMyBusinessHistoricWrapper
 	}
 
 	/**
+	 * Sets the localized error description of this google my business historic in the language.
+	 *
+	 * @param errorDescription the localized error description of this google my business historic
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setErrorDescription(
+		String errorDescription, java.util.Locale locale) {
+
+		model.setErrorDescription(errorDescription, locale);
+	}
+
+	/**
+	 * Sets the localized error description of this google my business historic in the language, and sets the default locale.
+	 *
+	 * @param errorDescription the localized error description of this google my business historic
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setErrorDescription(
+		String errorDescription, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setErrorDescription(errorDescription, locale, defaultLocale);
+	}
+
+	@Override
+	public void setErrorDescriptionCurrentLanguageId(String languageId) {
+		model.setErrorDescriptionCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized error descriptions of this google my business historic from the map of locales and localized error descriptions.
+	 *
+	 * @param errorDescriptionMap the locales and localized error descriptions of this google my business historic
+	 */
+	@Override
+	public void setErrorDescriptionMap(
+		Map<java.util.Locale, String> errorDescriptionMap) {
+
+		model.setErrorDescriptionMap(errorDescriptionMap);
+	}
+
+	/**
+	 * Sets the localized error descriptions of this google my business historic from the map of locales and localized error descriptions, and sets the default locale.
+	 *
+	 * @param errorDescriptionMap the locales and localized error descriptions of this google my business historic
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setErrorDescriptionMap(
+		Map<java.util.Locale, String> errorDescriptionMap,
+		java.util.Locale defaultLocale) {
+
+		model.setErrorDescriptionMap(errorDescriptionMap, defaultLocale);
+	}
+
+	/**
 	 * Sets the error stack trace of this google my business historic.
 	 *
 	 * @param errorStackTrace the error stack trace of this google my business historic
@@ -583,6 +869,65 @@ public class GoogleMyBusinessHistoricWrapper
 	@Override
 	public void setErrorStackTrace(String errorStackTrace) {
 		model.setErrorStackTrace(errorStackTrace);
+	}
+
+	/**
+	 * Sets the localized error stack trace of this google my business historic in the language.
+	 *
+	 * @param errorStackTrace the localized error stack trace of this google my business historic
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setErrorStackTrace(
+		String errorStackTrace, java.util.Locale locale) {
+
+		model.setErrorStackTrace(errorStackTrace, locale);
+	}
+
+	/**
+	 * Sets the localized error stack trace of this google my business historic in the language, and sets the default locale.
+	 *
+	 * @param errorStackTrace the localized error stack trace of this google my business historic
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setErrorStackTrace(
+		String errorStackTrace, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setErrorStackTrace(errorStackTrace, locale, defaultLocale);
+	}
+
+	@Override
+	public void setErrorStackTraceCurrentLanguageId(String languageId) {
+		model.setErrorStackTraceCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized error stack traces of this google my business historic from the map of locales and localized error stack traces.
+	 *
+	 * @param errorStackTraceMap the locales and localized error stack traces of this google my business historic
+	 */
+	@Override
+	public void setErrorStackTraceMap(
+		Map<java.util.Locale, String> errorStackTraceMap) {
+
+		model.setErrorStackTraceMap(errorStackTraceMap);
+	}
+
+	/**
+	 * Sets the localized error stack traces of this google my business historic from the map of locales and localized error stack traces, and sets the default locale.
+	 *
+	 * @param errorStackTraceMap the locales and localized error stack traces of this google my business historic
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setErrorStackTraceMap(
+		Map<java.util.Locale, String> errorStackTraceMap,
+		java.util.Locale defaultLocale) {
+
+		model.setErrorStackTraceMap(errorStackTraceMap, defaultLocale);
 	}
 
 	/**
@@ -643,6 +988,61 @@ public class GoogleMyBusinessHistoricWrapper
 	@Override
 	public void setOperations(String operations) {
 		model.setOperations(operations);
+	}
+
+	/**
+	 * Sets the localized operations of this google my business historic in the language.
+	 *
+	 * @param operations the localized operations of this google my business historic
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setOperations(String operations, java.util.Locale locale) {
+		model.setOperations(operations, locale);
+	}
+
+	/**
+	 * Sets the localized operations of this google my business historic in the language, and sets the default locale.
+	 *
+	 * @param operations the localized operations of this google my business historic
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setOperations(
+		String operations, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setOperations(operations, locale, defaultLocale);
+	}
+
+	@Override
+	public void setOperationsCurrentLanguageId(String languageId) {
+		model.setOperationsCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized operationses of this google my business historic from the map of locales and localized operationses.
+	 *
+	 * @param operationsMap the locales and localized operationses of this google my business historic
+	 */
+	@Override
+	public void setOperationsMap(Map<java.util.Locale, String> operationsMap) {
+		model.setOperationsMap(operationsMap);
+	}
+
+	/**
+	 * Sets the localized operationses of this google my business historic from the map of locales and localized operationses, and sets the default locale.
+	 *
+	 * @param operationsMap the locales and localized operationses of this google my business historic
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setOperationsMap(
+		Map<java.util.Locale, String> operationsMap,
+		java.util.Locale defaultLocale) {
+
+		model.setOperationsMap(operationsMap, defaultLocale);
 	}
 
 	/**

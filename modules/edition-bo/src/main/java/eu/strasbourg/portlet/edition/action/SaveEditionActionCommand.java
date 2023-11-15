@@ -71,7 +71,7 @@ public class SaveEditionActionCommand implements MVCActionCommand {
 						PortletRequest.RENDER_PHASE);
 				returnURL.setParameter("tab", request.getParameter("tab"));
 
-				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("backURL", returnURL.toString());
 				response.setRenderParameter("cmd", "saveEdition");
 				response.setRenderParameter("mvcPath",
 						"/edition-bo-edit-edition.jsp");

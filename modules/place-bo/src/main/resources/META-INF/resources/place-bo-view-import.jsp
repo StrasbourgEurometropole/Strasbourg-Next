@@ -1,19 +1,19 @@
 <%@ include file="/place-bo-init.jsp"%>
 <clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
-<liferay-portlet:renderURL varImpl="importURL">
-	<portlet:param name="tab" value="import" />
-</liferay-portlet:renderURL>
 
 <liferay-portlet:actionURL name="startImportPlaces" var="startImportPlacesURL">
 	<portlet:param name="tab" value="import" />
+	<portlet:param name="mvcPath" value="/place-bo-view-import.jsp" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="startImportCategories" var="startImportCategoriesURL">
 	<portlet:param name="tab" value="import" />
+	<portlet:param name="mvcPath" value="/place-bo-view-import.jsp" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="startImportTerritories" var="startImportTerritoriesURL">
 	<portlet:param name="tab" value="import" />
+	<portlet:param name="mvcPath" value="/place-bo-view-import.jsp" />
 </liferay-portlet:actionURL>
 
 <div class="container-fluid container-fluid-max-xl main-content-body">

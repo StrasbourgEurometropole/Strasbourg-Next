@@ -48,7 +48,7 @@
 <#-- Liste des infos a partager -->
 <#assign openGraph = {
 "og:title":"${entry.title?html}",
-"og:description":'${entry.description?replace("<[^>]*>", "", "r")?html}',
+"og:description":'${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}',
 "og:image":"${imageUrlOG}"
 } />
 <#-- partage de la configuration open graph dans la request -->
@@ -147,15 +147,15 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
                             <div class="row pro-bloc pro-bloc-texte">
                                 <h4>Description</h4>
-                                ${entry.description}
+                                ${entry.getDescription(locale)}
                             </div>
 
-                            <#if entry.cityResponse?has_content>
+                            <#if entry.getCityResponse(locale)?has_content>
                                 <div style="padding:5px; background-color:#9ba0ee; border:2px solid #656ab0; -moz-border-radius:9px; -khtml-border-radius:9px; -webkit-border-radius:9px; border-radius:9px;">
                                     <div style="font-size: 2em; float: left; width: 40px; text-align: center; margin-right: 5px; height: 20px; padding:3px;">!</div>
                                     <p><strong>Commentaires de la collectivité : "${entry.getSaisineObservatoireStatus()}"</strong><br />
                                         &nbsp;</p>
-                                    <em>${entry.cityResponse}</em>
+                                    <em>${entry.getCityResponse(locale)}</em>
                                 </div>
                             </#if>
                             <#if entry.filesURLs?has_content>

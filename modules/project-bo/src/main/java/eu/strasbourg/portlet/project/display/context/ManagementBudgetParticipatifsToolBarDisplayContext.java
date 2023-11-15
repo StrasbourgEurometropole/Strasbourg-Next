@@ -10,7 +10,9 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
+import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -42,6 +44,7 @@ public class ManagementBudgetParticipatifsToolBarDisplayContext extends Manageme
     public List<DropdownItem> getActionDropdownItems() {
         return DropdownItemListBuilder
                 .addGroup(
+                        () -> hasUpdatePermission(),
                         dropdownGroupItem -> {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder.add(
@@ -55,6 +58,7 @@ public class ManagementBudgetParticipatifsToolBarDisplayContext extends Manageme
                         }
                 )
                 .addGroup(
+                        () -> hasUpdatePermission(),
                         dropdownGroupItem -> {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder.add(
@@ -68,6 +72,7 @@ public class ManagementBudgetParticipatifsToolBarDisplayContext extends Manageme
                         }
                 )
                 .addGroup(
+                        () -> hasUpdatePermission(),
                         dropdownGroupItem -> {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder.add(
@@ -81,6 +86,7 @@ public class ManagementBudgetParticipatifsToolBarDisplayContext extends Manageme
                         }
                 )
                 .addGroup(
+                        () -> hasUpdatePermission(),
                         dropdownGroupItem -> {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder.add(
@@ -94,6 +100,7 @@ public class ManagementBudgetParticipatifsToolBarDisplayContext extends Manageme
                         }
                 )
                 .addGroup(
+                        () -> hasUpdatePermission(),
                         dropdownGroupItem -> {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder.add(
@@ -109,6 +116,7 @@ public class ManagementBudgetParticipatifsToolBarDisplayContext extends Manageme
                         }
                 )
                 .addGroup(
+                        () -> hasUpdatePermission(),
                         dropdownGroupItem -> {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder.add(
@@ -124,6 +132,7 @@ public class ManagementBudgetParticipatifsToolBarDisplayContext extends Manageme
                         }
                 )
                 .addGroup(
+                        () -> hasDeletePermission(),
                         dropdownGroupItem -> {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder.add(
@@ -139,6 +148,23 @@ public class ManagementBudgetParticipatifsToolBarDisplayContext extends Manageme
                         }
                 )
                 .build();
+    }
+
+    @Override
+    protected boolean hasUpdatePermission() {
+        return !WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
+                _themeDisplay.getCompanyId(), _themeDisplay.getScopeGroupId(),
+                BudgetParticipatif.class.getName())
+                && _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+                StrasbourgPortletKeys.PROJECT_BO, StrasbourgPortletKeys.PROJECT_BO, "EDIT_BUDGET_PARTICIPATIF")
+                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+    }
+
+    @Override
+    protected boolean hasDeletePermission() {
+        return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+                StrasbourgPortletKeys.PROJECT_BO, StrasbourgPortletKeys.PROJECT_BO, "DELETE_BUDGET_PARTICIPATIF")
+                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
     }
 
     /**

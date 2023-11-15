@@ -90,7 +90,7 @@ public class ViewImportHistoricsDisplayContext extends ViewBaseDisplayContext<Im
 					.setMVCPath("/gtfs-bo-view-import-historics.jsp")
 					.setKeywords(ParamUtil.getString(_request, "keywords"))
 					.setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
-					.setParameter("tab", "importHistorics")
+					.setParameter("tab", "import-historics")
 					.setParameter("filterCategoriesIdByVocabulariesName", getFilterCategoriesIdByVocabulariesName())
 					.buildPortletURL();
 			_searchContainer = new SearchContainer<>(_request, null, null,

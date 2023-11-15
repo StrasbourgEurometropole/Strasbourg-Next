@@ -26,7 +26,7 @@
         <column name="statusDate" type="Date" />
 
         <!-- main fields -->
-        <column name="response" type="String" />
+        <column name="response" type="String" localized="true" />
 
         <!-- Links with other entities -->
         <column name="assetEntryId" type="long" />

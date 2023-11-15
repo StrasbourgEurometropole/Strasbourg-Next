@@ -25,16 +25,13 @@
                                 </#if>
                                 <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
                                 <#assign dates = docXml.valueOf("//dynamic-element[@name='dates']/dynamic-content/text()") />
-                                <#assign viewUrl = "" />
+
                                 <#assign link = docXml.valueOf("//dynamic-element[@name='link']/dynamic-content/text()") />
-                                <#if link?has_content>
-                                    <#assign linkArray = link?split("@") />
-                                    <#assign layoutLocalService = serviceLocator.findService('com.liferay.portal.kernel.service.LayoutLocalService') />
-                                    <#assign pageLayout = layoutLocalService.getLayout(linkArray[2]?number, false, linkArray[0]?number) />
-                                    <#assign viewUrl = pageLayout.getFriendlyURL() />
-                                </#if>
+                                <#assign webContentHelperService = serviceLocator.findService("eu.strasbourg.utils.api.WebContentHelperService")/>
+                                <#assign viewUrl = webContentHelperService.getLinkToPageUrl(link,themeDisplay) />
+
                                 <div class="swiper-slide">
-                                    <a href="${homeURL}${viewUrl}" aria-label="${title?html}" title="${title?html}" class="expo-thumbnail">
+                                    <a href="${viewUrl}" aria-label="${title?html}" title="${title?html}" class="expo-thumbnail">
                                         <img src="${imageURL}" alt="${title?html}" title="${title?html}" />
                                         <div class="info">
                                             <div class="title">

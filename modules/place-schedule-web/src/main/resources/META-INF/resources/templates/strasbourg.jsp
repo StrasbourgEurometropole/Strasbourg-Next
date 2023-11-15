@@ -60,7 +60,7 @@
 	<c:forEach items="${selectedPlaces}" var="place">
 		<liferay-portlet:renderURL var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal" plid="${plId}" >
 			<liferay-portlet:param name="classPK" value="${place.placeId}" />
-			<liferay-portlet:param name="returnURL" value="${currentURL}" />
+			<liferay-portlet:param name="backURL" value="${currentURL}" />
 		</liferay-portlet:renderURL>
 		<div class="seu-place-schedule-thumbnail">
 			<a href="${detailURL}" class="item-link">

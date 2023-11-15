@@ -82,7 +82,7 @@ public class BudgetPhaseModelImpl
 		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP},
 		{"status", Types.INTEGER}, {"statusByUserId", Types.BIGINT},
 		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP},
-		{"title", Types.VARCHAR}, {"description", Types.CLOB},
+		{"title", Types.VARCHAR}, {"description", Types.VARCHAR},
 		{"numberOfVote", Types.BIGINT}, {"isActive", Types.BOOLEAN},
 		{"beginDate", Types.TIMESTAMP}, {"endDate", Types.TIMESTAMP},
 		{"beginVoteDate", Types.TIMESTAMP}, {"endVoteDate", Types.TIMESTAMP}
@@ -105,7 +105,7 @@ public class BudgetPhaseModelImpl
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("numberOfVote", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("isActive", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("beginDate", Types.TIMESTAMP);
@@ -115,7 +115,7 @@ public class BudgetPhaseModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table project_BudgetPhase (uuid_ VARCHAR(75) null,budgetPhaseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description TEXT null,numberOfVote LONG,isActive BOOLEAN,beginDate DATE null,endDate DATE null,beginVoteDate DATE null,endVoteDate DATE null)";
+		"create table project_BudgetPhase (uuid_ VARCHAR(75) null,budgetPhaseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description VARCHAR(75) null,numberOfVote LONG,isActive BOOLEAN,beginDate DATE null,endDate DATE null,beginVoteDate DATE null,endVoteDate DATE null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table project_BudgetPhase";

@@ -41,13 +41,9 @@ public class PriceActionDropdownItemsProvider {
      */
     public List<DropdownItem> getActionDropdownItems() {
 
-        boolean hasUpdatePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.PLACE_BO, StrasbourgPortletKeys.PLACE_BO, "EDIT_PRICE")
-                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+        boolean hasUpdatePermission = Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 
-        boolean hasDeletePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.PLACE_BO, StrasbourgPortletKeys.PLACE_BO, "DELETE_PRICE")
-                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+        boolean hasDeletePermission = Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 
         return DropdownItemListBuilder
                 .addGroup(

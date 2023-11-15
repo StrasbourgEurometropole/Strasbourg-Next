@@ -10,8 +10,10 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.place.model.SubPlace;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.display.context.ManagementBaseToolBarDisplayContext;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +32,16 @@ public class ManagementSubPlaceToolBarDisplayContext extends ManagementBaseToolB
 
         _themeDisplay = (ThemeDisplay)liferayPortletRequest.getAttribute(
                 WebKeys.THEME_DISPLAY);
+    }
+
+    @Override
+    protected boolean hasUpdatePermission() {
+        return Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+    }
+
+    @Override
+    protected boolean hasDeletePermission() {
+        return Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
     }
 
     /**

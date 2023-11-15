@@ -102,6 +102,10 @@ jQuery(function() {
 				options);
 	});
 
+	$(":submit").on('click', function(e) {
+		setConditionalValidators();
+	});
+
 });
 
 //Soumission du formulaire

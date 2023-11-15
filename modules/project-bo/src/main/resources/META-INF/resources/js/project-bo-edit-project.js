@@ -114,6 +114,10 @@ jQuery(function() {
 		jQuery('#place-' + index + ' .place-autocomplete-input-wrapper input').autocomplete(
 				options);
 	});
+
+	$(":submit").on('click', function(e) {
+		setConditionalValidators();
+	});
 });
 
 //Soumission du formulaire

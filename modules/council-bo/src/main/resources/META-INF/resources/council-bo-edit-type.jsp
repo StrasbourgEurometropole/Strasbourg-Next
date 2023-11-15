@@ -17,7 +17,6 @@
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveType" varImpl="saveTypeURL">
-	<portlet:param name="cmd" value="saveType" />
 	<portlet:param name="tab" value="types" />
 </liferay-portlet:actionURL>
 

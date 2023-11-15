@@ -301,7 +301,7 @@
             <c:if test="${toExport eq true}">
                 <aui:button id="export-btn-submit" cssClass="btn-lg" type="submit" value="eu.export"/>
             </c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 	</aui:form>
 </div>

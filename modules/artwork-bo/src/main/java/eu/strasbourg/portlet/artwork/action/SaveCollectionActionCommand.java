@@ -72,7 +72,7 @@ public class SaveCollectionActionCommand implements MVCActionCommand {
 						PortletRequest.RENDER_PHASE);
 				returnURL.setParameter("tab", request.getParameter("tab"));
 
-				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("backURL", returnURL.toString());
 				response.setRenderParameter("mvcPath",
 						"/artwork-bo-edit-collection.jsp");
 				return false;

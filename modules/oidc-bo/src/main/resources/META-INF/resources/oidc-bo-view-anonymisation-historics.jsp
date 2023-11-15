@@ -23,6 +23,7 @@
 
 				<%-- URL : definit le lien vers la page d'edition de l'entite selectionnee --%>
 				<liferay-portlet:renderURL varImpl="editAnonymisationHistoricURL">
+					<portlet:param name="tab" value="anonymisationHistorics" />
 					<portlet:param name="cmd" value="editAnonymisationHistoric" />
 					<portlet:param name="anonymisationHistoricId" value="${anonymisationHistoric.anonymisationHistoricId}" />
 					<portlet:param name="backURL" value="${anonymisationHistoricsURL}" />

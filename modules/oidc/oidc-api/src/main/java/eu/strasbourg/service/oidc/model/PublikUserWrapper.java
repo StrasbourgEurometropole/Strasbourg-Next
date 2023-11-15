@@ -219,6 +219,11 @@ public class PublikUserWrapper
 		return model.getAccessToken();
 	}
 
+	@Override
+	public String[] getAvailableLanguageIds() {
+		return model.getAvailableLanguageIds();
+	}
+
 	/**
 	 * Returns the banish date of this publik user.
 	 *
@@ -240,6 +245,74 @@ public class PublikUserWrapper
 	}
 
 	/**
+	 * Returns the localized banish description of this publik user in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized banish description of this publik user
+	 */
+	@Override
+	public String getBanishDescription(java.util.Locale locale) {
+		return model.getBanishDescription(locale);
+	}
+
+	/**
+	 * Returns the localized banish description of this publik user in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized banish description of this publik user. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getBanishDescription(
+		java.util.Locale locale, boolean useDefault) {
+
+		return model.getBanishDescription(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized banish description of this publik user in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized banish description of this publik user
+	 */
+	@Override
+	public String getBanishDescription(String languageId) {
+		return model.getBanishDescription(languageId);
+	}
+
+	/**
+	 * Returns the localized banish description of this publik user in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized banish description of this publik user
+	 */
+	@Override
+	public String getBanishDescription(String languageId, boolean useDefault) {
+		return model.getBanishDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getBanishDescriptionCurrentLanguageId() {
+		return model.getBanishDescriptionCurrentLanguageId();
+	}
+
+	@Override
+	public String getBanishDescriptionCurrentValue() {
+		return model.getBanishDescriptionCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized banish descriptions of this publik user.
+	 *
+	 * @return the locales and localized banish descriptions of this publik user
+	 */
+	@Override
+	public Map<java.util.Locale, String> getBanishDescriptionMap() {
+		return model.getBanishDescriptionMap();
+	}
+
+	/**
 	 * Returns the create date of this publik user.
 	 *
 	 * @return the create date of this publik user
@@ -257,6 +330,11 @@ public class PublikUserWrapper
 	@Override
 	public String getCsmapJSON() {
 		return model.getCsmapJSON();
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -480,6 +558,21 @@ public class PublikUserWrapper
 		model.persist();
 	}
 
+	@Override
+	public void prepareLocalizedFieldsForImport()
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport(
+			java.util.Locale defaultImportLocale)
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
 	/**
 	 * Sets the access token of this publik user.
 	 *
@@ -508,6 +601,65 @@ public class PublikUserWrapper
 	@Override
 	public void setBanishDescription(String banishDescription) {
 		model.setBanishDescription(banishDescription);
+	}
+
+	/**
+	 * Sets the localized banish description of this publik user in the language.
+	 *
+	 * @param banishDescription the localized banish description of this publik user
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setBanishDescription(
+		String banishDescription, java.util.Locale locale) {
+
+		model.setBanishDescription(banishDescription, locale);
+	}
+
+	/**
+	 * Sets the localized banish description of this publik user in the language, and sets the default locale.
+	 *
+	 * @param banishDescription the localized banish description of this publik user
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setBanishDescription(
+		String banishDescription, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setBanishDescription(banishDescription, locale, defaultLocale);
+	}
+
+	@Override
+	public void setBanishDescriptionCurrentLanguageId(String languageId) {
+		model.setBanishDescriptionCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized banish descriptions of this publik user from the map of locales and localized banish descriptions.
+	 *
+	 * @param banishDescriptionMap the locales and localized banish descriptions of this publik user
+	 */
+	@Override
+	public void setBanishDescriptionMap(
+		Map<java.util.Locale, String> banishDescriptionMap) {
+
+		model.setBanishDescriptionMap(banishDescriptionMap);
+	}
+
+	/**
+	 * Sets the localized banish descriptions of this publik user from the map of locales and localized banish descriptions, and sets the default locale.
+	 *
+	 * @param banishDescriptionMap the locales and localized banish descriptions of this publik user
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setBanishDescriptionMap(
+		Map<java.util.Locale, String> banishDescriptionMap,
+		java.util.Locale defaultLocale) {
+
+		model.setBanishDescriptionMap(banishDescriptionMap, defaultLocale);
 	}
 
 	/**

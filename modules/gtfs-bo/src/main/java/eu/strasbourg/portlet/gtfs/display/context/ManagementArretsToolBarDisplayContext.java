@@ -13,7 +13,9 @@ import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
+import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -40,6 +42,59 @@ public class ManagementArretsToolBarDisplayContext extends ManagementBaseToolBar
 
         _themeDisplay = (ThemeDisplay)liferayPortletRequest.getAttribute(
                 WebKeys.THEME_DISPLAY);
+    }
+
+    /**
+     * The list of dropdown items to display when a result is checked
+     * or the master checkbox in the Management Toolbar is checked
+     * Content : publish, unpublish and delete
+     */
+    @Override
+    public List<DropdownItem> getActionDropdownItems() {
+        return DropdownItemListBuilder
+                .addGroup(
+                        () -> hasUpdatePermission(),
+                        dropdownGroupItem -> {
+                            dropdownGroupItem.setDropdownItems(
+                                    DropdownItemListBuilder.add(
+                                            dropdownItem -> {
+                                                dropdownItem.put("href", "javascript:publishSelection();");
+                                                dropdownItem.setIcon("check");
+                                                dropdownItem.setLabel(
+                                                        LanguageUtil.get(httpServletRequest, "publish"));
+                                                dropdownItem.setQuickAction(true);
+                                            }
+                                    ).build());
+                            dropdownGroupItem.setSeparator(true);
+                        }
+                )
+                .addGroup(
+                        () -> hasUpdatePermission(),
+                        dropdownGroupItem -> {
+                            dropdownGroupItem.setDropdownItems(
+                                    DropdownItemListBuilder.add(
+                                            dropdownItem -> {
+                                                dropdownItem.put("href", "javascript:unpublishSelection();");
+                                                dropdownItem.setIcon("times");
+                                                dropdownItem.setLabel(
+                                                        LanguageUtil.get(httpServletRequest, "unpublish"));
+                                                dropdownItem.setQuickAction(true);
+                                            }
+                                    ).build());
+                            dropdownGroupItem.setSeparator(true);
+                        }
+                )
+                .build();
+    }
+
+    @Override
+    protected boolean hasUpdatePermission() {
+        return !WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
+                _themeDisplay.getCompanyId(), _themeDisplay.getScopeGroupId(),
+                Arret.class.getName())
+                && _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+                StrasbourgPortletKeys.INTEREST_BO, StrasbourgPortletKeys.INTEREST_BO, "EDIT_INTEREST")
+                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
     }
 
     /**

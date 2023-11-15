@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -33,6 +34,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 @Component(
         immediate = true,
@@ -94,9 +97,13 @@ public class SaveCommentActionCommand implements MVCActionCommand{
             }
             boolean approved = ParamUtil.getBoolean(actionRequest,"status");
             comment.setStatus(approved ? 0 : 1);
-            String commentaire = ParamUtil.getString(actionRequest,"text");
-            _log.info("nouveau commentaire : "+commentaire);
-            comment.setText(commentaire);
+//            String commentaire = ParamUtil.getString(actionRequest,"text");
+//            _log.info("nouveau commentaire : "+commentaire);
+//            comment.setText(commentaire);
+            Map<Locale, String> commentaire = LocalizationUtil
+                    .getLocalizationMap(actionRequest, "text");
+            _log.info("nouveau commentaire : "+commentaire.get(Locale.FRANCE));
+            comment.setTextMap(commentaire);
 
             // ---------------------------------------------------------------
             // -------------------------- BANNISSEMENT -----------------------
@@ -129,6 +136,7 @@ public class SaveCommentActionCommand implements MVCActionCommand{
             }else banishDescription="";
             PublikUserLocalServiceUtil.updatePublikUser(publikUser);
             _commentLocalService.updateComment(comment);
+            actionResponse.setRenderParameter("mvcPath", "/comment-bo-view-comments.jsp");
 
         } catch (PortalException e) {
             _log.error(e);
@@ -141,7 +149,7 @@ public class SaveCommentActionCommand implements MVCActionCommand{
      */
     private boolean validate(ActionRequest request) {
         boolean result = true;
-        if (Validator.isNull(ParamUtil.getString(request, "text"))) {
+        if (Validator.isNull(ParamUtil.getString(request, "textEditor"))) {
             SessionErrors.add(request, "commentaire-error");
             result = false;
         }

@@ -17,7 +17,6 @@ package eu.strasbourg.service.project.model;
 import com.liferay.petra.sql.dsl.Column;
 import com.liferay.petra.sql.dsl.base.BaseTable;
 
-import java.sql.Clob;
 import java.sql.Types;
 
 import java.util.Date;
@@ -61,8 +60,8 @@ public class BudgetPhaseTable extends BaseTable<BudgetPhaseTable> {
 		"statusDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
 	public final Column<BudgetPhaseTable, String> title = createColumn(
 		"title", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
-	public final Column<BudgetPhaseTable, Clob> description = createColumn(
-		"description", Clob.class, Types.CLOB, Column.FLAG_DEFAULT);
+	public final Column<BudgetPhaseTable, String> description = createColumn(
+		"description", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<BudgetPhaseTable, Long> numberOfVote = createColumn(
 		"numberOfVote", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
 	public final Column<BudgetPhaseTable, Boolean> isActive = createColumn(

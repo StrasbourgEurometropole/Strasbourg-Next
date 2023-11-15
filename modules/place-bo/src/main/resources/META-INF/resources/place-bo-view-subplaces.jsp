@@ -43,20 +43,9 @@
 
 
 				<liferay-ui:search-container-column-text>
-					<liferay-ui:icon-menu markupView="lexicon">
-						<c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="edit" url="${editSubPlaceURL}" />
-						</c:if>
-
-						<liferay-portlet:actionURL name="deleteSubPlace" var="deleteSubPlaceURL">
-							<portlet:param name="cmd" value="deleteSubPlace" />
-							<portlet:param name="tab" value="subPlaces" />
-							<portlet:param name="subPlaceId" value="${subPlace.subPlaceId}" />
-						</liferay-portlet:actionURL>
-						<c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="delete" url="${deleteSubPlaceURL}" />
-						</c:if>
-					</liferay-ui:icon-menu>
+					<clay:dropdown-actions
+							aria-label="<liferay-ui:message key='show-actions' />"
+							dropdownItems="${dc.getActionsSubPlace(subPlace).getActionDropdownItems()}"	/>
 				</liferay-ui:search-container-column-text>
 
 			</liferay-ui:search-container-row>

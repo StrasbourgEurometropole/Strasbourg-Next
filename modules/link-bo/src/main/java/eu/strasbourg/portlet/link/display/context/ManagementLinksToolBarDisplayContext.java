@@ -8,7 +8,9 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
+import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.link.model.Link;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -28,6 +30,23 @@ public class ManagementLinksToolBarDisplayContext extends ManagementBaseToolBarD
 
         _themeDisplay = (ThemeDisplay)liferayPortletRequest.getAttribute(
                 WebKeys.THEME_DISPLAY);
+    }
+
+    @Override
+    protected boolean hasUpdatePermission() {
+        return !WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
+                _themeDisplay.getCompanyId(), _themeDisplay.getScopeGroupId(),
+                Link.class.getName())
+                && _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+                StrasbourgPortletKeys.LINK_BO, StrasbourgPortletKeys.LINK_BO, "EDIT_LINK")
+                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+    }
+
+    @Override
+    protected boolean hasDeletePermission() {
+        return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+                StrasbourgPortletKeys.LINK_BO, StrasbourgPortletKeys.LINK_BO, "DELETE_LINK")
+                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
     }
 
     /**

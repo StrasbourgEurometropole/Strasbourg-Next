@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.repository.model.FileEntry;
@@ -16,6 +17,7 @@ import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.search_asset_v2.configuration.SearchAssetConfiguration;
@@ -66,13 +68,15 @@ public class SearchAssetConfigurationDisplayContext {
         return availableAssetTypeNames;
     }
 
-    // Retourne un String des types de contenus disponibles
-    public String getAvailableAssetTypeNamesString() {
+    // Retourne un String des types de contenus disponibles avec ses trad pour le JS
+    // format : assetType--trad,...
+    public String getAvailableAssetTypeNamesWithTrad(String languageId) {
+        Locale locale = LocaleUtil.fromLanguageId(languageId);
         String assetTypeNames = "";
         for (String assetTypeName : getAvailableAssetTypeNames()) {
             if(Validator.isNotNull(assetTypeNames))
                 assetTypeNames +=",";
-            assetTypeNames += assetTypeName;
+            assetTypeNames += assetTypeName + "--" + LanguageUtil.get(locale, assetTypeName);
         }
         return assetTypeNames;
     }

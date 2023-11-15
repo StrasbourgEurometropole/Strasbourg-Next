@@ -54,7 +54,7 @@
 <#-- Liste des infos a partager -->
 <#assign openGraph = {
 "og:title":"${entry.title?html}",
-"og:description":'${entry.description?replace("<[^>]*>", "", "r")?html}', 
+"og:description":'${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}',
 "og:image":"${imageUrlOG}"
 } />
 <#-- partage de la configuration open graph dans la request -->
@@ -150,7 +150,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             </#if>
                         </div>
 
-                        <div class="row pro-bloc pro-bloc-texte">${entry.description}</div>
+                        <div class="row pro-bloc pro-bloc-texte">${entry.getDescription(locale)}</div>
                         <#if entry.filesIds?has_content>
                             <div class="pro-bloc-texte pro-bloc-telechargements">
                                 <h3>Document(s) téléchargé(s)</h3>

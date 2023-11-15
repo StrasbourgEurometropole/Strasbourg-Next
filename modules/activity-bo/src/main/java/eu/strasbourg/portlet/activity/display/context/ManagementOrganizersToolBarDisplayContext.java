@@ -8,7 +8,9 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
+import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.activity.model.ActivityOrganizer;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -28,6 +30,23 @@ public class ManagementOrganizersToolBarDisplayContext extends ManagementBaseToo
 
         _themeDisplay = (ThemeDisplay)liferayPortletRequest.getAttribute(
                 WebKeys.THEME_DISPLAY);
+    }
+
+    @Override
+    protected boolean hasUpdatePermission() {
+        return !WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
+                _themeDisplay.getCompanyId(), _themeDisplay.getScopeGroupId(),
+                ActivityOrganizer.class.getName())
+                && _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+                StrasbourgPortletKeys.ACTIVITY_BO, StrasbourgPortletKeys.ACTIVITY_BO, "EDIT_ACTIVITY_ORGANIZER")
+                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+    }
+
+    @Override
+    protected boolean hasDeletePermission() {
+        return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+                StrasbourgPortletKeys.ACTIVITY_BO, StrasbourgPortletKeys.ACTIVITY_BO, "DELETE_ACTIVITY_ORGANIZER")
+                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
     }
 
     /**

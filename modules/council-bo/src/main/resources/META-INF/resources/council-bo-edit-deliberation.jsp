@@ -10,7 +10,8 @@
 <%-- URL : definit le lien menant vers la suppression de l'entite --%>
 <liferay-portlet:actionURL name="deleteDeliberation" var="deleteDeliberationURL">
 	<portlet:param name="cmd" value="deleteDeliberation" />
-	<portlet:param name="tab" value="deliberations" />
+    <portlet:param name="tab" value="deliberations" />
+    <portlet:param name="mvcPath" value="/council-bo-view-deliberations.jsp" />
 	<portlet:param name="deliberationId"
 	    value="${not empty dc.deliberation ? dc.deliberation.deliberationId : ''}" />
 </liferay-portlet:actionURL>
@@ -21,11 +22,11 @@
 	<portlet:param name="tab" value="deliberations" />
 	<portlet:param name="deliberationId"
 	    value="${not empty dc.deliberation ? dc.deliberation.deliberationId : ''}" />
+    <portlet:param name="mvcPath" value="/council-bo-view-deliberations.jsp" />
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveDeliberation" varImpl="saveDeliberationURL">
-	<portlet:param name="cmd" value="saveDeliberation" />
 	<portlet:param name="tab" value="deliberations" />
 </liferay-portlet:actionURL>
 

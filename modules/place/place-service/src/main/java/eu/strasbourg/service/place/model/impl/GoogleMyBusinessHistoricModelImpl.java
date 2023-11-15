@@ -19,7 +19,9 @@ import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.User;
@@ -27,9 +29,12 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.place.model.GoogleMyBusinessHistoric;
@@ -46,8 +51,11 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -687,12 +695,104 @@ public class GoogleMyBusinessHistoricModelImpl
 	}
 
 	@Override
+	public String getOperations(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getOperations(languageId);
+	}
+
+	@Override
+	public String getOperations(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getOperations(languageId, useDefault);
+	}
+
+	@Override
+	public String getOperations(String languageId) {
+		return LocalizationUtil.getLocalization(getOperations(), languageId);
+	}
+
+	@Override
+	public String getOperations(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getOperations(), languageId, useDefault);
+	}
+
+	@Override
+	public String getOperationsCurrentLanguageId() {
+		return _operationsCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getOperationsCurrentValue() {
+		Locale locale = getLocale(_operationsCurrentLanguageId);
+
+		return getOperations(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getOperationsMap() {
+		return LocalizationUtil.getLocalizationMap(getOperations());
+	}
+
+	@Override
 	public void setOperations(String operations) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
 
 		_operations = operations;
+	}
+
+	@Override
+	public void setOperations(String operations, Locale locale) {
+		setOperations(operations, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setOperations(
+		String operations, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(operations)) {
+			setOperations(
+				LocalizationUtil.updateLocalization(
+					getOperations(), "Operations", operations, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setOperations(
+				LocalizationUtil.removeLocalization(
+					getOperations(), "Operations", languageId));
+		}
+	}
+
+	@Override
+	public void setOperationsCurrentLanguageId(String languageId) {
+		_operationsCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setOperationsMap(Map<Locale, String> operationsMap) {
+		setOperationsMap(operationsMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setOperationsMap(
+		Map<Locale, String> operationsMap, Locale defaultLocale) {
+
+		if (operationsMap == null) {
+			return;
+		}
+
+		setOperations(
+			LocalizationUtil.updateLocalization(
+				operationsMap, getOperations(), "Operations",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -706,12 +806,109 @@ public class GoogleMyBusinessHistoricModelImpl
 	}
 
 	@Override
+	public String getErrorDescription(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getErrorDescription(languageId);
+	}
+
+	@Override
+	public String getErrorDescription(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getErrorDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getErrorDescription(String languageId) {
+		return LocalizationUtil.getLocalization(
+			getErrorDescription(), languageId);
+	}
+
+	@Override
+	public String getErrorDescription(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getErrorDescription(), languageId, useDefault);
+	}
+
+	@Override
+	public String getErrorDescriptionCurrentLanguageId() {
+		return _errorDescriptionCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getErrorDescriptionCurrentValue() {
+		Locale locale = getLocale(_errorDescriptionCurrentLanguageId);
+
+		return getErrorDescription(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getErrorDescriptionMap() {
+		return LocalizationUtil.getLocalizationMap(getErrorDescription());
+	}
+
+	@Override
 	public void setErrorDescription(String errorDescription) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
 
 		_errorDescription = errorDescription;
+	}
+
+	@Override
+	public void setErrorDescription(String errorDescription, Locale locale) {
+		setErrorDescription(
+			errorDescription, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setErrorDescription(
+		String errorDescription, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(errorDescription)) {
+			setErrorDescription(
+				LocalizationUtil.updateLocalization(
+					getErrorDescription(), "ErrorDescription", errorDescription,
+					languageId, defaultLanguageId));
+		}
+		else {
+			setErrorDescription(
+				LocalizationUtil.removeLocalization(
+					getErrorDescription(), "ErrorDescription", languageId));
+		}
+	}
+
+	@Override
+	public void setErrorDescriptionCurrentLanguageId(String languageId) {
+		_errorDescriptionCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setErrorDescriptionMap(
+		Map<Locale, String> errorDescriptionMap) {
+
+		setErrorDescriptionMap(
+			errorDescriptionMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setErrorDescriptionMap(
+		Map<Locale, String> errorDescriptionMap, Locale defaultLocale) {
+
+		if (errorDescriptionMap == null) {
+			return;
+		}
+
+		setErrorDescription(
+			LocalizationUtil.updateLocalization(
+				errorDescriptionMap, getErrorDescription(), "ErrorDescription",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -725,12 +922,106 @@ public class GoogleMyBusinessHistoricModelImpl
 	}
 
 	@Override
+	public String getErrorStackTrace(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getErrorStackTrace(languageId);
+	}
+
+	@Override
+	public String getErrorStackTrace(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getErrorStackTrace(languageId, useDefault);
+	}
+
+	@Override
+	public String getErrorStackTrace(String languageId) {
+		return LocalizationUtil.getLocalization(
+			getErrorStackTrace(), languageId);
+	}
+
+	@Override
+	public String getErrorStackTrace(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getErrorStackTrace(), languageId, useDefault);
+	}
+
+	@Override
+	public String getErrorStackTraceCurrentLanguageId() {
+		return _errorStackTraceCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getErrorStackTraceCurrentValue() {
+		Locale locale = getLocale(_errorStackTraceCurrentLanguageId);
+
+		return getErrorStackTrace(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getErrorStackTraceMap() {
+		return LocalizationUtil.getLocalizationMap(getErrorStackTrace());
+	}
+
+	@Override
 	public void setErrorStackTrace(String errorStackTrace) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
 
 		_errorStackTrace = errorStackTrace;
+	}
+
+	@Override
+	public void setErrorStackTrace(String errorStackTrace, Locale locale) {
+		setErrorStackTrace(
+			errorStackTrace, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setErrorStackTrace(
+		String errorStackTrace, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(errorStackTrace)) {
+			setErrorStackTrace(
+				LocalizationUtil.updateLocalization(
+					getErrorStackTrace(), "ErrorStackTrace", errorStackTrace,
+					languageId, defaultLanguageId));
+		}
+		else {
+			setErrorStackTrace(
+				LocalizationUtil.removeLocalization(
+					getErrorStackTrace(), "ErrorStackTrace", languageId));
+		}
+	}
+
+	@Override
+	public void setErrorStackTraceCurrentLanguageId(String languageId) {
+		_errorStackTraceCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setErrorStackTraceMap(Map<Locale, String> errorStackTraceMap) {
+		setErrorStackTraceMap(errorStackTraceMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setErrorStackTraceMap(
+		Map<Locale, String> errorStackTraceMap, Locale defaultLocale) {
+
+		if (errorStackTraceMap == null) {
+			return;
+		}
+
+		setErrorStackTrace(
+			LocalizationUtil.updateLocalization(
+				errorStackTraceMap, getErrorStackTrace(), "ErrorStackTrace",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -884,6 +1175,119 @@ public class GoogleMyBusinessHistoricModelImpl
 		ExpandoBridge expandoBridge = getExpandoBridge();
 
 		expandoBridge.setAttributes(serviceContext);
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		Set<String> availableLanguageIds = new TreeSet<String>();
+
+		Map<Locale, String> operationsMap = getOperationsMap();
+
+		for (Map.Entry<Locale, String> entry : operationsMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> errorDescriptionMap = getErrorDescriptionMap();
+
+		for (Map.Entry<Locale, String> entry : errorDescriptionMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> errorStackTraceMap = getErrorStackTraceMap();
+
+		for (Map.Entry<Locale, String> entry : errorStackTraceMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		return availableLanguageIds.toArray(
+			new String[availableLanguageIds.size()]);
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		String xml = getOperations();
+
+		if (xml == null) {
+			return "";
+		}
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		return LocalizationUtil.getDefaultLanguageId(xml, defaultLocale);
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException {
+		Locale defaultLocale = LocaleUtil.fromLanguageId(
+			getDefaultLanguageId());
+
+		Locale[] availableLocales = LocaleUtil.fromLanguageIds(
+			getAvailableLanguageIds());
+
+		Locale defaultImportLocale = LocalizationUtil.getDefaultImportLocale(
+			GoogleMyBusinessHistoric.class.getName(), getPrimaryKey(),
+			defaultLocale, availableLocales);
+
+		prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
+	@SuppressWarnings("unused")
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException {
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		String modelDefaultLanguageId = getDefaultLanguageId();
+
+		String operations = getOperations(defaultLocale);
+
+		if (Validator.isNull(operations)) {
+			setOperations(getOperations(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setOperations(
+				getOperations(defaultLocale), defaultLocale, defaultLocale);
+		}
+
+		String errorDescription = getErrorDescription(defaultLocale);
+
+		if (Validator.isNull(errorDescription)) {
+			setErrorDescription(
+				getErrorDescription(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setErrorDescription(
+				getErrorDescription(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
+
+		String errorStackTrace = getErrorStackTrace(defaultLocale);
+
+		if (Validator.isNull(errorStackTrace)) {
+			setErrorStackTrace(
+				getErrorStackTrace(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setErrorStackTrace(
+				getErrorStackTrace(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
 	}
 
 	@Override
@@ -1273,8 +1677,11 @@ public class GoogleMyBusinessHistoricModelImpl
 	private Date _statusDate;
 	private int _result;
 	private String _operations;
+	private String _operationsCurrentLanguageId;
 	private String _errorDescription;
+	private String _errorDescriptionCurrentLanguageId;
 	private String _errorStackTrace;
+	private String _errorStackTraceCurrentLanguageId;
 	private Date _startDate;
 	private Date _finishDate;
 

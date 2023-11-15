@@ -42,12 +42,17 @@ public class PublicHolidayActionDropdownItemsProvider {
      */
     public List<DropdownItem> getActionDropdownItems() {
 
+        boolean hasUpdatePermission = Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+
+        boolean hasDeletePermission = Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+
         return DropdownItemListBuilder
                 .addGroup(
                         dropdownGroupItem -> {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder
                                             .add(
+                                                    () -> hasUpdatePermission,
                                                     _getEditActionUnsafeConsumer()
                                             )
                                             .build()
@@ -59,6 +64,7 @@ public class PublicHolidayActionDropdownItemsProvider {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder
                                             .add(
+                                                    () -> hasDeletePermission,
                                                     _getDeleteActionUnsafeConsumer()
                                             )
                                             .build()
@@ -95,7 +101,7 @@ public class PublicHolidayActionDropdownItemsProvider {
             dropdownItem.setHref(
                     PortletURLBuilder.createActionURL(_response)
                             .setActionName("deletePublicHoliday")
-                            .setMVCPath("/place-bo-view-public-holiday.jsp")
+                            .setMVCPath("/place-bo-view-public-holidays.jsp")
                             .setBackURL(_themeDisplay.getURLCurrent())
                             .setParameter("tab", "publicHolidays")
                             .setParameter("publicHolidayId", _publicHoliday.getPublicHolidayId())

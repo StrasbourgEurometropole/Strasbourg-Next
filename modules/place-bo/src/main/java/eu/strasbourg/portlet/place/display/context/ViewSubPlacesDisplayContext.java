@@ -8,8 +8,7 @@ import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.portlet.place.util.PublicHolidayActionDropdownItemsProvider;
-import eu.strasbourg.service.place.model.PublicHoliday;
+import eu.strasbourg.portlet.place.util.SubPlaceActionDropdownItemsProvider;
 import eu.strasbourg.service.place.model.SubPlace;
 import eu.strasbourg.service.place.service.SubPlaceLocalServiceUtil;
 import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
@@ -35,8 +34,8 @@ public class ViewSubPlacesDisplayContext extends ViewBaseDisplayContext<SubPlace
 	 *
 	 */
 	@SuppressWarnings("unused")
-	public PublicHolidayActionDropdownItemsProvider getActionsPublicHoliday(PublicHoliday publicHoliday) {
-		return new PublicHolidayActionDropdownItemsProvider(publicHoliday, _request,
+	public SubPlaceActionDropdownItemsProvider getActionsSubPlace(SubPlace subPlace) {
+		return new SubPlaceActionDropdownItemsProvider(subPlace, _request,
 				_response);
 	}
 

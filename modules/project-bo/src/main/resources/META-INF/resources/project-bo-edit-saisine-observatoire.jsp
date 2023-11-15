@@ -29,7 +29,7 @@
     <liferay-ui:error key="place-error" message="place-error" />
 
     <%-- Composant : formulaire de saisie de l'entite --%>
-    <aui:form action="${saveSaisineObservatoireURL}" method="post" name="fm" onSubmit="alert('toto'); submitForm(event);">
+    <aui:form action="${saveSaisineObservatoireURL}" method="post" name="fm" onSubmit="submitForm(event);">
 
         <%-- Propriete : definit l'entite de reference pour le formulaire--%>
         <aui:model-context bean="${dc.saisineObservatoire}" model="<%=SaisineObservatoire.class %>" />
@@ -165,19 +165,21 @@
             <aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-vocabulary">
 
                 <%-- Champ : Selection des categories (gere par le portail dans l'onglet "Categories" du BO) --%>
-                <aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
-
+                <liferay-asset:asset-categories-selector
+                        className="<%= SaisineObservatoire.class.getName() %>"
+                        classPK="${dc.saisineObservatoire.saisineObservatoireId}"
+                />
                 <!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
                 <div class="has-error">
                     <aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
                         <aui:validator name="custom" errorMessage="requested-vocabularies-error">
                             function (val, fieldNode, ruleValue) {
                             var validated = true;
-                            var fields = document.querySelectorAll('.categories-selectors > .field-content');
+                            var fields = document.querySelectorAll('[id$=assetCategoriesSelector] > .field-content');
                             for (var i = 0; i < fields.length; i++) {
                             fieldContent = fields[i];
-                            if ($(fieldContent).find('.icon-asterisk').length > 0
-                            && $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+                            if ($(fieldContent).find('.lexicon-icon-asterisk').length > 0
+                            && $(fieldContent).find('input[type="hidden"]').length == 0) {
                             validated = false;
                             event.preventDefault();
                             break;
@@ -190,7 +192,10 @@
                 </div>
 
                 <%-- Champ : Selection des etiquettes (gere par le portail dans l'onglet "Etiquettes" du BO) --%>
-                <aui:input name="tags" type="assetTags" />
+                <liferay-asset:asset-tags-selector
+                        className="<%= SaisineObservatoire.class.getName() %>"
+                        classPK="${dc.saisineObservatoire.saisineObservatoireId}"
+                />
 
             </aui:fieldset>
 

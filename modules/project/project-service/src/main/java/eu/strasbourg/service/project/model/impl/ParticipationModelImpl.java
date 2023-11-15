@@ -19,6 +19,7 @@ import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -28,9 +29,12 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.project.model.Participation;
@@ -47,8 +51,11 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -926,12 +933,106 @@ public class ParticipationModelImpl
 	}
 
 	@Override
+	public String getDescriptionBody(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getDescriptionBody(languageId);
+	}
+
+	@Override
+	public String getDescriptionBody(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getDescriptionBody(languageId, useDefault);
+	}
+
+	@Override
+	public String getDescriptionBody(String languageId) {
+		return LocalizationUtil.getLocalization(
+			getDescriptionBody(), languageId);
+	}
+
+	@Override
+	public String getDescriptionBody(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getDescriptionBody(), languageId, useDefault);
+	}
+
+	@Override
+	public String getDescriptionBodyCurrentLanguageId() {
+		return _descriptionBodyCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getDescriptionBodyCurrentValue() {
+		Locale locale = getLocale(_descriptionBodyCurrentLanguageId);
+
+		return getDescriptionBody(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getDescriptionBodyMap() {
+		return LocalizationUtil.getLocalizationMap(getDescriptionBody());
+	}
+
+	@Override
 	public void setDescriptionBody(String descriptionBody) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
 
 		_descriptionBody = descriptionBody;
+	}
+
+	@Override
+	public void setDescriptionBody(String descriptionBody, Locale locale) {
+		setDescriptionBody(
+			descriptionBody, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setDescriptionBody(
+		String descriptionBody, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(descriptionBody)) {
+			setDescriptionBody(
+				LocalizationUtil.updateLocalization(
+					getDescriptionBody(), "DescriptionBody", descriptionBody,
+					languageId, defaultLanguageId));
+		}
+		else {
+			setDescriptionBody(
+				LocalizationUtil.removeLocalization(
+					getDescriptionBody(), "DescriptionBody", languageId));
+		}
+	}
+
+	@Override
+	public void setDescriptionBodyCurrentLanguageId(String languageId) {
+		_descriptionBodyCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setDescriptionBodyMap(Map<Locale, String> descriptionBodyMap) {
+		setDescriptionBodyMap(descriptionBodyMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setDescriptionBodyMap(
+		Map<Locale, String> descriptionBodyMap, Locale defaultLocale) {
+
+		if (descriptionBodyMap == null) {
+			return;
+		}
+
+		setDescriptionBody(
+			LocalizationUtil.updateLocalization(
+				descriptionBodyMap, getDescriptionBody(), "DescriptionBody",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -946,12 +1047,115 @@ public class ParticipationModelImpl
 	}
 
 	@Override
+	public String getConsultationPlacesBody(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getConsultationPlacesBody(languageId);
+	}
+
+	@Override
+	public String getConsultationPlacesBody(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getConsultationPlacesBody(languageId, useDefault);
+	}
+
+	@Override
+	public String getConsultationPlacesBody(String languageId) {
+		return LocalizationUtil.getLocalization(
+			getConsultationPlacesBody(), languageId);
+	}
+
+	@Override
+	public String getConsultationPlacesBody(
+		String languageId, boolean useDefault) {
+
+		return LocalizationUtil.getLocalization(
+			getConsultationPlacesBody(), languageId, useDefault);
+	}
+
+	@Override
+	public String getConsultationPlacesBodyCurrentLanguageId() {
+		return _consultationPlacesBodyCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getConsultationPlacesBodyCurrentValue() {
+		Locale locale = getLocale(_consultationPlacesBodyCurrentLanguageId);
+
+		return getConsultationPlacesBody(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getConsultationPlacesBodyMap() {
+		return LocalizationUtil.getLocalizationMap(getConsultationPlacesBody());
+	}
+
+	@Override
 	public void setConsultationPlacesBody(String consultationPlacesBody) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
 
 		_consultationPlacesBody = consultationPlacesBody;
+	}
+
+	@Override
+	public void setConsultationPlacesBody(
+		String consultationPlacesBody, Locale locale) {
+
+		setConsultationPlacesBody(
+			consultationPlacesBody, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setConsultationPlacesBody(
+		String consultationPlacesBody, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(consultationPlacesBody)) {
+			setConsultationPlacesBody(
+				LocalizationUtil.updateLocalization(
+					getConsultationPlacesBody(), "ConsultationPlacesBody",
+					consultationPlacesBody, languageId, defaultLanguageId));
+		}
+		else {
+			setConsultationPlacesBody(
+				LocalizationUtil.removeLocalization(
+					getConsultationPlacesBody(), "ConsultationPlacesBody",
+					languageId));
+		}
+	}
+
+	@Override
+	public void setConsultationPlacesBodyCurrentLanguageId(String languageId) {
+		_consultationPlacesBodyCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setConsultationPlacesBodyMap(
+		Map<Locale, String> consultationPlacesBodyMap) {
+
+		setConsultationPlacesBodyMap(
+			consultationPlacesBodyMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setConsultationPlacesBodyMap(
+		Map<Locale, String> consultationPlacesBodyMap, Locale defaultLocale) {
+
+		if (consultationPlacesBodyMap == null) {
+			return;
+		}
+
+		setConsultationPlacesBody(
+			LocalizationUtil.updateLocalization(
+				consultationPlacesBodyMap, getConsultationPlacesBody(),
+				"ConsultationPlacesBody",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -1160,6 +1364,103 @@ public class ParticipationModelImpl
 		ExpandoBridge expandoBridge = getExpandoBridge();
 
 		expandoBridge.setAttributes(serviceContext);
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		Set<String> availableLanguageIds = new TreeSet<String>();
+
+		Map<Locale, String> descriptionBodyMap = getDescriptionBodyMap();
+
+		for (Map.Entry<Locale, String> entry : descriptionBodyMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> consultationPlacesBodyMap =
+			getConsultationPlacesBodyMap();
+
+		for (Map.Entry<Locale, String> entry :
+				consultationPlacesBodyMap.entrySet()) {
+
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		return availableLanguageIds.toArray(
+			new String[availableLanguageIds.size()]);
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		String xml = getDescriptionBody();
+
+		if (xml == null) {
+			return "";
+		}
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		return LocalizationUtil.getDefaultLanguageId(xml, defaultLocale);
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException {
+		Locale defaultLocale = LocaleUtil.fromLanguageId(
+			getDefaultLanguageId());
+
+		Locale[] availableLocales = LocaleUtil.fromLanguageIds(
+			getAvailableLanguageIds());
+
+		Locale defaultImportLocale = LocalizationUtil.getDefaultImportLocale(
+			Participation.class.getName(), getPrimaryKey(), defaultLocale,
+			availableLocales);
+
+		prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
+	@SuppressWarnings("unused")
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException {
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		String modelDefaultLanguageId = getDefaultLanguageId();
+
+		String descriptionBody = getDescriptionBody(defaultLocale);
+
+		if (Validator.isNull(descriptionBody)) {
+			setDescriptionBody(
+				getDescriptionBody(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setDescriptionBody(
+				getDescriptionBody(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
+
+		String consultationPlacesBody = getConsultationPlacesBody(
+			defaultLocale);
+
+		if (Validator.isNull(consultationPlacesBody)) {
+			setConsultationPlacesBody(
+				getConsultationPlacesBody(modelDefaultLanguageId),
+				defaultLocale);
+		}
+		else {
+			setConsultationPlacesBody(
+				getConsultationPlacesBody(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
 	}
 
 	@Override
@@ -1641,7 +1942,9 @@ public class ParticipationModelImpl
 	private boolean _mediaChoice;
 	private String _descriptionChapeau;
 	private String _descriptionBody;
+	private String _descriptionBodyCurrentLanguageId;
 	private String _consultationPlacesBody;
+	private String _consultationPlacesBodyCurrentLanguageId;
 	private long _imageId;
 	private String _filesIds;
 	private String _eventsIds;

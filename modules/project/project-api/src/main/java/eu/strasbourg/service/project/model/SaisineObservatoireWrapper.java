@@ -342,6 +342,11 @@ public class SaisineObservatoireWrapper
 		return model.getAuthorPublikUser();
 	}
 
+	@Override
+	public String[] getAvailableLanguageIds() {
+		return model.getAvailableLanguageIds();
+	}
+
 	/**
 	 * Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
 	 */
@@ -375,6 +380,72 @@ public class SaisineObservatoireWrapper
 	}
 
 	/**
+	 * Returns the localized city response of this saisine observatoire in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized city response of this saisine observatoire
+	 */
+	@Override
+	public String getCityResponse(java.util.Locale locale) {
+		return model.getCityResponse(locale);
+	}
+
+	/**
+	 * Returns the localized city response of this saisine observatoire in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized city response of this saisine observatoire. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getCityResponse(java.util.Locale locale, boolean useDefault) {
+		return model.getCityResponse(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized city response of this saisine observatoire in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized city response of this saisine observatoire
+	 */
+	@Override
+	public String getCityResponse(String languageId) {
+		return model.getCityResponse(languageId);
+	}
+
+	/**
+	 * Returns the localized city response of this saisine observatoire in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized city response of this saisine observatoire
+	 */
+	@Override
+	public String getCityResponse(String languageId, boolean useDefault) {
+		return model.getCityResponse(languageId, useDefault);
+	}
+
+	@Override
+	public String getCityResponseCurrentLanguageId() {
+		return model.getCityResponseCurrentLanguageId();
+	}
+
+	@Override
+	public String getCityResponseCurrentValue() {
+		return model.getCityResponseCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized city responses of this saisine observatoire.
+	 *
+	 * @return the locales and localized city responses of this saisine observatoire
+	 */
+	@Override
+	public Map<java.util.Locale, String> getCityResponseMap() {
+		return model.getCityResponseMap();
+	}
+
+	/**
 	 * Returns the collective name of this saisine observatoire.
 	 *
 	 * @return the collective name of this saisine observatoire
@@ -404,6 +475,11 @@ public class SaisineObservatoireWrapper
 		return model.getCreateDate();
 	}
 
+	@Override
+	public String getDefaultLanguageId() {
+		return model.getDefaultLanguageId();
+	}
+
 	/**
 	 * Returns the description of this saisine observatoire.
 	 *
@@ -412,6 +488,72 @@ public class SaisineObservatoireWrapper
 	@Override
 	public String getDescription() {
 		return model.getDescription();
+	}
+
+	/**
+	 * Returns the localized description of this saisine observatoire in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized description of this saisine observatoire
+	 */
+	@Override
+	public String getDescription(java.util.Locale locale) {
+		return model.getDescription(locale);
+	}
+
+	/**
+	 * Returns the localized description of this saisine observatoire in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized description of this saisine observatoire. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getDescription(java.util.Locale locale, boolean useDefault) {
+		return model.getDescription(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized description of this saisine observatoire in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized description of this saisine observatoire
+	 */
+	@Override
+	public String getDescription(String languageId) {
+		return model.getDescription(languageId);
+	}
+
+	/**
+	 * Returns the localized description of this saisine observatoire in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized description of this saisine observatoire
+	 */
+	@Override
+	public String getDescription(String languageId, boolean useDefault) {
+		return model.getDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getDescriptionCurrentLanguageId() {
+		return model.getDescriptionCurrentLanguageId();
+	}
+
+	@Override
+	public String getDescriptionCurrentValue() {
+		return model.getDescriptionCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized descriptions of this saisine observatoire.
+	 *
+	 * @return the locales and localized descriptions of this saisine observatoire
+	 */
+	@Override
+	public Map<java.util.Locale, String> getDescriptionMap() {
+		return model.getDescriptionMap();
 	}
 
 	/**
@@ -973,6 +1115,21 @@ public class SaisineObservatoireWrapper
 		model.persist();
 	}
 
+	@Override
+	public void prepareLocalizedFieldsForImport()
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport(
+			java.util.Locale defaultImportLocale)
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
 	/**
 	 * Sets the city response of this saisine observatoire.
 	 *
@@ -981,6 +1138,63 @@ public class SaisineObservatoireWrapper
 	@Override
 	public void setCityResponse(String cityResponse) {
 		model.setCityResponse(cityResponse);
+	}
+
+	/**
+	 * Sets the localized city response of this saisine observatoire in the language.
+	 *
+	 * @param cityResponse the localized city response of this saisine observatoire
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setCityResponse(String cityResponse, java.util.Locale locale) {
+		model.setCityResponse(cityResponse, locale);
+	}
+
+	/**
+	 * Sets the localized city response of this saisine observatoire in the language, and sets the default locale.
+	 *
+	 * @param cityResponse the localized city response of this saisine observatoire
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setCityResponse(
+		String cityResponse, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setCityResponse(cityResponse, locale, defaultLocale);
+	}
+
+	@Override
+	public void setCityResponseCurrentLanguageId(String languageId) {
+		model.setCityResponseCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized city responses of this saisine observatoire from the map of locales and localized city responses.
+	 *
+	 * @param cityResponseMap the locales and localized city responses of this saisine observatoire
+	 */
+	@Override
+	public void setCityResponseMap(
+		Map<java.util.Locale, String> cityResponseMap) {
+
+		model.setCityResponseMap(cityResponseMap);
+	}
+
+	/**
+	 * Sets the localized city responses of this saisine observatoire from the map of locales and localized city responses, and sets the default locale.
+	 *
+	 * @param cityResponseMap the locales and localized city responses of this saisine observatoire
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setCityResponseMap(
+		Map<java.util.Locale, String> cityResponseMap,
+		java.util.Locale defaultLocale) {
+
+		model.setCityResponseMap(cityResponseMap, defaultLocale);
 	}
 
 	/**
@@ -1021,6 +1235,63 @@ public class SaisineObservatoireWrapper
 	@Override
 	public void setDescription(String description) {
 		model.setDescription(description);
+	}
+
+	/**
+	 * Sets the localized description of this saisine observatoire in the language.
+	 *
+	 * @param description the localized description of this saisine observatoire
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setDescription(String description, java.util.Locale locale) {
+		model.setDescription(description, locale);
+	}
+
+	/**
+	 * Sets the localized description of this saisine observatoire in the language, and sets the default locale.
+	 *
+	 * @param description the localized description of this saisine observatoire
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setDescription(
+		String description, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setDescription(description, locale, defaultLocale);
+	}
+
+	@Override
+	public void setDescriptionCurrentLanguageId(String languageId) {
+		model.setDescriptionCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized descriptions of this saisine observatoire from the map of locales and localized descriptions.
+	 *
+	 * @param descriptionMap the locales and localized descriptions of this saisine observatoire
+	 */
+	@Override
+	public void setDescriptionMap(
+		Map<java.util.Locale, String> descriptionMap) {
+
+		model.setDescriptionMap(descriptionMap);
+	}
+
+	/**
+	 * Sets the localized descriptions of this saisine observatoire from the map of locales and localized descriptions, and sets the default locale.
+	 *
+	 * @param descriptionMap the locales and localized descriptions of this saisine observatoire
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setDescriptionMap(
+		Map<java.util.Locale, String> descriptionMap,
+		java.util.Locale defaultLocale) {
+
+		model.setDescriptionMap(descriptionMap, defaultLocale);
 	}
 
 	/**

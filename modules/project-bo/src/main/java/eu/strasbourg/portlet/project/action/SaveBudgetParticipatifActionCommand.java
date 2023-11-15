@@ -14,6 +14,7 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalService;
 import org.osgi.service.component.annotations.Component;
@@ -86,8 +87,9 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             budgetParticipatif.setTitle(title);
             
             // Description
-            String description = ParamUtil.getString(request, "description");
-            budgetParticipatif.setDescription(description);
+			Map<Locale, String> description = LocalizationUtil
+					.getLocalizationMap(request, "description");
+            budgetParticipatif.setDescriptionMap(description);
             
             // Resume
             String summary = ParamUtil.getString(request, "summary");
@@ -98,8 +100,9 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             budgetParticipatif.setBudget(budget);
             
             // Motif
-            String motif = ParamUtil.getString(request, "motif");
-            budgetParticipatif.setMotif(motif);
+			Map<Locale, String> motif = LocalizationUtil
+					.getLocalizationMap(request, "motif");
+            budgetParticipatif.setMotifMap(motif);
             
             // ---------------------------------------------------------------
  			// -------------------------- CITOYEN ----------------------------
@@ -250,8 +253,9 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             budgetParticipatif.setIsCrush(isCrush);
             
             // Commentaire du coup de coeur
-            String crushComment = ParamUtil.getString(request, "crushComment");
-            budgetParticipatif.setCrushComment(crushComment);
+			Map<Locale, String> crushComment = LocalizationUtil
+					.getLocalizationMap(request, "crushComment");
+            budgetParticipatif.setCrushCommentMap(crushComment);
             
             // ---------------------------------------------------------------
  			// ----------------------- SELECTION DE LA PHASE -----------------
@@ -393,7 +397,7 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
 		}
 
 		// Description
-		if (Validator.isNull(ParamUtil.getString(request, "description"))) {
+		if (Validator.isNull(ParamUtil.getString(request, "descriptionEditor"))) {
 			SessionErrors.add(request, "description-error");
 			isValid = false;
 		}

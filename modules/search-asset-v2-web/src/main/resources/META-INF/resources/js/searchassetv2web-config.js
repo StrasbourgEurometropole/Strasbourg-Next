@@ -244,7 +244,8 @@ function initializeVocabulary(elt){
 // Mise a jour du bloc de type de contenu lors de la selection d'un type de contenu
 function updateBloc(index) {
     // Changement du label du contenu
-    $($("#assetType" + index + ' a')[0]).text(Liferay.Language.get($(namespaceAUI + "classname_" + index).val()));
+    $($("#assetType" + index + ' legend')[0]).text($(namespaceAUI + "classname_" + index)[0].selectedOptions[0].text);
+    $($("#assetType" + index + ' a')[0]).text($(namespaceAUI + "classname_" + index)[0].selectedOptions[0].text);
 
     // effacement de la portée
     scopes = scopesChoicesJson[index];
@@ -406,7 +407,7 @@ function updatePrefilter(elt){
 function deleteAssetType(index) {
 	var nbAssetType = $(namespaceAUI + 'nbAssetType').val();
 
-	$('#assetType' + index).closest('.card-horizontal').remove();
+	$('#assetType' + index).closest('.sheet').remove();
 
     // MaJ des critères de recherche et du regroupement
     updateVocabularyAndGroupBy();

@@ -146,9 +146,9 @@
                                 formated_info = feature.properties[info_to_display];
                                 hasContenu = true;
                             } else if (info_to_display == 'amount') {
-                                var frequentation = '<div class="infowindow__opened">' + Liferay.Language.get(feature.properties[info_to_display]["title"]) + '</div>';
+                                var frequentation = '<div class="infowindow__opened">' + feature.properties[info_to_display]["title"] + '</div>';
                                 frequentation += '<div class="infowindow__frequentation ' + feature.properties[info_to_display]["color"] + '">' + feature.properties[info_to_display]["frequentation"] + '</div>';
-                                frequentation += '<div class="crowded-label">' + Liferay.Language.get(feature.properties[info_to_display]["label"]);
+                                frequentation += '<div class="crowded-label">' + feature.properties[info_to_display]["label"];
                                 if (feature.properties[info_to_display]["label"] == "available-spots" || feature.properties[info_to_display]["label"] == "eu.place.available-velhop"){
                                     frequentation += feature.properties[info_to_display]["frequentation"];
                                 }

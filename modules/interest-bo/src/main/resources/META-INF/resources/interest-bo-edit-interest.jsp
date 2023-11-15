@@ -1,11 +1,4 @@
 <%@ include file="/interest-bo-init.jsp"%>
-
-<liferay-util:html-bottom>
-	<script
-		src="/o/interestbo/js/interest-bo-edit-interest.js"
-		type="text/javascript"></script>
-</liferay-util:html-bottom>
-
 <%@page import="eu.strasbourg.service.interest.model.Interest"%>
 
 <liferay-portlet:actionURL name="deleteInterest" var="deleteInterestURL">
@@ -46,7 +39,7 @@
 				</aui:input>
 
 				<aui:input name="description" />
-				
+
 				<aui:select name="typeId" label="type" required="true">
 					<aui:option value="" label="" />
 					<c:forEach items="${dc.types}" var="category">
@@ -55,7 +48,7 @@
 						</aui:option>
 					</c:forEach>
 				</aui:select>
-				
+
 			</aui:fieldset>
 
 			<aui:fieldset collapsed="true" collapsible="true"
@@ -97,7 +90,7 @@
 			</aui:fieldset>
 
 		</div></div>
-		
+
 		<aui:button-row>
 			<c:if test="${(dc.hasPermission('ADD_INTEREST') and empty dc.interest or dc.hasPermission('EDIT_INTEREST') and not empty dc.interest) and empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<aui:input type="hidden" name="workflowAction" value="" />
@@ -119,9 +112,10 @@
 		</aui:button-row>
 	</aui:form>
 </div>
+
 <liferay-util:html-bottom>
 	<script
-		src="/o/interestbo/js/interest-bo-edit-manif.js"
+		src="/o/interestbo/js/interest-bo-edit-interest.js"
 		type="text/javascript"></script>
 </liferay-util:html-bottom>
 <aui:script>

@@ -11,6 +11,12 @@ jQuery(function() {
 		$('.' + classOfDivToHide + ' .image-thumbnail').remove();
 		setConditionalValidators();
 	});
+
+	$(":submit").on('click', function(e) {
+		allValidate = true;
+
+		setConditionalValidators(e);
+	});
 	
 	function setConditionalValidators() {
 		// Validation des champos obligatoires conditionnels

@@ -15,13 +15,17 @@
 package eu.strasbourg.service.project.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.GroupedModel;
+import com.liferay.portal.kernel.model.LocalizedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.StagedAuditedModel;
 import com.liferay.portal.kernel.model.WorkflowedModel;
 
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -38,8 +42,8 @@ import org.osgi.annotation.versioning.ProviderType;
  */
 @ProviderType
 public interface PetitionModel
-	extends BaseModel<Petition>, GroupedModel, ShardedModel, StagedAuditedModel,
-			WorkflowedModel {
+	extends BaseModel<Petition>, GroupedModel, LocalizedModel, ShardedModel,
+			StagedAuditedModel, WorkflowedModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -321,8 +325,58 @@ public interface PetitionModel
 	 *
 	 * @return the description of this petition
 	 */
-	@AutoEscape
 	public String getDescription();
+
+	/**
+	 * Returns the localized description of this petition in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized description of this petition
+	 */
+	@AutoEscape
+	public String getDescription(Locale locale);
+
+	/**
+	 * Returns the localized description of this petition in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized description of this petition. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getDescription(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized description of this petition in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized description of this petition
+	 */
+	@AutoEscape
+	public String getDescription(String languageId);
+
+	/**
+	 * Returns the localized description of this petition in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized description of this petition
+	 */
+	@AutoEscape
+	public String getDescription(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getDescriptionCurrentLanguageId();
+
+	@AutoEscape
+	public String getDescriptionCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized descriptions of this petition.
+	 *
+	 * @return the locales and localized descriptions of this petition
+	 */
+	public Map<Locale, String> getDescriptionMap();
 
 	/**
 	 * Sets the description of this petition.
@@ -330,6 +384,42 @@ public interface PetitionModel
 	 * @param description the description of this petition
 	 */
 	public void setDescription(String description);
+
+	/**
+	 * Sets the localized description of this petition in the language.
+	 *
+	 * @param description the localized description of this petition
+	 * @param locale the locale of the language
+	 */
+	public void setDescription(String description, Locale locale);
+
+	/**
+	 * Sets the localized description of this petition in the language, and sets the default locale.
+	 *
+	 * @param description the localized description of this petition
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setDescription(
+		String description, Locale locale, Locale defaultLocale);
+
+	public void setDescriptionCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized descriptions of this petition from the map of locales and localized descriptions.
+	 *
+	 * @param descriptionMap the locales and localized descriptions of this petition
+	 */
+	public void setDescriptionMap(Map<Locale, String> descriptionMap);
+
+	/**
+	 * Sets the localized descriptions of this petition from the map of locales and localized descriptions, and sets the default locale.
+	 *
+	 * @param descriptionMap the locales and localized descriptions of this petition
+	 * @param defaultLocale the default locale
+	 */
+	public void setDescriptionMap(
+		Map<Locale, String> descriptionMap, Locale defaultLocale);
 
 	/**
 	 * Returns the place text area of this petition.
@@ -759,6 +849,19 @@ public interface PetitionModel
 	 */
 	@Override
 	public boolean isScheduled();
+
+	@Override
+	public String[] getAvailableLanguageIds();
+
+	@Override
+	public String getDefaultLanguageId();
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException;
+
+	@Override
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException;
 
 	@Override
 	public Petition cloneWithOriginalValues();

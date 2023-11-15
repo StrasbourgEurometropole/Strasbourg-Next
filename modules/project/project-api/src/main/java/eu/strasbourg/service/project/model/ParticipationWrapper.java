@@ -287,6 +287,11 @@ public class ParticipationWrapper
 		return model.getAuthorFullName();
 	}
 
+	@Override
+	public String[] getAvailableLanguageIds() {
+		return model.getAvailableLanguageIds();
+	}
+
 	/**
 	 * Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
 	 */
@@ -328,6 +333,76 @@ public class ParticipationWrapper
 	@Override
 	public String getConsultationPlacesBody() {
 		return model.getConsultationPlacesBody();
+	}
+
+	/**
+	 * Returns the localized consultation places body of this participation in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized consultation places body of this participation
+	 */
+	@Override
+	public String getConsultationPlacesBody(java.util.Locale locale) {
+		return model.getConsultationPlacesBody(locale);
+	}
+
+	/**
+	 * Returns the localized consultation places body of this participation in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized consultation places body of this participation. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getConsultationPlacesBody(
+		java.util.Locale locale, boolean useDefault) {
+
+		return model.getConsultationPlacesBody(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized consultation places body of this participation in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized consultation places body of this participation
+	 */
+	@Override
+	public String getConsultationPlacesBody(String languageId) {
+		return model.getConsultationPlacesBody(languageId);
+	}
+
+	/**
+	 * Returns the localized consultation places body of this participation in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized consultation places body of this participation
+	 */
+	@Override
+	public String getConsultationPlacesBody(
+		String languageId, boolean useDefault) {
+
+		return model.getConsultationPlacesBody(languageId, useDefault);
+	}
+
+	@Override
+	public String getConsultationPlacesBodyCurrentLanguageId() {
+		return model.getConsultationPlacesBodyCurrentLanguageId();
+	}
+
+	@Override
+	public String getConsultationPlacesBodyCurrentValue() {
+		return model.getConsultationPlacesBodyCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized consultation places bodies of this participation.
+	 *
+	 * @return the locales and localized consultation places bodies of this participation
+	 */
+	@Override
+	public Map<java.util.Locale, String> getConsultationPlacesBodyMap() {
+		return model.getConsultationPlacesBodyMap();
 	}
 
 	/**
@@ -380,6 +455,11 @@ public class ParticipationWrapper
 		return model.getCreateDate();
 	}
 
+	@Override
+	public String getDefaultLanguageId() {
+		return model.getDefaultLanguageId();
+	}
+
 	/**
 	 * Returns the description body of this participation.
 	 *
@@ -388,6 +468,74 @@ public class ParticipationWrapper
 	@Override
 	public String getDescriptionBody() {
 		return model.getDescriptionBody();
+	}
+
+	/**
+	 * Returns the localized description body of this participation in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized description body of this participation
+	 */
+	@Override
+	public String getDescriptionBody(java.util.Locale locale) {
+		return model.getDescriptionBody(locale);
+	}
+
+	/**
+	 * Returns the localized description body of this participation in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized description body of this participation. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getDescriptionBody(
+		java.util.Locale locale, boolean useDefault) {
+
+		return model.getDescriptionBody(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized description body of this participation in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized description body of this participation
+	 */
+	@Override
+	public String getDescriptionBody(String languageId) {
+		return model.getDescriptionBody(languageId);
+	}
+
+	/**
+	 * Returns the localized description body of this participation in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized description body of this participation
+	 */
+	@Override
+	public String getDescriptionBody(String languageId, boolean useDefault) {
+		return model.getDescriptionBody(languageId, useDefault);
+	}
+
+	@Override
+	public String getDescriptionBodyCurrentLanguageId() {
+		return model.getDescriptionBodyCurrentLanguageId();
+	}
+
+	@Override
+	public String getDescriptionBodyCurrentValue() {
+		return model.getDescriptionBodyCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized description bodies of this participation.
+	 *
+	 * @return the locales and localized description bodies of this participation
+	 */
+	@Override
+	public Map<java.util.Locale, String> getDescriptionBodyMap() {
+		return model.getDescriptionBodyMap();
 	}
 
 	/**
@@ -1005,6 +1153,21 @@ public class ParticipationWrapper
 		model.persist();
 	}
 
+	@Override
+	public void prepareLocalizedFieldsForImport()
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport(
+			java.util.Locale defaultImportLocale)
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
 	/**
 	 * Sets the company ID of this participation.
 	 *
@@ -1023,6 +1186,67 @@ public class ParticipationWrapper
 	@Override
 	public void setConsultationPlacesBody(String consultationPlacesBody) {
 		model.setConsultationPlacesBody(consultationPlacesBody);
+	}
+
+	/**
+	 * Sets the localized consultation places body of this participation in the language.
+	 *
+	 * @param consultationPlacesBody the localized consultation places body of this participation
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setConsultationPlacesBody(
+		String consultationPlacesBody, java.util.Locale locale) {
+
+		model.setConsultationPlacesBody(consultationPlacesBody, locale);
+	}
+
+	/**
+	 * Sets the localized consultation places body of this participation in the language, and sets the default locale.
+	 *
+	 * @param consultationPlacesBody the localized consultation places body of this participation
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setConsultationPlacesBody(
+		String consultationPlacesBody, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setConsultationPlacesBody(
+			consultationPlacesBody, locale, defaultLocale);
+	}
+
+	@Override
+	public void setConsultationPlacesBodyCurrentLanguageId(String languageId) {
+		model.setConsultationPlacesBodyCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized consultation places bodies of this participation from the map of locales and localized consultation places bodies.
+	 *
+	 * @param consultationPlacesBodyMap the locales and localized consultation places bodies of this participation
+	 */
+	@Override
+	public void setConsultationPlacesBodyMap(
+		Map<java.util.Locale, String> consultationPlacesBodyMap) {
+
+		model.setConsultationPlacesBodyMap(consultationPlacesBodyMap);
+	}
+
+	/**
+	 * Sets the localized consultation places bodies of this participation from the map of locales and localized consultation places bodies, and sets the default locale.
+	 *
+	 * @param consultationPlacesBodyMap the locales and localized consultation places bodies of this participation
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setConsultationPlacesBodyMap(
+		Map<java.util.Locale, String> consultationPlacesBodyMap,
+		java.util.Locale defaultLocale) {
+
+		model.setConsultationPlacesBodyMap(
+			consultationPlacesBodyMap, defaultLocale);
 	}
 
 	/**
@@ -1083,6 +1307,65 @@ public class ParticipationWrapper
 	@Override
 	public void setDescriptionBody(String descriptionBody) {
 		model.setDescriptionBody(descriptionBody);
+	}
+
+	/**
+	 * Sets the localized description body of this participation in the language.
+	 *
+	 * @param descriptionBody the localized description body of this participation
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setDescriptionBody(
+		String descriptionBody, java.util.Locale locale) {
+
+		model.setDescriptionBody(descriptionBody, locale);
+	}
+
+	/**
+	 * Sets the localized description body of this participation in the language, and sets the default locale.
+	 *
+	 * @param descriptionBody the localized description body of this participation
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setDescriptionBody(
+		String descriptionBody, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setDescriptionBody(descriptionBody, locale, defaultLocale);
+	}
+
+	@Override
+	public void setDescriptionBodyCurrentLanguageId(String languageId) {
+		model.setDescriptionBodyCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized description bodies of this participation from the map of locales and localized description bodies.
+	 *
+	 * @param descriptionBodyMap the locales and localized description bodies of this participation
+	 */
+	@Override
+	public void setDescriptionBodyMap(
+		Map<java.util.Locale, String> descriptionBodyMap) {
+
+		model.setDescriptionBodyMap(descriptionBodyMap);
+	}
+
+	/**
+	 * Sets the localized description bodies of this participation from the map of locales and localized description bodies, and sets the default locale.
+	 *
+	 * @param descriptionBodyMap the locales and localized description bodies of this participation
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setDescriptionBodyMap(
+		Map<java.util.Locale, String> descriptionBodyMap,
+		java.util.Locale defaultLocale) {
+
+		model.setDescriptionBodyMap(descriptionBodyMap, defaultLocale);
 	}
 
 	/**

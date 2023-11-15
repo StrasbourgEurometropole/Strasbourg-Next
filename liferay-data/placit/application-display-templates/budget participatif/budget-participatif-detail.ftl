@@ -26,7 +26,7 @@
 <#-- Récuperation du statut BP et affichage ou non du motif si le budget n'est pas retenu pour la réalisation -->
 <#assign statusBP = entry.getBudgetParticipatifStatusTitle(locale) >
 <#assign motifPrintable = false >
-<#if statusBP == "Non faisable" || statusBP == "Non recevable" || statusBP == "Non retenu" || statusBP == "Annulé" || statusBP == "Suspendu" && entry.motif?has_content >
+<#if statusBP == "Non faisable" || statusBP == "Non recevable" || statusBP == "Non retenu" || statusBP == "Annulé" || statusBP == "Suspendu" && entry.getMotif(locale)?has_content >
     <#assign motifPrintable = true >
 </#if>
 
@@ -73,7 +73,7 @@
 <#-- Liste des infos a partager -->
 <#assign openGraph = {
 "og:title":"${entry.title?html}",
-"og:description":'${entry.description?replace("<[^>]*>", "", "r")?html}', 
+"og:description":'${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}',
 "og:image":"${imageUrlOG}"
 } />
 <#-- partage de la configuration open graph dans la request -->
@@ -243,14 +243,14 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                             Pourquoi ce projet est-il "${statusBP}" ?
                                         </span>
                                     </div>
-                                    <p>${entry.motif}</p>
+                                    <p>${entry.getMotif(locale)}</p>
                                 </div>
                             </#if>
 
-                            <#if entry.isCrush && entry.crushComment?has_content >
+                            <#if entry.isCrush && entry.getCrushComment(locale)?has_content >
                                 <div class="pro-highlight-coup-de-coeur pro-bloc-texte">
                                     <p class="pro-txt-intro">
-                                        ${entry.crushComment}
+                                        ${entry.getCrushComment(locale)}
                                     </p>
                                 </div>
                             </#if>
@@ -260,7 +260,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 </div>
                             </#if>
                             <div class="row pro-bloc pro-bloc-texte">
-                                ${entry.description}
+                                ${entry.getDescription(locale)}
                             </div>
 
                             <div class="pro-bloc-telechargements">

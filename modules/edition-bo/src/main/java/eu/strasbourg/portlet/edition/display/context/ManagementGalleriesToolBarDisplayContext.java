@@ -8,7 +8,9 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
+import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -28,6 +30,23 @@ public class ManagementGalleriesToolBarDisplayContext extends ManagementBaseTool
 
         _themeDisplay = (ThemeDisplay)liferayPortletRequest.getAttribute(
                 WebKeys.THEME_DISPLAY);
+    }
+
+    @Override
+    protected boolean hasUpdatePermission() {
+        return !WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
+                _themeDisplay.getCompanyId(), _themeDisplay.getScopeGroupId(),
+                EditionGallery.class.getName())
+                && _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+                StrasbourgPortletKeys.EDITION_BO, StrasbourgPortletKeys.EDITION_BO, "EDIT_EDITION_GALLERY")
+                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+    }
+
+    @Override
+    protected boolean hasDeletePermission() {
+        return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+                StrasbourgPortletKeys.EDITION_BO, StrasbourgPortletKeys.EDITION_BO, "DELETE_EDITION_GALLERY")
+                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
     }
 
     /**

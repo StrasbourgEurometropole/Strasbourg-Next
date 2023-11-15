@@ -63,7 +63,7 @@ public class NavigationBarDisplayContext {
         navigationItems.add(arret);
 
         NavigationItem importHistoric = new NavigationItem();
-        importHistoric.setLabel(LanguageUtil.get(bundle, "importHistorics"));
+        importHistoric.setLabel(LanguageUtil.get(bundle, "import-historics"));
         importHistoric.setActive(this.selectedTab.equals(IMPORT_HISTORICS));
         importHistoric.setHref(this.response.createRenderURL(), URL_PARAM_TAB, IMPORT_HISTORICS, URL_PARAM_MVCPATH, IMPORT_HISTORICS_PATH);
         navigationItems.add(importHistoric);

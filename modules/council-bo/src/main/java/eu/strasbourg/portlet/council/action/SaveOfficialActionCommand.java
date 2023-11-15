@@ -85,7 +85,7 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
                 PortletURL returnURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
                         PortletRequest.RENDER_PHASE);
 
-                response.setRenderParameter("returnURL", returnURL.toString());
+                response.setRenderParameter("backURL", returnURL.toString());
                 response.setRenderParameter("cmd", "editOfficial");
                 response.setRenderParameter("mvcPath", "/council-bo-edit-official.jsp");
                 return false;
@@ -128,6 +128,7 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
 
             // Mise à jour de l'entrée
             this.officialLocalService.updateOfficial(official, sc);
+            response.setRenderParameter("mvcPath", "/council-bo-view-officials.jsp");
 
         } catch (PortalException e) {
             log.error(e);

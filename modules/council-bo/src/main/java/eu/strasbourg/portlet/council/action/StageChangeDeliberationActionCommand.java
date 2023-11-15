@@ -77,6 +77,7 @@ public class StageChangeDeliberationActionCommand extends BaseMVCActionCommand {
                 PortletURL renderURL = PortletURLFactoryUtil.create(request,
                         portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
                 renderURL.setParameter("tab", request.getParameter("tab"));
+                renderURL.setParameter("mvcPath", request.getParameter("mvcPath"));
                 response.sendRedirect(renderURL.toString());
                 return;
             }
@@ -100,6 +101,7 @@ public class StageChangeDeliberationActionCommand extends BaseMVCActionCommand {
         PortletURL renderURL = PortletURLFactoryUtil.create(request,
                 portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
         renderURL.setParameter("tab", request.getParameter("tab"));
+        renderURL.setParameter("mvcPath", request.getParameter("mvcPath"));
         response.sendRedirect(renderURL.toString());
     }
 

@@ -4,6 +4,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
+import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.UserGroupRoleLocalService;
@@ -17,6 +19,8 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.notif.constants.NotifConstants;
 import eu.strasbourg.portlet.notif.display.context.EditNotificationDisplayContext;
 import eu.strasbourg.portlet.notif.display.context.EditServiceDisplayContext;
+import eu.strasbourg.portlet.notif.display.context.ManagementNotificationsToolBarDisplayContext;
+import eu.strasbourg.portlet.notif.display.context.ManagementServicesToolBarDisplayContext;
 import eu.strasbourg.portlet.notif.display.context.NavigationBarDisplayContext;
 import eu.strasbourg.portlet.notif.display.context.ViewNotificationsDisplayContext;
 import eu.strasbourg.portlet.notif.display.context.ViewServicesDisplayContext;
@@ -107,21 +111,26 @@ public class NotifBOPortlet extends MVCPortlet {
 						EditNotificationDisplayContext dc = new EditNotificationDisplayContext(renderRequest, notification, services,
 								natures, messages);
 						renderRequest.setAttribute("dc", dc);
-					} else if (navigationDC.getSelectedCmd().equals(PROGRESS_NOTIFICATION)) {
-						ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.IN_PROGRESS);
+					} else{
+						ViewNotificationsDisplayContext dc;
+						switch (navigationDC.getSelectedCmd()){
+							case PROGRESS_NOTIFICATION:
+								dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.IN_PROGRESS);
+								break;
+							case COME_NOTIFICATION:
+								dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.TO_COME);
+								break;
+							case PAST_NOTIFICATION:
+								dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.PAST);
+								break;
+							default:
+								dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.ALL);
+								break;
+						}
+						ManagementNotificationsToolBarDisplayContext managementDC = new ManagementNotificationsToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
-					} else if (navigationDC.getSelectedCmd().equals(COME_NOTIFICATION)) {
-						ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.TO_COME);
-						renderRequest.setAttribute("dc", dc);
-					} else if (navigationDC.getSelectedCmd().equals(PAST_NOTIFICATION)) {
-						ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.PAST);
-						renderRequest.setAttribute("dc", dc);
-					} else if (!this.isAdminNotification()) {
-						ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.ALL);
-						renderRequest.setAttribute("dc", dc);
-					}else {
-						ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.ALL);
-						renderRequest.setAttribute("dc", dc);
+						renderRequest.setAttribute("managementDC", managementDC);
 					}
 					break;
 				}
@@ -142,7 +151,10 @@ public class NotifBOPortlet extends MVCPortlet {
 					else {
 						ViewServicesDisplayContext dc = new ViewServicesDisplayContext(
 								renderRequest, renderResponse);
+						ManagementServicesToolBarDisplayContext managementDC = new ManagementServicesToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
+						renderRequest.setAttribute("managementDC", managementDC);
 					}
 					break;
 			}

@@ -144,9 +144,10 @@ function createNews(news){
         vignette +=
                 '<span>' +
                     news.jsonMuseumsTitle[0];
-        if (nbMusees > 2)
-            vignette += ' ' + Liferay.Language.get("eu.museum.and-x", [(nbMusees - 1)]);
-        else if (nbMusees > 1)
+        if (nbMusees > 2){
+            var texteNbMusees = Liferay.Language.get("eu.museum.and-x");
+            vignette += ' ' + texteNbMusees.replace('{0}', (nbMusees - 1));
+        }else if (nbMusees > 1)
                 vignette += ' ' + Liferay.Language.get("eu.museum.and");
         vignette +=
                  '</span>' +

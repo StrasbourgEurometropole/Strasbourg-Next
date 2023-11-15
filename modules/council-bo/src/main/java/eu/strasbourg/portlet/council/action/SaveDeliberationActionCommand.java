@@ -149,9 +149,7 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
         }
 
         // Post / Redirect / Get si tout est bon
-        PortletURL renderURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
-        renderURL.setParameter("tab", request.getParameter("tab"));
-        response.sendRedirect(renderURL.toString());
+        response.setRenderParameter("mvcPath", "/council-bo-view-deliberations.jsp");
     }
 
     /**
@@ -184,9 +182,8 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
         PortalUtil.copyRequestParameters(request, response);
 
         PortletURL returnURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
-        returnURL.setParameter("tab", request.getParameter("tab"));
-
-        response.setRenderParameter("returnURL", returnURL.toString());
+        response.setRenderParameter("backURL", returnURL.toString());
+        response.setRenderParameter("cmd", "saveDeliberation");
         response.setRenderParameter("mvcPath", "/council-bo-edit-deliberation.jsp");
     }
 }

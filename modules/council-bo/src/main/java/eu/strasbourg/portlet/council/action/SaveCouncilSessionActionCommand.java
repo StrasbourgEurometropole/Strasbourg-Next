@@ -65,7 +65,7 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
                 PortletURL returnURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
                         PortletRequest.RENDER_PHASE);
 
-                response.setRenderParameter("returnURL", returnURL.toString());
+                response.setRenderParameter("backURL", returnURL.toString());
                 response.setRenderParameter("cmd", "editCouncilSession");
                 response.setRenderParameter("mvcPath", "/council-bo-edit-council-session.jsp");
                 return false;
@@ -94,6 +94,7 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
 
             // Mise à jour de l'entrée en base
             this.councilSessionLocalService.updateCouncilSession(councilSession, sc);
+            response.setRenderParameter("mvcPath", "/council-bo-view-council-sessions.jsp");
 
         } catch (PortalException e) {
             log.error(e);

@@ -1596,21 +1596,21 @@ public class PlaceImpl extends PlaceBaseImpl {
             String label = "";
             String color = occupation.getCssClass();
             if (this.isSwimmingPool() ||this.isIceRink()) {
-                title = "frequentation-real";
+                title = LanguageUtil.get(locale, "frequentation-real");
                 frequentation = occupation.getOccupationLabel();
-                label = occupation.getLabel();
+                label = LanguageUtil.get(locale, occupation.getLabel());
             } else if (this.isMairie()) {
-                title = "time-real";
+                title = LanguageUtil.get(locale, "time-real");
                 frequentation = occupation.getOccupationLabel();
-                label = occupation.getLabel();
+                label = LanguageUtil.get(locale, occupation.getLabel());
             } else if(this.isParking()){
-                title = "occupation-real";
+                title = LanguageUtil.get(locale, "occupation-real");
                 frequentation = occupation.getAvailable();
-                label = "available-spots";
+                label = LanguageUtil.get(locale, "available-spots");
             } else if(this.isVelhopStation()){
-                title = "live-disponibility";
+                title = LanguageUtil.get(locale, "live-disponibility");
                 frequentation = occupation.getAvailable();
-                label = "eu.place.available-velhop";
+                label = LanguageUtil.get(locale, "eu.place.available-velhop");
             }
             JSONObject amountProperty = JSONFactoryUtil.createJSONObject();
             amountProperty.put("title", title);

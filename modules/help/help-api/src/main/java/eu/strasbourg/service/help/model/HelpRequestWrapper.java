@@ -461,6 +461,72 @@ public class HelpRequestWrapper
 	}
 
 	/**
+	 * Returns the localized message of this help request in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized message of this help request
+	 */
+	@Override
+	public String getMessage(java.util.Locale locale) {
+		return model.getMessage(locale);
+	}
+
+	/**
+	 * Returns the localized message of this help request in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized message of this help request. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getMessage(java.util.Locale locale, boolean useDefault) {
+		return model.getMessage(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized message of this help request in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized message of this help request
+	 */
+	@Override
+	public String getMessage(String languageId) {
+		return model.getMessage(languageId);
+	}
+
+	/**
+	 * Returns the localized message of this help request in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized message of this help request
+	 */
+	@Override
+	public String getMessage(String languageId, boolean useDefault) {
+		return model.getMessage(languageId, useDefault);
+	}
+
+	@Override
+	public String getMessageCurrentLanguageId() {
+		return model.getMessageCurrentLanguageId();
+	}
+
+	@Override
+	public String getMessageCurrentValue() {
+		return model.getMessageCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized messages of this help request.
+	 *
+	 * @return the locales and localized messages of this help request
+	 */
+	@Override
+	public Map<java.util.Locale, String> getMessageMap() {
+		return model.getMessageMap();
+	}
+
+	/**
 	 * Retourne la catégorie statut moderation demande d'aide
 	 */
 	@Override
@@ -909,6 +975,61 @@ public class HelpRequestWrapper
 	@Override
 	public void setMessage(String message) {
 		model.setMessage(message);
+	}
+
+	/**
+	 * Sets the localized message of this help request in the language.
+	 *
+	 * @param message the localized message of this help request
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setMessage(String message, java.util.Locale locale) {
+		model.setMessage(message, locale);
+	}
+
+	/**
+	 * Sets the localized message of this help request in the language, and sets the default locale.
+	 *
+	 * @param message the localized message of this help request
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setMessage(
+		String message, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setMessage(message, locale, defaultLocale);
+	}
+
+	@Override
+	public void setMessageCurrentLanguageId(String languageId) {
+		model.setMessageCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized messages of this help request from the map of locales and localized messages.
+	 *
+	 * @param messageMap the locales and localized messages of this help request
+	 */
+	@Override
+	public void setMessageMap(Map<java.util.Locale, String> messageMap) {
+		model.setMessageMap(messageMap);
+	}
+
+	/**
+	 * Sets the localized messages of this help request from the map of locales and localized messages, and sets the default locale.
+	 *
+	 * @param messageMap the locales and localized messages of this help request
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setMessageMap(
+		Map<java.util.Locale, String> messageMap,
+		java.util.Locale defaultLocale) {
+
+		model.setMessageMap(messageMap, defaultLocale);
 	}
 
 	/**

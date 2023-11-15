@@ -42,20 +42,10 @@
 
 
 				<liferay-ui:search-container-column-text>
-					<liferay-ui:icon-menu markupView="lexicon">
-						<c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="edit" url="${editPriceURL}" />
-						</c:if>
-
-						<liferay-portlet:actionURL name="deletePrice" var="deletePriceURL">
-							<portlet:param name="cmd" value="deletePrice" />
-							<portlet:param name="tab" value="prices" />
-							<portlet:param name="priceId" value="${price.priceId}" />
-						</liferay-portlet:actionURL>
-						<c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="delete" url="${deletePriceURL}" />
-						</c:if>
-					</liferay-ui:icon-menu>
+					<clay:dropdown-actions
+							aria-label="<liferay-ui:message key='show-actions' />"
+							dropdownItems="${dc.getActionsPrice(price).getActionDropdownItems()}"
+					/>
 				</liferay-ui:search-container-column-text>
 
 			</liferay-ui:search-container-row>

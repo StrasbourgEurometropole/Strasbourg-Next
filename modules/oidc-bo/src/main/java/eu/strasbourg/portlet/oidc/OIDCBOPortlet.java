@@ -61,7 +61,7 @@ public class OIDCBOPortlet extends MVCPortlet {
 		renderResponse.setTitle("Utilisateurs Publik");
 
 		// Si on est sur la page d'ajout, on affiche un lien de retour
-		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
+		String returnURL = ParamUtil.getString(renderRequest, "backURL");
 		boolean showBackButton = Validator.isNotNull(returnURL);
 		if (showBackButton) {
 			portletDisplay.setShowBackIcon(true);
@@ -91,7 +91,6 @@ public class OIDCBOPortlet extends MVCPortlet {
 						renderRequest.setAttribute("dc", dc);
 					} else {
 						ViewAnonymisationHistoricsDisplayContext dc = new ViewAnonymisationHistoricsDisplayContext(renderRequest, renderResponse);
-
 						renderRequest.setAttribute("dc", dc);
 					}
 					break;

@@ -145,7 +145,7 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
         PortletURL returnURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
                 PortletRequest.RENDER_PHASE);
 
-        response.setRenderParameter("returnURL", returnURL.toString());
+        response.setRenderParameter("backURL", returnURL.toString());
         response.setRenderParameter("cmd", "startImportDeliberations");
         response.setRenderParameter("mvcPath", "/council-bo-import-deliberation.jsp");
     }

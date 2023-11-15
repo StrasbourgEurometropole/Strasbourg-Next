@@ -58,7 +58,7 @@
 		<field name="publikId" type="String" />
 		<field name="helpProposalId" type="long" />
 		<field name="phoneNumber" type="String" />
-		<field name="message" type="String">
+		<field localized="true" name="message" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="studentCardImageId" type="long" />

@@ -97,7 +97,7 @@
 		<column name="publikId" type="String" />
 		<column name="helpProposalId" type="long" />
 		<column name="phoneNumber" type="String" />
-		<column name="message" type="String" />
+		<column name="message" type="String" localized="true" />
 		<column name="studentCardImageId" type="long" />
 		<column name="agreementSigned1" type="boolean" />
 		<column name="agreementSigned2" type="boolean" />

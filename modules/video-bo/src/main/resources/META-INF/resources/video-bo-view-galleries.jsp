@@ -57,21 +57,10 @@
                 </liferay-ui:search-container-column-text>
 
                 <liferay-ui:search-container-column-text>
-                    <liferay-ui:icon-menu markupView="lexicon">
-                        <c:if test="${dc.hasPermission('EDIT_VIDEO_GALLERY') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                            <liferay-ui:icon message="edit" url="${editGalleryURL}"/>
-                        </c:if>
-
-                        <liferay-portlet:actionURL name="deleteGallery"
-                                                   var="deleteGalleryURL">
-                            <portlet:param name="cmd" value="deleteGallery"/>
-                            <portlet:param name="tab" value="galleries"/>
-                            <portlet:param name="galleryId" value="${gallery.galleryId}"/>
-                        </liferay-portlet:actionURL>
-                        <c:if test="${dc.hasPermission('DELETE_VIDEO_GALLERY') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                            <liferay-ui:icon message="delete" url="${deleteGalleryURL}"/>
-                        </c:if>
-                    </liferay-ui:icon-menu>
+                    <clay:dropdown-actions
+                            aria-label="<liferay-ui:message key='show-actions' />"
+                            dropdownItems="${dc.getActionsGallery(gallery).getActionDropdownItems()}"
+                    />
                 </liferay-ui:search-container-column-text>
 
             </liferay-ui:search-container-row>

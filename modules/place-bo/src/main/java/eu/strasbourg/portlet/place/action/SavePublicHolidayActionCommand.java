@@ -65,8 +65,6 @@ public class SavePublicHolidayActionCommand implements MVCActionCommand {
 				PortletURL backURL = PortletURLFactoryUtil.create(request,
 						portletName, themeDisplay.getPlid(),
 						PortletRequest.RENDER_PHASE);
-				backURL.setParameter("tab", request.getParameter("tab"));
-
 				response.setRenderParameter("backURL", backURL.toString());
 				response.setRenderParameter("mvcPath",
 						"/place-bo-edit-public-holiday.jsp");
@@ -97,7 +95,7 @@ public class SavePublicHolidayActionCommand implements MVCActionCommand {
 			publicHoliday.setRecurrent(recurrent);
 
 			_publicHolidayLocalService.updatePublicHoliday(publicHoliday);
-			response.setRenderParameter("mvcPath", "/place-bo-edit-public-holiday.jsp");
+			response.setRenderParameter("mvcPath", "/place-bo-view-public-holidays.jsp");
 		} catch (PortalException e) {
 			_log.error(e);
 		}

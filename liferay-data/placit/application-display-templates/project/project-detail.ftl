@@ -56,7 +56,7 @@
 <#-- Liste des infos a partager -->
 <#assign openGraph = {
 "og:title":"${entry.title?html}",
-"og:description":'${entry.description?replace("<[^>]*>", "", "r")?html}',
+"og:description":'${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}',
 "og:image":"${imageUrlOG}"
 } />
 <#-- partage de la configuration open graph dans la request -->
@@ -94,8 +94,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <#if entry.duration?has_content>
             <li><span class="icon-ico-time"></span> <strong>Durée : </strong>${entry.duration}</li>
         </#if>
-        <#if entry.partners?has_content>
-            <li><span class="icon-ico-partenaire"></span> <strong>Les partenaires : </strong>${entry.partners}</li>
+        <#if entry.getPartners(locale)?has_content>
+            <li><span class="icon-ico-partenaire"></span> <strong>Les partenaires : </strong>${entry.getPartners(locale)}</li>
         </#if>
     </ul>
 </div>

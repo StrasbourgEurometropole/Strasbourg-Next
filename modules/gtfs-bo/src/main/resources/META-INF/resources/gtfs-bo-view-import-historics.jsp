@@ -22,6 +22,7 @@
 				
 				<%-- URL : definit le lien vers la page d'edition de l'entite selectionnee --%>
 				<liferay-portlet:renderURL varImpl="editImportHistoricURL">
+					<portlet:param name="tab" value="import-historics" />
 					<portlet:param name="cmd" value="editImportHistoric" />
 					<portlet:param name="importHistoricId" value="${importHistoric.importHistoricId}" />
 					<portlet:param name="backURL" value="${importHistoricsURL}" />

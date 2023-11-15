@@ -169,13 +169,13 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                     <!-- Description -->
                                     <div role="tabpanel" class="tab-pane fade in active pro-bloc-texte" id="description">
                                         <p class="pro-txt-intro">${entry.descriptionChapeau}</p>
-                                        <p>${entry.descriptionBody}</p>
+                                        <p>${entry.getDescriptionBody(locale)}</p>
                                     </div>
 
 
                                     <!-- Lieux de consultations -->
                                     <div role="tabpanel" class="tab-pane fade pro-bloc-texte" id="lieux">
-                                        <p><#if entry.consultationPlacesBody?has_content> ${entry.consultationPlacesBody} </#if></p>
+                                        <p><#if entry.getConsultationPlacesBody(locale)?has_content> ${entry.getConsultationPlacesBody(locale)} </#if></p>
                                         <div class="row pro-wrapper-quartiers">
 
                                             <!-- Item lieu -->

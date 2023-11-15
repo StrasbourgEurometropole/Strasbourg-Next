@@ -241,6 +241,11 @@ public class CommentWrapper
 		return model.getAssetEntryTitle();
 	}
 
+	@Override
+	public String[] getAvailableLanguageIds() {
+		return model.getAvailableLanguageIds();
+	}
+
 	/**
 	 * Renvoie la liste des AssetCategory rattachées à cet item (via
 	 * l'assetEntry)
@@ -290,6 +295,11 @@ public class CommentWrapper
 	@Override
 	public Date getCreateDate() {
 		return model.getCreateDate();
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -504,6 +514,72 @@ public class CommentWrapper
 		return model.getText();
 	}
 
+	/**
+	 * Returns the localized text of this comment in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized text of this comment
+	 */
+	@Override
+	public String getText(java.util.Locale locale) {
+		return model.getText(locale);
+	}
+
+	/**
+	 * Returns the localized text of this comment in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized text of this comment. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getText(java.util.Locale locale, boolean useDefault) {
+		return model.getText(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized text of this comment in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized text of this comment
+	 */
+	@Override
+	public String getText(String languageId) {
+		return model.getText(languageId);
+	}
+
+	/**
+	 * Returns the localized text of this comment in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized text of this comment
+	 */
+	@Override
+	public String getText(String languageId, boolean useDefault) {
+		return model.getText(languageId, useDefault);
+	}
+
+	@Override
+	public String getTextCurrentLanguageId() {
+		return model.getTextCurrentLanguageId();
+	}
+
+	@Override
+	public String getTextCurrentValue() {
+		return model.getTextCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized texts of this comment.
+	 *
+	 * @return the locales and localized texts of this comment
+	 */
+	@Override
+	public Map<java.util.Locale, String> getTextMap() {
+		return model.getTextMap();
+	}
+
 	@Override
 	public String getTypeAssetEntry() {
 		return model.getTypeAssetEntry();
@@ -652,6 +728,21 @@ public class CommentWrapper
 	@Override
 	public void persist() {
 		model.persist();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport()
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport(
+			java.util.Locale defaultImportLocale)
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -822,6 +913,59 @@ public class CommentWrapper
 	@Override
 	public void setText(String text) {
 		model.setText(text);
+	}
+
+	/**
+	 * Sets the localized text of this comment in the language.
+	 *
+	 * @param text the localized text of this comment
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setText(String text, java.util.Locale locale) {
+		model.setText(text, locale);
+	}
+
+	/**
+	 * Sets the localized text of this comment in the language, and sets the default locale.
+	 *
+	 * @param text the localized text of this comment
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setText(
+		String text, java.util.Locale locale, java.util.Locale defaultLocale) {
+
+		model.setText(text, locale, defaultLocale);
+	}
+
+	@Override
+	public void setTextCurrentLanguageId(String languageId) {
+		model.setTextCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized texts of this comment from the map of locales and localized texts.
+	 *
+	 * @param textMap the locales and localized texts of this comment
+	 */
+	@Override
+	public void setTextMap(Map<java.util.Locale, String> textMap) {
+		model.setTextMap(textMap);
+	}
+
+	/**
+	 * Sets the localized texts of this comment from the map of locales and localized texts, and sets the default locale.
+	 *
+	 * @param textMap the locales and localized texts of this comment
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setTextMap(
+		Map<java.util.Locale, String> textMap, java.util.Locale defaultLocale) {
+
+		model.setTextMap(textMap, defaultLocale);
 	}
 
 	/**
