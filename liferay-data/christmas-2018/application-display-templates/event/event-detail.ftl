@@ -28,7 +28,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     <div class="row">
         <div class="mns-aside-info col-sm-4">
             <figure class="fit-cover">
-                <img src="${entry.getImageURL()}" alt="${entry.getTitle(locale)}" width="300" height="380" class="mns-img-agenda-top" />
+                <img src="${entry.getImageURL()}" alt="" width="300" height="380" class="mns-img-agenda-top" />
                 <figcaption>© ${entry.getImageCopyright(locale)}</figcaption>
             </figure>
             <div class="mns-info-pratiques mns-info-test">

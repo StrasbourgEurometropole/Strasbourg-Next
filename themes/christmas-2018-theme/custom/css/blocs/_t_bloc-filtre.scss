@@ -148,7 +148,7 @@
 			transition: all 0.3s ease-out;
 			background: none;
 
-			&:hover {
+			&:hover, &:focus {
 				cursor: pointer;
 				font-weight: 700;
 			}
@@ -163,7 +163,6 @@
 		font-size: $s_p;
 		text-align: left;
 		cursor: pointer;
-		outline: none;
 		line-height: 22px;
 		margin: 0;
 		border-style: none;

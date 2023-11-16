@@ -91,7 +91,7 @@
 			}
 
 			.pro-bloc-actu {
-				height: 259px;
+				height:300px;
 				border: 1px solid rgba($c_dark, 0.25);
 				border-radius: 4px;
 				margin: 0;
@@ -180,7 +180,7 @@
 			}
 
 			.pro-bloc-card-event {
-				height: 259px;
+				height: 300px;
 				@include mobile {
 					height: 100%;
 				}
@@ -228,7 +228,7 @@
 			}
 
 			.pro-bloc-card-participation {
-				height: 259px;
+				height: 300px;
 				@include mobile {
 					height: 100%;
 				}
@@ -258,7 +258,7 @@
 			}
 
 			.pro-card-video {
-				height: 259px;
+				height: 300px;
 				border: 1px solid rgba($c_dark, 0.25);
 				border-radius: 4px;
 				@include mobile {

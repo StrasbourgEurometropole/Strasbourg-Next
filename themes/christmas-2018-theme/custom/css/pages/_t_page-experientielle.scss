@@ -384,7 +384,6 @@
 					-webkit-box-shadow: none;
 					box-shadow: none;
 					border: none;
-					outline: none;
 					height: 6px;
 					border-radius: 3px;
 					background: #ffed00;
@@ -438,7 +437,7 @@
 						display: block;
 						margin: 0;
 						height: 100%;
-						&:hover{
+						&:hover, &:focus{
 							cursor: pointer;
 						}
 					}
@@ -568,7 +567,7 @@
 							border: 4px solid $c_white;
 						}
 					}
-					&:hover, &.active {
+					&:hover, &:focus, &.active {
 						cursor: pointer;
 						&:after {
 							border-color: $c_main;
@@ -731,7 +730,7 @@
 							border: 4px solid $c_white;
 						}
 					}
-					&:hover, &.active {
+					&:hover, &:focus, &.active {
 						cursor: pointer;
 						&:after {
 							border-color: $c_main;
@@ -893,7 +892,7 @@
 							right: 10px;
 						}
 					}
-					&:hover, &.active {
+					&:hover, &:focus, &.active {
 						cursor: pointer;
 						color: $c_txt;
 						transition: none;
@@ -958,7 +957,7 @@
 				position: absolute;
 				left: 0;
 				@include addTransition();
-				&:hover, &:focus {
+				&:hover, &:focus, &:focus {
 					color: $c_txt;
 				}
 			}

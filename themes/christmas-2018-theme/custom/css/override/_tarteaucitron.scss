@@ -38,7 +38,7 @@ div.tac_activate .tarteaucitronAllow{
     #tarteaucitronPersonalize2 {
         background-color: $c_main;
 
-        &:hover {
+        &:hover, &:focus {
             background-color: $c_dark;
             color: $c_white;
         }
@@ -49,7 +49,7 @@ div.tac_activate .tarteaucitronAllow{
         background-color: $c_white;
         color: $c_lightgrey;
     
-        &:hover {
+        &:hover, &:focus {
             background-color: $c_lightgrey;
             color: $c_white;
         }
@@ -59,7 +59,7 @@ div.tac_activate .tarteaucitronAllow{
     #tarteaucitronCloseAlert {
         color:$c_white;
     
-        &:hover {
+        &:hover, &:focus {
             color: #C1C1C1;
         }
     }
@@ -71,6 +71,7 @@ div#tarteaucitron {
 
     #tarteaucitronServices .tarteaucitronMainLine,
     #tarteaucitronServices .tarteaucitronMainLine:hover,
+    #tarteaucitronServices .tarteaucitronMainLine:focus,
     #tarteaucitronInfo,
     #tarteaucitronClosePanel {
         background: $c_grey;
@@ -96,7 +97,7 @@ div#tarteaucitron {
             background-color: $c_main;
             color: $c_white;
 
-            &:hover {
+            &:hover, &:focus {
                 background-color: $c_dark;
                 color: $c_white;
             }
@@ -107,7 +108,7 @@ div#tarteaucitron {
             background-color: $c_white;
             color: $c_lightgrey;
 
-            &:hover {
+            &:hover, &:focus {
                 background-color: $c_lightgrey;
                 color: $c_white;
             }
@@ -117,7 +118,7 @@ div#tarteaucitron {
             background-color: $c_grey;
         }
         
-        .tarteaucitronBorder .tarteaucitronLine:hover {
+        .tarteaucitronBorder .tarteaucitronLine:hover, .tarteaucitronBorder .tarteaucitronLine:focus {
             background: rgba(51, 51, 51, 0.1);
         }
     }
@@ -137,7 +138,7 @@ div.tac_activate {
     .tac_float .tarteaucitronAllow{
         background-color: $c_main;
 
-        &:hover {
+        &:hover, &:focus {
             background-color: $c_dark;
             color: $c_white;
         }

@@ -91,7 +91,7 @@
 					&.highlighted {
 						background: none;
 					}
-					&:hover {
+					&:hover, &:focus {
 						background: none;
 						color: $c_main;
 					}
@@ -124,7 +124,7 @@
 				display: inline-block;
 				vertical-align: middle;
 				@include an(all, 0.3);
-				&:hover {
+				&:hover, &:focus {
 					a {
 						color: $c_main;
 						span {
@@ -146,7 +146,7 @@
 						top: 2px;
 						position: relative;
 						@include an(all, 0.3);
-						// &:hover{
+						// &:hover, &:focus{
 						// 	border-color: $c_main;
 						// 	background: $c_main;
 						// 	color: $c_white;

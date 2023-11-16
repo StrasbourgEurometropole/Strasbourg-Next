@@ -15,12 +15,12 @@
                     <div class="row" data-egalize=".mns-bloc-actu > a">
                         <#assign hasPage = true />
                 </#if>
-                <div class="col-sm-4">
+                <div class="col-lg-3 col-sm-6">
                     <div class="mns-bloc-actu">
                         <a href="${homeURL}${currentPage.friendlyURL?remove_beginning('/')}">
                             <figure class="mns-bloc-top-img">
                                 <#if currentPage.expandoBridge.getAttribute('image')?has_content>
-                                    <img src="${currentPage.expandoBridge.getAttribute('image')}" alt="" width="370" height="250" />
+                                    <img src="${currentPage.expandoBridge.getAttribute('image')}" alt="${currentPage.getName(locale)}" width="370" height="250" />
                                 </#if>
                             </figure>
                             <div class="mns-bloc-content-actu">
