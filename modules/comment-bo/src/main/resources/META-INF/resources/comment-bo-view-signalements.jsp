@@ -97,12 +97,10 @@
 	function getCategoriesByVocabulary(vocabularyId, vocabularyName, categoriesId) {
 		const portletURL = location.protocol + '//' + location.host + location.pathname + "/-/select/com.liferay.item.selector.criteria.info.item.criterion.InfoItemItemSelectorCriterion/<portlet:namespace />selectCategory";
 		const url = Liferay.Util.PortletURL.createPortletURL(portletURL, {
-			p_p_id: "com_liferay_asset_categories_selector_web_portlet_AssetCategoriesSelectorPortlet",
 			p_p_id: 'com_liferay_item_selector_web_portlet_ItemSelectorPortlet',
 			'0_json': json,
 			p_p_lifecycle: 0,
 			p_p_state: "pop_up",
-			eventName: "com_liferay_asset_categories_selector_web_portlet_AssetCategoriesSelectorPortlet_selectCategory",
 			selectedCategories: categoriesId,
 			selectedCategoryIds: categoriesId,
 			singleSelect : false,
