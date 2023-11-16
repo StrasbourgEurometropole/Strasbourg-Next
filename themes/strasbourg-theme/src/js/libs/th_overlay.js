@@ -17,6 +17,7 @@ var th_overlay = {
     init: function (settings) {
         th_overlay.parseOverlayShadow($('body'));
         th_overlay.parse($('body'));
+        th_overlay.openOnLoad();
 
         if (settings) {
             $.each(settings, function (key, setting) {

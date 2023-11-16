@@ -13,3 +13,18 @@ function updateModalActivity(clickedElement) {
     overlayDiv.querySelector(".st-overlay__content .cours").innerHTML = courseDiv;
 
 }
+
+function submitFilterForm(e) {
+    var form = e.target;
+    // remove empty fields
+    form.querySelectorAll('input, select').forEach(function (input) {
+        if (input.value === ''
+            || input.getAttribute('name')?.startsWith('_com_liferay_portal_search_web_category_facet_portlet_CategoryFacetPortlet')
+            || input.getAttribute('name')?.startsWith('_com_liferay_portal_search_web_search_bar_portlet_SearchBarPortlet')
+        ) {
+            // remove name attribute to prevent server side processing
+            input.removeAttribute('name');
+        }
+    });
+    return true;
+}
