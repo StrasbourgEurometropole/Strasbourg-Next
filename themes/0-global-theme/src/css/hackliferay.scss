@@ -1,3 +1,56 @@
 .default-asset-publisher>.separator{display:none}
 .default-asset-publisher>.asset-details{display:none}
 .default-asset-publisher>.mb-2 .component-title {display:none}
+
+
+.lfr-pagination-buttons.pagination {
+  display: block;
+  list-style: none;
+  margin: 1.5rem 0;
+  padding-left: 0;
+  text-align: center;
+}
+
+.pagination::after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.pagination li {
+  display: inline;
+}
+
+.pagination li > a,
+.pagination li > span {
+  background-color: #FFF;
+  border: 1px solid #dee2e6;
+  border-radius: 15px;
+  display: inline-block;
+  padding: 5px 14px;
+}
+
+.pagination li > a:hover,
+.pagination li > a:focus {
+  background-color: #e9ecef;
+  text-decoration: none;
+}
+
+.pagination .next > a,
+.pagination .next > span {
+  float: right;
+}
+
+.pagination .previous > a,
+.pagination .previous > span {
+  float: left;
+}
+
+.pagination .disabled > a,
+.pagination .disabled > a:hover,
+.pagination .disabled > a:focus,
+.pagination .disabled > span {
+  background-color: #fff;
+  color: #6c757d;
+  cursor: not-allowed;
+}
