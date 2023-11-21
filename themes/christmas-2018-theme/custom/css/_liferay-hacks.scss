@@ -169,7 +169,7 @@ ul, ol{
 }
 
 // affichage des menus des portlets
-.portlet:hover > .portlet-topper{
+.portlet:hover > .portlet-topper, .portlet:focus > .portlet-topper{
   width: calc(100% - 35px);
   height: auto;
 }
@@ -210,7 +210,7 @@ ul, ol{
   background-color: #FFF;
   margin-right: 20px;
 
-  &:hover {
+  &:hover, &:focus {
     background-color: #baa56f;
 
     &:before{

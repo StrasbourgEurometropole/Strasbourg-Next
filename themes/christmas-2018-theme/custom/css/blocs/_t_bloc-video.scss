@@ -107,7 +107,7 @@
 		right: 0;
 		bottom: 0;
 		display: block;
-		&:hover {
+		&:hover, &:focus {
 			span.icon-ico-lecteur {
 				border-color: $c_white;
 			}

@@ -14,11 +14,7 @@
 
 package eu.strasbourg.service.strasbourg.service.impl;
 
-import com.liferay.friendly.url.model.FriendlyURLEntryLocalization;
-import com.liferay.friendly.url.service.persistence.FriendlyURLEntryLocalizationUtil;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
-import org.osgi.annotation.versioning.ProviderType;
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetTag;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -65,6 +61,13 @@ import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.util.Base64;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.MimeTypesUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.kernel.util.TextFormatter;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.adict.AdictService;
 import eu.strasbourg.service.adict.AdictServiceTracker;
@@ -98,6 +101,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * The implementation of the strasbourg remote service.
@@ -355,7 +360,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	 * @param  commissionName le nom de la commission
 	 * @param  publicationDate la date de publication au format yyyy-MM-ddThh:mm:ss
 	 * @param  publicationDateFin la date de fin de publication au format yyyy-MM-ddThh:mm:ss
-	 * @param  documentType Le type de document (Strasbourg, Eurométropole)
+	 * @param  documentType Le type de document
 	 * @param  documentName Le nom du document
 	 * @return <code>succes</code> un document de commission, sinon <code>error</code>.
 	 */
@@ -397,9 +402,43 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 		if (Validator.isNull(documentType)) {
 			return error("documentType is empty");
 		}
-		if(!documentType.equals("Strasbourg") && !documentType.equals(LanguageUtil.get(Locale.FRANCE, "eu.eurometropole"))){
-			return error("documentType is incorrect : must be Strasbourg or " +
-					LanguageUtil.get(Locale.FRANCE, "eu.eurometropole"));
+
+		// récupération des noms de dossier
+		long groupId = GroupLocalServiceUtil.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId(),
+				"/strasbourg.eu").getGroupId();
+		// Dossier Article-Rubrique
+		DLFolder folderArtRub;
+		try {
+			folderArtRub = DLFolderLocalServiceUtil.getFolder(groupId,
+					DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,"Article-Rubrique");
+		} catch (PortalException e) {
+			log.error(e);
+			return error("Error finding 'Article-Rubrique' folder");
+		}
+		// Dossier Ville et Eurométropole
+		DLFolder folderVilleEuro;
+		try {
+			folderVilleEuro = DLFolderLocalServiceUtil.getFolder(groupId,
+					folderArtRub.getFolderId(),
+					LanguageUtil.get(Locale.FRANCE, "eu.rep-ville-euro"));
+		} catch (PortalException e) {
+			log.error(e);
+			return error("Error finding 'Ville et Eurométropole' folder");
+		}
+		// Dossier Actes réglementaires et normatifs
+		DLFolder folderActe;
+		try {
+			folderActe =  DLFolderLocalServiceUtil.getFolder(groupId, folderVilleEuro.getFolderId(),
+					LanguageUtil.get(Locale.FRANCE, "eu.rep-commission"));
+		}catch(PortalException e) {
+			log.error(e);
+			return error("Error creating 'Actes réglementaires et normatifs' folder");
+		}
+		List<DLFolder> folders = DLFolderLocalServiceUtil.getFolders(groupId, folderActe.getFolderId());
+		List<String> foldersName = folders.stream().map(f -> f.getName()).collect(Collectors.toList());
+
+		if(!foldersName.contains(documentType)){
+			return error("Folder " + documentType + " doesn't existe");
 		}
 		if (Validator.isNull(documentName)) {
 			return error("documentName is empty");
@@ -418,75 +457,15 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 		}
 
 		if (document.exists()) {
-			long groupId = GroupLocalServiceUtil.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId(),
-					"/strasbourg.eu").getGroupId();
-
-			// Dossier Article-Rubrique
-			DLFolder folderArtRub;
+			// Dossier voulu
+			DLFolder folder;
 			try {
-				folderArtRub = DLFolderLocalServiceUtil.getFolder(groupId,
-						DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,"Article-Rubrique");
-			} catch (PortalException e) {
-				log.error(e);
-				return error("Error finding 'Article-Rubrique' folder");
-			}
-
-			// Dossier Ville et Eurométropole
-			DLFolder folderVilleEuro;
-			try {
-				folderVilleEuro = DLFolderLocalServiceUtil.getFolder(groupId,
-						folderArtRub.getFolderId(),
-						LanguageUtil.get(Locale.FRANCE, "eu.rep-ville-euro"));
-			} catch (PortalException e) {
-				log.error(e);
-				return error("Error finding 'Ville et Eurométropole' folder");
-			}
-
-			ServiceContext sc = new ServiceContext();
-			sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
-			long userId;
-			try {
-				userId = getUserId();
-			} catch (PrincipalException e) {
-				log.error(e);
-				return error("Error finding userId");
-			}
-
-			// Dossier Actes réglementaires et normatifs
-			Folder folderActe;
-			long repositoryId = DLFolderConstants.getDataRepositoryId(groupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID);
-			try {
-				folderActe = DLAppServiceUtil.getFolder(repositoryId,
-						folderVilleEuro.getFolderId(),
-						LanguageUtil.get(Locale.FRANCE, "eu.rep-commission"));
-			}catch(PortalException e) {
-				try {
-					folderActe = DLAppLocalServiceUtil.addFolder(null,
-							userId, repositoryId,
-							folderVilleEuro.getFolderId(), LanguageUtil.get(Locale.FRANCE, "eu.rep-commission"),
-							"", sc);
-				} catch (PortalException ex) {
-					log.error(ex);
-					return error("Error creating 'Actes réglementaires et normatifs' folder");
-				}
-			}
-
-			// Dossier Strasbourg ou Eurométropole
-			Folder folder;
-			try {
-				folder = DLAppServiceUtil.getFolder(repositoryId,
+				folder = DLFolderLocalServiceUtil.getFolder(groupId,
 						folderActe.getFolderId(),
 						documentType);
 			}catch(PortalException e) {
-				try {
-					folder = DLAppLocalServiceUtil.addFolder(null,
-							userId, repositoryId,
-							folderActe.getFolderId(),documentType,
-							"", sc);
-				} catch (PortalException ex) {
-					log.error(e);
-					return error("Error creating '" + documentType + "' folder");
-				}
+				log.error(e);
+				return error("Error retrieving '" + documentType + "' folder");
 			}
 
 			// Enregistrement du fichier
@@ -498,6 +477,17 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 				if(Validator.isNotNull(fileEntry))
 					return error("Document already exist");
 			}catch(PortalException e) {
+				ServiceContext sc = new ServiceContext();
+				sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
+
+				long userId;
+				try {
+					userId = getUserId();
+				} catch (PrincipalException ex) {
+					log.error(ex);
+					return error("Error finding userId");
+				}
+
 				AssetCategory commissionCateg = null;
 				if(Validator.isNotNull(commissionName)) {
 					// récupération de la catégorie de la commission (création si elle n'existe pas)

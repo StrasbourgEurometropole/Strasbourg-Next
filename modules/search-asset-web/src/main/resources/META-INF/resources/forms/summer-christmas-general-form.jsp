@@ -32,7 +32,7 @@
 	<div class="widget widget-big">
         <div class="title">
             <label for="name">
-                <liferay-ui:message key="keywords" />
+                <liferay-ui:message key="to-research" />
             </label>
         </div>
         <div class="content">

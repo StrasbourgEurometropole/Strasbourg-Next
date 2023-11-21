@@ -391,8 +391,8 @@ $border_top: 1px dashed;
 			@include ft($f_hx, 1.4em, 700, $c_txt, 1em);
 
 			margin-bottom: 10px;
-			height: 90px;
-			@include ellipsis(4);
+			height: 70px;
+			@include ellipsis(3);
 			@include mobile {
 				font-size: 22px;
 				line-height: 28px;
@@ -401,7 +401,8 @@ $border_top: 1px dashed;
 		}
 		p {
 			margin-bottom: 10px;
-			height: 73px;
+			height: 38px;
+			@include ellipsis(2);
 			overflow: hidden;
 			font-size: small;
 			@include ft($f_txt, $s_p, 400, $c_txt, 1.200em);
@@ -669,6 +670,7 @@ $border_top: 1px dashed;
 		background: #edf0f2;
 		padding: 20px;
 		display: flex;
+		gap:10px;
 		> span.pro-number {
 			position: relative;
 			flex: 1;
@@ -678,7 +680,8 @@ $border_top: 1px dashed;
 				display: block;
 				line-height: normal;
 				margin-top: 10px;
-				text-align: right;
+				text-align: center;
+				margin-right: 20px;
 			}
 		}
 	}
@@ -791,6 +794,9 @@ $border_top: 1px dashed;
 	}
 
 	.pro-content-participation {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
 		padding: 0 20px 15px 20px;
 		position: relative;
 		.pro-meta {
@@ -829,6 +835,7 @@ $border_top: 1px dashed;
 				font-size: 22px;
 				line-height: 28px;
 				min-height: 82.5px;
+				margin-top: 10px;
 			}
 		}
 
@@ -1960,6 +1967,7 @@ $border_top: 1px dashed;
 				font-size: 22px;
 				line-height: 28px;
 				min-height: 82.5px;
+				margin-top: 10px;
 			}
 		}
 

@@ -38,7 +38,7 @@
     <a href="${detailURLFilter}" class="mns-bloc-exp" style="min-height: 391px;">
       <div class="mns-img">
           <figure class="fit-cover">
-              <img src="${imageURL}" width="375" height="280" alt="${title}">
+              <img src="${imageURL}" width="375" height="280" alt="">
           </figure>
           <!-- <div class="mns-wrap-tag">
             <#list typeNoel as type>
@@ -52,7 +52,7 @@
       </div>
       <div class="mns-content">
           <span class="mns-location">${lieu}</span>
-          <h3>${title}</h3>
+          <h2>${title}</h2>
           <span class="icon-chevron-thin-right"></span>
           <span class="basic-link"><@liferay_ui.message key="eu.discover" /></span>
       </div>

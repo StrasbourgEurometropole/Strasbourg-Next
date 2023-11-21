@@ -140,7 +140,7 @@
 }
 
 .mns-content-list-actu {
-	.mns-bloc-actu:hover {
+	.mns-bloc-actu:hover, .mns-bloc-actu:focus {
 		box-shadow: none;
 		a {
 			transform: none;
@@ -155,12 +155,12 @@
 }
 
 .mns-triple-actu-bloc {
-	&:hover {
+	&:hover, &:focus {
 		.mns-bloc-top-img {
 			box-shadow: none;
 		}
 	}
-	.mns-bloc-actu:hover {
+	.mns-bloc-actu:hover, .mns-bloc-actu:focus {
 		box-shadow: none;
 		a {
 			transform: none;

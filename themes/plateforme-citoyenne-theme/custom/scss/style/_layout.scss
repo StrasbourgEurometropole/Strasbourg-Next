@@ -21,13 +21,9 @@
 }
 
 #breadcrumb {
-
 	overflow: hidden;
 	text-overflow: ellipsis;
-	/* overflow: hidden; */
-	white-space: nowrap;
 	span {
-		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		@include ft($f_txt, $s_p, 700, $c_txt, 1.5em);

@@ -20,7 +20,7 @@
 
 <div class="mns-item-results">
     <a href="${detailURLFilter}">
-        <h3>${title}</h3>
+        <h2>${title}</h2>
         <#if catcher?has_content>
             <p>${catcher?replace("<[^>]*>", "", "r")[0..*400]}...</p>
         <#else>

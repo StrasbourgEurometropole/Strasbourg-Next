@@ -82,7 +82,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <div>
                 <article>
                     <div class="row pro-container-detail-event">
-                        <div class="col-md-8 pr-md-5">
+                        <div class="col-lg-8 pr-lg-5">
                             <header>
                                 <div class="pro-header-participation">
 
@@ -238,7 +238,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         </div>
 
                         <!-- Fiche de l'entité -->
-                        <aside class="col-md-4">
+                        <aside class="col-lg-4">
                             <!-- Bloc : map -->
                             <div class="bloc-iframe leaflet-map" id="mapid" ></div>
 

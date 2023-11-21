@@ -1,7 +1,7 @@
 <#setting locale = locale />
 <!-- Zone Testimonials -->
 <div class="mns-testimonial mns-testimonial-experience small-container row">
-    <img src="/o/christmas-2018-theme/images/cote-left.png" alt="image" class="img-cote-left" width="232" height="161" />
+    <img src="/o/christmas-2018-theme/images/cote-left.png" alt="" class="img-cote-left" width="232" height="161" />
     <div>
         <div>
             <div class="owl-carousel owl-theme owl-testi col-xs-12">
@@ -15,7 +15,7 @@
                     </div>
                     <div class="mns-img">
                         <figure class="fit-cover">
-                            <img src="${cur_picture.getData()}" width="265" height="265" alt="Image associé au testimonial">
+                            <img src="${cur_picture.getData()}" width="265" height="265" alt="">
                         </figure>
                     </div>
                 </div>
@@ -23,5 +23,5 @@
             </div>
         </div>
     </div>
-    <img src="/o/christmas-2018-theme/images/cote-left.png" alt="image" class="img-cote-right" width="130" height="190" />
+    <img src="/o/christmas-2018-theme/images/cote-left.png" alt="" class="img-cote-right" width="130" height="190" />
 </div>
