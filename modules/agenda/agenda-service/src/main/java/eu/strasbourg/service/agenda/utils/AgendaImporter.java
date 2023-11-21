@@ -624,8 +624,9 @@ public class AgendaImporter {
 					reportLine.setEntityId(manifestation.getManifestationId());
 					isCreated = true;
 				} catch (PortalException e) {
-					reportLine.error(LanguageUtil.get(bundle,
-						"error-while-creating-manifestation"));
+					reportLine.setLog(LanguageUtil.get(bundle, "error-while-creating-manifestation"));
+					reportLine.error(e.getMessage());
+					_log.error(e.getMessage(), e);
 					return reportLine;
 				}
 			}
@@ -671,8 +672,9 @@ public class AgendaImporter {
 					else
 						reportLine.setStatus(ImportReportLineStatus.SUCCESS_MODIFIED);
 				} catch (PortalException e) {
-					reportLine.error(LanguageUtil.get(bundle,
-							"error-while-saving-manifestation"));
+					reportLine.setLog(LanguageUtil.get(bundle, "error-while-saving-manifestation"));
+					reportLine.error(e.getMessage());
+					_log.error(e.getMessage(), e);
 				}
 			}
 
@@ -887,8 +889,9 @@ public class AgendaImporter {
 							}
 							periods.add(period);
 						} catch (PortalException e) {
-							reportLine.error(LanguageUtil.get(bundle,
-								"error-while-creating-period"));
+							reportLine.setLog(LanguageUtil.get(bundle, "error-while-creating-period"));
+							reportLine.error(e.getMessage());
+							_log.error(e.getMessage(), e);
 						}
 					}
 				}
@@ -972,8 +975,9 @@ public class AgendaImporter {
 					event = EventLocalServiceUtil.createEvent(sc);
 					isCreated = true;
 				} catch (PortalException e) {
-					reportLine.error(
-						LanguageUtil.get(bundle, "error-while-creating-event"));
+					reportLine.setLog(LanguageUtil.get(bundle, "error-while-creating-event"));
+					reportLine.error(e.getMessage());
+					_log.error(e.getMessage(), e);
 					ImportReportLineLocalServiceUtil
 						.updateImportReportLine(reportLine);
 					return reportLine;
@@ -1228,8 +1232,9 @@ public class AgendaImporter {
 					else
 						reportLine.setStatus(ImportReportLineStatus.SUCCESS_MODIFIED);
 				} catch (Exception e) {
-					reportLine.error(
-							LanguageUtil.get(bundle, "error-while-saving-event"));
+					reportLine.setLog(LanguageUtil.get(bundle, "error-while-saving-event"));
+					reportLine.error(e.getMessage());
+					_log.error(e.getMessage(), e);
 				}
 
 				// On enregistre le lien avec les manifestations
