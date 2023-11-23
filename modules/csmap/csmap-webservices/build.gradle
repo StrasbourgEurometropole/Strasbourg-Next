@@ -13,7 +13,7 @@ dependencies {
 	implementation project (':modules:notif:notif-api')
 	implementation project (':modules:mediatheque-web')
 	implementation project (':modules:resid-web')
-	//implementation project (':modules:family-space-web')
+	implementation project (':modules:family-space-web')
 	implementation project (':modules:open-data')
 	implementation project (':modules:oidc:oidc-api')
 }
