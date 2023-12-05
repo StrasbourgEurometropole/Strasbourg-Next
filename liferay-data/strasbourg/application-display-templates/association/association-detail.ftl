@@ -21,7 +21,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     </#if>
 </#list>
 <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
-<div class="st-barre-single-sit st--association">
+<div class=""st-barre-single-sit" st--association">
     <div class="st-barre-inner st-wrapper">
         <div class="st-container-left">
             <div class="st-content">

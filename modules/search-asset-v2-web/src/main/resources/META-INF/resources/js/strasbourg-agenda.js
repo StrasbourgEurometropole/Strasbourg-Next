@@ -14,7 +14,6 @@ function updateDescription(clickedElement) {
 	var overlayDiv = document.getElementById('st-overlay-preview-agenda'); // Get the description-overlay element
 	overlayDiv.querySelector(".st-title-overlay").textContent = title;
 	overlayDiv.querySelector(".st-surtitre-cat").textContent = category;
-	overlayDiv.querySelector(".st-schedule").textContent = date;
 	overlayDiv.querySelector(".st-date").textContent = dateEvent;
 	overlayDiv.querySelector(".st-location").innerHTML = `${location}<br> ${address}`;
 	overlayDiv.querySelector(".st-overlay__content").innerHTML = descriptionHtml;

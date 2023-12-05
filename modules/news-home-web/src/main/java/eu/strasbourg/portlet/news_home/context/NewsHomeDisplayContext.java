@@ -100,7 +100,7 @@ public class NewsHomeDisplayContext extends BaseDisplayContext {
                         // Crée un nouvel objet NewsHomeItem si l'article existe, sinon retourne null
                         return journalArticle != null ? new NewsHomeItem(journalArticle, entry ,  _themeDisplay.getLocale(), _request, _response) : null;
                     } catch (Exception e) {
-                        throw new RuntimeException(e);
+                        return null;
                     }
 
                 })

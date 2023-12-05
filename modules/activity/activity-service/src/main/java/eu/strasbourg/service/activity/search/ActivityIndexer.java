@@ -130,7 +130,7 @@ public class ActivityIndexer extends BaseIndexer<Activity> {
 
         // Supprime les balises HTML de la description et limite sa longueur
         Map<Locale, String> descriptionWithoutHTML = new HashMap<>(activity.getDescriptionMap());
-        descriptionWithoutHTML.replaceAll((k, v) -> truncateString(HtmlUtil.stripHtml(v), 25));
+        descriptionWithoutHTML.replaceAll((k, v) -> truncateString(HtmlUtil.stripHtml(v), 150));
         document.addLocalizedText("descriptionWithoutHTML", descriptionWithoutHTML);
     }
 
@@ -223,18 +223,11 @@ public class ActivityIndexer extends BaseIndexer<Activity> {
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
-    private static String truncateString(String input, int wordLimit) {
-        String[] words = input.split("\\s+");
-
-        if (words.length <= wordLimit) {
-            return input; // No truncation needed
+    private static String truncateString(String input, int characterLimit) {
+        if (input.length() > characterLimit) {
+            return input.substring(0, characterLimit) + "...";
         } else {
-            StringBuilder truncated = new StringBuilder();
-            for (int i = 0; i < wordLimit; i++) {
-                truncated.append(words[i]).append(" ");
-            }
-            truncated.append("...");
-            return truncated.toString().trim();
+            return input;
         }
     }
 }
