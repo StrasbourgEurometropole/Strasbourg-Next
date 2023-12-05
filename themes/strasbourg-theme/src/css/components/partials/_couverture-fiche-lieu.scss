@@ -117,21 +117,25 @@
 			border-bottom-left-radius: $border-radius-small;
 		}
 
-		& + .st-maps {
+		& + .st-wrapper-maps .st-maps {
 			@include min-tablet-small {
 				border-radius: 0 0 $border-radius-small 0;
 			}
 		}
 	}
 
-	.st-maps {
-		border-radius: 0 0 $border-radius-small $border-radius-small;
-
+	.st-wrapper-maps {
 		@include tablet-portrait {
 			flex-grow: 2;
 		}
 		@include tablet-small {
 			height: 214px;
+		}
+
+		.st-maps {
+			width: 100%;
+			height: 100%;
+			border-radius: 0 0 $border-radius-small $border-radius-small;
 		}
 	}
 }

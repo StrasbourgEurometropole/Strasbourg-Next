@@ -18,6 +18,16 @@
 			color: $c_pink;
 			border-color: $c_pink;
 		}
+
+		li + li {
+			margin-top: 8px;
+		}
+	}
+
+	.st-alert-form__content {
+		a {
+			color: inherit;
+		}
 	}
 
 	label {
@@ -198,6 +208,13 @@
 
 	// Boutons radio et checkboxs
 	// --------------------------------------
+
+	legend {
+		@include ft('', 14px, 700, $c_white, 1.5);
+		margin-bottom: 15px;
+	}
+
+
 	// container vertical ou horizontal
 	.st-group-radio {
 		display: flex;

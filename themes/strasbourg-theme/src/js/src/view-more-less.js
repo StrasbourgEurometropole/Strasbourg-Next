@@ -5,82 +5,68 @@
             this.container = container;
             this.height = container.offsetHeight;
             this.btnClamp = container.nextElementSibling.querySelector(".st-btn-show-more");
+
             this.maxHeightVariable = getComputedStyle(container).getPropertyValue('--max-height-desktop')
             this.maxHeightValue = parseInt(this.maxHeightVariable);
+            this.showLabel = this.btnClamp.getAttribute("data-open-label");
+            this.hideLabel = this.btnClamp.getAttribute("data-close-label");
 
-            this.showClampBtn(container);
+            this.showEvent = new Event('showViewMore', { bubbles: true });
+            this.hideEvent = new Event('hideViewMore', { bubbles: true });
+
+            this.showClampBtn();
             this.btnClampHandler();
         }
 
-        showClampBtn(container) {
-
+        showClampBtn() {
             if (this.height >= this.maxHeightValue) {
-                container.classList.add("st--is-overflowing");
+                this.container.classList.add("st--is-overflowing");
             } else {
-                container.classList.remove("st--is-overflowing");
+                this.container.classList.remove("st--is-overflowing");
             }
         }
 
         btnClampHandler() {
-            let btnClampClicked = false;
-
-            let outerScope = this;
-
-            this.btnClamp.addEventListener('click', function (e) {
-
-                if (btnClampClicked === false) {
-                    outerScope.btnClampIsActive();
-
+             this.btnClamp.addEventListener('click',  (e) => {
+                if (this.btnClamp.getAttribute('aria-expanded') === 'false') {
+                    this.showContent();
                 } else {
-                    outerScope.btnClampIsInactive();
+                    this.hideContent();
                 }
-
-                btnClampClicked = !btnClampClicked;
             });
-
         }
 
-        btnClampIsActive() {
-            this.setAccessibleAttributes();
-            this.setActiveStyles();
-        }
-
-        setAccessibleAttributes() {
-            let dataOpenLabel = this.btnClamp.getAttribute("data-open-label");
-            let dataCloseLabel = this.btnClamp.getAttribute("data-close-label");
-
-            this.btnClamp.setAttribute("aria-expanded", true);
-            this.btnClamp.setAttribute("aria-label", dataCloseLabel);
-
+        // Déploie le container
+        showContent() {
+            // Accessible attributes
+            this.btnClamp.setAttribute("aria-expanded", 'true');
             this.container.setAttribute("tabindex", "-1");
             this.container.focus();
-        }
 
-        updateAccessibleAttributes() {
-            let dataOpenLabel = this.btnClamp.getAttribute("data-open-label");
-            let dataCloseLabel = this.btnClamp.getAttribute("data-close-label");
-            this.btnClamp.setAttribute("aria-expanded", false);
-            this.btnClamp.setAttribute("aria-label", dataOpenLabel);
-            this.container.setAttribute("tabindex", "0");
-        }
-
-        setActiveStyles() {
+            // Styles
             this.btnClamp.classList.add("st--btn-outline");
             this.btnClamp.classList.remove("st--down");
             this.btnClamp.classList.add("st--up");
             this.container.style.setProperty('--max-height-desktop', 'none');
+
+            this.btnClamp.textContent = this.hideLabel;
+            this.btnClamp.dispatchEvent(this.showEvent);
         }
 
-        updateActiveStyles() {
+        // Referme le container
+        hideContent() {
+            // Accessible attributes
+            this.btnClamp.setAttribute("aria-expanded", 'false');
+            this.container.setAttribute("tabindex", "0");
+
+            // Styles
             this.btnClamp.classList.remove("st--btn-outline");
             this.btnClamp.classList.add("st--down");
             this.btnClamp.classList.remove("st--up");
             this.container.style.setProperty('--max-height-desktop', this.maxHeightVariable);
-        }
 
-        btnClampIsInactive() {
-            this.updateAccessibleAttributes();
-            this.updateActiveStyles();
+            this.btnClamp.textContent = this.showLabel;
+            this.btnClamp.dispatchEvent(this.hideEvent);
         }
     }
 

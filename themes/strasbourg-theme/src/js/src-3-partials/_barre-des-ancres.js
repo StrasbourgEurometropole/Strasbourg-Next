@@ -1,58 +1,49 @@
 class BarreDesAncres {
-    constructor(slider) {
-        this.slider = slider;
-        this.initSlider(slider);
-        this.fadeOnSocialShareClick(slider);
-        this.stickyPositionHandler(slider);
+    constructor(container) {
+        this.container = container;
+        this.btnPrev = this.container.querySelector('.st-btn-arrow.st--prev');
+        this.btnNext = this.container.querySelector('.st-btn-arrow.st--next');
+        this.list = this.container.querySelector('.st-ancres__list');
+
+        if (this.list) this.initArrows();
+        this.fadeOnSocialShareClick(container);
+        this.stickyPositionHandler(container);
     }
 
-    initSlider(slider) {
-        sliderAncre = new Splide(slider, {
-            wheel: true,
-            releaseWheel: true,
-            height: "321px",
-            autoHeight: true,
-            pagination: false,
-            direction: 'ttb',
-            arrows: false,
-            breakpoints: {
-                980: {
-                    direction: 'ltr',
-                    height: "60px",
-                    arrows: true
-                },
-            }         // espace pour les flèches de navigation
-        }).mount();
+    // Défilement de la liste des ancres en overflow avec les flèches sur mobile
+    initArrows() {
+        this.btnPrev.addEventListener('click', (e) => {
+            this.list.scrollBy({ left: -200, behavior: "smooth" });
+        });
+        this.btnNext.addEventListener('click', (e) => {
+            this.list.scrollBy({ left: 200, behavior: "smooth" });
+        });
     }
 
     fadeOnSocialShareClick(slider) {
-        let toggleInput = document.querySelector(".st-social-share .st-toggle");
+        const toggleInput = this.container.querySelector(".st-social-share__toggle");
 
         if (toggleInput) {
-            let toggleParent = toggleInput.closest(".st-social-share");
-            let slider = toggleParent.previousElementSibling;
-            toggleInput.addEventListener("click", function () {
-                slider.classList.toggle("st-js-toggle");
+            toggleInput.addEventListener("click", (e) => {
+                this.container.classList.toggle("st-has-social-share-open");
             });
         }
-
     }
 
     stickyPositionHandler(slider) {
         const footer = document.querySelector(".st-footer");
-        const ancresContainer = document.querySelector(".st-ancres");
 
-        let options = {
+        const options = {
             rootMargin: "0px",
             threshold: 0.1,
         };
 
-        let callback = (entries, observer) => {
+        const callback = (entries, observer) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    ancresContainer.classList.add("st-footer-is-visible");
+                    this.container.classList.add("st-footer-is-visible");
                 } else {
-                    ancresContainer.classList.remove("st-footer-is-visible");
+                    this.container.classList.remove("st-footer-is-visible");
                 }
             });
         };
@@ -61,12 +52,10 @@ class BarreDesAncres {
 
         observer.observe(footer);
     }
-
 }
 
 // Initialisation de la classe
-let sliderAncre;        // instance de splide utililisé plus loin dans la lib th_ancres.js
-const slidersAncre = document.querySelector('.st-js-slider-ancres');
-if (slidersAncre) {
-    new BarreDesAncres(slidersAncre);
+const barreAncres = document.querySelector('.st-js-ancres');
+if (barreAncres) {
+    new BarreDesAncres(barreAncres);
 }

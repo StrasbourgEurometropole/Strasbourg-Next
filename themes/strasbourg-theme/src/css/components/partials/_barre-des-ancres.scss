@@ -5,7 +5,6 @@
 	z-index: z-index("barre-sticky");
 	height: 0;
 	transform: translateX(-40px);
-	pointer-events: none;
 
 	@include tablet-landscape {
 		transform: translateX(-20px);
@@ -14,7 +13,7 @@
 	@include tablet-portrait {
 		position: fixed;
 		top: 0;
-		height: var(--ancres-height-mobile);
+		height: 70px;
 		width: 100%;
 		margin-left: initial;
 		margin-right: initial;
@@ -25,25 +24,76 @@
 		height: auto;
 	}
 
-	.st-ancres-container {
-		padding: 15px 0;
-		width: 220px;
-		background-color: $c_greydark;
-		border-radius: $border-radius;
-		pointer-events: initial;
+	// Menu des réseaux sociaux ouvert
+	&.st-has-social-share-open .st-ancres__list {
+		opacity: 0.2;
+		pointer-events: none;
+	}
+
+	.st-ancres__container {
+		@include min-tablet-portrait {
+			width: 220px;
+			background-color: $c_greydark;
+			border-radius: $border-radius;
+		}
 		
 		@include tablet-portrait {
-			padding: 0;
 			width: 100%;
+			height: 100%;
+			background-image: linear-gradient(to left, $c_greydark, $c_greydark);
+			background-size: auto calc(100% - 10px);
+			background-repeat: no-repeat;
 		}
 	}
 
-	.st-menu-ancre {
+	.st-ancres__list {
+		display: flex;
+		height: 100%;
+		overflow: auto;
+
+		@include min-tablet-portrait {
+			flex-direction: column;
+			max-height: 320px;
+			margin-left: -10px;
+			padding-left: 10px;
+			padding-top: 10px;
+			padding-bottom: 20px;
+
+			@include fade-out-overflow(10px);
+			background-position: 10px 0, 100% 0;
+			--mask-size-content: calc(100% - var(--scrollbar-size) - 10px) 100%;
+
+			@include transition(opacity);
+		}
+
+		@include tablet-portrait {
+			padding-left: 20px;
+			padding-right: 120px;
+			padding-bottom: 10px;
+			-webkit-mask-image: linear-gradient(to right, transparent, red var(--border-gutter), red calc(100% - 160px), transparent calc(100% - 80px));
+
+			// masque la scrollbar
+			scrollbar-width: none;
+			-ms-overflow-style: none;
+
+			&::-webkit-scrollbar {
+				display: none;
+			}
+		}
+
+		@include mobile {
+			padding-left: 10px;
+			padding-right: 80px;
+			-webkit-mask-image: linear-gradient(to right, transparent, red var(--border-gutter), red calc(100% - 80px), transparent);
+		}
+	}
+
+	.st-ancres__link {
 		@include create-outline;
 		position: relative;
 		display: block;
 		padding: 15px 20px;
-		@include ft($f_txt, 14px, 300, $c_txt, 1);
+		@include ft($f_txt, 14px, 300, $c_txt, 1.1);
 		@include letter-spacing(25);
 
 		@include can-hover {
@@ -52,8 +102,8 @@
 		@include tablet-portrait {
 			display: flex;
 			align-items: center;
-			justify-content: center;
 			height: 100%;
+			white-space: nowrap;
 		}
 		@include mobile {
 			padding: 15px 10px;
@@ -75,10 +125,8 @@
 				transform: translateX(-50%);
 			}
 		}
-	}
 
-	.is-active {
-		> .st-menu-ancre {
+		&.is-active {
 			font-weight: 700;
 			color: $c_white;
 
@@ -88,120 +136,36 @@
 		}
 	}
 
-	.splide {
-		@include tablet-portrait {
-			padding-left: 10px;
-			padding-right: 120px;
-
-			&:before,
-			&:after {
-				content: "";
-				position: absolute;
-				top: 0;
-				z-index: 2;
-				height: 100%;
-				pointer-events: none;
-			}
-
-			&:before {
-				left: 0;
-				width: 30px;
-				background-image: linear-gradient(to right, rgba($c_greydark, 1), rgba($c_greydark, 0));
-
-				@include mobile {
-					width: 20px;
-				}
-			}
-
-			&:after {
-				right: 0;
-				width: 100px;
-				background-image: linear-gradient(to left, rgba($c_greydark, 1) 40px, rgba($c_greydark, 0));
-
-				@include mobile {
-					background-image: linear-gradient(to left, rgba($c_greydark, 1) 20px, rgba($c_greydark, 0));
-				}
-			}
-		}
-		@include mobile {
-			padding-right: 80px;
-		}
-	}
-
-	.splide__track {
-		overflow-x: visible;
-		overflow-y: clip;
-
-		@include tablet-portrait {
-			overflow-y: visible;
-		}
-	}
-
-	.st-social-share {
-		@include tablet-portrait {
-			display: none;
-		}
-	}
 
 	.st-nav-arrows {
-		@include min-tablet-portrait {
-			height: 0;
-		}
-
 		@include tablet-portrait {
 			position: absolute;
 			top: 15px;
 			right: var(--border-gutter);
-		}
-	}
-
-	.st-btn-arrow {
-		@include min-tablet-portrait {
-			position: absolute;
-			left: 50%;
-			transform: translateX(-50%);
+			z-index: 10;
 		}
 
-		@include tablet-portrait {
-			width: 20px;
-			height: 20px;
+		@include mobile {
+			top: 17px;
+		}
 
-			&:before {
-				font-size: 7px;
+		.st-btn-arrow {
+			@include mobile {
+				width: 20px;
+				height: 20px;
+
+				&:before {
+					font-size: 7px;
+				}
 			}
 		}
-
-		&.st--up {
-			@include min-tablet-portrait {
-				top: -30px;
-			}
-			@include tablet-portrait {
-				transform: rotate(-90deg);
-			}
-		}
-
-		&.st--down {
-			@include min-tablet-portrait {
-				bottom: -65px;
-			}
-			@include tablet-portrait {
-				transform: rotate(-90deg);
-			}
-		}
-
-		&[disabled],
-		&[aria-disabled="true"] {
-			opacity: 1;
-			background-color: $c_border;
-		}
-	}
-
-	.st-js-toggle {
-		opacity: 0.2;
 	}
 
 	.st-social-share {
-		padding-left: 15px;
-		padding-bottom: 8px;
+		padding: 15px;
+
+		@include tablet-portrait {
+			display: none;
+		}
 	}
 }

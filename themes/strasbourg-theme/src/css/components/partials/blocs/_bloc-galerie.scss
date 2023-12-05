@@ -44,33 +44,32 @@
 	}
 
 	.st-slide-galerie {
-		@include create-outline;
-		position: relative;
+		@include absolute-stretch();
+	}
 
-		// Figure en table pour contraindre la légende à la largeur de l'image
-		figure {
-			display: table;
+	// Figure en table pour contraindre la légende à la largeur de l'image
+	figure {
+		display: table;
 
-			img {
-				height: var(--image-height);
-				width: auto;
-				border-radius: $border-radius-small;
-			}
+		img {
+			height: var(--image-height);
+			width: auto;
+			border-radius: $border-radius-small;
 		}
+	}
 
-		figcaption {
-			@include ft('', $s_medium, 700, $c_white, 1);
-			font-style: normal;
-			@include letter-spacing(25);
-			display: table-caption;
-			caption-side: bottom;
-			cursor: auto;
-			text-align: left;
+	figcaption {
+		@include ft('', $s_medium, 700, $c_white, 1);
+		font-style: normal;
+		@include letter-spacing(25);
+		display: table-caption;
+		caption-side: bottom;
+		cursor: auto;
+		text-align: left;
 
-			@include mobile {
-				margin-top: 10px;
-				font-size: 12px;
-			}
+		@include mobile {
+			margin-top: 10px;
+			font-size: 12px;
 		}
 	}
 }

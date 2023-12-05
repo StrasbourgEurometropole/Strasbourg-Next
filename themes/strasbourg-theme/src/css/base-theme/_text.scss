@@ -450,6 +450,7 @@
 
 	.st-title-mentions {
 		@include ft('', 13px, 700, $c_white, '');
+		margin-bottom: 16px;
 	}
 
 	p {
@@ -471,10 +472,10 @@
 	}
 }
 
-.st-link-overlay {
+.st-page-wrapper .st-link-overlay {
 	@include create-outline;
 	color: $c_sub;
-	text-decoration: underline;
+	text-decoration: none;
 	font-weight: 600;
 	@include transition(color);
 

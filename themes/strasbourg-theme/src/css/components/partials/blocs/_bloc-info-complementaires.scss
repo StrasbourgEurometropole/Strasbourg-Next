@@ -181,20 +181,25 @@
 			margin-bottom: 13px;
 		}
 
-		.st-lien-container {
+		.st-liens {
 			display: flex;
 			flex-wrap: wrap;
 			--gap: 10px;
 			margin-left: calc(var(--gap) * -1);
 			margin-top: calc(var(--gap) * -1);
 			font-size: 0;
+			@include mobile {
+				flex-direction: column;
+			}
 
 			> * {
 				margin-left: var(--gap);
 				margin-top: var(--gap);
 
-				@include mobile {
-					width: 100%;
+				.st-btn {
+					@include mobile {
+						width: 100%;
+					}
 				}
 			}
 		}
@@ -204,7 +209,6 @@
 		}
 
 		p a {
-			@include create-outline;
 			color: $c_sub;
 			text-decoration: underline;
 
@@ -228,6 +232,14 @@
 
 			[class^="st-icon-"], [class*=" st-icon-"] {
 				font-size: 20px;
+			}
+		}
+
+		.st-list-text {
+			li {
+				@include ft('', 12px, 400, $c_txt, 1.16);
+				@include letter-spacing(25);
+				margin-top: 10px;
 			}
 		}
 	}

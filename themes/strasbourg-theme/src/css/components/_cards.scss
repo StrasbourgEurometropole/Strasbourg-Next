@@ -92,7 +92,8 @@
 
 		.st-title-card {
 			order: 3;
-			@include ft('', 15px, 700, $c_white, 1);
+			@include ft($f_txt, 15px, 700, $c_white, 1);
+			letter-spacing: inherit;
 			display: block;
 			margin-bottom: 6px;
 			@include transition(color);
@@ -206,7 +207,6 @@
 		@include card-horizontal();
 	}
 
-	
 
 
 	&.st-card-actu {
@@ -340,13 +340,4 @@
 			}
 		}
 	}
-
-
-	// Card avec effet de box-shadow au hover
-	/*&.st--with-shadow {
-		// pas de shadow pour les cards dans un leaflet
-		:not(.leaflet-popup-content) > & {
-			@include card-shadow();
-		}
-	}*/
 }

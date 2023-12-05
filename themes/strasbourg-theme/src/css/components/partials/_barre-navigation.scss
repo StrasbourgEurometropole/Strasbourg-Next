@@ -107,7 +107,7 @@
 				pointer-events: none;
 
 				@media screen and (max-width: 1200px) {
-					right: 20px;
+					right: 16px;
 				}
 			}
 		}
@@ -121,6 +121,10 @@
 
 			@media screen and (max-width: 1200px) {
 				padding-right: 30px;
+			}
+
+			option {
+				color: $c_txt;
 			}
 		}
 
@@ -150,7 +154,6 @@
 
 	// Styles pour le dropdown RGAA
 	.st-barre-dropdown button {
-		@include create-outline;
 		position: relative;
 		height: 100%;
 		@include ft($f_txt, $s_p, 300, $c_white, 1);
@@ -165,6 +168,8 @@
 			@include icomoon($st-icon-arrow-down);
 			font-size: 10px;
 			color: rgba($c_white, 0.75);
+			display: inline-block;
+			margin-left: 4px;
 			@include transition(transform);
 		}
 
@@ -174,10 +179,14 @@
 
 		&[aria-expanded="true"] {
 			color: $c_sub;
+
+			&:after {
+				transform: rotate(180deg);
+			}
 		}
 	}
 
-	.st-barre-dropdown [role="menu"] {
+	.st-barre-dropdown__list {
 		display: none;
 		position: absolute;
 		background-color: $c_greydark;
@@ -185,8 +194,7 @@
 		z-index: 1;
 	}
 
-	.st-barre-dropdown [role="menuitem"] {
-		@include create-outline;
+	.st-barre-dropdown__list a {
 		display: block;
 		width: auto;
 		padding: 10px;
@@ -205,10 +213,6 @@
 		}
 	}
 
-	.st-barre-dropdown button[aria-expanded="true"]:after {
-		transform: rotate(180deg);
-	}
-
 	// Styles pour la barre du menu
 	.st-barre-menu {
 		position: relative;
@@ -222,13 +226,16 @@
 		width: 100%;
 	}
 
-	.st-btn-search {
-		@include create-outline;
+	.st-btn-search__wrapper {
 		flex: 1;
+		margin-right: 10px;
+	}
+
+	.st-btn-search {
 		position: relative;
 		height: 80px;
+		width: 100%;
 		padding-left: 78px;
-		margin-right: 10px;
 		@include ft($f_txt, 20px, 400, rgba($c_greydark, 0.75), 1);
 		@include letter-spacing(25);
 		text-align: left;
@@ -249,7 +256,4 @@
 			color: $c_main;
 		}
 	}
-
-
-
 }

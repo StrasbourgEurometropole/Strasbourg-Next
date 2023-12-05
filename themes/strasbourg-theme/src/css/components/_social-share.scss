@@ -7,24 +7,56 @@
 	position: relative;
 	z-index: z-index('social-share');
 
-	input {
-		display: none;
-	}
-
 	// Toggle Button
-	.st-toggle {
+	.st-social-share__toggle {
 		position: relative;
 		@include inline-flex-center();
 		width: 40px;
 		height: 30px;
-		margin-bottom: 0;
 		font-size: 20px;
 		color: $c_txt;
-		cursor: pointer;
 
 		@include can-hover {
 			span {
 				color: $c_sub;
+			}
+		}
+
+		// Open Network List
+		&[aria-expanded="true"] {
+			color: $c_sub;
+
+			& ~ .st-social-share__list {
+				pointer-events: initial;
+				visibility: initial;
+
+				li {
+					opacity: 1;
+				}
+
+				li:nth-child(1) {
+					top: -70px;
+				}
+
+				li:nth-child(2) {
+					top: -120px;
+				}
+
+				li:nth-child(3) {
+					top: -170px;
+				}
+
+				li:nth-child(4) {
+					top: -220px;
+				}
+
+				li:nth-child(5) {
+					top: -270px;
+				}
+
+				li:nth-child(6) {
+					top: -320px;
+				}
 			}
 		}
 	}
@@ -33,11 +65,13 @@
 	// Network List
 	// =============================================
 
-	.st-network-list {
+	.st-social-share__list {
 		position: absolute;
 		top: 0;
 		left: 20px;
 		pointer-events: none;
+		visibility: hidden;
+		@include transition(visibility 0.25s);
 
 		li {
 			position: absolute;
@@ -46,47 +80,6 @@
 			display: block;
 			opacity: 0;
 			@include transition(opacity 0.25s cubic-bezier(0.43, 1.17, 0.69, 1.24), top 0.25s cubic-bezier(0.43, 1.17, 0.69, 1.24));
-		}
-	}
-
-	// =============================================
-	// Open Network List
-
-	input:checked {
-		& ~ .st-toggle {
-			color: $c_sub;
-		}
-
-		& ~ .st-network-list {
-			pointer-events: initial;
-
-			li {
-				opacity: 1;
-			}
-
-			li:nth-child(1) {
-				top: -70px;
-			}
-
-			li:nth-child(2) {
-				top: -120px;
-			}
-
-			li:nth-child(3) {
-				top: -170px;
-			}
-
-			li:nth-child(4) {
-				top: -220px;
-			}
-
-			li:nth-child(5) {
-				top: -270px;
-			}
-
-			li:nth-child(6) {
-				top: -320px;
-			}
 		}
 	}
 }

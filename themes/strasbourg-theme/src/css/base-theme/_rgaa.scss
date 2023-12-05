@@ -2,27 +2,35 @@
 // ==========================================================================
 
 .st-sr-only {
-	border: 0;
-	clip: rect(1px, 1px, 1px, 1px);
-	-webkit-clip-path: inset(50%);
-	clip-path: inset(50%);
-	height: 1px;
-	margin: -1px;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	width: 1px;
-	white-space: nowrap;
+	position: absolute !important;
+	width: 1px !important;
+	height: 1px !important;
+	margin: -1px !important;
+	padding: 0 !important;
+	overflow: hidden !important;
+	white-space: nowrap !important;
+	border: 0 !important;
+	clip-path: inset(50%) !important;
 }
 
 .st-sr-only-focusable:focus,
 .st-sr-only-focusable:active {
-	clip: auto;
-	-webkit-clip-path: none;
-	clip-path: none;
-	height: auto;
-	margin: auto;
-	overflow: visible;
-	width: auto;
-	white-space: normal;
+	width: auto !important;
+	height: auto !important;
+	margin: auto !important;
+	overflow: visible !important;
+	white-space: normal !important;
+	clip-path: none !important;
+}
+
+
+.st-skip-link {
+	position: fixed;
+	top: 0;
+	left: -9999px;
+	z-index: z-index('skip-link');
+
+	&:focus {
+		left: 0;
+	}
 }

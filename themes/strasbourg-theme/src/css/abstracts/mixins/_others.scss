@@ -138,14 +138,7 @@
 }
 
 // RGAA : On ajoute un outline avec un couleur dynamique
-@mixin create-outline($color : $c_white) {
-	outline-offset: 1px;
-
-	&:focus {
-		body:not(.no-hover) & {
-			outline: 1px dashed $color;
-		}
-	}
+@mixin create-outline($color : $c_sub) {
 }
 
 
@@ -169,7 +162,6 @@
 	box-shadow: none;
 	border-radius: 0;
 	border: none;
-	outline: none;
 
 	&::-ms-clear {
 		display: none;

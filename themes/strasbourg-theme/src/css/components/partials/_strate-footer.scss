@@ -75,6 +75,9 @@
 						opacity: 1;
 						filter: none;
 					}
+				}
+
+				&.st-has-tooltip-show {
 					.st-tooltip-logo {
 						opacity: 1;
 						visibility: visible;

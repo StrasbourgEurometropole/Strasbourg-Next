@@ -18,5 +18,44 @@
         } );
 
          splide.mount();
+
+
+
+
+        // Affichage / masquage des infobulles des logo au survol
+        function onLogoHover(e) {
+             const logo = e.target;
+            logo.classList.add('st-has-tooltip-show');
+            document.addEventListener('keydown', keyHandler);
+        }
+
+        function onLogoLeave(e) {
+            const logo = e.target;
+            logo.classList.remove('st-has-tooltip-show');
+            document.removeEventListener('keydown', keyHandler);
+        }
+
+        // Fermeture des infobulles avec ESC
+        function keyHandler(e) {
+            if (e.key === 'Escape') {
+                logos.forEach(logo => {
+                    if (logo.classList.contains('st-has-tooltip-show')) {
+                        logo.classList.remove('st-has-tooltip-show');
+                    }
+                });
+            }
+        }
+
+         // Affichage des infobulles au survol et au focus
+        const logos = slider.querySelectorAll('.st-container');
+        logos.forEach(logo => {
+            logo.addEventListener('mouseenter', onLogoHover);
+            logo.addEventListener('mouseleave', onLogoLeave);
+            logo.addEventListener('focus', onLogoHover);
+            logo.addEventListener('blur', onLogoLeave);
+        });
     });
+
+
+
 })();

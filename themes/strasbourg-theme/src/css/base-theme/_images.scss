@@ -12,7 +12,7 @@
 }
 
 figure {
-	&.figcaption-only-credits {
+	/*&.figcaption-only-credits {
 		figcaption {
 			border: 0;
 			clip: rect(1px, 1px, 1px, 1px);
@@ -26,7 +26,7 @@ figure {
 			width: 1px;
 			white-space: nowrap;
 		}
-	}
+	}*/
 }
 
 
@@ -73,48 +73,46 @@ figcaption {
 }
 
 
-.st-credits {
+.st-page-wrapper .st-credits,
+.st-page-wrapper .st-credits-content {
 	--size: 20px; // largeur et hauteur du bouton crédits
 	--spacing: 20px; // distance entre le bouton et les bords de l'image
-	--font-size: 10px; // font-size quand hover
-	@include ft('', '', '', $c_white, 1);
 	position: absolute;
 	top: var(--spacing); // positionnement haut droit par défaut
 	right: var(--spacing);
-	z-index: z-index('credits');
-	display: inline-flex;
+	display: flex;
 	align-items: center;
-	max-width: var(--size);
-	height: var(--size);
-	padding: 0 calc(var(--size) / 2);
-	font-size: 0;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
+	@include ft('', 10px, '', $c_white, 1);
+	text-align: right;
+	font-style: initial;
 	background-color: $c_greydark;
 	border-radius: $border-radius-small;
-	@include transition(max-width 0.25s, font-size 0.25s);
 
 	@include mobile {
 		--spacing: 10px;
 	}
+}
+
+
+.st-page-wrapper .st-credits {
+	z-index: z-index('credits-button');
+	justify-content: center;
+	width: var(--size);
+	height: var(--size);
+	font-size: 0;
 
 	&:after {
 		@include icomoon($st-icon-credits);
-		position: absolute;
-		left: 50%;
 		font-size: 8px;
-		transform: translateX(-50%);
-		@include transition(opacity 0.25s);
 	}
 
-	&:hover,
-	&:focus {
-		max-width: calc(100% - var(--spacing) * 2);
-		font-size: var(--font-size);
-
+	&[aria-expanded=true] {
 		&:after {
-			opacity: 0;
+			content: $st-icon-close;
+		}
+		& ~ .st-credits-content {
+			visibility: initial;
+			opacity: initial;
 		}
 	}
 
@@ -122,12 +120,22 @@ figcaption {
 	&.st--top-left {
 		right: initial;
 		left: var(--spacing);
-	}
 
-	&.st--bottom-left {
-		right: initial;
-		top: initial;
-		left: var(--spacing);
-		bottom: var(--spacing);
+		& ~ .st-credits-content {
+			right: initial;
+			left: var(--spacing);
+			padding: 4px 8px 4px 20px;
+		}
 	}
+}
+
+
+.st-page-wrapper .st-credits-content {
+	z-index: z-index('credits-content');
+	max-width: calc(100% - var(--spacing) * 2);
+	padding: 4px 20px 4px 8px;
+	line-height: 1.2;
+	visibility: hidden;
+	opacity: 0;
+	@include transition(opacity 0.2s, visibility 0.2s);
 }

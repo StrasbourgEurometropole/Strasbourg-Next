@@ -20,6 +20,10 @@
 			margin-top: 20px;
 		}
 
+		.st-title-medium {
+			margin: 0;
+		}
+
 		.st-btn {
 			margin-bottom: 20px;
 		}
@@ -35,9 +39,16 @@
 	// Slider de navigation
 	// ==========================================================================
 
-	.st-slider-thumb {
+	.st-slider-tablist {
 		position: relative;
 		border-bottom: 1px solid $c_border;
+
+		// masquage des flèches si pas assez de contenu
+		&:not(.is-overflow) {
+			.st-nav-arrows {
+				display: none;
+			}
+		}
 
 		&:before,
 		&:after {
@@ -73,22 +84,41 @@
 		.splide__track {
 			overflow: visible;
 			z-index: 1;
+			padding-right: 80px !important;
 		}
 
 		.splide__slide {
+			margin-right: 40px;
+
+			@include mobile {
+				margin-right: 20px;
+			}
+		}
+
+		.st-slider-tablist__button {
 			position: relative;
 			display: flex;
 			flex-direction: column-reverse;
-			margin-right: 40px;
+			height: 100%;
 			padding: 40px 0;
 			cursor: pointer;
 
 			@include mobile {
 				padding: 25px 0;
-				margin-right: 20px;
 			}
 
 			@include can-hover {
+				.st-title {
+					color: $c_white;
+				}
+			}
+
+			&[aria-selected="true"] {
+				&:after {
+					transform: translateX(-50%) scale(1);
+					opacity: 1;
+				}
+
 				.st-title {
 					color: $c_white;
 				}
@@ -105,17 +135,6 @@
 				opacity: 0;
 				pointer-events: none;
 				@include transition(opacity, transform);
-			}
-
-			&.is-active {
-				&:after {
-					transform: translateX(-50%) scale(1);
-					opacity: 1;
-				}
-
-				.st-title {
-					color: $c_white;
-				}
 			}
 
 			.st-surtitre-cat {
@@ -168,20 +187,20 @@
 	}
 
 
-
-
 	// Slider de contenu principal
 	// ==========================================================================
 
-	.st-slider-content {
+	.st-tabpanels {
 		margin-top: 20px;
 
 		@include mobile {
 			margin-top: 10px;
 		}
+	}
 
-		.splide__slide {
-			width: 100%;
+	.st-tabpanel {
+		&.st-is-hidden {
+			display: none;
 		}
 
 		.st-list-rows {
@@ -300,6 +319,8 @@
 
 
 
+
+
 	.st-info {
 		.st-title {
 			@include ft('', 18px, 700, $c_white, 1);
@@ -322,6 +343,7 @@
 
 		.st-title-medium {
 			margin-right: 15px;
+			letter-spacing: 0;
 		}
 
 		.st-btn {
@@ -345,7 +367,7 @@
 			}
 		}
 
-		.st-slider-thumb {
+		.st-slider-tablist {
 			&:before {
 				width: 20px;
 				left: -20px;
@@ -385,12 +407,14 @@
 					}
 				}
 			}
+
+
 		}
 
 		// Slider de contenu principal
 		// ==========================================================================
 
-		.st-slider-content {
+		.st-tabpanels {
 			margin-top: 10px;
 
 			.st-list-rows {

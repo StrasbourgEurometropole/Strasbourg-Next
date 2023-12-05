@@ -235,6 +235,7 @@
 		select {
 			@include reset-select;
 			font-weight: 600;
+			line-height: 1.2;
 			padding: 8px 0;
 		}
 
@@ -289,8 +290,6 @@
 		}
 
 		.st-btn {
-			flex-shrink: 0;
-
 			@include mobile {
 				flex-grow: 1;
 				padding-left: 20px;
@@ -322,6 +321,20 @@
 			@include min-mobile {
 				margin-left: auto;
 			}
+		}
+	}
+	
+	.st-overlay__heading {
+		display: flex;
+		flex-direction: column;
+
+		.st-surtitre-cat {
+			order: -1;
+			margin-top: initial;
+		}
+
+		.st-title-overlay {
+			margin-top: 2px;
 		}
 	}
 
@@ -744,12 +757,6 @@
 			width: 44px;
 			height: 44px;
 		}
-
-		@include min-tablet-portrait {
-			&:focus {
-				outline: 1px dashed $c_black !important;
-			}
-		}
 	}
 
 
@@ -823,10 +830,15 @@
 			flex-direction: column;
 		}
 
-		> span:first-child {
-			flex-shrink: 0;
-			padding: 6px 0;
+		fieldset {
 			margin-right: 10px;
+			flex-grow: 1;
+		}
+
+		legend {
+			float: left;
+			padding: 6px 0;
+			width: auto;
 			@include ft('', 14px, 600, $c_white, 1);
 
 			@include tablet-landscape {
@@ -844,7 +856,7 @@
 		margin-left: calc(var(--col-gap) * -1);
 		margin-top: calc(var(--row-gap) * -1);
 
-		> .st-btn-filter-search {
+		> * {
 			margin-left: var(--col-gap);
 			margin-top: var(--row-gap);
 		}

@@ -1,10 +1,12 @@
 // Fil d'ariane
 // ==========================================================================
 .st-page-wrapper .st-breadcrumbs {
-	display: flex;
-	align-items: center;
-	flex-wrap: wrap;
-	padding-top: 8px;
+	.st-breadcrumbs__list {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		padding-top: 8px;
+	}
 
 	.st-breadcrumbs__item {
 		position: relative;

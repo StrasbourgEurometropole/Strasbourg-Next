@@ -442,7 +442,7 @@ var th_maps = {
 
 
         if (el.getAttribute('data-callback')) {
-            eval(el.getAttribute('data-callback') + '(map,options,marker);');
+            //eval(el.getAttribute('data-callback') + '(map,options,marker);');
         }
 
         return map;
