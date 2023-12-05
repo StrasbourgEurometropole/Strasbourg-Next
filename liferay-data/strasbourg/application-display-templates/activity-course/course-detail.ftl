@@ -40,7 +40,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 </p>
             </div>
             <div class="st-show-more">
-                <button class="st-btn-show-more st-btn-arrow st--down" aria-expanded="false" aria-controls="123" aria-label="Voir tout le texte" data-open-label="Voir tout le texte" data-close-label="Réduire l'affichage du texte">
+                <button class="st-btn-show-more st-btn-arrow st--down"
+                        aria-expanded="false"
+                        data-open-label="<@liferay_ui.message key='eu.view-more' />" data-close-label="<@liferay_ui.message key='eu.view-less' />"><@liferay_ui.message key='eu.view-more' />
                 </button>
             </div>
         </div>
@@ -57,9 +59,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     ${entry.getPrice(locale)}
                 </div>
                 <div class="st-show-more">
-                    <button class="st-btn-show-more st-btn-arrow st--down" aria-expanded="false" aria-controls="123"
-                            aria-label="Voir tout le texte" data-open-label="Voir tout le texte"
-                            data-close-label="Réduire l'affichage du texte">
+                    <button class="st-btn-show-more st-btn-arrow st--down"
+                            aria-expanded="false"
+                            data-open-label="<@liferay_ui.message key='eu.view-more' />" data-close-label="<@liferay_ui.message key='eu.view-less' />"><@liferay_ui.message key='eu.view-more' />
                     </button>
                 </div>
             </div>
@@ -75,9 +77,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     ${entry.getArrangements(locale)}
                 </div>
                 <div class="st-show-more">
-                    <button class="st-btn-show-more st-btn-arrow st--down" aria-expanded="false" aria-controls="123"
-                            aria-label="Voir tout le texte" data-open-label="Voir tout le texte"
-                            data-close-label="Réduire l'affichage du texte">
+                    <button class="st-btn-show-more st-btn-arrow st--down"
+                            aria-expanded="false"
+                            data-open-label="<@liferay_ui.message key='eu.view-more' />" data-close-label="<@liferay_ui.message key='eu.view-less' />"><@liferay_ui.message key='eu.view-more' />
                     </button>
                 </div>
             </div>
@@ -106,9 +108,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     </ul>
                 </div>
                 <div class="st-show-more">
-                    <button class="st-btn-show-more st-btn-arrow st--down" aria-expanded="false" aria-controls="123"
-                            aria-label="Voir tout le texte" data-open-label="Voir tout le texte"
-                            data-close-label="Réduire l'affichage du texte">
+                    <button class="st-btn-show-more st-btn-arrow st--down"
+                            aria-expanded="false"
+                            data-open-label="<@liferay_ui.message key='eu.view-more' />" data-close-label="<@liferay_ui.message key='eu.view-less' />"><@liferay_ui.message key='eu.view-more' />
                     </button>
                 </div>
             </div>
@@ -126,9 +128,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     </a>
                 </div>
                 <div class="st-show-more">
-                    <button class="st-btn-show-more st-btn-arrow st--down" aria-expanded="false" aria-controls="123"
-                            aria-label="Voir tout le texte" data-open-label="Voir tout le texte"
-                            data-close-label="Réduire l'affichage du texte">
+                    <button class="st-btn-show-more st-btn-arrow st--down"
+                            aria-expanded="false"
+                            data-open-label="<@liferay_ui.message key='eu.view-more' />" data-close-label="<@liferay_ui.message key='eu.view-less' />"><@liferay_ui.message key='eu.view-more' />
                     </button>
                 </div>
             </div>
@@ -168,7 +170,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 </#list>
             </ul>
             <div class="st-show-more">
-                <button class="st-btn-show-more st-btn-arrow st--down" aria-expanded="false" aria-controls="123" aria-label="Voir tout le texte" data-open-label="Voir tout le texte" data-close-label="Réduire l'affichage du texte">
+                <button class="st-btn-show-more st-btn-arrow st--down"
+                        aria-expanded="false"
+                        data-open-label="<@liferay_ui.message key='eu.view-more' />" data-close-label="<@liferay_ui.message key='eu.view-less' />"><@liferay_ui.message key='eu.view-more' />
                 </button>
             </div>
         </div>

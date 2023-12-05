@@ -36,9 +36,9 @@
 
 <#macro showMore>
     <div class="st-show-more">
-        <button class="st-btn-show-more st-btn-arrow st--down" aria-expanded="false" aria-controls="123"
-                aria-label="<@liferay_ui.message key='eu.view-more' />" data-open-label="<@liferay_ui.message key='eu.view-more' />"
-                data-close-label="<@liferay_ui.message key='eu.view-less' />">
+        <button class="st-btn-show-more st-btn-arrow st--down"
+                aria-expanded="false"
+                data-open-label="<@liferay_ui.message key='eu.view-more' />" data-close-label="<@liferay_ui.message key='eu.view-less' />"><@liferay_ui.message key='eu.view-more' />
         </button>
     </div>
 </#macro>

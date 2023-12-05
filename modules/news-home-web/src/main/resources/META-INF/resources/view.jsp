@@ -98,9 +98,9 @@
         </div>
 
         <div class="st-show-more">
-            <button class="st-btn-show-more st-btn st--btn-secondary" aria-expanded="false"
-                    aria-label="Voir tout le contenu" data-open-label="Voir tout le contenu"
-                    data-close-label="Réduire l'affichage du contenu"><liferay-ui:message key="eu.news.more" />
+            <button class="st-btn-show-more st-btn-arrow st--down"
+                    aria-expanded="false"
+                    data-open-label="<liferay-ui:message key="eu.news.more" />" data-close-label="<liferay-ui:message key="eu.strasbourg.show-less" />"><liferay-ui:message key="eu.news.more" />
             </button>
         </div>
     </div>
