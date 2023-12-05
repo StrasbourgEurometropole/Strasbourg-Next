@@ -41,7 +41,8 @@ function createButtonFavorite(title, url, id, type, isFavorite = false) {
     data-title="${title}" 
     data-url="${url}" 
     data-id="${id}" 
-    data-type="${type}"> 
+    data-type="${type}"
+    aria-pressed="false"> 
     ${Liferay.Language.get('eu.add-to-favorite')}
     </button>`;
 }

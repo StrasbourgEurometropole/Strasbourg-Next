@@ -38,9 +38,6 @@
                 <div class="st-component-container">
                     <div class="st-card-container">
                         ${office.data}
-                        <button class="st-btn-favorite-card" data-addpanier="postID">
-                            Ajouter à mes favoris
-                        </button>
                     </div>
                 </div>
             </div>
