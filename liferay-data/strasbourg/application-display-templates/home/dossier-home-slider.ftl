@@ -13,6 +13,13 @@
         <div class="splide__track st-u-overflow-visible">
             <ul class="splide__list">
                 <#list entries as navigationEntry>
+                    <#assign assetEntryLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService") />
+                    <#assign layoutLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.LayoutLocalService") />
+                    <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
+
+                    <#assign curEntry = assetEntryLocalService.getEntry("com.liferay.portal.kernel.model.Layout", navigationEntry.getLayout().getPlid()) />
+
+                    <#assign newsTypes = assetVocabularyHelper.getAssetEntryCategoriesByVocabulary(curEntry, "type d'actualite") />
                     <li class="splide__slide">
                         <div class="st-card-container">
                             <a href="${navigationEntry.getRegularFullURL()}" class="st-card ">
@@ -21,7 +28,7 @@
                                         ${navigationEntry.getLayout().getName()}
                                     </p>
                                     <p class="st-surtitre-cat">
-                                        cate?
+                                        ${newsTypes?map(news -> news.getTitle(locale))?join(', ')}
                                     </p>
                                     <p class="st-text">
                                         ${navigationEntry.getLayout().getDescription()}

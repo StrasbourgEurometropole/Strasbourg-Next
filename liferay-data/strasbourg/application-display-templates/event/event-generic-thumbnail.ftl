@@ -14,6 +14,19 @@
 <li>
     <div class="st-card-container ${cssClass}">
         <div class="st-description st-hide">
+            <div class="st-bloc-infos-complementaires">
+                <div class="st-component-container mb-4 pb-3">
+                    <p class="st-title-small"><@liferay_ui.message key="eu.next-dates" /></p>
+                    <ul>
+                        <#list entry.currentAndFuturePeriods as period>
+                            <li>
+                                ${period.getDisplay(locale)}<#if period.getTimeDetail(locale)?has_content> : ${period.getTimeDetail(locale)}</#if>
+                            </li>
+                        </#list>
+                    </ul>
+                </div>
+            </div>
+
             ${entry.getDescription(locale)}
         </div>
         <a href="#" class="st-card st-card-agenda st--card-horizontal st--with-gradient" onclick="updateDescription(this)" data-overlay-open="st-overlay-preview-agenda" data-classpk="${entry.assetEntry.classPK}"
@@ -35,7 +48,17 @@
                     ${entry.getTypeLabel(locale)}
                 </p>
                 <p class="st-date">
-                    ${entry.getEventTimeFromDate(displayDate, locale)}
+                    <#if entry.firstStartDate?has_content && entry.lastEndDate?has_content>
+                        <#if entry.firstStartDate?date==entry.lastEndDate?date>
+                            <@liferay_ui.message key="eu.event.the" />
+                            ${entry.firstStartDate?date?string.short?replace('/', '.')}
+                        <#else>
+                            <@liferay_ui.message key="eu.event.from-date" />
+                            ${entry.firstStartDate?date?string.short?replace('/', '.')}
+                            <@liferay_ui.message key="eu.event.to" />
+                            ${entry.lastEndDate?date?string.short?replace('/', '.')}
+                        </#if>
+                    </#if>
                 </p>
                 <p class="st-location">
                     ${entry.getPlaceAlias(locale)} - ${entry.getPlaceCity(locale)}

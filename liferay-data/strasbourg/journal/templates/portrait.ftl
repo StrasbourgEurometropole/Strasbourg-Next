@@ -1,61 +1,74 @@
 <#setting locale = locale />
 
-<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
-<#assign request = serviceContext.getRequest()/>
-
-<#assign imageUrl = ""/>
-<!-- image -->
-<#if image.getData()?has_content>
-    <#assign imageUrl = themeDisplay.getPortalURL() + image.getData()?replace('@', "")?replace('cdn_hostroot_path', "") />
-</#if>
-
 <#-- Liste des infos a partager -->
 <#assign openGraph = {
 "og:title":"${title.getData()?html}",
-"og:description":'${chapo.getData()?replace("<[^>]*>", "", "r")?html}', 
-"og:image":"${imageUrl}"
+"og:description":'${chapo.getData()?replace("<[^>]*>", "", "r")?html}'
 } />
-<#-- partage de la configuration open graph dans la request -->
-${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)} 
 
-<main class="smag" style="padding-top: 105px !important;">
-    <div class="smag-container">
-        <div class="detail-line" style="justify-content: normal">
-            <div class="filler"></div>
-            <p class="seu-published">
-            <@liferay_ui.message key="eu.published-on" />
-            ${.vars['reserved-article-display-date'].getData()?date("EEE, dd MMM yyyy hh:mm:ss Z")?string["dd/MM/yyyy"]}  
-            - <@liferay_ui.message key="eu.modified-on" /> 
-            ${.vars['reserved-article-modified-date'].getData()?date("EEE, dd MMM yyyy hh:mm:ss Z")?string["dd/MM/yyyy"]} 
-            </p>
-        </div>
-        <h1 style="width: 100%">
-            ${title.getData()}
-        </h1>
-        <div class="hat">
-            <div>
-                ${chapo.getData()}
-            </div>
-        </div>
-        <div class="rte">
-            ${content.getData()}
-        </div>
-    </div>
-</main>
-<#if panoramique.getData()?has_content>
-    <style>
-        .bg-banner {
-            background-image: url(${panoramique.getData()}) !important;
-        }
-    </style>
-</#if>
-<style>
-.search-asset-portlet, .page-header {
-    display: none !important;
-}
-</style>
 
 <script>
     $('.bg-banner .banner__title').text("${title.getData()?js_string}");
     $('.bg-banner .banner__description').hide();
 </script>
+
+<#-- partage de la configuration open graph dans la request -->
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
+<header class="st-header-fiche-person" role="banner">
+    <div class="st-wrapper st-wrapper-small">
+        <div class="st-heading">
+            <div class="st-caption">
+                <h1 class="st-h1 st-title">
+                    ${title.getData()}
+                </h1>
+
+                <p class="st-surtitre-cat">
+                    <@liferay_ui.message key="eu.published-on" />
+                    ${.vars['reserved-article-display-date'].getData()?date("EEE, dd MMM yyyy hh:mm:ss Z")?string["dd/MM/yyyy"]}
+                    - <@liferay_ui.message key="eu.modified-on" />
+                    ${.vars['reserved-article-modified-date'].getData()?date("EEE, dd MMM yyyy hh:mm:ss Z")?string["dd/MM/yyyy"]}
+                </p>
+                <@liferay.breadcrumbs />
+            </div>
+            <div class="st-image">
+                <#if (image.getData())?? && image.getData() != "">
+                    <figure class="st-figure st-fit-cover" role="group" aria-label="${image.getAttribute("alt")}">
+                        <picture>
+                            <img alt="${image.getAttribute("alt")}" data-fileentryid="${image.getAttribute("fileEntryId")}" src="${image.getData()}" />
+                        </picture>
+                    </figure>
+                </#if>
+            </div>
+        </div>
+        <#if  panoramique.getData()?has_content>
+            <div class="st-img-wrapper" tabindex="0">
+                <figure class="st-figure st-fit-cover figcaption-only-credits" role="group" aria-label="">
+                    <picture>
+                        <img alt="Photo" src="${panoramique.getData()}">
+                    </picture>
+                </figure>
+            </div>
+        </#if>
+    </div>
+</header>
+
+<div class="st-content">
+    <div class="st-bloc st-wrapper st-text-styles st-wrapper-small st--has-margin">
+        <p class="st-surtitre">${chapo.getData()}</p>
+        ${content.getData()}
+    </div>
+</div>
+<style>
+    .search-asset-portlet, .portlet-body .component-title {
+        display: none !important;
+    }
+
+    .autofit-row.metadata-author {
+        display:none;
+    }
+
+    .lfr-tooltip-scope {
+        position: absolute;
+        right: 0;
+    }
+</style>

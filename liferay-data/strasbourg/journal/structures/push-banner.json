@@ -47,6 +47,16 @@
               {
                 "size": 12,
                 "fields": [
+                  "Select09552465"
+                ]
+              }
+            ]
+          },
+          {
+            "columns": [
+              {
+                "size": 12,
+                "fields": [
                   "Text19366221"
                 ]
               }
@@ -89,8 +99,8 @@
             },
             "requireConfirmation": false,
             "displayStyle": "singleline",
-            "fieldNamespace": "",
             "visibilityExpression": "",
+            "fieldNamespace": "",
             "ddmDataProviderInstanceOutput": [],
             "options": {
               "fr_FR": [
@@ -147,8 +157,8 @@
             },
             "requireConfirmation": false,
             "displayStyle": "singleline",
-            "fieldNamespace": "",
             "visibilityExpression": "",
+            "fieldNamespace": "",
             "ddmDataProviderInstanceOutput": [],
             "options": {
               "fr_FR": [
@@ -192,8 +202,8 @@
         },
         {
           "customProperties": {
-            "fieldNamespace": "",
             "visibilityExpression": "",
+            "fieldNamespace": "",
             "dataType": "image",
             "requiredDescription": true,
             "fieldReference": "PictoImage"
@@ -203,7 +213,7 @@
           "indexType": "text",
           "indexable": true,
           "label": {
-            "fr_FR": "Picto"
+            "fr_FR": "Image"
           },
           "localizable": true,
           "name": "Image47744874",
@@ -213,7 +223,76 @@
           "required": false,
           "showLabel": true,
           "tip": {
-            "fr_FR": ""
+            "fr_FR": "Image sera selectionné en prioité si un picto est selectionné"
+          }
+        },
+        {
+          "customProperties": {
+            "labelAtStructureLevel": true,
+            "ddmDataProviderInstanceId": [],
+            "dataType": "string",
+            "multiple": false,
+            "visibilityExpression": "",
+            "requiredErrorMessage": {
+              "fr_FR": ""
+            },
+            "fieldNamespace": "",
+            "objectFieldName": "",
+            "ddmDataProviderInstanceOutput": [],
+            "alphabeticalOrder": false,
+            "options": {
+              "fr_FR": [
+                {
+                  "reference": "st-icon-alarme",
+                  "label": "Gyrophare",
+                  "value": "Option04399774"
+                },
+                {
+                  "reference": "st-icon-trafic",
+                  "label": "Bouchon",
+                  "value": "Option50753361"
+                },
+                {
+                  "reference": "st-icon-soleil",
+                  "label": "Canicule",
+                  "value": "Option56380321"
+                },
+                {
+                  "reference": "st-icon-snowflake",
+                  "label": "Neige / Verglas",
+                  "value": "Option78918376"
+                },
+                {
+                  "reference": "st-icon-alerte",
+                  "label": "Vigipirate / Alerte attentat",
+                  "value": "Option94913461"
+                }
+              ]
+            },
+            "nativeField": false,
+            "fieldReference": "PictoIcon",
+            "dataSourceType": [
+              "manual"
+            ]
+          },
+          "defaultValue": {
+            "fr_FR": []
+          },
+          "fieldType": "select",
+          "indexType": "keyword",
+          "indexable": true,
+          "label": {
+            "fr_FR": "Picto"
+          },
+          "localizable": true,
+          "name": "Select09552465",
+          "nestedDataDefinitionFields": [],
+          "readOnly": false,
+          "repeatable": false,
+          "required": false,
+          "showLabel": true,
+          "tip": {
+            "fr_FR": "Image sera selectionné en prioité si un picto est selectionné"
           }
         },
         {
@@ -231,8 +310,8 @@
             },
             "requireConfirmation": false,
             "displayStyle": "multiline",
-            "fieldNamespace": "",
             "visibilityExpression": "",
+            "fieldNamespace": "",
             "ddmDataProviderInstanceOutput": [],
             "options": {
               "fr_FR": [
@@ -349,8 +428,8 @@
                 },
                 "requireConfirmation": false,
                 "displayStyle": "singleline",
-                "fieldNamespace": "",
                 "visibilityExpression": "",
+                "fieldNamespace": "",
                 "ddmDataProviderInstanceOutput": [],
                 "options": {
                   "fr_FR": [
@@ -407,8 +486,8 @@
                 },
                 "requireConfirmation": false,
                 "displayStyle": "singleline",
-                "fieldNamespace": "",
                 "visibilityExpression": "",
+                "fieldNamespace": "",
                 "ddmDataProviderInstanceOutput": [],
                 "options": {
                   "fr_FR": [
@@ -452,8 +531,8 @@
             },
             {
               "customProperties": {
-                "fieldNamespace": "",
                 "visibilityExpression": "",
+                "fieldNamespace": "",
                 "dataType": "link-to-page",
                 "fieldReference": "InternalLinkText"
               },
@@ -477,9 +556,9 @@
             },
             {
               "customProperties": {
+                "visibilityExpression": "",
                 "labelAtStructureLevel": true,
                 "fieldNamespace": "",
-                "visibilityExpression": "",
                 "dataType": "boolean",
                 "options": {},
                 "fieldReference": "GreenBackgroundCheckbox",

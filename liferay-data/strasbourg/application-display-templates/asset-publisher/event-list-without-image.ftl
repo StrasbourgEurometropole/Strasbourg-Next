@@ -12,7 +12,7 @@
             <#assign event=entry.getAssetRenderer().getEvent() />
             <li>
                 <div class="st-card-container">
-                    <a href="${homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}" class="st-card st-card-agenda st--card-horizontal st--with-gradient">
+                    <a href="${homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}" class="st-card st-card-agenda st--text-only st--card-horizontal st--with-gradient">
                         <div class="st-caption">
                             <p class="st-title-card">
                                 ${event.getTitle(locale)}
@@ -35,15 +35,6 @@
                                 ${event.getPlaceAlias(locale)}
                                 - ${event.getPlaceCity(locale)}
                             </p>
-                        </div>
-                        <div class="st-image">
-                            <#if event.getImageId() !=0>
-                                <@addImage fileEntryId=event.getImageId() isFigure=true />
-                            <#else>
-                                <figure class="st-figure st-fit-cover" role="group">
-                                    <img src="${event.getImageURL()}" />
-                                </figure>
-                            </#if>
                         </div>
                     </a>
                     <@isFavourite entryId=event.eventId entryType=2  entityGroupId=0 title=entry.getTitle(locale) url="${homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}" />

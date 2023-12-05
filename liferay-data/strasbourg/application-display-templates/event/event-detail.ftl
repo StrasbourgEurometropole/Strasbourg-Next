@@ -87,6 +87,27 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 </header>
 <div class="st-content">
     <div class="st-bloc st-bloc-sit-presentation st-wrapper st-wrapper-small st--has-margin">
+        <h2 class="st-h2 st-bloc-sit-title"><@liferay_ui.message key="eu.next-dates" /></h2>
+        <div class="st-component-container st-text-styles">
+            <div class="st-limit-height st--is-overflowing">
+                <ul>
+                    <#list entry.currentAndFuturePeriods as period>
+                        <li>
+                            ${period.getDisplay(locale)}<#if period.getTimeDetail(locale)?has_content> : ${period.getTimeDetail(locale)}</#if>
+                        </li>
+                    </#list>
+                </ul>
+
+            </div>
+            <div class="st-show-more">
+                <button class="st-btn-show-more st-btn-arrow st--down" aria-expanded="false"
+                        aria-controls="123" aria-label="Voir tout le texte" data-open-label="Voir tout le texte"
+                        data-close-label="Réduire l'affichage du texte">
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="st-bloc st-bloc-sit-presentation st-wrapper st-wrapper-small st--has-margin">
         <h2 class="st-h2 st-bloc-sit-title">Présentation</h2>
         <div class="st-component-container st-text-styles">
             <div class="st-limit-height">

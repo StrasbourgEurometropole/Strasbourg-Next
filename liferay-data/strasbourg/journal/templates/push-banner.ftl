@@ -8,8 +8,13 @@
                 <div class="st-col-left">
                     <div class="st-visual-container">
                         <#if (cur_PushFieldset.PictoImage.getData())?? && cur_PushFieldset.PictoImage.getData() !="">
-                            <@getImage imageNode=cur_PushFieldset.PictoImage showCopyright=true/>
+                            <@getImage imageNode=cur_PushFieldset.PictoImage />
+                        <#else>
+                            <#if (PushFieldset.PictoIcon.getData())?? && PushFieldset.PictoIcon.getData() != "">
+                                <span class="${PushFieldset.PictoIcon.getData()}" aria-hidden="true"></span>
+                            </#if>
                         </#if>
+
                     </div>
                     <div class="st-content">
                         <h2 class="st-h2">
@@ -22,7 +27,7 @@
                                 ${cur_PushFieldset.SubtitleText.getData()}
                             </#if>
                         </p>
-                        <p>
+                        <p class="st-desc">
                             <#if (cur_PushFieldset.DescriptionText.getData())??>
                                 ${cur_PushFieldset.DescriptionText.getData()}
                             </#if>
