@@ -1,20 +1,10 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Aide d'urgence</name>
-    <key>EMERGENCY</key>
     <structure>
+        <name>Aide d'urgence</name>
+        <key>93508904</key>
         <definition>emergency-help-structure.json</definition>
         <layout>emergency-help-layout.json</layout>
     </structure>
-    <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
-    </template>
 </root>
