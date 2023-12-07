@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Semaine du numérique</name>
+        <key>438601737</key>
+        <definition>snr-structure.json</definition>
+        <layout>snr-layout.json</layout>
+    </structure>
+</root>
