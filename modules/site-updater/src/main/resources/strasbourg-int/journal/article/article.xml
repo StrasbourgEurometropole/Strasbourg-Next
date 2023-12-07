@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
-
 <root>
-    <name>Article</name>
-    <key>ARTICLE</key>
     <structure>
-        <definition>article-structure.json</definition>
+        <key>4903738</key>
+        <name>Article</name>
+        <definition>article-definition.json</definition>
         <layout>article-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <key>5155282</key>
+        <name>Article</name>
+        <cacheable>true</cacheable>
+        <script>article.ftl</script>
     </template>
 </root>

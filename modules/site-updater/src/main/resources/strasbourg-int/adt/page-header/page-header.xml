@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.portal.kernel.model.LayoutSet</className>
+    <template>
+        <script>page-header.ftl</script>
+        <name>Titre et description</name>
+        <key>5775320</key>
+    </template>
+</root>

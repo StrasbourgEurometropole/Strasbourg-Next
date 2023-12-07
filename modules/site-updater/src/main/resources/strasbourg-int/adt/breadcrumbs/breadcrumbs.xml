@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.portal.kernel.servlet.taglib.ui.BreadcrumbEntry</className>
+    <template>
+        <script>breadcrumbs.ftl</script>
+        <name>Breadcrumbs</name>
+        <key>5100075</key>
+    </template>
+</root>

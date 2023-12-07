@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<root>
+    <structure>
+        <key>4903715</key>
+        <name>En 1 clic</name>
+        <definition>one-click-definition.json</definition>
+        <layout>one-click-layout.json</layout>
+    </structure>
+    <template>
+        <key>4903908</key>
+        <name>En 1 clic</name>
+        <script>one-click.ftl</script>
+    </template>
+</root>

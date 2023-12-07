@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
-
 <root>
-    <name>Bannière accueil</name>
-    <key>BANNER</key>
     <structure>
-        <definition>banner-structure.json</definition>
+        <key>4903711</key>
+        <name>Bannière accueil</name>
+        <definition>banner-definition.json</definition>
         <layout>banner-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
+        <key>4903881</key>
+        <name>Bannière accueil</name>
+        <script>banner.ftl</script>
     </template>
     <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <key>348218954</key>
+        <name>Menu recherche</name>
+        <cacheable>true</cacheable>
+        <script>search-menu.ftl</script>
     </template>
 </root>
