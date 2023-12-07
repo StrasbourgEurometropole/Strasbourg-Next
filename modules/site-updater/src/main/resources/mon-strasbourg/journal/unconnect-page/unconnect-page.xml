@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Page non connecté</name>
-    <key>UNCONNECT</key>
     <structure>
+        <name>Page non connecté</name>
+        <key>2154396</key>
         <definition>unconnect-page-structure.json</definition>
         <layout>unconnect-page-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Page non connecté</name>
+        <key>2154434</key>
+        <script>unconnect-page.ftl</script>
     </template>
 </root>

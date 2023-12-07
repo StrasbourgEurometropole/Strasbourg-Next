@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Bannière</name>
-    <key>BANNER</key>
     <structure>
+        <name>Bannière</name>
+        <key>6595874</key>
         <definition>banner-structure.json</definition>
         <layout>banner-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Bannière</name>
+        <key>6595883</key>
+        <script>banner.ftl</script>
     </template>
 </root>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<root>
+    <template>
+        <name>Footer</name>
+        <key>2154427</key>
+        <script>footer.ftl</script>
+    </template>
+</root>

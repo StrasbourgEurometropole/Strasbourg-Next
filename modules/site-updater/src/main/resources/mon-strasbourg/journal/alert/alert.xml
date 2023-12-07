@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Alerte</name>
-    <key>ALERT</key>
     <structure>
+        <name>Alerte</name>
+        <key>2154391</key>
         <definition>alert-structure.json</definition>
         <layout>alert-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Alerte</name>
+        <key>2154451</key>
+        <script>alert.ftl</script>
     </template>
 </root>

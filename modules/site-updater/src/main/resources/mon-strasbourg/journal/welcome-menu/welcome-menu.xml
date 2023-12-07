@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Welcome menu</name>
-    <key>WELCOME3</key>
     <structure>
+        <name>Welcome menu</name>
+        <key>6595778</key>
         <definition>welcome-menu-structure.json</definition>
         <layout>welcome-menu-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Welcome menu</name>
+        <key>6595789</key>
+        <script>welcome-menu.ftl</script>
     </template>
 </root>
