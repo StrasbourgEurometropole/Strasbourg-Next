@@ -1,4 +1,4 @@
-<header class="st-header-presse st-u-overflow-x-hidden" role="banner">
+<header class="st-header-presse st-u-overflow-x-hidden">
     <div class="st-wrapper">
 
 

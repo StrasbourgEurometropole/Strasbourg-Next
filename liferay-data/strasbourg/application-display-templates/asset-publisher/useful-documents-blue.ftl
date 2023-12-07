@@ -32,7 +32,6 @@
                             <p class="st-type">(${file.getExtension()} - ${fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale)})</p>
                             <p class="st-text"><@liferay_ui.message key="eu.download" /></p>
                         </div>
-                        <span class="st-sr-only"><@liferay_ui.message key="eu.download" /></span>
                     </a>
                 </li>
             </#list>

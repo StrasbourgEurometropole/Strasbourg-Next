@@ -51,7 +51,7 @@
 </div>
 <#-- partage de la configuration open graph dans la request -->
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
-<header class="st-header-fiche-actualite" role="banner">
+<header class="st-header-fiche-actualite">
     <div class="st-wrapper st-wrapper-small">
         <div class="st-heading">
             <p class="st-surtitre-cat">

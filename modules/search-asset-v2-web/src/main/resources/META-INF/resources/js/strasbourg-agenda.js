@@ -12,6 +12,7 @@ function updateDescription(clickedElement) {
 	var dateEvent = clickedElement.getAttribute("data-date")
 
 	var overlayDiv = document.getElementById('st-overlay-preview-agenda'); // Get the description-overlay element
+	overlayDiv.setAttribute("aria-label", title);
 	overlayDiv.querySelector(".st-title-overlay").textContent = title;
 	overlayDiv.querySelector(".st-surtitre-cat").textContent = category;
 	overlayDiv.querySelector(".st-date").textContent = dateEvent;
@@ -26,6 +27,7 @@ function updateDescription(clickedElement) {
 		elementFooter.querySelector(".st-btn-icon.st-btn-icon--white")?.remove()
 		elementFooter.insertAdjacentHTML("afterbegin", `<a href="${bookingURL}" class="st-btn-icon st-btn-icon--white" title="Biletterie">
                 <span class="st-icon-ticket" aria-hidden="true"></span>
+                <span class="st-sr-only">Billeterie</span>
             </a>`)
 	}
 

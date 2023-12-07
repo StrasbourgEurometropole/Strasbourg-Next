@@ -5,7 +5,7 @@
 <!-- Filtres -->
 <%@ include file="/search-association-search-form.jsp"  %>
 
-<header class="st-small-header st-wrapper st-wrapper-small" role="banner">
+<header class="st-small-header st-wrapper st-wrapper-small" >
 	<h1 class="st-h1">	<c:if test="${not empty dc.getPortletTitle('')}">
 		<h1 class="st-h1">${dc.getPortletTitle('')}</h1>
 	</c:if></h1>
@@ -67,44 +67,47 @@
 	</div>
 				<!-- Pagination -->
 				<c:if test="${dc.pager.lastPage > 1}">
-					<nav class="st-wrapper st-wrapper-small st-pagination" role="navigation">
-						<div class="st-container">
-							<a rel="prev" class="st-nav-links st-prev st-btn-arrow st--prev" data-action="prev" title="<liferay-ui:message key="go-to-previous-page" />"
-							   href="${dc.getURLForPage(dc.pager.currentPage - 1)}">
-           <span class="st-sr-only">
-                Précédent
-           </span>
-							</a>
+					<nav class="st-wrapper st-wrapper-small st-pagination" role="navigation" aria-label="Pagination">
+						<ul class="st-pagination__list">
+							<li class="st-pagination__item st--prev">
+								<a rel="prev" class="st-btn-arrow st--prev" aria-disabled="${dc.pager.currentPage == 0 ? 'true' : 'false'}">
+									<span class="st-sr-only"><liferay-ui:message key="eu.previous" /></span>
+								</a>
+							</li>
+
 
 							<!-- Note pour le cablage changer dynamiquement les numéros de page dans les aria-label. Aussi, l'aria-label pour l'élément actif doit être différent par rapport aux autres -->
-							<div class="st-pagination-number">
 								<c:forEach var="page" items="${dc.pager.pages}">
 									<c:choose>
 										<c:when test="${page.isALink() and not (page.index eq dc.pager.currentPage)}">
 											<!-- Lien vers page -->
-											<a data-page="${page.index}" href="${dc.getURLForPage(page.index)}" class="st-pagination-link" role="button" aria-label="Aller à ${page.label}"
-											   aria-current="false">${page.label}</a>
+											<li class="st-pagination__item">
+												<a href="${dc.getURLForPage(page.index)}" class="st-pagination__link" aria-label="Page ${page.label}" aria-current="false">${page.label}</a>
+											</li>
+
 										</c:when>
 										<c:when test="${page.isALink() and (page.index eq dc.pager.currentPage)}">
 											<!-- Page en cours -->
-											<a href="#" class="st-pagination-link active" role="button" aria-label="Page courante ${page.label}"
-											   aria-current="true">${page.label}</a>
+											<li class="st-pagination__item">
+												<a href="#" class="st-pagination__link st-is-active" aria-label="Page ${page.label}" aria-current="true">${page.label}</a>
+											</li>
 										</c:when>
 										<c:otherwise>
 											<!-- Texte -->
-											<span class="st-dots">...</span>
+											<li class="st-pagination__item">
+												<span class="st-pagination__dots">...</span>
+											</li>
+
 										</c:otherwise>
 									</c:choose>
 								</c:forEach>
-							</div>
+							<li class="st-pagination__item st--next">
+								<a href="${dc.getURLForPage(dc.pager.currentPage + 1)}" rel="next" class="st-btn-arrow st--next" aria-disabled="${dc.pager.currentPage == dc.pager.lastPage ? 'true' : 'false'}">
+									<span class="st-sr-only"><liferay-ui:message key="eu.next" /></span>
+								</a>
+							</li>
 
-							<a rel="next" class="st-nav-links st-next st-btn-arrow st--next" title="<liferay-ui:message key="go-to-next-page" />"
-							   data-action="next" href="${dc.getURLForPage(dc.pager.currentPage + 1)}">
-              <span class="st-sr-only">
-                Suivant
-              </span>
-							</a>
-						</div>
+						</ul>
 					</nav>
 				</c:if>
 

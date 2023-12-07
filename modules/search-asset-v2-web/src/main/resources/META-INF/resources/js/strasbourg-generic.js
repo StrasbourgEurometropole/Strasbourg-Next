@@ -9,6 +9,7 @@ function updateModalOfficial(clickedElement) {
 	var imageURL = clickedElement.querySelector('.st-image img')?.src
 
 	var overlayDiv = document.getElementById('st-overlay-preview-person'); // Get the description-overlay element
+	overlayDiv.setAttribute("aria-label", fullName);
 	overlayDiv.querySelector(".st-title-overlay").textContent = fullName;
 	overlayDiv.querySelector(".st-surtitre-cat").textContent = roleEMS;
 	overlayDiv.querySelector(".st-role").textContent = roleCity;

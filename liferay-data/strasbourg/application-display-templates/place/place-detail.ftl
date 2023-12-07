@@ -113,10 +113,8 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 </div>
 
 
-<div class="st-page-fiche-lieu"=>
-<header
-        class="st-header-fiche-lieu"
-        role="banner">
+<div class="st-page-fiche-lieu">
+<header class="st-header-fiche-lieu">
     <div class="st-wrapper st-wrapper-small">
         <h1 class="st-h1 st-hide-until@t-portrait">${entry.getAlias(locale)}</h1>
         <@liferay.breadcrumbs />
@@ -175,7 +173,12 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
             <div class="st-image">
                 <@addImage fileEntryId=entry.imageId showCopyright=true />
             </div>
-            <div class="st-maps" data-lat="${ entry.getMercatorY() }" data-lng="${ entry.getMercatorX() }" data-zoom="17">
+            <div class="st-wrapper-maps">
+                <a href="#skip-map-cover" class="st-btn st--btn-xs st-skip-map st-sr-only st-sr-only-focusable">Passer la carte interactive</a>
+                <div class="st-maps" role="region" aria-label="Carte interactive" data-lat="${ entry.getMercatorY() }" data-lng="${ entry.getMercatorX() }" data-zoom="17" data-callback="initMap">
+                </div>
+                <div id="skip-map-cover"></div>
+            </div>
 
             </div>
         </div>
@@ -756,12 +759,13 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
             <h2 class="st-h2 st-bloc-sit-title"><@liferay_ui.message key="eu.place.medias" /></h2>
             <div class="st-component-container">
                 <ul class="st-liste st-limit-height">
+
                     <#list entry.documentURLs as fileURL>
                         <#if fileURL?has_content>
                             <#assign file = fileEntryHelper.getFileEntryByRelativeURL(fileURL) />
                             <#assign title = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
                             <#assign size = fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale) />
-                            <li class="st-lien-container">
+                         <li class="st-lien-container">
                                 <a href="${fileURL}" class="st-lien" download>
                                     <p class="st-title-lien">${title}</p>
                                     <div class="st-lien-content">
@@ -769,9 +773,8 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                         <p class="st-text"><@liferay_ui.message key="eu.download" /></p>
 
                                     </div>
-                                    <span class="st-sr-only"><@liferay_ui.message key="eu.download" /></span>
                                 </a>
-                            </li>
+                         </li>
                         </#if>
                     </#list>
                 </ul>

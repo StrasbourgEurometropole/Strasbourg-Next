@@ -26,7 +26,7 @@
 } />
 <#-- partage de la configuration open graph dans la request -->
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
-<header class="st-header-fiche-person" role="banner">
+<header class="st-header-fiche-person">
     <div class="st-wrapper st-wrapper-small">
         <div class="st-heading">
             <div class="st-caption">

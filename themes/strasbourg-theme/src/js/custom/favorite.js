@@ -15,8 +15,10 @@ function toggleFavorite(element) {
             favoriteToAdd,
             function(obj) {
                 if (obj.hasOwnProperty('success')) {
-// remove class st-is-favorite
+                    // remove class st-is-favorite
                     element.classList.remove('st-is-favorite');
+                    //set aria-preesed to false
+                    element.setAttribute("aria-pressed", "false");
                 } else if (obj.hasOwnProperty('error')) {
                     if (obj['error'] == 'notConnected') {
                         createConfirmationDialog(Liferay.Language.get('log-in-to-add-favorite'), "", Liferay.Language.get('eu.login'), Liferay.Language.get('eu.cancel'), function() {
@@ -37,6 +39,8 @@ function toggleFavorite(element) {
                 function(obj) {
                     if (obj.hasOwnProperty('success')) {
                         element.classList.add('st-is-favorite');
+                        //set aria-preesed to true
+                        element.setAttribute("aria-pressed", "true");
                     } else if (obj.hasOwnProperty('error')) {
                         if (obj['error'] == 'notConnected') {
                             createConfirmationDialog(Liferay.Language.get('log-in-to-add-favorite'), "", Liferay.Language.get('eu.login'), Liferay.Language.get('eu.cancel'), function() {

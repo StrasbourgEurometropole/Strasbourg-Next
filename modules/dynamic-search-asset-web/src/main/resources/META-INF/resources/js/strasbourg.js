@@ -275,10 +275,18 @@ function callSearchUrl(url, data, callback) {
             // Remove the "loading" class when the request is complete
             document.querySelector('.st-results .loading-small-animation').classList.add('st-hide');
             document.querySelector('#resultList .loading-animation')?.classList.remove('st-hide');
+
+            // update aria-busy to false
+            document.querySelector('.st-results').setAttribute("aria-busy", "false");
+            document.querySelector('#resultList').setAttribute("aria-busy", "false");
         } else {
             // Add the "loading" class when the request is loading
             document.querySelector('.st-results .loading-small-animation').classList.remove('st-hide');
             document.querySelector('#resultList .loading-animation')?.classList.remove('st-hide');
+
+            // update aria-busy to true
+            document.querySelector('.st-results').setAttribute("aria-busy", "true");
+            document.querySelector('#resultList').setAttribute("aria-busy", "true");
         }
     };
     xhr.open('POST', url, true);
@@ -347,8 +355,12 @@ function toggleStIsActive() {
     // Toggle the "st-is-active" class on the current element
     if (currentElement.classList.contains('st-is-active')) {
         currentElement.classList.remove('st-is-active');
+        // set aria-pressed to false
+        currentElement.setAttribute("aria-pressed", "false");
     } else {
         currentElement.classList.add('st-is-active');
+        // set aria-pressed to true
+        currentElement.setAttribute("aria-pressed", "true");
     }
 
     sendSearch();

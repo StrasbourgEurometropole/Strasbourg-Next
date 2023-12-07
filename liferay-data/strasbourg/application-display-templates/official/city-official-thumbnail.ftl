@@ -51,9 +51,9 @@
         <div class="st-hide st-description">
             <#if entry.fonctionCity?has_content>
                 <div class="st-container">
-                    <p class="st-title-small">
+                    <h3 class="st-title-small">
                         ${entry.getName(entry.fonctionCity, locale)}
-                    </p>
+                    </h3>
                     ${entry.getThematicDelegation(locale)}
                     <p class="st-note">
                         <@liferay_ui.message key="eu.official.political-group" /> : ${entry.getPoliticalGroupCity().getTitle(locale)}
@@ -62,14 +62,14 @@
             </#if>
             <#if entry.fonctionEurometropole?has_content>
                 <div class="st-container">
-                    <p class="st-title-small">
+                    <h3 class="st-title-small">
                         ${entry.getName(entry.fonctionEurometropole, locale)}
                         <#if entry.fonctionTown?has_content>,
                             ${entry.getName(entry.fonctionTown, locale)}
                             <@liferay_ui.message key="eu.official.of-the-city-of" />
                             ${entry.getTown().getTitle(locale)}
                         </#if>
-                    </p>
+                    </h3>
                     ${entry.getMissions(locale)}
                     <p class="st-note">
                         <@liferay_ui.message key="eu.official.political-group" /> : ${entry.getPoliticalGroupEurometropole().getTitle(locale)}

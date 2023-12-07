@@ -77,7 +77,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         </div>
     </div>
 </div>
-<header class="st-header-fiche-association" role="banner">
+<header class="st-header-fiche-association">
     <div class="st-wrapper st-wrapper-small">
         <div class="st-heading st-hide-until@t-portrait">
             <h1 class="st-h1 st-title">

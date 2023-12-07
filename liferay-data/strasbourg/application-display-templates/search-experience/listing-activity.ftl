@@ -73,51 +73,63 @@
 <#assign totalPages=(totalResults + pageSize - 1) / pageSize />
 
 <#if totalPages gte 1>
-    <nav class="st-wrapper st-wrapper-small st-pagination" role="navigation">
-        <div class="st-container">
+    <nav class="st-wrapper st-wrapper-small st-pagination" role="navigation" aria-label="Pagination">
+        <ul class="st-pagination__list">
             <#if currentPage !=1>
-                <a href="?${searchContainer.deltaParam}=${searchContainer.delta}&${searchContainer.curParam}=${currentPage - 1}"
-                   rel="prev" class="st-btn-arrow st--prev" aria-disabled="false">
-                    <span class="st-sr-only">Précédent</span>
-                </a>
+                <li class="st-pagination__item st--prev">
+                    <a rel="prev" class="st-btn-arrow st--prev" aria-disabled="false" href="?${searchContainer.deltaParam}=${searchContainer.delta}&${searchContainer.curParam}=${currentPage - 1}">
+                        <span class="st-sr-only">Précédent</span>
+                    </a>
+                </li>
+
             <#else>
-                <a rel="prev" class="st-btn-arrow st--prev" aria-disabled="true">
-                    <span class="st-sr-only">Précédent</span>
-                </a>
+                <li class="st-pagination__item st--prev">
+                    <a rel="prev" class="st-btn-arrow st--prev" aria-disabled="true">
+                        <span class="st-sr-only">Précédent</span>
+                    </a>
+                </li>
+
             </#if>
 
-            <div class="st-pagination-number">
                 <#list 1..totalPages as page>
                     <#if (totalPages> 10) && (page < currentPage - 2 || page> currentPage + 2)>
                         <#if (page==1 && currentPage> 3)>
-                            <a href="?${searchContainer.deltaParam}=${searchContainer.delta}&${searchContainer.curParam}=${page}"
-                               class="st-pagination-link" aria-label="Aller à la page ${page}"
-                               aria-current="false">${page}</a>
-                            <span class="st-dots">...</span>
+                            <li class="st-pagination__item">
+                                <a href="?${searchContainer.deltaParam}=${searchContainer.delta}&${searchContainer.curParam}=${page}" class="st-pagination__link" aria-label="Page ${page}" aria-current="false">${page}</a>
+                            </li>
+                            <li class="st-pagination__item">
+                                <span class="st-pagination__dots">...</span>
+                            </li>
                         <#elseif (page==totalPages && currentPage < totalPages - 2)>
-                            <span class="st-dots">...</span>
-                            <a href="?${searchContainer.deltaParam}=${searchContainer.delta}&${searchContainer.curParam}=${page}"
-                               class="st-pagination-link" aria-label="Aller à la page ${page}"
-                               aria-current="false">${page}</a>
+                            <li class="st-pagination__item">
+                                <span class="st-pagination__dots">...</span>
+                            </li>
+
+                            <li class="st-pagination__item">
+                                <a href="?${searchContainer.deltaParam}=${searchContainer.delta}&${searchContainer.curParam}=${page}" class="st-pagination__link" aria-label="Page ${page}" aria-current="false">${page}</a>
+                            </li>
                         </#if>
                     <#else>
                         <#if page==currentPage>
-                            <span class="st-pagination-link st-is-active" aria-label="Page courante ${page}"
-                                  aria-current="true">${page}</span>
+                            <li class="st-pagination__item">
+                                <a href="#" class="st-pagination__link st-is-active" aria-label="Page ${page}" aria-current="true">${page}</a>
+                            </li>
+
                         <#else>
-                            <a href="?${searchContainer.deltaParam}=${searchContainer.delta}&${searchContainer.curParam}=${page}"
-                               class="st-pagination-link" aria-label="Aller à la page ${page}"
-                               aria-current="false">${page}</a>
+                            <li class="st-pagination__item">
+                                <a href="?${searchContainer.deltaParam}=${searchContainer.delta}&${searchContainer.curParam}=${page}" class="st-pagination__link" aria-label="Page ${page}" aria-current="false">${page}</a>
+                            </li>
                         </#if>
                     </#if>
                 </#list>
-            </div>
 
             <#if currentPage < totalPages>
-                <a href="?${searchContainer.deltaParam}=${searchContainer.delta}&${searchContainer.curParam}=${currentPage + 1}"
-                   rel="next" class="st-btn-arrow st--next">
-                    <span class="st-sr-only">Suivant</span>
-                </a>
+                <li class="st-pagination__item st--next">
+                    <a href="?${searchContainer.deltaParam}=${searchContainer.delta}&${searchContainer.curParam}=${currentPage + 1}" rel="next" class="st-btn-arrow st--next">
+                        <span class="st-sr-only">Suivant</span>
+                    </a>
+                </li>
+
             </#if>
         </div>
     </nav>

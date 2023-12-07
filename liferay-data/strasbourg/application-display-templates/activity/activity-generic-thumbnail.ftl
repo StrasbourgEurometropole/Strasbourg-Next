@@ -32,7 +32,7 @@
             </#if>
             <#list activityCourses as course>
                 <div class="st-container">
-                    <p class="st-title-small">${course.getName(locale)}</p>
+                    <h3 class="st-title-small">${course.getName(locale)}</h3>
                     <p class="st-surtitre-cat">${course.getTypesLabels(locale)}, ${course.getPublicsLabel(locale)}</p>
                     <#if course.getDuration()?has_content &&  course.getDuration() != 0>
                         <p class="st-surtitre-alt">durée moyenne du cours : ${course.getDuration()} mins</p>

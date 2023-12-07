@@ -12,14 +12,14 @@
     displayType="secondary"
     title="Overlay" />
 </#if>
-<div id="st-overlay-contact" class="st-overlay st-overlay-contact" role="dialog" aria-modal="true" tabindex="0" aria-label="Modale de contact">
-    <button class="st-btn-close" data-overlay-close="st-overlay-contact" aria-label="Fermer la modale"></button>
+<div id="st-overlay-contact" class="st-overlay st-overlay-contact" role="dialog" aria-modal="true" tabindex="0" aria-label="Formulaire de contact">
+    <button class="st-btn-close" data-overlay-close="st-overlay-contact" aria-label="Fermer"></button>
 
     <form  id="contactForm" action="${contactURL}#st-overlay-contact" name="contactForm" method="post" class="st-overlay__inner form-styles">
         <div class="st-overlay__body st-custom-scrollbar">
 
             <div class="st-overlay__heading">
-                <span class="st-title-overlay st-h2">${overlayContactTitle}</span>
+                <h2  class="st-title-overlay st-h2">${overlayContactTitle}</h2>
                 <span class="st-surtitre-cat"><@liferay_ui.message key="eu.contact" /></span>
             </div>
             <div class="st-grid-fields st-grid-12">
@@ -34,28 +34,28 @@
                     <p class="st-text-mandatory"><@liferay_ui.message key="eu.required-field-star" /></p>
 
                     <div class="st-group-field">
-                        <label for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_lastName"><@liferay_ui.message key="contact.lastname" /> <span class="st-field-required" aria-hidden="true">*</span></label>
-                        <input name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_lastName" id="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_lastName" aria-required="true" type="text" placeholder="<@liferay_ui.message key="contact.your-lastname" />" value="${renderRequest.getAttribute("lastName")!""}"/>
+                        <label for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_lastName"><@liferay_ui.message key="contact.lastname" /> <span class="st-field-required">*</span></label>
+                        <input name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_lastName" id="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_lastName" aria-required="true" type="text" autocomplete="family-name" placeholder="<@liferay_ui.message key="contact.your-lastname" />" value="${renderRequest.getAttribute("lastName")!""}"/>
                     </div>
 
                     <div class="st-group-field">
-                        <label for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_firstName"><@liferay_ui.message key="contact.firstname" /> <span class="st-field-required" aria-hidden="true">*</span></label>
-                        <input name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_firstName" id="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_firstName" aria-required="true" type="text" placeholder="<@liferay_ui.message key="contact.your-firstname" />" value="${renderRequest.getAttribute("firstName")!""}"/>
+                        <label for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_firstName"><@liferay_ui.message key="contact.firstname" /> <span class="st-field-required">*</span></label>
+                        <input name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_firstName" id="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_firstName" aria-required="true" type="text" autocomplete="given-name" placeholder="<@liferay_ui.message key="contact.your-firstname" />" value="${renderRequest.getAttribute("firstName")!""}"/>
                     </div>
 
                     <div class="st-group-field st--has-error">
-                        <label for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_email"><@liferay_ui.message key="contact.mail" /> <span class="st-field-required" aria-hidden="true">*</span></label>
-                        <input name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_email" id="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_email" aria-required="true" type="text" placeholder="<@liferay_ui.message key="contact.your-mail" />" value="${renderRequest.getAttribute("email")!""}"/>
+                        <label for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_email"><@liferay_ui.message key="contact.mail" /> <span class="st-field-required">*</span></label>
+                        <input name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_email" id="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_email" aria-required="true" type="text" autocomplete="email" placeholder="<@liferay_ui.message key="contact.your-mail" />" value="${renderRequest.getAttribute("email")!""}"/>
                     </div>
 
                     <div class="st-group-field">
-                        <label for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_message"><@liferay_ui.message key="contact.request" /> <span class="st-field-required" aria-hidden="true">*</span></label>
+                        <label for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_message"><@liferay_ui.message key="contact.request" /> <span class="st-field-required">*</span></label>
                         <textarea id="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_message" name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_message" rows="5" placeholder="<@liferay_ui.message key="contact.your-message" />">${renderRequest.getAttribute("message")!""}</textarea>
                     </div>
 
                     <div class="st-group-field">
                         <div class="st-group-radio">
-                            <label class="st-field-checkbox">
+                            <label for="checkbox-_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail"  class="st-field-checkbox">
                                 <input checked type="checkbox" name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" id="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" />
                                 <@liferay_ui.message key="eu.do-you-want-a-notification" />
                             </label>
@@ -68,7 +68,7 @@
 
 
                     <div class="st-text-mentions">
-                        <p class="st-title-mentions"> <@liferay_ui.message key="contact.mention" /></p>
+                        <h3 class="st-title-mentions"> <@liferay_ui.message key="contact.mention" /></h3>
 
                         <@liferay_ui.message key="contact.default-privacy" />
                     </div>

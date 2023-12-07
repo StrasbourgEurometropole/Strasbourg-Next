@@ -6,7 +6,7 @@
 <#else>
     <#assign homeURL="/" />
 </#if>
-<header class="st-small-header st-wrapper st-wrapper-small" role="banner">
+<header class="st-small-header st-wrapper st-wrapper-small">
     <h1 class="st-h1">
         ${layout.getName(locale)}
     </h1>

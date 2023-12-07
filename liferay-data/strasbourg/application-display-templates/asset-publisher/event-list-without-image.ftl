@@ -42,7 +42,7 @@
             </li>
         </#list>
     </ul>
-    <a href="${homeURL}agenda" class="st-btn st--btn-secondary st--btn-full-width-mobile st-btn-cta">
+    <a href="${homeURL}agenda" class="st-btn st--btn-secondary st--btn-full-width-mobile st-btn-cta"  aria-hidden="true" tabindex="-1">
         <@liferay_ui.message key="eu.all-events" />
     </a>
 </div>

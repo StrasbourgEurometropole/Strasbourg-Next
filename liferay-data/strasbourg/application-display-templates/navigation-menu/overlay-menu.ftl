@@ -4,7 +4,7 @@
     title="Overlay" />
 </#if>
 <div id="st-overlay-menu" class="st-overlay st-overlay-menu">
-    <button class="st-btn-close" data-overlay-close="st-overlay-menu" aria-label="Fermer le menu"></button>
+    <button class="st-btn-close" data-overlay-close="st-overlay-menu" aria-label="Fermer"></button>
     <div class="st-overlay__inner">
         <div class="st-overlay__body st-custom-scrollbar">
             <div class="st-nav-menu-mobile st-hide-from@mobile">
@@ -25,14 +25,14 @@
                 <div class="st-overlay__heading">
                     <#if nav_item.isBrowsable()>
                         <a href="${nav_item.getURL()}" ${nav_item.getTarget()} class="st-nav-menu__link" role="menuitem">
-                            <span class="st-title-overlay st-h2">
+                            <h2 class="st-title-overlay st-h2">
                                 ${nav_item.getName()}
-                            </span>
+                            </h2>
                         </a>
                     <#else>
-                        <span class="st-title-overlay st-h2">
+                        <h2 class="st-title-overlay st-h2">
                                 ${nav_item.getName()}
-                            </span>
+                            </h2>
                     </#if>
                 </div>
                 <#if nav_item.hasChildren()>

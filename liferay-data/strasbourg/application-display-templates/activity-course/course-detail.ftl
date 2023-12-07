@@ -12,7 +12,7 @@
 } />
 <#-- partage de la configuration open graph dans la request -->
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
-<header class="st-header-fiche-agenda" role="banner">
+<header class="st-header-fiche-agenda">
     <div class="st-wrapper st-wrapper-small">
         <p class="st-surtitre-cat st-hide-until@t-portrait">
             ${entry.getTypesLabels(locale)}
@@ -164,7 +164,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                     <@liferay_ui.message key="eu.download" />
                                 </p>
                             </div>
-                            <span class="st-sr-only">Télécharger le document </span>
                         </a>
                     </li>
                 </#list>

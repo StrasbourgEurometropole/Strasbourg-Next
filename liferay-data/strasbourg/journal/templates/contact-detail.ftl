@@ -1,6 +1,6 @@
 <!-- Détail contact -->
 <#setting locale=locale />
-<header class="st-header-fiche-service" role="banner">
+<header class="st-header-fiche-service">
     <div class="st-wrapper st-wrapper-small">
         <div class="st-heading">
             <h1 class="st-h1 st-title">
@@ -62,8 +62,8 @@
                     <@liferay_ui.message key="eu.website" />
                 </h2>
                 <div class="st-component-container">
-                    <ul class="st-liste st-limit-height">
-                        <li class="st-lien-container">
+                    <div class="st-liste st-limit-height">
+                        <div class="st-lien-container">
                             <a href="${websiteURL.data}" class="st-lien" title="${websiteName.data}
                     <@liferay_ui.message key=" eu.new-window" />" target="_blank">
                                 <p class="st-title-lien">
@@ -73,8 +73,8 @@
                                     <@liferay_ui.message key="eu.access-page" />
                                 </p>
                             </a>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
                     <div class="st-show-more">
                         <button class="st-btn-show-more st-btn-arrow st--down"
                                 aria-expanded="false"

@@ -1,6 +1,6 @@
 <%@ include file="/search-asset-init.jsp"%>
 <div id="st-overlay-preview-agenda" class="st-overlay st-overlay-preview-agenda" role="dialog" aria-modal="true" tabindex="0" aria-label="Modale de liste">
-    <button class="st-btn-close" data-overlay-close="st-overlay-preview-agenda" aria-label="Fermer la modale"></button>
+    <button class="st-btn-close" data-overlay-close="st-overlay-preview-agenda" aria-label="Fermer"></button>
 
     <div class="st-overlay__inner">
         <div class="st-overlay__body st-custom-scrollbar">
@@ -8,7 +8,7 @@
             <div class="st-overlay__heading">
                 <div class="st-overlay__heading-top">
                     <div class="st-caption">
-                        <span class="st-title-overlay st-h2"></span>
+                        <h2 class="st-title-overlay st-h2"></h2>
                         <span class="st-surtitre-cat"></span>
                     </div>
                     <div class="st-image">

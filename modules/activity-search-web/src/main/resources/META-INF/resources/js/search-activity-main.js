@@ -6,6 +6,8 @@ function updateModalActivity(clickedElement) {
 	var courseDiv = parentElement.querySelector('.cours-list')?.innerHTML
 
 	var overlayDiv = document.getElementById('st-overlay-preview-activite');
+	// set attributes
+	overlayDiv.setAttribute("aria-label", title);
 	overlayDiv.querySelector(".st-title-overlay").textContent = title;
 	overlayDiv.querySelector(".st-surtitre-cat").textContent = categories;
 	overlayDiv.querySelector(".st-overlay__content .st-intro p").textContent = description;

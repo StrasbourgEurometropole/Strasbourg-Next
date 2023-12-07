@@ -63,7 +63,6 @@
                     </#if>
                 </ul>
             </div>
-            <nav role="navigation">
                 <ul class="st-menu-footer">
                     <li>
                         <a href="${mediaLinkLabel.getChild('mediaLinkURL').getFriendlyUrl()}"
@@ -94,10 +93,9 @@
                         </a>
                     </li>
                 </ul>
-            </nav>
         </div>
     </div>
-    <nav class="st-container-mentions" role="navigation">
+    <div  class="st-container-mentions" role="navigation">
         <ul class="st-liens">
             <#if subfooterLinkLabel.getSiblings()?has_content>
                 <#list subfooterLinkLabel.getSiblings() as cur_subfooterLinkLabel>
@@ -126,5 +124,5 @@
                 </#list>
             </#if>
         </ul>
-    </nav>
+    </div >
 </footer>

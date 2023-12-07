@@ -16,7 +16,7 @@
         <div class="st-description st-hide">
             <div class="st-bloc-infos-complementaires">
                 <div class="st-component-container mb-4 pb-3">
-                    <p class="st-title-small"><@liferay_ui.message key="eu.next-dates" /></p>
+                    <h3 class="st-title-small"><@liferay_ui.message key="eu.next-dates" /></h3>
                     <ul>
                         <#list entry.currentAndFuturePeriods as period>
                             <li>

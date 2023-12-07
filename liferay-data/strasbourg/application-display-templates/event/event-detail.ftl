@@ -23,7 +23,7 @@
 <#-- partage de la configuration open graph dans la request -->
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 <@barreAgenda />
-<header class="st-header-fiche-agenda" role="banner" aria-label="Entête de la fiche agenda">
+<header class="st-header-fiche-agenda">
     <div class="st-wrapper st-wrapper-small">
         <p class="st-surtitre-cat st-hide-until@t-portrait">
             ${entry.getTypeLabel(locale)}
@@ -80,8 +80,11 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 </#if>
             </div>
         </#if>
-        <div class="st-maps" data-lat="${ entry.getMercatorY() }" data-lng="${ entry.getMercatorX() }" data-zoom="17" data-callback="initMap">
-
+        <div class="st-wrapper-maps">
+            <a href="#skip-map-cover" class="st-btn st--btn-xs st-skip-map st-sr-only st-sr-only-focusable">Passer la carte interactive</a>
+            <div class="st-maps" role="region" aria-label="Carte interactive" data-lat="${ entry.getMercatorY() }" data-lng="${ entry.getMercatorX() }" data-zoom="17" data-callback="initMap">
+            </div>
+            <div id="skip-map-cover"></div>
         </div>
     </div>
 </header>
@@ -152,9 +155,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <#if entry.free==1 || entry.getPrice(locale)?has_content>
                 <div class="st-component st-component-type-3">
                     <div class="st-component-container st-text-styles">
-                        <p class="st-title-small">
+                        <h3 class="st-title-small">
                             <@liferay_ui.message key="eu.prices" />
-                        </p>
+                        </h3>
                         <#if entry.free==1>
                             <div class="free-event">
                                 <@liferay_ui.message key="eu.free-event" />
@@ -167,9 +170,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <#if entry.registration>
                 <div class="st-component st-component-type-3">
                     <div class="st-component-container st-text-styles">
-                        <p class="st-title-small">
+                        <h3 class="st-title-small">
                             <@liferay_ui.message key="eu.registration" />
-                        </p>
+                        </h3>
                         <p>
                             <@liferay_ui.message key="eu.registration.from" />
                             ${entry.registrationStartDate?date?string.long?replace('.', '')}
@@ -184,9 +187,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <#if entry.bookingURL?has_content || entry.getBookingDescription(locale)?has_content>
                 <div class="st-component st-component-type-3">
                     <div class="st-component-container st-text-styles">
-                        <p class="st-title-small">
+                        <h3 class="st-title-small">
                             <@liferay_ui.message key="eu.ticket-office" />
-                        </p>
+                        </h3>
                         <#if entry.getBookingDescription(locale)?has_content>
                             <p>
                                 ${entry.getBookingDescription(locale)}
@@ -203,9 +206,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <#if entry.getWebsiteName(locale)?has_content && entry.getWebsiteURL(locale)?has_content>
                 <div class="st-component st-component-type-3">
                     <div class="st-component-container st-text-styles">
-                        <p class="st-title-small">
+                        <h3 class="st-title-small">
                             <@liferay_ui.message key="eu.see-also" />
-                        </p>
+                        </h3>
                         <a href="${entry.getWebsiteURL(locale)}"
                            target="_blank">
                             ${entry.getWebsiteName(locale)}
@@ -216,9 +219,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <#if entry.phone?has_content || entry.email?has_content>
                 <div class="st-component st-component-type-3">
                     <div class="st-component-container st-text-styles">
-                        <p class="st-title-small">
+                        <h3 class="st-title-small">
                             <@liferay_ui.message key="contact" />
-                        </p>
+                        </h3>
                         <ul class="st-liens">
                             <li class="st-lien-container">
                                 <#if entry.phone?has_content>
@@ -240,9 +243,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <#if entry.getAccess(locale)?has_content>
                 <div class="st-component st-component-type-3">
                     <div class="st-component-container st-text-styles">
-                        <p class="st-title-small">
+                        <h3 class="st-title-small">
                             <@liferay_ui.message key="eu.access" />
-                        </p>
+                        </h3>
                         ${entry.getAccess(locale)}
                     </div>
                 </div>
@@ -250,43 +253,42 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <#if entry.hasAnyAccessForDisabled() || entry.getAccessForDisabled(locale)?has_content>
                 <div class="st-component st-component-type-3">
                     <div class="st-component-container st-text-styles">
-                        <p class="st-title-small">
+                        <h3 class="st-title-small">
                             <@liferay_ui.message key="eu.access-for-disabled" />
-                        </p>
+                        </h3>
                         <ul class="st-liste-icons">
                             <#if entry.accessForWheelchair>
                                 <li>
-                                            <span class="st-icon-handicap" aria-hidden="true"
-                                                  aria-label="<@liferay_ui.message key='eu.access-for-wheelchair' />"
-                                                  title="<@liferay_ui.message key='eu.access-for-wheelchair' />"></span>
+                                    <span class="st-icon-handicap" aria-hidden="true" title="<@liferay_ui.message key='eu.access-for-wheelchair' />"></span>
+                                    <span class="st-sr-only"><@liferay_ui.message key='eu.access-for-wheelchair' /></span>
                                 </li>
                             </#if>
                             <#if entry.accessForDeaf>
                                 <li>
                                             <span class="st-icon-handicap" aria-hidden="true"
-                                                  aria-label="<@liferay_ui.message key='eu.access-for-deaf' />"
                                                   title="<@liferay_ui.message key='eu.access-for-deaf' />"></span>
+                                    <span class="st-sr-only"><@liferay_ui.message key='eu.access-for-deaf' /></span>
                                 </li>
                             </#if>
                             <#if entry.accessForBlind>
                                 <li>
                                             <span class="st-icon-handicap-vision" aria-hidden="true"
-                                                  aria-label="<@liferay_ui.message key='eu.access-for-blind' />"
                                                   title="<@liferay_ui.message key='eu.access-for-blind' />"></span>
+                                    <span class="st-sr-only"><@liferay_ui.message key='eu.access-for-blind' /></span>
                                 </li>
                             </#if>
                             <#if entry.accessForDeficient>
                                 <li>
                                             <span class="st-icon-handicap" aria-hidden="true"
-                                                  aria-label="<@liferay_ui.message key='eu.access-for-deficient' />"
                                                   title="<@liferay_ui.message key='eu.access-for-deficient' />"></span>
+                                    <span class="st-sr-only"><@liferay_ui.message key='eu.access-for-deficient' /></span>
                                 </li>
                             </#if>
                             <#if entry.accessForElder>
                                 <li>
                                             <span class="st-icon-personnes-agees" aria-hidden="true"
-                                                  aria-label="<@liferay_ui.message key='eu.access-for-elder' />"
                                                   title="<@liferay_ui.message key='eu.access-for-elder' />"></span>
+                                    <span class="st-sr-only"><@liferay_ui.message key='eu.access-for-elder' /></span>
                                 </li>
                             </#if>
                         </ul>
@@ -340,13 +342,13 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             <a href="tel:${entry.phone}" class="st-btn-icon st-btn-icon--white" target="_blank"
                                rel="noopener" title="Appeler le numéro : ${entry.phone}">
                                 <span class="st-icon-phone" aria-hidden="true"></span>
+                                <span class="st-sr-only">Appeler le numéro : ${entry.phone}</span>
                             </a>
                         </li>
                     </#if>
                     <#if entry.email?has_content>
                         <li>
-                            <button class="st-btn-icon st-btn-icon--white"
-                                    data-overlay-open="st-overlay-contact" aria-label="Nous contacter par mail">
+                            <button class="st-btn-icon st-btn-icon--white" data-overlay-open="st-overlay-contact" aria-label="Formulaire de contact" aria-haspopup="dialog">
                                 <span class="st-icon-email" aria-hidden="true"></span>
                             </button>
                         </li>
@@ -354,21 +356,23 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     <#if entry.getWebsiteName(locale)?has_content && entry.getWebsiteURL(locale)?has_content>
                         <li>
                             <a href="${entry.getWebsiteURL(locale)}" class="st-btn-icon st-btn-icon--white" target="_blank" rel="noopener"
-                               title="Ouvrir le lien (nouvelle fenêtre)">
+                               title="Site Web">
                                 <span class="st-icon-web" aria-hidden="true"></span>
+                                <span class="st-sr-only">Site web</span>
                             </a>
                         </li>
                     </#if>
                     <#if entry.bookingURL?has_content || entry.getBookingDescription(locale)?has_content>
                         <li>
                             <a href="${entry.bookingURL}" class="st-btn-icon st-btn-icon--white" target="_blank" rel="noopener"
-                               title="Ouvrir le lien (nouvelle fenêtre)">
+                               title="Billeterie">
                                 <span class="st-icon-ticket" aria-hidden="true"></span>
+                                <span class="st-sr-only">Billeterie</span>
                             </a>
                         </li>
                     </#if>
                 </ul>
-                <button class="st-btn-favorite-sticky">
+                <button class="st-btn-favorite-sticky" aria-pressed="false" >
                     <@liferay_ui.message key="eu.add-to-favorite" />
                 </button>
                 <div class="st-social-share">

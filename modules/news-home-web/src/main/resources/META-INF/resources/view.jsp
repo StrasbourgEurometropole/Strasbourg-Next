@@ -93,7 +93,7 @@
 
             <ul class="splide__pagination st-nav-dots"></ul>
 
-            <a href="#" class="st-btn st--btn-secondary st--btn-full-width-mobile st-btn-cta">
+            <a href="#" class="st-btn st--btn-secondary st--btn-full-width-mobile st-btn-cta"  aria-hidden="true" tabindex="-1">
                 <liferay-ui:message key="eu.news.all-news" /></a>
         </div>
 
