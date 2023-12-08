@@ -710,26 +710,22 @@
 // Overlay - Search
 // ==========================================================================
 .st-overlay-search {
-	top: 88px;
 	left: 0;
 	max-width: initial;
-	background-image: linear-gradient(to bottom, $c_greydark 42px, $c_main 42px);
 
-	// Réduction de la barre de nav
-	.st-is-scrolled & {
-		top: 58px;
+	@include min-tablet-portrait {
+		background-color: initial;
+		background-image: linear-gradient(to bottom, rgba($c_main, 0.8) 130px, $c_main 130px);		// simule le fond de la barre de nav
 
-		@include tablet-portrait {
-			top: 0;
+		.st-is-scrolled & {
+			background-image: linear-gradient(to bottom, rgba($c_main, 0.8) 100px, $c_main 58px);
 		}
 	}
 
+
 	@include tablet-portrait {
 		--padding-horizontal: 40px;
-		top: 0;
 		padding-top: 40px;
-		background-image: initial;
-		background-color: $c_main;
 	}
 
 	@include mobile {
@@ -738,16 +734,27 @@
 	}
 
 	.st-btn-close {
-		top: 25px;
 		left: initial;
 		transform: initial;
-		right: calc(100vw / 2 - 1120px / 2 + 200px);
+		right: calc(100vw / 2 - 1120px / 2 + 30px);
+
+		@include can-hover {
+			background-color: $c_pink;
+		}
+
+		@include min-tablet-portrait {
+			top: 113px;
+
+			.st-is-scrolled & {
+				top: 83px;
+			}
+		}
 
 		@include bp-down(1280px) {
-			right: 280px;
+			right: calc(80px + 30px);
 		}
 		@include tablet-landscape() {
-			right: 230px;
+			right: calc(40px + 30px);
 		}
 
 		@include tablet-portrait {
@@ -756,6 +763,16 @@
 			right: var(--padding-horizontal);
 			width: 44px;
 			height: 44px;
+		}
+	}
+
+	.st-overlay__inner {
+		@include min-tablet-portrait {
+			margin-top: 88px;
+
+			.st-is-scrolled & {
+				margin-top: 58px;
+			}
 		}
 	}
 
@@ -809,14 +826,6 @@
 
 		@include mobile {
 			font-size: 14px;
-		}
-	}
-
-	.st-btn-menu {
-		margin-left: 10px;
-
-		@include tablet-portrait {
-			display: none;
 		}
 	}
 

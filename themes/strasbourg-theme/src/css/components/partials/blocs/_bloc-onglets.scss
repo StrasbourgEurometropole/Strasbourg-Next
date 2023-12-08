@@ -216,12 +216,22 @@
 			background-position: bottom;
 			background-repeat: repeat-x;
 
+			@include min-tablet-small {
+				&:nth-last-child(-n + 2) {
+					background-image: initial;
+				}
+			}
+
 			@include tablet-small {
 				display: grid;
 				grid-template-columns: auto auto;
 				justify-content: space-between;
 				align-items: center;
 				column-gap: 20px;
+
+				&:nth-last-child(1) {
+					background-image: initial;
+				}
 			}
 
 			@include mobile {
@@ -380,7 +390,6 @@
 			}
 
 			.splide__slide {
-				padding: 25px 0;
 				margin-right: 20px;
 
 				.st-surtitre-cat {
@@ -389,6 +398,14 @@
 
 				.st-title {
 					font-size: 12px;
+				}
+			}
+
+			.st-slider-tablist__button {
+				padding: 30px 0 24px;
+
+				@include mobile {
+					padding: 30px 0 24px;
 				}
 			}
 
@@ -407,8 +424,6 @@
 					}
 				}
 			}
-
-
 		}
 
 		// Slider de contenu principal
@@ -426,7 +441,14 @@
 					column-gap: 20px;
 					font-size: 12px;
 					line-height: 1.33;
+
+					@include min-tablet-small {
+						&:nth-last-child(2) {
+							background-image: url("../images/deco/dotted-line.svg");
+						}
+					}
 				}
+				
 
 				.st-info {
 					flex-direction: column;

@@ -146,15 +146,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <div class="st-component-container">
             <ul class="st-liste st-limit-height">
                 <#list documents?keys as title>
-                    <a href="${documents[title]}" class="seu-btn-square seu-bordered seu-core" title="${title}">
-                                <span class="seu-flexbox">
-                                    <span class="seu-btn-text">
-                                        ${title}
-                                    </span>
-                                    <span class="seu-btn-arrow"></span>
-                                </span>
-                    </a><br />
-                    <li class="st-lien-container">
+                    <li class="st-lien-container" data-num="${title?index}">
                         <a href="${documents[title]}" class="st-lien" download="" title="${title}">
                             <p class="st-title-lien">
                                 ${title}

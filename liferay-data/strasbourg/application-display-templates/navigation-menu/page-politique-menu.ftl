@@ -59,7 +59,7 @@
                 </div>
 
                 <div class="st-wrapper st-bloc-politiques-publiques__inner st-js-slider-politiques-publiques splide st-component-container">
-                    <div class="st-limit-height st--is-overflowing">
+                    <div class="st-limit-height st-no-auto-rgaa">
                         <div class="splide__track st-u-overflow-visible">
                             <ul class="splide__list st-cards-wrapper">
                                 <#if institutionnellePage?size !=0>

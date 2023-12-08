@@ -19,7 +19,7 @@
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 
-<header class="st-header-edito" role="banner">
+<header class="st-header-edito">
     <div class="st-wrapper">
         <div class="st-wrapper-modifier">
             <h1 class="st-h1">${title.getData()}</h1>

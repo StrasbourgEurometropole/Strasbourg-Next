@@ -1,4 +1,10 @@
 .st-footer {
+	&.st--has-padding-bottom {
+		.st-container-mentions {
+			padding-bottom:  calc(var(--barre-height) + 20px);
+		}
+	}
+
 	.st-container {
 		--grid-gap: 40px;
 		display: grid;
@@ -161,7 +167,7 @@
 	}
 
 	.st-container-mentions {
-		padding: 14px 0 calc(var(--barre-height) + 20px) 0;
+		padding: 14px 0 20px 0;
 		background-color: $c_greydark;
 
 		@include tablet-portrait {

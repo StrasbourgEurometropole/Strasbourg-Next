@@ -17,7 +17,7 @@
 } />
 <#-- partage de la configuration open graph dans la request -->
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
-<header class="st-header-edito" role="banner">
+<header class="st-header-edito">
     <div class="st-wrapper">
         <h1 class="st-h1">
             ${entry.getTitle(locale)}

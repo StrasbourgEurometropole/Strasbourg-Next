@@ -93,7 +93,6 @@
                     // update du slider
                     this.currentTabId = this.tabs.indexOf(tab);
                     this.splide.go(this.currentTabId);
-                    console.log('\n ------', this.currentTabId);
                 } else {
                     tab.setAttribute('aria-selected', 'false');
                     tab.tabIndex = -1;
