@@ -21,10 +21,21 @@
     <#return value>
 </#function>
 
-<#macro addImage fileEntryId showLegende=false showCopyright=false isFigure=false>
+<#macro addImage fileEntryId showLegende=true showCopyright=true isFigure=true>
     <#if  fileEntryId?has_content && fileEntryId != 0>
-        <figure class="<#if isFigure>st-figure</#if> st-fit-cover" role="group">
+        <#local copyright = getCopyright(fileEntryId) />
+        <#local legend = getLegend(fileEntryId) />
+        <figure class="<#if isFigure>st-figure</#if> st-fit-cover" role="group" aria-label="${copyright} ${legend}">
          <@getImageByFileEntry fileEntryId=fileEntryId />
+            <figcaption>
+                    <#if legend?has_content>
+                        ${legend}
+                    </#if>
+                <#if copyright?has_content>
+                    <button type="button" class="st-credits st-js-credits" aria-expanded="false" aria-label="© (copyright de l'image)">©</button>
+                    <span class="st-credits-content">${copyright}</span>
+                </#if>
+            </figcaption>
         </figure>
         <#else>
             <figure class="<#if isFigure>st-figure</#if> st-fit-cover" role="group">
@@ -42,6 +53,22 @@
         </button>
     </div>
 </#macro>
+
+<#function getCopyright fileEntryId >
+    <#local fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
+    <#local copyright = fileEntryHelper.getImageCopyright(fileEntryId?number, locale) />
+    <#if copyright?has_content >
+        <#return "©  ${copyright}">
+    </#if>
+    <#return copyright>
+
+</#function>
+
+<#function getLegend fileEntryId >
+    <#local fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
+    <#local legend = fileEntryHelper.getImageLegend(fileEntryId?number, locale) />
+    <#return legend>
+</#function>
 
 <#function slugify inputString>
     <#local normalized = inputString?replace("\\s+", "-", "r")?replace("\\n", "-", "r")?lower_case>
@@ -69,22 +96,9 @@
 </#function>
 
 
-<#macro getImage imageNode showCopyright=false>
-    <#assign imageURL = imageNode.getData()>
+<#macro getImage imageNode>
     <#assign fileEntryId = imageNode.getAttribute("fileEntryId")>
-    <#assign copyright = imageNode.getAttribute("alt")>
-    <#assign legende = imageNode.getAttribute("alt")>
-
-    <#if showCopyright == true>
-        <span class="st-credits" aria-hidden="true">${copyright}</span>
-    </#if>
-    <figure class="st-figure st-fit-cover<#if !legende?has_content && copyright?has_content> figcaption-only-credits</#if>" role="group" aria-label="${legende} © ${copyright}">
-        <picture>
-            <img data-fileentryid="${fileEntryId}"
-                    alt="${legende}"
-                    src="${imageURL}">
-        </picture>
-    </figure>
+    <@addImage fileEntryId=fileEntryId />
 </#macro>
 
 <#macro getImageByFileEntry fileEntryId>
@@ -111,7 +125,23 @@
 <#macro isFavourite entryId entryType title="Item Favori" url="https://strasbourg.eu" entityGroupId="0" >
     <#assign favoriteLocalService = serviceLocator.findService("eu.strasbourg.service.favorite.service.FavoriteLocalService")>
     <#assign isFavouriteBool = favoriteLocalService.isFavorite(entryId, entryType, request.session.getAttribute("publik_internal_id"))>
-    <button class="st-btn-favorite-card <#if isFavouriteBool>st-is-favorite</#if>" data-groupId="${entityGroupId}" data-title="${title}" data-url="${url}" data-id="${entryId}" data-type="${entryType}" aria-pressed="false">
-        <@liferay_ui.message key='eu.add-to-favorite' />
+    <button class="st-btn-favorite-card <#if isFavouriteBool>st-is-favorite</#if>" data-groupId="${entityGroupId}" data-title="${title}" data-url="${url}" data-id="${entryId}" data-type="${entryType}" aria-pressed="<#if isFavouriteBool>true<#else>false</#if>">
+        <#if isFavouriteBool>
+                <@liferay_ui.message key='eu.remove-from-favorite' />
+            <#else>
+                <@liferay_ui.message key='eu.add-to-favorite' />
+        </#if>
+    </button>
+</#macro>
+
+<#macro isFavouriteSticky entryId entryType title="Item Favori" url="https://strasbourg.eu" entityGroupId="0" >
+    <#assign favoriteLocalService = serviceLocator.findService("eu.strasbourg.service.favorite.service.FavoriteLocalService")>
+    <#assign isFavouriteBool = favoriteLocalService.isFavorite(entryId, entryType, request.session.getAttribute("publik_internal_id"))>
+    <button class="st-btn-favorite-sticky <#if isFavouriteBool>st-is-favorite</#if>" data-groupId="${entityGroupId}" data-title="${title}" data-url="${url}" data-id="${entryId}" data-type="${entryType}" aria-pressed="<#if isFavouriteBool>true<#else>false</#if>">
+        <#if isFavouriteBool>
+            <@liferay_ui.message key='eu.remove-from-favorite' />
+        <#else>
+            <@liferay_ui.message key='eu.add-to-favorite' />
+        </#if>
     </button>
 </#macro>

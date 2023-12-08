@@ -1,5 +1,6 @@
 <!-- Détail association -->
 <#setting locale=locale />
+<#setting url_escaping_charset='ISO-8859-1'>
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL="/web${layout.group.friendlyURL}/" />
 <#else>
@@ -21,7 +22,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     </#if>
 </#list>
 <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
-<div class=""st-barre-single-sit" st--association">
+<div class="st-barre-single-sit st--association">
     <div class="st-barre-inner st-wrapper">
         <div class="st-container-left">
             <div class="st-content">
@@ -40,14 +41,15 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     <li>
                         <a href="tel:${entry.phone}" class="st-btn-icon st-btn-icon--white" target="_blank" rel="noopener" title="<@liferay_ui.message key=" phone" /> : ${entry.phone}">
                             <span class="st-icon-phone" aria-hidden="true"></span>
+                            <span class="st-sr-only"><@liferay_ui.message key=" phone" /> : ${entry.phone}</span>
                         </a>
                     </li>
                 </#if>
                 <#if entry.getSiteURL(locale)?has_content>
                     <li>
-                        <a href="${entry.getSiteURL(locale)}" class="st-btn-icon st-btn-icon--white" target="_blank" rel="noopener" title="<@liferay_ui.message key=" eu.website" /> (
-                                    <@liferay_ui.message key="eu.new-window" />)">
+                        <a href="${entry.getSiteURL(locale)}" class="st-btn-icon st-btn-icon--white" target="_blank" rel="noopener" title="Site web">
                             <span class="st-icon-web" aria-hidden="true"></span>
+                            <span class="st-sr-only">Site web</span>
                         </a>
                     </li>
                 </#if>
@@ -55,25 +57,20 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     <li>
                         <a class="st-btn-icon st-btn-icon--white" href="mailto:${entry.mail}" aria-label="Nous contacter par mail">
                             <span class="st-icon-email" aria-hidden="true"></span>
+                            <span class="st-sr-only">Nous contacter par mail</span>
                         </a>
                     </li>
                 </#if>
                 <#if entry.getFacebookURL(locale)?has_content>
                     <li>
-                        <a href="${entry.getFacebookURL(locale)}" class="st-btn-icon st-btn-icon--white" target="_blank" rel="noopener" title="<@liferay_ui.message key=" facebook" /> (
-                                    <@liferay_ui.message key="eu.new-window" />)">
+                        <a href="${entry.getFacebookURL(locale)}" class="st-btn-icon st-btn-icon--white" target="_blank" rel="noopener" title="<@liferay_ui.message key=" facebook" />">
                             <span class="st-icon-facebook" aria-hidden="true"></span>
+                            <span class="st-sr-only">Facebook</span>
                         </a>
                     </li>
                 </#if>
             </ul>
-            <div class="st-social-share">
-                <input class="st-toggle-input" id="toggle-input" type="checkbox">
-                <label for="toggle-input" class="st-toggle">
-                    <span class="st-icon-social-share"></span>
-                </label>
-                <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/network-list.ftl" />
-            </div>
+            <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/social-share.ftl" />
         </div>
     </div>
 </div>
@@ -103,8 +100,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     <div class="st-bloc st-bloc-sit-onglets st-wrapper st-wrapper-small st--has-margin">
         <h2 class="st-h2 st-bloc-sit-title">Pratiques proposées</h2>
         <div class="st-container">
-            <div class="st-slider-thumb st-js-slider-onglet splide" role="group"
-                 aria-label="Slider avec des informations sur les horaires de visite">
+            <div class="st-slider-tablist st-js-slider-tablist splide" role="tablist">
                 <div class="splide__track">
                     <ul class="splide__list">
                         <#assign uniqueDomaines=[]>
@@ -113,9 +109,10 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             <#if currentDomaine?is_string && !(uniqueDomaines?seq_contains(currentDomaine))>
                                 <#assign uniqueDomaines=uniqueDomaines + [currentDomaine]>
                                 <li class="splide__slide">
-                                    <p class="st-title">
-                                        ${currentDomaine}
-                                    </p>
+                                    <button class="st-slider-tablist__button" id="tab-button-${currentDomaine?url}" type="button" role="tab" aria-selected="true" aria-controls="tabpanel-${currentDomaine?url}">
+                                        <span class="st-title">${currentDomaine}</span>
+                                    </button>
+
                                 </li>
                             </#if>
                         </#list>
@@ -126,12 +123,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     <button class="splide__arrow splide__arrow--next st-btn-arrow st--next"></button>
                 </div>
             </div>
-            <div class="st-slider-content st-js-slider-onglet-content splide" role="group"
-                 aria-label="Contenu des slides">
-                <div class="splide__track">
-                    <ul class="splide__list">
+            <div class="st-tabpanels">
                         <@listGroups entry.practicesCategories; groupName, groupItems>
-                            <li class="splide__slide st-single-slide">
+                          <div class="st-tabpanel st-is-hidden" id="tabpanel-${groupName?url}" role="tabpanel" tabindex="0" aria-labelledby="tab-button-${groupName?url}">
                                 <ul class="st-list-rows st-basic-grid st-col-2@t-small">
                                     <#list groupItems as groupItem>
                                         <li class="st-item-row st--with-location">
@@ -158,11 +152,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                         </li>
                                     </#list>
                                 </ul>
-                            </li>
+                            </div>
                         </@listGroups>
-                    </ul>
-                </div>
-            </div>
+                    </div>
         </div>
     </div>
     <div class="st-bloc st-bloc-sit-focus st-wrapper ">

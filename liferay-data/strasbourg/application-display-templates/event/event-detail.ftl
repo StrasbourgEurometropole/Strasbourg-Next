@@ -52,7 +52,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         </#if>
                     </#if>
                 </p>
-                <p class="st-schedule">De 18h00 à 20h00 (WIP)</p>
                 <p class="st-location">
                     ${entry.getPlaceAlias(locale)}
                     <br>
@@ -74,8 +73,16 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <#if entry.getImageId() !=0>
                     <@addImage fileEntryId=entry.getImageId() isFigure=true />
                 <#else>
-                    <figure class="st-figure st-fit-cover" role="group">
-                        <img src="${entry.getImageURL()}" />
+                    <figure class="st-figure st-fit-cover" role="group" aria-label=" © ${entry.getExternalImageCopyright()}">
+                        <picture>
+                        <img src="${entry.getImageURL()}" alt="" />
+                        </picture>
+                        <figcaption>
+                            <#if entry.getExternalImageCopyright()?has_content &&  entry.getExternalImageCopyright() != "n/a">
+                                <button type="button" class="st-credits st-js-credits" aria-expanded="false" aria-label="© (copyright de l'image)">©</button>
+                                <span class="st-credits-content">© ${entry.getExternalImageCopyright()}</span>
+                            </#if>
+                        </figcaption>
                     </figure>
                 </#if>
             </div>
@@ -372,16 +379,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         </li>
                     </#if>
                 </ul>
-                <button class="st-btn-favorite-sticky" aria-pressed="false" >
-                    <@liferay_ui.message key="eu.add-to-favorite" />
-                </button>
-                <div class="st-social-share">
-                    <input class="st-toggle-input" id="toggle-input" type="checkbox">
-                    <label for="toggle-input" class="st-toggle">
-                        <span class="st-icon-social-share"></span>
-                    </label>
-                    <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/network-list.ftl" />
-                </div>
+                <@isFavouriteSticky entryId=entry.getEventId() entryType=2 title=entry.getTitle(locale) url=themeDisplay.getPortalURL() />
+                    <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/social-share.ftl" />
             </div>
         </div>
     </div>

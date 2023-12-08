@@ -104,8 +104,8 @@ sundayAfternoon.data?has_content>
         <h2 class="st-h2 st-bloc-sit-title">
             <@liferay_ui.message key="eu.times" />
         </h2>
-        <div class="st-container">
-            <ul class="st-list-rows st-basic-grid st-col-2@t-small st-slider-content">
+        <div class="st-container st-tabpanel">
+            <ul class="st-list-rows st-basic-grid st-col-2@t-small">
                 <#if mondayMorning.data?has_content || mondayAfternoon.data?has_content>
                     <li class="st-item-row">
                         <p class="st-title">

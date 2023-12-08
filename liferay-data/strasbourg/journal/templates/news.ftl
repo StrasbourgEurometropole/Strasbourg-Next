@@ -39,13 +39,7 @@
             </div>
         </div>
         <div class="st-container-right">
-            <div class="st-social-share">
-                <input class="st-toggle-input" id="toggle-input" type="checkbox">
-                <label for="toggle-input" class="st-toggle">
-                    <span class="st-icon-social-share"></span>
-                </label>
-                <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/network-list.ftl" />
-            </div>
+            <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/social-share.ftl" />
         </div>
     </div>
 </div>

@@ -184,28 +184,27 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <@liferay_ui.message key="eu.activity.places-and-schedules" />
         </h2>
         <div class="st-container">
-            <div class="st-slider-thumb st-js-slider-onglet splide splide--slide splide--ltr splide--draggable splide--nav is-active" role="group" aria-label="Slider avec des informations sur les horaires de visite" id="splide04" aria-roledescription="carousel">
-                <div class="splide__track splide__track--slide splide__track--ltr splide__track--draggable splide__track--nav" id="splide04-track" style="padding-left: 0px; padding-right: 0px;">
-                    <ul class="splide__list" id="splide04-list" role="presentation" style="transform: translateX(0px);">
+            <div class="st-slider-tablist st-js-slider-tablist splide" role="tablist">
+                <div class="splide__track">
+                    <ul class="splide__list">
                         <#list agenda.periods as period>
-                            <li class="splide__slide " id="splide04-slide01" role="button" aria-label="Go to slide 1" aria-controls="splide03-slide01" aria-current="true" tabindex="0">
-                                <p class="st-title">
-                                    ${period.periodName}
-                                </p>
+                            <li class="splide__slide">
+                                <button class="st-slider-tablist__button" id="tab-button-${period.periodId}" type="button" role="tab" aria-selected="true" aria-controls="tabpanel-${period.periodId}">
+                                    <span class="st-title">${period.periodName}</span>
+                                </button>
+
                             </li>
                         </#list>
                     </ul>
                 </div>
-                <div class="splide__arrows st-nav-arrows splide__arrows--ltr">
-                    <button class="splide__arrow splide__arrow--prev st-btn-arrow st--prev" disabled="" aria-label="Previous slide" aria-controls="splide04-track"></button>
-                    <button class="splide__arrow splide__arrow--next st-btn-arrow st--next" aria-label="Next slide" aria-controls="splide04-track"></button>
+                <div class="splide__arrows st-nav-arrows">
+                    <button class="splide__arrow splide__arrow--prev st-btn-arrow st--prev"></button>
+                    <button class="splide__arrow splide__arrow--next st-btn-arrow st--next"></button>
                 </div>
             </div>
-            <div class="st-slider-content st-js-slider-onglet-content splide splide--fade splide--ltr is-active is-overflow" role="group" aria-label="Contenu des slides" id="splide03" aria-roledescription="carousel">
-                <div class="splide__track splide__track--fade splide__track--ltr" id="splide03-track" style="padding-left: 0px; padding-right: 0px;" aria-live="polite" aria-atomic="true">
-                    <ul class="splide__list" id="splide03-list" role="presentation">
+            <div class="st-tabpanels">
                         <#list agenda.periods as period>
-                            <li class="splide__slide st-single-slide" id="splide03-slide01" role="group" aria-roledescription="slide" aria-label="1 of 5" style="transform: translateX(0%);">
+                            <div class="st-tabpanel" id="tabpanel-${period.periodId}" role="tabpanel" tabindex="0" aria-labelledby="tab-button-${period.periodId}">
                                 <#list period.places as periodPlace>
                                     <div class="st-detail-lien">
                                         <p class="st-title-medium">
@@ -246,12 +245,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                         </#list>
                                     </ul>
                                 </#list>
-                            </li>
+                            </div>
                         </#list>
-                    </ul>
-                </div>
             </div>
-        </div>
     </div>
 <#else>
     <div class="st-bloc st-bloc-sit-onglets st-wrapper st-wrapper-small st--has-margin">
@@ -259,7 +255,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <@liferay_ui.message key="eu.activity.places-and-schedules" />
         </h2>
         <div class="st-container">
-            <ul>
+            <div class="st-tabpanel">
                 <#list entry.getPlaceSIGIds(locale) as sigId>
                     <li class="st-detail-lien">
                         <p class="st-title-medium">
@@ -270,8 +266,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         </a>
                     </li>
                 </#list>
-            </ul>
-
+            </div>
         </div>
     </div>
 </#if>

@@ -74,11 +74,9 @@
                                 <#assign backgroundImage=currentPage.expandoBridge.getAttribute('image') />
                                 <div class="st-st-col-image">
                                     <div class="st-image">
-                                        <span class="st-credits" aria-hidden="true">© Abraham Lebowski</span>
-                                        <figure class="st-figure st-fit-cover figcaption-only-credits" role="group"
-                                                aria-label="Photo, © Abraham Lebowski">
+                                        <figure class="st-figure st-fit-cover" role="group">
                                             <picture>
-                                                <img alt="Photo" src="${backgroundImage}">
+                                                <img alt="" src="${backgroundImage}">
                                             </picture>
                                         </figure>
                                     </div>

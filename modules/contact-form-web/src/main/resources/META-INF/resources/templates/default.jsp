@@ -26,18 +26,17 @@
 			<div class="st-group-field st-col-6@t-small">
 				<label for="lastName"><liferay-ui:message key="contact.lastname" /> <span class="st-field-required"
 																						  aria-hidden="true">*</span></label>
-				<input type="text" id="lastName" name="lastName" value="${param.lastName}">
+				<input type="text" id="lastName" name="lastName" value="${param.lastName}" aria-required="true" autocomplete="family-name">
 			</div>
 
 			<div class="st-group-field st-col-6@t-small">
-				<label for="firstName"><liferay-ui:message key="contact.firstname" /></label>
-				<input type="text" id="firstName" name="firstName" value="${param.firstName}">
+				<label for="firstName"><liferay-ui:message key="contact.firstname" /> <span class="st-field-required">*</span></label>
+				<input type="text" id="firstName" name="firstName" value="${param.firstName}" aria-required="true" autocomplete="given-name">
 			</div>
 
 			<div class="st-group-field st-col-12@t-small">
-				<label for="emailFrom"><liferay-ui:message key="contact.mail" /> <span class="st-field-required"
-																					   aria-hidden="true">*</span></label>
-				<input type="text" id="emailFrom" name="emailFrom" value="${param.emailFrom}">
+				<label for="emailFrom"><liferay-ui:message key="contact.mail" /> <span class="st-field-required">*</span></label>
+				<input type="text" id="emailFrom" name="emailFrom" value="${param.emailFrom}" aria-required="true" autocomplete="email">
 			</div>
 
 			<div class="st-group-field">
@@ -48,8 +47,8 @@
 
 			<div class="st-group-field st-col-12@t-small">
 				<div class="st-group-radio">
-					<label class="st-field-checkbox">
-						<input type="checkbox" name="sendCopy" value="true" <c:if test="${param.sendCopy}">checked
+					<label class="st-field-checkbox" for="sendCopy" >
+						<input type="checkbox" name="sendCopy" id="sendCopy" value="true" <c:if test="${param.sendCopy}">checked
 						</c:if>>
 							<liferay-ui:message key="contact.receive-copy" />
 					</label>
@@ -78,7 +77,7 @@
 			</div>
 
 			<div class="st-text-mentions">
-				<p class="st-title-mentions">Mentions d’information</p>
+				<h3 class="st-title-mentions">Mentions d’information</h3>
 
 				${privacyText}
 			</div>

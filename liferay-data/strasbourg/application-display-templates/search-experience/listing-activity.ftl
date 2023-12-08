@@ -139,7 +139,7 @@
 <div id="st-overlay-preview-activite" class="st-overlay st-overlay-preview-activite " role="dialog" aria-modal="true"
      tabindex="0" aria-label="Modale de liste">
     <button class="st-btn-close" data-overlay-close="st-overlay-preview-activite"
-            aria-label="Fermer la modale"></button>
+            aria-label="Fermer"></button>
 
     <div class="st-overlay__inner">
         <div class="st-overlay__body st-custom-scrollbar">

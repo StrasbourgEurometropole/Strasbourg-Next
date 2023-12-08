@@ -53,10 +53,11 @@
                     <#if socialNetwork.getSiblings()?has_content>
                         <#list socialNetwork.getSiblings() as cur_socialNetwork>
                             <li>
-                                <a href="${cur_socialNetwork.getChild('socialNetworkURL').getData()}" target="_blank" class="st-btn-icon"
-                                   title="${cur_socialNetwork.getData()} (<@liferay_ui.message key=" eu.new-window" />)">
+                                <a href="${cur_socialNetwork.getChild('socialNetworkURL').getData()}" rel="noopener" target="_blank" class="st-btn-icon"
+                                   title="${cur_socialNetwork.getData()}">
                 <span class="st-icon-${cur_socialNetwork.getChild('classePicto').getData()}"
                       aria-hidden="true"></span>
+                                    <span class="st-sr-only">${cur_socialNetwork.getData()}</span>
                                 </a>
                             </li>
                         </#list>

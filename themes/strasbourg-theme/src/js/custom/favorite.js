@@ -18,7 +18,8 @@ function toggleFavorite(element) {
                     // remove class st-is-favorite
                     element.classList.remove('st-is-favorite');
                     //set aria-preesed to false
-                    element.setAttribute("aria-pressed", "false");
+                    element.ariaPressed = false;
+                    element.textContent = Liferay.Language.get("eu.add-to-favorite");
                 } else if (obj.hasOwnProperty('error')) {
                     if (obj['error'] == 'notConnected') {
                         createConfirmationDialog(Liferay.Language.get('log-in-to-add-favorite'), "", Liferay.Language.get('eu.login'), Liferay.Language.get('eu.cancel'), function() {
@@ -40,7 +41,8 @@ function toggleFavorite(element) {
                     if (obj.hasOwnProperty('success')) {
                         element.classList.add('st-is-favorite');
                         //set aria-preesed to true
-                        element.setAttribute("aria-pressed", "true");
+                        element.ariaPressed = true;
+                        element.textContent = Liferay.Language.get('eu.remove-from-favorite');
                     } else if (obj.hasOwnProperty('error')) {
                         if (obj['error'] == 'notConnected') {
                             createConfirmationDialog(Liferay.Language.get('log-in-to-add-favorite'), "", Liferay.Language.get('eu.login'), Liferay.Language.get('eu.cancel'), function() {
@@ -64,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function addClickEventToFavoriteButtons() {
-    document.querySelectorAll("button.st-btn-favorite-card").forEach(function(element) {
+    document.querySelectorAll("button.st-btn-favorite-card, button.st-btn-favorite-sticky").forEach(function(element) {
         element.addEventListener("click", function(e) {
             // prevent default behavior
             e.preventDefault();

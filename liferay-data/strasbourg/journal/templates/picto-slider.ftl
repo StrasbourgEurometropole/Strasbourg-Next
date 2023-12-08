@@ -18,7 +18,7 @@
                                         <#if (cur_GalaxiesFieldset.ImagePicto.getData())?? && cur_GalaxiesFieldset.ImagePicto.getData() !="">
                                             <@getImage imageNode=cur_GalaxiesFieldset.ImagePicto />
                                         </#if>
-                                        <span class="st-tooltip-logo">
+                                        <span class="st-tooltip-logo" aria-hidden="true">
                       <#if (cur_GalaxiesFieldset.NomText.getData())??>
                           ${cur_GalaxiesFieldset.NomText.getData()}
                       </#if>
