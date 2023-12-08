@@ -26,42 +26,39 @@
             <a href="${urlDeclareLost}" class="st-btn st--btn-small-padding st--btn-secondary-ghost"><liferay-ui:message key="objtp.url.declare-lost" /></a>
             <a href="${urlGuideHowTo}" class="st-btn st--btn-small-padding"><liferay-ui:message key="objtp.url.how-to" /></a>
 
-            <div class="st-social-share">
-                <input class="st-toggle-input" id="toggle-input" type="checkbox">
-                <label for="toggle-input" class="st-toggle">
+            <div class="st-social-share st-js-social-share">
+                <button class="st-social-share__toggle" aria-expanded="false">
                     <span class="st-icon-social-share"></span>
-                </label>
+                    <span class="st-sr-only">Partager</span>
+                </button>
 
-                <ul class="st-network-list">
+                <ul class="st-social-share__list">
                     <li>
-                        <a href="#facebook" id="sharefacebook" target="_blank" aria-label="Partagez sur Facebook"
-                           class="st-btn-icon st-btn-icon--small st-ga-event-facebook"
-                           title="Lien de partage sur Facebook">
+                        <a id="sharefacebook" href="#facebook" class="st-btn-icon st-btn-icon--small" target="_blank" rel="noopener" title="Facebook">
                             <span class="st-icon-facebook" aria-hidden="true"></span>
+                            <span class="st-sr-only">Facebook</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#twitter" id="sharetwitter"  target="_blank" aria-label="Partagez sur Twitter"
-                           class="st-btn-icon st-btn-icon--small st-ga-event-twitter"
-                           title="Lien de partage sur Twitter">
+                        <a href="#twitter" id="sharetwitter" class="st-btn-icon st-btn-icon--small" target="_blank" rel="noopener" title="Twitter">
                             <span class="st-icon-twitter" aria-hidden="true"></span>
+                            <span class="st-sr-only">Twitter</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#linkedin" id="ShareLinkedIn" target="_blank" aria-label="Partagez sur LinkedIn"
-                           class="st-btn-icon st-btn-icon--small st-ga-event-linkedin"
-                           title="Lien de partage sur LinkedIn">
+                        <a href="#linkedin" id="ShareLinkedIn" class="st-btn-icon st-btn-icon--small" target="_blank" rel="noopener" title="LinkedIn">
                             <span class="st-icon-linkedin" aria-hidden="true"></span>
+                            <span class="st-sr-only">LinkedIn</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#Mail" id="ShareMail"  target="_blank" aria-label="Partagez par Email"
-                           class="st-btn-icon st-btn-icon--small st-ga-event-mail"
-                           title="Lien de partage par Email">
+                        <a href="#Mail" id="ShareMail"  class="st-btn-icon st-btn-icon--small" target="_blank" rel="noopener" title="Email">
                             <span class="st-icon-email" aria-hidden="true"></span>
+                            <span class="st-sr-only">Email</span>
                         </a>
                     </li>
                 </ul>
-            </div>        </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -1,29 +1,25 @@
 <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
 
-<div class="st-ancres st-wrapper">
-    <div class="st-ancres-container">
-        <div class="st-js-slider-ancres splide splide--slide splide--ttb splide--draggable is-active is-overflow"
-             aria-label="Slider avec une liste de liens rapides pour accéder plus facilement aux différents section de la page">
-            <div class="splide__track">
-                <ul class="splide__list">
+<div class="st-ancres st-wrapper st-js-ancres">
+    <nav class="st-ancres__container" role="navigation" aria-label="sommaire">
+
+        <ul class="st-ancres__list st-custom-scrollbar">
                     <#if entries?has_content>
                         <#list entries as navigationEntry>
-                            <li class="splide__slide st-single-ancre">
-                                <a href="#ancre-${navigationEntry.hashCode()}" class="st-menu-ancre is-active">
+                            <li class="st-ancres__item">
+                                <a href="#ancre-${navigationEntry.hashCode()}" class="st-ancres__link">
                                     <span>${navigationEntry.getName()}</span>
                                 </a>
                             </li>
                         </#list>
                     </#if>
                 </ul>
-            </div>
-            <div class="splide__arrows st-nav-arrows">
-                <button class="splide__arrow splide__arrow--prev st-btn-arrow st--up"></button>
-                <button class="splide__arrow splide__arrow--next st-btn-arrow st--down"></button>
-            </div>
+        <div class="st-nav-arrows st-hide-from@t-portrait">
+            <button class="splide__arrow splide__arrow--prev st-btn-arrow st--prev" aria-label="Défiler vers la gauche"></button>
+            <button class="splide__arrow splide__arrow--next st-btn-arrow st--next" aria-label="Défiler vers la droite"></button>
         </div>
-    </div>
 
+    </nav>
 </div>
 <#if entries?has_content>
     <#list entries as navigationEntry>
