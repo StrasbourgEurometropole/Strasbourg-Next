@@ -28,7 +28,7 @@
         <figure class="<#if isFigure>st-figure</#if> st-fit-cover" role="group" aria-label="${copyright} ${legend}">
          <@getImageByFileEntry fileEntryId=fileEntryId />
             <figcaption>
-                    <#if legend?has_content>
+                    <#if legend?has_content && showLegende>
                         ${legend}
                     </#if>
                 <#if copyright?has_content>
