@@ -7,7 +7,7 @@
                 <#assign entry=curEntry.getAssetRenderer().getEdition() />
                 <li class="st-edition">
                     <div class="st-image">
-                        <@addImage fileEntryId=entry.getImageId() isFigure=true />
+                        <@addImage fileEntryId=entry.getImageId() showLegende=false showCopyright=false isFigure=true />
                     </div>
                     <div class="st-content">
                         <h3 class="st-h3">

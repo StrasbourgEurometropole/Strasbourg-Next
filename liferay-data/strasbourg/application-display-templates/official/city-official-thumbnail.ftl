@@ -45,7 +45,7 @@
                 </#if>
             </div>
             <div class="st-image">
-                <@addImage fileEntryId=entry.imageId isFigure=true />
+                <@addImage fileEntryId=entry.imageId showLegende=false showCopyright=false isFigure=true />
             </div>
         </a>
         <div class="st-hide st-description">

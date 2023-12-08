@@ -660,11 +660,20 @@ placeEvents=EventLocalService.getCurrentAndFuturePublishedEventsFromPlace(entry.
                                 </p>
                             </div>
                             <div class="st-image">
-                                <#if event.getImageId() != 0 >
+
+                                <#if event.getImageId() !=0>
                                     <@addImage fileEntryId=event.getImageId() isFigure=true />
                                 <#else>
-                                    <figure class="st-figure st-fit-cover" role="group">
-                                        <img src="${event.getImageURL()}"/>
+                                    <figure class="st-figure st-fit-cover" role="group" aria-label=" © ${event.getExternalImageCopyright()}">
+                                        <picture>
+                                            <img src="${event.getImageURL()}" alt="" />
+                                        </picture>
+                                        <figcaption>
+                                            <#if event.getExternalImageCopyright()?has_content &&  event.getExternalImageCopyright() != "n/a">
+                                                <button type="button" class="st-credits st-js-credits" aria-expanded="false" aria-label="© (copyright de l'image)">©</button>
+                                                <span class="st-credits-content">© ${event.getExternalImageCopyright()}</span>
+                                            </#if>
+                                        </figcaption>
                                     </figure>
                                 </#if>
 

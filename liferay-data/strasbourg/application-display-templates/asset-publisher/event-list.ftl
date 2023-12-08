@@ -38,7 +38,7 @@
                         </div>
                         <div class="st-image">
                             <#if event.getImageId() !=0>
-                                <@addImage fileEntryId=event.getImageId() isFigure=true />
+                                <@addImage fileEntryId=event.getImageId() showLegende=false showCopyright=false isFigure=true />
                             <#else>
                                 <figure class="st-figure st-fit-cover" role="group">
                                     <img src="${event.getImageURL()}" />

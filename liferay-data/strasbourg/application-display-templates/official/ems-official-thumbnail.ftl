@@ -43,7 +43,7 @@ portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowStat
                 </#if>
             </div>
             <div class="st-image">
-                <@addImage fileEntryId=entry.imageId isFigure=true />
+                <@addImage fileEntryId=entry.imageId showLegende=false showCopyright=false isFigure=true />
             </div>
         </a>
         <div class="st-hide st-description">

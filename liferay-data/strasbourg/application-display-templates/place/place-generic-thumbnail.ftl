@@ -21,7 +21,7 @@
                 </p>
             </div>
             <div class="st-image">
-                <@addImage fileEntryId=entry.getImageId() isFigure=true />
+                <@addImage fileEntryId=entry.getImageId() showLegende=false showCopyright=false isFigure=true />
                 <#if entry.isOpenNow()>
                     <p class="st-badge-ouverture">
                         <@liferay_ui.message key='open-period' />

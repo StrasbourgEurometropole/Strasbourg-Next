@@ -66,7 +66,7 @@
             </div>
             <div class="st-image">
                 <#if entry.getImageId() !=0>
-                    <@addImage fileEntryId=entry.getImageId() isFigure=true />
+                    <@addImage fileEntryId=entry.getImageId() showLegende=false showCopyright=false isFigure=true />
                 <#else>
                     <figure class="st-figure st-fit-cover" role="group">
                         <img src="${entry.getImageURL()}" />

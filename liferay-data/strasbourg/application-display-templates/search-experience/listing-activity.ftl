@@ -25,7 +25,7 @@
                                 </div>
 
                                 <div class="st-image">
-                                    <@addImage fileEntryId=resultMap["imageEntityId"]?number isFigure=true />
+                                    <@addImage fileEntryId=resultMap["imageEntityId"]?number showLegende=false showCopyright=false isFigure=true />
 
                                 </div>
 

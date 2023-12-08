@@ -17,7 +17,7 @@
                 <p class="st-text">${entry.getDescription(locale)?replace(r'<[^>]*>', '', 'r')}</p>
             </div>
             <div class="st-image">
-                <@addImage fileEntryId=entry.imageId isFigure=true />
+                <@addImage fileEntryId=entry.imageId showLegende=false showCopyright=false isFigure=true />
             </div>
 
         </a>
