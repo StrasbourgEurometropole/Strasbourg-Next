@@ -12,16 +12,14 @@
           [#if configuration.numberOfImages > 0]
           [#list 1..configuration.numberOfImages as i]
           <li class="splide__slide">
-            <button class="st-slide-galerie">
-
-              <span class="st-credits" aria-hidden="true" data-lfr-editable-id="copyright${i+1}" data-lfr-editable-type="text">© Abraham Lebowski</span>
-              <figure class="st-figure st-fit-cover " role="group">
-                <picture>
-                  <img alt data-lfr-editable-id="img${i+1}" data-lfr-editable-type="image" src="https://placehold.co/800x450?text=Image%20#${i+1}" >
-                </picture>
-                <figcaption data-lfr-editable-id="legend${i+1}" data-lfr-editable-type="text"> Lorem ipsum dolorem   </figcaption>
-              </figure>
-            </button>
+            <span class="st-credits" aria-hidden="true" data-lfr-editable-id="copyright${i+1}" data-lfr-editable-type="text">© Abraham Lebowski</span>
+            <figure class="st-figure st-fit-cover " role="group">
+              <picture>
+                <img alt data-lfr-editable-id="img${i+1}" data-lfr-editable-type="image" src="https://placehold.co/800x450?text=Image%20#${i+1}" >
+              </picture>
+              <figcaption data-lfr-editable-id="legend${i+1}" data-lfr-editable-type="text"> Lorem ipsum dolorem   </figcaption>
+            </figure>
+            <button class="st-slide-galerie" aria-label="Afficher en grand"></button>
           </li>
           [/#list]
           [/#if]

@@ -93,27 +93,28 @@
   <div class="st-wrapper">
     <ul class="st-toolbar-inner">
       <li class="st-has-logo">
-        <a href="${homeURL}" class="st-logo"
-           title="[@liferay_ui.message key="eu.title-home" /]">
+        <a href="${homeURL}" class="st-logo">
 
-        <figure class="st-figure st-fit-cover" role="group">
-          <picture>
-            <img
-              alt=""
-              src="/o/strasbourg-theme/images/medias/logo.png"
-              srcset="/o/strasbourg-theme/images/medias/logo.png 1x,/o/strasbourg-theme/images/medias/logo@2x.png 2x">
-          </picture>
-        </figure>
+          <figure class="st-figure st-fit-cover" role="group">
+            <picture>
+              <img
+                alt=""
+                src="/o/strasbourg-theme/images/medias/logo.png"
+                srcset="/o/strasbourg-theme/images/medias/logo.png 1x,/o/strasbourg-theme/images/medias/logo@2x.png 2x">
+            </picture>
+          </figure>
 
         </a>
       </li>
       <li class="st-has-lang-dropdown">
-        <select onchange="document.location.href = this.value;" class="select-lang">
-          <option selected="selected">
-            Fr
+        <select onchange="document.location.href = this.value;" class="select-lang" title="Fr - changer la langue du site">
+          <option value="https://strasbourg.eu"  aria-label="Fr (Version française)"
+                  selected="selected">[@liferay_ui.message key="eu.fr" /]
           </option>
-          <option value="https://int.strasbourg.eu/en">En</option>
-          <option value="https://int.strasbourg.eu/de">De</option>
+          <option value="https://int.strasbourg.eu/en" aria-label="En (English Version)" lang="en">[@liferay_ui.message key="eu.en" /]
+          </option>
+          <option value="https://int.strasbourg.eu/de" aria-label="De (Deutsche  Version)" lang="de">[@liferay_ui.message key="eu.de" /]
+          </option>
         </select>
       </li>
       <li>
@@ -128,22 +129,25 @@
         [/#if]
       </li>
       <li>
-        <button class="st-btn-search" data-overlay-open="st-overlay-search"
-                aria-label="Rechercher - Ouvrir le moteur de recherche">
-          <span class="st-icon-search" aria-hidden="true"></span>
-        </button>
+        <div role="search">
+          <button class="st-btn-search" data-overlay-open="st-overlay-search" aria-haspopup="dialog">
+            <span class="st-icon-search" aria-hidden="true"></span>
+            <span class="st-sr-only">J’ai besoin d’informations sur…</span>
+          </button>
+        </div>
+
       </li>
       <li>
-        <button class="st-btn-menu" data-overlay-open="st-overlay-menu">
-                   <span class="st-btn-menu__icon" aria-hidden="true">
-                       <span class="st-btn-menu__line"></span>
-                        <span class="st-btn-menu__line"></span>
-                        <span class="st-btn-menu__line"></span>
-                   </span>
-          <span class="st-sr-only">
-                        Menu
-                   </span>
-        </button>
+        <nav class="st-btn-menu__wrapper" role="navigation" aria-label="Menu principal">
+          <button class="st-btn-menu" aria-haspopup="dialog" data-overlay-open="st-overlay-menu">
+                       <span class="st-btn-menu__icon" aria-hidden="true">
+                           <span class="st-btn-menu__line"></span>
+                            <span class="st-btn-menu__line"></span>
+                            <span class="st-btn-menu__line"></span>
+                       </span>
+            <span class="st-sr-only">Menu</span>
+          </button>
+        </nav>
       </li>
     </ul>
   </div>

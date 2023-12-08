@@ -23,13 +23,13 @@
                                             </#if>
                                             </#if>
                                             <div class="st-content">
-                                                <p class="st-title">
+                                                <h2 class="st-title">
                                                     <strong>
                                                         <#if (cur_linkLabelFieldSet.linkLabel.getData())??>
                                                             ${cur_linkLabelFieldSet.linkLabel.getData()}
                                                         </#if>
                                                     </strong>
-                                                </p>
+                                                </h2>
                                                 <p class="st-text">
                                                     <#if (cur_linkLabelFieldSet.DescriptionText.getData())??>
                                                         ${cur_linkLabelFieldSet.DescriptionText.getData()}
