@@ -111,7 +111,7 @@
     }
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js"></script>
-  <script type="text/javascript" src="/o/strasbourg-theme/js/strasbourg.js"></script>
+  <script type="text/javascript" src="/o/strasbourg-int-theme/js/strasbourg.js"></script>
 
   <@liferay_util["include"] page=body_bottom_include />
 
