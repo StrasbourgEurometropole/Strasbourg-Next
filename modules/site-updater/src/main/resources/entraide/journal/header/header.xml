@@ -1,20 +1,16 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Entête de page</name>
-    <key>HEADER</key>
     <structure>
+        <name>Entête de page</name>
+        <key>87803557</key>
         <definition>header-structure.json</definition>
         <layout>header-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Entête de page</name>
+        <key>87803583</key>
+        <script>header.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>
