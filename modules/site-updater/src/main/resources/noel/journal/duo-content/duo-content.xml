@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Contenu duo</name>
-    <key>CONTENT</key>
     <structure>
+        <name>Contenu duo</name>
+        <key>2259665</key>
         <definition>duo-content-structure.json</definition>
         <layout>duo-content-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Contenu duo</name>
+        <key>2259669</key>
+        <script>duo-content.ftl</script>
     </template>
 </root>

@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Slider image</name>
-    <key>IMAGE</key>
     <structure>
+        <name>Slider image</name>
+        <key>2224576</key>
         <definition>image-slider-structure.json</definition>
         <layout>image-slider-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Slider image</name>
+        <key>2224580</key>
+        <script>images-slider.ftl</script>
     </template>
 </root>

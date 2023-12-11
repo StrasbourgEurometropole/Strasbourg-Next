@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Video</name>
-    <key>VIDEO</key>
     <structure>
+        <name>Video</name>
+        <key>2282729</key>
         <definition>video-structure.json</definition>
         <layout>video-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Video</name>
+        <key>2282733</key>
+        <script>video.ftl</script>
     </template>
 </root>

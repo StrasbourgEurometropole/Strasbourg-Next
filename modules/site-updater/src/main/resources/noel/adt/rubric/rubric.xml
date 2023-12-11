@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.portal.kernel.model.Layout</className>
+    <template>
+        <script>rubric.ftl</script>
+        <name>Rubrique</name>
+        <key>2212802</key>
+    </template>
+    <template>
+        <script>rubric-marche.ftl</script>
+        <name>Rubrique marché</name>
+        <key>2212900</key>
+    </template>
+</root>

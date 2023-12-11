@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Entre deux</name>
-    <key>BETWEEN</key>
     <structure>
+        <name>Entre deux</name>
+        <key>2224674</key>
         <definition>between-structure.json</definition>
         <layout>between-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Entre deux</name>
+        <key>2224727</key>
+        <script>between.ftl</script>
     </template>
 </root>

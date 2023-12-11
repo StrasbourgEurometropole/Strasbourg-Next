@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Testimonial experience</name>
-    <key>TESTIMONIALXP</key>
     <structure>
+        <name>Testimonial experience</name>
+        <key>2224825</key>
         <definition>testimonial-experience-structure.json</definition>
         <layout>testimonial-experience-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Testimonial experience</name>
+        <key>2224829</key>
+        <script>testimonial-experience.ftl</script>
     </template>
 </root>
