@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Partenaires</name>
-    <key>PARTNERS</key>
     <structure>
+        <name>Partenaires</name>
+        <key>898375</key>
         <definition>patners-structure.json</definition>
         <layout>patners-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Partenaires</name>
+        <key>898399</key>
+        <script>partenaires.ftl</script>
     </template>
 </root>
