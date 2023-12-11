@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Slider audio</name>
-    <key>AUDIO</key>
     <structure>
+        <name>Slider audio</name>
+        <key>6009613</key>
         <definition>audio-structure.json</definition>
         <layout>audio-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Slider audio</name>
+        <key>6009816</key>
+        <script>audio.ftl</script>
     </template>
 </root>

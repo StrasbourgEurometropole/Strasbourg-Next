@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Offre d'emploi</name>
-    <key>OFFER</key>
     <structure>
+        <name>Offre d'emploi</name>
+        <key>6009217</key>
         <definition>offre-emploi-structure.json</definition>
         <layout>offre-emploi-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Offre d'emploi</name>
+        <key>6009686</key>
+        <script>offre emploi.ftl</script>
     </template>
 </root>

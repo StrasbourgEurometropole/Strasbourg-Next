@@ -1,20 +1,21 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Membre</name>
-    <key>MEMBER</key>
     <structure>
+        <name>Membre</name>
+        <key>6009212</key>
         <definition>membre-structure.json</definition>
         <layout>membre-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
+        <name>Membre</name>
+        <key>6009637</key>
+        <script>membre.ftl</script>
     </template>
     <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Membre à la une</name>
+        <key>6009761
+        </key>
+        <script>membre a la une.ftl</script>
     </template>
 </root>

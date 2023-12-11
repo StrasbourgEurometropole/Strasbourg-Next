@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Contenu standard</name>
-    <key>CONTENT</key>
     <structure>
+        <name>Contenu standard</name>
+        <key>6009551</key>
         <definition>contenu-standard-structure.json</definition>
         <layout>contenu-standard-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Contenu standard</name>
+        <key>6009705</key>
+        <script>contenu standard.ftl</script>
     </template>
 </root>

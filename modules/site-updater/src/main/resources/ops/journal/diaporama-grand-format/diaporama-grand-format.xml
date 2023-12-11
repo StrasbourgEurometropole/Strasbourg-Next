@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Diaporama grand format</name>
-    <key>DIAPO</key>
     <structure>
+        <name>Diaporama grand format</name>
+        <key>6009625</key>
         <definition>diaporama-grand-format-structure.json</definition>
         <layout>diaporama-grand-format-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Diaporama grand format</name>
+        <key>6009757</key>
+        <script>diaporama grand format.ftl</script>
     </template>
 </root>

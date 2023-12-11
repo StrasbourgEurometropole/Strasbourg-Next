@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.asset.kernel.model.AssetEntry</className>
+    <template>
+        <script>membre-thumbnail.ftl</script>
+        <name>Vignette membre</name>
+        <key>6009954
+        </key>
+    </template>
+    <template>
+        <script>recrutement-thumbnail.ftl</script>
+        <name>Vignette offre d'emploi</name>
+        <key>6009958
+        </key>
+    </template>
+    <template>
+        <script>download-documents.ftl</script>
+        <name>Documents téléchargeables</name>
+        <key>6009963
+        </key>
+    </template>
+    <template>
+        <script>slider-concert-highlight.ftl</script>
+        <name>Slider concert à la une</name>
+        <key>6009968</key>
+    </template>
+    <template>
+        <script>slider-event.ftl</script>
+        <name>Slider événement</name>
+        <key>6009972
+        </key>
+    </template>
+    <template>
+        <script>web-contents-global-search-thumbnail.ftl</script>
+        <name>VIgnette Contenu Web recherche globale</name>
+        <key>9401973</key>
+    </template>
+    <template>
+        <script>news-thumbnail.ftl</script>
+        <name>Vignette actualité</name>
+        <key>9401986
+        </key>
+    </template>
+    <template>
+        <script>news-list.ftl</script>
+        <name>Liste actualité</name>
+        <key>9401995</key>
+    </template>
+    <template>
+        <script>news-slider.ftl</script>
+        <name>Slider actualités</name>
+        <key>10278876</key>
+    </template>
+</root>

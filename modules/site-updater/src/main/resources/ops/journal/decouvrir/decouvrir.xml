@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Découvrir</name>
-    <key>DISCOVER</key>
     <structure>
+        <name>Découvrir</name>
+        <key>6009567</key>
         <definition>decouvrir-structure.json</definition>
         <layout>decouvrir-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Découvrir</name>
+        <key>6009729</key>
+        <script>Découvrir.ftl</script>
     </template>
 </root>

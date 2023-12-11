@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Image + texte</name>
-    <key>IMAGE1</key>
     <structure>
+        <name>Image + texte</name>
+        <key>6009619</key>
         <definition>Image+texte-structure.json</definition>
         <layout>Image+texte-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
+        <name>Image à gauche + texte</name>
+        <key>6009836</key>
+        <script>Image à gauche  + texte.ftl</script>
     </template>
     <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Image à droite + texte</name>
+        <key>6009847</key>
+        <script>Image à droite  + texte.ftl</script>
     </template>
 </root>

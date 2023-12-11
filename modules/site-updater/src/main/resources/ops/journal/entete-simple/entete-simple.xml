@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Entête simple</name>
-    <key>HEADER</key>
     <structure>
+        <name>Entête simple</name>
+        <key>6009581</key>
         <definition>entete-simple-structure.json</definition>
         <layout>entete-simple-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Entête simple</name>
+        <key>6009786</key>
+        <script>entete de page simple.ftl</script>
     </template>
 </root>
