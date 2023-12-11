@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Slider Instagram</name>
-    <key>INSTAGRAM</key>
     <structure>
+        <name>Slider Instagram</name>
+        <key>381155541</key>
         <definition>instagram-slider-structure.json</definition>
         <layout>instagram-slider-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Slider Instagram</name>
+        <key>381155562</key>
+        <script>insta-slider.ftl</script>
     </template>
 </root>

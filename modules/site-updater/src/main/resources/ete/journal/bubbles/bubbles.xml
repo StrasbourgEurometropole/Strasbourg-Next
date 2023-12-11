@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Bulles</name>
-    <key>BUBBLES</key>
     <structure>
+        <name>Bulles</name>
+        <key>1572888</key>
         <definition>bubbles-structure.json</definition>
         <layout>bubbles-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Bulles</name>
+        <key>1572916</key>
+        <script>bubbles.ftl</script>
     </template>
 </root>
