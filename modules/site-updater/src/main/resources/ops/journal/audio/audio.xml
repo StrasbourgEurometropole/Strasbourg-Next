@@ -11,5 +11,6 @@
         <name>Slider audio</name>
         <key>6009816</key>
         <script>audio.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

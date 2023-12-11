@@ -11,5 +11,6 @@
         <name>Vidéo avec titre</name>
         <key>6009809</key>
         <script>vidéo avec titre.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

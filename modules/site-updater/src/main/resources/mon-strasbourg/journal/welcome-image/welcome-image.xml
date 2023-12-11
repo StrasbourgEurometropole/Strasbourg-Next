@@ -11,5 +11,6 @@
         <name>Welcome fond image</name>
         <key>6595805</key>
         <script>welcome-fond-image.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

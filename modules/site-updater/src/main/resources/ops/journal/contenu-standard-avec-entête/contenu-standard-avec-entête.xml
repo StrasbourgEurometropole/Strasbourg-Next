@@ -11,10 +11,12 @@
         <name>Contenu standard en deux colonnes avec entête</name>
         <key>6009712</key>
         <script>contenu standard en deux colonnes avec entête.ftl</script>
+        <cacheable>true</cacheable>
     </template>
     <template>
         <name>Contenu standard avec entête</name>
         <key>6009717</key>
         <script>contenu standard avec entête.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

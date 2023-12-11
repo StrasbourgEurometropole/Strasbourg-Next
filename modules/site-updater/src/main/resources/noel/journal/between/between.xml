@@ -11,5 +11,6 @@
         <name>Entre deux</name>
         <key>2224727</key>
         <script>between.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

@@ -11,5 +11,6 @@
         <name>Activités</name>
         <key>219283125</key>
         <script>activities.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

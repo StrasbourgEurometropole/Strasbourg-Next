@@ -11,5 +11,6 @@
         <name>Image Parallaxe</name>
         <key>2206818</key>
         <script>big-parallax-image.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

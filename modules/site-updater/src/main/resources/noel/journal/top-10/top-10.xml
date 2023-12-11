@@ -11,10 +11,12 @@
         <name>Top 10</name>
         <key>2212477</key>
         <script>top10.ftl</script>
+        <cacheable>true</cacheable>
     </template>
     <template>
         <name>Top 15</name>
         <key>3480502</key>
         <script>top15.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

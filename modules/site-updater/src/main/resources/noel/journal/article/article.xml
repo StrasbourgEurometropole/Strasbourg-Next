@@ -11,5 +11,6 @@
         <name>Article</name>
         <key>2212628</key>
         <script>article.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

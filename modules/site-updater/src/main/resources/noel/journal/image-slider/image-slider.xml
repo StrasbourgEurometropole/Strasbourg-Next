@@ -11,5 +11,6 @@
         <name>Slider image</name>
         <key>2224580</key>
         <script>images-slider.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

@@ -11,5 +11,6 @@
         <name>Séparateur menu</name>
         <key>6009781</key>
         <script>séparateur menu.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

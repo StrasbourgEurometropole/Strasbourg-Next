@@ -11,5 +11,6 @@
         <name>Slider Instagram</name>
         <key>2248669</key>
         <script>insta-slider.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

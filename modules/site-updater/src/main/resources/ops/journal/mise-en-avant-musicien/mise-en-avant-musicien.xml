@@ -11,5 +11,6 @@
         <name>Mise en avant musicien</name>
         <key>6009767</key>
         <script>Mise en avant musicien.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

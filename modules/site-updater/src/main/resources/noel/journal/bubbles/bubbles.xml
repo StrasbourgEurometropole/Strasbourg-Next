@@ -11,5 +11,6 @@
         <name>Bulles</name>
         <key>2206605</key>
         <script>bubbles.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

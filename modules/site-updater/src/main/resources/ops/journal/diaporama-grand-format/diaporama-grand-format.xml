@@ -11,5 +11,6 @@
         <name>Diaporama grand format</name>
         <key>6009757</key>
         <script>diaporama grand format.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

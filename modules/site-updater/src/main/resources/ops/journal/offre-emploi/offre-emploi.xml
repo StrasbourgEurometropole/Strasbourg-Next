@@ -11,5 +11,6 @@
         <name>Offre d'emploi</name>
         <key>6009686</key>
         <script>offre emploi.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

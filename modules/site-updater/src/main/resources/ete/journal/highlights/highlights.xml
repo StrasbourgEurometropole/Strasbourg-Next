@@ -11,5 +11,6 @@
         <name>Highlights</name>
         <key>381155556</key>
         <script>highlights.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

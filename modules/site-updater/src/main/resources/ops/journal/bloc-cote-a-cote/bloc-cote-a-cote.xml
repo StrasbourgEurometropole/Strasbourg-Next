@@ -11,5 +11,6 @@
         <name>Bloc côte à côte</name>
         <key>6009724</key>
         <script>bloc cote a cote.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

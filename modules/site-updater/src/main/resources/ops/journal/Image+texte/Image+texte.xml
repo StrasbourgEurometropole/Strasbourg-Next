@@ -11,10 +11,12 @@
         <name>Image à gauche + texte</name>
         <key>6009836</key>
         <script>Image à gauche  + texte.ftl</script>
+        <cacheable>true</cacheable>
     </template>
     <template>
         <name>Image à droite + texte</name>
         <key>6009847</key>
         <script>Image à droite  + texte.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

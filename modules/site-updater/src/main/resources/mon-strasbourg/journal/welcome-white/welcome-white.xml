@@ -11,5 +11,6 @@
         <name>Welcome fond blanc</name>
         <key>6595793</key>
         <script>welcome-fond-blanc.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

@@ -11,5 +11,6 @@
         <name>Vidéo</name>
         <key>6009803</key>
         <script>vidéo.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

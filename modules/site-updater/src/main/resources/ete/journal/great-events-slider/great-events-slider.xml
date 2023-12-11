@@ -11,5 +11,6 @@
         <name>Grands évènements</name>
         <key>2509958</key>
         <script>great-events-slider.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

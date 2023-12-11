@@ -11,5 +11,6 @@
         <name>Image + texte 3 colonnes</name>
         <key>6009694</key>
         <script>Image + texte 3 colonnes.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

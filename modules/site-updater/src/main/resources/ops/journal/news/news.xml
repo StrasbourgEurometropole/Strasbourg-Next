@@ -11,5 +11,6 @@
         <name>Actualité</name>
         <key>9402018</key>
         <script>news.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

@@ -11,5 +11,6 @@
         <name>Welcome menu</name>
         <key>6595789</key>
         <script>welcome-menu.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

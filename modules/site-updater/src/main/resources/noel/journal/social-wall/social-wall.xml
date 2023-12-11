@@ -11,5 +11,6 @@
         <name>Social Wall</name>
         <key>227696900</key>
         <script>social-wall.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

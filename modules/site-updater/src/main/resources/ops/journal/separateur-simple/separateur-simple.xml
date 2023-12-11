@@ -11,5 +11,6 @@
         <name>Séparateur simple</name>
         <key>6009777</key>
         <script>séparateur simple.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

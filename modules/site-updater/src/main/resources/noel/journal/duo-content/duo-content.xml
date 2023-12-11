@@ -11,5 +11,6 @@
         <name>Contenu duo</name>
         <key>2259669</key>
         <script>duo-content.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

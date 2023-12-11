@@ -11,5 +11,6 @@
         <name>Experience</name>
         <key>2224477</key>
         <script>experience.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

@@ -11,5 +11,6 @@
         <name>Editorial</name>
         <key>2206505</key>
         <script>editorial.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

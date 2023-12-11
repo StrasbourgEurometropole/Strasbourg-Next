@@ -11,5 +11,6 @@
         <name>Entête simple</name>
         <key>6009786</key>
         <script>entete de page simple.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

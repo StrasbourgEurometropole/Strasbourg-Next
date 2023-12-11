@@ -11,5 +11,6 @@
         <name>Testimonial</name>
         <key>2207779</key>
         <script>testimonials.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

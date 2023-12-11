@@ -11,5 +11,6 @@
         <name>Menu navbar connecté</name>
         <key>2352569</key>
         <script>navbar-menu.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

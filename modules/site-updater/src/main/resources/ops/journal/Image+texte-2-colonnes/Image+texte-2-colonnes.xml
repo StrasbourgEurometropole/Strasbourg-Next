@@ -11,5 +11,6 @@
         <name>Image + texte 2 colonnes</name>
         <key>6009699</key>
         <script>Image + texte 2 colonnes.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

@@ -11,5 +11,6 @@
         <name>Découvrir</name>
         <key>6009729</key>
         <script>Découvrir.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

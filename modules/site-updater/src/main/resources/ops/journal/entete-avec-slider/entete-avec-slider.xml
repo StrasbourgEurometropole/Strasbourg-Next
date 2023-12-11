@@ -11,5 +11,6 @@
         <name>Entête avec slider</name>
         <key>6009794</key>
         <script>entete avec slider.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>
