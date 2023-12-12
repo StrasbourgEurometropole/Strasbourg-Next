@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<root>
+    <structure><!--obligatoire -->
+        <key>structure-key</key><!--obligatoire -->
+        <name>Structure name</name><!--obligatoire -->
+        <definition>structure-definition.json</definition><!--obligatoire -->
+        <layout>structure-layout.json</layout><!--obligatoire -->
+    </structure>
+    <template><!--autant que de templates de cette structure -->
+        <key>template-key</key><!--obligatoire -->
+        <name>Template name</name><!--obligatoire -->
+        <cacheable>true||false</cacheable><!--facultatif -->
+        <script>template.ftl</script><!--obligatoire -->
+    </template>
+</root>

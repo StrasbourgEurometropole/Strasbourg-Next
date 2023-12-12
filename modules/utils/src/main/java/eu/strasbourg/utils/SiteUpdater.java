@@ -458,6 +458,8 @@ public class SiteUpdater {
         String parent = "";
         String suffix = "";
         List<String> skipStructure = new ArrayList<>();
+        List<Template> basicCWTemplatesToCreate = new ArrayList<>();
+        Map<String, Template> basicCWTemplatesToOverride = new HashMap<>();
         Map<String, Structure> structuresToOverride = new HashMap<>();
         List<Structure> structuresToCreate = new ArrayList<>();
         Map<String, Template> templatesToOverride = new HashMap<>();
@@ -503,78 +505,113 @@ public class SiteUpdater {
 
                 Element rootElement = document.getRootElement();
 
-                // Ajout de la structure qui se trouve dans 'structureOverride' dans structuresToOverride
-                // Si pas de 'structureOverride', ajout de la structure qui se trouve dans 'structure' dans structuresToCreate
+                // s'il n'y a pas de structure, structureOverride, de basicCWTemplate ni de basicCWTemplateOverride on retourne une erreur
                 Element structureOverrideElement = rootElement.element("structureOverride");
-                if(Validator.isNotNull(structureOverrideElement)) {
-                    String structureParentKey = structureOverrideElement.elementText("parentKey");
-                    String structureKey = structureOverrideElement.elementText("key");
-                    String structureName = structureOverrideElement.elementText("name");
-                    String structureDefinitionFilePath = structureOverrideElement.elementText("definition");
-                    String structureLayoutFilePath = structureOverrideElement.elementText("layout");
-                    validateRequiredField(resourceFilesEntry.getKey(), null, null, "structureOverride\'s parentKey", structureParentKey);
+                Element structureElement = rootElement.element("structure");
+                List<Element> basicCWTemplateElements = rootElement.elements("basicCWTemplate");
+                List<Element> basicCWTemplateOverrideElements = rootElement.elements("basicCWTemplateOverride");
+                if (Validator.isNull(structureOverrideElement) && Validator.isNull(structureElement) &&
+                        basicCWTemplateElements.isEmpty() && basicCWTemplateOverrideElements.isEmpty()) {
+                    throw new SiteUpdaterException("[" + resourceFilesEntry.getKey() +
+                            "] Impossible to import because of missing field: structure or structureOverride and basicCWTemplate or basicCWTemplateOverride");
+                }
 
-                    Structure structure = new Structure(structureKey, structureName, path + structureDefinitionFilePath, path + structureLayoutFilePath);
-                    structuresToOverride.put(structureParentKey, structure);
-                    if(Validator.isNotNull(structureKey))
-                        structureLink = structureKey;
-                    else
-                        structureLink = structureParentKey + "-" + suffix;
-                }else {
-                    Element structureElement = rootElement.element("structure");
-                    if (Validator.isNull(structureElement)) {
-                        throw new SiteUpdaterException("[" + resourceFilesEntry.getKey() +
-                                "] Impossible to import because of missing field: structure or structureOverride");
+                // Si c'est un contenu web de base, on ignore les structures
+                if (!basicCWTemplateElements.isEmpty() || !basicCWTemplateOverrideElements.isEmpty()){
+                    // Ajout des templates qui se trouvent dans 'basicCWTemplateOverride' dans basicCWTemplatesToOverride
+                    for (Element templateOverrideElement : basicCWTemplateOverrideElements) {
+                        String templateParentKey = templateOverrideElement.elementText("parentKey");
+                        String templateKey = templateOverrideElement.elementText("key");
+                        String templateName = templateOverrideElement.elementText("name");
+                        String templateCacheable = templateOverrideElement.elementText("cacheable");
+                        String templateScriptFilePath = templateOverrideElement.elementText("script");
+                        validateRequiredField(resourceFilesEntry.getKey(), "BASIC-WEB-CONTENT", templateKey, "parentKey", templateParentKey);
+
+                        Template template = new Template("BASIC-WEB-CONTENT", templateKey, templateName, templateCacheable, path + templateScriptFilePath);
+                        basicCWTemplatesToOverride.put(templateParentKey, template);
                     }
-                    String structureKey = structureElement.elementText("key");
-                    String structureName = structureElement.elementText("name");
-                    String structureDefinitionFilePath = structureElement.elementText("definition");
-                    String structureLayoutFilePath = structureElement.elementText("layout");
-                    validateRequiredField(resourceFilesEntry.getKey(), null, null, "structure\'s key", structureKey);
-                    validateRequiredField(resourceFilesEntry.getKey(), structureKey, null, "structure\'s name", structureName);
-                    validateRequiredField(resourceFilesEntry.getKey(), structureKey, null, "definition", structureDefinitionFilePath);
-                    validateRequiredField(resourceFilesEntry.getKey(), structureKey, null, "layout", structureLayoutFilePath);
 
-                    Structure structure = new Structure(structureKey, structureName, path + structureDefinitionFilePath, path + structureLayoutFilePath);
-                    structuresToCreate.add(structure);
-                    structureLink = structureKey;
+                    // Ajout des templates qui se trouvent dans 'basicCWTemplate' dans basicCWTemplatesToCreate
+                    for (Element templateElement : basicCWTemplateElements) {
+                        String templateKey = templateElement.elementText("key");
+                        String templateName = templateElement.elementText("name");
+                        String templateCacheable = templateElement.elementText("cacheable");
+                        String templateScriptFilePath = templateElement.elementText("script");
+                        validateRequiredField(resourceFilesEntry.getKey(), "BASIC-WEB-CONTENT", null, "key", templateKey);
+                        validateRequiredField(resourceFilesEntry.getKey(), "BASIC-WEB-CONTENT", templateKey, "name", templateName);
+                        validateRequiredField(resourceFilesEntry.getKey(), "BASIC-WEB-CONTENT", templateKey, "script", templateScriptFilePath);
+
+                        Template template = new Template("BASIC-WEB-CONTENT", templateKey, templateName, templateCacheable, path + templateScriptFilePath);
+                        basicCWTemplatesToCreate.add(template);
+                    }
+                }else{
+                    // Ajout de la structure qui se trouve dans 'structureOverride' dans structuresToOverride
+                    // Si pas de 'structureOverride', ajout de la structure qui se trouve dans 'structure' dans structuresToCreate
+                    if(Validator.isNotNull(structureOverrideElement)) {
+                        String structureParentKey = structureOverrideElement.elementText("parentKey");
+                        String structureKey = structureOverrideElement.elementText("key");
+                        String structureName = structureOverrideElement.elementText("name");
+                        String structureDefinitionFilePath = structureOverrideElement.elementText("definition");
+                        String structureLayoutFilePath = structureOverrideElement.elementText("layout");
+                        validateRequiredField(resourceFilesEntry.getKey(), null, null, "structureOverride\'s parentKey", structureParentKey);
+
+                        Structure structure = new Structure(structureKey, structureName, path + structureDefinitionFilePath, path + structureLayoutFilePath);
+                        structuresToOverride.put(structureParentKey, structure);
+                        if(Validator.isNotNull(structureKey))
+                            structureLink = structureKey;
+                        else
+                            structureLink = structureParentKey + "-" + suffix;
+                    }else {
+                        String structureKey = structureElement.elementText("key");
+                        String structureName = structureElement.elementText("name");
+                        String structureDefinitionFilePath = structureElement.elementText("definition");
+                        String structureLayoutFilePath = structureElement.elementText("layout");
+                        validateRequiredField(resourceFilesEntry.getKey(), null, null, "structure\'s key", structureKey);
+                        validateRequiredField(resourceFilesEntry.getKey(), structureKey, null, "structure\'s name", structureName);
+                        validateRequiredField(resourceFilesEntry.getKey(), structureKey, null, "definition", structureDefinitionFilePath);
+                        validateRequiredField(resourceFilesEntry.getKey(), structureKey, null, "layout", structureLayoutFilePath);
+
+                        Structure structure = new Structure(structureKey, structureName, path + structureDefinitionFilePath, path + structureLayoutFilePath);
+                        structuresToCreate.add(structure);
+                        structureLink = structureKey;
+                    }
+
+                    // Ajout des templates qui se trouvent dans 'templateOverride' dans templatesToOverride
+                    List<Element> templateOverrideElements = rootElement.elements("templateOverride");
+                    for (Element templateOverrideElement : templateOverrideElements) {
+                        String templateParentKey = templateOverrideElement.elementText("parentKey");
+                        String templateKey = templateOverrideElement.elementText("key");
+                        String templateName = templateOverrideElement.elementText("name");
+                        String templateCacheable = templateOverrideElement.elementText("cacheable");
+                        String templateScriptFilePath = templateOverrideElement.elementText("script");
+                        validateRequiredField(resourceFilesEntry.getKey(), null, templateKey, "templateOverride\'s parentKey", templateParentKey);
+
+                        Template template = new Template(structureLink, templateKey, templateName, templateCacheable, path + templateScriptFilePath);
+                        templatesToOverride.put(templateParentKey, template);
+                    }
+
+                    // Ajout des templates qui se trouvent dans 'template' dans templatesToCreate
+                    List<Element> templateElements = rootElement.elements("template");
+                    List<Template> templates = new ArrayList<>();
+                    for (Element templateElement : templateElements) {
+                        String templateKey = templateElement.elementText("key");
+                        String templateName = templateElement.elementText("name");
+                        String templateCacheable = templateElement.elementText("cacheable");
+                        String templateScriptFilePath = templateElement.elementText("script");
+                        validateRequiredField(resourceFilesEntry.getKey(), structureLink, null, "template\'s key", templateKey);
+                        validateRequiredField(resourceFilesEntry.getKey(), structureLink, templateKey, "template\'s name", templateName);
+                        validateRequiredField(resourceFilesEntry.getKey(), structureLink, templateKey, "script", templateScriptFilePath);
+
+                        Template template = new Template(structureLink, templateKey, templateName, templateCacheable, path + templateScriptFilePath);
+                        templates.add(template);
+                    }
+                    templatesToCreate.put(structureLink, templates);
                 }
 
                 // Ajout 'skipTemplate' dans templatesToSkip
                 String skipTemplate = rootElement.elementText("skipTemplate");
                 if(Validator.isNotNull(skipTemplate))
                     templatesToSkip.addAll(List.of(skipTemplate.split(",")));
-
-                // Ajout des templates qui se trouvent dans 'templateOverride' dans templatesToOverride
-                List<Element> templateOverrideElements = rootElement.elements("templateOverride");
-                for (Element templateOverrideElement : templateOverrideElements) {
-                    String templateParentKey = templateOverrideElement.elementText("parentKey");
-                    String templateKey = templateOverrideElement.elementText("key");
-                    String templateName = templateOverrideElement.elementText("name");
-                    String templateCacheable = templateOverrideElement.elementText("cacheable");
-                    String templateScriptFilePath = templateOverrideElement.elementText("script");
-                    validateRequiredField(resourceFilesEntry.getKey(), null, templateKey, "templateOverride\'s parentKey", templateParentKey);
-
-                    Template template = new Template(structureLink, templateKey, templateName, templateCacheable, path + templateScriptFilePath);
-                    templatesToOverride.put(templateParentKey, template);
-                }
-
-                // Ajout des templates qui se trouvent dans 'template' dans templatesToCreate
-                List<Element> templateElements = rootElement.elements("template");
-                List<Template> templates = new ArrayList<>();
-                for (Element templateElement : templateElements) {
-                    String templateKey = templateElement.elementText("key");
-                    String templateName = templateElement.elementText("name");
-                    String templateCacheable = templateElement.elementText("cacheable");
-                    String templateScriptFilePath = templateElement.elementText("script");
-                    validateRequiredField(resourceFilesEntry.getKey(), structureLink, null, "template\'s key", templateKey);
-                    validateRequiredField(resourceFilesEntry.getKey(), structureLink, templateKey, "template\'s name", templateName);
-                    validateRequiredField(resourceFilesEntry.getKey(), structureLink, templateKey, "script", templateScriptFilePath);
-
-                    Template template = new Template(structureLink, templateKey, templateName, templateCacheable, path + templateScriptFilePath);
-                    templates.add(template);
-                }
-                templatesToCreate.put(structureLink, templates);
             }
 
             // Si parent not null, on parcourt les .xml du dossier journal du parent
@@ -601,81 +638,134 @@ public class SiteUpdater {
                                         resourceParentFilesEntry.getKey(), resourceParentFilesEntry.getValue());
 
                         Element rootElement = document.getRootElement();
+
+                        // s'il n'y a pas de structure, ni basicCWTemplate on retourne une erreur
                         Element structureElement = rootElement.element("structure");
-                        String structureKey = structureElement.elementText("key");
-                        String structureName = structureElement.elementText("name");
-                        String structureDefinitionFilePath = structureElement.elementText("definition");
-                        String structureLayoutFilePath = structureElement.elementText("layout");
-                        validateRequiredField(resourceParentFilesEntry.getKey(), null, null, "structure\'s key", structureKey);
-                        validateRequiredField(resourceParentFilesEntry.getKey(), structureKey, null, "structure\'s name", structureName);
-                        validateRequiredField(resourceParentFilesEntry.getKey(), structureKey, null, "definition", structureDefinitionFilePath);
-                        validateRequiredField(resourceParentFilesEntry.getKey(), structureKey, null, "layout", structureLayoutFilePath);
-
-                        String structureLink;
-                        // Si key se trouve dans structuresToOverride, on met à jour les infos qui s'y trouve et on l'ajoute à structuresToCreate
-                        Structure childStructure = structuresToOverride.get(structureKey);
-                        if(Validator.isNotNull(childStructure)) {
-                            if(Validator.isNull(childStructure.getKey()))
-                                childStructure.setKey(structureKey + '-' + suffix);
-                            if(Validator.isNull(childStructure.getName()))
-                                childStructure.setName(structureName);
-                            if(childStructure.getDefinitionFilePath().endsWith("null"))
-                                childStructure.setDefinitionFilePath(path + structureDefinitionFilePath);
-                            if(childStructure.getLayoutFilePath().endsWith("null"))
-                                childStructure.setLayoutFilePath(path + structureLayoutFilePath);
-
-                            structureLink = childStructure.getKey();
-                            structuresToCreate.add(childStructure);
-                        } else {
-                            // Si key ne se trouve pas dans structuresToOverride, on ajoute la structure parent dans structuresToCreate
-                            Structure structure = new Structure(structureKey + '-' + suffix, structureName, path + structureDefinitionFilePath, path + structureLayoutFilePath);
-                            structureLink = structure.getKey();
-                            structuresToCreate.add(structure);
+                        List<Element> basicCWTemplatesElement = rootElement.elements("basicCWTemplate");
+                        if (Validator.isNull(structureElement) && basicCWTemplatesElement.isEmpty()) {
+                            throw new SiteUpdaterException("[" + resourceParentFilesEntry.getKey() +
+                                    "] Impossible to import because of missing field: structure and basicCWTemplate");
                         }
 
-                        List<Element> templateElements = rootElement.elements("template");
-                        List<Template> templates = templatesToCreate.get(structureLink) != null ? templatesToCreate.get(structureLink) : new ArrayList<>();
-                        for (Element templateElement : templateElements) {
-                            try {
-                                String templateKey = templateElement.elementText("key");
-                                validateRequiredField(resourceParentFilesEntry.getKey(), null, templateKey, "template\'s key", templateKey);
+                        // Si c'est un contenu web de base, on ignore les structures
+                        if (!basicCWTemplatesElement.isEmpty()) {
+                            List<Element> basicCWTemplateElements = rootElement.elements("basicCWTemplate");
+                            for (Element templateElement : basicCWTemplateElements) {
+                                try {
+                                    String templateKey = templateElement.elementText("key");
+                                    validateRequiredField(resourceParentFilesEntry.getKey(), "BASIC-WEB-CONTENT", templateKey, "key", templateKey);
 
-                                // Si key se trouve dans templatesToSkip, on ignore
-                                if(templatesToSkip.contains(templateKey))
-                                    continue;
+                                    // Si key se trouve dans templatesToSkip, on ignore
+                                    if (templatesToSkip.contains(templateKey))
+                                        continue;
 
-                                String templateName = templateElement.elementText("name");
-                                String templateCacheable = templateElement.elementText("cacheable");
-                                String templateScriptFilePath = templateElement.elementText("script");
-                                validateRequiredField(resourceParentFilesEntry.getKey(), null, templateKey, "template\'s name", templateName);
-                                validateRequiredField(resourceParentFilesEntry.getKey(), null, templateKey, "script", templateScriptFilePath);
+                                    String templateName = templateElement.elementText("name");
+                                    String templateCacheable = templateElement.elementText("cacheable");
+                                    String templateScriptFilePath = templateElement.elementText("script");
+                                    validateRequiredField(resourceParentFilesEntry.getKey(), "BASIC-WEB-CONTENT", templateKey, "name", templateName);
+                                    validateRequiredField(resourceParentFilesEntry.getKey(), "BASIC-WEB-CONTENT", templateKey, "script", templateScriptFilePath);
 
-                                // Si key se trouve dans templatesToOverride, on met à jour les infos qui s'y trouve et on l'ajoute à templatesToCreate
-                                Template childTemplate = templatesToOverride.get(templateKey);
-                                if(Validator.isNotNull(childTemplate)) {
-                                    if(Validator.isNull(childTemplate.getKey()))
-                                        childTemplate.setKey(templateKey + '-' + suffix);
-                                    if(Validator.isNull(childTemplate.getName()))
-                                        childTemplate.setName(templateName);
-                                    if(Validator.isNull(childTemplate.getCacheable()))
-                                        childTemplate.setCacheable(templateCacheable);
-                                    if(childTemplate.getScriptFilePath().endsWith("null"))
-                                        childTemplate.setScriptFilePath(path + templateScriptFilePath);
+                                    // Si key se trouve dans basicCWTemplatesToOverride, on met à jour les infos qui s'y trouvent et on l'ajoute à basicCWTemplatesToCreate
+                                    // sinone, on ajoute le template parent dans basicCWTemplatesToCreate
+                                    Template childTemplate = basicCWTemplatesToOverride.get(templateKey);
+                                    if (Validator.isNotNull(childTemplate)) {
+                                        if (Validator.isNull(childTemplate.getKey()))
+                                            childTemplate.setKey(templateKey + '-' + suffix);
+                                        if (Validator.isNull(childTemplate.getName()))
+                                            childTemplate.setName(templateName);
+                                        if (Validator.isNull(childTemplate.getCacheable()))
+                                            childTemplate.setCacheable(templateCacheable);
+                                        if (childTemplate.getScriptFilePath().endsWith("null"))
+                                            childTemplate.setScriptFilePath(path + templateScriptFilePath);
 
-                                    templates.add(childTemplate);
-                                } else {
-                                    // Si key ne se trouve pas dans templatesToOverride, on ajoute le template parent dans templatesToCreate
-                                    Template template = new Template(structureLink, templateKey + '-' + suffix, templateName, templateCacheable, path + templateScriptFilePath);
-                                    templates.add(template);
+                                        basicCWTemplatesToCreate.add(childTemplate);
+                                    } else {
+                                        Template template = new Template("BASIC-WEB-CONTENT", templateKey + '-' + suffix, templateName, templateCacheable, path + templateScriptFilePath);
+                                        basicCWTemplatesToCreate.add(template);
+                                    }
+                                } catch (Exception e) {
+                                    this.log.error(
+                                            "[" + resourceParentFilesEntry.getKey()
+                                                    + "] Impossible to add or update CW\'s template, see following exception");
+                                    this.log.error(e);
                                 }
-                            } catch (Exception e) {
-                                this.log.error(
-                                        "[" + resourceParentFilesEntry.getKey()
-                                                + "] Impossible to add or update CW\'s template, see following exception");
-                                this.log.error(e);
                             }
+                        }else{
+                            String structureKey = structureElement.elementText("key");
+                            String structureName = structureElement.elementText("name");
+                            String structureDefinitionFilePath = structureElement.elementText("definition");
+                            String structureLayoutFilePath = structureElement.elementText("layout");
+                            validateRequiredField(resourceParentFilesEntry.getKey(), null, null, "structure\'s key", structureKey);
+                            validateRequiredField(resourceParentFilesEntry.getKey(), structureKey, null, "structure\'s name", structureName);
+                            validateRequiredField(resourceParentFilesEntry.getKey(), structureKey, null, "definition", structureDefinitionFilePath);
+                            validateRequiredField(resourceParentFilesEntry.getKey(), structureKey, null, "layout", structureLayoutFilePath);
+
+                            String structureLink;
+                            // Si key se trouve dans structuresToOverride, on met à jour les infos qui s'y trouvent et on l'ajoute à structuresToCreate
+                            // sinon, on ajoute la structure parent dans structuresToCreate
+                            Structure childStructure = structuresToOverride.get(structureKey);
+                            if (Validator.isNotNull(childStructure)) {
+                                if (Validator.isNull(childStructure.getKey()))
+                                    childStructure.setKey(structureKey + '-' + suffix);
+                                if (Validator.isNull(childStructure.getName()))
+                                    childStructure.setName(structureName);
+                                if (childStructure.getDefinitionFilePath().endsWith("null"))
+                                    childStructure.setDefinitionFilePath(path + structureDefinitionFilePath);
+                                if (childStructure.getLayoutFilePath().endsWith("null"))
+                                    childStructure.setLayoutFilePath(path + structureLayoutFilePath);
+
+                                structureLink = childStructure.getKey();
+                                structuresToCreate.add(childStructure);
+                            } else {
+                                Structure structure = new Structure(structureKey + '-' + suffix, structureName, path + structureDefinitionFilePath, path + structureLayoutFilePath);
+                                structureLink = structure.getKey();
+                                structuresToCreate.add(structure);
+                            }
+
+                            List<Element> templateElements = rootElement.elements("template");
+                            List<Template> templates = templatesToCreate.get(structureLink) != null ? templatesToCreate.get(structureLink) : new ArrayList<>();
+                            for (Element templateElement : templateElements) {
+                                try {
+                                    String templateKey = templateElement.elementText("key");
+                                    validateRequiredField(resourceParentFilesEntry.getKey(), null, templateKey, "template\'s key", templateKey);
+
+                                    // Si key se trouve dans templatesToSkip, on ignore
+                                    if(templatesToSkip.contains(templateKey))
+                                        continue;
+
+                                    String templateName = templateElement.elementText("name");
+                                    String templateCacheable = templateElement.elementText("cacheable");
+                                    String templateScriptFilePath = templateElement.elementText("script");
+                                    validateRequiredField(resourceParentFilesEntry.getKey(), null, templateKey, "template\'s name", templateName);
+                                    validateRequiredField(resourceParentFilesEntry.getKey(), null, templateKey, "script", templateScriptFilePath);
+
+                                    // Si key se trouve dans templatesToOverride, on met à jour les infos qui s'y trouvent et on l'ajoute à templatesToCreate
+                                    Template childTemplate = templatesToOverride.get(templateKey);
+                                    if(Validator.isNotNull(childTemplate)) {
+                                        if(Validator.isNull(childTemplate.getKey()))
+                                            childTemplate.setKey(templateKey + '-' + suffix);
+                                        if(Validator.isNull(childTemplate.getName()))
+                                            childTemplate.setName(templateName);
+                                        if(Validator.isNull(childTemplate.getCacheable()))
+                                            childTemplate.setCacheable(templateCacheable);
+                                        if(childTemplate.getScriptFilePath().endsWith("null"))
+                                            childTemplate.setScriptFilePath(path + templateScriptFilePath);
+
+                                        templates.add(childTemplate);
+                                    } else {
+                                        // Si key ne se trouve pas dans templatesToOverride, on ajoute le template parent dans templatesToCreate
+                                        Template template = new Template(structureLink, templateKey + '-' + suffix, templateName, templateCacheable, path + templateScriptFilePath);
+                                        templates.add(template);
+                                    }
+                                } catch (Exception e) {
+                                    this.log.error(
+                                            "[" + resourceParentFilesEntry.getKey()
+                                                    + "] Impossible to add or update CW\'s template, see following exception");
+                                    this.log.error(e);
+                                }
+                            }
+                            templatesToCreate.put(structureLink, templates);
                         }
-                        templatesToCreate.put(structureLink, templates);
                     } catch (Exception e) {
                         this.log.error(
                                 "[" + resourceParentFilesEntry.getKey()
@@ -756,6 +846,34 @@ public class SiteUpdater {
                 } catch (Exception e) {
                     this.log.error("[" + structureKey + "]" +
                             "Impossible to add or update CW, see following exception");
+                    this.log.error(e);
+                }
+            }
+
+            // On parcourt basicCWTemplatesToCreate pour créer/updater les templates du CW de base
+            for(Template template : basicCWTemplatesToCreate) {
+                String templateKey = template.getKey();
+                try {
+                    boolean isCacheable = false;
+                    if(Validator.isNotNull(template.getCacheable()))
+                        isCacheable = Boolean.parseBoolean(template.getCacheable());
+                    Map<Locale, String> templateNameMap = getLocalizedMap(template.getName());
+                    String templateScript =
+                            getContentFromFilePath(resourceFTLFiles, template.getScriptFilePath());
+                    this.updateTemplate(
+                            this.groupId,
+                            PortalUtil.getClassNameId(DDMStructure.class),
+                            template.getScriptFilePath(),
+                            templateKey,
+                            32309,
+                            this.journalClassNameId,
+                            templateNameMap,
+                            templateScript,
+                            isCacheable,
+                            this.sc);
+                } catch (Exception e) {
+                    this.log.error("[BASIC-WEB-CONTENT]" +"[" + templateKey + "]" +
+                            "Impossible to add or update CW\'s template, see following exception");
                     this.log.error(e);
                 }
             }

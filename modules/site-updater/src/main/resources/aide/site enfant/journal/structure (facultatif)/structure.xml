@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<root>
+    <structure><!--si la structure n'est pas dans parent -->
+        <key>structure-key</key><!--obligatoire -->
+        <name>Structure name</name><!--obligatoire -->
+        <definition>structure-definition.json</definition><!--obligatoire -->
+        <layout>structure-layout.json</layout><!--obligatoire -->
+    </structure>
+    <structureOverride><!--si la structure est dans parent, qu'elle doit être modifiée ou qui a des templates qui doivent l'être-->
+        <parentKey>parent-structure-key-to-override</parentKey><!--obligatoire -->
+        <key>structure-key</key><!--facultatif -->
+        <name>Structure name</name><!--facultatif -->
+        <definition>structure-definition.json</definition><!--facultatif -->
+        <layout>structure-layout.json</layout><!--facultatif -->
+    </structureOverride>
+    <template><!--autant que de templates de cette structure qui n'existent pas chez le parent -->
+        <key>template-key</key><!--obligatoire -->
+        <name>Template name</name><!--obligatoire -->
+        <cacheable>true||false</cacheable><!--facultatif -->
+        <script>template.ftl</script><!--obligatoire -->
+    </template>
+    <skipTemplate>parent-template-key-to-skip1,parent-template-key-to-skip2</skipTemplate><!--facultatif -->
+    <templateOverride><!--autant que de templates de cette structure à modifier par rapport au parent -->
+        <parentKey>parent-template-key-to-override</parentKey><!--obligatoire -->
+        <key>template-key</key><!--facultatif -->
+        <name>Template name</name><!--facultatif -->
+        <cacheable>true||false</cacheable><!--facultatif -->
+        <script>template.ftl</script><!--facultatif -->
+    </templateOverride>
+</root>

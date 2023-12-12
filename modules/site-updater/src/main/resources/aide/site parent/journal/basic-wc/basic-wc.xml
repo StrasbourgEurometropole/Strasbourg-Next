@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<root>
+    <basicCWTemplate><!--autant que de templates de contenu web de base -->
+        <key>template-key</key><!--obligatoire -->
+        <name>Template name</name><!--obligatoire -->
+        <cacheable>true||false</cacheable><!--facultatif -->
+        <script>template.ftl</script><!--obligatoire -->
+    </basicCWTemplate>
+</root>

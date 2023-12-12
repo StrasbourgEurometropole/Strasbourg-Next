@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>type.className</className><!--obligatoire -->
+    <template><!--autant que de templates de ce type -->
+        <key>template-key</key><!--obligatoire -->
+        <name>Template name</name><!--obligatoire -->
+        <script>template.ftl</script><!--obligatoire -->
+    </template>
+</root>
