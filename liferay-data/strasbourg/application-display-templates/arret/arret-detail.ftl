@@ -13,6 +13,9 @@
 
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 
+<@liferay_util["html-bottom"]>
+    <script src="/o/strasbourg-theme/js/libs/leaflet.js"></script>
+</@>
 
 <header class="st-header-fiche-lieu">
     <div class="st-wrapper st-wrapper-small">
