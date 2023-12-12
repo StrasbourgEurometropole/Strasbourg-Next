@@ -49,6 +49,8 @@ liferayThemeTasks.registerTasks({
                     'build/js/libs/**/*.js',
                     'build/js/*.js',
                     'build/js/**/*.js',
+                    '!build/js/libs/leaflet.js',
+                '!build/js/libs/leaflet/leaflet-mapbox-gl.js'
                 ]
             )
                 .pipe(concat("main.js")).on('error', onError)

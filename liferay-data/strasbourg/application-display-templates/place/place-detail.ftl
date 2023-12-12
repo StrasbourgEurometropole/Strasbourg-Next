@@ -12,6 +12,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 "og:image":"${homeURL}${entry.imageURL}"
 } />
 
+<@liferay_util["html-bottom"]>
+    <script src="/o/strasbourg-theme/js/libs/leaflet.js"></script>
+</@>
 
 <#assign fileEntryHelper=serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 <#assign

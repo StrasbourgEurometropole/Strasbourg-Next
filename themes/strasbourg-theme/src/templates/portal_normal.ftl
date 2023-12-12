@@ -24,6 +24,9 @@
 <@liferay_util["include"] page=body_top_include />
 <@liferay.control_menu />
 
+
+
+
 <div class="st-page-wrapper" id="wrapper">
     <#if selectable>
         <@liferay_util["include"] page=content_include />

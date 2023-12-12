@@ -22,11 +22,11 @@
 </#function>
 
 <#macro addImage fileEntryId showLegende=true showCopyright=true isFigure=true>
-    <#if  fileEntryId?has_content && fileEntryId != 0>
+    <#if  fileEntryId?has_content && fileEntryId?number != 0>
         <#local copyright = getCopyright(fileEntryId) />
         <#local legend = getLegend(fileEntryId) />
         <figure class="<#if isFigure>st-figure</#if> st-fit-cover" role="group" aria-label="${copyright} ${legend}">
-         <@getImageByFileEntry fileEntryId=fileEntryId />
+         <@getImageByFileEntry fileEntryId=fileEntryId?number />
             <figcaption>
                     <#if legend?has_content && showLegende>
                         ${legend}
@@ -97,13 +97,13 @@
 
 
 <#macro getImage imageNode>
-    <#assign fileEntryId = imageNode.getAttribute("fileEntryId")>
-    <@addImage fileEntryId=fileEntryId />
+    <#local fileEntryIdString = imageNode.getAttribute("fileEntryId")>
+    <@addImage fileEntryId=fileEntryIdString?number />
 </#macro>
 
 <#macro getImageByFileEntry fileEntryId>
     <#assign dlAppServiceUtil = serviceLocator.findService("com.liferay.document.library.kernel.service.DLAppService")>
-    <@adaptive_media_image["img"] fileVersion=dlAppServiceUtil.getFileEntry(fileEntryId).getFileVersion() />
+    <@adaptive_media_image["img"] fileVersion=dlAppServiceUtil.getFileEntry(fileEntryId?number).getFileVersion() />
 </#macro>
 
 <#macro alertError key message>

@@ -20,6 +20,11 @@
 *>", "",
 "r")?html}', "og:image" :"${imageUrl}"
 } />
+
+<@liferay_util["html-bottom"]>
+    <script src="/o/strasbourg-theme/js/libs/leaflet.js"></script>
+</@>
+
 <#-- partage de la configuration open graph dans la request -->
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 <@barreAgenda />

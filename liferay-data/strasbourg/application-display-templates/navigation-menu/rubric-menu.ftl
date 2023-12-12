@@ -5,10 +5,35 @@
 <#else>
     <#assign homeURL="/" />
 </#if>
+<div class="st-ancres st-wrapper st-js-ancres">
+    <nav class="st-ancres__container" role="navigation" aria-label="sommaire">
+
+        <ul class="st-ancres__list st-custom-scrollbar">
+            <#list entries as nav_item>
+            <li class="st-ancres__item">
+                <a href="#ancre-${nav_item.hashCode()}" class="st-ancres__link">
+                    <span>${nav_item.getTitle()}</span>
+                </a>
+            </li>
+            </#list>
+        </ul>
+
+        <div class="st-nav-arrows st-hide-from@t-portrait">
+            <button class="splide__arrow splide__arrow--prev st-btn-arrow st--prev" aria-label="Défiler vers la gauche"></button>
+            <button class="splide__arrow splide__arrow--next st-btn-arrow st--next" aria-label="Défiler vers la droite"></button>
+        </div>
+
+        <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/social-share.ftl" />
+
+    </nav>
+</div>
+
 <#list entries as nav_item>
+    <div id="ancre-${nav_item.hashCode()}" class="st-bloc-ancre" tabindex="-1"></div>
     <#if nav_item.getLayout()??>
         <#assign backgroundImage=nav_item.getLayout().expandoBridge.getAttribute('image') />
         <div class="st-bloc st-bloc-image-hub st-wrapper st--has-margin">
+            <div class="st-wrapper-modifier">
             <div class="st-container <#if nav_item?is_even_item>st--text-right<#else>st--text-left</#if>">
                 <div class="st-col-text">
                     <div class="st-text-styles">
@@ -55,9 +80,11 @@
                     </div>
                 </div>
             </div>
+            </div>
         </div>
     <#else>
         <div class="st-bloc st-bloc-image-hub st-wrapper st--has-margin">
+            <div class="st-wrapper-modifier">
             <div class="st-container st--text-only">
                 <div class="st-col-text">
                     <div class="st-text-styles">
@@ -89,6 +116,7 @@
                         </#if>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     </#if>

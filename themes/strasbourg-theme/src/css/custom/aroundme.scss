@@ -1,0 +1,45 @@
+
+
+#wi-aroundme{
+    width: 1120px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+}
+
+.hidden {
+    display: none;
+}
+
+
+.st-page-wrapper {
+    h1.aroundme--h1 {
+        display: block;
+        font-size: 30px;
+        font-weight: 600;
+        color: #FFFFFF;
+        line-height: 1;
+        width: 1120px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 50px;
+    }
+    #aroundme {
+        .liste {
+            padding-top: 20px;
+        }
+        .filtres--poi {
+            background-color: $c_greymedium;
+            .filtres__title {
+                color: $c_white;
+            }
+        }
+        .filtres__item {
+            a {
+                @include ft($f_txt, $s_link, 600, $c_main, 1);
+            }
+        }
+    }
+}

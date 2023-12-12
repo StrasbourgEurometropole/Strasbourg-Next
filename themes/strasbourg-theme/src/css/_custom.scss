@@ -1,5 +1,6 @@
 @import "style";
 
+@import "custom/*.scss";
 .portlet-boundary {
   // Add override style if needed
   .portlet-header {
@@ -13,14 +14,60 @@
     margin: 0;
   }
 }
+.portlet-layout .portlet-header {
+  margin-bottom: 0;
+}
 
-.portlet-layout.row {
+.row {
   margin: 0;
+}
+
+.st-page-wrapper .lfr-layout-structure-item-row {
+  overflow: visible !important;
 }
 
 .st-text-styles.st-title-small p {
   font-weight: 700;
   color: #fff;
+}
+
+.st-item-row.st-arret {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  grid-template-columns: auto 1fr auto !important;
+}
+
+.st-bloc-sit-onglets .st-container.st-arret-container {
+  padding: 20px 40px 20px;
+}
+
+.st-item-row.st-arret:nth-last-child(2) {
+  background-image: url("../images/deco/dotted-line.svg") !important;
+}
+
+.ancrage-alerte {
+  display: flex;
+  align-items: center;
+  text-decoration: underline;
+  font-weight: 600;
+  &:before {
+    content: '';
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+    background-size: 30px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23D5383B' viewBox='0 0 55 51' %3E%3Ccircle cx='28' cy='27' r='20' fill='white' /%3E%3Cpath class='st0' d='M 27.97 3.46 c -12.48 0 -22.6 10.12 -22.6 22.6 c 0 12.48 10.12 22.6 22.6 22.6 s 22.6 -10.12 22.6 -22.6 C 50.57 13.58 40.45 3.46 27.97 3.46 Z M 32.62 40.06 h -9.31 v -9.31 h 9.31 V 40.06 Z M 31.62 28.69 h -7.31 l -1 -15.69 h 9.31 L 31.62 28.69 Z' /%3E%3C/svg%3E");
+  }
+}
+
+.transport-letters-icon {
+  padding: 7px;
+  font-weight: bold;
+  border-radius: 6px;
 }
 
 .st-img-fit-content {
