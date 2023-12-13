@@ -7,6 +7,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -33,4 +34,6 @@ public interface LayoutHelperService {
 	public String getPublikIssuerURL();
 
 	public Boolean hasQuickAccess(NavItem layout) throws Exception;
+
+	public List<NavItem> filterLayouts(List<NavItem> navItems, String categoryName);
 }

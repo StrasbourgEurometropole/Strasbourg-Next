@@ -2944,6 +2944,14 @@ public class PlaceWrapper
 	}
 
 	/**
+	 * Retourne true si le type du lieu est recherchable (utilisé pour affiche tous les lieux de meme type)
+	 */
+	@Override
+	public Boolean isSearchable() {
+		return model.isSearchable();
+	}
+
+	/**
 	 * Returns <code>true</code> if this place is approved.
 	 *
 	 * @return <code>true</code> if this place is approved; <code>false</code> otherwise

@@ -1,0 +1,45 @@
+
+.st-bloc-sit-text-person {
+	// règle spéciale pour l'espacement avec le bloc lien qui suit
+	&.st--has-margin {
+		margin-bottom: 35px;
+
+		@include mobile {
+			margin-bottom: 25px;
+		}
+	}
+
+	.st-h2 {
+		line-height: 1.16;
+
+		.st-text-light {
+			font-weight: 300;
+		}
+	}
+
+	.st-intro {
+		@include ft('', $s_p, 700, $c_white, 1.5);
+		@include letter-spacing(25);
+		margin-bottom: 8px;
+
+		@include mobile {
+			line-height: 1.43;
+		}
+	}
+
+	.st-note {
+		@include ft('', 14px, 300, $c_txt, 1.5);
+		font-style: italic;
+		@include letter-spacing(25);
+
+		@include mobile {
+			line-height: 1.43;
+		}
+	}
+
+	.st-surtitre-cat + .st-note {
+		@include min-mobile {
+			margin-top: 4px;
+		}
+	}
+}

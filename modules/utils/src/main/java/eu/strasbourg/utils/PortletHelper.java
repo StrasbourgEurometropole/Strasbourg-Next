@@ -19,6 +19,7 @@ import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 
 import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -407,6 +408,11 @@ public class PortletHelper {
 			result |= octet & 0xff;
 		}
 		return result;
+	}
+
+	public static void addBreadcrumbEntry(PortletRequest request, String name, PortletURL url) {
+		PortalUtil.addPortletBreadcrumbEntry(PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request)),
+				name, url.toString());
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(PortletHelper.class.getName());

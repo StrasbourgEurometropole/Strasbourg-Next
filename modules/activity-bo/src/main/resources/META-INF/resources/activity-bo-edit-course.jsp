@@ -41,6 +41,11 @@
 				
 				<!-- Présentation -->
 				<aui:input name="presentation" />
+
+				<!-- Durée -->
+				<aui:input name="duration" helpMessage="duration-help" >
+						<aui:validator name="number" />
+				</aui:input>
 				
 				<!-- Catégories -->
 				<liferay-asset:asset-categories-selector

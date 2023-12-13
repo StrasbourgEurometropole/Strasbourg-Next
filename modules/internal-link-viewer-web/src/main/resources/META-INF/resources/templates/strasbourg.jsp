@@ -1,22 +1,33 @@
 <%@ include file="/internal-link-init.jsp"%>
 
-<div class="seu-wi seu-wi-crossreading">
-    <div class="seu-container">
-        <h2 class="seu-section-title">
-            <span class="seu-title"><liferay-ui:message key="${strasbourgPortletTitle}" /></span>
-        </h2>
-        <div class="seu-wi-content">
-			<c:forEach items="${selectedLayouts}" var="layout">
-				<liferay-portlet:renderURL plid="${layout.plid}" var="layoutURL" />
-	             <a href="${layoutURL}" 
-	             class="seu-btn-square seu-bordered seu-core"  
-	             title="${layout.getName(locale)}" >
-	                 <span class="seu-flexbox">
-	                     <span class="seu-btn-text">${layout.getName(locale)}</span>
-	                     <span class="seu-btn-arrow"></span>
-	                 </span>
-	            </a>
-        	</c:forEach>
-        </div>
-    </div>
+<div class="st-bloc st-bloc-infos-complementaires st-wrapper st--has-margin">
+	<div class="st-container">
+		<div class="st-component st-component-type-2">
+			<h2 class="st-h2 st-title">
+				<liferay-ui:message key="${strasbourgPortletTitle}" />
+			</h2>
+			<div class="st-component-container">
+				<ul class="st-liste st-limit-height">
+				<c:forEach items="${selectedLayouts}" var="layout">
+					<liferay-portlet:renderURL plid="${layout.plid}" var="layoutURL" />
+					<li class="st-lien-container">
+						<a href="${layoutURL}" class="st-lien" target="_blank" title="${layout.getName(locale)}">
+						<p class="st-title-lien">
+								${layout.getName(locale)}
+						</p>
+						<p class="st-text">
+							<liferay-ui:message key="eu.access-page" />
+						</p>
+						</a>
+					</li>
+				</c:forEach>
+			     </ul>
+			<div class="st-show-more">
+				<button class="st-btn-show-more st-btn-arrow st--down"
+						aria-expanded="false"
+						data-open-label="<liferay-ui:message key="eu.strasbourg.show-more" />" data-close-label="<liferay-ui:message key="eu.strasbourg.show-less" />"><liferay-ui:message key="eu.strasbourg.show-more" />
+				</button>
+			</div>
+		</div>
+	</div>
 </div>

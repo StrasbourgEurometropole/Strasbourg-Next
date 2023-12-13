@@ -91,8 +91,9 @@ public class ActivityCourseModelImpl
 		{"name", Types.VARCHAR}, {"presentation", Types.CLOB},
 		{"arrangements", Types.CLOB}, {"price", Types.CLOB},
 		{"activityId", Types.BIGINT}, {"organizerId", Types.BIGINT},
-		{"imageId", Types.BIGINT}, {"imageIds", Types.VARCHAR},
-		{"videosIds", Types.VARCHAR}, {"documentsIds", Types.VARCHAR}
+		{"duration", Types.INTEGER}, {"imageId", Types.BIGINT},
+		{"imageIds", Types.VARCHAR}, {"videosIds", Types.VARCHAR},
+		{"documentsIds", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -117,6 +118,7 @@ public class ActivityCourseModelImpl
 		TABLE_COLUMNS_MAP.put("price", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("activityId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("organizerId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("duration", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("imageIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("videosIds", Types.VARCHAR);
@@ -124,7 +126,7 @@ public class ActivityCourseModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table activity_ActivityCourse (uuid_ VARCHAR(75) null,activityCourseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name STRING null,presentation TEXT null,arrangements TEXT null,price TEXT null,activityId LONG,organizerId LONG,imageId LONG,imageIds VARCHAR(75) null,videosIds VARCHAR(75) null,documentsIds VARCHAR(75) null)";
+		"create table activity_ActivityCourse (uuid_ VARCHAR(75) null,activityCourseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name STRING null,presentation TEXT null,arrangements TEXT null,price TEXT null,activityId LONG,organizerId LONG,duration INTEGER,imageId LONG,imageIds VARCHAR(75) null,videosIds VARCHAR(75) null,documentsIds VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table activity_ActivityCourse";
@@ -377,6 +379,10 @@ public class ActivityCourseModelImpl
 		attributeSetterBiConsumers.put(
 			"organizerId",
 			(BiConsumer<ActivityCourse, Long>)ActivityCourse::setOrganizerId);
+		attributeGetterFunctions.put("duration", ActivityCourse::getDuration);
+		attributeSetterBiConsumers.put(
+			"duration",
+			(BiConsumer<ActivityCourse, Integer>)ActivityCourse::setDuration);
 		attributeGetterFunctions.put("imageId", ActivityCourse::getImageId);
 		attributeSetterBiConsumers.put(
 			"imageId",
@@ -1145,6 +1151,21 @@ public class ActivityCourseModelImpl
 
 	@JSON
 	@Override
+	public int getDuration() {
+		return _duration;
+	}
+
+	@Override
+	public void setDuration(int duration) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_duration = duration;
+	}
+
+	@JSON
+	@Override
 	public long getImageId() {
 		return _imageId;
 	}
@@ -1508,6 +1529,7 @@ public class ActivityCourseModelImpl
 		activityCourseImpl.setPrice(getPrice());
 		activityCourseImpl.setActivityId(getActivityId());
 		activityCourseImpl.setOrganizerId(getOrganizerId());
+		activityCourseImpl.setDuration(getDuration());
 		activityCourseImpl.setImageId(getImageId());
 		activityCourseImpl.setImageIds(getImageIds());
 		activityCourseImpl.setVideosIds(getVideosIds());
@@ -1557,6 +1579,8 @@ public class ActivityCourseModelImpl
 			this.<Long>getColumnOriginalValue("activityId"));
 		activityCourseImpl.setOrganizerId(
 			this.<Long>getColumnOriginalValue("organizerId"));
+		activityCourseImpl.setDuration(
+			this.<Integer>getColumnOriginalValue("duration"));
 		activityCourseImpl.setImageId(
 			this.<Long>getColumnOriginalValue("imageId"));
 		activityCourseImpl.setImageIds(
@@ -1742,6 +1766,8 @@ public class ActivityCourseModelImpl
 
 		activityCourseCacheModel.organizerId = getOrganizerId();
 
+		activityCourseCacheModel.duration = getDuration();
+
 		activityCourseCacheModel.imageId = getImageId();
 
 		activityCourseCacheModel.imageIds = getImageIds();
@@ -1852,6 +1878,7 @@ public class ActivityCourseModelImpl
 	private String _priceCurrentLanguageId;
 	private long _activityId;
 	private long _organizerId;
+	private int _duration;
 	private long _imageId;
 	private String _imageIds;
 	private String _videosIds;
@@ -1904,6 +1931,7 @@ public class ActivityCourseModelImpl
 		_columnOriginalValues.put("price", _price);
 		_columnOriginalValues.put("activityId", _activityId);
 		_columnOriginalValues.put("organizerId", _organizerId);
+		_columnOriginalValues.put("duration", _duration);
 		_columnOriginalValues.put("imageId", _imageId);
 		_columnOriginalValues.put("imageIds", _imageIds);
 		_columnOriginalValues.put("videosIds", _videosIds);
@@ -1967,13 +1995,15 @@ public class ActivityCourseModelImpl
 
 		columnBitmasks.put("organizerId", 131072L);
 
-		columnBitmasks.put("imageId", 262144L);
+		columnBitmasks.put("duration", 262144L);
 
-		columnBitmasks.put("imageIds", 524288L);
+		columnBitmasks.put("imageId", 524288L);
 
-		columnBitmasks.put("videosIds", 1048576L);
+		columnBitmasks.put("imageIds", 1048576L);
 
-		columnBitmasks.put("documentsIds", 2097152L);
+		columnBitmasks.put("videosIds", 2097152L);
+
+		columnBitmasks.put("documentsIds", 4194304L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

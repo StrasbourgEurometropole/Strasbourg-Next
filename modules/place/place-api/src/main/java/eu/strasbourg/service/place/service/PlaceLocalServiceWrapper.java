@@ -14,6 +14,8 @@
 
 package eu.strasbourg.service.place.service;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -578,6 +580,11 @@ public class PlaceLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		_placeLocalService.updateStatus(place, status);
+	}
+
+	@Override
+	public Integer getPlaceCountByAssetCategory(AssetCategory assetCategory, long companyGroupId) throws PortalException {
+		return _placeLocalService.getPlaceCountByAssetCategory(assetCategory,companyGroupId);
 	}
 
 	@Override

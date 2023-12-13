@@ -438,7 +438,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				// Si tel est le cas
 				if (containsNewsTagName || !configAffichage.equals(Constants.SEARCH_FORM_PLACIT)) {
 					try {
-						JSONObject jsonArticle = JSONSearchHelper.createJournalArticleSearchJson(assetEntry, locale, themeDisplay, configAffichage, descriptionMaxLength);
+						JSONObject jsonArticle = JSONSearchHelper.createJournalArticleSearchJson(assetEntry, locale, themeDisplay, configAffichage, descriptionMaxLength, publikUserId);
 						jsonResponse.put(jsonArticle);
 					}catch (Exception e){
 						_log.error(e);
@@ -456,7 +456,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			// AssetEntry : Edition
 			else if (assetClassName.equals(Edition.class.getName())) {
 				Edition edition = EditionLocalServiceUtil.getEdition(assetEntry.getClassPK());
-				JSONObject jsonEdition = JSONSearchHelper.createEditionSearchJson(edition, locale, themeDisplay, configAffichage, descriptionMaxLength);
+				JSONObject jsonEdition = JSONSearchHelper.createEditionSearchJson(edition, locale, themeDisplay, configAffichage, descriptionMaxLength, publikUserId);
 				jsonResponse.put(jsonEdition);
 			}
 
@@ -477,7 +477,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			// AssetEntry : Place
 			else if (assetClassName.equals(Place.class.getName())) {
 				Place place = PlaceLocalServiceUtil.getPlace(assetEntry.getClassPK());
-				JSONObject jsonPlace = JSONSearchHelper.createPlaceSearchJson(place, locale, themeDisplay, configAffichage);
+				JSONObject jsonPlace = JSONSearchHelper.createPlaceSearchJson(place, locale, themeDisplay, configAffichage, publikUserId);
 				jsonResponse.put(jsonPlace);
 			}
 

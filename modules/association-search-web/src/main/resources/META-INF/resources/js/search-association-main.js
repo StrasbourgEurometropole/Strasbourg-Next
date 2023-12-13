@@ -4,11 +4,11 @@ jQuery(function() {
 
 
     var domainsSelect = $('select.domains');
-    var specialityWidget = $('.widget.speciality');
+    var specialityWidget = $('.st-filtre.speciality');
     var specialitiesSelect = $('select.specialities');
-    var subSpecialityWidget = $('.widget.subSpeciality');
+    var subSpecialityWidget = $('.st-filtre.subSpeciality');
     var subSpecialitiesSelect = $('select.subSpecialities');
-    var subSubSpecialityWidget = $('.widget.subSubSpeciality');
+    var subSubSpecialityWidget = $('.st-filtre.subSubSpeciality');
     var subSubSpecialitiesSelect = $('select.subSubSpecialities');
 
     // Lors d'une selection de domaine

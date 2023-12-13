@@ -4,7 +4,7 @@
 	<c:set var="prefix" value="${prefix} - " />
 </c:forEach>
 <aui:option value="${category.categoryId}"
-	label="${prefix} ${category.getTitle(locale)}"
+	label="${category.getTitle(locale)}"
 	selected="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}" />
 <c:set var="level" value="${level + 1}" scope="request"/>
 <c:forEach items="${vocabularyHelper.getChild(category.categoryId)}" var="children">

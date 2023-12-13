@@ -1,0 +1,176 @@
+// Couverture dans les fiches agenda
+.st-header-fiche-agenda {
+	margin-bottom: 70px;
+
+	@include tablet-portrait {
+		margin-bottom: 50px;
+	}
+
+	@include mobile {
+		margin-bottom: 30px;
+	}
+
+	@include min-tablet-portrait {
+		padding-top: 40px;
+	}
+
+	.st-surtitre-cat {
+		margin-bottom: 8px;
+
+		@include tablet-portrait {
+			margin-bottom: 4px;
+		}
+	}
+
+	.st-title-secondary {
+		margin-top: 30px;
+
+		@include mobile {
+			margin-top: 16px;
+		}
+	}
+
+	.st-visual-container {
+		display: grid;
+		grid-template-areas: "topbar topbar"
+							 "image map";
+		grid-template-columns: fit-content(50%) minmax(10px, 1fr);
+		margin-top: 34px;
+
+		@include tablet-small {
+			grid-template-areas: "image"
+							     "topbar"
+							     "map";
+			grid-template-columns: minmax(10px, 1fr);
+			grid-template-rows: auto auto 220px;
+		}
+
+		@include mobile {
+			margin-top: 16px;
+		}
+	}
+
+	.st-top-bar {
+		grid-area: topbar;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 30px;
+		background-color: $c_greydark;
+		border-radius: $border-radius $border-radius 0 0;
+
+		@include tablet-small {
+			flex-direction: column;
+			align-items: initial;
+			padding: 20px;
+		}
+	}
+
+	.st-top-bar__left {
+		display: flex;
+		flex-wrap: wrap;
+		--col-gap: 20px;
+		--row-gap: 8px;
+		margin-left: calc(var(--col-gap) * -1);
+		margin-top: calc(var(--row-gap) * -1);
+
+		> *,
+		.st-location {
+			margin-left: var(--col-gap);
+			margin-top: var(--row-gap);
+
+			@include mobile {
+				width: 100%;
+			}
+		}
+
+		.st-date {
+			display: inline-flex;
+			@include ft('', 18px, 600, $c_white, 1);
+
+			@include mobile {
+				font-size: 14px;
+			}
+
+			&:before {
+				@include icomoon($st-icon-agenda);
+				font-size: 16px;
+				margin-right: 8px;
+
+				@include mobile {
+					font-size: 14px;
+					margin-right: 6px;
+				}
+			}
+		}
+
+		.st-schedule {
+			display: inline-flex;
+			@include ft('', 18px,300, '', 1);
+			@include letter-spacing(25);
+
+			@include mobile {
+				font-size: 14px;
+			}
+
+			&:before {
+				@include icomoon($st-icon-clock);
+				font-size: 16px;
+				margin-right: 8px;
+
+				@include mobile {
+					font-size: 14px;
+					margin-right: 6px;
+				}
+			}
+		}
+	}
+
+	.st-top-bar__right {
+		flex-shrink: 0;
+
+		@include min-tablet-small {
+			margin-left: 40px;
+		}
+
+		@include tablet-small {
+			margin-top: 20px;
+		}
+	}
+
+
+	.st-image {
+		grid-area: image;
+
+		@include tablet-small {
+			justify-self: center;
+			margin-bottom: 20px;
+		}
+
+		figure {
+			height: 100%;
+		}
+
+		img {
+			border-bottom-left-radius: $border-radius-small;
+
+			@include tablet-small {
+				border-radius: $border-radius-small;
+			}
+		}
+	}
+
+	.st-wrapper-maps {
+		grid-area: map;
+
+		.st-maps {
+			width: 100%;
+			height: 100%;
+			border-bottom-right-radius: $border-radius-small;
+
+			@include tablet-small {
+				border-radius: 0 0 $border-radius-small $border-radius-small;
+			}
+		}
+	}
+}

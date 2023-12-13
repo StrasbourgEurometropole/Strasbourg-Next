@@ -1,0 +1,8 @@
+
+.st-page-wrapper .st-bloc-sit-title {
+	margin-bottom: 30px;
+
+	@include mobile {
+		margin-bottom: 14px;
+	}
+}

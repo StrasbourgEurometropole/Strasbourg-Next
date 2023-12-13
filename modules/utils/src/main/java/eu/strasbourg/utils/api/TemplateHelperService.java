@@ -13,4 +13,6 @@ import com.liferay.dynamic.data.mapping.model.DDMTemplate;
 @ProviderType
 public interface TemplateHelperService {
 	public DDMTemplate getDDMTemplateByGroupeIdAndName(long groupId, String name);
+
+	public String unescapeHtml(String content);
 }

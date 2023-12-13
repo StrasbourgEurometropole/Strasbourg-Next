@@ -1,0 +1,637 @@
+{
+  "availableLanguageIds": [
+    "fr_FR"
+  ],
+  "contentType": "journal",
+  "dataDefinitionFields": [
+    {
+      "customProperties": {
+        "labelAtStructureLevel": true,
+        "ddmStructureLayoutId": "",
+        "ddmStructureId": "",
+        "upgradedStructure": false,
+        "fieldReference": "PushFieldset",
+        "rows": [
+          {
+            "columns": [
+              {
+                "size": 12,
+                "fields": [
+                  "Text25182378"
+                ]
+              }
+            ]
+          },
+          {
+            "columns": [
+              {
+                "size": 12,
+                "fields": [
+                  "Text88005601"
+                ]
+              }
+            ]
+          },
+          {
+            "columns": [
+              {
+                "size": 12,
+                "fields": [
+                  "Image47744874"
+                ]
+              }
+            ]
+          },
+          {
+            "columns": [
+              {
+                "size": 12,
+                "fields": [
+                  "Select47630749"
+                ]
+              }
+            ]
+          },
+          {
+            "columns": [
+              {
+                "size": 12,
+                "fields": [
+                  "Text19366221"
+                ]
+              }
+            ]
+          },
+          {
+            "columns": [
+              {
+                "size": 12,
+                "fields": [
+                  "Fieldset35928960"
+                ]
+              }
+            ]
+          }
+        ],
+        "collapsible": false
+      },
+      "defaultValue": {},
+      "fieldType": "fieldset",
+      "indexable": false,
+      "label": {
+        "fr_FR": "Bloc"
+      },
+      "localizable": false,
+      "name": "CopyOfFieldset07280482",
+      "nestedDataDefinitionFields": [
+        {
+          "customProperties": {
+            "labelAtStructureLevel": true,
+            "confirmationErrorMessage": {
+              "fr_FR": ""
+            },
+            "hideField": false,
+            "autocomplete": false,
+            "ddmDataProviderInstanceId": [],
+            "dataType": "string",
+            "tooltip": {
+              "fr_FR": ""
+            },
+            "requireConfirmation": false,
+            "displayStyle": "singleline",
+            "visibilityExpression": "",
+            "fieldNamespace": "",
+            "ddmDataProviderInstanceOutput": [],
+            "options": {
+              "fr_FR": [
+                {
+                  "reference": "Option55799263",
+                  "label": "Option",
+                  "value": "Option55799263"
+                }
+              ]
+            },
+            "nativeField": false,
+            "confirmationLabel": {
+              "fr_FR": ""
+            },
+            "fieldReference": "TitleText",
+            "placeholder": {
+              "fr_FR": ""
+            },
+            "dataSourceType": "manual",
+            "direction": [
+              "vertical"
+            ]
+          },
+          "defaultValue": {},
+          "fieldType": "text",
+          "indexType": "keyword",
+          "indexable": true,
+          "label": {
+            "fr_FR": "Titre"
+          },
+          "localizable": true,
+          "name": "Text25182378",
+          "nestedDataDefinitionFields": [],
+          "readOnly": false,
+          "repeatable": false,
+          "required": false,
+          "showLabel": true,
+          "tip": {
+            "fr_FR": ""
+          }
+        },
+        {
+          "customProperties": {
+            "labelAtStructureLevel": true,
+            "confirmationErrorMessage": {
+              "fr_FR": ""
+            },
+            "hideField": false,
+            "autocomplete": false,
+            "ddmDataProviderInstanceId": [],
+            "dataType": "string",
+            "tooltip": {
+              "fr_FR": ""
+            },
+            "requireConfirmation": false,
+            "displayStyle": "singleline",
+            "visibilityExpression": "",
+            "fieldNamespace": "",
+            "ddmDataProviderInstanceOutput": [],
+            "options": {
+              "fr_FR": [
+                {
+                  "reference": "Option55799263",
+                  "label": "Option",
+                  "value": "Option55799263"
+                }
+              ]
+            },
+            "nativeField": false,
+            "confirmationLabel": {
+              "fr_FR": ""
+            },
+            "fieldReference": "SubtitleText",
+            "placeholder": {
+              "fr_FR": ""
+            },
+            "dataSourceType": "manual",
+            "direction": [
+              "vertical"
+            ]
+          },
+          "defaultValue": {},
+          "fieldType": "text",
+          "indexType": "keyword",
+          "indexable": true,
+          "label": {
+            "fr_FR": "Sous-titre"
+          },
+          "localizable": true,
+          "name": "Text88005601",
+          "nestedDataDefinitionFields": [],
+          "readOnly": false,
+          "repeatable": false,
+          "required": false,
+          "showLabel": true,
+          "tip": {
+            "fr_FR": ""
+          }
+        },
+        {
+          "customProperties": {
+            "visibilityExpression": "",
+            "fieldNamespace": "",
+            "dataType": "image",
+            "requiredDescription": true,
+            "fieldReference": "PictoImage"
+          },
+          "defaultValue": {},
+          "fieldType": "image",
+          "indexType": "text",
+          "indexable": true,
+          "label": {
+            "fr_FR": "Image"
+          },
+          "localizable": true,
+          "name": "Image47744874",
+          "nestedDataDefinitionFields": [],
+          "readOnly": false,
+          "repeatable": false,
+          "required": false,
+          "showLabel": true,
+          "tip": {
+            "fr_FR": "Image sera selectionné en prioité si un picto est selectionné"
+          }
+        },
+        {
+          "customProperties": {
+            "labelAtStructureLevel": true,
+            "ddmDataProviderInstanceId": [],
+            "dataType": "string",
+            "multiple": false,
+            "visibilityExpression": "",
+            "requiredErrorMessage": {
+              "fr_FR": ""
+            },
+            "fieldNamespace": "",
+            "objectFieldName": "",
+            "ddmDataProviderInstanceOutput": [],
+            "alphabeticalOrder": false,
+            "options": {
+              "fr_FR": [
+                {
+                  "reference": " st-icon-alarme",
+                  "label": "Gyrophare",
+                  "value": "Option34689466"
+                },
+                {
+                  "reference": " st-icon-trafic",
+                  "label": "Bouchon",
+                  "value": "Option54779324"
+                },
+                {
+                  "reference": "st-icon-soleil",
+                  "label": "Canicule",
+                  "value": "Option02307078"
+                },
+                {
+                  "reference": "st-icon-snowflake",
+                  "label": "Neige / Verglas",
+                  "value": "Option45500719"
+                },
+                {
+                  "reference": "st-icon-alerte",
+                  "label": "Vigipirate / alerte attentat",
+                  "value": "Option56839146"
+                }
+              ]
+            },
+            "nativeField": false,
+            "fieldReference": "PictoIcon",
+            "dataSourceType": [
+              "manual"
+            ]
+          },
+          "defaultValue": {
+            "fr_FR": []
+          },
+          "fieldType": "select",
+          "indexType": "keyword",
+          "indexable": true,
+          "label": {
+            "fr_FR": "Picto"
+          },
+          "localizable": true,
+          "name": "Select47630749",
+          "nestedDataDefinitionFields": [],
+          "readOnly": false,
+          "repeatable": false,
+          "required": false,
+          "showLabel": true,
+          "tip": {
+            "fr_FR": "Image sera selectionné en prioité si un picto est selectionné"
+          }
+        },
+        {
+          "customProperties": {
+            "labelAtStructureLevel": true,
+            "confirmationErrorMessage": {
+              "fr_FR": ""
+            },
+            "hideField": false,
+            "autocomplete": false,
+            "ddmDataProviderInstanceId": [],
+            "dataType": "string",
+            "tooltip": {
+              "fr_FR": ""
+            },
+            "requireConfirmation": false,
+            "displayStyle": "multiline",
+            "visibilityExpression": "",
+            "fieldNamespace": "",
+            "ddmDataProviderInstanceOutput": [],
+            "options": {
+              "fr_FR": [
+                {
+                  "reference": "Option55799263",
+                  "label": "Option",
+                  "value": "Option55799263"
+                }
+              ]
+            },
+            "nativeField": false,
+            "confirmationLabel": {
+              "fr_FR": ""
+            },
+            "fieldReference": "DescriptionText",
+            "placeholder": {
+              "fr_FR": ""
+            },
+            "dataSourceType": "manual",
+            "direction": [
+              "vertical"
+            ]
+          },
+          "defaultValue": {},
+          "fieldType": "text",
+          "indexType": "keyword",
+          "indexable": true,
+          "label": {
+            "fr_FR": "Description"
+          },
+          "localizable": true,
+          "name": "Text19366221",
+          "nestedDataDefinitionFields": [],
+          "readOnly": false,
+          "repeatable": false,
+          "required": false,
+          "showLabel": true,
+          "tip": {
+            "fr_FR": ""
+          }
+        },
+        {
+          "customProperties": {
+            "labelAtStructureLevel": true,
+            "ddmStructureLayoutId": "",
+            "ddmStructureId": "",
+            "upgradedStructure": false,
+            "fieldReference": "ActionFieldSet",
+            "rows": [
+              {
+                "columns": [
+                  {
+                    "size": 12,
+                    "fields": [
+                      "Text44802226"
+                    ]
+                  }
+                ]
+              },
+              {
+                "columns": [
+                  {
+                    "size": 12,
+                    "fields": [
+                      "Text41571287"
+                    ]
+                  }
+                ]
+              },
+              {
+                "columns": [
+                  {
+                    "size": 12,
+                    "fields": [
+                      "LinkToLayout08324060"
+                    ]
+                  }
+                ]
+              },
+              {
+                "columns": [
+                  {
+                    "size": 12,
+                    "fields": [
+                      "Checkbox78356365"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "collapsible": false
+          },
+          "defaultValue": {},
+          "fieldType": "fieldset",
+          "indexable": false,
+          "label": {
+            "fr_FR": "Button Actions"
+          },
+          "localizable": false,
+          "name": "Fieldset35928960",
+          "nestedDataDefinitionFields": [
+            {
+              "customProperties": {
+                "labelAtStructureLevel": true,
+                "confirmationErrorMessage": {
+                  "fr_FR": ""
+                },
+                "hideField": false,
+                "autocomplete": false,
+                "ddmDataProviderInstanceId": [],
+                "dataType": "string",
+                "tooltip": {
+                  "fr_FR": ""
+                },
+                "requireConfirmation": false,
+                "displayStyle": "singleline",
+                "visibilityExpression": "",
+                "fieldNamespace": "",
+                "ddmDataProviderInstanceOutput": [],
+                "options": {
+                  "fr_FR": [
+                    {
+                      "reference": "Option55799263",
+                      "label": "Option",
+                      "value": "Option55799263"
+                    }
+                  ]
+                },
+                "nativeField": false,
+                "confirmationLabel": {
+                  "fr_FR": ""
+                },
+                "fieldReference": "LinkLabelText",
+                "placeholder": {
+                  "fr_FR": ""
+                },
+                "dataSourceType": "manual",
+                "direction": [
+                  "vertical"
+                ]
+              },
+              "defaultValue": {},
+              "fieldType": "text",
+              "indexType": "keyword",
+              "indexable": true,
+              "label": {
+                "fr_FR": "Label Lien"
+              },
+              "localizable": true,
+              "name": "Text44802226",
+              "nestedDataDefinitionFields": [],
+              "readOnly": false,
+              "repeatable": false,
+              "required": false,
+              "showLabel": true,
+              "tip": {
+                "fr_FR": ""
+              }
+            },
+            {
+              "customProperties": {
+                "labelAtStructureLevel": true,
+                "confirmationErrorMessage": {
+                  "fr_FR": ""
+                },
+                "hideField": false,
+                "autocomplete": false,
+                "ddmDataProviderInstanceId": [],
+                "dataType": "string",
+                "tooltip": {
+                  "fr_FR": ""
+                },
+                "requireConfirmation": false,
+                "displayStyle": "singleline",
+                "visibilityExpression": "",
+                "fieldNamespace": "",
+                "ddmDataProviderInstanceOutput": [],
+                "options": {
+                  "fr_FR": [
+                    {
+                      "reference": "Option55799263",
+                      "label": "Option",
+                      "value": "Option55799263"
+                    }
+                  ]
+                },
+                "nativeField": false,
+                "confirmationLabel": {
+                  "fr_FR": ""
+                },
+                "fieldReference": "ExternalLinkText",
+                "placeholder": {
+                  "fr_FR": ""
+                },
+                "dataSourceType": "manual",
+                "direction": [
+                  "vertical"
+                ]
+              },
+              "defaultValue": {},
+              "fieldType": "text",
+              "indexType": "keyword",
+              "indexable": true,
+              "label": {
+                "fr_FR": "Lien Externe"
+              },
+              "localizable": true,
+              "name": "Text41571287",
+              "nestedDataDefinitionFields": [],
+              "readOnly": false,
+              "repeatable": false,
+              "required": false,
+              "showLabel": true,
+              "tip": {
+                "fr_FR": ""
+              }
+            },
+            {
+              "customProperties": {
+                "visibilityExpression": "",
+                "fieldNamespace": "",
+                "dataType": "link-to-page",
+                "fieldReference": "InternalLinkText"
+              },
+              "defaultValue": {},
+              "fieldType": "link_to_layout",
+              "indexType": "keyword",
+              "indexable": true,
+              "label": {
+                "fr_FR": "Lien interne"
+              },
+              "localizable": true,
+              "name": "LinkToLayout08324060",
+              "nestedDataDefinitionFields": [],
+              "readOnly": false,
+              "repeatable": false,
+              "required": false,
+              "showLabel": true,
+              "tip": {
+                "fr_FR": ""
+              }
+            },
+            {
+              "customProperties": {
+                "visibilityExpression": "",
+                "labelAtStructureLevel": true,
+                "fieldNamespace": "",
+                "dataType": "boolean",
+                "options": {},
+                "fieldReference": "GreenBackgroundCheckbox",
+                "showAsSwitcher": false
+              },
+              "defaultValue": {},
+              "fieldType": "checkbox",
+              "indexType": "keyword",
+              "indexable": true,
+              "label": {
+                "fr_FR": "Font Vert"
+              },
+              "localizable": true,
+              "name": "Checkbox78356365",
+              "nestedDataDefinitionFields": [],
+              "readOnly": false,
+              "repeatable": false,
+              "required": false,
+              "showLabel": true,
+              "tip": {
+                "fr_FR": ""
+              }
+            }
+          ],
+          "readOnly": false,
+          "repeatable": true,
+          "required": false,
+          "showLabel": true,
+          "tip": {}
+        }
+      ],
+      "readOnly": false,
+      "repeatable": false,
+      "required": false,
+      "showLabel": true,
+      "tip": {}
+    }
+  ],
+  "defaultDataLayout": {
+    "dataLayoutFields": {},
+    "dataLayoutPages": [
+      {
+        "dataLayoutRows": [
+          {
+            "dataLayoutColumns": [
+              {
+                "columnSize": 12,
+                "fieldNames": [
+                  "CopyOfFieldset07280482"
+                ]
+              }
+            ]
+          }
+        ],
+        "description": {
+          "fr_FR": ""
+        },
+        "title": {
+          "fr_FR": ""
+        }
+      }
+    ],
+    "dataRules": [],
+    "description": {},
+    "name": {
+      "fr_FR": "Bloc push Full width"
+    },
+    "paginationMode": "single-page"
+  },
+  "defaultLanguageId": "fr_FR",
+  "description": {},
+  "name": {
+    "fr_FR": "Bloc push Full width"
+  },
+  "storageType": "default"
+}

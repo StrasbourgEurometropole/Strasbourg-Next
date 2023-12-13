@@ -1,153 +1,380 @@
 {
-    "availableLanguageIds": [
-        "fr_FR"
-    ],
-    "defaultLanguageId": "fr_FR",
-    "fields": [
-        {
-            "label": {
-                "fr_FR": "Label lien"
-            },
-            "predefinedValue": {
-                "fr_FR": ""
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "string",
-            "indexType": "",
-            "localizable": true,
-            "name": "linkLabel",
-            "readOnly": false,
-            "repeatable": true,
-            "required": false,
-            "showLabel": true,
-            "type": "text",
-            "nestedFields": [
-                {
-                    "label": {
-                        "fr_FR": "Lien"
-                    },
-                    "predefinedValue": {
-                        "fr_FR": ""
-                    },
-                    "style": {
-                        "fr_FR": ""
-                    },
-                    "tip": {
-                        "fr_FR": ""
-                    },
-                    "dataType": "link-to-page",
-                    "fieldNamespace": "ddm",
-                    "indexType": "",
-                    "localizable": true,
-                    "name": "linkURL",
-                    "readOnly": false,
-                    "repeatable": false,
-                    "required": false,
-                    "showLabel": true,
-                    "type": "ddm-link-to-page"
-                },
-                {
-                    "label": {
-                        "fr_FR": "Lien externe"
-                    },
-                    "predefinedValue": {
-                        "fr_FR": ""
-                    },
-                    "style": {
-                        "fr_FR": ""
-                    },
-                    "tip": {
-                        "fr_FR": ""
-                    },
-                    "dataType": "string",
-                    "indexType": "keyword",
-                    "localizable": true,
-                    "name": "externalLink",
-                    "readOnly": false,
-                    "repeatable": false,
-                    "required": false,
-                    "showLabel": true,
-                    "type": "text",
-                    "nestedFields": [
-                        {
-                            "label": {
-                                "fr_FR": "Ouverture onglet actif"
-                            },
-                            "predefinedValue": {
-                                "fr_FR": false
-                            },
-                            "style": {
-                                "fr_FR": ""
-                            },
-                            "tip": {
-                                "fr_FR": ""
-                            },
-                            "dataType": "boolean",
-                            "indexType": "keyword",
-                            "localizable": true,
-                            "name": "activeTab",
-                            "readOnly": false,
-                            "repeatable": false,
-                            "required": false,
-                            "showLabel": true,
-                            "type": "checkbox"
-                        }
-                    ]
-                }
+  "availableLanguageIds": [
+    "fr_FR"
+  ],
+  "contentType": "journal",
+  "dataDefinitionFields": [
+    {
+      "customProperties": {
+        "labelAtStructureLevel": true,
+        "ddmStructureLayoutId": "",
+        "ddmStructureId": "",
+        "upgradedStructure": false,
+        "fieldReference": "linkLabelFieldSet",
+        "rows": [
+          {
+            "columns": [
+              {
+                "size": 12,
+                "fields": [
+                  "linkLabel"
+                ]
+              }
             ]
+          },
+          {
+            "columns": [
+              {
+                "size": 12,
+                "fields": [
+                  "linkURL"
+                ]
+              }
+            ]
+          },
+          {
+            "columns": [
+              {
+                "size": 12,
+                "fields": [
+                  "Text79643664"
+                ]
+              }
+            ]
+          },
+          {
+            "columns": [
+              {
+                "size": 12,
+                "fields": [
+                  "externalLinkFieldSet"
+                ]
+              }
+            ]
+          }
+        ],
+        "collapsible": false
+      },
+      "defaultValue": {},
+      "fieldType": "fieldset",
+      "indexable": false,
+      "label": {
+        "fr_FR": "Groupe de champs"
+      },
+      "localizable": false,
+      "name": "linkLabelFieldSet",
+      "nestedDataDefinitionFields": [
+        {
+          "customProperties": {
+            "labelAtStructureLevel": false,
+            "confirmationErrorMessage": {},
+            "hideField": false,
+            "autocomplete": false,
+            "ddmDataProviderInstanceId": [],
+            "dataType": "string",
+            "tooltip": {
+              "fr_FR": ""
+            },
+            "requireConfirmation": false,
+            "displayStyle": "singleline",
+            "visibilityExpression": "",
+            "fieldNamespace": "",
+            "ddmDataProviderInstanceOutput": [],
+            "options": {
+              "fr_FR": [
+                {
+                  "reference": "",
+                  "label": "Option",
+                  "value": "Option"
+                }
+              ]
+            },
+            "nativeField": false,
+            "confirmationLabel": {},
+            "fieldReference": "linkLabel",
+            "placeholder": {
+              "fr_FR": ""
+            },
+            "dataSourceType": "manual",
+            "direction": []
+          },
+          "defaultValue": {},
+          "fieldType": "text",
+          "indexType": "none",
+          "indexable": true,
+          "label": {
+            "fr_FR": "Label lien"
+          },
+          "localizable": true,
+          "name": "linkLabel",
+          "nestedDataDefinitionFields": [],
+          "readOnly": false,
+          "repeatable": false,
+          "required": false,
+          "showLabel": true,
+          "tip": {
+            "fr_FR": ""
+          }
         },
         {
-            "label": {
-                "fr_FR": "Image de fond"
-            },
-            "predefinedValue": {
-                "fr_FR": ""
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "image",
-            "fieldNamespace": "ddm",
-            "indexType": "",
-            "localizable": true,
-            "name": "backgroundImage",
-            "readOnly": false,
-            "repeatable": false,
-            "required": false,
-            "showLabel": true,
-            "type": "ddm-image"
-        },
-        {
-            "label": {
-                "fr_FR": "Lien à la page"
-            },
-            "predefinedValue": {
-                "fr_FR": ""
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
+          "customProperties": {
+            "visibilityExpression": "",
+            "fieldNamespace": "",
             "dataType": "link-to-page",
-            "fieldNamespace": "ddm",
-            "indexType": "keyword",
-            "localizable": true,
-            "name": "LienLaPagehgg8",
-            "readOnly": false,
-            "repeatable": false,
-            "required": false,
-            "showLabel": true,
-            "type": "ddm-link-to-page"
+            "fieldReference": "linkURL"
+          },
+          "defaultValue": {},
+          "fieldType": "link_to_layout",
+          "indexType": "none",
+          "indexable": true,
+          "label": {
+            "fr_FR": "Lien"
+          },
+          "localizable": true,
+          "name": "linkURL",
+          "nestedDataDefinitionFields": [],
+          "readOnly": false,
+          "repeatable": false,
+          "required": false,
+          "showLabel": true,
+          "tip": {
+            "fr_FR": ""
+          }
+        },
+        {
+          "customProperties": {
+            "labelAtStructureLevel": true,
+            "confirmationErrorMessage": {
+              "fr_FR": ""
+            },
+            "hideField": false,
+            "autocomplete": false,
+            "ddmDataProviderInstanceId": [],
+            "dataType": "string",
+            "tooltip": {
+              "fr_FR": ""
+            },
+            "requireConfirmation": false,
+            "displayStyle": "multiline",
+            "visibilityExpression": "",
+            "requiredErrorMessage": {
+              "fr_FR": ""
+            },
+            "fieldNamespace": "",
+            "objectFieldName": "",
+            "ddmDataProviderInstanceOutput": [],
+            "options": {
+              "fr_FR": [
+                {
+                  "reference": "Option17799771",
+                  "label": "Option",
+                  "value": "Option17799771"
+                }
+              ]
+            },
+            "nativeField": false,
+            "confirmationLabel": {
+              "fr_FR": ""
+            },
+            "fieldReference": "DescriptionText",
+            "placeholder": {
+              "fr_FR": ""
+            },
+            "dataSourceType": "manual",
+            "direction": [
+              "vertical"
+            ]
+          },
+          "defaultValue": {
+            "fr_FR": ""
+          },
+          "fieldType": "text",
+          "indexType": "keyword",
+          "indexable": true,
+          "label": {
+            "fr_FR": "Description"
+          },
+          "localizable": true,
+          "name": "Text79643664",
+          "nestedDataDefinitionFields": [],
+          "readOnly": false,
+          "repeatable": false,
+          "required": false,
+          "showLabel": true,
+          "tip": {
+            "fr_FR": ""
+          }
+        },
+        {
+          "customProperties": {
+            "labelAtStructureLevel": true,
+            "ddmStructureLayoutId": "",
+            "ddmStructureId": "",
+            "upgradedStructure": false,
+            "fieldReference": "externalLinkFieldSet",
+            "rows": [
+              {
+                "columns": [
+                  {
+                    "size": 12,
+                    "fields": [
+                      "externalLink"
+                    ]
+                  }
+                ]
+              },
+              {
+                "columns": [
+                  {
+                    "size": 12,
+                    "fields": [
+                      "activeTab"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "collapsible": false
+          },
+          "defaultValue": {},
+          "fieldType": "fieldset",
+          "indexable": false,
+          "label": {
+            "fr_FR": "Groupe de champs"
+          },
+          "localizable": false,
+          "name": "externalLinkFieldSet",
+          "nestedDataDefinitionFields": [
+            {
+              "customProperties": {
+                "labelAtStructureLevel": false,
+                "confirmationErrorMessage": {},
+                "hideField": false,
+                "autocomplete": false,
+                "ddmDataProviderInstanceId": [],
+                "dataType": "string",
+                "tooltip": {
+                  "fr_FR": ""
+                },
+                "requireConfirmation": false,
+                "displayStyle": "singleline",
+                "visibilityExpression": "",
+                "fieldNamespace": "",
+                "ddmDataProviderInstanceOutput": [],
+                "options": {
+                  "fr_FR": [
+                    {
+                      "reference": "",
+                      "label": "Option",
+                      "value": "Option"
+                    }
+                  ]
+                },
+                "nativeField": false,
+                "confirmationLabel": {},
+                "fieldReference": "externalLink",
+                "placeholder": {
+                  "fr_FR": ""
+                },
+                "dataSourceType": "manual",
+                "direction": []
+              },
+              "defaultValue": {},
+              "fieldType": "text",
+              "indexType": "keyword",
+              "indexable": true,
+              "label": {
+                "fr_FR": "Lien externe"
+              },
+              "localizable": true,
+              "name": "externalLink",
+              "nestedDataDefinitionFields": [],
+              "readOnly": false,
+              "repeatable": false,
+              "required": false,
+              "showLabel": true,
+              "tip": {
+                "fr_FR": ""
+              }
+            },
+            {
+              "customProperties": {
+                "visibilityExpression": "",
+                "labelAtStructureLevel": false,
+                "fieldNamespace": "",
+                "dataType": "boolean",
+                "options": {},
+                "fieldReference": "activeTab",
+                "showAsSwitcher": false
+              },
+              "defaultValue": {},
+              "fieldType": "checkbox",
+              "indexType": "keyword",
+              "indexable": true,
+              "label": {
+                "fr_FR": "Ouverture onglet actif"
+              },
+              "localizable": true,
+              "name": "activeTab",
+              "nestedDataDefinitionFields": [],
+              "readOnly": false,
+              "repeatable": false,
+              "required": false,
+              "showLabel": true,
+              "tip": {
+                "fr_FR": ""
+              }
+            }
+          ],
+          "readOnly": false,
+          "repeatable": false,
+          "required": false,
+          "showLabel": true,
+          "tip": {}
         }
-    ]
+      ],
+      "readOnly": false,
+      "repeatable": true,
+      "required": false,
+      "showLabel": true,
+      "tip": {}
+    }
+  ],
+  "defaultDataLayout": {
+    "dataLayoutFields": {},
+    "dataLayoutPages": [
+      {
+        "dataLayoutRows": [
+          {
+            "dataLayoutColumns": [
+              {
+                "columnSize": 12,
+                "fieldNames": [
+                  "linkLabelFieldSet"
+                ]
+              }
+            ]
+          }
+        ],
+        "description": {
+          "fr_FR": "Abonnement"
+        },
+        "title": {
+          "fr_FR": "Page"
+        }
+      }
+    ],
+    "dataRules": [],
+    "description": {},
+    "name": {
+      "fr_FR": "Bannière accueil"
+    },
+    "paginationMode": "single-page"
+  },
+  "defaultLanguageId": "fr_FR",
+  "description": {},
+  "name": {
+    "fr_FR": "Bannière accueil"
+  },
+  "storageType": "default"
 }

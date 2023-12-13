@@ -54,7 +54,10 @@ public class AssociationAssetRenderer extends BaseJSPAssetRenderer<Association> 
 	@Override
 	public String getSummary(PortletRequest portletRequest,
 		PortletResponse portletResponse) {
-		return _entry.getName(portletRequest.getLocale());
+		if(portletRequest != null) {
+			return _entry.getName(portletRequest.getLocale());
+		}
+		return _entry.getName(Locale.FRANCE);
 	}
 
 	@Override

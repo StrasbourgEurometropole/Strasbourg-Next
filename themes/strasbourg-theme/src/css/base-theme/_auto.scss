@@ -1,0 +1,74 @@
+/* ------------------
+--- CSS GLOBAL + DES CLASSES UTILES ---
+------------------ */
+
+body {
+	&.st-no-scroll {
+		overflow: hidden;
+	}
+}
+
+.st-page-wrapper {
+	font-family: $f_txt;
+	font-size: 16px;
+	line-height: 1.5;
+	color: $c_txt;
+	background-color: $c_main;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	padding-top: 180px;
+
+	@include tablet-portrait {
+		padding-top: 0;
+		//padding-top: calc(var(--ancres-height-mobile) + 40px);
+	}
+	@include mobile {
+		//padding-top: calc(var(--ancres-height-mobile) + 20px);
+	}
+}
+
+
+[class^="st-icon-"], [class*=" st-icon-"] {
+	@include transition(color);
+}
+
+// container leaflet
+.st-maps {
+	z-index: 1;
+}
+
+.st-custom-scrollbar {
+	--scrollbar-width: 10px;
+	--track-color: #{$c_border};
+	--thumb-color: #{$c_sub};
+	--thumb-hover-color: #{$c_white};
+
+	@include mobile {
+		--custom-scrollbar-width: 8px;
+	}
+
+	/* Firefox */
+	scrollbar-width: auto; /* can also be normal, or none, to not render scrollbar */
+	scrollbar-height: auto; /* can also be normal, or none, to not render scrollbar */
+	scrollbar-color: var(--thumb-color) var(--track-color); /* foreground background */
+
+	/* Webkit / Blink */
+	&::-webkit-scrollbar {
+		width: var(--scrollbar-width);
+		height: var(--scrollbar-width);
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: var(--thumb-color);
+		border-radius: $border-radius;
+
+		&:hover {
+			background-color: var(--thumb-hover-color);
+		}
+	}
+
+	&::-webkit-scrollbar-track {
+		background-color: var(--track-color);
+		border-radius: $border-radius;
+	}
+}

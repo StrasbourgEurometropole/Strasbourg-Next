@@ -1,0 +1,171 @@
+.st-ancres {
+	position: sticky;
+	top: 160px;
+	left: 0;
+	z-index: z-index("barre-sticky");
+	height: 0;
+	transform: translateX(-40px);
+
+	@include tablet-landscape {
+		transform: translateX(-20px);
+	}
+
+	@include tablet-portrait {
+		position: fixed;
+		top: 0;
+		height: 70px;
+		width: 100%;
+		margin-left: initial;
+		margin-right: initial;
+		transform: initial;
+	}
+
+	&.st-footer-is-visible {
+		height: auto;
+	}
+
+	// Menu des réseaux sociaux ouvert
+	&.st-has-social-share-open .st-ancres__list {
+		opacity: 0.2;
+		pointer-events: none;
+	}
+
+	.st-ancres__container {
+		@include min-tablet-portrait {
+			width: 220px;
+			background-color: $c_greydark;
+			border-radius: $border-radius;
+		}
+		
+		@include tablet-portrait {
+			width: 100%;
+			height: 100%;
+			background-image: linear-gradient(to left, $c_greydark, $c_greydark);
+			background-size: auto calc(100% - 10px);
+			background-repeat: no-repeat;
+		}
+	}
+
+	.st-ancres__list {
+		display: flex;
+		height: 100%;
+		overflow: auto;
+
+		@include min-tablet-portrait {
+			flex-direction: column;
+			max-height: 320px;
+			margin-left: -10px;
+			padding-left: 10px;
+			padding-top: 10px;
+			padding-bottom: 20px;
+
+			@include fade-out-overflow(10px);
+			background-position: 10px 0, 100% 0;
+			--mask-size-content: calc(100% - var(--scrollbar-size) - 10px) 100%;
+
+			@include transition(opacity);
+		}
+
+		@include tablet-portrait {
+			padding-left: 20px;
+			padding-right: 120px;
+			padding-bottom: 10px;
+			-webkit-mask-image: linear-gradient(to right, transparent, red var(--border-gutter), red calc(100% - 160px), transparent calc(100% - 80px));
+
+			// masque la scrollbar
+			scrollbar-width: none;
+			-ms-overflow-style: none;
+
+			&::-webkit-scrollbar {
+				display: none;
+			}
+		}
+
+		@include mobile {
+			padding-left: 10px;
+			padding-right: 80px;
+			-webkit-mask-image: linear-gradient(to right, transparent, red var(--border-gutter), red calc(100% - 80px), transparent);
+		}
+	}
+
+	.st-ancres__link {
+		@include create-outline;
+		position: relative;
+		display: block;
+		padding: 15px 20px;
+		@include ft($f_txt, 14px, 300, $c_txt, 1.1);
+		@include letter-spacing(25);
+
+		@include can-hover {
+			color: $c_sub;
+		}
+		@include tablet-portrait {
+			display: flex;
+			align-items: center;
+			height: 100%;
+			white-space: nowrap;
+		}
+		@include mobile {
+			padding: 15px 10px;
+			font-size: 12px;
+		}
+
+		&:before {
+			@include icomoon($st-icon-empty-circle);
+			font-size: 13px;
+			color: $c_sub;
+			opacity: 0;
+			position: absolute;
+			left: -5px;
+			@include transition(opacity);
+
+			@include tablet-portrait {
+				left: 50%;
+				bottom: -5px;
+				transform: translateX(-50%);
+			}
+		}
+
+		&.is-active {
+			font-weight: 700;
+			color: $c_white;
+
+			&:before {
+				opacity: 1;
+			}
+		}
+	}
+
+
+	.st-nav-arrows {
+		@include tablet-portrait {
+			position: absolute;
+			top: 15px;
+			right: var(--border-gutter);
+			z-index: 10;
+		}
+
+		@include mobile {
+			top: 17px;
+		}
+
+		.st-btn-arrow {
+			@include mobile {
+				width: 20px;
+				height: 20px;
+
+				&:before {
+					font-size: 7px;
+				}
+			}
+		}
+	}
+
+	.st-social-share {
+		padding: 15px;
+
+		@include tablet-portrait {
+			display: none;
+		}
+	}
+}

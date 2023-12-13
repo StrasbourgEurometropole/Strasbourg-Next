@@ -1,51 +1,51 @@
 <!-- Vignette activité -->
-
 <#setting locale = locale />
+<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
     <#assign homeURL = "/" />
 </#if>
 
-<#assign plId = renderRequest.getAttribute("classNameLayoutId")[entry.getModelClassName()] />
+<li>
+    <div class="st-card-container">
+        <a href="#" class="st-card" data-overlay-open="st-overlay-preview-activite" onclick="updateModalActivity(this)">
+            <div class="st-caption">
+                <p class="st-title-card">${entry.getTitle(locale)}</p>
+                <p class="st-surtitre-cat">${entry.getTypesLabel(locale)}</p>
+                <p class="st-text">${entry.getDescription(locale)?replace(r'<[^>]*>', '', 'r')}</p>
+            </div>
+            <div class="st-image">
+                <@addImage fileEntryId=entry.imageId showLegende=false showCopyright=false isFigure=true />
+            </div>
 
-<@liferay_portlet.renderURL plid=plId var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
-    <@liferay_portlet.param name="classPK" value="${entry.assetEntry.classPK}" />
-    <@liferay_portlet.param name="returnURL" value="${currentURL}" />
-</@liferay_portlet.renderURL>
-
-<@liferay_portlet.actionURL var="detailURLFilter">
-    <@liferay_portlet.param name="userTargetClassId" value="${entry.assetEntry.classNameId}" />
-    <@liferay_portlet.param name="userTargetClassPK" value="${entry.assetEntry.classPK}" />
-    <@liferay_portlet.param name="userTargetTitle" value="${entry.getTitle(locale)}" />
-    <@liferay_portlet.param name="detailURL" value="${detailURL}" />
-    <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
-</@liferay_portlet.actionURL>
-
-
-<div class="wi-search-result wi-search-generic wi-search-activity">
-    <div class="seu-result-left">
-        <div class="seu-result-icon"></div>
-    </div>
-    <div class="seu-result-right">
-        <a class="seu-result-content" href="${detailURLFilter}">
-            <h2 class="seu-result-title">${entry.getTitle(locale)}</h2>
-            <div class="seu-result-catcher">${entry.getDescription(locale)?replace("<[^>]*>", "", "r")[0..*100]}...</div>
-            <div class="seu-result-category">${entry.getTypesLabel(locale)}</div>
         </a>
-        <div class="seu-result-infos">
-            <div class="seu-result-infos-top">
-            </div>
-            <div class="seu-result-infos-bottom">
-                <a href="#" class="seu-add-favorites" 
-                data-type="10" 
-                data-title="${entry.getTitle(locale)}" 
-                data-url="${themeDisplay.getPortalURL()}${homeURL}activite/-/entity/id/${entry.activityId}" 
-                data-id="${entry.activityId}">
-                    <span><@liferay_ui.message key='eu.add-to-favorite' /></span>
-                </a>
-            </div>
+        <div class="cours-list st-hide">
+            <#-- Si la recherche a renvoyé des cours pour lactivité, on affiche ceux-ci -->
+            <#-- Sinon on affiche lensemble des cours de ladite activité -->
+            <#-- Car si la recherche a renvoyé des activités sans ses cours, cest certainement que ce sont des cours qui nont pas dhoraires mais qui doivent tout de même être affichés -->
+            <#if courses?has_content>
+                <#assign activityCourses = courses />
+            <#else>
+                <#assign activityCourses = entry.publishedActivityCourses />
+            </#if>
+            <#list activityCourses as course>
+                <div class="st-container">
+                    <h3 class="st-title-small">${course.getName(locale)}</h3>
+                    <p class="st-surtitre-cat">${course.getTypesLabels(locale)}, ${course.getPublicsLabel(locale)}</p>
+                    <#if course.getDuration()?has_content &&  course.getDuration() != 0>
+                        <p class="st-surtitre-alt">durée moyenne du cours : ${course.getDuration()} mins</p>
+                    </#if>
+                    <p class="st-location">${course.getPlaceNames(locale)?join(", ")}</p>
+
+                    <div class="st-text st-text-styles">
+                        ${course.getPresentation(locale)}
+                    </div>
+                    <a href="${homeURL}${courseDetailPageFriendlyURL?remove_beginning('/')}/-/entity/id/${course.activityCourseId}" title="${course.getName(locale)}" class="st-btn st--btn-full-width-mobile">En savoir plus</a>
+                </div>
+            </#list>
+
         </div>
     </div>
-
-</div>
+</li>

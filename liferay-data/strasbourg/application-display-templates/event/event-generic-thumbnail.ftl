@@ -1,53 +1,79 @@
-<!-- Vignette événement -->
+<#setting locale=locale />
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+    <#assign homeURL="/web${layout.group.friendlyURL}/" />
 <#else>
-    <#assign homeURL = "/" />
+    <#assign homeURL="/" />
 </#if>
-
-<#setting locale = locale />
-<#assign uriHelper = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
-<#assign plId = renderRequest.getAttribute("classNameLayoutId")[entry.getModelClassName()] />
-
-<@liferay_portlet.renderURL plid=plId var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
-    <@liferay_portlet.param name="classPK" value="${entry.assetEntry.classPK}" />
-    <@liferay_portlet.param name="title" value="${entry.getNormalizedTitle(locale)}" />
-    <@liferay_portlet.param name="returnURL" value="${currentURL}" />
-</@liferay_portlet.renderURL>
-
-<@liferay_portlet.actionURL var="detailURLFilter">
-    <@liferay_portlet.param name="userTargetClassId" value="${entry.assetEntry.classNameId}" />
-    <@liferay_portlet.param name="userTargetClassPK" value="${entry.assetEntry.classPK}" />
-    <@liferay_portlet.param name="userTargetTitle" value="${entry.getTitle(locale)}" />
-    <@liferay_portlet.param name="detailURL" value="${detailURL}" />
-    <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
-</@liferay_portlet.actionURL>
-
-
-<div class="wi-search-result wi-search-generic wi-search-event">
-    <div class="seu-result-left">
-        <div class="seu-result-icon"></div>
-    </div>
-    <div class="seu-result-right">
-        <a class="seu-result-content" href="${detailURLFilter}">
-            <h2 class="seu-result-title">${entry.getTitle(locale)}</h2>
-            <div class="seu-result-catcher">${entry.getDescription(locale)?replace("<[^>]*>", "", "r")[0..*100]}...</div>
-            <div class="seu-result-category">${entry.getTypeLabel(locale)}</div>
-        </a>
-        <div class="seu-result-infos">
-            <div class="seu-result-infos-top">
-                ${entry.getEventScheduleDisplay(locale)}
+<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+<!-- Vignette événement -->
+<#if isFeatured>
+    <#assign cssClass='coup-de-coeur' />
+<#else>
+    <#assign cssClass='' />
+</#if>
+<li>
+    <div class="st-card-container ${cssClass}">
+        <div class="st-description st-hide">
+            <div class="st-bloc-infos-complementaires">
+                <div class="st-component-container mb-4 pb-3">
+                    <h3 class="st-title-small"><@liferay_ui.message key="eu.next-dates" /></h3>
+                    <ul>
+                        <#list entry.currentAndFuturePeriods as period>
+                            <li>
+                                ${period.getDisplay(locale)}<#if period.getTimeDetail(locale)?has_content> : ${period.getTimeDetail(locale)}</#if>
+                            </li>
+                        </#list>
+                    </ul>
+                </div>
             </div>
-            <div class="seu-result-infos-bottom"> 
-                <a href="#" class="seu-add-favorites"
-                data-type="2" 
-                data-title="${entry.getTitle(locale)}" 
-                data-url="${themeDisplay.getPortalURL()}${homeURL}evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}"
-                data-id="${entry.eventId}">
-                    <span><@liferay_ui.message key='eu.add-to-favorite' /></span>
-                </a>
-            </div>
+
+            ${entry.getDescription(locale)}
         </div>
+        <a href="#" class="st-card st-card-agenda st--card-horizontal st--with-gradient" onclick="updateDescription(this)" data-overlay-open="st-overlay-preview-agenda" data-classpk="${entry.assetEntry.classPK}"
+           <#if entry.bookingURL?has_content>data-bookingURL="${entry.bookingURL}"</#if>
+           data-date="<#if entry.firstStartDate?has_content && entry.lastEndDate?has_content>
+                        <#if entry.firstStartDate?date==entry.lastEndDate?date>
+                            <@liferay_ui.message key="eu.event.the" /> ${entry.firstStartDate?date?string.short?replace('/', '.')}
+                        <#else>
+                            <@liferay_ui.message key="eu.event.from-date" /> ${entry.firstStartDate?date?string.short?replace('/', '.')} <@liferay_ui.message key="eu.event.to" /> ${entry.lastEndDate?date?string.short?replace('/', '.')}
+                        </#if></#if>"
+           data-address="${entry.getPlaceAddress(locale)}"
+           data-detailurl="${homeURL}evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}"
+        >
+            <div class="st-caption">
+                <p class="st-title-card">
+                    ${entry.getTitle(locale)}
+                </p>
+                <p class="st-surtitre-cat">
+                    ${entry.getTypeLabel(locale)}
+                </p>
+                <p class="st-date">
+                    <#if entry.firstStartDate?has_content && entry.lastEndDate?has_content>
+                        <#if entry.firstStartDate?date==entry.lastEndDate?date>
+                            <@liferay_ui.message key="eu.event.the" />
+                            ${entry.firstStartDate?date?string.short?replace('/', '.')}
+                        <#else>
+                            <@liferay_ui.message key="eu.event.from-date" />
+                            ${entry.firstStartDate?date?string.short?replace('/', '.')}
+                            <@liferay_ui.message key="eu.event.to" />
+                            ${entry.lastEndDate?date?string.short?replace('/', '.')}
+                        </#if>
+                    </#if>
+                </p>
+                <p class="st-location">
+                    ${entry.getPlaceAlias(locale)} - ${entry.getPlaceCity(locale)}
+                </p>
+            </div>
+            <div class="st-image">
+                <#if entry.getImageId() !=0>
+                    <@addImage fileEntryId=entry.getImageId() showLegende=false showCopyright=false isFigure=true />
+                <#else>
+                    <figure class="st-figure st-fit-cover" role="group">
+                        <img src="${entry.getImageURL()}" />
+                    </figure>
+                </#if>
+            </div>
+        </a>
+        <@isFavourite entryId=entry.assetEntry.classPK entryType=2  entityGroupId=0 title=entry.getTitle(locale) url=detailURLFilter />
     </div>
-
-</div>
+</li>

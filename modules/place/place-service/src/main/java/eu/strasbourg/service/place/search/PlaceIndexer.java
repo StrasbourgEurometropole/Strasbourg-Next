@@ -73,6 +73,27 @@ public class PlaceIndexer extends BaseIndexer<Place> {
 
 
 		document.addText(Field.TITLE, place.getAlias(Locale.FRANCE));
+		Map<Locale, String> typeMap = new HashMap<Locale, String>();
+		Map<Locale, String> cityMap = new HashMap<Locale, String>();
+
+		for (Map.Entry<Locale, String> titleMap : place.getAliasMap().entrySet()) {
+			Locale locale = titleMap.getKey();
+			String type = place.getTypeLabel(locale);
+			typeMap.put(locale, type);
+		}
+
+
+		AssetCategory cityCategory = place.getCityCategory();
+		if (cityCategory != null) {
+			for (Map.Entry<Locale, String> titleMap : cityCategory.getTitleMap().entrySet()) {
+				Locale locale = titleMap.getKey();
+				String type = place.getCity(locale);
+				cityMap.put(locale, type);
+			}
+		}
+
+		document.addLocalizedText("typeLabel", typeMap);
+		document.addLocalizedText("location", cityMap);
 
 		document.addLocalizedText(Field.TITLE, place.getAliasMap());
 

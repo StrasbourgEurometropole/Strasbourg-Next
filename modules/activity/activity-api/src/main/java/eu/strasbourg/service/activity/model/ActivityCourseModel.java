@@ -719,6 +719,20 @@ public interface ActivityCourseModel
 	public void setOrganizerId(long organizerId);
 
 	/**
+	 * Returns the duration of this activity course.
+	 *
+	 * @return the duration of this activity course
+	 */
+	public int getDuration();
+
+	/**
+	 * Sets the duration of this activity course.
+	 *
+	 * @param duration the duration of this activity course
+	 */
+	public void setDuration(int duration);
+
+	/**
 	 * Returns the image ID of this activity course.
 	 *
 	 * @return the image ID of this activity course

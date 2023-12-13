@@ -1,0 +1,74 @@
+// Système de grille responsive avec colonnes de même largeur
+// On définit le nombre de colonnes en ajoutant les classes directement sur le container, pas sur les enfants
+// -----------------------------------------------
+
+.st-page-wrapper .st-basic-grid {
+	$col-max: 6; // Grille générée jusqu'à 6 colonnes
+	--gap: var(--grid-gap, 40px); // espacement horizontal / vertical par défaut entre les enfants de la grille
+	display: grid;
+	gap: var(--gap);
+
+	// Par défaut, enfants "stackées" en 1 colonne
+	grid-template-columns: minmax(10px, 1fr);
+
+	// Génére les classes de colonnes sans suffixe : col-2, col-3...
+	@for $col from 1 through $col-max {
+		&.st-col-#{$col} {
+			grid-template-columns: minmax(10px, 1fr);
+		}
+	}
+
+	// Génére les classes de colonnes pour chaque breakpoint : col-2@mobile, col-3@mobile...
+	@each $breakpoint-name in map-keys($breakpoints) {
+		@include bp-up($breakpoint-name) {
+			$prefix: get-breakpoint-prefix($breakpoint-name);
+
+			@for $col from 1 through $col-max {
+				&.st-col-#{$col}\@#{$prefix} {
+					grid-template-columns: repeat($col, minmax(10px, 1fr));
+				}
+			}
+		}
+	}
+
+	// --modifiers
+	&.st--no-gap {
+		--gap: 0;
+	}
+
+	// Gouttière entre les enfants plus petite
+	&.st--small-gap {
+		--gap: var(--grid-gap-small);
+	}
+
+	// Rangées de même hauteur
+	&.st--equal-rows {
+		grid-auto-rows: 1fr;
+	}
+
+	// Alignement vertical des enfants dans leur cellule (par défaut stretch)
+	&.st--align-top {
+		align-items: start;
+	}
+
+	&.st--align-center {
+		align-items: center;
+	}
+
+	&.st--align-bottom {
+		align-items: end;
+	}
+
+	// Alignement horizontal des enfants dans leur cellule (par défaut stretch)
+	&.st--justify-left {
+		justify-items: start;
+	}
+
+	&.st--justify-center {
+		justify-items: center;
+	}
+
+	&.st--justify-end {
+		justify-items: end;
+	}
+}

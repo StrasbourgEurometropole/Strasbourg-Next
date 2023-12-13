@@ -1,5 +1,8 @@
 dependencies {
-	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
+	implementation project(path: ':modules:official:official-api')
+    implementation project(path: ':modules:agenda:agenda-api')
+    implementation project(path: ':modules:activity:activity-api')
+    compileOnly group: "com.liferay.portal", name: "release.dxp.api"
 	compileOnly group: "jstl", name: "jstl"
 
 	implementation project (':modules:place:place-api')

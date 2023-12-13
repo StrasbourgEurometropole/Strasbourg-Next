@@ -31,7 +31,6 @@ import java.util.Map;
  */
 @Component(
 	immediate = true,
-	configurationPid = "eu.strasbourg.portlet.association.configuration.SearchAssociationConfiguration",
 	property = {
 			"javax.portlet.version=3.0",
 			"com.liferay.portlet.display-category=Strasbourg",

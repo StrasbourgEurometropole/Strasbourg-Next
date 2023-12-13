@@ -62,7 +62,7 @@ public class OfficialCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(47);
+		StringBundler sb = new StringBundler(51);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -108,6 +108,10 @@ public class OfficialCacheModel
 		sb.append(orderDeputyMayor);
 		sb.append(", orderVicePresident=");
 		sb.append(orderVicePresident);
+		sb.append(", listeContact=");
+		sb.append(listeContact);
+		sb.append(", resumeFonction=");
+		sb.append(resumeFonction);
 		sb.append(", imageId=");
 		sb.append(imageId);
 		sb.append("}");
@@ -217,6 +221,21 @@ public class OfficialCacheModel
 
 		officialImpl.setOrderDeputyMayor(orderDeputyMayor);
 		officialImpl.setOrderVicePresident(orderVicePresident);
+
+		if (listeContact == null) {
+			officialImpl.setListeContact("");
+		}
+		else {
+			officialImpl.setListeContact(listeContact);
+		}
+
+		if (resumeFonction == null) {
+			officialImpl.setResumeFonction("");
+		}
+		else {
+			officialImpl.setResumeFonction(resumeFonction);
+		}
+
 		officialImpl.setImageId(imageId);
 
 		officialImpl.resetOriginalValues();
@@ -260,6 +279,8 @@ public class OfficialCacheModel
 		orderDeputyMayor = objectInput.readInt();
 
 		orderVicePresident = objectInput.readInt();
+		listeContact = objectInput.readUTF();
+		resumeFonction = objectInput.readUTF();
 
 		imageId = objectInput.readLong();
 	}
@@ -348,6 +369,20 @@ public class OfficialCacheModel
 
 		objectOutput.writeInt(orderVicePresident);
 
+		if (listeContact == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(listeContact);
+		}
+
+		if (resumeFonction == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(resumeFonction);
+		}
+
 		objectOutput.writeLong(imageId);
 	}
 
@@ -373,6 +408,8 @@ public class OfficialCacheModel
 	public String contact;
 	public int orderDeputyMayor;
 	public int orderVicePresident;
+	public String listeContact;
+	public String resumeFonction;
 	public long imageId;
 
 }

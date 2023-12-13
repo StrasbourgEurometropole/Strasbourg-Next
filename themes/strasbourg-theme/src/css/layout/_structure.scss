@@ -1,0 +1,30 @@
+// Définition de l'espace vertical entre les blocs, sections et strates
+// ==========================================================================
+
+.st-bloc {
+	&.st--has-margin {
+		margin-bottom: var(--bloc-spacing);
+	}
+
+	&.st--has-margin-small {
+		margin-bottom: 30px;
+	}
+}
+
+.st-strate {
+	position: relative;
+
+	& + & {
+		margin-top: var(--strate-spacing);
+	}
+
+	// Styles pour le titre qui est commun à plusieurs strates footer (il reprend pas la taille des headings qu'on à déjà)
+	.st-title {
+		@include ft($f_hx, 40px, 700, $c_main, 1);
+		display: block;
+
+		@include min-mobile {
+			max-width: 80%;
+		}
+	}
+}

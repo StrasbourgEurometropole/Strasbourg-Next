@@ -1,3 +1,5 @@
+
+
 #wi-aroundme{
     width: 1200px;
     display: block;
@@ -11,24 +13,11 @@
     #aroundme{
         
         .add-favorites{
-            color: $core-color !important;
+            color: $c_main !important;
             font-size: 1.3rem !important;
         }
 
         $panel_trigger_size: 35;
-
-        .top__overflow,
-        .side__overflow{
-            form{
-
-                .info-text {
-                    font-family: $opensans;
-                    a {
-                        font-family: $opensans;
-                    }
-                }
-            }
-        }
 
 
         /* ------------------------------- UI */
@@ -36,25 +25,25 @@
         .side__trigger{
             &--pull{         
                 &:before{
-                    background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+                    background-image: url( svg-bg-uri($svg-arrow1, $c_main) );
                 }
             }
             &--close{
-                background-image: url( svg-bg-uri($svg-filled-close, $second-color) );
+                background-image: url( svg-bg-uri($svg-filled-close, $c_sub) );
             }
         }
         .top__trigger{
 
             &:before{
-                background-image: url( svg-bg-uri($svg-filters, $second-color) );
+                background-image: url( svg-bg-uri($svg-filters, $c_sub) );
             }
 
             &--pull{
-                background-color: $core-color;
+                background-color: $c_main;
             }
 
             &--close{
-                background-image: url( svg-bg-uri($svg-filled-close, $second-color) );
+                background-image: url( svg-bg-uri($svg-filled-close, $c_sub) );
             }
         }
 
@@ -71,10 +60,6 @@
 
         /* ------------------------------------ FILTERS */
         .filtres{
-
-            &__title, &__title label{
-                font-family: $fancy-font;
-            }
             &__list{
                 .grid-item{
                     padding-bottom: 15px;
@@ -85,10 +70,6 @@
             &__item{
                 @extend %tram-destination;
 
-                .types{
-                    font-family: $main-font;
-                }
-
                 a {
                     color: #505050;
                 }
@@ -96,7 +77,6 @@
                 [type="checkbox"]{
 
                     & + label{
-                        font-family: $fancy-font;
                         position: relative;
 
                         img{
@@ -110,7 +90,6 @@
             &__btn{
                 .btn-text{
                     text-transform: uppercase;
-                    font-family: $fancy-font;
                 }
                 .btn-arrow{
                     content: '';
@@ -130,10 +109,10 @@
                 }
                 &--save{
                     .btn-text{
-                        color: $second-color;
+                        color: $c_sub;
                     }
                     .btn-arrow{
-                        background-image: url( svg-bg-uri($svg-success, $second-color) );
+                        background-image: url( svg-bg-uri($svg-success, $c_sub) );
                     }
                 }
 
@@ -142,13 +121,13 @@
 
             // Panneau filtres categories
             &--category{
-                background-color: $core-color;
+                background-color: $c_main;
 
                 .filtres{
                     &__title{
 
                         .icon{
-                            background-image: url( svg-bg-uri($svg-filters, $second-color) );
+                            background-image: url( svg-bg-uri($svg-filters, $c_sub) );
                         }
                     }
                     &__list{
@@ -167,14 +146,14 @@
             
                             & + label{
                                 &:after{
-                                    background-color: $second-color;
+                                    background-color: $c_sub;
                                 }
                             }
                             &:checked{
                                 & + label{
-                                    color: $second-color;
+                                    color: $c_sub;
                                     &:before{
-                                        border-color: $second-color;
+                                        border-color: $c_sub;
                                     }
                                 }
                             }
@@ -188,9 +167,9 @@
             &--poi{
                 .filtres{
                     &__title{
-                        color: $core-color;
+                        color: $c_main;
                         .icon{
-                            background-image: url( svg-bg-uri($svg-poi-list, $core-color) );
+                            background-image: url( svg-bg-uri($svg-poi-list, $c_main) );
                         }
                         @include RWD(desktop){
                             display: none;
@@ -201,16 +180,16 @@
             
                             & + label{
                                 &:before{
-                                    border: solid 1px $core-color;
+                                    border: solid 1px $c_main;
                                 }
                                 &:after{
-                                    background-color: $core-color;
+                                    background-color: $c_main;
                                 }
                             }
                             &:checked{
                                 & + label{
                                     &:before{
-                                        border-color: $core-color;
+                                        border-color: $c_main;
                                     }
                                 }
                             }
@@ -256,11 +235,11 @@
 
         /* ------------------------------- Infowindow */
         .leaflet-popup-tip {
-            background: $core-color;
+            background: $c_main;
         }
         .infowindow{
             &__close{
-                background-image: url( svg-bg-uri($svg-filled-close, $core-color) );
+                background-image: url( svg-bg-uri($svg-filled-close, $c_main) );
             }
             &__name{
                 font-family: $fancy-font;
@@ -269,10 +248,10 @@
             &__like{
                 a{
                     &:not(.liked){
-                        background-image: url( svg-bg-uri($svg-favoris, $core-color) );
+                        background-image: url( svg-bg-uri($svg-favoris, $c_main) );
                     }
                     &.liked{
-                        background-image: url( svg-bg-uri($svg-heart-filled, $core-color) );
+                        background-image: url( svg-bg-uri($svg-heart-filled, $c_main) );
                     }
         
                 }
@@ -319,7 +298,7 @@
                     }
                 }
                 .crowded-label{
-                    color: $core-color;
+                    color: $c_main;
                     font-family: $main-font;
                 }
             }
@@ -329,8 +308,8 @@
                     position: relative;
                     transition: all, 0.5s;
                     overflow: hidden;          
-                    border-color: $core-color;
-                    background-color: $core-color;
+                    border-color: $c_main;
+                    background-color: $c_main;
 
                     &.alert-arret span.flexbox:before {
                         background-image: url( svg-bg-uri($svg-alert, $error) );
@@ -380,10 +359,10 @@
                     }
                     &:hover, &:focus{
                         .btn-text{
-                            color: $core-color;
+                            color: $c_main;
                         }
                         .btn-arrow{
-                            background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+                            background-image: url( svg-bg-uri($svg-arrow1, $c_main) );
                         }
                         &:before{
                             height: 103%;
@@ -399,7 +378,7 @@
             // En desktop/tablet on change le picto par une flèche pour replier le panel
             .side__trigger--pull{
                 &:before{
-                    background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+                    background-image: url( svg-bg-uri($svg-arrow1, $c_main) );
                 }     
             }
         }

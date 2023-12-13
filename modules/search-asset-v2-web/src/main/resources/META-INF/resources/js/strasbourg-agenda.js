@@ -1,4 +1,39 @@
- $(document).ready(function(){
+function updateDescription(clickedElement) {
+	var parentElement = clickedElement.parentElement
+	var address = clickedElement.getAttribute("data-address");
+	var detailURL = clickedElement.getAttribute("data-detailurl");
+	var descriptionHtml = parentElement.querySelector('.st-description').innerHTML; // Find the description element using class name
+	var title = clickedElement.querySelector('.st-title-card').textContent
+	var category = clickedElement.querySelector('.st-surtitre-cat').textContent
+	var date = clickedElement.querySelector('.st-date').textContent
+	var location = clickedElement.querySelector('.st-location').textContent
+	var imageURL =  clickedElement.querySelector('.st-image img').src
+	var bookingURL = clickedElement.getAttribute("data-bookingurl")
+	var dateEvent = clickedElement.getAttribute("data-date")
+
+	var overlayDiv = document.getElementById('st-overlay-preview-agenda'); // Get the description-overlay element
+	overlayDiv.setAttribute("aria-label", title);
+	overlayDiv.querySelector(".st-title-overlay").textContent = title;
+	overlayDiv.querySelector(".st-surtitre-cat").textContent = category;
+	overlayDiv.querySelector(".st-date").textContent = dateEvent;
+	overlayDiv.querySelector(".st-location").innerHTML = `${location}<br> ${address}`;
+	overlayDiv.querySelector(".st-overlay__content").innerHTML = descriptionHtml;
+	overlayDiv.querySelector(".detail-button").href = detailURL;
+	overlayDiv.querySelector(".st-img").src = imageURL;
+
+	if(bookingURL) {
+		var elementFooter = overlayDiv.querySelector(".st-overlay__footer")
+		// Remove existing booking button
+		elementFooter.querySelector(".st-btn-icon.st-btn-icon--white")?.remove()
+		elementFooter.insertAdjacentHTML("afterbegin", `<a href="${bookingURL}" class="st-btn-icon st-btn-icon--white" title="Biletterie">
+                <span class="st-icon-ticket" aria-hidden="true"></span>
+                <span class="st-sr-only">Billeterie</span>
+            </a>`)
+	}
+
+}
+
+$(document).ready(function(){
 	
 	$('select[name=idSIGPlace]').select2({
 		"language": {
@@ -59,6 +94,8 @@
 	function formatPlaceSelection (place) {
 	  return place.text;
 	}
+
+
 
 
 	if(idSIGPlace != null && idSIGPlace != "") {

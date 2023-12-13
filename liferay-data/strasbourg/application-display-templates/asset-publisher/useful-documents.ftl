@@ -1,44 +1,46 @@
-<!-- Documents utiles -->
+<!-- Documents utiles (externes) -->
 <#setting locale = locale />
-<#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
+<#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 
-<#if entries?has_content>
-    <div class="seu-wi seu-wi-crossreading">
-        <div class="seu-container">
-            <h2 class="seu-section-title">
-                <span class="seu-title">
-                    ${portletHelper.getPortletTitle('eu.useful-documents', renderRequest)}</span>
-            </h2>
-            <div class="seu-wi-content">
-                <#if entries?has_content>
-                    <#list entries as curEntry>
-                        <#assign file = curEntry.getAssetRenderer().getAssetObject() />
-                        <#if fileEntryHelper.getFileTitle??>
-                            <#assign fileTitle = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
-                        <#else>
-                            <#assign fileTitle = file.getTitle() />
-                        </#if>
-                        <a  class="seu-btn-square seu-bordered seu-core" 
-                            href="${fileEntryHelper.getFileEntryURL(file.getFileEntryId())}"
-                            target="_blank"
-                            title="${fileTitle}" 
-                        >
-                            <span class="seu-flexbox">
-                                <span class="seu-btn-text">
-                                    ${fileTitle} (${file.getExtension()?upper_case} - ${fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale)})
-                                </span>
-                                <span class="seu-btn-arrow"></span>
-                            </span>
-                        </a>
-                    </#list>
-                </#if>
-            </div>
-        </div>
-    </div>
-</#if>
+<div class="st-bloc st-wrapper st--has-margin-small">
+    <h2 class="st-h2">${portletHelper.getPortletTitle('eu.useful-documents', renderRequest)}</h2>
+</div>
+
 <#if !entries?has_content && themeDisplay.isSignedIn()>
-    <div class="seu-container">
+    <div>
         Documents utiles - Aucune entrée (message non-visible par les visiteurs)
     </div>
 </#if>
+
+
+<div class="st-bloc st-bloc-liens st-wrapper st--has-margin">
+    <div class="st-component-container">
+        <ul class="st-liste st-limit-height">
+            <#list entries as curEntry>
+                <#assign file = curEntry.getAssetRenderer().getAssetObject() />
+                <#if fileEntryHelper.getFileTitle??>
+                    <#assign fileTitle = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
+                <#else>
+                    <#assign fileTitle = file.getTitle() />
+                </#if>
+                <#assign AssetVocabularyLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetVocabularyLocalService")>
+                <li class="st-lien-container">
+                    <a href="${fileEntryHelper.getFileEntryURL(file.getFileEntryId())}" class="st-lien" target="_blank" >
+                        <p class="st-title-lien"> ${fileTitle}</p>
+                        <div class="st-lien-content">
+                            <p class="st-type">(${file.getExtension()} - ${fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale)})</p>
+                            <p class="st-text"><@liferay_ui.message key="eu.download" /></p>
+                        </div>
+                    </a>
+                </li>
+            </#list>
+
+        </ul>
+        <div class="st-show-more">
+            <button class="st-btn-show-more st-btn-arrow st--down"
+                    aria-expanded="false"
+                    data-open-label="<@liferay_ui.message key='eu.view-more' />" data-close-label="<@liferay_ui.message key='eu.view-less' />"><@liferay_ui.message key='eu.view-more' />
+            </button>
+        </div>    </div>
+</div>

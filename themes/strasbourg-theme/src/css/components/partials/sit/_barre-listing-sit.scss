@@ -1,0 +1,227 @@
+.st-barre-listing-sit {
+	width: 100%;
+	z-index: z-index("barre-sticky");
+
+	@include min-tablet-portrait {
+		position: fixed;
+		bottom: 20px;
+	}
+
+	@include tablet-portrait {
+		position: sticky;
+		top: 0;
+		margin-bottom: 20px;
+		background-color: $c_greydark;
+	}
+
+	.st-barre-inner {
+		display: flex;
+		align-items: center;
+		min-height: 100px;
+		padding: 20px;
+		background-color: $c_greydark;
+		border-radius: $border-radius;
+
+		@include tablet-portrait {
+			min-height: initial;
+			padding: 15px 0 15px 0;
+			background-color: transparent;
+		}
+		@include mobile {
+			padding-top: 9px;
+			padding-bottom: 9px;
+		}
+	}
+
+	// Pour le moment j'ai mis ici les styles des filtres vu qu'on n'as pas encore la maquette de l'overlay filtres, donc je ne sais pas si les styles vont être globales au projet, ou s'ils vont être différents entre la barre et l'overlay
+	.st-filtre {
+		position: relative;
+		margin-right: 10px;
+
+		&.st--is-expanded {
+			flex-grow: 1;
+			max-width: 320px;
+		}
+
+		&.st--is-date {
+			flex-grow: 1;
+			max-width: 144px;
+		}
+
+		.st-field-date {
+			&:before {
+				margin-right: 16px;
+			}
+		}
+
+		@include tablet-portrait {
+			display: none;
+		}
+
+		label {
+			position: absolute;
+			top: -10px;
+			left: 10px;
+			margin-bottom: initial;
+			padding: 0 5px;
+			font-weight: 600;
+			@include letter-spacing(25);
+			white-space: nowrap;
+			background-color: $c_greydark;
+		}
+
+		input[type="text"],
+		input[type="date"] {
+			padding: 13px 15px;
+			font-weight: 300;
+		}
+
+		.st-field-select select {
+			padding: 13px 35px 13px 15px;
+		}
+	}
+
+
+	.col-right {
+		display: flex;
+		align-items: center;
+		margin-left: auto;
+
+		@include min-tablet-portrait {
+			padding-left: 20px;
+		}
+
+		@include tablet-portrait {
+			width: 100%;
+		}
+	}
+
+	.st-resultats {
+		margin-right: 20px;
+		text-align: right;
+		@include ft('', 14px, 300, $c_txt, 1);
+		@include letter-spacing(25);
+
+		@include tablet-portrait {
+			margin-right: auto;
+			text-align: left;
+		}
+		@include mobile {
+			font-size: 11px;
+		}
+
+		.st-resultats-range {
+			margin-right: 5px;
+		}
+
+		.st-resultats-total {
+			display: block;
+			color: $c_white;
+			font-weight: 700;
+			margin-top: 2px;
+		}
+
+		// --modifiers
+		&.st--resultats-agenda {
+			padding-right: 10px;
+
+			.st-resultats-total {
+				display: inline-block;
+				margin-left: 2px;
+			}
+
+			.st-resultats-period {
+				display: block;
+				margin-top: 2px;
+			}
+
+			.st-resultats-date {
+				font-weight: 700;
+				color: $c_white;
+			}
+		}
+	}
+
+
+	// --modifiers
+	&.st--listing-agenda {
+		.st-filtre {
+			@include bp-down(1190px) {
+				display: none;
+			}
+		}
+	}
+
+
+	&.st--listing-lost-and-found {
+
+		.col-right {
+			.st-btn {
+				@include mobile {
+					padding: 11px 12px;
+					flex-basis: min-content;
+
+					&:first-of-type {
+						flex-grow: 1;
+
+					}
+					&:last-of-type {
+						flex-grow: 2;
+					}
+				}
+
+				& + .st-btn {
+					margin-left: 10px;
+
+					@include mobile {
+						margin-top: initial;
+					}
+				}
+			}
+
+			@include tablet-small {
+				flex-wrap: wrap;
+			}
+
+			@include mobile {
+				align-items: initial;
+			}
+		}
+
+		.st-resultats {
+			@include tablet-small {
+				flex-basis: 100%;
+				margin-bottom: 10px;
+			}
+		}
+
+		.st-social-share {
+			margin-left: 10px;
+
+			@include tablet-portrait {
+				display: none;
+			}
+
+			label {
+				width: 50px;
+				height: 50px;
+			}
+
+			.st-social-share__list {
+				left: 5px;
+				top: -10px;
+			}
+		}
+	}
+
+
+	&.st--communiques-presse {
+		@include tablet-portrait {
+			margin-bottom: initial;
+		}
+
+		.col-right {
+			justify-content: flex-end;
+		}
+	}
+}

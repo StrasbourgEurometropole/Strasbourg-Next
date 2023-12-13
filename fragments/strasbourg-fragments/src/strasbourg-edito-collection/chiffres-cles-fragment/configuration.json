@@ -1,0 +1,16 @@
+{
+  "fieldSets": [
+    {
+      "fields": [
+        {
+          "name": "numberOfBlock",
+          "label": "Button Text",
+          "description": "button-text",
+          "type": "text",
+          "dataType": "int",
+          "defaultValue": "4"
+        }
+      ]
+    }
+  ]
+}

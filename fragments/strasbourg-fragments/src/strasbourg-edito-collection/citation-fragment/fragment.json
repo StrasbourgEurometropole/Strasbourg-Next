@@ -1,0 +1,9 @@
+{
+  "cssPath": "index.css",
+  "configurationPath": "configuration.json",
+  "htmlPath": "index.html",
+  "jsPath": "index.js",
+  "name": "Citation",
+  "type": "component"
+}
+

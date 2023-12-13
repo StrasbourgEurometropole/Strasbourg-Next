@@ -14,7 +14,13 @@
 
 package eu.strasbourg.service.agenda.service;
 
+import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.portal.kernel.service.ServiceWrapper;
+
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
+import java.util.TreeMap;
 
 /**
  * Provides a wrapper for {@link EventLocalService}.
@@ -104,6 +110,11 @@ public class EventLocalServiceWrapper
 
 		_eventLocalService.createCacheJSON(event);
 	}
+
+	@Override
+	public TreeMap<Date, List<AssetEntry>> convertEventsToTreeMap(List<AssetEntry> entries) {
+		return _eventLocalService.convertEventsToTreeMap(entries);
+	 }
 
 	/**
 	 * Creates a new event with the primary key. Does not add the event to the database.

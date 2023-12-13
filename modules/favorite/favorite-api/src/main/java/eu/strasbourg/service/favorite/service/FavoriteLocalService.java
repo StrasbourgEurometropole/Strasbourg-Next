@@ -298,6 +298,12 @@ public interface FavoriteLocalService
 		throws PortalException;
 
 	/**
+	 * Retourne si l'entité est un favori
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean isFavorite(long entityId, long typeId, String publikUserId);
+
+	/**
 	 * Updates the favorite in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
 	 * <p>

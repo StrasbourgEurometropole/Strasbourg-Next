@@ -17,6 +17,9 @@ package eu.strasbourg.service.agenda.model.impl;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * The extended model base implementation for the Event service. Represents a row in the &quot;agenda_Event&quot; database table, with each column mapped to a property of this class.
  *
@@ -45,5 +48,4 @@ public abstract class EventBaseImpl extends EventModelImpl implements Event {
 			EventLocalServiceUtil.updateEvent(this);
 		}
 	}
-
 }

@@ -14,6 +14,8 @@
 
 package eu.strasbourg.service.place.service;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.petra.sql.dsl.query.DSLQuery;
@@ -423,5 +425,7 @@ public interface PlaceLocalService
 	 * Met à jour le statut du lieu "manuellement" (pas via le workflow)
 	 */
 	public void updateStatus(Place place, int status) throws PortalException;
+
+	public Integer getPlaceCountByAssetCategory(AssetCategory assetCategory, long companyGroupId) throws PortalException;
 
 }

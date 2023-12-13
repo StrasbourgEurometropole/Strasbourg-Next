@@ -1,0 +1,118 @@
+// ==============================================
+//
+//        TYPOGRAPHY
+//
+// ==============================================
+
+
+// On défini le font
+@mixin ft($family:"", $size:"", $weight:"", $color:"", $lineheight:"") {
+	@if $family != "" {
+		font-family: $family;
+	}
+	@if $size != "" {
+		font-size: $size;
+	}
+	@if $weight != "" {
+		font-weight: $weight;
+	}
+	@if $color != "" {
+		color: $color;
+	}
+	@if $lineheight != "" {
+		line-height: $lineheight;
+	}
+}
+
+// Mixin à utiliser à chaque fois qu'on a une icône d'Icomoon ajouté avec un :before ou :after
+/// @param {String} $content - Code de caractère ('\e92b') ou variable sass ($st-icon-arrow)
+@mixin icomoon($content:null) {
+	@if $content {
+		content: $content;
+	}
+	font-family: 'icomoon' !important;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+
+@mixin ellipsis($number:"",$lineheight:"") {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+
+	@if $number != "" {
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: $number;
+	}
+	@if $lineheight != "" {
+		line-height: $lineheight;
+		max-height: $lineheight * $number;
+	}
+}
+
+@mixin letter-spacing($spacing) {
+	letter-spacing: calc($spacing / 1000) * 1em;
+}
+
+
+// Concatène la classe .no-pxtorem sur un sélecteur,
+// permet d'exclure le sélecteur de la conversion automatique en rem par le plugin 'postcss-pxtorem'
+@mixin preserve-px-unit($px-value, $prop: 'font-size') {
+	// Récupère le chemin complet du sélecteur
+	$selector: &;
+
+	// Appel du mixin depuis un pseudo-element :before ou:after (.icon:before)
+	// -> Concatène la classe .no-pxtorem sur le parent (.icon.no-pxtorem:before)
+	@if (is-superselector(":before", $selector)) {
+		$selector: selector-replace($selector, ":before", ".no-pxtorem:before");
+	} @else if (is-superselector(":after", $selector)) {
+		$selector: selector-replace($selector, ":after", ".no-pxtorem:after");
+		// Appel du mixin depuis un sélecteur simple (.title)
+		// -> Concatène la classe .no-pxtorem sur le sélecteur (.title.no-pxtorem)
+	} @else {
+		$selector: selector-append($selector, ".no-pxtorem");
+	}
+
+	// Surcharge le sélecteur avec la classe .no-pxtorem -> règle plus spécifique
+	@at-root #{$selector} {
+		#{$prop}: $px-value;
+	}
+}
+
+@mixin favorites-only-icon() {
+	font-size: 0;
+	width: 36px;
+	height: 36px;
+	padding: 0;
+	border: 1px solid $c_sub;
+	@include transition(color, background-color, border-color);
+
+	@include can-hover {
+		background-color: transparent;
+		border-color: $c_sub;
+
+		&:after {
+			color: $c_sub;
+		}
+	}
+
+	&:after {
+		color: $c_white;
+		font-size: 14px;
+		margin: 0;
+	}
+
+	&.st-is-favorite {
+		&:after {
+			color: $c_sub;
+		}
+	}
+}

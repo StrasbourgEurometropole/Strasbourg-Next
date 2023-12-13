@@ -31,6 +31,14 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.service.activity.model.ActivityOrganizer;
+import eu.strasbourg.service.activity.service.ActivityOrganizerLocalServiceUtil;
+import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.official.model.Official;
+import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
+import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.RecaptchaHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -67,6 +75,7 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 		String type = ParamUtil.getString(request, "type");
 		String email = ParamUtil.getString(request, "email");
 		String to = ParamUtil.getString(request, "to");
+		String entityId = ParamUtil.getString(request, "entityId");
 		String title = ParamUtil.getString(request, "title");
 		String message = ParamUtil.getString(request, "message");
 		String firstName = ParamUtil.getString(request, "firstName");
@@ -93,6 +102,14 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 		Template bodyTemplate;
 		String mailSubject;
 		String mailBody;
+
+		// On récupère l'email de l'entité si elle existe, sinon on prend le "to" par défaut
+		String mailTo = getEntityEmail(entityId, type, to);
+
+		//Si on utilise l'email par défaut, on log un warning (il faut migrer les ADT pour utiliser les emails des entités via entityId)
+		if(mailTo.equals(to)) {
+			_log.warn("Using default email for contact form: " + to + ", type: " + type);
+		}
 
 		try {
 			StringWriter out = new StringWriter();
@@ -130,7 +147,7 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 				hasError = true;
 			}
 			// Champs vides
-			if (Validator.isNull(email) || Validator.isNull(to) || Validator.isNull(firstName)
+			if (Validator.isNull(email) || Validator.isNull(firstName) || Validator.isNull(email)
 					|| Validator.isNull(lastName) || Validator.isNull(message)) { 
 				SessionErrors.add(request, "all-fields-required");
 				hasError = true;
@@ -142,9 +159,8 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 			}
 			// Pas d'erreur
 			if (!hasError) {
-				SessionMessages.add(request, "mail-success");
-				request.setAttribute("mailSent", true);
-				boolean success = MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", websiteName, to,
+
+				boolean success = MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", websiteName, mailTo,
 						mailSubject, mailBody);
 	
 				// Envoi du mail à l'utilisateur
@@ -189,6 +205,15 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 					
 					MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", websiteName, email,
 							mailSubject, mailBody);
+
+				}
+				if (success) {
+					String messageKey = notificationEmail ? "mail-success-with-copy" : "mail-success";
+					SessionMessages.add(request, messageKey);
+					request.setAttribute("mailSent", true);
+				} else {
+					SessionErrors.add(request, "mail-error");
+					request.setAttribute("mailSent", false);
 				}
 				return success;
 			}
@@ -203,11 +228,52 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 		request.setAttribute("message", message);
 		request.setAttribute("message", message);
 		request.setAttribute("notificationEmail", notificationEmail);
-		request.setAttribute("mailSent", false);
 
 		return false;
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+
+
+	/**
+	 * Function that returns the email of the entity if it exists, otherwise return the default "to" email.
+	 * This function is used for Place, Event and Officials. Fetches the email from the entity depdending on the type. (entityClassName)
+	 */
+	private String getEntityEmail(String entityId, String entityClassName, String to) {
+		String email = to;
+
+		// If the entityId is null, we return the default email
+		if(Validator.isNull(entityId) || Validator.isNull(entityClassName)) {
+			return email;
+		}
+		
+		if(entityClassName.equals("Place")) {
+			Place place = PlaceLocalServiceUtil.fetchPlace(Long.parseLong(entityId));
+			if(place != null && Validator.isNotNull(place.getMail())) {
+				email = place.getMail();
+			}
+		}
+		if(entityClassName.equals("Event")) {
+			Event event = EventLocalServiceUtil.fetchEvent(Long.parseLong(entityId));
+			if(event != null && Validator.isNotNull(event.getEmail())) {
+				email = event.getEmail();
+			}
+		}
+		if(entityClassName.equals("Official")) {
+			Official official = OfficialLocalServiceUtil.fetchOfficial(Long.parseLong(entityId));
+			if(official != null && Validator.isNotNull(official.getListeContact())) {
+				email = official.getListeContact();
+			}
+		}
+		if(entityClassName.equals("ActivityOrganizer")) {
+			ActivityOrganizer activityOrganizer = ActivityOrganizerLocalServiceUtil.fetchActivityOrganizer(Long.parseLong(entityId));
+			if(activityOrganizer != null && Validator.isNotNull(activityOrganizer.getMail())) {
+				email = activityOrganizer.getMail();
+			}
+		}
+
+
+		return email;
+	}
 
 }

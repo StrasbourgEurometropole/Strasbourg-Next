@@ -1,0 +1,61 @@
+.st-bloc-autour-de-moi {
+	.st-barre-position {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		padding: 30px;
+		background-color: $c_greydark;
+		border-radius: $border-radius $border-radius 0 0;
+
+		@include mobile {
+			flex-direction: column;
+			padding: 20px;
+		}
+	}
+
+	.st-title {
+		@include ft($f_hx, 25px, 600, $c_white, 1);
+		margin-right: auto;
+		padding-right: 20px;
+		margin-bottom: 20px;
+		transform: translateY(10px);
+
+		@include mobile {
+			margin-bottom: 16px;
+			font-size: 20px;
+			transform: initial;
+		}
+	}
+
+	.st-right-side {
+		display: flex;
+
+		@include mobile {
+			flex-direction: column;
+			width: 100%;
+		}
+		@include min-mobile {
+			> * + * {
+				margin-left: 10px;
+			}
+		}
+	}
+
+	.st--btn-position {
+		&:before {
+			@include mobile {
+				margin-right: auto;
+			}
+		}
+	}
+
+	.st-maps {
+		height: 520px;
+		z-index: 1;
+		border-radius: 0 0 $border-radius $border-radius;
+
+		@include mobile {
+			height: 320px;
+		}
+	}
+}

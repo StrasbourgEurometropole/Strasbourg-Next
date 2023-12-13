@@ -1,31 +1,21 @@
 <!-- Entête liste des actes réglementaires et normatifs -->
-<#setting locale = locale />
-<#assign portalHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortalHelperService") />
+<#setting locale=locale />
+<#assign portalHelper=serviceLocator.findService("eu.strasbourg.utils.api.PortalHelperService") />
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+    <#assign homeURL="/web${layout.group.friendlyURL}/" />
 <#else>
-    <#assign homeURL = "/" />
+    <#assign homeURL="/" />
 </#if>
-
-<main class="seu-container">
-	<a href="#" class="add-favorites"
-        data-type="9" 
-        data-title="${layout.getName(locale)}" 
-        data-url="${portalHelper.getPortalURL(themeDisplay)}${homeURL}${layout.friendlyURL?remove_beginning('/')}" 
-        data-id="0">
-        <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
-	</a>
-    <h1>${layout.getName(locale)}</h1>
-    <div class="hat">
-        <div></div>
+<header class="st-small-header st-wrapper st-wrapper-small">
+    <h1 class="st-h1">
+        ${layout.getName(locale)}
+    </h1>
+    <@liferay.breadcrumbs />
+</header>
+<div class="st-bloc st-bloc-sit-presentation st-wrapper st-wrapper-small st--has-margin">
+    <div class="st-component-container st-text-styles">
+        <p>
+            ${layout.getDescription(locale)}
+        </p>
     </div>
-    <div class="rte">
-        <p>${layout.getDescription(locale)}</p>
-    </div>
-</main>
-
-<style>
-    .page-header{
-        padding-bottom: 0;
-    }
-</style>
+</div>

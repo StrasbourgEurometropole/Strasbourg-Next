@@ -333,6 +333,21 @@ public class PlaceImpl extends PlaceBaseImpl {
     }
 
     /**
+     * Retourne true si le type du lieu est recherchable (utilisé pour affiche tous les lieux de meme type)
+     */
+    @Override
+    public Boolean isSearchable() {
+        List<AssetCategory> types = this.getTypes();
+        for (AssetCategory type : types) {
+            String isSearchable = AssetVocabularyHelper.getCategoryProperty(type.getCategoryId(), "searchable");
+            if (Validator.isNotNull(isSearchable) && isSearchable.equals("true")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Retourne la catégorie Territoire correspondant à la ville du lieu
      */
     @Override

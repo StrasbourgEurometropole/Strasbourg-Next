@@ -1,0 +1,12 @@
+.st-page-preheader {
+
+	// surcharge du header du site
+	.st-barre-navigation {
+		position: relative;
+		margin-bottom: initial;
+
+		.st-barre-liens:after {
+			height: 88px;
+		}
+	}
+}

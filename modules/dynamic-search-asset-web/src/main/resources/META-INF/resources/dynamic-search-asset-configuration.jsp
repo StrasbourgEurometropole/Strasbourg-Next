@@ -137,6 +137,9 @@
 					<aui:option value="strasbourg" selected="${searchForm eq 'strasbourg'}">
 						<liferay-ui:message key="strasbourg" />
 					</aui:option>
+					<aui:option value="strasbourg-int" selected="${searchForm eq 'strasbourg-int'}">
+						<liferay-ui:message key="strasbourg-int" />
+					</aui:option>
 				</aui:select>
 				
 			</aui:fieldset>

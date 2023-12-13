@@ -289,6 +289,9 @@
                             <aui:option value="strasbourg-generic" selected="${dc.configurationData.searchForm eq 'strasbourg-generic'}">
                                 <liferay-ui:message key="eu.search.asset.web.configuration.template.strasbourg-generic" />
                             </aui:option>
+                            <aui:option value="strasbourg-generic-grille" selected="${dc.configurationData.searchForm eq 'strasbourg-generic-grille'}">
+                                <liferay-ui:message key="eu.search.asset.web.configuration.template.strasbourg-generic" /> Grille
+                            </aui:option>
                             <aui:option value="strasbourg-offer" selected="${dc.configurationData.searchForm eq 'strasbourg-offer'}">
                                 <liferay-ui:message key="eu.search.asset.web.configuration.template.strasbourg-offer" />
                             </aui:option>

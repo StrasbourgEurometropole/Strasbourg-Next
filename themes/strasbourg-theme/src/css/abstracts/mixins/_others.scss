@@ -1,0 +1,219 @@
+// ==============================================
+//
+//        UNCATEGORIZED MIXINS
+//
+// ==============================================
+
+
+//  Géometrie
+// -----------------------------------------------
+
+/// Crée un triangle, son positionnement se fait en dehors du mixin
+/// @param {String} $direction - Orientation du triangle `up`, `right`, `down` plus des variantes pour les "corner triangles"
+/// @param {Color} $color - Couleur du triangle
+/// @param {Length} $width - Longueur du triangle
+/// @param {Length} $height [$width] - Hauteur du triangle (si non renseigné -> triangle equilatéral)
+
+@mixin triangle($direction, $color, $width, $height: $width) {
+	@if not index(down up right left down-right down-left up-right up-left, $direction) {
+		@warn "`#{$direction}` is not a valid parameter";
+	}
+
+	display: inline-block;
+	width: 0;
+	height: 0;
+	$half-width: calc($width / 2);
+	$half-height: calc($height / 2);
+
+	// basic triangles : ▼ ▲ ▶ ◀
+	@if $direction == 'down' {
+		border-top: $height solid $color;
+		border-left: $half-width solid transparent;
+		border-right: $half-width solid transparent;
+	} @else if $direction == 'up' {
+		border-bottom: $height solid $color;
+		border-left: $half-width solid transparent;
+		border-right: $half-width solid transparent;
+	} @else if $direction == 'right' {
+		border-left: $width solid $color;
+		border-top: $half-height solid transparent;
+		border-bottom: $half-height solid transparent;
+	} @else if $direction == 'left' {
+		border-right: $width solid $color;
+		border-top: $half-height solid transparent;
+		border-bottom: $half-height solid transparent;
+
+		// corner triangles : ◥ ◢ ◤ ◣
+	} @else if $direction == 'up-right' {
+		border-top: $half-height solid $color;
+		border-left: $half-width solid transparent;
+		border-right: $half-width solid $color;
+		border-bottom: $half-height solid transparent;
+	} @else if $direction == 'down-right' {
+		border-top: $half-height solid transparent;
+		border-left: $half-width solid transparent;
+		border-right: $half-width solid $color;
+		border-bottom: $half-height solid $color;
+	} @else if $direction == 'up-left' {
+		border-top: $half-height solid $color;
+		border-left: $half-width solid $color;
+		border-right: $half-width solid transparent;
+		border-bottom: $half-height solid transparent;
+	} @else if $direction == 'down-left' {
+		border-top: $half-height solid transparent;
+		border-left: $half-width solid $color;
+		border-right: $half-width solid transparent;
+		border-bottom: $half-height solid $color;
+	}
+}
+
+
+/// Crée un cercle, son positionnement se fait en dehors du mixin
+/// @param {Length} $width - Diamètre du cercle
+/// @param {Color} $bg-color - Couleur de fond du cercle
+
+@mixin circle($size, $bg-color:null) {
+	width: $size;
+	height: $size;
+	border-radius: 50%;
+	@if $bg-color {
+		background-color: $bg-color;
+	}
+}
+
+
+//  Autres
+// -----------------------------------------------
+
+@function unfoldTransition ($transition) {
+	// Default values
+	$property: all;
+	$duration: 0.2s;
+	$easing: null; // Browser default is ease, which is what we want
+	$delay: null; // Browser default is 0, which is what we want
+	$defaultProperties: ($property, $duration, $easing, $delay);
+
+	// Grab transition properties if they exist
+	$unfoldedTransition: ();
+	@for $i from 1 through length($defaultProperties) {
+		$p: null;
+		@if $i <= length($transition) {         // prop passé en param -> on la concatène
+			$p: nth($transition, $i);
+		} @else {                               // prop non passé en param -> on complète avec la valeur par défaut
+			$p: nth($defaultProperties, $i);
+		}
+
+		$unfoldedTransition: append($unfoldedTransition, $p);
+	}
+	@return $unfoldedTransition;
+}
+
+
+// Génère une propriété de transition unique à partir de plusieurs propriétés
+/// @param {Object} $transitions - Liste des transitions à passer séparés par des virgules
+// @usage:   @include transition(width, height 0.3s ease-in-out);
+// @output:  transition(width 0.2s, height 0.3s ease-in-out);
+/// @see https://gist.github.com/tobiasahlin/7a421fb9306a4f518aab
+@mixin transition($transitions...) {
+	$unfoldedTransitions: ();
+	//@warn " #{$transitions}.";
+	// boucle sur les props séparées par des virgules et concatène la prop globale
+	@each $transition in $transitions {
+		$unfoldedTransitions: append($unfoldedTransitions, unfoldTransition($transition), comma);
+		//@warn " >>> #{$transition}  -> #{$unfoldedTransitions}";
+	}
+
+	//@warn "🙂 #{$unfoldedTransitions}.";
+	transition: $unfoldedTransitions;
+}
+
+// Comportement de hover sauf si touchscreen
+@mixin can-hover() {
+	&:hover,
+	&:focus {
+		body:not(.no-hover) & {
+			@content;
+		}
+	}
+}
+
+// RGAA : On ajoute un outline avec un couleur dynamique
+@mixin create-outline($color : $c_sub) {
+}
+
+
+// Clearfix pour les floats
+@mixin clearfix {
+	&:before,
+	&:after {
+		content: "";
+		display: table;
+	}
+	&:after {
+		clear: both;
+	}
+}
+
+
+// Reset des inputs, buttons
+@mixin reset-appearance {
+	appearance: none;
+	resize: none;
+	box-shadow: none;
+	border-radius: 0;
+	border: none;
+
+	&::-ms-clear {
+		display: none;
+	}
+}
+
+// Génère un masque sur un contenu en overflow avec les bords verticaux en gradient
+@mixin fade-out-overflow($fade-distance:50px, $scrollbar-size:16px) {
+	$debug: false;
+
+	// scroll bar width, for use in mask calculations
+	--scrollbar-size: #{$scrollbar-size};
+
+	// mask fade distance, for use in mask calculations
+	--fade-distance: #{$fade-distance};
+
+	// The content mask is a linear gradient from top to bottom
+	--mask-image-content: linear-gradient(to bottom,
+			transparent, red var(--fade-distance),
+			red calc(100% - var(--fade-distance)), transparent
+	);
+
+	// The scrollbar mask is a black pixel
+	--mask-image-scrollbar: linear-gradient(pink, pink);
+
+	/* Here we scale the content gradient to the width of the container
+    minus the scrollbar width. The height is the full container height */
+	--mask-size-content: calc(100% - var(--scrollbar-size)) 100%;
+
+	/* The width of our black pixel is the width of the scrollbar.
+    The height is the full container height */
+	--mask-size-scrollbar: var(--scrollbar-size) 100%;
+
+	@if ($debug != true) {
+		// Apply the mask image and mask size variables
+		-webkit-mask-image: var(--mask-image-content), var(--mask-image-scrollbar);
+		-webkit-mask-size: var(--mask-size-content), var(--mask-size-scrollbar);
+
+		/* Position the content gradient in the top left, and the
+        scrollbar gradient in the top right */
+		-webkit-mask-position: 0 0, 100% 0;
+
+		// We don't repeat our mask images
+		-webkit-mask-repeat: no-repeat, no-repeat;
+
+		// Debug mode with background-image
+	} @else {
+		background-image: var(--mask-image-content), var(--mask-image-scrollbar);
+		background-size: var(--mask-size-content), var(--mask-size-scrollbar);
+
+		background-position: 0 0, 100% 0;
+
+		background-repeat: no-repeat, no-repeat;
+	}
+}

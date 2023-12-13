@@ -1,0 +1,31 @@
+{
+  "fieldSets": [
+    {
+      "fields": [
+        {
+          "label": "select-content",
+          "name": "image",
+          "type": "itemSelector",
+          "typeOptions": {
+            "itemType": "com.liferay.portal.kernel.repository.model.FileEntry",
+            "itemSubtype": "938981",
+          }
+        },
+        {
+          "name": "orientationText",
+          "label": "Orientation de texte",
+          "description": "number-of-features",
+          "type": "select",
+          "dataType": "string",
+          "typeOptions": {
+            "validValues": [
+              {"value": "left", label: "Gauche"},
+              {"value": "right", label: "Droite"}
+            ]
+          },
+          "defaultValue": "left"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,239 @@
+.st-bloc-focus {
+	--image-size: 200px;
+
+	@include tablet-portrait {
+		--image-size: 120px;
+	}
+	@include mobile {
+		--image-size: 100px;
+	}
+
+	.st-container {
+		display: flex;
+		padding: 20px;
+		background-color: $c_greydark;
+		border-radius: $border-radius;
+	}
+
+	.st-col-left {
+		display: flex;
+		width: 100%;
+
+		.st-visual-container {
+			position: relative;
+			flex-shrink: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: var(--image-size);
+			height: var(--image-size);
+			margin-right: 20px;
+
+			@include tablet-portrait {
+				margin-right: initial;
+			}
+
+			[class^="st-icon-"], [class*=" st-icon-"] {
+				flex-shrink: 0;
+				font-size: 120px;
+				color: $c_sub;
+
+				@include tablet-portrait {
+					font-size: 80px;
+				}
+			}
+
+			img {
+				border-radius: $border-radius-small;
+			}
+		}
+
+		.st-surtitre-cat {
+			margin-top: 4px;
+		}
+
+		.st-desc {
+			font-size: 12px;
+			line-height: 1.16;
+			margin-top: 8px;
+		}
+	}
+
+	.st-col-right {
+		display: flex;
+
+		.st-btn {
+			@include mobile {
+				padding-left: 20px;
+				padding-right: 20px;
+			}
+		}
+	}
+
+	// --modifiers
+
+	&.st--with-icon,
+	&.st--with-image {
+		@include tablet-portrait {
+			padding-top: 50px;
+		}
+
+		.st-container {
+			align-items: center;
+
+			@include tablet-portrait {
+				flex-direction: column;
+			}
+		}
+
+		.st-col-left {
+			align-items: center;
+			width: 100%;
+
+			@include tablet-portrait {
+				flex-direction: column;
+				margin-top: -70px;
+			}
+
+			.st-content {
+				margin-right: 80px;
+
+				@include desktop {
+					margin-right: 60px;
+				}
+
+				@include tablet-portrait {
+					margin-right: initial;
+					margin-bottom: 20px;
+					margin-top: 20px;
+					align-self: flex-start;
+				}
+
+				@include mobile {
+					margin-top: 5px;
+				}
+			}
+		}
+
+		.st-col-right {
+			flex-shrink: 0;
+			flex-direction: column;
+			padding-right: 60px;
+
+			@include desktop {
+				padding-right: 20px;
+			}
+
+			@include tablet-portrait {
+				width: 100%;
+				flex-direction: row;
+				padding-right: initial;
+			}
+
+			.st-btn {
+				@include tablet-portrait {
+					flex: 1;
+				}
+
+				& + .st-btn {
+					margin-top: 10px;
+
+					@include tablet-portrait {
+						margin-top: initial;
+						margin-left: 10px;
+					}
+				}
+			}
+		}
+	}
+
+
+	&.st--with-image {
+		@include tablet-portrait {
+			.st-visual-container {
+				margin-bottom: 10px;
+			}
+		}
+	}
+
+
+	&.st--two-elements {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		grid-gap: 30px;
+		--image-size: 120px;
+
+		@include tablet-portrait {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.st-container {
+			flex-direction: column;
+		}
+
+		.st-col-left {
+			display: grid;
+			grid-template-columns: min-content minmax(10px, 1fr);
+			grid-template-rows: auto 1fr;
+			grid-template-areas: "image content"
+								 "image desc";
+
+			@include mobile {
+				grid-template-rows: auto auto;
+				grid-template-areas: "image content"
+								 	 "desc desc";
+			}
+
+			.st-visual-container {
+				grid-area: image;
+
+				@include tablet-portrait {
+					margin-right: 20px;
+				}
+			}
+			.st-content {
+				grid-area: content;
+
+				@include mobile {
+					margin-top: auto;
+					margin-bottom: auto;
+				}
+			}
+			.st-desc {
+				grid-area: desc;
+				margin-top: 4px;
+
+				@include mobile {
+					margin-top: 16px;
+				}
+			}
+		}
+
+		.st-col-right {
+			flex-direction: row;
+			margin-top: 20px;
+
+			.st-btn {
+				flex: 1;
+
+				& + .st-btn {
+					margin-left: 10px;
+					margin-top: initial;
+				}
+			}
+		}
+	}
+
+	&.st--has-line {
+		padding-top: 40px;
+		padding-bottom: 40px;
+		border-bottom: 1px solid $c_border;
+
+		&.st--with-icon,
+		&.st--with-image {
+			@include tablet-portrait {
+				padding-top: 90px;
+			}
+		}
+	}
+}

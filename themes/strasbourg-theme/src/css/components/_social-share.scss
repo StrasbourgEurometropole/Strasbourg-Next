@@ -1,0 +1,85 @@
+// =============================================
+// Share button
+// =============================================
+
+// Share Button Wrapper
+.st-page-wrapper .st-social-share {
+	position: relative;
+	z-index: z-index('social-share');
+
+	// Toggle Button
+	.st-social-share__toggle {
+		position: relative;
+		@include inline-flex-center();
+		width: 40px;
+		height: 30px;
+		font-size: 20px;
+		color: $c_txt;
+
+		@include can-hover {
+			span {
+				color: $c_sub;
+			}
+		}
+
+		// Open Network List
+		&[aria-expanded="true"] {
+			color: $c_sub;
+
+			& ~ .st-social-share__list {
+				pointer-events: initial;
+				visibility: initial;
+
+				li {
+					opacity: 1;
+				}
+
+				li:nth-child(1) {
+					top: -70px;
+				}
+
+				li:nth-child(2) {
+					top: -120px;
+				}
+
+				li:nth-child(3) {
+					top: -170px;
+				}
+
+				li:nth-child(4) {
+					top: -220px;
+				}
+
+				li:nth-child(5) {
+					top: -270px;
+				}
+
+				li:nth-child(6) {
+					top: -320px;
+				}
+			}
+		}
+	}
+
+	// =============================================
+	// Network List
+	// =============================================
+
+	.st-social-share__list {
+		position: absolute;
+		top: 0;
+		left: 20px;
+		pointer-events: none;
+		visibility: hidden;
+		@include transition(visibility 0.25s);
+
+		li {
+			position: absolute;
+			top: 0;
+			left: 0;
+			display: block;
+			opacity: 0;
+			@include transition(opacity 0.25s cubic-bezier(0.43, 1.17, 0.69, 1.24), top 0.25s cubic-bezier(0.43, 1.17, 0.69, 1.24));
+		}
+	}
+}

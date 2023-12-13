@@ -1,0 +1,70 @@
+html:not(#__):not(#___):not(#____) .vignettes{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+}
+
+html:not(#__):not(#___):not(#____) .vignette_empty{
+    display: none;
+}
+
+html:not(#__):not(#___):not(#____) .vignette{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: solid black 1px;
+    background-color: ghostwhite;
+    margin: 10px;
+    padding: 15px;
+}
+
+html:not(#__):not(#___):not(#____) .strasbourg-slider-picker{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+html:not(#__):not(#___):not(#____) .strasbourg-slider-picker .detail{
+    position: relative;
+    padding-left: 0px;
+    padding-right: 10px;
+    min-height: 57px;
+}
+
+html:not(#__):not(#___):not(#____) .strasbourg-slider-picker .detail li{
+    list-style: none;
+}
+
+html:not(#__):not(#___):not(#____) .strasbourg-slider-picker .detail li a{
+    position: absolute;
+    top: 0;
+    left: calc(100% - 5px);
+}
+
+html:not(#__):not(#___):not(#____) .highlight{
+    background-color: grey;
+}
+
+html:not(#__):not(#___):not(#____) .strasbourg-slider-picker .detail + p{
+    margin-top: auto;
+    align-self: center;
+}
+
+html:not(#__):not(#___):not(#____) .buttons{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+}
+
+html:not(#__):not(#___):not(#____) .vignette-move{
+    cursor: move;
+}
+
+html:not(#__):not(#___):not(#____) .vignette-delete{
+    cursor: pointer;
+}
+
+
+html:not(#__):not(#___):not(#____) #configuration-news-home .btn.eventButton {
+display: none;
+}

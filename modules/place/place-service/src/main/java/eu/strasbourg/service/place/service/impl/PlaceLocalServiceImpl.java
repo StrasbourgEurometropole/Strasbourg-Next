@@ -55,6 +55,7 @@ import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.ScheduleException;
 import eu.strasbourg.service.place.model.SubPlace;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.service.place.service.base.PlaceLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
@@ -65,11 +66,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -441,6 +438,26 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
     public void updateStatus(Place place, int status) throws PortalException {
         this.updateStatus(place.getUserId(), place.getPlaceId(), status, null,
                 null);
+    }
+
+
+    /**
+     * Récupère le nombre d'emplacements approuvés associés à une catégorie d'actifs spécifique
+     * au sein d'un groupe d'entreprise donné.
+     *
+     * @param assetCategory La catégorie d'actifs pour laquelle compter les emplacements.
+     * @param companyGroupId L'identifiant du groupe d'entreprise dans lequel effectuer la recherche.
+     * @return Le nombre d'emplacements approuvés associés à la catégorie d'actifs donnée.
+     * @throws PortalException En cas d'erreur lors de la récupération des données.
+     */
+    @Override
+    public Integer getPlaceCountByAssetCategory(AssetCategory assetCategory, long companyGroupId) throws PortalException {
+        List<AssetEntry> entries = AssetVocabularyHelper.getAssetEntriesByAssetCategory(assetCategory);
+        return entries.parallelStream()
+                .map(entry -> PlaceLocalServiceUtil.fetchPlaceByUuidAndGroupId(entry.getClassUuid(), companyGroupId))
+                .filter(Objects::nonNull)
+                .filter(Place::isApproved)
+                .collect(Collectors.toList()).size();
     }
 
     /**

@@ -387,6 +387,14 @@ public class FavoriteLocalServiceWrapper
 	}
 
 	/**
+	 * Retourne si l'entité est un favori
+	 */
+	@Override
+	public boolean isFavorite(long entityId, long typeId, String publikUserId) {
+		return _favoriteLocalService.isFavorite(entityId, typeId, publikUserId);
+	}
+
+	/**
 	 * Updates the favorite in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
 	 * <p>

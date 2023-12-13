@@ -42,6 +42,7 @@ import eu.strasbourg.utils.Pager;
 import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.SearchHelperV2;
 import eu.strasbourg.utils.StringHelper;
+import eu.strasbourg.utils.display.context.BaseDisplayContext;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
@@ -53,26 +54,18 @@ import javax.portlet.ResourceURL;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @SuppressWarnings({"deprecation", "unused"})
-public class SearchAssetDisplayContext {
+public class SearchAssetDisplayContext extends BaseDisplayContext {
 
 	public SearchAssetDisplayContext(RenderRequest request, RenderResponse response) throws PortalException {
 
-		this._response = response;
-		this._request = request;
-		this._themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
+		super(request, response);
 		this.initSearchContainer();
 		if (!getConfigurationData().isHideResultsBeforeSearch() || this.isUserSearch()
 				|| ParamUtil.getBoolean(this._request, "paginate")) {
@@ -764,12 +757,18 @@ public class SearchAssetDisplayContext {
 	}
 
 	public Map<String, Object> getTemplateContextObjects(AssetEntry entry) {
+		return getTemplateContextObjects(entry, Date.from(Instant.now()));
+	}
+
+
+	public Map<String, Object> getTemplateContextObjects(AssetEntry entry, Date displayDate) {
 		Map<String, Object> contextObjects = new HashMap<>();
 		if (entry.getAssetRenderer() != null) {
 			contextObjects.put("entry", entry.getAssetRenderer().getAssetObject());
 
 			boolean isFeatured = this.isEntryFeatured(entry);
 			contextObjects.put("isFeatured", isFeatured);
+			contextObjects.put("displayDate", displayDate);
 		}
 		return contextObjects;
 	}
@@ -1039,10 +1038,6 @@ public class SearchAssetDisplayContext {
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(SearchAssetDisplayContext.class);
-
-	private final RenderRequest _request;
-	private final RenderResponse _response;
-	private final ThemeDisplay _themeDisplay;
 	private SearchAssetConfiguration _configuration;
 	private ConfigurationData _configurationData;
 

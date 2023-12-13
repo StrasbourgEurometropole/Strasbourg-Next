@@ -1,0 +1,94 @@
+// define custom clay variables
+$input: (
+        enabled: true,
+        outline-offset: 1px,
+        font-size: 0.875rem,
+        font-weight: 400,
+        color: #fff,
+        line-height: 1.42,
+        width: 100%,
+        padding: 18px 20px,
+        border: 1px solid rgba(255, 255, 255, .5),
+        border-radius: 5px,
+        background-color: #171C22,
+        transition: all .2s ease,
+        height: 100%,
+        mobile: (
+        ),
+        placeholder: (
+        ),
+        focus: (
+        ),
+        disabled: (
+        ),
+);
+$custom-control-indicator-size: 1.25rem;
+$panel-bg: transparent;
+$active-bg: #2ad783;
+$component-active-bg: #212529;
+$component-active-color: #fff;
+$custom-control-indicator-checked-border-color: #fff;
+$custom-control-indicator-bg: transparent;
+$custom-control-indicator-bg-size: 90% 90%;
+$custom-checkbox-indicator-icon-checked: clay-svg-url(
+                "<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='-1.5 -2.5 8 8'><rect x='0' y='0' width='5' height='5' fill='#{$active-bg}'/></svg>"
+);
+
+$custom-radio-indicator-icon-checked: clay-svg-url(
+                "<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='-4 -4 8 8'><circle r='3' fill='#{$active-bg}'/></svg>"
+);
+$custom-control-label: (
+        margin-bottom: initial,
+        font-size: 0.875rem,
+        font-weight: 500,
+        color: #fff,
+        line-height: 1.42,
+        vertical-align: sub,
+);
+$primary: #2ad783;
+$btn-padding-x: 60px;
+$btn-padding-y: 16px;
+$btn-font-size: 0.875rem;
+$btn-font-weight: 600;
+
+$btn-primary: (
+        hover: (
+                background-color: $component-active-color,
+                color: #212529
+        ),
+);
+
+$multi-step-icon-active-bg: $active-bg;
+
+
+.portlet-forms {
+  .lfr-ddm__default-page-header-title {
+    display: block;
+    font-size: 30px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1;
+  }
+  .lfr-ddm__default-page-header-line {
+    display: none;
+  }
+  .ddm-form-page-container {
+    .ddm-form-pagination .ddm-wizard .multi-step-item.active .multi-step-divider {
+      background-color: #2ad783;
+    }
+    label, .lfr-ddm-legend {
+      display: inline-block;
+      margin-bottom: 5px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #2ad783;
+      line-height: 1.42;
+      cursor: pointer;
+    }
+    .liferay-ddm-form-field-paragraph-text {
+      p {
+        color: white;
+      }
+    }
+  }
+}

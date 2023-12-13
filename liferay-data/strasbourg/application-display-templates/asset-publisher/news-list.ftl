@@ -6,100 +6,61 @@
     <#assign homeURL = "/" />
 </#if>
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
-<div class="seu-container">
-    <div class="seu-wi seu-wi-agenda seu-type--actu">
-        <div class="seu-container">
-            <h2 class="seu-section-title">
-                <span class="seu-title">${portletHelper.getPortletTitle('eu.news', renderRequest)}</span>
-            </h2>
-            <div class="seu-wi-content">
-                <div class="seu-wi-grid">
-                    <#list entries as curEntry>
-                        <#if curEntry?has_content && curEntry.getAssetRenderer()?has_content && curEntry.getAssetRenderer().getArticle()?has_content>
-                            <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
-                            <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
-                            <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
-                            <#assign thumbnail = docXml.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()") />
-                            <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
-                            <#assign imageURL ="" />
-                            <#if thumbnail?has_content>
-                                <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(thumbnail) />
-                            </#if>
-                            <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
-                            <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
-                            <#assign id = curEntry.getAssetRenderer().getArticle().getArticleId() />
-                            <#if curEntry.tagNames?seq_contains("euromag") || curEntry.tagNames?seq_contains("villemag") || curEntry.tagNames?seq_contains("webmag")>
-                                <div class="seu-wi-item seu-actu seu-mag seu-has-picture">
-                            <#else>
-                                <div class="seu-wi-item seu-actu seu-has-picture">
-                            </#if>
-                                <a href="${viewURL}" class="seu-link" title="${title}" style="background-color:white">
-                                    <#if curEntry.tagNames?seq_contains("euromag") || curEntry.tagNames?seq_contains("villemag") || curEntry.tagNames?seq_contains("webmag")>
-                                        <div class="seu-picture" style="background-image: url(${imageURL})">
-                                        </div>
-                                        <div class="seu-mag-logo">
-                                            <div class="seu-mag-text">Mag'</div>
-                                            <div class="seu-mag-picto"></div>
-                                        </div>
-                                    </#if>
-                                    <div class="seu-text">
-                                        <div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${title}</div>
-                                        <div class="seu-lead dotme" data-dot="3" style="word-wrap: break-word;">${chapo}</div>
+<div class="st-bloc st-bloc-actu st--with-anchors st-wrapper st-u-overflow-x-hidden st--has-margin" role="group">
+    <div class="st-wrapper st-bloc-actu__inner st-js-slider-actu splide st-component-container" id="splide02" role="region">
+        <h2 class="st-h2 st-titre">${portletHelper.getPortletTitle('eu.news', renderRequest)}</h2>
+        <div class="splide__track st-u-overflow-visible" id="splide02-track">
+            <ul class="splide__list st-cards-wrapper" id="splide02-list">
+                <#list entries as curEntry>
+                    <#if curEntry?has_content && curEntry.getAssetRenderer()?has_content && curEntry.getAssetRenderer().getArticle()?has_content>
+                        <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
+                        <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
+                        <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
+                        <#assign thumbnail = docXml.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()") />
+                        <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
+                        <#assign imageURL ="" />
+                        <#if thumbnail?has_content>
+                            <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(thumbnail) />
+                        </#if>
+                        <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
+                        <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
+                        <#assign id = curEntry.getAssetRenderer().getArticle().getArticleId() />
+                    <#-- Récupération de DateHelper pour le format date -->
+                        <#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
+
+                    <#-- Récupération des catégories "Type d'actualité de l'entité -->
+                        <#assign assetEntryLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService") />
+                        <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
+
+
+                        <#assign newsTypes = assetVocabularyHelper.getAssetEntryCategoriesByVocabulary(curEntry, "type d'actualite") />
+
+                        <li class="splide__slide" id="splide02-slide01">
+                            <div class="st-card-container">
+                                <a  href="${viewURL}" class="st-card st-card-actu">
+                                    <div class="st-caption">
+                                        <p class="st-title-card">${title}</p>
+                                        <p class="st-surtitre-cat">${newsTypes?map(news -> news.getTitle(locale))?join(', ')}</p>
+                                        <p class="st-date">Publié le ${dateHelperService.displayShortDate(entry.getModifiedDate()?date, locale)}</p>
                                     </div>
-                                    <#if !(curEntry.tagNames?seq_contains("euromag") || curEntry.tagNames?seq_contains("villemag") || curEntry.tagNames?seq_contains("webmag"))>
-                                        <div>
-                                            <div class="seu-picture" style="background-image: url(${imageURL})"></div>
-                                        </div>
-                                    </#if>
-                                </a>
-                                 <a href="#" class="seu-add-favorites" 
-                                     data-type="6" 
-                                     data-title="${title}"
-                                     data-url="${viewURL}"
-                                     data-group-id=${themeDisplay.scopeGroupId} 
-                                     data-id="${id}">
-                                    <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
+                                    <div class="st-image">
+                                        <figure class="st-figure st-fit-cover" role="group">
+                                            <picture>
+                                                <img alt="" src="${imageURL}" />
+                                            </picture>
+                                        </figure>
+                                    </div>
                                 </a>
                             </div>
-                        </#if>
-                    </#list>
-                </div>
-            </div>
-            <div class="seu-media-bottom">
-                <ul class="seu-pagination unstyled">
-                    <li class="seu-pagin-prev disabled seu-pagin-item">
-                        <button class="seu-btn-square seu-bordered seu-core" data-action="prev" title="<@liferay_ui.message key="next" />">
-                            <span class="seu-flexbox">
-                                <span class="seu-btn-text"><@liferay_ui.message key="previous" /></span>
-                                <span class="seu-btn-arrow"></span>
-                            </span>
-                        </button>
-                    </li>
-                    <li class="seu-is-active seu-pagin-item">
-                        <button data-page="1" title="<@liferay_ui.message key="eu.go-to-page" /> 1">
-                            <span class="seu-flexbox">
-                                <span class="seu-btn-text">1</span>
-                            </span>
-                        </button>
-                    </li>
-                    <li class="seu-pagin-next seu-pagin-item">
-                        <button class="seu-btn-square seu-bordered seu-core" title="<@liferay_ui.message key="next" />" data-action="next">
-                            <span class="seu-flexbox">
-                                <span class="seu-btn-text"><@liferay_ui.message key="next" /></span>
-                                <span class="seu-btn-arrow"></span>
-                            </span>
-                        </button>
-                    </li>
-                </ul>
-            </div>
-            <div class="seu-btn-line">
-                <a href="${homeURL}actualite" class="seu-btn-square seu-bordered seu-core" title="<@liferay_ui.message key="eu.all-news" />">
-                    <span class="seu-flexbox">
-                        <span class="seu-btn-text"><@liferay_ui.message key="eu.all-news" /></span>
-                        <span class="seu-btn-arrow"></span>
-                    </span>
-                </a>
-            </div>
+                        </li>
+                    </#if>
+                </#list>
+
+
+
+            </ul>
         </div>
+        <ul class="splide__pagination st-nav-dots" role="tablist" aria-label="Select a slide to show"></ul>
+        <a href="${homeURL}actualite" class="st-btn st--btn-secondary st--btn-full-width st-btn-cta">Toutes les actualités</a>
     </div>
 </div>

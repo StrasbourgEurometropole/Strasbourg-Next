@@ -79,6 +79,10 @@ public class OfficialTable extends BaseTable<OfficialTable> {
 		createColumn(
 			"orderVicePresident", Integer.class, Types.INTEGER,
 			Column.FLAG_DEFAULT);
+	public final Column<OfficialTable, String> listeContact = createColumn(
+		"listeContact", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
+	public final Column<OfficialTable, String> resumeFonction = createColumn(
+		"resumeFonction", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<OfficialTable, Long> imageId = createColumn(
 		"imageId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
 

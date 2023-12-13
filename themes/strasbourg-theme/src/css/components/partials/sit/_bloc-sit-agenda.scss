@@ -1,0 +1,28 @@
+.st-bloc-sit-agenda {
+	// Grille de 2 colonnes de card horizontales
+	.st-cards-wrapper.st--has-cards-horizontal {
+		column-gap: 40px;
+		row-gap: 20px;
+
+		@include tablet-small {
+			column-gap: 20px;
+		}
+
+		@include mobile {
+			row-gap: 10px;
+		}
+
+		.st-card-container {
+			height: auto;
+		}
+
+		& + .st-btn {
+			width: 100%;
+			margin-top: 40px;
+
+			@include mobile {
+				margin-top: 20px;
+			}
+		}
+	}
+}
