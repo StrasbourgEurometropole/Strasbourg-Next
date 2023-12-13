@@ -1,37 +1,46 @@
-<!-- Liens utiles (externes) -->
-<#setting locale=locale />
-<#assign portletHelper=serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
-<div class="st-bloc st-bloc-infos-complementaires st-wrapper st--has-margin">
-    <div class="st-container">
-        <div class="st-component st-component-type-2">
-            <h2 class="st-h2 st-title">
-                ${portletHelper.getPortletTitle('eu.useful-links', renderRequest)}
-            </h2>
-            <div class="st-component-container">
-                <ul class="st-liste st-limit-height">
-                    <#if entries?has_content>
-                        <#list entries as curEntry>
-                            <#assign link=curEntry.getAssetRenderer().getLink() />
-                            <li class="st-lien-container">
-                                <a href="${link.getURL(locale)}" class="st-lien" target="_blank" title="${link.getHoverText(locale)} (<@liferay_ui.message key=" eu.new-window" />)" >
-                                    <p class="st-title-lien">
-                                        ${link.getTitle(locale)}
-                                    </p>
-                                    <p class="st-text">
-                                        <@liferay_ui.message key="eu.access-page" />
-                                    </p>
-                                </a>
-                            </li>
-                        </#list>
-                    </#if>
-                </ul>
-                <div class="st-show-more">
-                    <button class="st-btn-show-more st-btn-arrow st--down"
-                            aria-expanded="false"
-                            data-open-label="<@liferay_ui.message key='eu.view-more' />" data-close-label="<@liferay_ui.message key='eu.view-less' />"><@liferay_ui.message key='eu.view-more' />
-                    </button>
-                </div>
-            </div>
-        </div>
+<!-- Documents utiles (externes) -->
+<#setting locale = locale />
+<#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
+<#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
+
+<div class="st-bloc st-wrapper st--has-margin-small">
+    <h2 class="st-h2">${portletHelper.getPortletTitle('eu.useful-documents', renderRequest)}</h2>
+</div>
+
+<#if !entries?has_content && themeDisplay.isSignedIn()>
+    <div>
+        Documents utiles - Aucune entrée (message non-visible par les visiteurs)
     </div>
+</#if>
+
+
+<div class="st-bloc st-bloc-liens st-wrapper st--has-margin">
+    <div class="st-component-container">
+        <ul class="st-liste st-limit-height">
+            <#list entries as curEntry>
+                <#assign file = curEntry.getAssetRenderer().getAssetObject() />
+                <#if fileEntryHelper.getFileTitle??>
+                    <#assign fileTitle = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
+                <#else>
+                    <#assign fileTitle = file.getTitle() />
+                </#if>
+                <#assign AssetVocabularyLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetVocabularyLocalService")>
+                <li class="st-lien-container">
+                    <a href="${fileEntryHelper.getFileEntryURL(file.getFileEntryId())}" class="st-lien" target="_blank" >
+                        <p class="st-title-lien"> ${fileTitle}</p>
+                        <div class="st-lien-content">
+                            <p class="st-type">(${file.getExtension()} - ${fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale)})</p>
+                            <p class="st-text"><@liferay_ui.message key="eu.download" /></p>
+                        </div>
+                    </a>
+                </li>
+            </#list>
+
+        </ul>
+        <div class="st-show-more">
+            <button class="st-btn-show-more st-btn-arrow st--down"
+                    aria-expanded="false"
+                    data-open-label="<@liferay_ui.message key='eu.view-more' />" data-close-label="<@liferay_ui.message key='eu.view-less' />"><@liferay_ui.message key='eu.view-more' />
+            </button>
+        </div>    </div>
 </div>

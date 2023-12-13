@@ -79,11 +79,11 @@
             },
             "requireConfirmation": false,
             "displayStyle": "singleline",
-            "fieldNamespace": "",
+            "visibilityExpression": "",
             "requiredErrorMessage": {
               "fr_FR": ""
             },
-            "visibilityExpression": "",
+            "fieldNamespace": "",
             "objectFieldName": "",
             "ddmDataProviderInstanceOutput": [],
             "options": {
@@ -130,11 +130,11 @@
         },
         {
           "customProperties": {
-            "fieldNamespace": "",
+            "visibilityExpression": "",
             "requiredErrorMessage": {
               "fr_FR": ""
             },
-            "visibilityExpression": "",
+            "fieldNamespace": "",
             "objectFieldName": "",
             "dataType": "image",
             "requiredDescription": true,
@@ -175,11 +175,11 @@
             },
             "requireConfirmation": false,
             "displayStyle": "singleline",
-            "fieldNamespace": "",
+            "visibilityExpression": "",
             "requiredErrorMessage": {
               "fr_FR": ""
             },
-            "visibilityExpression": "",
+            "fieldNamespace": "",
             "objectFieldName": "",
             "ddmDataProviderInstanceOutput": [],
             "options": {
@@ -226,8 +226,8 @@
         },
         {
           "customProperties": {
-            "fieldNamespace": "",
             "visibilityExpression": "",
+            "fieldNamespace": "",
             "dataType": "link-to-page",
             "fieldReference": "InternalLink"
           },
