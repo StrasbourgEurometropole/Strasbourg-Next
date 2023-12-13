@@ -1,20 +1,16 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Atelier de projet</name>
-    <key>WORKSHOP</key>
     <structure>
+        <name>Atelier de projet</name>
+        <key>384014915</key>
         <definition>project-workshop-structure.json</definition>
         <layout>project-workshop-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Atelier de projet</name>
+        <key>384014921</key>
+        <script>project-workshop.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

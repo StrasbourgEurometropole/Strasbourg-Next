@@ -1,20 +1,16 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Actualité</name>
-    <key>NEWS</key>
     <structure>
+        <name>Actualité</name>
+        <key>2532175</key>
         <definition>news-structure.json</definition>
         <layout>news-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Actualité</name>
+        <key>2532255</key>
+        <script>news.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

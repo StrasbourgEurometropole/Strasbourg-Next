@@ -1,20 +1,16 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Projet - contenu détail</name>
-    <key>CONTENT</key>
     <structure>
+        <name>Projet - contenu détail</name>
+        <key>2532124</key>
         <definition>project-detail-content-structure.json</definition>
         <layout>project-detail-content-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Projet - contenu détail</name>
+        <key>2532231</key>
+        <script>project-detail-content.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

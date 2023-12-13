@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.project.model.BudgetParticipatif</className>
+    <template>
+        <script>budget-participatif-detail.ftl</script>
+        <name>Détail budget participatif</name>
+        <key>3873483</key>
+    </template>
+</root>

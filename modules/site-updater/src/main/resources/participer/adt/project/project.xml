@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.project.model.Project</className>
+    <template>
+        <script>project-detail.ftl</script>
+        <name>Détail projet</name>
+        <key>2532054</key>
+    </template>
+</root>

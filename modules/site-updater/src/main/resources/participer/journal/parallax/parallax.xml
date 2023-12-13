@@ -1,20 +1,16 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Parallax</name>
-    <key>PARALLAX</key>
     <structure>
+        <name>Parallax</name>
+        <key>2532120</key>
         <definition>parallax-structure.json</definition>
         <layout>parallax-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Parallaxe</name>
+        <key>2532227</key>
+        <script>parallax.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

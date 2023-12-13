@@ -1,20 +1,22 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Entête Image/Vidéo à la une</name>
-    <key>HEADER</key>
     <structure>
+        <name>Entête Image/Vidéo à la une</name>
+        <key>2532142</key>
         <definition>header-image-video-structure.json</definition>
         <layout>header-image-video-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
+        <name>Entête Image/Vidéo à la une</name>
+        <key>2532239</key>
+        <script>header-image-video.ftl</script>
+        <cacheable>true</cacheable>
     </template>
     <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Entête à la une</name>
+        <key>458168470</key>
+        <script>header-a-la-une-pacit.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

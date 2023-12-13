@@ -1,20 +1,16 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Diaporama grand format</name>
-    <key>SLIDESHOW</key>
     <structure>
+        <name>Diaporama grand format</name>
+        <key>2532154</key>
         <definition>slideshow-large-structure.json</definition>
         <layout>slideshow-large-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Diaporama grand format</name>
+        <key>2532262</key>
+        <script>slideshow-large.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>
