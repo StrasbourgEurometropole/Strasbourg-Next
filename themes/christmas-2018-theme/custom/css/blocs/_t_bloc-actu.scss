@@ -10,7 +10,7 @@
 	@include an(all, 0.3);
 
 	.no-hover & {
-		&:hover{
+		&:hover, &:focus{
 			> a{
 				transform: none;
 			}
@@ -48,14 +48,14 @@
 	.publication {
 		margin-bottom: 15px;
 	}
-	h1, h4 {
+	h1, h2, h3, h4 {
 		@include ft($f_hx, 18px, 700, $c_txt, normal);
 		display: block;
 		padding-bottom: 20px;
 		margin: 0;
 	}
 	h3 {
-		@include ft($f_hx, 24px, 700, $c_txt, normal);
+		//@include ft($f_hx, 24px, 700, $c_txt, normal);
 		display: block;
 		padding-bottom: 20px;
 		margin: 0;
@@ -66,7 +66,7 @@
 		color: $c_txt;
 	}
 
-	&:hover {
+	&:hover, &:focus {
 		a {
 			transform: translateY(-20px);
 			img {

@@ -163,7 +163,7 @@ public class SearchHelper {
 			if (Validator.isNotNull(keywords)) {
 				BooleanQuery keywordQuery = new BooleanQueryImpl();
 				MatchQuery titleQuery = new MatchQuery(Field.TITLE, keywords);
-				titleQuery.setFuzziness(new Float(10));
+				titleQuery.setFuzziness(new Float(2));
 				keywordQuery.add(titleQuery, BooleanClauseOccur.SHOULD);
 
 				WildcardQuery titleWildcardQuery = new WildcardQueryImpl(Field.TITLE, "*" + keywords + "*");
@@ -171,14 +171,14 @@ public class SearchHelper {
 
 
 				MatchQuery frTitleQuery = new MatchQuery("title_fr_FR", keywords);
-				frTitleQuery.setFuzziness(new Float(10));
+				frTitleQuery.setFuzziness(new Float(2));
 				keywordQuery.add(frTitleQuery, BooleanClauseOccur.SHOULD);
 
 				WildcardQuery frTitleWildcardQuery = new WildcardQueryImpl("title_fr_FR", "*" + keywords + "*");
 				keywordQuery.add(frTitleWildcardQuery, BooleanClauseOccur.SHOULD);
 
 				MatchQuery descriptionQuery = new MatchQuery(Field.DESCRIPTION, keywords);
-				descriptionQuery.setFuzziness(new Float(10));
+				descriptionQuery.setFuzziness(new Float(2));
 				keywordQuery.add(descriptionQuery, BooleanClauseOccur.SHOULD);
 
 				query.add(keywordQuery, BooleanClauseOccur.MUST);
@@ -973,7 +973,7 @@ public class SearchHelper {
 			if (Validator.isNotNull(keywords)) {
 				BooleanQuery keywordQuery = new BooleanQueryImpl();
 				MatchQuery titleQuery = new MatchQuery("title_fr_FR", keywords);
-				titleQuery.setFuzziness(new Float(10));
+				titleQuery.setFuzziness(new Float(2));
 				keywordQuery.add(titleQuery, BooleanClauseOccur.SHOULD);
 
 				WildcardQuery titleWildcardQuery = new WildcardQueryImpl("title_fr_FR", "*" + keywords + "*");

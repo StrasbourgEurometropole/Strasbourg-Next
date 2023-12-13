@@ -7,12 +7,12 @@
 
 <liferay-ui:error key="wrong-friendly-url" message="eu.search.asset.web.configuration.wrong-friendly-url" />
 
-<aui:form action="${configurationActionURL}" method="post" name="fmConfig">
+<aui:form action="${configurationActionURL}" id="fmConfig" method="post" name="fmConfig">
 
     <aui:input name="cmd" type="hidden" value="update" />
 
     <div class="portlet-configuration-body-content">
-        <div class="container-fluid-1280">
+        <div class="container-fluid-1280" id="container">
 
             <div class="sheet">
                 <div class="panel-group panel-group-flush">

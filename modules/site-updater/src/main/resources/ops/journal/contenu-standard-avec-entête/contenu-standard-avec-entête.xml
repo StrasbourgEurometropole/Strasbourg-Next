@@ -1,20 +1,22 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Contenu standard avec entête</name>
-    <key>CONTENT2</key>
     <structure>
+        <name>Contenu standard avec entête</name>
+        <key>6009555</key>
         <definition>contenu-standard-avec-entête-structure.json</definition>
         <layout>contenu-standard-avec-entête-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
+        <name>Contenu standard en deux colonnes avec entête</name>
+        <key>6009712</key>
+        <script>contenu standard en deux colonnes avec entête.ftl</script>
+        <cacheable>true</cacheable>
     </template>
     <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Contenu standard avec entête</name>
+        <key>6009717</key>
+        <script>contenu standard avec entête.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

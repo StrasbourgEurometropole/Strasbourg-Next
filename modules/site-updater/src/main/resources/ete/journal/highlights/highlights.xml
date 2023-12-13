@@ -1,20 +1,16 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Highlights</name>
-    <key>HIGHLIGHTS</key>
     <structure>
+        <name>Highlights</name>
+        <key>381155536</key>
         <definition>highlights-structure.json</definition>
         <layout>highlights-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Highlights</name>
+        <key>381155556</key>
+        <script>highlights.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

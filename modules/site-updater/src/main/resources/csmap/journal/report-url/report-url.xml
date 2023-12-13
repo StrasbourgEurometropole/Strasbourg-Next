@@ -1,20 +1,10 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Signalement</name>
-    <key>SIGNALEMENT</key>
     <structure>
+        <name>Signalement</name>
+        <key>104414189</key>
         <definition>report-url-structure.json</definition>
         <layout>report-url-layout.json</layout>
     </structure>
-    <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
-    </template>
 </root>

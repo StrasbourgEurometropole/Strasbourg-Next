@@ -1,20 +1,16 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Welcome fond bleu</name>
-    <key>WELCOME1</key>
     <structure>
+        <name>Welcome fond bleu</name>
+        <key>6595768</key>
         <definition>welcome-blue-structure.json</definition>
         <layout>welcome-blue-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Welcome fond bleu</name>
+        <key>6595801</key>
+        <script>welcome-fond-bleu.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

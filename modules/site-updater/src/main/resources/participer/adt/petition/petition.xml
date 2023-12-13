@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.project.model.Petition</className>
+    <template>
+        <script>petition-detail.ftl</script>
+        <name>Détail pétition</name>
+        <key>2912948</key>
+    </template>
+</root>

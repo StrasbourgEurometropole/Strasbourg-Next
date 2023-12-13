@@ -23,7 +23,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     <div class="row">
         <div class="col-sm-4 hidden-xs">
             <figure>
-                <img src="${entry.getImageURL()}" alt="${entry.getTitle(locale)}" class="mns-img-agenda-top" />
+                <img src="${entry.getImageURL()}" alt="" class="mns-img-agenda-top" />
                 <figcaption>© ${entry.getImageCopyright(locale)}</figcaption>
             </figure>
         </div>
@@ -64,7 +64,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <a href="${homeURL}event/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}">
                                     <span class="date">${event.getEventScheduleDisplay(locale)}</span>
                                     <figure>
-                                        <img src='${event.imageURL}' alt="${event.getTitle(locale)}" width="270" height="400" class="fit-cover" />
+                                        <img src='${event.imageURL}' alt="" width="270" height="400" class="fit-cover" />
                                     </figure>
                                     <div>
                                         <div class="col-xs-6 mns-indic">

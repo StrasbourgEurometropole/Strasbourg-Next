@@ -115,7 +115,7 @@
             top: calc(100% + 3px);
         }
 
-        &:hover{
+        &:hover, &:focus{
             .text:after{
                 transform: translateY(0);
                 opacity: 1;

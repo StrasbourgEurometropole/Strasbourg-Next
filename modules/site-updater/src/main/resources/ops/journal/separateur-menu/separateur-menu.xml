@@ -1,20 +1,16 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Séparateur menu</name>
-    <key>MENU</key>
     <structure>
+        <name>Séparateur menu</name>
+        <key>6009571</key>
         <definition>separateur-menu-structure.json</definition>
         <layout>separateur-menu-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Séparateur menu</name>
+        <key>6009781</key>
+        <script>séparateur menu.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

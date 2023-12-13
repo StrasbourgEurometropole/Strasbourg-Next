@@ -1,20 +1,22 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Entête listing entité</name>
-    <key>LISTING</key>
     <structure>
+        <name>Entête listing entité</name>
+        <key>2532137</key>
         <definition>header-image-listing-structure.json</definition>
         <layout>header-image-listing-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
+        <name>Entête listing entité</name>
+        <key>2532235</key>
+        <script>header-image-listing.ftl</script>
+        <cacheable>true</cacheable>
     </template>
     <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Entête recherche entité</name>
+        <key>458168463</key>
+        <script>header-placit-listing.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

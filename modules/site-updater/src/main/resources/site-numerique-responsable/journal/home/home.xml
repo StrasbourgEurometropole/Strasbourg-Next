@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Accueil</name>
+        <key>438601707</key>
+        <definition>home-structure.json</definition>
+        <layout>home-layout.json</layout>
+    </structure>
+</root>

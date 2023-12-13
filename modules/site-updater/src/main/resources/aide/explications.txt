@@ -1,0 +1,159 @@
+Pour les ADTS :
+si Le dossier contient un fichier adt-inherit.xml, alors il s'agit d'un enfant, sinon il s'agit d'un parent
+
+    si enfant, le fichier adt-inherit.xml ressemble à
+    <?xml version="1.0"?>
+    <root>
+        <parent>Nom du dossier du parent</parent>
+        <suf>Suffixe pour les clé des templates</suf>
+        <skipType>Nom des dossiers des types du parent à supprimer, séparés par ','</skipType>
+    </root>
+    - parent et suf sont obligatoires
+    - skipType est facultatif
+
+les fichiers type.xml ressemblent à
+<?xml version="1.0"?>
+<root>
+    <className>ClassName du type d'ADT</className>
+    <skipKey>Champs 'key' des ADTs du parent à supprimer, séparés par ','</skipKey>
+    <override>
+        <parentKey>Champs 'key' de l'ADT du parent que l'on veut modifier</parentKey>
+        <script>Nouveau fichier FTL de l'ADT</script>
+        <name>Nouveau nom de l'ADT</name>
+        <key>Nouvelle clé de l'ADT</key>
+    </override>
+    <template>
+        <script>Fichier FTL</script>
+        <name>Nom de l'ADT</name>
+        <key>Clé de l'ADT</key>
+    </template>
+</root>
+- className est obigatoire
+- skipKey, override et template sont facultatifs
+- override contient obligatoirement parentKey. Script, name et key sont facultatifs
+    si key n'est pas renseigné, il vaudra [parent-key]-[suf]
+- il y a autant de override que d'ADT à modifier (clé, nom et/ou script)
+- template contient obligatoirement script, name et key
+- il y a autant de template que d'ADT à créer
+
+Dans la code :
+Pour chaque site :
+On récupère le dossier adt
+On initialise les variables parent (String), suffix (String), skipType (List<String>) (fichier adt-inherit.xml ou à null)
+    + templatesToOverride (Map<parentKey, Template>)
+    + templatesToCreate (List<Template>)
+    + templatesToSkip (List<String>)
+On parcourt tous les XMLs des types(event, manif...) qui se trouvent dans le dossier.
+    Pour chaque xml :
+    on ajoute 'skipKey' dans templatesToSkip
+    on ajoute dans templatesToOverride les templates qui se trouvent dans 'override'
+    on ajoute dans templatesToCreate les templates qui se trouvent dans 'template'
+Si parent not null, on récupère les .xml du dossier adt du parent :
+    Pour chaque xml :
+    si le nom du dossier se trouve dans skipType, on ignore
+    sinon on parcourt le fichier : pour chaque template :
+        si key se trouve :
+        - dans templatesToSkip, on ignore
+        - dans templatesToOverride, on met à jour les champs vides par ceux-la (avec key = parentKey-suffixe pour ceux non renseignés), puis on l'ajoute dans templatesToCreate
+        si key ne se trouve ni dans templatesToSkip, ni dans templatesToOverride, on ajoute dans templatesToCreate (avec key = parentKey-suffixe)
+On parcourt templateToCreate pour créer/updater les ADTs
+
+Template =
+ClassName
+key
+name
+scriptFilePath
+
+
+Pour les CWs :
+si Le dossier contient un fichier journal-inherit.xml, alors il s'agit d'un enfant, sinon il s'agit d'un parent
+
+    si enfant, le fichier journal-inherit.xml ressemble à
+    <?xml version="1.0"?>
+    <root>
+        <parent>Nom du dossier du parent</parent>
+        <suf>Suffixe pour les clé des CWs</suf>
+        <skipStructure>Nom des dossiers des structures du parent à supprimer, séparés par ','</skipStructure>
+    </root>
+    - parent et suf sont obligatoires
+    - skipStructure est facultatif
+
+les fichiers structure.xml ressemblent à
+<?xml version="1.0"?>
+<root>
+    <structureOverride>
+        <parentKey>Champs 'key' de la structure du CW du parent que l'on veut modifier</parentKey>
+        <key>Nouvelle clé de la structure du CW</key>
+        <name>Nouveau nom de la structure du CW</name>
+        <definition>Nouveau fichier JSON de la structure</definition>
+        <layout>Nouveau fichier JSON du layout</layout>
+    </structureOverride>
+    <structure>
+        <key>Clé de la structure du CW</key>
+        <name>Nom de la structure du CW</name>
+        <definition>Fichier JSON de la structure</definition>
+        <layout>Fichier JSON du layout</layout>
+    </structure>
+    <skipTemplate>Champs 'key' des templates du CW du parent à supprimer, séparés par ','</skipTemplate>
+    <templateOverride>
+        <parentKey>Champs 'key' du template du CW du parent que l'on veut modifier</parentKey>
+        <script>Nouveau fichier FTL</script>
+        <name>Nouveau nom du template de CW</name>
+        <key>Nouvelle clé de template de CW</key>
+        <cacheable>Nouveau cacheable</cacheable>
+    </templateOverride>
+    <template>
+        <script>fichier FTL</script>
+        <cacheable>Cacheable du template de CW</cacheable>
+        <name>Nom du template de CW</name>
+        <key>Clé du template de CW</key>
+    </template>
+</root>
+- structureOverride, structure, templateOverride, template et skipTemplate sont facultatifs
+- structureOverride contient obligatoirement parentKey. Definition, layout, name et key sont facultatifs
+    si key n'est pas renseigné, il vaudra [parent-key]-[suf]
+- structure contient obligatoirement definition, layout, name et key
+- il y a obligatoirement structureOverride ou structure de renseigné, mais pas les 2
+- templateOverride contient obligatoirement parentKey. Script, name, key et cacheable sont facultatifs
+    si key n'est pas renseigné, il vaudra [parent-key]-[suf]
+- il y a autant de templateOverride que de template de CWs à modifier (clé, nom, cacheable et/ou script)
+- template contient obligatoirement script, name et key. Cacheable est facultatif
+- il y a autant de template que de template de CW à créer
+
+Dans la code :
+Pour chaque site :
+On récupère le dossier journal
+On initialise les variables parent (String), suffix (String), skipStructure (List<String>) (fichier journal-inherit.xml ou à null)
+    + structuresToOverride (Map<parentKey, Structure>)
+    + structuresToCreate (List<Structure>)
+    + templatesToOverride (Map<parentKey, Template>)
+    + templatesToCreate (Map<structureKey, List<Template>>)
+    + templatesToSkip (List<String>)
+On parcourt tous les XMLs des structures qui se trouvents dans le dossier.
+    Pour chaque xml :
+    on ajoute dans structuresToOverride la structure qui se trouve dans 'structureOverride'
+    s'il n'y a pas de structureOverride, on ajoute dans structuresToCreate la structure qui se trouve dans 'structure'
+    on ajoute 'skipTemplate' dans templatesToSkip
+    on ajoute dans templatesToOverride les templates qui se trouvent dans 'templateOverride'
+    on ajoute dans templatesToCreate les templates qui se trouvent dans 'template'
+Si parent not null, on récupère les .xml du dossier journal du parent :
+    si le nom du dossier se trouve dans skipStructure, on ignore
+    sinon on parcourt le fichier :
+        pour structure :
+            si key se trouve :
+            - dans structuresToOverride, on met à jour les champs vides par ceux-la (avec key = parentKey-suffixe pour ceux non renseignés), puis on l'ajoute dans structuresToCreate
+            si key ne se trouve ni dans structuresToOverride, on ajoute dans structuresToCreate (avec key = parentKey-suffixe)
+        pour chaque template :
+            si key se trouve :
+            - dans templatesToSkip, on ignore
+            - dans templatesToOverride, on met à jour les champs vides par ceux-la (avec key = parentKey-suffixe pour ceux non renseignés), puis on l'ajoute dans templatesToCreate
+            si key ne se trouve ni dans templatesToSkip, ni dans templatesToOverride, on ajoute dans templatesToCreate (avec key = parentKey-suffixe)
+On parcourt structuresToCreate pour créer/updater les CWs
+    Pour chaque structure, on parcourt templatesToCreate pour créer/updater les templates de CWs
+
+Structure =                                         Template=
+key                                                 structureKey
+deifinition                                         key
+layout                                              name
+name                                                isCacheable
+                                                    scriptFilePath

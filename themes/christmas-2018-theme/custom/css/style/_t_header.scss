@@ -52,7 +52,7 @@
 				align-items: center;
 				@include ft($f_arial, 12px, 400, $c_white, normal);
 				@include an(all, 0.3);
-				&:hover, &.active {
+				&:hover, &:focus, &.active {
 					color: $c_main;
 					span {
 						color: $c_main;
@@ -461,7 +461,7 @@
 				}
 				&.menu-accueil, &.menu-search {
 					a {
-						&:hover:after, &.active {
+						&:hover:after, &:focus:after, &.active {
 							content: none;
 						}
 					}
@@ -488,7 +488,7 @@
 						background: none;
 						color: $c_main !important;
 					}
-					&:hover:after, &.active {
+					&:hover:after, &:focus:after, &.active {
 						content: '';
 						width: 100%;
 						height: 4px;
@@ -501,7 +501,7 @@
 						&:after{
 							content: none;
 						}
-						&:hover{
+						&:hover, &:focus{
 							&:after{
 								content: none;
 							}
@@ -552,7 +552,7 @@
 			position: static;
 			.no-hover & {
 				a{
-					&:hover{
+					&:hover, &:focus{
 						&:after{
 							content: none;
 						}
@@ -621,7 +621,7 @@
 							@include an(all, 0.3);
 							word-break: normal;
 							white-space: normal;
-							&:hover {
+							&:hover, &:focus {
 								//font-weight: 700;
 								@include desktop {
 									//font-weight: 400;
@@ -764,7 +764,7 @@
 				&.open {
 					a {
 						position: relative;
-						&:hover {
+						&:hover, &:focus {
 							color: $c_txt;
 							@include desktop {
 								color: $c_main;
@@ -806,7 +806,7 @@
 						line-height: 76px;
 						color: $c_txt;
 						@include an(all, 0.3);
-						&:hover {
+						&:hover, &:focus {
 							color: $c_main;
 						}
 						@include tablet_portrait {

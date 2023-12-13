@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.asset.kernel.model.AssetEntry</className>
+    <template>
+        <script>alerts.ftl</script>
+        <name>Alertes</name>
+        <key>2154455</key>
+    </template>
+    <template>
+        <script>welcome-video.ftl</script>
+        <name>Welcome video</name>
+        <key>6595760</key>
+    </template>
+</root>

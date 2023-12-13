@@ -1,20 +1,16 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>En chiffres</name>
-    <key>CHIFFRE</key>
     <structure>
+        <name>En chiffres</name>
+        <key>14367910</key>
         <definition>register-numeric-en-chiffre-structure.json</definition>
         <layout>register-numeric-en-chiffre-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>En chiffres</name>
+        <key>14367927</key>
+        <script>register-numeric-en-chiffre.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

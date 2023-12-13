@@ -16,7 +16,7 @@
 	text-decoration: underline;
 }
 
-.glossaire-content a:hover {
+.glossaire-content a:hover, .glossaire-content a:focus {
 text-decoration: none;
 }
 
@@ -57,7 +57,8 @@ text-decoration: none;
 
 /* Titre et catcher : souligné au hover */
 .lightbox-item-title:hover
-, .lightbox-item-catcher:hover {
+, .lightbox-item-catcher:hover, .lightbox-item-title:focus
+                                , .lightbox-item-catcher:focus {
 	text-decoration: underline;
 }
 

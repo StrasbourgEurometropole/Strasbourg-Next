@@ -1,20 +1,16 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Activités</name>
-    <key>ACTIVITIES</key>
     <structure>
+        <name>Activités</name>
+        <key>219283115</key>
         <definition>activities-structure.json</definition>
         <layout>activities-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Activités</name>
+        <key>219283125</key>
+        <script>activities.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

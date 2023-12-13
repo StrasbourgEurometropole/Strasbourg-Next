@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.asset.kernel.model.AssetEntry</className>
+    <template>
+        <script>slider.ftl</script>
+        <name>Slider "Mes propositions d'aide"</name>
+        <key>87804377</key>
+    </template>
+</root>

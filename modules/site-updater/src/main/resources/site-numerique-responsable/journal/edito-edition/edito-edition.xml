@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Edito édition</name>
+        <key>440153214</key>
+        <definition>edito-edition-structure.json</definition>
+        <layout>edito-edition-layout.json</layout>
+    </structure>
+</root>

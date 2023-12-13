@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
-
 <root>
-    <name>Accueil</name>
-    <key>HOME</key>
     <structure>
-        <definition>home-structure.json</definition>
+        <key>2531709</key>
+        <name>Accueil</name>
+        <definition>home-definition.json</definition>
         <layout>home-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <key>2531714</key>
+        <name>Accueil</name>
+        <cacheable>true</cacheable>
+        <script>home.ftl</script>
     </template>
 </root>

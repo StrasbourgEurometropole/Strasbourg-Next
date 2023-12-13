@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<root>
+    <basicCWTemplate>
+        <name>Footer2</name>
+        <key>2154427</key>
+        <script>footer.ftl</script>
+    </basicCWTemplate>
+</root>

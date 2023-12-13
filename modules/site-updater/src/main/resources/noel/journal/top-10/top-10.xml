@@ -1,20 +1,22 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Top 10</name>
-    <key>TOP</key>
     <structure>
+        <name>Top 10</name>
+        <key>2212473</key>
         <definition>top-10-structure.json</definition>
         <layout>top-10-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
+        <name>Top 10</name>
+        <key>2212477</key>
+        <script>top10.ftl</script>
+        <cacheable>true</cacheable>
     </template>
     <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Top 15</name>
+        <key>3480502</key>
+        <script>top15.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

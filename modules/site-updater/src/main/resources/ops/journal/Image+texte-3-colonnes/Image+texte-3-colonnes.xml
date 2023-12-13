@@ -1,20 +1,16 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Image + texte 3 colonnes</name>
-    <key>IMAGE3</key>
     <structure>
+        <name>Image + texte 3 colonnes</name>
+        <key>6009542</key>
         <definition>Image+texte-3-colonnes-structure.json</definition>
         <layout>Image+texte-3-colonnes-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Image + texte 3 colonnes</name>
+        <key>6009694</key>
+        <script>Image + texte 3 colonnes.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

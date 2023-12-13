@@ -1,20 +1,16 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Welcome fond image</name>
-    <key>WELCOME2</key>
     <structure>
+        <name>Welcome fond image</name>
+        <key>6595772</key>
         <definition>welcome-image-structure.json</definition>
         <layout>welcome-image-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Welcome fond image</name>
+        <key>6595805</key>
+        <script>welcome-fond-image.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

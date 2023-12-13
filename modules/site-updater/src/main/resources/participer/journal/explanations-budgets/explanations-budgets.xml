@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Explication budget participatif</name>
-    <key>BUDGET</key>
     <structure>
+        <name>Explication budget participatif</name>
+        <key>3873865</key>
         <definition>explanations-budgets-structure.json</definition>
         <layout>explanations-budgets-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Explications budget participatif</name>
+        <key>3873718</key>
+        <script>explanations-budgets.ftl</script>
     </template>
 </root>

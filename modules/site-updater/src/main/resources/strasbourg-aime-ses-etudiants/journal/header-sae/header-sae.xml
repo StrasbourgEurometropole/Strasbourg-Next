@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Header StrasEtudiants</name>
-    <key>HEADER</key>
     <structure>
+        <name>Header StrasEtudiants</name>
+        <key>898359</key>
         <definition>header-sae-structure.json</definition>
         <layout>header-sae-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Header StrasEtudiants</name>
+        <key>898395</key>
+        <script>header-sae.ftl</script>
     </template>
 </root>

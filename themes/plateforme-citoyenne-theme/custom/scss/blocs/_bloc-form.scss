@@ -307,7 +307,7 @@ form{
 
 
 	.pro-form-submit{
-		padding: 25px 20px;
+		padding: 35px 20px;
 		text-align: center;
 		background: $c_dark;
 		border-top: 1px solid rgba($c_white,0.2);
@@ -318,15 +318,16 @@ form{
 			display: inline-block;
 			padding: 12px 0;
 			width: 100%;
-			border: 1px solid $c_orange;
+			border: 1px solid;
+			@include addDynamicBorderColor();
 
 			@include addTransition();
 			@include mobile{
 				width: 100%;
 			}
 			&:hover, &:focus{
-				background: $c_orange;
-				color: $c_dark;
+				@include addDynamicBackground();
+				color: $c_white;
 			}
 		}
 	}

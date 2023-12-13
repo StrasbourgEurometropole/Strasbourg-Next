@@ -25,11 +25,9 @@ import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
-import com.liferay.portal.kernel.util.*;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.io.File;
-
-import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * Provides the remote service interface for Strasbourg. Methods of this
@@ -72,7 +70,7 @@ public interface StrasbourgService extends BaseService {
 	 * @param commissionName le nom de la commission
 	 * @param publicationDate la date de publication au format yyyy-MM-ddThh:mm:ss
 	 * @param publicationDateFin la date de fin de publication au format yyyy-MM-ddThh:mm:ss
-	 * @param documentType Le type de document (Strasbourg, Eurométropole)
+	 * @param documentType Le type de document
 	 * @param documentName Le nom du document
 	 * @return <code>succes</code> un document de commission, sinon <code>error</code>.
 	 */

@@ -1,20 +1,16 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Séparateur simple</name>
-    <key>SIMPLE</key>
     <structure>
+        <name>Séparateur simple</name>
+        <key>6009576</key>
         <definition>separateur-simple-structure.json</definition>
         <layout>separateur-simple-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Séparateur simple</name>
+        <key>6009777</key>
+        <script>séparateur simple.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

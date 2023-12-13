@@ -46,3 +46,7 @@ p.date {
 .date-range {
 	width: 100px;
 }
+
+#_com_liferay_portlet_configuration_web_portlet_PortletConfigurationPortlet_fmConfig #container .sheet .icon{
+	font-family: 'fontawesome-alloy';
+}

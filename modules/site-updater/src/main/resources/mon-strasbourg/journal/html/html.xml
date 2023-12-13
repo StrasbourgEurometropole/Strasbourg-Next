@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>HTML simple</name>
-    <key>HTML</key>
     <structure>
+        <name>HTML simple</name>
+        <key>2154400</key>
         <definition>html-structure.json</definition>
         <layout>html-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>HTML simple</name>
+        <key>2154439</key>
+        <script>html.ftl</script>
     </template>
 </root>

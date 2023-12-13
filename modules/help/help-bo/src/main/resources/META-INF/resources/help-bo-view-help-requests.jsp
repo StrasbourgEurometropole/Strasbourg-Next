@@ -144,6 +144,7 @@
 <aui:script>
 
     var form = document.querySelector("[name='<portlet:namespace />fm']");
+    var json = '{"desiredItemSelectorReturnTypes":"infoitem","itemSubtype":null,"itemType":"com.liferay.asset.kernel.model.AssetCategory","mimeTypes":null,"multiSelection":true,"refererClassPK":"0","status":0}';
 
     function validHelpRequestSelection() {
         var messageDialog = "${renderRequest.getAttribute('validMessageDialog')}";
@@ -167,21 +168,22 @@
         }
     }
     function deleteSelection() {
+        if (confirm('<liferay-ui:message key="delete-student-ids-confirm" />')) {
+            submitForm(form, '${deleteSelectionURL}');
+        }
+    }
 
-    if (confirm('<liferay-ui:message key="delete-student-ids-confirm" />')) {
-    submitForm(form, '${deleteSelectionURL}');
-    }
-    }
     function getCategoriesByVocabulary(vocabularyId, vocabularyName, categoriesId) {
-        const portletURL = "${helpRequestsURL}";
-
+        const portletURL = location.protocol + '//' + location.host + location.pathname + "/-/select/com.liferay.item.selector.criteria.info.item.criterion.InfoItemItemSelectorCriterion/<portlet:namespace />selectCategory";
         const url = Liferay.Util.PortletURL.createPortletURL(portletURL, {
-            p_p_id: "com_liferay_asset_categories_selector_web_portlet_AssetCategoriesSelectorPortlet",
+            p_p_id: 'com_liferay_item_selector_web_portlet_ItemSelectorPortlet',
+            '0_json': json,
             p_p_lifecycle: 0,
             p_p_state: "pop_up",
-            eventName: "com_liferay_asset_categories_selector_web_portlet_AssetCategoriesSelectorPortlet_selectCategory",
             selectedCategories: categoriesId,
+            selectedCategoryIds: categoriesId,
             singleSelect : false,
+            showAddCategoryButton: true,
             vocabularyIds: vocabularyId,
         });
 
@@ -204,7 +206,7 @@
                         submitForm(form, url);
                     }
                 },
-                selectEventName: 'com_liferay_asset_categories_selector_web_portlet_AssetCategoriesSelectorPortlet_selectCategory',
+                selectEventName: '<portlet:namespace />selectCategory',
                 title: vocabularyName,
                 multiple: true,
                 url: url

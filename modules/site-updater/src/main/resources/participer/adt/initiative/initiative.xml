@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.project.model.Initiative</className>
+    <template>
+        <script>initiative-detail.ftl</script>
+        <name>Détail initiative</name>
+        <key>5099207</key>
+    </template>
+</root>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.agenda.model.Event</className>
+    <template>
+        <script>toto.ftl</script>
+        <name>Event Toto</name>
+        <key>EVENT-TOTO</key>
+    </template>
+    <template>
+        <script>titi.ftl</script>
+        <name>Event Titi</name>
+        <key>EVENT-TITI</key>
+    </template>
+    <template>
+        <script>tete.ftl</script>
+        <name>Event Tete</name>
+        <key>EVENT-TETE</key>
+    </template>
+    <template>
+        <script>tutu.ftl</script>
+        <name>Event Tutu</name>
+        <key>EVENT-TUTU</key>
+    </template>
+</root>

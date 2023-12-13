@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.project.model.Participation</className>
+    <template>
+        <script>participation-detail.ftl</script>
+        <name>Détail participation</name>
+        <key>2532083</key>
+    </template>
+</root>

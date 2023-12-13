@@ -1,20 +1,16 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Pied de page</name>
-    <key>FOOTER</key>
     <structure>
+        <name>Pied de page</name>
+        <key>87803551</key>
         <definition>footer-structure.json</definition>
         <layout>footer-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Pied de page</name>
+        <key>87803579</key>
+        <script>footer.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

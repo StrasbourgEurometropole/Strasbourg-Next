@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Section accueil</name>
-    <key>HOME</key>
     <structure>
+        <name>Section accueil</name>
+        <key>2876405</key>
         <definition>home-section-structure.json</definition>
         <layout>home-section-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
+        <name>Section accueil</name>
+        <key>2876410</key>
+        <script>section.ftl</script>
     </template>
     <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Section jaune</name>
+        <key>6595889</key>
+        <script>section-jaune.ftl</script>
     </template>
 </root>

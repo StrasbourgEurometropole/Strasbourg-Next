@@ -13,14 +13,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 <!-- Détail article -->
 <div class="mns-fck container mns-p50">
-    <a href="#" class="add-favorites"
-        data-type="7" 
-        data-title="${title.data}" 
-        data-url="${currentUrl}" 
-        data-group-id=${themeDisplay.scopeGroupId}
-        data-id="${.vars['reserved-article-id'].data}">
-        <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
-    </a>
     <div class="text-center">
         <p>${catcher.data}</p>
 	</div>

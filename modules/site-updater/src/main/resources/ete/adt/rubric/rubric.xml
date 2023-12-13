@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.portal.kernel.model.Layout</className>
+    <template>
+        <script>rubric.ftl</script>
+        <name>Rubrique</name>
+        <key>1572828</key>
+    </template>
+</root>

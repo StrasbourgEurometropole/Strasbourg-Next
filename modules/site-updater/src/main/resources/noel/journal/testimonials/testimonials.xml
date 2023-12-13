@@ -1,20 +1,16 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Testimonial</name>
-    <key>TESTIMONIALS</key>
     <structure>
+        <name>Testimonial</name>
+        <key>2207775</key>
         <definition>testimonials-structure.json</definition>
         <layout>testimonials-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Testimonial</name>
+        <key>2207779</key>
+        <script>testimonials.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

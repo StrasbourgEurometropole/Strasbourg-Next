@@ -11,13 +11,13 @@
         </div>
     	<div class="col-md-6 col-xs-12 msn-duo-right">
             <figure class="mns-wrapper-img">
-                <img src="${row.children[2].getData()}" alt="image responsive" >
+                <img src="${row.children[2].getData()}" alt="" >
             </figure>
         </div>
         <#else>
         <div class="col-md-6 col-xs-12 msn-duo-left order-2">
             <figure class="mns-wrapper-img">
-                <img src="${row.children[2].getData()}" alt="image responsive" >
+                <img src="${row.children[2].getData()}" alt="" >
             </figure>
         </div>
         <div class="col-md-6 col-xs-12 msn-duo-right">        

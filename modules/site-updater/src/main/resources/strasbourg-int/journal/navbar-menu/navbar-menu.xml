@@ -1,20 +1,14 @@
 <?xml version="1.0"?>
-
 <root>
-    <name>Menu navbar connecté</name>
-    <key>MENU</key>
     <structure>
-        <definition>navbar-menu-structure.json</definition>
+        <key>4903677</key>
+        <name>Menu navbar connecté</name>
+        <definition>navbar-menu-definition.json</definition>
         <layout>navbar-menu-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <key>4903756</key>
+        <name>Menu navbar connecté</name>
+        <script>navbar-menu.ftl</script>
     </template>
 </root>

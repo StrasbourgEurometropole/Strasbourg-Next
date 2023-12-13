@@ -284,7 +284,7 @@
 							<div class="row-fields">
 								<fmt:formatDate value="${budgetParticipatifTimeline.date}" pattern="yyyy-MM-dd" type="date" var="formattedDate"/>
 								<liferay-util:include page="/includes/timeline-row.jsp" servletContext="<%=application %>">
-									<liferay-util:param name="index" value="${status.count}" />
+									<liferay-util:param name="index" value="${status.count - 1}" />
 									<liferay-util:param name="startDay" value="${budgetParticipatifTimeline.startDay}" />
 									<liferay-util:param name="date" value="${formattedDate}" />
 									<liferay-util:param name="title" value="${budgetParticipatifTimeline.title}" />

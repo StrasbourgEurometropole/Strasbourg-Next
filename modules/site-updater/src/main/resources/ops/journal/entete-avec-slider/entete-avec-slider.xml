@@ -1,20 +1,16 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Entête avec slider</name>
-    <key>SLIDER</key>
     <structure>
+        <name>Entête avec slider</name>
+        <key>6009600</key>
         <definition>entete-avec-slider-structure.json</definition>
         <layout>entete-avec-slider-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Entête avec slider</name>
+        <key>6009794</key>
+        <script>entete avec slider.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>
