@@ -27,34 +27,34 @@
 <#assign detailURL = layoutHelper.getJournalArticleLayoutURL(entry.groupId, entry.articleId, themeDisplay) />
 
 <@liferay_portlet.actionURL var="detailURLFilter">
-    <@liferay_portlet.param name="userTargetClassId" value="${entry.getClassNameId()}" />
-    <@liferay_portlet.param name="userTargetClassPK" value="${entry.getArticleId()}" />
-    <@liferay_portlet.param name="userTargetTitle" value="${entry.getTitle(locale)}" />
-    <@liferay_portlet.param name="detailURL" value="${detailURL}" />
-    <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
+  <@liferay_portlet.param name="userTargetClassId" value="${entry.getClassNameId()}" />
+  <@liferay_portlet.param name="userTargetClassPK" value="${entry.getArticleId()}" />
+  <@liferay_portlet.param name="userTargetTitle" value="${entry.getTitle(locale)}" />
+  <@liferay_portlet.param name="detailURL" value="${detailURL}" />
+  <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
 </@liferay_portlet.actionURL>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <a href="${detailURLFilter}" class="mns-bloc-exp" style="min-height: 391px;">
-        <div class="mns-img">
-            <figure class="fit-cover">
-                <img src="${imageURL}" width="375" height="280" alt="${title}">
-            </figure>
-            <!-- <div class="mns-wrap-tag">
-             <#list typeNoel as type>
-               <span>${type.getName()}</span>
-             </#list>
-             <#list tauxNoel as taux>
-               <span>${taux.getName()}</span>
-             </#list>
-             <span>${dureeNoel?first .getName()}</span>
-           </div> -->
-        </div>
-        <div class="mns-content">
-            <span class="mns-location">${lieu}</span>
-            <h3>${title}</h3>
-            <span class="icon-chevron-thin-right"></span>
-            <span class="basic-link"><@liferay_ui.message key="eu.discover" /></span>
-        </div>
+      <div class="mns-img">
+          <figure class="fit-cover">
+              <img src="${imageURL}" width="375" height="280" alt="">
+          </figure>
+          <!-- <div class="mns-wrap-tag">
+            <#list typeNoel as type>
+              <span>${type.getName()}</span>
+            </#list>
+            <#list tauxNoel as taux>
+              <span>${taux.getName()}</span>
+            </#list>
+            <span>${dureeNoel?first .getName()}</span>
+          </div> -->
+      </div>
+      <div class="mns-content">
+          <span class="mns-location">${lieu}</span>
+          <h2>${title}</h2>
+          <span class="icon-chevron-thin-right"></span>
+          <span class="basic-link"><@liferay_ui.message key="eu.discover" /></span>
+      </div>
     </a>
 </div>

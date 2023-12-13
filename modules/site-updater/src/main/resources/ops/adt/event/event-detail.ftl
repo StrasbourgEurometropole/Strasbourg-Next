@@ -4,7 +4,7 @@
 <#setting locale = locale />
 
 <#-- Recuperation de l'URL de "base" du site -->
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
     <#assign homeURL = "/" />
@@ -24,12 +24,12 @@
             <h1>${entry.getTitle(locale)}</h1>
 
             <div class="ops-cta-concert">
-                <#if entry.subscriptionURL?has_content>
-                    <a href="${entry.subscriptionURL}"><@liferay_ui.message key="eu.ops.buy.a.subscription" /></a>
-                </#if>
-                <#if entry.bookingURL?has_content>
-                    <a href="${entry.bookingURL}" class="ops-ticket"><@liferay_ui.message key="eu.ops.buy.my.ticket" /></a>
-                </#if>
+            <#if entry.subscriptionURL?has_content>
+                <a href="${entry.subscriptionURL}"><@liferay_ui.message key="eu.ops.buy.a.subscription" /></a>
+            </#if>
+            <#if entry.bookingURL?has_content>
+                <a href="${entry.bookingURL}" class="ops-ticket"><@liferay_ui.message key="eu.ops.buy.my.ticket" /></a>
+            </#if>
             </div>
 
             <nav class="ops-scrollto">
@@ -59,7 +59,7 @@
                         <span class="ops-typologie">${entry.getThemeLabel(locale)}</span>
                     </div>
                 </#list>
-
+                
             </div>
 
         </div>
@@ -104,8 +104,8 @@
 
     <#-- Recuperation des suggéstions de l'event -->
     <#assign suggestions = entry.getSuggestions(request, 10, null, "typologie") />
-
-    <#if suggestions?size gt 0 >
+	
+	<#if suggestions?size gt 0 >
         <!-- BLOC - SLIDER CARDS - NOS PROCHAINS CONCERTS -->
         <div id="ops-a-voir" class="ops-bloc-slider-cards">
             <div class="ops-content-wrapper ops-content-wrapper-large">
@@ -117,7 +117,7 @@
 
                     <#list suggestions as suggestion>
                         <div class="ops-item">
-                            <a href="${homeURL}detail-evenement/-/entity/id/${suggestion.eventId}" class="ops-card ops-card-concert">
+                            <a href="${homeURL}detail-evenement/-/entity/id/${suggestion.eventId}/${suggestion.getNormalizedTitle(locale)}" class="ops-card ops-card-concert">
                                 <div>
                                     <time><span>${suggestion.getEventScheduleDisplay(locale, false, true)}</span></time>
                                     <div class="ops-next-date"></div>
@@ -181,22 +181,22 @@
 
                     // Elements
 
-                    cssClass = "";
-                    ticketingElement = '<a href="' + session.link + '" target="_blank"><@liferay_ui.message key="eu.ops.buy.my.ticket" /></a>';
-
+                        cssClass = "";
+                        ticketingElement = '<a href="' + session.link + '" target="_blank"><@liferay_ui.message key="eu.ops.buy.my.ticket" /></a>';
+ 
                     $('#ops-representations .slick-cards-slider').slick('slickAdd',
                         '<div class="ops-item ' + session.cssClass + '">' +
-                        '<time datetime="' + concertDate.getFullYear() + '-' + ('0' + (concertDate.getMonth() + 1)).slice(-2) + '-' + concertDate.getDate() + '">' +
-                        '<span>' + ('0' + concertDate.getDate()).slice(-2) + '/' + ('0' + (concertDate.getMonth() + 1)).slice(-2) + '/' + concertDate.getFullYear() + '</span> ' +
-                        '</time>' +
-                        '<div class="ops-horaires">' + ('0' + concertDate.getHours()).slice(-2) + 'h' +  ('0' + concertDate.getMinutes()).slice(-2) + '</div>' +
-                        '<h3>' + session.eventName + '</h3>' +
-                        '<div class="ops-bottom-card">' +
-                        ticketingElement +
-                        '</div>' +
+                            '<time datetime="' + concertDate.getFullYear() + '-' + ('0' + (concertDate.getMonth() + 1)).slice(-2) + '-' + concertDate.getDate() + '">' + 
+                                '<span>' + ('0' + concertDate.getDate()).slice(-2) + '/' + ('0' + (concertDate.getMonth() + 1)).slice(-2) + '/' + concertDate.getFullYear() + '</span> ' + 
+                            '</time>' +
+                            '<div class="ops-horaires">' + ('0' + concertDate.getHours()).slice(-2) + 'h' +  ('0' + concertDate.getMinutes()).slice(-2) + '</div>' +
+                            '<h3>' + session.eventName + '</h3>' +
+                            '<div class="ops-bottom-card">' + 
+                                ticketingElement +
+                            '</div>' +
                         '</div>'
                     );
-
+                    
                 }
 
             }
@@ -230,21 +230,21 @@ var eventID = ${entry.eventId};
                         nbSeatElement = '<strong>' + session.nbSeat + '</strong> <@liferay_ui.message key="eu.ops.seats.available" />';
                         ticketingElement = '<a href="' + session.link + '" target="_blank"><@liferay_ui.message key="eu.ops.buy.my.ticket" /></a>';
                     }
-
+ 
                     $('#ops-representations .slick-cards-slider').slick('slickAdd',
                         '<div class="ops-item ' + session.cssClass + '">' +
-                            '<time datetime="' + concertDate.getFullYear() + '-' + ('0' + (concertDate.getMonth() + 1)).slice(-2) + '-' + concertDate.getDate() + '">' +
-                                '<span>' + ('0' + concertDate.getDate()).slice(-2) + '/' + ('0' + (concertDate.getMonth() + 1)).slice(-2) + '/' + concertDate.getFullYear() + '</span> ' +
+                            '<time datetime="' + concertDate.getFullYear() + '-' + ('0' + (concertDate.getMonth() + 1)).slice(-2) + '-' + concertDate.getDate() + '">' + 
+                                '<span>' + ('0' + concertDate.getDate()).slice(-2) + '/' + ('0' + (concertDate.getMonth() + 1)).slice(-2) + '/' + concertDate.getFullYear() + '</span> ' + 
                             '</time>' +
                             '<div class="ops-horaires">' + ('0' + concertDate.getHours()).slice(-2) + 'h' +  ('0' + concertDate.getMinutes()).slice(-2) + '</div>' +
                             '<h3>' + session.eventName + '</h3>' +
-                            '<div class="ops-bottom-card">' +
+                            '<div class="ops-bottom-card">' + 
                                 ticketingElement +
                                 '<div class="ops-places-dispo">' + nbSeatElement + '</div>' +
                             '</div>' +
                         '</div>'
                     );
-
+                    
                 }
             }
         );

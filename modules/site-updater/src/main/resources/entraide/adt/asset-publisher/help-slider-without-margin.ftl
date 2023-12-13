@@ -22,13 +22,11 @@
             <#else>
                 <h2><@liferay_ui.message key="eu.help.help-proposals" /></h2>
             </#if>
-            <#-- 19/04.2022 CGO : masquage bouton
             <#if isUserloggedIn >
                 <a id="buttonSubmitHelpProposal" href="" class="pro-btn" data-toggle="modal" data-target="#modalSubmitHelpProposal"><@liferay_ui.message key="eu.help.proposed" /></a>
             <#else>
                 <a name="#Need-connexion" href="" id="buttonSubmitHelpProposal" class="pro-btn" ><@liferay_ui.message key="eu.help.proposed" /></a>
             </#if>
-            -->
         </div>
         <div>
             <div class="owl-carousel owl-opacify owl-theme owl-cards" >
@@ -38,7 +36,7 @@
                         <a href="?auth=publik"  ><@liferay_ui.message key="eu.help.signin" /></a>
                     </p>
                     <p>
-                        <@liferay_ui.message key="eu.help.must.connected.line.2" />
+                        <@liferay_ui.message key="eu.help.must.connected.line.2" /> 
                         <a href="?auth=publik"  ><@liferay_ui.message key="eu.help.create-account" /></a>
                     </p>
                 <#else>
@@ -64,21 +62,21 @@
                                     </div>
                                     <#if !entry.isActive() >
                                         <div class="pro-statut">
-                                             <span style="background : #${entry.getActivityStatusColor()};">
-                                                 ${entry.getActivityStatusTitle(locale)}
-                                             </span>
+                                            <span style="background : #${entry.getActivityStatusColor()};">
+                                                ${entry.getActivityStatusTitle(locale)}
+                                            </span>
                                         </div>
-                                    </#if>
+                                    </#if> 
                                     <div class="pro-content-help">
                                         <div class="pro-wrapper-meta">
                                             <div class="pro-meta">
                                                 ${entry.getLocalisationLabel(locale)?has_content?then('<span>'+entry.getLocalisationLabel(locale)+'</span>','')}
                                                 <#if entry.getHelpProposalTypeCategories()?? >
                                                     <span>
-                                                         <#list entry.getHelpProposalTypeCategories() as helpType >
-                                                             ${helpType.getTitle(locale)}<#sep> - </#sep>
-                                                         </#list>
-                                                     </span>
+                                                        <#list entry.getHelpProposalTypeCategories() as helpType >
+                                                            ${helpType.getTitle(locale)}<#sep> - </#sep>
+                                                        </#list>
+                                                    </span>
                                                 </#if>
                                             </div>
                                         </div>
@@ -89,14 +87,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="pro-footer-help ">
+                            <div class="pro-footer-help "> 
                                 <p>
                                     <span class="publication-date" ><@liferay_ui.message key="eu.help.publication-help" /> <time datetime="${entry.getCreatedDateFr()}">${entry.getCreatedDateFr()}</time></span>
                                     <#if entry.getModifiedByUserDateFr()?has_content>
-                                        -
+                                        - 
                                         <span ><@liferay_ui.message key="eu.help.update-help" /> <time datetime="${entry.getModifiedByUserDateFr()}">${entry.getModifiedByUserDateFr()}</time></span>
                                     </#if>
-                                </p>
+                                </p>  
                             </div>
                         </div>
                     </#list>

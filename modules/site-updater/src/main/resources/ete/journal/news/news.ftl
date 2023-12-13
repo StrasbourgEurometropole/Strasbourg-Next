@@ -16,7 +16,7 @@
 <#-- Liste des infos a partager -->
 <#assign openGraph = {
 "og:title":"${title.getData()?html}",
-"og:description":'${text.data?replace("<[^>]*>", "", "r")?html}',
+"og:description":'${text.data?replace("<[^>]*>", "", "r")?html}', 
 "og:image":"${imageUrl}"
 } />
 <#-- partage de la configuration open graph dans la request -->

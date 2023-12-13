@@ -10,7 +10,7 @@
             <div class="col-sm-6" style="margin:0; padding:0">
             </div>
         </div>
-
+        
         <div>
             <div class="col-sm-6">
                 <figure class="fit-cover" role="group">
@@ -33,7 +33,7 @@
                 </#if>
             </div>
         </div>
-
+        
     </div>
-
+    
 </section>

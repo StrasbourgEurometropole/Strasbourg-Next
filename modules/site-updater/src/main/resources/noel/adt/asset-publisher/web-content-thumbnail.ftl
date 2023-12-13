@@ -11,22 +11,20 @@
 <#assign detailURL = layoutHelper.getJournalArticleLayoutURL(entry.groupId, entry.articleId, themeDisplay) />
 
 <@liferay_portlet.actionURL var="detailURLFilter">
-    <@liferay_portlet.param name="userTargetClassId" value="${entry.getClassNameId()}" />
-    <@liferay_portlet.param name="userTargetClassPK" value="${entry.getArticleId()}" />
-    <@liferay_portlet.param name="userTargetTitle" value="${entry.getTitle(locale)}" />
-    <@liferay_portlet.param name="detailURL" value="${detailURL}" />
-    <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
+  <@liferay_portlet.param name="userTargetClassId" value="${entry.getClassNameId()}" />
+  <@liferay_portlet.param name="userTargetClassPK" value="${entry.getArticleId()}" />
+  <@liferay_portlet.param name="userTargetTitle" value="${entry.getTitle(locale)}" />
+  <@liferay_portlet.param name="detailURL" value="${detailURL}" />
+  <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
 </@liferay_portlet.actionURL>
 
 <div class="mns-item-results">
     <a href="${detailURLFilter}">
-        <h3>${title}</h3>
+        <h2>${title}</h2>
         <#if catcher?has_content>
             <p>${catcher?replace("<[^>]*>", "", "r")[0..*400]}...</p>
         <#else>
-            <#if text?has_content>
-                <p>${text?replace("<[^>]*>", "", "r")[0..*400]}...</p>
-            </#if>
+            <p>${text?replace("<[^>]*>", "", "r")[0..*400]}...</p>
         </#if>
         <span class="basic-link"><@liferay_ui.message key="eu.discover" /></span>
     </a>

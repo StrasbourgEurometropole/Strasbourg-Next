@@ -1,9 +1,9 @@
 <!-- Fil d'ariane -->
 <#setting locale = locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+  <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
-    <#assign homeURL = "/" />
+  <#assign homeURL = "/" />
 </#if>
 <div class="block-custom-container-breadcrumb">
     <h2 class="hidden">Vous êtes ici</h2>

@@ -13,7 +13,7 @@
 <#-- Liste des infos a partager -->
 <#assign openGraph = {
 "og:title":"${entry.getEventScheduleDisplay(locale)} - ${entry.getTitle(locale)?html}",
-"og:description":'${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}',
+"og:description":'${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}', 
 "og:image":"${imageUrl}"
 } />
 <#-- partage de la configuration open graph dans la request -->
@@ -30,10 +30,10 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <div class="mns-info-pratiques mns-info-test">
                 <div class="mns-sec-info">
                     <h2 class="mns-title-info"><@liferay_ui.message key="eu.infos-and-contact" /></h2>
-                    <p>${entry.getPlaceAlias(locale)}
-                        <br>
+                    <p>${entry.getPlaceAlias(locale)} 
+                        <br> 
                         <#if entry.getPlaceAddress(locale)?has_content>
-                            ${entry.getPlaceAddress(locale)} -
+                            ${entry.getPlaceAddress(locale)} - 
                         </#if>
                         ${entry.placeZipCode} ${entry.getPlaceCity(locale)}
                     </p>
@@ -61,18 +61,18 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <p><strong>${entry.getSubtitle(locale)}</strong></p>
                 <p>${entry.getDescription(locale)}</p>
             </div>
-
+            
             <div class="mns-wrapper-info-more">
                 <div class="mns-info-more col-xs-12">
                     <h2 class="mns-title-detail-actu col-sm-4"><@liferay_ui.message key="eu.dates-and-times" /></h2>
                     <#list entry.eventPeriods as period>
                         <p>
-                            ${period.getDisplay(locale)}<#if period.getTimeDetail(locale)?has_content> : ${period.getTimeDetail(locale)}</#if>
+                        ${period.getDisplay(locale)}<#if period.getTimeDetail(locale)?has_content> : ${period.getTimeDetail(locale)}</#if>
                         </p>
                     </#list>
                 </div>
-                <div class="mns-info-more col-xs-12">
-                    <#if entry.free == 1 || entry.getPrice(locale)?has_content>
+                <div class="mns-info-more col-xs-12">         
+                    <#if entry.free == 1 || entry.getPrice(locale)?has_content>      
                         <h2 class="mns-title-detail-actu col-sm-4"><@liferay_ui.message key="eu.prices" /></h2>
                         <#if entry.free == 1>
                             <div class="free-event">
@@ -137,12 +137,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                         <@liferay_portlet.param name="title" value="${entry.getTitle(locale)}" />
                                         <@liferay_portlet.param name="type" value="Event" />
                                     </@liferay_portlet.actionURL>
-
+    
                                     <form id="contactForm" action="${contactURL}#contactForm" name="contactForm" method="post" class="mns-wi mns-wi-contact-form">
                                         <@liferay_ui.error key="all-fields-required" message="eu.all-fields-required" targetNode="#contactForm" />
                                         <@liferay_ui.error key="invalid-mail" message="eu.invalid-mail" targetNode="#contactForm" />
                                         <@liferay_ui.error key="recaptcha-error" message="eu.recaptcha-error" targetNode="#contactForm" />
-
+    
                                         <#if renderRequest.getAttribute("mailSent")?has_content && renderRequest.getAttribute("mailSent")>
                                             <div class="mail-success">
                                                 <@liferay_ui.message key="eu.mail-success" />
@@ -193,21 +193,21 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 </div>
 
 <script>
-    (function ($) {
-        $(document).ready(function(){
-            if($('.mns-toggle-collapse').length){
-                $('.mns-toggle-collapse').on('click', function(){
-                    $(this).toggleClass('mns-opened')
-                        .parent('.mns-wi--collapsing').toggleClass('mns-opened')
-                        .find('.mns-collapsing-box').slideToggle();
-                });
-                $('.mns-wi--collapsing.mns-first-opened .mns-toggle-collapse').click();
-                $('.show-contact').on('click', function(){
-                    if($('.mns-wi--collapsing .mns-toggle-collapse.email-collapse:not(.mns-opened)').length > 0){
-                        $('.mns-wi--collapsing .mns-toggle-collapse.email-collapse').click();
-                    }
-                });
-            }
-        });
-    }(jQuery));
+(function ($) {
+    $(document).ready(function(){
+        if($('.mns-toggle-collapse').length){
+            $('.mns-toggle-collapse').on('click', function(){
+                $(this).toggleClass('mns-opened')
+                .parent('.mns-wi--collapsing').toggleClass('mns-opened')
+                .find('.mns-collapsing-box').slideToggle();
+            });
+            $('.mns-wi--collapsing.mns-first-opened .mns-toggle-collapse').click();
+            $('.show-contact').on('click', function(){
+                if($('.mns-wi--collapsing .mns-toggle-collapse.email-collapse:not(.mns-opened)').length > 0){
+                    $('.mns-wi--collapsing .mns-toggle-collapse.email-collapse').click();
+                }
+            });
+        }
+    });
+ }(jQuery));
 </script>

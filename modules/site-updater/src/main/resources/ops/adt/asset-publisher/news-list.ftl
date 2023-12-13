@@ -2,15 +2,15 @@
 
 <#if entries?size != 0 >
 
-<#-- Recuperation de la localisation de l'utilisateur -->
+    <#-- Recuperation de la localisation de l'utilisateur -->
     <#setting locale = locale />
 
-<#-- Récupération de DateHelper pour le format date -->
+    <#-- Récupération de DateHelper pour le format date -->
     <#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
     <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
 
-<#-- Recuperation de l'URL de "base" du site -->
-    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+    <#-- Recuperation de l'URL de "base" du site -->
+    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
         <#assign homeURL = "/web${layout.group.friendlyURL}/" />
     <#else>
         <#assign homeURL = "/" />
@@ -56,8 +56,8 @@
                                 </#list>
                             </div>  -->
                             <span class="ops-date-article">
-                                 <@liferay_ui.message key="eu.ops.published.on" /> <time datetime="${firstJournal.displayDate?datetime?string('yyyy-MM-dd')}">${dateHelperService.displayShortDate(firstJournal.displayDate?date, locale)}</time>
-                             </span>
+                                <@liferay_ui.message key="eu.ops.published.on" /> <time datetime="${firstJournal.displayDate?datetime?string('yyyy-MM-dd')}">${dateHelperService.displayShortDate(firstJournal.displayDate?date, locale)}</time>
+                            </span>
                         </div>
                         <h3>${title}</h3>
                     </div>
@@ -80,11 +80,11 @@
                                 <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(thumbnail) />
                             </#if>
 
-                        <#-- Récupération de l'id du webcontent -->
+                            <#-- Récupération de l'id du webcontent -->
                             <#assign assetCategoryLocalServiceUtil = staticUtil["com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil"]>
                             <#assign categoryList=assetCategoryLocalServiceUtil.getCategories("com.liferay.journal.model.JournalArticle",curEntry.classPK)>
 
-                        <#-- Récupération de l'article -->
+                            <#-- Récupération de l'article -->
                             <#assign journal = curEntry.getAssetRenderer().getArticle()>
 
                             <a href="${homeURL}-/${journal.urlTitle}" class="ops-actu">
@@ -99,8 +99,8 @@
                                             </#list>
                                         </div>  -->
                                         <span class="ops-date-article">
-                                             <@liferay_ui.message key="eu.ops.published.on" /> <time datetime="${journal.displayDate?datetime?string('yyyy-MM-dd')}">${dateHelperService.displayShortDate(journal.displayDate?date, locale)}</time>
-                                         </span>
+                                            <@liferay_ui.message key="eu.ops.published.on" /> <time datetime="${journal.displayDate?datetime?string('yyyy-MM-dd')}">${dateHelperService.displayShortDate(journal.displayDate?date, locale)}</time>
+                                        </span>
                                     </div>
                                     <h3>${title}</h3>
                                 </div>
@@ -108,7 +108,7 @@
 
                         </#if>
                     </#list>
-
+                    
                 </div>
             </div>
         </div>
@@ -120,6 +120,6 @@
     </section>
 
 <#else>
-<#-- Permet d'accèder plus facilement à la conf de l'asset publisher -->
+    <#-- Permet d'accèder plus facilement à la conf de l'asset publisher -->
     <div style="height: 20px"></div>
 </#if>

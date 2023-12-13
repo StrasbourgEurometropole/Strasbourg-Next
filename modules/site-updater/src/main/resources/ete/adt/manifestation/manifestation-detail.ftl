@@ -13,7 +13,7 @@
 <#-- Liste des infos a partager -->
 <#assign openGraph = {
 "og:title":"${entry.getManifestationScheduleDisplay(locale)} - ${entry.getTitle(locale)?html}",
-"og:description":'${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}',
+"og:description":'${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}', 
 "og:image":"${imageUrl}"
 } />
 <#-- partage de la configuration open graph dans la request -->

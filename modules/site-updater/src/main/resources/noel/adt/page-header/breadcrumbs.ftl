@@ -1,5 +1,5 @@
 <#setting locale = locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${page.group.friendlyURL}/" />
 <#else>
     <#assign homeURL = "/" />
@@ -8,7 +8,7 @@
     <div class="container">
         <div class="mns-wrapper-bread">
             <div class="mns-breadcrumbs mns-bread-color">
-                <#if !page.ancestors?has_content || page.ancestors?reverse[0].friendlyURL != '/accueil'>
+                 <#if !page.ancestors?has_content || page.ancestors?reverse[0].friendlyURL != '/accueil'>
                     <a href="${homeURL}"><@liferay_ui.message key="home" /></a>
                 </#if>
                 <#list page.ancestors?reverse as ancestor>

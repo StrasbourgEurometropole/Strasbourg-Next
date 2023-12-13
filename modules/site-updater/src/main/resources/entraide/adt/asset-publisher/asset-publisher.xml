@@ -3,7 +3,7 @@
 <root>
     <className>com.liferay.asset.kernel.model.AssetEntry</className>
     <template>
-        <script>slider.ftl</script>
+        <script>help-slider-without-margin.ftl</script>
         <name>Slider "Mes propositions d'aide"</name>
         <key>87804377</key>
     </template>

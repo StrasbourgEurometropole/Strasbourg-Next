@@ -21,11 +21,11 @@
                         <article class="mns-bloc-actu">
                             <a href="${viewURL}">
                                 <figure>
-                                    <img src="${imageURL}" alt="${title}" width="450" height="300" />
+                                    <img src="${imageURL}" alt="" width="450" height="300" />
                                 </figure>
                                 <div class="mns-bloc-content-actu">
                                     <span class="publication"><@liferay_ui.message key="eu.published-on" /> ${publishDate?date}</span>
-                                    <h1>${title}</h1>
+                                    <h2>${title}</h2>
                                     <p>${text?replace("<[^>]*>", "", "r")[0..*100]}...</p>
                                     <span class="basic-link"><@liferay_ui.message key="eu.read-next" /></span>
                                 </div>

@@ -10,19 +10,19 @@
 <#-- Liste des infos a partager -->
 <#assign openGraph = {
 "og:title":"${title.getData()?html}",
-"og:description":'${text.getData()?replace("<[^>]*>", "", "r")?html}',
+"og:description":'${text.getData()?replace("<[^>]*>", "", "r")?html}', 
 "og:image":"${imageUrl}"
 } />
 <#-- partage de la configuration open graph dans la request -->
-${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}  
 
 <style>
-    .class-inner .page-header {
-        background-image: url(${illustration.getData()}) !important;
-    }
+.class-inner .page-header {
+  background-image: url(${illustration.getData()}) !important;
+}
 </style>
 
 <div class="container">
-    <h1>${title.getData()}</h1>
-    <p>${text.getData()}</p>
+	<h1>${title.getData()}</h1>
+	<p>${text.getData()}</p>				
 </div>

@@ -1,6 +1,6 @@
 <!-- Détail événement -->
 <#setting locale = locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
     <#assign homeURL = "/" />
@@ -18,7 +18,7 @@
 <#-- Liste des infos a partager -->
 <#assign openGraph = {
 "og:title":"${entry.getEventScheduleDisplay(locale)} - ${entry.getTitle(locale)?html}",
-"og:description":'${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}',
+"og:description":'${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}', 
 "og:image":"${imageUrl}"
 } />
 <#-- partage de la configuration open graph dans la request -->
@@ -28,16 +28,16 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     <div class="row">
         <div class="mns-aside-info col-sm-4">
             <figure class="fit-cover">
-                <img src="${entry.getImageURL()}" alt="${entry.getTitle(locale)}" width="300" height="380" class="mns-img-agenda-top" />
+                <img src="${entry.getImageURL()}" alt="" width="300" height="380" class="mns-img-agenda-top" />
                 <figcaption>© ${entry.getImageCopyright(locale)}</figcaption>
             </figure>
             <div class="mns-info-pratiques mns-info-test">
                 <div class="mns-sec-info">
                     <h3 class="mns-title-info"><@liferay_ui.message key="eu.infos-and-contact" /></h3>
-                    <p>${entry.getPlaceAlias(locale)}
-                        <br>
+                    <p>${entry.getPlaceAlias(locale)} 
+                        <br> 
                         <#if entry.getPlaceAddress(locale)?has_content>
-                            ${entry.getPlaceAddress(locale)} -
+                            ${entry.getPlaceAddress(locale)} - 
                         </#if>
                         ${entry.placeZipCode} ${entry.getPlaceCity(locale)}
                     </p>
@@ -55,10 +55,10 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         </div>
         <div class="col-sm-8 mns-content-agenda-detail">
             <a href="#" class="add-favorites"
-               data-type="2"
-               data-title="${entry.getTitle(locale)}"
-               data-url="${themeDisplay.getPortalURL()}${homeURL}event/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}"
-               data-id="${entry.eventId}">
+                data-type="2" 
+                data-title="${entry.getTitle(locale)}" 
+                data-url="${themeDisplay.getPortalURL()}${homeURL}event/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}" 
+                data-id="${entry.eventId}">
                 <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
             </a>
             <div class="col-xs-12" style="float: none;">
@@ -83,7 +83,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     <span class="mns-title-detail-actu"><@liferay_ui.message key="eu.dates-and-times" /></span>
                     <#list entry.eventPeriods as period>
                         <p>
-                            ${period.getDisplay(locale)}<#if period.getTimeDetail(locale)?has_content> : ${period.getTimeDetail(locale)}</#if>
+                        ${period.getDisplay(locale)}<#if period.getTimeDetail(locale)?has_content> : ${period.getTimeDetail(locale)}</#if>
                         </p>
                     </#list>
                 </div>
@@ -212,21 +212,21 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 </div>
 
 <script>
-    (function ($) {
-        $(document).ready(function(){
-            if($('.mns-toggle-collapse').length){
-                $('.mns-toggle-collapse').on('click', function(){
-                    $(this).toggleClass('mns-opened')
-                        .parent('.mns-wi--collapsing').toggleClass('mns-opened')
-                        .find('.mns-collapsing-box').slideToggle();
-                });
-                $('.mns-wi--collapsing.mns-first-opened .mns-toggle-collapse').click();
-                $('.show-contact').on('click', function(){
-                    if($('.mns-wi--collapsing .mns-toggle-collapse.email-collapse:not(.mns-opened)').length > 0){
-                        $('.mns-wi--collapsing .mns-toggle-collapse.email-collapse').click();
-                    }
-                });
-            }
-        });
-    }(jQuery));
+(function ($) {
+    $(document).ready(function(){
+        if($('.mns-toggle-collapse').length){
+            $('.mns-toggle-collapse').on('click', function(){
+                $(this).toggleClass('mns-opened')
+                .parent('.mns-wi--collapsing').toggleClass('mns-opened')
+                .find('.mns-collapsing-box').slideToggle();
+            });
+            $('.mns-wi--collapsing.mns-first-opened .mns-toggle-collapse').click();
+            $('.show-contact').on('click', function(){
+                if($('.mns-wi--collapsing .mns-toggle-collapse.email-collapse:not(.mns-opened)').length > 0){
+                    $('.mns-wi--collapsing .mns-toggle-collapse.email-collapse').click();
+                }
+            });
+        }
+    });
+ }(jQuery));
 </script>

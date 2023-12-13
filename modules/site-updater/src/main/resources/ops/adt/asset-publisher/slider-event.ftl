@@ -4,7 +4,7 @@
 <#setting locale = locale />
 
 <#-- Recuperation de l'URL de "base" du site -->
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
     <#assign homeURL = "/" />
@@ -19,10 +19,10 @@
             <#-- Parcours des entites de l'asset publisher -->
             <#list entries as curEntry>
 
-            <#-- Recuperation de l'entite -->
+                <#-- Recuperation de l'entite -->
                 <#assign entry = curEntry.getAssetRenderer().getEvent() />
                 <div class="ops-item">
-                    <a href="${homeURL}detail-evenement/-/entity/id/${entry.eventId}" class="ops-card ops-card-concert">
+                    <a href="${homeURL}detail-evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}" class="ops-card ops-card-concert">
                         <div>
                             <time><span>${entry.getEventScheduleDisplay(locale, false, true)}</span></time>
                             <div class="ops-next-date"></div>

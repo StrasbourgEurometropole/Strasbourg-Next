@@ -12,18 +12,18 @@
                 <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
                 <li class="alert-item">
                     <#if url=="">
-                    <a href="${viewURL}">
-                        </#if>
-                        <#if url!="">
+                        <a href="${viewURL}">
+                    </#if>
+                    <#if url!="">
                         <a href="${url}" target="_blank">
-                            </#if>
-                            <div class="alert-title">${title}</div>
-                            <div class="alert-lead">${chapo}</div>
-                        </a>
+                    </#if>
+                        <div class="alert-title">${title}</div>
+                        <div class="alert-lead">${chapo}</div>
+                    </a>
                 </li>
             </#list>
         </ul>
-    </section>
+    </section>  
 </#if>
 
 <style>

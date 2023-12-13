@@ -2,7 +2,7 @@
 
 <root>
     <basicCWTemplate>
-        <name>Footer2</name>
+        <name>Footer</name>
         <key>2154427</key>
         <script>footer.ftl</script>
     </basicCWTemplate>

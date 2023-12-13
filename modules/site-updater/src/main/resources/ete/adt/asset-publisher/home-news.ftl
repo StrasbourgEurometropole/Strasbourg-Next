@@ -3,9 +3,9 @@
 <#setting date_format="d MMMM yyyy">
 <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+  <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
-    <#assign homeURL = "/" />
+  <#assign homeURL = "/" />
 </#if>
 <div class="container mns-section-actualites">
     <div class="col-xs-12" style="text-align: center;">

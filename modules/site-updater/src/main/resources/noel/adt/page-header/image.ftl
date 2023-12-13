@@ -1,12 +1,12 @@
 <#setting locale = locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${page.group.friendlyURL}/" />
 <#else>
     <#assign homeURL = "/" />
 </#if>
 <header class="mns-header" style="background: url(${page.expandoBridge.getAttribute('image')}) no-repeat center center /cover;">
     <div class="container mns-center">
-        ${page.getDescription(locale)}
+        <h1>${page.getTitle(locale)}</h1>
     </div>
 </header>
 

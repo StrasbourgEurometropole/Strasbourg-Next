@@ -5,15 +5,15 @@
 "og:description":'${content.getData()?replace("<[^>]*>", "", "r")?html}'
 } />
 <#-- partage de la configuration open graph dans la request -->
-${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)} 
 
 <div class="container">
-  <h1>${title.getData()}</h1>
+<h1>${title.getData()}</h1>
   ${content.getData()}
 </div>
 
 <style>
-  .class-inner .page-header {
-    background-image: url(${backgroundPicture.getData()}) !important;
-  }
+.class-inner .page-header {
+  background-image: url(${backgroundPicture.getData()}) !important;
+}
 </style>

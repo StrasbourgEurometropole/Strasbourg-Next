@@ -1,10 +1,10 @@
 <!-- Actualités (accueil) -->
 <#setting locale = locale />
 <#setting date_format="d MMMM yyyy">
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+  <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
-    <#assign homeURL = "/" />
+  <#assign homeURL = "/" />
 </#if>
 <div class="container mns-section-actualites">
     <div class="col-xs-12">
@@ -29,10 +29,10 @@
                     <div class="col-sm-6">
                         <article class="mns-bloc-actu">
                             <a href="${viewURL}">
-                                <img src="${imageURL}" alt="${title}" width="450" height="300" />
+                                <img src="${imageURL}" alt="" width="450" height="300" />
                                 <div class="mns-bloc-content-actu">
                                     <span class="publication"><@liferay_ui.message key="eu.published-on" /> ${publishDate?date}</span>
-                                    <h1>${title}</h1>
+                                    <h3>${title}</h3>
                                     <p>${text?replace("<[^>]*>", "", "r")[0..*100]}...</p>
                                     <span class="basic-link"><@liferay_ui.message key="eu.read-next" /></span>
                                 </div>

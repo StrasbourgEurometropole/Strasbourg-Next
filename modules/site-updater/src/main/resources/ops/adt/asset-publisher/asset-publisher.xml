@@ -5,20 +5,17 @@
     <template>
         <script>membre-thumbnail.ftl</script>
         <name>Vignette membre</name>
-        <key>6009954
-        </key>
+        <key>6009954</key>
     </template>
     <template>
         <script>recrutement-thumbnail.ftl</script>
         <name>Vignette offre d'emploi</name>
-        <key>6009958
-        </key>
+        <key>6009958</key>
     </template>
     <template>
         <script>download-documents.ftl</script>
         <name>Documents téléchargeables</name>
-        <key>6009963
-        </key>
+        <key>6009963</key>
     </template>
     <template>
         <script>slider-concert-highlight.ftl</script>
@@ -28,8 +25,7 @@
     <template>
         <script>slider-event.ftl</script>
         <name>Slider événement</name>
-        <key>6009972
-        </key>
+        <key>6009972</key>
     </template>
     <template>
         <script>web-contents-global-search-thumbnail.ftl</script>
@@ -39,8 +35,7 @@
     <template>
         <script>news-thumbnail.ftl</script>
         <name>Vignette actualité</name>
-        <key>9401986
-        </key>
+        <key>9401986</key>
     </template>
     <template>
         <script>news-list.ftl</script>

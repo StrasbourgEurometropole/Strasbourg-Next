@@ -3,7 +3,7 @@
     <#assign themeDisplay = serviceContext.getThemeDisplay() />
     <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
     <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
-    <ul id="inline-account-menu" class="unstyled">
+    <ul id="inline-account-menu" class="unstyled"> 
         <#list menuNavigation.getSiblings() as menu>
             <li><a id="menu-item-${menu?index}" href="${menu.link.getData()}" class="account-link ${menu.classMenu.getData()}"  <#if menu.newWindow.data == "true">target="_blank"</#if> title="${menu.data} <#if menu.newWindow.data == "true">(nouvelle fenêtre)</#if>"></a></li>
         </#list>
@@ -19,11 +19,11 @@
 <#if menuNavigation.getSiblings()?has_content>
     <style>
         <#list menuNavigation.getSiblings() as menu>
-        <#if !menu.classMenu.getData()?has_content >
-        #menu-item-${menu?index}:before {
-            background-image: url(${menu.illustration.getData()});
-        }
-        </#if>
+            <#if !menu.classMenu.getData()?has_content >
+                #menu-item-${menu?index}:before { 
+                    background-image: url(${menu.illustration.getData()}); 
+                }
+            </#if>
         </#list>
     </style>
 </#if>

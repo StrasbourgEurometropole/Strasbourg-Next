@@ -1,8 +1,8 @@
 <#setting locale = locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+  <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
-    <#assign homeURL = "/" />
+  <#assign homeURL = "/" />
 </#if>
 
 <div id="events">
@@ -26,13 +26,13 @@
                         <div class="event-date">
                             ${entry.getEventScheduleDisplay(locale)}
                         </div>
-                        <div class="event-meta">
-                            <div class="event-title">
+                        <div class="event-meta"> 
+                            <div class="event-title"> 
                                 <span>${entry.getTitle(locale)}</span>
                             </div>
                         </div>
                     </a>
-                </div>
+                </div>                
             </#list>
         </div>
 
@@ -42,7 +42,7 @@
         <div class="swiper-event-pagination"></div>
     </div>
     <a class="btn-square" title="<@liferay_ui.message key="sae.all-events" />" href="/agenda">
-        <span class="btn-text"><@liferay_ui.message key="sae.all-events" /></span>
+        <span class="btn-text"><@liferay_ui.message key="sae.all-events" /></span> 
     </a>
 </div>
 

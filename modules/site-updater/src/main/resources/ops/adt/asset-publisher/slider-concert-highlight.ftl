@@ -4,7 +4,7 @@
 <#setting locale = locale />
 
 <#-- Recuperation de l'URL de "base" du site -->
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
     <#assign homeURL = "/" />
@@ -15,7 +15,7 @@
     <#-- Parcours des entites de l'asset publisher -->
     <#list entries as curEntry>
 
-    <#-- Recuperation de l'entite -->
+        <#-- Recuperation de l'entite -->
         <#assign entry = curEntry.getAssetRenderer().getEvent() />
 
         <div class="ops-item">
@@ -33,10 +33,10 @@
                     <div class="ops-content">
                         <span class="ops-songs"><strong>${entry.getComposer()}</strong></span>
                         <span class="ops-names">${entry.getDistribution()}</span>
-                    </div>
+                    </div>   
                     <#if entry.bookingURL?has_content>
-                        <span class="ops-bottom-card"><a href="${entry.bookingURL}">Acheter mon billet</a></span>
-                    </#if>
+                        <span class="ops-bottom-card"><a href="${entry.bookingURL}"><@liferay_ui.message key="eu.ops.buy.my.ticket" /></a></span>
+                    </#if>          
                 </div>
             </div>
         </div>
