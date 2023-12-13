@@ -47,7 +47,7 @@ public class ExportOfficialsResourceCommand implements MVCResourceCommand {
             this.councilOfficialsXlsxExporter.exportOfficials(response.getPortletOutputStream(), officials);
             // Envoie du document dans le flux de réponse
             response.getPortletOutputStream().flush();
-        } catch (IOException e) {
+        } catch (Exception e) {
             this.log.error("Probleme lors de l'extraction des votants (Conseils) : ", e);
         }
 

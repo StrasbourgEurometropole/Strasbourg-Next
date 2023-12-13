@@ -5,6 +5,7 @@
 <%-- URL : definit le lien menant vers la page de listage de l'entite --%>
 <liferay-portlet:renderURL varImpl="councilSessionsURL">
 	<portlet:param name="tab" value="councilSessions" />
+    <portlet:param name="mvcPath" value="/council-bo-view-council-sessions.jsp" />
 </liferay-portlet:renderURL>
 
 
@@ -12,6 +13,7 @@
 <liferay-portlet:actionURL name="deleteCouncilSession" var="deleteCouncilSessionURL">
 	<portlet:param name="cmd" value="deleteCouncilSession" />
 	<portlet:param name="tab" value="councilSessions" />
+    <portlet:param name="mvcPath" value="/council-bo-view-council-sessions.jsp" />
 	<portlet:param name="councilSessionId"
 	    value="${not empty dc.councilSession ? dc.councilSession.councilSessionId : ''}" />
 </liferay-portlet:actionURL>
@@ -23,6 +25,7 @@
 
 <%-- URL : definit le lien menant vers la gestion des procurations --%>
 <liferay-portlet:renderURL varImpl="manageProcurationsURL">
+    <portlet:param name="tab" value="councilSessions" />
     <portlet:param name="cmd" value="manageProcurations" />
     <portlet:param name="councilSessionId" value="${dc.councilSession.councilSessionId}" />
     <portlet:param name="backURL" value="${councilSessionsURL}" />
