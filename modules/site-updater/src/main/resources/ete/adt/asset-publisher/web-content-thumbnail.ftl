@@ -2,7 +2,8 @@
 
 <!-- Vignette contenu web -->
 <#assign docXml = saxReaderUtil.read(entry.getContentByLocale(locale)) />
-<#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
+<#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
+<#if !title?has_content><#assign title = entry.getTitle(locale) /></#if>
 <#assign catcher = docXml.valueOf("//dynamic-element[@name='catcher']/dynamic-content/text()") />
 <#assign text = docXml.valueOf("//dynamic-element[@name='text']/dynamic-content/text()") />
 
@@ -10,11 +11,11 @@
 <#assign detailURL = layoutHelper.getJournalArticleLayoutURL(entry.groupId, entry.articleId, themeDisplay) />
 
 <@liferay_portlet.actionURL var="detailURLFilter">
-    <@liferay_portlet.param name="userTargetClassId" value="${entry.getClassNameId()}" />
-    <@liferay_portlet.param name="userTargetClassPK" value="${entry.getArticleId()}" />
-    <@liferay_portlet.param name="userTargetTitle" value="${entry.getTitle(locale)}" />
-    <@liferay_portlet.param name="detailURL" value="${detailURL}" />
-    <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
+  <@liferay_portlet.param name="userTargetClassId" value="${entry.getClassNameId()}" />
+  <@liferay_portlet.param name="userTargetClassPK" value="${entry.getArticleId()}" />
+  <@liferay_portlet.param name="userTargetTitle" value="${entry.getTitle(locale)}" />
+  <@liferay_portlet.param name="detailURL" value="${detailURL}" />
+  <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
 </@liferay_portlet.actionURL>
 
 <div class="mns-item-results">

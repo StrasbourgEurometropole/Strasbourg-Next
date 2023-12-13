@@ -16,7 +16,7 @@
 <#-- Liste des infos a partager -->
 <#assign openGraph = {
 "og:title":"${title.data?html}",
-"og:description":'${text.data?replace("<[^>]*>", "", "r")?html}',
+"og:description":'${text.data?replace("<[^>]*>", "", "r")?html}', 
 "og:image":"${imageUrl}"
 } />
 <#-- partage de la configuration open graph dans la request -->
@@ -25,7 +25,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 <!-- Détail actualité -->
 <div class="small-container mns-actu-detail mns-fck">
     <div class="mns-top-detail-img">
-        <img src="${image.getData()}" alt="${title.data}" width="930" height="620" />
+        <img src="${image.getData()}" alt="" width="930" height="620" />
     </div>
     <div class="mns-detail-actu-content col-sm-9 col-sm-offset-3 col-xs-12">
         <h1>${title.data}</h1>

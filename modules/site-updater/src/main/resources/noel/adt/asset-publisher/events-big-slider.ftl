@@ -16,7 +16,7 @@
                 <#assign event = curEntry.getAssetRenderer().getEvent() />
                 <div class="item">
                     <figure class="fit-cover">
-                        <img src="${event.imageURL}" alt="${event.getTitle(locale)}" width="1600" height="900" class="fit-cover" />
+                        <img src="${event.imageURL}" alt="" width="1600" height="900" class="fit-cover" />
                     </figure>
                     <div class="caption container">
                         <div class="row">
@@ -34,7 +34,7 @@
     </#if>
     <div class="container mns-wrapper-bread">
         <div class="mns-breadcrumbs">
-            <#if !layout.ancestors?has_content || layout.ancestors?reverse[0].friendlyURL != '/accueil'>
+             <#if !layout.ancestors?has_content || layout.ancestors?reverse[0].friendlyURL != '/accueil'>
                 <a href="${homeURL}"><@liferay_ui.message key="home" /></a>
             </#if>
             <#list layout.ancestors?reverse as ancestor>

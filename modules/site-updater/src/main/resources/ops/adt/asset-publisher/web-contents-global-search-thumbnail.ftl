@@ -39,7 +39,7 @@
 
 <#if title?has_content && thumbnailURL?has_content && !contestDate?has_content>
     <!-- VIGNETTE ACTUALITE -->
-<#-- Récupération de la Typologie -->
+    <#-- Récupération de la Typologie -->
     <#assign assetEntryLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService") />
     <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
     <#assign asset = assetEntryLocalService.getEntry('com.liferay.journal.model.JournalArticle', entry.resourcePrimKey) >
@@ -59,8 +59,8 @@
                             </#list>
                         </div>
                         <span class="ops-date-article">
-                             <@liferay_ui.message key="eu.ops.published.on" /> <time datetime="${entry.getModifiedDate()?datetime?string('yyyy-MM-dd')}">${dateHelperService.displayShortDate(entry.getModifiedDate()?date, locale)}</time>
-                         </span>
+                            <@liferay_ui.message key="eu.ops.published.on" /> <time datetime="${entry.getModifiedDate()?datetime?string('yyyy-MM-dd')}">${dateHelperService.displayShortDate(entry.getModifiedDate()?date, locale)}</time>
+                        </span>
                     </div>
                     <h3>${title}</h3>
                     <span class="ops-link"><@liferay_ui.message key="eu.ops.discover" /></span>
@@ -92,9 +92,9 @@
     <div class="ops-col-33">
         <a href="${detailURL}" class="ops-card ops-card-emploi">
             <div>
-                 <span class="ops-date-concours">
-                     <@liferay_ui.message key="eu.ops.contest.date" /> : <time datetime="${contestDate}">${dateHelperService.displayShortDate(contestDate?date.xs, locale)}</time>
-                 </span>
+                <span class="ops-date-concours">
+                    <@liferay_ui.message key="eu.ops.contest.date" /> : <time datetime="${contestDate}">${dateHelperService.displayShortDate(contestDate?date.xs, locale)}</time>
+                </span>
                 <h3>${title}</h3>
                 <span class="ops-link"><@liferay_ui.message key="eu.ops.learn.more" /></span>
             </div>

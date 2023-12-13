@@ -10,7 +10,7 @@
                     <figcaption>${image.children[0].data}</figcaption>
                 </figure>
             </div>
-
+            
             <div class="col-sm-6">
                 <h2 class="pro-big-title">
                     ${titleLine1.getData()}
@@ -18,7 +18,7 @@
                         <br>
                         ${titleLine2.getData()}
                     </#if>
-                </h2>
+                 </h2>
                 <p>${text.getData()}</p>
                 <#if linkUrl.getData()?has_content >
                     <a href="${linkUrl.getData()}" class="pro-btn-yellow" title="${linkLabel.getData()}">En savoir plus</a>
@@ -26,5 +26,5 @@
             </div>
         </div>
     </div>
-
+    
 </section>

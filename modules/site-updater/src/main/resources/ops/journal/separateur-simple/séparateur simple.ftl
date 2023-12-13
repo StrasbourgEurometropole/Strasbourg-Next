@@ -1,1 +1,1 @@
-<h2 class="ops-title-line" data-egalize=".ops-card-people" style="margin-bottom: 15px;"><span>${title.getData()}</span></h2>
+<h2 class="ops-title-line" ><span>${title.getData()}</span></h2>

@@ -15,7 +15,6 @@
     <template>
         <script>event-global-search-thumbnail.ftl</script>
         <name>Vignette événement recherche globale</name>
-        <key>9401967
-        </key>
+        <key>9401967</key>
     </template>
 </root>

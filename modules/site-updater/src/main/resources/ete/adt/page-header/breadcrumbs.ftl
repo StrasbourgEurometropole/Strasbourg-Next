@@ -8,7 +8,7 @@
     <div class="container">
         <div class="mns-wrapper-bread">
             <div class="mns-breadcrumbs">
-                <#if !page.ancestors?has_content || page.ancestors?reverse[0].friendlyURL != '/accueil'>
+                 <#if !page.ancestors?has_content || page.ancestors?reverse[0].friendlyURL != '/accueil'>
                     <a href="${homeURL}/"><@liferay_ui.message key="home" /></a>
                 </#if>
                 <#list page.ancestors?reverse as ancestor>

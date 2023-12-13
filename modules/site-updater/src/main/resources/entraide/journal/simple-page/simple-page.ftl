@@ -29,9 +29,12 @@
         <header>
             <h1>${title.getData()}</h1>
             <div class="pro-meta">
+                <#if categoryList?has_content>
+                    <span class="icon-ico-location"></span>
+                </#if>
                 <#list categoryList as categoryList>
-                <span> ${categoryList.getName()} <span>
-                 </#list>
+                   <span> ${categoryList.getName()} <span>
+                </#list>
             </div>
             <figure role="group">
                 <img src='${image.getData()}' alt="Image agenda" width="1160" height="593" class="fit-cover"/>
@@ -44,12 +47,12 @@
     </div>
 </article>
 <style>
-    .search-asset-portlet, .page-header, .pro-header-small {
-        display: none !important;
-    }
-    .portlet-body > div > div.h2 {
-        display: none;
-    }
+.search-asset-portlet, .page-header, .pro-header-small {
+    display: none !important;
+}
+.portlet-body > div > div.h2 {
+    display: none;
+}
 </style>
 <script type="text/javascript">
     $(document).ready(function() {

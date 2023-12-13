@@ -12,4 +12,9 @@
         <name>Rubrique marché</name>
         <key>2212900</key>
     </template>
+    <template>
+        <script>rubric-4.ftl</script>
+        <name>Rubrique par 4</name>
+        <key>462347772</key>
+    </template>
 </root>

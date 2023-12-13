@@ -21,27 +21,27 @@
   <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
 </@liferay_portlet.actionURL>
 
-<div class="event portlet-event-item" headers="tsud_col-1">
+<div class="event portlet-event-item" headers="tsud_col-1"> 
   <div class="entry-category"> ${entry.getTypeLabel(locale)} - ${entry.getThemeLabel(locale)}
   </div>
-  <div class="entry-image">
+  <div class="entry-image"> 
     <a href="${detailURLFilter}" title="${entry.getTitle(locale)}">
       <img src="${entry.imageURL}" alt="${entry.getTitle(locale)}">
     </a>
-  </div>
+  </div> 
   <div class="entry-header">
-     <span class="category" style="word-wrap: break-word;"> ${entry.getTypeLabel(locale)} - ${entry.getThemeLabel(locale)}
-     </span>
+    <span class="category" style="word-wrap: break-word;"> ${entry.getTypeLabel(locale)} - ${entry.getThemeLabel(locale)}
+    </span>
     <h2 style="word-wrap: break-word;">
       <a href="${detailURLFilter}" title="${entry.getTitle(locale)}">${entry.getTitle(locale)}</a>
     </h2>
-    <span class="date" style="word-wrap: break-word;"> ${entry.getEventScheduleDisplay(locale)}</span>
+    <span class="date" style="word-wrap: break-word;"> ${entry.getEventScheduleDisplay(locale)}</span> 
     <div class="place" style="word-wrap: break-word;"> ${entry.getCity(locale)} - ${entry.getPlaceAlias(locale)}
-    </div>
+    </div> 
   </div>
   <footer class="entry-meta">
     <time></time>
-    <a href="${detailURLFilter}" title="Lire la suite" class="btn-more"><@liferay_ui.message key="read-more" /></a>
+    <a href="${detailURLFilter}" title="Lire la suite" class="btn-more"><@liferay_ui.message key="read-more" /></a> 
     <div class="clearfix"></div>
   </footer>
 </div>

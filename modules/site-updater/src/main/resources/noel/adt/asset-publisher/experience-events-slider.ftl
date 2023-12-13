@@ -25,13 +25,13 @@
                                 <a href="${homeURL}event/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}">
                                     <span class="date">${event.getEventScheduleDisplay(locale)}</span>
                                     <figure>
-                                        <img src='${event.getImageURL()}' alt="${event.getTitle(locale)}" width="270" height="400" class="fit-cover" />
+                                        <img src='${event.getImageURL()}' alt="" width="270" height="400" class="fit-cover" />
                                     </figure>
                                     <div>
                                         <div class="mns-indic">
                                             <div>
                                                 <span class="icon-ico-map-marker"></span>
-                                                <span itemprop="location" itemscope itemtype="http://schema.org/Place"><span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">${event.getPlaceAlias(locale)}</span></span>
+                                                <span itemprop="location" itemscope itemtype="http://schema.org/Place"><span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">${event.getPlaceAlias(locale)}</span></span>       
                                             </div>
                                             <div>
                                                 <span class="icon-ico-type"></span>

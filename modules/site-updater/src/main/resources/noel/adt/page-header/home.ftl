@@ -8,7 +8,7 @@
     <!--</video>-->
     <!--</div>-->
     <div class="container mns-center">
-        ${page.getDescription(locale)}
-        <!--<a href="/marche-noel-strasbourg" class="mns-btn-chevron">Découvrir</a>-->
+                <h1>${page.getTitle(locale)}</h1>
+        <a href="/experientiel" class="mns-btn-chevron"><@liferay_ui.message key="prepare-your-program" /></a>
     </div>
 </header>

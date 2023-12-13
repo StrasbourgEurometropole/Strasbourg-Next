@@ -30,7 +30,7 @@
     </div>
     <div class="mns-wrapper-bread">
         <div class="mns-breadcrumbs">
-            <#if !layout.ancestors?has_content || layout.ancestors?reverse[0].friendlyURL != '/accueil'>
+             <#if !layout.ancestors?has_content || layout.ancestors?reverse[0].friendlyURL != '/accueil'>
                 <a href="${homeURL}"><@liferay_ui.message key="home" /></a>
             </#if>
             <#list layout.ancestors?reverse as ancestor>

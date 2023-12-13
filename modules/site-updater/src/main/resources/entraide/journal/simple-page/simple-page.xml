@@ -10,7 +10,7 @@
     <template>
         <name>Page simple</name>
         <key>87803574</key>
-        <script>simple.ftl</script>
+        <script>simple-page.ftl</script>
         <cacheable>true</cacheable>
     </template>
 </root>

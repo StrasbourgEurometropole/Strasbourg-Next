@@ -6,14 +6,14 @@
     <#setting locale = locale />
 
     <!-- Recuperation de l'URL de "base" du site -->
-    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
         <#assign homeURL = "/web${layout.group.friendlyURL}/" />
     <#else>
         <#assign homeURL = "/" />
     </#if>
     <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
 
-    <header class="ops-fullpage-header" data-vheight="100">
+    <header class="ops-fullpage-header" data-vheight="100">	
         <div class="slick-carousel slick-basic-slider">
 
             <!-- Parcours des entites de l'asset publisher -->
@@ -30,7 +30,7 @@
 
                 <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
 
-            <#-- Récupération de l'id du webcontent -->
+                <#-- Récupération de l'id du webcontent -->
                 <#assign assetCategoryLocalServiceUtil = staticUtil["com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil"]>
                 <#assign categoryList=assetCategoryLocalServiceUtil.getCategories("com.liferay.journal.model.JournalArticle",curEntry.classPK) >
 
@@ -39,9 +39,9 @@
                         <img src="${imageURL}" width="1600" height="900" alt="Image article"/>
                     </figure>
                     <div class="ops-content-wrapper ops-content-wrapper-large ops-caption">
-                         <span class="ops-typologie">
-                             <#list categoryList as category>${category.getTitle(locale)}<#sep>, </#list>
-                         </span>
+                        <span class="ops-typologie">
+                            <#list categoryList as category>${category.getTitle(locale)}<#sep>, </#list>
+                        </span>
                         <h1>${title}</h1>
                         <#if chapo?has_content>
                             <p>${chapo?replace("<[^>]*>", "", "r")[0..*100]}...</p>
@@ -54,11 +54,11 @@
 
             </#list>
 
-        </div>
+        </div>		
         <div class="ops-slick-nav"></div>
     </header>
 
 <#else>
-<#-- Permet d'accèder plus facilement à la conf de l'asset publisher -->
+    <#-- Permet d'accèder plus facilement à la conf de l'asset publisher -->
     <div style="height: 20px"></div>
 </#if>

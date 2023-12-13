@@ -13,43 +13,13 @@
         <key>E4906347</key>
     </template>
     <template>
-        <script>in-the-news.ftl</script>
-        <name>A la une</name>
-        <key>4906372</key>
-    </template>
-    <template>
-        <script>image-slider.ftl</script>
-        <name>Slider images</name>
-        <key>4906379</key>
-    </template>
-    <template>
-        <script>web-content-list.ftl</script>
-        <name>Liste de contenus web</name>
-        <key>4906384</key>
-    </template>
-    <template>
-        <script>useful-links.ftl</script>
-        <name>Liens utiles</name>
-        <key>4906438</key>
-    </template>
-    <template>
         <script>place-list.ftl</script>
         <name>Liste de lieux</name>
         <key>4906444</key>
     </template>
     <template>
-        <script>breadcrumbs.ftl</script>
-        <name>Fil d'ariane</name>
-        <key>4906451</key>
-    </template>
-    <template>
-        <script>useful-documents.ftl</script>
-        <name>Documents utiles</name>
-        <key>5775167</key>
-    </template>
-    <template>
-        <script>web-content-generic-thumbnail.ftl</script>
-        <name>Vignette contenu web (moteur général)</name>
-        <key>5775181</key>
+        <script>useful-links.ftl</script>
+        <name>Liens utiles</name>
+        <key>4906438</key>
     </template>
 </root>
