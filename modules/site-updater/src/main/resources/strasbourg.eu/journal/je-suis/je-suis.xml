@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Je suis</name>
+        <key>je-suis</key>
+        <definition>je-suis-structure.json</definition>
+        <layout>je-suis-layout.json</layout>
+    </structure>
+    <template>
+        <name>Je suis</name>
+        <key>je-suis</key>
+        <script>je-suis.ftl</script>
+    </template>
+    <template>
+        <name>Je suis version mobile</name>
+        <key>je-suis-version-mobile</key>
+        <script>je-suis-version-mobile.ftl</script>
+    </template>
+</root>

@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Tribunes</name>
-    <key>TRIBUNES</key>
     <structure>
+        <name>Tribunes</name>
+        <key>1564340</key>
         <definition>tribunes-structure.json</definition>
         <layout>tribunes-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Tribunes</name>
+        <key>1564358</key>
+        <script>tribunes.ftl</script>
     </template>
 </root>

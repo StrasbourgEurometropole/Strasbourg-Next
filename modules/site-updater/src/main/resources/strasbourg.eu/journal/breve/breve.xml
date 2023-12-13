@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Breve</name>
-    <key>BREVE</key>
     <structure>
+        <name>Breve</name>
+        <key>5099135</key>
         <definition>breve-structure.json</definition>
         <layout>breve-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Breve</name>
+        <key>5099213</key>
+        <script>breve.ftl</script>
     </template>
 </root>

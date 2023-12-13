@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.edition.model.EditionGallery</className>
+    <template>
+        <script>edition-gallery-detail.ftl</script>
+        <name>Détail galerie d'éditions</name>
+        <key>1640195</key>
+    </template>
+</root>

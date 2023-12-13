@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.activity.model.ActivityOrganizer</className>
+    <template>
+        <script>organizer-detail.ftl</script>
+        <name>Détail organisateur d'activités</name>
+        <key>2154122</key>
+    </template>
+</root>

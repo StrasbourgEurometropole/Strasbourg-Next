@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Portrait</name>
-    <key>PORTRAIT</key>
     <structure>
+        <name>Portrait</name>
+        <key>5099147</key>
         <definition>portrait-structure.json</definition>
         <layout>portrait-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Portrait</name>
+        <key>5099237</key>
+        <script>portrait.ftl</script>
     </template>
 </root>

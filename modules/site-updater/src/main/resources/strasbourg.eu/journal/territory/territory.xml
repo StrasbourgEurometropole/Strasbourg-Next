@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Territoire</name>
-    <key>TERRITORY</key>
     <structure>
+        <name>Territoire</name>
+        <key>1087147</key>
         <definition>territory-structure.json</definition>
         <layout>territory-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Territoire</name>
+        <key>1087173</key>
+        <script>territory.ftl</script>
     </template>
 </root>

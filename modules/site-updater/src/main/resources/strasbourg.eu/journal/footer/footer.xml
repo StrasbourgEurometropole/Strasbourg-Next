@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Footer</name>
-    <key>FOOTER</key>
     <structure>
+        <name>Footer</name>
+        <key>1087143</key>
         <definition>footer-structure.json</definition>
         <layout>footer-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Footer</name>
+        <key>1087181</key>
+        <script>footer.ftl</script>
     </template>
 </root>
