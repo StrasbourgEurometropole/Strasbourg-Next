@@ -1,20 +1,16 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Bannière Exposition</name>
-    <key>EXPOS</key>
     <structure>
+        <name>Bannière Exposition</name>
+        <key>415969542</key>
         <definition>expos-structure.json</definition>
         <layout>expos-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Bannière exposition</name>
+        <key>420085415</key>
+        <script>expos.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

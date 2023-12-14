@@ -1,25 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <className>eu.strasbourg.service.agenda.model.Event</className>
+    <className>com.liferay.portal.kernel.theme.NavItem</className>
     <template>
-        <script>toto.ftl</script>
-        <name>Event Toto</name>
-        <key>EVENT-TOTO</key>
+        <name>Navigation mobile (v2)</name>
+        <key>420085102</key>
+        <script>navigation-mobile.ftl</script>
     </template>
     <template>
-        <script>titi.ftl</script>
-        <name>Event Titi</name>
-        <key>EVENT-TITI</key>
-    </template>
-    <template>
-        <script>tete.ftl</script>
-        <name>Event Tete</name>
-        <key>EVENT-TETE</key>
-    </template>
-    <template>
-        <script>tutu.ftl</script>
-        <name>Event Tutu</name>
-        <key>EVENT-TUTU</key>
+        <name>Navigation (v2)</name>
+        <key>420085096</key>
+        <script>navigation.ftl</script>
     </template>
 </root>

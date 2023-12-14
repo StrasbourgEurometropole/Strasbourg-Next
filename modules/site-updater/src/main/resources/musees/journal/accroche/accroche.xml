@@ -1,20 +1,16 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Accroche</name>
-    <key>ACCROCHE</key>
     <structure>
+        <name>Accroche</name>
+        <key>415969474</key>
         <definition>accroche-structure.json</definition>
         <layout>accroche-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Accroche</name>
+        <key>420085408</key>
+        <script>accroche.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

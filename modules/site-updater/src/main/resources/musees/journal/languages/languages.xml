@@ -1,20 +1,16 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Langues</name>
-    <key>LANGUAGES</key>
     <structure>
+        <name>Langues</name>
+        <key>415969446</key>
         <definition>languages-structure.json</definition>
         <layout>languages-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Langues</name>
+        <key>420085432</key>
+        <script>languages.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

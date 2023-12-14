@@ -1,25 +1,20 @@
 <?xml version="1.0"?>
 
 <root>
-    <className>eu.strasbourg.service.agenda.model.Event</className>
+    <className>com.liferay.portal.kernel.model.LayoutSet</className>
     <template>
-        <script>toto.ftl</script>
-        <name>Event Toto</name>
-        <key>EVENT-TOTO</key>
+        <name>Entête image + texte (v2)</name>
+        <key>32305</key>
+        <script>header-image.ftl</script>
     </template>
     <template>
-        <script>titi.ftl</script>
-        <name>Event Titi</name>
-        <key>EVENT-TITI</key>
+        <name>Entête de page simple (v2)</name>
+        <key>32313</key>
+        <script>header.ftl</script>
     </template>
     <template>
-        <script>tete.ftl</script>
-        <name>Event Tete</name>
-        <key>EVENT-TETE</key>
-    </template>
-    <template>
-        <script>tutu.ftl</script>
-        <name>Event Tutu</name>
-        <key>EVENT-TUTU</key>
+        <name>Entête Home (v2)</name>
+        <key>420085160</key>
+        <script>header-home.ftl</script>
     </template>
 </root>
