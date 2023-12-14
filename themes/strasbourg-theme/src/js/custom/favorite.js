@@ -1,5 +1,14 @@
+function addEvent(parent, evt, selector, handler) {
+    parent.addEventListener(evt, function(event) {
+        if (event.target.matches(selector + ', ' + selector + ' *')) {
+            handler.apply(event.target.closest(selector), arguments);
+        }
+    }, false);
+}
+
+
 // Add favorite
-function toggleFavorite(element) {
+function toggleFavorite(element, isLegacy = false) {
     var favoriteToAdd = {
         title: element.getAttribute("data-title"),
         url: element.getAttribute("data-url"),
@@ -7,6 +16,16 @@ function toggleFavorite(element) {
         entityId: element.getAttribute("data-id"),
         entityGroupId: element.getAttribute("data-groupId")
     };
+    if(isLegacy) {
+        favoriteToAdd = {
+            title: element.getAttribute("data-title"),
+            url: element.getAttribute("data-url"),
+            typeId: element.getAttribute("data-type"),
+            entityId: element.getAttribute("data-id"),
+            entityGroupId: 0
+        };
+    }
+
     // check if it is already in the favorites by checking if st-is-favorite class is present
     if (element.classList.contains('st-is-favorite')) {
         // remove from favorites
@@ -65,6 +84,8 @@ document.addEventListener("DOMContentLoaded", function() {
     addClickEventToFavoriteButtons();
 });
 
+
+
 function addClickEventToFavoriteButtons() {
     document.querySelectorAll("button.st-btn-favorite-card, button.st-btn-favorite-sticky").forEach(function(element) {
         element.addEventListener("click", function(e) {
@@ -74,4 +95,12 @@ function addClickEventToFavoriteButtons() {
             toggleFavorite(element);
         });
     });
+
+
+    addEvent(document, 'click', '#aroundme .add-favorites', function(e) {
+        // prevent default behavior
+        e.preventDefault();
+        e.stopPropagation();
+        toggleFavorite(this, true);
+    })
 }

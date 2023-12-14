@@ -329,9 +329,13 @@
                             <div class="normalMode">
                                 <!-- Choix de la catégorie qui affichera l'info trafic -->
                                 <label><liferay-ui:message key="category-link" /></label>
-                                <div id="categorySelectorLabel"></div>
-                                <div id="categorySelector"></div>
-                                <aui:input type="hidden" name="linkCategoryId" />
+                                <asset-category-selector:category-selector
+                                        id="linkCategoryId"
+                                        groupIds="${themeDisplay.scopeGroupId},${themeDisplay.companyGroupId}"
+                                        label="default-filters-with-config-label"
+                                        values="${linkCategoryId}"
+                                        multiple="false"
+                                />
                             </div>
 
                             <!-- Mode autour de moi -->
@@ -526,20 +530,5 @@
     </aui:button-row>
 </aui:form>
 
-<aui:script use="liferay-asset-categories-selector">
-	new Liferay.AssetCategoriesSelector(
-		{
-			curEntryIds: "${linkCategoryId}",
-			curEntries: "${categoryTitle}",
-			hiddenInput: "#<portlet:namespace />linkCategoryId",
-			contentBox: "#categorySelector",
-			label: "<liferay-ui:message key='category' />",
-			labelNode: "#categorySelectorLabel",
-			singleSelect: true,
-			vocabularyGroupIds: ${themeDisplay.companyGroupId},
-			vocabularyIds: "${vocabulariesStr}"
-		}
-	).render();
-</aui:script>
 
 <link rel="stylesheet" href="/o/mapweb/css/config-map.css" />

@@ -1,5 +1,46 @@
 @import "style";
 
+@mixin st-btn() {
+  @include create-outline();
+  @include inline-flex-center;
+  max-width: 100%;
+  @include ft($f_txt, $s_link_small, 600, $c_main, 1);
+  @include letter-spacing(25);
+  padding: 11px 30px;
+  text-align: center;
+  color: $c_white;
+  background-color: $c_main;
+  border: 1px solid $c_sub;
+  border-radius: $border-radius;
+  @include transition(color, background-color, border-color);
+
+  @include can-hover {
+    color: $c_main !important;
+    border-color: transparent;
+    background-color: $c_white;
+  }
+
+  @include mobile {
+    padding: 15px 30px;
+    min-height: 40px;
+    font-size: $s_link_small;
+  }
+  @include mobile-small {
+    padding: 12px 10px;
+    min-height: 40px;
+  }
+
+  &:focus-visible {
+    @include create-outline();
+  }
+
+  &[disabled],
+  &[aria-disabled="true"] {
+    opacity: 0.25;
+    pointer-events: none;
+  }
+}
+
 @import "custom/*.scss";
 .portlet-boundary {
   // Add override style if needed
