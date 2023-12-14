@@ -11,5 +11,6 @@
         <name>Bannière accueil</name>
         <key>1087165</key>
         <script>banner.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

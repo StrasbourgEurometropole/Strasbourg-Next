@@ -11,5 +11,6 @@
         <name>Canopée</name>
         <key>245220639</key>
         <script>canopee.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

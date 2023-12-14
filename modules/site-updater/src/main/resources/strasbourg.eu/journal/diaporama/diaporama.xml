@@ -11,5 +11,6 @@
         <name>Diaporama Photo</name>
         <key>5099218</key>
         <script>diaporama-photo.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

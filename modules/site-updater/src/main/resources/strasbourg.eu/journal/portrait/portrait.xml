@@ -11,5 +11,6 @@
         <name>Portrait</name>
         <key>5099237</key>
         <script>portrait.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

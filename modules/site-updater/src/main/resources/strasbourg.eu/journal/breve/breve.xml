@@ -11,5 +11,6 @@
         <name>Breve</name>
         <key>5099213</key>
         <script>breve.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>
