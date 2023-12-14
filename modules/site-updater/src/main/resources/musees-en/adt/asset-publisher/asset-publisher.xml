@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.asset.kernel.model.AssetEntry</className>
+    <skipKey>420085074,94994,95017,33520,96244,420084916,39781,603438</skipKey>
+    <override>
+        <parentKey>36154</parentKey>
+        <key>36154</key>
+    </override>
+    <override>
+        <parentKey>420085025</parentKey>
+        <key>450079395</key>
+    </override>
+    <override>
+        <parentKey>420085031</parentKey>
+        <key>450079370</key>
+    </override>
+    <override>
+        <parentKey>420085042</parentKey>
+        <key>450079403</key>
+    </override>
+    <override>
+        <parentKey>420085047</parentKey>
+        <key>450079366</key>
+    </override>
+    <override>
+        <parentKey>420085052</parentKey>
+        <key>450084419</key>
+    </override>
+    <override>
+        <parentKey>420085057</parentKey>
+        <key>450079407</key>
+    </override>
+    <override>
+        <parentKey>420085063</parentKey>
+        <key>450079399</key>
+    </override>
+    <override>
+        <parentKey>420085067</parentKey>
+        <key>450079374</key>
+    </override>
+</root>

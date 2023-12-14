@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<root>
+    <parent>musees</parent>
+    <suf>en</suf>
+    <skipStructure>exhibition</skipStructure>
+</root>
