@@ -1,7 +1,7 @@
 
 
 #wi-aroundme{
-    width: 1120px;
+    max-width: 1120px;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -28,9 +28,23 @@
     }
     #aroundme {
 
-        .top__overflow form .filtres__list h2 {
-            @include ft($f_txt, $s_h3, 600, $c_white);
-        }
+        .top__overflow
+        {
+            form {
+                .filtres__list {
+                    h2 {
+                        @include ft($f_txt, $s_h3, 600, $c_white);
+                    }
+                    .filtres__list {
+                    display: flex;
+                        .grid-item {
+                            margin: 0;
+                        }
+                    }
+                    }
+                }
+            }
+
 
         .filtres--category .filtres__item [type=checkbox] + label {
             @include ft($f_txt, $s_link_small, 400, $c_sub);

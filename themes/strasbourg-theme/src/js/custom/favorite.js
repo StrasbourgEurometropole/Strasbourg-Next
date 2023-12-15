@@ -98,6 +98,8 @@ function addClickEventToFavoriteButtons() {
 
 
     addEvent(document, 'click', '#aroundme .add-favorites', function(e) {
+        console.log(e)
+        console.log(this)
         // prevent default behavior
         e.preventDefault();
         e.stopPropagation();
