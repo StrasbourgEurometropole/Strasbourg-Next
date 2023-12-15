@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.my_district.configuration;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -89,9 +90,7 @@ public class MyDistrictConfigurationAction
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
-			MyDistrictConfiguration configuration = themeDisplay
-				.getPortletDisplay().getPortletInstanceConfiguration(
-						MyDistrictConfiguration.class);
+			MyDistrictConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(MyDistrictConfiguration.class, themeDisplay);
 
 			request.setAttribute("noAddress", configuration.noAddressXML());
 			request.setAttribute("townHall", configuration.townHallXML());

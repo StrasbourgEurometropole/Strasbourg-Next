@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.twitter.configuration;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.cache.PortalCacheHelperUtil;
 import com.liferay.portal.kernel.cache.PortalCacheManagerNames;
 import com.liferay.portal.kernel.log.Log;
@@ -54,9 +55,7 @@ public class TwitterConfigurationAction extends DefaultConfigurationAction {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
-			TwitterConfiguration configuration = themeDisplay
-				.getPortletDisplay()
-				.getPortletInstanceConfiguration(TwitterConfiguration.class);
+			TwitterConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(TwitterConfiguration.class, themeDisplay);
 
 			request.setAttribute("twitterAccount", configuration.twitterAccount());
 			request.setAttribute("tweetCount", configuration.tweetCount());

@@ -7,6 +7,7 @@ import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -68,8 +69,7 @@ public class SearchAssetDisplayContext {
 		this._response = response;
 		this._request = request;
 		this._themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
-		this._configuration = this._themeDisplay.getPortletDisplay()
-				.getPortletInstanceConfiguration(SearchAssetConfiguration.class);
+		this._configuration =  ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchAssetConfiguration.class, _themeDisplay);
 		this.initSearchContainer();
 		if (!this._configuration.hideResultsBeforeSearch() || this.isUserSearch()
 				|| ParamUtil.getBoolean(this._request, "paginate")) {
@@ -522,8 +522,7 @@ public class SearchAssetDisplayContext {
 
 		SearchAssetConfiguration configuration;
 		try {
-			configuration = this._themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(SearchAssetConfiguration.class);
+			configuration =  ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchAssetConfiguration.class, _themeDisplay);
 			_displayExport = configuration.displayExport();
 		} catch (ConfigurationException e) {
 			_log.error(e.getMessage(), e);

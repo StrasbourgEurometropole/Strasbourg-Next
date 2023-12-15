@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.familySpace;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -28,8 +29,8 @@ public class FamilySpaceDisplayContext {
 	public FamilySpaceDisplayContext(ThemeDisplay themeDisplay) {
 		this.themeDisplay = themeDisplay;
 		try {
-			this.configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(FamilySpaceConfiguration.class);
+			this.configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(FamilySpaceConfiguration.class, themeDisplay);
+
 		} catch (ConfigurationException e) {
 			_log.error(e.getMessage(), e);
 		}

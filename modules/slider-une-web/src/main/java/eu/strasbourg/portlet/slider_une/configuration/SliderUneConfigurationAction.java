@@ -6,6 +6,7 @@ import com.liferay.asset.kernel.model.AssetRendererFactory;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -105,9 +106,7 @@ public class SliderUneConfigurationAction
             ThemeDisplay themeDisplay = (ThemeDisplay) request
                     .getAttribute(WebKeys.THEME_DISPLAY);
 
-            SliderUneConfiguration configuration = themeDisplay
-                    .getPortletDisplay().getPortletInstanceConfiguration(
-                            SliderUneConfiguration.class);
+            SliderUneConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SliderUneConfiguration.class, themeDisplay);
 
             // items selectionnés
             String classPKsString = "";

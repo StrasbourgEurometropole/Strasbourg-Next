@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.internal_link_viewer.configuration;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -62,9 +63,7 @@ public class InternalLinkViewerConfigurationAction
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
 			// Pages sélectionnnées
-			InternalLinkViewerConfiguration configuration = themeDisplay
-				.getPortletDisplay().getPortletInstanceConfiguration(
-					InternalLinkViewerConfiguration.class);
+			InternalLinkViewerConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(InternalLinkViewerConfiguration.class, themeDisplay);
 			request.setAttribute("linksUuids", configuration.linksUuids());
 			
 			// Template

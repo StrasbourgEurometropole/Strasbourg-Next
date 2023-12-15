@@ -5,6 +5,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
 import com.liferay.dynamic.data.mapping.model.DDMTemplate;
 import com.liferay.dynamic.data.mapping.service.DDMTemplateLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -50,8 +51,7 @@ public class SearchAssetConfigurationDisplayContext {
 
     public SearchAssetConfiguration getConfiguration() throws ConfigurationException {
         if (this.configuration == null) {
-            this.configuration = this.themeDisplay.getPortletDisplay().getPortletInstanceConfiguration(
-                    SearchAssetConfiguration.class);
+            this.configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchAssetConfiguration.class, themeDisplay);
         }
         return this.configuration;
     }

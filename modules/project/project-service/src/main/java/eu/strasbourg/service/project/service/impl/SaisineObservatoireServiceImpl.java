@@ -15,7 +15,7 @@
 package eu.strasbourg.service.project.service.impl;
 
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;

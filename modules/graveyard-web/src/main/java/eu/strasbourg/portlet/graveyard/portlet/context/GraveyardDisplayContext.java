@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.graveyard.portlet.context;
 
 import com.liferay.petra.function.UnsafeSupplier;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
@@ -52,8 +53,7 @@ public class GraveyardDisplayContext {
 	public GraveyardDisplayContext(RenderRequest request, RenderResponse response) {
 		this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		try {
-			this.configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(GraveyardConfiguration.class);
+			this.configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(GraveyardConfiguration.class, themeDisplay);
 		} catch (ConfigurationException e) {
 			_log.error(e.getMessage(), e);
 		}

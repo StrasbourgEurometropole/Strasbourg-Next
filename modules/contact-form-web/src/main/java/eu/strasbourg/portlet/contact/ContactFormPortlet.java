@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.contact;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -45,8 +46,7 @@ public class ContactFormPortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 
 		try {
-			ContactFormConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(ContactFormConfiguration.class);
+			ContactFormConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(ContactFormConfiguration.class, themeDisplay);
 
 			// Titre du formulaire
 			String title = LocalizationUtil.getLocalization(configuration.title(),

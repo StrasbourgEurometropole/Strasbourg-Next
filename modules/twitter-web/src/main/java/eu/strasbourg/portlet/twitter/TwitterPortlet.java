@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.twitter;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -43,9 +44,8 @@ public class TwitterPortlet extends MVCPortlet {
 			.getAttribute(WebKeys.THEME_DISPLAY);
 
 		try {
-			TwitterConfiguration configuration = themeDisplay
-				.getPortletDisplay()
-				.getPortletInstanceConfiguration(TwitterConfiguration.class);
+			TwitterConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(TwitterConfiguration.class, themeDisplay);
+
 
 			// Compte Twitter
 			String twitterAccount = configuration.twitterAccount();

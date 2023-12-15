@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.activity;
 
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -48,8 +49,7 @@ public class SearchActivityPortlet extends MVCPortlet {
 
 		try {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-			SearchActivityConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(SearchActivityConfiguration.class);
+			SearchActivityConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchActivityConfiguration.class, themeDisplay);
 			String template = configuration.template();
 			if (Validator.isNull(template)) {
 				template = "default";

@@ -4,7 +4,7 @@
 <#assign journalArticleResourceLocalServiceUtil = staticUtil["com.liferay.journal.service.JournalArticleResourceLocalServiceUtil"]>
 <#assign articleResourcePK = journalArticleResourceLocalServiceUtil.getArticleResourcePrimKey(groupId, journalArticleId)/>
 <#assign articleEntry = assetEntryLocalService.getEntry("com.liferay.journal.model.JournalArticle", articleResourcePK) />
-<#assign assetLinkServiceUtil = staticUtil["com.liferay.asset.kernel.service.AssetLinkLocalServiceUtil"]>
+<#assign assetLinkServiceUtil = staticUtil["com.liferay.asset.link.service.AssetLinkLocalServiceUtil"]>
 <#assign directLinks = assetLinkServiceUtil.getDirectLinks(articleEntry.getEntryId()) />
 
 <section id="info" class="margin-top margin-bottom">

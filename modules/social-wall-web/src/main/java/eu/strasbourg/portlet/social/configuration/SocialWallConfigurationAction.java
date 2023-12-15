@@ -6,6 +6,7 @@ import javax.portlet.PortletConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.cache.PortalCacheHelperUtil;
 import com.liferay.portal.kernel.cache.PortalCacheManagerNames;
 import org.osgi.service.component.annotations.Component;
@@ -85,9 +86,7 @@ public class SocialWallConfigurationAction extends DefaultConfigurationAction {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
-			SocialWallConfiguration configuration = themeDisplay
-				.getPortletDisplay()
-				.getPortletInstanceConfiguration(SocialWallConfiguration.class);
+			SocialWallConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SocialWallConfiguration.class, themeDisplay);
 
 			request.setAttribute("twitterAccount", configuration.twitterAccount());
 			request.setAttribute("instagramToken", configuration.instagramToken());

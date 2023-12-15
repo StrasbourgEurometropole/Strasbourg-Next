@@ -7,6 +7,7 @@ import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -74,8 +75,7 @@ public class FormSendDisplayContext {
     public FormSendDisplayContext(RenderRequest request, RenderResponse response) {
         this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         try {
-            this.configuration = themeDisplay.getPortletDisplay()
-                    .getPortletInstanceConfiguration(FormSendConfiguration.class);
+            this.configuration =  ConfigurationProviderUtil.getPortletInstanceConfiguration(FormSendConfiguration.class, themeDisplay);
         } catch (ConfigurationException e) {
             _log.error(e.getMessage(), e);
         }

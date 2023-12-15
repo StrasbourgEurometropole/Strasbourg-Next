@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.internal_link_viewer;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
@@ -54,9 +55,7 @@ public class InternalLinkViewerPortlet extends MVCPortlet {
 		renderRequest.setAttribute("strasbourgPortletTitle", strasbourgPortletTitle);
 		
 		try {
-			InternalLinkViewerConfiguration configuration = themeDisplay
-				.getPortletDisplay().getPortletInstanceConfiguration(
-					InternalLinkViewerConfiguration.class);
+			InternalLinkViewerConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(InternalLinkViewerConfiguration.class, themeDisplay);
 
 			List<Layout> layouts = new ArrayList<Layout>();
 			String layoutsUuids = configuration.linksUuids();

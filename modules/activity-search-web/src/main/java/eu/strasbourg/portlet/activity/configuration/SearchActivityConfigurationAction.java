@@ -4,6 +4,7 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -130,9 +131,8 @@ public class SearchActivityConfigurationAction
 		try {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
 				.getAttribute(WebKeys.THEME_DISPLAY);
-			SearchActivityConfiguration configuration = themeDisplay
-				.getPortletDisplay().getPortletInstanceConfiguration(
-					SearchActivityConfiguration.class);
+			SearchActivityConfiguration configuration =
+					ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchActivityConfiguration.class, themeDisplay);
 
 			// Page de détail
 			request.setAttribute("detailPageUuid",

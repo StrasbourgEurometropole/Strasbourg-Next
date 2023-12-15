@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.form_send;
 
 import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -47,8 +48,7 @@ public class FormSendPortlet extends MVCPortlet {
 
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
-			FormSendConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(FormSendConfiguration.class);
+			FormSendConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(FormSendConfiguration.class, themeDisplay);
 
 
 			String template = configuration.template();

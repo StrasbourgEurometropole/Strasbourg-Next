@@ -8,6 +8,7 @@ import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.service.DDMStructureLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -460,8 +461,7 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 
 	public SearchAssetConfiguration getConfiguration() throws ConfigurationException {
 		if (this._configuration == null) {
-			this._configuration = this._themeDisplay.getPortletDisplay().getPortletInstanceConfiguration(
-					SearchAssetConfiguration.class);
+			this._configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchAssetConfiguration.class, _themeDisplay);
 		}
 		return this._configuration;
 	}

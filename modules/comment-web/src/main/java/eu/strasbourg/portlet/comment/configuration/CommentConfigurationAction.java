@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.comment.configuration;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -57,9 +58,7 @@ public class CommentConfigurationAction extends DefaultConfigurationAction{
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
-			CommentConfiguration configuration = themeDisplay
-				.getPortletDisplay().getPortletInstanceConfiguration(
-						CommentConfiguration.class);
+			CommentConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(CommentConfiguration.class, themeDisplay);
 			
 			// Ordre des commentaires par date
 			request.setAttribute("orderBy", configuration.orderBy());

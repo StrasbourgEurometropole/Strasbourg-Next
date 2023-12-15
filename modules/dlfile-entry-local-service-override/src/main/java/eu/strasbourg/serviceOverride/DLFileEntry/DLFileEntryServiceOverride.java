@@ -12,7 +12,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceWrapper;
 //import com.liferay.dynamic.data.mapping.kernel.DDMFormValues;
 import com.liferay.dynamic.data.mapping.kernel.DDMFormValues;
-import com.liferay.portal.kernel.image.ImageToolUtil;
+import com.liferay.portal.image.ImageToolUtil;
 
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import org.osgi.service.component.annotations.Component;

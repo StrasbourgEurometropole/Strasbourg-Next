@@ -11,6 +11,7 @@ import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLAppServiceUtil;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -123,8 +124,7 @@ public class EditBudgetActionCommand implements MVCActionCommand {
         String[] oldFileIds = ParamUtil.getStringValues(request, "budgetFileId");
         try {
             ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-            ProjectPopupConfiguration configuration = themeDisplay.getPortletDisplay()
-                    .getPortletInstanceConfiguration(ProjectPopupConfiguration.class);
+            ProjectPopupConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(ProjectPopupConfiguration.class, themeDisplay);
             nbFiles = configuration.nbFiles();
             typesFiles = configuration.typesFiles();
             sizeFile = configuration.sizeFile();

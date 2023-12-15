@@ -11,6 +11,7 @@ import javax.portlet.PortletConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 
@@ -87,9 +88,7 @@ public class ObjtpConfigurationAction extends DefaultConfigurationAction{
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
 			// Pages sélectionnées
-			ObjtpConfiguration configuration = themeDisplay
-				.getPortletDisplay().getPortletInstanceConfiguration(
-						ObjtpConfiguration.class);
+			ObjtpConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(ObjtpConfiguration.class, themeDisplay);
 			
 			// Titre
 			request.setAttribute("title", configuration.title());

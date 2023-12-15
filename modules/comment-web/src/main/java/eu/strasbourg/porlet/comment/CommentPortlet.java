@@ -6,6 +6,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -100,8 +101,7 @@ public class CommentPortlet extends MVCPortlet {
 
 		try {
 			// Récupération de la configuration du portlet
-			CommentConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(CommentConfiguration.class);
+			CommentConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(CommentConfiguration.class, themeDisplay);
 
 			// Récupération du paramètre de tri des commentaires
 			String orderBy = configuration.orderBy();

@@ -5,6 +5,7 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.publisher.util.AssetPublisherHelper;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -39,8 +40,7 @@ public class NewsHomeDisplayContext extends BaseDisplayContext {
     public NewsHomeDisplayContext(RenderRequest request, RenderResponse response) {
         super(request, response);
         try {
-            this.configuration = _themeDisplay.getPortletDisplay()
-                    .getPortletInstanceConfiguration(NewsHomeConfiguration.class);
+            this.configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(NewsHomeConfiguration.class, _themeDisplay);
         } catch (ConfigurationException e) {
             _log.error(e.getMessage(), e);
         }

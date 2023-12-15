@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.association.configuration;
 
 import com.liferay.dynamic.data.mapping.model.DDMTemplate;
 import com.liferay.dynamic.data.mapping.service.DDMTemplateLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -82,9 +83,7 @@ public class SearchAssociationConfigurationAction extends DefaultConfigurationAc
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
-			SearchAssociationConfiguration configuration = themeDisplay
-				.getPortletDisplay().getPortletInstanceConfiguration(
-							SearchAssociationConfiguration.class);
+			SearchAssociationConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchAssociationConfiguration.class, themeDisplay);
 
 			// Liste des templates de l'association
 			long classNameId = ClassNameLocalServiceUtil.getClassNameId(Association.class.getName());

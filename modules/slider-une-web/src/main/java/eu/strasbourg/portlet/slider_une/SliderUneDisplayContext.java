@@ -4,6 +4,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -39,8 +40,7 @@ public class SliderUneDisplayContext {
         this.themeDisplay = themeDisplay;
         this.request = request;
         try {
-            this.configuration = themeDisplay.getPortletDisplay()
-                    .getPortletInstanceConfiguration(SliderUneConfiguration.class);
+            this.configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SliderUneConfiguration.class, themeDisplay);
         } catch (ConfigurationException e) {
             _log.error(e.getMessage(), e);
         }

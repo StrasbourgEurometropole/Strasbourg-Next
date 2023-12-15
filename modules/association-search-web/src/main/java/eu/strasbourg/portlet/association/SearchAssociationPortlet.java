@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.association;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
@@ -51,9 +52,7 @@ public class SearchAssociationPortlet extends MVCPortlet {
 
 		try {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-			this._configuration = themeDisplay
-					.getPortletDisplay().getPortletInstanceConfiguration(
-							SearchAssociationConfiguration.class);
+			this._configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchAssociationConfiguration.class, themeDisplay);
 
 			// On set le DisplayContext
 			SearchAssociationDisplayContext dc = new SearchAssociationDisplayContext(request, response);

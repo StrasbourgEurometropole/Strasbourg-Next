@@ -12,6 +12,7 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import eu.strasbourg.utils.PortalHelper;
 import org.osgi.service.component.annotations.Component;
 
@@ -126,8 +127,7 @@ public class NotificationViewerWebPortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		NotificationConfiguration configuration;
 		try {
-			configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(NotificationConfiguration.class);
+			configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(NotificationConfiguration.class, themeDisplay);
 
 			String showAllURL = configuration.showAllURL();
 			if (Validator.isNull(showAllURL)) {

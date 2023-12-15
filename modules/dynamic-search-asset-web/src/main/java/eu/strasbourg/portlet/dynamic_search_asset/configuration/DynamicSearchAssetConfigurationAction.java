@@ -4,6 +4,7 @@ import com.liferay.asset.kernel.AssetRendererFactoryRegistryUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.ClassName;
@@ -177,9 +178,7 @@ public class DynamicSearchAssetConfigurationAction extends DefaultConfigurationA
 		try {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 			
-			DynamicSearchAssetConfiguration configuration = themeDisplay
-				.getPortletDisplay()
-				.getPortletInstanceConfiguration(DynamicSearchAssetConfiguration.class);
+			DynamicSearchAssetConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(DynamicSearchAssetConfiguration.class, themeDisplay);
 			
 			// Liste tous les types possibles d'asset
 			// On ne prend que ceux qui commencent par "eu.strasbourg"

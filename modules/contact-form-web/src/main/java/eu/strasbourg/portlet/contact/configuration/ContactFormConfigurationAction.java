@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.contact.configuration;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -90,9 +91,7 @@ public class ContactFormConfigurationAction extends DefaultConfigurationAction {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
-			ContactFormConfiguration configuration = themeDisplay
-				.getPortletDisplay()
-				.getPortletInstanceConfiguration(ContactFormConfiguration.class);
+			ContactFormConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(ContactFormConfiguration.class, themeDisplay);
 
 			request.setAttribute("template", configuration.template());
 			request.setAttribute("title", configuration.title());

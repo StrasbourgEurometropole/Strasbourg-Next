@@ -15,7 +15,7 @@
 package eu.strasbourg.service.council.service.base;
 
 import com.liferay.asset.kernel.service.persistence.AssetEntryPersistence;
-import com.liferay.asset.kernel.service.persistence.AssetLinkPersistence;
+import com.liferay.asset.link.service.persistence.AssetLinkPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetTagPersistence;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
@@ -667,7 +667,7 @@ public abstract class OfficialServiceBaseImpl
 	 *
 	 * @return the asset link local service
 	 */
-	public com.liferay.asset.kernel.service.AssetLinkLocalService
+	public com.liferay.asset.link.service.AssetLinkLocalService
 		getAssetLinkLocalService() {
 
 		return assetLinkLocalService;
@@ -679,7 +679,7 @@ public abstract class OfficialServiceBaseImpl
 	 * @param assetLinkLocalService the asset link local service
 	 */
 	public void setAssetLinkLocalService(
-		com.liferay.asset.kernel.service.AssetLinkLocalService
+		com.liferay.asset.link.service.AssetLinkLocalService
 			assetLinkLocalService) {
 
 		this.assetLinkLocalService = assetLinkLocalService;
@@ -969,9 +969,9 @@ public abstract class OfficialServiceBaseImpl
 	protected AssetEntryPersistence assetEntryPersistence;
 
 	@ServiceReference(
-		type = com.liferay.asset.kernel.service.AssetLinkLocalService.class
+		type = com.liferay.asset.link.service.AssetLinkLocalService.class
 	)
-	protected com.liferay.asset.kernel.service.AssetLinkLocalService
+	protected com.liferay.asset.link.service.AssetLinkLocalService
 		assetLinkLocalService;
 
 	@ServiceReference(type = AssetLinkPersistence.class)

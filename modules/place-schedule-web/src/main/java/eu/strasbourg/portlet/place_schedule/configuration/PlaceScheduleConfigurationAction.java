@@ -3,6 +3,7 @@ package eu.strasbourg.portlet.place_schedule.configuration;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -111,9 +112,7 @@ public class PlaceScheduleConfigurationAction
 			request.setAttribute("placeTypeVocabularyId",
 				placeTypeVocabulary.getVocabularyId());
 
-			PlaceScheduleConfiguration configuration = themeDisplay
-				.getPortletDisplay().getPortletInstanceConfiguration(
-					PlaceScheduleConfiguration.class);
+			PlaceScheduleConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(PlaceScheduleConfiguration.class, themeDisplay);
 			// Catégorie
 			request.setAttribute("categoryId", configuration.categoryId() > 0
 				? configuration.categoryId() : "");

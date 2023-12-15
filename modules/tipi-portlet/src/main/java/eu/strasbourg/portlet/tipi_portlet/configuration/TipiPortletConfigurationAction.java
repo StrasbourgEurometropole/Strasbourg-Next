@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.tipi_portlet.configuration;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -63,9 +64,8 @@ public class TipiPortletConfigurationAction
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
 			// Formulaire
-			TipiPortletConfiguration configuration = themeDisplay
-				.getPortletDisplay().getPortletInstanceConfiguration(
-						TipiPortletConfiguration.class);
+			TipiPortletConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(TipiPortletConfiguration.class, themeDisplay);
+
 			request.setAttribute("form", configuration.form());
 			request.setAttribute("complement", configuration.complement());
 

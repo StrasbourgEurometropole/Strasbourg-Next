@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.council.configuration;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -57,8 +58,7 @@ public class CouncilConfigurationAction extends DefaultConfigurationAction{
 		try {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
-			CouncilConfiguration configuration = themeDisplay.getPortletDisplay().getPortletInstanceConfiguration(
-					CouncilConfiguration.class);
+			CouncilConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(CouncilConfiguration.class, themeDisplay);
 			
 			// Ordre des commentaires par date
 			request.setAttribute("useSkypeView", configuration.useSkypeView());

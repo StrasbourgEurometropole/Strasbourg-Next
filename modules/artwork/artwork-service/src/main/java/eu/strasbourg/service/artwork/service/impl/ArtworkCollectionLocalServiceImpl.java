@@ -16,9 +16,9 @@ package eu.strasbourg.service.artwork.service.impl;
 
 import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetLinkLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;

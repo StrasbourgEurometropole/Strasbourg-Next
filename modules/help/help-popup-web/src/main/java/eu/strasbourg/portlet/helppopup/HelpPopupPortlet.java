@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.helppopup;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -70,8 +71,8 @@ public class HelpPopupPortlet extends MVCPortlet {
 		String publikID = getPublikID(request);
 		try {
 			// Récupération de la configuration du portlet
-			HelpPopupConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(HelpPopupConfiguration.class);
+			HelpPopupConfiguration configuration =
+			ConfigurationProviderUtil.getPortletInstanceConfiguration(HelpPopupConfiguration.class, themeDisplay);
 
 			// Récupération du paramètre de tri des commentaires
 			String popupTemplateId = configuration.popupTemplateId();

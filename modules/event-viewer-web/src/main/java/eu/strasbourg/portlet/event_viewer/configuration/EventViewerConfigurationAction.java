@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 
@@ -196,9 +197,7 @@ public class EventViewerConfigurationAction extends DefaultConfigurationAction {
 				"portletResource");
 			PortletPreferences preferences = PortletPreferencesFactoryUtil
 				.getPortletSetup(request, portletResource);
-			this.configuration = themeDisplay.getPortletDisplay()
-				.getPortletInstanceConfiguration(
-					EventViewerConfiguration.class);
+			this.configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(EventViewerConfiguration.class, themeDisplay);
 
 			// Page d'agenda
 			request.setAttribute("agendaPageUuid",

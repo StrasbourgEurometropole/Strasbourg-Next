@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.event_viewer;
 
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -72,9 +73,8 @@ public class EventViewerPortlet extends MVCPortlet {
 		this.themeDisplay = (ThemeDisplay) request
 			.getAttribute(WebKeys.THEME_DISPLAY);
 		try {
-			this.configuration = this.themeDisplay.getPortletDisplay()
-				.getPortletInstanceConfiguration(
-					EventViewerConfiguration.class);
+			this.configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(EventViewerConfiguration.class, themeDisplay);
+
 		} catch (ConfigurationException e) {
 			log.error(e);
 		}

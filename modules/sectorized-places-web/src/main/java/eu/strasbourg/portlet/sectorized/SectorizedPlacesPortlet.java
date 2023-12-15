@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.sectorized;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -36,8 +37,7 @@ public class SectorizedPlacesPortlet extends MVCPortlet {
 
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		try {
-			SectorizedPlacesConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(SectorizedPlacesConfiguration.class);
+			SectorizedPlacesConfiguration configuration =  ConfigurationProviderUtil.getPortletInstanceConfiguration(SectorizedPlacesConfiguration.class, themeDisplay);
 
 			// Template sélectionné
 			String template = Validator.isNotNull(configuration.template()) ? configuration.template() : "default";

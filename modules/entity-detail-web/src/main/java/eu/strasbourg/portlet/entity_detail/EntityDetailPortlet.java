@@ -3,6 +3,7 @@ package eu.strasbourg.portlet.entity_detail;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
@@ -53,8 +54,7 @@ public class EntityDetailPortlet extends MVCPortlet {
 			// sigId (dans le cas d'un lieu)
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 			EntityDetailConfiguration configuration;
-			configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(EntityDetailConfiguration.class);
+			configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(EntityDetailConfiguration.class, themeDisplay);
 
 			Long entryId = ParamUtil.getLong(request, "classPK");
 			String sigId = ParamUtil.getString(request, "sigId");

@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.helppopup.configuration;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
@@ -62,8 +63,7 @@ public class HelpPopupConfigurationAction extends DefaultConfigurationAction {
         try{
             ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
-            HelpPopupConfiguration configuration = themeDisplay.getPortletDisplay()
-                    .getPortletInstanceConfiguration(HelpPopupConfiguration.class);
+            HelpPopupConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(HelpPopupConfiguration.class, themeDisplay);
 
             // Ce flag permet de savoir si une configuration du portlet a déjà
             // été enregistrée

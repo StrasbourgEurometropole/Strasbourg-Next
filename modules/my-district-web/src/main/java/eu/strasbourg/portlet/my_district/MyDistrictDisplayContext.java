@@ -7,6 +7,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
@@ -84,8 +85,8 @@ public class MyDistrictDisplayContext {
         this.adictService = adict;
         this.openDataGeoDistrictService = openDataGeoDistrictService;
         try {
-            this.configuration = themeDisplay.getPortletDisplay()
-                    .getPortletInstanceConfiguration(MyDistrictConfiguration.class);
+            this.configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(MyDistrictConfiguration.class, themeDisplay);
+
         } catch (ConfigurationException e) {
             _log.error(e.getMessage(), e);
         }

@@ -13,6 +13,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -54,9 +55,7 @@ public class PageHeaderPortlet extends MVCPortlet {
 		
 		String imageCredit = "";
 		try {
-			PageHeaderConfiguration configuration = themeDisplay
-				.getPortletDisplay()
-				.getPortletInstanceConfiguration(PageHeaderConfiguration.class);
+			PageHeaderConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(PageHeaderConfiguration.class, themeDisplay);
 			imageCredit = configuration.imageCredit();
 			renderRequest.setAttribute("imageCredit",
 				imageCredit);

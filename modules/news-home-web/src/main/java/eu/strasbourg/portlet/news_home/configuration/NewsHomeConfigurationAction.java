@@ -4,6 +4,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -92,9 +93,7 @@ public class NewsHomeConfigurationAction
             ThemeDisplay themeDisplay = (ThemeDisplay) request
                     .getAttribute(WebKeys.THEME_DISPLAY);
 
-            NewsHomeConfiguration configuration = themeDisplay
-                    .getPortletDisplay().getPortletInstanceConfiguration(
-                            NewsHomeConfiguration.class);
+            NewsHomeConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(NewsHomeConfiguration.class, themeDisplay);
 
             List<String> classPKsList = Arrays.asList(configuration.classPKs().split(",", -1));
 

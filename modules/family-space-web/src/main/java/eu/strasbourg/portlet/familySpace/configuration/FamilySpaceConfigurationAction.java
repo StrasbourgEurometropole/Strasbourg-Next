@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.familySpace.configuration;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -68,9 +69,8 @@ public class FamilySpaceConfigurationAction
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
 			// Pages sélectionnées
-			FamilySpaceConfiguration configuration = themeDisplay
-				.getPortletDisplay().getPortletInstanceConfiguration(
-						FamilySpaceConfiguration.class);
+			FamilySpaceConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(FamilySpaceConfiguration.class, themeDisplay);
+
 			request.setAttribute("maintenance", configuration.maintenance());
 			request.setAttribute("addLunchURL", configuration.addLunchURL());
 			request.setAttribute("linkAccountURL", configuration.linkAccountURL());

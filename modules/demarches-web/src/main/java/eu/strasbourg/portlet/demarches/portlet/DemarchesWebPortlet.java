@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.demarches.portlet;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
@@ -59,8 +60,7 @@ public class DemarchesWebPortlet extends MVCPortlet {
 
 			// récupère l'url de la configuration
 			ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
-			DemarchesConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(DemarchesConfiguration.class);
+			DemarchesConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(DemarchesConfiguration.class, themeDisplay);
 			String url = configuration.url();
 			renderRequest.setAttribute("toutesLesDemarches", url);
 			

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 
@@ -59,9 +60,7 @@ public class PageHeaderConfigurationAction extends DefaultConfigurationAction {
 			PortletPreferences preferences = PortletPreferencesFactoryUtil.getPortletSetup(
 				request, portletResource);
 
-			PageHeaderConfiguration configuration = themeDisplay
-				.getPortletDisplay()
-				.getPortletInstanceConfiguration(PageHeaderConfiguration.class);
+			PageHeaderConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(PageHeaderConfiguration.class, themeDisplay);
 
 			request.setAttribute("imageCredit", ParamUtil.getString(
 				request, "imageCredit", configuration.imageCredit()));

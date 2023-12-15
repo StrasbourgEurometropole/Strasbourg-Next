@@ -125,7 +125,7 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			// encore
 			if (user.getPhones().size() == 0) {
 				List<ListType> listTypes = ListTypeLocalServiceUtil
-					.getListTypes(
+					.getListTypes(0,
 						Contact.class.getName() + ListTypeConstants.PHONE);
 				if (listTypes.size() > 0) {
 					PhoneLocalServiceUtil.addPhone(user.getUserId(),

@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.council.display.context;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
@@ -46,7 +47,7 @@ public class CouncilDisplayContext {
         this.preferences = preferences;
         this.request = request;
         try {
-            this.configuration = themeDisplay.getPortletDisplay().getPortletInstanceConfiguration(CouncilConfiguration.class);
+            this.configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(CouncilConfiguration.class, themeDisplay);
         } catch (PortalException e) {
             log.error(e);
         }

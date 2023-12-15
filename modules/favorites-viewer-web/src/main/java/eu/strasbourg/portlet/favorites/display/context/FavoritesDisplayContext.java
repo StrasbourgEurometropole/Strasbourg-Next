@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.favorites.display.context;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -56,8 +57,8 @@ public class FavoritesDisplayContext {
 		this.response = response;
 		this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		try {
-			this.configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(FavoritesConfiguration.class);
+			this.configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(FavoritesConfiguration.class, themeDisplay);
+
 		} catch (ConfigurationException e) {
 			_log.error(e.getMessage(), e);
 		}

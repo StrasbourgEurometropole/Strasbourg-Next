@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.userdisplay;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -40,9 +41,7 @@ public class UserDisplayPortlet extends MVCPortlet {
 		try {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
-			UserDisplayConfiguration configuration = themeDisplay
-					.getPortletDisplay()
-					.getPortletInstanceConfiguration(UserDisplayConfiguration.class);
+			UserDisplayConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(UserDisplayConfiguration.class, themeDisplay);
 			UserDisplayConfigurationDisplayContext dc  =
 					new UserDisplayConfigurationDisplayContext(themeDisplay, configuration);
 

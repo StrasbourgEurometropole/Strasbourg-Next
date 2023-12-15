@@ -6,6 +6,7 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -95,8 +96,7 @@ public class MapPortlet extends MVCPortlet {
             String configId = ParamUtil.getString(request, "configId");
 
             // Récupération de la configuration
-            MapConfiguration configuration = themeDisplay.getPortletDisplay()
-                    .getPortletInstanceConfiguration(MapConfiguration.class);
+            MapConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(MapConfiguration.class, themeDisplay);
 
             // Récupération du publik ID avec la session
             String internalId = getPublikID(request);
@@ -677,8 +677,7 @@ public class MapPortlet extends MVCPortlet {
         if (Validator.isNull(configId)) {
             try {
 
-                MapConfiguration configuration = themeDisplay.getPortletDisplay()
-                        .getPortletInstanceConfiguration(MapConfiguration.class);
+                MapConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(MapConfiguration.class, themeDisplay);
                 if (configuration.defaultConfig() || configuration.widgetMod()) {
                     configId = "widget";
                 } else {

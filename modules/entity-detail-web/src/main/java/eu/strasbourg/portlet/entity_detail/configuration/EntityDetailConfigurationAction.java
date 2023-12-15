@@ -3,6 +3,7 @@ package eu.strasbourg.portlet.entity_detail.configuration;
 import com.liferay.asset.kernel.AssetRendererFactoryRegistryUtil;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -83,9 +84,7 @@ public class EntityDetailConfigurationAction
 			String cmd = ParamUtil.getString(request, "cmd");
 			if (cmd.equals("update") || Validator.isNull(cmd)) {
 
-				EntityDetailConfiguration configuration = themeDisplay
-					.getPortletDisplay().getPortletInstanceConfiguration(
-						EntityDetailConfiguration.class);
+				EntityDetailConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(EntityDetailConfiguration.class, themeDisplay);
 
 				// Liste des types d'entités (ainsi que leurs labels)
 				List<AssetRendererFactory<?>> availableAssetRendererFactories =

@@ -16,7 +16,7 @@ package eu.strasbourg.service.project.service.impl;
 
 import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;

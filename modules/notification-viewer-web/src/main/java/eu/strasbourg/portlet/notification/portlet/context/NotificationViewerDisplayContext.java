@@ -10,6 +10,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -44,8 +45,7 @@ public class NotificationViewerDisplayContext {
 		this.response = response;
 		this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		try {
-			configuration = this.themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(NotificationConfiguration.class);
+			configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(NotificationConfiguration.class, themeDisplay);
 		} catch (Exception e) {
 			log.error(e);
 		}

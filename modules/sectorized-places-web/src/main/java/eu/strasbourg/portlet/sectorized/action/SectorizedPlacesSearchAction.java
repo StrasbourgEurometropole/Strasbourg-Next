@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.sectorized.action;
 
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
@@ -51,8 +52,7 @@ public class SectorizedPlacesSearchAction implements MVCActionCommand {
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		SectorizedPlacesConfiguration configuration;
 		try {
-			configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(SectorizedPlacesConfiguration.class);
+			configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SectorizedPlacesConfiguration.class, themeDisplay);
 
 		} catch (Exception e) {
 			SessionErrors.add(request, "unknown-error");

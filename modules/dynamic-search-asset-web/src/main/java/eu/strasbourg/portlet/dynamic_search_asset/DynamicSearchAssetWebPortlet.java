@@ -6,6 +6,7 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -114,8 +115,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		try {
 			// Recuperation du contexte de la requete
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-			DynamicSearchAssetConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(DynamicSearchAssetConfiguration.class);
+			DynamicSearchAssetConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(DynamicSearchAssetConfiguration.class, themeDisplay);
 			
 			// Recuperation et attribution des informations de l'utilisateur
 			String publikUserId = getPublikID(request);
@@ -158,8 +158,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		try {
 			// Recuperation du contexte de la requete
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-			DynamicSearchAssetConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(DynamicSearchAssetConfiguration.class);
+			DynamicSearchAssetConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(DynamicSearchAssetConfiguration.class, themeDisplay);
 			long groupId = themeDisplay.getLayout().getGroupId();
 			String resourceID = request.getResourceID();	
 			

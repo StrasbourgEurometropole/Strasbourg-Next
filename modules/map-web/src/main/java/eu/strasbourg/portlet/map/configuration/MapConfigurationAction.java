@@ -5,6 +5,7 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -521,8 +522,7 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
 			// Récupération de la configuration
-			MapConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(MapConfiguration.class);
+			MapConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(MapConfiguration.class, themeDisplay);
 
 			// Ce flag permet de savoir si une configuration du portlet a déjà
 			// été enregistrée

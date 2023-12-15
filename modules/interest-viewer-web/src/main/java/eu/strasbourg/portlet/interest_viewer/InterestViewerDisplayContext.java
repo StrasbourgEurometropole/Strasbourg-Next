@@ -8,6 +8,7 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetTagLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -77,8 +78,8 @@ public class InterestViewerDisplayContext {
 		this.request = request;
 		this._searchHelperV2=searchHelperV2;
 		try {
-			this.configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(InterestViewerConfiguration.class);
+			this.configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(InterestViewerConfiguration.class, themeDisplay);
+
 		} catch (ConfigurationException e) {
 			_log.error(e.getMessage(), e);
 		}

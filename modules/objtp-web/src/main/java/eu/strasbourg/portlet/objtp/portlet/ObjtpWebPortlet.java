@@ -7,6 +7,7 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.log.Log;
@@ -39,8 +40,7 @@ public class ObjtpWebPortlet extends MVCPortlet {
 			ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 
 			// Get the portlet instance configuration for ObjtpConfiguration class
-			ObjtpConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(ObjtpConfiguration.class);
+			ObjtpConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(ObjtpConfiguration.class, themeDisplay);
 
 			// Get and validate the title, URL for declaring lost, URL for guide how to, and category codes
 			String title = validateString(configuration.title());

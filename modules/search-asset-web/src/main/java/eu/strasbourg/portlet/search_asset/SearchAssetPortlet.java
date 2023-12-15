@@ -8,6 +8,7 @@ import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -115,9 +116,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         try {
             ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
             long groupId = themeDisplay.getLayout().getGroupId();
-            SearchAssetConfiguration configuration = themeDisplay
-                    .getPortletDisplay().getPortletInstanceConfiguration(
-                            SearchAssetConfiguration.class);
+            SearchAssetConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchAssetConfiguration.class, themeDisplay);
             List<String> classNameList = getClassNames(configuration);
             String userPublikId = getPublikID(renderRequest);
 
@@ -266,9 +265,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         try {
             ThemeDisplay themeDisplay = (ThemeDisplay) request
                     .getAttribute(WebKeys.THEME_DISPLAY);
-            SearchAssetConfiguration configuration = themeDisplay
-                    .getPortletDisplay().getPortletInstanceConfiguration(
-                            SearchAssetConfiguration.class);
+            SearchAssetConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchAssetConfiguration.class, themeDisplay);
 
             String resourceID = request.getResourceID();
             

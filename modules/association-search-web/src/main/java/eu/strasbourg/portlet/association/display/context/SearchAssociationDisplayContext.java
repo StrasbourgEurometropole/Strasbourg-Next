@@ -4,6 +4,7 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -48,8 +49,7 @@ public class SearchAssociationDisplayContext extends BaseDisplayContext {
 
     public SearchAssociationDisplayContext(RenderRequest request, RenderResponse response) throws PortalException {
         super(request, response);
-        this._configuration = this._themeDisplay.getPortletDisplay()
-                .getPortletInstanceConfiguration(SearchAssociationConfiguration.class);
+        this._configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchAssociationConfiguration.class, _themeDisplay);
         this.initSearchContainer();
         if (this.isUserSearch() || ParamUtil.getBoolean(this._request, "paginate")) {
             this.initEntries();

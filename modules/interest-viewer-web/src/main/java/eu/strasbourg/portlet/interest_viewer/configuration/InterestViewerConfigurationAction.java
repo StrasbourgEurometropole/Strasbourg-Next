@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.interest_viewer.configuration;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -84,9 +85,7 @@ public class InterestViewerConfigurationAction
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
-			InterestViewerConfiguration configuration = themeDisplay
-				.getPortletDisplay().getPortletInstanceConfiguration(
-						InterestViewerConfiguration.class);
+			InterestViewerConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(InterestViewerConfiguration.class, themeDisplay);
 			
 			request.setAttribute("template", configuration.template());
 			request.setAttribute("allNewsURL", configuration.allNewsURL());

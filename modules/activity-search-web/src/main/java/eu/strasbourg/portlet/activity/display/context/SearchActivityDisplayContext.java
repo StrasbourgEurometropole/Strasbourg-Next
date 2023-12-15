@@ -3,6 +3,7 @@ package eu.strasbourg.portlet.activity.display.context;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
@@ -60,8 +61,8 @@ public class SearchActivityDisplayContext {
 		this.response = response;
 		this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		try {
-			configuration = this.themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(SearchActivityConfiguration.class);
+			configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchActivityConfiguration.class, themeDisplay);
+
 		} catch (ConfigurationException e) {
 			log.error(e);
 		}
@@ -81,8 +82,7 @@ public class SearchActivityDisplayContext {
 		// Friendly URL des page de détail
 		SearchActivityConfiguration configuration = null;
 		try {
-			configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(SearchActivityConfiguration.class);
+			configuration =  ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchActivityConfiguration.class, themeDisplay);
 		} catch (ConfigurationException e) {
 			log.error(e);
 		}

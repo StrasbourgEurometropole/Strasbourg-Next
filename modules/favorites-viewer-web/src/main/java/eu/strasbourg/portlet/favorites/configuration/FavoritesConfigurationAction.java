@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.favorites.configuration;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -108,9 +109,7 @@ public class FavoritesConfigurationAction extends DefaultConfigurationAction {
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
 			// Pages sélectionnées
-			FavoritesConfiguration configuration = themeDisplay
-				.getPortletDisplay().getPortletInstanceConfiguration(
-						FavoritesConfiguration.class);
+			FavoritesConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(FavoritesConfiguration.class, themeDisplay);
 			
 			// Page voir tous
 			request.setAttribute("showAllURL", configuration.showAllURL());

@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.graveyard.portlet.configuration;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -65,9 +66,7 @@ public class GraveyardConfigurationAction
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
 			// Pages sélectionnées
-			GraveyardConfiguration configuration = themeDisplay
-				.getPortletDisplay().getPortletInstanceConfiguration(
-					GraveyardConfiguration.class);
+			GraveyardConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(GraveyardConfiguration.class, themeDisplay);
 			request.setAttribute("contactURL", configuration.contactURL());
 			request.setAttribute("limit", configuration.limit());
 			

@@ -6,6 +6,7 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
@@ -66,8 +67,7 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 			Locale locale = themeDisplay.getLocale();
 
-			PlaceScheduleConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(PlaceScheduleConfiguration.class);
+			PlaceScheduleConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(PlaceScheduleConfiguration.class, themeDisplay);
 
 			String template = configuration.template();
 

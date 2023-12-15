@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.favorites;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -46,8 +47,7 @@ public class FavoritesViewerWebPortlet extends MVCPortlet {
 			ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest
 					.getAttribute(WebKeys.THEME_DISPLAY);
 			
-			FavoritesConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(FavoritesConfiguration.class);		
+			FavoritesConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(FavoritesConfiguration.class, themeDisplay);
 			
 			
 			String template = configuration.template();
