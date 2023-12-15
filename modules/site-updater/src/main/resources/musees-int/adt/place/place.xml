@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.place.model.Place</className>
+    <override>
+        <parentKey>615281</parentKey>
+        <key>451146024</key>
+    </override>
+</root>

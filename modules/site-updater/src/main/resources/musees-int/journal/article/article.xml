@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<root>
+    <structureOverride>
+        <parentKey>30207</parentKey>
+        <key>755980</key>
+        <name>ArticleNews</name>
+    </structureOverride>
+    <templateOverride>
+        <parentKey>30370</parentKey>
+        <key>756003</key>
+    </templateOverride>
+    <templateOverride>
+        <parentKey>30406</parentKey>
+        <key>755999</key>
+    </templateOverride>
+</root>

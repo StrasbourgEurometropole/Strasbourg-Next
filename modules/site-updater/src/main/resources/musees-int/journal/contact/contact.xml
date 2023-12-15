@@ -1,20 +1,12 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Contact</name>
-    <key>CONTACT</key>
-    <structure>
-        <definition>contact-structure.json</definition>
-        <layout>contact-layout.json</layout>
-    </structure>
-    <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
-    </template>
+    <structureOverride>
+        <parentKey>30211</parentKey>
+        <key>755984</key>
+    </structureOverride>
+    <templateOverride>
+        <parentKey>30374</parentKey>
+        <key>756011</key>
+    </templateOverride>
 </root>
