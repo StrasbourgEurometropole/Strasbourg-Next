@@ -6,6 +6,7 @@
         <cacheable>true||false</cacheable><!--facultatif -->
         <script>template.ftl</script><!--obligatoire -->
     </basicCWTemplate>
+    <skipTemplate>Champs 'key' des templates du CW du parent à supprimer, séparés par ','</skipTemplate><!--facultatif -->
     <basicCWTemplateOverride><!--autant que de templates de contenu web de base à modifier par rapport au parent -->
         <parentKey>parent-structure-key-to-override</parentKey><!--obligatoire -->
         <key>template-key</key><!--facultatif -->
