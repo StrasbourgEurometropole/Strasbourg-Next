@@ -3,6 +3,8 @@ package eu.strasbourg.webservice.csmap.service;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.kernel.xml.Node;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
 
@@ -24,10 +26,9 @@ public class WSSettings {
 
         try {
             document = SAXReaderUtil.read(new StringReader(content));
-            value = Arrays.asList(document.getStringValue().split("\n\t"));
-
-            for (String str : value) {
-                if (str != null && !str.isEmpty( )&& !str.equals("\n")) {
+            for (Element element : document.getRootElement().elements()) {
+                String str = element.getStringValue();
+                if (Validator.isNotNull(element) && Validator.isNotNull(str)) {
                     result.add(str);
                 }
             }
