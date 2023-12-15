@@ -1,20 +1,12 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.artwork.service;
 
 import com.liferay.portal.kernel.service.ServiceWrapper;
+import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 /**
  * Provides a wrapper for {@link ArtworkLocalService}.
@@ -52,33 +44,36 @@ public class ArtworkLocalServiceWrapper
 	}
 
 	@Override
-	public void addArtworkCollectionArtwork(
+	public boolean addArtworkCollectionArtwork(
 		long collectionId,
 		eu.strasbourg.service.artwork.model.Artwork artwork) {
 
-		_artworkLocalService.addArtworkCollectionArtwork(collectionId, artwork);
+		return _artworkLocalService.addArtworkCollectionArtwork(
+			collectionId, artwork);
 	}
 
 	@Override
-	public void addArtworkCollectionArtwork(long collectionId, long artworkId) {
-		_artworkLocalService.addArtworkCollectionArtwork(
+	public boolean addArtworkCollectionArtwork(
+		long collectionId, long artworkId) {
+
+		return _artworkLocalService.addArtworkCollectionArtwork(
 			collectionId, artworkId);
 	}
 
 	@Override
-	public void addArtworkCollectionArtworks(
+	public boolean addArtworkCollectionArtworks(
 		long collectionId,
 		java.util.List<eu.strasbourg.service.artwork.model.Artwork> artworks) {
 
-		_artworkLocalService.addArtworkCollectionArtworks(
+		return _artworkLocalService.addArtworkCollectionArtworks(
 			collectionId, artworks);
 	}
 
 	@Override
-	public void addArtworkCollectionArtworks(
+	public boolean addArtworkCollectionArtworks(
 		long collectionId, long[] artworkIds) {
 
-		_artworkLocalService.addArtworkCollectionArtworks(
+		return _artworkLocalService.addArtworkCollectionArtworks(
 			collectionId, artworkIds);
 	}
 
@@ -637,6 +632,11 @@ public class ArtworkLocalServiceWrapper
 
 		return _artworkLocalService.updateStatus(
 			userId, entryId, status, sc, workflowContext);
+	}
+
+	@Override
+	public BasePersistence<?> getBasePersistence() {
+		return _artworkLocalService.getBasePersistence();
 	}
 
 	@Override

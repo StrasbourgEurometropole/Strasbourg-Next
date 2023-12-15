@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model.impl;
@@ -220,66 +211,82 @@ public class StopTimeModelImpl
 	public Map<String, Function<StopTime, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<StopTime, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<StopTime, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<StopTime, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<StopTime, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<StopTime, Object>>();
-		Map<String, BiConsumer<StopTime, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<StopTime, ?>>();
+		private static final Map<String, Function<StopTime, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", StopTime::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<StopTime, String>)StopTime::setUuid);
-		attributeGetterFunctions.put("id", StopTime::getId);
-		attributeSetterBiConsumers.put(
-			"id", (BiConsumer<StopTime, Long>)StopTime::setId);
-		attributeGetterFunctions.put("trip_id", StopTime::getTrip_id);
-		attributeSetterBiConsumers.put(
-			"trip_id", (BiConsumer<StopTime, String>)StopTime::setTrip_id);
-		attributeGetterFunctions.put("arrival_time", StopTime::getArrival_time);
-		attributeSetterBiConsumers.put(
-			"arrival_time",
-			(BiConsumer<StopTime, Date>)StopTime::setArrival_time);
-		attributeGetterFunctions.put(
-			"departure_time", StopTime::getDeparture_time);
-		attributeSetterBiConsumers.put(
-			"departure_time",
-			(BiConsumer<StopTime, Date>)StopTime::setDeparture_time);
-		attributeGetterFunctions.put("stop_id", StopTime::getStop_id);
-		attributeSetterBiConsumers.put(
-			"stop_id", (BiConsumer<StopTime, String>)StopTime::setStop_id);
-		attributeGetterFunctions.put(
-			"stop_sequence", StopTime::getStop_sequence);
-		attributeSetterBiConsumers.put(
-			"stop_sequence",
-			(BiConsumer<StopTime, Integer>)StopTime::setStop_sequence);
-		attributeGetterFunctions.put("pickup_type", StopTime::getPickup_type);
-		attributeSetterBiConsumers.put(
-			"pickup_type",
-			(BiConsumer<StopTime, String>)StopTime::setPickup_type);
-		attributeGetterFunctions.put(
-			"drop_off_type", StopTime::getDrop_off_type);
-		attributeSetterBiConsumers.put(
-			"drop_off_type",
-			(BiConsumer<StopTime, String>)StopTime::setDrop_off_type);
+		static {
+			Map<String, Function<StopTime, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<StopTime, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", StopTime::getUuid);
+			attributeGetterFunctions.put("id", StopTime::getId);
+			attributeGetterFunctions.put("trip_id", StopTime::getTrip_id);
+			attributeGetterFunctions.put(
+				"arrival_time", StopTime::getArrival_time);
+			attributeGetterFunctions.put(
+				"departure_time", StopTime::getDeparture_time);
+			attributeGetterFunctions.put("stop_id", StopTime::getStop_id);
+			attributeGetterFunctions.put(
+				"stop_sequence", StopTime::getStop_sequence);
+			attributeGetterFunctions.put(
+				"pickup_type", StopTime::getPickup_type);
+			attributeGetterFunctions.put(
+				"drop_off_type", StopTime::getDrop_off_type);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<StopTime, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<StopTime, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<StopTime, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<StopTime, String>)StopTime::setUuid);
+			attributeSetterBiConsumers.put(
+				"id", (BiConsumer<StopTime, Long>)StopTime::setId);
+			attributeSetterBiConsumers.put(
+				"trip_id", (BiConsumer<StopTime, String>)StopTime::setTrip_id);
+			attributeSetterBiConsumers.put(
+				"arrival_time",
+				(BiConsumer<StopTime, Date>)StopTime::setArrival_time);
+			attributeSetterBiConsumers.put(
+				"departure_time",
+				(BiConsumer<StopTime, Date>)StopTime::setDeparture_time);
+			attributeSetterBiConsumers.put(
+				"stop_id", (BiConsumer<StopTime, String>)StopTime::setStop_id);
+			attributeSetterBiConsumers.put(
+				"stop_sequence",
+				(BiConsumer<StopTime, Integer>)StopTime::setStop_sequence);
+			attributeSetterBiConsumers.put(
+				"pickup_type",
+				(BiConsumer<StopTime, String>)StopTime::setPickup_type);
+			attributeSetterBiConsumers.put(
+				"drop_off_type",
+				(BiConsumer<StopTime, String>)StopTime::setDrop_off_type);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -758,8 +765,9 @@ public class StopTimeModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<StopTime, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<StopTime, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

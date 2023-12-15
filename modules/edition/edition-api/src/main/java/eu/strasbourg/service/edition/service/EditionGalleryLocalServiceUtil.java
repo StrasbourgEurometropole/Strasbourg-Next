@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.edition.service;
@@ -46,28 +37,29 @@ public class EditionGalleryLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.edition.service.impl.EditionGalleryLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static void addEditionEditionGalleries(
+	public static boolean addEditionEditionGalleries(
 		long editionId, List<EditionGallery> editionGalleries) {
 
-		getService().addEditionEditionGalleries(editionId, editionGalleries);
+		return getService().addEditionEditionGalleries(
+			editionId, editionGalleries);
 	}
 
-	public static void addEditionEditionGalleries(
+	public static boolean addEditionEditionGalleries(
 		long editionId, long[] galleryIds) {
 
-		getService().addEditionEditionGalleries(editionId, galleryIds);
+		return getService().addEditionEditionGalleries(editionId, galleryIds);
 	}
 
-	public static void addEditionEditionGallery(
+	public static boolean addEditionEditionGallery(
 		long editionId, EditionGallery editionGallery) {
 
-		getService().addEditionEditionGallery(editionId, editionGallery);
+		return getService().addEditionEditionGallery(editionId, editionGallery);
 	}
 
-	public static void addEditionEditionGallery(
+	public static boolean addEditionEditionGallery(
 		long editionId, long galleryId) {
 
-		getService().addEditionEditionGallery(editionId, galleryId);
+		return getService().addEditionEditionGallery(editionId, galleryId);
 	}
 
 	/**
@@ -563,6 +555,10 @@ public class EditionGalleryLocalServiceUtil {
 
 	public static EditionGalleryLocalService getService() {
 		return _service;
+	}
+
+	public static void setService(EditionGalleryLocalService service) {
+		_service = service;
 	}
 
 	private static volatile EditionGalleryLocalService _service;

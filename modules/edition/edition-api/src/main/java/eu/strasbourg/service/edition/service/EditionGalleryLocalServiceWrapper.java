@@ -1,20 +1,12 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.edition.service;
 
 import com.liferay.portal.kernel.service.ServiceWrapper;
+import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 /**
  * Provides a wrapper for {@link EditionGalleryLocalService}.
@@ -38,33 +30,35 @@ public class EditionGalleryLocalServiceWrapper
 	}
 
 	@Override
-	public void addEditionEditionGalleries(
+	public boolean addEditionEditionGalleries(
 		long editionId,
 		java.util.List<eu.strasbourg.service.edition.model.EditionGallery>
 			editionGalleries) {
 
-		_editionGalleryLocalService.addEditionEditionGalleries(
+		return _editionGalleryLocalService.addEditionEditionGalleries(
 			editionId, editionGalleries);
 	}
 
 	@Override
-	public void addEditionEditionGalleries(long editionId, long[] galleryIds) {
-		_editionGalleryLocalService.addEditionEditionGalleries(
+	public boolean addEditionEditionGalleries(
+		long editionId, long[] galleryIds) {
+
+		return _editionGalleryLocalService.addEditionEditionGalleries(
 			editionId, galleryIds);
 	}
 
 	@Override
-	public void addEditionEditionGallery(
+	public boolean addEditionEditionGallery(
 		long editionId,
 		eu.strasbourg.service.edition.model.EditionGallery editionGallery) {
 
-		_editionGalleryLocalService.addEditionEditionGallery(
+		return _editionGalleryLocalService.addEditionEditionGallery(
 			editionId, editionGallery);
 	}
 
 	@Override
-	public void addEditionEditionGallery(long editionId, long galleryId) {
-		_editionGalleryLocalService.addEditionEditionGallery(
+	public boolean addEditionEditionGallery(long editionId, long galleryId) {
+		return _editionGalleryLocalService.addEditionEditionGallery(
 			editionId, galleryId);
 	}
 
@@ -656,6 +650,11 @@ public class EditionGalleryLocalServiceWrapper
 
 		return _editionGalleryLocalService.updateStatus(
 			userId, entryId, status, sc, workflowContext);
+	}
+
+	@Override
+	public BasePersistence<?> getBasePersistence() {
+		return _editionGalleryLocalService.getBasePersistence();
 	}
 
 	@Override

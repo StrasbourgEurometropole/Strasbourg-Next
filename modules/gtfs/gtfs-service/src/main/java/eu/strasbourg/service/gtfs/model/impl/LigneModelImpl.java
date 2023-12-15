@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model.impl;
@@ -261,91 +252,107 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 	}
 
 	public Map<String, Function<Ligne, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Ligne, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Ligne, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Ligne, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Ligne, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Ligne, Object>>();
-		Map<String, BiConsumer<Ligne, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Ligne, ?>>();
+		private static final Map<String, Function<Ligne, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Ligne::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Ligne, String>)Ligne::setUuid);
-		attributeGetterFunctions.put("ligneId", Ligne::getLigneId);
-		attributeSetterBiConsumers.put(
-			"ligneId", (BiConsumer<Ligne, Long>)Ligne::setLigneId);
-		attributeGetterFunctions.put("groupId", Ligne::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Ligne, Long>)Ligne::setGroupId);
-		attributeGetterFunctions.put("companyId", Ligne::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Ligne, Long>)Ligne::setCompanyId);
-		attributeGetterFunctions.put("userId", Ligne::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Ligne, Long>)Ligne::setUserId);
-		attributeGetterFunctions.put("userName", Ligne::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<Ligne, String>)Ligne::setUserName);
-		attributeGetterFunctions.put("createDate", Ligne::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<Ligne, Date>)Ligne::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", Ligne::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate", (BiConsumer<Ligne, Date>)Ligne::setModifiedDate);
-		attributeGetterFunctions.put("status", Ligne::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Ligne, Integer>)Ligne::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Ligne::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Ligne, Long>)Ligne::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Ligne::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Ligne, String>)Ligne::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Ligne::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate", (BiConsumer<Ligne, Date>)Ligne::setStatusDate);
-		attributeGetterFunctions.put("routeId", Ligne::getRouteId);
-		attributeSetterBiConsumers.put(
-			"routeId", (BiConsumer<Ligne, String>)Ligne::setRouteId);
-		attributeGetterFunctions.put("shortName", Ligne::getShortName);
-		attributeSetterBiConsumers.put(
-			"shortName", (BiConsumer<Ligne, String>)Ligne::setShortName);
-		attributeGetterFunctions.put("title", Ligne::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<Ligne, String>)Ligne::setTitle);
-		attributeGetterFunctions.put("type", Ligne::getType);
-		attributeSetterBiConsumers.put(
-			"type", (BiConsumer<Ligne, Integer>)Ligne::setType);
-		attributeGetterFunctions.put(
-			"backgroundColor", Ligne::getBackgroundColor);
-		attributeSetterBiConsumers.put(
-			"backgroundColor",
-			(BiConsumer<Ligne, String>)Ligne::setBackgroundColor);
-		attributeGetterFunctions.put("textColor", Ligne::getTextColor);
-		attributeSetterBiConsumers.put(
-			"textColor", (BiConsumer<Ligne, String>)Ligne::setTextColor);
+		static {
+			Map<String, Function<Ligne, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Ligne, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Ligne::getUuid);
+			attributeGetterFunctions.put("ligneId", Ligne::getLigneId);
+			attributeGetterFunctions.put("groupId", Ligne::getGroupId);
+			attributeGetterFunctions.put("companyId", Ligne::getCompanyId);
+			attributeGetterFunctions.put("userId", Ligne::getUserId);
+			attributeGetterFunctions.put("userName", Ligne::getUserName);
+			attributeGetterFunctions.put("createDate", Ligne::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Ligne::getModifiedDate);
+			attributeGetterFunctions.put("status", Ligne::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Ligne::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Ligne::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Ligne::getStatusDate);
+			attributeGetterFunctions.put("routeId", Ligne::getRouteId);
+			attributeGetterFunctions.put("shortName", Ligne::getShortName);
+			attributeGetterFunctions.put("title", Ligne::getTitle);
+			attributeGetterFunctions.put("type", Ligne::getType);
+			attributeGetterFunctions.put(
+				"backgroundColor", Ligne::getBackgroundColor);
+			attributeGetterFunctions.put("textColor", Ligne::getTextColor);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Ligne, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Ligne, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Ligne, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Ligne, String>)Ligne::setUuid);
+			attributeSetterBiConsumers.put(
+				"ligneId", (BiConsumer<Ligne, Long>)Ligne::setLigneId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Ligne, Long>)Ligne::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId", (BiConsumer<Ligne, Long>)Ligne::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Ligne, Long>)Ligne::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName", (BiConsumer<Ligne, String>)Ligne::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate", (BiConsumer<Ligne, Date>)Ligne::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Ligne, Date>)Ligne::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Ligne, Integer>)Ligne::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Ligne, Long>)Ligne::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Ligne, String>)Ligne::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate", (BiConsumer<Ligne, Date>)Ligne::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"routeId", (BiConsumer<Ligne, String>)Ligne::setRouteId);
+			attributeSetterBiConsumers.put(
+				"shortName", (BiConsumer<Ligne, String>)Ligne::setShortName);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Ligne, String>)Ligne::setTitle);
+			attributeSetterBiConsumers.put(
+				"type", (BiConsumer<Ligne, Integer>)Ligne::setType);
+			attributeSetterBiConsumers.put(
+				"backgroundColor",
+				(BiConsumer<Ligne, String>)Ligne::setBackgroundColor);
+			attributeSetterBiConsumers.put(
+				"textColor", (BiConsumer<Ligne, String>)Ligne::setTextColor);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1221,8 +1228,9 @@ public class LigneModelImpl extends BaseModelImpl<Ligne> implements LigneModel {
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Ligne, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Ligne, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

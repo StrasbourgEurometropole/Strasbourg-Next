@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.notification.model.impl;
@@ -242,77 +233,101 @@ public class NotificationModelImpl
 	public Map<String, Function<Notification, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Notification, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Notification, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Notification, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Notification, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Notification, Object>>();
-		Map<String, BiConsumer<Notification, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Notification, ?>>();
+		private static final Map<String, Function<Notification, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put(
-			"notificationId", Notification::getNotificationId);
-		attributeSetterBiConsumers.put(
-			"notificationId",
-			(BiConsumer<Notification, Long>)Notification::setNotificationId);
-		attributeGetterFunctions.put("title", Notification::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<Notification, String>)Notification::setTitle);
-		attributeGetterFunctions.put(
-			"description", Notification::getDescription);
-		attributeSetterBiConsumers.put(
-			"description",
-			(BiConsumer<Notification, String>)Notification::setDescription);
-		attributeGetterFunctions.put("url", Notification::getUrl);
-		attributeSetterBiConsumers.put(
-			"url", (BiConsumer<Notification, String>)Notification::setUrl);
-		attributeGetterFunctions.put("automatic", Notification::getAutomatic);
-		attributeSetterBiConsumers.put(
-			"automatic",
-			(BiConsumer<Notification, Boolean>)Notification::setAutomatic);
-		attributeGetterFunctions.put("singleUser", Notification::getSingleUser);
-		attributeSetterBiConsumers.put(
-			"singleUser",
-			(BiConsumer<Notification, Boolean>)Notification::setSingleUser);
-		attributeGetterFunctions.put(
-			"singleUserId", Notification::getSingleUserId);
-		attributeSetterBiConsumers.put(
-			"singleUserId",
-			(BiConsumer<Notification, String>)Notification::setSingleUserId);
-		attributeGetterFunctions.put(
-			"publicationDate", Notification::getPublicationDate);
-		attributeSetterBiConsumers.put(
-			"publicationDate",
-			(BiConsumer<Notification, Date>)Notification::setPublicationDate);
-		attributeGetterFunctions.put(
-			"expirationDate", Notification::getExpirationDate);
-		attributeSetterBiConsumers.put(
-			"expirationDate",
-			(BiConsumer<Notification, Date>)Notification::setExpirationDate);
-		attributeGetterFunctions.put("status", Notification::getStatus);
-		attributeSetterBiConsumers.put(
-			"status",
-			(BiConsumer<Notification, Integer>)Notification::setStatus);
-		attributeGetterFunctions.put("typeId", Notification::getTypeId);
-		attributeSetterBiConsumers.put(
-			"typeId", (BiConsumer<Notification, Long>)Notification::setTypeId);
+		static {
+			Map<String, Function<Notification, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<Notification, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put(
+				"notificationId", Notification::getNotificationId);
+			attributeGetterFunctions.put("title", Notification::getTitle);
+			attributeGetterFunctions.put(
+				"description", Notification::getDescription);
+			attributeGetterFunctions.put("url", Notification::getUrl);
+			attributeGetterFunctions.put(
+				"automatic", Notification::getAutomatic);
+			attributeGetterFunctions.put(
+				"singleUser", Notification::getSingleUser);
+			attributeGetterFunctions.put(
+				"singleUserId", Notification::getSingleUserId);
+			attributeGetterFunctions.put(
+				"publicationDate", Notification::getPublicationDate);
+			attributeGetterFunctions.put(
+				"expirationDate", Notification::getExpirationDate);
+			attributeGetterFunctions.put("status", Notification::getStatus);
+			attributeGetterFunctions.put("typeId", Notification::getTypeId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Notification, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Notification, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<Notification, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"notificationId",
+				(BiConsumer<Notification, Long>)
+					Notification::setNotificationId);
+			attributeSetterBiConsumers.put(
+				"title",
+				(BiConsumer<Notification, String>)Notification::setTitle);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<Notification, String>)Notification::setDescription);
+			attributeSetterBiConsumers.put(
+				"url", (BiConsumer<Notification, String>)Notification::setUrl);
+			attributeSetterBiConsumers.put(
+				"automatic",
+				(BiConsumer<Notification, Boolean>)Notification::setAutomatic);
+			attributeSetterBiConsumers.put(
+				"singleUser",
+				(BiConsumer<Notification, Boolean>)Notification::setSingleUser);
+			attributeSetterBiConsumers.put(
+				"singleUserId",
+				(BiConsumer<Notification, String>)
+					Notification::setSingleUserId);
+			attributeSetterBiConsumers.put(
+				"publicationDate",
+				(BiConsumer<Notification, Date>)
+					Notification::setPublicationDate);
+			attributeSetterBiConsumers.put(
+				"expirationDate",
+				(BiConsumer<Notification, Date>)
+					Notification::setExpirationDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<Notification, Integer>)Notification::setStatus);
+			attributeSetterBiConsumers.put(
+				"typeId",
+				(BiConsumer<Notification, Long>)Notification::setTypeId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1117,8 +1132,9 @@ public class NotificationModelImpl
 	private long _typeId;
 
 	public <T> T getColumnValue(String columnName) {
-		Function<Notification, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Notification, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

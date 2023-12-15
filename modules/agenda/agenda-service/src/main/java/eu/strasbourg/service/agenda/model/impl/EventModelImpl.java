@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model.impl;
@@ -390,258 +381,286 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	}
 
 	public Map<String, Function<Event, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Event, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Event, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Event, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Event, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Event, Object>>();
-		Map<String, BiConsumer<Event, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Event, ?>>();
+		private static final Map<String, Function<Event, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Event::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Event, String>)Event::setUuid);
-		attributeGetterFunctions.put("eventId", Event::getEventId);
-		attributeSetterBiConsumers.put(
-			"eventId", (BiConsumer<Event, Long>)Event::setEventId);
-		attributeGetterFunctions.put("groupId", Event::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Event, Long>)Event::setGroupId);
-		attributeGetterFunctions.put("companyId", Event::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Event, Long>)Event::setCompanyId);
-		attributeGetterFunctions.put("userId", Event::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Event, Long>)Event::setUserId);
-		attributeGetterFunctions.put("userName", Event::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<Event, String>)Event::setUserName);
-		attributeGetterFunctions.put("createDate", Event::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<Event, Date>)Event::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", Event::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate", (BiConsumer<Event, Date>)Event::setModifiedDate);
-		attributeGetterFunctions.put(
-			"lastPublishDate", Event::getLastPublishDate);
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			(BiConsumer<Event, Date>)Event::setLastPublishDate);
-		attributeGetterFunctions.put("status", Event::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Event, Integer>)Event::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Event::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Event, Long>)Event::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Event::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Event, String>)Event::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Event::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate", (BiConsumer<Event, Date>)Event::setStatusDate);
-		attributeGetterFunctions.put("title", Event::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<Event, String>)Event::setTitle);
-		attributeGetterFunctions.put("subtitle", Event::getSubtitle);
-		attributeSetterBiConsumers.put(
-			"subtitle", (BiConsumer<Event, String>)Event::setSubtitle);
-		attributeGetterFunctions.put("description", Event::getDescription);
-		attributeSetterBiConsumers.put(
-			"description", (BiConsumer<Event, String>)Event::setDescription);
-		attributeGetterFunctions.put(
-			"externalImageURL", Event::getExternalImageURL);
-		attributeSetterBiConsumers.put(
-			"externalImageURL",
-			(BiConsumer<Event, String>)Event::setExternalImageURL);
-		attributeGetterFunctions.put(
-			"externalImageCopyright", Event::getExternalImageCopyright);
-		attributeSetterBiConsumers.put(
-			"externalImageCopyright",
-			(BiConsumer<Event, String>)Event::setExternalImageCopyright);
-		attributeGetterFunctions.put("imageWidth", Event::getImageWidth);
-		attributeSetterBiConsumers.put(
-			"imageWidth", (BiConsumer<Event, Integer>)Event::setImageWidth);
-		attributeGetterFunctions.put("imageHeight", Event::getImageHeight);
-		attributeSetterBiConsumers.put(
-			"imageHeight", (BiConsumer<Event, Integer>)Event::setImageHeight);
-		attributeGetterFunctions.put("placeSIGId", Event::getPlaceSIGId);
-		attributeSetterBiConsumers.put(
-			"placeSIGId", (BiConsumer<Event, String>)Event::setPlaceSIGId);
-		attributeGetterFunctions.put("placeName", Event::getPlaceName);
-		attributeSetterBiConsumers.put(
-			"placeName", (BiConsumer<Event, String>)Event::setPlaceName);
-		attributeGetterFunctions.put(
-			"placeStreetNumber", Event::getPlaceStreetNumber);
-		attributeSetterBiConsumers.put(
-			"placeStreetNumber",
-			(BiConsumer<Event, String>)Event::setPlaceStreetNumber);
-		attributeGetterFunctions.put(
-			"placeStreetName", Event::getPlaceStreetName);
-		attributeSetterBiConsumers.put(
-			"placeStreetName",
-			(BiConsumer<Event, String>)Event::setPlaceStreetName);
-		attributeGetterFunctions.put("placeZipCode", Event::getPlaceZipCode);
-		attributeSetterBiConsumers.put(
-			"placeZipCode", (BiConsumer<Event, String>)Event::setPlaceZipCode);
-		attributeGetterFunctions.put("placeCity", Event::getPlaceCity);
-		attributeSetterBiConsumers.put(
-			"placeCity", (BiConsumer<Event, String>)Event::setPlaceCity);
-		attributeGetterFunctions.put("placeCountry", Event::getPlaceCountry);
-		attributeSetterBiConsumers.put(
-			"placeCountry", (BiConsumer<Event, String>)Event::setPlaceCountry);
-		attributeGetterFunctions.put("mercatorX", Event::getMercatorX);
-		attributeSetterBiConsumers.put(
-			"mercatorX", (BiConsumer<Event, String>)Event::setMercatorX);
-		attributeGetterFunctions.put("mercatorY", Event::getMercatorY);
-		attributeSetterBiConsumers.put(
-			"mercatorY", (BiConsumer<Event, String>)Event::setMercatorY);
-		attributeGetterFunctions.put("access", Event::getAccess);
-		attributeSetterBiConsumers.put(
-			"access", (BiConsumer<Event, String>)Event::setAccess);
-		attributeGetterFunctions.put(
-			"accessForDisabled", Event::getAccessForDisabled);
-		attributeSetterBiConsumers.put(
-			"accessForDisabled",
-			(BiConsumer<Event, String>)Event::setAccessForDisabled);
-		attributeGetterFunctions.put(
-			"accessForBlind", Event::getAccessForBlind);
-		attributeSetterBiConsumers.put(
-			"accessForBlind",
-			(BiConsumer<Event, Boolean>)Event::setAccessForBlind);
-		attributeGetterFunctions.put("accessForDeaf", Event::getAccessForDeaf);
-		attributeSetterBiConsumers.put(
-			"accessForDeaf",
-			(BiConsumer<Event, Boolean>)Event::setAccessForDeaf);
-		attributeGetterFunctions.put(
-			"accessForWheelchair", Event::getAccessForWheelchair);
-		attributeSetterBiConsumers.put(
-			"accessForWheelchair",
-			(BiConsumer<Event, Boolean>)Event::setAccessForWheelchair);
-		attributeGetterFunctions.put(
-			"accessForElder", Event::getAccessForElder);
-		attributeSetterBiConsumers.put(
-			"accessForElder",
-			(BiConsumer<Event, Boolean>)Event::setAccessForElder);
-		attributeGetterFunctions.put(
-			"accessForDeficient", Event::getAccessForDeficient);
-		attributeSetterBiConsumers.put(
-			"accessForDeficient",
-			(BiConsumer<Event, Boolean>)Event::setAccessForDeficient);
-		attributeGetterFunctions.put("promoter", Event::getPromoter);
-		attributeSetterBiConsumers.put(
-			"promoter", (BiConsumer<Event, String>)Event::setPromoter);
-		attributeGetterFunctions.put("phone", Event::getPhone);
-		attributeSetterBiConsumers.put(
-			"phone", (BiConsumer<Event, String>)Event::setPhone);
-		attributeGetterFunctions.put("email", Event::getEmail);
-		attributeSetterBiConsumers.put(
-			"email", (BiConsumer<Event, String>)Event::setEmail);
-		attributeGetterFunctions.put("websiteURL", Event::getWebsiteURL);
-		attributeSetterBiConsumers.put(
-			"websiteURL", (BiConsumer<Event, String>)Event::setWebsiteURL);
-		attributeGetterFunctions.put("websiteName", Event::getWebsiteName);
-		attributeSetterBiConsumers.put(
-			"websiteName", (BiConsumer<Event, String>)Event::setWebsiteName);
-		attributeGetterFunctions.put("free", Event::getFree);
-		attributeSetterBiConsumers.put(
-			"free", (BiConsumer<Event, Integer>)Event::setFree);
-		attributeGetterFunctions.put("price", Event::getPrice);
-		attributeSetterBiConsumers.put(
-			"price", (BiConsumer<Event, String>)Event::setPrice);
-		attributeGetterFunctions.put(
-			"bookingDescription", Event::getBookingDescription);
-		attributeSetterBiConsumers.put(
-			"bookingDescription",
-			(BiConsumer<Event, String>)Event::setBookingDescription);
-		attributeGetterFunctions.put("bookingURL", Event::getBookingURL);
-		attributeSetterBiConsumers.put(
-			"bookingURL", (BiConsumer<Event, String>)Event::setBookingURL);
-		attributeGetterFunctions.put(
-			"subscriptionURL", Event::getSubscriptionURL);
-		attributeSetterBiConsumers.put(
-			"subscriptionURL",
-			(BiConsumer<Event, String>)Event::setSubscriptionURL);
-		attributeGetterFunctions.put("source", Event::getSource);
-		attributeSetterBiConsumers.put(
-			"source", (BiConsumer<Event, String>)Event::setSource);
-		attributeGetterFunctions.put("idSource", Event::getIdSource);
-		attributeSetterBiConsumers.put(
-			"idSource", (BiConsumer<Event, String>)Event::setIdSource);
-		attributeGetterFunctions.put(
-			"publicationDate", Event::getPublicationDate);
-		attributeSetterBiConsumers.put(
-			"publicationDate",
-			(BiConsumer<Event, Date>)Event::setPublicationDate);
-		attributeGetterFunctions.put("distribution", Event::getDistribution);
-		attributeSetterBiConsumers.put(
-			"distribution", (BiConsumer<Event, String>)Event::setDistribution);
-		attributeGetterFunctions.put("composer", Event::getComposer);
-		attributeSetterBiConsumers.put(
-			"composer", (BiConsumer<Event, String>)Event::setComposer);
-		attributeGetterFunctions.put("concertId", Event::getConcertId);
-		attributeSetterBiConsumers.put(
-			"concertId", (BiConsumer<Event, String>)Event::setConcertId);
-		attributeGetterFunctions.put("program", Event::getProgram);
-		attributeSetterBiConsumers.put(
-			"program", (BiConsumer<Event, String>)Event::setProgram);
-		attributeGetterFunctions.put(
-			"firstStartDate", Event::getFirstStartDate);
-		attributeSetterBiConsumers.put(
-			"firstStartDate",
-			(BiConsumer<Event, Date>)Event::setFirstStartDate);
-		attributeGetterFunctions.put("lastEndDate", Event::getLastEndDate);
-		attributeSetterBiConsumers.put(
-			"lastEndDate", (BiConsumer<Event, Date>)Event::setLastEndDate);
-		attributeGetterFunctions.put(
-			"createDateSource", Event::getCreateDateSource);
-		attributeSetterBiConsumers.put(
-			"createDateSource",
-			(BiConsumer<Event, Date>)Event::setCreateDateSource);
-		attributeGetterFunctions.put(
-			"modifiedDateSource", Event::getModifiedDateSource);
-		attributeSetterBiConsumers.put(
-			"modifiedDateSource",
-			(BiConsumer<Event, Date>)Event::setModifiedDateSource);
-		attributeGetterFunctions.put("imageId", Event::getImageId);
-		attributeSetterBiConsumers.put(
-			"imageId", (BiConsumer<Event, Long>)Event::setImageId);
-		attributeGetterFunctions.put("registration", Event::getRegistration);
-		attributeSetterBiConsumers.put(
-			"registration", (BiConsumer<Event, Boolean>)Event::setRegistration);
-		attributeGetterFunctions.put(
-			"registrationStartDate", Event::getRegistrationStartDate);
-		attributeSetterBiConsumers.put(
-			"registrationStartDate",
-			(BiConsumer<Event, Date>)Event::setRegistrationStartDate);
-		attributeGetterFunctions.put(
-			"registrationEndDate", Event::getRegistrationEndDate);
-		attributeSetterBiConsumers.put(
-			"registrationEndDate",
-			(BiConsumer<Event, Date>)Event::setRegistrationEndDate);
-		attributeGetterFunctions.put("maxGauge", Event::getMaxGauge);
-		attributeSetterBiConsumers.put(
-			"maxGauge", (BiConsumer<Event, Long>)Event::setMaxGauge);
+		static {
+			Map<String, Function<Event, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Event, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Event::getUuid);
+			attributeGetterFunctions.put("eventId", Event::getEventId);
+			attributeGetterFunctions.put("groupId", Event::getGroupId);
+			attributeGetterFunctions.put("companyId", Event::getCompanyId);
+			attributeGetterFunctions.put("userId", Event::getUserId);
+			attributeGetterFunctions.put("userName", Event::getUserName);
+			attributeGetterFunctions.put("createDate", Event::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Event::getModifiedDate);
+			attributeGetterFunctions.put(
+				"lastPublishDate", Event::getLastPublishDate);
+			attributeGetterFunctions.put("status", Event::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Event::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Event::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Event::getStatusDate);
+			attributeGetterFunctions.put("title", Event::getTitle);
+			attributeGetterFunctions.put("subtitle", Event::getSubtitle);
+			attributeGetterFunctions.put("description", Event::getDescription);
+			attributeGetterFunctions.put(
+				"externalImageURL", Event::getExternalImageURL);
+			attributeGetterFunctions.put(
+				"externalImageCopyright", Event::getExternalImageCopyright);
+			attributeGetterFunctions.put("imageWidth", Event::getImageWidth);
+			attributeGetterFunctions.put("imageHeight", Event::getImageHeight);
+			attributeGetterFunctions.put("placeSIGId", Event::getPlaceSIGId);
+			attributeGetterFunctions.put("placeName", Event::getPlaceName);
+			attributeGetterFunctions.put(
+				"placeStreetNumber", Event::getPlaceStreetNumber);
+			attributeGetterFunctions.put(
+				"placeStreetName", Event::getPlaceStreetName);
+			attributeGetterFunctions.put(
+				"placeZipCode", Event::getPlaceZipCode);
+			attributeGetterFunctions.put("placeCity", Event::getPlaceCity);
+			attributeGetterFunctions.put(
+				"placeCountry", Event::getPlaceCountry);
+			attributeGetterFunctions.put("mercatorX", Event::getMercatorX);
+			attributeGetterFunctions.put("mercatorY", Event::getMercatorY);
+			attributeGetterFunctions.put("access", Event::getAccess);
+			attributeGetterFunctions.put(
+				"accessForDisabled", Event::getAccessForDisabled);
+			attributeGetterFunctions.put(
+				"accessForBlind", Event::getAccessForBlind);
+			attributeGetterFunctions.put(
+				"accessForDeaf", Event::getAccessForDeaf);
+			attributeGetterFunctions.put(
+				"accessForWheelchair", Event::getAccessForWheelchair);
+			attributeGetterFunctions.put(
+				"accessForElder", Event::getAccessForElder);
+			attributeGetterFunctions.put(
+				"accessForDeficient", Event::getAccessForDeficient);
+			attributeGetterFunctions.put("promoter", Event::getPromoter);
+			attributeGetterFunctions.put("phone", Event::getPhone);
+			attributeGetterFunctions.put("email", Event::getEmail);
+			attributeGetterFunctions.put("websiteURL", Event::getWebsiteURL);
+			attributeGetterFunctions.put("websiteName", Event::getWebsiteName);
+			attributeGetterFunctions.put("free", Event::getFree);
+			attributeGetterFunctions.put("price", Event::getPrice);
+			attributeGetterFunctions.put(
+				"bookingDescription", Event::getBookingDescription);
+			attributeGetterFunctions.put("bookingURL", Event::getBookingURL);
+			attributeGetterFunctions.put(
+				"subscriptionURL", Event::getSubscriptionURL);
+			attributeGetterFunctions.put("source", Event::getSource);
+			attributeGetterFunctions.put("idSource", Event::getIdSource);
+			attributeGetterFunctions.put(
+				"publicationDate", Event::getPublicationDate);
+			attributeGetterFunctions.put(
+				"distribution", Event::getDistribution);
+			attributeGetterFunctions.put("composer", Event::getComposer);
+			attributeGetterFunctions.put("concertId", Event::getConcertId);
+			attributeGetterFunctions.put("program", Event::getProgram);
+			attributeGetterFunctions.put(
+				"firstStartDate", Event::getFirstStartDate);
+			attributeGetterFunctions.put("lastEndDate", Event::getLastEndDate);
+			attributeGetterFunctions.put(
+				"createDateSource", Event::getCreateDateSource);
+			attributeGetterFunctions.put(
+				"modifiedDateSource", Event::getModifiedDateSource);
+			attributeGetterFunctions.put("imageId", Event::getImageId);
+			attributeGetterFunctions.put(
+				"registration", Event::getRegistration);
+			attributeGetterFunctions.put(
+				"registrationStartDate", Event::getRegistrationStartDate);
+			attributeGetterFunctions.put(
+				"registrationEndDate", Event::getRegistrationEndDate);
+			attributeGetterFunctions.put("maxGauge", Event::getMaxGauge);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Event, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Event, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Event, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Event, String>)Event::setUuid);
+			attributeSetterBiConsumers.put(
+				"eventId", (BiConsumer<Event, Long>)Event::setEventId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Event, Long>)Event::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId", (BiConsumer<Event, Long>)Event::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Event, Long>)Event::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName", (BiConsumer<Event, String>)Event::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate", (BiConsumer<Event, Date>)Event::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Event, Date>)Event::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"lastPublishDate",
+				(BiConsumer<Event, Date>)Event::setLastPublishDate);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Event, Integer>)Event::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Event, Long>)Event::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Event, String>)Event::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate", (BiConsumer<Event, Date>)Event::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Event, String>)Event::setTitle);
+			attributeSetterBiConsumers.put(
+				"subtitle", (BiConsumer<Event, String>)Event::setSubtitle);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<Event, String>)Event::setDescription);
+			attributeSetterBiConsumers.put(
+				"externalImageURL",
+				(BiConsumer<Event, String>)Event::setExternalImageURL);
+			attributeSetterBiConsumers.put(
+				"externalImageCopyright",
+				(BiConsumer<Event, String>)Event::setExternalImageCopyright);
+			attributeSetterBiConsumers.put(
+				"imageWidth", (BiConsumer<Event, Integer>)Event::setImageWidth);
+			attributeSetterBiConsumers.put(
+				"imageHeight",
+				(BiConsumer<Event, Integer>)Event::setImageHeight);
+			attributeSetterBiConsumers.put(
+				"placeSIGId", (BiConsumer<Event, String>)Event::setPlaceSIGId);
+			attributeSetterBiConsumers.put(
+				"placeName", (BiConsumer<Event, String>)Event::setPlaceName);
+			attributeSetterBiConsumers.put(
+				"placeStreetNumber",
+				(BiConsumer<Event, String>)Event::setPlaceStreetNumber);
+			attributeSetterBiConsumers.put(
+				"placeStreetName",
+				(BiConsumer<Event, String>)Event::setPlaceStreetName);
+			attributeSetterBiConsumers.put(
+				"placeZipCode",
+				(BiConsumer<Event, String>)Event::setPlaceZipCode);
+			attributeSetterBiConsumers.put(
+				"placeCity", (BiConsumer<Event, String>)Event::setPlaceCity);
+			attributeSetterBiConsumers.put(
+				"placeCountry",
+				(BiConsumer<Event, String>)Event::setPlaceCountry);
+			attributeSetterBiConsumers.put(
+				"mercatorX", (BiConsumer<Event, String>)Event::setMercatorX);
+			attributeSetterBiConsumers.put(
+				"mercatorY", (BiConsumer<Event, String>)Event::setMercatorY);
+			attributeSetterBiConsumers.put(
+				"access", (BiConsumer<Event, String>)Event::setAccess);
+			attributeSetterBiConsumers.put(
+				"accessForDisabled",
+				(BiConsumer<Event, String>)Event::setAccessForDisabled);
+			attributeSetterBiConsumers.put(
+				"accessForBlind",
+				(BiConsumer<Event, Boolean>)Event::setAccessForBlind);
+			attributeSetterBiConsumers.put(
+				"accessForDeaf",
+				(BiConsumer<Event, Boolean>)Event::setAccessForDeaf);
+			attributeSetterBiConsumers.put(
+				"accessForWheelchair",
+				(BiConsumer<Event, Boolean>)Event::setAccessForWheelchair);
+			attributeSetterBiConsumers.put(
+				"accessForElder",
+				(BiConsumer<Event, Boolean>)Event::setAccessForElder);
+			attributeSetterBiConsumers.put(
+				"accessForDeficient",
+				(BiConsumer<Event, Boolean>)Event::setAccessForDeficient);
+			attributeSetterBiConsumers.put(
+				"promoter", (BiConsumer<Event, String>)Event::setPromoter);
+			attributeSetterBiConsumers.put(
+				"phone", (BiConsumer<Event, String>)Event::setPhone);
+			attributeSetterBiConsumers.put(
+				"email", (BiConsumer<Event, String>)Event::setEmail);
+			attributeSetterBiConsumers.put(
+				"websiteURL", (BiConsumer<Event, String>)Event::setWebsiteURL);
+			attributeSetterBiConsumers.put(
+				"websiteName",
+				(BiConsumer<Event, String>)Event::setWebsiteName);
+			attributeSetterBiConsumers.put(
+				"free", (BiConsumer<Event, Integer>)Event::setFree);
+			attributeSetterBiConsumers.put(
+				"price", (BiConsumer<Event, String>)Event::setPrice);
+			attributeSetterBiConsumers.put(
+				"bookingDescription",
+				(BiConsumer<Event, String>)Event::setBookingDescription);
+			attributeSetterBiConsumers.put(
+				"bookingURL", (BiConsumer<Event, String>)Event::setBookingURL);
+			attributeSetterBiConsumers.put(
+				"subscriptionURL",
+				(BiConsumer<Event, String>)Event::setSubscriptionURL);
+			attributeSetterBiConsumers.put(
+				"source", (BiConsumer<Event, String>)Event::setSource);
+			attributeSetterBiConsumers.put(
+				"idSource", (BiConsumer<Event, String>)Event::setIdSource);
+			attributeSetterBiConsumers.put(
+				"publicationDate",
+				(BiConsumer<Event, Date>)Event::setPublicationDate);
+			attributeSetterBiConsumers.put(
+				"distribution",
+				(BiConsumer<Event, String>)Event::setDistribution);
+			attributeSetterBiConsumers.put(
+				"composer", (BiConsumer<Event, String>)Event::setComposer);
+			attributeSetterBiConsumers.put(
+				"concertId", (BiConsumer<Event, String>)Event::setConcertId);
+			attributeSetterBiConsumers.put(
+				"program", (BiConsumer<Event, String>)Event::setProgram);
+			attributeSetterBiConsumers.put(
+				"firstStartDate",
+				(BiConsumer<Event, Date>)Event::setFirstStartDate);
+			attributeSetterBiConsumers.put(
+				"lastEndDate", (BiConsumer<Event, Date>)Event::setLastEndDate);
+			attributeSetterBiConsumers.put(
+				"createDateSource",
+				(BiConsumer<Event, Date>)Event::setCreateDateSource);
+			attributeSetterBiConsumers.put(
+				"modifiedDateSource",
+				(BiConsumer<Event, Date>)Event::setModifiedDateSource);
+			attributeSetterBiConsumers.put(
+				"imageId", (BiConsumer<Event, Long>)Event::setImageId);
+			attributeSetterBiConsumers.put(
+				"registration",
+				(BiConsumer<Event, Boolean>)Event::setRegistration);
+			attributeSetterBiConsumers.put(
+				"registrationStartDate",
+				(BiConsumer<Event, Date>)Event::setRegistrationStartDate);
+			attributeSetterBiConsumers.put(
+				"registrationEndDate",
+				(BiConsumer<Event, Date>)Event::setRegistrationEndDate);
+			attributeSetterBiConsumers.put(
+				"maxGauge", (BiConsumer<Event, Long>)Event::setMaxGauge);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -4281,8 +4300,9 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Event, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Event, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

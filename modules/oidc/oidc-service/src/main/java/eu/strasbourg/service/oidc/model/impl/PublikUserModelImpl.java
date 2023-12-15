@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.oidc.model.impl;
@@ -252,123 +243,144 @@ public class PublikUserModelImpl
 	public Map<String, Function<PublikUser, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<PublikUser, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<PublikUser, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<PublikUser, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<PublikUser, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<PublikUser, Object>>();
-		Map<String, BiConsumer<PublikUser, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<PublikUser, ?>>();
+		private static final Map<String, Function<PublikUser, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", PublikUser::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<PublikUser, String>)PublikUser::setUuid);
-		attributeGetterFunctions.put(
-			"publikUserLiferayId", PublikUser::getPublikUserLiferayId);
-		attributeSetterBiConsumers.put(
-			"publikUserLiferayId",
-			(BiConsumer<PublikUser, Long>)PublikUser::setPublikUserLiferayId);
-		attributeGetterFunctions.put("createDate", PublikUser::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<PublikUser, Date>)PublikUser::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", PublikUser::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<PublikUser, Date>)PublikUser::setModifiedDate);
-		attributeGetterFunctions.put("userId", PublikUser::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<PublikUser, Long>)PublikUser::setUserId);
-		attributeGetterFunctions.put("userName", PublikUser::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<PublikUser, String>)PublikUser::setUserName);
-		attributeGetterFunctions.put("publikId", PublikUser::getPublikId);
-		attributeSetterBiConsumers.put(
-			"publikId",
-			(BiConsumer<PublikUser, String>)PublikUser::setPublikId);
-		attributeGetterFunctions.put("accessToken", PublikUser::getAccessToken);
-		attributeSetterBiConsumers.put(
-			"accessToken",
-			(BiConsumer<PublikUser, String>)PublikUser::setAccessToken);
-		attributeGetterFunctions.put("firstName", PublikUser::getFirstName);
-		attributeSetterBiConsumers.put(
-			"firstName",
-			(BiConsumer<PublikUser, String>)PublikUser::setFirstName);
-		attributeGetterFunctions.put("lastName", PublikUser::getLastName);
-		attributeSetterBiConsumers.put(
-			"lastName",
-			(BiConsumer<PublikUser, String>)PublikUser::setLastName);
-		attributeGetterFunctions.put("email", PublikUser::getEmail);
-		attributeSetterBiConsumers.put(
-			"email", (BiConsumer<PublikUser, String>)PublikUser::setEmail);
-		attributeGetterFunctions.put("mapConfig", PublikUser::getMapConfig);
-		attributeSetterBiConsumers.put(
-			"mapConfig",
-			(BiConsumer<PublikUser, String>)PublikUser::setMapConfig);
-		attributeGetterFunctions.put(
-			"displayConfig", PublikUser::getDisplayConfig);
-		attributeSetterBiConsumers.put(
-			"displayConfig",
-			(BiConsumer<PublikUser, String>)PublikUser::setDisplayConfig);
-		attributeGetterFunctions.put(
-			"pactSignature", PublikUser::getPactSignature);
-		attributeSetterBiConsumers.put(
-			"pactSignature",
-			(BiConsumer<PublikUser, Date>)PublikUser::setPactSignature);
-		attributeGetterFunctions.put("banishDate", PublikUser::getBanishDate);
-		attributeSetterBiConsumers.put(
-			"banishDate",
-			(BiConsumer<PublikUser, Date>)PublikUser::setBanishDate);
-		attributeGetterFunctions.put(
-			"banishDescription", PublikUser::getBanishDescription);
-		attributeSetterBiConsumers.put(
-			"banishDescription",
-			(BiConsumer<PublikUser, String>)PublikUser::setBanishDescription);
-		attributeGetterFunctions.put("imageURL", PublikUser::getImageURL);
-		attributeSetterBiConsumers.put(
-			"imageURL",
-			(BiConsumer<PublikUser, String>)PublikUser::setImageURL);
-		attributeGetterFunctions.put("pactDisplay", PublikUser::getPactDisplay);
-		attributeSetterBiConsumers.put(
-			"pactDisplay",
-			(BiConsumer<PublikUser, Boolean>)PublikUser::setPactDisplay);
-		attributeGetterFunctions.put("csmapJSON", PublikUser::getCsmapJSON);
-		attributeSetterBiConsumers.put(
-			"csmapJSON",
-			(BiConsumer<PublikUser, String>)PublikUser::setCsmapJSON);
-		attributeGetterFunctions.put(
-			"modifiedDateJSON", PublikUser::getModifiedDateJSON);
-		attributeSetterBiConsumers.put(
-			"modifiedDateJSON",
-			(BiConsumer<PublikUser, Date>)PublikUser::setModifiedDateJSON);
-		attributeGetterFunctions.put("topicsFCM", PublikUser::getTopicsFCM);
-		attributeSetterBiConsumers.put(
-			"topicsFCM",
-			(BiConsumer<PublikUser, String>)PublikUser::setTopicsFCM);
-		attributeGetterFunctions.put(
-			"lastUpdateTimeTopics", PublikUser::getLastUpdateTimeTopics);
-		attributeSetterBiConsumers.put(
-			"lastUpdateTimeTopics",
-			(BiConsumer<PublikUser, Long>)PublikUser::setLastUpdateTimeTopics);
+		static {
+			Map<String, Function<PublikUser, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<PublikUser, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", PublikUser::getUuid);
+			attributeGetterFunctions.put(
+				"publikUserLiferayId", PublikUser::getPublikUserLiferayId);
+			attributeGetterFunctions.put(
+				"createDate", PublikUser::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", PublikUser::getModifiedDate);
+			attributeGetterFunctions.put("userId", PublikUser::getUserId);
+			attributeGetterFunctions.put("userName", PublikUser::getUserName);
+			attributeGetterFunctions.put("publikId", PublikUser::getPublikId);
+			attributeGetterFunctions.put(
+				"accessToken", PublikUser::getAccessToken);
+			attributeGetterFunctions.put("firstName", PublikUser::getFirstName);
+			attributeGetterFunctions.put("lastName", PublikUser::getLastName);
+			attributeGetterFunctions.put("email", PublikUser::getEmail);
+			attributeGetterFunctions.put("mapConfig", PublikUser::getMapConfig);
+			attributeGetterFunctions.put(
+				"displayConfig", PublikUser::getDisplayConfig);
+			attributeGetterFunctions.put(
+				"pactSignature", PublikUser::getPactSignature);
+			attributeGetterFunctions.put(
+				"banishDate", PublikUser::getBanishDate);
+			attributeGetterFunctions.put(
+				"banishDescription", PublikUser::getBanishDescription);
+			attributeGetterFunctions.put("imageURL", PublikUser::getImageURL);
+			attributeGetterFunctions.put(
+				"pactDisplay", PublikUser::getPactDisplay);
+			attributeGetterFunctions.put("csmapJSON", PublikUser::getCsmapJSON);
+			attributeGetterFunctions.put(
+				"modifiedDateJSON", PublikUser::getModifiedDateJSON);
+			attributeGetterFunctions.put("topicsFCM", PublikUser::getTopicsFCM);
+			attributeGetterFunctions.put(
+				"lastUpdateTimeTopics", PublikUser::getLastUpdateTimeTopics);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<PublikUser, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<PublikUser, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<PublikUser, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<PublikUser, String>)PublikUser::setUuid);
+			attributeSetterBiConsumers.put(
+				"publikUserLiferayId",
+				(BiConsumer<PublikUser, Long>)
+					PublikUser::setPublikUserLiferayId);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<PublikUser, Date>)PublikUser::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<PublikUser, Date>)PublikUser::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<PublikUser, Long>)PublikUser::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<PublikUser, String>)PublikUser::setUserName);
+			attributeSetterBiConsumers.put(
+				"publikId",
+				(BiConsumer<PublikUser, String>)PublikUser::setPublikId);
+			attributeSetterBiConsumers.put(
+				"accessToken",
+				(BiConsumer<PublikUser, String>)PublikUser::setAccessToken);
+			attributeSetterBiConsumers.put(
+				"firstName",
+				(BiConsumer<PublikUser, String>)PublikUser::setFirstName);
+			attributeSetterBiConsumers.put(
+				"lastName",
+				(BiConsumer<PublikUser, String>)PublikUser::setLastName);
+			attributeSetterBiConsumers.put(
+				"email", (BiConsumer<PublikUser, String>)PublikUser::setEmail);
+			attributeSetterBiConsumers.put(
+				"mapConfig",
+				(BiConsumer<PublikUser, String>)PublikUser::setMapConfig);
+			attributeSetterBiConsumers.put(
+				"displayConfig",
+				(BiConsumer<PublikUser, String>)PublikUser::setDisplayConfig);
+			attributeSetterBiConsumers.put(
+				"pactSignature",
+				(BiConsumer<PublikUser, Date>)PublikUser::setPactSignature);
+			attributeSetterBiConsumers.put(
+				"banishDate",
+				(BiConsumer<PublikUser, Date>)PublikUser::setBanishDate);
+			attributeSetterBiConsumers.put(
+				"banishDescription",
+				(BiConsumer<PublikUser, String>)
+					PublikUser::setBanishDescription);
+			attributeSetterBiConsumers.put(
+				"imageURL",
+				(BiConsumer<PublikUser, String>)PublikUser::setImageURL);
+			attributeSetterBiConsumers.put(
+				"pactDisplay",
+				(BiConsumer<PublikUser, Boolean>)PublikUser::setPactDisplay);
+			attributeSetterBiConsumers.put(
+				"csmapJSON",
+				(BiConsumer<PublikUser, String>)PublikUser::setCsmapJSON);
+			attributeSetterBiConsumers.put(
+				"modifiedDateJSON",
+				(BiConsumer<PublikUser, Date>)PublikUser::setModifiedDateJSON);
+			attributeSetterBiConsumers.put(
+				"topicsFCM",
+				(BiConsumer<PublikUser, String>)PublikUser::setTopicsFCM);
+			attributeSetterBiConsumers.put(
+				"lastUpdateTimeTopics",
+				(BiConsumer<PublikUser, Long>)
+					PublikUser::setLastUpdateTimeTopics);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -1406,8 +1418,9 @@ public class PublikUserModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<PublikUser, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<PublikUser, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

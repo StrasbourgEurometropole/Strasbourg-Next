@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.artwork.service.persistence;
@@ -964,9 +955,10 @@ public class ArtworkCollectionUtil {
 	 *
 	 * @param pk the primary key of the artwork collection
 	 * @param artworkPK the primary key of the artwork
+	 * @return <code>true</code> if an association between the artwork collection and the artwork was added; <code>false</code> if they were already associated
 	 */
-	public static void addArtwork(long pk, long artworkPK) {
-		getPersistence().addArtwork(pk, artworkPK);
+	public static boolean addArtwork(long pk, long artworkPK) {
+		return getPersistence().addArtwork(pk, artworkPK);
 	}
 
 	/**
@@ -974,11 +966,12 @@ public class ArtworkCollectionUtil {
 	 *
 	 * @param pk the primary key of the artwork collection
 	 * @param artwork the artwork
+	 * @return <code>true</code> if an association between the artwork collection and the artwork was added; <code>false</code> if they were already associated
 	 */
-	public static void addArtwork(
+	public static boolean addArtwork(
 		long pk, eu.strasbourg.service.artwork.model.Artwork artwork) {
 
-		getPersistence().addArtwork(pk, artwork);
+		return getPersistence().addArtwork(pk, artwork);
 	}
 
 	/**
@@ -986,9 +979,10 @@ public class ArtworkCollectionUtil {
 	 *
 	 * @param pk the primary key of the artwork collection
 	 * @param artworkPKs the primary keys of the artworks
+	 * @return <code>true</code> if at least one association between the artwork collection and the artworks was added; <code>false</code> if they were all already associated
 	 */
-	public static void addArtworks(long pk, long[] artworkPKs) {
-		getPersistence().addArtworks(pk, artworkPKs);
+	public static boolean addArtworks(long pk, long[] artworkPKs) {
+		return getPersistence().addArtworks(pk, artworkPKs);
 	}
 
 	/**
@@ -996,11 +990,12 @@ public class ArtworkCollectionUtil {
 	 *
 	 * @param pk the primary key of the artwork collection
 	 * @param artworks the artworks
+	 * @return <code>true</code> if at least one association between the artwork collection and the artworks was added; <code>false</code> if they were all already associated
 	 */
-	public static void addArtworks(
+	public static boolean addArtworks(
 		long pk, List<eu.strasbourg.service.artwork.model.Artwork> artworks) {
 
-		getPersistence().addArtworks(pk, artworks);
+		return getPersistence().addArtworks(pk, artworks);
 	}
 
 	/**
@@ -1080,6 +1075,12 @@ public class ArtworkCollectionUtil {
 
 	public static ArtworkCollectionPersistence getPersistence() {
 		return _persistence;
+	}
+
+	public static void setPersistence(
+		ArtworkCollectionPersistence persistence) {
+
+		_persistence = persistence;
 	}
 
 	private static volatile ArtworkCollectionPersistence _persistence;

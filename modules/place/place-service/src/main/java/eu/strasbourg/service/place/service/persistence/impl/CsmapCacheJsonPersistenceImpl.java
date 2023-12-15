@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.service.persistence.impl;
@@ -32,7 +23,7 @@ import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.uuid.PortalUUID;
+import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.place.exception.NoSuchCsmapCacheJsonException;
@@ -45,7 +36,6 @@ import eu.strasbourg.service.place.service.persistence.CsmapCacheJsonUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.sql.Timestamp;
@@ -2939,7 +2929,7 @@ public class CsmapCacheJsonPersistenceImpl
 		csmapCacheJson.setNew(true);
 		csmapCacheJson.setPrimaryKey(sigId);
 
-		String uuid = _portalUUID.generate();
+		String uuid = PortalUUIDUtil.generate();
 
 		csmapCacheJson.setUuid(uuid);
 
@@ -3057,7 +3047,7 @@ public class CsmapCacheJsonPersistenceImpl
 			(CsmapCacheJsonModelImpl)csmapCacheJson;
 
 		if (Validator.isNull(csmapCacheJson.getUuid())) {
-			String uuid = _portalUUID.generate();
+			String uuid = PortalUUIDUtil.generate();
 
 			csmapCacheJson.setUuid(uuid);
 		}
@@ -3459,29 +3449,13 @@ public class CsmapCacheJsonPersistenceImpl
 				new String[] {Date.class.getName(), Boolean.class.getName()},
 				new String[] {"modifiedPlace", "isActive"}, false);
 
-		_setCsmapCacheJsonUtilPersistence(this);
+		CsmapCacheJsonUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCsmapCacheJsonUtilPersistence(null);
+		CsmapCacheJsonUtil.setPersistence(null);
 
 		entityCache.removeCache(CsmapCacheJsonImpl.class.getName());
-	}
-
-	private void _setCsmapCacheJsonUtilPersistence(
-		CsmapCacheJsonPersistence csmapCacheJsonPersistence) {
-
-		try {
-			Field field = CsmapCacheJsonUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, csmapCacheJsonPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -3528,8 +3502,5 @@ public class CsmapCacheJsonPersistenceImpl
 	protected FinderCache getFinderCache() {
 		return finderCache;
 	}
-
-	@ServiceReference(type = PortalUUID.class)
-	private PortalUUID _portalUUID;
 
 }

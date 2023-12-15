@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model.impl;
@@ -221,63 +212,79 @@ public class AgendaExportPeriodModelImpl
 	public Map<String, Function<AgendaExportPeriod, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<AgendaExportPeriod, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<AgendaExportPeriod, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<AgendaExportPeriod, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<AgendaExportPeriod, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap
-					<String, Function<AgendaExportPeriod, Object>>();
-		Map<String, BiConsumer<AgendaExportPeriod, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<AgendaExportPeriod, ?>>();
+		private static final Map<String, Function<AgendaExportPeriod, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", AgendaExportPeriod::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid",
-			(BiConsumer<AgendaExportPeriod, String>)
-				AgendaExportPeriod::setUuid);
-		attributeGetterFunctions.put(
-			"agendaExportPeriodId",
-			AgendaExportPeriod::getAgendaExportPeriodId);
-		attributeSetterBiConsumers.put(
-			"agendaExportPeriodId",
-			(BiConsumer<AgendaExportPeriod, Long>)
-				AgendaExportPeriod::setAgendaExportPeriodId);
-		attributeGetterFunctions.put(
-			"startDate", AgendaExportPeriod::getStartDate);
-		attributeSetterBiConsumers.put(
-			"startDate",
-			(BiConsumer<AgendaExportPeriod, Date>)
-				AgendaExportPeriod::setStartDate);
-		attributeGetterFunctions.put("endDate", AgendaExportPeriod::getEndDate);
-		attributeSetterBiConsumers.put(
-			"endDate",
-			(BiConsumer<AgendaExportPeriod, Date>)
-				AgendaExportPeriod::setEndDate);
-		attributeGetterFunctions.put(
-			"agendaExportId", AgendaExportPeriod::getAgendaExportId);
-		attributeSetterBiConsumers.put(
-			"agendaExportId",
-			(BiConsumer<AgendaExportPeriod, Long>)
-				AgendaExportPeriod::setAgendaExportId);
+		static {
+			Map<String, Function<AgendaExportPeriod, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<AgendaExportPeriod, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", AgendaExportPeriod::getUuid);
+			attributeGetterFunctions.put(
+				"agendaExportPeriodId",
+				AgendaExportPeriod::getAgendaExportPeriodId);
+			attributeGetterFunctions.put(
+				"startDate", AgendaExportPeriod::getStartDate);
+			attributeGetterFunctions.put(
+				"endDate", AgendaExportPeriod::getEndDate);
+			attributeGetterFunctions.put(
+				"agendaExportId", AgendaExportPeriod::getAgendaExportId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<AgendaExportPeriod, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<AgendaExportPeriod, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String, BiConsumer<AgendaExportPeriod, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<AgendaExportPeriod, String>)
+					AgendaExportPeriod::setUuid);
+			attributeSetterBiConsumers.put(
+				"agendaExportPeriodId",
+				(BiConsumer<AgendaExportPeriod, Long>)
+					AgendaExportPeriod::setAgendaExportPeriodId);
+			attributeSetterBiConsumers.put(
+				"startDate",
+				(BiConsumer<AgendaExportPeriod, Date>)
+					AgendaExportPeriod::setStartDate);
+			attributeSetterBiConsumers.put(
+				"endDate",
+				(BiConsumer<AgendaExportPeriod, Date>)
+					AgendaExportPeriod::setEndDate);
+			attributeSetterBiConsumers.put(
+				"agendaExportId",
+				(BiConsumer<AgendaExportPeriod, Long>)
+					AgendaExportPeriod::setAgendaExportId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -642,7 +649,8 @@ public class AgendaExportPeriodModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<AgendaExportPeriod, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

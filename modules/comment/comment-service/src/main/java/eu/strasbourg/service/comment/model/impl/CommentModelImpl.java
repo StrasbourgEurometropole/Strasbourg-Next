@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.comment.model.impl;
@@ -290,104 +281,123 @@ public class CommentModelImpl
 	public Map<String, Function<Comment, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Comment, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Comment, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Comment, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Comment, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Comment, Object>>();
-		Map<String, BiConsumer<Comment, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Comment, ?>>();
+		private static final Map<String, Function<Comment, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Comment::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Comment, String>)Comment::setUuid);
-		attributeGetterFunctions.put("commentId", Comment::getCommentId);
-		attributeSetterBiConsumers.put(
-			"commentId", (BiConsumer<Comment, Long>)Comment::setCommentId);
-		attributeGetterFunctions.put("groupId", Comment::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Comment, Long>)Comment::setGroupId);
-		attributeGetterFunctions.put("companyId", Comment::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Comment, Long>)Comment::setCompanyId);
-		attributeGetterFunctions.put("userId", Comment::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Comment, Long>)Comment::setUserId);
-		attributeGetterFunctions.put("userName", Comment::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<Comment, String>)Comment::setUserName);
-		attributeGetterFunctions.put("createDate", Comment::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<Comment, Date>)Comment::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", Comment::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<Comment, Date>)Comment::setModifiedDate);
-		attributeGetterFunctions.put("status", Comment::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Comment, Integer>)Comment::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Comment::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Comment, Long>)Comment::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Comment::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Comment, String>)Comment::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Comment::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate", (BiConsumer<Comment, Date>)Comment::setStatusDate);
-		attributeGetterFunctions.put("text", Comment::getText);
-		attributeSetterBiConsumers.put(
-			"text", (BiConsumer<Comment, String>)Comment::setText);
-		attributeGetterFunctions.put("level", Comment::getLevel);
-		attributeSetterBiConsumers.put(
-			"level", (BiConsumer<Comment, Integer>)Comment::setLevel);
-		attributeGetterFunctions.put("userQuality", Comment::getUserQuality);
-		attributeSetterBiConsumers.put(
-			"userQuality",
-			(BiConsumer<Comment, String>)Comment::setUserQuality);
-		attributeGetterFunctions.put(
-			"modifiedByUserDate", Comment::getModifiedByUserDate);
-		attributeSetterBiConsumers.put(
-			"modifiedByUserDate",
-			(BiConsumer<Comment, Date>)Comment::setModifiedByUserDate);
-		attributeGetterFunctions.put("assetEntryId", Comment::getAssetEntryId);
-		attributeSetterBiConsumers.put(
-			"assetEntryId",
-			(BiConsumer<Comment, Long>)Comment::setAssetEntryId);
-		attributeGetterFunctions.put("publikId", Comment::getPublikId);
-		attributeSetterBiConsumers.put(
-			"publikId", (BiConsumer<Comment, String>)Comment::setPublikId);
-		attributeGetterFunctions.put(
-			"parentCommentId", Comment::getParentCommentId);
-		attributeSetterBiConsumers.put(
-			"parentCommentId",
-			(BiConsumer<Comment, Long>)Comment::setParentCommentId);
-		attributeGetterFunctions.put(
-			"urlProjectCommentaire", Comment::getUrlProjectCommentaire);
-		attributeSetterBiConsumers.put(
-			"urlProjectCommentaire",
-			(BiConsumer<Comment, String>)Comment::setUrlProjectCommentaire);
+		static {
+			Map<String, Function<Comment, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Comment, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Comment::getUuid);
+			attributeGetterFunctions.put("commentId", Comment::getCommentId);
+			attributeGetterFunctions.put("groupId", Comment::getGroupId);
+			attributeGetterFunctions.put("companyId", Comment::getCompanyId);
+			attributeGetterFunctions.put("userId", Comment::getUserId);
+			attributeGetterFunctions.put("userName", Comment::getUserName);
+			attributeGetterFunctions.put("createDate", Comment::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Comment::getModifiedDate);
+			attributeGetterFunctions.put("status", Comment::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Comment::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Comment::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Comment::getStatusDate);
+			attributeGetterFunctions.put("text", Comment::getText);
+			attributeGetterFunctions.put("level", Comment::getLevel);
+			attributeGetterFunctions.put(
+				"userQuality", Comment::getUserQuality);
+			attributeGetterFunctions.put(
+				"modifiedByUserDate", Comment::getModifiedByUserDate);
+			attributeGetterFunctions.put(
+				"assetEntryId", Comment::getAssetEntryId);
+			attributeGetterFunctions.put("publikId", Comment::getPublikId);
+			attributeGetterFunctions.put(
+				"parentCommentId", Comment::getParentCommentId);
+			attributeGetterFunctions.put(
+				"urlProjectCommentaire", Comment::getUrlProjectCommentaire);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Comment, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Comment, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Comment, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Comment, String>)Comment::setUuid);
+			attributeSetterBiConsumers.put(
+				"commentId", (BiConsumer<Comment, Long>)Comment::setCommentId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Comment, Long>)Comment::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId", (BiConsumer<Comment, Long>)Comment::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Comment, Long>)Comment::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName", (BiConsumer<Comment, String>)Comment::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Comment, Date>)Comment::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Comment, Date>)Comment::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Comment, Integer>)Comment::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Comment, Long>)Comment::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Comment, String>)Comment::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Comment, Date>)Comment::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"text", (BiConsumer<Comment, String>)Comment::setText);
+			attributeSetterBiConsumers.put(
+				"level", (BiConsumer<Comment, Integer>)Comment::setLevel);
+			attributeSetterBiConsumers.put(
+				"userQuality",
+				(BiConsumer<Comment, String>)Comment::setUserQuality);
+			attributeSetterBiConsumers.put(
+				"modifiedByUserDate",
+				(BiConsumer<Comment, Date>)Comment::setModifiedByUserDate);
+			attributeSetterBiConsumers.put(
+				"assetEntryId",
+				(BiConsumer<Comment, Long>)Comment::setAssetEntryId);
+			attributeSetterBiConsumers.put(
+				"publikId", (BiConsumer<Comment, String>)Comment::setPublikId);
+			attributeSetterBiConsumers.put(
+				"parentCommentId",
+				(BiConsumer<Comment, Long>)Comment::setParentCommentId);
+			attributeSetterBiConsumers.put(
+				"urlProjectCommentaire",
+				(BiConsumer<Comment, String>)Comment::setUrlProjectCommentaire);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1473,8 +1483,9 @@ public class CommentModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Comment, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Comment, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

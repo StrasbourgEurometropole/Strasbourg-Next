@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.formSendRecordField.model.impl;
@@ -282,134 +273,152 @@ public class FormSendRecordFieldModelImpl
 	public Map<String, Function<FormSendRecordField, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<FormSendRecordField, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<FormSendRecordField, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<FormSendRecordField, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<FormSendRecordField, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap
-					<String, Function<FormSendRecordField, Object>>();
-		Map<String, BiConsumer<FormSendRecordField, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<FormSendRecordField, ?>>();
+		private static final Map<String, Function<FormSendRecordField, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", FormSendRecordField::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid",
-			(BiConsumer<FormSendRecordField, String>)
-				FormSendRecordField::setUuid);
-		attributeGetterFunctions.put(
-			"formSendRecordFieldId",
-			FormSendRecordField::getFormSendRecordFieldId);
-		attributeSetterBiConsumers.put(
-			"formSendRecordFieldId",
-			(BiConsumer<FormSendRecordField, Long>)
-				FormSendRecordField::setFormSendRecordFieldId);
-		attributeGetterFunctions.put(
-			"groupId", FormSendRecordField::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<FormSendRecordField, Long>)
-				FormSendRecordField::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", FormSendRecordField::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<FormSendRecordField, Long>)
-				FormSendRecordField::setCompanyId);
-		attributeGetterFunctions.put("userId", FormSendRecordField::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId",
-			(BiConsumer<FormSendRecordField, Long>)
-				FormSendRecordField::setUserId);
-		attributeGetterFunctions.put(
-			"userName", FormSendRecordField::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<FormSendRecordField, String>)
-				FormSendRecordField::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", FormSendRecordField::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<FormSendRecordField, Date>)
-				FormSendRecordField::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", FormSendRecordField::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<FormSendRecordField, Date>)
-				FormSendRecordField::setModifiedDate);
-		attributeGetterFunctions.put("status", FormSendRecordField::getStatus);
-		attributeSetterBiConsumers.put(
-			"status",
-			(BiConsumer<FormSendRecordField, Integer>)
-				FormSendRecordField::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", FormSendRecordField::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<FormSendRecordField, Long>)
-				FormSendRecordField::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", FormSendRecordField::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<FormSendRecordField, String>)
-				FormSendRecordField::setStatusByUserName);
-		attributeGetterFunctions.put(
-			"statusDate", FormSendRecordField::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			(BiConsumer<FormSendRecordField, Date>)
-				FormSendRecordField::setStatusDate);
-		attributeGetterFunctions.put(
-			"response", FormSendRecordField::getResponse);
-		attributeSetterBiConsumers.put(
-			"response",
-			(BiConsumer<FormSendRecordField, String>)
-				FormSendRecordField::setResponse);
-		attributeGetterFunctions.put(
-			"assetEntryId", FormSendRecordField::getAssetEntryId);
-		attributeSetterBiConsumers.put(
-			"assetEntryId",
-			(BiConsumer<FormSendRecordField, Long>)
-				FormSendRecordField::setAssetEntryId);
-		attributeGetterFunctions.put(
-			"contentId", FormSendRecordField::getContentId);
-		attributeSetterBiConsumers.put(
-			"contentId",
-			(BiConsumer<FormSendRecordField, Long>)
-				FormSendRecordField::setContentId);
-		attributeGetterFunctions.put(
-			"instanceId", FormSendRecordField::getInstanceId);
-		attributeSetterBiConsumers.put(
-			"instanceId",
-			(BiConsumer<FormSendRecordField, String>)
-				FormSendRecordField::setInstanceId);
-		attributeGetterFunctions.put(
-			"responseUserId", FormSendRecordField::getResponseUserId);
-		attributeSetterBiConsumers.put(
-			"responseUserId",
-			(BiConsumer<FormSendRecordField, Long>)
-				FormSendRecordField::setResponseUserId);
+		static {
+			Map<String, Function<FormSendRecordField, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<FormSendRecordField, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", FormSendRecordField::getUuid);
+			attributeGetterFunctions.put(
+				"formSendRecordFieldId",
+				FormSendRecordField::getFormSendRecordFieldId);
+			attributeGetterFunctions.put(
+				"groupId", FormSendRecordField::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", FormSendRecordField::getCompanyId);
+			attributeGetterFunctions.put(
+				"userId", FormSendRecordField::getUserId);
+			attributeGetterFunctions.put(
+				"userName", FormSendRecordField::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", FormSendRecordField::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", FormSendRecordField::getModifiedDate);
+			attributeGetterFunctions.put(
+				"status", FormSendRecordField::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", FormSendRecordField::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", FormSendRecordField::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", FormSendRecordField::getStatusDate);
+			attributeGetterFunctions.put(
+				"response", FormSendRecordField::getResponse);
+			attributeGetterFunctions.put(
+				"assetEntryId", FormSendRecordField::getAssetEntryId);
+			attributeGetterFunctions.put(
+				"contentId", FormSendRecordField::getContentId);
+			attributeGetterFunctions.put(
+				"instanceId", FormSendRecordField::getInstanceId);
+			attributeGetterFunctions.put(
+				"responseUserId", FormSendRecordField::getResponseUserId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map
+			<String, BiConsumer<FormSendRecordField, Object>>
+				_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<FormSendRecordField, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String, BiConsumer<FormSendRecordField, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<FormSendRecordField, String>)
+					FormSendRecordField::setUuid);
+			attributeSetterBiConsumers.put(
+				"formSendRecordFieldId",
+				(BiConsumer<FormSendRecordField, Long>)
+					FormSendRecordField::setFormSendRecordFieldId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<FormSendRecordField, Long>)
+					FormSendRecordField::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<FormSendRecordField, Long>)
+					FormSendRecordField::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<FormSendRecordField, Long>)
+					FormSendRecordField::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<FormSendRecordField, String>)
+					FormSendRecordField::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<FormSendRecordField, Date>)
+					FormSendRecordField::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<FormSendRecordField, Date>)
+					FormSendRecordField::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<FormSendRecordField, Integer>)
+					FormSendRecordField::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<FormSendRecordField, Long>)
+					FormSendRecordField::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<FormSendRecordField, String>)
+					FormSendRecordField::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<FormSendRecordField, Date>)
+					FormSendRecordField::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"response",
+				(BiConsumer<FormSendRecordField, String>)
+					FormSendRecordField::setResponse);
+			attributeSetterBiConsumers.put(
+				"assetEntryId",
+				(BiConsumer<FormSendRecordField, Long>)
+					FormSendRecordField::setAssetEntryId);
+			attributeSetterBiConsumers.put(
+				"contentId",
+				(BiConsumer<FormSendRecordField, Long>)
+					FormSendRecordField::setContentId);
+			attributeSetterBiConsumers.put(
+				"instanceId",
+				(BiConsumer<FormSendRecordField, String>)
+					FormSendRecordField::setInstanceId);
+			attributeSetterBiConsumers.put(
+				"responseUserId",
+				(BiConsumer<FormSendRecordField, Long>)
+					FormSendRecordField::setResponseUserId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -1413,7 +1422,8 @@ public class FormSendRecordFieldModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<FormSendRecordField, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

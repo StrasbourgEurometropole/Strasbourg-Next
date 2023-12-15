@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.tipi.model.impl;
@@ -221,60 +212,74 @@ public class TipiEntryModelImpl
 	public Map<String, Function<TipiEntry, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<TipiEntry, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<TipiEntry, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<TipiEntry, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<TipiEntry, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<TipiEntry, Object>>();
-		Map<String, BiConsumer<TipiEntry, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<TipiEntry, ?>>();
+		private static final Map<String, Function<TipiEntry, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", TipiEntry::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<TipiEntry, String>)TipiEntry::setUuid);
-		attributeGetterFunctions.put("id", TipiEntry::getId);
-		attributeSetterBiConsumers.put(
-			"id", (BiConsumer<TipiEntry, Long>)TipiEntry::setId);
-		attributeGetterFunctions.put("date", TipiEntry::getDate);
-		attributeSetterBiConsumers.put(
-			"date", (BiConsumer<TipiEntry, Date>)TipiEntry::setDate);
-		attributeGetterFunctions.put("total", TipiEntry::getTotal);
-		attributeSetterBiConsumers.put(
-			"total", (BiConsumer<TipiEntry, Integer>)TipiEntry::setTotal);
-		attributeGetterFunctions.put("paidCount", TipiEntry::getPaidCount);
-		attributeSetterBiConsumers.put(
-			"paidCount",
-			(BiConsumer<TipiEntry, Integer>)TipiEntry::setPaidCount);
-		attributeGetterFunctions.put(
-			"refusedCount", TipiEntry::getRefusedCount);
-		attributeSetterBiConsumers.put(
-			"refusedCount",
-			(BiConsumer<TipiEntry, Integer>)TipiEntry::setRefusedCount);
-		attributeGetterFunctions.put(
-			"canceledCount", TipiEntry::getCanceledCount);
-		attributeSetterBiConsumers.put(
-			"canceledCount",
-			(BiConsumer<TipiEntry, Integer>)TipiEntry::setCanceledCount);
-		attributeGetterFunctions.put("type", TipiEntry::getType);
-		attributeSetterBiConsumers.put(
-			"type", (BiConsumer<TipiEntry, String>)TipiEntry::setType);
+		static {
+			Map<String, Function<TipiEntry, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<TipiEntry, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", TipiEntry::getUuid);
+			attributeGetterFunctions.put("id", TipiEntry::getId);
+			attributeGetterFunctions.put("date", TipiEntry::getDate);
+			attributeGetterFunctions.put("total", TipiEntry::getTotal);
+			attributeGetterFunctions.put("paidCount", TipiEntry::getPaidCount);
+			attributeGetterFunctions.put(
+				"refusedCount", TipiEntry::getRefusedCount);
+			attributeGetterFunctions.put(
+				"canceledCount", TipiEntry::getCanceledCount);
+			attributeGetterFunctions.put("type", TipiEntry::getType);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<TipiEntry, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<TipiEntry, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<TipiEntry, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<TipiEntry, String>)TipiEntry::setUuid);
+			attributeSetterBiConsumers.put(
+				"id", (BiConsumer<TipiEntry, Long>)TipiEntry::setId);
+			attributeSetterBiConsumers.put(
+				"date", (BiConsumer<TipiEntry, Date>)TipiEntry::setDate);
+			attributeSetterBiConsumers.put(
+				"total", (BiConsumer<TipiEntry, Integer>)TipiEntry::setTotal);
+			attributeSetterBiConsumers.put(
+				"paidCount",
+				(BiConsumer<TipiEntry, Integer>)TipiEntry::setPaidCount);
+			attributeSetterBiConsumers.put(
+				"refusedCount",
+				(BiConsumer<TipiEntry, Integer>)TipiEntry::setRefusedCount);
+			attributeSetterBiConsumers.put(
+				"canceledCount",
+				(BiConsumer<TipiEntry, Integer>)TipiEntry::setCanceledCount);
+			attributeSetterBiConsumers.put(
+				"type", (BiConsumer<TipiEntry, String>)TipiEntry::setType);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -693,8 +698,9 @@ public class TipiEntryModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<TipiEntry, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<TipiEntry, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

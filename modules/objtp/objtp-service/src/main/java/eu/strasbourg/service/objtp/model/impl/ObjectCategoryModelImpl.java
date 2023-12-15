@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.objtp.model.impl;
@@ -200,39 +191,56 @@ public class ObjectCategoryModelImpl
 	public Map<String, Function<ObjectCategory, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<ObjectCategory, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<ObjectCategory, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ObjectCategory, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<ObjectCategory, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<ObjectCategory, Object>>();
-		Map<String, BiConsumer<ObjectCategory, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<ObjectCategory, ?>>();
+		private static final Map<String, Function<ObjectCategory, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("code", ObjectCategory::getCode);
-		attributeSetterBiConsumers.put(
-			"code",
-			(BiConsumer<ObjectCategory, String>)ObjectCategory::setCode);
-		attributeGetterFunctions.put("name", ObjectCategory::getName);
-		attributeSetterBiConsumers.put(
-			"name",
-			(BiConsumer<ObjectCategory, String>)ObjectCategory::setName);
+		static {
+			Map<String, Function<ObjectCategory, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<ObjectCategory, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("code", ObjectCategory::getCode);
+			attributeGetterFunctions.put("name", ObjectCategory::getName);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<ObjectCategory, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<ObjectCategory, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<ObjectCategory, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"code",
+				(BiConsumer<ObjectCategory, String>)ObjectCategory::setCode);
+			attributeSetterBiConsumers.put(
+				"name",
+				(BiConsumer<ObjectCategory, String>)ObjectCategory::setName);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -491,7 +499,8 @@ public class ObjectCategoryModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<ObjectCategory, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.service.persistence.impl;
@@ -33,7 +24,7 @@ import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.uuid.PortalUUID;
+import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.gtfs.exception.NoSuchAlertException;
@@ -46,7 +37,6 @@ import eu.strasbourg.service.gtfs.service.persistence.AlertUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.HashMap;
@@ -2529,7 +2519,7 @@ public class AlertPersistenceImpl
 		alert.setNew(true);
 		alert.setPrimaryKey(alertId);
 
-		String uuid = _portalUUID.generate();
+		String uuid = PortalUUIDUtil.generate();
 
 		alert.setUuid(uuid);
 
@@ -2641,7 +2631,7 @@ public class AlertPersistenceImpl
 		AlertModelImpl alertModelImpl = (AlertModelImpl)alert;
 
 		if (Validator.isNull(alert.getUuid())) {
-			String uuid = _portalUUID.generate();
+			String uuid = PortalUUIDUtil.generate();
 
 			alert.setUuid(uuid);
 		}
@@ -3032,26 +3022,13 @@ public class AlertPersistenceImpl
 			new String[] {Long.class.getName()}, new String[] {"arretId"},
 			false);
 
-		_setAlertUtilPersistence(this);
+		AlertUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setAlertUtilPersistence(null);
+		AlertUtil.setPersistence(null);
 
 		entityCache.removeCache(AlertImpl.class.getName());
-	}
-
-	private void _setAlertUtilPersistence(AlertPersistence alertPersistence) {
-		try {
-			Field field = AlertUtil.class.getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, alertPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -3090,8 +3067,5 @@ public class AlertPersistenceImpl
 	protected FinderCache getFinderCache() {
 		return finderCache;
 	}
-
-	@ServiceReference(type = PortalUUID.class)
-	private PortalUUID _portalUUID;
 
 }

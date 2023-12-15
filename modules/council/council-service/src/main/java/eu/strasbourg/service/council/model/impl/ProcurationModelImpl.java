@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.council.model.impl;
@@ -283,134 +274,163 @@ public class ProcurationModelImpl
 	public Map<String, Function<Procuration, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Procuration, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Procuration, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Procuration, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Procuration, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Procuration, Object>>();
-		Map<String, BiConsumer<Procuration, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Procuration, ?>>();
+		private static final Map<String, Function<Procuration, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Procuration::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Procuration, String>)Procuration::setUuid);
-		attributeGetterFunctions.put(
-			"procurationId", Procuration::getProcurationId);
-		attributeSetterBiConsumers.put(
-			"procurationId",
-			(BiConsumer<Procuration, Long>)Procuration::setProcurationId);
-		attributeGetterFunctions.put("groupId", Procuration::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Procuration, Long>)Procuration::setGroupId);
-		attributeGetterFunctions.put("companyId", Procuration::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<Procuration, Long>)Procuration::setCompanyId);
-		attributeGetterFunctions.put("userId", Procuration::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Procuration, Long>)Procuration::setUserId);
-		attributeGetterFunctions.put("userName", Procuration::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<Procuration, String>)Procuration::setUserName);
-		attributeGetterFunctions.put("createDate", Procuration::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<Procuration, Date>)Procuration::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", Procuration::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<Procuration, Date>)Procuration::setModifiedDate);
-		attributeGetterFunctions.put("status", Procuration::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Procuration, Integer>)Procuration::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Procuration::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Procuration, Long>)Procuration::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Procuration::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Procuration, String>)Procuration::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Procuration::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			(BiConsumer<Procuration, Date>)Procuration::setStatusDate);
-		attributeGetterFunctions.put(
-			"officialVotersId", Procuration::getOfficialVotersId);
-		attributeSetterBiConsumers.put(
-			"officialVotersId",
-			(BiConsumer<Procuration, Long>)Procuration::setOfficialVotersId);
-		attributeGetterFunctions.put(
-			"officialUnavailableId", Procuration::getOfficialUnavailableId);
-		attributeSetterBiConsumers.put(
-			"officialUnavailableId",
-			(BiConsumer<Procuration, Long>)
-				Procuration::setOfficialUnavailableId);
-		attributeGetterFunctions.put(
-			"councilSessionId", Procuration::getCouncilSessionId);
-		attributeSetterBiConsumers.put(
-			"councilSessionId",
-			(BiConsumer<Procuration, Long>)Procuration::setCouncilSessionId);
-		attributeGetterFunctions.put("isAbsent", Procuration::getIsAbsent);
-		attributeSetterBiConsumers.put(
-			"isAbsent",
-			(BiConsumer<Procuration, Boolean>)Procuration::setIsAbsent);
-		attributeGetterFunctions.put(
-			"procurationMode", Procuration::getProcurationMode);
-		attributeSetterBiConsumers.put(
-			"procurationMode",
-			(BiConsumer<Procuration, Integer>)Procuration::setProcurationMode);
-		attributeGetterFunctions.put("presential", Procuration::getPresential);
-		attributeSetterBiConsumers.put(
-			"presential",
-			(BiConsumer<Procuration, Integer>)Procuration::setPresential);
-		attributeGetterFunctions.put(
-			"isAfterVote", Procuration::getIsAfterVote);
-		attributeSetterBiConsumers.put(
-			"isAfterVote",
-			(BiConsumer<Procuration, Boolean>)Procuration::setIsAfterVote);
-		attributeGetterFunctions.put("startHour", Procuration::getStartHour);
-		attributeSetterBiConsumers.put(
-			"startHour",
-			(BiConsumer<Procuration, Date>)Procuration::setStartHour);
-		attributeGetterFunctions.put("endHour", Procuration::getEndHour);
-		attributeSetterBiConsumers.put(
-			"endHour", (BiConsumer<Procuration, Date>)Procuration::setEndHour);
-		attributeGetterFunctions.put("startDelib", Procuration::getStartDelib);
-		attributeSetterBiConsumers.put(
-			"startDelib",
-			(BiConsumer<Procuration, Long>)Procuration::setStartDelib);
-		attributeGetterFunctions.put("endDelib", Procuration::getEndDelib);
-		attributeSetterBiConsumers.put(
-			"endDelib",
-			(BiConsumer<Procuration, Long>)Procuration::setEndDelib);
-		attributeGetterFunctions.put(
-			"otherProcurationMode", Procuration::getOtherProcurationMode);
-		attributeSetterBiConsumers.put(
-			"otherProcurationMode",
-			(BiConsumer<Procuration, String>)
-				Procuration::setOtherProcurationMode);
+		static {
+			Map<String, Function<Procuration, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<Procuration, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Procuration::getUuid);
+			attributeGetterFunctions.put(
+				"procurationId", Procuration::getProcurationId);
+			attributeGetterFunctions.put("groupId", Procuration::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", Procuration::getCompanyId);
+			attributeGetterFunctions.put("userId", Procuration::getUserId);
+			attributeGetterFunctions.put("userName", Procuration::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", Procuration::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Procuration::getModifiedDate);
+			attributeGetterFunctions.put("status", Procuration::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Procuration::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Procuration::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", Procuration::getStatusDate);
+			attributeGetterFunctions.put(
+				"officialVotersId", Procuration::getOfficialVotersId);
+			attributeGetterFunctions.put(
+				"officialUnavailableId", Procuration::getOfficialUnavailableId);
+			attributeGetterFunctions.put(
+				"councilSessionId", Procuration::getCouncilSessionId);
+			attributeGetterFunctions.put("isAbsent", Procuration::getIsAbsent);
+			attributeGetterFunctions.put(
+				"procurationMode", Procuration::getProcurationMode);
+			attributeGetterFunctions.put(
+				"presential", Procuration::getPresential);
+			attributeGetterFunctions.put(
+				"isAfterVote", Procuration::getIsAfterVote);
+			attributeGetterFunctions.put(
+				"startHour", Procuration::getStartHour);
+			attributeGetterFunctions.put("endHour", Procuration::getEndHour);
+			attributeGetterFunctions.put(
+				"startDelib", Procuration::getStartDelib);
+			attributeGetterFunctions.put("endDelib", Procuration::getEndDelib);
+			attributeGetterFunctions.put(
+				"otherProcurationMode", Procuration::getOtherProcurationMode);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Procuration, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Procuration, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Procuration, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Procuration, String>)Procuration::setUuid);
+			attributeSetterBiConsumers.put(
+				"procurationId",
+				(BiConsumer<Procuration, Long>)Procuration::setProcurationId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<Procuration, Long>)Procuration::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Procuration, Long>)Procuration::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<Procuration, Long>)Procuration::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Procuration, String>)Procuration::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Procuration, Date>)Procuration::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Procuration, Date>)Procuration::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<Procuration, Integer>)Procuration::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Procuration, Long>)Procuration::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Procuration, String>)
+					Procuration::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Procuration, Date>)Procuration::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"officialVotersId",
+				(BiConsumer<Procuration, Long>)
+					Procuration::setOfficialVotersId);
+			attributeSetterBiConsumers.put(
+				"officialUnavailableId",
+				(BiConsumer<Procuration, Long>)
+					Procuration::setOfficialUnavailableId);
+			attributeSetterBiConsumers.put(
+				"councilSessionId",
+				(BiConsumer<Procuration, Long>)
+					Procuration::setCouncilSessionId);
+			attributeSetterBiConsumers.put(
+				"isAbsent",
+				(BiConsumer<Procuration, Boolean>)Procuration::setIsAbsent);
+			attributeSetterBiConsumers.put(
+				"procurationMode",
+				(BiConsumer<Procuration, Integer>)
+					Procuration::setProcurationMode);
+			attributeSetterBiConsumers.put(
+				"presential",
+				(BiConsumer<Procuration, Integer>)Procuration::setPresential);
+			attributeSetterBiConsumers.put(
+				"isAfterVote",
+				(BiConsumer<Procuration, Boolean>)Procuration::setIsAfterVote);
+			attributeSetterBiConsumers.put(
+				"startHour",
+				(BiConsumer<Procuration, Date>)Procuration::setStartHour);
+			attributeSetterBiConsumers.put(
+				"endHour",
+				(BiConsumer<Procuration, Date>)Procuration::setEndHour);
+			attributeSetterBiConsumers.put(
+				"startDelib",
+				(BiConsumer<Procuration, Long>)Procuration::setStartDelib);
+			attributeSetterBiConsumers.put(
+				"endDelib",
+				(BiConsumer<Procuration, Long>)Procuration::setEndDelib);
+			attributeSetterBiConsumers.put(
+				"otherProcurationMode",
+				(BiConsumer<Procuration, String>)
+					Procuration::setOtherProcurationMode);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -1394,8 +1414,9 @@ public class ProcurationModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Procuration, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Procuration, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.activity.model.impl;
@@ -256,91 +247,115 @@ public class ActivityModelImpl
 	public Map<String, Function<Activity, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Activity, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Activity, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Activity, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Activity, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Activity, Object>>();
-		Map<String, BiConsumer<Activity, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Activity, ?>>();
+		private static final Map<String, Function<Activity, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Activity::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Activity, String>)Activity::setUuid);
-		attributeGetterFunctions.put("activityId", Activity::getActivityId);
-		attributeSetterBiConsumers.put(
-			"activityId", (BiConsumer<Activity, Long>)Activity::setActivityId);
-		attributeGetterFunctions.put("groupId", Activity::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Activity, Long>)Activity::setGroupId);
-		attributeGetterFunctions.put("companyId", Activity::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Activity, Long>)Activity::setCompanyId);
-		attributeGetterFunctions.put("userId", Activity::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Activity, Long>)Activity::setUserId);
-		attributeGetterFunctions.put("userName", Activity::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<Activity, String>)Activity::setUserName);
-		attributeGetterFunctions.put("createDate", Activity::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<Activity, Date>)Activity::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", Activity::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<Activity, Date>)Activity::setModifiedDate);
-		attributeGetterFunctions.put("title", Activity::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<Activity, String>)Activity::setTitle);
-		attributeGetterFunctions.put("description", Activity::getDescription);
-		attributeSetterBiConsumers.put(
-			"description",
-			(BiConsumer<Activity, String>)Activity::setDescription);
-		attributeGetterFunctions.put("videosIds", Activity::getVideosIds);
-		attributeSetterBiConsumers.put(
-			"videosIds", (BiConsumer<Activity, String>)Activity::setVideosIds);
-		attributeGetterFunctions.put("imageId", Activity::getImageId);
-		attributeSetterBiConsumers.put(
-			"imageId", (BiConsumer<Activity, Long>)Activity::setImageId);
-		attributeGetterFunctions.put("imagesIds", Activity::getImagesIds);
-		attributeSetterBiConsumers.put(
-			"imagesIds", (BiConsumer<Activity, String>)Activity::setImagesIds);
-		attributeGetterFunctions.put("filesIds", Activity::getFilesIds);
-		attributeSetterBiConsumers.put(
-			"filesIds", (BiConsumer<Activity, String>)Activity::setFilesIds);
-		attributeGetterFunctions.put("status", Activity::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Activity, Integer>)Activity::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Activity::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Activity, Long>)Activity::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Activity::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Activity, String>)Activity::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Activity::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate", (BiConsumer<Activity, Date>)Activity::setStatusDate);
+		static {
+			Map<String, Function<Activity, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Activity, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Activity::getUuid);
+			attributeGetterFunctions.put("activityId", Activity::getActivityId);
+			attributeGetterFunctions.put("groupId", Activity::getGroupId);
+			attributeGetterFunctions.put("companyId", Activity::getCompanyId);
+			attributeGetterFunctions.put("userId", Activity::getUserId);
+			attributeGetterFunctions.put("userName", Activity::getUserName);
+			attributeGetterFunctions.put("createDate", Activity::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Activity::getModifiedDate);
+			attributeGetterFunctions.put("title", Activity::getTitle);
+			attributeGetterFunctions.put(
+				"description", Activity::getDescription);
+			attributeGetterFunctions.put("videosIds", Activity::getVideosIds);
+			attributeGetterFunctions.put("imageId", Activity::getImageId);
+			attributeGetterFunctions.put("imagesIds", Activity::getImagesIds);
+			attributeGetterFunctions.put("filesIds", Activity::getFilesIds);
+			attributeGetterFunctions.put("status", Activity::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Activity::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Activity::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Activity::getStatusDate);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Activity, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Activity, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Activity, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Activity, String>)Activity::setUuid);
+			attributeSetterBiConsumers.put(
+				"activityId",
+				(BiConsumer<Activity, Long>)Activity::setActivityId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Activity, Long>)Activity::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Activity, Long>)Activity::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Activity, Long>)Activity::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Activity, String>)Activity::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Activity, Date>)Activity::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Activity, Date>)Activity::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Activity, String>)Activity::setTitle);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<Activity, String>)Activity::setDescription);
+			attributeSetterBiConsumers.put(
+				"videosIds",
+				(BiConsumer<Activity, String>)Activity::setVideosIds);
+			attributeSetterBiConsumers.put(
+				"imageId", (BiConsumer<Activity, Long>)Activity::setImageId);
+			attributeSetterBiConsumers.put(
+				"imagesIds",
+				(BiConsumer<Activity, String>)Activity::setImagesIds);
+			attributeSetterBiConsumers.put(
+				"filesIds",
+				(BiConsumer<Activity, String>)Activity::setFilesIds);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Activity, Integer>)Activity::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Activity, Long>)Activity::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Activity, String>)Activity::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Activity, Date>)Activity::setStatusDate);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1456,8 +1471,9 @@ public class ActivityModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Activity, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Activity, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model.impl;
@@ -244,58 +235,75 @@ public class DirectionModelImpl
 	public Map<String, Function<Direction, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Direction, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Direction, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Direction, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Direction, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Direction, Object>>();
-		Map<String, BiConsumer<Direction, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Direction, ?>>();
+		private static final Map<String, Function<Direction, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Direction::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Direction, String>)Direction::setUuid);
-		attributeGetterFunctions.put("directionId", Direction::getDirectionId);
-		attributeSetterBiConsumers.put(
-			"directionId",
-			(BiConsumer<Direction, Long>)Direction::setDirectionId);
-		attributeGetterFunctions.put("groupId", Direction::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Direction, Long>)Direction::setGroupId);
-		attributeGetterFunctions.put("companyId", Direction::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Direction, Long>)Direction::setCompanyId);
-		attributeGetterFunctions.put("tripId", Direction::getTripId);
-		attributeSetterBiConsumers.put(
-			"tripId", (BiConsumer<Direction, String>)Direction::setTripId);
-		attributeGetterFunctions.put("stopId", Direction::getStopId);
-		attributeSetterBiConsumers.put(
-			"stopId", (BiConsumer<Direction, String>)Direction::setStopId);
-		attributeGetterFunctions.put("routeId", Direction::getRouteId);
-		attributeSetterBiConsumers.put(
-			"routeId", (BiConsumer<Direction, String>)Direction::setRouteId);
-		attributeGetterFunctions.put(
-			"destinationName", Direction::getDestinationName);
-		attributeSetterBiConsumers.put(
-			"destinationName",
-			(BiConsumer<Direction, String>)Direction::setDestinationName);
+		static {
+			Map<String, Function<Direction, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Direction, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Direction::getUuid);
+			attributeGetterFunctions.put(
+				"directionId", Direction::getDirectionId);
+			attributeGetterFunctions.put("groupId", Direction::getGroupId);
+			attributeGetterFunctions.put("companyId", Direction::getCompanyId);
+			attributeGetterFunctions.put("tripId", Direction::getTripId);
+			attributeGetterFunctions.put("stopId", Direction::getStopId);
+			attributeGetterFunctions.put("routeId", Direction::getRouteId);
+			attributeGetterFunctions.put(
+				"destinationName", Direction::getDestinationName);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Direction, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Direction, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Direction, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Direction, String>)Direction::setUuid);
+			attributeSetterBiConsumers.put(
+				"directionId",
+				(BiConsumer<Direction, Long>)Direction::setDirectionId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Direction, Long>)Direction::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Direction, Long>)Direction::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"tripId", (BiConsumer<Direction, String>)Direction::setTripId);
+			attributeSetterBiConsumers.put(
+				"stopId", (BiConsumer<Direction, String>)Direction::setStopId);
+			attributeSetterBiConsumers.put(
+				"routeId",
+				(BiConsumer<Direction, String>)Direction::setRouteId);
+			attributeSetterBiConsumers.put(
+				"destinationName",
+				(BiConsumer<Direction, String>)Direction::setDestinationName);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -778,8 +786,9 @@ public class DirectionModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Direction, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Direction, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

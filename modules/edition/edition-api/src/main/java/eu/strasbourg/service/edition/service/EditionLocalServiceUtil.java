@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.edition.service;
@@ -61,28 +52,28 @@ public class EditionLocalServiceUtil {
 		return getService().addEdition(edition);
 	}
 
-	public static void addEditionGalleryEdition(
+	public static boolean addEditionGalleryEdition(
 		long galleryId, Edition edition) {
 
-		getService().addEditionGalleryEdition(galleryId, edition);
+		return getService().addEditionGalleryEdition(galleryId, edition);
 	}
 
-	public static void addEditionGalleryEdition(
+	public static boolean addEditionGalleryEdition(
 		long galleryId, long editionId) {
 
-		getService().addEditionGalleryEdition(galleryId, editionId);
+		return getService().addEditionGalleryEdition(galleryId, editionId);
 	}
 
-	public static void addEditionGalleryEditions(
+	public static boolean addEditionGalleryEditions(
 		long galleryId, List<Edition> editions) {
 
-		getService().addEditionGalleryEditions(galleryId, editions);
+		return getService().addEditionGalleryEditions(galleryId, editions);
 	}
 
-	public static void addEditionGalleryEditions(
+	public static boolean addEditionGalleryEditions(
 		long galleryId, long[] editionIds) {
 
-		getService().addEditionGalleryEditions(galleryId, editionIds);
+		return getService().addEditionGalleryEditions(galleryId, editionIds);
 	}
 
 	/**
@@ -557,6 +548,10 @@ public class EditionLocalServiceUtil {
 
 	public static EditionLocalService getService() {
 		return _service;
+	}
+
+	public static void setService(EditionLocalService service) {
+		_service = service;
 	}
 
 	private static volatile EditionLocalService _service;

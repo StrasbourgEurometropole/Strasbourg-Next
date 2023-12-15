@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.council.model.impl;
@@ -262,122 +253,150 @@ public class DeliberationModelImpl
 	public Map<String, Function<Deliberation, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Deliberation, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Deliberation, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Deliberation, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Deliberation, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Deliberation, Object>>();
-		Map<String, BiConsumer<Deliberation, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Deliberation, ?>>();
+		private static final Map<String, Function<Deliberation, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Deliberation::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Deliberation, String>)Deliberation::setUuid);
-		attributeGetterFunctions.put(
-			"deliberationId", Deliberation::getDeliberationId);
-		attributeSetterBiConsumers.put(
-			"deliberationId",
-			(BiConsumer<Deliberation, Long>)Deliberation::setDeliberationId);
-		attributeGetterFunctions.put("groupId", Deliberation::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<Deliberation, Long>)Deliberation::setGroupId);
-		attributeGetterFunctions.put("companyId", Deliberation::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<Deliberation, Long>)Deliberation::setCompanyId);
-		attributeGetterFunctions.put("userId", Deliberation::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Deliberation, Long>)Deliberation::setUserId);
-		attributeGetterFunctions.put("userName", Deliberation::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<Deliberation, String>)Deliberation::setUserName);
-		attributeGetterFunctions.put("createDate", Deliberation::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<Deliberation, Date>)Deliberation::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", Deliberation::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<Deliberation, Date>)Deliberation::setModifiedDate);
-		attributeGetterFunctions.put("status", Deliberation::getStatus);
-		attributeSetterBiConsumers.put(
-			"status",
-			(BiConsumer<Deliberation, Integer>)Deliberation::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Deliberation::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Deliberation, Long>)Deliberation::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Deliberation::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Deliberation, String>)
-				Deliberation::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Deliberation::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			(BiConsumer<Deliberation, Date>)Deliberation::setStatusDate);
-		attributeGetterFunctions.put("title", Deliberation::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<Deliberation, String>)Deliberation::setTitle);
-		attributeGetterFunctions.put("order", Deliberation::getOrder);
-		attributeSetterBiConsumers.put(
-			"order", (BiConsumer<Deliberation, Integer>)Deliberation::setOrder);
-		attributeGetterFunctions.put("stage", Deliberation::getStage);
-		attributeSetterBiConsumers.put(
-			"stage", (BiConsumer<Deliberation, String>)Deliberation::setStage);
-		attributeGetterFunctions.put(
-			"countOfficialsVoting", Deliberation::getCountOfficialsVoting);
-		attributeSetterBiConsumers.put(
-			"countOfficialsVoting",
-			(BiConsumer<Deliberation, Integer>)
-				Deliberation::setCountOfficialsVoting);
-		attributeGetterFunctions.put(
-			"countOfficialsActive", Deliberation::getCountOfficialsActive);
-		attributeSetterBiConsumers.put(
-			"countOfficialsActive",
-			(BiConsumer<Deliberation, Integer>)
-				Deliberation::setCountOfficialsActive);
-		attributeGetterFunctions.put("quorum", Deliberation::getQuorum);
-		attributeSetterBiConsumers.put(
-			"quorum",
-			(BiConsumer<Deliberation, Integer>)Deliberation::setQuorum);
-		attributeGetterFunctions.put(
-			"beginningVoteDate", Deliberation::getBeginningVoteDate);
-		attributeSetterBiConsumers.put(
-			"beginningVoteDate",
-			(BiConsumer<Deliberation, Date>)Deliberation::setBeginningVoteDate);
-		attributeGetterFunctions.put(
-			"endVoteDate", Deliberation::getEndVoteDate);
-		attributeSetterBiConsumers.put(
-			"endVoteDate",
-			(BiConsumer<Deliberation, Date>)Deliberation::setEndVoteDate);
-		attributeGetterFunctions.put(
-			"councilSessionId", Deliberation::getCouncilSessionId);
-		attributeSetterBiConsumers.put(
-			"councilSessionId",
-			(BiConsumer<Deliberation, Long>)Deliberation::setCouncilSessionId);
+		static {
+			Map<String, Function<Deliberation, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<Deliberation, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Deliberation::getUuid);
+			attributeGetterFunctions.put(
+				"deliberationId", Deliberation::getDeliberationId);
+			attributeGetterFunctions.put("groupId", Deliberation::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", Deliberation::getCompanyId);
+			attributeGetterFunctions.put("userId", Deliberation::getUserId);
+			attributeGetterFunctions.put("userName", Deliberation::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", Deliberation::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Deliberation::getModifiedDate);
+			attributeGetterFunctions.put("status", Deliberation::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Deliberation::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Deliberation::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", Deliberation::getStatusDate);
+			attributeGetterFunctions.put("title", Deliberation::getTitle);
+			attributeGetterFunctions.put("order", Deliberation::getOrder);
+			attributeGetterFunctions.put("stage", Deliberation::getStage);
+			attributeGetterFunctions.put(
+				"countOfficialsVoting", Deliberation::getCountOfficialsVoting);
+			attributeGetterFunctions.put(
+				"countOfficialsActive", Deliberation::getCountOfficialsActive);
+			attributeGetterFunctions.put("quorum", Deliberation::getQuorum);
+			attributeGetterFunctions.put(
+				"beginningVoteDate", Deliberation::getBeginningVoteDate);
+			attributeGetterFunctions.put(
+				"endVoteDate", Deliberation::getEndVoteDate);
+			attributeGetterFunctions.put(
+				"councilSessionId", Deliberation::getCouncilSessionId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Deliberation, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Deliberation, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<Deliberation, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<Deliberation, String>)Deliberation::setUuid);
+			attributeSetterBiConsumers.put(
+				"deliberationId",
+				(BiConsumer<Deliberation, Long>)
+					Deliberation::setDeliberationId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<Deliberation, Long>)Deliberation::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Deliberation, Long>)Deliberation::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<Deliberation, Long>)Deliberation::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Deliberation, String>)Deliberation::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Deliberation, Date>)Deliberation::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Deliberation, Date>)Deliberation::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<Deliberation, Integer>)Deliberation::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Deliberation, Long>)
+					Deliberation::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Deliberation, String>)
+					Deliberation::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Deliberation, Date>)Deliberation::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title",
+				(BiConsumer<Deliberation, String>)Deliberation::setTitle);
+			attributeSetterBiConsumers.put(
+				"order",
+				(BiConsumer<Deliberation, Integer>)Deliberation::setOrder);
+			attributeSetterBiConsumers.put(
+				"stage",
+				(BiConsumer<Deliberation, String>)Deliberation::setStage);
+			attributeSetterBiConsumers.put(
+				"countOfficialsVoting",
+				(BiConsumer<Deliberation, Integer>)
+					Deliberation::setCountOfficialsVoting);
+			attributeSetterBiConsumers.put(
+				"countOfficialsActive",
+				(BiConsumer<Deliberation, Integer>)
+					Deliberation::setCountOfficialsActive);
+			attributeSetterBiConsumers.put(
+				"quorum",
+				(BiConsumer<Deliberation, Integer>)Deliberation::setQuorum);
+			attributeSetterBiConsumers.put(
+				"beginningVoteDate",
+				(BiConsumer<Deliberation, Date>)
+					Deliberation::setBeginningVoteDate);
+			attributeSetterBiConsumers.put(
+				"endVoteDate",
+				(BiConsumer<Deliberation, Date>)Deliberation::setEndVoteDate);
+			attributeSetterBiConsumers.put(
+				"councilSessionId",
+				(BiConsumer<Deliberation, Long>)
+					Deliberation::setCouncilSessionId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1278,8 +1297,9 @@ public class DeliberationModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Deliberation, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Deliberation, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

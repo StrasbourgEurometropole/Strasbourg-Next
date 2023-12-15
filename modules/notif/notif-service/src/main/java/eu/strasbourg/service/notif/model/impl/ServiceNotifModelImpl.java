@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.notif.model.impl;
@@ -224,73 +215,95 @@ public class ServiceNotifModelImpl
 	public Map<String, Function<ServiceNotif, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<ServiceNotif, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<ServiceNotif, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ServiceNotif, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<ServiceNotif, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<ServiceNotif, Object>>();
-		Map<String, BiConsumer<ServiceNotif, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<ServiceNotif, ?>>();
+		private static final Map<String, Function<ServiceNotif, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("serviceId", ServiceNotif::getServiceId);
-		attributeSetterBiConsumers.put(
-			"serviceId",
-			(BiConsumer<ServiceNotif, Long>)ServiceNotif::setServiceId);
-		attributeGetterFunctions.put(
-			"organisationId", ServiceNotif::getOrganisationId);
-		attributeSetterBiConsumers.put(
-			"organisationId",
-			(BiConsumer<ServiceNotif, Long>)ServiceNotif::setOrganisationId);
-		attributeGetterFunctions.put("name", ServiceNotif::getName);
-		attributeSetterBiConsumers.put(
-			"name", (BiConsumer<ServiceNotif, String>)ServiceNotif::setName);
-		attributeGetterFunctions.put("pictoId", ServiceNotif::getPictoId);
-		attributeSetterBiConsumers.put(
-			"pictoId",
-			(BiConsumer<ServiceNotif, Long>)ServiceNotif::setPictoId);
-		attributeGetterFunctions.put(
-			"csmapSubscriptionLabel", ServiceNotif::getCsmapSubscriptionLabel);
-		attributeSetterBiConsumers.put(
-			"csmapSubscriptionLabel",
-			(BiConsumer<ServiceNotif, String>)
-				ServiceNotif::setCsmapSubscriptionLabel);
-		attributeGetterFunctions.put(
-			"csmapSubscriptionMandatory",
-			ServiceNotif::getCsmapSubscriptionMandatory);
-		attributeSetterBiConsumers.put(
-			"csmapSubscriptionMandatory",
-			(BiConsumer<ServiceNotif, Boolean>)
-				ServiceNotif::setCsmapSubscriptionMandatory);
-		attributeGetterFunctions.put("csmapTopic", ServiceNotif::getCsmapTopic);
-		attributeSetterBiConsumers.put(
-			"csmapTopic",
-			(BiConsumer<ServiceNotif, String>)ServiceNotif::setCsmapTopic);
-		attributeGetterFunctions.put("createDate", ServiceNotif::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<ServiceNotif, Date>)ServiceNotif::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", ServiceNotif::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<ServiceNotif, Date>)ServiceNotif::setModifiedDate);
+		static {
+			Map<String, Function<ServiceNotif, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<ServiceNotif, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put(
+				"serviceId", ServiceNotif::getServiceId);
+			attributeGetterFunctions.put(
+				"organisationId", ServiceNotif::getOrganisationId);
+			attributeGetterFunctions.put("name", ServiceNotif::getName);
+			attributeGetterFunctions.put("pictoId", ServiceNotif::getPictoId);
+			attributeGetterFunctions.put(
+				"csmapSubscriptionLabel",
+				ServiceNotif::getCsmapSubscriptionLabel);
+			attributeGetterFunctions.put(
+				"csmapSubscriptionMandatory",
+				ServiceNotif::getCsmapSubscriptionMandatory);
+			attributeGetterFunctions.put(
+				"csmapTopic", ServiceNotif::getCsmapTopic);
+			attributeGetterFunctions.put(
+				"createDate", ServiceNotif::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", ServiceNotif::getModifiedDate);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<ServiceNotif, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<ServiceNotif, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<ServiceNotif, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"serviceId",
+				(BiConsumer<ServiceNotif, Long>)ServiceNotif::setServiceId);
+			attributeSetterBiConsumers.put(
+				"organisationId",
+				(BiConsumer<ServiceNotif, Long>)
+					ServiceNotif::setOrganisationId);
+			attributeSetterBiConsumers.put(
+				"name",
+				(BiConsumer<ServiceNotif, String>)ServiceNotif::setName);
+			attributeSetterBiConsumers.put(
+				"pictoId",
+				(BiConsumer<ServiceNotif, Long>)ServiceNotif::setPictoId);
+			attributeSetterBiConsumers.put(
+				"csmapSubscriptionLabel",
+				(BiConsumer<ServiceNotif, String>)
+					ServiceNotif::setCsmapSubscriptionLabel);
+			attributeSetterBiConsumers.put(
+				"csmapSubscriptionMandatory",
+				(BiConsumer<ServiceNotif, Boolean>)
+					ServiceNotif::setCsmapSubscriptionMandatory);
+			attributeSetterBiConsumers.put(
+				"csmapTopic",
+				(BiConsumer<ServiceNotif, String>)ServiceNotif::setCsmapTopic);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<ServiceNotif, Date>)ServiceNotif::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<ServiceNotif, Date>)ServiceNotif::setModifiedDate);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -763,8 +776,9 @@ public class ServiceNotifModelImpl
 	private boolean _setModifiedDate;
 
 	public <T> T getColumnValue(String columnName) {
-		Function<ServiceNotif, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<ServiceNotif, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

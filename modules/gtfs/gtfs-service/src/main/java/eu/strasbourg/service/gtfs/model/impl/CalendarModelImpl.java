@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model.impl;
@@ -231,68 +222,86 @@ public class CalendarModelImpl
 	public Map<String, Function<Calendar, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Calendar, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Calendar, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Calendar, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Calendar, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Calendar, Object>>();
-		Map<String, BiConsumer<Calendar, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Calendar, ?>>();
+		private static final Map<String, Function<Calendar, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Calendar::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Calendar, String>)Calendar::setUuid);
-		attributeGetterFunctions.put("id", Calendar::getId);
-		attributeSetterBiConsumers.put(
-			"id", (BiConsumer<Calendar, Long>)Calendar::setId);
-		attributeGetterFunctions.put("service_id", Calendar::getService_id);
-		attributeSetterBiConsumers.put(
-			"service_id",
-			(BiConsumer<Calendar, String>)Calendar::setService_id);
-		attributeGetterFunctions.put("monday", Calendar::getMonday);
-		attributeSetterBiConsumers.put(
-			"monday", (BiConsumer<Calendar, Boolean>)Calendar::setMonday);
-		attributeGetterFunctions.put("tuesday", Calendar::getTuesday);
-		attributeSetterBiConsumers.put(
-			"tuesday", (BiConsumer<Calendar, Boolean>)Calendar::setTuesday);
-		attributeGetterFunctions.put("wednesday", Calendar::getWednesday);
-		attributeSetterBiConsumers.put(
-			"wednesday", (BiConsumer<Calendar, Boolean>)Calendar::setWednesday);
-		attributeGetterFunctions.put("thursday", Calendar::getThursday);
-		attributeSetterBiConsumers.put(
-			"thursday", (BiConsumer<Calendar, Boolean>)Calendar::setThursday);
-		attributeGetterFunctions.put("friday", Calendar::getFriday);
-		attributeSetterBiConsumers.put(
-			"friday", (BiConsumer<Calendar, Boolean>)Calendar::setFriday);
-		attributeGetterFunctions.put("saturday", Calendar::getSaturday);
-		attributeSetterBiConsumers.put(
-			"saturday", (BiConsumer<Calendar, Boolean>)Calendar::setSaturday);
-		attributeGetterFunctions.put("sunday", Calendar::getSunday);
-		attributeSetterBiConsumers.put(
-			"sunday", (BiConsumer<Calendar, Boolean>)Calendar::setSunday);
-		attributeGetterFunctions.put("start_date", Calendar::getStart_date);
-		attributeSetterBiConsumers.put(
-			"start_date", (BiConsumer<Calendar, Date>)Calendar::setStart_date);
-		attributeGetterFunctions.put("end_date", Calendar::getEnd_date);
-		attributeSetterBiConsumers.put(
-			"end_date", (BiConsumer<Calendar, Date>)Calendar::setEnd_date);
+		static {
+			Map<String, Function<Calendar, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Calendar, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Calendar::getUuid);
+			attributeGetterFunctions.put("id", Calendar::getId);
+			attributeGetterFunctions.put("service_id", Calendar::getService_id);
+			attributeGetterFunctions.put("monday", Calendar::getMonday);
+			attributeGetterFunctions.put("tuesday", Calendar::getTuesday);
+			attributeGetterFunctions.put("wednesday", Calendar::getWednesday);
+			attributeGetterFunctions.put("thursday", Calendar::getThursday);
+			attributeGetterFunctions.put("friday", Calendar::getFriday);
+			attributeGetterFunctions.put("saturday", Calendar::getSaturday);
+			attributeGetterFunctions.put("sunday", Calendar::getSunday);
+			attributeGetterFunctions.put("start_date", Calendar::getStart_date);
+			attributeGetterFunctions.put("end_date", Calendar::getEnd_date);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Calendar, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Calendar, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Calendar, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Calendar, String>)Calendar::setUuid);
+			attributeSetterBiConsumers.put(
+				"id", (BiConsumer<Calendar, Long>)Calendar::setId);
+			attributeSetterBiConsumers.put(
+				"service_id",
+				(BiConsumer<Calendar, String>)Calendar::setService_id);
+			attributeSetterBiConsumers.put(
+				"monday", (BiConsumer<Calendar, Boolean>)Calendar::setMonday);
+			attributeSetterBiConsumers.put(
+				"tuesday", (BiConsumer<Calendar, Boolean>)Calendar::setTuesday);
+			attributeSetterBiConsumers.put(
+				"wednesday",
+				(BiConsumer<Calendar, Boolean>)Calendar::setWednesday);
+			attributeSetterBiConsumers.put(
+				"thursday",
+				(BiConsumer<Calendar, Boolean>)Calendar::setThursday);
+			attributeSetterBiConsumers.put(
+				"friday", (BiConsumer<Calendar, Boolean>)Calendar::setFriday);
+			attributeSetterBiConsumers.put(
+				"saturday",
+				(BiConsumer<Calendar, Boolean>)Calendar::setSaturday);
+			attributeSetterBiConsumers.put(
+				"sunday", (BiConsumer<Calendar, Boolean>)Calendar::setSunday);
+			attributeSetterBiConsumers.put(
+				"start_date",
+				(BiConsumer<Calendar, Date>)Calendar::setStart_date);
+			attributeSetterBiConsumers.put(
+				"end_date", (BiConsumer<Calendar, Date>)Calendar::setEnd_date);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -840,8 +849,9 @@ public class CalendarModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Calendar, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Calendar, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

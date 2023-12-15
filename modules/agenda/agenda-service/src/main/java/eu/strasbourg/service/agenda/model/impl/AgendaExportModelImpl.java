@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model.impl;
@@ -266,113 +257,142 @@ public class AgendaExportModelImpl
 	public Map<String, Function<AgendaExport, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<AgendaExport, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<AgendaExport, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<AgendaExport, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<AgendaExport, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<AgendaExport, Object>>();
-		Map<String, BiConsumer<AgendaExport, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<AgendaExport, ?>>();
+		private static final Map<String, Function<AgendaExport, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", AgendaExport::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<AgendaExport, String>)AgendaExport::setUuid);
-		attributeGetterFunctions.put(
-			"agendaExportId", AgendaExport::getAgendaExportId);
-		attributeSetterBiConsumers.put(
-			"agendaExportId",
-			(BiConsumer<AgendaExport, Long>)AgendaExport::setAgendaExportId);
-		attributeGetterFunctions.put("groupId", AgendaExport::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<AgendaExport, Long>)AgendaExport::setGroupId);
-		attributeGetterFunctions.put("companyId", AgendaExport::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<AgendaExport, Long>)AgendaExport::setCompanyId);
-		attributeGetterFunctions.put("userId", AgendaExport::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<AgendaExport, Long>)AgendaExport::setUserId);
-		attributeGetterFunctions.put("userName", AgendaExport::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<AgendaExport, String>)AgendaExport::setUserName);
-		attributeGetterFunctions.put("createDate", AgendaExport::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<AgendaExport, Date>)AgendaExport::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", AgendaExport::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<AgendaExport, Date>)AgendaExport::setModifiedDate);
-		attributeGetterFunctions.put(
-			"lastPublishDate", AgendaExport::getLastPublishDate);
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			(BiConsumer<AgendaExport, Date>)AgendaExport::setLastPublishDate);
-		attributeGetterFunctions.put("status", AgendaExport::getStatus);
-		attributeSetterBiConsumers.put(
-			"status",
-			(BiConsumer<AgendaExport, Integer>)AgendaExport::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", AgendaExport::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<AgendaExport, Long>)AgendaExport::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", AgendaExport::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<AgendaExport, String>)
-				AgendaExport::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", AgendaExport::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			(BiConsumer<AgendaExport, Date>)AgendaExport::setStatusDate);
-		attributeGetterFunctions.put("title", AgendaExport::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<AgendaExport, String>)AgendaExport::setTitle);
-		attributeGetterFunctions.put("language", AgendaExport::getLanguage);
-		attributeSetterBiConsumers.put(
-			"language",
-			(BiConsumer<AgendaExport, String>)AgendaExport::setLanguage);
-		attributeGetterFunctions.put(
-			"exportFormat", AgendaExport::getExportFormat);
-		attributeSetterBiConsumers.put(
-			"exportFormat",
-			(BiConsumer<AgendaExport, String>)AgendaExport::setExportFormat);
-		attributeGetterFunctions.put("templateId", AgendaExport::getTemplateId);
-		attributeSetterBiConsumers.put(
-			"templateId",
-			(BiConsumer<AgendaExport, Long>)AgendaExport::setTemplateId);
-		attributeGetterFunctions.put(
-			"eventCategories", AgendaExport::getEventCategories);
-		attributeSetterBiConsumers.put(
-			"eventCategories",
-			(BiConsumer<AgendaExport, String>)AgendaExport::setEventCategories);
-		attributeGetterFunctions.put(
-			"aggregations", AgendaExport::getAggregations);
-		attributeSetterBiConsumers.put(
-			"aggregations",
-			(BiConsumer<AgendaExport, String>)AgendaExport::setAggregations);
+		static {
+			Map<String, Function<AgendaExport, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<AgendaExport, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", AgendaExport::getUuid);
+			attributeGetterFunctions.put(
+				"agendaExportId", AgendaExport::getAgendaExportId);
+			attributeGetterFunctions.put("groupId", AgendaExport::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", AgendaExport::getCompanyId);
+			attributeGetterFunctions.put("userId", AgendaExport::getUserId);
+			attributeGetterFunctions.put("userName", AgendaExport::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", AgendaExport::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", AgendaExport::getModifiedDate);
+			attributeGetterFunctions.put(
+				"lastPublishDate", AgendaExport::getLastPublishDate);
+			attributeGetterFunctions.put("status", AgendaExport::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", AgendaExport::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", AgendaExport::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", AgendaExport::getStatusDate);
+			attributeGetterFunctions.put("title", AgendaExport::getTitle);
+			attributeGetterFunctions.put("language", AgendaExport::getLanguage);
+			attributeGetterFunctions.put(
+				"exportFormat", AgendaExport::getExportFormat);
+			attributeGetterFunctions.put(
+				"templateId", AgendaExport::getTemplateId);
+			attributeGetterFunctions.put(
+				"eventCategories", AgendaExport::getEventCategories);
+			attributeGetterFunctions.put(
+				"aggregations", AgendaExport::getAggregations);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<AgendaExport, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<AgendaExport, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<AgendaExport, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<AgendaExport, String>)AgendaExport::setUuid);
+			attributeSetterBiConsumers.put(
+				"agendaExportId",
+				(BiConsumer<AgendaExport, Long>)
+					AgendaExport::setAgendaExportId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<AgendaExport, Long>)AgendaExport::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<AgendaExport, Long>)AgendaExport::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<AgendaExport, Long>)AgendaExport::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<AgendaExport, String>)AgendaExport::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<AgendaExport, Date>)AgendaExport::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<AgendaExport, Date>)AgendaExport::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"lastPublishDate",
+				(BiConsumer<AgendaExport, Date>)
+					AgendaExport::setLastPublishDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<AgendaExport, Integer>)AgendaExport::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<AgendaExport, Long>)
+					AgendaExport::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<AgendaExport, String>)
+					AgendaExport::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<AgendaExport, Date>)AgendaExport::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title",
+				(BiConsumer<AgendaExport, String>)AgendaExport::setTitle);
+			attributeSetterBiConsumers.put(
+				"language",
+				(BiConsumer<AgendaExport, String>)AgendaExport::setLanguage);
+			attributeSetterBiConsumers.put(
+				"exportFormat",
+				(BiConsumer<AgendaExport, String>)
+					AgendaExport::setExportFormat);
+			attributeSetterBiConsumers.put(
+				"templateId",
+				(BiConsumer<AgendaExport, Long>)AgendaExport::setTemplateId);
+			attributeSetterBiConsumers.put(
+				"eventCategories",
+				(BiConsumer<AgendaExport, String>)
+					AgendaExport::setEventCategories);
+			attributeSetterBiConsumers.put(
+				"aggregations",
+				(BiConsumer<AgendaExport, String>)
+					AgendaExport::setAggregations);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1415,8 +1435,9 @@ public class AgendaExportModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<AgendaExport, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<AgendaExport, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

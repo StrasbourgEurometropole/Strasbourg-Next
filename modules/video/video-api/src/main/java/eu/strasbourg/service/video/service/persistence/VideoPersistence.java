@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.video.service.persistence;
@@ -889,16 +880,18 @@ public interface VideoPersistence extends BasePersistence<Video> {
 	 *
 	 * @param pk the primary key of the video
 	 * @param videoGalleryPK the primary key of the video gallery
+	 * @return <code>true</code> if an association between the video and the video gallery was added; <code>false</code> if they were already associated
 	 */
-	public void addVideoGallery(long pk, long videoGalleryPK);
+	public boolean addVideoGallery(long pk, long videoGalleryPK);
 
 	/**
 	 * Adds an association between the video and the video gallery. Also notifies the appropriate model listeners and clears the mapping table finder cache.
 	 *
 	 * @param pk the primary key of the video
 	 * @param videoGallery the video gallery
+	 * @return <code>true</code> if an association between the video and the video gallery was added; <code>false</code> if they were already associated
 	 */
-	public void addVideoGallery(
+	public boolean addVideoGallery(
 		long pk, eu.strasbourg.service.video.model.VideoGallery videoGallery);
 
 	/**
@@ -906,16 +899,18 @@ public interface VideoPersistence extends BasePersistence<Video> {
 	 *
 	 * @param pk the primary key of the video
 	 * @param videoGalleryPKs the primary keys of the video galleries
+	 * @return <code>true</code> if at least one association between the video and the video galleries was added; <code>false</code> if they were all already associated
 	 */
-	public void addVideoGalleries(long pk, long[] videoGalleryPKs);
+	public boolean addVideoGalleries(long pk, long[] videoGalleryPKs);
 
 	/**
 	 * Adds an association between the video and the video galleries. Also notifies the appropriate model listeners and clears the mapping table finder cache.
 	 *
 	 * @param pk the primary key of the video
 	 * @param videoGalleries the video galleries
+	 * @return <code>true</code> if at least one association between the video and the video galleries was added; <code>false</code> if they were all already associated
 	 */
-	public void addVideoGalleries(
+	public boolean addVideoGalleries(
 		long pk,
 		java.util.List<eu.strasbourg.service.video.model.VideoGallery>
 			videoGalleries);

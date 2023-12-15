@@ -5,17 +5,17 @@
 	<import class="eu.strasbourg.service.objtp.model.FoundObject" />
 	<import class="eu.strasbourg.service.objtp.model.ObjectCategory" />
 	<class name="eu.strasbourg.service.objtp.model.impl.FoundObjectImpl" table="objtp_FoundObject">
-		<id access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" column="number_" name="number" type="java.lang.String">
+		<id access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" column="number_" name="number" type="java.lang.String">
 			<generator class="assigned" />
 		</id>
-		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" column="date_" name="date" type="org.hibernate.type.TimestampType" />
-		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="imageUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="categoryCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" column="date_" name="date" type="org.hibernate.type.TimestampType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="imageUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="categoryCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.objtp.model.impl.ObjectCategoryImpl" table="objtp_ObjectCategory">
-		<id access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" column="code_" name="code" type="java.lang.String">
+		<id access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" column="code_" name="code" type="java.lang.String">
 			<generator class="assigned" />
 		</id>
-		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 </hibernate-mapping>

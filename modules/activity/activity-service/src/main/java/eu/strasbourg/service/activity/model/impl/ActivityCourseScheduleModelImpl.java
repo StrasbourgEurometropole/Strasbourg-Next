@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.activity.model.impl;
@@ -268,156 +259,173 @@ public class ActivityCourseScheduleModelImpl
 	public Map<String, Function<ActivityCourseSchedule, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<ActivityCourseSchedule, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<ActivityCourseSchedule, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ActivityCourseSchedule, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<ActivityCourseSchedule, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap
-					<String, Function<ActivityCourseSchedule, Object>>();
-		Map<String, BiConsumer<ActivityCourseSchedule, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<ActivityCourseSchedule, ?>>();
+		private static final Map
+			<String, Function<ActivityCourseSchedule, Object>>
+				_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", ActivityCourseSchedule::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid",
-			(BiConsumer<ActivityCourseSchedule, String>)
-				ActivityCourseSchedule::setUuid);
-		attributeGetterFunctions.put(
-			"activityCourseScheduleId",
-			ActivityCourseSchedule::getActivityCourseScheduleId);
-		attributeSetterBiConsumers.put(
-			"activityCourseScheduleId",
-			(BiConsumer<ActivityCourseSchedule, Long>)
-				ActivityCourseSchedule::setActivityCourseScheduleId);
-		attributeGetterFunctions.put(
-			"groupId", ActivityCourseSchedule::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<ActivityCourseSchedule, Long>)
-				ActivityCourseSchedule::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", ActivityCourseSchedule::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<ActivityCourseSchedule, Long>)
-				ActivityCourseSchedule::setCompanyId);
-		attributeGetterFunctions.put(
-			"userId", ActivityCourseSchedule::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId",
-			(BiConsumer<ActivityCourseSchedule, Long>)
-				ActivityCourseSchedule::setUserId);
-		attributeGetterFunctions.put(
-			"userName", ActivityCourseSchedule::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<ActivityCourseSchedule, String>)
-				ActivityCourseSchedule::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", ActivityCourseSchedule::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<ActivityCourseSchedule, Date>)
-				ActivityCourseSchedule::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", ActivityCourseSchedule::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<ActivityCourseSchedule, Date>)
-				ActivityCourseSchedule::setModifiedDate);
-		attributeGetterFunctions.put(
-			"activityCoursePlaceId",
-			ActivityCourseSchedule::getActivityCoursePlaceId);
-		attributeSetterBiConsumers.put(
-			"activityCoursePlaceId",
-			(BiConsumer<ActivityCourseSchedule, Long>)
-				ActivityCourseSchedule::setActivityCoursePlaceId);
-		attributeGetterFunctions.put(
-			"startTime", ActivityCourseSchedule::getStartTime);
-		attributeSetterBiConsumers.put(
-			"startTime",
-			(BiConsumer<ActivityCourseSchedule, String>)
-				ActivityCourseSchedule::setStartTime);
-		attributeGetterFunctions.put(
-			"endTime", ActivityCourseSchedule::getEndTime);
-		attributeSetterBiConsumers.put(
-			"endTime",
-			(BiConsumer<ActivityCourseSchedule, String>)
-				ActivityCourseSchedule::setEndTime);
-		attributeGetterFunctions.put(
-			"monday", ActivityCourseSchedule::getMonday);
-		attributeSetterBiConsumers.put(
-			"monday",
-			(BiConsumer<ActivityCourseSchedule, Boolean>)
-				ActivityCourseSchedule::setMonday);
-		attributeGetterFunctions.put(
-			"tuesday", ActivityCourseSchedule::getTuesday);
-		attributeSetterBiConsumers.put(
-			"tuesday",
-			(BiConsumer<ActivityCourseSchedule, Boolean>)
-				ActivityCourseSchedule::setTuesday);
-		attributeGetterFunctions.put(
-			"wednesday", ActivityCourseSchedule::getWednesday);
-		attributeSetterBiConsumers.put(
-			"wednesday",
-			(BiConsumer<ActivityCourseSchedule, Boolean>)
-				ActivityCourseSchedule::setWednesday);
-		attributeGetterFunctions.put(
-			"thursday", ActivityCourseSchedule::getThursday);
-		attributeSetterBiConsumers.put(
-			"thursday",
-			(BiConsumer<ActivityCourseSchedule, Boolean>)
-				ActivityCourseSchedule::setThursday);
-		attributeGetterFunctions.put(
-			"friday", ActivityCourseSchedule::getFriday);
-		attributeSetterBiConsumers.put(
-			"friday",
-			(BiConsumer<ActivityCourseSchedule, Boolean>)
-				ActivityCourseSchedule::setFriday);
-		attributeGetterFunctions.put(
-			"saturday", ActivityCourseSchedule::getSaturday);
-		attributeSetterBiConsumers.put(
-			"saturday",
-			(BiConsumer<ActivityCourseSchedule, Boolean>)
-				ActivityCourseSchedule::setSaturday);
-		attributeGetterFunctions.put(
-			"sunday", ActivityCourseSchedule::getSunday);
-		attributeSetterBiConsumers.put(
-			"sunday",
-			(BiConsumer<ActivityCourseSchedule, Boolean>)
-				ActivityCourseSchedule::setSunday);
-		attributeGetterFunctions.put(
-			"comments", ActivityCourseSchedule::getComments);
-		attributeSetterBiConsumers.put(
-			"comments",
-			(BiConsumer<ActivityCourseSchedule, String>)
-				ActivityCourseSchedule::setComments);
-		attributeGetterFunctions.put(
-			"periodsIds", ActivityCourseSchedule::getPeriodsIds);
-		attributeSetterBiConsumers.put(
-			"periodsIds",
-			(BiConsumer<ActivityCourseSchedule, String>)
-				ActivityCourseSchedule::setPeriodsIds);
+		static {
+			Map<String, Function<ActivityCourseSchedule, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<ActivityCourseSchedule, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put(
+				"uuid", ActivityCourseSchedule::getUuid);
+			attributeGetterFunctions.put(
+				"activityCourseScheduleId",
+				ActivityCourseSchedule::getActivityCourseScheduleId);
+			attributeGetterFunctions.put(
+				"groupId", ActivityCourseSchedule::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", ActivityCourseSchedule::getCompanyId);
+			attributeGetterFunctions.put(
+				"userId", ActivityCourseSchedule::getUserId);
+			attributeGetterFunctions.put(
+				"userName", ActivityCourseSchedule::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", ActivityCourseSchedule::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", ActivityCourseSchedule::getModifiedDate);
+			attributeGetterFunctions.put(
+				"activityCoursePlaceId",
+				ActivityCourseSchedule::getActivityCoursePlaceId);
+			attributeGetterFunctions.put(
+				"startTime", ActivityCourseSchedule::getStartTime);
+			attributeGetterFunctions.put(
+				"endTime", ActivityCourseSchedule::getEndTime);
+			attributeGetterFunctions.put(
+				"monday", ActivityCourseSchedule::getMonday);
+			attributeGetterFunctions.put(
+				"tuesday", ActivityCourseSchedule::getTuesday);
+			attributeGetterFunctions.put(
+				"wednesday", ActivityCourseSchedule::getWednesday);
+			attributeGetterFunctions.put(
+				"thursday", ActivityCourseSchedule::getThursday);
+			attributeGetterFunctions.put(
+				"friday", ActivityCourseSchedule::getFriday);
+			attributeGetterFunctions.put(
+				"saturday", ActivityCourseSchedule::getSaturday);
+			attributeGetterFunctions.put(
+				"sunday", ActivityCourseSchedule::getSunday);
+			attributeGetterFunctions.put(
+				"comments", ActivityCourseSchedule::getComments);
+			attributeGetterFunctions.put(
+				"periodsIds", ActivityCourseSchedule::getPeriodsIds);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map
+			<String, BiConsumer<ActivityCourseSchedule, Object>>
+				_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<ActivityCourseSchedule, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String, BiConsumer<ActivityCourseSchedule, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<ActivityCourseSchedule, String>)
+					ActivityCourseSchedule::setUuid);
+			attributeSetterBiConsumers.put(
+				"activityCourseScheduleId",
+				(BiConsumer<ActivityCourseSchedule, Long>)
+					ActivityCourseSchedule::setActivityCourseScheduleId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<ActivityCourseSchedule, Long>)
+					ActivityCourseSchedule::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<ActivityCourseSchedule, Long>)
+					ActivityCourseSchedule::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<ActivityCourseSchedule, Long>)
+					ActivityCourseSchedule::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<ActivityCourseSchedule, String>)
+					ActivityCourseSchedule::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<ActivityCourseSchedule, Date>)
+					ActivityCourseSchedule::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<ActivityCourseSchedule, Date>)
+					ActivityCourseSchedule::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"activityCoursePlaceId",
+				(BiConsumer<ActivityCourseSchedule, Long>)
+					ActivityCourseSchedule::setActivityCoursePlaceId);
+			attributeSetterBiConsumers.put(
+				"startTime",
+				(BiConsumer<ActivityCourseSchedule, String>)
+					ActivityCourseSchedule::setStartTime);
+			attributeSetterBiConsumers.put(
+				"endTime",
+				(BiConsumer<ActivityCourseSchedule, String>)
+					ActivityCourseSchedule::setEndTime);
+			attributeSetterBiConsumers.put(
+				"monday",
+				(BiConsumer<ActivityCourseSchedule, Boolean>)
+					ActivityCourseSchedule::setMonday);
+			attributeSetterBiConsumers.put(
+				"tuesday",
+				(BiConsumer<ActivityCourseSchedule, Boolean>)
+					ActivityCourseSchedule::setTuesday);
+			attributeSetterBiConsumers.put(
+				"wednesday",
+				(BiConsumer<ActivityCourseSchedule, Boolean>)
+					ActivityCourseSchedule::setWednesday);
+			attributeSetterBiConsumers.put(
+				"thursday",
+				(BiConsumer<ActivityCourseSchedule, Boolean>)
+					ActivityCourseSchedule::setThursday);
+			attributeSetterBiConsumers.put(
+				"friday",
+				(BiConsumer<ActivityCourseSchedule, Boolean>)
+					ActivityCourseSchedule::setFriday);
+			attributeSetterBiConsumers.put(
+				"saturday",
+				(BiConsumer<ActivityCourseSchedule, Boolean>)
+					ActivityCourseSchedule::setSaturday);
+			attributeSetterBiConsumers.put(
+				"sunday",
+				(BiConsumer<ActivityCourseSchedule, Boolean>)
+					ActivityCourseSchedule::setSunday);
+			attributeSetterBiConsumers.put(
+				"comments",
+				(BiConsumer<ActivityCourseSchedule, String>)
+					ActivityCourseSchedule::setComments);
+			attributeSetterBiConsumers.put(
+				"periodsIds",
+				(BiConsumer<ActivityCourseSchedule, String>)
+					ActivityCourseSchedule::setPeriodsIds);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1409,7 +1417,8 @@ public class ActivityCourseScheduleModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<ActivityCourseSchedule, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

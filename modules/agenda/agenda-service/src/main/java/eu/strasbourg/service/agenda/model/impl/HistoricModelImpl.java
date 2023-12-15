@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model.impl;
@@ -213,45 +204,59 @@ public class HistoricModelImpl
 	public Map<String, Function<Historic, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Historic, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Historic, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Historic, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Historic, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Historic, Object>>();
-		Map<String, BiConsumer<Historic, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Historic, ?>>();
+		private static final Map<String, Function<Historic, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Historic::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Historic, String>)Historic::setUuid);
-		attributeGetterFunctions.put("eventId", Historic::getEventId);
-		attributeSetterBiConsumers.put(
-			"eventId", (BiConsumer<Historic, Long>)Historic::setEventId);
-		attributeGetterFunctions.put("title", Historic::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<Historic, String>)Historic::setTitle);
-		attributeGetterFunctions.put(
-			"suppressionDate", Historic::getSuppressionDate);
-		attributeSetterBiConsumers.put(
-			"suppressionDate",
-			(BiConsumer<Historic, Date>)Historic::setSuppressionDate);
+		static {
+			Map<String, Function<Historic, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Historic, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Historic::getUuid);
+			attributeGetterFunctions.put("eventId", Historic::getEventId);
+			attributeGetterFunctions.put("title", Historic::getTitle);
+			attributeGetterFunctions.put(
+				"suppressionDate", Historic::getSuppressionDate);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Historic, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Historic, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Historic, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Historic, String>)Historic::setUuid);
+			attributeSetterBiConsumers.put(
+				"eventId", (BiConsumer<Historic, Long>)Historic::setEventId);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Historic, String>)Historic::setTitle);
+			attributeSetterBiConsumers.put(
+				"suppressionDate",
+				(BiConsumer<Historic, Date>)Historic::setSuppressionDate);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -584,8 +589,9 @@ public class HistoricModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Historic, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Historic, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

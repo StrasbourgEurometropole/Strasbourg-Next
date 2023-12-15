@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model.impl;
@@ -261,89 +252,105 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 	}
 
 	public Map<String, Function<Arret, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Arret, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Arret, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Arret, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Arret, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Arret, Object>>();
-		Map<String, BiConsumer<Arret, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Arret, ?>>();
+		private static final Map<String, Function<Arret, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Arret::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Arret, String>)Arret::setUuid);
-		attributeGetterFunctions.put("arretId", Arret::getArretId);
-		attributeSetterBiConsumers.put(
-			"arretId", (BiConsumer<Arret, Long>)Arret::setArretId);
-		attributeGetterFunctions.put("groupId", Arret::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Arret, Long>)Arret::setGroupId);
-		attributeGetterFunctions.put("companyId", Arret::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Arret, Long>)Arret::setCompanyId);
-		attributeGetterFunctions.put("userId", Arret::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Arret, Long>)Arret::setUserId);
-		attributeGetterFunctions.put("userName", Arret::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<Arret, String>)Arret::setUserName);
-		attributeGetterFunctions.put("createDate", Arret::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<Arret, Date>)Arret::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", Arret::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate", (BiConsumer<Arret, Date>)Arret::setModifiedDate);
-		attributeGetterFunctions.put("status", Arret::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Arret, Integer>)Arret::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Arret::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Arret, Long>)Arret::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Arret::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Arret, String>)Arret::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Arret::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate", (BiConsumer<Arret, Date>)Arret::setStatusDate);
-		attributeGetterFunctions.put("stopId", Arret::getStopId);
-		attributeSetterBiConsumers.put(
-			"stopId", (BiConsumer<Arret, String>)Arret::setStopId);
-		attributeGetterFunctions.put("title", Arret::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<Arret, String>)Arret::setTitle);
-		attributeGetterFunctions.put("code", Arret::getCode);
-		attributeSetterBiConsumers.put(
-			"code", (BiConsumer<Arret, String>)Arret::setCode);
-		attributeGetterFunctions.put("latitude", Arret::getLatitude);
-		attributeSetterBiConsumers.put(
-			"latitude", (BiConsumer<Arret, String>)Arret::setLatitude);
-		attributeGetterFunctions.put("longitude", Arret::getLongitude);
-		attributeSetterBiConsumers.put(
-			"longitude", (BiConsumer<Arret, String>)Arret::setLongitude);
-		attributeGetterFunctions.put("type", Arret::getType);
-		attributeSetterBiConsumers.put(
-			"type", (BiConsumer<Arret, Integer>)Arret::setType);
+		static {
+			Map<String, Function<Arret, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Arret, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Arret::getUuid);
+			attributeGetterFunctions.put("arretId", Arret::getArretId);
+			attributeGetterFunctions.put("groupId", Arret::getGroupId);
+			attributeGetterFunctions.put("companyId", Arret::getCompanyId);
+			attributeGetterFunctions.put("userId", Arret::getUserId);
+			attributeGetterFunctions.put("userName", Arret::getUserName);
+			attributeGetterFunctions.put("createDate", Arret::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Arret::getModifiedDate);
+			attributeGetterFunctions.put("status", Arret::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Arret::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Arret::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Arret::getStatusDate);
+			attributeGetterFunctions.put("stopId", Arret::getStopId);
+			attributeGetterFunctions.put("title", Arret::getTitle);
+			attributeGetterFunctions.put("code", Arret::getCode);
+			attributeGetterFunctions.put("latitude", Arret::getLatitude);
+			attributeGetterFunctions.put("longitude", Arret::getLongitude);
+			attributeGetterFunctions.put("type", Arret::getType);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Arret, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Arret, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Arret, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Arret, String>)Arret::setUuid);
+			attributeSetterBiConsumers.put(
+				"arretId", (BiConsumer<Arret, Long>)Arret::setArretId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Arret, Long>)Arret::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId", (BiConsumer<Arret, Long>)Arret::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Arret, Long>)Arret::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName", (BiConsumer<Arret, String>)Arret::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate", (BiConsumer<Arret, Date>)Arret::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Arret, Date>)Arret::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Arret, Integer>)Arret::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Arret, Long>)Arret::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Arret, String>)Arret::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate", (BiConsumer<Arret, Date>)Arret::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"stopId", (BiConsumer<Arret, String>)Arret::setStopId);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Arret, String>)Arret::setTitle);
+			attributeSetterBiConsumers.put(
+				"code", (BiConsumer<Arret, String>)Arret::setCode);
+			attributeSetterBiConsumers.put(
+				"latitude", (BiConsumer<Arret, String>)Arret::setLatitude);
+			attributeSetterBiConsumers.put(
+				"longitude", (BiConsumer<Arret, String>)Arret::setLongitude);
+			attributeSetterBiConsumers.put(
+				"type", (BiConsumer<Arret, Integer>)Arret::setType);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1217,8 +1224,9 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Arret, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Arret, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.notif.model.impl;
@@ -216,42 +207,58 @@ public class NatureNotifModelImpl
 	public Map<String, Function<NatureNotif, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<NatureNotif, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<NatureNotif, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<NatureNotif, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<NatureNotif, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<NatureNotif, Object>>();
-		Map<String, BiConsumer<NatureNotif, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<NatureNotif, ?>>();
+		private static final Map<String, Function<NatureNotif, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("natureId", NatureNotif::getNatureId);
-		attributeSetterBiConsumers.put(
-			"natureId",
-			(BiConsumer<NatureNotif, Long>)NatureNotif::setNatureId);
-		attributeGetterFunctions.put("serviceId", NatureNotif::getServiceId);
-		attributeSetterBiConsumers.put(
-			"serviceId",
-			(BiConsumer<NatureNotif, Long>)NatureNotif::setServiceId);
-		attributeGetterFunctions.put("name", NatureNotif::getName);
-		attributeSetterBiConsumers.put(
-			"name", (BiConsumer<NatureNotif, String>)NatureNotif::setName);
+		static {
+			Map<String, Function<NatureNotif, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<NatureNotif, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("natureId", NatureNotif::getNatureId);
+			attributeGetterFunctions.put(
+				"serviceId", NatureNotif::getServiceId);
+			attributeGetterFunctions.put("name", NatureNotif::getName);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<NatureNotif, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<NatureNotif, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<NatureNotif, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"natureId",
+				(BiConsumer<NatureNotif, Long>)NatureNotif::setNatureId);
+			attributeSetterBiConsumers.put(
+				"serviceId",
+				(BiConsumer<NatureNotif, Long>)NatureNotif::setServiceId);
+			attributeSetterBiConsumers.put(
+				"name", (BiConsumer<NatureNotif, String>)NatureNotif::setName);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -693,8 +700,9 @@ public class NatureNotifModelImpl
 	private String _nameCurrentLanguageId;
 
 	public <T> T getColumnValue(String columnName) {
-		Function<NatureNotif, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<NatureNotif, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

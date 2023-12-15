@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.csmap.model.impl;
@@ -211,62 +202,78 @@ public class CsmapCacheModelImpl
 	public Map<String, Function<CsmapCache, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<CsmapCache, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<CsmapCache, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CsmapCache, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<CsmapCache, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<CsmapCache, Object>>();
-		Map<String, BiConsumer<CsmapCache, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<CsmapCache, ?>>();
+		private static final Map<String, Function<CsmapCache, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("cacheId", CsmapCache::getCacheId);
-		attributeSetterBiConsumers.put(
-			"cacheId", (BiConsumer<CsmapCache, Long>)CsmapCache::setCacheId);
-		attributeGetterFunctions.put("codeCache", CsmapCache::getCodeCache);
-		attributeSetterBiConsumers.put(
-			"codeCache",
-			(BiConsumer<CsmapCache, Long>)CsmapCache::setCodeCache);
-		attributeGetterFunctions.put("description", CsmapCache::getDescription);
-		attributeSetterBiConsumers.put(
-			"description",
-			(BiConsumer<CsmapCache, String>)CsmapCache::setDescription);
-		attributeGetterFunctions.put("cacheJson", CsmapCache::getCacheJson);
-		attributeSetterBiConsumers.put(
-			"cacheJson",
-			(BiConsumer<CsmapCache, String>)CsmapCache::setCacheJson);
-		attributeGetterFunctions.put(
-			"isLastProcessSuccess", CsmapCache::getIsLastProcessSuccess);
-		attributeSetterBiConsumers.put(
-			"isLastProcessSuccess",
-			(BiConsumer<CsmapCache, Boolean>)
-				CsmapCache::setIsLastProcessSuccess);
-		attributeGetterFunctions.put(
-			"modifiedDate", CsmapCache::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<CsmapCache, Date>)CsmapCache::setModifiedDate);
-		attributeGetterFunctions.put(
-			"processedDate", CsmapCache::getProcessedDate);
-		attributeSetterBiConsumers.put(
-			"processedDate",
-			(BiConsumer<CsmapCache, Date>)CsmapCache::setProcessedDate);
+		static {
+			Map<String, Function<CsmapCache, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<CsmapCache, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("cacheId", CsmapCache::getCacheId);
+			attributeGetterFunctions.put("codeCache", CsmapCache::getCodeCache);
+			attributeGetterFunctions.put(
+				"description", CsmapCache::getDescription);
+			attributeGetterFunctions.put("cacheJson", CsmapCache::getCacheJson);
+			attributeGetterFunctions.put(
+				"isLastProcessSuccess", CsmapCache::getIsLastProcessSuccess);
+			attributeGetterFunctions.put(
+				"modifiedDate", CsmapCache::getModifiedDate);
+			attributeGetterFunctions.put(
+				"processedDate", CsmapCache::getProcessedDate);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<CsmapCache, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<CsmapCache, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<CsmapCache, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"cacheId",
+				(BiConsumer<CsmapCache, Long>)CsmapCache::setCacheId);
+			attributeSetterBiConsumers.put(
+				"codeCache",
+				(BiConsumer<CsmapCache, Long>)CsmapCache::setCodeCache);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<CsmapCache, String>)CsmapCache::setDescription);
+			attributeSetterBiConsumers.put(
+				"cacheJson",
+				(BiConsumer<CsmapCache, String>)CsmapCache::setCacheJson);
+			attributeSetterBiConsumers.put(
+				"isLastProcessSuccess",
+				(BiConsumer<CsmapCache, Boolean>)
+					CsmapCache::setIsLastProcessSuccess);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<CsmapCache, Date>)CsmapCache::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"processedDate",
+				(BiConsumer<CsmapCache, Date>)CsmapCache::setProcessedDate);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -681,8 +688,9 @@ public class CsmapCacheModelImpl
 	private Date _processedDate;
 
 	public <T> T getColumnValue(String columnName) {
-		Function<CsmapCache, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<CsmapCache, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

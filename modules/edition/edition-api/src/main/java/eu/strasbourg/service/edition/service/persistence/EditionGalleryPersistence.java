@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.edition.service.persistence;
@@ -1037,16 +1028,18 @@ public interface EditionGalleryPersistence
 	 *
 	 * @param pk the primary key of the edition gallery
 	 * @param editionPK the primary key of the edition
+	 * @return <code>true</code> if an association between the edition gallery and the edition was added; <code>false</code> if they were already associated
 	 */
-	public void addEdition(long pk, long editionPK);
+	public boolean addEdition(long pk, long editionPK);
 
 	/**
 	 * Adds an association between the edition gallery and the edition. Also notifies the appropriate model listeners and clears the mapping table finder cache.
 	 *
 	 * @param pk the primary key of the edition gallery
 	 * @param edition the edition
+	 * @return <code>true</code> if an association between the edition gallery and the edition was added; <code>false</code> if they were already associated
 	 */
-	public void addEdition(
+	public boolean addEdition(
 		long pk, eu.strasbourg.service.edition.model.Edition edition);
 
 	/**
@@ -1054,16 +1047,18 @@ public interface EditionGalleryPersistence
 	 *
 	 * @param pk the primary key of the edition gallery
 	 * @param editionPKs the primary keys of the editions
+	 * @return <code>true</code> if at least one association between the edition gallery and the editions was added; <code>false</code> if they were all already associated
 	 */
-	public void addEditions(long pk, long[] editionPKs);
+	public boolean addEditions(long pk, long[] editionPKs);
 
 	/**
 	 * Adds an association between the edition gallery and the editions. Also notifies the appropriate model listeners and clears the mapping table finder cache.
 	 *
 	 * @param pk the primary key of the edition gallery
 	 * @param editions the editions
+	 * @return <code>true</code> if at least one association between the edition gallery and the editions was added; <code>false</code> if they were all already associated
 	 */
-	public void addEditions(
+	public boolean addEditions(
 		long pk,
 		java.util.List<eu.strasbourg.service.edition.model.Edition> editions);
 

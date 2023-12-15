@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.service.persistence.impl;
@@ -41,7 +32,7 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.uuid.PortalUUID;
+import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.agenda.exception.NoSuchEventException;
@@ -55,7 +46,6 @@ import eu.strasbourg.service.agenda.service.persistence.ManifestationPersistence
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.sql.Timestamp;
@@ -6394,7 +6384,7 @@ public class EventPersistenceImpl
 		event.setNew(true);
 		event.setPrimaryKey(eventId);
 
-		String uuid = _portalUUID.generate();
+		String uuid = PortalUUIDUtil.generate();
 
 		event.setUuid(uuid);
 
@@ -6509,7 +6499,7 @@ public class EventPersistenceImpl
 		EventModelImpl eventModelImpl = (EventModelImpl)event;
 
 		if (Validator.isNull(event.getUuid())) {
-			String uuid = _portalUUID.generate();
+			String uuid = PortalUUIDUtil.generate();
 
 			event.setUuid(uuid);
 		}
@@ -6912,17 +6902,18 @@ public class EventPersistenceImpl
 	 *
 	 * @param pk the primary key of the event
 	 * @param manifestationPK the primary key of the manifestation
+	 * @return <code>true</code> if an association between the event and the manifestation was added; <code>false</code> if they were already associated
 	 */
 	@Override
-	public void addManifestation(long pk, long manifestationPK) {
+	public boolean addManifestation(long pk, long manifestationPK) {
 		Event event = fetchByPrimaryKey(pk);
 
 		if (event == null) {
-			eventToManifestationTableMapper.addTableMapping(
+			return eventToManifestationTableMapper.addTableMapping(
 				CompanyThreadLocal.getCompanyId(), pk, manifestationPK);
 		}
 		else {
-			eventToManifestationTableMapper.addTableMapping(
+			return eventToManifestationTableMapper.addTableMapping(
 				event.getCompanyId(), pk, manifestationPK);
 		}
 	}
@@ -6932,21 +6923,22 @@ public class EventPersistenceImpl
 	 *
 	 * @param pk the primary key of the event
 	 * @param manifestation the manifestation
+	 * @return <code>true</code> if an association between the event and the manifestation was added; <code>false</code> if they were already associated
 	 */
 	@Override
-	public void addManifestation(
+	public boolean addManifestation(
 		long pk,
 		eu.strasbourg.service.agenda.model.Manifestation manifestation) {
 
 		Event event = fetchByPrimaryKey(pk);
 
 		if (event == null) {
-			eventToManifestationTableMapper.addTableMapping(
+			return eventToManifestationTableMapper.addTableMapping(
 				CompanyThreadLocal.getCompanyId(), pk,
 				manifestation.getPrimaryKey());
 		}
 		else {
-			eventToManifestationTableMapper.addTableMapping(
+			return eventToManifestationTableMapper.addTableMapping(
 				event.getCompanyId(), pk, manifestation.getPrimaryKey());
 		}
 	}
@@ -6956,9 +6948,10 @@ public class EventPersistenceImpl
 	 *
 	 * @param pk the primary key of the event
 	 * @param manifestationPKs the primary keys of the manifestations
+	 * @return <code>true</code> if at least one association between the event and the manifestations was added; <code>false</code> if they were all already associated
 	 */
 	@Override
-	public void addManifestations(long pk, long[] manifestationPKs) {
+	public boolean addManifestations(long pk, long[] manifestationPKs) {
 		long companyId = 0;
 
 		Event event = fetchByPrimaryKey(pk);
@@ -6970,8 +6963,14 @@ public class EventPersistenceImpl
 			companyId = event.getCompanyId();
 		}
 
-		eventToManifestationTableMapper.addTableMappings(
+		long[] addedKeys = eventToManifestationTableMapper.addTableMappings(
 			companyId, pk, manifestationPKs);
+
+		if (addedKeys.length > 0) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -6979,13 +6978,14 @@ public class EventPersistenceImpl
 	 *
 	 * @param pk the primary key of the event
 	 * @param manifestations the manifestations
+	 * @return <code>true</code> if at least one association between the event and the manifestations was added; <code>false</code> if they were all already associated
 	 */
 	@Override
-	public void addManifestations(
+	public boolean addManifestations(
 		long pk,
 		List<eu.strasbourg.service.agenda.model.Manifestation> manifestations) {
 
-		addManifestations(
+		return addManifestations(
 			pk,
 			ListUtil.toLongArray(
 				manifestations,
@@ -7378,28 +7378,15 @@ public class EventPersistenceImpl
 			new String[] {Integer.class.getName()}, new String[] {"status"},
 			false);
 
-		_setEventUtilPersistence(this);
+		EventUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setEventUtilPersistence(null);
+		EventUtil.setPersistence(null);
 
 		entityCache.removeCache(EventImpl.class.getName());
 
 		TableMapperFactory.removeTableMapper("agenda_EventToManifestation");
-	}
-
-	private void _setEventUtilPersistence(EventPersistence eventPersistence) {
-		try {
-			Field field = EventUtil.class.getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, eventPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -7453,8 +7440,5 @@ public class EventPersistenceImpl
 	protected FinderCache getFinderCache() {
 		return finderCache;
 	}
-
-	@ServiceReference(type = PortalUUID.class)
-	private PortalUUID _portalUUID;
 
 }

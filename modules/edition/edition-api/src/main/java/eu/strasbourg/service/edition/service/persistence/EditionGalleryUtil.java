@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.edition.service.persistence;
@@ -1324,9 +1315,10 @@ public class EditionGalleryUtil {
 	 *
 	 * @param pk the primary key of the edition gallery
 	 * @param editionPK the primary key of the edition
+	 * @return <code>true</code> if an association between the edition gallery and the edition was added; <code>false</code> if they were already associated
 	 */
-	public static void addEdition(long pk, long editionPK) {
-		getPersistence().addEdition(pk, editionPK);
+	public static boolean addEdition(long pk, long editionPK) {
+		return getPersistence().addEdition(pk, editionPK);
 	}
 
 	/**
@@ -1334,11 +1326,12 @@ public class EditionGalleryUtil {
 	 *
 	 * @param pk the primary key of the edition gallery
 	 * @param edition the edition
+	 * @return <code>true</code> if an association between the edition gallery and the edition was added; <code>false</code> if they were already associated
 	 */
-	public static void addEdition(
+	public static boolean addEdition(
 		long pk, eu.strasbourg.service.edition.model.Edition edition) {
 
-		getPersistence().addEdition(pk, edition);
+		return getPersistence().addEdition(pk, edition);
 	}
 
 	/**
@@ -1346,9 +1339,10 @@ public class EditionGalleryUtil {
 	 *
 	 * @param pk the primary key of the edition gallery
 	 * @param editionPKs the primary keys of the editions
+	 * @return <code>true</code> if at least one association between the edition gallery and the editions was added; <code>false</code> if they were all already associated
 	 */
-	public static void addEditions(long pk, long[] editionPKs) {
-		getPersistence().addEditions(pk, editionPKs);
+	public static boolean addEditions(long pk, long[] editionPKs) {
+		return getPersistence().addEditions(pk, editionPKs);
 	}
 
 	/**
@@ -1356,11 +1350,12 @@ public class EditionGalleryUtil {
 	 *
 	 * @param pk the primary key of the edition gallery
 	 * @param editions the editions
+	 * @return <code>true</code> if at least one association between the edition gallery and the editions was added; <code>false</code> if they were all already associated
 	 */
-	public static void addEditions(
+	public static boolean addEditions(
 		long pk, List<eu.strasbourg.service.edition.model.Edition> editions) {
 
-		getPersistence().addEditions(pk, editions);
+		return getPersistence().addEditions(pk, editions);
 	}
 
 	/**
@@ -1440,6 +1435,10 @@ public class EditionGalleryUtil {
 
 	public static EditionGalleryPersistence getPersistence() {
 		return _persistence;
+	}
+
+	public static void setPersistence(EditionGalleryPersistence persistence) {
+		_persistence = persistence;
 	}
 
 	private static volatile EditionGalleryPersistence _persistence;

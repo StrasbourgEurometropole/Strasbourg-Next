@@ -1,26 +1,12 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.service;
 
-import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.portal.kernel.service.ServiceWrapper;
-
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
-import java.util.TreeMap;
+import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 /**
  * Provides a wrapper for {@link EventLocalService}.
@@ -58,28 +44,33 @@ public class EventLocalServiceWrapper
 	}
 
 	@Override
-	public void addManifestationEvent(
+	public boolean addManifestationEvent(
 		long manifestationId, eu.strasbourg.service.agenda.model.Event event) {
 
-		_eventLocalService.addManifestationEvent(manifestationId, event);
+		return _eventLocalService.addManifestationEvent(manifestationId, event);
 	}
 
 	@Override
-	public void addManifestationEvent(long manifestationId, long eventId) {
-		_eventLocalService.addManifestationEvent(manifestationId, eventId);
+	public boolean addManifestationEvent(long manifestationId, long eventId) {
+		return _eventLocalService.addManifestationEvent(
+			manifestationId, eventId);
 	}
 
 	@Override
-	public void addManifestationEvents(
+	public boolean addManifestationEvents(
 		long manifestationId,
 		java.util.List<eu.strasbourg.service.agenda.model.Event> events) {
 
-		_eventLocalService.addManifestationEvents(manifestationId, events);
+		return _eventLocalService.addManifestationEvents(
+			manifestationId, events);
 	}
 
 	@Override
-	public void addManifestationEvents(long manifestationId, long[] eventIds) {
-		_eventLocalService.addManifestationEvents(manifestationId, eventIds);
+	public boolean addManifestationEvents(
+		long manifestationId, long[] eventIds) {
+
+		return _eventLocalService.addManifestationEvents(
+			manifestationId, eventIds);
 	}
 
 	/**
@@ -99,6 +90,23 @@ public class EventLocalServiceWrapper
 	}
 
 	/**
+	 * Convertit une liste d'événements en TreeMap, avec pour clé les dates
+	 *
+	 * @param entries
+	 * @return
+	 */
+	@Override
+	public java.util.TreeMap
+		<java.util.Date,
+		 java.util.List<com.liferay.asset.kernel.model.AssetEntry>>
+			convertEventsToTreeMap(
+				java.util.List<com.liferay.asset.kernel.model.AssetEntry>
+					entries) {
+
+		return _eventLocalService.convertEventsToTreeMap(entries);
+	}
+
+	/**
 	 * Généréation des caches pour API et CSMap
 	 * Appelé après un UPDATE(event,sc) et lors de l'import des lieux
 	 *
@@ -110,11 +118,6 @@ public class EventLocalServiceWrapper
 
 		_eventLocalService.createCacheJSON(event);
 	}
-
-	@Override
-	public TreeMap<Date, List<AssetEntry>> convertEventsToTreeMap(List<AssetEntry> entries) {
-		return _eventLocalService.convertEventsToTreeMap(entries);
-	 }
 
 	/**
 	 * Creates a new event with the primary key. Does not add the event to the database.
@@ -773,6 +776,11 @@ public class EventLocalServiceWrapper
 
 		return _eventLocalService.updateStatus(
 			userId, entryId, status, sc, workflowContext);
+	}
+
+	@Override
+	public BasePersistence<?> getBasePersistence() {
+		return _eventLocalService.getBasePersistence();
 	}
 
 	@Override

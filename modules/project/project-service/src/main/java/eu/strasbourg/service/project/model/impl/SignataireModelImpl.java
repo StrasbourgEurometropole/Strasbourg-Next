@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model.impl;
@@ -277,126 +268,151 @@ public class SignataireModelImpl
 	public Map<String, Function<Signataire, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Signataire, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Signataire, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Signataire, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Signataire, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Signataire, Object>>();
-		Map<String, BiConsumer<Signataire, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Signataire, ?>>();
+		private static final Map<String, Function<Signataire, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Signataire::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Signataire, String>)Signataire::setUuid);
-		attributeGetterFunctions.put(
-			"signataireId", Signataire::getSignataireId);
-		attributeSetterBiConsumers.put(
-			"signataireId",
-			(BiConsumer<Signataire, Long>)Signataire::setSignataireId);
-		attributeGetterFunctions.put("groupId", Signataire::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Signataire, Long>)Signataire::setGroupId);
-		attributeGetterFunctions.put("companyId", Signataire::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<Signataire, Long>)Signataire::setCompanyId);
-		attributeGetterFunctions.put("userId", Signataire::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Signataire, Long>)Signataire::setUserId);
-		attributeGetterFunctions.put("userName", Signataire::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<Signataire, String>)Signataire::setUserName);
-		attributeGetterFunctions.put("createDate", Signataire::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<Signataire, Date>)Signataire::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", Signataire::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<Signataire, Date>)Signataire::setModifiedDate);
-		attributeGetterFunctions.put("status", Signataire::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Signataire, Integer>)Signataire::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Signataire::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Signataire, Long>)Signataire::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Signataire::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Signataire, String>)Signataire::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Signataire::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			(BiConsumer<Signataire, Date>)Signataire::setStatusDate);
-		attributeGetterFunctions.put(
-			"signataireName", Signataire::getSignataireName);
-		attributeSetterBiConsumers.put(
-			"signataireName",
-			(BiConsumer<Signataire, String>)Signataire::setSignataireName);
-		attributeGetterFunctions.put(
-			"signataireFirstname", Signataire::getSignataireFirstname);
-		attributeSetterBiConsumers.put(
-			"signataireFirstname",
-			(BiConsumer<Signataire, String>)Signataire::setSignataireFirstname);
-		attributeGetterFunctions.put("birthday", Signataire::getBirthday);
-		attributeSetterBiConsumers.put(
-			"birthday", (BiConsumer<Signataire, Date>)Signataire::setBirthday);
-		attributeGetterFunctions.put("address", Signataire::getAddress);
-		attributeSetterBiConsumers.put(
-			"address", (BiConsumer<Signataire, String>)Signataire::setAddress);
-		attributeGetterFunctions.put("mail", Signataire::getMail);
-		attributeSetterBiConsumers.put(
-			"mail", (BiConsumer<Signataire, String>)Signataire::setMail);
-		attributeGetterFunctions.put("postalCode", Signataire::getPostalCode);
-		attributeSetterBiConsumers.put(
-			"postalCode",
-			(BiConsumer<Signataire, Long>)Signataire::setPostalCode);
-		attributeGetterFunctions.put("mobilePhone", Signataire::getMobilePhone);
-		attributeSetterBiConsumers.put(
-			"mobilePhone",
-			(BiConsumer<Signataire, String>)Signataire::setMobilePhone);
-		attributeGetterFunctions.put("phone", Signataire::getPhone);
-		attributeSetterBiConsumers.put(
-			"phone", (BiConsumer<Signataire, String>)Signataire::setPhone);
-		attributeGetterFunctions.put("city", Signataire::getCity);
-		attributeSetterBiConsumers.put(
-			"city", (BiConsumer<Signataire, String>)Signataire::setCity);
-		attributeGetterFunctions.put(
-			"signatureDate", Signataire::getSignatureDate);
-		attributeSetterBiConsumers.put(
-			"signatureDate",
-			(BiConsumer<Signataire, Date>)Signataire::setSignatureDate);
-		attributeGetterFunctions.put(
-			"publikUserId", Signataire::getPublikUserId);
-		attributeSetterBiConsumers.put(
-			"publikUserId",
-			(BiConsumer<Signataire, String>)Signataire::setPublikUserId);
-		attributeGetterFunctions.put("petitionId", Signataire::getPetitionId);
-		attributeSetterBiConsumers.put(
-			"petitionId",
-			(BiConsumer<Signataire, Long>)Signataire::setPetitionId);
+		static {
+			Map<String, Function<Signataire, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Signataire, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Signataire::getUuid);
+			attributeGetterFunctions.put(
+				"signataireId", Signataire::getSignataireId);
+			attributeGetterFunctions.put("groupId", Signataire::getGroupId);
+			attributeGetterFunctions.put("companyId", Signataire::getCompanyId);
+			attributeGetterFunctions.put("userId", Signataire::getUserId);
+			attributeGetterFunctions.put("userName", Signataire::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", Signataire::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Signataire::getModifiedDate);
+			attributeGetterFunctions.put("status", Signataire::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Signataire::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Signataire::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", Signataire::getStatusDate);
+			attributeGetterFunctions.put(
+				"signataireName", Signataire::getSignataireName);
+			attributeGetterFunctions.put(
+				"signataireFirstname", Signataire::getSignataireFirstname);
+			attributeGetterFunctions.put("birthday", Signataire::getBirthday);
+			attributeGetterFunctions.put("address", Signataire::getAddress);
+			attributeGetterFunctions.put("mail", Signataire::getMail);
+			attributeGetterFunctions.put(
+				"postalCode", Signataire::getPostalCode);
+			attributeGetterFunctions.put(
+				"mobilePhone", Signataire::getMobilePhone);
+			attributeGetterFunctions.put("phone", Signataire::getPhone);
+			attributeGetterFunctions.put("city", Signataire::getCity);
+			attributeGetterFunctions.put(
+				"signatureDate", Signataire::getSignatureDate);
+			attributeGetterFunctions.put(
+				"publikUserId", Signataire::getPublikUserId);
+			attributeGetterFunctions.put(
+				"petitionId", Signataire::getPetitionId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Signataire, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Signataire, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Signataire, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Signataire, String>)Signataire::setUuid);
+			attributeSetterBiConsumers.put(
+				"signataireId",
+				(BiConsumer<Signataire, Long>)Signataire::setSignataireId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<Signataire, Long>)Signataire::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Signataire, Long>)Signataire::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Signataire, Long>)Signataire::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Signataire, String>)Signataire::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Signataire, Date>)Signataire::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Signataire, Date>)Signataire::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<Signataire, Integer>)Signataire::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Signataire, Long>)Signataire::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Signataire, String>)
+					Signataire::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Signataire, Date>)Signataire::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"signataireName",
+				(BiConsumer<Signataire, String>)Signataire::setSignataireName);
+			attributeSetterBiConsumers.put(
+				"signataireFirstname",
+				(BiConsumer<Signataire, String>)
+					Signataire::setSignataireFirstname);
+			attributeSetterBiConsumers.put(
+				"birthday",
+				(BiConsumer<Signataire, Date>)Signataire::setBirthday);
+			attributeSetterBiConsumers.put(
+				"address",
+				(BiConsumer<Signataire, String>)Signataire::setAddress);
+			attributeSetterBiConsumers.put(
+				"mail", (BiConsumer<Signataire, String>)Signataire::setMail);
+			attributeSetterBiConsumers.put(
+				"postalCode",
+				(BiConsumer<Signataire, Long>)Signataire::setPostalCode);
+			attributeSetterBiConsumers.put(
+				"mobilePhone",
+				(BiConsumer<Signataire, String>)Signataire::setMobilePhone);
+			attributeSetterBiConsumers.put(
+				"phone", (BiConsumer<Signataire, String>)Signataire::setPhone);
+			attributeSetterBiConsumers.put(
+				"city", (BiConsumer<Signataire, String>)Signataire::setCity);
+			attributeSetterBiConsumers.put(
+				"signatureDate",
+				(BiConsumer<Signataire, Date>)Signataire::setSignatureDate);
+			attributeSetterBiConsumers.put(
+				"publikUserId",
+				(BiConsumer<Signataire, String>)Signataire::setPublikUserId);
+			attributeSetterBiConsumers.put(
+				"petitionId",
+				(BiConsumer<Signataire, Long>)Signataire::setPetitionId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1444,8 +1460,9 @@ public class SignataireModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Signataire, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Signataire, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.service.persistence;
@@ -1430,16 +1421,18 @@ public interface ManifestationPersistence
 	 *
 	 * @param pk the primary key of the manifestation
 	 * @param eventPK the primary key of the event
+	 * @return <code>true</code> if an association between the manifestation and the event was added; <code>false</code> if they were already associated
 	 */
-	public void addEvent(long pk, long eventPK);
+	public boolean addEvent(long pk, long eventPK);
 
 	/**
 	 * Adds an association between the manifestation and the event. Also notifies the appropriate model listeners and clears the mapping table finder cache.
 	 *
 	 * @param pk the primary key of the manifestation
 	 * @param event the event
+	 * @return <code>true</code> if an association between the manifestation and the event was added; <code>false</code> if they were already associated
 	 */
-	public void addEvent(
+	public boolean addEvent(
 		long pk, eu.strasbourg.service.agenda.model.Event event);
 
 	/**
@@ -1447,16 +1440,18 @@ public interface ManifestationPersistence
 	 *
 	 * @param pk the primary key of the manifestation
 	 * @param eventPKs the primary keys of the events
+	 * @return <code>true</code> if at least one association between the manifestation and the events was added; <code>false</code> if they were all already associated
 	 */
-	public void addEvents(long pk, long[] eventPKs);
+	public boolean addEvents(long pk, long[] eventPKs);
 
 	/**
 	 * Adds an association between the manifestation and the events. Also notifies the appropriate model listeners and clears the mapping table finder cache.
 	 *
 	 * @param pk the primary key of the manifestation
 	 * @param events the events
+	 * @return <code>true</code> if at least one association between the manifestation and the events was added; <code>false</code> if they were all already associated
 	 */
-	public void addEvents(
+	public boolean addEvents(
 		long pk,
 		java.util.List<eu.strasbourg.service.agenda.model.Event> events);
 

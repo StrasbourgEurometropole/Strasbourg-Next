@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model.impl;
@@ -326,148 +317,177 @@ public class ManifestationModelImpl
 	public Map<String, Function<Manifestation, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Manifestation, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Manifestation, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Manifestation, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Manifestation, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Manifestation, Object>>();
-		Map<String, BiConsumer<Manifestation, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Manifestation, ?>>();
+		private static final Map<String, Function<Manifestation, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Manifestation::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Manifestation, String>)Manifestation::setUuid);
-		attributeGetterFunctions.put(
-			"manifestationId", Manifestation::getManifestationId);
-		attributeSetterBiConsumers.put(
-			"manifestationId",
-			(BiConsumer<Manifestation, Long>)Manifestation::setManifestationId);
-		attributeGetterFunctions.put("groupId", Manifestation::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<Manifestation, Long>)Manifestation::setGroupId);
-		attributeGetterFunctions.put("companyId", Manifestation::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<Manifestation, Long>)Manifestation::setCompanyId);
-		attributeGetterFunctions.put("userId", Manifestation::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId",
-			(BiConsumer<Manifestation, Long>)Manifestation::setUserId);
-		attributeGetterFunctions.put("userName", Manifestation::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<Manifestation, String>)Manifestation::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", Manifestation::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<Manifestation, Date>)Manifestation::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", Manifestation::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<Manifestation, Date>)Manifestation::setModifiedDate);
-		attributeGetterFunctions.put(
-			"lastPublishDate", Manifestation::getLastPublishDate);
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			(BiConsumer<Manifestation, Date>)Manifestation::setLastPublishDate);
-		attributeGetterFunctions.put("status", Manifestation::getStatus);
-		attributeSetterBiConsumers.put(
-			"status",
-			(BiConsumer<Manifestation, Integer>)Manifestation::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Manifestation::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Manifestation, Long>)Manifestation::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Manifestation::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Manifestation, String>)
-				Manifestation::setStatusByUserName);
-		attributeGetterFunctions.put(
-			"statusDate", Manifestation::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			(BiConsumer<Manifestation, Date>)Manifestation::setStatusDate);
-		attributeGetterFunctions.put("imageId", Manifestation::getImageId);
-		attributeSetterBiConsumers.put(
-			"imageId",
-			(BiConsumer<Manifestation, Long>)Manifestation::setImageId);
-		attributeGetterFunctions.put("title", Manifestation::getTitle);
-		attributeSetterBiConsumers.put(
-			"title",
-			(BiConsumer<Manifestation, String>)Manifestation::setTitle);
-		attributeGetterFunctions.put(
-			"description", Manifestation::getDescription);
-		attributeSetterBiConsumers.put(
-			"description",
-			(BiConsumer<Manifestation, String>)Manifestation::setDescription);
-		attributeGetterFunctions.put(
-			"externalImageURL", Manifestation::getExternalImageURL);
-		attributeSetterBiConsumers.put(
-			"externalImageURL",
-			(BiConsumer<Manifestation, String>)
-				Manifestation::setExternalImageURL);
-		attributeGetterFunctions.put(
-			"externalImageCopyright", Manifestation::getExternalImageCopyright);
-		attributeSetterBiConsumers.put(
-			"externalImageCopyright",
-			(BiConsumer<Manifestation, String>)
-				Manifestation::setExternalImageCopyright);
-		attributeGetterFunctions.put("startDate", Manifestation::getStartDate);
-		attributeSetterBiConsumers.put(
-			"startDate",
-			(BiConsumer<Manifestation, Date>)Manifestation::setStartDate);
-		attributeGetterFunctions.put("endDate", Manifestation::getEndDate);
-		attributeSetterBiConsumers.put(
-			"endDate",
-			(BiConsumer<Manifestation, Date>)Manifestation::setEndDate);
-		attributeGetterFunctions.put("source", Manifestation::getSource);
-		attributeSetterBiConsumers.put(
-			"source",
-			(BiConsumer<Manifestation, String>)Manifestation::setSource);
-		attributeGetterFunctions.put("idSource", Manifestation::getIdSource);
-		attributeSetterBiConsumers.put(
-			"idSource",
-			(BiConsumer<Manifestation, String>)Manifestation::setIdSource);
-		attributeGetterFunctions.put(
-			"publicationDate", Manifestation::getPublicationDate);
-		attributeSetterBiConsumers.put(
-			"publicationDate",
-			(BiConsumer<Manifestation, Date>)Manifestation::setPublicationDate);
-		attributeGetterFunctions.put(
-			"createDateSource", Manifestation::getCreateDateSource);
-		attributeSetterBiConsumers.put(
-			"createDateSource",
-			(BiConsumer<Manifestation, Date>)
-				Manifestation::setCreateDateSource);
-		attributeGetterFunctions.put(
-			"modifiedDateSource", Manifestation::getModifiedDateSource);
-		attributeSetterBiConsumers.put(
-			"modifiedDateSource",
-			(BiConsumer<Manifestation, Date>)
-				Manifestation::setModifiedDateSource);
+		static {
+			Map<String, Function<Manifestation, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<Manifestation, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Manifestation::getUuid);
+			attributeGetterFunctions.put(
+				"manifestationId", Manifestation::getManifestationId);
+			attributeGetterFunctions.put("groupId", Manifestation::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", Manifestation::getCompanyId);
+			attributeGetterFunctions.put("userId", Manifestation::getUserId);
+			attributeGetterFunctions.put(
+				"userName", Manifestation::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", Manifestation::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Manifestation::getModifiedDate);
+			attributeGetterFunctions.put(
+				"lastPublishDate", Manifestation::getLastPublishDate);
+			attributeGetterFunctions.put("status", Manifestation::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Manifestation::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Manifestation::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", Manifestation::getStatusDate);
+			attributeGetterFunctions.put("imageId", Manifestation::getImageId);
+			attributeGetterFunctions.put("title", Manifestation::getTitle);
+			attributeGetterFunctions.put(
+				"description", Manifestation::getDescription);
+			attributeGetterFunctions.put(
+				"externalImageURL", Manifestation::getExternalImageURL);
+			attributeGetterFunctions.put(
+				"externalImageCopyright",
+				Manifestation::getExternalImageCopyright);
+			attributeGetterFunctions.put(
+				"startDate", Manifestation::getStartDate);
+			attributeGetterFunctions.put("endDate", Manifestation::getEndDate);
+			attributeGetterFunctions.put("source", Manifestation::getSource);
+			attributeGetterFunctions.put(
+				"idSource", Manifestation::getIdSource);
+			attributeGetterFunctions.put(
+				"publicationDate", Manifestation::getPublicationDate);
+			attributeGetterFunctions.put(
+				"createDateSource", Manifestation::getCreateDateSource);
+			attributeGetterFunctions.put(
+				"modifiedDateSource", Manifestation::getModifiedDateSource);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Manifestation, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Manifestation, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<Manifestation, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<Manifestation, String>)Manifestation::setUuid);
+			attributeSetterBiConsumers.put(
+				"manifestationId",
+				(BiConsumer<Manifestation, Long>)
+					Manifestation::setManifestationId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<Manifestation, Long>)Manifestation::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Manifestation, Long>)Manifestation::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<Manifestation, Long>)Manifestation::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Manifestation, String>)Manifestation::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Manifestation, Date>)Manifestation::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Manifestation, Date>)
+					Manifestation::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"lastPublishDate",
+				(BiConsumer<Manifestation, Date>)
+					Manifestation::setLastPublishDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<Manifestation, Integer>)Manifestation::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Manifestation, Long>)
+					Manifestation::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Manifestation, String>)
+					Manifestation::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Manifestation, Date>)Manifestation::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"imageId",
+				(BiConsumer<Manifestation, Long>)Manifestation::setImageId);
+			attributeSetterBiConsumers.put(
+				"title",
+				(BiConsumer<Manifestation, String>)Manifestation::setTitle);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<Manifestation, String>)
+					Manifestation::setDescription);
+			attributeSetterBiConsumers.put(
+				"externalImageURL",
+				(BiConsumer<Manifestation, String>)
+					Manifestation::setExternalImageURL);
+			attributeSetterBiConsumers.put(
+				"externalImageCopyright",
+				(BiConsumer<Manifestation, String>)
+					Manifestation::setExternalImageCopyright);
+			attributeSetterBiConsumers.put(
+				"startDate",
+				(BiConsumer<Manifestation, Date>)Manifestation::setStartDate);
+			attributeSetterBiConsumers.put(
+				"endDate",
+				(BiConsumer<Manifestation, Date>)Manifestation::setEndDate);
+			attributeSetterBiConsumers.put(
+				"source",
+				(BiConsumer<Manifestation, String>)Manifestation::setSource);
+			attributeSetterBiConsumers.put(
+				"idSource",
+				(BiConsumer<Manifestation, String>)Manifestation::setIdSource);
+			attributeSetterBiConsumers.put(
+				"publicationDate",
+				(BiConsumer<Manifestation, Date>)
+					Manifestation::setPublicationDate);
+			attributeSetterBiConsumers.put(
+				"createDateSource",
+				(BiConsumer<Manifestation, Date>)
+					Manifestation::setCreateDateSource);
+			attributeSetterBiConsumers.put(
+				"modifiedDateSource",
+				(BiConsumer<Manifestation, Date>)
+					Manifestation::setModifiedDateSource);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1863,7 +1883,8 @@ public class ManifestationModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<Manifestation, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

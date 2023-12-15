@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model.impl;
@@ -220,58 +211,77 @@ public class ProjectFollowedModelImpl
 	public Map<String, Function<ProjectFollowed, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<ProjectFollowed, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<ProjectFollowed, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ProjectFollowed, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<ProjectFollowed, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap<String, Function<ProjectFollowed, Object>>();
-		Map<String, BiConsumer<ProjectFollowed, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<ProjectFollowed, ?>>();
+		private static final Map<String, Function<ProjectFollowed, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put(
-			"projectFollowedId", ProjectFollowed::getProjectFollowedId);
-		attributeSetterBiConsumers.put(
-			"projectFollowedId",
-			(BiConsumer<ProjectFollowed, Long>)
-				ProjectFollowed::setProjectFollowedId);
-		attributeGetterFunctions.put(
-			"createDate", ProjectFollowed::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<ProjectFollowed, Date>)ProjectFollowed::setCreateDate);
-		attributeGetterFunctions.put(
-			"publikUserId", ProjectFollowed::getPublikUserId);
-		attributeSetterBiConsumers.put(
-			"publikUserId",
-			(BiConsumer<ProjectFollowed, String>)
-				ProjectFollowed::setPublikUserId);
-		attributeGetterFunctions.put(
-			"projectId", ProjectFollowed::getProjectId);
-		attributeSetterBiConsumers.put(
-			"projectId",
-			(BiConsumer<ProjectFollowed, Long>)ProjectFollowed::setProjectId);
-		attributeGetterFunctions.put("groupId", ProjectFollowed::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<ProjectFollowed, Long>)ProjectFollowed::setGroupId);
+		static {
+			Map<String, Function<ProjectFollowed, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<ProjectFollowed, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put(
+				"projectFollowedId", ProjectFollowed::getProjectFollowedId);
+			attributeGetterFunctions.put(
+				"createDate", ProjectFollowed::getCreateDate);
+			attributeGetterFunctions.put(
+				"publikUserId", ProjectFollowed::getPublikUserId);
+			attributeGetterFunctions.put(
+				"projectId", ProjectFollowed::getProjectId);
+			attributeGetterFunctions.put(
+				"groupId", ProjectFollowed::getGroupId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<ProjectFollowed, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<ProjectFollowed, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<ProjectFollowed, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"projectFollowedId",
+				(BiConsumer<ProjectFollowed, Long>)
+					ProjectFollowed::setProjectFollowedId);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<ProjectFollowed, Date>)
+					ProjectFollowed::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"publikUserId",
+				(BiConsumer<ProjectFollowed, String>)
+					ProjectFollowed::setPublikUserId);
+			attributeSetterBiConsumers.put(
+				"projectId",
+				(BiConsumer<ProjectFollowed, Long>)
+					ProjectFollowed::setProjectId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<ProjectFollowed, Long>)ProjectFollowed::setGroupId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -622,7 +632,8 @@ public class ProjectFollowedModelImpl
 
 	public <T> T getColumnValue(String columnName) {
 		Function<ProjectFollowed, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

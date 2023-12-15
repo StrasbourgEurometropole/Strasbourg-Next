@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model.impl;
@@ -218,55 +209,72 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 	}
 
 	public Map<String, Function<Trip, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Trip, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Trip, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Trip, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Trip, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Trip, Object>>();
-		Map<String, BiConsumer<Trip, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Trip, ?>>();
+		private static final Map<String, Function<Trip, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Trip::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Trip, String>)Trip::setUuid);
-		attributeGetterFunctions.put("id", Trip::getId);
-		attributeSetterBiConsumers.put(
-			"id", (BiConsumer<Trip, Long>)Trip::setId);
-		attributeGetterFunctions.put("route_id", Trip::getRoute_id);
-		attributeSetterBiConsumers.put(
-			"route_id", (BiConsumer<Trip, String>)Trip::setRoute_id);
-		attributeGetterFunctions.put("service_id", Trip::getService_id);
-		attributeSetterBiConsumers.put(
-			"service_id", (BiConsumer<Trip, String>)Trip::setService_id);
-		attributeGetterFunctions.put("trip_id", Trip::getTrip_id);
-		attributeSetterBiConsumers.put(
-			"trip_id", (BiConsumer<Trip, String>)Trip::setTrip_id);
-		attributeGetterFunctions.put("trip_headsign", Trip::getTrip_headsign);
-		attributeSetterBiConsumers.put(
-			"trip_headsign", (BiConsumer<Trip, String>)Trip::setTrip_headsign);
-		attributeGetterFunctions.put("direction_id", Trip::getDirection_id);
-		attributeSetterBiConsumers.put(
-			"direction_id", (BiConsumer<Trip, Boolean>)Trip::setDirection_id);
-		attributeGetterFunctions.put("block_id", Trip::getBlock_id);
-		attributeSetterBiConsumers.put(
-			"block_id", (BiConsumer<Trip, String>)Trip::setBlock_id);
+		static {
+			Map<String, Function<Trip, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Trip, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Trip::getUuid);
+			attributeGetterFunctions.put("id", Trip::getId);
+			attributeGetterFunctions.put("route_id", Trip::getRoute_id);
+			attributeGetterFunctions.put("service_id", Trip::getService_id);
+			attributeGetterFunctions.put("trip_id", Trip::getTrip_id);
+			attributeGetterFunctions.put(
+				"trip_headsign", Trip::getTrip_headsign);
+			attributeGetterFunctions.put("direction_id", Trip::getDirection_id);
+			attributeGetterFunctions.put("block_id", Trip::getBlock_id);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Trip, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Trip, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Trip, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Trip, String>)Trip::setUuid);
+			attributeSetterBiConsumers.put(
+				"id", (BiConsumer<Trip, Long>)Trip::setId);
+			attributeSetterBiConsumers.put(
+				"route_id", (BiConsumer<Trip, String>)Trip::setRoute_id);
+			attributeSetterBiConsumers.put(
+				"service_id", (BiConsumer<Trip, String>)Trip::setService_id);
+			attributeSetterBiConsumers.put(
+				"trip_id", (BiConsumer<Trip, String>)Trip::setTrip_id);
+			attributeSetterBiConsumers.put(
+				"trip_headsign",
+				(BiConsumer<Trip, String>)Trip::setTrip_headsign);
+			attributeSetterBiConsumers.put(
+				"direction_id",
+				(BiConsumer<Trip, Boolean>)Trip::setDirection_id);
+			attributeSetterBiConsumers.put(
+				"block_id", (BiConsumer<Trip, String>)Trip::setBlock_id);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -734,8 +742,9 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Trip, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Trip, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

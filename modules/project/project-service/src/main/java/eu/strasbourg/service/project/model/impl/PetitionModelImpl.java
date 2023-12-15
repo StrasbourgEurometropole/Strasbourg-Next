@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model.impl;
@@ -303,190 +294,224 @@ public class PetitionModelImpl
 	public Map<String, Function<Petition, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Petition, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Petition, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Petition, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Petition, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Petition, Object>>();
-		Map<String, BiConsumer<Petition, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Petition, ?>>();
+		private static final Map<String, Function<Petition, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Petition::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Petition, String>)Petition::setUuid);
-		attributeGetterFunctions.put("petitionId", Petition::getPetitionId);
-		attributeSetterBiConsumers.put(
-			"petitionId", (BiConsumer<Petition, Long>)Petition::setPetitionId);
-		attributeGetterFunctions.put("groupId", Petition::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Petition, Long>)Petition::setGroupId);
-		attributeGetterFunctions.put("companyId", Petition::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Petition, Long>)Petition::setCompanyId);
-		attributeGetterFunctions.put("userId", Petition::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Petition, Long>)Petition::setUserId);
-		attributeGetterFunctions.put("userName", Petition::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<Petition, String>)Petition::setUserName);
-		attributeGetterFunctions.put("createDate", Petition::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<Petition, Date>)Petition::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", Petition::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<Petition, Date>)Petition::setModifiedDate);
-		attributeGetterFunctions.put("status", Petition::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Petition, Integer>)Petition::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Petition::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Petition, Long>)Petition::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Petition::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Petition, String>)Petition::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Petition::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate", (BiConsumer<Petition, Date>)Petition::setStatusDate);
-		attributeGetterFunctions.put("title", Petition::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<Petition, String>)Petition::setTitle);
-		attributeGetterFunctions.put("summary", Petition::getSummary);
-		attributeSetterBiConsumers.put(
-			"summary", (BiConsumer<Petition, String>)Petition::setSummary);
-		attributeGetterFunctions.put("description", Petition::getDescription);
-		attributeSetterBiConsumers.put(
-			"description",
-			(BiConsumer<Petition, String>)Petition::setDescription);
-		attributeGetterFunctions.put(
-			"placeTextArea", Petition::getPlaceTextArea);
-		attributeSetterBiConsumers.put(
-			"placeTextArea",
-			(BiConsumer<Petition, String>)Petition::setPlaceTextArea);
-		attributeGetterFunctions.put(
-			"filesDownload", Petition::getFilesDownload);
-		attributeSetterBiConsumers.put(
-			"filesDownload",
-			(BiConsumer<Petition, String>)Petition::setFilesDownload);
-		attributeGetterFunctions.put(
-			"publicationDate", Petition::getPublicationDate);
-		attributeSetterBiConsumers.put(
-			"publicationDate",
-			(BiConsumer<Petition, Date>)Petition::setPublicationDate);
-		attributeGetterFunctions.put(
-			"expirationDate", Petition::getExpirationDate);
-		attributeSetterBiConsumers.put(
-			"expirationDate",
-			(BiConsumer<Petition, Date>)Petition::setExpirationDate);
-		attributeGetterFunctions.put(
-			"extensionDate", Petition::getExtensionDate);
-		attributeSetterBiConsumers.put(
-			"extensionDate",
-			(BiConsumer<Petition, Date>)Petition::setExtensionDate);
-		attributeGetterFunctions.put(
-			"quotaSignature", Petition::getQuotaSignature);
-		attributeSetterBiConsumers.put(
-			"quotaSignature",
-			(BiConsumer<Petition, Long>)Petition::setQuotaSignature);
-		attributeGetterFunctions.put("inTheNameOf", Petition::getInTheNameOf);
-		attributeSetterBiConsumers.put(
-			"inTheNameOf",
-			(BiConsumer<Petition, String>)Petition::setInTheNameOf);
-		attributeGetterFunctions.put(
-			"petitionnaireLastname", Petition::getPetitionnaireLastname);
-		attributeSetterBiConsumers.put(
-			"petitionnaireLastname",
-			(BiConsumer<Petition, String>)Petition::setPetitionnaireLastname);
-		attributeGetterFunctions.put(
-			"petitionnaireFirstname", Petition::getPetitionnaireFirstname);
-		attributeSetterBiConsumers.put(
-			"petitionnaireFirstname",
-			(BiConsumer<Petition, String>)Petition::setPetitionnaireFirstname);
-		attributeGetterFunctions.put(
-			"petitionnaireBirthday", Petition::getPetitionnaireBirthday);
-		attributeSetterBiConsumers.put(
-			"petitionnaireBirthday",
-			(BiConsumer<Petition, Date>)Petition::setPetitionnaireBirthday);
-		attributeGetterFunctions.put(
-			"petitionnaireAdresse", Petition::getPetitionnaireAdresse);
-		attributeSetterBiConsumers.put(
-			"petitionnaireAdresse",
-			(BiConsumer<Petition, String>)Petition::setPetitionnaireAdresse);
-		attributeGetterFunctions.put(
-			"petitionnairePostalCode", Petition::getPetitionnairePostalCode);
-		attributeSetterBiConsumers.put(
-			"petitionnairePostalCode",
-			(BiConsumer<Petition, Long>)Petition::setPetitionnairePostalCode);
-		attributeGetterFunctions.put(
-			"petitionnaireCity", Petition::getPetitionnaireCity);
-		attributeSetterBiConsumers.put(
-			"petitionnaireCity",
-			(BiConsumer<Petition, String>)Petition::setPetitionnaireCity);
-		attributeGetterFunctions.put(
-			"petitionnairePhone", Petition::getPetitionnairePhone);
-		attributeSetterBiConsumers.put(
-			"petitionnairePhone",
-			(BiConsumer<Petition, String>)Petition::setPetitionnairePhone);
-		attributeGetterFunctions.put(
-			"petitionnaireEmail", Petition::getPetitionnaireEmail);
-		attributeSetterBiConsumers.put(
-			"petitionnaireEmail",
-			(BiConsumer<Petition, String>)Petition::setPetitionnaireEmail);
-		attributeGetterFunctions.put("isSupported", Petition::getIsSupported);
-		attributeSetterBiConsumers.put(
-			"isSupported",
-			(BiConsumer<Petition, Boolean>)Petition::setIsSupported);
-		attributeGetterFunctions.put("supportedBy", Petition::getSupportedBy);
-		attributeSetterBiConsumers.put(
-			"supportedBy",
-			(BiConsumer<Petition, String>)Petition::setSupportedBy);
-		attributeGetterFunctions.put("videoUrl", Petition::getVideoUrl);
-		attributeSetterBiConsumers.put(
-			"videoUrl", (BiConsumer<Petition, String>)Petition::setVideoUrl);
-		attributeGetterFunctions.put(
-			"externalImageURL", Petition::getExternalImageURL);
-		attributeSetterBiConsumers.put(
-			"externalImageURL",
-			(BiConsumer<Petition, String>)Petition::setExternalImageURL);
-		attributeGetterFunctions.put(
-			"externalImageCopyright", Petition::getExternalImageCopyright);
-		attributeSetterBiConsumers.put(
-			"externalImageCopyright",
-			(BiConsumer<Petition, String>)Petition::setExternalImageCopyright);
-		attributeGetterFunctions.put("mediaChoice", Petition::getMediaChoice);
-		attributeSetterBiConsumers.put(
-			"mediaChoice",
-			(BiConsumer<Petition, Boolean>)Petition::setMediaChoice);
-		attributeGetterFunctions.put("publikId", Petition::getPublikId);
-		attributeSetterBiConsumers.put(
-			"publikId", (BiConsumer<Petition, String>)Petition::setPublikId);
-		attributeGetterFunctions.put("imageId", Petition::getImageId);
-		attributeSetterBiConsumers.put(
-			"imageId", (BiConsumer<Petition, Long>)Petition::setImageId);
-		attributeGetterFunctions.put("filesIds", Petition::getFilesIds);
-		attributeSetterBiConsumers.put(
-			"filesIds", (BiConsumer<Petition, String>)Petition::setFilesIds);
+		static {
+			Map<String, Function<Petition, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Petition, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Petition::getUuid);
+			attributeGetterFunctions.put("petitionId", Petition::getPetitionId);
+			attributeGetterFunctions.put("groupId", Petition::getGroupId);
+			attributeGetterFunctions.put("companyId", Petition::getCompanyId);
+			attributeGetterFunctions.put("userId", Petition::getUserId);
+			attributeGetterFunctions.put("userName", Petition::getUserName);
+			attributeGetterFunctions.put("createDate", Petition::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Petition::getModifiedDate);
+			attributeGetterFunctions.put("status", Petition::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Petition::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Petition::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Petition::getStatusDate);
+			attributeGetterFunctions.put("title", Petition::getTitle);
+			attributeGetterFunctions.put("summary", Petition::getSummary);
+			attributeGetterFunctions.put(
+				"description", Petition::getDescription);
+			attributeGetterFunctions.put(
+				"placeTextArea", Petition::getPlaceTextArea);
+			attributeGetterFunctions.put(
+				"filesDownload", Petition::getFilesDownload);
+			attributeGetterFunctions.put(
+				"publicationDate", Petition::getPublicationDate);
+			attributeGetterFunctions.put(
+				"expirationDate", Petition::getExpirationDate);
+			attributeGetterFunctions.put(
+				"extensionDate", Petition::getExtensionDate);
+			attributeGetterFunctions.put(
+				"quotaSignature", Petition::getQuotaSignature);
+			attributeGetterFunctions.put(
+				"inTheNameOf", Petition::getInTheNameOf);
+			attributeGetterFunctions.put(
+				"petitionnaireLastname", Petition::getPetitionnaireLastname);
+			attributeGetterFunctions.put(
+				"petitionnaireFirstname", Petition::getPetitionnaireFirstname);
+			attributeGetterFunctions.put(
+				"petitionnaireBirthday", Petition::getPetitionnaireBirthday);
+			attributeGetterFunctions.put(
+				"petitionnaireAdresse", Petition::getPetitionnaireAdresse);
+			attributeGetterFunctions.put(
+				"petitionnairePostalCode",
+				Petition::getPetitionnairePostalCode);
+			attributeGetterFunctions.put(
+				"petitionnaireCity", Petition::getPetitionnaireCity);
+			attributeGetterFunctions.put(
+				"petitionnairePhone", Petition::getPetitionnairePhone);
+			attributeGetterFunctions.put(
+				"petitionnaireEmail", Petition::getPetitionnaireEmail);
+			attributeGetterFunctions.put(
+				"isSupported", Petition::getIsSupported);
+			attributeGetterFunctions.put(
+				"supportedBy", Petition::getSupportedBy);
+			attributeGetterFunctions.put("videoUrl", Petition::getVideoUrl);
+			attributeGetterFunctions.put(
+				"externalImageURL", Petition::getExternalImageURL);
+			attributeGetterFunctions.put(
+				"externalImageCopyright", Petition::getExternalImageCopyright);
+			attributeGetterFunctions.put(
+				"mediaChoice", Petition::getMediaChoice);
+			attributeGetterFunctions.put("publikId", Petition::getPublikId);
+			attributeGetterFunctions.put("imageId", Petition::getImageId);
+			attributeGetterFunctions.put("filesIds", Petition::getFilesIds);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Petition, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Petition, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Petition, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Petition, String>)Petition::setUuid);
+			attributeSetterBiConsumers.put(
+				"petitionId",
+				(BiConsumer<Petition, Long>)Petition::setPetitionId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Petition, Long>)Petition::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Petition, Long>)Petition::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Petition, Long>)Petition::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Petition, String>)Petition::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Petition, Date>)Petition::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Petition, Date>)Petition::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Petition, Integer>)Petition::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Petition, Long>)Petition::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Petition, String>)Petition::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Petition, Date>)Petition::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Petition, String>)Petition::setTitle);
+			attributeSetterBiConsumers.put(
+				"summary", (BiConsumer<Petition, String>)Petition::setSummary);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<Petition, String>)Petition::setDescription);
+			attributeSetterBiConsumers.put(
+				"placeTextArea",
+				(BiConsumer<Petition, String>)Petition::setPlaceTextArea);
+			attributeSetterBiConsumers.put(
+				"filesDownload",
+				(BiConsumer<Petition, String>)Petition::setFilesDownload);
+			attributeSetterBiConsumers.put(
+				"publicationDate",
+				(BiConsumer<Petition, Date>)Petition::setPublicationDate);
+			attributeSetterBiConsumers.put(
+				"expirationDate",
+				(BiConsumer<Petition, Date>)Petition::setExpirationDate);
+			attributeSetterBiConsumers.put(
+				"extensionDate",
+				(BiConsumer<Petition, Date>)Petition::setExtensionDate);
+			attributeSetterBiConsumers.put(
+				"quotaSignature",
+				(BiConsumer<Petition, Long>)Petition::setQuotaSignature);
+			attributeSetterBiConsumers.put(
+				"inTheNameOf",
+				(BiConsumer<Petition, String>)Petition::setInTheNameOf);
+			attributeSetterBiConsumers.put(
+				"petitionnaireLastname",
+				(BiConsumer<Petition, String>)
+					Petition::setPetitionnaireLastname);
+			attributeSetterBiConsumers.put(
+				"petitionnaireFirstname",
+				(BiConsumer<Petition, String>)
+					Petition::setPetitionnaireFirstname);
+			attributeSetterBiConsumers.put(
+				"petitionnaireBirthday",
+				(BiConsumer<Petition, Date>)Petition::setPetitionnaireBirthday);
+			attributeSetterBiConsumers.put(
+				"petitionnaireAdresse",
+				(BiConsumer<Petition, String>)
+					Petition::setPetitionnaireAdresse);
+			attributeSetterBiConsumers.put(
+				"petitionnairePostalCode",
+				(BiConsumer<Petition, Long>)
+					Petition::setPetitionnairePostalCode);
+			attributeSetterBiConsumers.put(
+				"petitionnaireCity",
+				(BiConsumer<Petition, String>)Petition::setPetitionnaireCity);
+			attributeSetterBiConsumers.put(
+				"petitionnairePhone",
+				(BiConsumer<Petition, String>)Petition::setPetitionnairePhone);
+			attributeSetterBiConsumers.put(
+				"petitionnaireEmail",
+				(BiConsumer<Petition, String>)Petition::setPetitionnaireEmail);
+			attributeSetterBiConsumers.put(
+				"isSupported",
+				(BiConsumer<Petition, Boolean>)Petition::setIsSupported);
+			attributeSetterBiConsumers.put(
+				"supportedBy",
+				(BiConsumer<Petition, String>)Petition::setSupportedBy);
+			attributeSetterBiConsumers.put(
+				"videoUrl",
+				(BiConsumer<Petition, String>)Petition::setVideoUrl);
+			attributeSetterBiConsumers.put(
+				"externalImageURL",
+				(BiConsumer<Petition, String>)Petition::setExternalImageURL);
+			attributeSetterBiConsumers.put(
+				"externalImageCopyright",
+				(BiConsumer<Petition, String>)
+					Petition::setExternalImageCopyright);
+			attributeSetterBiConsumers.put(
+				"mediaChoice",
+				(BiConsumer<Petition, Boolean>)Petition::setMediaChoice);
+			attributeSetterBiConsumers.put(
+				"publikId",
+				(BiConsumer<Petition, String>)Petition::setPublikId);
+			attributeSetterBiConsumers.put(
+				"imageId", (BiConsumer<Petition, Long>)Petition::setImageId);
+			attributeSetterBiConsumers.put(
+				"filesIds",
+				(BiConsumer<Petition, String>)Petition::setFilesIds);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -2148,8 +2173,9 @@ public class PetitionModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Petition, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Petition, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

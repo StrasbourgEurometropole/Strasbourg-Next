@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.help.model.impl;
@@ -275,152 +266,179 @@ public class HelpProposalModelImpl
 	public Map<String, Function<HelpProposal, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<HelpProposal, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<HelpProposal, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<HelpProposal, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<HelpProposal, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<HelpProposal, Object>>();
-		Map<String, BiConsumer<HelpProposal, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<HelpProposal, ?>>();
+		private static final Map<String, Function<HelpProposal, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", HelpProposal::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<HelpProposal, String>)HelpProposal::setUuid);
-		attributeGetterFunctions.put(
-			"helpProposalId", HelpProposal::getHelpProposalId);
-		attributeSetterBiConsumers.put(
-			"helpProposalId",
-			(BiConsumer<HelpProposal, Long>)HelpProposal::setHelpProposalId);
-		attributeGetterFunctions.put("groupId", HelpProposal::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<HelpProposal, Long>)HelpProposal::setGroupId);
-		attributeGetterFunctions.put("companyId", HelpProposal::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<HelpProposal, Long>)HelpProposal::setCompanyId);
-		attributeGetterFunctions.put("userId", HelpProposal::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<HelpProposal, Long>)HelpProposal::setUserId);
-		attributeGetterFunctions.put("userName", HelpProposal::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<HelpProposal, String>)HelpProposal::setUserName);
-		attributeGetterFunctions.put("createDate", HelpProposal::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<HelpProposal, Date>)HelpProposal::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", HelpProposal::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<HelpProposal, Date>)HelpProposal::setModifiedDate);
-		attributeGetterFunctions.put("status", HelpProposal::getStatus);
-		attributeSetterBiConsumers.put(
-			"status",
-			(BiConsumer<HelpProposal, Integer>)HelpProposal::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", HelpProposal::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<HelpProposal, Long>)HelpProposal::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", HelpProposal::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<HelpProposal, String>)
-				HelpProposal::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", HelpProposal::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			(BiConsumer<HelpProposal, Date>)HelpProposal::setStatusDate);
-		attributeGetterFunctions.put("title", HelpProposal::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<HelpProposal, String>)HelpProposal::setTitle);
-		attributeGetterFunctions.put(
-			"description", HelpProposal::getDescription);
-		attributeSetterBiConsumers.put(
-			"description",
-			(BiConsumer<HelpProposal, String>)HelpProposal::setDescription);
-		attributeGetterFunctions.put(
-			"inTheNameOf", HelpProposal::getInTheNameOf);
-		attributeSetterBiConsumers.put(
-			"inTheNameOf",
-			(BiConsumer<HelpProposal, String>)HelpProposal::setInTheNameOf);
-		attributeGetterFunctions.put("address", HelpProposal::getAddress);
-		attributeSetterBiConsumers.put(
-			"address",
-			(BiConsumer<HelpProposal, String>)HelpProposal::setAddress);
-		attributeGetterFunctions.put("city", HelpProposal::getCity);
-		attributeSetterBiConsumers.put(
-			"city", (BiConsumer<HelpProposal, String>)HelpProposal::setCity);
-		attributeGetterFunctions.put("postalCode", HelpProposal::getPostalCode);
-		attributeSetterBiConsumers.put(
-			"postalCode",
-			(BiConsumer<HelpProposal, Long>)HelpProposal::setPostalCode);
-		attributeGetterFunctions.put(
-			"phoneNumber", HelpProposal::getPhoneNumber);
-		attributeSetterBiConsumers.put(
-			"phoneNumber",
-			(BiConsumer<HelpProposal, String>)HelpProposal::setPhoneNumber);
-		attributeGetterFunctions.put(
-			"modifiedByUserDate", HelpProposal::getModifiedByUserDate);
-		attributeSetterBiConsumers.put(
-			"modifiedByUserDate",
-			(BiConsumer<HelpProposal, Date>)
-				HelpProposal::setModifiedByUserDate);
-		attributeGetterFunctions.put(
-			"spokenLanguages", HelpProposal::getSpokenLanguages);
-		attributeSetterBiConsumers.put(
-			"spokenLanguages",
-			(BiConsumer<HelpProposal, String>)HelpProposal::setSpokenLanguages);
-		attributeGetterFunctions.put(
-			"agreementSigned1", HelpProposal::getAgreementSigned1);
-		attributeSetterBiConsumers.put(
-			"agreementSigned1",
-			(BiConsumer<HelpProposal, Boolean>)
-				HelpProposal::setAgreementSigned1);
-		attributeGetterFunctions.put(
-			"agreementSigned2", HelpProposal::getAgreementSigned2);
-		attributeSetterBiConsumers.put(
-			"agreementSigned2",
-			(BiConsumer<HelpProposal, Boolean>)
-				HelpProposal::setAgreementSigned2);
-		attributeGetterFunctions.put(
-			"agreementSigned3", HelpProposal::getAgreementSigned3);
-		attributeSetterBiConsumers.put(
-			"agreementSigned3",
-			(BiConsumer<HelpProposal, Boolean>)
-				HelpProposal::setAgreementSigned3);
-		attributeGetterFunctions.put("imageId", HelpProposal::getImageId);
-		attributeSetterBiConsumers.put(
-			"imageId",
-			(BiConsumer<HelpProposal, Long>)HelpProposal::setImageId);
-		attributeGetterFunctions.put("publikId", HelpProposal::getPublikId);
-		attributeSetterBiConsumers.put(
-			"publikId",
-			(BiConsumer<HelpProposal, String>)HelpProposal::setPublikId);
-		attributeGetterFunctions.put("comment", HelpProposal::getComment);
-		attributeSetterBiConsumers.put(
-			"comment",
-			(BiConsumer<HelpProposal, String>)HelpProposal::setComment);
+		static {
+			Map<String, Function<HelpProposal, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<HelpProposal, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", HelpProposal::getUuid);
+			attributeGetterFunctions.put(
+				"helpProposalId", HelpProposal::getHelpProposalId);
+			attributeGetterFunctions.put("groupId", HelpProposal::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", HelpProposal::getCompanyId);
+			attributeGetterFunctions.put("userId", HelpProposal::getUserId);
+			attributeGetterFunctions.put("userName", HelpProposal::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", HelpProposal::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", HelpProposal::getModifiedDate);
+			attributeGetterFunctions.put("status", HelpProposal::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", HelpProposal::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", HelpProposal::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", HelpProposal::getStatusDate);
+			attributeGetterFunctions.put("title", HelpProposal::getTitle);
+			attributeGetterFunctions.put(
+				"description", HelpProposal::getDescription);
+			attributeGetterFunctions.put(
+				"inTheNameOf", HelpProposal::getInTheNameOf);
+			attributeGetterFunctions.put("address", HelpProposal::getAddress);
+			attributeGetterFunctions.put("city", HelpProposal::getCity);
+			attributeGetterFunctions.put(
+				"postalCode", HelpProposal::getPostalCode);
+			attributeGetterFunctions.put(
+				"phoneNumber", HelpProposal::getPhoneNumber);
+			attributeGetterFunctions.put(
+				"modifiedByUserDate", HelpProposal::getModifiedByUserDate);
+			attributeGetterFunctions.put(
+				"spokenLanguages", HelpProposal::getSpokenLanguages);
+			attributeGetterFunctions.put(
+				"agreementSigned1", HelpProposal::getAgreementSigned1);
+			attributeGetterFunctions.put(
+				"agreementSigned2", HelpProposal::getAgreementSigned2);
+			attributeGetterFunctions.put(
+				"agreementSigned3", HelpProposal::getAgreementSigned3);
+			attributeGetterFunctions.put("imageId", HelpProposal::getImageId);
+			attributeGetterFunctions.put("publikId", HelpProposal::getPublikId);
+			attributeGetterFunctions.put("comment", HelpProposal::getComment);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<HelpProposal, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<HelpProposal, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<HelpProposal, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<HelpProposal, String>)HelpProposal::setUuid);
+			attributeSetterBiConsumers.put(
+				"helpProposalId",
+				(BiConsumer<HelpProposal, Long>)
+					HelpProposal::setHelpProposalId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<HelpProposal, Long>)HelpProposal::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<HelpProposal, Long>)HelpProposal::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<HelpProposal, Long>)HelpProposal::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<HelpProposal, String>)HelpProposal::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<HelpProposal, Date>)HelpProposal::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<HelpProposal, Date>)HelpProposal::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<HelpProposal, Integer>)HelpProposal::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<HelpProposal, Long>)
+					HelpProposal::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<HelpProposal, String>)
+					HelpProposal::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<HelpProposal, Date>)HelpProposal::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title",
+				(BiConsumer<HelpProposal, String>)HelpProposal::setTitle);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<HelpProposal, String>)HelpProposal::setDescription);
+			attributeSetterBiConsumers.put(
+				"inTheNameOf",
+				(BiConsumer<HelpProposal, String>)HelpProposal::setInTheNameOf);
+			attributeSetterBiConsumers.put(
+				"address",
+				(BiConsumer<HelpProposal, String>)HelpProposal::setAddress);
+			attributeSetterBiConsumers.put(
+				"city",
+				(BiConsumer<HelpProposal, String>)HelpProposal::setCity);
+			attributeSetterBiConsumers.put(
+				"postalCode",
+				(BiConsumer<HelpProposal, Long>)HelpProposal::setPostalCode);
+			attributeSetterBiConsumers.put(
+				"phoneNumber",
+				(BiConsumer<HelpProposal, String>)HelpProposal::setPhoneNumber);
+			attributeSetterBiConsumers.put(
+				"modifiedByUserDate",
+				(BiConsumer<HelpProposal, Date>)
+					HelpProposal::setModifiedByUserDate);
+			attributeSetterBiConsumers.put(
+				"spokenLanguages",
+				(BiConsumer<HelpProposal, String>)
+					HelpProposal::setSpokenLanguages);
+			attributeSetterBiConsumers.put(
+				"agreementSigned1",
+				(BiConsumer<HelpProposal, Boolean>)
+					HelpProposal::setAgreementSigned1);
+			attributeSetterBiConsumers.put(
+				"agreementSigned2",
+				(BiConsumer<HelpProposal, Boolean>)
+					HelpProposal::setAgreementSigned2);
+			attributeSetterBiConsumers.put(
+				"agreementSigned3",
+				(BiConsumer<HelpProposal, Boolean>)
+					HelpProposal::setAgreementSigned3);
+			attributeSetterBiConsumers.put(
+				"imageId",
+				(BiConsumer<HelpProposal, Long>)HelpProposal::setImageId);
+			attributeSetterBiConsumers.put(
+				"publikId",
+				(BiConsumer<HelpProposal, String>)HelpProposal::setPublikId);
+			attributeSetterBiConsumers.put(
+				"comment",
+				(BiConsumer<HelpProposal, String>)HelpProposal::setComment);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -2017,8 +2035,9 @@ public class HelpProposalModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<HelpProposal, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<HelpProposal, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

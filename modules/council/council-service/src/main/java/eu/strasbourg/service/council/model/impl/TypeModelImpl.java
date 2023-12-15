@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.council.model.impl;
@@ -244,78 +235,94 @@ public class TypeModelImpl extends BaseModelImpl<Type> implements TypeModel {
 	}
 
 	public Map<String, Function<Type, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Type, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Type, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Type, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Type, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Type, Object>>();
-		Map<String, BiConsumer<Type, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Type, ?>>();
+		private static final Map<String, Function<Type, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Type::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Type, String>)Type::setUuid);
-		attributeGetterFunctions.put("typeId", Type::getTypeId);
-		attributeSetterBiConsumers.put(
-			"typeId", (BiConsumer<Type, Long>)Type::setTypeId);
-		attributeGetterFunctions.put("groupId", Type::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Type, Long>)Type::setGroupId);
-		attributeGetterFunctions.put("companyId", Type::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Type, Long>)Type::setCompanyId);
-		attributeGetterFunctions.put("userId", Type::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Type, Long>)Type::setUserId);
-		attributeGetterFunctions.put("userName", Type::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<Type, String>)Type::setUserName);
-		attributeGetterFunctions.put("createDate", Type::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<Type, Date>)Type::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", Type::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate", (BiConsumer<Type, Date>)Type::setModifiedDate);
-		attributeGetterFunctions.put("status", Type::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Type, Integer>)Type::setStatus);
-		attributeGetterFunctions.put("statusByUserId", Type::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId", (BiConsumer<Type, Long>)Type::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Type::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Type, String>)Type::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Type::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate", (BiConsumer<Type, Date>)Type::setStatusDate);
-		attributeGetterFunctions.put("title", Type::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<Type, String>)Type::setTitle);
-		attributeGetterFunctions.put("titleLong", Type::getTitleLong);
-		attributeSetterBiConsumers.put(
-			"titleLong", (BiConsumer<Type, String>)Type::setTitleLong);
-		attributeGetterFunctions.put("roleId", Type::getRoleId);
-		attributeSetterBiConsumers.put(
-			"roleId", (BiConsumer<Type, Long>)Type::setRoleId);
+		static {
+			Map<String, Function<Type, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Type, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Type::getUuid);
+			attributeGetterFunctions.put("typeId", Type::getTypeId);
+			attributeGetterFunctions.put("groupId", Type::getGroupId);
+			attributeGetterFunctions.put("companyId", Type::getCompanyId);
+			attributeGetterFunctions.put("userId", Type::getUserId);
+			attributeGetterFunctions.put("userName", Type::getUserName);
+			attributeGetterFunctions.put("createDate", Type::getCreateDate);
+			attributeGetterFunctions.put("modifiedDate", Type::getModifiedDate);
+			attributeGetterFunctions.put("status", Type::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Type::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Type::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Type::getStatusDate);
+			attributeGetterFunctions.put("title", Type::getTitle);
+			attributeGetterFunctions.put("titleLong", Type::getTitleLong);
+			attributeGetterFunctions.put("roleId", Type::getRoleId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Type, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Type, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Type, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Type, String>)Type::setUuid);
+			attributeSetterBiConsumers.put(
+				"typeId", (BiConsumer<Type, Long>)Type::setTypeId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Type, Long>)Type::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId", (BiConsumer<Type, Long>)Type::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Type, Long>)Type::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName", (BiConsumer<Type, String>)Type::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate", (BiConsumer<Type, Date>)Type::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate", (BiConsumer<Type, Date>)Type::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Type, Integer>)Type::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Type, Long>)Type::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Type, String>)Type::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate", (BiConsumer<Type, Date>)Type::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Type, String>)Type::setTitle);
+			attributeSetterBiConsumers.put(
+				"titleLong", (BiConsumer<Type, String>)Type::setTitleLong);
+			attributeSetterBiConsumers.put(
+				"roleId", (BiConsumer<Type, Long>)Type::setRoleId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1073,8 +1080,9 @@ public class TypeModelImpl extends BaseModelImpl<Type> implements TypeModel {
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Type, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Type, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

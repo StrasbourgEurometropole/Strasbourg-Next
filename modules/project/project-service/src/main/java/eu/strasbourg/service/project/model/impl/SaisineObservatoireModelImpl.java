@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model.impl;
@@ -286,242 +277,263 @@ public class SaisineObservatoireModelImpl
 	public Map<String, Function<SaisineObservatoire, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<SaisineObservatoire, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<SaisineObservatoire, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<SaisineObservatoire, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<SaisineObservatoire, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap
-					<String, Function<SaisineObservatoire, Object>>();
-		Map<String, BiConsumer<SaisineObservatoire, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<SaisineObservatoire, ?>>();
+		private static final Map<String, Function<SaisineObservatoire, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put(
-			"saisineObservatoireId",
-			SaisineObservatoire::getSaisineObservatoireId);
-		attributeSetterBiConsumers.put(
-			"saisineObservatoireId",
-			(BiConsumer<SaisineObservatoire, Long>)
-				SaisineObservatoire::setSaisineObservatoireId);
-		attributeGetterFunctions.put(
-			"groupId", SaisineObservatoire::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<SaisineObservatoire, Long>)
-				SaisineObservatoire::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", SaisineObservatoire::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<SaisineObservatoire, Long>)
-				SaisineObservatoire::setCompanyId);
-		attributeGetterFunctions.put("userId", SaisineObservatoire::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId",
-			(BiConsumer<SaisineObservatoire, Long>)
-				SaisineObservatoire::setUserId);
-		attributeGetterFunctions.put(
-			"userName", SaisineObservatoire::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<SaisineObservatoire, String>)
-				SaisineObservatoire::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", SaisineObservatoire::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<SaisineObservatoire, Date>)
-				SaisineObservatoire::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", SaisineObservatoire::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<SaisineObservatoire, Date>)
-				SaisineObservatoire::setModifiedDate);
-		attributeGetterFunctions.put("status", SaisineObservatoire::getStatus);
-		attributeSetterBiConsumers.put(
-			"status",
-			(BiConsumer<SaisineObservatoire, Integer>)
-				SaisineObservatoire::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", SaisineObservatoire::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<SaisineObservatoire, Long>)
-				SaisineObservatoire::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", SaisineObservatoire::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<SaisineObservatoire, String>)
-				SaisineObservatoire::setStatusByUserName);
-		attributeGetterFunctions.put(
-			"statusDate", SaisineObservatoire::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			(BiConsumer<SaisineObservatoire, Date>)
-				SaisineObservatoire::setStatusDate);
-		attributeGetterFunctions.put("title", SaisineObservatoire::getTitle);
-		attributeSetterBiConsumers.put(
-			"title",
-			(BiConsumer<SaisineObservatoire, String>)
-				SaisineObservatoire::setTitle);
-		attributeGetterFunctions.put(
-			"description", SaisineObservatoire::getDescription);
-		attributeSetterBiConsumers.put(
-			"description",
-			(BiConsumer<SaisineObservatoire, String>)
-				SaisineObservatoire::setDescription);
-		attributeGetterFunctions.put(
-			"placeTextArea", SaisineObservatoire::getPlaceTextArea);
-		attributeSetterBiConsumers.put(
-			"placeTextArea",
-			(BiConsumer<SaisineObservatoire, String>)
-				SaisineObservatoire::setPlaceTextArea);
-		attributeGetterFunctions.put(
-			"filesDownload", SaisineObservatoire::getFilesDownload);
-		attributeSetterBiConsumers.put(
-			"filesDownload",
-			(BiConsumer<SaisineObservatoire, String>)
-				SaisineObservatoire::setFilesDownload);
-		attributeGetterFunctions.put(
-			"cityResponse", SaisineObservatoire::getCityResponse);
-		attributeSetterBiConsumers.put(
-			"cityResponse",
-			(BiConsumer<SaisineObservatoire, String>)
-				SaisineObservatoire::setCityResponse);
-		attributeGetterFunctions.put(
-			"projectTarget", SaisineObservatoire::getProjectTarget);
-		attributeSetterBiConsumers.put(
-			"projectTarget",
-			(BiConsumer<SaisineObservatoire, String>)
-				SaisineObservatoire::setProjectTarget);
-		attributeGetterFunctions.put(
-			"otherMechanism", SaisineObservatoire::getOtherMechanism);
-		attributeSetterBiConsumers.put(
-			"otherMechanism",
-			(BiConsumer<SaisineObservatoire, String>)
-				SaisineObservatoire::setOtherMechanism);
-		attributeGetterFunctions.put(
-			"collectiveName", SaisineObservatoire::getCollectiveName);
-		attributeSetterBiConsumers.put(
-			"collectiveName",
-			(BiConsumer<SaisineObservatoire, String>)
-				SaisineObservatoire::setCollectiveName);
-		attributeGetterFunctions.put(
-			"petitionnaireLastname",
-			SaisineObservatoire::getPetitionnaireLastname);
-		attributeSetterBiConsumers.put(
-			"petitionnaireLastname",
-			(BiConsumer<SaisineObservatoire, String>)
-				SaisineObservatoire::setPetitionnaireLastname);
-		attributeGetterFunctions.put(
-			"petitionnaireFirstname",
-			SaisineObservatoire::getPetitionnaireFirstname);
-		attributeSetterBiConsumers.put(
-			"petitionnaireFirstname",
-			(BiConsumer<SaisineObservatoire, String>)
-				SaisineObservatoire::setPetitionnaireFirstname);
-		attributeGetterFunctions.put(
-			"petitionnaireBirthday",
-			SaisineObservatoire::getPetitionnaireBirthday);
-		attributeSetterBiConsumers.put(
-			"petitionnaireBirthday",
-			(BiConsumer<SaisineObservatoire, Date>)
-				SaisineObservatoire::setPetitionnaireBirthday);
-		attributeGetterFunctions.put(
-			"petitionnaireAdresse",
-			SaisineObservatoire::getPetitionnaireAdresse);
-		attributeSetterBiConsumers.put(
-			"petitionnaireAdresse",
-			(BiConsumer<SaisineObservatoire, String>)
-				SaisineObservatoire::setPetitionnaireAdresse);
-		attributeGetterFunctions.put(
-			"petitionnairePostalCode",
-			SaisineObservatoire::getPetitionnairePostalCode);
-		attributeSetterBiConsumers.put(
-			"petitionnairePostalCode",
-			(BiConsumer<SaisineObservatoire, Long>)
-				SaisineObservatoire::setPetitionnairePostalCode);
-		attributeGetterFunctions.put(
-			"petitionnaireCity", SaisineObservatoire::getPetitionnaireCity);
-		attributeSetterBiConsumers.put(
-			"petitionnaireCity",
-			(BiConsumer<SaisineObservatoire, String>)
-				SaisineObservatoire::setPetitionnaireCity);
-		attributeGetterFunctions.put(
-			"petitionnairePhone", SaisineObservatoire::getPetitionnairePhone);
-		attributeSetterBiConsumers.put(
-			"petitionnairePhone",
-			(BiConsumer<SaisineObservatoire, String>)
-				SaisineObservatoire::setPetitionnairePhone);
-		attributeGetterFunctions.put(
-			"petitionnaireEmail", SaisineObservatoire::getPetitionnaireEmail);
-		attributeSetterBiConsumers.put(
-			"petitionnaireEmail",
-			(BiConsumer<SaisineObservatoire, String>)
-				SaisineObservatoire::setPetitionnaireEmail);
-		attributeGetterFunctions.put(
-			"videoUrl", SaisineObservatoire::getVideoUrl);
-		attributeSetterBiConsumers.put(
-			"videoUrl",
-			(BiConsumer<SaisineObservatoire, String>)
-				SaisineObservatoire::setVideoUrl);
-		attributeGetterFunctions.put(
-			"externalImageURL", SaisineObservatoire::getExternalImageURL);
-		attributeSetterBiConsumers.put(
-			"externalImageURL",
-			(BiConsumer<SaisineObservatoire, String>)
-				SaisineObservatoire::setExternalImageURL);
-		attributeGetterFunctions.put(
-			"externalImageCopyright",
-			SaisineObservatoire::getExternalImageCopyright);
-		attributeSetterBiConsumers.put(
-			"externalImageCopyright",
-			(BiConsumer<SaisineObservatoire, String>)
-				SaisineObservatoire::setExternalImageCopyright);
-		attributeGetterFunctions.put(
-			"mediaChoice", SaisineObservatoire::getMediaChoice);
-		attributeSetterBiConsumers.put(
-			"mediaChoice",
-			(BiConsumer<SaisineObservatoire, Boolean>)
-				SaisineObservatoire::setMediaChoice);
-		attributeGetterFunctions.put(
-			"publikId", SaisineObservatoire::getPublikId);
-		attributeSetterBiConsumers.put(
-			"publikId",
-			(BiConsumer<SaisineObservatoire, String>)
-				SaisineObservatoire::setPublikId);
-		attributeGetterFunctions.put(
-			"imageId", SaisineObservatoire::getImageId);
-		attributeSetterBiConsumers.put(
-			"imageId",
-			(BiConsumer<SaisineObservatoire, Long>)
-				SaisineObservatoire::setImageId);
-		attributeGetterFunctions.put(
-			"filesIds", SaisineObservatoire::getFilesIds);
-		attributeSetterBiConsumers.put(
-			"filesIds",
-			(BiConsumer<SaisineObservatoire, String>)
-				SaisineObservatoire::setFilesIds);
+		static {
+			Map<String, Function<SaisineObservatoire, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<SaisineObservatoire, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put(
+				"saisineObservatoireId",
+				SaisineObservatoire::getSaisineObservatoireId);
+			attributeGetterFunctions.put(
+				"groupId", SaisineObservatoire::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", SaisineObservatoire::getCompanyId);
+			attributeGetterFunctions.put(
+				"userId", SaisineObservatoire::getUserId);
+			attributeGetterFunctions.put(
+				"userName", SaisineObservatoire::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", SaisineObservatoire::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", SaisineObservatoire::getModifiedDate);
+			attributeGetterFunctions.put(
+				"status", SaisineObservatoire::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", SaisineObservatoire::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", SaisineObservatoire::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", SaisineObservatoire::getStatusDate);
+			attributeGetterFunctions.put(
+				"title", SaisineObservatoire::getTitle);
+			attributeGetterFunctions.put(
+				"description", SaisineObservatoire::getDescription);
+			attributeGetterFunctions.put(
+				"placeTextArea", SaisineObservatoire::getPlaceTextArea);
+			attributeGetterFunctions.put(
+				"filesDownload", SaisineObservatoire::getFilesDownload);
+			attributeGetterFunctions.put(
+				"cityResponse", SaisineObservatoire::getCityResponse);
+			attributeGetterFunctions.put(
+				"projectTarget", SaisineObservatoire::getProjectTarget);
+			attributeGetterFunctions.put(
+				"otherMechanism", SaisineObservatoire::getOtherMechanism);
+			attributeGetterFunctions.put(
+				"collectiveName", SaisineObservatoire::getCollectiveName);
+			attributeGetterFunctions.put(
+				"petitionnaireLastname",
+				SaisineObservatoire::getPetitionnaireLastname);
+			attributeGetterFunctions.put(
+				"petitionnaireFirstname",
+				SaisineObservatoire::getPetitionnaireFirstname);
+			attributeGetterFunctions.put(
+				"petitionnaireBirthday",
+				SaisineObservatoire::getPetitionnaireBirthday);
+			attributeGetterFunctions.put(
+				"petitionnaireAdresse",
+				SaisineObservatoire::getPetitionnaireAdresse);
+			attributeGetterFunctions.put(
+				"petitionnairePostalCode",
+				SaisineObservatoire::getPetitionnairePostalCode);
+			attributeGetterFunctions.put(
+				"petitionnaireCity", SaisineObservatoire::getPetitionnaireCity);
+			attributeGetterFunctions.put(
+				"petitionnairePhone",
+				SaisineObservatoire::getPetitionnairePhone);
+			attributeGetterFunctions.put(
+				"petitionnaireEmail",
+				SaisineObservatoire::getPetitionnaireEmail);
+			attributeGetterFunctions.put(
+				"videoUrl", SaisineObservatoire::getVideoUrl);
+			attributeGetterFunctions.put(
+				"externalImageURL", SaisineObservatoire::getExternalImageURL);
+			attributeGetterFunctions.put(
+				"externalImageCopyright",
+				SaisineObservatoire::getExternalImageCopyright);
+			attributeGetterFunctions.put(
+				"mediaChoice", SaisineObservatoire::getMediaChoice);
+			attributeGetterFunctions.put(
+				"publikId", SaisineObservatoire::getPublikId);
+			attributeGetterFunctions.put(
+				"imageId", SaisineObservatoire::getImageId);
+			attributeGetterFunctions.put(
+				"filesIds", SaisineObservatoire::getFilesIds);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map
+			<String, BiConsumer<SaisineObservatoire, Object>>
+				_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<SaisineObservatoire, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String, BiConsumer<SaisineObservatoire, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"saisineObservatoireId",
+				(BiConsumer<SaisineObservatoire, Long>)
+					SaisineObservatoire::setSaisineObservatoireId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<SaisineObservatoire, Long>)
+					SaisineObservatoire::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<SaisineObservatoire, Long>)
+					SaisineObservatoire::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<SaisineObservatoire, Long>)
+					SaisineObservatoire::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<SaisineObservatoire, String>)
+					SaisineObservatoire::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<SaisineObservatoire, Date>)
+					SaisineObservatoire::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<SaisineObservatoire, Date>)
+					SaisineObservatoire::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<SaisineObservatoire, Integer>)
+					SaisineObservatoire::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<SaisineObservatoire, Long>)
+					SaisineObservatoire::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<SaisineObservatoire, String>)
+					SaisineObservatoire::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<SaisineObservatoire, Date>)
+					SaisineObservatoire::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title",
+				(BiConsumer<SaisineObservatoire, String>)
+					SaisineObservatoire::setTitle);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<SaisineObservatoire, String>)
+					SaisineObservatoire::setDescription);
+			attributeSetterBiConsumers.put(
+				"placeTextArea",
+				(BiConsumer<SaisineObservatoire, String>)
+					SaisineObservatoire::setPlaceTextArea);
+			attributeSetterBiConsumers.put(
+				"filesDownload",
+				(BiConsumer<SaisineObservatoire, String>)
+					SaisineObservatoire::setFilesDownload);
+			attributeSetterBiConsumers.put(
+				"cityResponse",
+				(BiConsumer<SaisineObservatoire, String>)
+					SaisineObservatoire::setCityResponse);
+			attributeSetterBiConsumers.put(
+				"projectTarget",
+				(BiConsumer<SaisineObservatoire, String>)
+					SaisineObservatoire::setProjectTarget);
+			attributeSetterBiConsumers.put(
+				"otherMechanism",
+				(BiConsumer<SaisineObservatoire, String>)
+					SaisineObservatoire::setOtherMechanism);
+			attributeSetterBiConsumers.put(
+				"collectiveName",
+				(BiConsumer<SaisineObservatoire, String>)
+					SaisineObservatoire::setCollectiveName);
+			attributeSetterBiConsumers.put(
+				"petitionnaireLastname",
+				(BiConsumer<SaisineObservatoire, String>)
+					SaisineObservatoire::setPetitionnaireLastname);
+			attributeSetterBiConsumers.put(
+				"petitionnaireFirstname",
+				(BiConsumer<SaisineObservatoire, String>)
+					SaisineObservatoire::setPetitionnaireFirstname);
+			attributeSetterBiConsumers.put(
+				"petitionnaireBirthday",
+				(BiConsumer<SaisineObservatoire, Date>)
+					SaisineObservatoire::setPetitionnaireBirthday);
+			attributeSetterBiConsumers.put(
+				"petitionnaireAdresse",
+				(BiConsumer<SaisineObservatoire, String>)
+					SaisineObservatoire::setPetitionnaireAdresse);
+			attributeSetterBiConsumers.put(
+				"petitionnairePostalCode",
+				(BiConsumer<SaisineObservatoire, Long>)
+					SaisineObservatoire::setPetitionnairePostalCode);
+			attributeSetterBiConsumers.put(
+				"petitionnaireCity",
+				(BiConsumer<SaisineObservatoire, String>)
+					SaisineObservatoire::setPetitionnaireCity);
+			attributeSetterBiConsumers.put(
+				"petitionnairePhone",
+				(BiConsumer<SaisineObservatoire, String>)
+					SaisineObservatoire::setPetitionnairePhone);
+			attributeSetterBiConsumers.put(
+				"petitionnaireEmail",
+				(BiConsumer<SaisineObservatoire, String>)
+					SaisineObservatoire::setPetitionnaireEmail);
+			attributeSetterBiConsumers.put(
+				"videoUrl",
+				(BiConsumer<SaisineObservatoire, String>)
+					SaisineObservatoire::setVideoUrl);
+			attributeSetterBiConsumers.put(
+				"externalImageURL",
+				(BiConsumer<SaisineObservatoire, String>)
+					SaisineObservatoire::setExternalImageURL);
+			attributeSetterBiConsumers.put(
+				"externalImageCopyright",
+				(BiConsumer<SaisineObservatoire, String>)
+					SaisineObservatoire::setExternalImageCopyright);
+			attributeSetterBiConsumers.put(
+				"mediaChoice",
+				(BiConsumer<SaisineObservatoire, Boolean>)
+					SaisineObservatoire::setMediaChoice);
+			attributeSetterBiConsumers.put(
+				"publikId",
+				(BiConsumer<SaisineObservatoire, String>)
+					SaisineObservatoire::setPublikId);
+			attributeSetterBiConsumers.put(
+				"imageId",
+				(BiConsumer<SaisineObservatoire, Long>)
+					SaisineObservatoire::setImageId);
+			attributeSetterBiConsumers.put(
+				"filesIds",
+				(BiConsumer<SaisineObservatoire, String>)
+					SaisineObservatoire::setFilesIds);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -2175,7 +2187,8 @@ public class SaisineObservatoireModelImpl
 
 	public <T> T getColumnValue(String columnName) {
 		Function<SaisineObservatoire, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.service.base;
@@ -52,7 +43,6 @@ import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiServic
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalServiceImpl;
-import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
@@ -83,8 +73,6 @@ import eu.strasbourg.service.agenda.service.persistence.ImportReportPersistence;
 import eu.strasbourg.service.agenda.service.persistence.ManifestationPersistence;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Field;
 
 import java.util.List;
 
@@ -613,33 +601,35 @@ public abstract class ManifestationLocalServiceBaseImpl
 	/**
 	 */
 	@Override
-	public void addEventManifestation(long eventId, long manifestationId) {
-		eventPersistence.addManifestation(eventId, manifestationId);
+	public boolean addEventManifestation(long eventId, long manifestationId) {
+		return eventPersistence.addManifestation(eventId, manifestationId);
 	}
 
 	/**
 	 */
 	@Override
-	public void addEventManifestation(
+	public boolean addEventManifestation(
 		long eventId, Manifestation manifestation) {
 
-		eventPersistence.addManifestation(eventId, manifestation);
+		return eventPersistence.addManifestation(eventId, manifestation);
 	}
 
 	/**
 	 */
 	@Override
-	public void addEventManifestations(long eventId, long[] manifestationIds) {
-		eventPersistence.addManifestations(eventId, manifestationIds);
+	public boolean addEventManifestations(
+		long eventId, long[] manifestationIds) {
+
+		return eventPersistence.addManifestations(eventId, manifestationIds);
 	}
 
 	/**
 	 */
 	@Override
-	public void addEventManifestations(
+	public boolean addEventManifestations(
 		long eventId, List<Manifestation> manifestations) {
 
-		eventPersistence.addManifestations(eventId, manifestations);
+		return eventPersistence.addManifestations(eventId, manifestations);
 	}
 
 	/**
@@ -1643,18 +1633,11 @@ public abstract class ManifestationLocalServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		persistedModelLocalServiceRegistry.register(
-			"eu.strasbourg.service.agenda.model.Manifestation",
-			manifestationLocalService);
-
-		_setLocalServiceUtilService(manifestationLocalService);
+		ManifestationLocalServiceUtil.setService(manifestationLocalService);
 	}
 
 	public void destroy() {
-		persistedModelLocalServiceRegistry.unregister(
-			"eu.strasbourg.service.agenda.model.Manifestation");
-
-		_setLocalServiceUtilService(null);
+		ManifestationLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -1696,22 +1679,6 @@ public abstract class ManifestationLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		ManifestationLocalService manifestationLocalService) {
-
-		try {
-			Field field = ManifestationLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, manifestationLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1906,9 +1873,5 @@ public abstract class ManifestationLocalServiceBaseImpl
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ManifestationLocalServiceBaseImpl.class);
-
-	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
-	protected PersistedModelLocalServiceRegistry
-		persistedModelLocalServiceRegistry;
 
 }

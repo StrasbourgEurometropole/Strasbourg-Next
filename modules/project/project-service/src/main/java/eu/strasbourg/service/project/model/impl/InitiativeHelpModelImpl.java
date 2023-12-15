@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model.impl;
@@ -238,75 +229,96 @@ public class InitiativeHelpModelImpl
 	public Map<String, Function<InitiativeHelp, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<InitiativeHelp, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<InitiativeHelp, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<InitiativeHelp, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<InitiativeHelp, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<InitiativeHelp, Object>>();
-		Map<String, BiConsumer<InitiativeHelp, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<InitiativeHelp, ?>>();
+		private static final Map<String, Function<InitiativeHelp, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", InitiativeHelp::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid",
-			(BiConsumer<InitiativeHelp, String>)InitiativeHelp::setUuid);
-		attributeGetterFunctions.put(
-			"initiativeHelpId", InitiativeHelp::getInitiativeHelpId);
-		attributeSetterBiConsumers.put(
-			"initiativeHelpId",
-			(BiConsumer<InitiativeHelp, Long>)
-				InitiativeHelp::setInitiativeHelpId);
-		attributeGetterFunctions.put(
-			"createDate", InitiativeHelp::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<InitiativeHelp, Date>)InitiativeHelp::setCreateDate);
-		attributeGetterFunctions.put(
-			"publikUserId", InitiativeHelp::getPublikUserId);
-		attributeSetterBiConsumers.put(
-			"publikUserId",
-			(BiConsumer<InitiativeHelp, String>)
-				InitiativeHelp::setPublikUserId);
-		attributeGetterFunctions.put(
-			"initiativeId", InitiativeHelp::getInitiativeId);
-		attributeSetterBiConsumers.put(
-			"initiativeId",
-			(BiConsumer<InitiativeHelp, Long>)InitiativeHelp::setInitiativeId);
-		attributeGetterFunctions.put("helpTypes", InitiativeHelp::getHelpTypes);
-		attributeSetterBiConsumers.put(
-			"helpTypes",
-			(BiConsumer<InitiativeHelp, String>)InitiativeHelp::setHelpTypes);
-		attributeGetterFunctions.put("groupId", InitiativeHelp::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<InitiativeHelp, Long>)InitiativeHelp::setGroupId);
-		attributeGetterFunctions.put("message", InitiativeHelp::getMessage);
-		attributeSetterBiConsumers.put(
-			"message",
-			(BiConsumer<InitiativeHelp, String>)InitiativeHelp::setMessage);
-		attributeGetterFunctions.put(
-			"helpDisplay", InitiativeHelp::getHelpDisplay);
-		attributeSetterBiConsumers.put(
-			"helpDisplay",
-			(BiConsumer<InitiativeHelp, Boolean>)
-				InitiativeHelp::setHelpDisplay);
+		static {
+			Map<String, Function<InitiativeHelp, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<InitiativeHelp, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", InitiativeHelp::getUuid);
+			attributeGetterFunctions.put(
+				"initiativeHelpId", InitiativeHelp::getInitiativeHelpId);
+			attributeGetterFunctions.put(
+				"createDate", InitiativeHelp::getCreateDate);
+			attributeGetterFunctions.put(
+				"publikUserId", InitiativeHelp::getPublikUserId);
+			attributeGetterFunctions.put(
+				"initiativeId", InitiativeHelp::getInitiativeId);
+			attributeGetterFunctions.put(
+				"helpTypes", InitiativeHelp::getHelpTypes);
+			attributeGetterFunctions.put("groupId", InitiativeHelp::getGroupId);
+			attributeGetterFunctions.put("message", InitiativeHelp::getMessage);
+			attributeGetterFunctions.put(
+				"helpDisplay", InitiativeHelp::getHelpDisplay);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<InitiativeHelp, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<InitiativeHelp, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<InitiativeHelp, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<InitiativeHelp, String>)InitiativeHelp::setUuid);
+			attributeSetterBiConsumers.put(
+				"initiativeHelpId",
+				(BiConsumer<InitiativeHelp, Long>)
+					InitiativeHelp::setInitiativeHelpId);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<InitiativeHelp, Date>)
+					InitiativeHelp::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"publikUserId",
+				(BiConsumer<InitiativeHelp, String>)
+					InitiativeHelp::setPublikUserId);
+			attributeSetterBiConsumers.put(
+				"initiativeId",
+				(BiConsumer<InitiativeHelp, Long>)
+					InitiativeHelp::setInitiativeId);
+			attributeSetterBiConsumers.put(
+				"helpTypes",
+				(BiConsumer<InitiativeHelp, String>)
+					InitiativeHelp::setHelpTypes);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<InitiativeHelp, Long>)InitiativeHelp::setGroupId);
+			attributeSetterBiConsumers.put(
+				"message",
+				(BiConsumer<InitiativeHelp, String>)InitiativeHelp::setMessage);
+			attributeSetterBiConsumers.put(
+				"helpDisplay",
+				(BiConsumer<InitiativeHelp, Boolean>)
+					InitiativeHelp::setHelpDisplay);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -800,7 +812,8 @@ public class InitiativeHelpModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<InitiativeHelp, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

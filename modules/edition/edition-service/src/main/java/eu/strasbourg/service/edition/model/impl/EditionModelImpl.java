@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.edition.model.impl;
@@ -316,143 +307,163 @@ public class EditionModelImpl
 	public Map<String, Function<Edition, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Edition, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Edition, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Edition, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Edition, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Edition, Object>>();
-		Map<String, BiConsumer<Edition, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Edition, ?>>();
+		private static final Map<String, Function<Edition, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Edition::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Edition, String>)Edition::setUuid);
-		attributeGetterFunctions.put("editionId", Edition::getEditionId);
-		attributeSetterBiConsumers.put(
-			"editionId", (BiConsumer<Edition, Long>)Edition::setEditionId);
-		attributeGetterFunctions.put("groupId", Edition::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Edition, Long>)Edition::setGroupId);
-		attributeGetterFunctions.put("companyId", Edition::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Edition, Long>)Edition::setCompanyId);
-		attributeGetterFunctions.put("userId", Edition::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Edition, Long>)Edition::setUserId);
-		attributeGetterFunctions.put("userName", Edition::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<Edition, String>)Edition::setUserName);
-		attributeGetterFunctions.put("createDate", Edition::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<Edition, Date>)Edition::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", Edition::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<Edition, Date>)Edition::setModifiedDate);
-		attributeGetterFunctions.put(
-			"lastPublishDate", Edition::getLastPublishDate);
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			(BiConsumer<Edition, Date>)Edition::setLastPublishDate);
-		attributeGetterFunctions.put("status", Edition::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Edition, Integer>)Edition::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Edition::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Edition, Long>)Edition::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Edition::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Edition, String>)Edition::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Edition::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate", (BiConsumer<Edition, Date>)Edition::setStatusDate);
-		attributeGetterFunctions.put("title", Edition::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<Edition, String>)Edition::setTitle);
-		attributeGetterFunctions.put("subtitle", Edition::getSubtitle);
-		attributeSetterBiConsumers.put(
-			"subtitle", (BiConsumer<Edition, String>)Edition::setSubtitle);
-		attributeGetterFunctions.put("description", Edition::getDescription);
-		attributeSetterBiConsumers.put(
-			"description",
-			(BiConsumer<Edition, String>)Edition::setDescription);
-		attributeGetterFunctions.put("URL", Edition::getURL);
-		attributeSetterBiConsumers.put(
-			"URL", (BiConsumer<Edition, String>)Edition::setURL);
-		attributeGetterFunctions.put("author", Edition::getAuthor);
-		attributeSetterBiConsumers.put(
-			"author", (BiConsumer<Edition, String>)Edition::setAuthor);
-		attributeGetterFunctions.put("editor", Edition::getEditor);
-		attributeSetterBiConsumers.put(
-			"editor", (BiConsumer<Edition, String>)Edition::setEditor);
-		attributeGetterFunctions.put("distribution", Edition::getDistribution);
-		attributeSetterBiConsumers.put(
-			"distribution",
-			(BiConsumer<Edition, String>)Edition::setDistribution);
-		attributeGetterFunctions.put("ISBN", Edition::getISBN);
-		attributeSetterBiConsumers.put(
-			"ISBN", (BiConsumer<Edition, String>)Edition::setISBN);
-		attributeGetterFunctions.put("price", Edition::getPrice);
-		attributeSetterBiConsumers.put(
-			"price", (BiConsumer<Edition, String>)Edition::setPrice);
-		attributeGetterFunctions.put(
-			"availableForExchange", Edition::getAvailableForExchange);
-		attributeSetterBiConsumers.put(
-			"availableForExchange",
-			(BiConsumer<Edition, Boolean>)Edition::setAvailableForExchange);
-		attributeGetterFunctions.put("inStock", Edition::getInStock);
-		attributeSetterBiConsumers.put(
-			"inStock", (BiConsumer<Edition, Boolean>)Edition::setInStock);
-		attributeGetterFunctions.put(
-			"diffusionDateYear", Edition::getDiffusionDateYear);
-		attributeSetterBiConsumers.put(
-			"diffusionDateYear",
-			(BiConsumer<Edition, String>)Edition::setDiffusionDateYear);
-		attributeGetterFunctions.put(
-			"diffusionDateMonth", Edition::getDiffusionDateMonth);
-		attributeSetterBiConsumers.put(
-			"diffusionDateMonth",
-			(BiConsumer<Edition, String>)Edition::setDiffusionDateMonth);
-		attributeGetterFunctions.put("pageNumber", Edition::getPageNumber);
-		attributeSetterBiConsumers.put(
-			"pageNumber", (BiConsumer<Edition, String>)Edition::setPageNumber);
-		attributeGetterFunctions.put(
-			"pictureNumber", Edition::getPictureNumber);
-		attributeSetterBiConsumers.put(
-			"pictureNumber",
-			(BiConsumer<Edition, String>)Edition::setPictureNumber);
-		attributeGetterFunctions.put(
-			"publicationDate", Edition::getPublicationDate);
-		attributeSetterBiConsumers.put(
-			"publicationDate",
-			(BiConsumer<Edition, Date>)Edition::setPublicationDate);
-		attributeGetterFunctions.put("imageId", Edition::getImageId);
-		attributeSetterBiConsumers.put(
-			"imageId", (BiConsumer<Edition, Long>)Edition::setImageId);
-		attributeGetterFunctions.put("fileId", Edition::getFileId);
-		attributeSetterBiConsumers.put(
-			"fileId", (BiConsumer<Edition, String>)Edition::setFileId);
+		static {
+			Map<String, Function<Edition, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Edition, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Edition::getUuid);
+			attributeGetterFunctions.put("editionId", Edition::getEditionId);
+			attributeGetterFunctions.put("groupId", Edition::getGroupId);
+			attributeGetterFunctions.put("companyId", Edition::getCompanyId);
+			attributeGetterFunctions.put("userId", Edition::getUserId);
+			attributeGetterFunctions.put("userName", Edition::getUserName);
+			attributeGetterFunctions.put("createDate", Edition::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Edition::getModifiedDate);
+			attributeGetterFunctions.put(
+				"lastPublishDate", Edition::getLastPublishDate);
+			attributeGetterFunctions.put("status", Edition::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Edition::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Edition::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Edition::getStatusDate);
+			attributeGetterFunctions.put("title", Edition::getTitle);
+			attributeGetterFunctions.put("subtitle", Edition::getSubtitle);
+			attributeGetterFunctions.put(
+				"description", Edition::getDescription);
+			attributeGetterFunctions.put("URL", Edition::getURL);
+			attributeGetterFunctions.put("author", Edition::getAuthor);
+			attributeGetterFunctions.put("editor", Edition::getEditor);
+			attributeGetterFunctions.put(
+				"distribution", Edition::getDistribution);
+			attributeGetterFunctions.put("ISBN", Edition::getISBN);
+			attributeGetterFunctions.put("price", Edition::getPrice);
+			attributeGetterFunctions.put(
+				"availableForExchange", Edition::getAvailableForExchange);
+			attributeGetterFunctions.put("inStock", Edition::getInStock);
+			attributeGetterFunctions.put(
+				"diffusionDateYear", Edition::getDiffusionDateYear);
+			attributeGetterFunctions.put(
+				"diffusionDateMonth", Edition::getDiffusionDateMonth);
+			attributeGetterFunctions.put("pageNumber", Edition::getPageNumber);
+			attributeGetterFunctions.put(
+				"pictureNumber", Edition::getPictureNumber);
+			attributeGetterFunctions.put(
+				"publicationDate", Edition::getPublicationDate);
+			attributeGetterFunctions.put("imageId", Edition::getImageId);
+			attributeGetterFunctions.put("fileId", Edition::getFileId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Edition, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Edition, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Edition, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Edition, String>)Edition::setUuid);
+			attributeSetterBiConsumers.put(
+				"editionId", (BiConsumer<Edition, Long>)Edition::setEditionId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Edition, Long>)Edition::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId", (BiConsumer<Edition, Long>)Edition::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Edition, Long>)Edition::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName", (BiConsumer<Edition, String>)Edition::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Edition, Date>)Edition::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Edition, Date>)Edition::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"lastPublishDate",
+				(BiConsumer<Edition, Date>)Edition::setLastPublishDate);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Edition, Integer>)Edition::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Edition, Long>)Edition::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Edition, String>)Edition::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Edition, Date>)Edition::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Edition, String>)Edition::setTitle);
+			attributeSetterBiConsumers.put(
+				"subtitle", (BiConsumer<Edition, String>)Edition::setSubtitle);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<Edition, String>)Edition::setDescription);
+			attributeSetterBiConsumers.put(
+				"URL", (BiConsumer<Edition, String>)Edition::setURL);
+			attributeSetterBiConsumers.put(
+				"author", (BiConsumer<Edition, String>)Edition::setAuthor);
+			attributeSetterBiConsumers.put(
+				"editor", (BiConsumer<Edition, String>)Edition::setEditor);
+			attributeSetterBiConsumers.put(
+				"distribution",
+				(BiConsumer<Edition, String>)Edition::setDistribution);
+			attributeSetterBiConsumers.put(
+				"ISBN", (BiConsumer<Edition, String>)Edition::setISBN);
+			attributeSetterBiConsumers.put(
+				"price", (BiConsumer<Edition, String>)Edition::setPrice);
+			attributeSetterBiConsumers.put(
+				"availableForExchange",
+				(BiConsumer<Edition, Boolean>)Edition::setAvailableForExchange);
+			attributeSetterBiConsumers.put(
+				"inStock", (BiConsumer<Edition, Boolean>)Edition::setInStock);
+			attributeSetterBiConsumers.put(
+				"diffusionDateYear",
+				(BiConsumer<Edition, String>)Edition::setDiffusionDateYear);
+			attributeSetterBiConsumers.put(
+				"diffusionDateMonth",
+				(BiConsumer<Edition, String>)Edition::setDiffusionDateMonth);
+			attributeSetterBiConsumers.put(
+				"pageNumber",
+				(BiConsumer<Edition, String>)Edition::setPageNumber);
+			attributeSetterBiConsumers.put(
+				"pictureNumber",
+				(BiConsumer<Edition, String>)Edition::setPictureNumber);
+			attributeSetterBiConsumers.put(
+				"publicationDate",
+				(BiConsumer<Edition, Date>)Edition::setPublicationDate);
+			attributeSetterBiConsumers.put(
+				"imageId", (BiConsumer<Edition, Long>)Edition::setImageId);
+			attributeSetterBiConsumers.put(
+				"fileId", (BiConsumer<Edition, String>)Edition::setFileId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -2553,8 +2564,9 @@ public class EditionModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Edition, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Edition, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

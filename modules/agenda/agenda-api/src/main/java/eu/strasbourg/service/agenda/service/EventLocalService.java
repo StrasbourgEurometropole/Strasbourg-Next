@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.service;
@@ -34,6 +25,7 @@ import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -44,11 +36,8 @@ import eu.strasbourg.service.agenda.model.Event;
 import java.io.IOException;
 import java.io.Serializable;
 
-import java.time.LocalDate;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -62,6 +51,9 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see EventLocalServiceUtil
  * @generated
  */
+@OSGiBeanProperties(
+	property = {"model.class.name=eu.strasbourg.service.agenda.model.Event"}
+)
 @ProviderType
 @Transactional(
 	isolation = Isolation.PORTAL,
@@ -89,14 +81,15 @@ public interface EventLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public Event addEvent(Event event);
 
-	public void addManifestationEvent(long manifestationId, Event event);
+	public boolean addManifestationEvent(long manifestationId, Event event);
 
-	public void addManifestationEvent(long manifestationId, long eventId);
+	public boolean addManifestationEvent(long manifestationId, long eventId);
 
-	public void addManifestationEvents(
+	public boolean addManifestationEvents(
 		long manifestationId, List<Event> events);
 
-	public void addManifestationEvents(long manifestationId, long[] eventIds);
+	public boolean addManifestationEvents(
+		long manifestationId, long[] eventIds);
 
 	/**
 	 * Modifie le statut de tous les events au statut "SCHEDULED" qui ont une
@@ -107,20 +100,21 @@ public interface EventLocalService
 	public void clearManifestationEvents(long manifestationId);
 
 	/**
+	 * Convertit une liste d'événements en TreeMap, avec pour clé les dates
+	 *
+	 * @param entries
+	 * @return
+	 */
+	public java.util.TreeMap<java.util.Date, List<AssetEntry>>
+		convertEventsToTreeMap(List<AssetEntry> entries);
+
+	/**
 	 * Généréation des caches pour API et CSMap
 	 * Appelé après un UPDATE(event,sc) et lors de l'import des lieux
 	 *
 	 * @param event
 	 */
 	public void createCacheJSON(Event event) throws PortalException;
-
-
-	/**
-	 * Convertit une liste d'événements en TreeMap, avec pour clé les dates
-	 * @param entries
-	 * @return
-	 */
-	public TreeMap<Date, List<AssetEntry>> convertEventsToTreeMap(List<AssetEntry> entries);
 
 	/**
 	 * Creates a new event with the primary key. Does not add the event to the database.
@@ -531,7 +525,7 @@ public interface EventLocalService
 	 */
 	public Event updateStatus(
 			long userId, long entryId, int status, ServiceContext sc,
-			Map<String, Serializable> workflowContext)
+			java.util.Map<String, Serializable> workflowContext)
 		throws PortalException;
 
 }

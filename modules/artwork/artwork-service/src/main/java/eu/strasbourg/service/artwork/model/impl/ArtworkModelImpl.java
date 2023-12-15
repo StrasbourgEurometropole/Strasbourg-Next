@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.artwork.model.impl;
@@ -292,127 +283,150 @@ public class ArtworkModelImpl
 	public Map<String, Function<Artwork, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Artwork, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Artwork, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Artwork, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Artwork, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Artwork, Object>>();
-		Map<String, BiConsumer<Artwork, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Artwork, ?>>();
+		private static final Map<String, Function<Artwork, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Artwork::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Artwork, String>)Artwork::setUuid);
-		attributeGetterFunctions.put("artworkId", Artwork::getArtworkId);
-		attributeSetterBiConsumers.put(
-			"artworkId", (BiConsumer<Artwork, Long>)Artwork::setArtworkId);
-		attributeGetterFunctions.put("groupId", Artwork::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Artwork, Long>)Artwork::setGroupId);
-		attributeGetterFunctions.put("companyId", Artwork::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Artwork, Long>)Artwork::setCompanyId);
-		attributeGetterFunctions.put("userId", Artwork::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Artwork, Long>)Artwork::setUserId);
-		attributeGetterFunctions.put("userName", Artwork::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<Artwork, String>)Artwork::setUserName);
-		attributeGetterFunctions.put("createDate", Artwork::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<Artwork, Date>)Artwork::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", Artwork::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<Artwork, Date>)Artwork::setModifiedDate);
-		attributeGetterFunctions.put(
-			"lastPublishDate", Artwork::getLastPublishDate);
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			(BiConsumer<Artwork, Date>)Artwork::setLastPublishDate);
-		attributeGetterFunctions.put("status", Artwork::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Artwork, Integer>)Artwork::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Artwork::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Artwork, Long>)Artwork::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Artwork::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Artwork, String>)Artwork::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Artwork::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate", (BiConsumer<Artwork, Date>)Artwork::setStatusDate);
-		attributeGetterFunctions.put("title", Artwork::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<Artwork, String>)Artwork::setTitle);
-		attributeGetterFunctions.put("description", Artwork::getDescription);
-		attributeSetterBiConsumers.put(
-			"description",
-			(BiConsumer<Artwork, String>)Artwork::setDescription);
-		attributeGetterFunctions.put(
-			"technicalInformation", Artwork::getTechnicalInformation);
-		attributeSetterBiConsumers.put(
-			"technicalInformation",
-			(BiConsumer<Artwork, String>)Artwork::setTechnicalInformation);
-		attributeGetterFunctions.put("noticeLink", Artwork::getNoticeLink);
-		attributeSetterBiConsumers.put(
-			"noticeLink", (BiConsumer<Artwork, String>)Artwork::setNoticeLink);
-		attributeGetterFunctions.put("artistName", Artwork::getArtistName);
-		attributeSetterBiConsumers.put(
-			"artistName", (BiConsumer<Artwork, String>)Artwork::setArtistName);
-		attributeGetterFunctions.put("creationYear", Artwork::getCreationYear);
-		attributeSetterBiConsumers.put(
-			"creationYear",
-			(BiConsumer<Artwork, String>)Artwork::setCreationYear);
-		attributeGetterFunctions.put("origin", Artwork::getOrigin);
-		attributeSetterBiConsumers.put(
-			"origin", (BiConsumer<Artwork, String>)Artwork::setOrigin);
-		attributeGetterFunctions.put(
-			"exhibitionName", Artwork::getExhibitionName);
-		attributeSetterBiConsumers.put(
-			"exhibitionName",
-			(BiConsumer<Artwork, String>)Artwork::setExhibitionName);
-		attributeGetterFunctions.put(
-			"exhibitionPlace", Artwork::getExhibitionPlace);
-		attributeSetterBiConsumers.put(
-			"exhibitionPlace",
-			(BiConsumer<Artwork, String>)Artwork::setExhibitionPlace);
-		attributeGetterFunctions.put("loanPeriod", Artwork::getLoanPeriod);
-		attributeSetterBiConsumers.put(
-			"loanPeriod", (BiConsumer<Artwork, String>)Artwork::setLoanPeriod);
-		attributeGetterFunctions.put("linkName", Artwork::getLinkName);
-		attributeSetterBiConsumers.put(
-			"linkName", (BiConsumer<Artwork, String>)Artwork::setLinkName);
-		attributeGetterFunctions.put("link", Artwork::getLink);
-		attributeSetterBiConsumers.put(
-			"link", (BiConsumer<Artwork, String>)Artwork::setLink);
-		attributeGetterFunctions.put("imageId", Artwork::getImageId);
-		attributeSetterBiConsumers.put(
-			"imageId", (BiConsumer<Artwork, Long>)Artwork::setImageId);
-		attributeGetterFunctions.put("imagesIds", Artwork::getImagesIds);
-		attributeSetterBiConsumers.put(
-			"imagesIds", (BiConsumer<Artwork, String>)Artwork::setImagesIds);
+		static {
+			Map<String, Function<Artwork, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Artwork, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Artwork::getUuid);
+			attributeGetterFunctions.put("artworkId", Artwork::getArtworkId);
+			attributeGetterFunctions.put("groupId", Artwork::getGroupId);
+			attributeGetterFunctions.put("companyId", Artwork::getCompanyId);
+			attributeGetterFunctions.put("userId", Artwork::getUserId);
+			attributeGetterFunctions.put("userName", Artwork::getUserName);
+			attributeGetterFunctions.put("createDate", Artwork::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Artwork::getModifiedDate);
+			attributeGetterFunctions.put(
+				"lastPublishDate", Artwork::getLastPublishDate);
+			attributeGetterFunctions.put("status", Artwork::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Artwork::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Artwork::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Artwork::getStatusDate);
+			attributeGetterFunctions.put("title", Artwork::getTitle);
+			attributeGetterFunctions.put(
+				"description", Artwork::getDescription);
+			attributeGetterFunctions.put(
+				"technicalInformation", Artwork::getTechnicalInformation);
+			attributeGetterFunctions.put("noticeLink", Artwork::getNoticeLink);
+			attributeGetterFunctions.put("artistName", Artwork::getArtistName);
+			attributeGetterFunctions.put(
+				"creationYear", Artwork::getCreationYear);
+			attributeGetterFunctions.put("origin", Artwork::getOrigin);
+			attributeGetterFunctions.put(
+				"exhibitionName", Artwork::getExhibitionName);
+			attributeGetterFunctions.put(
+				"exhibitionPlace", Artwork::getExhibitionPlace);
+			attributeGetterFunctions.put("loanPeriod", Artwork::getLoanPeriod);
+			attributeGetterFunctions.put("linkName", Artwork::getLinkName);
+			attributeGetterFunctions.put("link", Artwork::getLink);
+			attributeGetterFunctions.put("imageId", Artwork::getImageId);
+			attributeGetterFunctions.put("imagesIds", Artwork::getImagesIds);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Artwork, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Artwork, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Artwork, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Artwork, String>)Artwork::setUuid);
+			attributeSetterBiConsumers.put(
+				"artworkId", (BiConsumer<Artwork, Long>)Artwork::setArtworkId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Artwork, Long>)Artwork::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId", (BiConsumer<Artwork, Long>)Artwork::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Artwork, Long>)Artwork::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName", (BiConsumer<Artwork, String>)Artwork::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Artwork, Date>)Artwork::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Artwork, Date>)Artwork::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"lastPublishDate",
+				(BiConsumer<Artwork, Date>)Artwork::setLastPublishDate);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Artwork, Integer>)Artwork::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Artwork, Long>)Artwork::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Artwork, String>)Artwork::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Artwork, Date>)Artwork::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Artwork, String>)Artwork::setTitle);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<Artwork, String>)Artwork::setDescription);
+			attributeSetterBiConsumers.put(
+				"technicalInformation",
+				(BiConsumer<Artwork, String>)Artwork::setTechnicalInformation);
+			attributeSetterBiConsumers.put(
+				"noticeLink",
+				(BiConsumer<Artwork, String>)Artwork::setNoticeLink);
+			attributeSetterBiConsumers.put(
+				"artistName",
+				(BiConsumer<Artwork, String>)Artwork::setArtistName);
+			attributeSetterBiConsumers.put(
+				"creationYear",
+				(BiConsumer<Artwork, String>)Artwork::setCreationYear);
+			attributeSetterBiConsumers.put(
+				"origin", (BiConsumer<Artwork, String>)Artwork::setOrigin);
+			attributeSetterBiConsumers.put(
+				"exhibitionName",
+				(BiConsumer<Artwork, String>)Artwork::setExhibitionName);
+			attributeSetterBiConsumers.put(
+				"exhibitionPlace",
+				(BiConsumer<Artwork, String>)Artwork::setExhibitionPlace);
+			attributeSetterBiConsumers.put(
+				"loanPeriod",
+				(BiConsumer<Artwork, String>)Artwork::setLoanPeriod);
+			attributeSetterBiConsumers.put(
+				"linkName", (BiConsumer<Artwork, String>)Artwork::setLinkName);
+			attributeSetterBiConsumers.put(
+				"link", (BiConsumer<Artwork, String>)Artwork::setLink);
+			attributeSetterBiConsumers.put(
+				"imageId", (BiConsumer<Artwork, Long>)Artwork::setImageId);
+			attributeSetterBiConsumers.put(
+				"imagesIds",
+				(BiConsumer<Artwork, String>)Artwork::setImagesIds);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -2971,8 +2985,9 @@ public class ArtworkModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Artwork, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Artwork, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

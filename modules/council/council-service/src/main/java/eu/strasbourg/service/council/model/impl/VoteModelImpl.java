@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.council.model.impl;
@@ -225,57 +216,73 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 	}
 
 	public Map<String, Function<Vote, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Vote, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Vote, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Vote, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Vote, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Vote, Object>>();
-		Map<String, BiConsumer<Vote, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Vote, ?>>();
+		private static final Map<String, Function<Vote, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Vote::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Vote, String>)Vote::setUuid);
-		attributeGetterFunctions.put("officialId", Vote::getOfficialId);
-		attributeSetterBiConsumers.put(
-			"officialId", (BiConsumer<Vote, Long>)Vote::setOfficialId);
-		attributeGetterFunctions.put("deliberationId", Vote::getDeliberationId);
-		attributeSetterBiConsumers.put(
-			"deliberationId", (BiConsumer<Vote, Long>)Vote::setDeliberationId);
-		attributeGetterFunctions.put("groupId", Vote::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Vote, Long>)Vote::setGroupId);
-		attributeGetterFunctions.put("companyId", Vote::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Vote, Long>)Vote::setCompanyId);
-		attributeGetterFunctions.put("createDate", Vote::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<Vote, Date>)Vote::setCreateDate);
-		attributeGetterFunctions.put("result", Vote::getResult);
-		attributeSetterBiConsumers.put(
-			"result", (BiConsumer<Vote, String>)Vote::setResult);
-		attributeGetterFunctions.put(
-			"officialProcurationId", Vote::getOfficialProcurationId);
-		attributeSetterBiConsumers.put(
-			"officialProcurationId",
-			(BiConsumer<Vote, Long>)Vote::setOfficialProcurationId);
+		static {
+			Map<String, Function<Vote, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Vote, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Vote::getUuid);
+			attributeGetterFunctions.put("officialId", Vote::getOfficialId);
+			attributeGetterFunctions.put(
+				"deliberationId", Vote::getDeliberationId);
+			attributeGetterFunctions.put("groupId", Vote::getGroupId);
+			attributeGetterFunctions.put("companyId", Vote::getCompanyId);
+			attributeGetterFunctions.put("createDate", Vote::getCreateDate);
+			attributeGetterFunctions.put("result", Vote::getResult);
+			attributeGetterFunctions.put(
+				"officialProcurationId", Vote::getOfficialProcurationId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Vote, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Vote, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Vote, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Vote, String>)Vote::setUuid);
+			attributeSetterBiConsumers.put(
+				"officialId", (BiConsumer<Vote, Long>)Vote::setOfficialId);
+			attributeSetterBiConsumers.put(
+				"deliberationId",
+				(BiConsumer<Vote, Long>)Vote::setDeliberationId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Vote, Long>)Vote::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId", (BiConsumer<Vote, Long>)Vote::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"createDate", (BiConsumer<Vote, Date>)Vote::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"result", (BiConsumer<Vote, String>)Vote::setResult);
+			attributeSetterBiConsumers.put(
+				"officialProcurationId",
+				(BiConsumer<Vote, Long>)Vote::setOfficialProcurationId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -711,8 +718,9 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Vote, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Vote, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

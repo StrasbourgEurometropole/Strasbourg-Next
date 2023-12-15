@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model.impl;
@@ -266,105 +257,128 @@ public class CampaignModelImpl
 	public Map<String, Function<Campaign, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Campaign, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Campaign, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Campaign, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Campaign, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Campaign, Object>>();
-		Map<String, BiConsumer<Campaign, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Campaign, ?>>();
+		private static final Map<String, Function<Campaign, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Campaign::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Campaign, String>)Campaign::setUuid);
-		attributeGetterFunctions.put("campaignId", Campaign::getCampaignId);
-		attributeSetterBiConsumers.put(
-			"campaignId", (BiConsumer<Campaign, Long>)Campaign::setCampaignId);
-		attributeGetterFunctions.put("groupId", Campaign::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Campaign, Long>)Campaign::setGroupId);
-		attributeGetterFunctions.put("companyId", Campaign::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Campaign, Long>)Campaign::setCompanyId);
-		attributeGetterFunctions.put("userId", Campaign::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Campaign, Long>)Campaign::setUserId);
-		attributeGetterFunctions.put("userName", Campaign::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<Campaign, String>)Campaign::setUserName);
-		attributeGetterFunctions.put("createDate", Campaign::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<Campaign, Date>)Campaign::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", Campaign::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<Campaign, Date>)Campaign::setModifiedDate);
-		attributeGetterFunctions.put(
-			"lastPublishDate", Campaign::getLastPublishDate);
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			(BiConsumer<Campaign, Date>)Campaign::setLastPublishDate);
-		attributeGetterFunctions.put("status", Campaign::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Campaign, Integer>)Campaign::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Campaign::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Campaign, Long>)Campaign::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Campaign::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Campaign, String>)Campaign::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Campaign::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate", (BiConsumer<Campaign, Date>)Campaign::setStatusDate);
-		attributeGetterFunctions.put("title", Campaign::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<Campaign, String>)Campaign::setTitle);
-		attributeGetterFunctions.put(
-			"defaultImageId", Campaign::getDefaultImageId);
-		attributeSetterBiConsumers.put(
-			"defaultImageId",
-			(BiConsumer<Campaign, Long>)Campaign::setDefaultImageId);
-		attributeGetterFunctions.put(
-			"defaultImageCopyright", Campaign::getDefaultImageCopyright);
-		attributeSetterBiConsumers.put(
-			"defaultImageCopyright",
-			(BiConsumer<Campaign, String>)Campaign::setDefaultImageCopyright);
-		attributeGetterFunctions.put("managersIds", Campaign::getManagersIds);
-		attributeSetterBiConsumers.put(
-			"managersIds",
-			(BiConsumer<Campaign, String>)Campaign::setManagersIds);
-		attributeGetterFunctions.put(
-			"exportEnabled", Campaign::getExportEnabled);
-		attributeSetterBiConsumers.put(
-			"exportEnabled",
-			(BiConsumer<Campaign, Boolean>)Campaign::setExportEnabled);
-		attributeGetterFunctions.put("startDate", Campaign::getStartDate);
-		attributeSetterBiConsumers.put(
-			"startDate", (BiConsumer<Campaign, Date>)Campaign::setStartDate);
-		attributeGetterFunctions.put("endDate", Campaign::getEndDate);
-		attributeSetterBiConsumers.put(
-			"endDate", (BiConsumer<Campaign, Date>)Campaign::setEndDate);
+		static {
+			Map<String, Function<Campaign, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Campaign, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Campaign::getUuid);
+			attributeGetterFunctions.put("campaignId", Campaign::getCampaignId);
+			attributeGetterFunctions.put("groupId", Campaign::getGroupId);
+			attributeGetterFunctions.put("companyId", Campaign::getCompanyId);
+			attributeGetterFunctions.put("userId", Campaign::getUserId);
+			attributeGetterFunctions.put("userName", Campaign::getUserName);
+			attributeGetterFunctions.put("createDate", Campaign::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Campaign::getModifiedDate);
+			attributeGetterFunctions.put(
+				"lastPublishDate", Campaign::getLastPublishDate);
+			attributeGetterFunctions.put("status", Campaign::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Campaign::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Campaign::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Campaign::getStatusDate);
+			attributeGetterFunctions.put("title", Campaign::getTitle);
+			attributeGetterFunctions.put(
+				"defaultImageId", Campaign::getDefaultImageId);
+			attributeGetterFunctions.put(
+				"defaultImageCopyright", Campaign::getDefaultImageCopyright);
+			attributeGetterFunctions.put(
+				"managersIds", Campaign::getManagersIds);
+			attributeGetterFunctions.put(
+				"exportEnabled", Campaign::getExportEnabled);
+			attributeGetterFunctions.put("startDate", Campaign::getStartDate);
+			attributeGetterFunctions.put("endDate", Campaign::getEndDate);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Campaign, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Campaign, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Campaign, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Campaign, String>)Campaign::setUuid);
+			attributeSetterBiConsumers.put(
+				"campaignId",
+				(BiConsumer<Campaign, Long>)Campaign::setCampaignId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Campaign, Long>)Campaign::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Campaign, Long>)Campaign::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Campaign, Long>)Campaign::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Campaign, String>)Campaign::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Campaign, Date>)Campaign::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Campaign, Date>)Campaign::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"lastPublishDate",
+				(BiConsumer<Campaign, Date>)Campaign::setLastPublishDate);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Campaign, Integer>)Campaign::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Campaign, Long>)Campaign::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Campaign, String>)Campaign::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Campaign, Date>)Campaign::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Campaign, String>)Campaign::setTitle);
+			attributeSetterBiConsumers.put(
+				"defaultImageId",
+				(BiConsumer<Campaign, Long>)Campaign::setDefaultImageId);
+			attributeSetterBiConsumers.put(
+				"defaultImageCopyright",
+				(BiConsumer<Campaign, String>)
+					Campaign::setDefaultImageCopyright);
+			attributeSetterBiConsumers.put(
+				"managersIds",
+				(BiConsumer<Campaign, String>)Campaign::setManagersIds);
+			attributeSetterBiConsumers.put(
+				"exportEnabled",
+				(BiConsumer<Campaign, Boolean>)Campaign::setExportEnabled);
+			attributeSetterBiConsumers.put(
+				"startDate",
+				(BiConsumer<Campaign, Date>)Campaign::setStartDate);
+			attributeSetterBiConsumers.put(
+				"endDate", (BiConsumer<Campaign, Date>)Campaign::setEndDate);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -1533,8 +1547,9 @@ public class CampaignModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Campaign, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Campaign, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

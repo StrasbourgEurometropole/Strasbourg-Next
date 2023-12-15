@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.model.impl;
@@ -234,63 +225,80 @@ public class SubPlaceModelImpl
 	public Map<String, Function<SubPlace, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<SubPlace, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<SubPlace, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<SubPlace, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<SubPlace, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<SubPlace, Object>>();
-		Map<String, BiConsumer<SubPlace, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<SubPlace, ?>>();
+		private static final Map<String, Function<SubPlace, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", SubPlace::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<SubPlace, String>)SubPlace::setUuid);
-		attributeGetterFunctions.put("subPlaceId", SubPlace::getSubPlaceId);
-		attributeSetterBiConsumers.put(
-			"subPlaceId", (BiConsumer<SubPlace, Long>)SubPlace::setSubPlaceId);
-		attributeGetterFunctions.put("status", SubPlace::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<SubPlace, Integer>)SubPlace::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", SubPlace::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<SubPlace, Long>)SubPlace::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", SubPlace::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<SubPlace, String>)SubPlace::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", SubPlace::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate", (BiConsumer<SubPlace, Date>)SubPlace::setStatusDate);
-		attributeGetterFunctions.put("name", SubPlace::getName);
-		attributeSetterBiConsumers.put(
-			"name", (BiConsumer<SubPlace, String>)SubPlace::setName);
-		attributeGetterFunctions.put("description", SubPlace::getDescription);
-		attributeSetterBiConsumers.put(
-			"description",
-			(BiConsumer<SubPlace, String>)SubPlace::setDescription);
-		attributeGetterFunctions.put("placeId", SubPlace::getPlaceId);
-		attributeSetterBiConsumers.put(
-			"placeId", (BiConsumer<SubPlace, Long>)SubPlace::setPlaceId);
+		static {
+			Map<String, Function<SubPlace, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<SubPlace, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", SubPlace::getUuid);
+			attributeGetterFunctions.put("subPlaceId", SubPlace::getSubPlaceId);
+			attributeGetterFunctions.put("status", SubPlace::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", SubPlace::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", SubPlace::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", SubPlace::getStatusDate);
+			attributeGetterFunctions.put("name", SubPlace::getName);
+			attributeGetterFunctions.put(
+				"description", SubPlace::getDescription);
+			attributeGetterFunctions.put("placeId", SubPlace::getPlaceId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<SubPlace, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<SubPlace, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<SubPlace, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<SubPlace, String>)SubPlace::setUuid);
+			attributeSetterBiConsumers.put(
+				"subPlaceId",
+				(BiConsumer<SubPlace, Long>)SubPlace::setSubPlaceId);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<SubPlace, Integer>)SubPlace::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<SubPlace, Long>)SubPlace::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<SubPlace, String>)SubPlace::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<SubPlace, Date>)SubPlace::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"name", (BiConsumer<SubPlace, String>)SubPlace::setName);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<SubPlace, String>)SubPlace::setDescription);
+			attributeSetterBiConsumers.put(
+				"placeId", (BiConsumer<SubPlace, Long>)SubPlace::setPlaceId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -1109,8 +1117,9 @@ public class SubPlaceModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<SubPlace, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<SubPlace, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

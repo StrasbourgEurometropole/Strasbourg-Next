@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.objtp.model.impl;
@@ -208,46 +199,62 @@ public class FoundObjectModelImpl
 	public Map<String, Function<FoundObject, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<FoundObject, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<FoundObject, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<FoundObject, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<FoundObject, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<FoundObject, Object>>();
-		Map<String, BiConsumer<FoundObject, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<FoundObject, ?>>();
+		private static final Map<String, Function<FoundObject, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("number", FoundObject::getNumber);
-		attributeSetterBiConsumers.put(
-			"number", (BiConsumer<FoundObject, String>)FoundObject::setNumber);
-		attributeGetterFunctions.put("date", FoundObject::getDate);
-		attributeSetterBiConsumers.put(
-			"date", (BiConsumer<FoundObject, Date>)FoundObject::setDate);
-		attributeGetterFunctions.put("imageUrl", FoundObject::getImageUrl);
-		attributeSetterBiConsumers.put(
-			"imageUrl",
-			(BiConsumer<FoundObject, String>)FoundObject::setImageUrl);
-		attributeGetterFunctions.put(
-			"categoryCode", FoundObject::getCategoryCode);
-		attributeSetterBiConsumers.put(
-			"categoryCode",
-			(BiConsumer<FoundObject, String>)FoundObject::setCategoryCode);
+		static {
+			Map<String, Function<FoundObject, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<FoundObject, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("number", FoundObject::getNumber);
+			attributeGetterFunctions.put("date", FoundObject::getDate);
+			attributeGetterFunctions.put("imageUrl", FoundObject::getImageUrl);
+			attributeGetterFunctions.put(
+				"categoryCode", FoundObject::getCategoryCode);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<FoundObject, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<FoundObject, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<FoundObject, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"number",
+				(BiConsumer<FoundObject, String>)FoundObject::setNumber);
+			attributeSetterBiConsumers.put(
+				"date", (BiConsumer<FoundObject, Date>)FoundObject::setDate);
+			attributeSetterBiConsumers.put(
+				"imageUrl",
+				(BiConsumer<FoundObject, String>)FoundObject::setImageUrl);
+			attributeSetterBiConsumers.put(
+				"categoryCode",
+				(BiConsumer<FoundObject, String>)FoundObject::setCategoryCode);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -574,8 +581,9 @@ public class FoundObjectModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<FoundObject, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<FoundObject, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

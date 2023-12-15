@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.council.model.impl;
@@ -269,93 +260,118 @@ public class OfficialModelImpl
 	public Map<String, Function<Official, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Official, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Official, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Official, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Official, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Official, Object>>();
-		Map<String, BiConsumer<Official, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Official, ?>>();
+		private static final Map<String, Function<Official, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Official::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Official, String>)Official::setUuid);
-		attributeGetterFunctions.put("officialId", Official::getOfficialId);
-		attributeSetterBiConsumers.put(
-			"officialId", (BiConsumer<Official, Long>)Official::setOfficialId);
-		attributeGetterFunctions.put("groupId", Official::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Official, Long>)Official::setGroupId);
-		attributeGetterFunctions.put("companyId", Official::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Official, Long>)Official::setCompanyId);
-		attributeGetterFunctions.put("userId", Official::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Official, Long>)Official::setUserId);
-		attributeGetterFunctions.put("userName", Official::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<Official, String>)Official::setUserName);
-		attributeGetterFunctions.put("createDate", Official::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<Official, Date>)Official::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", Official::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<Official, Date>)Official::setModifiedDate);
-		attributeGetterFunctions.put("status", Official::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Official, Integer>)Official::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Official::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Official, Long>)Official::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Official::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Official, String>)Official::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Official::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate", (BiConsumer<Official, Date>)Official::setStatusDate);
-		attributeGetterFunctions.put("email", Official::getEmail);
-		attributeSetterBiConsumers.put(
-			"email", (BiConsumer<Official, String>)Official::setEmail);
-		attributeGetterFunctions.put("firstname", Official::getFirstname);
-		attributeSetterBiConsumers.put(
-			"firstname", (BiConsumer<Official, String>)Official::setFirstname);
-		attributeGetterFunctions.put("lastname", Official::getLastname);
-		attributeSetterBiConsumers.put(
-			"lastname", (BiConsumer<Official, String>)Official::setLastname);
-		attributeGetterFunctions.put("isActive", Official::getIsActive);
-		attributeSetterBiConsumers.put(
-			"isActive", (BiConsumer<Official, Boolean>)Official::setIsActive);
-		attributeGetterFunctions.put("lastActivity", Official::getLastActivity);
-		attributeSetterBiConsumers.put(
-			"lastActivity",
-			(BiConsumer<Official, Date>)Official::setLastActivity);
-		attributeGetterFunctions.put(
-			"lastSignInDeviceInfo", Official::getLastSignInDeviceInfo);
-		attributeSetterBiConsumers.put(
-			"lastSignInDeviceInfo",
-			(BiConsumer<Official, String>)Official::setLastSignInDeviceInfo);
+		static {
+			Map<String, Function<Official, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Official, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Official::getUuid);
+			attributeGetterFunctions.put("officialId", Official::getOfficialId);
+			attributeGetterFunctions.put("groupId", Official::getGroupId);
+			attributeGetterFunctions.put("companyId", Official::getCompanyId);
+			attributeGetterFunctions.put("userId", Official::getUserId);
+			attributeGetterFunctions.put("userName", Official::getUserName);
+			attributeGetterFunctions.put("createDate", Official::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Official::getModifiedDate);
+			attributeGetterFunctions.put("status", Official::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Official::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Official::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Official::getStatusDate);
+			attributeGetterFunctions.put("email", Official::getEmail);
+			attributeGetterFunctions.put("firstname", Official::getFirstname);
+			attributeGetterFunctions.put("lastname", Official::getLastname);
+			attributeGetterFunctions.put("isActive", Official::getIsActive);
+			attributeGetterFunctions.put(
+				"lastActivity", Official::getLastActivity);
+			attributeGetterFunctions.put(
+				"lastSignInDeviceInfo", Official::getLastSignInDeviceInfo);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Official, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Official, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Official, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Official, String>)Official::setUuid);
+			attributeSetterBiConsumers.put(
+				"officialId",
+				(BiConsumer<Official, Long>)Official::setOfficialId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Official, Long>)Official::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Official, Long>)Official::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Official, Long>)Official::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Official, String>)Official::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Official, Date>)Official::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Official, Date>)Official::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Official, Integer>)Official::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Official, Long>)Official::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Official, String>)Official::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Official, Date>)Official::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"email", (BiConsumer<Official, String>)Official::setEmail);
+			attributeSetterBiConsumers.put(
+				"firstname",
+				(BiConsumer<Official, String>)Official::setFirstname);
+			attributeSetterBiConsumers.put(
+				"lastname",
+				(BiConsumer<Official, String>)Official::setLastname);
+			attributeSetterBiConsumers.put(
+				"isActive",
+				(BiConsumer<Official, Boolean>)Official::setIsActive);
+			attributeSetterBiConsumers.put(
+				"lastActivity",
+				(BiConsumer<Official, Date>)Official::setLastActivity);
+			attributeSetterBiConsumers.put(
+				"lastSignInDeviceInfo",
+				(BiConsumer<Official, String>)
+					Official::setLastSignInDeviceInfo);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1228,8 +1244,9 @@ public class OfficialModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Official, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Official, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.csmap.model.impl;
@@ -215,50 +206,70 @@ public class RefreshTokenModelImpl
 	public Map<String, Function<RefreshToken, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<RefreshToken, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<RefreshToken, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<RefreshToken, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<RefreshToken, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<RefreshToken, Object>>();
-		Map<String, BiConsumer<RefreshToken, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<RefreshToken, ?>>();
+		private static final Map<String, Function<RefreshToken, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", RefreshToken::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<RefreshToken, String>)RefreshToken::setUuid);
-		attributeGetterFunctions.put(
-			"refreshTokenId", RefreshToken::getRefreshTokenId);
-		attributeSetterBiConsumers.put(
-			"refreshTokenId",
-			(BiConsumer<RefreshToken, Long>)RefreshToken::setRefreshTokenId);
-		attributeGetterFunctions.put("createDate", RefreshToken::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<RefreshToken, Date>)RefreshToken::setCreateDate);
-		attributeGetterFunctions.put("value", RefreshToken::getValue);
-		attributeSetterBiConsumers.put(
-			"value", (BiConsumer<RefreshToken, String>)RefreshToken::setValue);
-		attributeGetterFunctions.put("publikId", RefreshToken::getPublikId);
-		attributeSetterBiConsumers.put(
-			"publikId",
-			(BiConsumer<RefreshToken, String>)RefreshToken::setPublikId);
+		static {
+			Map<String, Function<RefreshToken, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<RefreshToken, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", RefreshToken::getUuid);
+			attributeGetterFunctions.put(
+				"refreshTokenId", RefreshToken::getRefreshTokenId);
+			attributeGetterFunctions.put(
+				"createDate", RefreshToken::getCreateDate);
+			attributeGetterFunctions.put("value", RefreshToken::getValue);
+			attributeGetterFunctions.put("publikId", RefreshToken::getPublikId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<RefreshToken, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<RefreshToken, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<RefreshToken, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<RefreshToken, String>)RefreshToken::setUuid);
+			attributeSetterBiConsumers.put(
+				"refreshTokenId",
+				(BiConsumer<RefreshToken, Long>)
+					RefreshToken::setRefreshTokenId);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<RefreshToken, Date>)RefreshToken::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"value",
+				(BiConsumer<RefreshToken, String>)RefreshToken::setValue);
+			attributeSetterBiConsumers.put(
+				"publikId",
+				(BiConsumer<RefreshToken, String>)RefreshToken::setPublikId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -632,8 +643,9 @@ public class RefreshTokenModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<RefreshToken, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<RefreshToken, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

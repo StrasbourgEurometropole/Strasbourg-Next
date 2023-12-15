@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model.impl;
@@ -231,90 +222,108 @@ public class CampaignEventStatusModelImpl
 	public Map<String, Function<CampaignEventStatus, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<CampaignEventStatus, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<CampaignEventStatus, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CampaignEventStatus, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<CampaignEventStatus, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap
-					<String, Function<CampaignEventStatus, Object>>();
-		Map<String, BiConsumer<CampaignEventStatus, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<CampaignEventStatus, ?>>();
+		private static final Map<String, Function<CampaignEventStatus, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", CampaignEventStatus::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid",
-			(BiConsumer<CampaignEventStatus, String>)
-				CampaignEventStatus::setUuid);
-		attributeGetterFunctions.put(
-			"statusId", CampaignEventStatus::getStatusId);
-		attributeSetterBiConsumers.put(
-			"statusId",
-			(BiConsumer<CampaignEventStatus, Long>)
-				CampaignEventStatus::setStatusId);
-		attributeGetterFunctions.put("status", CampaignEventStatus::getStatus);
-		attributeSetterBiConsumers.put(
-			"status",
-			(BiConsumer<CampaignEventStatus, Integer>)
-				CampaignEventStatus::setStatus);
-		attributeGetterFunctions.put(
-			"comment", CampaignEventStatus::getComment);
-		attributeSetterBiConsumers.put(
-			"comment",
-			(BiConsumer<CampaignEventStatus, String>)
-				CampaignEventStatus::setComment);
-		attributeGetterFunctions.put(
-			"deletionDenied", CampaignEventStatus::getDeletionDenied);
-		attributeSetterBiConsumers.put(
-			"deletionDenied",
-			(BiConsumer<CampaignEventStatus, Boolean>)
-				CampaignEventStatus::setDeletionDenied);
-		attributeGetterFunctions.put("date", CampaignEventStatus::getDate);
-		attributeSetterBiConsumers.put(
-			"date",
-			(BiConsumer<CampaignEventStatus, Date>)
-				CampaignEventStatus::setDate);
-		attributeGetterFunctions.put(
-			"campaignEventId", CampaignEventStatus::getCampaignEventId);
-		attributeSetterBiConsumers.put(
-			"campaignEventId",
-			(BiConsumer<CampaignEventStatus, Long>)
-				CampaignEventStatus::setCampaignEventId);
-		attributeGetterFunctions.put(
-			"previousStatusId", CampaignEventStatus::getPreviousStatusId);
-		attributeSetterBiConsumers.put(
-			"previousStatusId",
-			(BiConsumer<CampaignEventStatus, Long>)
-				CampaignEventStatus::setPreviousStatusId);
-		attributeGetterFunctions.put("userId", CampaignEventStatus::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId",
-			(BiConsumer<CampaignEventStatus, Long>)
-				CampaignEventStatus::setUserId);
-		attributeGetterFunctions.put(
-			"userName", CampaignEventStatus::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<CampaignEventStatus, String>)
-				CampaignEventStatus::setUserName);
+		static {
+			Map<String, Function<CampaignEventStatus, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<CampaignEventStatus, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", CampaignEventStatus::getUuid);
+			attributeGetterFunctions.put(
+				"statusId", CampaignEventStatus::getStatusId);
+			attributeGetterFunctions.put(
+				"status", CampaignEventStatus::getStatus);
+			attributeGetterFunctions.put(
+				"comment", CampaignEventStatus::getComment);
+			attributeGetterFunctions.put(
+				"deletionDenied", CampaignEventStatus::getDeletionDenied);
+			attributeGetterFunctions.put("date", CampaignEventStatus::getDate);
+			attributeGetterFunctions.put(
+				"campaignEventId", CampaignEventStatus::getCampaignEventId);
+			attributeGetterFunctions.put(
+				"previousStatusId", CampaignEventStatus::getPreviousStatusId);
+			attributeGetterFunctions.put(
+				"userId", CampaignEventStatus::getUserId);
+			attributeGetterFunctions.put(
+				"userName", CampaignEventStatus::getUserName);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map
+			<String, BiConsumer<CampaignEventStatus, Object>>
+				_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<CampaignEventStatus, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String, BiConsumer<CampaignEventStatus, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<CampaignEventStatus, String>)
+					CampaignEventStatus::setUuid);
+			attributeSetterBiConsumers.put(
+				"statusId",
+				(BiConsumer<CampaignEventStatus, Long>)
+					CampaignEventStatus::setStatusId);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<CampaignEventStatus, Integer>)
+					CampaignEventStatus::setStatus);
+			attributeSetterBiConsumers.put(
+				"comment",
+				(BiConsumer<CampaignEventStatus, String>)
+					CampaignEventStatus::setComment);
+			attributeSetterBiConsumers.put(
+				"deletionDenied",
+				(BiConsumer<CampaignEventStatus, Boolean>)
+					CampaignEventStatus::setDeletionDenied);
+			attributeSetterBiConsumers.put(
+				"date",
+				(BiConsumer<CampaignEventStatus, Date>)
+					CampaignEventStatus::setDate);
+			attributeSetterBiConsumers.put(
+				"campaignEventId",
+				(BiConsumer<CampaignEventStatus, Long>)
+					CampaignEventStatus::setCampaignEventId);
+			attributeSetterBiConsumers.put(
+				"previousStatusId",
+				(BiConsumer<CampaignEventStatus, Long>)
+					CampaignEventStatus::setPreviousStatusId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<CampaignEventStatus, Long>)
+					CampaignEventStatus::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<CampaignEventStatus, String>)
+					CampaignEventStatus::setUserName);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -821,7 +830,8 @@ public class CampaignEventStatusModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<CampaignEventStatus, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

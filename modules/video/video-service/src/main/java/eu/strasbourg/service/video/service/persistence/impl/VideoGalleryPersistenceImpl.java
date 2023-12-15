@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.video.service.persistence.impl;
@@ -40,7 +31,7 @@ import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.uuid.PortalUUID;
+import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.video.exception.NoSuchVideoGalleryException;
@@ -54,7 +45,6 @@ import eu.strasbourg.service.video.service.persistence.VideoPersistence;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.sql.Timestamp;
@@ -2655,7 +2645,7 @@ public class VideoGalleryPersistenceImpl
 		videoGallery.setNew(true);
 		videoGallery.setPrimaryKey(galleryId);
 
-		String uuid = _portalUUID.generate();
+		String uuid = PortalUUIDUtil.generate();
 
 		videoGallery.setUuid(uuid);
 
@@ -2777,7 +2767,7 @@ public class VideoGalleryPersistenceImpl
 			(VideoGalleryModelImpl)videoGallery;
 
 		if (Validator.isNull(videoGallery.getUuid())) {
-			String uuid = _portalUUID.generate();
+			String uuid = PortalUUIDUtil.generate();
 
 			videoGallery.setUuid(uuid);
 		}
@@ -3180,17 +3170,18 @@ public class VideoGalleryPersistenceImpl
 	 *
 	 * @param pk the primary key of the video gallery
 	 * @param videoPK the primary key of the video
+	 * @return <code>true</code> if an association between the video gallery and the video was added; <code>false</code> if they were already associated
 	 */
 	@Override
-	public void addVideo(long pk, long videoPK) {
+	public boolean addVideo(long pk, long videoPK) {
 		VideoGallery videoGallery = fetchByPrimaryKey(pk);
 
 		if (videoGallery == null) {
-			videoGalleryToVideoTableMapper.addTableMapping(
+			return videoGalleryToVideoTableMapper.addTableMapping(
 				CompanyThreadLocal.getCompanyId(), pk, videoPK);
 		}
 		else {
-			videoGalleryToVideoTableMapper.addTableMapping(
+			return videoGalleryToVideoTableMapper.addTableMapping(
 				videoGallery.getCompanyId(), pk, videoPK);
 		}
 	}
@@ -3200,19 +3191,20 @@ public class VideoGalleryPersistenceImpl
 	 *
 	 * @param pk the primary key of the video gallery
 	 * @param video the video
+	 * @return <code>true</code> if an association between the video gallery and the video was added; <code>false</code> if they were already associated
 	 */
 	@Override
-	public void addVideo(
+	public boolean addVideo(
 		long pk, eu.strasbourg.service.video.model.Video video) {
 
 		VideoGallery videoGallery = fetchByPrimaryKey(pk);
 
 		if (videoGallery == null) {
-			videoGalleryToVideoTableMapper.addTableMapping(
+			return videoGalleryToVideoTableMapper.addTableMapping(
 				CompanyThreadLocal.getCompanyId(), pk, video.getPrimaryKey());
 		}
 		else {
-			videoGalleryToVideoTableMapper.addTableMapping(
+			return videoGalleryToVideoTableMapper.addTableMapping(
 				videoGallery.getCompanyId(), pk, video.getPrimaryKey());
 		}
 	}
@@ -3222,9 +3214,10 @@ public class VideoGalleryPersistenceImpl
 	 *
 	 * @param pk the primary key of the video gallery
 	 * @param videoPKs the primary keys of the videos
+	 * @return <code>true</code> if at least one association between the video gallery and the videos was added; <code>false</code> if they were all already associated
 	 */
 	@Override
-	public void addVideos(long pk, long[] videoPKs) {
+	public boolean addVideos(long pk, long[] videoPKs) {
 		long companyId = 0;
 
 		VideoGallery videoGallery = fetchByPrimaryKey(pk);
@@ -3236,8 +3229,14 @@ public class VideoGalleryPersistenceImpl
 			companyId = videoGallery.getCompanyId();
 		}
 
-		videoGalleryToVideoTableMapper.addTableMappings(
+		long[] addedKeys = videoGalleryToVideoTableMapper.addTableMappings(
 			companyId, pk, videoPKs);
+
+		if (addedKeys.length > 0) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -3245,12 +3244,13 @@ public class VideoGalleryPersistenceImpl
 	 *
 	 * @param pk the primary key of the video gallery
 	 * @param videos the videos
+	 * @return <code>true</code> if at least one association between the video gallery and the videos was added; <code>false</code> if they were all already associated
 	 */
 	@Override
-	public void addVideos(
+	public boolean addVideos(
 		long pk, List<eu.strasbourg.service.video.model.Video> videos) {
 
-		addVideos(
+		return addVideos(
 			pk,
 			ListUtil.toLongArray(
 				videos,
@@ -3513,31 +3513,15 @@ public class VideoGalleryPersistenceImpl
 				new String[] {Date.class.getName(), Integer.class.getName()},
 				new String[] {"publicationDate", "status"}, false);
 
-		_setVideoGalleryUtilPersistence(this);
+		VideoGalleryUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setVideoGalleryUtilPersistence(null);
+		VideoGalleryUtil.setPersistence(null);
 
 		entityCache.removeCache(VideoGalleryImpl.class.getName());
 
 		TableMapperFactory.removeTableMapper("video_VideoToVideoGallery");
-	}
-
-	private void _setVideoGalleryUtilPersistence(
-		VideoGalleryPersistence videoGalleryPersistence) {
-
-		try {
-			Field field = VideoGalleryUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, videoGalleryPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -3590,8 +3574,5 @@ public class VideoGalleryPersistenceImpl
 	protected FinderCache getFinderCache() {
 		return finderCache;
 	}
-
-	@ServiceReference(type = PortalUUID.class)
-	private PortalUUID _portalUUID;
 
 }

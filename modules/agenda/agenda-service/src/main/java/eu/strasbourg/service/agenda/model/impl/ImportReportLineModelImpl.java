@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model.impl;
@@ -236,73 +227,97 @@ public class ImportReportLineModelImpl
 	public Map<String, Function<ImportReportLine, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<ImportReportLine, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<ImportReportLine, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ImportReportLine, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<ImportReportLine, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap<String, Function<ImportReportLine, Object>>();
-		Map<String, BiConsumer<ImportReportLine, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<ImportReportLine, ?>>();
+		private static final Map<String, Function<ImportReportLine, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", ImportReportLine::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid",
-			(BiConsumer<ImportReportLine, String>)ImportReportLine::setUuid);
-		attributeGetterFunctions.put("lineId", ImportReportLine::getLineId);
-		attributeSetterBiConsumers.put(
-			"lineId",
-			(BiConsumer<ImportReportLine, Long>)ImportReportLine::setLineId);
-		attributeGetterFunctions.put("type", ImportReportLine::getType);
-		attributeSetterBiConsumers.put(
-			"type",
-			(BiConsumer<ImportReportLine, String>)ImportReportLine::setType);
-		attributeGetterFunctions.put("status", ImportReportLine::getStatus);
-		attributeSetterBiConsumers.put(
-			"status",
-			(BiConsumer<ImportReportLine, Long>)ImportReportLine::setStatus);
-		attributeGetterFunctions.put("log", ImportReportLine::getLog);
-		attributeSetterBiConsumers.put(
-			"log",
-			(BiConsumer<ImportReportLine, String>)ImportReportLine::setLog);
-		attributeGetterFunctions.put(
-			"entityName", ImportReportLine::getEntityName);
-		attributeSetterBiConsumers.put(
-			"entityName",
-			(BiConsumer<ImportReportLine, String>)
-				ImportReportLine::setEntityName);
-		attributeGetterFunctions.put(
-			"entityExternalId", ImportReportLine::getEntityExternalId);
-		attributeSetterBiConsumers.put(
-			"entityExternalId",
-			(BiConsumer<ImportReportLine, String>)
-				ImportReportLine::setEntityExternalId);
-		attributeGetterFunctions.put("entityId", ImportReportLine::getEntityId);
-		attributeSetterBiConsumers.put(
-			"entityId",
-			(BiConsumer<ImportReportLine, Long>)ImportReportLine::setEntityId);
-		attributeGetterFunctions.put("reportId", ImportReportLine::getReportId);
-		attributeSetterBiConsumers.put(
-			"reportId",
-			(BiConsumer<ImportReportLine, Long>)ImportReportLine::setReportId);
+		static {
+			Map<String, Function<ImportReportLine, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<ImportReportLine, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", ImportReportLine::getUuid);
+			attributeGetterFunctions.put("lineId", ImportReportLine::getLineId);
+			attributeGetterFunctions.put("type", ImportReportLine::getType);
+			attributeGetterFunctions.put("status", ImportReportLine::getStatus);
+			attributeGetterFunctions.put("log", ImportReportLine::getLog);
+			attributeGetterFunctions.put(
+				"entityName", ImportReportLine::getEntityName);
+			attributeGetterFunctions.put(
+				"entityExternalId", ImportReportLine::getEntityExternalId);
+			attributeGetterFunctions.put(
+				"entityId", ImportReportLine::getEntityId);
+			attributeGetterFunctions.put(
+				"reportId", ImportReportLine::getReportId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<ImportReportLine, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<ImportReportLine, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String, BiConsumer<ImportReportLine, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<ImportReportLine, String>)
+					ImportReportLine::setUuid);
+			attributeSetterBiConsumers.put(
+				"lineId",
+				(BiConsumer<ImportReportLine, Long>)
+					ImportReportLine::setLineId);
+			attributeSetterBiConsumers.put(
+				"type",
+				(BiConsumer<ImportReportLine, String>)
+					ImportReportLine::setType);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<ImportReportLine, Long>)
+					ImportReportLine::setStatus);
+			attributeSetterBiConsumers.put(
+				"log",
+				(BiConsumer<ImportReportLine, String>)ImportReportLine::setLog);
+			attributeSetterBiConsumers.put(
+				"entityName",
+				(BiConsumer<ImportReportLine, String>)
+					ImportReportLine::setEntityName);
+			attributeSetterBiConsumers.put(
+				"entityExternalId",
+				(BiConsumer<ImportReportLine, String>)
+					ImportReportLine::setEntityExternalId);
+			attributeSetterBiConsumers.put(
+				"entityId",
+				(BiConsumer<ImportReportLine, Long>)
+					ImportReportLine::setEntityId);
+			attributeSetterBiConsumers.put(
+				"reportId",
+				(BiConsumer<ImportReportLine, Long>)
+					ImportReportLine::setReportId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -786,7 +801,8 @@ public class ImportReportLineModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<ImportReportLine, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model.impl;
@@ -278,135 +269,160 @@ public class InitiativeModelImpl
 	public Map<String, Function<Initiative, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Initiative, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Initiative, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Initiative, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Initiative, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Initiative, Object>>();
-		Map<String, BiConsumer<Initiative, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Initiative, ?>>();
+		private static final Map<String, Function<Initiative, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Initiative::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Initiative, String>)Initiative::setUuid);
-		attributeGetterFunctions.put(
-			"initiativeId", Initiative::getInitiativeId);
-		attributeSetterBiConsumers.put(
-			"initiativeId",
-			(BiConsumer<Initiative, Long>)Initiative::setInitiativeId);
-		attributeGetterFunctions.put("groupId", Initiative::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Initiative, Long>)Initiative::setGroupId);
-		attributeGetterFunctions.put("companyId", Initiative::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<Initiative, Long>)Initiative::setCompanyId);
-		attributeGetterFunctions.put("userId", Initiative::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Initiative, Long>)Initiative::setUserId);
-		attributeGetterFunctions.put("userName", Initiative::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<Initiative, String>)Initiative::setUserName);
-		attributeGetterFunctions.put("createDate", Initiative::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<Initiative, Date>)Initiative::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", Initiative::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<Initiative, Date>)Initiative::setModifiedDate);
-		attributeGetterFunctions.put("status", Initiative::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Initiative, Integer>)Initiative::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Initiative::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Initiative, Long>)Initiative::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Initiative::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Initiative, String>)Initiative::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Initiative::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			(BiConsumer<Initiative, Date>)Initiative::setStatusDate);
-		attributeGetterFunctions.put("title", Initiative::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<Initiative, String>)Initiative::setTitle);
-		attributeGetterFunctions.put("description", Initiative::getDescription);
-		attributeSetterBiConsumers.put(
-			"description",
-			(BiConsumer<Initiative, String>)Initiative::setDescription);
-		attributeGetterFunctions.put(
-			"placeTextArea", Initiative::getPlaceTextArea);
-		attributeSetterBiConsumers.put(
-			"placeTextArea",
-			(BiConsumer<Initiative, String>)Initiative::setPlaceTextArea);
-		attributeGetterFunctions.put("inTheNameOf", Initiative::getInTheNameOf);
-		attributeSetterBiConsumers.put(
-			"inTheNameOf",
-			(BiConsumer<Initiative, String>)Initiative::setInTheNameOf);
-		attributeGetterFunctions.put("videoUrl", Initiative::getVideoUrl);
-		attributeSetterBiConsumers.put(
-			"videoUrl",
-			(BiConsumer<Initiative, String>)Initiative::setVideoUrl);
-		attributeGetterFunctions.put(
-			"externalImageURL", Initiative::getExternalImageURL);
-		attributeSetterBiConsumers.put(
-			"externalImageURL",
-			(BiConsumer<Initiative, String>)Initiative::setExternalImageURL);
-		attributeGetterFunctions.put(
-			"externalImageCopyright", Initiative::getExternalImageCopyright);
-		attributeSetterBiConsumers.put(
-			"externalImageCopyright",
-			(BiConsumer<Initiative, String>)
-				Initiative::setExternalImageCopyright);
-		attributeGetterFunctions.put("mediaChoice", Initiative::getMediaChoice);
-		attributeSetterBiConsumers.put(
-			"mediaChoice",
-			(BiConsumer<Initiative, Boolean>)Initiative::setMediaChoice);
-		attributeGetterFunctions.put(
-			"assetEntryId", Initiative::getAssetEntryId);
-		attributeSetterBiConsumers.put(
-			"assetEntryId",
-			(BiConsumer<Initiative, Long>)Initiative::setAssetEntryId);
-		attributeGetterFunctions.put("publikId", Initiative::getPublikId);
-		attributeSetterBiConsumers.put(
-			"publikId",
-			(BiConsumer<Initiative, String>)Initiative::setPublikId);
-		attributeGetterFunctions.put("imageId", Initiative::getImageId);
-		attributeSetterBiConsumers.put(
-			"imageId", (BiConsumer<Initiative, Long>)Initiative::setImageId);
-		attributeGetterFunctions.put("filesIds", Initiative::getFilesIds);
-		attributeSetterBiConsumers.put(
-			"filesIds",
-			(BiConsumer<Initiative, String>)Initiative::setFilesIds);
-		attributeGetterFunctions.put(
-			"publicationDate", Initiative::getPublicationDate);
-		attributeSetterBiConsumers.put(
-			"publicationDate",
-			(BiConsumer<Initiative, Date>)Initiative::setPublicationDate);
+		static {
+			Map<String, Function<Initiative, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Initiative, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Initiative::getUuid);
+			attributeGetterFunctions.put(
+				"initiativeId", Initiative::getInitiativeId);
+			attributeGetterFunctions.put("groupId", Initiative::getGroupId);
+			attributeGetterFunctions.put("companyId", Initiative::getCompanyId);
+			attributeGetterFunctions.put("userId", Initiative::getUserId);
+			attributeGetterFunctions.put("userName", Initiative::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", Initiative::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Initiative::getModifiedDate);
+			attributeGetterFunctions.put("status", Initiative::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Initiative::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Initiative::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", Initiative::getStatusDate);
+			attributeGetterFunctions.put("title", Initiative::getTitle);
+			attributeGetterFunctions.put(
+				"description", Initiative::getDescription);
+			attributeGetterFunctions.put(
+				"placeTextArea", Initiative::getPlaceTextArea);
+			attributeGetterFunctions.put(
+				"inTheNameOf", Initiative::getInTheNameOf);
+			attributeGetterFunctions.put("videoUrl", Initiative::getVideoUrl);
+			attributeGetterFunctions.put(
+				"externalImageURL", Initiative::getExternalImageURL);
+			attributeGetterFunctions.put(
+				"externalImageCopyright",
+				Initiative::getExternalImageCopyright);
+			attributeGetterFunctions.put(
+				"mediaChoice", Initiative::getMediaChoice);
+			attributeGetterFunctions.put(
+				"assetEntryId", Initiative::getAssetEntryId);
+			attributeGetterFunctions.put("publikId", Initiative::getPublikId);
+			attributeGetterFunctions.put("imageId", Initiative::getImageId);
+			attributeGetterFunctions.put("filesIds", Initiative::getFilesIds);
+			attributeGetterFunctions.put(
+				"publicationDate", Initiative::getPublicationDate);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Initiative, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Initiative, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Initiative, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Initiative, String>)Initiative::setUuid);
+			attributeSetterBiConsumers.put(
+				"initiativeId",
+				(BiConsumer<Initiative, Long>)Initiative::setInitiativeId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<Initiative, Long>)Initiative::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Initiative, Long>)Initiative::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Initiative, Long>)Initiative::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Initiative, String>)Initiative::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Initiative, Date>)Initiative::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Initiative, Date>)Initiative::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<Initiative, Integer>)Initiative::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Initiative, Long>)Initiative::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Initiative, String>)
+					Initiative::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Initiative, Date>)Initiative::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Initiative, String>)Initiative::setTitle);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<Initiative, String>)Initiative::setDescription);
+			attributeSetterBiConsumers.put(
+				"placeTextArea",
+				(BiConsumer<Initiative, String>)Initiative::setPlaceTextArea);
+			attributeSetterBiConsumers.put(
+				"inTheNameOf",
+				(BiConsumer<Initiative, String>)Initiative::setInTheNameOf);
+			attributeSetterBiConsumers.put(
+				"videoUrl",
+				(BiConsumer<Initiative, String>)Initiative::setVideoUrl);
+			attributeSetterBiConsumers.put(
+				"externalImageURL",
+				(BiConsumer<Initiative, String>)
+					Initiative::setExternalImageURL);
+			attributeSetterBiConsumers.put(
+				"externalImageCopyright",
+				(BiConsumer<Initiative, String>)
+					Initiative::setExternalImageCopyright);
+			attributeSetterBiConsumers.put(
+				"mediaChoice",
+				(BiConsumer<Initiative, Boolean>)Initiative::setMediaChoice);
+			attributeSetterBiConsumers.put(
+				"assetEntryId",
+				(BiConsumer<Initiative, Long>)Initiative::setAssetEntryId);
+			attributeSetterBiConsumers.put(
+				"publikId",
+				(BiConsumer<Initiative, String>)Initiative::setPublikId);
+			attributeSetterBiConsumers.put(
+				"imageId",
+				(BiConsumer<Initiative, Long>)Initiative::setImageId);
+			attributeSetterBiConsumers.put(
+				"filesIds",
+				(BiConsumer<Initiative, String>)Initiative::setFilesIds);
+			attributeSetterBiConsumers.put(
+				"publicationDate",
+				(BiConsumer<Initiative, Date>)Initiative::setPublicationDate);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1638,8 +1654,9 @@ public class InitiativeModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Initiative, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Initiative, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

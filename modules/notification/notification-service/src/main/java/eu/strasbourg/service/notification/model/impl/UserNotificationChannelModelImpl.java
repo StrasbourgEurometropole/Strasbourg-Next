@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.notification.model.impl;
@@ -208,48 +199,63 @@ public class UserNotificationChannelModelImpl
 	public Map<String, Function<UserNotificationChannel, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<UserNotificationChannel, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<UserNotificationChannel, Object>>
-		_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<UserNotificationChannel, Object>>
-			_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<UserNotificationChannel, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap
-					<String, Function<UserNotificationChannel, Object>>();
-		Map<String, BiConsumer<UserNotificationChannel, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<UserNotificationChannel, ?>>();
+		private static final Map
+			<String, Function<UserNotificationChannel, Object>>
+				_attributeGetterFunctions;
 
-		attributeGetterFunctions.put(
-			"publikUserId", UserNotificationChannel::getPublikUserId);
-		attributeSetterBiConsumers.put(
-			"publikUserId",
-			(BiConsumer<UserNotificationChannel, String>)
-				UserNotificationChannel::setPublikUserId);
-		attributeGetterFunctions.put(
-			"channelId", UserNotificationChannel::getChannelId);
-		attributeSetterBiConsumers.put(
-			"channelId",
-			(BiConsumer<UserNotificationChannel, Long>)
-				UserNotificationChannel::setChannelId);
+		static {
+			Map<String, Function<UserNotificationChannel, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<UserNotificationChannel, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put(
+				"publikUserId", UserNotificationChannel::getPublikUserId);
+			attributeGetterFunctions.put(
+				"channelId", UserNotificationChannel::getChannelId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map
+			<String, BiConsumer<UserNotificationChannel, Object>>
+				_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<UserNotificationChannel, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String, BiConsumer<UserNotificationChannel, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"publikUserId",
+				(BiConsumer<UserNotificationChannel, String>)
+					UserNotificationChannel::setPublikUserId);
+			attributeSetterBiConsumers.put(
+				"channelId",
+				(BiConsumer<UserNotificationChannel, Long>)
+					UserNotificationChannel::setChannelId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -517,7 +523,8 @@ public class UserNotificationChannelModelImpl
 
 	public <T> T getColumnValue(String columnName) {
 		Function<UserNotificationChannel, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

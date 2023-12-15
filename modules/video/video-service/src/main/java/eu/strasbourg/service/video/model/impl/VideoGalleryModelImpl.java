@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.video.model.impl;
@@ -289,103 +280,129 @@ public class VideoGalleryModelImpl
 	public Map<String, Function<VideoGallery, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<VideoGallery, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<VideoGallery, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<VideoGallery, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<VideoGallery, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<VideoGallery, Object>>();
-		Map<String, BiConsumer<VideoGallery, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<VideoGallery, ?>>();
+		private static final Map<String, Function<VideoGallery, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", VideoGallery::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<VideoGallery, String>)VideoGallery::setUuid);
-		attributeGetterFunctions.put("galleryId", VideoGallery::getGalleryId);
-		attributeSetterBiConsumers.put(
-			"galleryId",
-			(BiConsumer<VideoGallery, Long>)VideoGallery::setGalleryId);
-		attributeGetterFunctions.put("groupId", VideoGallery::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<VideoGallery, Long>)VideoGallery::setGroupId);
-		attributeGetterFunctions.put("companyId", VideoGallery::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<VideoGallery, Long>)VideoGallery::setCompanyId);
-		attributeGetterFunctions.put("userId", VideoGallery::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<VideoGallery, Long>)VideoGallery::setUserId);
-		attributeGetterFunctions.put("userName", VideoGallery::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<VideoGallery, String>)VideoGallery::setUserName);
-		attributeGetterFunctions.put("createDate", VideoGallery::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<VideoGallery, Date>)VideoGallery::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", VideoGallery::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<VideoGallery, Date>)VideoGallery::setModifiedDate);
-		attributeGetterFunctions.put(
-			"lastPublishDate", VideoGallery::getLastPublishDate);
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			(BiConsumer<VideoGallery, Date>)VideoGallery::setLastPublishDate);
-		attributeGetterFunctions.put("status", VideoGallery::getStatus);
-		attributeSetterBiConsumers.put(
-			"status",
-			(BiConsumer<VideoGallery, Integer>)VideoGallery::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", VideoGallery::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<VideoGallery, Long>)VideoGallery::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", VideoGallery::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<VideoGallery, String>)
-				VideoGallery::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", VideoGallery::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			(BiConsumer<VideoGallery, Date>)VideoGallery::setStatusDate);
-		attributeGetterFunctions.put("title", VideoGallery::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<VideoGallery, String>)VideoGallery::setTitle);
-		attributeGetterFunctions.put(
-			"description", VideoGallery::getDescription);
-		attributeSetterBiConsumers.put(
-			"description",
-			(BiConsumer<VideoGallery, String>)VideoGallery::setDescription);
-		attributeGetterFunctions.put(
-			"publicationDate", VideoGallery::getPublicationDate);
-		attributeSetterBiConsumers.put(
-			"publicationDate",
-			(BiConsumer<VideoGallery, Date>)VideoGallery::setPublicationDate);
-		attributeGetterFunctions.put("imageId", VideoGallery::getImageId);
-		attributeSetterBiConsumers.put(
-			"imageId",
-			(BiConsumer<VideoGallery, Long>)VideoGallery::setImageId);
+		static {
+			Map<String, Function<VideoGallery, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<VideoGallery, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", VideoGallery::getUuid);
+			attributeGetterFunctions.put(
+				"galleryId", VideoGallery::getGalleryId);
+			attributeGetterFunctions.put("groupId", VideoGallery::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", VideoGallery::getCompanyId);
+			attributeGetterFunctions.put("userId", VideoGallery::getUserId);
+			attributeGetterFunctions.put("userName", VideoGallery::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", VideoGallery::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", VideoGallery::getModifiedDate);
+			attributeGetterFunctions.put(
+				"lastPublishDate", VideoGallery::getLastPublishDate);
+			attributeGetterFunctions.put("status", VideoGallery::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", VideoGallery::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", VideoGallery::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", VideoGallery::getStatusDate);
+			attributeGetterFunctions.put("title", VideoGallery::getTitle);
+			attributeGetterFunctions.put(
+				"description", VideoGallery::getDescription);
+			attributeGetterFunctions.put(
+				"publicationDate", VideoGallery::getPublicationDate);
+			attributeGetterFunctions.put("imageId", VideoGallery::getImageId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<VideoGallery, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<VideoGallery, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<VideoGallery, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<VideoGallery, String>)VideoGallery::setUuid);
+			attributeSetterBiConsumers.put(
+				"galleryId",
+				(BiConsumer<VideoGallery, Long>)VideoGallery::setGalleryId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<VideoGallery, Long>)VideoGallery::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<VideoGallery, Long>)VideoGallery::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<VideoGallery, Long>)VideoGallery::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<VideoGallery, String>)VideoGallery::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<VideoGallery, Date>)VideoGallery::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<VideoGallery, Date>)VideoGallery::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"lastPublishDate",
+				(BiConsumer<VideoGallery, Date>)
+					VideoGallery::setLastPublishDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<VideoGallery, Integer>)VideoGallery::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<VideoGallery, Long>)
+					VideoGallery::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<VideoGallery, String>)
+					VideoGallery::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<VideoGallery, Date>)VideoGallery::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title",
+				(BiConsumer<VideoGallery, String>)VideoGallery::setTitle);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<VideoGallery, String>)VideoGallery::setDescription);
+			attributeSetterBiConsumers.put(
+				"publicationDate",
+				(BiConsumer<VideoGallery, Date>)
+					VideoGallery::setPublicationDate);
+			attributeSetterBiConsumers.put(
+				"imageId",
+				(BiConsumer<VideoGallery, Long>)VideoGallery::setImageId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1489,8 +1506,9 @@ public class VideoGalleryModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<VideoGallery, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<VideoGallery, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

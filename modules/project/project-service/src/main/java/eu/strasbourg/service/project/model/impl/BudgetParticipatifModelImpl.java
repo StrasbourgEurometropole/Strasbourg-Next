@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model.impl;
@@ -322,259 +313,281 @@ public class BudgetParticipatifModelImpl
 	public Map<String, Function<BudgetParticipatif, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<BudgetParticipatif, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<BudgetParticipatif, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<BudgetParticipatif, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<BudgetParticipatif, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap
-					<String, Function<BudgetParticipatif, Object>>();
-		Map<String, BiConsumer<BudgetParticipatif, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<BudgetParticipatif, ?>>();
+		private static final Map<String, Function<BudgetParticipatif, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", BudgetParticipatif::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid",
-			(BiConsumer<BudgetParticipatif, String>)
-				BudgetParticipatif::setUuid);
-		attributeGetterFunctions.put(
-			"budgetParticipatifId",
-			BudgetParticipatif::getBudgetParticipatifId);
-		attributeSetterBiConsumers.put(
-			"budgetParticipatifId",
-			(BiConsumer<BudgetParticipatif, Long>)
-				BudgetParticipatif::setBudgetParticipatifId);
-		attributeGetterFunctions.put("groupId", BudgetParticipatif::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<BudgetParticipatif, Long>)
-				BudgetParticipatif::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", BudgetParticipatif::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<BudgetParticipatif, Long>)
-				BudgetParticipatif::setCompanyId);
-		attributeGetterFunctions.put("userId", BudgetParticipatif::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId",
-			(BiConsumer<BudgetParticipatif, Long>)
-				BudgetParticipatif::setUserId);
-		attributeGetterFunctions.put(
-			"userName", BudgetParticipatif::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<BudgetParticipatif, String>)
-				BudgetParticipatif::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", BudgetParticipatif::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<BudgetParticipatif, Date>)
-				BudgetParticipatif::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", BudgetParticipatif::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<BudgetParticipatif, Date>)
-				BudgetParticipatif::setModifiedDate);
-		attributeGetterFunctions.put("status", BudgetParticipatif::getStatus);
-		attributeSetterBiConsumers.put(
-			"status",
-			(BiConsumer<BudgetParticipatif, Integer>)
-				BudgetParticipatif::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", BudgetParticipatif::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<BudgetParticipatif, Long>)
-				BudgetParticipatif::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", BudgetParticipatif::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<BudgetParticipatif, String>)
-				BudgetParticipatif::setStatusByUserName);
-		attributeGetterFunctions.put(
-			"statusDate", BudgetParticipatif::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			(BiConsumer<BudgetParticipatif, Date>)
-				BudgetParticipatif::setStatusDate);
-		attributeGetterFunctions.put("title", BudgetParticipatif::getTitle);
-		attributeSetterBiConsumers.put(
-			"title",
-			(BiConsumer<BudgetParticipatif, String>)
-				BudgetParticipatif::setTitle);
-		attributeGetterFunctions.put(
-			"description", BudgetParticipatif::getDescription);
-		attributeSetterBiConsumers.put(
-			"description",
-			(BiConsumer<BudgetParticipatif, String>)
-				BudgetParticipatif::setDescription);
-		attributeGetterFunctions.put("summary", BudgetParticipatif::getSummary);
-		attributeSetterBiConsumers.put(
-			"summary",
-			(BiConsumer<BudgetParticipatif, String>)
-				BudgetParticipatif::setSummary);
-		attributeGetterFunctions.put("budget", BudgetParticipatif::getBudget);
-		attributeSetterBiConsumers.put(
-			"budget",
-			(BiConsumer<BudgetParticipatif, String>)
-				BudgetParticipatif::setBudget);
-		attributeGetterFunctions.put("motif", BudgetParticipatif::getMotif);
-		attributeSetterBiConsumers.put(
-			"motif",
-			(BiConsumer<BudgetParticipatif, String>)
-				BudgetParticipatif::setMotif);
-		attributeGetterFunctions.put(
-			"placeTextArea", BudgetParticipatif::getPlaceTextArea);
-		attributeSetterBiConsumers.put(
-			"placeTextArea",
-			(BiConsumer<BudgetParticipatif, String>)
-				BudgetParticipatif::setPlaceTextArea);
-		attributeGetterFunctions.put(
-			"inTheNameOf", BudgetParticipatif::getInTheNameOf);
-		attributeSetterBiConsumers.put(
-			"inTheNameOf",
-			(BiConsumer<BudgetParticipatif, String>)
-				BudgetParticipatif::setInTheNameOf);
-		attributeGetterFunctions.put(
-			"citoyenLastname", BudgetParticipatif::getCitoyenLastname);
-		attributeSetterBiConsumers.put(
-			"citoyenLastname",
-			(BiConsumer<BudgetParticipatif, String>)
-				BudgetParticipatif::setCitoyenLastname);
-		attributeGetterFunctions.put(
-			"citoyenFirstname", BudgetParticipatif::getCitoyenFirstname);
-		attributeSetterBiConsumers.put(
-			"citoyenFirstname",
-			(BiConsumer<BudgetParticipatif, String>)
-				BudgetParticipatif::setCitoyenFirstname);
-		attributeGetterFunctions.put(
-			"citoyenAdresse", BudgetParticipatif::getCitoyenAdresse);
-		attributeSetterBiConsumers.put(
-			"citoyenAdresse",
-			(BiConsumer<BudgetParticipatif, String>)
-				BudgetParticipatif::setCitoyenAdresse);
-		attributeGetterFunctions.put(
-			"citoyenPostalCode", BudgetParticipatif::getCitoyenPostalCode);
-		attributeSetterBiConsumers.put(
-			"citoyenPostalCode",
-			(BiConsumer<BudgetParticipatif, Long>)
-				BudgetParticipatif::setCitoyenPostalCode);
-		attributeGetterFunctions.put(
-			"citoyenCity", BudgetParticipatif::getCitoyenCity);
-		attributeSetterBiConsumers.put(
-			"citoyenCity",
-			(BiConsumer<BudgetParticipatif, String>)
-				BudgetParticipatif::setCitoyenCity);
-		attributeGetterFunctions.put(
-			"citoyenPhone", BudgetParticipatif::getCitoyenPhone);
-		attributeSetterBiConsumers.put(
-			"citoyenPhone",
-			(BiConsumer<BudgetParticipatif, String>)
-				BudgetParticipatif::setCitoyenPhone);
-		attributeGetterFunctions.put(
-			"citoyenMobile", BudgetParticipatif::getCitoyenMobile);
-		attributeSetterBiConsumers.put(
-			"citoyenMobile",
-			(BiConsumer<BudgetParticipatif, String>)
-				BudgetParticipatif::setCitoyenMobile);
-		attributeGetterFunctions.put(
-			"citoyenEmail", BudgetParticipatif::getCitoyenEmail);
-		attributeSetterBiConsumers.put(
-			"citoyenEmail",
-			(BiConsumer<BudgetParticipatif, String>)
-				BudgetParticipatif::setCitoyenEmail);
-		attributeGetterFunctions.put(
-			"citoyenBirthday", BudgetParticipatif::getCitoyenBirthday);
-		attributeSetterBiConsumers.put(
-			"citoyenBirthday",
-			(BiConsumer<BudgetParticipatif, Date>)
-				BudgetParticipatif::setCitoyenBirthday);
-		attributeGetterFunctions.put(
-			"hasCopyright", BudgetParticipatif::getHasCopyright);
-		attributeSetterBiConsumers.put(
-			"hasCopyright",
-			(BiConsumer<BudgetParticipatif, Boolean>)
-				BudgetParticipatif::setHasCopyright);
-		attributeGetterFunctions.put(
-			"videoUrl", BudgetParticipatif::getVideoUrl);
-		attributeSetterBiConsumers.put(
-			"videoUrl",
-			(BiConsumer<BudgetParticipatif, String>)
-				BudgetParticipatif::setVideoUrl);
-		attributeGetterFunctions.put(
-			"imageTimeline", BudgetParticipatif::getImageTimeline);
-		attributeSetterBiConsumers.put(
-			"imageTimeline",
-			(BiConsumer<BudgetParticipatif, Long>)
-				BudgetParticipatif::setImageTimeline);
-		attributeGetterFunctions.put(
-			"opacityImage", BudgetParticipatif::getOpacityImage);
-		attributeSetterBiConsumers.put(
-			"opacityImage",
-			(BiConsumer<BudgetParticipatif, Double>)
-				BudgetParticipatif::setOpacityImage);
-		attributeGetterFunctions.put("isCrush", BudgetParticipatif::getIsCrush);
-		attributeSetterBiConsumers.put(
-			"isCrush",
-			(BiConsumer<BudgetParticipatif, Boolean>)
-				BudgetParticipatif::setIsCrush);
-		attributeGetterFunctions.put(
-			"crushComment", BudgetParticipatif::getCrushComment);
-		attributeSetterBiConsumers.put(
-			"crushComment",
-			(BiConsumer<BudgetParticipatif, String>)
-				BudgetParticipatif::setCrushComment);
-		attributeGetterFunctions.put(
-			"publikId", BudgetParticipatif::getPublikId);
-		attributeSetterBiConsumers.put(
-			"publikId",
-			(BiConsumer<BudgetParticipatif, String>)
-				BudgetParticipatif::setPublikId);
-		attributeGetterFunctions.put("imageId", BudgetParticipatif::getImageId);
-		attributeSetterBiConsumers.put(
-			"imageId",
-			(BiConsumer<BudgetParticipatif, Long>)
-				BudgetParticipatif::setImageId);
-		attributeGetterFunctions.put(
-			"filesIds", BudgetParticipatif::getFilesIds);
-		attributeSetterBiConsumers.put(
-			"filesIds",
-			(BiConsumer<BudgetParticipatif, String>)
-				BudgetParticipatif::setFilesIds);
-		attributeGetterFunctions.put(
-			"budgetPhaseId", BudgetParticipatif::getBudgetPhaseId);
-		attributeSetterBiConsumers.put(
-			"budgetPhaseId",
-			(BiConsumer<BudgetParticipatif, Long>)
-				BudgetParticipatif::setBudgetPhaseId);
-		attributeGetterFunctions.put(
-			"parentId", BudgetParticipatif::getParentId);
-		attributeSetterBiConsumers.put(
-			"parentId",
-			(BiConsumer<BudgetParticipatif, Long>)
-				BudgetParticipatif::setParentId);
+		static {
+			Map<String, Function<BudgetParticipatif, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<BudgetParticipatif, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", BudgetParticipatif::getUuid);
+			attributeGetterFunctions.put(
+				"budgetParticipatifId",
+				BudgetParticipatif::getBudgetParticipatifId);
+			attributeGetterFunctions.put(
+				"groupId", BudgetParticipatif::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", BudgetParticipatif::getCompanyId);
+			attributeGetterFunctions.put(
+				"userId", BudgetParticipatif::getUserId);
+			attributeGetterFunctions.put(
+				"userName", BudgetParticipatif::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", BudgetParticipatif::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", BudgetParticipatif::getModifiedDate);
+			attributeGetterFunctions.put(
+				"status", BudgetParticipatif::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", BudgetParticipatif::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", BudgetParticipatif::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", BudgetParticipatif::getStatusDate);
+			attributeGetterFunctions.put("title", BudgetParticipatif::getTitle);
+			attributeGetterFunctions.put(
+				"description", BudgetParticipatif::getDescription);
+			attributeGetterFunctions.put(
+				"summary", BudgetParticipatif::getSummary);
+			attributeGetterFunctions.put(
+				"budget", BudgetParticipatif::getBudget);
+			attributeGetterFunctions.put("motif", BudgetParticipatif::getMotif);
+			attributeGetterFunctions.put(
+				"placeTextArea", BudgetParticipatif::getPlaceTextArea);
+			attributeGetterFunctions.put(
+				"inTheNameOf", BudgetParticipatif::getInTheNameOf);
+			attributeGetterFunctions.put(
+				"citoyenLastname", BudgetParticipatif::getCitoyenLastname);
+			attributeGetterFunctions.put(
+				"citoyenFirstname", BudgetParticipatif::getCitoyenFirstname);
+			attributeGetterFunctions.put(
+				"citoyenAdresse", BudgetParticipatif::getCitoyenAdresse);
+			attributeGetterFunctions.put(
+				"citoyenPostalCode", BudgetParticipatif::getCitoyenPostalCode);
+			attributeGetterFunctions.put(
+				"citoyenCity", BudgetParticipatif::getCitoyenCity);
+			attributeGetterFunctions.put(
+				"citoyenPhone", BudgetParticipatif::getCitoyenPhone);
+			attributeGetterFunctions.put(
+				"citoyenMobile", BudgetParticipatif::getCitoyenMobile);
+			attributeGetterFunctions.put(
+				"citoyenEmail", BudgetParticipatif::getCitoyenEmail);
+			attributeGetterFunctions.put(
+				"citoyenBirthday", BudgetParticipatif::getCitoyenBirthday);
+			attributeGetterFunctions.put(
+				"hasCopyright", BudgetParticipatif::getHasCopyright);
+			attributeGetterFunctions.put(
+				"videoUrl", BudgetParticipatif::getVideoUrl);
+			attributeGetterFunctions.put(
+				"imageTimeline", BudgetParticipatif::getImageTimeline);
+			attributeGetterFunctions.put(
+				"opacityImage", BudgetParticipatif::getOpacityImage);
+			attributeGetterFunctions.put(
+				"isCrush", BudgetParticipatif::getIsCrush);
+			attributeGetterFunctions.put(
+				"crushComment", BudgetParticipatif::getCrushComment);
+			attributeGetterFunctions.put(
+				"publikId", BudgetParticipatif::getPublikId);
+			attributeGetterFunctions.put(
+				"imageId", BudgetParticipatif::getImageId);
+			attributeGetterFunctions.put(
+				"filesIds", BudgetParticipatif::getFilesIds);
+			attributeGetterFunctions.put(
+				"budgetPhaseId", BudgetParticipatif::getBudgetPhaseId);
+			attributeGetterFunctions.put(
+				"parentId", BudgetParticipatif::getParentId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<BudgetParticipatif, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<BudgetParticipatif, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String, BiConsumer<BudgetParticipatif, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setUuid);
+			attributeSetterBiConsumers.put(
+				"budgetParticipatifId",
+				(BiConsumer<BudgetParticipatif, Long>)
+					BudgetParticipatif::setBudgetParticipatifId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<BudgetParticipatif, Long>)
+					BudgetParticipatif::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<BudgetParticipatif, Long>)
+					BudgetParticipatif::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<BudgetParticipatif, Long>)
+					BudgetParticipatif::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<BudgetParticipatif, Date>)
+					BudgetParticipatif::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<BudgetParticipatif, Date>)
+					BudgetParticipatif::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<BudgetParticipatif, Integer>)
+					BudgetParticipatif::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<BudgetParticipatif, Long>)
+					BudgetParticipatif::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<BudgetParticipatif, Date>)
+					BudgetParticipatif::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setTitle);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setDescription);
+			attributeSetterBiConsumers.put(
+				"summary",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setSummary);
+			attributeSetterBiConsumers.put(
+				"budget",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setBudget);
+			attributeSetterBiConsumers.put(
+				"motif",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setMotif);
+			attributeSetterBiConsumers.put(
+				"placeTextArea",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setPlaceTextArea);
+			attributeSetterBiConsumers.put(
+				"inTheNameOf",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setInTheNameOf);
+			attributeSetterBiConsumers.put(
+				"citoyenLastname",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setCitoyenLastname);
+			attributeSetterBiConsumers.put(
+				"citoyenFirstname",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setCitoyenFirstname);
+			attributeSetterBiConsumers.put(
+				"citoyenAdresse",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setCitoyenAdresse);
+			attributeSetterBiConsumers.put(
+				"citoyenPostalCode",
+				(BiConsumer<BudgetParticipatif, Long>)
+					BudgetParticipatif::setCitoyenPostalCode);
+			attributeSetterBiConsumers.put(
+				"citoyenCity",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setCitoyenCity);
+			attributeSetterBiConsumers.put(
+				"citoyenPhone",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setCitoyenPhone);
+			attributeSetterBiConsumers.put(
+				"citoyenMobile",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setCitoyenMobile);
+			attributeSetterBiConsumers.put(
+				"citoyenEmail",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setCitoyenEmail);
+			attributeSetterBiConsumers.put(
+				"citoyenBirthday",
+				(BiConsumer<BudgetParticipatif, Date>)
+					BudgetParticipatif::setCitoyenBirthday);
+			attributeSetterBiConsumers.put(
+				"hasCopyright",
+				(BiConsumer<BudgetParticipatif, Boolean>)
+					BudgetParticipatif::setHasCopyright);
+			attributeSetterBiConsumers.put(
+				"videoUrl",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setVideoUrl);
+			attributeSetterBiConsumers.put(
+				"imageTimeline",
+				(BiConsumer<BudgetParticipatif, Long>)
+					BudgetParticipatif::setImageTimeline);
+			attributeSetterBiConsumers.put(
+				"opacityImage",
+				(BiConsumer<BudgetParticipatif, Double>)
+					BudgetParticipatif::setOpacityImage);
+			attributeSetterBiConsumers.put(
+				"isCrush",
+				(BiConsumer<BudgetParticipatif, Boolean>)
+					BudgetParticipatif::setIsCrush);
+			attributeSetterBiConsumers.put(
+				"crushComment",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setCrushComment);
+			attributeSetterBiConsumers.put(
+				"publikId",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setPublikId);
+			attributeSetterBiConsumers.put(
+				"imageId",
+				(BiConsumer<BudgetParticipatif, Long>)
+					BudgetParticipatif::setImageId);
+			attributeSetterBiConsumers.put(
+				"filesIds",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setFilesIds);
+			attributeSetterBiConsumers.put(
+				"budgetPhaseId",
+				(BiConsumer<BudgetParticipatif, Long>)
+					BudgetParticipatif::setBudgetPhaseId);
+			attributeSetterBiConsumers.put(
+				"parentId",
+				(BiConsumer<BudgetParticipatif, Long>)
+					BudgetParticipatif::setParentId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -2473,7 +2486,8 @@ public class BudgetParticipatifModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<BudgetParticipatif, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

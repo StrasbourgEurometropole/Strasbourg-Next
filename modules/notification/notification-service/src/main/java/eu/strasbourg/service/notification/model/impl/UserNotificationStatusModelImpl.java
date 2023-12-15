@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.notification.model.impl;
@@ -210,52 +201,69 @@ public class UserNotificationStatusModelImpl
 	public Map<String, Function<UserNotificationStatus, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<UserNotificationStatus, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<UserNotificationStatus, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<UserNotificationStatus, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<UserNotificationStatus, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap
-					<String, Function<UserNotificationStatus, Object>>();
-		Map<String, BiConsumer<UserNotificationStatus, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<UserNotificationStatus, ?>>();
+		private static final Map
+			<String, Function<UserNotificationStatus, Object>>
+				_attributeGetterFunctions;
 
-		attributeGetterFunctions.put(
-			"notificationId", UserNotificationStatus::getNotificationId);
-		attributeSetterBiConsumers.put(
-			"notificationId",
-			(BiConsumer<UserNotificationStatus, Long>)
-				UserNotificationStatus::setNotificationId);
-		attributeGetterFunctions.put(
-			"publikUserId", UserNotificationStatus::getPublikUserId);
-		attributeSetterBiConsumers.put(
-			"publikUserId",
-			(BiConsumer<UserNotificationStatus, String>)
-				UserNotificationStatus::setPublikUserId);
-		attributeGetterFunctions.put("read", UserNotificationStatus::getRead);
-		attributeSetterBiConsumers.put(
-			"read",
-			(BiConsumer<UserNotificationStatus, Boolean>)
-				UserNotificationStatus::setRead);
+		static {
+			Map<String, Function<UserNotificationStatus, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<UserNotificationStatus, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put(
+				"notificationId", UserNotificationStatus::getNotificationId);
+			attributeGetterFunctions.put(
+				"publikUserId", UserNotificationStatus::getPublikUserId);
+			attributeGetterFunctions.put(
+				"read", UserNotificationStatus::getRead);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map
+			<String, BiConsumer<UserNotificationStatus, Object>>
+				_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<UserNotificationStatus, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String, BiConsumer<UserNotificationStatus, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"notificationId",
+				(BiConsumer<UserNotificationStatus, Long>)
+					UserNotificationStatus::setNotificationId);
+			attributeSetterBiConsumers.put(
+				"publikUserId",
+				(BiConsumer<UserNotificationStatus, String>)
+					UserNotificationStatus::setPublikUserId);
+			attributeSetterBiConsumers.put(
+				"read",
+				(BiConsumer<UserNotificationStatus, Boolean>)
+					UserNotificationStatus::setRead);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -549,7 +557,8 @@ public class UserNotificationStatusModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<UserNotificationStatus, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

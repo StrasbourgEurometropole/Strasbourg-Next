@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.like.model.impl;
@@ -232,52 +223,69 @@ public class LikeModelImpl extends BaseModelImpl<Like> implements LikeModel {
 	}
 
 	public Map<String, Function<Like, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Like, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Like, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Like, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Like, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Like, Object>>();
-		Map<String, BiConsumer<Like, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Like, ?>>();
+		private static final Map<String, Function<Like, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("likeId", Like::getLikeId);
-		attributeSetterBiConsumers.put(
-			"likeId", (BiConsumer<Like, Long>)Like::setLikeId);
-		attributeGetterFunctions.put("publikUserId", Like::getPublikUserId);
-		attributeSetterBiConsumers.put(
-			"publikUserId", (BiConsumer<Like, String>)Like::setPublikUserId);
-		attributeGetterFunctions.put("title", Like::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<Like, String>)Like::setTitle);
-		attributeGetterFunctions.put("isDislike", Like::getIsDislike);
-		attributeSetterBiConsumers.put(
-			"isDislike", (BiConsumer<Like, Boolean>)Like::setIsDislike);
-		attributeGetterFunctions.put("typeId", Like::getTypeId);
-		attributeSetterBiConsumers.put(
-			"typeId", (BiConsumer<Like, Long>)Like::setTypeId);
-		attributeGetterFunctions.put("entityId", Like::getEntityId);
-		attributeSetterBiConsumers.put(
-			"entityId", (BiConsumer<Like, Long>)Like::setEntityId);
-		attributeGetterFunctions.put("entityGroupId", Like::getEntityGroupId);
-		attributeSetterBiConsumers.put(
-			"entityGroupId", (BiConsumer<Like, Long>)Like::setEntityGroupId);
+		static {
+			Map<String, Function<Like, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Like, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("likeId", Like::getLikeId);
+			attributeGetterFunctions.put("publikUserId", Like::getPublikUserId);
+			attributeGetterFunctions.put("title", Like::getTitle);
+			attributeGetterFunctions.put("isDislike", Like::getIsDislike);
+			attributeGetterFunctions.put("typeId", Like::getTypeId);
+			attributeGetterFunctions.put("entityId", Like::getEntityId);
+			attributeGetterFunctions.put(
+				"entityGroupId", Like::getEntityGroupId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Like, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Like, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Like, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"likeId", (BiConsumer<Like, Long>)Like::setLikeId);
+			attributeSetterBiConsumers.put(
+				"publikUserId",
+				(BiConsumer<Like, String>)Like::setPublikUserId);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Like, String>)Like::setTitle);
+			attributeSetterBiConsumers.put(
+				"isDislike", (BiConsumer<Like, Boolean>)Like::setIsDislike);
+			attributeSetterBiConsumers.put(
+				"typeId", (BiConsumer<Like, Long>)Like::setTypeId);
+			attributeSetterBiConsumers.put(
+				"entityId", (BiConsumer<Like, Long>)Like::setEntityId);
+			attributeSetterBiConsumers.put(
+				"entityGroupId",
+				(BiConsumer<Like, Long>)Like::setEntityGroupId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -701,8 +709,9 @@ public class LikeModelImpl extends BaseModelImpl<Like> implements LikeModel {
 	private long _entityGroupId;
 
 	public <T> T getColumnValue(String columnName) {
-		Function<Like, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Like, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

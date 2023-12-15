@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.artwork.service.persistence.impl;
@@ -40,7 +31,7 @@ import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.uuid.PortalUUID;
+import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.artwork.exception.NoSuchArtworkException;
@@ -54,7 +45,6 @@ import eu.strasbourg.service.artwork.service.persistence.ArtworkUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -2054,7 +2044,7 @@ public class ArtworkPersistenceImpl
 		artwork.setNew(true);
 		artwork.setPrimaryKey(artworkId);
 
-		String uuid = _portalUUID.generate();
+		String uuid = PortalUUIDUtil.generate();
 
 		artwork.setUuid(uuid);
 
@@ -2172,7 +2162,7 @@ public class ArtworkPersistenceImpl
 		ArtworkModelImpl artworkModelImpl = (ArtworkModelImpl)artwork;
 
 		if (Validator.isNull(artwork.getUuid())) {
-			String uuid = _portalUUID.generate();
+			String uuid = PortalUUIDUtil.generate();
 
 			artwork.setUuid(uuid);
 		}
@@ -2582,17 +2572,18 @@ public class ArtworkPersistenceImpl
 	 *
 	 * @param pk the primary key of the artwork
 	 * @param artworkCollectionPK the primary key of the artwork collection
+	 * @return <code>true</code> if an association between the artwork and the artwork collection was added; <code>false</code> if they were already associated
 	 */
 	@Override
-	public void addArtworkCollection(long pk, long artworkCollectionPK) {
+	public boolean addArtworkCollection(long pk, long artworkCollectionPK) {
 		Artwork artwork = fetchByPrimaryKey(pk);
 
 		if (artwork == null) {
-			artworkToArtworkCollectionTableMapper.addTableMapping(
+			return artworkToArtworkCollectionTableMapper.addTableMapping(
 				CompanyThreadLocal.getCompanyId(), pk, artworkCollectionPK);
 		}
 		else {
-			artworkToArtworkCollectionTableMapper.addTableMapping(
+			return artworkToArtworkCollectionTableMapper.addTableMapping(
 				artwork.getCompanyId(), pk, artworkCollectionPK);
 		}
 	}
@@ -2602,9 +2593,10 @@ public class ArtworkPersistenceImpl
 	 *
 	 * @param pk the primary key of the artwork
 	 * @param artworkCollection the artwork collection
+	 * @return <code>true</code> if an association between the artwork and the artwork collection was added; <code>false</code> if they were already associated
 	 */
 	@Override
-	public void addArtworkCollection(
+	public boolean addArtworkCollection(
 		long pk,
 		eu.strasbourg.service.artwork.model.ArtworkCollection
 			artworkCollection) {
@@ -2612,12 +2604,12 @@ public class ArtworkPersistenceImpl
 		Artwork artwork = fetchByPrimaryKey(pk);
 
 		if (artwork == null) {
-			artworkToArtworkCollectionTableMapper.addTableMapping(
+			return artworkToArtworkCollectionTableMapper.addTableMapping(
 				CompanyThreadLocal.getCompanyId(), pk,
 				artworkCollection.getPrimaryKey());
 		}
 		else {
-			artworkToArtworkCollectionTableMapper.addTableMapping(
+			return artworkToArtworkCollectionTableMapper.addTableMapping(
 				artwork.getCompanyId(), pk, artworkCollection.getPrimaryKey());
 		}
 	}
@@ -2627,9 +2619,10 @@ public class ArtworkPersistenceImpl
 	 *
 	 * @param pk the primary key of the artwork
 	 * @param artworkCollectionPKs the primary keys of the artwork collections
+	 * @return <code>true</code> if at least one association between the artwork and the artwork collections was added; <code>false</code> if they were all already associated
 	 */
 	@Override
-	public void addArtworkCollections(long pk, long[] artworkCollectionPKs) {
+	public boolean addArtworkCollections(long pk, long[] artworkCollectionPKs) {
 		long companyId = 0;
 
 		Artwork artwork = fetchByPrimaryKey(pk);
@@ -2641,8 +2634,15 @@ public class ArtworkPersistenceImpl
 			companyId = artwork.getCompanyId();
 		}
 
-		artworkToArtworkCollectionTableMapper.addTableMappings(
-			companyId, pk, artworkCollectionPKs);
+		long[] addedKeys =
+			artworkToArtworkCollectionTableMapper.addTableMappings(
+				companyId, pk, artworkCollectionPKs);
+
+		if (addedKeys.length > 0) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -2650,14 +2650,15 @@ public class ArtworkPersistenceImpl
 	 *
 	 * @param pk the primary key of the artwork
 	 * @param artworkCollections the artwork collections
+	 * @return <code>true</code> if at least one association between the artwork and the artwork collections was added; <code>false</code> if they were all already associated
 	 */
 	@Override
-	public void addArtworkCollections(
+	public boolean addArtworkCollections(
 		long pk,
 		List<eu.strasbourg.service.artwork.model.ArtworkCollection>
 			artworkCollections) {
 
-		addArtworkCollections(
+		return addArtworkCollections(
 			pk,
 			ListUtil.toLongArray(
 				artworkCollections,
@@ -2917,31 +2918,16 @@ public class ArtworkPersistenceImpl
 			new String[] {Long.class.getName()}, new String[] {"groupId"},
 			false);
 
-		_setArtworkUtilPersistence(this);
+		ArtworkUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setArtworkUtilPersistence(null);
+		ArtworkUtil.setPersistence(null);
 
 		entityCache.removeCache(ArtworkImpl.class.getName());
 
 		TableMapperFactory.removeTableMapper(
 			"artwork_ArtworkToArtworkCollection");
-	}
-
-	private void _setArtworkUtilPersistence(
-		ArtworkPersistence artworkPersistence) {
-
-		try {
-			Field field = ArtworkUtil.class.getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, artworkPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -2987,8 +2973,5 @@ public class ArtworkPersistenceImpl
 	protected FinderCache getFinderCache() {
 		return finderCache;
 	}
-
-	@ServiceReference(type = PortalUUID.class)
-	private PortalUUID _portalUUID;
 
 }

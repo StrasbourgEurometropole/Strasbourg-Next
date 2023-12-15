@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model.impl;
@@ -245,69 +236,92 @@ public class CsmapCacheJsonModelImpl
 	public Map<String, Function<CsmapCacheJson, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<CsmapCacheJson, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<CsmapCacheJson, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CsmapCacheJson, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<CsmapCacheJson, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<CsmapCacheJson, Object>>();
-		Map<String, BiConsumer<CsmapCacheJson, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<CsmapCacheJson, ?>>();
+		private static final Map<String, Function<CsmapCacheJson, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", CsmapCacheJson::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid",
-			(BiConsumer<CsmapCacheJson, String>)CsmapCacheJson::setUuid);
-		attributeGetterFunctions.put("eventId", CsmapCacheJson::getEventId);
-		attributeSetterBiConsumers.put(
-			"eventId",
-			(BiConsumer<CsmapCacheJson, Long>)CsmapCacheJson::setEventId);
-		attributeGetterFunctions.put("jsonEvent", CsmapCacheJson::getJsonEvent);
-		attributeSetterBiConsumers.put(
-			"jsonEvent",
-			(BiConsumer<CsmapCacheJson, String>)CsmapCacheJson::setJsonEvent);
-		attributeGetterFunctions.put(
-			"createEvent", CsmapCacheJson::getCreateEvent);
-		attributeSetterBiConsumers.put(
-			"createEvent",
-			(BiConsumer<CsmapCacheJson, Date>)CsmapCacheJson::setCreateEvent);
-		attributeGetterFunctions.put(
-			"modifiedEvent", CsmapCacheJson::getModifiedEvent);
-		attributeSetterBiConsumers.put(
-			"modifiedEvent",
-			(BiConsumer<CsmapCacheJson, Date>)CsmapCacheJson::setModifiedEvent);
-		attributeGetterFunctions.put("isActive", CsmapCacheJson::getIsActive);
-		attributeSetterBiConsumers.put(
-			"isActive",
-			(BiConsumer<CsmapCacheJson, Boolean>)CsmapCacheJson::setIsActive);
-		attributeGetterFunctions.put(
-			"regeneratedDate", CsmapCacheJson::getRegeneratedDate);
-		attributeSetterBiConsumers.put(
-			"regeneratedDate",
-			(BiConsumer<CsmapCacheJson, Date>)
-				CsmapCacheJson::setRegeneratedDate);
-		attributeGetterFunctions.put(
-			"hasSchedules", CsmapCacheJson::getHasSchedules);
-		attributeSetterBiConsumers.put(
-			"hasSchedules",
-			(BiConsumer<CsmapCacheJson, Boolean>)
-				CsmapCacheJson::setHasSchedules);
+		static {
+			Map<String, Function<CsmapCacheJson, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<CsmapCacheJson, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", CsmapCacheJson::getUuid);
+			attributeGetterFunctions.put("eventId", CsmapCacheJson::getEventId);
+			attributeGetterFunctions.put(
+				"jsonEvent", CsmapCacheJson::getJsonEvent);
+			attributeGetterFunctions.put(
+				"createEvent", CsmapCacheJson::getCreateEvent);
+			attributeGetterFunctions.put(
+				"modifiedEvent", CsmapCacheJson::getModifiedEvent);
+			attributeGetterFunctions.put(
+				"isActive", CsmapCacheJson::getIsActive);
+			attributeGetterFunctions.put(
+				"regeneratedDate", CsmapCacheJson::getRegeneratedDate);
+			attributeGetterFunctions.put(
+				"hasSchedules", CsmapCacheJson::getHasSchedules);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<CsmapCacheJson, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<CsmapCacheJson, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<CsmapCacheJson, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<CsmapCacheJson, String>)CsmapCacheJson::setUuid);
+			attributeSetterBiConsumers.put(
+				"eventId",
+				(BiConsumer<CsmapCacheJson, Long>)CsmapCacheJson::setEventId);
+			attributeSetterBiConsumers.put(
+				"jsonEvent",
+				(BiConsumer<CsmapCacheJson, String>)
+					CsmapCacheJson::setJsonEvent);
+			attributeSetterBiConsumers.put(
+				"createEvent",
+				(BiConsumer<CsmapCacheJson, Date>)
+					CsmapCacheJson::setCreateEvent);
+			attributeSetterBiConsumers.put(
+				"modifiedEvent",
+				(BiConsumer<CsmapCacheJson, Date>)
+					CsmapCacheJson::setModifiedEvent);
+			attributeSetterBiConsumers.put(
+				"isActive",
+				(BiConsumer<CsmapCacheJson, Boolean>)
+					CsmapCacheJson::setIsActive);
+			attributeSetterBiConsumers.put(
+				"regeneratedDate",
+				(BiConsumer<CsmapCacheJson, Date>)
+					CsmapCacheJson::setRegeneratedDate);
+			attributeSetterBiConsumers.put(
+				"hasSchedules",
+				(BiConsumer<CsmapCacheJson, Boolean>)
+					CsmapCacheJson::setHasSchedules);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -797,7 +811,8 @@ public class CsmapCacheJsonModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<CsmapCacheJson, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

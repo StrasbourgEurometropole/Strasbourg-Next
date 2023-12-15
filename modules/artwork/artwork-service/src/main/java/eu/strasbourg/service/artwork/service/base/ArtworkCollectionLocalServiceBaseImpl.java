@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.artwork.service.base;
@@ -52,7 +43,6 @@ import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiServic
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalServiceImpl;
-import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
@@ -69,8 +59,6 @@ import eu.strasbourg.service.artwork.service.persistence.ArtworkCollectionPersis
 import eu.strasbourg.service.artwork.service.persistence.ArtworkPersistence;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Field;
 
 import java.util.List;
 
@@ -608,35 +596,40 @@ public abstract class ArtworkCollectionLocalServiceBaseImpl
 	/**
 	 */
 	@Override
-	public void addArtworkArtworkCollection(long artworkId, long collectionId) {
-		artworkPersistence.addArtworkCollection(artworkId, collectionId);
+	public boolean addArtworkArtworkCollection(
+		long artworkId, long collectionId) {
+
+		return artworkPersistence.addArtworkCollection(artworkId, collectionId);
 	}
 
 	/**
 	 */
 	@Override
-	public void addArtworkArtworkCollection(
+	public boolean addArtworkArtworkCollection(
 		long artworkId, ArtworkCollection artworkCollection) {
 
-		artworkPersistence.addArtworkCollection(artworkId, artworkCollection);
+		return artworkPersistence.addArtworkCollection(
+			artworkId, artworkCollection);
 	}
 
 	/**
 	 */
 	@Override
-	public void addArtworkArtworkCollections(
+	public boolean addArtworkArtworkCollections(
 		long artworkId, long[] collectionIds) {
 
-		artworkPersistence.addArtworkCollections(artworkId, collectionIds);
+		return artworkPersistence.addArtworkCollections(
+			artworkId, collectionIds);
 	}
 
 	/**
 	 */
 	@Override
-	public void addArtworkArtworkCollections(
+	public boolean addArtworkArtworkCollections(
 		long artworkId, List<ArtworkCollection> artworkCollections) {
 
-		artworkPersistence.addArtworkCollections(artworkId, artworkCollections);
+		return artworkPersistence.addArtworkCollections(
+			artworkId, artworkCollections);
 	}
 
 	/**
@@ -1097,18 +1090,12 @@ public abstract class ArtworkCollectionLocalServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		persistedModelLocalServiceRegistry.register(
-			"eu.strasbourg.service.artwork.model.ArtworkCollection",
+		ArtworkCollectionLocalServiceUtil.setService(
 			artworkCollectionLocalService);
-
-		_setLocalServiceUtilService(artworkCollectionLocalService);
 	}
 
 	public void destroy() {
-		persistedModelLocalServiceRegistry.unregister(
-			"eu.strasbourg.service.artwork.model.ArtworkCollection");
-
-		_setLocalServiceUtilService(null);
+		ArtworkCollectionLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -1151,23 +1138,6 @@ public abstract class ArtworkCollectionLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		ArtworkCollectionLocalService artworkCollectionLocalService) {
-
-		try {
-			Field field =
-				ArtworkCollectionLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, artworkCollectionLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1245,9 +1215,5 @@ public abstract class ArtworkCollectionLocalServiceBaseImpl
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ArtworkCollectionLocalServiceBaseImpl.class);
-
-	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
-	protected PersistedModelLocalServiceRegistry
-		persistedModelLocalServiceRegistry;
 
 }

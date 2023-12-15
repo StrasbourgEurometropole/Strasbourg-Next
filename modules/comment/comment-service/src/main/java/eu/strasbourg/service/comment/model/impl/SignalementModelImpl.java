@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.comment.model.impl;
@@ -258,87 +249,110 @@ public class SignalementModelImpl
 	public Map<String, Function<Signalement, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Signalement, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Signalement, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Signalement, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Signalement, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Signalement, Object>>();
-		Map<String, BiConsumer<Signalement, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Signalement, ?>>();
+		private static final Map<String, Function<Signalement, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Signalement::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Signalement, String>)Signalement::setUuid);
-		attributeGetterFunctions.put(
-			"signalementId", Signalement::getSignalementId);
-		attributeSetterBiConsumers.put(
-			"signalementId",
-			(BiConsumer<Signalement, Long>)Signalement::setSignalementId);
-		attributeGetterFunctions.put("groupId", Signalement::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Signalement, Long>)Signalement::setGroupId);
-		attributeGetterFunctions.put("companyId", Signalement::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<Signalement, Long>)Signalement::setCompanyId);
-		attributeGetterFunctions.put("userId", Signalement::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Signalement, Long>)Signalement::setUserId);
-		attributeGetterFunctions.put("userName", Signalement::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<Signalement, String>)Signalement::setUserName);
-		attributeGetterFunctions.put("createDate", Signalement::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<Signalement, Date>)Signalement::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", Signalement::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<Signalement, Date>)Signalement::setModifiedDate);
-		attributeGetterFunctions.put("status", Signalement::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Signalement, Integer>)Signalement::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Signalement::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Signalement, Long>)Signalement::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Signalement::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Signalement, String>)Signalement::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Signalement::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			(BiConsumer<Signalement, Date>)Signalement::setStatusDate);
-		attributeGetterFunctions.put("commentId", Signalement::getCommentId);
-		attributeSetterBiConsumers.put(
-			"commentId",
-			(BiConsumer<Signalement, Long>)Signalement::setCommentId);
-		attributeGetterFunctions.put("publikId", Signalement::getPublikId);
-		attributeSetterBiConsumers.put(
-			"publikId",
-			(BiConsumer<Signalement, String>)Signalement::setPublikId);
+		static {
+			Map<String, Function<Signalement, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<Signalement, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Signalement::getUuid);
+			attributeGetterFunctions.put(
+				"signalementId", Signalement::getSignalementId);
+			attributeGetterFunctions.put("groupId", Signalement::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", Signalement::getCompanyId);
+			attributeGetterFunctions.put("userId", Signalement::getUserId);
+			attributeGetterFunctions.put("userName", Signalement::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", Signalement::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Signalement::getModifiedDate);
+			attributeGetterFunctions.put("status", Signalement::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Signalement::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Signalement::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", Signalement::getStatusDate);
+			attributeGetterFunctions.put(
+				"commentId", Signalement::getCommentId);
+			attributeGetterFunctions.put("publikId", Signalement::getPublikId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Signalement, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Signalement, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Signalement, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Signalement, String>)Signalement::setUuid);
+			attributeSetterBiConsumers.put(
+				"signalementId",
+				(BiConsumer<Signalement, Long>)Signalement::setSignalementId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<Signalement, Long>)Signalement::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Signalement, Long>)Signalement::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<Signalement, Long>)Signalement::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Signalement, String>)Signalement::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Signalement, Date>)Signalement::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Signalement, Date>)Signalement::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<Signalement, Integer>)Signalement::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Signalement, Long>)Signalement::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Signalement, String>)
+					Signalement::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Signalement, Date>)Signalement::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"commentId",
+				(BiConsumer<Signalement, Long>)Signalement::setCommentId);
+			attributeSetterBiConsumers.put(
+				"publikId",
+				(BiConsumer<Signalement, String>)Signalement::setPublikId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1078,8 +1092,9 @@ public class SignalementModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Signalement, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Signalement, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

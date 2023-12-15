@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.council.model.impl;
@@ -259,111 +250,135 @@ public class CouncilSessionModelImpl
 	public Map<String, Function<CouncilSession, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<CouncilSession, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<CouncilSession, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CouncilSession, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<CouncilSession, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<CouncilSession, Object>>();
-		Map<String, BiConsumer<CouncilSession, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<CouncilSession, ?>>();
+		private static final Map<String, Function<CouncilSession, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", CouncilSession::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid",
-			(BiConsumer<CouncilSession, String>)CouncilSession::setUuid);
-		attributeGetterFunctions.put(
-			"councilSessionId", CouncilSession::getCouncilSessionId);
-		attributeSetterBiConsumers.put(
-			"councilSessionId",
-			(BiConsumer<CouncilSession, Long>)
-				CouncilSession::setCouncilSessionId);
-		attributeGetterFunctions.put("groupId", CouncilSession::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<CouncilSession, Long>)CouncilSession::setGroupId);
-		attributeGetterFunctions.put("companyId", CouncilSession::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<CouncilSession, Long>)CouncilSession::setCompanyId);
-		attributeGetterFunctions.put("userId", CouncilSession::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId",
-			(BiConsumer<CouncilSession, Long>)CouncilSession::setUserId);
-		attributeGetterFunctions.put("userName", CouncilSession::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<CouncilSession, String>)CouncilSession::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", CouncilSession::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<CouncilSession, Date>)CouncilSession::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", CouncilSession::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<CouncilSession, Date>)CouncilSession::setModifiedDate);
-		attributeGetterFunctions.put("status", CouncilSession::getStatus);
-		attributeSetterBiConsumers.put(
-			"status",
-			(BiConsumer<CouncilSession, Integer>)CouncilSession::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", CouncilSession::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<CouncilSession, Long>)
-				CouncilSession::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", CouncilSession::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<CouncilSession, String>)
-				CouncilSession::setStatusByUserName);
-		attributeGetterFunctions.put(
-			"statusDate", CouncilSession::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			(BiConsumer<CouncilSession, Date>)CouncilSession::setStatusDate);
-		attributeGetterFunctions.put("title", CouncilSession::getTitle);
-		attributeSetterBiConsumers.put(
-			"title",
-			(BiConsumer<CouncilSession, String>)CouncilSession::setTitle);
-		attributeGetterFunctions.put("date", CouncilSession::getDate);
-		attributeSetterBiConsumers.put(
-			"date", (BiConsumer<CouncilSession, Date>)CouncilSession::setDate);
-		attributeGetterFunctions.put(
-			"lastDelibProcessed", CouncilSession::getLastDelibProcessed);
-		attributeSetterBiConsumers.put(
-			"lastDelibProcessed",
-			(BiConsumer<CouncilSession, Long>)
-				CouncilSession::setLastDelibProcessed);
-		attributeGetterFunctions.put(
-			"officialLeaderId", CouncilSession::getOfficialLeaderId);
-		attributeSetterBiConsumers.put(
-			"officialLeaderId",
-			(BiConsumer<CouncilSession, Long>)
-				CouncilSession::setOfficialLeaderId);
-		attributeGetterFunctions.put("typeId", CouncilSession::getTypeId);
-		attributeSetterBiConsumers.put(
-			"typeId",
-			(BiConsumer<CouncilSession, Long>)CouncilSession::setTypeId);
+		static {
+			Map<String, Function<CouncilSession, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<CouncilSession, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", CouncilSession::getUuid);
+			attributeGetterFunctions.put(
+				"councilSessionId", CouncilSession::getCouncilSessionId);
+			attributeGetterFunctions.put("groupId", CouncilSession::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", CouncilSession::getCompanyId);
+			attributeGetterFunctions.put("userId", CouncilSession::getUserId);
+			attributeGetterFunctions.put(
+				"userName", CouncilSession::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", CouncilSession::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", CouncilSession::getModifiedDate);
+			attributeGetterFunctions.put("status", CouncilSession::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", CouncilSession::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", CouncilSession::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", CouncilSession::getStatusDate);
+			attributeGetterFunctions.put("title", CouncilSession::getTitle);
+			attributeGetterFunctions.put("date", CouncilSession::getDate);
+			attributeGetterFunctions.put(
+				"lastDelibProcessed", CouncilSession::getLastDelibProcessed);
+			attributeGetterFunctions.put(
+				"officialLeaderId", CouncilSession::getOfficialLeaderId);
+			attributeGetterFunctions.put("typeId", CouncilSession::getTypeId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<CouncilSession, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<CouncilSession, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<CouncilSession, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<CouncilSession, String>)CouncilSession::setUuid);
+			attributeSetterBiConsumers.put(
+				"councilSessionId",
+				(BiConsumer<CouncilSession, Long>)
+					CouncilSession::setCouncilSessionId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<CouncilSession, Long>)CouncilSession::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<CouncilSession, Long>)CouncilSession::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<CouncilSession, Long>)CouncilSession::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<CouncilSession, String>)
+					CouncilSession::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<CouncilSession, Date>)
+					CouncilSession::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<CouncilSession, Date>)
+					CouncilSession::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<CouncilSession, Integer>)CouncilSession::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<CouncilSession, Long>)
+					CouncilSession::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<CouncilSession, String>)
+					CouncilSession::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<CouncilSession, Date>)
+					CouncilSession::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title",
+				(BiConsumer<CouncilSession, String>)CouncilSession::setTitle);
+			attributeSetterBiConsumers.put(
+				"date",
+				(BiConsumer<CouncilSession, Date>)CouncilSession::setDate);
+			attributeSetterBiConsumers.put(
+				"lastDelibProcessed",
+				(BiConsumer<CouncilSession, Long>)
+					CouncilSession::setLastDelibProcessed);
+			attributeSetterBiConsumers.put(
+				"officialLeaderId",
+				(BiConsumer<CouncilSession, Long>)
+					CouncilSession::setOfficialLeaderId);
+			attributeSetterBiConsumers.put(
+				"typeId",
+				(BiConsumer<CouncilSession, Long>)CouncilSession::setTypeId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -1165,7 +1180,8 @@ public class CouncilSessionModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<CouncilSession, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model.impl;
@@ -259,124 +250,150 @@ public class ImportHistoricModelImpl
 	public Map<String, Function<ImportHistoric, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<ImportHistoric, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<ImportHistoric, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ImportHistoric, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<ImportHistoric, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<ImportHistoric, Object>>();
-		Map<String, BiConsumer<ImportHistoric, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<ImportHistoric, ?>>();
+		private static final Map<String, Function<ImportHistoric, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", ImportHistoric::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid",
-			(BiConsumer<ImportHistoric, String>)ImportHistoric::setUuid);
-		attributeGetterFunctions.put(
-			"importHistoricId", ImportHistoric::getImportHistoricId);
-		attributeSetterBiConsumers.put(
-			"importHistoricId",
-			(BiConsumer<ImportHistoric, Long>)
-				ImportHistoric::setImportHistoricId);
-		attributeGetterFunctions.put("groupId", ImportHistoric::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<ImportHistoric, Long>)ImportHistoric::setGroupId);
-		attributeGetterFunctions.put("companyId", ImportHistoric::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<ImportHistoric, Long>)ImportHistoric::setCompanyId);
-		attributeGetterFunctions.put("userId", ImportHistoric::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId",
-			(BiConsumer<ImportHistoric, Long>)ImportHistoric::setUserId);
-		attributeGetterFunctions.put("userName", ImportHistoric::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<ImportHistoric, String>)ImportHistoric::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", ImportHistoric::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<ImportHistoric, Date>)ImportHistoric::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", ImportHistoric::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<ImportHistoric, Date>)ImportHistoric::setModifiedDate);
-		attributeGetterFunctions.put("status", ImportHistoric::getStatus);
-		attributeSetterBiConsumers.put(
-			"status",
-			(BiConsumer<ImportHistoric, Integer>)ImportHistoric::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", ImportHistoric::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<ImportHistoric, Long>)
-				ImportHistoric::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", ImportHistoric::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<ImportHistoric, String>)
-				ImportHistoric::setStatusByUserName);
-		attributeGetterFunctions.put(
-			"statusDate", ImportHistoric::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			(BiConsumer<ImportHistoric, Date>)ImportHistoric::setStatusDate);
-		attributeGetterFunctions.put("result", ImportHistoric::getResult);
-		attributeSetterBiConsumers.put(
-			"result",
-			(BiConsumer<ImportHistoric, Integer>)ImportHistoric::setResult);
-		attributeGetterFunctions.put(
-			"operations", ImportHistoric::getOperations);
-		attributeSetterBiConsumers.put(
-			"operations",
-			(BiConsumer<ImportHistoric, String>)ImportHistoric::setOperations);
-		attributeGetterFunctions.put(
-			"errorDescription", ImportHistoric::getErrorDescription);
-		attributeSetterBiConsumers.put(
-			"errorDescription",
-			(BiConsumer<ImportHistoric, String>)
-				ImportHistoric::setErrorDescription);
-		attributeGetterFunctions.put(
-			"errorStackTrace", ImportHistoric::getErrorStackTrace);
-		attributeSetterBiConsumers.put(
-			"errorStackTrace",
-			(BiConsumer<ImportHistoric, String>)
-				ImportHistoric::setErrorStackTrace);
-		attributeGetterFunctions.put("startDate", ImportHistoric::getStartDate);
-		attributeSetterBiConsumers.put(
-			"startDate",
-			(BiConsumer<ImportHistoric, Date>)ImportHistoric::setStartDate);
-		attributeGetterFunctions.put(
-			"finishDate", ImportHistoric::getFinishDate);
-		attributeSetterBiConsumers.put(
-			"finishDate",
-			(BiConsumer<ImportHistoric, Date>)ImportHistoric::setFinishDate);
-		attributeGetterFunctions.put(
-			"gtfsFileHash", ImportHistoric::getGtfsFileHash);
-		attributeSetterBiConsumers.put(
-			"gtfsFileHash",
-			(BiConsumer<ImportHistoric, String>)
-				ImportHistoric::setGtfsFileHash);
+		static {
+			Map<String, Function<ImportHistoric, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<ImportHistoric, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", ImportHistoric::getUuid);
+			attributeGetterFunctions.put(
+				"importHistoricId", ImportHistoric::getImportHistoricId);
+			attributeGetterFunctions.put("groupId", ImportHistoric::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", ImportHistoric::getCompanyId);
+			attributeGetterFunctions.put("userId", ImportHistoric::getUserId);
+			attributeGetterFunctions.put(
+				"userName", ImportHistoric::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", ImportHistoric::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", ImportHistoric::getModifiedDate);
+			attributeGetterFunctions.put("status", ImportHistoric::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", ImportHistoric::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", ImportHistoric::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", ImportHistoric::getStatusDate);
+			attributeGetterFunctions.put("result", ImportHistoric::getResult);
+			attributeGetterFunctions.put(
+				"operations", ImportHistoric::getOperations);
+			attributeGetterFunctions.put(
+				"errorDescription", ImportHistoric::getErrorDescription);
+			attributeGetterFunctions.put(
+				"errorStackTrace", ImportHistoric::getErrorStackTrace);
+			attributeGetterFunctions.put(
+				"startDate", ImportHistoric::getStartDate);
+			attributeGetterFunctions.put(
+				"finishDate", ImportHistoric::getFinishDate);
+			attributeGetterFunctions.put(
+				"gtfsFileHash", ImportHistoric::getGtfsFileHash);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<ImportHistoric, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<ImportHistoric, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<ImportHistoric, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<ImportHistoric, String>)ImportHistoric::setUuid);
+			attributeSetterBiConsumers.put(
+				"importHistoricId",
+				(BiConsumer<ImportHistoric, Long>)
+					ImportHistoric::setImportHistoricId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<ImportHistoric, Long>)ImportHistoric::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<ImportHistoric, Long>)ImportHistoric::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<ImportHistoric, Long>)ImportHistoric::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<ImportHistoric, String>)
+					ImportHistoric::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<ImportHistoric, Date>)
+					ImportHistoric::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<ImportHistoric, Date>)
+					ImportHistoric::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<ImportHistoric, Integer>)ImportHistoric::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<ImportHistoric, Long>)
+					ImportHistoric::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<ImportHistoric, String>)
+					ImportHistoric::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<ImportHistoric, Date>)
+					ImportHistoric::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"result",
+				(BiConsumer<ImportHistoric, Integer>)ImportHistoric::setResult);
+			attributeSetterBiConsumers.put(
+				"operations",
+				(BiConsumer<ImportHistoric, String>)
+					ImportHistoric::setOperations);
+			attributeSetterBiConsumers.put(
+				"errorDescription",
+				(BiConsumer<ImportHistoric, String>)
+					ImportHistoric::setErrorDescription);
+			attributeSetterBiConsumers.put(
+				"errorStackTrace",
+				(BiConsumer<ImportHistoric, String>)
+					ImportHistoric::setErrorStackTrace);
+			attributeSetterBiConsumers.put(
+				"startDate",
+				(BiConsumer<ImportHistoric, Date>)ImportHistoric::setStartDate);
+			attributeSetterBiConsumers.put(
+				"finishDate",
+				(BiConsumer<ImportHistoric, Date>)
+					ImportHistoric::setFinishDate);
+			attributeSetterBiConsumers.put(
+				"gtfsFileHash",
+				(BiConsumer<ImportHistoric, String>)
+					ImportHistoric::setGtfsFileHash);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -1641,7 +1658,8 @@ public class ImportHistoricModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<ImportHistoric, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

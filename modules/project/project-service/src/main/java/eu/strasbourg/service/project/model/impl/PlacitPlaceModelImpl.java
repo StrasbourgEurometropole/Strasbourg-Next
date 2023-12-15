@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model.impl;
@@ -304,123 +295,149 @@ public class PlacitPlaceModelImpl
 	public Map<String, Function<PlacitPlace, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<PlacitPlace, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<PlacitPlace, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<PlacitPlace, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<PlacitPlace, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<PlacitPlace, Object>>();
-		Map<String, BiConsumer<PlacitPlace, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<PlacitPlace, ?>>();
+		private static final Map<String, Function<PlacitPlace, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", PlacitPlace::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<PlacitPlace, String>)PlacitPlace::setUuid);
-		attributeGetterFunctions.put(
-			"placitPlaceId", PlacitPlace::getPlacitPlaceId);
-		attributeSetterBiConsumers.put(
-			"placitPlaceId",
-			(BiConsumer<PlacitPlace, Long>)PlacitPlace::setPlacitPlaceId);
-		attributeGetterFunctions.put("groupId", PlacitPlace::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<PlacitPlace, Long>)PlacitPlace::setGroupId);
-		attributeGetterFunctions.put("companyId", PlacitPlace::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<PlacitPlace, Long>)PlacitPlace::setCompanyId);
-		attributeGetterFunctions.put("userId", PlacitPlace::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<PlacitPlace, Long>)PlacitPlace::setUserId);
-		attributeGetterFunctions.put("userName", PlacitPlace::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<PlacitPlace, String>)PlacitPlace::setUserName);
-		attributeGetterFunctions.put("createDate", PlacitPlace::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<PlacitPlace, Date>)PlacitPlace::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", PlacitPlace::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<PlacitPlace, Date>)PlacitPlace::setModifiedDate);
-		attributeGetterFunctions.put("placeName", PlacitPlace::getPlaceName);
-		attributeSetterBiConsumers.put(
-			"placeName",
-			(BiConsumer<PlacitPlace, String>)PlacitPlace::setPlaceName);
-		attributeGetterFunctions.put(
-			"placeStreetNumber", PlacitPlace::getPlaceStreetNumber);
-		attributeSetterBiConsumers.put(
-			"placeStreetNumber",
-			(BiConsumer<PlacitPlace, String>)PlacitPlace::setPlaceStreetNumber);
-		attributeGetterFunctions.put(
-			"placeStreetName", PlacitPlace::getPlaceStreetName);
-		attributeSetterBiConsumers.put(
-			"placeStreetName",
-			(BiConsumer<PlacitPlace, String>)PlacitPlace::setPlaceStreetName);
-		attributeGetterFunctions.put(
-			"placeZipCode", PlacitPlace::getPlaceZipCode);
-		attributeSetterBiConsumers.put(
-			"placeZipCode",
-			(BiConsumer<PlacitPlace, String>)PlacitPlace::setPlaceZipCode);
-		attributeGetterFunctions.put(
-			"placeCityId", PlacitPlace::getPlaceCityId);
-		attributeSetterBiConsumers.put(
-			"placeCityId",
-			(BiConsumer<PlacitPlace, Long>)PlacitPlace::setPlaceCityId);
-		attributeGetterFunctions.put("imageId", PlacitPlace::getImageId);
-		attributeSetterBiConsumers.put(
-			"imageId", (BiConsumer<PlacitPlace, Long>)PlacitPlace::setImageId);
-		attributeGetterFunctions.put("projectId", PlacitPlace::getProjectId);
-		attributeSetterBiConsumers.put(
-			"projectId",
-			(BiConsumer<PlacitPlace, Long>)PlacitPlace::setProjectId);
-		attributeGetterFunctions.put(
-			"participationId", PlacitPlace::getParticipationId);
-		attributeSetterBiConsumers.put(
-			"participationId",
-			(BiConsumer<PlacitPlace, Long>)PlacitPlace::setParticipationId);
-		attributeGetterFunctions.put("petitionId", PlacitPlace::getPetitionId);
-		attributeSetterBiConsumers.put(
-			"petitionId",
-			(BiConsumer<PlacitPlace, Long>)PlacitPlace::setPetitionId);
-		attributeGetterFunctions.put(
-			"saisineObservatoireId", PlacitPlace::getSaisineObservatoireId);
-		attributeSetterBiConsumers.put(
-			"saisineObservatoireId",
-			(BiConsumer<PlacitPlace, Long>)
-				PlacitPlace::setSaisineObservatoireId);
-		attributeGetterFunctions.put(
-			"budgetParticipatifId", PlacitPlace::getBudgetParticipatifId);
-		attributeSetterBiConsumers.put(
-			"budgetParticipatifId",
-			(BiConsumer<PlacitPlace, Long>)
-				PlacitPlace::setBudgetParticipatifId);
-		attributeGetterFunctions.put(
-			"initiativeId", PlacitPlace::getInitiativeId);
-		attributeSetterBiConsumers.put(
-			"initiativeId",
-			(BiConsumer<PlacitPlace, Long>)PlacitPlace::setInitiativeId);
-		attributeGetterFunctions.put("placeSIGId", PlacitPlace::getPlaceSIGId);
-		attributeSetterBiConsumers.put(
-			"placeSIGId",
-			(BiConsumer<PlacitPlace, String>)PlacitPlace::setPlaceSIGId);
+		static {
+			Map<String, Function<PlacitPlace, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<PlacitPlace, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", PlacitPlace::getUuid);
+			attributeGetterFunctions.put(
+				"placitPlaceId", PlacitPlace::getPlacitPlaceId);
+			attributeGetterFunctions.put("groupId", PlacitPlace::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", PlacitPlace::getCompanyId);
+			attributeGetterFunctions.put("userId", PlacitPlace::getUserId);
+			attributeGetterFunctions.put("userName", PlacitPlace::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", PlacitPlace::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", PlacitPlace::getModifiedDate);
+			attributeGetterFunctions.put(
+				"placeName", PlacitPlace::getPlaceName);
+			attributeGetterFunctions.put(
+				"placeStreetNumber", PlacitPlace::getPlaceStreetNumber);
+			attributeGetterFunctions.put(
+				"placeStreetName", PlacitPlace::getPlaceStreetName);
+			attributeGetterFunctions.put(
+				"placeZipCode", PlacitPlace::getPlaceZipCode);
+			attributeGetterFunctions.put(
+				"placeCityId", PlacitPlace::getPlaceCityId);
+			attributeGetterFunctions.put("imageId", PlacitPlace::getImageId);
+			attributeGetterFunctions.put(
+				"projectId", PlacitPlace::getProjectId);
+			attributeGetterFunctions.put(
+				"participationId", PlacitPlace::getParticipationId);
+			attributeGetterFunctions.put(
+				"petitionId", PlacitPlace::getPetitionId);
+			attributeGetterFunctions.put(
+				"saisineObservatoireId", PlacitPlace::getSaisineObservatoireId);
+			attributeGetterFunctions.put(
+				"budgetParticipatifId", PlacitPlace::getBudgetParticipatifId);
+			attributeGetterFunctions.put(
+				"initiativeId", PlacitPlace::getInitiativeId);
+			attributeGetterFunctions.put(
+				"placeSIGId", PlacitPlace::getPlaceSIGId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<PlacitPlace, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<PlacitPlace, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<PlacitPlace, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<PlacitPlace, String>)PlacitPlace::setUuid);
+			attributeSetterBiConsumers.put(
+				"placitPlaceId",
+				(BiConsumer<PlacitPlace, Long>)PlacitPlace::setPlacitPlaceId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<PlacitPlace, Long>)PlacitPlace::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<PlacitPlace, Long>)PlacitPlace::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<PlacitPlace, Long>)PlacitPlace::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<PlacitPlace, String>)PlacitPlace::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<PlacitPlace, Date>)PlacitPlace::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<PlacitPlace, Date>)PlacitPlace::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"placeName",
+				(BiConsumer<PlacitPlace, String>)PlacitPlace::setPlaceName);
+			attributeSetterBiConsumers.put(
+				"placeStreetNumber",
+				(BiConsumer<PlacitPlace, String>)
+					PlacitPlace::setPlaceStreetNumber);
+			attributeSetterBiConsumers.put(
+				"placeStreetName",
+				(BiConsumer<PlacitPlace, String>)
+					PlacitPlace::setPlaceStreetName);
+			attributeSetterBiConsumers.put(
+				"placeZipCode",
+				(BiConsumer<PlacitPlace, String>)PlacitPlace::setPlaceZipCode);
+			attributeSetterBiConsumers.put(
+				"placeCityId",
+				(BiConsumer<PlacitPlace, Long>)PlacitPlace::setPlaceCityId);
+			attributeSetterBiConsumers.put(
+				"imageId",
+				(BiConsumer<PlacitPlace, Long>)PlacitPlace::setImageId);
+			attributeSetterBiConsumers.put(
+				"projectId",
+				(BiConsumer<PlacitPlace, Long>)PlacitPlace::setProjectId);
+			attributeSetterBiConsumers.put(
+				"participationId",
+				(BiConsumer<PlacitPlace, Long>)PlacitPlace::setParticipationId);
+			attributeSetterBiConsumers.put(
+				"petitionId",
+				(BiConsumer<PlacitPlace, Long>)PlacitPlace::setPetitionId);
+			attributeSetterBiConsumers.put(
+				"saisineObservatoireId",
+				(BiConsumer<PlacitPlace, Long>)
+					PlacitPlace::setSaisineObservatoireId);
+			attributeSetterBiConsumers.put(
+				"budgetParticipatifId",
+				(BiConsumer<PlacitPlace, Long>)
+					PlacitPlace::setBudgetParticipatifId);
+			attributeSetterBiConsumers.put(
+				"initiativeId",
+				(BiConsumer<PlacitPlace, Long>)PlacitPlace::setInitiativeId);
+			attributeSetterBiConsumers.put(
+				"placeSIGId",
+				(BiConsumer<PlacitPlace, String>)PlacitPlace::setPlaceSIGId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1449,8 +1466,9 @@ public class PlacitPlaceModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<PlacitPlace, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<PlacitPlace, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

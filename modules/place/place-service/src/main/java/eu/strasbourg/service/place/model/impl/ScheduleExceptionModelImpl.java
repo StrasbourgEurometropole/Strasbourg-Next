@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.model.impl;
@@ -245,110 +236,132 @@ public class ScheduleExceptionModelImpl
 	public Map<String, Function<ScheduleException, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<ScheduleException, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<ScheduleException, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ScheduleException, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<ScheduleException, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap
-					<String, Function<ScheduleException, Object>>();
-		Map<String, BiConsumer<ScheduleException, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<ScheduleException, ?>>();
+		private static final Map<String, Function<ScheduleException, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", ScheduleException::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid",
-			(BiConsumer<ScheduleException, String>)ScheduleException::setUuid);
-		attributeGetterFunctions.put(
-			"exceptionId", ScheduleException::getExceptionId);
-		attributeSetterBiConsumers.put(
-			"exceptionId",
-			(BiConsumer<ScheduleException, Long>)
-				ScheduleException::setExceptionId);
-		attributeGetterFunctions.put(
-			"startDate", ScheduleException::getStartDate);
-		attributeSetterBiConsumers.put(
-			"startDate",
-			(BiConsumer<ScheduleException, Date>)
-				ScheduleException::setStartDate);
-		attributeGetterFunctions.put("endDate", ScheduleException::getEndDate);
-		attributeSetterBiConsumers.put(
-			"endDate",
-			(BiConsumer<ScheduleException, Date>)ScheduleException::setEndDate);
-		attributeGetterFunctions.put(
-			"openingTimes", ScheduleException::getOpeningTimes);
-		attributeSetterBiConsumers.put(
-			"openingTimes",
-			(BiConsumer<ScheduleException, String>)
-				ScheduleException::setOpeningTimes);
-		attributeGetterFunctions.put(
-			"firstComment", ScheduleException::getFirstComment);
-		attributeSetterBiConsumers.put(
-			"firstComment",
-			(BiConsumer<ScheduleException, String>)
-				ScheduleException::setFirstComment);
-		attributeGetterFunctions.put(
-			"secondComment", ScheduleException::getSecondComment);
-		attributeSetterBiConsumers.put(
-			"secondComment",
-			(BiConsumer<ScheduleException, String>)
-				ScheduleException::setSecondComment);
-		attributeGetterFunctions.put(
-			"thirdComment", ScheduleException::getThirdComment);
-		attributeSetterBiConsumers.put(
-			"thirdComment",
-			(BiConsumer<ScheduleException, String>)
-				ScheduleException::setThirdComment);
-		attributeGetterFunctions.put(
-			"fourthComment", ScheduleException::getFourthComment);
-		attributeSetterBiConsumers.put(
-			"fourthComment",
-			(BiConsumer<ScheduleException, String>)
-				ScheduleException::setFourthComment);
-		attributeGetterFunctions.put(
-			"fifthComment", ScheduleException::getFifthComment);
-		attributeSetterBiConsumers.put(
-			"fifthComment",
-			(BiConsumer<ScheduleException, String>)
-				ScheduleException::setFifthComment);
-		attributeGetterFunctions.put("comment", ScheduleException::getComment);
-		attributeSetterBiConsumers.put(
-			"comment",
-			(BiConsumer<ScheduleException, String>)
-				ScheduleException::setComment);
-		attributeGetterFunctions.put("closed", ScheduleException::getClosed);
-		attributeSetterBiConsumers.put(
-			"closed",
-			(BiConsumer<ScheduleException, Boolean>)
-				ScheduleException::setClosed);
-		attributeGetterFunctions.put("placeId", ScheduleException::getPlaceId);
-		attributeSetterBiConsumers.put(
-			"placeId",
-			(BiConsumer<ScheduleException, Long>)ScheduleException::setPlaceId);
-		attributeGetterFunctions.put(
-			"subPlaceId", ScheduleException::getSubPlaceId);
-		attributeSetterBiConsumers.put(
-			"subPlaceId",
-			(BiConsumer<ScheduleException, Long>)
-				ScheduleException::setSubPlaceId);
+		static {
+			Map<String, Function<ScheduleException, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<ScheduleException, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", ScheduleException::getUuid);
+			attributeGetterFunctions.put(
+				"exceptionId", ScheduleException::getExceptionId);
+			attributeGetterFunctions.put(
+				"startDate", ScheduleException::getStartDate);
+			attributeGetterFunctions.put(
+				"endDate", ScheduleException::getEndDate);
+			attributeGetterFunctions.put(
+				"openingTimes", ScheduleException::getOpeningTimes);
+			attributeGetterFunctions.put(
+				"firstComment", ScheduleException::getFirstComment);
+			attributeGetterFunctions.put(
+				"secondComment", ScheduleException::getSecondComment);
+			attributeGetterFunctions.put(
+				"thirdComment", ScheduleException::getThirdComment);
+			attributeGetterFunctions.put(
+				"fourthComment", ScheduleException::getFourthComment);
+			attributeGetterFunctions.put(
+				"fifthComment", ScheduleException::getFifthComment);
+			attributeGetterFunctions.put(
+				"comment", ScheduleException::getComment);
+			attributeGetterFunctions.put(
+				"closed", ScheduleException::getClosed);
+			attributeGetterFunctions.put(
+				"placeId", ScheduleException::getPlaceId);
+			attributeGetterFunctions.put(
+				"subPlaceId", ScheduleException::getSubPlaceId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<ScheduleException, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<ScheduleException, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String, BiConsumer<ScheduleException, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<ScheduleException, String>)
+					ScheduleException::setUuid);
+			attributeSetterBiConsumers.put(
+				"exceptionId",
+				(BiConsumer<ScheduleException, Long>)
+					ScheduleException::setExceptionId);
+			attributeSetterBiConsumers.put(
+				"startDate",
+				(BiConsumer<ScheduleException, Date>)
+					ScheduleException::setStartDate);
+			attributeSetterBiConsumers.put(
+				"endDate",
+				(BiConsumer<ScheduleException, Date>)
+					ScheduleException::setEndDate);
+			attributeSetterBiConsumers.put(
+				"openingTimes",
+				(BiConsumer<ScheduleException, String>)
+					ScheduleException::setOpeningTimes);
+			attributeSetterBiConsumers.put(
+				"firstComment",
+				(BiConsumer<ScheduleException, String>)
+					ScheduleException::setFirstComment);
+			attributeSetterBiConsumers.put(
+				"secondComment",
+				(BiConsumer<ScheduleException, String>)
+					ScheduleException::setSecondComment);
+			attributeSetterBiConsumers.put(
+				"thirdComment",
+				(BiConsumer<ScheduleException, String>)
+					ScheduleException::setThirdComment);
+			attributeSetterBiConsumers.put(
+				"fourthComment",
+				(BiConsumer<ScheduleException, String>)
+					ScheduleException::setFourthComment);
+			attributeSetterBiConsumers.put(
+				"fifthComment",
+				(BiConsumer<ScheduleException, String>)
+					ScheduleException::setFifthComment);
+			attributeSetterBiConsumers.put(
+				"comment",
+				(BiConsumer<ScheduleException, String>)
+					ScheduleException::setComment);
+			attributeSetterBiConsumers.put(
+				"closed",
+				(BiConsumer<ScheduleException, Boolean>)
+					ScheduleException::setClosed);
+			attributeSetterBiConsumers.put(
+				"placeId",
+				(BiConsumer<ScheduleException, Long>)
+					ScheduleException::setPlaceId);
+			attributeSetterBiConsumers.put(
+				"subPlaceId",
+				(BiConsumer<ScheduleException, Long>)
+					ScheduleException::setSubPlaceId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -1711,7 +1724,8 @@ public class ScheduleExceptionModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<ScheduleException, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

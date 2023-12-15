@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model.impl;
@@ -209,64 +200,79 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 	}
 
 	public Map<String, Function<Route, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Route, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Route, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Route, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Route, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Route, Object>>();
-		Map<String, BiConsumer<Route, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Route, ?>>();
+		private static final Map<String, Function<Route, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Route::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Route, String>)Route::setUuid);
-		attributeGetterFunctions.put("id", Route::getId);
-		attributeSetterBiConsumers.put(
-			"id", (BiConsumer<Route, Long>)Route::setId);
-		attributeGetterFunctions.put("route_id", Route::getRoute_id);
-		attributeSetterBiConsumers.put(
-			"route_id", (BiConsumer<Route, String>)Route::setRoute_id);
-		attributeGetterFunctions.put(
-			"route_short_name", Route::getRoute_short_name);
-		attributeSetterBiConsumers.put(
-			"route_short_name",
-			(BiConsumer<Route, String>)Route::setRoute_short_name);
-		attributeGetterFunctions.put(
-			"route_long_name", Route::getRoute_long_name);
-		attributeSetterBiConsumers.put(
-			"route_long_name",
-			(BiConsumer<Route, String>)Route::setRoute_long_name);
-		attributeGetterFunctions.put("route_desc", Route::getRoute_desc);
-		attributeSetterBiConsumers.put(
-			"route_desc", (BiConsumer<Route, String>)Route::setRoute_desc);
-		attributeGetterFunctions.put("route_type", Route::getRoute_type);
-		attributeSetterBiConsumers.put(
-			"route_type", (BiConsumer<Route, Integer>)Route::setRoute_type);
-		attributeGetterFunctions.put("route_color", Route::getRoute_color);
-		attributeSetterBiConsumers.put(
-			"route_color", (BiConsumer<Route, String>)Route::setRoute_color);
-		attributeGetterFunctions.put(
-			"route_text_color", Route::getRoute_text_color);
-		attributeSetterBiConsumers.put(
-			"route_text_color",
-			(BiConsumer<Route, String>)Route::setRoute_text_color);
+		static {
+			Map<String, Function<Route, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Route, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Route::getUuid);
+			attributeGetterFunctions.put("id", Route::getId);
+			attributeGetterFunctions.put("route_id", Route::getRoute_id);
+			attributeGetterFunctions.put(
+				"route_short_name", Route::getRoute_short_name);
+			attributeGetterFunctions.put(
+				"route_long_name", Route::getRoute_long_name);
+			attributeGetterFunctions.put("route_desc", Route::getRoute_desc);
+			attributeGetterFunctions.put("route_type", Route::getRoute_type);
+			attributeGetterFunctions.put("route_color", Route::getRoute_color);
+			attributeGetterFunctions.put(
+				"route_text_color", Route::getRoute_text_color);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Route, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Route, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Route, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Route, String>)Route::setUuid);
+			attributeSetterBiConsumers.put(
+				"id", (BiConsumer<Route, Long>)Route::setId);
+			attributeSetterBiConsumers.put(
+				"route_id", (BiConsumer<Route, String>)Route::setRoute_id);
+			attributeSetterBiConsumers.put(
+				"route_short_name",
+				(BiConsumer<Route, String>)Route::setRoute_short_name);
+			attributeSetterBiConsumers.put(
+				"route_long_name",
+				(BiConsumer<Route, String>)Route::setRoute_long_name);
+			attributeSetterBiConsumers.put(
+				"route_desc", (BiConsumer<Route, String>)Route::setRoute_desc);
+			attributeSetterBiConsumers.put(
+				"route_type", (BiConsumer<Route, Integer>)Route::setRoute_type);
+			attributeSetterBiConsumers.put(
+				"route_color",
+				(BiConsumer<Route, String>)Route::setRoute_color);
+			attributeSetterBiConsumers.put(
+				"route_text_color",
+				(BiConsumer<Route, String>)Route::setRoute_text_color);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -744,8 +750,9 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Route, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Route, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

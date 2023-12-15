@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.video.service.base;
@@ -52,7 +43,6 @@ import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiServic
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalServiceImpl;
-import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
@@ -69,8 +59,6 @@ import eu.strasbourg.service.video.service.persistence.VideoGalleryPersistence;
 import eu.strasbourg.service.video.service.persistence.VideoPersistence;
 
 import java.io.Serializable;
-
-import java.lang.reflect.Field;
 
 import java.util.List;
 
@@ -584,29 +572,29 @@ public abstract class VideoLocalServiceBaseImpl
 	/**
 	 */
 	@Override
-	public void addVideoGalleryVideo(long galleryId, long videoId) {
-		videoGalleryPersistence.addVideo(galleryId, videoId);
+	public boolean addVideoGalleryVideo(long galleryId, long videoId) {
+		return videoGalleryPersistence.addVideo(galleryId, videoId);
 	}
 
 	/**
 	 */
 	@Override
-	public void addVideoGalleryVideo(long galleryId, Video video) {
-		videoGalleryPersistence.addVideo(galleryId, video);
+	public boolean addVideoGalleryVideo(long galleryId, Video video) {
+		return videoGalleryPersistence.addVideo(galleryId, video);
 	}
 
 	/**
 	 */
 	@Override
-	public void addVideoGalleryVideos(long galleryId, long[] videoIds) {
-		videoGalleryPersistence.addVideos(galleryId, videoIds);
+	public boolean addVideoGalleryVideos(long galleryId, long[] videoIds) {
+		return videoGalleryPersistence.addVideos(galleryId, videoIds);
 	}
 
 	/**
 	 */
 	@Override
-	public void addVideoGalleryVideos(long galleryId, List<Video> videos) {
-		videoGalleryPersistence.addVideos(galleryId, videos);
+	public boolean addVideoGalleryVideos(long galleryId, List<Video> videos) {
+		return videoGalleryPersistence.addVideos(galleryId, videos);
 	}
 
 	/**
@@ -1048,17 +1036,11 @@ public abstract class VideoLocalServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		persistedModelLocalServiceRegistry.register(
-			"eu.strasbourg.service.video.model.Video", videoLocalService);
-
-		_setLocalServiceUtilService(videoLocalService);
+		VideoLocalServiceUtil.setService(videoLocalService);
 	}
 
 	public void destroy() {
-		persistedModelLocalServiceRegistry.unregister(
-			"eu.strasbourg.service.video.model.Video");
-
-		_setLocalServiceUtilService(null);
+		VideoLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -1100,22 +1082,6 @@ public abstract class VideoLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		VideoLocalService videoLocalService) {
-
-		try {
-			Field field = VideoLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, videoLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -1193,9 +1159,5 @@ public abstract class VideoLocalServiceBaseImpl
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		VideoLocalServiceBaseImpl.class);
-
-	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
-	protected PersistedModelLocalServiceRegistry
-		persistedModelLocalServiceRegistry;
 
 }

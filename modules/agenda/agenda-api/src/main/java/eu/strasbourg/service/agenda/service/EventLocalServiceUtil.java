@@ -1,20 +1,10 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.service;
 
-import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -25,11 +15,8 @@ import eu.strasbourg.service.agenda.model.Event;
 
 import java.io.Serializable;
 
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Provides the local service utility for Event. This utility wraps
@@ -65,32 +52,28 @@ public class EventLocalServiceUtil {
 		return getService().addEvent(event);
 	}
 
-	public static void addManifestationEvent(
+	public static boolean addManifestationEvent(
 		long manifestationId, Event event) {
 
-		getService().addManifestationEvent(manifestationId, event);
+		return getService().addManifestationEvent(manifestationId, event);
 	}
 
-	public static void addManifestationEvent(
+	public static boolean addManifestationEvent(
 		long manifestationId, long eventId) {
 
-		getService().addManifestationEvent(manifestationId, eventId);
+		return getService().addManifestationEvent(manifestationId, eventId);
 	}
 
-	public static void addManifestationEvents(
+	public static boolean addManifestationEvents(
 		long manifestationId, List<Event> events) {
 
-		getService().addManifestationEvents(manifestationId, events);
+		return getService().addManifestationEvents(manifestationId, events);
 	}
 
-	public static void addManifestationEvents(
+	public static boolean addManifestationEvents(
 		long manifestationId, long[] eventIds) {
 
-		getService().addManifestationEvents(manifestationId, eventIds);
-	}
-
-	public static TreeMap<Date, List<AssetEntry>> convertEventsToTreeMap(List<AssetEntry> entries) {
-		return getService().convertEventsToTreeMap(entries);
+		return getService().addManifestationEvents(manifestationId, eventIds);
 	}
 
 	/**
@@ -103,6 +86,20 @@ public class EventLocalServiceUtil {
 
 	public static void clearManifestationEvents(long manifestationId) {
 		getService().clearManifestationEvents(manifestationId);
+	}
+
+	/**
+	 * Convertit une liste d'événements en TreeMap, avec pour clé les dates
+	 *
+	 * @param entries
+	 * @return
+	 */
+	public static java.util.TreeMap
+		<java.util.Date, List<com.liferay.asset.kernel.model.AssetEntry>>
+			convertEventsToTreeMap(
+				List<com.liferay.asset.kernel.model.AssetEntry> entries) {
+
+		return getService().convertEventsToTreeMap(entries);
 	}
 
 	/**
@@ -666,6 +663,10 @@ public class EventLocalServiceUtil {
 
 	public static EventLocalService getService() {
 		return _service;
+	}
+
+	public static void setService(EventLocalService service) {
+		_service = service;
 	}
 
 	private static volatile EventLocalService _service;

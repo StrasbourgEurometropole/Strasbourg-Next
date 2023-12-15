@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model.impl;
@@ -211,60 +202,78 @@ public class AgencyModelImpl
 	}
 
 	public Map<String, Function<Agency, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Agency, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Agency, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Agency, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Agency, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Agency, Object>>();
-		Map<String, BiConsumer<Agency, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Agency, ?>>();
+		private static final Map<String, Function<Agency, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Agency::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Agency, String>)Agency::setUuid);
-		attributeGetterFunctions.put("id", Agency::getId);
-		attributeSetterBiConsumers.put(
-			"id", (BiConsumer<Agency, Long>)Agency::setId);
-		attributeGetterFunctions.put("agency_name", Agency::getAgency_name);
-		attributeSetterBiConsumers.put(
-			"agency_name", (BiConsumer<Agency, String>)Agency::setAgency_name);
-		attributeGetterFunctions.put("agency_url", Agency::getAgency_url);
-		attributeSetterBiConsumers.put(
-			"agency_url", (BiConsumer<Agency, String>)Agency::setAgency_url);
-		attributeGetterFunctions.put(
-			"agency_timezone", Agency::getAgency_timezone);
-		attributeSetterBiConsumers.put(
-			"agency_timezone",
-			(BiConsumer<Agency, String>)Agency::setAgency_timezone);
-		attributeGetterFunctions.put("agency_phone", Agency::getAgency_phone);
-		attributeSetterBiConsumers.put(
-			"agency_phone",
-			(BiConsumer<Agency, String>)Agency::setAgency_phone);
-		attributeGetterFunctions.put(
-			"agency_fare_url", Agency::getAgency_fare_url);
-		attributeSetterBiConsumers.put(
-			"agency_fare_url",
-			(BiConsumer<Agency, String>)Agency::setAgency_fare_url);
-		attributeGetterFunctions.put("agency_lang", Agency::getAgency_lang);
-		attributeSetterBiConsumers.put(
-			"agency_lang", (BiConsumer<Agency, String>)Agency::setAgency_lang);
+		static {
+			Map<String, Function<Agency, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Agency, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Agency::getUuid);
+			attributeGetterFunctions.put("id", Agency::getId);
+			attributeGetterFunctions.put("agency_name", Agency::getAgency_name);
+			attributeGetterFunctions.put("agency_url", Agency::getAgency_url);
+			attributeGetterFunctions.put(
+				"agency_timezone", Agency::getAgency_timezone);
+			attributeGetterFunctions.put(
+				"agency_phone", Agency::getAgency_phone);
+			attributeGetterFunctions.put(
+				"agency_fare_url", Agency::getAgency_fare_url);
+			attributeGetterFunctions.put("agency_lang", Agency::getAgency_lang);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Agency, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Agency, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Agency, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Agency, String>)Agency::setUuid);
+			attributeSetterBiConsumers.put(
+				"id", (BiConsumer<Agency, Long>)Agency::setId);
+			attributeSetterBiConsumers.put(
+				"agency_name",
+				(BiConsumer<Agency, String>)Agency::setAgency_name);
+			attributeSetterBiConsumers.put(
+				"agency_url",
+				(BiConsumer<Agency, String>)Agency::setAgency_url);
+			attributeSetterBiConsumers.put(
+				"agency_timezone",
+				(BiConsumer<Agency, String>)Agency::setAgency_timezone);
+			attributeSetterBiConsumers.put(
+				"agency_phone",
+				(BiConsumer<Agency, String>)Agency::setAgency_phone);
+			attributeSetterBiConsumers.put(
+				"agency_fare_url",
+				(BiConsumer<Agency, String>)Agency::setAgency_fare_url);
+			attributeSetterBiConsumers.put(
+				"agency_lang",
+				(BiConsumer<Agency, String>)Agency::setAgency_lang);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -714,8 +723,9 @@ public class AgencyModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Agency, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Agency, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

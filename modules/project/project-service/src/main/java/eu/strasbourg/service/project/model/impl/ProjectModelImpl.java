@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model.impl;
@@ -275,128 +266,152 @@ public class ProjectModelImpl
 	public Map<String, Function<Project, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Project, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Project, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Project, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Project, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Project, Object>>();
-		Map<String, BiConsumer<Project, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Project, ?>>();
+		private static final Map<String, Function<Project, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Project::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Project, String>)Project::setUuid);
-		attributeGetterFunctions.put("projectId", Project::getProjectId);
-		attributeSetterBiConsumers.put(
-			"projectId", (BiConsumer<Project, Long>)Project::setProjectId);
-		attributeGetterFunctions.put("groupId", Project::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Project, Long>)Project::setGroupId);
-		attributeGetterFunctions.put("companyId", Project::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Project, Long>)Project::setCompanyId);
-		attributeGetterFunctions.put("userId", Project::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Project, Long>)Project::setUserId);
-		attributeGetterFunctions.put("userName", Project::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<Project, String>)Project::setUserName);
-		attributeGetterFunctions.put("createDate", Project::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<Project, Date>)Project::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", Project::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<Project, Date>)Project::setModifiedDate);
-		attributeGetterFunctions.put("status", Project::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Project, Integer>)Project::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Project::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Project, Long>)Project::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Project::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Project, String>)Project::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Project::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate", (BiConsumer<Project, Date>)Project::setStatusDate);
-		attributeGetterFunctions.put("title", Project::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<Project, String>)Project::setTitle);
-		attributeGetterFunctions.put(
-			"externalImageURL", Project::getExternalImageURL);
-		attributeSetterBiConsumers.put(
-			"externalImageURL",
-			(BiConsumer<Project, String>)Project::setExternalImageURL);
-		attributeGetterFunctions.put(
-			"externalImageCopyright", Project::getExternalImageCopyright);
-		attributeSetterBiConsumers.put(
-			"externalImageCopyright",
-			(BiConsumer<Project, String>)Project::setExternalImageCopyright);
-		attributeGetterFunctions.put("opacityImage", Project::getOpacityImage);
-		attributeSetterBiConsumers.put(
-			"opacityImage",
-			(BiConsumer<Project, Double>)Project::setOpacityImage);
-		attributeGetterFunctions.put("description", Project::getDescription);
-		attributeSetterBiConsumers.put(
-			"description",
-			(BiConsumer<Project, String>)Project::setDescription);
-		attributeGetterFunctions.put("detailURL", Project::getDetailURL);
-		attributeSetterBiConsumers.put(
-			"detailURL", (BiConsumer<Project, String>)Project::setDetailURL);
-		attributeGetterFunctions.put("budget", Project::getBudget);
-		attributeSetterBiConsumers.put(
-			"budget", (BiConsumer<Project, String>)Project::setBudget);
-		attributeGetterFunctions.put("label", Project::getLabel);
-		attributeSetterBiConsumers.put(
-			"label", (BiConsumer<Project, String>)Project::setLabel);
-		attributeGetterFunctions.put("duration", Project::getDuration);
-		attributeSetterBiConsumers.put(
-			"duration", (BiConsumer<Project, String>)Project::setDuration);
-		attributeGetterFunctions.put("partners", Project::getPartners);
-		attributeSetterBiConsumers.put(
-			"partners", (BiConsumer<Project, String>)Project::setPartners);
-		attributeGetterFunctions.put("contactName", Project::getContactName);
-		attributeSetterBiConsumers.put(
-			"contactName",
-			(BiConsumer<Project, String>)Project::setContactName);
-		attributeGetterFunctions.put("contactLine1", Project::getContactLine1);
-		attributeSetterBiConsumers.put(
-			"contactLine1",
-			(BiConsumer<Project, String>)Project::setContactLine1);
-		attributeGetterFunctions.put("contactLine2", Project::getContactLine2);
-		attributeSetterBiConsumers.put(
-			"contactLine2",
-			(BiConsumer<Project, String>)Project::setContactLine2);
-		attributeGetterFunctions.put(
-			"contactPhoneNumber", Project::getContactPhoneNumber);
-		attributeSetterBiConsumers.put(
-			"contactPhoneNumber",
-			(BiConsumer<Project, String>)Project::setContactPhoneNumber);
-		attributeGetterFunctions.put("imageId", Project::getImageId);
-		attributeSetterBiConsumers.put(
-			"imageId", (BiConsumer<Project, Long>)Project::setImageId);
+		static {
+			Map<String, Function<Project, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Project, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Project::getUuid);
+			attributeGetterFunctions.put("projectId", Project::getProjectId);
+			attributeGetterFunctions.put("groupId", Project::getGroupId);
+			attributeGetterFunctions.put("companyId", Project::getCompanyId);
+			attributeGetterFunctions.put("userId", Project::getUserId);
+			attributeGetterFunctions.put("userName", Project::getUserName);
+			attributeGetterFunctions.put("createDate", Project::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Project::getModifiedDate);
+			attributeGetterFunctions.put("status", Project::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Project::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Project::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Project::getStatusDate);
+			attributeGetterFunctions.put("title", Project::getTitle);
+			attributeGetterFunctions.put(
+				"externalImageURL", Project::getExternalImageURL);
+			attributeGetterFunctions.put(
+				"externalImageCopyright", Project::getExternalImageCopyright);
+			attributeGetterFunctions.put(
+				"opacityImage", Project::getOpacityImage);
+			attributeGetterFunctions.put(
+				"description", Project::getDescription);
+			attributeGetterFunctions.put("detailURL", Project::getDetailURL);
+			attributeGetterFunctions.put("budget", Project::getBudget);
+			attributeGetterFunctions.put("label", Project::getLabel);
+			attributeGetterFunctions.put("duration", Project::getDuration);
+			attributeGetterFunctions.put("partners", Project::getPartners);
+			attributeGetterFunctions.put(
+				"contactName", Project::getContactName);
+			attributeGetterFunctions.put(
+				"contactLine1", Project::getContactLine1);
+			attributeGetterFunctions.put(
+				"contactLine2", Project::getContactLine2);
+			attributeGetterFunctions.put(
+				"contactPhoneNumber", Project::getContactPhoneNumber);
+			attributeGetterFunctions.put("imageId", Project::getImageId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Project, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Project, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Project, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Project, String>)Project::setUuid);
+			attributeSetterBiConsumers.put(
+				"projectId", (BiConsumer<Project, Long>)Project::setProjectId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Project, Long>)Project::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId", (BiConsumer<Project, Long>)Project::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Project, Long>)Project::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName", (BiConsumer<Project, String>)Project::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Project, Date>)Project::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Project, Date>)Project::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Project, Integer>)Project::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Project, Long>)Project::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Project, String>)Project::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Project, Date>)Project::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Project, String>)Project::setTitle);
+			attributeSetterBiConsumers.put(
+				"externalImageURL",
+				(BiConsumer<Project, String>)Project::setExternalImageURL);
+			attributeSetterBiConsumers.put(
+				"externalImageCopyright",
+				(BiConsumer<Project, String>)
+					Project::setExternalImageCopyright);
+			attributeSetterBiConsumers.put(
+				"opacityImage",
+				(BiConsumer<Project, Double>)Project::setOpacityImage);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<Project, String>)Project::setDescription);
+			attributeSetterBiConsumers.put(
+				"detailURL",
+				(BiConsumer<Project, String>)Project::setDetailURL);
+			attributeSetterBiConsumers.put(
+				"budget", (BiConsumer<Project, String>)Project::setBudget);
+			attributeSetterBiConsumers.put(
+				"label", (BiConsumer<Project, String>)Project::setLabel);
+			attributeSetterBiConsumers.put(
+				"duration", (BiConsumer<Project, String>)Project::setDuration);
+			attributeSetterBiConsumers.put(
+				"partners", (BiConsumer<Project, String>)Project::setPartners);
+			attributeSetterBiConsumers.put(
+				"contactName",
+				(BiConsumer<Project, String>)Project::setContactName);
+			attributeSetterBiConsumers.put(
+				"contactLine1",
+				(BiConsumer<Project, String>)Project::setContactLine1);
+			attributeSetterBiConsumers.put(
+				"contactLine2",
+				(BiConsumer<Project, String>)Project::setContactLine2);
+			attributeSetterBiConsumers.put(
+				"contactPhoneNumber",
+				(BiConsumer<Project, String>)Project::setContactPhoneNumber);
+			attributeSetterBiConsumers.put(
+				"imageId", (BiConsumer<Project, Long>)Project::setImageId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1804,8 +1819,9 @@ public class ProjectModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Project, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Project, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

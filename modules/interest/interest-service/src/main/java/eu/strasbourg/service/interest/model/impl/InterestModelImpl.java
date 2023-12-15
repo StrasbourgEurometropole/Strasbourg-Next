@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.interest.model.impl;
@@ -254,87 +245,108 @@ public class InterestModelImpl
 	public Map<String, Function<Interest, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Interest, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Interest, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Interest, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Interest, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Interest, Object>>();
-		Map<String, BiConsumer<Interest, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Interest, ?>>();
+		private static final Map<String, Function<Interest, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Interest::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Interest, String>)Interest::setUuid);
-		attributeGetterFunctions.put("interestId", Interest::getInterestId);
-		attributeSetterBiConsumers.put(
-			"interestId", (BiConsumer<Interest, Long>)Interest::setInterestId);
-		attributeGetterFunctions.put("groupId", Interest::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Interest, Long>)Interest::setGroupId);
-		attributeGetterFunctions.put("companyId", Interest::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Interest, Long>)Interest::setCompanyId);
-		attributeGetterFunctions.put("userId", Interest::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Interest, Long>)Interest::setUserId);
-		attributeGetterFunctions.put("userName", Interest::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<Interest, String>)Interest::setUserName);
-		attributeGetterFunctions.put("createDate", Interest::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<Interest, Date>)Interest::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", Interest::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<Interest, Date>)Interest::setModifiedDate);
-		attributeGetterFunctions.put(
-			"lastPublishDate", Interest::getLastPublishDate);
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			(BiConsumer<Interest, Date>)Interest::setLastPublishDate);
-		attributeGetterFunctions.put("status", Interest::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Interest, Integer>)Interest::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Interest::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Interest, Long>)Interest::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Interest::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Interest, String>)Interest::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Interest::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate", (BiConsumer<Interest, Date>)Interest::setStatusDate);
-		attributeGetterFunctions.put("title", Interest::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<Interest, String>)Interest::setTitle);
-		attributeGetterFunctions.put("description", Interest::getDescription);
-		attributeSetterBiConsumers.put(
-			"description",
-			(BiConsumer<Interest, String>)Interest::setDescription);
-		attributeGetterFunctions.put("typeId", Interest::getTypeId);
-		attributeSetterBiConsumers.put(
-			"typeId", (BiConsumer<Interest, Long>)Interest::setTypeId);
+		static {
+			Map<String, Function<Interest, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Interest, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Interest::getUuid);
+			attributeGetterFunctions.put("interestId", Interest::getInterestId);
+			attributeGetterFunctions.put("groupId", Interest::getGroupId);
+			attributeGetterFunctions.put("companyId", Interest::getCompanyId);
+			attributeGetterFunctions.put("userId", Interest::getUserId);
+			attributeGetterFunctions.put("userName", Interest::getUserName);
+			attributeGetterFunctions.put("createDate", Interest::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Interest::getModifiedDate);
+			attributeGetterFunctions.put(
+				"lastPublishDate", Interest::getLastPublishDate);
+			attributeGetterFunctions.put("status", Interest::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Interest::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Interest::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Interest::getStatusDate);
+			attributeGetterFunctions.put("title", Interest::getTitle);
+			attributeGetterFunctions.put(
+				"description", Interest::getDescription);
+			attributeGetterFunctions.put("typeId", Interest::getTypeId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Interest, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Interest, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Interest, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Interest, String>)Interest::setUuid);
+			attributeSetterBiConsumers.put(
+				"interestId",
+				(BiConsumer<Interest, Long>)Interest::setInterestId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Interest, Long>)Interest::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Interest, Long>)Interest::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Interest, Long>)Interest::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Interest, String>)Interest::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Interest, Date>)Interest::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Interest, Date>)Interest::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"lastPublishDate",
+				(BiConsumer<Interest, Date>)Interest::setLastPublishDate);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Interest, Integer>)Interest::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Interest, Long>)Interest::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Interest, String>)Interest::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Interest, Date>)Interest::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Interest, String>)Interest::setTitle);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<Interest, String>)Interest::setDescription);
+			attributeSetterBiConsumers.put(
+				"typeId", (BiConsumer<Interest, Long>)Interest::setTypeId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1383,8 +1395,9 @@ public class InterestModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Interest, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Interest, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.video.service;
@@ -33,6 +24,7 @@ import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -57,6 +49,11 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see VideoGalleryLocalServiceUtil
  * @generated
  */
+@OSGiBeanProperties(
+	property = {
+		"model.class.name=eu.strasbourg.service.video.model.VideoGallery"
+	}
+)
 @ProviderType
 @Transactional(
 	isolation = Isolation.PORTAL,
@@ -84,14 +81,15 @@ public interface VideoGalleryLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public VideoGallery addVideoGallery(VideoGallery videoGallery);
 
-	public void addVideoVideoGalleries(
+	public boolean addVideoVideoGalleries(
 		long videoId, List<VideoGallery> videoGalleries);
 
-	public void addVideoVideoGalleries(long videoId, long[] galleryIds);
+	public boolean addVideoVideoGalleries(long videoId, long[] galleryIds);
 
-	public void addVideoVideoGallery(long videoId, long galleryId);
+	public boolean addVideoVideoGallery(long videoId, long galleryId);
 
-	public void addVideoVideoGallery(long videoId, VideoGallery videoGallery);
+	public boolean addVideoVideoGallery(
+		long videoId, VideoGallery videoGallery);
 
 	/**
 	 * Modifie le statut de toutes les vidéos au statut "SCHEDULED" qui ont une

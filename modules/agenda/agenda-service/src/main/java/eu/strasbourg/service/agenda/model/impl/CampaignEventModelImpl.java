@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model.impl;
@@ -311,265 +302,312 @@ public class CampaignEventModelImpl
 	public Map<String, Function<CampaignEvent, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<CampaignEvent, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<CampaignEvent, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CampaignEvent, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<CampaignEvent, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<CampaignEvent, Object>>();
-		Map<String, BiConsumer<CampaignEvent, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<CampaignEvent, ?>>();
+		private static final Map<String, Function<CampaignEvent, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", CampaignEvent::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<CampaignEvent, String>)CampaignEvent::setUuid);
-		attributeGetterFunctions.put(
-			"campaignEventId", CampaignEvent::getCampaignEventId);
-		attributeSetterBiConsumers.put(
-			"campaignEventId",
-			(BiConsumer<CampaignEvent, Long>)CampaignEvent::setCampaignEventId);
-		attributeGetterFunctions.put("groupId", CampaignEvent::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<CampaignEvent, Long>)CampaignEvent::setGroupId);
-		attributeGetterFunctions.put("companyId", CampaignEvent::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<CampaignEvent, Long>)CampaignEvent::setCompanyId);
-		attributeGetterFunctions.put("userId", CampaignEvent::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId",
-			(BiConsumer<CampaignEvent, Long>)CampaignEvent::setUserId);
-		attributeGetterFunctions.put("userName", CampaignEvent::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", CampaignEvent::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<CampaignEvent, Date>)CampaignEvent::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", CampaignEvent::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<CampaignEvent, Date>)CampaignEvent::setModifiedDate);
-		attributeGetterFunctions.put(
-			"lastPublishDate", CampaignEvent::getLastPublishDate);
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			(BiConsumer<CampaignEvent, Date>)CampaignEvent::setLastPublishDate);
-		attributeGetterFunctions.put("status", CampaignEvent::getStatus);
-		attributeSetterBiConsumers.put(
-			"status",
-			(BiConsumer<CampaignEvent, Integer>)CampaignEvent::setStatus);
-		attributeGetterFunctions.put("firstName", CampaignEvent::getFirstName);
-		attributeSetterBiConsumers.put(
-			"firstName",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setFirstName);
-		attributeGetterFunctions.put("lastName", CampaignEvent::getLastName);
-		attributeSetterBiConsumers.put(
-			"lastName",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setLastName);
-		attributeGetterFunctions.put("phone", CampaignEvent::getPhone);
-		attributeSetterBiConsumers.put(
-			"phone",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setPhone);
-		attributeGetterFunctions.put("email", CampaignEvent::getEmail);
-		attributeSetterBiConsumers.put(
-			"email",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setEmail);
-		attributeGetterFunctions.put("serviceId", CampaignEvent::getServiceId);
-		attributeSetterBiConsumers.put(
-			"serviceId",
-			(BiConsumer<CampaignEvent, Long>)CampaignEvent::setServiceId);
-		attributeGetterFunctions.put("service", CampaignEvent::getService);
-		attributeSetterBiConsumers.put(
-			"service",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setService);
-		attributeGetterFunctions.put(
-			"onSiteFirstName", CampaignEvent::getOnSiteFirstName);
-		attributeSetterBiConsumers.put(
-			"onSiteFirstName",
-			(BiConsumer<CampaignEvent, String>)
-				CampaignEvent::setOnSiteFirstName);
-		attributeGetterFunctions.put(
-			"onSiteLastName", CampaignEvent::getOnSiteLastName);
-		attributeSetterBiConsumers.put(
-			"onSiteLastName",
-			(BiConsumer<CampaignEvent, String>)
-				CampaignEvent::setOnSiteLastName);
-		attributeGetterFunctions.put(
-			"onSitePhone", CampaignEvent::getOnSitePhone);
-		attributeSetterBiConsumers.put(
-			"onSitePhone",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setOnSitePhone);
-		attributeGetterFunctions.put("title", CampaignEvent::getTitle);
-		attributeSetterBiConsumers.put(
-			"title",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setTitle);
-		attributeGetterFunctions.put("subtitle", CampaignEvent::getSubtitle);
-		attributeSetterBiConsumers.put(
-			"subtitle",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setSubtitle);
-		attributeGetterFunctions.put(
-			"description", CampaignEvent::getDescription);
-		attributeSetterBiConsumers.put(
-			"description",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setDescription);
-		attributeGetterFunctions.put("imageId", CampaignEvent::getImageId);
-		attributeSetterBiConsumers.put(
-			"imageId",
-			(BiConsumer<CampaignEvent, Long>)CampaignEvent::setImageId);
-		attributeGetterFunctions.put(
-			"webImageId", CampaignEvent::getWebImageId);
-		attributeSetterBiConsumers.put(
-			"webImageId",
-			(BiConsumer<CampaignEvent, Long>)CampaignEvent::setWebImageId);
-		attributeGetterFunctions.put(
-			"imageOwner", CampaignEvent::getImageOwner);
-		attributeSetterBiConsumers.put(
-			"imageOwner",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setImageOwner);
-		attributeGetterFunctions.put(
-			"manifestationsIds", CampaignEvent::getManifestationsIds);
-		attributeSetterBiConsumers.put(
-			"manifestationsIds",
-			(BiConsumer<CampaignEvent, String>)
-				CampaignEvent::setManifestationsIds);
-		attributeGetterFunctions.put(
-			"placeSIGId", CampaignEvent::getPlaceSIGId);
-		attributeSetterBiConsumers.put(
-			"placeSIGId",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setPlaceSIGId);
-		attributeGetterFunctions.put("placeName", CampaignEvent::getPlaceName);
-		attributeSetterBiConsumers.put(
-			"placeName",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setPlaceName);
-		attributeGetterFunctions.put(
-			"placeStreetNumber", CampaignEvent::getPlaceStreetNumber);
-		attributeSetterBiConsumers.put(
-			"placeStreetNumber",
-			(BiConsumer<CampaignEvent, String>)
-				CampaignEvent::setPlaceStreetNumber);
-		attributeGetterFunctions.put(
-			"placeStreetName", CampaignEvent::getPlaceStreetName);
-		attributeSetterBiConsumers.put(
-			"placeStreetName",
-			(BiConsumer<CampaignEvent, String>)
-				CampaignEvent::setPlaceStreetName);
-		attributeGetterFunctions.put(
-			"placeZipCode", CampaignEvent::getPlaceZipCode);
-		attributeSetterBiConsumers.put(
-			"placeZipCode",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setPlaceZipCode);
-		attributeGetterFunctions.put(
-			"placeCityId", CampaignEvent::getPlaceCityId);
-		attributeSetterBiConsumers.put(
-			"placeCityId",
-			(BiConsumer<CampaignEvent, Long>)CampaignEvent::setPlaceCityId);
-		attributeGetterFunctions.put(
-			"placeCountry", CampaignEvent::getPlaceCountry);
-		attributeSetterBiConsumers.put(
-			"placeCountry",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setPlaceCountry);
-		attributeGetterFunctions.put("promoter", CampaignEvent::getPromoter);
-		attributeSetterBiConsumers.put(
-			"promoter",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setPromoter);
-		attributeGetterFunctions.put(
-			"publicPhone", CampaignEvent::getPublicPhone);
-		attributeSetterBiConsumers.put(
-			"publicPhone",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setPublicPhone);
-		attributeGetterFunctions.put(
-			"publicEmail", CampaignEvent::getPublicEmail);
-		attributeSetterBiConsumers.put(
-			"publicEmail",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setPublicEmail);
-		attributeGetterFunctions.put(
-			"websiteURL", CampaignEvent::getWebsiteURL);
-		attributeSetterBiConsumers.put(
-			"websiteURL",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setWebsiteURL);
-		attributeGetterFunctions.put(
-			"websiteName", CampaignEvent::getWebsiteName);
-		attributeSetterBiConsumers.put(
-			"websiteName",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setWebsiteName);
-		attributeGetterFunctions.put("free", CampaignEvent::getFree);
-		attributeSetterBiConsumers.put(
-			"free", (BiConsumer<CampaignEvent, Integer>)CampaignEvent::setFree);
-		attributeGetterFunctions.put("price", CampaignEvent::getPrice);
-		attributeSetterBiConsumers.put(
-			"price",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setPrice);
-		attributeGetterFunctions.put(
-			"campaignId", CampaignEvent::getCampaignId);
-		attributeSetterBiConsumers.put(
-			"campaignId",
-			(BiConsumer<CampaignEvent, Long>)CampaignEvent::setCampaignId);
-		attributeGetterFunctions.put("themesIds", CampaignEvent::getThemesIds);
-		attributeSetterBiConsumers.put(
-			"themesIds",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setThemesIds);
-		attributeGetterFunctions.put("typesIds", CampaignEvent::getTypesIds);
-		attributeSetterBiConsumers.put(
-			"typesIds",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setTypesIds);
-		attributeGetterFunctions.put(
-			"publicsIds", CampaignEvent::getPublicsIds);
-		attributeSetterBiConsumers.put(
-			"publicsIds",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setPublicsIds);
-		attributeGetterFunctions.put(
-			"bookingDescription", CampaignEvent::getBookingDescription);
-		attributeSetterBiConsumers.put(
-			"bookingDescription",
-			(BiConsumer<CampaignEvent, String>)
-				CampaignEvent::setBookingDescription);
-		attributeGetterFunctions.put(
-			"bookingURL", CampaignEvent::getBookingURL);
-		attributeSetterBiConsumers.put(
-			"bookingURL",
-			(BiConsumer<CampaignEvent, String>)CampaignEvent::setBookingURL);
-		attributeGetterFunctions.put(
-			"registration", CampaignEvent::getRegistration);
-		attributeSetterBiConsumers.put(
-			"registration",
-			(BiConsumer<CampaignEvent, Boolean>)CampaignEvent::setRegistration);
-		attributeGetterFunctions.put(
-			"registrationStartDate", CampaignEvent::getRegistrationStartDate);
-		attributeSetterBiConsumers.put(
-			"registrationStartDate",
-			(BiConsumer<CampaignEvent, Date>)
-				CampaignEvent::setRegistrationStartDate);
-		attributeGetterFunctions.put(
-			"registrationEndDate", CampaignEvent::getRegistrationEndDate);
-		attributeSetterBiConsumers.put(
-			"registrationEndDate",
-			(BiConsumer<CampaignEvent, Date>)
-				CampaignEvent::setRegistrationEndDate);
-		attributeGetterFunctions.put("maxGauge", CampaignEvent::getMaxGauge);
-		attributeSetterBiConsumers.put(
-			"maxGauge",
-			(BiConsumer<CampaignEvent, Long>)CampaignEvent::setMaxGauge);
+		static {
+			Map<String, Function<CampaignEvent, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<CampaignEvent, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", CampaignEvent::getUuid);
+			attributeGetterFunctions.put(
+				"campaignEventId", CampaignEvent::getCampaignEventId);
+			attributeGetterFunctions.put("groupId", CampaignEvent::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", CampaignEvent::getCompanyId);
+			attributeGetterFunctions.put("userId", CampaignEvent::getUserId);
+			attributeGetterFunctions.put(
+				"userName", CampaignEvent::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", CampaignEvent::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", CampaignEvent::getModifiedDate);
+			attributeGetterFunctions.put(
+				"lastPublishDate", CampaignEvent::getLastPublishDate);
+			attributeGetterFunctions.put("status", CampaignEvent::getStatus);
+			attributeGetterFunctions.put(
+				"firstName", CampaignEvent::getFirstName);
+			attributeGetterFunctions.put(
+				"lastName", CampaignEvent::getLastName);
+			attributeGetterFunctions.put("phone", CampaignEvent::getPhone);
+			attributeGetterFunctions.put("email", CampaignEvent::getEmail);
+			attributeGetterFunctions.put(
+				"serviceId", CampaignEvent::getServiceId);
+			attributeGetterFunctions.put("service", CampaignEvent::getService);
+			attributeGetterFunctions.put(
+				"onSiteFirstName", CampaignEvent::getOnSiteFirstName);
+			attributeGetterFunctions.put(
+				"onSiteLastName", CampaignEvent::getOnSiteLastName);
+			attributeGetterFunctions.put(
+				"onSitePhone", CampaignEvent::getOnSitePhone);
+			attributeGetterFunctions.put("title", CampaignEvent::getTitle);
+			attributeGetterFunctions.put(
+				"subtitle", CampaignEvent::getSubtitle);
+			attributeGetterFunctions.put(
+				"description", CampaignEvent::getDescription);
+			attributeGetterFunctions.put("imageId", CampaignEvent::getImageId);
+			attributeGetterFunctions.put(
+				"webImageId", CampaignEvent::getWebImageId);
+			attributeGetterFunctions.put(
+				"imageOwner", CampaignEvent::getImageOwner);
+			attributeGetterFunctions.put(
+				"manifestationsIds", CampaignEvent::getManifestationsIds);
+			attributeGetterFunctions.put(
+				"placeSIGId", CampaignEvent::getPlaceSIGId);
+			attributeGetterFunctions.put(
+				"placeName", CampaignEvent::getPlaceName);
+			attributeGetterFunctions.put(
+				"placeStreetNumber", CampaignEvent::getPlaceStreetNumber);
+			attributeGetterFunctions.put(
+				"placeStreetName", CampaignEvent::getPlaceStreetName);
+			attributeGetterFunctions.put(
+				"placeZipCode", CampaignEvent::getPlaceZipCode);
+			attributeGetterFunctions.put(
+				"placeCityId", CampaignEvent::getPlaceCityId);
+			attributeGetterFunctions.put(
+				"placeCountry", CampaignEvent::getPlaceCountry);
+			attributeGetterFunctions.put(
+				"promoter", CampaignEvent::getPromoter);
+			attributeGetterFunctions.put(
+				"publicPhone", CampaignEvent::getPublicPhone);
+			attributeGetterFunctions.put(
+				"publicEmail", CampaignEvent::getPublicEmail);
+			attributeGetterFunctions.put(
+				"websiteURL", CampaignEvent::getWebsiteURL);
+			attributeGetterFunctions.put(
+				"websiteName", CampaignEvent::getWebsiteName);
+			attributeGetterFunctions.put("free", CampaignEvent::getFree);
+			attributeGetterFunctions.put("price", CampaignEvent::getPrice);
+			attributeGetterFunctions.put(
+				"campaignId", CampaignEvent::getCampaignId);
+			attributeGetterFunctions.put(
+				"themesIds", CampaignEvent::getThemesIds);
+			attributeGetterFunctions.put(
+				"typesIds", CampaignEvent::getTypesIds);
+			attributeGetterFunctions.put(
+				"publicsIds", CampaignEvent::getPublicsIds);
+			attributeGetterFunctions.put(
+				"bookingDescription", CampaignEvent::getBookingDescription);
+			attributeGetterFunctions.put(
+				"bookingURL", CampaignEvent::getBookingURL);
+			attributeGetterFunctions.put(
+				"registration", CampaignEvent::getRegistration);
+			attributeGetterFunctions.put(
+				"registrationStartDate",
+				CampaignEvent::getRegistrationStartDate);
+			attributeGetterFunctions.put(
+				"registrationEndDate", CampaignEvent::getRegistrationEndDate);
+			attributeGetterFunctions.put(
+				"maxGauge", CampaignEvent::getMaxGauge);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<CampaignEvent, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<CampaignEvent, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<CampaignEvent, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<CampaignEvent, String>)CampaignEvent::setUuid);
+			attributeSetterBiConsumers.put(
+				"campaignEventId",
+				(BiConsumer<CampaignEvent, Long>)
+					CampaignEvent::setCampaignEventId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<CampaignEvent, Long>)CampaignEvent::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<CampaignEvent, Long>)CampaignEvent::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<CampaignEvent, Long>)CampaignEvent::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<CampaignEvent, String>)CampaignEvent::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<CampaignEvent, Date>)CampaignEvent::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<CampaignEvent, Date>)
+					CampaignEvent::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"lastPublishDate",
+				(BiConsumer<CampaignEvent, Date>)
+					CampaignEvent::setLastPublishDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<CampaignEvent, Integer>)CampaignEvent::setStatus);
+			attributeSetterBiConsumers.put(
+				"firstName",
+				(BiConsumer<CampaignEvent, String>)CampaignEvent::setFirstName);
+			attributeSetterBiConsumers.put(
+				"lastName",
+				(BiConsumer<CampaignEvent, String>)CampaignEvent::setLastName);
+			attributeSetterBiConsumers.put(
+				"phone",
+				(BiConsumer<CampaignEvent, String>)CampaignEvent::setPhone);
+			attributeSetterBiConsumers.put(
+				"email",
+				(BiConsumer<CampaignEvent, String>)CampaignEvent::setEmail);
+			attributeSetterBiConsumers.put(
+				"serviceId",
+				(BiConsumer<CampaignEvent, Long>)CampaignEvent::setServiceId);
+			attributeSetterBiConsumers.put(
+				"service",
+				(BiConsumer<CampaignEvent, String>)CampaignEvent::setService);
+			attributeSetterBiConsumers.put(
+				"onSiteFirstName",
+				(BiConsumer<CampaignEvent, String>)
+					CampaignEvent::setOnSiteFirstName);
+			attributeSetterBiConsumers.put(
+				"onSiteLastName",
+				(BiConsumer<CampaignEvent, String>)
+					CampaignEvent::setOnSiteLastName);
+			attributeSetterBiConsumers.put(
+				"onSitePhone",
+				(BiConsumer<CampaignEvent, String>)
+					CampaignEvent::setOnSitePhone);
+			attributeSetterBiConsumers.put(
+				"title",
+				(BiConsumer<CampaignEvent, String>)CampaignEvent::setTitle);
+			attributeSetterBiConsumers.put(
+				"subtitle",
+				(BiConsumer<CampaignEvent, String>)CampaignEvent::setSubtitle);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<CampaignEvent, String>)
+					CampaignEvent::setDescription);
+			attributeSetterBiConsumers.put(
+				"imageId",
+				(BiConsumer<CampaignEvent, Long>)CampaignEvent::setImageId);
+			attributeSetterBiConsumers.put(
+				"webImageId",
+				(BiConsumer<CampaignEvent, Long>)CampaignEvent::setWebImageId);
+			attributeSetterBiConsumers.put(
+				"imageOwner",
+				(BiConsumer<CampaignEvent, String>)
+					CampaignEvent::setImageOwner);
+			attributeSetterBiConsumers.put(
+				"manifestationsIds",
+				(BiConsumer<CampaignEvent, String>)
+					CampaignEvent::setManifestationsIds);
+			attributeSetterBiConsumers.put(
+				"placeSIGId",
+				(BiConsumer<CampaignEvent, String>)
+					CampaignEvent::setPlaceSIGId);
+			attributeSetterBiConsumers.put(
+				"placeName",
+				(BiConsumer<CampaignEvent, String>)CampaignEvent::setPlaceName);
+			attributeSetterBiConsumers.put(
+				"placeStreetNumber",
+				(BiConsumer<CampaignEvent, String>)
+					CampaignEvent::setPlaceStreetNumber);
+			attributeSetterBiConsumers.put(
+				"placeStreetName",
+				(BiConsumer<CampaignEvent, String>)
+					CampaignEvent::setPlaceStreetName);
+			attributeSetterBiConsumers.put(
+				"placeZipCode",
+				(BiConsumer<CampaignEvent, String>)
+					CampaignEvent::setPlaceZipCode);
+			attributeSetterBiConsumers.put(
+				"placeCityId",
+				(BiConsumer<CampaignEvent, Long>)CampaignEvent::setPlaceCityId);
+			attributeSetterBiConsumers.put(
+				"placeCountry",
+				(BiConsumer<CampaignEvent, String>)
+					CampaignEvent::setPlaceCountry);
+			attributeSetterBiConsumers.put(
+				"promoter",
+				(BiConsumer<CampaignEvent, String>)CampaignEvent::setPromoter);
+			attributeSetterBiConsumers.put(
+				"publicPhone",
+				(BiConsumer<CampaignEvent, String>)
+					CampaignEvent::setPublicPhone);
+			attributeSetterBiConsumers.put(
+				"publicEmail",
+				(BiConsumer<CampaignEvent, String>)
+					CampaignEvent::setPublicEmail);
+			attributeSetterBiConsumers.put(
+				"websiteURL",
+				(BiConsumer<CampaignEvent, String>)
+					CampaignEvent::setWebsiteURL);
+			attributeSetterBiConsumers.put(
+				"websiteName",
+				(BiConsumer<CampaignEvent, String>)
+					CampaignEvent::setWebsiteName);
+			attributeSetterBiConsumers.put(
+				"free",
+				(BiConsumer<CampaignEvent, Integer>)CampaignEvent::setFree);
+			attributeSetterBiConsumers.put(
+				"price",
+				(BiConsumer<CampaignEvent, String>)CampaignEvent::setPrice);
+			attributeSetterBiConsumers.put(
+				"campaignId",
+				(BiConsumer<CampaignEvent, Long>)CampaignEvent::setCampaignId);
+			attributeSetterBiConsumers.put(
+				"themesIds",
+				(BiConsumer<CampaignEvent, String>)CampaignEvent::setThemesIds);
+			attributeSetterBiConsumers.put(
+				"typesIds",
+				(BiConsumer<CampaignEvent, String>)CampaignEvent::setTypesIds);
+			attributeSetterBiConsumers.put(
+				"publicsIds",
+				(BiConsumer<CampaignEvent, String>)
+					CampaignEvent::setPublicsIds);
+			attributeSetterBiConsumers.put(
+				"bookingDescription",
+				(BiConsumer<CampaignEvent, String>)
+					CampaignEvent::setBookingDescription);
+			attributeSetterBiConsumers.put(
+				"bookingURL",
+				(BiConsumer<CampaignEvent, String>)
+					CampaignEvent::setBookingURL);
+			attributeSetterBiConsumers.put(
+				"registration",
+				(BiConsumer<CampaignEvent, Boolean>)
+					CampaignEvent::setRegistration);
+			attributeSetterBiConsumers.put(
+				"registrationStartDate",
+				(BiConsumer<CampaignEvent, Date>)
+					CampaignEvent::setRegistrationStartDate);
+			attributeSetterBiConsumers.put(
+				"registrationEndDate",
+				(BiConsumer<CampaignEvent, Date>)
+					CampaignEvent::setRegistrationEndDate);
+			attributeSetterBiConsumers.put(
+				"maxGauge",
+				(BiConsumer<CampaignEvent, Long>)CampaignEvent::setMaxGauge);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -3230,7 +3268,8 @@ public class CampaignEventModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<CampaignEvent, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.notif.model.impl;
@@ -215,40 +206,54 @@ public class MessageModelImpl
 	public Map<String, Function<Message, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Message, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Message, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Message, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Message, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Message, Object>>();
-		Map<String, BiConsumer<Message, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Message, ?>>();
+		private static final Map<String, Function<Message, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("messageId", Message::getMessageId);
-		attributeSetterBiConsumers.put(
-			"messageId", (BiConsumer<Message, Long>)Message::setMessageId);
-		attributeGetterFunctions.put("serviceId", Message::getServiceId);
-		attributeSetterBiConsumers.put(
-			"serviceId", (BiConsumer<Message, Long>)Message::setServiceId);
-		attributeGetterFunctions.put("content", Message::getContent);
-		attributeSetterBiConsumers.put(
-			"content", (BiConsumer<Message, String>)Message::setContent);
+		static {
+			Map<String, Function<Message, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Message, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("messageId", Message::getMessageId);
+			attributeGetterFunctions.put("serviceId", Message::getServiceId);
+			attributeGetterFunctions.put("content", Message::getContent);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Message, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Message, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Message, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"messageId", (BiConsumer<Message, Long>)Message::setMessageId);
+			attributeSetterBiConsumers.put(
+				"serviceId", (BiConsumer<Message, Long>)Message::setServiceId);
+			attributeSetterBiConsumers.put(
+				"content", (BiConsumer<Message, String>)Message::setContent);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -694,8 +699,9 @@ public class MessageModelImpl
 	private String _contentCurrentLanguageId;
 
 	public <T> T getColumnValue(String columnName) {
-		Function<Message, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Message, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

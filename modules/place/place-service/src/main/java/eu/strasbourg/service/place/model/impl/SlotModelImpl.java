@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.model.impl;
@@ -227,55 +218,69 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 	}
 
 	public Map<String, Function<Slot, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Slot, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Slot, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Slot, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Slot, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Slot, Object>>();
-		Map<String, BiConsumer<Slot, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Slot, ?>>();
+		private static final Map<String, Function<Slot, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Slot::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Slot, String>)Slot::setUuid);
-		attributeGetterFunctions.put("slotId", Slot::getSlotId);
-		attributeSetterBiConsumers.put(
-			"slotId", (BiConsumer<Slot, Long>)Slot::setSlotId);
-		attributeGetterFunctions.put("dayOfWeek", Slot::getDayOfWeek);
-		attributeSetterBiConsumers.put(
-			"dayOfWeek", (BiConsumer<Slot, Long>)Slot::setDayOfWeek);
-		attributeGetterFunctions.put("startHour", Slot::getStartHour);
-		attributeSetterBiConsumers.put(
-			"startHour", (BiConsumer<Slot, String>)Slot::setStartHour);
-		attributeGetterFunctions.put("endHour", Slot::getEndHour);
-		attributeSetterBiConsumers.put(
-			"endHour", (BiConsumer<Slot, String>)Slot::setEndHour);
-		attributeGetterFunctions.put("comment", Slot::getComment);
-		attributeSetterBiConsumers.put(
-			"comment", (BiConsumer<Slot, String>)Slot::setComment);
-		attributeGetterFunctions.put("periodId", Slot::getPeriodId);
-		attributeSetterBiConsumers.put(
-			"periodId", (BiConsumer<Slot, Long>)Slot::setPeriodId);
-		attributeGetterFunctions.put("subPlaceId", Slot::getSubPlaceId);
-		attributeSetterBiConsumers.put(
-			"subPlaceId", (BiConsumer<Slot, Long>)Slot::setSubPlaceId);
+		static {
+			Map<String, Function<Slot, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Slot, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Slot::getUuid);
+			attributeGetterFunctions.put("slotId", Slot::getSlotId);
+			attributeGetterFunctions.put("dayOfWeek", Slot::getDayOfWeek);
+			attributeGetterFunctions.put("startHour", Slot::getStartHour);
+			attributeGetterFunctions.put("endHour", Slot::getEndHour);
+			attributeGetterFunctions.put("comment", Slot::getComment);
+			attributeGetterFunctions.put("periodId", Slot::getPeriodId);
+			attributeGetterFunctions.put("subPlaceId", Slot::getSubPlaceId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Slot, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Slot, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Slot, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Slot, String>)Slot::setUuid);
+			attributeSetterBiConsumers.put(
+				"slotId", (BiConsumer<Slot, Long>)Slot::setSlotId);
+			attributeSetterBiConsumers.put(
+				"dayOfWeek", (BiConsumer<Slot, Long>)Slot::setDayOfWeek);
+			attributeSetterBiConsumers.put(
+				"startHour", (BiConsumer<Slot, String>)Slot::setStartHour);
+			attributeSetterBiConsumers.put(
+				"endHour", (BiConsumer<Slot, String>)Slot::setEndHour);
+			attributeSetterBiConsumers.put(
+				"comment", (BiConsumer<Slot, String>)Slot::setComment);
+			attributeSetterBiConsumers.put(
+				"periodId", (BiConsumer<Slot, Long>)Slot::setPeriodId);
+			attributeSetterBiConsumers.put(
+				"subPlaceId", (BiConsumer<Slot, Long>)Slot::setSubPlaceId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -867,8 +872,9 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Slot, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Slot, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

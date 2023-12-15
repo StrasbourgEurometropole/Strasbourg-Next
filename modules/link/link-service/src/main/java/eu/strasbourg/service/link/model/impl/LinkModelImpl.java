@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.link.model.impl;
@@ -249,83 +240,99 @@ public class LinkModelImpl extends BaseModelImpl<Link> implements LinkModel {
 	}
 
 	public Map<String, Function<Link, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Link, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Link, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Link, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Link, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Link, Object>>();
-		Map<String, BiConsumer<Link, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Link, ?>>();
+		private static final Map<String, Function<Link, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Link::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Link, String>)Link::setUuid);
-		attributeGetterFunctions.put("linkId", Link::getLinkId);
-		attributeSetterBiConsumers.put(
-			"linkId", (BiConsumer<Link, Long>)Link::setLinkId);
-		attributeGetterFunctions.put("groupId", Link::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Link, Long>)Link::setGroupId);
-		attributeGetterFunctions.put("companyId", Link::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Link, Long>)Link::setCompanyId);
-		attributeGetterFunctions.put("userId", Link::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Link, Long>)Link::setUserId);
-		attributeGetterFunctions.put("userName", Link::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<Link, String>)Link::setUserName);
-		attributeGetterFunctions.put("createDate", Link::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<Link, Date>)Link::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", Link::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate", (BiConsumer<Link, Date>)Link::setModifiedDate);
-		attributeGetterFunctions.put(
-			"lastPublishDate", Link::getLastPublishDate);
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			(BiConsumer<Link, Date>)Link::setLastPublishDate);
-		attributeGetterFunctions.put("status", Link::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Link, Integer>)Link::setStatus);
-		attributeGetterFunctions.put("statusByUserId", Link::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId", (BiConsumer<Link, Long>)Link::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Link::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Link, String>)Link::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Link::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate", (BiConsumer<Link, Date>)Link::setStatusDate);
-		attributeGetterFunctions.put("title", Link::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<Link, String>)Link::setTitle);
-		attributeGetterFunctions.put("URL", Link::getURL);
-		attributeSetterBiConsumers.put(
-			"URL", (BiConsumer<Link, String>)Link::setURL);
-		attributeGetterFunctions.put("hoverText", Link::getHoverText);
-		attributeSetterBiConsumers.put(
-			"hoverText", (BiConsumer<Link, String>)Link::setHoverText);
+		static {
+			Map<String, Function<Link, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Link, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Link::getUuid);
+			attributeGetterFunctions.put("linkId", Link::getLinkId);
+			attributeGetterFunctions.put("groupId", Link::getGroupId);
+			attributeGetterFunctions.put("companyId", Link::getCompanyId);
+			attributeGetterFunctions.put("userId", Link::getUserId);
+			attributeGetterFunctions.put("userName", Link::getUserName);
+			attributeGetterFunctions.put("createDate", Link::getCreateDate);
+			attributeGetterFunctions.put("modifiedDate", Link::getModifiedDate);
+			attributeGetterFunctions.put(
+				"lastPublishDate", Link::getLastPublishDate);
+			attributeGetterFunctions.put("status", Link::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Link::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Link::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Link::getStatusDate);
+			attributeGetterFunctions.put("title", Link::getTitle);
+			attributeGetterFunctions.put("URL", Link::getURL);
+			attributeGetterFunctions.put("hoverText", Link::getHoverText);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Link, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Link, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Link, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Link, String>)Link::setUuid);
+			attributeSetterBiConsumers.put(
+				"linkId", (BiConsumer<Link, Long>)Link::setLinkId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Link, Long>)Link::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId", (BiConsumer<Link, Long>)Link::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Link, Long>)Link::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName", (BiConsumer<Link, String>)Link::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate", (BiConsumer<Link, Date>)Link::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate", (BiConsumer<Link, Date>)Link::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"lastPublishDate",
+				(BiConsumer<Link, Date>)Link::setLastPublishDate);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Link, Integer>)Link::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Link, Long>)Link::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Link, String>)Link::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate", (BiConsumer<Link, Date>)Link::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Link, String>)Link::setTitle);
+			attributeSetterBiConsumers.put(
+				"URL", (BiConsumer<Link, String>)Link::setURL);
+			attributeSetterBiConsumers.put(
+				"hoverText", (BiConsumer<Link, String>)Link::setHoverText);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1486,8 +1493,9 @@ public class LinkModelImpl extends BaseModelImpl<Link> implements LinkModel {
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Link, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Link, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.official.service.persistence.impl;
@@ -35,7 +26,7 @@ import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.uuid.PortalUUID;
+import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.official.exception.NoSuchOfficialException;
@@ -48,7 +39,6 @@ import eu.strasbourg.service.official.service.persistence.OfficialUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -2051,7 +2041,7 @@ public class OfficialPersistenceImpl
 		official.setNew(true);
 		official.setPrimaryKey(officialId);
 
-		String uuid = _portalUUID.generate();
+		String uuid = PortalUUIDUtil.generate();
 
 		official.setUuid(uuid);
 
@@ -2166,7 +2156,7 @@ public class OfficialPersistenceImpl
 		OfficialModelImpl officialModelImpl = (OfficialModelImpl)official;
 
 		if (Validator.isNull(official.getUuid())) {
-			String uuid = _portalUUID.generate();
+			String uuid = PortalUUIDUtil.generate();
 
 			official.setUuid(uuid);
 		}
@@ -2565,28 +2555,13 @@ public class OfficialPersistenceImpl
 			new String[] {Long.class.getName()}, new String[] {"groupId"},
 			false);
 
-		_setOfficialUtilPersistence(this);
+		OfficialUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setOfficialUtilPersistence(null);
+		OfficialUtil.setPersistence(null);
 
 		entityCache.removeCache(OfficialImpl.class.getName());
-	}
-
-	private void _setOfficialUtilPersistence(
-		OfficialPersistence officialPersistence) {
-
-		try {
-			Field field = OfficialUtil.class.getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, officialPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -2625,8 +2600,5 @@ public class OfficialPersistenceImpl
 	protected FinderCache getFinderCache() {
 		return finderCache;
 	}
-
-	@ServiceReference(type = PortalUUID.class)
-	private PortalUUID _portalUUID;
 
 }

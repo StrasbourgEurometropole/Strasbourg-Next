@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.artwork.service;
@@ -46,29 +37,32 @@ public class ArtworkCollectionLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.artwork.service.impl.ArtworkCollectionLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static void addArtworkArtworkCollection(
+	public static boolean addArtworkArtworkCollection(
 		long artworkId, ArtworkCollection artworkCollection) {
 
-		getService().addArtworkArtworkCollection(artworkId, artworkCollection);
+		return getService().addArtworkArtworkCollection(
+			artworkId, artworkCollection);
 	}
 
-	public static void addArtworkArtworkCollection(
+	public static boolean addArtworkArtworkCollection(
 		long artworkId, long collectionId) {
 
-		getService().addArtworkArtworkCollection(artworkId, collectionId);
+		return getService().addArtworkArtworkCollection(
+			artworkId, collectionId);
 	}
 
-	public static void addArtworkArtworkCollections(
+	public static boolean addArtworkArtworkCollections(
 		long artworkId, List<ArtworkCollection> artworkCollections) {
 
-		getService().addArtworkArtworkCollections(
+		return getService().addArtworkArtworkCollections(
 			artworkId, artworkCollections);
 	}
 
-	public static void addArtworkArtworkCollections(
+	public static boolean addArtworkArtworkCollections(
 		long artworkId, long[] collectionIds) {
 
-		getService().addArtworkArtworkCollections(artworkId, collectionIds);
+		return getService().addArtworkArtworkCollections(
+			artworkId, collectionIds);
 	}
 
 	/**
@@ -567,6 +561,10 @@ public class ArtworkCollectionLocalServiceUtil {
 
 	public static ArtworkCollectionLocalService getService() {
 		return _service;
+	}
+
+	public static void setService(ArtworkCollectionLocalService service) {
+		_service = service;
 	}
 
 	private static volatile ArtworkCollectionLocalService _service;

@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.search.log.model.impl;
@@ -230,123 +221,143 @@ public class SearchLogModelImpl
 	public Map<String, Function<SearchLog, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<SearchLog, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<SearchLog, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<SearchLog, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<SearchLog, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<SearchLog, Object>>();
-		Map<String, BiConsumer<SearchLog, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<SearchLog, ?>>();
+		private static final Map<String, Function<SearchLog, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("searchLogId", SearchLog::getSearchLogId);
-		attributeSetterBiConsumers.put(
-			"searchLogId",
-			(BiConsumer<SearchLog, Long>)SearchLog::setSearchLogId);
-		attributeGetterFunctions.put("keywords", SearchLog::getKeywords);
-		attributeSetterBiConsumers.put(
-			"keywords", (BiConsumer<SearchLog, String>)SearchLog::setKeywords);
-		attributeGetterFunctions.put("searchTime", SearchLog::getSearchTime);
-		attributeSetterBiConsumers.put(
-			"searchTime",
-			(BiConsumer<SearchLog, Long>)SearchLog::setSearchTime);
-		attributeGetterFunctions.put("resultCount", SearchLog::getResultCount);
-		attributeSetterBiConsumers.put(
-			"resultCount",
-			(BiConsumer<SearchLog, Long>)SearchLog::setResultCount);
-		attributeGetterFunctions.put(
-			"result1ClassId", SearchLog::getResult1ClassId);
-		attributeSetterBiConsumers.put(
-			"result1ClassId",
-			(BiConsumer<SearchLog, Long>)SearchLog::setResult1ClassId);
-		attributeGetterFunctions.put(
-			"result1ClassPK", SearchLog::getResult1ClassPK);
-		attributeSetterBiConsumers.put(
-			"result1ClassPK",
-			(BiConsumer<SearchLog, Long>)SearchLog::setResult1ClassPK);
-		attributeGetterFunctions.put(
-			"result1Title", SearchLog::getResult1Title);
-		attributeSetterBiConsumers.put(
-			"result1Title",
-			(BiConsumer<SearchLog, String>)SearchLog::setResult1Title);
-		attributeGetterFunctions.put(
-			"result2ClassId", SearchLog::getResult2ClassId);
-		attributeSetterBiConsumers.put(
-			"result2ClassId",
-			(BiConsumer<SearchLog, Long>)SearchLog::setResult2ClassId);
-		attributeGetterFunctions.put(
-			"result2ClassPK", SearchLog::getResult2ClassPK);
-		attributeSetterBiConsumers.put(
-			"result2ClassPK",
-			(BiConsumer<SearchLog, Long>)SearchLog::setResult2ClassPK);
-		attributeGetterFunctions.put(
-			"result2Title", SearchLog::getResult2Title);
-		attributeSetterBiConsumers.put(
-			"result2Title",
-			(BiConsumer<SearchLog, String>)SearchLog::setResult2Title);
-		attributeGetterFunctions.put(
-			"result3ClassId", SearchLog::getResult3ClassId);
-		attributeSetterBiConsumers.put(
-			"result3ClassId",
-			(BiConsumer<SearchLog, Long>)SearchLog::setResult3ClassId);
-		attributeGetterFunctions.put(
-			"result3ClassPK", SearchLog::getResult3ClassPK);
-		attributeSetterBiConsumers.put(
-			"result3ClassPK",
-			(BiConsumer<SearchLog, Long>)SearchLog::setResult3ClassPK);
-		attributeGetterFunctions.put(
-			"result3Title", SearchLog::getResult3Title);
-		attributeSetterBiConsumers.put(
-			"result3Title",
-			(BiConsumer<SearchLog, String>)SearchLog::setResult3Title);
-		attributeGetterFunctions.put(
-			"userTargetClassId", SearchLog::getUserTargetClassId);
-		attributeSetterBiConsumers.put(
-			"userTargetClassId",
-			(BiConsumer<SearchLog, Long>)SearchLog::setUserTargetClassId);
-		attributeGetterFunctions.put(
-			"userTargetClassPK", SearchLog::getUserTargetClassPK);
-		attributeSetterBiConsumers.put(
-			"userTargetClassPK",
-			(BiConsumer<SearchLog, Long>)SearchLog::setUserTargetClassPK);
-		attributeGetterFunctions.put(
-			"userTargetTitle", SearchLog::getUserTargetTitle);
-		attributeSetterBiConsumers.put(
-			"userTargetTitle",
-			(BiConsumer<SearchLog, String>)SearchLog::setUserTargetTitle);
-		attributeGetterFunctions.put("groupId", SearchLog::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<SearchLog, Long>)SearchLog::setGroupId);
-		attributeGetterFunctions.put("layoutId", SearchLog::getLayoutId);
-		attributeSetterBiConsumers.put(
-			"layoutId", (BiConsumer<SearchLog, Long>)SearchLog::setLayoutId);
-		attributeGetterFunctions.put(
-			"layoutFriendlyURL", SearchLog::getLayoutFriendlyURL);
-		attributeSetterBiConsumers.put(
-			"layoutFriendlyURL",
-			(BiConsumer<SearchLog, String>)SearchLog::setLayoutFriendlyURL);
-		attributeGetterFunctions.put("language", SearchLog::getLanguage);
-		attributeSetterBiConsumers.put(
-			"language", (BiConsumer<SearchLog, String>)SearchLog::setLanguage);
-		attributeGetterFunctions.put("date", SearchLog::getDate);
-		attributeSetterBiConsumers.put(
-			"date", (BiConsumer<SearchLog, Date>)SearchLog::setDate);
+		static {
+			Map<String, Function<SearchLog, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<SearchLog, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put(
+				"searchLogId", SearchLog::getSearchLogId);
+			attributeGetterFunctions.put("keywords", SearchLog::getKeywords);
+			attributeGetterFunctions.put(
+				"searchTime", SearchLog::getSearchTime);
+			attributeGetterFunctions.put(
+				"resultCount", SearchLog::getResultCount);
+			attributeGetterFunctions.put(
+				"result1ClassId", SearchLog::getResult1ClassId);
+			attributeGetterFunctions.put(
+				"result1ClassPK", SearchLog::getResult1ClassPK);
+			attributeGetterFunctions.put(
+				"result1Title", SearchLog::getResult1Title);
+			attributeGetterFunctions.put(
+				"result2ClassId", SearchLog::getResult2ClassId);
+			attributeGetterFunctions.put(
+				"result2ClassPK", SearchLog::getResult2ClassPK);
+			attributeGetterFunctions.put(
+				"result2Title", SearchLog::getResult2Title);
+			attributeGetterFunctions.put(
+				"result3ClassId", SearchLog::getResult3ClassId);
+			attributeGetterFunctions.put(
+				"result3ClassPK", SearchLog::getResult3ClassPK);
+			attributeGetterFunctions.put(
+				"result3Title", SearchLog::getResult3Title);
+			attributeGetterFunctions.put(
+				"userTargetClassId", SearchLog::getUserTargetClassId);
+			attributeGetterFunctions.put(
+				"userTargetClassPK", SearchLog::getUserTargetClassPK);
+			attributeGetterFunctions.put(
+				"userTargetTitle", SearchLog::getUserTargetTitle);
+			attributeGetterFunctions.put("groupId", SearchLog::getGroupId);
+			attributeGetterFunctions.put("layoutId", SearchLog::getLayoutId);
+			attributeGetterFunctions.put(
+				"layoutFriendlyURL", SearchLog::getLayoutFriendlyURL);
+			attributeGetterFunctions.put("language", SearchLog::getLanguage);
+			attributeGetterFunctions.put("date", SearchLog::getDate);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<SearchLog, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<SearchLog, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<SearchLog, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"searchLogId",
+				(BiConsumer<SearchLog, Long>)SearchLog::setSearchLogId);
+			attributeSetterBiConsumers.put(
+				"keywords",
+				(BiConsumer<SearchLog, String>)SearchLog::setKeywords);
+			attributeSetterBiConsumers.put(
+				"searchTime",
+				(BiConsumer<SearchLog, Long>)SearchLog::setSearchTime);
+			attributeSetterBiConsumers.put(
+				"resultCount",
+				(BiConsumer<SearchLog, Long>)SearchLog::setResultCount);
+			attributeSetterBiConsumers.put(
+				"result1ClassId",
+				(BiConsumer<SearchLog, Long>)SearchLog::setResult1ClassId);
+			attributeSetterBiConsumers.put(
+				"result1ClassPK",
+				(BiConsumer<SearchLog, Long>)SearchLog::setResult1ClassPK);
+			attributeSetterBiConsumers.put(
+				"result1Title",
+				(BiConsumer<SearchLog, String>)SearchLog::setResult1Title);
+			attributeSetterBiConsumers.put(
+				"result2ClassId",
+				(BiConsumer<SearchLog, Long>)SearchLog::setResult2ClassId);
+			attributeSetterBiConsumers.put(
+				"result2ClassPK",
+				(BiConsumer<SearchLog, Long>)SearchLog::setResult2ClassPK);
+			attributeSetterBiConsumers.put(
+				"result2Title",
+				(BiConsumer<SearchLog, String>)SearchLog::setResult2Title);
+			attributeSetterBiConsumers.put(
+				"result3ClassId",
+				(BiConsumer<SearchLog, Long>)SearchLog::setResult3ClassId);
+			attributeSetterBiConsumers.put(
+				"result3ClassPK",
+				(BiConsumer<SearchLog, Long>)SearchLog::setResult3ClassPK);
+			attributeSetterBiConsumers.put(
+				"result3Title",
+				(BiConsumer<SearchLog, String>)SearchLog::setResult3Title);
+			attributeSetterBiConsumers.put(
+				"userTargetClassId",
+				(BiConsumer<SearchLog, Long>)SearchLog::setUserTargetClassId);
+			attributeSetterBiConsumers.put(
+				"userTargetClassPK",
+				(BiConsumer<SearchLog, Long>)SearchLog::setUserTargetClassPK);
+			attributeSetterBiConsumers.put(
+				"userTargetTitle",
+				(BiConsumer<SearchLog, String>)SearchLog::setUserTargetTitle);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<SearchLog, Long>)SearchLog::setGroupId);
+			attributeSetterBiConsumers.put(
+				"layoutId",
+				(BiConsumer<SearchLog, Long>)SearchLog::setLayoutId);
+			attributeSetterBiConsumers.put(
+				"layoutFriendlyURL",
+				(BiConsumer<SearchLog, String>)SearchLog::setLayoutFriendlyURL);
+			attributeSetterBiConsumers.put(
+				"language",
+				(BiConsumer<SearchLog, String>)SearchLog::setLanguage);
+			attributeSetterBiConsumers.put(
+				"date", (BiConsumer<SearchLog, Date>)SearchLog::setDate);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1082,8 +1093,9 @@ public class SearchLogModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<SearchLog, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<SearchLog, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

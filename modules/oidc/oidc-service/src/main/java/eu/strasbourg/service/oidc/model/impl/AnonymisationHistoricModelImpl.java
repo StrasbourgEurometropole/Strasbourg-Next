@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.oidc.model.impl;
@@ -261,149 +252,166 @@ public class AnonymisationHistoricModelImpl
 	public Map<String, Function<AnonymisationHistoric, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<AnonymisationHistoric, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<AnonymisationHistoric, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<AnonymisationHistoric, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<AnonymisationHistoric, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap
-					<String, Function<AnonymisationHistoric, Object>>();
-		Map<String, BiConsumer<AnonymisationHistoric, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<AnonymisationHistoric, ?>>();
+		private static final Map
+			<String, Function<AnonymisationHistoric, Object>>
+				_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", AnonymisationHistoric::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid",
-			(BiConsumer<AnonymisationHistoric, String>)
-				AnonymisationHistoric::setUuid);
-		attributeGetterFunctions.put(
-			"anonymisationHistoricId",
-			AnonymisationHistoric::getAnonymisationHistoricId);
-		attributeSetterBiConsumers.put(
-			"anonymisationHistoricId",
-			(BiConsumer<AnonymisationHistoric, Long>)
-				AnonymisationHistoric::setAnonymisationHistoricId);
-		attributeGetterFunctions.put(
-			"groupId", AnonymisationHistoric::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<AnonymisationHistoric, Long>)
-				AnonymisationHistoric::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", AnonymisationHistoric::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<AnonymisationHistoric, Long>)
-				AnonymisationHistoric::setCompanyId);
-		attributeGetterFunctions.put(
-			"userId", AnonymisationHistoric::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId",
-			(BiConsumer<AnonymisationHistoric, Long>)
-				AnonymisationHistoric::setUserId);
-		attributeGetterFunctions.put(
-			"userName", AnonymisationHistoric::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<AnonymisationHistoric, String>)
-				AnonymisationHistoric::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", AnonymisationHistoric::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<AnonymisationHistoric, Date>)
-				AnonymisationHistoric::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", AnonymisationHistoric::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<AnonymisationHistoric, Date>)
-				AnonymisationHistoric::setModifiedDate);
-		attributeGetterFunctions.put(
-			"lastPublishDate", AnonymisationHistoric::getLastPublishDate);
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			(BiConsumer<AnonymisationHistoric, Date>)
-				AnonymisationHistoric::setLastPublishDate);
-		attributeGetterFunctions.put(
-			"status", AnonymisationHistoric::getStatus);
-		attributeSetterBiConsumers.put(
-			"status",
-			(BiConsumer<AnonymisationHistoric, Integer>)
-				AnonymisationHistoric::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", AnonymisationHistoric::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<AnonymisationHistoric, Long>)
-				AnonymisationHistoric::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", AnonymisationHistoric::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<AnonymisationHistoric, String>)
-				AnonymisationHistoric::setStatusByUserName);
-		attributeGetterFunctions.put(
-			"statusDate", AnonymisationHistoric::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			(BiConsumer<AnonymisationHistoric, Date>)
-				AnonymisationHistoric::setStatusDate);
-		attributeGetterFunctions.put(
-			"result", AnonymisationHistoric::getResult);
-		attributeSetterBiConsumers.put(
-			"result",
-			(BiConsumer<AnonymisationHistoric, Integer>)
-				AnonymisationHistoric::setResult);
-		attributeGetterFunctions.put(
-			"operations", AnonymisationHistoric::getOperations);
-		attributeSetterBiConsumers.put(
-			"operations",
-			(BiConsumer<AnonymisationHistoric, String>)
-				AnonymisationHistoric::setOperations);
-		attributeGetterFunctions.put(
-			"errorDescription", AnonymisationHistoric::getErrorDescription);
-		attributeSetterBiConsumers.put(
-			"errorDescription",
-			(BiConsumer<AnonymisationHistoric, String>)
-				AnonymisationHistoric::setErrorDescription);
-		attributeGetterFunctions.put(
-			"errorStackTrace", AnonymisationHistoric::getErrorStackTrace);
-		attributeSetterBiConsumers.put(
-			"errorStackTrace",
-			(BiConsumer<AnonymisationHistoric, String>)
-				AnonymisationHistoric::setErrorStackTrace);
-		attributeGetterFunctions.put(
-			"startDate", AnonymisationHistoric::getStartDate);
-		attributeSetterBiConsumers.put(
-			"startDate",
-			(BiConsumer<AnonymisationHistoric, Date>)
-				AnonymisationHistoric::setStartDate);
-		attributeGetterFunctions.put(
-			"finishDate", AnonymisationHistoric::getFinishDate);
-		attributeSetterBiConsumers.put(
-			"finishDate",
-			(BiConsumer<AnonymisationHistoric, Date>)
-				AnonymisationHistoric::setFinishDate);
+		static {
+			Map<String, Function<AnonymisationHistoric, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<AnonymisationHistoric, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put(
+				"uuid", AnonymisationHistoric::getUuid);
+			attributeGetterFunctions.put(
+				"anonymisationHistoricId",
+				AnonymisationHistoric::getAnonymisationHistoricId);
+			attributeGetterFunctions.put(
+				"groupId", AnonymisationHistoric::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", AnonymisationHistoric::getCompanyId);
+			attributeGetterFunctions.put(
+				"userId", AnonymisationHistoric::getUserId);
+			attributeGetterFunctions.put(
+				"userName", AnonymisationHistoric::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", AnonymisationHistoric::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", AnonymisationHistoric::getModifiedDate);
+			attributeGetterFunctions.put(
+				"lastPublishDate", AnonymisationHistoric::getLastPublishDate);
+			attributeGetterFunctions.put(
+				"status", AnonymisationHistoric::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", AnonymisationHistoric::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", AnonymisationHistoric::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", AnonymisationHistoric::getStatusDate);
+			attributeGetterFunctions.put(
+				"result", AnonymisationHistoric::getResult);
+			attributeGetterFunctions.put(
+				"operations", AnonymisationHistoric::getOperations);
+			attributeGetterFunctions.put(
+				"errorDescription", AnonymisationHistoric::getErrorDescription);
+			attributeGetterFunctions.put(
+				"errorStackTrace", AnonymisationHistoric::getErrorStackTrace);
+			attributeGetterFunctions.put(
+				"startDate", AnonymisationHistoric::getStartDate);
+			attributeGetterFunctions.put(
+				"finishDate", AnonymisationHistoric::getFinishDate);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map
+			<String, BiConsumer<AnonymisationHistoric, Object>>
+				_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<AnonymisationHistoric, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String, BiConsumer<AnonymisationHistoric, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<AnonymisationHistoric, String>)
+					AnonymisationHistoric::setUuid);
+			attributeSetterBiConsumers.put(
+				"anonymisationHistoricId",
+				(BiConsumer<AnonymisationHistoric, Long>)
+					AnonymisationHistoric::setAnonymisationHistoricId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<AnonymisationHistoric, Long>)
+					AnonymisationHistoric::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<AnonymisationHistoric, Long>)
+					AnonymisationHistoric::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<AnonymisationHistoric, Long>)
+					AnonymisationHistoric::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<AnonymisationHistoric, String>)
+					AnonymisationHistoric::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<AnonymisationHistoric, Date>)
+					AnonymisationHistoric::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<AnonymisationHistoric, Date>)
+					AnonymisationHistoric::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"lastPublishDate",
+				(BiConsumer<AnonymisationHistoric, Date>)
+					AnonymisationHistoric::setLastPublishDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<AnonymisationHistoric, Integer>)
+					AnonymisationHistoric::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<AnonymisationHistoric, Long>)
+					AnonymisationHistoric::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<AnonymisationHistoric, String>)
+					AnonymisationHistoric::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<AnonymisationHistoric, Date>)
+					AnonymisationHistoric::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"result",
+				(BiConsumer<AnonymisationHistoric, Integer>)
+					AnonymisationHistoric::setResult);
+			attributeSetterBiConsumers.put(
+				"operations",
+				(BiConsumer<AnonymisationHistoric, String>)
+					AnonymisationHistoric::setOperations);
+			attributeSetterBiConsumers.put(
+				"errorDescription",
+				(BiConsumer<AnonymisationHistoric, String>)
+					AnonymisationHistoric::setErrorDescription);
+			attributeSetterBiConsumers.put(
+				"errorStackTrace",
+				(BiConsumer<AnonymisationHistoric, String>)
+					AnonymisationHistoric::setErrorStackTrace);
+			attributeSetterBiConsumers.put(
+				"startDate",
+				(BiConsumer<AnonymisationHistoric, Date>)
+					AnonymisationHistoric::setStartDate);
+			attributeSetterBiConsumers.put(
+				"finishDate",
+				(BiConsumer<AnonymisationHistoric, Date>)
+					AnonymisationHistoric::setFinishDate);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -1682,7 +1690,8 @@ public class AnonymisationHistoricModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<AnonymisationHistoric, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

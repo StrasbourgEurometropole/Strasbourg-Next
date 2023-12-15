@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model.impl;
@@ -209,51 +200,67 @@ public class CacheJsonModelImpl
 	public Map<String, Function<CacheJson, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<CacheJson, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<CacheJson, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CacheJson, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<CacheJson, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<CacheJson, Object>>();
-		Map<String, BiConsumer<CacheJson, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<CacheJson, ?>>();
+		private static final Map<String, Function<CacheJson, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("eventId", CacheJson::getEventId);
-		attributeSetterBiConsumers.put(
-			"eventId", (BiConsumer<CacheJson, Long>)CacheJson::setEventId);
-		attributeGetterFunctions.put("jsonEvent", CacheJson::getJsonEvent);
-		attributeSetterBiConsumers.put(
-			"jsonEvent",
-			(BiConsumer<CacheJson, String>)CacheJson::setJsonEvent);
-		attributeGetterFunctions.put("createEvent", CacheJson::getCreateEvent);
-		attributeSetterBiConsumers.put(
-			"createEvent",
-			(BiConsumer<CacheJson, Date>)CacheJson::setCreateEvent);
-		attributeGetterFunctions.put(
-			"modifiedEvent", CacheJson::getModifiedEvent);
-		attributeSetterBiConsumers.put(
-			"modifiedEvent",
-			(BiConsumer<CacheJson, Date>)CacheJson::setModifiedEvent);
-		attributeGetterFunctions.put("isApproved", CacheJson::getIsApproved);
-		attributeSetterBiConsumers.put(
-			"isApproved",
-			(BiConsumer<CacheJson, Boolean>)CacheJson::setIsApproved);
+		static {
+			Map<String, Function<CacheJson, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<CacheJson, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("eventId", CacheJson::getEventId);
+			attributeGetterFunctions.put("jsonEvent", CacheJson::getJsonEvent);
+			attributeGetterFunctions.put(
+				"createEvent", CacheJson::getCreateEvent);
+			attributeGetterFunctions.put(
+				"modifiedEvent", CacheJson::getModifiedEvent);
+			attributeGetterFunctions.put(
+				"isApproved", CacheJson::getIsApproved);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<CacheJson, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<CacheJson, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<CacheJson, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"eventId", (BiConsumer<CacheJson, Long>)CacheJson::setEventId);
+			attributeSetterBiConsumers.put(
+				"jsonEvent",
+				(BiConsumer<CacheJson, String>)CacheJson::setJsonEvent);
+			attributeSetterBiConsumers.put(
+				"createEvent",
+				(BiConsumer<CacheJson, Date>)CacheJson::setCreateEvent);
+			attributeSetterBiConsumers.put(
+				"modifiedEvent",
+				(BiConsumer<CacheJson, Date>)CacheJson::setModifiedEvent);
+			attributeSetterBiConsumers.put(
+				"isApproved",
+				(BiConsumer<CacheJson, Boolean>)CacheJson::setIsApproved);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -608,8 +615,9 @@ public class CacheJsonModelImpl
 	private boolean _isApproved;
 
 	public <T> T getColumnValue(String columnName) {
-		Function<CacheJson, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<CacheJson, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

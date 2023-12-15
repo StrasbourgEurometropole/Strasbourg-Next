@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model.impl;
@@ -282,171 +273,205 @@ public class ParticipationModelImpl
 	public Map<String, Function<Participation, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Participation, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Participation, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Participation, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Participation, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Participation, Object>>();
-		Map<String, BiConsumer<Participation, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Participation, ?>>();
+		private static final Map<String, Function<Participation, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Participation::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Participation, String>)Participation::setUuid);
-		attributeGetterFunctions.put(
-			"participationId", Participation::getParticipationId);
-		attributeSetterBiConsumers.put(
-			"participationId",
-			(BiConsumer<Participation, Long>)Participation::setParticipationId);
-		attributeGetterFunctions.put("groupId", Participation::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<Participation, Long>)Participation::setGroupId);
-		attributeGetterFunctions.put("companyId", Participation::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<Participation, Long>)Participation::setCompanyId);
-		attributeGetterFunctions.put("userId", Participation::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId",
-			(BiConsumer<Participation, Long>)Participation::setUserId);
-		attributeGetterFunctions.put("userName", Participation::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<Participation, String>)Participation::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", Participation::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<Participation, Date>)Participation::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", Participation::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<Participation, Date>)Participation::setModifiedDate);
-		attributeGetterFunctions.put("status", Participation::getStatus);
-		attributeSetterBiConsumers.put(
-			"status",
-			(BiConsumer<Participation, Integer>)Participation::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Participation::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Participation, Long>)Participation::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Participation::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Participation, String>)
-				Participation::setStatusByUserName);
-		attributeGetterFunctions.put(
-			"statusDate", Participation::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			(BiConsumer<Participation, Date>)Participation::setStatusDate);
-		attributeGetterFunctions.put("title", Participation::getTitle);
-		attributeSetterBiConsumers.put(
-			"title",
-			(BiConsumer<Participation, String>)Participation::setTitle);
-		attributeGetterFunctions.put(
-			"contactName", Participation::getContactName);
-		attributeSetterBiConsumers.put(
-			"contactName",
-			(BiConsumer<Participation, String>)Participation::setContactName);
-		attributeGetterFunctions.put(
-			"contactLine1", Participation::getContactLine1);
-		attributeSetterBiConsumers.put(
-			"contactLine1",
-			(BiConsumer<Participation, String>)Participation::setContactLine1);
-		attributeGetterFunctions.put(
-			"contactLine2", Participation::getContactLine2);
-		attributeSetterBiConsumers.put(
-			"contactLine2",
-			(BiConsumer<Participation, String>)Participation::setContactLine2);
-		attributeGetterFunctions.put(
-			"contactPhoneNumber", Participation::getContactPhoneNumber);
-		attributeSetterBiConsumers.put(
-			"contactPhoneNumber",
-			(BiConsumer<Participation, String>)
-				Participation::setContactPhoneNumber);
-		attributeGetterFunctions.put("videoUrl", Participation::getVideoUrl);
-		attributeSetterBiConsumers.put(
-			"videoUrl",
-			(BiConsumer<Participation, String>)Participation::setVideoUrl);
-		attributeGetterFunctions.put(
-			"externalImageURL", Participation::getExternalImageURL);
-		attributeSetterBiConsumers.put(
-			"externalImageURL",
-			(BiConsumer<Participation, String>)
-				Participation::setExternalImageURL);
-		attributeGetterFunctions.put(
-			"externalImageCopyright", Participation::getExternalImageCopyright);
-		attributeSetterBiConsumers.put(
-			"externalImageCopyright",
-			(BiConsumer<Participation, String>)
-				Participation::setExternalImageCopyright);
-		attributeGetterFunctions.put(
-			"mediaChoice", Participation::getMediaChoice);
-		attributeSetterBiConsumers.put(
-			"mediaChoice",
-			(BiConsumer<Participation, Boolean>)Participation::setMediaChoice);
-		attributeGetterFunctions.put(
-			"descriptionChapeau", Participation::getDescriptionChapeau);
-		attributeSetterBiConsumers.put(
-			"descriptionChapeau",
-			(BiConsumer<Participation, String>)
-				Participation::setDescriptionChapeau);
-		attributeGetterFunctions.put(
-			"descriptionBody", Participation::getDescriptionBody);
-		attributeSetterBiConsumers.put(
-			"descriptionBody",
-			(BiConsumer<Participation, String>)
-				Participation::setDescriptionBody);
-		attributeGetterFunctions.put(
-			"consultationPlacesBody", Participation::getConsultationPlacesBody);
-		attributeSetterBiConsumers.put(
-			"consultationPlacesBody",
-			(BiConsumer<Participation, String>)
-				Participation::setConsultationPlacesBody);
-		attributeGetterFunctions.put("imageId", Participation::getImageId);
-		attributeSetterBiConsumers.put(
-			"imageId",
-			(BiConsumer<Participation, Long>)Participation::setImageId);
-		attributeGetterFunctions.put("filesIds", Participation::getFilesIds);
-		attributeSetterBiConsumers.put(
-			"filesIds",
-			(BiConsumer<Participation, String>)Participation::setFilesIds);
-		attributeGetterFunctions.put("eventsIds", Participation::getEventsIds);
-		attributeSetterBiConsumers.put(
-			"eventsIds",
-			(BiConsumer<Participation, String>)Participation::setEventsIds);
-		attributeGetterFunctions.put(
-			"publicationDate", Participation::getPublicationDate);
-		attributeSetterBiConsumers.put(
-			"publicationDate",
-			(BiConsumer<Participation, Date>)Participation::setPublicationDate);
-		attributeGetterFunctions.put(
-			"expirationDate", Participation::getExpirationDate);
-		attributeSetterBiConsumers.put(
-			"expirationDate",
-			(BiConsumer<Participation, Date>)Participation::setExpirationDate);
+		static {
+			Map<String, Function<Participation, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<Participation, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Participation::getUuid);
+			attributeGetterFunctions.put(
+				"participationId", Participation::getParticipationId);
+			attributeGetterFunctions.put("groupId", Participation::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", Participation::getCompanyId);
+			attributeGetterFunctions.put("userId", Participation::getUserId);
+			attributeGetterFunctions.put(
+				"userName", Participation::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", Participation::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Participation::getModifiedDate);
+			attributeGetterFunctions.put("status", Participation::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Participation::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Participation::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", Participation::getStatusDate);
+			attributeGetterFunctions.put("title", Participation::getTitle);
+			attributeGetterFunctions.put(
+				"contactName", Participation::getContactName);
+			attributeGetterFunctions.put(
+				"contactLine1", Participation::getContactLine1);
+			attributeGetterFunctions.put(
+				"contactLine2", Participation::getContactLine2);
+			attributeGetterFunctions.put(
+				"contactPhoneNumber", Participation::getContactPhoneNumber);
+			attributeGetterFunctions.put(
+				"videoUrl", Participation::getVideoUrl);
+			attributeGetterFunctions.put(
+				"externalImageURL", Participation::getExternalImageURL);
+			attributeGetterFunctions.put(
+				"externalImageCopyright",
+				Participation::getExternalImageCopyright);
+			attributeGetterFunctions.put(
+				"mediaChoice", Participation::getMediaChoice);
+			attributeGetterFunctions.put(
+				"descriptionChapeau", Participation::getDescriptionChapeau);
+			attributeGetterFunctions.put(
+				"descriptionBody", Participation::getDescriptionBody);
+			attributeGetterFunctions.put(
+				"consultationPlacesBody",
+				Participation::getConsultationPlacesBody);
+			attributeGetterFunctions.put("imageId", Participation::getImageId);
+			attributeGetterFunctions.put(
+				"filesIds", Participation::getFilesIds);
+			attributeGetterFunctions.put(
+				"eventsIds", Participation::getEventsIds);
+			attributeGetterFunctions.put(
+				"publicationDate", Participation::getPublicationDate);
+			attributeGetterFunctions.put(
+				"expirationDate", Participation::getExpirationDate);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Participation, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Participation, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<Participation, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<Participation, String>)Participation::setUuid);
+			attributeSetterBiConsumers.put(
+				"participationId",
+				(BiConsumer<Participation, Long>)
+					Participation::setParticipationId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<Participation, Long>)Participation::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Participation, Long>)Participation::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<Participation, Long>)Participation::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Participation, String>)Participation::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Participation, Date>)Participation::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Participation, Date>)
+					Participation::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<Participation, Integer>)Participation::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Participation, Long>)
+					Participation::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Participation, String>)
+					Participation::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Participation, Date>)Participation::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title",
+				(BiConsumer<Participation, String>)Participation::setTitle);
+			attributeSetterBiConsumers.put(
+				"contactName",
+				(BiConsumer<Participation, String>)
+					Participation::setContactName);
+			attributeSetterBiConsumers.put(
+				"contactLine1",
+				(BiConsumer<Participation, String>)
+					Participation::setContactLine1);
+			attributeSetterBiConsumers.put(
+				"contactLine2",
+				(BiConsumer<Participation, String>)
+					Participation::setContactLine2);
+			attributeSetterBiConsumers.put(
+				"contactPhoneNumber",
+				(BiConsumer<Participation, String>)
+					Participation::setContactPhoneNumber);
+			attributeSetterBiConsumers.put(
+				"videoUrl",
+				(BiConsumer<Participation, String>)Participation::setVideoUrl);
+			attributeSetterBiConsumers.put(
+				"externalImageURL",
+				(BiConsumer<Participation, String>)
+					Participation::setExternalImageURL);
+			attributeSetterBiConsumers.put(
+				"externalImageCopyright",
+				(BiConsumer<Participation, String>)
+					Participation::setExternalImageCopyright);
+			attributeSetterBiConsumers.put(
+				"mediaChoice",
+				(BiConsumer<Participation, Boolean>)
+					Participation::setMediaChoice);
+			attributeSetterBiConsumers.put(
+				"descriptionChapeau",
+				(BiConsumer<Participation, String>)
+					Participation::setDescriptionChapeau);
+			attributeSetterBiConsumers.put(
+				"descriptionBody",
+				(BiConsumer<Participation, String>)
+					Participation::setDescriptionBody);
+			attributeSetterBiConsumers.put(
+				"consultationPlacesBody",
+				(BiConsumer<Participation, String>)
+					Participation::setConsultationPlacesBody);
+			attributeSetterBiConsumers.put(
+				"imageId",
+				(BiConsumer<Participation, Long>)Participation::setImageId);
+			attributeSetterBiConsumers.put(
+				"filesIds",
+				(BiConsumer<Participation, String>)Participation::setFilesIds);
+			attributeSetterBiConsumers.put(
+				"eventsIds",
+				(BiConsumer<Participation, String>)Participation::setEventsIds);
+			attributeSetterBiConsumers.put(
+				"publicationDate",
+				(BiConsumer<Participation, Date>)
+					Participation::setPublicationDate);
+			attributeSetterBiConsumers.put(
+				"expirationDate",
+				(BiConsumer<Participation, Date>)
+					Participation::setExpirationDate);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1955,7 +1980,8 @@ public class ParticipationModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<Participation, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

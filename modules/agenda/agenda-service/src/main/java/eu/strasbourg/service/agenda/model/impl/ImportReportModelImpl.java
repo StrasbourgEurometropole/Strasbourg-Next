@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model.impl;
@@ -235,125 +226,148 @@ public class ImportReportModelImpl
 	public Map<String, Function<ImportReport, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<ImportReport, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<ImportReport, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ImportReport, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<ImportReport, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<ImportReport, Object>>();
-		Map<String, BiConsumer<ImportReport, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<ImportReport, ?>>();
+		private static final Map<String, Function<ImportReport, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", ImportReport::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<ImportReport, String>)ImportReport::setUuid);
-		attributeGetterFunctions.put("reportId", ImportReport::getReportId);
-		attributeSetterBiConsumers.put(
-			"reportId",
-			(BiConsumer<ImportReport, Long>)ImportReport::setReportId);
-		attributeGetterFunctions.put("provider", ImportReport::getProvider);
-		attributeSetterBiConsumers.put(
-			"provider",
-			(BiConsumer<ImportReport, String>)ImportReport::setProvider);
-		attributeGetterFunctions.put("filename", ImportReport::getFilename);
-		attributeSetterBiConsumers.put(
-			"filename",
-			(BiConsumer<ImportReport, String>)ImportReport::setFilename);
-		attributeGetterFunctions.put("status", ImportReport::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<ImportReport, Long>)ImportReport::setStatus);
-		attributeGetterFunctions.put(
-			"globalErrorCause", ImportReport::getGlobalErrorCause);
-		attributeSetterBiConsumers.put(
-			"globalErrorCause",
-			(BiConsumer<ImportReport, String>)
-				ImportReport::setGlobalErrorCause);
-		attributeGetterFunctions.put(
-			"newEventsCount", ImportReport::getNewEventsCount);
-		attributeSetterBiConsumers.put(
-			"newEventsCount",
-			(BiConsumer<ImportReport, Long>)ImportReport::setNewEventsCount);
-		attributeGetterFunctions.put(
-			"modifiedEventsCount", ImportReport::getModifiedEventsCount);
-		attributeSetterBiConsumers.put(
-			"modifiedEventsCount",
-			(BiConsumer<ImportReport, Long>)
-				ImportReport::setModifiedEventsCount);
-		attributeGetterFunctions.put(
-			"errorEventsCount", ImportReport::getErrorEventsCount);
-		attributeSetterBiConsumers.put(
-			"errorEventsCount",
-			(BiConsumer<ImportReport, Long>)ImportReport::setErrorEventsCount);
-		attributeGetterFunctions.put(
-			"unmodifiedEventsCount", ImportReport::getUnmodifiedEventsCount);
-		attributeSetterBiConsumers.put(
-			"unmodifiedEventsCount",
-			(BiConsumer<ImportReport, Long>)
-				ImportReport::setUnmodifiedEventsCount);
-		attributeGetterFunctions.put(
-			"deletedEventsCount", ImportReport::getDeletedEventsCount);
-		attributeSetterBiConsumers.put(
-			"deletedEventsCount",
-			(BiConsumer<ImportReport, Long>)
-				ImportReport::setDeletedEventsCount);
-		attributeGetterFunctions.put(
-			"newManifestationsCount", ImportReport::getNewManifestationsCount);
-		attributeSetterBiConsumers.put(
-			"newManifestationsCount",
-			(BiConsumer<ImportReport, Long>)
-				ImportReport::setNewManifestationsCount);
-		attributeGetterFunctions.put(
-			"modifiedManifestationsCount",
-			ImportReport::getModifiedManifestationsCount);
-		attributeSetterBiConsumers.put(
-			"modifiedManifestationsCount",
-			(BiConsumer<ImportReport, Long>)
-				ImportReport::setModifiedManifestationsCount);
-		attributeGetterFunctions.put(
-			"errorManifestationsCount",
-			ImportReport::getErrorManifestationsCount);
-		attributeSetterBiConsumers.put(
-			"errorManifestationsCount",
-			(BiConsumer<ImportReport, Long>)
-				ImportReport::setErrorManifestationsCount);
-		attributeGetterFunctions.put(
-			"unmodifiedManifestationsCount",
-			ImportReport::getUnmodifiedManifestationsCount);
-		attributeSetterBiConsumers.put(
-			"unmodifiedManifestationsCount",
-			(BiConsumer<ImportReport, Long>)
-				ImportReport::setUnmodifiedManifestationsCount);
-		attributeGetterFunctions.put(
-			"deletedManifestationsCount",
-			ImportReport::getDeletedManifestationsCount);
-		attributeSetterBiConsumers.put(
-			"deletedManifestationsCount",
-			(BiConsumer<ImportReport, Long>)
-				ImportReport::setDeletedManifestationsCount);
-		attributeGetterFunctions.put("startDate", ImportReport::getStartDate);
-		attributeSetterBiConsumers.put(
-			"startDate",
-			(BiConsumer<ImportReport, Date>)ImportReport::setStartDate);
-		attributeGetterFunctions.put("endDate", ImportReport::getEndDate);
-		attributeSetterBiConsumers.put(
-			"endDate",
-			(BiConsumer<ImportReport, Date>)ImportReport::setEndDate);
+		static {
+			Map<String, Function<ImportReport, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<ImportReport, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", ImportReport::getUuid);
+			attributeGetterFunctions.put("reportId", ImportReport::getReportId);
+			attributeGetterFunctions.put("provider", ImportReport::getProvider);
+			attributeGetterFunctions.put("filename", ImportReport::getFilename);
+			attributeGetterFunctions.put("status", ImportReport::getStatus);
+			attributeGetterFunctions.put(
+				"globalErrorCause", ImportReport::getGlobalErrorCause);
+			attributeGetterFunctions.put(
+				"newEventsCount", ImportReport::getNewEventsCount);
+			attributeGetterFunctions.put(
+				"modifiedEventsCount", ImportReport::getModifiedEventsCount);
+			attributeGetterFunctions.put(
+				"errorEventsCount", ImportReport::getErrorEventsCount);
+			attributeGetterFunctions.put(
+				"unmodifiedEventsCount",
+				ImportReport::getUnmodifiedEventsCount);
+			attributeGetterFunctions.put(
+				"deletedEventsCount", ImportReport::getDeletedEventsCount);
+			attributeGetterFunctions.put(
+				"newManifestationsCount",
+				ImportReport::getNewManifestationsCount);
+			attributeGetterFunctions.put(
+				"modifiedManifestationsCount",
+				ImportReport::getModifiedManifestationsCount);
+			attributeGetterFunctions.put(
+				"errorManifestationsCount",
+				ImportReport::getErrorManifestationsCount);
+			attributeGetterFunctions.put(
+				"unmodifiedManifestationsCount",
+				ImportReport::getUnmodifiedManifestationsCount);
+			attributeGetterFunctions.put(
+				"deletedManifestationsCount",
+				ImportReport::getDeletedManifestationsCount);
+			attributeGetterFunctions.put(
+				"startDate", ImportReport::getStartDate);
+			attributeGetterFunctions.put("endDate", ImportReport::getEndDate);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<ImportReport, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<ImportReport, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<ImportReport, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<ImportReport, String>)ImportReport::setUuid);
+			attributeSetterBiConsumers.put(
+				"reportId",
+				(BiConsumer<ImportReport, Long>)ImportReport::setReportId);
+			attributeSetterBiConsumers.put(
+				"provider",
+				(BiConsumer<ImportReport, String>)ImportReport::setProvider);
+			attributeSetterBiConsumers.put(
+				"filename",
+				(BiConsumer<ImportReport, String>)ImportReport::setFilename);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<ImportReport, Long>)ImportReport::setStatus);
+			attributeSetterBiConsumers.put(
+				"globalErrorCause",
+				(BiConsumer<ImportReport, String>)
+					ImportReport::setGlobalErrorCause);
+			attributeSetterBiConsumers.put(
+				"newEventsCount",
+				(BiConsumer<ImportReport, Long>)
+					ImportReport::setNewEventsCount);
+			attributeSetterBiConsumers.put(
+				"modifiedEventsCount",
+				(BiConsumer<ImportReport, Long>)
+					ImportReport::setModifiedEventsCount);
+			attributeSetterBiConsumers.put(
+				"errorEventsCount",
+				(BiConsumer<ImportReport, Long>)
+					ImportReport::setErrorEventsCount);
+			attributeSetterBiConsumers.put(
+				"unmodifiedEventsCount",
+				(BiConsumer<ImportReport, Long>)
+					ImportReport::setUnmodifiedEventsCount);
+			attributeSetterBiConsumers.put(
+				"deletedEventsCount",
+				(BiConsumer<ImportReport, Long>)
+					ImportReport::setDeletedEventsCount);
+			attributeSetterBiConsumers.put(
+				"newManifestationsCount",
+				(BiConsumer<ImportReport, Long>)
+					ImportReport::setNewManifestationsCount);
+			attributeSetterBiConsumers.put(
+				"modifiedManifestationsCount",
+				(BiConsumer<ImportReport, Long>)
+					ImportReport::setModifiedManifestationsCount);
+			attributeSetterBiConsumers.put(
+				"errorManifestationsCount",
+				(BiConsumer<ImportReport, Long>)
+					ImportReport::setErrorManifestationsCount);
+			attributeSetterBiConsumers.put(
+				"unmodifiedManifestationsCount",
+				(BiConsumer<ImportReport, Long>)
+					ImportReport::setUnmodifiedManifestationsCount);
+			attributeSetterBiConsumers.put(
+				"deletedManifestationsCount",
+				(BiConsumer<ImportReport, Long>)
+					ImportReport::setDeletedManifestationsCount);
+			attributeSetterBiConsumers.put(
+				"startDate",
+				(BiConsumer<ImportReport, Date>)ImportReport::setStartDate);
+			attributeSetterBiConsumers.put(
+				"endDate",
+				(BiConsumer<ImportReport, Date>)ImportReport::setEndDate);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -1002,8 +1016,9 @@ public class ImportReportModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<ImportReport, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<ImportReport, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

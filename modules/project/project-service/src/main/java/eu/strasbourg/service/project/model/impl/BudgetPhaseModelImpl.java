@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model.impl;
@@ -261,113 +252,138 @@ public class BudgetPhaseModelImpl
 	public Map<String, Function<BudgetPhase, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<BudgetPhase, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<BudgetPhase, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<BudgetPhase, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<BudgetPhase, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<BudgetPhase, Object>>();
-		Map<String, BiConsumer<BudgetPhase, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<BudgetPhase, ?>>();
+		private static final Map<String, Function<BudgetPhase, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", BudgetPhase::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<BudgetPhase, String>)BudgetPhase::setUuid);
-		attributeGetterFunctions.put(
-			"budgetPhaseId", BudgetPhase::getBudgetPhaseId);
-		attributeSetterBiConsumers.put(
-			"budgetPhaseId",
-			(BiConsumer<BudgetPhase, Long>)BudgetPhase::setBudgetPhaseId);
-		attributeGetterFunctions.put("groupId", BudgetPhase::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<BudgetPhase, Long>)BudgetPhase::setGroupId);
-		attributeGetterFunctions.put("companyId", BudgetPhase::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<BudgetPhase, Long>)BudgetPhase::setCompanyId);
-		attributeGetterFunctions.put("userId", BudgetPhase::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<BudgetPhase, Long>)BudgetPhase::setUserId);
-		attributeGetterFunctions.put("userName", BudgetPhase::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<BudgetPhase, String>)BudgetPhase::setUserName);
-		attributeGetterFunctions.put("createDate", BudgetPhase::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<BudgetPhase, Date>)BudgetPhase::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", BudgetPhase::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<BudgetPhase, Date>)BudgetPhase::setModifiedDate);
-		attributeGetterFunctions.put("status", BudgetPhase::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<BudgetPhase, Integer>)BudgetPhase::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", BudgetPhase::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<BudgetPhase, Long>)BudgetPhase::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", BudgetPhase::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<BudgetPhase, String>)BudgetPhase::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", BudgetPhase::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			(BiConsumer<BudgetPhase, Date>)BudgetPhase::setStatusDate);
-		attributeGetterFunctions.put("title", BudgetPhase::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<BudgetPhase, String>)BudgetPhase::setTitle);
-		attributeGetterFunctions.put(
-			"description", BudgetPhase::getDescription);
-		attributeSetterBiConsumers.put(
-			"description",
-			(BiConsumer<BudgetPhase, String>)BudgetPhase::setDescription);
-		attributeGetterFunctions.put(
-			"numberOfVote", BudgetPhase::getNumberOfVote);
-		attributeSetterBiConsumers.put(
-			"numberOfVote",
-			(BiConsumer<BudgetPhase, Long>)BudgetPhase::setNumberOfVote);
-		attributeGetterFunctions.put("isActive", BudgetPhase::getIsActive);
-		attributeSetterBiConsumers.put(
-			"isActive",
-			(BiConsumer<BudgetPhase, Boolean>)BudgetPhase::setIsActive);
-		attributeGetterFunctions.put("beginDate", BudgetPhase::getBeginDate);
-		attributeSetterBiConsumers.put(
-			"beginDate",
-			(BiConsumer<BudgetPhase, Date>)BudgetPhase::setBeginDate);
-		attributeGetterFunctions.put("endDate", BudgetPhase::getEndDate);
-		attributeSetterBiConsumers.put(
-			"endDate", (BiConsumer<BudgetPhase, Date>)BudgetPhase::setEndDate);
-		attributeGetterFunctions.put(
-			"beginVoteDate", BudgetPhase::getBeginVoteDate);
-		attributeSetterBiConsumers.put(
-			"beginVoteDate",
-			(BiConsumer<BudgetPhase, Date>)BudgetPhase::setBeginVoteDate);
-		attributeGetterFunctions.put(
-			"endVoteDate", BudgetPhase::getEndVoteDate);
-		attributeSetterBiConsumers.put(
-			"endVoteDate",
-			(BiConsumer<BudgetPhase, Date>)BudgetPhase::setEndVoteDate);
+		static {
+			Map<String, Function<BudgetPhase, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<BudgetPhase, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", BudgetPhase::getUuid);
+			attributeGetterFunctions.put(
+				"budgetPhaseId", BudgetPhase::getBudgetPhaseId);
+			attributeGetterFunctions.put("groupId", BudgetPhase::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", BudgetPhase::getCompanyId);
+			attributeGetterFunctions.put("userId", BudgetPhase::getUserId);
+			attributeGetterFunctions.put("userName", BudgetPhase::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", BudgetPhase::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", BudgetPhase::getModifiedDate);
+			attributeGetterFunctions.put("status", BudgetPhase::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", BudgetPhase::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", BudgetPhase::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", BudgetPhase::getStatusDate);
+			attributeGetterFunctions.put("title", BudgetPhase::getTitle);
+			attributeGetterFunctions.put(
+				"description", BudgetPhase::getDescription);
+			attributeGetterFunctions.put(
+				"numberOfVote", BudgetPhase::getNumberOfVote);
+			attributeGetterFunctions.put("isActive", BudgetPhase::getIsActive);
+			attributeGetterFunctions.put(
+				"beginDate", BudgetPhase::getBeginDate);
+			attributeGetterFunctions.put("endDate", BudgetPhase::getEndDate);
+			attributeGetterFunctions.put(
+				"beginVoteDate", BudgetPhase::getBeginVoteDate);
+			attributeGetterFunctions.put(
+				"endVoteDate", BudgetPhase::getEndVoteDate);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<BudgetPhase, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<BudgetPhase, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<BudgetPhase, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<BudgetPhase, String>)BudgetPhase::setUuid);
+			attributeSetterBiConsumers.put(
+				"budgetPhaseId",
+				(BiConsumer<BudgetPhase, Long>)BudgetPhase::setBudgetPhaseId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<BudgetPhase, Long>)BudgetPhase::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<BudgetPhase, Long>)BudgetPhase::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<BudgetPhase, Long>)BudgetPhase::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<BudgetPhase, String>)BudgetPhase::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<BudgetPhase, Date>)BudgetPhase::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<BudgetPhase, Date>)BudgetPhase::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<BudgetPhase, Integer>)BudgetPhase::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<BudgetPhase, Long>)BudgetPhase::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<BudgetPhase, String>)
+					BudgetPhase::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<BudgetPhase, Date>)BudgetPhase::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title",
+				(BiConsumer<BudgetPhase, String>)BudgetPhase::setTitle);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<BudgetPhase, String>)BudgetPhase::setDescription);
+			attributeSetterBiConsumers.put(
+				"numberOfVote",
+				(BiConsumer<BudgetPhase, Long>)BudgetPhase::setNumberOfVote);
+			attributeSetterBiConsumers.put(
+				"isActive",
+				(BiConsumer<BudgetPhase, Boolean>)BudgetPhase::setIsActive);
+			attributeSetterBiConsumers.put(
+				"beginDate",
+				(BiConsumer<BudgetPhase, Date>)BudgetPhase::setBeginDate);
+			attributeSetterBiConsumers.put(
+				"endDate",
+				(BiConsumer<BudgetPhase, Date>)BudgetPhase::setEndDate);
+			attributeSetterBiConsumers.put(
+				"beginVoteDate",
+				(BiConsumer<BudgetPhase, Date>)BudgetPhase::setBeginVoteDate);
+			attributeSetterBiConsumers.put(
+				"endVoteDate",
+				(BiConsumer<BudgetPhase, Date>)BudgetPhase::setEndVoteDate);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1269,8 +1285,9 @@ public class BudgetPhaseModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<BudgetPhase, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<BudgetPhase, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

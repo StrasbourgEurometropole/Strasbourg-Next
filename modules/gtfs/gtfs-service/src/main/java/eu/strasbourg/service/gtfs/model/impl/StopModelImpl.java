@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model.impl;
@@ -214,58 +205,72 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	}
 
 	public Map<String, Function<Stop, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Stop, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Stop, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Stop, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Stop, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Stop, Object>>();
-		Map<String, BiConsumer<Stop, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Stop, ?>>();
+		private static final Map<String, Function<Stop, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Stop::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Stop, String>)Stop::setUuid);
-		attributeGetterFunctions.put("id", Stop::getId);
-		attributeSetterBiConsumers.put(
-			"id", (BiConsumer<Stop, Long>)Stop::setId);
-		attributeGetterFunctions.put("stop_id", Stop::getStop_id);
-		attributeSetterBiConsumers.put(
-			"stop_id", (BiConsumer<Stop, String>)Stop::setStop_id);
-		attributeGetterFunctions.put("stop_code", Stop::getStop_code);
-		attributeSetterBiConsumers.put(
-			"stop_code", (BiConsumer<Stop, String>)Stop::setStop_code);
-		attributeGetterFunctions.put("stop_lat", Stop::getStop_lat);
-		attributeSetterBiConsumers.put(
-			"stop_lat", (BiConsumer<Stop, String>)Stop::setStop_lat);
-		attributeGetterFunctions.put("stop_lon", Stop::getStop_lon);
-		attributeSetterBiConsumers.put(
-			"stop_lon", (BiConsumer<Stop, String>)Stop::setStop_lon);
-		attributeGetterFunctions.put("stop_name", Stop::getStop_name);
-		attributeSetterBiConsumers.put(
-			"stop_name", (BiConsumer<Stop, String>)Stop::setStop_name);
-		attributeGetterFunctions.put("stop_url", Stop::getStop_url);
-		attributeSetterBiConsumers.put(
-			"stop_url", (BiConsumer<Stop, String>)Stop::setStop_url);
-		attributeGetterFunctions.put("stop_desc", Stop::getStop_desc);
-		attributeSetterBiConsumers.put(
-			"stop_desc", (BiConsumer<Stop, String>)Stop::setStop_desc);
+		static {
+			Map<String, Function<Stop, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Stop, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Stop::getUuid);
+			attributeGetterFunctions.put("id", Stop::getId);
+			attributeGetterFunctions.put("stop_id", Stop::getStop_id);
+			attributeGetterFunctions.put("stop_code", Stop::getStop_code);
+			attributeGetterFunctions.put("stop_lat", Stop::getStop_lat);
+			attributeGetterFunctions.put("stop_lon", Stop::getStop_lon);
+			attributeGetterFunctions.put("stop_name", Stop::getStop_name);
+			attributeGetterFunctions.put("stop_url", Stop::getStop_url);
+			attributeGetterFunctions.put("stop_desc", Stop::getStop_desc);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Stop, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Stop, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Stop, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Stop, String>)Stop::setUuid);
+			attributeSetterBiConsumers.put(
+				"id", (BiConsumer<Stop, Long>)Stop::setId);
+			attributeSetterBiConsumers.put(
+				"stop_id", (BiConsumer<Stop, String>)Stop::setStop_id);
+			attributeSetterBiConsumers.put(
+				"stop_code", (BiConsumer<Stop, String>)Stop::setStop_code);
+			attributeSetterBiConsumers.put(
+				"stop_lat", (BiConsumer<Stop, String>)Stop::setStop_lat);
+			attributeSetterBiConsumers.put(
+				"stop_lon", (BiConsumer<Stop, String>)Stop::setStop_lon);
+			attributeSetterBiConsumers.put(
+				"stop_name", (BiConsumer<Stop, String>)Stop::setStop_name);
+			attributeSetterBiConsumers.put(
+				"stop_url", (BiConsumer<Stop, String>)Stop::setStop_url);
+			attributeSetterBiConsumers.put(
+				"stop_desc", (BiConsumer<Stop, String>)Stop::setStop_desc);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -757,8 +762,9 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Stop, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Stop, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

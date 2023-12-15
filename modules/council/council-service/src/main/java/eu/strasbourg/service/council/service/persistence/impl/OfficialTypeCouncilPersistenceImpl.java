@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.council.service.persistence.impl;
@@ -36,8 +27,7 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.uuid.PortalUUID;
-import com.liferay.portal.spring.extender.service.ServiceReference;
+import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 
 import eu.strasbourg.service.council.exception.NoSuchOfficialTypeCouncilException;
 import eu.strasbourg.service.council.model.OfficialTypeCouncil;
@@ -50,7 +40,6 @@ import eu.strasbourg.service.council.service.persistence.OfficialTypeCouncilUtil
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -2873,7 +2862,7 @@ public class OfficialTypeCouncilPersistenceImpl
 		officialTypeCouncil.setNew(true);
 		officialTypeCouncil.setPrimaryKey(officialTypeCouncilPK);
 
-		String uuid = _portalUUID.generate();
+		String uuid = PortalUUIDUtil.generate();
 
 		officialTypeCouncil.setUuid(uuid);
 
@@ -2999,7 +2988,7 @@ public class OfficialTypeCouncilPersistenceImpl
 			(OfficialTypeCouncilModelImpl)officialTypeCouncil;
 
 		if (Validator.isNull(officialTypeCouncil.getUuid())) {
-			String uuid = _portalUUID.generate();
+			String uuid = PortalUUIDUtil.generate();
 
 			officialTypeCouncil.setUuid(uuid);
 		}
@@ -3431,29 +3420,13 @@ public class OfficialTypeCouncilPersistenceImpl
 			new String[] {Long.class.getName(), Long.class.getName()},
 			new String[] {"typeId", "officialId"}, false);
 
-		_setOfficialTypeCouncilUtilPersistence(this);
+		OfficialTypeCouncilUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setOfficialTypeCouncilUtilPersistence(null);
+		OfficialTypeCouncilUtil.setPersistence(null);
 
 		dummyEntityCache.removeCache(OfficialTypeCouncilImpl.class.getName());
-	}
-
-	private void _setOfficialTypeCouncilUtilPersistence(
-		OfficialTypeCouncilPersistence officialTypeCouncilPersistence) {
-
-		try {
-			Field field = OfficialTypeCouncilUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, officialTypeCouncilPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	private static final String _SQL_SELECT_OFFICIALTYPECOUNCIL =
@@ -3488,8 +3461,5 @@ public class OfficialTypeCouncilPersistenceImpl
 	protected FinderCache getFinderCache() {
 		return dummyFinderCache;
 	}
-
-	@ServiceReference(type = PortalUUID.class)
-	private PortalUUID _portalUUID;
 
 }

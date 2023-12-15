@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.model.impl;
@@ -220,61 +211,75 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 	}
 
 	public Map<String, Function<Price, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Price, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Price, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Price, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Price, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Price, Object>>();
-		Map<String, BiConsumer<Price, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Price, ?>>();
+		private static final Map<String, Function<Price, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Price::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Price, String>)Price::setUuid);
-		attributeGetterFunctions.put("priceId", Price::getPriceId);
-		attributeSetterBiConsumers.put(
-			"priceId", (BiConsumer<Price, Long>)Price::setPriceId);
-		attributeGetterFunctions.put("status", Price::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Price, Integer>)Price::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Price::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Price, Long>)Price::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Price::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Price, String>)Price::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Price::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate", (BiConsumer<Price, Date>)Price::setStatusDate);
-		attributeGetterFunctions.put("title", Price::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<Price, String>)Price::setTitle);
-		attributeGetterFunctions.put(
-			"priceDescription", Price::getPriceDescription);
-		attributeSetterBiConsumers.put(
-			"priceDescription",
-			(BiConsumer<Price, String>)Price::setPriceDescription);
+		static {
+			Map<String, Function<Price, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Price, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Price::getUuid);
+			attributeGetterFunctions.put("priceId", Price::getPriceId);
+			attributeGetterFunctions.put("status", Price::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Price::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Price::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Price::getStatusDate);
+			attributeGetterFunctions.put("title", Price::getTitle);
+			attributeGetterFunctions.put(
+				"priceDescription", Price::getPriceDescription);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Price, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Price, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Price, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Price, String>)Price::setUuid);
+			attributeSetterBiConsumers.put(
+				"priceId", (BiConsumer<Price, Long>)Price::setPriceId);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Price, Integer>)Price::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Price, Long>)Price::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Price, String>)Price::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate", (BiConsumer<Price, Date>)Price::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Price, String>)Price::setTitle);
+			attributeSetterBiConsumers.put(
+				"priceDescription",
+				(BiConsumer<Price, String>)Price::setPriceDescription);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -1069,8 +1074,9 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Price, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Price, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

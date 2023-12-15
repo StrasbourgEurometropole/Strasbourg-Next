@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.csmap.model.impl;
@@ -200,48 +191,64 @@ public class PlaceCategoriesModelImpl
 	public Map<String, Function<PlaceCategories, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<PlaceCategories, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<PlaceCategories, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<PlaceCategories, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<PlaceCategories, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap<String, Function<PlaceCategories, Object>>();
-		Map<String, BiConsumer<PlaceCategories, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<PlaceCategories, ?>>();
+		private static final Map<String, Function<PlaceCategories, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", PlaceCategories::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid",
-			(BiConsumer<PlaceCategories, String>)PlaceCategories::setUuid);
-		attributeGetterFunctions.put(
-			"placeCategoriesId", PlaceCategories::getPlaceCategoriesId);
-		attributeSetterBiConsumers.put(
-			"placeCategoriesId",
-			(BiConsumer<PlaceCategories, Long>)
-				PlaceCategories::setPlaceCategoriesId);
-		attributeGetterFunctions.put(
-			"categoriesIds", PlaceCategories::getCategoriesIds);
-		attributeSetterBiConsumers.put(
-			"categoriesIds",
-			(BiConsumer<PlaceCategories, String>)
-				PlaceCategories::setCategoriesIds);
+		static {
+			Map<String, Function<PlaceCategories, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<PlaceCategories, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", PlaceCategories::getUuid);
+			attributeGetterFunctions.put(
+				"placeCategoriesId", PlaceCategories::getPlaceCategoriesId);
+			attributeGetterFunctions.put(
+				"categoriesIds", PlaceCategories::getCategoriesIds);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<PlaceCategories, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<PlaceCategories, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<PlaceCategories, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<PlaceCategories, String>)PlaceCategories::setUuid);
+			attributeSetterBiConsumers.put(
+				"placeCategoriesId",
+				(BiConsumer<PlaceCategories, Long>)
+					PlaceCategories::setPlaceCategoriesId);
+			attributeSetterBiConsumers.put(
+				"categoriesIds",
+				(BiConsumer<PlaceCategories, String>)
+					PlaceCategories::setCategoriesIds);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -543,7 +550,8 @@ public class PlaceCategoriesModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<PlaceCategories, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.edition.service.persistence.impl;
@@ -40,7 +31,7 @@ import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.uuid.PortalUUID;
+import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.edition.exception.NoSuchEditionGalleryException;
@@ -54,7 +45,6 @@ import eu.strasbourg.service.edition.service.persistence.EditionPersistence;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.sql.Timestamp;
@@ -3202,7 +3192,7 @@ public class EditionGalleryPersistenceImpl
 		editionGallery.setNew(true);
 		editionGallery.setPrimaryKey(galleryId);
 
-		String uuid = _portalUUID.generate();
+		String uuid = PortalUUIDUtil.generate();
 
 		editionGallery.setUuid(uuid);
 
@@ -3325,7 +3315,7 @@ public class EditionGalleryPersistenceImpl
 			(EditionGalleryModelImpl)editionGallery;
 
 		if (Validator.isNull(editionGallery.getUuid())) {
-			String uuid = _portalUUID.generate();
+			String uuid = PortalUUIDUtil.generate();
 
 			editionGallery.setUuid(uuid);
 		}
@@ -3733,17 +3723,18 @@ public class EditionGalleryPersistenceImpl
 	 *
 	 * @param pk the primary key of the edition gallery
 	 * @param editionPK the primary key of the edition
+	 * @return <code>true</code> if an association between the edition gallery and the edition was added; <code>false</code> if they were already associated
 	 */
 	@Override
-	public void addEdition(long pk, long editionPK) {
+	public boolean addEdition(long pk, long editionPK) {
 		EditionGallery editionGallery = fetchByPrimaryKey(pk);
 
 		if (editionGallery == null) {
-			editionGalleryToEditionTableMapper.addTableMapping(
+			return editionGalleryToEditionTableMapper.addTableMapping(
 				CompanyThreadLocal.getCompanyId(), pk, editionPK);
 		}
 		else {
-			editionGalleryToEditionTableMapper.addTableMapping(
+			return editionGalleryToEditionTableMapper.addTableMapping(
 				editionGallery.getCompanyId(), pk, editionPK);
 		}
 	}
@@ -3753,19 +3744,20 @@ public class EditionGalleryPersistenceImpl
 	 *
 	 * @param pk the primary key of the edition gallery
 	 * @param edition the edition
+	 * @return <code>true</code> if an association between the edition gallery and the edition was added; <code>false</code> if they were already associated
 	 */
 	@Override
-	public void addEdition(
+	public boolean addEdition(
 		long pk, eu.strasbourg.service.edition.model.Edition edition) {
 
 		EditionGallery editionGallery = fetchByPrimaryKey(pk);
 
 		if (editionGallery == null) {
-			editionGalleryToEditionTableMapper.addTableMapping(
+			return editionGalleryToEditionTableMapper.addTableMapping(
 				CompanyThreadLocal.getCompanyId(), pk, edition.getPrimaryKey());
 		}
 		else {
-			editionGalleryToEditionTableMapper.addTableMapping(
+			return editionGalleryToEditionTableMapper.addTableMapping(
 				editionGallery.getCompanyId(), pk, edition.getPrimaryKey());
 		}
 	}
@@ -3775,9 +3767,10 @@ public class EditionGalleryPersistenceImpl
 	 *
 	 * @param pk the primary key of the edition gallery
 	 * @param editionPKs the primary keys of the editions
+	 * @return <code>true</code> if at least one association between the edition gallery and the editions was added; <code>false</code> if they were all already associated
 	 */
 	@Override
-	public void addEditions(long pk, long[] editionPKs) {
+	public boolean addEditions(long pk, long[] editionPKs) {
 		long companyId = 0;
 
 		EditionGallery editionGallery = fetchByPrimaryKey(pk);
@@ -3789,8 +3782,14 @@ public class EditionGalleryPersistenceImpl
 			companyId = editionGallery.getCompanyId();
 		}
 
-		editionGalleryToEditionTableMapper.addTableMappings(
+		long[] addedKeys = editionGalleryToEditionTableMapper.addTableMappings(
 			companyId, pk, editionPKs);
+
+		if (addedKeys.length > 0) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -3798,12 +3797,13 @@ public class EditionGalleryPersistenceImpl
 	 *
 	 * @param pk the primary key of the edition gallery
 	 * @param editions the editions
+	 * @return <code>true</code> if at least one association between the edition gallery and the editions was added; <code>false</code> if they were all already associated
 	 */
 	@Override
-	public void addEditions(
+	public boolean addEditions(
 		long pk, List<eu.strasbourg.service.edition.model.Edition> editions) {
 
-		addEditions(
+		return addEditions(
 			pk,
 			ListUtil.toLongArray(
 				editions,
@@ -4088,31 +4088,15 @@ public class EditionGalleryPersistenceImpl
 				new String[] {Date.class.getName(), Integer.class.getName()},
 				new String[] {"publicationDate", "status"}, false);
 
-		_setEditionGalleryUtilPersistence(this);
+		EditionGalleryUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setEditionGalleryUtilPersistence(null);
+		EditionGalleryUtil.setPersistence(null);
 
 		entityCache.removeCache(EditionGalleryImpl.class.getName());
 
 		TableMapperFactory.removeTableMapper("edition_EditionToEditionGallery");
-	}
-
-	private void _setEditionGalleryUtilPersistence(
-		EditionGalleryPersistence editionGalleryPersistence) {
-
-		try {
-			Field field = EditionGalleryUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, editionGalleryPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -4166,8 +4150,5 @@ public class EditionGalleryPersistenceImpl
 	protected FinderCache getFinderCache() {
 		return finderCache;
 	}
-
-	@ServiceReference(type = PortalUUID.class)
-	private PortalUUID _portalUUID;
 
 }

@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.model.impl;
@@ -226,49 +217,72 @@ public class PublicHolidayModelImpl
 	public Map<String, Function<PublicHoliday, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<PublicHoliday, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<PublicHoliday, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<PublicHoliday, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<PublicHoliday, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<PublicHoliday, Object>>();
-		Map<String, BiConsumer<PublicHoliday, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<PublicHoliday, ?>>();
+		private static final Map<String, Function<PublicHoliday, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", PublicHoliday::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<PublicHoliday, String>)PublicHoliday::setUuid);
-		attributeGetterFunctions.put(
-			"publicHolidayId", PublicHoliday::getPublicHolidayId);
-		attributeSetterBiConsumers.put(
-			"publicHolidayId",
-			(BiConsumer<PublicHoliday, Long>)PublicHoliday::setPublicHolidayId);
-		attributeGetterFunctions.put("name", PublicHoliday::getName);
-		attributeSetterBiConsumers.put(
-			"name", (BiConsumer<PublicHoliday, String>)PublicHoliday::setName);
-		attributeGetterFunctions.put("date", PublicHoliday::getDate);
-		attributeSetterBiConsumers.put(
-			"date", (BiConsumer<PublicHoliday, Date>)PublicHoliday::setDate);
-		attributeGetterFunctions.put("recurrent", PublicHoliday::getRecurrent);
-		attributeSetterBiConsumers.put(
-			"recurrent",
-			(BiConsumer<PublicHoliday, Boolean>)PublicHoliday::setRecurrent);
+		static {
+			Map<String, Function<PublicHoliday, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<PublicHoliday, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", PublicHoliday::getUuid);
+			attributeGetterFunctions.put(
+				"publicHolidayId", PublicHoliday::getPublicHolidayId);
+			attributeGetterFunctions.put("name", PublicHoliday::getName);
+			attributeGetterFunctions.put("date", PublicHoliday::getDate);
+			attributeGetterFunctions.put(
+				"recurrent", PublicHoliday::getRecurrent);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<PublicHoliday, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<PublicHoliday, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<PublicHoliday, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<PublicHoliday, String>)PublicHoliday::setUuid);
+			attributeSetterBiConsumers.put(
+				"publicHolidayId",
+				(BiConsumer<PublicHoliday, Long>)
+					PublicHoliday::setPublicHolidayId);
+			attributeSetterBiConsumers.put(
+				"name",
+				(BiConsumer<PublicHoliday, String>)PublicHoliday::setName);
+			attributeSetterBiConsumers.put(
+				"date",
+				(BiConsumer<PublicHoliday, Date>)PublicHoliday::setDate);
+			attributeSetterBiConsumers.put(
+				"recurrent",
+				(BiConsumer<PublicHoliday, Boolean>)
+					PublicHoliday::setRecurrent);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -783,7 +797,8 @@ public class PublicHolidayModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<PublicHoliday, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.model.impl;
@@ -230,76 +221,92 @@ public class PeriodModelImpl
 	}
 
 	public Map<String, Function<Period, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Period, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Period, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Period, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Period, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Period, Object>>();
-		Map<String, BiConsumer<Period, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Period, ?>>();
+		private static final Map<String, Function<Period, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Period::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Period, String>)Period::setUuid);
-		attributeGetterFunctions.put("periodId", Period::getPeriodId);
-		attributeSetterBiConsumers.put(
-			"periodId", (BiConsumer<Period, Long>)Period::setPeriodId);
-		attributeGetterFunctions.put("name", Period::getName);
-		attributeSetterBiConsumers.put(
-			"name", (BiConsumer<Period, String>)Period::setName);
-		attributeGetterFunctions.put("defaultPeriod", Period::getDefaultPeriod);
-		attributeSetterBiConsumers.put(
-			"defaultPeriod",
-			(BiConsumer<Period, Boolean>)Period::setDefaultPeriod);
-		attributeGetterFunctions.put("startDate", Period::getStartDate);
-		attributeSetterBiConsumers.put(
-			"startDate", (BiConsumer<Period, Date>)Period::setStartDate);
-		attributeGetterFunctions.put("endDate", Period::getEndDate);
-		attributeSetterBiConsumers.put(
-			"endDate", (BiConsumer<Period, Date>)Period::setEndDate);
-		attributeGetterFunctions.put("alwaysOpen", Period::getAlwaysOpen);
-		attributeSetterBiConsumers.put(
-			"alwaysOpen", (BiConsumer<Period, Boolean>)Period::setAlwaysOpen);
-		attributeGetterFunctions.put(
-			"RTGreenThreshold", Period::getRTGreenThreshold);
-		attributeSetterBiConsumers.put(
-			"RTGreenThreshold",
-			(BiConsumer<Period, Long>)Period::setRTGreenThreshold);
-		attributeGetterFunctions.put(
-			"RTOrangeThreshold", Period::getRTOrangeThreshold);
-		attributeSetterBiConsumers.put(
-			"RTOrangeThreshold",
-			(BiConsumer<Period, Long>)Period::setRTOrangeThreshold);
-		attributeGetterFunctions.put(
-			"RTRedThreshold", Period::getRTRedThreshold);
-		attributeSetterBiConsumers.put(
-			"RTRedThreshold",
-			(BiConsumer<Period, Long>)Period::setRTRedThreshold);
-		attributeGetterFunctions.put(
-			"RTMaxThreshold", Period::getRTMaxThreshold);
-		attributeSetterBiConsumers.put(
-			"RTMaxThreshold",
-			(BiConsumer<Period, Long>)Period::setRTMaxThreshold);
-		attributeGetterFunctions.put("placeId", Period::getPlaceId);
-		attributeSetterBiConsumers.put(
-			"placeId", (BiConsumer<Period, Long>)Period::setPlaceId);
+		static {
+			Map<String, Function<Period, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Period, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Period::getUuid);
+			attributeGetterFunctions.put("periodId", Period::getPeriodId);
+			attributeGetterFunctions.put("name", Period::getName);
+			attributeGetterFunctions.put(
+				"defaultPeriod", Period::getDefaultPeriod);
+			attributeGetterFunctions.put("startDate", Period::getStartDate);
+			attributeGetterFunctions.put("endDate", Period::getEndDate);
+			attributeGetterFunctions.put("alwaysOpen", Period::getAlwaysOpen);
+			attributeGetterFunctions.put(
+				"RTGreenThreshold", Period::getRTGreenThreshold);
+			attributeGetterFunctions.put(
+				"RTOrangeThreshold", Period::getRTOrangeThreshold);
+			attributeGetterFunctions.put(
+				"RTRedThreshold", Period::getRTRedThreshold);
+			attributeGetterFunctions.put(
+				"RTMaxThreshold", Period::getRTMaxThreshold);
+			attributeGetterFunctions.put("placeId", Period::getPlaceId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Period, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Period, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Period, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Period, String>)Period::setUuid);
+			attributeSetterBiConsumers.put(
+				"periodId", (BiConsumer<Period, Long>)Period::setPeriodId);
+			attributeSetterBiConsumers.put(
+				"name", (BiConsumer<Period, String>)Period::setName);
+			attributeSetterBiConsumers.put(
+				"defaultPeriod",
+				(BiConsumer<Period, Boolean>)Period::setDefaultPeriod);
+			attributeSetterBiConsumers.put(
+				"startDate", (BiConsumer<Period, Date>)Period::setStartDate);
+			attributeSetterBiConsumers.put(
+				"endDate", (BiConsumer<Period, Date>)Period::setEndDate);
+			attributeSetterBiConsumers.put(
+				"alwaysOpen",
+				(BiConsumer<Period, Boolean>)Period::setAlwaysOpen);
+			attributeSetterBiConsumers.put(
+				"RTGreenThreshold",
+				(BiConsumer<Period, Long>)Period::setRTGreenThreshold);
+			attributeSetterBiConsumers.put(
+				"RTOrangeThreshold",
+				(BiConsumer<Period, Long>)Period::setRTOrangeThreshold);
+			attributeSetterBiConsumers.put(
+				"RTRedThreshold",
+				(BiConsumer<Period, Long>)Period::setRTRedThreshold);
+			attributeSetterBiConsumers.put(
+				"RTMaxThreshold",
+				(BiConsumer<Period, Long>)Period::setRTMaxThreshold);
+			attributeSetterBiConsumers.put(
+				"placeId", (BiConsumer<Period, Long>)Period::setPlaceId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -957,8 +964,9 @@ public class PeriodModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Period, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Period, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

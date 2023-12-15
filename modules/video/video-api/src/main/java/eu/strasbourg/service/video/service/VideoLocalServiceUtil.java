@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.video.service;
@@ -61,22 +52,24 @@ public class VideoLocalServiceUtil {
 		return getService().addVideo(video);
 	}
 
-	public static void addVideoGalleryVideo(long galleryId, long videoId) {
-		getService().addVideoGalleryVideo(galleryId, videoId);
+	public static boolean addVideoGalleryVideo(long galleryId, long videoId) {
+		return getService().addVideoGalleryVideo(galleryId, videoId);
 	}
 
-	public static void addVideoGalleryVideo(long galleryId, Video video) {
-		getService().addVideoGalleryVideo(galleryId, video);
+	public static boolean addVideoGalleryVideo(long galleryId, Video video) {
+		return getService().addVideoGalleryVideo(galleryId, video);
 	}
 
-	public static void addVideoGalleryVideos(
+	public static boolean addVideoGalleryVideos(
 		long galleryId, List<Video> videos) {
 
-		getService().addVideoGalleryVideos(galleryId, videos);
+		return getService().addVideoGalleryVideos(galleryId, videos);
 	}
 
-	public static void addVideoGalleryVideos(long galleryId, long[] videoIds) {
-		getService().addVideoGalleryVideos(galleryId, videoIds);
+	public static boolean addVideoGalleryVideos(
+		long galleryId, long[] videoIds) {
+
+		return getService().addVideoGalleryVideos(galleryId, videoIds);
 	}
 
 	/**
@@ -540,6 +533,10 @@ public class VideoLocalServiceUtil {
 
 	public static VideoLocalService getService() {
 		return _service;
+	}
+
+	public static void setService(VideoLocalService service) {
+		_service = service;
 	}
 
 	private static volatile VideoLocalService _service;

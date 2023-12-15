@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model.impl;
@@ -227,75 +218,97 @@ public class ProjectTimelineModelImpl
 	public Map<String, Function<ProjectTimeline, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<ProjectTimeline, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<ProjectTimeline, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ProjectTimeline, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<ProjectTimeline, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap<String, Function<ProjectTimeline, Object>>();
-		Map<String, BiConsumer<ProjectTimeline, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<ProjectTimeline, ?>>();
+		private static final Map<String, Function<ProjectTimeline, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put(
-			"projectTimelineId", ProjectTimeline::getProjectTimelineId);
-		attributeSetterBiConsumers.put(
-			"projectTimelineId",
-			(BiConsumer<ProjectTimeline, Long>)
-				ProjectTimeline::setProjectTimelineId);
-		attributeGetterFunctions.put("startDay", ProjectTimeline::getStartDay);
-		attributeSetterBiConsumers.put(
-			"startDay",
-			(BiConsumer<ProjectTimeline, Integer>)ProjectTimeline::setStartDay);
-		attributeGetterFunctions.put("spacing", ProjectTimeline::getSpacing);
-		attributeSetterBiConsumers.put(
-			"spacing",
-			(BiConsumer<ProjectTimeline, Integer>)ProjectTimeline::setSpacing);
-		attributeGetterFunctions.put("date", ProjectTimeline::getDate);
-		attributeSetterBiConsumers.put(
-			"date",
-			(BiConsumer<ProjectTimeline, Date>)ProjectTimeline::setDate);
-		attributeGetterFunctions.put(
-			"dateFormat", ProjectTimeline::getDateFormat);
-		attributeSetterBiConsumers.put(
-			"dateFormat",
-			(BiConsumer<ProjectTimeline, String>)
-				ProjectTimeline::setDateFormat);
-		attributeGetterFunctions.put("title", ProjectTimeline::getTitle);
-		attributeSetterBiConsumers.put(
-			"title",
-			(BiConsumer<ProjectTimeline, String>)ProjectTimeline::setTitle);
-		attributeGetterFunctions.put("link", ProjectTimeline::getLink);
-		attributeSetterBiConsumers.put(
-			"link",
-			(BiConsumer<ProjectTimeline, String>)ProjectTimeline::setLink);
-		attributeGetterFunctions.put(
-			"projectId", ProjectTimeline::getProjectId);
-		attributeSetterBiConsumers.put(
-			"projectId",
-			(BiConsumer<ProjectTimeline, Long>)ProjectTimeline::setProjectId);
-		attributeGetterFunctions.put(
-			"budgetParticipatifId", ProjectTimeline::getBudgetParticipatifId);
-		attributeSetterBiConsumers.put(
-			"budgetParticipatifId",
-			(BiConsumer<ProjectTimeline, Long>)
-				ProjectTimeline::setBudgetParticipatifId);
+		static {
+			Map<String, Function<ProjectTimeline, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<ProjectTimeline, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put(
+				"projectTimelineId", ProjectTimeline::getProjectTimelineId);
+			attributeGetterFunctions.put(
+				"startDay", ProjectTimeline::getStartDay);
+			attributeGetterFunctions.put(
+				"spacing", ProjectTimeline::getSpacing);
+			attributeGetterFunctions.put("date", ProjectTimeline::getDate);
+			attributeGetterFunctions.put(
+				"dateFormat", ProjectTimeline::getDateFormat);
+			attributeGetterFunctions.put("title", ProjectTimeline::getTitle);
+			attributeGetterFunctions.put("link", ProjectTimeline::getLink);
+			attributeGetterFunctions.put(
+				"projectId", ProjectTimeline::getProjectId);
+			attributeGetterFunctions.put(
+				"budgetParticipatifId",
+				ProjectTimeline::getBudgetParticipatifId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<ProjectTimeline, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<ProjectTimeline, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<ProjectTimeline, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"projectTimelineId",
+				(BiConsumer<ProjectTimeline, Long>)
+					ProjectTimeline::setProjectTimelineId);
+			attributeSetterBiConsumers.put(
+				"startDay",
+				(BiConsumer<ProjectTimeline, Integer>)
+					ProjectTimeline::setStartDay);
+			attributeSetterBiConsumers.put(
+				"spacing",
+				(BiConsumer<ProjectTimeline, Integer>)
+					ProjectTimeline::setSpacing);
+			attributeSetterBiConsumers.put(
+				"date",
+				(BiConsumer<ProjectTimeline, Date>)ProjectTimeline::setDate);
+			attributeSetterBiConsumers.put(
+				"dateFormat",
+				(BiConsumer<ProjectTimeline, String>)
+					ProjectTimeline::setDateFormat);
+			attributeSetterBiConsumers.put(
+				"title",
+				(BiConsumer<ProjectTimeline, String>)ProjectTimeline::setTitle);
+			attributeSetterBiConsumers.put(
+				"link",
+				(BiConsumer<ProjectTimeline, String>)ProjectTimeline::setLink);
+			attributeSetterBiConsumers.put(
+				"projectId",
+				(BiConsumer<ProjectTimeline, Long>)
+					ProjectTimeline::setProjectId);
+			attributeSetterBiConsumers.put(
+				"budgetParticipatifId",
+				(BiConsumer<ProjectTimeline, Long>)
+					ProjectTimeline::setBudgetParticipatifId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -753,7 +766,8 @@ public class ProjectTimelineModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<ProjectTimeline, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

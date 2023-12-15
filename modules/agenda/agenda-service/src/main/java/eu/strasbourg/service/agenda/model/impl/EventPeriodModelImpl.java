@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model.impl;
@@ -235,58 +226,77 @@ public class EventPeriodModelImpl
 	public Map<String, Function<EventPeriod, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<EventPeriod, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<EventPeriod, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<EventPeriod, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<EventPeriod, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<EventPeriod, Object>>();
-		Map<String, BiConsumer<EventPeriod, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<EventPeriod, ?>>();
+		private static final Map<String, Function<EventPeriod, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", EventPeriod::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<EventPeriod, String>)EventPeriod::setUuid);
-		attributeGetterFunctions.put(
-			"eventPeriodId", EventPeriod::getEventPeriodId);
-		attributeSetterBiConsumers.put(
-			"eventPeriodId",
-			(BiConsumer<EventPeriod, Long>)EventPeriod::setEventPeriodId);
-		attributeGetterFunctions.put("startDate", EventPeriod::getStartDate);
-		attributeSetterBiConsumers.put(
-			"startDate",
-			(BiConsumer<EventPeriod, Date>)EventPeriod::setStartDate);
-		attributeGetterFunctions.put("endDate", EventPeriod::getEndDate);
-		attributeSetterBiConsumers.put(
-			"endDate", (BiConsumer<EventPeriod, Date>)EventPeriod::setEndDate);
-		attributeGetterFunctions.put("timeDetail", EventPeriod::getTimeDetail);
-		attributeSetterBiConsumers.put(
-			"timeDetail",
-			(BiConsumer<EventPeriod, String>)EventPeriod::setTimeDetail);
-		attributeGetterFunctions.put("eventId", EventPeriod::getEventId);
-		attributeSetterBiConsumers.put(
-			"eventId", (BiConsumer<EventPeriod, Long>)EventPeriod::setEventId);
-		attributeGetterFunctions.put(
-			"campaignEventId", EventPeriod::getCampaignEventId);
-		attributeSetterBiConsumers.put(
-			"campaignEventId",
-			(BiConsumer<EventPeriod, Long>)EventPeriod::setCampaignEventId);
+		static {
+			Map<String, Function<EventPeriod, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<EventPeriod, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", EventPeriod::getUuid);
+			attributeGetterFunctions.put(
+				"eventPeriodId", EventPeriod::getEventPeriodId);
+			attributeGetterFunctions.put(
+				"startDate", EventPeriod::getStartDate);
+			attributeGetterFunctions.put("endDate", EventPeriod::getEndDate);
+			attributeGetterFunctions.put(
+				"timeDetail", EventPeriod::getTimeDetail);
+			attributeGetterFunctions.put("eventId", EventPeriod::getEventId);
+			attributeGetterFunctions.put(
+				"campaignEventId", EventPeriod::getCampaignEventId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<EventPeriod, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<EventPeriod, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<EventPeriod, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<EventPeriod, String>)EventPeriod::setUuid);
+			attributeSetterBiConsumers.put(
+				"eventPeriodId",
+				(BiConsumer<EventPeriod, Long>)EventPeriod::setEventPeriodId);
+			attributeSetterBiConsumers.put(
+				"startDate",
+				(BiConsumer<EventPeriod, Date>)EventPeriod::setStartDate);
+			attributeSetterBiConsumers.put(
+				"endDate",
+				(BiConsumer<EventPeriod, Date>)EventPeriod::setEndDate);
+			attributeSetterBiConsumers.put(
+				"timeDetail",
+				(BiConsumer<EventPeriod, String>)EventPeriod::setTimeDetail);
+			attributeSetterBiConsumers.put(
+				"eventId",
+				(BiConsumer<EventPeriod, Long>)EventPeriod::setEventId);
+			attributeSetterBiConsumers.put(
+				"campaignEventId",
+				(BiConsumer<EventPeriod, Long>)EventPeriod::setCampaignEventId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -866,8 +876,9 @@ public class EventPeriodModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<EventPeriod, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<EventPeriod, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

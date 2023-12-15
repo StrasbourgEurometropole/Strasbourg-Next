@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model.impl;
@@ -217,57 +208,80 @@ public class CacheHoursJSONModelImpl
 	public Map<String, Function<CacheHoursJSON, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<CacheHoursJSON, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<CacheHoursJSON, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CacheHoursJSON, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<CacheHoursJSON, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<CacheHoursJSON, Object>>();
-		Map<String, BiConsumer<CacheHoursJSON, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<CacheHoursJSON, ?>>();
+		private static final Map<String, Function<CacheHoursJSON, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", CacheHoursJSON::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid",
-			(BiConsumer<CacheHoursJSON, String>)CacheHoursJSON::setUuid);
-		attributeGetterFunctions.put("stopCode", CacheHoursJSON::getStopCode);
-		attributeSetterBiConsumers.put(
-			"stopCode",
-			(BiConsumer<CacheHoursJSON, String>)CacheHoursJSON::setStopCode);
-		attributeGetterFunctions.put("type", CacheHoursJSON::getType);
-		attributeSetterBiConsumers.put(
-			"type",
-			(BiConsumer<CacheHoursJSON, Integer>)CacheHoursJSON::setType);
-		attributeGetterFunctions.put("jsonHour", CacheHoursJSON::getJsonHour);
-		attributeSetterBiConsumers.put(
-			"jsonHour",
-			(BiConsumer<CacheHoursJSON, String>)CacheHoursJSON::setJsonHour);
-		attributeGetterFunctions.put(
-			"creationDate", CacheHoursJSON::getCreationDate);
-		attributeSetterBiConsumers.put(
-			"creationDate",
-			(BiConsumer<CacheHoursJSON, Date>)CacheHoursJSON::setCreationDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", CacheHoursJSON::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<CacheHoursJSON, Date>)CacheHoursJSON::setModifiedDate);
+		static {
+			Map<String, Function<CacheHoursJSON, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<CacheHoursJSON, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", CacheHoursJSON::getUuid);
+			attributeGetterFunctions.put(
+				"stopCode", CacheHoursJSON::getStopCode);
+			attributeGetterFunctions.put("type", CacheHoursJSON::getType);
+			attributeGetterFunctions.put(
+				"jsonHour", CacheHoursJSON::getJsonHour);
+			attributeGetterFunctions.put(
+				"creationDate", CacheHoursJSON::getCreationDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", CacheHoursJSON::getModifiedDate);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<CacheHoursJSON, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<CacheHoursJSON, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<CacheHoursJSON, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<CacheHoursJSON, String>)CacheHoursJSON::setUuid);
+			attributeSetterBiConsumers.put(
+				"stopCode",
+				(BiConsumer<CacheHoursJSON, String>)
+					CacheHoursJSON::setStopCode);
+			attributeSetterBiConsumers.put(
+				"type",
+				(BiConsumer<CacheHoursJSON, Integer>)CacheHoursJSON::setType);
+			attributeSetterBiConsumers.put(
+				"jsonHour",
+				(BiConsumer<CacheHoursJSON, String>)
+					CacheHoursJSON::setJsonHour);
+			attributeSetterBiConsumers.put(
+				"creationDate",
+				(BiConsumer<CacheHoursJSON, Date>)
+					CacheHoursJSON::setCreationDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<CacheHoursJSON, Date>)
+					CacheHoursJSON::setModifiedDate);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -663,7 +677,8 @@ public class CacheHoursJSONModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<CacheHoursJSON, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

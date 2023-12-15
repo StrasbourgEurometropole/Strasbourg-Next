@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.formSendRecordField.model.impl;
@@ -260,125 +251,142 @@ public class FormSendRecordFieldSignalementModelImpl
 	public Map<String, Function<FormSendRecordFieldSignalement, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<FormSendRecordFieldSignalement, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map
-		<String, Function<FormSendRecordFieldSignalement, Object>>
-			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<FormSendRecordFieldSignalement, Object>>
-			_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<FormSendRecordFieldSignalement, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap
-					<String,
-					 Function<FormSendRecordFieldSignalement, Object>>();
-		Map<String, BiConsumer<FormSendRecordFieldSignalement, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<FormSendRecordFieldSignalement, ?>>();
+		private static final Map
+			<String, Function<FormSendRecordFieldSignalement, Object>>
+				_attributeGetterFunctions;
 
-		attributeGetterFunctions.put(
-			"uuid", FormSendRecordFieldSignalement::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid",
-			(BiConsumer<FormSendRecordFieldSignalement, String>)
-				FormSendRecordFieldSignalement::setUuid);
-		attributeGetterFunctions.put(
-			"signalementId", FormSendRecordFieldSignalement::getSignalementId);
-		attributeSetterBiConsumers.put(
-			"signalementId",
-			(BiConsumer<FormSendRecordFieldSignalement, Long>)
-				FormSendRecordFieldSignalement::setSignalementId);
-		attributeGetterFunctions.put(
-			"groupId", FormSendRecordFieldSignalement::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<FormSendRecordFieldSignalement, Long>)
-				FormSendRecordFieldSignalement::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", FormSendRecordFieldSignalement::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<FormSendRecordFieldSignalement, Long>)
-				FormSendRecordFieldSignalement::setCompanyId);
-		attributeGetterFunctions.put(
-			"userId", FormSendRecordFieldSignalement::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId",
-			(BiConsumer<FormSendRecordFieldSignalement, Long>)
-				FormSendRecordFieldSignalement::setUserId);
-		attributeGetterFunctions.put(
-			"userName", FormSendRecordFieldSignalement::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<FormSendRecordFieldSignalement, String>)
-				FormSendRecordFieldSignalement::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", FormSendRecordFieldSignalement::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<FormSendRecordFieldSignalement, Date>)
-				FormSendRecordFieldSignalement::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", FormSendRecordFieldSignalement::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<FormSendRecordFieldSignalement, Date>)
-				FormSendRecordFieldSignalement::setModifiedDate);
-		attributeGetterFunctions.put(
-			"status", FormSendRecordFieldSignalement::getStatus);
-		attributeSetterBiConsumers.put(
-			"status",
-			(BiConsumer<FormSendRecordFieldSignalement, Integer>)
-				FormSendRecordFieldSignalement::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			FormSendRecordFieldSignalement::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<FormSendRecordFieldSignalement, Long>)
-				FormSendRecordFieldSignalement::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			FormSendRecordFieldSignalement::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<FormSendRecordFieldSignalement, String>)
-				FormSendRecordFieldSignalement::setStatusByUserName);
-		attributeGetterFunctions.put(
-			"statusDate", FormSendRecordFieldSignalement::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			(BiConsumer<FormSendRecordFieldSignalement, Date>)
-				FormSendRecordFieldSignalement::setStatusDate);
-		attributeGetterFunctions.put(
-			"formSendRecordFieldId",
-			FormSendRecordFieldSignalement::getFormSendRecordFieldId);
-		attributeSetterBiConsumers.put(
-			"formSendRecordFieldId",
-			(BiConsumer<FormSendRecordFieldSignalement, Long>)
-				FormSendRecordFieldSignalement::setFormSendRecordFieldId);
-		attributeGetterFunctions.put(
-			"publikId", FormSendRecordFieldSignalement::getPublikId);
-		attributeSetterBiConsumers.put(
-			"publikId",
-			(BiConsumer<FormSendRecordFieldSignalement, String>)
-				FormSendRecordFieldSignalement::setPublikId);
+		static {
+			Map<String, Function<FormSendRecordFieldSignalement, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String,
+						 Function<FormSendRecordFieldSignalement, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put(
+				"uuid", FormSendRecordFieldSignalement::getUuid);
+			attributeGetterFunctions.put(
+				"signalementId",
+				FormSendRecordFieldSignalement::getSignalementId);
+			attributeGetterFunctions.put(
+				"groupId", FormSendRecordFieldSignalement::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", FormSendRecordFieldSignalement::getCompanyId);
+			attributeGetterFunctions.put(
+				"userId", FormSendRecordFieldSignalement::getUserId);
+			attributeGetterFunctions.put(
+				"userName", FormSendRecordFieldSignalement::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", FormSendRecordFieldSignalement::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate",
+				FormSendRecordFieldSignalement::getModifiedDate);
+			attributeGetterFunctions.put(
+				"status", FormSendRecordFieldSignalement::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId",
+				FormSendRecordFieldSignalement::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName",
+				FormSendRecordFieldSignalement::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", FormSendRecordFieldSignalement::getStatusDate);
+			attributeGetterFunctions.put(
+				"formSendRecordFieldId",
+				FormSendRecordFieldSignalement::getFormSendRecordFieldId);
+			attributeGetterFunctions.put(
+				"publikId", FormSendRecordFieldSignalement::getPublikId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map
+			<String, BiConsumer<FormSendRecordFieldSignalement, Object>>
+				_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<FormSendRecordFieldSignalement, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String,
+						 BiConsumer<FormSendRecordFieldSignalement, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<FormSendRecordFieldSignalement, String>)
+					FormSendRecordFieldSignalement::setUuid);
+			attributeSetterBiConsumers.put(
+				"signalementId",
+				(BiConsumer<FormSendRecordFieldSignalement, Long>)
+					FormSendRecordFieldSignalement::setSignalementId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<FormSendRecordFieldSignalement, Long>)
+					FormSendRecordFieldSignalement::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<FormSendRecordFieldSignalement, Long>)
+					FormSendRecordFieldSignalement::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<FormSendRecordFieldSignalement, Long>)
+					FormSendRecordFieldSignalement::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<FormSendRecordFieldSignalement, String>)
+					FormSendRecordFieldSignalement::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<FormSendRecordFieldSignalement, Date>)
+					FormSendRecordFieldSignalement::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<FormSendRecordFieldSignalement, Date>)
+					FormSendRecordFieldSignalement::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<FormSendRecordFieldSignalement, Integer>)
+					FormSendRecordFieldSignalement::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<FormSendRecordFieldSignalement, Long>)
+					FormSendRecordFieldSignalement::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<FormSendRecordFieldSignalement, String>)
+					FormSendRecordFieldSignalement::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<FormSendRecordFieldSignalement, Date>)
+					FormSendRecordFieldSignalement::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"formSendRecordFieldId",
+				(BiConsumer<FormSendRecordFieldSignalement, Long>)
+					FormSendRecordFieldSignalement::setFormSendRecordFieldId);
+			attributeSetterBiConsumers.put(
+				"publikId",
+				(BiConsumer<FormSendRecordFieldSignalement, String>)
+					FormSendRecordFieldSignalement::setPublikId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -1132,7 +1140,8 @@ public class FormSendRecordFieldSignalementModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<FormSendRecordFieldSignalement, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

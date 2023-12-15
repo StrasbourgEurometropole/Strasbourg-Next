@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.artwork.service.persistence;
@@ -731,16 +722,18 @@ public interface ArtworkPersistence extends BasePersistence<Artwork> {
 	 *
 	 * @param pk the primary key of the artwork
 	 * @param artworkCollectionPK the primary key of the artwork collection
+	 * @return <code>true</code> if an association between the artwork and the artwork collection was added; <code>false</code> if they were already associated
 	 */
-	public void addArtworkCollection(long pk, long artworkCollectionPK);
+	public boolean addArtworkCollection(long pk, long artworkCollectionPK);
 
 	/**
 	 * Adds an association between the artwork and the artwork collection. Also notifies the appropriate model listeners and clears the mapping table finder cache.
 	 *
 	 * @param pk the primary key of the artwork
 	 * @param artworkCollection the artwork collection
+	 * @return <code>true</code> if an association between the artwork and the artwork collection was added; <code>false</code> if they were already associated
 	 */
-	public void addArtworkCollection(
+	public boolean addArtworkCollection(
 		long pk,
 		eu.strasbourg.service.artwork.model.ArtworkCollection
 			artworkCollection);
@@ -750,16 +743,18 @@ public interface ArtworkPersistence extends BasePersistence<Artwork> {
 	 *
 	 * @param pk the primary key of the artwork
 	 * @param artworkCollectionPKs the primary keys of the artwork collections
+	 * @return <code>true</code> if at least one association between the artwork and the artwork collections was added; <code>false</code> if they were all already associated
 	 */
-	public void addArtworkCollections(long pk, long[] artworkCollectionPKs);
+	public boolean addArtworkCollections(long pk, long[] artworkCollectionPKs);
 
 	/**
 	 * Adds an association between the artwork and the artwork collections. Also notifies the appropriate model listeners and clears the mapping table finder cache.
 	 *
 	 * @param pk the primary key of the artwork
 	 * @param artworkCollections the artwork collections
+	 * @return <code>true</code> if at least one association between the artwork and the artwork collections was added; <code>false</code> if they were all already associated
 	 */
-	public void addArtworkCollections(
+	public boolean addArtworkCollections(
 		long pk,
 		java.util.List<eu.strasbourg.service.artwork.model.ArtworkCollection>
 			artworkCollections);

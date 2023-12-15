@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.favorite.model.impl;
@@ -246,73 +237,91 @@ public class FavoriteModelImpl
 	public Map<String, Function<Favorite, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Favorite, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Favorite, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Favorite, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Favorite, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Favorite, Object>>();
-		Map<String, BiConsumer<Favorite, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Favorite, ?>>();
+		private static final Map<String, Function<Favorite, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("favoriteId", Favorite::getFavoriteId);
-		attributeSetterBiConsumers.put(
-			"favoriteId", (BiConsumer<Favorite, Long>)Favorite::setFavoriteId);
-		attributeGetterFunctions.put("publikUserId", Favorite::getPublikUserId);
-		attributeSetterBiConsumers.put(
-			"publikUserId",
-			(BiConsumer<Favorite, String>)Favorite::setPublikUserId);
-		attributeGetterFunctions.put("title", Favorite::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<Favorite, String>)Favorite::setTitle);
-		attributeGetterFunctions.put("url", Favorite::getUrl);
-		attributeSetterBiConsumers.put(
-			"url", (BiConsumer<Favorite, String>)Favorite::setUrl);
-		attributeGetterFunctions.put("typeId", Favorite::getTypeId);
-		attributeSetterBiConsumers.put(
-			"typeId", (BiConsumer<Favorite, Long>)Favorite::setTypeId);
-		attributeGetterFunctions.put("entityId", Favorite::getEntityId);
-		attributeSetterBiConsumers.put(
-			"entityId", (BiConsumer<Favorite, Long>)Favorite::setEntityId);
-		attributeGetterFunctions.put(
-			"entityGroupId", Favorite::getEntityGroupId);
-		attributeSetterBiConsumers.put(
-			"entityGroupId",
-			(BiConsumer<Favorite, Long>)Favorite::setEntityGroupId);
-		attributeGetterFunctions.put(
-			"onDashboardDate", Favorite::getOnDashboardDate);
-		attributeSetterBiConsumers.put(
-			"onDashboardDate",
-			(BiConsumer<Favorite, Date>)Favorite::setOnDashboardDate);
-		attributeGetterFunctions.put("order", Favorite::getOrder);
-		attributeSetterBiConsumers.put(
-			"order", (BiConsumer<Favorite, Integer>)Favorite::setOrder);
-		attributeGetterFunctions.put("content", Favorite::getContent);
-		attributeSetterBiConsumers.put(
-			"content", (BiConsumer<Favorite, String>)Favorite::setContent);
-		attributeGetterFunctions.put("createDate", Favorite::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<Favorite, Date>)Favorite::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", Favorite::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<Favorite, Date>)Favorite::setModifiedDate);
+		static {
+			Map<String, Function<Favorite, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Favorite, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("favoriteId", Favorite::getFavoriteId);
+			attributeGetterFunctions.put(
+				"publikUserId", Favorite::getPublikUserId);
+			attributeGetterFunctions.put("title", Favorite::getTitle);
+			attributeGetterFunctions.put("url", Favorite::getUrl);
+			attributeGetterFunctions.put("typeId", Favorite::getTypeId);
+			attributeGetterFunctions.put("entityId", Favorite::getEntityId);
+			attributeGetterFunctions.put(
+				"entityGroupId", Favorite::getEntityGroupId);
+			attributeGetterFunctions.put(
+				"onDashboardDate", Favorite::getOnDashboardDate);
+			attributeGetterFunctions.put("order", Favorite::getOrder);
+			attributeGetterFunctions.put("content", Favorite::getContent);
+			attributeGetterFunctions.put("createDate", Favorite::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Favorite::getModifiedDate);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Favorite, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Favorite, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Favorite, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"favoriteId",
+				(BiConsumer<Favorite, Long>)Favorite::setFavoriteId);
+			attributeSetterBiConsumers.put(
+				"publikUserId",
+				(BiConsumer<Favorite, String>)Favorite::setPublikUserId);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Favorite, String>)Favorite::setTitle);
+			attributeSetterBiConsumers.put(
+				"url", (BiConsumer<Favorite, String>)Favorite::setUrl);
+			attributeSetterBiConsumers.put(
+				"typeId", (BiConsumer<Favorite, Long>)Favorite::setTypeId);
+			attributeSetterBiConsumers.put(
+				"entityId", (BiConsumer<Favorite, Long>)Favorite::setEntityId);
+			attributeSetterBiConsumers.put(
+				"entityGroupId",
+				(BiConsumer<Favorite, Long>)Favorite::setEntityGroupId);
+			attributeSetterBiConsumers.put(
+				"onDashboardDate",
+				(BiConsumer<Favorite, Date>)Favorite::setOnDashboardDate);
+			attributeSetterBiConsumers.put(
+				"order", (BiConsumer<Favorite, Integer>)Favorite::setOrder);
+			attributeSetterBiConsumers.put(
+				"content", (BiConsumer<Favorite, String>)Favorite::setContent);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Favorite, Date>)Favorite::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Favorite, Date>)Favorite::setModifiedDate);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -887,8 +896,9 @@ public class FavoriteModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Favorite, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Favorite, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

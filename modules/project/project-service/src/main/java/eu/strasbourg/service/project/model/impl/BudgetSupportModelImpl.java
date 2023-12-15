@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model.impl;
@@ -269,138 +260,165 @@ public class BudgetSupportModelImpl
 	public Map<String, Function<BudgetSupport, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<BudgetSupport, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<BudgetSupport, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<BudgetSupport, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<BudgetSupport, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<BudgetSupport, Object>>();
-		Map<String, BiConsumer<BudgetSupport, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<BudgetSupport, ?>>();
+		private static final Map<String, Function<BudgetSupport, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", BudgetSupport::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<BudgetSupport, String>)BudgetSupport::setUuid);
-		attributeGetterFunctions.put(
-			"budgetSupportId", BudgetSupport::getBudgetSupportId);
-		attributeSetterBiConsumers.put(
-			"budgetSupportId",
-			(BiConsumer<BudgetSupport, Long>)BudgetSupport::setBudgetSupportId);
-		attributeGetterFunctions.put("groupId", BudgetSupport::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<BudgetSupport, Long>)BudgetSupport::setGroupId);
-		attributeGetterFunctions.put("companyId", BudgetSupport::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<BudgetSupport, Long>)BudgetSupport::setCompanyId);
-		attributeGetterFunctions.put(
-			"createDate", BudgetSupport::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<BudgetSupport, Date>)BudgetSupport::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", BudgetSupport::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<BudgetSupport, Date>)BudgetSupport::setModifiedDate);
-		attributeGetterFunctions.put("status", BudgetSupport::getStatus);
-		attributeSetterBiConsumers.put(
-			"status",
-			(BiConsumer<BudgetSupport, Integer>)BudgetSupport::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", BudgetSupport::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<BudgetSupport, Long>)BudgetSupport::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", BudgetSupport::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<BudgetSupport, String>)
-				BudgetSupport::setStatusByUserName);
-		attributeGetterFunctions.put(
-			"statusDate", BudgetSupport::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			(BiConsumer<BudgetSupport, Date>)BudgetSupport::setStatusDate);
-		attributeGetterFunctions.put(
-			"citoyenLastName", BudgetSupport::getCitoyenLastName);
-		attributeSetterBiConsumers.put(
-			"citoyenLastName",
-			(BiConsumer<BudgetSupport, String>)
-				BudgetSupport::setCitoyenLastName);
-		attributeGetterFunctions.put(
-			"citoyenFirstname", BudgetSupport::getCitoyenFirstname);
-		attributeSetterBiConsumers.put(
-			"citoyenFirstname",
-			(BiConsumer<BudgetSupport, String>)
-				BudgetSupport::setCitoyenFirstname);
-		attributeGetterFunctions.put(
-			"citoyenBirthday", BudgetSupport::getCitoyenBirthday);
-		attributeSetterBiConsumers.put(
-			"citoyenBirthday",
-			(BiConsumer<BudgetSupport, Date>)BudgetSupport::setCitoyenBirthday);
-		attributeGetterFunctions.put(
-			"citoyenAddress", BudgetSupport::getCitoyenAddress);
-		attributeSetterBiConsumers.put(
-			"citoyenAddress",
-			(BiConsumer<BudgetSupport, String>)
-				BudgetSupport::setCitoyenAddress);
-		attributeGetterFunctions.put(
-			"citoyenMail", BudgetSupport::getCitoyenMail);
-		attributeSetterBiConsumers.put(
-			"citoyenMail",
-			(BiConsumer<BudgetSupport, String>)BudgetSupport::setCitoyenMail);
-		attributeGetterFunctions.put(
-			"citoyenPostalCode", BudgetSupport::getCitoyenPostalCode);
-		attributeSetterBiConsumers.put(
-			"citoyenPostalCode",
-			(BiConsumer<BudgetSupport, Long>)
-				BudgetSupport::setCitoyenPostalCode);
-		attributeGetterFunctions.put(
-			"citoyenMobilePhone", BudgetSupport::getCitoyenMobilePhone);
-		attributeSetterBiConsumers.put(
-			"citoyenMobilePhone",
-			(BiConsumer<BudgetSupport, String>)
-				BudgetSupport::setCitoyenMobilePhone);
-		attributeGetterFunctions.put(
-			"citoyenPhone", BudgetSupport::getCitoyenPhone);
-		attributeSetterBiConsumers.put(
-			"citoyenPhone",
-			(BiConsumer<BudgetSupport, String>)BudgetSupport::setCitoyenPhone);
-		attributeGetterFunctions.put(
-			"citoyenCity", BudgetSupport::getCitoyenCity);
-		attributeSetterBiConsumers.put(
-			"citoyenCity",
-			(BiConsumer<BudgetSupport, String>)BudgetSupport::setCitoyenCity);
-		attributeGetterFunctions.put(
-			"publikUserId", BudgetSupport::getPublikUserId);
-		attributeSetterBiConsumers.put(
-			"publikUserId",
-			(BiConsumer<BudgetSupport, String>)BudgetSupport::setPublikUserId);
-		attributeGetterFunctions.put(
-			"budgetParticipatifId", BudgetSupport::getBudgetParticipatifId);
-		attributeSetterBiConsumers.put(
-			"budgetParticipatifId",
-			(BiConsumer<BudgetSupport, Long>)
-				BudgetSupport::setBudgetParticipatifId);
+		static {
+			Map<String, Function<BudgetSupport, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<BudgetSupport, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", BudgetSupport::getUuid);
+			attributeGetterFunctions.put(
+				"budgetSupportId", BudgetSupport::getBudgetSupportId);
+			attributeGetterFunctions.put("groupId", BudgetSupport::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", BudgetSupport::getCompanyId);
+			attributeGetterFunctions.put(
+				"createDate", BudgetSupport::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", BudgetSupport::getModifiedDate);
+			attributeGetterFunctions.put("status", BudgetSupport::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", BudgetSupport::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", BudgetSupport::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", BudgetSupport::getStatusDate);
+			attributeGetterFunctions.put(
+				"citoyenLastName", BudgetSupport::getCitoyenLastName);
+			attributeGetterFunctions.put(
+				"citoyenFirstname", BudgetSupport::getCitoyenFirstname);
+			attributeGetterFunctions.put(
+				"citoyenBirthday", BudgetSupport::getCitoyenBirthday);
+			attributeGetterFunctions.put(
+				"citoyenAddress", BudgetSupport::getCitoyenAddress);
+			attributeGetterFunctions.put(
+				"citoyenMail", BudgetSupport::getCitoyenMail);
+			attributeGetterFunctions.put(
+				"citoyenPostalCode", BudgetSupport::getCitoyenPostalCode);
+			attributeGetterFunctions.put(
+				"citoyenMobilePhone", BudgetSupport::getCitoyenMobilePhone);
+			attributeGetterFunctions.put(
+				"citoyenPhone", BudgetSupport::getCitoyenPhone);
+			attributeGetterFunctions.put(
+				"citoyenCity", BudgetSupport::getCitoyenCity);
+			attributeGetterFunctions.put(
+				"publikUserId", BudgetSupport::getPublikUserId);
+			attributeGetterFunctions.put(
+				"budgetParticipatifId", BudgetSupport::getBudgetParticipatifId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<BudgetSupport, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<BudgetSupport, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<BudgetSupport, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<BudgetSupport, String>)BudgetSupport::setUuid);
+			attributeSetterBiConsumers.put(
+				"budgetSupportId",
+				(BiConsumer<BudgetSupport, Long>)
+					BudgetSupport::setBudgetSupportId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<BudgetSupport, Long>)BudgetSupport::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<BudgetSupport, Long>)BudgetSupport::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<BudgetSupport, Date>)BudgetSupport::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<BudgetSupport, Date>)
+					BudgetSupport::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<BudgetSupport, Integer>)BudgetSupport::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<BudgetSupport, Long>)
+					BudgetSupport::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<BudgetSupport, String>)
+					BudgetSupport::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<BudgetSupport, Date>)BudgetSupport::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"citoyenLastName",
+				(BiConsumer<BudgetSupport, String>)
+					BudgetSupport::setCitoyenLastName);
+			attributeSetterBiConsumers.put(
+				"citoyenFirstname",
+				(BiConsumer<BudgetSupport, String>)
+					BudgetSupport::setCitoyenFirstname);
+			attributeSetterBiConsumers.put(
+				"citoyenBirthday",
+				(BiConsumer<BudgetSupport, Date>)
+					BudgetSupport::setCitoyenBirthday);
+			attributeSetterBiConsumers.put(
+				"citoyenAddress",
+				(BiConsumer<BudgetSupport, String>)
+					BudgetSupport::setCitoyenAddress);
+			attributeSetterBiConsumers.put(
+				"citoyenMail",
+				(BiConsumer<BudgetSupport, String>)
+					BudgetSupport::setCitoyenMail);
+			attributeSetterBiConsumers.put(
+				"citoyenPostalCode",
+				(BiConsumer<BudgetSupport, Long>)
+					BudgetSupport::setCitoyenPostalCode);
+			attributeSetterBiConsumers.put(
+				"citoyenMobilePhone",
+				(BiConsumer<BudgetSupport, String>)
+					BudgetSupport::setCitoyenMobilePhone);
+			attributeSetterBiConsumers.put(
+				"citoyenPhone",
+				(BiConsumer<BudgetSupport, String>)
+					BudgetSupport::setCitoyenPhone);
+			attributeSetterBiConsumers.put(
+				"citoyenCity",
+				(BiConsumer<BudgetSupport, String>)
+					BudgetSupport::setCitoyenCity);
+			attributeSetterBiConsumers.put(
+				"publikUserId",
+				(BiConsumer<BudgetSupport, String>)
+					BudgetSupport::setPublikUserId);
+			attributeSetterBiConsumers.put(
+				"budgetParticipatifId",
+				(BiConsumer<BudgetSupport, Long>)
+					BudgetSupport::setBudgetParticipatifId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1351,7 +1369,8 @@ public class BudgetSupportModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<BudgetSupport, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

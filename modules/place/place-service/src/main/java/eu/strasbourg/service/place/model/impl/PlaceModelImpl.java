@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.model.impl;
@@ -306,283 +297,317 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	}
 
 	public Map<String, Function<Place, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Place, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Place, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Place, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Place, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Place, Object>>();
-		Map<String, BiConsumer<Place, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Place, ?>>();
+		private static final Map<String, Function<Place, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Place::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Place, String>)Place::setUuid);
-		attributeGetterFunctions.put("placeId", Place::getPlaceId);
-		attributeSetterBiConsumers.put(
-			"placeId", (BiConsumer<Place, Long>)Place::setPlaceId);
-		attributeGetterFunctions.put("groupId", Place::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Place, Long>)Place::setGroupId);
-		attributeGetterFunctions.put("companyId", Place::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Place, Long>)Place::setCompanyId);
-		attributeGetterFunctions.put("userId", Place::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Place, Long>)Place::setUserId);
-		attributeGetterFunctions.put("userName", Place::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<Place, String>)Place::setUserName);
-		attributeGetterFunctions.put("createDate", Place::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<Place, Date>)Place::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", Place::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate", (BiConsumer<Place, Date>)Place::setModifiedDate);
-		attributeGetterFunctions.put(
-			"lastPublishDate", Place::getLastPublishDate);
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			(BiConsumer<Place, Date>)Place::setLastPublishDate);
-		attributeGetterFunctions.put("status", Place::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Place, Integer>)Place::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Place::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Place, Long>)Place::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Place::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Place, String>)Place::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Place::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate", (BiConsumer<Place, Date>)Place::setStatusDate);
-		attributeGetterFunctions.put("SIGid", Place::getSIGid);
-		attributeSetterBiConsumers.put(
-			"SIGid", (BiConsumer<Place, String>)Place::setSIGid);
-		attributeGetterFunctions.put("name", Place::getName);
-		attributeSetterBiConsumers.put(
-			"name", (BiConsumer<Place, String>)Place::setName);
-		attributeGetterFunctions.put(
-			"addressComplement", Place::getAddressComplement);
-		attributeSetterBiConsumers.put(
-			"addressComplement",
-			(BiConsumer<Place, String>)Place::setAddressComplement);
-		attributeGetterFunctions.put("addressStreet", Place::getAddressStreet);
-		attributeSetterBiConsumers.put(
-			"addressStreet",
-			(BiConsumer<Place, String>)Place::setAddressStreet);
-		attributeGetterFunctions.put(
-			"addressDistribution", Place::getAddressDistribution);
-		attributeSetterBiConsumers.put(
-			"addressDistribution",
-			(BiConsumer<Place, String>)Place::setAddressDistribution);
-		attributeGetterFunctions.put(
-			"addressZipCode", Place::getAddressZipCode);
-		attributeSetterBiConsumers.put(
-			"addressZipCode",
-			(BiConsumer<Place, String>)Place::setAddressZipCode);
-		attributeGetterFunctions.put(
-			"addressCountry", Place::getAddressCountry);
-		attributeSetterBiConsumers.put(
-			"addressCountry",
-			(BiConsumer<Place, String>)Place::setAddressCountry);
-		attributeGetterFunctions.put("mercatorX", Place::getMercatorX);
-		attributeSetterBiConsumers.put(
-			"mercatorX", (BiConsumer<Place, String>)Place::setMercatorX);
-		attributeGetterFunctions.put("mercatorY", Place::getMercatorY);
-		attributeSetterBiConsumers.put(
-			"mercatorY", (BiConsumer<Place, String>)Place::setMercatorY);
-		attributeGetterFunctions.put("RGF93X", Place::getRGF93X);
-		attributeSetterBiConsumers.put(
-			"RGF93X", (BiConsumer<Place, String>)Place::setRGF93X);
-		attributeGetterFunctions.put("RGF93Y", Place::getRGF93Y);
-		attributeSetterBiConsumers.put(
-			"RGF93Y", (BiConsumer<Place, String>)Place::setRGF93Y);
-		attributeGetterFunctions.put("locationId", Place::getLocationId);
-		attributeSetterBiConsumers.put(
-			"locationId", (BiConsumer<Place, String>)Place::setLocationId);
-		attributeGetterFunctions.put("alias", Place::getAlias);
-		attributeSetterBiConsumers.put(
-			"alias", (BiConsumer<Place, String>)Place::setAlias);
-		attributeGetterFunctions.put("presentation", Place::getPresentation);
-		attributeSetterBiConsumers.put(
-			"presentation", (BiConsumer<Place, String>)Place::setPresentation);
-		attributeGetterFunctions.put(
-			"serviceAndActivities", Place::getServiceAndActivities);
-		attributeSetterBiConsumers.put(
-			"serviceAndActivities",
-			(BiConsumer<Place, String>)Place::setServiceAndActivities);
-		attributeGetterFunctions.put(
-			"characteristics", Place::getCharacteristics);
-		attributeSetterBiConsumers.put(
-			"characteristics",
-			(BiConsumer<Place, String>)Place::setCharacteristics);
-		attributeGetterFunctions.put(
-			"subjectToPublicHoliday", Place::getSubjectToPublicHoliday);
-		attributeSetterBiConsumers.put(
-			"subjectToPublicHoliday",
-			(BiConsumer<Place, Boolean>)Place::setSubjectToPublicHoliday);
-		attributeGetterFunctions.put(
-			"exceptionalSchedule", Place::getExceptionalSchedule);
-		attributeSetterBiConsumers.put(
-			"exceptionalSchedule",
-			(BiConsumer<Place, String>)Place::setExceptionalSchedule);
-		attributeGetterFunctions.put("displayEvents", Place::getDisplayEvents);
-		attributeSetterBiConsumers.put(
-			"displayEvents",
-			(BiConsumer<Place, Boolean>)Place::setDisplayEvents);
-		attributeGetterFunctions.put(
-			"additionalInformation", Place::getAdditionalInformation);
-		attributeSetterBiConsumers.put(
-			"additionalInformation",
-			(BiConsumer<Place, String>)Place::setAdditionalInformation);
-		attributeGetterFunctions.put(
-			"contenuTooltipCarto", Place::getContenuTooltipCarto);
-		attributeSetterBiConsumers.put(
-			"contenuTooltipCarto",
-			(BiConsumer<Place, String>)Place::setContenuTooltipCarto);
-		attributeGetterFunctions.put(
-			"hasURLSchedule", Place::getHasURLSchedule);
-		attributeSetterBiConsumers.put(
-			"hasURLSchedule",
-			(BiConsumer<Place, Boolean>)Place::setHasURLSchedule);
-		attributeGetterFunctions.put(
-			"scheduleLinkName", Place::getScheduleLinkName);
-		attributeSetterBiConsumers.put(
-			"scheduleLinkName",
-			(BiConsumer<Place, String>)Place::setScheduleLinkName);
-		attributeGetterFunctions.put(
-			"scheduleLinkURL", Place::getScheduleLinkURL);
-		attributeSetterBiConsumers.put(
-			"scheduleLinkURL",
-			(BiConsumer<Place, String>)Place::setScheduleLinkURL);
-		attributeGetterFunctions.put("phone", Place::getPhone);
-		attributeSetterBiConsumers.put(
-			"phone", (BiConsumer<Place, String>)Place::setPhone);
-		attributeGetterFunctions.put("mail", Place::getMail);
-		attributeSetterBiConsumers.put(
-			"mail", (BiConsumer<Place, String>)Place::setMail);
-		attributeGetterFunctions.put("siteURL", Place::getSiteURL);
-		attributeSetterBiConsumers.put(
-			"siteURL", (BiConsumer<Place, String>)Place::setSiteURL);
-		attributeGetterFunctions.put("siteLabel", Place::getSiteLabel);
-		attributeSetterBiConsumers.put(
-			"siteLabel", (BiConsumer<Place, String>)Place::setSiteLabel);
-		attributeGetterFunctions.put("facebookURL", Place::getFacebookURL);
-		attributeSetterBiConsumers.put(
-			"facebookURL", (BiConsumer<Place, String>)Place::setFacebookURL);
-		attributeGetterFunctions.put("facebookLabel", Place::getFacebookLabel);
-		attributeSetterBiConsumers.put(
-			"facebookLabel",
-			(BiConsumer<Place, String>)Place::setFacebookLabel);
-		attributeGetterFunctions.put("instagramURL", Place::getInstagramURL);
-		attributeSetterBiConsumers.put(
-			"instagramURL", (BiConsumer<Place, String>)Place::setInstagramURL);
-		attributeGetterFunctions.put(
-			"instagramLabel", Place::getInstagramLabel);
-		attributeSetterBiConsumers.put(
-			"instagramLabel",
-			(BiConsumer<Place, String>)Place::setInstagramLabel);
-		attributeGetterFunctions.put("accesMap", Place::getAccesMap);
-		attributeSetterBiConsumers.put(
-			"accesMap", (BiConsumer<Place, String>)Place::setAccesMap);
-		attributeGetterFunctions.put("access", Place::getAccess);
-		attributeSetterBiConsumers.put(
-			"access", (BiConsumer<Place, String>)Place::setAccess);
-		attributeGetterFunctions.put(
-			"accessForDisabled", Place::getAccessForDisabled);
-		attributeSetterBiConsumers.put(
-			"accessForDisabled",
-			(BiConsumer<Place, String>)Place::setAccessForDisabled);
-		attributeGetterFunctions.put(
-			"accessForBlind", Place::getAccessForBlind);
-		attributeSetterBiConsumers.put(
-			"accessForBlind",
-			(BiConsumer<Place, Boolean>)Place::setAccessForBlind);
-		attributeGetterFunctions.put("accessForDeaf", Place::getAccessForDeaf);
-		attributeSetterBiConsumers.put(
-			"accessForDeaf",
-			(BiConsumer<Place, Boolean>)Place::setAccessForDeaf);
-		attributeGetterFunctions.put(
-			"accessForWheelchair", Place::getAccessForWheelchair);
-		attributeSetterBiConsumers.put(
-			"accessForWheelchair",
-			(BiConsumer<Place, Boolean>)Place::setAccessForWheelchair);
-		attributeGetterFunctions.put(
-			"accessForElder", Place::getAccessForElder);
-		attributeSetterBiConsumers.put(
-			"accessForElder",
-			(BiConsumer<Place, Boolean>)Place::setAccessForElder);
-		attributeGetterFunctions.put(
-			"accessForDeficient", Place::getAccessForDeficient);
-		attributeSetterBiConsumers.put(
-			"accessForDeficient",
-			(BiConsumer<Place, Boolean>)Place::setAccessForDeficient);
-		attributeGetterFunctions.put("RTEnabled", Place::getRTEnabled);
-		attributeSetterBiConsumers.put(
-			"RTEnabled", (BiConsumer<Place, Boolean>)Place::setRTEnabled);
-		attributeGetterFunctions.put("RTType", Place::getRTType);
-		attributeSetterBiConsumers.put(
-			"RTType", (BiConsumer<Place, String>)Place::setRTType);
-		attributeGetterFunctions.put("RTExternalId", Place::getRTExternalId);
-		attributeSetterBiConsumers.put(
-			"RTExternalId", (BiConsumer<Place, String>)Place::setRTExternalId);
-		attributeGetterFunctions.put("RTAvailable", Place::getRTAvailable);
-		attributeSetterBiConsumers.put(
-			"RTAvailable", (BiConsumer<Place, Long>)Place::setRTAvailable);
-		attributeGetterFunctions.put("RTOccupation", Place::getRTOccupation);
-		attributeSetterBiConsumers.put(
-			"RTOccupation", (BiConsumer<Place, Long>)Place::setRTOccupation);
-		attributeGetterFunctions.put("RTCapacity", Place::getRTCapacity);
-		attributeSetterBiConsumers.put(
-			"RTCapacity", (BiConsumer<Place, Long>)Place::setRTCapacity);
-		attributeGetterFunctions.put("RTStatus", Place::getRTStatus);
-		attributeSetterBiConsumers.put(
-			"RTStatus", (BiConsumer<Place, String>)Place::setRTStatus);
-		attributeGetterFunctions.put("RTLastUpdate", Place::getRTLastUpdate);
-		attributeSetterBiConsumers.put(
-			"RTLastUpdate", (BiConsumer<Place, Date>)Place::setRTLastUpdate);
-		attributeGetterFunctions.put("imageId", Place::getImageId);
-		attributeSetterBiConsumers.put(
-			"imageId", (BiConsumer<Place, Long>)Place::setImageId);
-		attributeGetterFunctions.put("imageWidth", Place::getImageWidth);
-		attributeSetterBiConsumers.put(
-			"imageWidth", (BiConsumer<Place, Integer>)Place::setImageWidth);
-		attributeGetterFunctions.put("imageHeight", Place::getImageHeight);
-		attributeSetterBiConsumers.put(
-			"imageHeight", (BiConsumer<Place, Integer>)Place::setImageHeight);
-		attributeGetterFunctions.put("imageIds", Place::getImageIds);
-		attributeSetterBiConsumers.put(
-			"imageIds", (BiConsumer<Place, String>)Place::setImageIds);
-		attributeGetterFunctions.put("videosIds", Place::getVideosIds);
-		attributeSetterBiConsumers.put(
-			"videosIds", (BiConsumer<Place, String>)Place::setVideosIds);
-		attributeGetterFunctions.put("priceId", Place::getPriceId);
-		attributeSetterBiConsumers.put(
-			"priceId", (BiConsumer<Place, Long>)Place::setPriceId);
-		attributeGetterFunctions.put("documentsIds", Place::getDocumentsIds);
-		attributeSetterBiConsumers.put(
-			"documentsIds", (BiConsumer<Place, String>)Place::setDocumentsIds);
+		static {
+			Map<String, Function<Place, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Place, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Place::getUuid);
+			attributeGetterFunctions.put("placeId", Place::getPlaceId);
+			attributeGetterFunctions.put("groupId", Place::getGroupId);
+			attributeGetterFunctions.put("companyId", Place::getCompanyId);
+			attributeGetterFunctions.put("userId", Place::getUserId);
+			attributeGetterFunctions.put("userName", Place::getUserName);
+			attributeGetterFunctions.put("createDate", Place::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Place::getModifiedDate);
+			attributeGetterFunctions.put(
+				"lastPublishDate", Place::getLastPublishDate);
+			attributeGetterFunctions.put("status", Place::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Place::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Place::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Place::getStatusDate);
+			attributeGetterFunctions.put("SIGid", Place::getSIGid);
+			attributeGetterFunctions.put("name", Place::getName);
+			attributeGetterFunctions.put(
+				"addressComplement", Place::getAddressComplement);
+			attributeGetterFunctions.put(
+				"addressStreet", Place::getAddressStreet);
+			attributeGetterFunctions.put(
+				"addressDistribution", Place::getAddressDistribution);
+			attributeGetterFunctions.put(
+				"addressZipCode", Place::getAddressZipCode);
+			attributeGetterFunctions.put(
+				"addressCountry", Place::getAddressCountry);
+			attributeGetterFunctions.put("mercatorX", Place::getMercatorX);
+			attributeGetterFunctions.put("mercatorY", Place::getMercatorY);
+			attributeGetterFunctions.put("RGF93X", Place::getRGF93X);
+			attributeGetterFunctions.put("RGF93Y", Place::getRGF93Y);
+			attributeGetterFunctions.put("locationId", Place::getLocationId);
+			attributeGetterFunctions.put("alias", Place::getAlias);
+			attributeGetterFunctions.put(
+				"presentation", Place::getPresentation);
+			attributeGetterFunctions.put(
+				"serviceAndActivities", Place::getServiceAndActivities);
+			attributeGetterFunctions.put(
+				"characteristics", Place::getCharacteristics);
+			attributeGetterFunctions.put(
+				"subjectToPublicHoliday", Place::getSubjectToPublicHoliday);
+			attributeGetterFunctions.put(
+				"exceptionalSchedule", Place::getExceptionalSchedule);
+			attributeGetterFunctions.put(
+				"displayEvents", Place::getDisplayEvents);
+			attributeGetterFunctions.put(
+				"additionalInformation", Place::getAdditionalInformation);
+			attributeGetterFunctions.put(
+				"contenuTooltipCarto", Place::getContenuTooltipCarto);
+			attributeGetterFunctions.put(
+				"hasURLSchedule", Place::getHasURLSchedule);
+			attributeGetterFunctions.put(
+				"scheduleLinkName", Place::getScheduleLinkName);
+			attributeGetterFunctions.put(
+				"scheduleLinkURL", Place::getScheduleLinkURL);
+			attributeGetterFunctions.put("phone", Place::getPhone);
+			attributeGetterFunctions.put("mail", Place::getMail);
+			attributeGetterFunctions.put("siteURL", Place::getSiteURL);
+			attributeGetterFunctions.put("siteLabel", Place::getSiteLabel);
+			attributeGetterFunctions.put("facebookURL", Place::getFacebookURL);
+			attributeGetterFunctions.put(
+				"facebookLabel", Place::getFacebookLabel);
+			attributeGetterFunctions.put(
+				"instagramURL", Place::getInstagramURL);
+			attributeGetterFunctions.put(
+				"instagramLabel", Place::getInstagramLabel);
+			attributeGetterFunctions.put("accesMap", Place::getAccesMap);
+			attributeGetterFunctions.put("access", Place::getAccess);
+			attributeGetterFunctions.put(
+				"accessForDisabled", Place::getAccessForDisabled);
+			attributeGetterFunctions.put(
+				"accessForBlind", Place::getAccessForBlind);
+			attributeGetterFunctions.put(
+				"accessForDeaf", Place::getAccessForDeaf);
+			attributeGetterFunctions.put(
+				"accessForWheelchair", Place::getAccessForWheelchair);
+			attributeGetterFunctions.put(
+				"accessForElder", Place::getAccessForElder);
+			attributeGetterFunctions.put(
+				"accessForDeficient", Place::getAccessForDeficient);
+			attributeGetterFunctions.put("RTEnabled", Place::getRTEnabled);
+			attributeGetterFunctions.put("RTType", Place::getRTType);
+			attributeGetterFunctions.put(
+				"RTExternalId", Place::getRTExternalId);
+			attributeGetterFunctions.put("RTAvailable", Place::getRTAvailable);
+			attributeGetterFunctions.put(
+				"RTOccupation", Place::getRTOccupation);
+			attributeGetterFunctions.put("RTCapacity", Place::getRTCapacity);
+			attributeGetterFunctions.put("RTStatus", Place::getRTStatus);
+			attributeGetterFunctions.put(
+				"RTLastUpdate", Place::getRTLastUpdate);
+			attributeGetterFunctions.put("imageId", Place::getImageId);
+			attributeGetterFunctions.put("imageWidth", Place::getImageWidth);
+			attributeGetterFunctions.put("imageHeight", Place::getImageHeight);
+			attributeGetterFunctions.put("imageIds", Place::getImageIds);
+			attributeGetterFunctions.put("videosIds", Place::getVideosIds);
+			attributeGetterFunctions.put("priceId", Place::getPriceId);
+			attributeGetterFunctions.put(
+				"documentsIds", Place::getDocumentsIds);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Place, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Place, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Place, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Place, String>)Place::setUuid);
+			attributeSetterBiConsumers.put(
+				"placeId", (BiConsumer<Place, Long>)Place::setPlaceId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Place, Long>)Place::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId", (BiConsumer<Place, Long>)Place::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Place, Long>)Place::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName", (BiConsumer<Place, String>)Place::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate", (BiConsumer<Place, Date>)Place::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Place, Date>)Place::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"lastPublishDate",
+				(BiConsumer<Place, Date>)Place::setLastPublishDate);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Place, Integer>)Place::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Place, Long>)Place::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Place, String>)Place::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate", (BiConsumer<Place, Date>)Place::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"SIGid", (BiConsumer<Place, String>)Place::setSIGid);
+			attributeSetterBiConsumers.put(
+				"name", (BiConsumer<Place, String>)Place::setName);
+			attributeSetterBiConsumers.put(
+				"addressComplement",
+				(BiConsumer<Place, String>)Place::setAddressComplement);
+			attributeSetterBiConsumers.put(
+				"addressStreet",
+				(BiConsumer<Place, String>)Place::setAddressStreet);
+			attributeSetterBiConsumers.put(
+				"addressDistribution",
+				(BiConsumer<Place, String>)Place::setAddressDistribution);
+			attributeSetterBiConsumers.put(
+				"addressZipCode",
+				(BiConsumer<Place, String>)Place::setAddressZipCode);
+			attributeSetterBiConsumers.put(
+				"addressCountry",
+				(BiConsumer<Place, String>)Place::setAddressCountry);
+			attributeSetterBiConsumers.put(
+				"mercatorX", (BiConsumer<Place, String>)Place::setMercatorX);
+			attributeSetterBiConsumers.put(
+				"mercatorY", (BiConsumer<Place, String>)Place::setMercatorY);
+			attributeSetterBiConsumers.put(
+				"RGF93X", (BiConsumer<Place, String>)Place::setRGF93X);
+			attributeSetterBiConsumers.put(
+				"RGF93Y", (BiConsumer<Place, String>)Place::setRGF93Y);
+			attributeSetterBiConsumers.put(
+				"locationId", (BiConsumer<Place, String>)Place::setLocationId);
+			attributeSetterBiConsumers.put(
+				"alias", (BiConsumer<Place, String>)Place::setAlias);
+			attributeSetterBiConsumers.put(
+				"presentation",
+				(BiConsumer<Place, String>)Place::setPresentation);
+			attributeSetterBiConsumers.put(
+				"serviceAndActivities",
+				(BiConsumer<Place, String>)Place::setServiceAndActivities);
+			attributeSetterBiConsumers.put(
+				"characteristics",
+				(BiConsumer<Place, String>)Place::setCharacteristics);
+			attributeSetterBiConsumers.put(
+				"subjectToPublicHoliday",
+				(BiConsumer<Place, Boolean>)Place::setSubjectToPublicHoliday);
+			attributeSetterBiConsumers.put(
+				"exceptionalSchedule",
+				(BiConsumer<Place, String>)Place::setExceptionalSchedule);
+			attributeSetterBiConsumers.put(
+				"displayEvents",
+				(BiConsumer<Place, Boolean>)Place::setDisplayEvents);
+			attributeSetterBiConsumers.put(
+				"additionalInformation",
+				(BiConsumer<Place, String>)Place::setAdditionalInformation);
+			attributeSetterBiConsumers.put(
+				"contenuTooltipCarto",
+				(BiConsumer<Place, String>)Place::setContenuTooltipCarto);
+			attributeSetterBiConsumers.put(
+				"hasURLSchedule",
+				(BiConsumer<Place, Boolean>)Place::setHasURLSchedule);
+			attributeSetterBiConsumers.put(
+				"scheduleLinkName",
+				(BiConsumer<Place, String>)Place::setScheduleLinkName);
+			attributeSetterBiConsumers.put(
+				"scheduleLinkURL",
+				(BiConsumer<Place, String>)Place::setScheduleLinkURL);
+			attributeSetterBiConsumers.put(
+				"phone", (BiConsumer<Place, String>)Place::setPhone);
+			attributeSetterBiConsumers.put(
+				"mail", (BiConsumer<Place, String>)Place::setMail);
+			attributeSetterBiConsumers.put(
+				"siteURL", (BiConsumer<Place, String>)Place::setSiteURL);
+			attributeSetterBiConsumers.put(
+				"siteLabel", (BiConsumer<Place, String>)Place::setSiteLabel);
+			attributeSetterBiConsumers.put(
+				"facebookURL",
+				(BiConsumer<Place, String>)Place::setFacebookURL);
+			attributeSetterBiConsumers.put(
+				"facebookLabel",
+				(BiConsumer<Place, String>)Place::setFacebookLabel);
+			attributeSetterBiConsumers.put(
+				"instagramURL",
+				(BiConsumer<Place, String>)Place::setInstagramURL);
+			attributeSetterBiConsumers.put(
+				"instagramLabel",
+				(BiConsumer<Place, String>)Place::setInstagramLabel);
+			attributeSetterBiConsumers.put(
+				"accesMap", (BiConsumer<Place, String>)Place::setAccesMap);
+			attributeSetterBiConsumers.put(
+				"access", (BiConsumer<Place, String>)Place::setAccess);
+			attributeSetterBiConsumers.put(
+				"accessForDisabled",
+				(BiConsumer<Place, String>)Place::setAccessForDisabled);
+			attributeSetterBiConsumers.put(
+				"accessForBlind",
+				(BiConsumer<Place, Boolean>)Place::setAccessForBlind);
+			attributeSetterBiConsumers.put(
+				"accessForDeaf",
+				(BiConsumer<Place, Boolean>)Place::setAccessForDeaf);
+			attributeSetterBiConsumers.put(
+				"accessForWheelchair",
+				(BiConsumer<Place, Boolean>)Place::setAccessForWheelchair);
+			attributeSetterBiConsumers.put(
+				"accessForElder",
+				(BiConsumer<Place, Boolean>)Place::setAccessForElder);
+			attributeSetterBiConsumers.put(
+				"accessForDeficient",
+				(BiConsumer<Place, Boolean>)Place::setAccessForDeficient);
+			attributeSetterBiConsumers.put(
+				"RTEnabled", (BiConsumer<Place, Boolean>)Place::setRTEnabled);
+			attributeSetterBiConsumers.put(
+				"RTType", (BiConsumer<Place, String>)Place::setRTType);
+			attributeSetterBiConsumers.put(
+				"RTExternalId",
+				(BiConsumer<Place, String>)Place::setRTExternalId);
+			attributeSetterBiConsumers.put(
+				"RTAvailable", (BiConsumer<Place, Long>)Place::setRTAvailable);
+			attributeSetterBiConsumers.put(
+				"RTOccupation",
+				(BiConsumer<Place, Long>)Place::setRTOccupation);
+			attributeSetterBiConsumers.put(
+				"RTCapacity", (BiConsumer<Place, Long>)Place::setRTCapacity);
+			attributeSetterBiConsumers.put(
+				"RTStatus", (BiConsumer<Place, String>)Place::setRTStatus);
+			attributeSetterBiConsumers.put(
+				"RTLastUpdate",
+				(BiConsumer<Place, Date>)Place::setRTLastUpdate);
+			attributeSetterBiConsumers.put(
+				"imageId", (BiConsumer<Place, Long>)Place::setImageId);
+			attributeSetterBiConsumers.put(
+				"imageWidth", (BiConsumer<Place, Integer>)Place::setImageWidth);
+			attributeSetterBiConsumers.put(
+				"imageHeight",
+				(BiConsumer<Place, Integer>)Place::setImageHeight);
+			attributeSetterBiConsumers.put(
+				"imageIds", (BiConsumer<Place, String>)Place::setImageIds);
+			attributeSetterBiConsumers.put(
+				"videosIds", (BiConsumer<Place, String>)Place::setVideosIds);
+			attributeSetterBiConsumers.put(
+				"priceId", (BiConsumer<Place, Long>)Place::setPriceId);
+			attributeSetterBiConsumers.put(
+				"documentsIds",
+				(BiConsumer<Place, String>)Place::setDocumentsIds);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -5084,8 +5109,9 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Place, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Place, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

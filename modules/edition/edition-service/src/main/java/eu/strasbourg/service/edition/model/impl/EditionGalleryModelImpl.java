@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.edition.model.impl;
@@ -289,111 +280,136 @@ public class EditionGalleryModelImpl
 	public Map<String, Function<EditionGallery, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<EditionGallery, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<EditionGallery, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<EditionGallery, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<EditionGallery, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<EditionGallery, Object>>();
-		Map<String, BiConsumer<EditionGallery, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<EditionGallery, ?>>();
+		private static final Map<String, Function<EditionGallery, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", EditionGallery::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid",
-			(BiConsumer<EditionGallery, String>)EditionGallery::setUuid);
-		attributeGetterFunctions.put("galleryId", EditionGallery::getGalleryId);
-		attributeSetterBiConsumers.put(
-			"galleryId",
-			(BiConsumer<EditionGallery, Long>)EditionGallery::setGalleryId);
-		attributeGetterFunctions.put("groupId", EditionGallery::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<EditionGallery, Long>)EditionGallery::setGroupId);
-		attributeGetterFunctions.put("companyId", EditionGallery::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<EditionGallery, Long>)EditionGallery::setCompanyId);
-		attributeGetterFunctions.put("userId", EditionGallery::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId",
-			(BiConsumer<EditionGallery, Long>)EditionGallery::setUserId);
-		attributeGetterFunctions.put("userName", EditionGallery::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<EditionGallery, String>)EditionGallery::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", EditionGallery::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<EditionGallery, Date>)EditionGallery::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", EditionGallery::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<EditionGallery, Date>)EditionGallery::setModifiedDate);
-		attributeGetterFunctions.put(
-			"lastPublishDate", EditionGallery::getLastPublishDate);
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			(BiConsumer<EditionGallery, Date>)
-				EditionGallery::setLastPublishDate);
-		attributeGetterFunctions.put("status", EditionGallery::getStatus);
-		attributeSetterBiConsumers.put(
-			"status",
-			(BiConsumer<EditionGallery, Integer>)EditionGallery::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", EditionGallery::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<EditionGallery, Long>)
-				EditionGallery::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", EditionGallery::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<EditionGallery, String>)
-				EditionGallery::setStatusByUserName);
-		attributeGetterFunctions.put(
-			"statusDate", EditionGallery::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			(BiConsumer<EditionGallery, Date>)EditionGallery::setStatusDate);
-		attributeGetterFunctions.put("imageId", EditionGallery::getImageId);
-		attributeSetterBiConsumers.put(
-			"imageId",
-			(BiConsumer<EditionGallery, Long>)EditionGallery::setImageId);
-		attributeGetterFunctions.put("title", EditionGallery::getTitle);
-		attributeSetterBiConsumers.put(
-			"title",
-			(BiConsumer<EditionGallery, String>)EditionGallery::setTitle);
-		attributeGetterFunctions.put(
-			"description", EditionGallery::getDescription);
-		attributeSetterBiConsumers.put(
-			"description",
-			(BiConsumer<EditionGallery, String>)EditionGallery::setDescription);
-		attributeGetterFunctions.put(
-			"publicationDate", EditionGallery::getPublicationDate);
-		attributeSetterBiConsumers.put(
-			"publicationDate",
-			(BiConsumer<EditionGallery, Date>)
-				EditionGallery::setPublicationDate);
+		static {
+			Map<String, Function<EditionGallery, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<EditionGallery, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", EditionGallery::getUuid);
+			attributeGetterFunctions.put(
+				"galleryId", EditionGallery::getGalleryId);
+			attributeGetterFunctions.put("groupId", EditionGallery::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", EditionGallery::getCompanyId);
+			attributeGetterFunctions.put("userId", EditionGallery::getUserId);
+			attributeGetterFunctions.put(
+				"userName", EditionGallery::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", EditionGallery::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", EditionGallery::getModifiedDate);
+			attributeGetterFunctions.put(
+				"lastPublishDate", EditionGallery::getLastPublishDate);
+			attributeGetterFunctions.put("status", EditionGallery::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", EditionGallery::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", EditionGallery::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", EditionGallery::getStatusDate);
+			attributeGetterFunctions.put("imageId", EditionGallery::getImageId);
+			attributeGetterFunctions.put("title", EditionGallery::getTitle);
+			attributeGetterFunctions.put(
+				"description", EditionGallery::getDescription);
+			attributeGetterFunctions.put(
+				"publicationDate", EditionGallery::getPublicationDate);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<EditionGallery, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<EditionGallery, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<EditionGallery, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<EditionGallery, String>)EditionGallery::setUuid);
+			attributeSetterBiConsumers.put(
+				"galleryId",
+				(BiConsumer<EditionGallery, Long>)EditionGallery::setGalleryId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<EditionGallery, Long>)EditionGallery::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<EditionGallery, Long>)EditionGallery::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<EditionGallery, Long>)EditionGallery::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<EditionGallery, String>)
+					EditionGallery::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<EditionGallery, Date>)
+					EditionGallery::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<EditionGallery, Date>)
+					EditionGallery::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"lastPublishDate",
+				(BiConsumer<EditionGallery, Date>)
+					EditionGallery::setLastPublishDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<EditionGallery, Integer>)EditionGallery::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<EditionGallery, Long>)
+					EditionGallery::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<EditionGallery, String>)
+					EditionGallery::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<EditionGallery, Date>)
+					EditionGallery::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"imageId",
+				(BiConsumer<EditionGallery, Long>)EditionGallery::setImageId);
+			attributeSetterBiConsumers.put(
+				"title",
+				(BiConsumer<EditionGallery, String>)EditionGallery::setTitle);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<EditionGallery, String>)
+					EditionGallery::setDescription);
+			attributeSetterBiConsumers.put(
+				"publicationDate",
+				(BiConsumer<EditionGallery, Date>)
+					EditionGallery::setPublicationDate);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1509,7 +1525,8 @@ public class EditionGalleryModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<EditionGallery, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

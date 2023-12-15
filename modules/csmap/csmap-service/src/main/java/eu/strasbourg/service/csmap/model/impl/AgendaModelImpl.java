@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.csmap.model.impl;
@@ -236,91 +227,107 @@ public class AgendaModelImpl
 	}
 
 	public Map<String, Function<Agenda, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Agenda, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Agenda, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Agenda, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Agenda, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Agenda, Object>>();
-		Map<String, BiConsumer<Agenda, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Agenda, ?>>();
+		private static final Map<String, Function<Agenda, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Agenda::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Agenda, String>)Agenda::setUuid);
-		attributeGetterFunctions.put("agendaId", Agenda::getAgendaId);
-		attributeSetterBiConsumers.put(
-			"agendaId", (BiConsumer<Agenda, Long>)Agenda::setAgendaId);
-		attributeGetterFunctions.put("title", Agenda::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<Agenda, String>)Agenda::setTitle);
-		attributeGetterFunctions.put(
-			"editorialTitle", Agenda::getEditorialTitle);
-		attributeSetterBiConsumers.put(
-			"editorialTitle",
-			(BiConsumer<Agenda, String>)Agenda::setEditorialTitle);
-		attributeGetterFunctions.put("subtitle", Agenda::getSubtitle);
-		attributeSetterBiConsumers.put(
-			"subtitle", (BiConsumer<Agenda, String>)Agenda::setSubtitle);
-		attributeGetterFunctions.put("imageId", Agenda::getImageId);
-		attributeSetterBiConsumers.put(
-			"imageId", (BiConsumer<Agenda, Long>)Agenda::setImageId);
-		attributeGetterFunctions.put("labelLink", Agenda::getLabelLink);
-		attributeSetterBiConsumers.put(
-			"labelLink", (BiConsumer<Agenda, String>)Agenda::setLabelLink);
-		attributeGetterFunctions.put("link", Agenda::getLink);
-		attributeSetterBiConsumers.put(
-			"link", (BiConsumer<Agenda, String>)Agenda::setLink);
-		attributeGetterFunctions.put(
-			"publicationStartDate", Agenda::getPublicationStartDate);
-		attributeSetterBiConsumers.put(
-			"publicationStartDate",
-			(BiConsumer<Agenda, Date>)Agenda::setPublicationStartDate);
-		attributeGetterFunctions.put(
-			"publicationEndDate", Agenda::getPublicationEndDate);
-		attributeSetterBiConsumers.put(
-			"publicationEndDate",
-			(BiConsumer<Agenda, Date>)Agenda::setPublicationEndDate);
-		attributeGetterFunctions.put("isPrincipal", Agenda::getIsPrincipal);
-		attributeSetterBiConsumers.put(
-			"isPrincipal", (BiConsumer<Agenda, Boolean>)Agenda::setIsPrincipal);
-		attributeGetterFunctions.put("isActive", Agenda::getIsActive);
-		attributeSetterBiConsumers.put(
-			"isActive", (BiConsumer<Agenda, Boolean>)Agenda::setIsActive);
-		attributeGetterFunctions.put("campaignsIds", Agenda::getCampaignsIds);
-		attributeSetterBiConsumers.put(
-			"campaignsIds",
-			(BiConsumer<Agenda, String>)Agenda::setCampaignsIds);
-		attributeGetterFunctions.put("themesIds", Agenda::getThemesIds);
-		attributeSetterBiConsumers.put(
-			"themesIds", (BiConsumer<Agenda, String>)Agenda::setThemesIds);
-		attributeGetterFunctions.put("typesIds", Agenda::getTypesIds);
-		attributeSetterBiConsumers.put(
-			"typesIds", (BiConsumer<Agenda, String>)Agenda::setTypesIds);
-		attributeGetterFunctions.put(
-			"territoriesIds", Agenda::getTerritoriesIds);
-		attributeSetterBiConsumers.put(
-			"territoriesIds",
-			(BiConsumer<Agenda, String>)Agenda::setTerritoriesIds);
-		attributeGetterFunctions.put("tags", Agenda::getTags);
-		attributeSetterBiConsumers.put(
-			"tags", (BiConsumer<Agenda, String>)Agenda::setTags);
+		static {
+			Map<String, Function<Agenda, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Agenda, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Agenda::getUuid);
+			attributeGetterFunctions.put("agendaId", Agenda::getAgendaId);
+			attributeGetterFunctions.put("title", Agenda::getTitle);
+			attributeGetterFunctions.put(
+				"editorialTitle", Agenda::getEditorialTitle);
+			attributeGetterFunctions.put("subtitle", Agenda::getSubtitle);
+			attributeGetterFunctions.put("imageId", Agenda::getImageId);
+			attributeGetterFunctions.put("labelLink", Agenda::getLabelLink);
+			attributeGetterFunctions.put("link", Agenda::getLink);
+			attributeGetterFunctions.put(
+				"publicationStartDate", Agenda::getPublicationStartDate);
+			attributeGetterFunctions.put(
+				"publicationEndDate", Agenda::getPublicationEndDate);
+			attributeGetterFunctions.put("isPrincipal", Agenda::getIsPrincipal);
+			attributeGetterFunctions.put("isActive", Agenda::getIsActive);
+			attributeGetterFunctions.put(
+				"campaignsIds", Agenda::getCampaignsIds);
+			attributeGetterFunctions.put("themesIds", Agenda::getThemesIds);
+			attributeGetterFunctions.put("typesIds", Agenda::getTypesIds);
+			attributeGetterFunctions.put(
+				"territoriesIds", Agenda::getTerritoriesIds);
+			attributeGetterFunctions.put("tags", Agenda::getTags);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Agenda, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Agenda, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Agenda, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Agenda, String>)Agenda::setUuid);
+			attributeSetterBiConsumers.put(
+				"agendaId", (BiConsumer<Agenda, Long>)Agenda::setAgendaId);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Agenda, String>)Agenda::setTitle);
+			attributeSetterBiConsumers.put(
+				"editorialTitle",
+				(BiConsumer<Agenda, String>)Agenda::setEditorialTitle);
+			attributeSetterBiConsumers.put(
+				"subtitle", (BiConsumer<Agenda, String>)Agenda::setSubtitle);
+			attributeSetterBiConsumers.put(
+				"imageId", (BiConsumer<Agenda, Long>)Agenda::setImageId);
+			attributeSetterBiConsumers.put(
+				"labelLink", (BiConsumer<Agenda, String>)Agenda::setLabelLink);
+			attributeSetterBiConsumers.put(
+				"link", (BiConsumer<Agenda, String>)Agenda::setLink);
+			attributeSetterBiConsumers.put(
+				"publicationStartDate",
+				(BiConsumer<Agenda, Date>)Agenda::setPublicationStartDate);
+			attributeSetterBiConsumers.put(
+				"publicationEndDate",
+				(BiConsumer<Agenda, Date>)Agenda::setPublicationEndDate);
+			attributeSetterBiConsumers.put(
+				"isPrincipal",
+				(BiConsumer<Agenda, Boolean>)Agenda::setIsPrincipal);
+			attributeSetterBiConsumers.put(
+				"isActive", (BiConsumer<Agenda, Boolean>)Agenda::setIsActive);
+			attributeSetterBiConsumers.put(
+				"campaignsIds",
+				(BiConsumer<Agenda, String>)Agenda::setCampaignsIds);
+			attributeSetterBiConsumers.put(
+				"themesIds", (BiConsumer<Agenda, String>)Agenda::setThemesIds);
+			attributeSetterBiConsumers.put(
+				"typesIds", (BiConsumer<Agenda, String>)Agenda::setTypesIds);
+			attributeSetterBiConsumers.put(
+				"territoriesIds",
+				(BiConsumer<Agenda, String>)Agenda::setTerritoriesIds);
+			attributeSetterBiConsumers.put(
+				"tags", (BiConsumer<Agenda, String>)Agenda::setTags);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -1645,8 +1652,9 @@ public class AgendaModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Agenda, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Agenda, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

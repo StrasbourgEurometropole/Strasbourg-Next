@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.video.model.impl;
@@ -287,101 +278,118 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 	}
 
 	public Map<String, Function<Video, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Video, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Video, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Video, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Video, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Video, Object>>();
-		Map<String, BiConsumer<Video, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Video, ?>>();
+		private static final Map<String, Function<Video, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Video::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Video, String>)Video::setUuid);
-		attributeGetterFunctions.put("videoId", Video::getVideoId);
-		attributeSetterBiConsumers.put(
-			"videoId", (BiConsumer<Video, Long>)Video::setVideoId);
-		attributeGetterFunctions.put("groupId", Video::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Video, Long>)Video::setGroupId);
-		attributeGetterFunctions.put("companyId", Video::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Video, Long>)Video::setCompanyId);
-		attributeGetterFunctions.put("userId", Video::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Video, Long>)Video::setUserId);
-		attributeGetterFunctions.put("userName", Video::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<Video, String>)Video::setUserName);
-		attributeGetterFunctions.put("createDate", Video::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<Video, Date>)Video::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", Video::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate", (BiConsumer<Video, Date>)Video::setModifiedDate);
-		attributeGetterFunctions.put(
-			"lastPublishDate", Video::getLastPublishDate);
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			(BiConsumer<Video, Date>)Video::setLastPublishDate);
-		attributeGetterFunctions.put("status", Video::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Video, Integer>)Video::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Video::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Video, Long>)Video::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Video::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Video, String>)Video::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Video::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate", (BiConsumer<Video, Date>)Video::setStatusDate);
-		attributeGetterFunctions.put("title", Video::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<Video, String>)Video::setTitle);
-		attributeGetterFunctions.put("description", Video::getDescription);
-		attributeSetterBiConsumers.put(
-			"description", (BiConsumer<Video, String>)Video::setDescription);
-		attributeGetterFunctions.put("copyright", Video::getCopyright);
-		attributeSetterBiConsumers.put(
-			"copyright", (BiConsumer<Video, String>)Video::setCopyright);
-		attributeGetterFunctions.put("source", Video::getSource);
-		attributeSetterBiConsumers.put(
-			"source", (BiConsumer<Video, String>)Video::setSource);
-		attributeGetterFunctions.put(
-			"publicationDate", Video::getPublicationDate);
-		attributeSetterBiConsumers.put(
-			"publicationDate",
-			(BiConsumer<Video, Date>)Video::setPublicationDate);
-		attributeGetterFunctions.put("imageId", Video::getImageId);
-		attributeSetterBiConsumers.put(
-			"imageId", (BiConsumer<Video, Long>)Video::setImageId);
-		attributeGetterFunctions.put(
-			"transcriptionFileId", Video::getTranscriptionFileId);
-		attributeSetterBiConsumers.put(
-			"transcriptionFileId",
-			(BiConsumer<Video, Long>)Video::setTranscriptionFileId);
+		static {
+			Map<String, Function<Video, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Video, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Video::getUuid);
+			attributeGetterFunctions.put("videoId", Video::getVideoId);
+			attributeGetterFunctions.put("groupId", Video::getGroupId);
+			attributeGetterFunctions.put("companyId", Video::getCompanyId);
+			attributeGetterFunctions.put("userId", Video::getUserId);
+			attributeGetterFunctions.put("userName", Video::getUserName);
+			attributeGetterFunctions.put("createDate", Video::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Video::getModifiedDate);
+			attributeGetterFunctions.put(
+				"lastPublishDate", Video::getLastPublishDate);
+			attributeGetterFunctions.put("status", Video::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Video::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Video::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Video::getStatusDate);
+			attributeGetterFunctions.put("title", Video::getTitle);
+			attributeGetterFunctions.put("description", Video::getDescription);
+			attributeGetterFunctions.put("copyright", Video::getCopyright);
+			attributeGetterFunctions.put("source", Video::getSource);
+			attributeGetterFunctions.put(
+				"publicationDate", Video::getPublicationDate);
+			attributeGetterFunctions.put("imageId", Video::getImageId);
+			attributeGetterFunctions.put(
+				"transcriptionFileId", Video::getTranscriptionFileId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Video, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Video, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Video, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Video, String>)Video::setUuid);
+			attributeSetterBiConsumers.put(
+				"videoId", (BiConsumer<Video, Long>)Video::setVideoId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Video, Long>)Video::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId", (BiConsumer<Video, Long>)Video::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Video, Long>)Video::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName", (BiConsumer<Video, String>)Video::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate", (BiConsumer<Video, Date>)Video::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Video, Date>)Video::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"lastPublishDate",
+				(BiConsumer<Video, Date>)Video::setLastPublishDate);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Video, Integer>)Video::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Video, Long>)Video::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Video, String>)Video::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate", (BiConsumer<Video, Date>)Video::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Video, String>)Video::setTitle);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<Video, String>)Video::setDescription);
+			attributeSetterBiConsumers.put(
+				"copyright", (BiConsumer<Video, String>)Video::setCopyright);
+			attributeSetterBiConsumers.put(
+				"source", (BiConsumer<Video, String>)Video::setSource);
+			attributeSetterBiConsumers.put(
+				"publicationDate",
+				(BiConsumer<Video, Date>)Video::setPublicationDate);
+			attributeSetterBiConsumers.put(
+				"imageId", (BiConsumer<Video, Long>)Video::setImageId);
+			attributeSetterBiConsumers.put(
+				"transcriptionFileId",
+				(BiConsumer<Video, Long>)Video::setTranscriptionFileId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1789,8 +1797,9 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Video, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Video, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

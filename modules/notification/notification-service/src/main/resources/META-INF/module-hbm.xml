@@ -7,37 +7,37 @@
 	<import class="eu.strasbourg.service.notification.model.UserNotificationStatus" />
 	<import class="eu.strasbourg.service.notification.model.UserNotificationType" />
 	<class name="eu.strasbourg.service.notification.model.impl.NotificationImpl" table="notification_Notification">
-		<id access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="notificationId" type="long">
+		<id access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="notificationId" type="long">
 			<generator class="assigned" />
 		</id>
-		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
-		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="automatic" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
-		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="singleUser" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
-		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="singleUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="publicationDate" type="org.hibernate.type.TimestampType" />
-		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="expirationDate" type="org.hibernate.type.TimestampType" />
-		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
-		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="typeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="automatic" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="singleUser" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="singleUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="publicationDate" type="org.hibernate.type.TimestampType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="expirationDate" type="org.hibernate.type.TimestampType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" name="typeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="eu.strasbourg.service.notification.model.impl.UserNotificationChannelImpl" table="notification_UserNotificationChannel">
 		<composite-id class="eu.strasbourg.service.notification.service.persistence.UserNotificationChannelPK" name="primaryKey">
-			<key-property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-			<key-property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="channelId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+			<key-property access="com.liferay.portal.dao.orm.hibernate.PublicFieldPropertyAccessor" name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+			<key-property access="com.liferay.portal.dao.orm.hibernate.PublicFieldPropertyAccessor" name="channelId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		</composite-id>
 	</class>
 	<class name="eu.strasbourg.service.notification.model.impl.UserNotificationStatusImpl" table="notification_UserNotificationStatus">
 		<composite-id class="eu.strasbourg.service.notification.service.persistence.UserNotificationStatusPK" name="primaryKey">
-			<key-property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="notificationId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-			<key-property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+			<key-property access="com.liferay.portal.dao.orm.hibernate.PublicFieldPropertyAccessor" name="notificationId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+			<key-property access="com.liferay.portal.dao.orm.hibernate.PublicFieldPropertyAccessor" name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		</composite-id>
-		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" column="read_" name="read" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.MethodPropertyAccessor" column="read_" name="read" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>
 	<class name="eu.strasbourg.service.notification.model.impl.UserNotificationTypeImpl" table="notification_UserNotificationType">
 		<composite-id class="eu.strasbourg.service.notification.service.persistence.UserNotificationTypePK" name="primaryKey">
-			<key-property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-			<key-property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="typeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+			<key-property access="com.liferay.portal.dao.orm.hibernate.PublicFieldPropertyAccessor" name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+			<key-property access="com.liferay.portal.dao.orm.hibernate.PublicFieldPropertyAccessor" name="typeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		</composite-id>
 	</class>
 </hibernate-mapping>

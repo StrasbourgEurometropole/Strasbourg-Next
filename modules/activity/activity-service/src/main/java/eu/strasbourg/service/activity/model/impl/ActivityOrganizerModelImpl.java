@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.activity.model.impl;
@@ -260,131 +251,160 @@ public class ActivityOrganizerModelImpl
 	public Map<String, Function<ActivityOrganizer, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<ActivityOrganizer, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<ActivityOrganizer, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ActivityOrganizer, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<ActivityOrganizer, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap
-					<String, Function<ActivityOrganizer, Object>>();
-		Map<String, BiConsumer<ActivityOrganizer, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<ActivityOrganizer, ?>>();
+		private static final Map<String, Function<ActivityOrganizer, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", ActivityOrganizer::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid",
-			(BiConsumer<ActivityOrganizer, String>)ActivityOrganizer::setUuid);
-		attributeGetterFunctions.put(
-			"activityOrganizerId", ActivityOrganizer::getActivityOrganizerId);
-		attributeSetterBiConsumers.put(
-			"activityOrganizerId",
-			(BiConsumer<ActivityOrganizer, Long>)
-				ActivityOrganizer::setActivityOrganizerId);
-		attributeGetterFunctions.put("groupId", ActivityOrganizer::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<ActivityOrganizer, Long>)ActivityOrganizer::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", ActivityOrganizer::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<ActivityOrganizer, Long>)
-				ActivityOrganizer::setCompanyId);
-		attributeGetterFunctions.put("userId", ActivityOrganizer::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId",
-			(BiConsumer<ActivityOrganizer, Long>)ActivityOrganizer::setUserId);
-		attributeGetterFunctions.put(
-			"userName", ActivityOrganizer::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<ActivityOrganizer, String>)
-				ActivityOrganizer::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", ActivityOrganizer::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<ActivityOrganizer, Date>)
-				ActivityOrganizer::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", ActivityOrganizer::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<ActivityOrganizer, Date>)
-				ActivityOrganizer::setModifiedDate);
-		attributeGetterFunctions.put("status", ActivityOrganizer::getStatus);
-		attributeSetterBiConsumers.put(
-			"status",
-			(BiConsumer<ActivityOrganizer, Integer>)
-				ActivityOrganizer::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", ActivityOrganizer::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<ActivityOrganizer, Long>)
-				ActivityOrganizer::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", ActivityOrganizer::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<ActivityOrganizer, String>)
-				ActivityOrganizer::setStatusByUserName);
-		attributeGetterFunctions.put(
-			"statusDate", ActivityOrganizer::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			(BiConsumer<ActivityOrganizer, Date>)
-				ActivityOrganizer::setStatusDate);
-		attributeGetterFunctions.put("name", ActivityOrganizer::getName);
-		attributeSetterBiConsumers.put(
-			"name",
-			(BiConsumer<ActivityOrganizer, String>)ActivityOrganizer::setName);
-		attributeGetterFunctions.put(
-			"presentation", ActivityOrganizer::getPresentation);
-		attributeSetterBiConsumers.put(
-			"presentation",
-			(BiConsumer<ActivityOrganizer, String>)
-				ActivityOrganizer::setPresentation);
-		attributeGetterFunctions.put("address", ActivityOrganizer::getAddress);
-		attributeSetterBiConsumers.put(
-			"address",
-			(BiConsumer<ActivityOrganizer, String>)
-				ActivityOrganizer::setAddress);
-		attributeGetterFunctions.put("phone", ActivityOrganizer::getPhone);
-		attributeSetterBiConsumers.put(
-			"phone",
-			(BiConsumer<ActivityOrganizer, String>)ActivityOrganizer::setPhone);
-		attributeGetterFunctions.put("mail", ActivityOrganizer::getMail);
-		attributeSetterBiConsumers.put(
-			"mail",
-			(BiConsumer<ActivityOrganizer, String>)ActivityOrganizer::setMail);
-		attributeGetterFunctions.put("siteURL", ActivityOrganizer::getSiteURL);
-		attributeSetterBiConsumers.put(
-			"siteURL",
-			(BiConsumer<ActivityOrganizer, String>)
-				ActivityOrganizer::setSiteURL);
-		attributeGetterFunctions.put("imageId", ActivityOrganizer::getImageId);
-		attributeSetterBiConsumers.put(
-			"imageId",
-			(BiConsumer<ActivityOrganizer, Long>)ActivityOrganizer::setImageId);
+		static {
+			Map<String, Function<ActivityOrganizer, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<ActivityOrganizer, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", ActivityOrganizer::getUuid);
+			attributeGetterFunctions.put(
+				"activityOrganizerId",
+				ActivityOrganizer::getActivityOrganizerId);
+			attributeGetterFunctions.put(
+				"groupId", ActivityOrganizer::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", ActivityOrganizer::getCompanyId);
+			attributeGetterFunctions.put(
+				"userId", ActivityOrganizer::getUserId);
+			attributeGetterFunctions.put(
+				"userName", ActivityOrganizer::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", ActivityOrganizer::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", ActivityOrganizer::getModifiedDate);
+			attributeGetterFunctions.put(
+				"status", ActivityOrganizer::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", ActivityOrganizer::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", ActivityOrganizer::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", ActivityOrganizer::getStatusDate);
+			attributeGetterFunctions.put("name", ActivityOrganizer::getName);
+			attributeGetterFunctions.put(
+				"presentation", ActivityOrganizer::getPresentation);
+			attributeGetterFunctions.put(
+				"address", ActivityOrganizer::getAddress);
+			attributeGetterFunctions.put("phone", ActivityOrganizer::getPhone);
+			attributeGetterFunctions.put("mail", ActivityOrganizer::getMail);
+			attributeGetterFunctions.put(
+				"siteURL", ActivityOrganizer::getSiteURL);
+			attributeGetterFunctions.put(
+				"imageId", ActivityOrganizer::getImageId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<ActivityOrganizer, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<ActivityOrganizer, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String, BiConsumer<ActivityOrganizer, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<ActivityOrganizer, String>)
+					ActivityOrganizer::setUuid);
+			attributeSetterBiConsumers.put(
+				"activityOrganizerId",
+				(BiConsumer<ActivityOrganizer, Long>)
+					ActivityOrganizer::setActivityOrganizerId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<ActivityOrganizer, Long>)
+					ActivityOrganizer::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<ActivityOrganizer, Long>)
+					ActivityOrganizer::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<ActivityOrganizer, Long>)
+					ActivityOrganizer::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<ActivityOrganizer, String>)
+					ActivityOrganizer::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<ActivityOrganizer, Date>)
+					ActivityOrganizer::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<ActivityOrganizer, Date>)
+					ActivityOrganizer::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<ActivityOrganizer, Integer>)
+					ActivityOrganizer::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<ActivityOrganizer, Long>)
+					ActivityOrganizer::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<ActivityOrganizer, String>)
+					ActivityOrganizer::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<ActivityOrganizer, Date>)
+					ActivityOrganizer::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"name",
+				(BiConsumer<ActivityOrganizer, String>)
+					ActivityOrganizer::setName);
+			attributeSetterBiConsumers.put(
+				"presentation",
+				(BiConsumer<ActivityOrganizer, String>)
+					ActivityOrganizer::setPresentation);
+			attributeSetterBiConsumers.put(
+				"address",
+				(BiConsumer<ActivityOrganizer, String>)
+					ActivityOrganizer::setAddress);
+			attributeSetterBiConsumers.put(
+				"phone",
+				(BiConsumer<ActivityOrganizer, String>)
+					ActivityOrganizer::setPhone);
+			attributeSetterBiConsumers.put(
+				"mail",
+				(BiConsumer<ActivityOrganizer, String>)
+					ActivityOrganizer::setMail);
+			attributeSetterBiConsumers.put(
+				"siteURL",
+				(BiConsumer<ActivityOrganizer, String>)
+					ActivityOrganizer::setSiteURL);
+			attributeSetterBiConsumers.put(
+				"imageId",
+				(BiConsumer<ActivityOrganizer, Long>)
+					ActivityOrganizer::setImageId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1768,7 +1788,8 @@ public class ActivityOrganizerModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<ActivityOrganizer, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

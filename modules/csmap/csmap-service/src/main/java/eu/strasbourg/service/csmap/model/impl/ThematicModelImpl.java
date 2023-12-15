@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.csmap.model.impl;
@@ -201,46 +192,62 @@ public class ThematicModelImpl
 	public Map<String, Function<Thematic, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Thematic, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Thematic, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Thematic, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Thematic, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Thematic, Object>>();
-		Map<String, BiConsumer<Thematic, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Thematic, ?>>();
+		private static final Map<String, Function<Thematic, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Thematic::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Thematic, String>)Thematic::setUuid);
-		attributeGetterFunctions.put("thematicId", Thematic::getThematicId);
-		attributeSetterBiConsumers.put(
-			"thematicId", (BiConsumer<Thematic, Long>)Thematic::setThematicId);
-		attributeGetterFunctions.put("name", Thematic::getName);
-		attributeSetterBiConsumers.put(
-			"name", (BiConsumer<Thematic, String>)Thematic::setName);
-		attributeGetterFunctions.put("favorite", Thematic::getFavorite);
-		attributeSetterBiConsumers.put(
-			"favorite", (BiConsumer<Thematic, String>)Thematic::setFavorite);
-		attributeGetterFunctions.put("topics", Thematic::getTopics);
-		attributeSetterBiConsumers.put(
-			"topics", (BiConsumer<Thematic, String>)Thematic::setTopics);
+		static {
+			Map<String, Function<Thematic, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Thematic, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Thematic::getUuid);
+			attributeGetterFunctions.put("thematicId", Thematic::getThematicId);
+			attributeGetterFunctions.put("name", Thematic::getName);
+			attributeGetterFunctions.put("favorite", Thematic::getFavorite);
+			attributeGetterFunctions.put("topics", Thematic::getTopics);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Thematic, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Thematic, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Thematic, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Thematic, String>)Thematic::setUuid);
+			attributeSetterBiConsumers.put(
+				"thematicId",
+				(BiConsumer<Thematic, Long>)Thematic::setThematicId);
+			attributeSetterBiConsumers.put(
+				"name", (BiConsumer<Thematic, String>)Thematic::setName);
+			attributeSetterBiConsumers.put(
+				"favorite",
+				(BiConsumer<Thematic, String>)Thematic::setFavorite);
+			attributeSetterBiConsumers.put(
+				"topics", (BiConsumer<Thematic, String>)Thematic::setTopics);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -599,8 +606,9 @@ public class ThematicModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Thematic, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Thematic, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

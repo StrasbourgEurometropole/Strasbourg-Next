@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.activity.model.impl;
@@ -260,108 +251,131 @@ public class AssociationModelImpl
 	public Map<String, Function<Association, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Association, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Association, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Association, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Association, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Association, Object>>();
-		Map<String, BiConsumer<Association, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Association, ?>>();
+		private static final Map<String, Function<Association, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Association::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Association, String>)Association::setUuid);
-		attributeGetterFunctions.put(
-			"associationId", Association::getAssociationId);
-		attributeSetterBiConsumers.put(
-			"associationId",
-			(BiConsumer<Association, Long>)Association::setAssociationId);
-		attributeGetterFunctions.put("groupId", Association::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Association, Long>)Association::setGroupId);
-		attributeGetterFunctions.put("companyId", Association::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<Association, Long>)Association::setCompanyId);
-		attributeGetterFunctions.put("userId", Association::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Association, Long>)Association::setUserId);
-		attributeGetterFunctions.put("userName", Association::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<Association, String>)Association::setUserName);
-		attributeGetterFunctions.put("createDate", Association::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<Association, Date>)Association::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", Association::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<Association, Date>)Association::setModifiedDate);
-		attributeGetterFunctions.put("name", Association::getName);
-		attributeSetterBiConsumers.put(
-			"name", (BiConsumer<Association, String>)Association::setName);
-		attributeGetterFunctions.put(
-			"presentation", Association::getPresentation);
-		attributeSetterBiConsumers.put(
-			"presentation",
-			(BiConsumer<Association, String>)Association::setPresentation);
-		attributeGetterFunctions.put("phone", Association::getPhone);
-		attributeSetterBiConsumers.put(
-			"phone", (BiConsumer<Association, String>)Association::setPhone);
-		attributeGetterFunctions.put("siteURL", Association::getSiteURL);
-		attributeSetterBiConsumers.put(
-			"siteURL",
-			(BiConsumer<Association, String>)Association::setSiteURL);
-		attributeGetterFunctions.put("mail", Association::getMail);
-		attributeSetterBiConsumers.put(
-			"mail", (BiConsumer<Association, String>)Association::setMail);
-		attributeGetterFunctions.put(
-			"facebookURL", Association::getFacebookURL);
-		attributeSetterBiConsumers.put(
-			"facebookURL",
-			(BiConsumer<Association, String>)Association::setFacebookURL);
-		attributeGetterFunctions.put(
-			"othersInformations", Association::getOthersInformations);
-		attributeSetterBiConsumers.put(
-			"othersInformations",
-			(BiConsumer<Association, String>)
-				Association::setOthersInformations);
-		attributeGetterFunctions.put("status", Association::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Association, Integer>)Association::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Association::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Association, Long>)Association::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Association::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Association, String>)Association::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Association::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			(BiConsumer<Association, Date>)Association::setStatusDate);
+		static {
+			Map<String, Function<Association, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<Association, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Association::getUuid);
+			attributeGetterFunctions.put(
+				"associationId", Association::getAssociationId);
+			attributeGetterFunctions.put("groupId", Association::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", Association::getCompanyId);
+			attributeGetterFunctions.put("userId", Association::getUserId);
+			attributeGetterFunctions.put("userName", Association::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", Association::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Association::getModifiedDate);
+			attributeGetterFunctions.put("name", Association::getName);
+			attributeGetterFunctions.put(
+				"presentation", Association::getPresentation);
+			attributeGetterFunctions.put("phone", Association::getPhone);
+			attributeGetterFunctions.put("siteURL", Association::getSiteURL);
+			attributeGetterFunctions.put("mail", Association::getMail);
+			attributeGetterFunctions.put(
+				"facebookURL", Association::getFacebookURL);
+			attributeGetterFunctions.put(
+				"othersInformations", Association::getOthersInformations);
+			attributeGetterFunctions.put("status", Association::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Association::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Association::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", Association::getStatusDate);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Association, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Association, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Association, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Association, String>)Association::setUuid);
+			attributeSetterBiConsumers.put(
+				"associationId",
+				(BiConsumer<Association, Long>)Association::setAssociationId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<Association, Long>)Association::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Association, Long>)Association::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<Association, Long>)Association::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Association, String>)Association::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Association, Date>)Association::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Association, Date>)Association::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"name", (BiConsumer<Association, String>)Association::setName);
+			attributeSetterBiConsumers.put(
+				"presentation",
+				(BiConsumer<Association, String>)Association::setPresentation);
+			attributeSetterBiConsumers.put(
+				"phone",
+				(BiConsumer<Association, String>)Association::setPhone);
+			attributeSetterBiConsumers.put(
+				"siteURL",
+				(BiConsumer<Association, String>)Association::setSiteURL);
+			attributeSetterBiConsumers.put(
+				"mail", (BiConsumer<Association, String>)Association::setMail);
+			attributeSetterBiConsumers.put(
+				"facebookURL",
+				(BiConsumer<Association, String>)Association::setFacebookURL);
+			attributeSetterBiConsumers.put(
+				"othersInformations",
+				(BiConsumer<Association, String>)
+					Association::setOthersInformations);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<Association, Integer>)Association::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Association, Long>)Association::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Association, String>)
+					Association::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Association, Date>)Association::setStatusDate);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1875,8 +1889,9 @@ public class AssociationModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Association, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Association, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

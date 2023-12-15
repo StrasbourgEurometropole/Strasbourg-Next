@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model.impl;
@@ -221,63 +212,80 @@ public class EventParticipationModelImpl
 	public Map<String, Function<EventParticipation, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<EventParticipation, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<EventParticipation, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<EventParticipation, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<EventParticipation, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap
-					<String, Function<EventParticipation, Object>>();
-		Map<String, BiConsumer<EventParticipation, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<EventParticipation, ?>>();
+		private static final Map<String, Function<EventParticipation, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put(
-			"eventParticipationId",
-			EventParticipation::getEventParticipationId);
-		attributeSetterBiConsumers.put(
-			"eventParticipationId",
-			(BiConsumer<EventParticipation, Long>)
-				EventParticipation::setEventParticipationId);
-		attributeGetterFunctions.put(
-			"createDate", EventParticipation::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<EventParticipation, Date>)
-				EventParticipation::setCreateDate);
-		attributeGetterFunctions.put(
-			"publikUserId", EventParticipation::getPublikUserId);
-		attributeSetterBiConsumers.put(
-			"publikUserId",
-			(BiConsumer<EventParticipation, String>)
-				EventParticipation::setPublikUserId);
-		attributeGetterFunctions.put("eventId", EventParticipation::getEventId);
-		attributeSetterBiConsumers.put(
-			"eventId",
-			(BiConsumer<EventParticipation, Long>)
-				EventParticipation::setEventId);
-		attributeGetterFunctions.put("groupId", EventParticipation::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<EventParticipation, Long>)
-				EventParticipation::setGroupId);
+		static {
+			Map<String, Function<EventParticipation, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<EventParticipation, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put(
+				"eventParticipationId",
+				EventParticipation::getEventParticipationId);
+			attributeGetterFunctions.put(
+				"createDate", EventParticipation::getCreateDate);
+			attributeGetterFunctions.put(
+				"publikUserId", EventParticipation::getPublikUserId);
+			attributeGetterFunctions.put(
+				"eventId", EventParticipation::getEventId);
+			attributeGetterFunctions.put(
+				"groupId", EventParticipation::getGroupId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<EventParticipation, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<EventParticipation, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String, BiConsumer<EventParticipation, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"eventParticipationId",
+				(BiConsumer<EventParticipation, Long>)
+					EventParticipation::setEventParticipationId);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<EventParticipation, Date>)
+					EventParticipation::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"publikUserId",
+				(BiConsumer<EventParticipation, String>)
+					EventParticipation::setPublikUserId);
+			attributeSetterBiConsumers.put(
+				"eventId",
+				(BiConsumer<EventParticipation, Long>)
+					EventParticipation::setEventId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<EventParticipation, Long>)
+					EventParticipation::setGroupId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -632,7 +640,8 @@ public class EventParticipationModelImpl
 
 	public <T> T getColumnValue(String columnName) {
 		Function<EventParticipation, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

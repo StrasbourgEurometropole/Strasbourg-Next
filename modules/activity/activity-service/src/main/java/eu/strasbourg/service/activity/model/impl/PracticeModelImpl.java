@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.activity.model.impl;
@@ -248,77 +239,97 @@ public class PracticeModelImpl
 	public Map<String, Function<Practice, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Practice, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<Practice, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Practice, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<Practice, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Practice, Object>>();
-		Map<String, BiConsumer<Practice, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Practice, ?>>();
+		private static final Map<String, Function<Practice, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", Practice::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Practice, String>)Practice::setUuid);
-		attributeGetterFunctions.put("practiceId", Practice::getPracticeId);
-		attributeSetterBiConsumers.put(
-			"practiceId", (BiConsumer<Practice, Long>)Practice::setPracticeId);
-		attributeGetterFunctions.put("groupId", Practice::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Practice, Long>)Practice::setGroupId);
-		attributeGetterFunctions.put("companyId", Practice::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Practice, Long>)Practice::setCompanyId);
-		attributeGetterFunctions.put("userId", Practice::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Practice, Long>)Practice::setUserId);
-		attributeGetterFunctions.put("userName", Practice::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<Practice, String>)Practice::setUserName);
-		attributeGetterFunctions.put("createDate", Practice::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<Practice, Date>)Practice::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", Practice::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<Practice, Date>)Practice::setModifiedDate);
-		attributeGetterFunctions.put("status", Practice::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Practice, Integer>)Practice::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Practice::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Practice, Long>)Practice::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Practice::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Practice, String>)Practice::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Practice::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate", (BiConsumer<Practice, Date>)Practice::setStatusDate);
-		attributeGetterFunctions.put(
-			"associationId", Practice::getAssociationId);
-		attributeSetterBiConsumers.put(
-			"associationId",
-			(BiConsumer<Practice, Long>)Practice::setAssociationId);
+		static {
+			Map<String, Function<Practice, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Practice, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", Practice::getUuid);
+			attributeGetterFunctions.put("practiceId", Practice::getPracticeId);
+			attributeGetterFunctions.put("groupId", Practice::getGroupId);
+			attributeGetterFunctions.put("companyId", Practice::getCompanyId);
+			attributeGetterFunctions.put("userId", Practice::getUserId);
+			attributeGetterFunctions.put("userName", Practice::getUserName);
+			attributeGetterFunctions.put("createDate", Practice::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Practice::getModifiedDate);
+			attributeGetterFunctions.put("status", Practice::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Practice::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Practice::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Practice::getStatusDate);
+			attributeGetterFunctions.put(
+				"associationId", Practice::getAssociationId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Practice, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Practice, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Practice, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Practice, String>)Practice::setUuid);
+			attributeSetterBiConsumers.put(
+				"practiceId",
+				(BiConsumer<Practice, Long>)Practice::setPracticeId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Practice, Long>)Practice::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Practice, Long>)Practice::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Practice, Long>)Practice::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Practice, String>)Practice::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Practice, Date>)Practice::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Practice, Date>)Practice::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Practice, Integer>)Practice::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Practice, Long>)Practice::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Practice, String>)Practice::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Practice, Date>)Practice::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"associationId",
+				(BiConsumer<Practice, Long>)Practice::setAssociationId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1015,8 +1026,9 @@ public class PracticeModelImpl
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
-		Function<Practice, Object> function = _attributeGetterFunctions.get(
-			columnName);
+		Function<Practice, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(

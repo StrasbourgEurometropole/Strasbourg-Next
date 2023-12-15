@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.activity.model.impl;
@@ -266,123 +257,140 @@ public class ActivityCoursePlaceModelImpl
 	public Map<String, Function<ActivityCoursePlace, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<ActivityCoursePlace, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static final Map<String, Function<ActivityCoursePlace, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ActivityCoursePlace, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeGetterFunctionsHolder {
 
-	static {
-		Map<String, Function<ActivityCoursePlace, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap
-					<String, Function<ActivityCoursePlace, Object>>();
-		Map<String, BiConsumer<ActivityCoursePlace, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<ActivityCoursePlace, ?>>();
+		private static final Map<String, Function<ActivityCoursePlace, Object>>
+			_attributeGetterFunctions;
 
-		attributeGetterFunctions.put("uuid", ActivityCoursePlace::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid",
-			(BiConsumer<ActivityCoursePlace, String>)
-				ActivityCoursePlace::setUuid);
-		attributeGetterFunctions.put(
-			"activityCoursePlaceId",
-			ActivityCoursePlace::getActivityCoursePlaceId);
-		attributeSetterBiConsumers.put(
-			"activityCoursePlaceId",
-			(BiConsumer<ActivityCoursePlace, Long>)
-				ActivityCoursePlace::setActivityCoursePlaceId);
-		attributeGetterFunctions.put(
-			"groupId", ActivityCoursePlace::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<ActivityCoursePlace, Long>)
-				ActivityCoursePlace::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", ActivityCoursePlace::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<ActivityCoursePlace, Long>)
-				ActivityCoursePlace::setCompanyId);
-		attributeGetterFunctions.put("userId", ActivityCoursePlace::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId",
-			(BiConsumer<ActivityCoursePlace, Long>)
-				ActivityCoursePlace::setUserId);
-		attributeGetterFunctions.put(
-			"userName", ActivityCoursePlace::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<ActivityCoursePlace, String>)
-				ActivityCoursePlace::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", ActivityCoursePlace::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<ActivityCoursePlace, Date>)
-				ActivityCoursePlace::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", ActivityCoursePlace::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<ActivityCoursePlace, Date>)
-				ActivityCoursePlace::setModifiedDate);
-		attributeGetterFunctions.put(
-			"activityCourseId", ActivityCoursePlace::getActivityCourseId);
-		attributeSetterBiConsumers.put(
-			"activityCourseId",
-			(BiConsumer<ActivityCoursePlace, Long>)
-				ActivityCoursePlace::setActivityCourseId);
-		attributeGetterFunctions.put(
-			"placeSIGId", ActivityCoursePlace::getPlaceSIGId);
-		attributeSetterBiConsumers.put(
-			"placeSIGId",
-			(BiConsumer<ActivityCoursePlace, String>)
-				ActivityCoursePlace::setPlaceSIGId);
-		attributeGetterFunctions.put(
-			"placeName", ActivityCoursePlace::getPlaceName);
-		attributeSetterBiConsumers.put(
-			"placeName",
-			(BiConsumer<ActivityCoursePlace, String>)
-				ActivityCoursePlace::setPlaceName);
-		attributeGetterFunctions.put(
-			"placeStreetNumber", ActivityCoursePlace::getPlaceStreetNumber);
-		attributeSetterBiConsumers.put(
-			"placeStreetNumber",
-			(BiConsumer<ActivityCoursePlace, String>)
-				ActivityCoursePlace::setPlaceStreetNumber);
-		attributeGetterFunctions.put(
-			"placeStreetName", ActivityCoursePlace::getPlaceStreetName);
-		attributeSetterBiConsumers.put(
-			"placeStreetName",
-			(BiConsumer<ActivityCoursePlace, String>)
-				ActivityCoursePlace::setPlaceStreetName);
-		attributeGetterFunctions.put(
-			"placeZipCode", ActivityCoursePlace::getPlaceZipCode);
-		attributeSetterBiConsumers.put(
-			"placeZipCode",
-			(BiConsumer<ActivityCoursePlace, String>)
-				ActivityCoursePlace::setPlaceZipCode);
-		attributeGetterFunctions.put(
-			"placeCityId", ActivityCoursePlace::getPlaceCityId);
-		attributeSetterBiConsumers.put(
-			"placeCityId",
-			(BiConsumer<ActivityCoursePlace, Long>)
-				ActivityCoursePlace::setPlaceCityId);
+		static {
+			Map<String, Function<ActivityCoursePlace, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<ActivityCoursePlace, Object>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeGetterFunctions.put("uuid", ActivityCoursePlace::getUuid);
+			attributeGetterFunctions.put(
+				"activityCoursePlaceId",
+				ActivityCoursePlace::getActivityCoursePlaceId);
+			attributeGetterFunctions.put(
+				"groupId", ActivityCoursePlace::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", ActivityCoursePlace::getCompanyId);
+			attributeGetterFunctions.put(
+				"userId", ActivityCoursePlace::getUserId);
+			attributeGetterFunctions.put(
+				"userName", ActivityCoursePlace::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", ActivityCoursePlace::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", ActivityCoursePlace::getModifiedDate);
+			attributeGetterFunctions.put(
+				"activityCourseId", ActivityCoursePlace::getActivityCourseId);
+			attributeGetterFunctions.put(
+				"placeSIGId", ActivityCoursePlace::getPlaceSIGId);
+			attributeGetterFunctions.put(
+				"placeName", ActivityCoursePlace::getPlaceName);
+			attributeGetterFunctions.put(
+				"placeStreetNumber", ActivityCoursePlace::getPlaceStreetNumber);
+			attributeGetterFunctions.put(
+				"placeStreetName", ActivityCoursePlace::getPlaceStreetName);
+			attributeGetterFunctions.put(
+				"placeZipCode", ActivityCoursePlace::getPlaceZipCode);
+			attributeGetterFunctions.put(
+				"placeCityId", ActivityCoursePlace::getPlaceCityId);
+
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
+		}
+
+	}
+
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map
+			<String, BiConsumer<ActivityCoursePlace, Object>>
+				_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<ActivityCoursePlace, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String, BiConsumer<ActivityCoursePlace, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<ActivityCoursePlace, String>)
+					ActivityCoursePlace::setUuid);
+			attributeSetterBiConsumers.put(
+				"activityCoursePlaceId",
+				(BiConsumer<ActivityCoursePlace, Long>)
+					ActivityCoursePlace::setActivityCoursePlaceId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<ActivityCoursePlace, Long>)
+					ActivityCoursePlace::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<ActivityCoursePlace, Long>)
+					ActivityCoursePlace::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<ActivityCoursePlace, Long>)
+					ActivityCoursePlace::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<ActivityCoursePlace, String>)
+					ActivityCoursePlace::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<ActivityCoursePlace, Date>)
+					ActivityCoursePlace::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<ActivityCoursePlace, Date>)
+					ActivityCoursePlace::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"activityCourseId",
+				(BiConsumer<ActivityCoursePlace, Long>)
+					ActivityCoursePlace::setActivityCourseId);
+			attributeSetterBiConsumers.put(
+				"placeSIGId",
+				(BiConsumer<ActivityCoursePlace, String>)
+					ActivityCoursePlace::setPlaceSIGId);
+			attributeSetterBiConsumers.put(
+				"placeName",
+				(BiConsumer<ActivityCoursePlace, String>)
+					ActivityCoursePlace::setPlaceName);
+			attributeSetterBiConsumers.put(
+				"placeStreetNumber",
+				(BiConsumer<ActivityCoursePlace, String>)
+					ActivityCoursePlace::setPlaceStreetNumber);
+			attributeSetterBiConsumers.put(
+				"placeStreetName",
+				(BiConsumer<ActivityCoursePlace, String>)
+					ActivityCoursePlace::setPlaceStreetName);
+			attributeSetterBiConsumers.put(
+				"placeZipCode",
+				(BiConsumer<ActivityCoursePlace, String>)
+					ActivityCoursePlace::setPlaceZipCode);
+			attributeSetterBiConsumers.put(
+				"placeCityId",
+				(BiConsumer<ActivityCoursePlace, Long>)
+					ActivityCoursePlace::setPlaceCityId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@JSON
@@ -1245,7 +1253,8 @@ public class ActivityCoursePlaceModelImpl
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
 
 		Function<ActivityCoursePlace, Object> function =
-			_attributeGetterFunctions.get(columnName);
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
 
 		if (function == null) {
 			throw new IllegalArgumentException(
