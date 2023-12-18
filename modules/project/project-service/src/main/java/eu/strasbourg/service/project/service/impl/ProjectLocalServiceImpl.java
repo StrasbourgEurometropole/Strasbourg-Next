@@ -21,6 +21,7 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.asset.kernel.service.persistence.AssetEntryQuery;
+import com.liferay.asset.link.service.AssetLinkLocalService;
 import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
@@ -52,6 +53,7 @@ import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.ProjectFollowedServiceUtil;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
 import eu.strasbourg.service.project.service.base.ProjectLocalServiceBaseImpl;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -252,7 +254,7 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 			List<AssetLink> links = AssetLinkLocalServiceUtil
 					.getLinks(entry.getEntryId());
 			for (AssetLink link : links) {
-				AssetLinkLocalServiceUtil.deleteAssetLink(link);
+				this.assetLinkLocalService.deleteAssetLink(link);
 			}
 
 			// Delete the AssetEntry
@@ -462,4 +464,7 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	}
 	
 	private Log _log = LogFactoryUtil.getLog(this.getClass());
+
+	@Reference
+	private AssetLinkLocalService assetLinkLocalService;
 }

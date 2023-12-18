@@ -18,6 +18,7 @@ import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServic
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
 import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -52,6 +53,7 @@ import eu.strasbourg.service.notif.service.base.NotificationLocalServiceBaseImpl
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -233,7 +235,7 @@ public class NotificationLocalServiceImpl
 			List<AssetLink> links = AssetLinkLocalServiceUtil
 					.getLinks(entry.getEntryId());
 			for (AssetLink link : links) {
-				AssetLinkLocalServiceUtil.deleteAssetLink(link);
+				this.assetLinkLocalService.deleteAssetLink(link);
 			}
 
 			// Delete the AssetEntry
@@ -402,4 +404,7 @@ public class NotificationLocalServiceImpl
 				}
 		}
 	}
+
+	@Reference
+	private AssetLinkLocalService assetLinkLocalService;
 }

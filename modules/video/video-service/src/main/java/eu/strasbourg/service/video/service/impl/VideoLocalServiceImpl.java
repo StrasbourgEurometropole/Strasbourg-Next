@@ -20,6 +20,7 @@ import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
 import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
@@ -44,6 +45,7 @@ import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.base.VideoLocalServiceBaseImpl;
 import org.osgi.annotation.versioning.ProviderType;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -275,7 +277,7 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 			List<AssetLink> links = AssetLinkLocalServiceUtil
 				.getLinks(entry.getEntryId());
 			for (AssetLink link : links) {
-				AssetLinkLocalServiceUtil.deleteAssetLink(link);
+				this.assetLinkLocalService.deleteAssetLink(link);
 			}
 
 			// Delete the AssetEntry
@@ -388,4 +390,7 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 	}
 
 	private final Log _log = LogFactoryUtil.getLog("strasbourg");
+
+	@Reference
+	private AssetLinkLocalService assetLinkLocalService;
 }

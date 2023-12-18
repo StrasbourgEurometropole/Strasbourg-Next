@@ -19,6 +19,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
 import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
@@ -44,6 +45,7 @@ import eu.strasbourg.service.agenda.model.AgendaExportPeriod;
 import eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.base.AgendaExportLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -248,9 +250,9 @@ public class AgendaExportLocalServiceImpl
 			}
 
 			// Supprime lien avec les autres entries
-			List<AssetLink> links = AssetLinkLocalServiceUtil.getLinks(entry.getEntryId());
+			List<AssetLink> links = this.assetLinkLocalService.getLinks(entry.getEntryId());
 			for (AssetLink link : links) {
-				AssetLinkLocalServiceUtil.deleteAssetLink(link);
+				this.assetLinkLocalService.deleteAssetLink(link);
 			}
 
 			// Delete the AssetEntry
@@ -348,4 +350,7 @@ public class AgendaExportLocalServiceImpl
 
 		return agendaExportPersistence.countWithDynamicQuery(dynamicQuery);
 	}
+
+	@Reference
+	private AssetLinkLocalService assetLinkLocalService;
 }

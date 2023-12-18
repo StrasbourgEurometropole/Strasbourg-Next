@@ -19,6 +19,7 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
 import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
@@ -48,6 +49,7 @@ import eu.strasbourg.service.project.service.base.SaisineObservatoireLocalServic
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.FriendlyURLs;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.service.component.annotations.Reference;
 
 import java.util.Comparator;
 import java.util.List;
@@ -225,7 +227,7 @@ public class SaisineObservatoireLocalServiceImpl
                     .getLinks(entry.getEntryId());
             if (links != null && !links.isEmpty()) {
                 for (AssetLink link : links) {
-                    AssetLinkLocalServiceUtil.deleteAssetLink(link);
+                    this.assetLinkLocalService.deleteAssetLink(link);
                 }
             }
 
@@ -337,4 +339,7 @@ public class SaisineObservatoireLocalServiceImpl
             return temp.stream().limit(3).collect(Collectors.toList());
         }
     }
+
+    @Reference
+    private AssetLinkLocalService assetLinkLocalService;
 }

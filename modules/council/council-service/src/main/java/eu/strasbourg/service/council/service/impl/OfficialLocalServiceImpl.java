@@ -20,6 +20,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
 import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
@@ -41,6 +42,7 @@ import eu.strasbourg.service.council.service.OfficialTypeCouncilLocalServiceUtil
 import eu.strasbourg.service.council.service.base.OfficialLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -284,7 +286,7 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 			List<AssetLink> links = AssetLinkLocalServiceUtil
 					.getLinks(entry.getEntryId());
 			for (AssetLink link : links) {
-				AssetLinkLocalServiceUtil.deleteAssetLink(link);
+				this.assetLinkLocalService.deleteAssetLink(link);
 			}
 
 			// Supprime l'AssetEntry
@@ -350,4 +352,7 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 		}
 		return officials;
 	}
+
+	@Reference
+	private AssetLinkLocalService assetLinkLocalService;
 }

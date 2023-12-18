@@ -18,6 +18,7 @@ import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServic
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
 import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
@@ -45,6 +46,7 @@ import eu.strasbourg.service.project.model.InitiativeHelp;
 import eu.strasbourg.service.project.model.InitiativeModel;
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.base.InitiativeLocalServiceBaseImpl;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -246,7 +248,7 @@ public class InitiativeLocalServiceImpl extends InitiativeLocalServiceBaseImpl {
 			List<AssetLink> links = AssetLinkLocalServiceUtil
 					.getLinks(entry.getEntryId());
 			for (AssetLink link : links) {
-				AssetLinkLocalServiceUtil.deleteAssetLink(link);
+				this.assetLinkLocalService.deleteAssetLink(link);
 			}
 
 			// Delete the AssetEntry
@@ -510,4 +512,7 @@ public class InitiativeLocalServiceImpl extends InitiativeLocalServiceBaseImpl {
     public List<Initiative> getByPublikUserID(String publikId){
 		 return initiativePersistence.findBypublikId(publikId);
     }
+
+	@Reference
+	private AssetLinkLocalService assetLinkLocalService;
 }

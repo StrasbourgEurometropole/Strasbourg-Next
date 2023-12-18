@@ -19,6 +19,7 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
 import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
@@ -52,6 +53,7 @@ import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.service.project.service.base.BudgetParticipatifLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -138,7 +140,7 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
                     .getLinks(entry.getEntryId());
             if (links != null && !links.isEmpty()) {
                 for (AssetLink link : links) {
-                    AssetLinkLocalServiceUtil.deleteAssetLink(link);
+                    this.assetLinkLocalService.deleteAssetLink(link);
                 }
             }
 
@@ -665,4 +667,7 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
     public List<BudgetParticipatif> getByPublikUserID(String publikId){
         return budgetParticipatifPersistence.findByPublikId(publikId);
     }
+
+    @Reference
+    private AssetLinkLocalService assetLinkLocalService;
 }

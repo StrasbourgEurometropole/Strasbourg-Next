@@ -21,6 +21,7 @@ import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
 import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
@@ -45,6 +46,7 @@ import eu.strasbourg.service.council.service.VoteLocalServiceUtil;
 import eu.strasbourg.service.council.service.base.DeliberationLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -220,7 +222,7 @@ public class DeliberationLocalServiceImpl extends DeliberationLocalServiceBaseIm
             List<AssetLink> links = AssetLinkLocalServiceUtil
                     .getLinks(entry.getEntryId());
             for (AssetLink link : links) {
-                AssetLinkLocalServiceUtil.deleteAssetLink(link);
+                this.assetLinkLocalService.deleteAssetLink(link);
             }
 
             // Supprime l'AssetEntry
@@ -361,4 +363,7 @@ public class DeliberationLocalServiceImpl extends DeliberationLocalServiceBaseIm
         else if (stageCategory != null)
             serviceContext.setAssetCategoryIds(new long[]{stageCategory.getCategoryId()});
     }
+
+    @Reference
+    private AssetLinkLocalService assetLinkLocalService;
 }

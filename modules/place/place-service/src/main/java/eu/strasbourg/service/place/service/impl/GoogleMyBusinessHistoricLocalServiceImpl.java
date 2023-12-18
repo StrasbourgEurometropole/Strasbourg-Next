@@ -20,6 +20,7 @@ import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
 import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
@@ -40,6 +41,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.place.model.GoogleMyBusinessHistoric;
 import eu.strasbourg.service.place.service.base.GoogleMyBusinessHistoricLocalServiceBaseImpl;
 import eu.strasbourg.service.place.utils.GoogleSynchronisation;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -220,7 +222,7 @@ public class GoogleMyBusinessHistoricLocalServiceImpl
 			List<AssetLink> links = AssetLinkLocalServiceUtil
 					.getLinks(entry.getEntryId());
 			for (AssetLink link : links) {
-				AssetLinkLocalServiceUtil.deleteAssetLink(link);
+				this.assetLinkLocalService.deleteAssetLink(link);
 			}
 
 			// Delete the AssetEntry
@@ -326,4 +328,7 @@ public class GoogleMyBusinessHistoricLocalServiceImpl
 		GoogleSynchronisation googleSynchronisation = new GoogleSynchronisation(sc, googleMyBusinessHistoric);
 		googleSynchronisation.doSynchronisation();
 	}
+
+	@Reference
+	private AssetLinkLocalService assetLinkLocalService;
 }

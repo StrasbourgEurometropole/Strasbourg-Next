@@ -1,9 +1,7 @@
 {
   "LiferayTheme": {
-    "appServerPath": "C:/liferay/74-workspace/Strasbourg-Next/bundles/tomcat-9.0.68",
-    "deployPath": "C:/liferay/74-workspace/Strasbourg-Next/bundles/deploy",
-    "deployed": true,
-    "deploymentStrategy": "LocalAppServer",
-    "url": "http://localhost:8080"
+    "appServerPath": "C:/liferay/ems-workspace/strasbouorg-q34/bundles/tomcat",
+    "deployPath": "C:/liferay/ems-workspace/strasbouorg-q34/bundles/deploy",
+    "deployed": false
   }
 }

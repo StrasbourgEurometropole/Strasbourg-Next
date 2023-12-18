@@ -19,6 +19,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
 import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
@@ -44,6 +45,7 @@ import eu.strasbourg.service.agenda.service.CampaignEventLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.base.CampaignLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import org.osgi.annotation.versioning.ProviderType;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -225,9 +227,9 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 			}
 
 			// Supprime lien avec les autres entries
-			List<AssetLink> links = AssetLinkLocalServiceUtil.getLinks(entry.getEntryId());
+			List<AssetLink> links = this.assetLinkLocalService.getLinks(entry.getEntryId());
 			for (AssetLink link : links) {
-				AssetLinkLocalServiceUtil.deleteAssetLink(link);
+				this.assetLinkLocalService.deleteAssetLink(link);
 			}
 
 			// Delete the AssetEntry
@@ -342,4 +344,7 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 			campaign.export();
 		}
 	}
+
+	@Reference
+	private AssetLinkLocalService assetLinkLocalService;
 }

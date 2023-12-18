@@ -19,7 +19,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
-import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -41,6 +41,7 @@ import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import eu.strasbourg.service.link.model.Link;
 import eu.strasbourg.service.link.service.base.LinkLocalServiceBaseImpl;
 import org.osgi.annotation.versioning.ProviderType;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -238,10 +239,10 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 			}
 
 			// Supprime lien avec les autres entries
-			List<AssetLink> links = AssetLinkLocalServiceUtil
+			List<AssetLink> links = this.assetLinkLocalService
 				.getLinks(entry.getEntryId());
 			for (AssetLink link : links) {
-				AssetLinkLocalServiceUtil.deleteAssetLink(link);
+				this.assetLinkLocalService.deleteAssetLink(link);
 			}
 
 			// Supprime l'AssetEntry
@@ -351,4 +352,7 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 			.nullSafeGetIndexer(Link.class);
 		return indexer.search(searchContext);
 	}
+
+	@Reference
+	private AssetLinkLocalService assetLinkLocalService;
 }

@@ -21,6 +21,7 @@ import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
 import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
@@ -55,6 +56,7 @@ import eu.strasbourg.service.project.service.base.PetitionLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.FriendlyURLs;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -272,7 +274,7 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
                     .getLinks(entry.getEntryId());
             if (links!=null&&!links.isEmpty()){
                 for (AssetLink link : links) {
-                    AssetLinkLocalServiceUtil.deleteAssetLink(link);
+                    this.assetLinkLocalService.deleteAssetLink(link);
                 }
             }
 
@@ -494,4 +496,7 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
                 .filter(PetitionModel::isApproved)
                 .collect(Collectors.toList());
     }
+
+    @Reference
+    private AssetLinkLocalService assetLinkLocalService;
 }

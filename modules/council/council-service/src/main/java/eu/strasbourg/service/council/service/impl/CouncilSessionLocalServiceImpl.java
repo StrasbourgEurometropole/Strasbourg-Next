@@ -21,6 +21,7 @@ import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
 import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -47,6 +48,7 @@ import eu.strasbourg.service.council.service.base.CouncilSessionLocalServiceBase
 import eu.strasbourg.service.council.service.util.VocabularyHelper;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -274,7 +276,7 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 			List<AssetLink> links = AssetLinkLocalServiceUtil
 					.getLinks(entry.getEntryId());
 			for (AssetLink link : links) {
-				AssetLinkLocalServiceUtil.deleteAssetLink(link);
+				this.assetLinkLocalService.deleteAssetLink(link);
 			}
 
 			// Supprime l'AssetEntry
@@ -399,4 +401,7 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 
 		return gregorianCalendar;
 	}
+
+	@Reference
+	private AssetLinkLocalService assetLinkLocalService;
 }

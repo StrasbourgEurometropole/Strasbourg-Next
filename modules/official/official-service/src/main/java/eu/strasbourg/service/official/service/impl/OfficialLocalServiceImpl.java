@@ -18,6 +18,7 @@ import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServic
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -37,6 +38,7 @@ import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.official.service.base.OfficialLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import org.osgi.annotation.versioning.ProviderType;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -233,7 +235,7 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 //			List<AssetLink> links = AssetLinkLocalServiceUtil
 //					.getLinks(entry.getEntryId());
 //			for (AssetLink link : links) {
-//				AssetLinkLocalServiceUtil.deleteAssetLink(link);
+//				this.assetLinkLocalService.deleteAssetLink(link);
 //			}
 
 			// Delete the AssetEntry
@@ -332,4 +334,7 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 
 		return this.officialPersistence.countWithDynamicQuery(dynamicQuery);
 	}
+
+	@Reference
+	private AssetLinkLocalService assetLinkLocalService;
 }
