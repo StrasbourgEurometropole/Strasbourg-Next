@@ -38,7 +38,7 @@
     <!-- References -->
 	<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 	<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-	<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	<!-- References AssetLink Placeholder -->
   </entity>
   
   <entity local-service="true" name="ActivityOrganizer" remote-service="true" uuid="true">
@@ -77,7 +77,7 @@
     <!-- References -->
 	<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 	<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-	<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	<!-- References AssetLink Placeholder -->
   </entity>
 
   <entity local-service="true" name="ActivityCourse" remote-service="true" uuid="true">
@@ -125,7 +125,7 @@
     <!-- References -->
 	<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 	<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-	<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	<!-- References AssetLink Placeholder -->
   </entity>
   
   <entity local-service="true" name="ActivityCoursePlace" remote-service="true" uuid="true">
@@ -164,7 +164,7 @@
     <!-- References -->
 	<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 	<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-	<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	<!-- References AssetLink Placeholder -->
   </entity>
   
   <entity local-service="true" name="ActivityCourseSchedule" remote-service="true" uuid="true">
@@ -205,7 +205,7 @@
     <!-- References -->
 	<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 	<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-	<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	<!-- References AssetLink Placeholder -->
   </entity>
 
     <entity local-service="true" name="Association" remote-service="true" uuid="true">
@@ -244,7 +244,7 @@
         <!-- References -->
         <reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
         <reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-        <reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+        <!-- References AssetLink Placeholder -->
     </entity>
 
     <entity local-service="true" name="Practice" remote-service="true" uuid="true">
@@ -280,6 +280,6 @@
         <!-- References -->
         <reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
         <reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-        <reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+        <!-- References AssetLink Placeholder -->
     </entity>
 </service-builder>

@@ -21,6 +21,7 @@ import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -216,10 +217,10 @@ public class DeliberationLocalServiceImpl extends DeliberationLocalServiceBaseIm
             }
 
             // Supprime lien avec les autres entries
-            List<AssetLink> links = this.assetLinkLocalService
+            List<AssetLink> links = AssetLinkLocalServiceUtil
                     .getLinks(entry.getEntryId());
             for (AssetLink link : links) {
-                this.assetLinkLocalService.deleteAssetLink(link);
+                AssetLinkLocalServiceUtil.deleteAssetLink(link);
             }
 
             // Supprime l'AssetEntry

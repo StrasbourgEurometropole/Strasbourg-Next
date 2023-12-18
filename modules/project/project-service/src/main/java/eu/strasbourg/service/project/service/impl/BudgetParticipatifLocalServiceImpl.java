@@ -19,6 +19,7 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -133,11 +134,11 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
             }
 
             // Supprime lien avec les autres entries
-            List<AssetLink> links = this.assetLinkLocalService
+            List<AssetLink> links = AssetLinkLocalServiceUtil
                     .getLinks(entry.getEntryId());
             if (links != null && !links.isEmpty()) {
                 for (AssetLink link : links) {
-                    this.assetLinkLocalService.deleteAssetLink(link);
+                    AssetLinkLocalServiceUtil.deleteAssetLink(link);
                 }
             }
 

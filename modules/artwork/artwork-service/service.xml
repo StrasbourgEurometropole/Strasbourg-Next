@@ -58,7 +58,7 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 	</entity>
 	
 	<entity local-service="true" name="ArtworkCollection" cache-enabled="true" remote-service="true" uuid="true">
@@ -100,6 +100,6 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 	</entity>
 </service-builder>

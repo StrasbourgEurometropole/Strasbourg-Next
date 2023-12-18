@@ -65,7 +65,7 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 
 	</entity>
 
@@ -138,7 +138,7 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 
 	</entity>
 
@@ -233,7 +233,7 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 
 	</entity>
 
@@ -343,7 +343,7 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 	</entity>
 
 	<entity local-service="true" name="SaisineObservatoire" remote-service="true" uuid="false">
@@ -419,7 +419,7 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 	</entity>
 
 	<entity local-service="true" name="Signataire" remote-service="true" uuid="true">
@@ -481,7 +481,7 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 		
 	</entity>
 	
@@ -547,7 +547,7 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 
 	</entity>
 	
@@ -582,7 +582,7 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 		
 	</entity>
 
@@ -675,7 +675,7 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 		
 	</entity>
 
@@ -731,7 +731,7 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 		
 	</entity>
 	
@@ -792,7 +792,7 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 		
 	</entity>
 

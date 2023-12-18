@@ -18,6 +18,7 @@ import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServic
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Order;
@@ -229,10 +230,10 @@ public class NotificationLocalServiceImpl
 			}
 
 			// Supprime lien avec les autres entries
-			List<AssetLink> links = this.assetLinkLocalService
+			List<AssetLink> links = AssetLinkLocalServiceUtil
 					.getLinks(entry.getEntryId());
 			for (AssetLink link : links) {
-				this.assetLinkLocalService.deleteAssetLink(link);
+				AssetLinkLocalServiceUtil.deleteAssetLink(link);
 			}
 
 			// Delete the AssetEntry

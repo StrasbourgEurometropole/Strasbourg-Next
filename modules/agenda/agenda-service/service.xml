@@ -145,7 +145,7 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+<!--	Reference AssetLink is deprecated	<reference entity="AssetLink" package-path="com.liferay.asset.link" />-->
 
 	</entity>
 
@@ -224,7 +224,7 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 
 	</entity>
 
@@ -373,7 +373,7 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 	</entity>
 
 	<entity local-service="true" remote-service="false" name="Campaign" cache-enabled="true" uuid="true">
@@ -422,7 +422,7 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 	</entity>
 
 	<entity local-service="true" name="CampaignEventStatus" cache-enabled="true" remote-service="true" uuid="true" >
@@ -527,7 +527,7 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 	</entity>
 
 	<entity local-service="true" name="AgendaExportPeriod" cache-enabled="true" remote-service="true" uuid="true" >

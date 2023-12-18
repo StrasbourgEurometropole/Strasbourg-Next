@@ -227,13 +227,13 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 			}
 
 //			TODO suppression de ce morceau de code ou ajout de la ligne
-//			<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+//			<!-- References AssetLink Placeholder -->
 //			dans service.xml ?
 //			// Supprime lien avec les autres entries
-//			List<AssetLink> links = this.assetLinkLocalService
+//			List<AssetLink> links = AssetLinkLocalServiceUtil
 //					.getLinks(entry.getEntryId());
 //			for (AssetLink link : links) {
-//				this.assetLinkLocalService.deleteAssetLink(link);
+//				AssetLinkLocalServiceUtil.deleteAssetLink(link);
 //			}
 
 			// Delete the AssetEntry

@@ -54,7 +54,7 @@
 
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 	</entity>
 	
 	
@@ -104,6 +104,6 @@
         
         <reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 	</entity>
 </service-builder>

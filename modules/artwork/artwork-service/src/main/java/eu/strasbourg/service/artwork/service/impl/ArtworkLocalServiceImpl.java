@@ -19,6 +19,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -239,10 +240,10 @@ public class ArtworkLocalServiceImpl extends ArtworkLocalServiceBaseImpl {
 			}
 
 			// Supprime les liens avec les autres AssetEntries
-			List<AssetLink> links = this.assetLinkLocalService
+			List<AssetLink> links = AssetLinkLocalServiceUtil
 				.getLinks(entry.getEntryId());
 			for (AssetLink link : links) {
-				this.assetLinkLocalService.deleteAssetLink(link);
+				AssetLinkLocalServiceUtil.deleteAssetLink(link);
 			}
 
 			// Supprime l'AssetEntry

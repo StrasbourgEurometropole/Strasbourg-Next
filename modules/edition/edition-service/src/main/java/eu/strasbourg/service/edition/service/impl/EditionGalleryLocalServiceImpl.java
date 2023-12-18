@@ -287,7 +287,7 @@ public class EditionGalleryLocalServiceImpl
 			}
 
 			// Supprime le lien avec les autres entités
-			List<AssetLink> links = this.assetLinkLocalService
+			List<AssetLink> links = AssetLinkLocalServiceUtil
 				.getLinks(entry.getEntryId());
 			for (AssetLink link : links) {
 				AssetLinkLocalServiceUtil.deleteAssetLink(link);
