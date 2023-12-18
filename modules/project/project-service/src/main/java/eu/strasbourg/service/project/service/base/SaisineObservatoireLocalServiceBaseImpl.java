@@ -1167,7 +1167,7 @@ public abstract class SaisineObservatoireLocalServiceBaseImpl
 	 *
 	 * @return the asset link local service
 	 */
-	public com.liferay.asset.link.service.AssetLinkLocalService
+	public com.liferay.asset.kernel.service.AssetLinkLocalService
 		getAssetLinkLocalService() {
 
 		return assetLinkLocalService;
@@ -1179,7 +1179,7 @@ public abstract class SaisineObservatoireLocalServiceBaseImpl
 	 * @param assetLinkLocalService the asset link local service
 	 */
 	public void setAssetLinkLocalService(
-		com.liferay.asset.link.service.AssetLinkLocalService
+		com.liferay.asset.kernel.service.AssetLinkLocalService
 			assetLinkLocalService) {
 
 		this.assetLinkLocalService = assetLinkLocalService;
@@ -1458,9 +1458,9 @@ public abstract class SaisineObservatoireLocalServiceBaseImpl
 	protected AssetEntryPersistence assetEntryPersistence;
 
 	@ServiceReference(
-		type = com.liferay.asset.link.service.AssetLinkLocalService.class
+		type = com.liferay.asset.kernel.service.AssetLinkLocalService.class
 	)
-	protected com.liferay.asset.link.service.AssetLinkLocalService
+	protected com.liferay.asset.kernel.service.AssetLinkLocalService
 		assetLinkLocalService;
 
 	@ServiceReference(type = AssetLinkPersistence.class)

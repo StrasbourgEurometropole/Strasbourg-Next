@@ -646,7 +646,7 @@ public abstract class HelpProposalLocalServiceBaseImpl
 		assetEntryLocalService;
 
 	@Reference
-	protected com.liferay.asset.link.service.AssetLinkLocalService
+	protected com.liferay.asset.kernel.service.AssetLinkLocalService
 		assetLinkLocalService;
 
 	@Reference

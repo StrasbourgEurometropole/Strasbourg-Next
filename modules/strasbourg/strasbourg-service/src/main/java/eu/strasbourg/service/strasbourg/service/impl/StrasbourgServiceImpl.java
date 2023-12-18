@@ -14,7 +14,6 @@
 
 package eu.strasbourg.service.strasbourg.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetTag;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -83,6 +82,7 @@ import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.annotation.versioning.ProviderType;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
