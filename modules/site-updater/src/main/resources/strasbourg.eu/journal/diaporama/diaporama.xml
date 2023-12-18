@@ -1,20 +1,16 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Diaporama Photo</name>
-    <key>DIAPO</key>
     <structure>
+        <name>Diaporama Photo</name>
+        <key>5099141</key>
         <definition>diaporama-structure.json</definition>
         <layout>diaporama-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Diaporama Photo</name>
+        <key>5099218</key>
+        <script>diaporama-photo.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

@@ -48,16 +48,6 @@
         <key>2332299</key>
     </template>
     <template>
-        <script>articles.ftl</script>
-        <name>Liste d'articles</name>
-        <key>2344636</key>
-    </template>
-    <template>
-        <script>experiences.ftl</script>
-        <name>Liste d'expériences</name>
-        <key>2344640</key>
-    </template>
-    <template>
         <script>manifestation-events-slider.ftl</script>
         <name>Slider evenements de manifestation</name>
         <key>3581315</key>

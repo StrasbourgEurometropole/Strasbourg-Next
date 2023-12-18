@@ -1,20 +1,16 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Information pratique</name>
-    <key>INFO</key>
     <structure>
+        <name>Information pratique</name>
+        <key>415969562</key>
         <definition>info-structure.json</definition>
         <layout>info-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Information pratique</name>
+        <key>420085428</key>
+        <script>info.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

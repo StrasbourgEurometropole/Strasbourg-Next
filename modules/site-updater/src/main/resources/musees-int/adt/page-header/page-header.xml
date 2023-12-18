@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.portal.kernel.model.LayoutSet</className>
+    <override>
+        <parentKey>32305</parentKey>
+        <key>451146031</key>
+    </override>
+    <override>
+        <parentKey>32313</parentKey>
+        <key>451146035</key>
+    </override>
+    <override>
+        <parentKey>420085160</parentKey>
+        <key>451146056</key>
+    </override>
+</root>

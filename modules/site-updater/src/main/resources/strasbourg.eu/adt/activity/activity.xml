@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.activity.model.Activity</className>
+    <template>
+        <script>activity-thumbnail.ftl</script>
+        <name>Vignette activités</name>
+        <key>1207730</key>
+    </template>
+</root>

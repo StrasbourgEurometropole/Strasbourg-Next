@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.portal.kernel.model.Layout</className>
+    <skipKey>420085400</skipKey>
+    <override>
+        <parentKey>31617</parentKey>
+        <key>451146039</key>
+    </override>
+</root>

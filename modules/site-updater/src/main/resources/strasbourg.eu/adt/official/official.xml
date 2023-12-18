@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.official.model.Official</className>
+    <template>
+        <script>city-official-thumbnail.ftl</script>
+        <name>Vignette élu ville</name>
+        <key>1617731</key>
+    </template>
+    <template>
+        <script>ems-official-thumbnail.ftl</script>
+        <name>Vignette élu EMS</name>
+        <key>1617775</key>
+    </template>
+    <template>
+        <script>official-detail.ftl</script>
+        <name>Détail élu</name>
+        <key>1617767</key>
+    </template>
+</root>

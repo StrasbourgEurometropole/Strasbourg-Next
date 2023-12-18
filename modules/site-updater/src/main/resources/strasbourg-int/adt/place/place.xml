@@ -7,14 +7,4 @@
         <name>Détail lieu</name>
         <key>4906351</key>
     </template>
-    <template>
-        <script>place-thumbnail.ftl</script>
-        <name>Vignette lieu</name>
-        <key>5100066</key>
-    </template>
-    <template>
-        <script>place-generic-thumbnail.ftl</script>
-        <name>Vignette lieu (moteur général)</name>
-        <key>5775172</key>
-    </template>
 </root>

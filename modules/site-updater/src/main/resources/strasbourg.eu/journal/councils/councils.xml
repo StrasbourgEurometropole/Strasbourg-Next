@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Conseils municipaux et métropolitains</name>
-    <key>COUNCIL</key>
     <structure>
+        <name>Conseils municipaux et métropolitains</name>
+        <key>1126120</key>
         <definition>councils-structure.json</definition>
         <layout>councils-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Conseils municipaux et eurométropolitains</name>
+        <key>1126125</key>
+        <script>council.ftl</script>
     </template>
 </root>

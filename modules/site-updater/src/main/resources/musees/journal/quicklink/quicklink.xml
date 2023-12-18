@@ -1,20 +1,22 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Quicklink</name>
-    <key>QUICKLINK</key>
     <structure>
+        <name>Quicklink</name>
+        <key>415969568</key>
         <definition>quicklink-structure.json</definition>
         <layout>quicklink-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
+        <name>Menu mobile</name>
+        <key>420085444</key>
+        <script>menu-mobile.ftl</script>
+        <cacheable>true</cacheable>
     </template>
     <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Quicklink</name>
+        <key>420085459</key>
+        <script>quicklink.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

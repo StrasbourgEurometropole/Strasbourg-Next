@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.portal.kernel.servlet.taglib.ui.BreadcrumbEntry</className>
+    <override>
+        <parentKey>420085080</parentKey>
+        <key>451146065</key>
+    </override>
+</root>

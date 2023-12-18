@@ -1,20 +1,16 @@
 <?xml version="1.0"?>
 
 <root>
-    <name>Canopée</name>
-    <key>CANOPEE</key>
     <structure>
+        <name>Canopée</name>
+        <key>245220633</key>
         <definition>canopee-structure.json</definition>
         <layout>canopee-layout.json</layout>
     </structure>
     <template>
-        <name>Toto</name>
-        <key>TOTO</key>
-        <script>toto.ftl</script>
-    </template>
-    <template>
-        <name>Toto bis</name>
-        <key>TOTO_BIS</key>
-        <script>toto-bis.ftl</script>
+        <name>Canopée</name>
+        <key>245220639</key>
+        <script>canopee.ftl</script>
+        <cacheable>true</cacheable>
     </template>
 </root>

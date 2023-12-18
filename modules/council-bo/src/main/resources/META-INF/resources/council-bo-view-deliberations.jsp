@@ -14,6 +14,7 @@
 </liferay-portlet:renderURL>
 
 <liferay-portlet:renderURL varImpl="importDeliberationURL">
+	<portlet:param name="tab" value="deliberations" />
 	<portlet:param name="cmd" value="importDeliberation" />
 	<portlet:param name="mvcPath" value="/council-bo-import-deliberation.jsp" />
 	<portlet:param name="backURL" value="${importDeliberationURL}" />

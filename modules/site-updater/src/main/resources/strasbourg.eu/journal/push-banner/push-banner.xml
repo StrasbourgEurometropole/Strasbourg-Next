@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Bloc push</name>
+        <key>push-banner</key>
+        <definition>push-banner-structure.json</definition>
+        <layout>push-banner-layout.json</layout>
+    </structure>
+    <template>
+        <name>Bloc push (2 colonnes)</name>
+        <key>push-banner</key>
+        <script>push-banner.ftl</script>
+    </template>
+    <template>
+        <name>Bloc push (1 colonne)</name>
+        <key>push-banner-fullwidth</key>
+        <script>push-banner-fullwidth.ftl</script>
+    </template>
+</root>
