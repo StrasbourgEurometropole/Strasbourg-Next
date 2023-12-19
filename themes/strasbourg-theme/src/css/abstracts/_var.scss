@@ -11,6 +11,12 @@ $f_hx: 'TTForsTrial', Sans-Serif;
 $f_txt: 'TTForsTrial', Sans-Serif;
 $f_spe: 'TTForsTrial', Sans-Serif;
 
+
+// Surcharge du path par défaut des fonts icomoon
+// ==========================================================================
+$icomoon-font-path: "../fonts/icomoon/fonts";
+
+
 // Colors
 // ================================================ ==========================
 $c_main: #171C22;
@@ -105,8 +111,8 @@ $barre-sit-mobile: 60px;
 
 // Taille maximale hauteur et taille gradient
 // ==========================================================================
-$max-height-desktop: 280px;
-$max-height-mobile: 260px;
+$max-height-desktop: 17.5rem;
+$max-height-mobile: 16.25rem;
 $gradient-height: 60px;
 
 $border-radius: 5px;

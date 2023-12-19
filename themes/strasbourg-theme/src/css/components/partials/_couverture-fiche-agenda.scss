@@ -1,17 +1,16 @@
 // Couverture dans les fiches agenda
 .st-header-fiche-agenda {
 	margin-bottom: 70px;
+	padding-top: 40px;
 
 	@include tablet-portrait {
 		margin-bottom: 50px;
+		padding-top: 30px;
 	}
 
 	@include mobile {
 		margin-bottom: 30px;
-	}
-
-	@include min-tablet-portrait {
-		padding-top: 40px;
+		padding-top: 20px;
 	}
 
 	.st-surtitre-cat {

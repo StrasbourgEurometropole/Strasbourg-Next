@@ -3,10 +3,10 @@
 @font-face {
   font-family: '#{$icomoon-font-family}';
   src:
-    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff2?p7wzpj') format('woff2'),
-    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?p7wzpj') format('truetype'),
-    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?p7wzpj') format('woff'),
-    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?p7wzpj##{$icomoon-font-family}') format('svg');
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff2?to5pui') format('woff2'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?to5pui') format('truetype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?to5pui') format('woff'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?to5pui##{$icomoon-font-family}') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -27,6 +27,51 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.st-icon-accident-industriel {
+  &:before {
+    content: $st-icon-accident-industriel; 
+  }
+}
+.st-icon-alerte-inondation {
+  &:before {
+    content: $st-icon-alerte-inondation; 
+  }
+}
+.st-icon-alerte-meteo {
+  &:before {
+    content: $st-icon-alerte-meteo; 
+  }
+}
+.st-icon-alerte-ozone {
+  &:before {
+    content: $st-icon-alerte-ozone; 
+  }
+}
+.st-icon-alerte-particule {
+  &:before {
+    content: $st-icon-alerte-particule; 
+  }
+}
+.st-icon-handi-auditif {
+  &:before {
+    content: $st-icon-handi-auditif; 
+  }
+}
+.st-icon-handi-mental {
+  &:before {
+    content: $st-icon-handi-mental; 
+  }
+}
+.st-icon-maladies-infectieuses {
+  &:before {
+    content: $st-icon-maladies-infectieuses; 
+  }
+}
+.st-icon-travaux {
+  &:before {
+    content: $st-icon-travaux; 
+  }
+}
 .st-icon-info {
   &:before {
     content: $st-icon-info; 

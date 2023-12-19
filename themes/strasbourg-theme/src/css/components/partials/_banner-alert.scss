@@ -1,0 +1,117 @@
+.st-banner-alert {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: 170px;
+    padding: 30px 80px 30px 80px;
+    background-color: $c_greydark;
+    border-radius: $border-radius;
+
+    @include tablet-portrait {
+        padding-right: 40px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+
+    @include tablet-small {
+        flex-direction: column;
+        padding: 30px 40px 30px 40px;
+    }
+
+    @include mobile {
+        padding: 20px;
+    }
+
+    .st-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 330px;
+
+        @include tablet-portrait {
+            width: 180px;
+            height: 170px;
+        }
+
+        @include tablet-small {
+            width: auto;
+            right: 0;
+        }
+
+        &:after {
+            @include pseudo-block-stretch();
+            background-image: linear-gradient(100deg, rgba($c_greydark, 0), rgba($c_greydark, 1) 80%);
+
+            @include tablet-small {
+                background-image: linear-gradient(to bottom, rgba($c_greydark, 0), rgba($c_greydark, 1) 70%);
+            }
+        }
+
+        figure {
+            height: 100%;
+        }
+
+        img {
+            border-radius: $border-radius;
+        }
+
+        & + .st-caption {
+            margin-left: 150px;
+
+            @include tablet-portrait {
+                margin-left: 20px;
+            }
+
+            @include tablet-small {
+                margin-left: initial;
+                margin-top: 40px;
+            }
+
+            @include mobile {
+                margin-top: 60px;
+            }
+        }
+    }
+
+    .st-caption {
+        position: relative;
+        max-width: 490px;
+
+        @include min-tablet-small {
+            margin-right: auto;
+            padding-right: 40px;
+        }
+
+        @include tablet-small {
+            & + * {
+                margin-top: 20px;
+            }
+        }
+    }
+
+    .st-title {
+        & + .st-surtitre-cat {
+            margin-top: 6px;
+
+            @include mobile {
+            }
+        }
+    }
+
+    * + .st-text {
+        margin-top: 8px;
+        @include ft('', 12px, 400, $c_grey, 1.16);
+        @include letter-spacing(25);
+    }
+
+    .st-btn {
+        position: relative;
+        flex-shrink: 0;
+
+        @include min-tablet-small {
+            margin-left: 40px;
+        }
+    }
+}

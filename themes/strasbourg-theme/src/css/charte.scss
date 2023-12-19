@@ -1,12 +1,14 @@
-// Icomoon
-// ==========================================================================
-@import "libs/icomoon/icomoon";
+
 
 // Variables, mixins, breakpoints
 // ==========================================================================
 @import "abstracts/var";
 @import "abstracts/breakpoints";
 @import "abstracts/mixins";
+
+// Icomoon
+// ==========================================================================
+@import "libs/icomoon/styles";
 
 // Styles de bases, reset
 //=====================================

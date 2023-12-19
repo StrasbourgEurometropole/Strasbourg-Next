@@ -136,7 +136,12 @@ var th_overlay = {
         th_overlay.lastOpenedId.push(overlayId);
         // RGAA : Focus de la croix de fermeture a l'ouverture de l'overlay
         setTimeout(function () {
-            $('#' + overlayId).find('button[data-overlay-close]').first().focus();
+            // Focus sur le champ de recherche
+            if (overlayId === 'st-overlay-search') {
+                $('#' + overlayId).find('.st-js-input-search').first().focus();
+            } else {
+                $('#' + overlayId).find('button[data-overlay-close]').first().focus();
+            }
         }, 250);
 
         $(th_overlay.selector_overlay + ".st-is-open").each(function (e) {

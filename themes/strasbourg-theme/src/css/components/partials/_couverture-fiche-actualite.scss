@@ -1,11 +1,11 @@
 // Couverture dans les fiches actualité
 .st-header-fiche-actualite {
 	margin-bottom: 34px;
-	padding-top: 40px;
+	margin-top: 40px;
 
 	@include mobile {
 		margin-bottom: 24px;
-		padding-top: 25px;
+		margin-top: 25px;
 	}
 
 	.st-heading {

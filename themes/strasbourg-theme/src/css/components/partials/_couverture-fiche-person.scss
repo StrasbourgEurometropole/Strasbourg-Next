@@ -1,11 +1,11 @@
 // Couverture dans les fiches élus
 .st-header-fiche-person {
 	margin-bottom: 50px;
-	padding-top: 40px;
+	margin-top: 40px;
 
 	@include mobile {
 		margin-bottom: 24px;
-		padding-top: 25px;
+		margin-top: 25px;
 	}
 
 	.st-heading {

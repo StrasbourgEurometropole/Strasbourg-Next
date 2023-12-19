@@ -17,6 +17,7 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	padding-top: 180px;
+	border-top: 1px solid transparent;		// pour bloquer le margin collapsing si margin-top sur le 1er enfant
 
 	@include tablet-portrait {
 		padding-top: 0;

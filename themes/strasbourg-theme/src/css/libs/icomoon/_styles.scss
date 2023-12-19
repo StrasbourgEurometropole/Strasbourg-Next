@@ -3,10 +3,10 @@
 @font-face {
 	font-family: '#{$icomoon-font-family}';
 	src:
-			url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff2?bqn8s2') format('woff2'),
-			url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?bqn8s2') format('truetype'),
-			url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?bqn8s2') format('woff'),
-			url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?bqn8s2##{$icomoon-font-family}') format('svg');
+			url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff2?to5pui') format('woff2'),
+			url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?to5pui') format('truetype'),
+			url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?to5pui') format('woff'),
+			url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?to5pui##{$icomoon-font-family}') format('svg');
 	font-weight: normal;
 	font-style: normal;
 	font-display: block;
@@ -27,198 +27,211 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.st-icon-accident-industriel {
+	&:before {
+		content: $st-icon-accident-industriel;
+	}
+}
+.st-icon-alerte-inondation {
+	&:before {
+		content: $st-icon-alerte-inondation;
+	}
+}
+.st-icon-alerte-meteo {
+	&:before {
+		content: $st-icon-alerte-meteo;
+	}
+}
+.st-icon-alerte-ozone {
+	&:before {
+		content: $st-icon-alerte-ozone;
+	}
+}
+.st-icon-alerte-particule {
+	&:before {
+		content: $st-icon-alerte-particule;
+	}
+}
+.st-icon-handi-auditif {
+	&:before {
+		content: $st-icon-handi-auditif;
+	}
+}
+.st-icon-handi-mental {
+	&:before {
+		content: $st-icon-handi-mental;
+	}
+}
+.st-icon-maladies-infectieuses {
+	&:before {
+		content: $st-icon-maladies-infectieuses;
+	}
+}
+.st-icon-travaux {
+	&:before {
+		content: $st-icon-travaux;
+	}
+}
 .st-icon-info {
 	&:before {
 		content: $st-icon-info;
 	}
 }
-
 .st-icon-cathedrale {
 	&:before {
 		content: $st-icon-cathedrale;
 	}
 }
-
 .st-icon-tableau {
 	&:before {
 		content: $st-icon-tableau;
 	}
 }
-
 .st-icon-musique {
 	&:before {
 		content: $st-icon-musique;
 	}
 }
-
 .st-icon-livres {
 	&:before {
 		content: $st-icon-livres;
 	}
 }
-
 .st-icon-factory {
 	&:before {
 		content: $st-icon-factory;
 	}
 }
-
 .st-icon-statue {
 	&:before {
 		content: $st-icon-statue;
 	}
 }
-
 .st-icon-star {
 	&:before {
 		content: $st-icon-star;
 	}
 }
-
 .st-icon-tombeau {
 	&:before {
 		content: $st-icon-tombeau;
 	}
 }
-
 .st-icon-cheval-bascule {
 	&:before {
 		content: $st-icon-cheval-bascule;
 	}
 }
-
 .st-icon-abc {
 	&:before {
 		content: $st-icon-abc;
 	}
 }
-
 .st-icon-alerte-telephone {
 	&:before {
 		content: $st-icon-alerte-telephone;
 	}
 }
-
 .st-icon-mains-cle {
 	&:before {
 		content: $st-icon-mains-cle;
 	}
 }
-
 .st-icon-appel-service {
 	&:before {
 		content: $st-icon-appel-service;
 	}
 }
-
 .st-icon-election {
 	&:before {
 		content: $st-icon-election;
 	}
 }
-
 .st-icon-game {
 	&:before {
 		content: $st-icon-game;
 	}
 }
-
 .st-icon-gps-activites {
 	&:before {
 		content: $st-icon-gps-activites;
 	}
 }
-
 .st-icon-panier-marche {
 	&:before {
 		content: $st-icon-panier-marche;
 	}
 }
-
 .st-icon-pharmacie {
 	&:before {
 		content: $st-icon-pharmacie;
 	}
 }
-
 .st-icon-sport {
 	&:before {
 		content: $st-icon-sport;
 	}
 }
-
 .st-icon-running {
 	&:before {
 		content: $st-icon-running;
 	}
 }
-
 .st-icon-robinet {
 	&:before {
 		content: $st-icon-robinet;
 	}
 }
-
 .st-icon-piscine {
 	&:before {
 		content: $st-icon-piscine;
 	}
 }
-
 .st-icon-pull {
 	&:before {
 		content: $st-icon-pull;
 	}
 }
-
 .st-icon-patinage {
 	&:before {
 		content: $st-icon-patinage;
 	}
 }
-
 .st-icon-parc {
 	&:before {
 		content: $st-icon-parc;
 	}
 }
-
 .st-icon-mer {
 	&:before {
 		content: $st-icon-mer;
 	}
 }
-
 .st-icon-homme-femme {
 	&:before {
 		content: $st-icon-homme-femme;
 	}
 }
-
 .st-icon-chien {
 	&:before {
 		content: $st-icon-chien;
 	}
 }
-
 .st-icon-champ {
 	&:before {
 		content: $st-icon-champ;
 	}
 }
-
 .st-icon-bouteille {
 	&:before {
 		content: $st-icon-bouteille;
 	}
 }
-
 .st-icon-demarche {
 	&:before {
 		content: $st-icon-demarche;
 	}
 }
-
 .st-icon-empty-circle {
 	&:before {
 		content: $st-icon-empty-circle;

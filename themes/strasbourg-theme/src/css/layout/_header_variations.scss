@@ -26,6 +26,16 @@
 			margin-bottom: 26px;
 		}
 	}
+
+	&.st--padding-top {
+		@include tablet-portrait {
+			padding-top: 40px;
+		}
+
+		@include mobile {
+			padding-top: 20px;
+		}
+	}
 }
 
 
