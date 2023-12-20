@@ -61,10 +61,6 @@ form.update-reminder-query  {
   top: calc(100vh - 120px);
 }
 
-.seu-not-front.has-control-menu, .smag.has-control-menu {
-  margin-top: 66px;
-}
-
 .page-header {
   border-bottom: none;
 }
@@ -267,4 +263,9 @@ input#_com_liferay_login_web_portlet_LoginPortlet_captchaText,input#_com_liferay
 
 .radio input[type='radio'], .radio-inline input[type='radio'], .checkbox input[type='checkbox'], .checkbox-inline input[type='checkbox'] {
     margin-left: -20px !important;
+}
+
+// Masqueer l'affichage du titre du portlet
+.autofit-float.autofit-row.portlet-header{
+	display: none;
 }
