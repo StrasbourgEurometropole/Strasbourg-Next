@@ -40,10 +40,10 @@ function refreshConnectionInformations(councilSessionId) {
  * Supprimer toutes les entrées des listes
  */
 function clearLists() {
-	frontListUnconnected.textContent = '';
-	frontListAbsents.textContent = '';
-	frontListConnected.textContent = '';
-	frontCouncilSessionTitle.textContent='';
+	frontListUnconnected.innerHTML = '<div style="height: 0;">&nbsp;</div>';
+	frontListAbsents.innerHTML = '<span style="height: 0;">&nbsp;</span>';
+	frontListConnected.innerHTML = '<span style="height: 0;">&nbsp;</span>';
+	frontCouncilSessionTitle.textContent = '';
 }
 
 /** 
