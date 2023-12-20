@@ -64,13 +64,6 @@ public class DailymotionDLVideoExternalShortcutProvider implements DLVideoExtern
 
 	}
 
-
-	private String extractSubtitleUrl(JSONObject metadata) {
-		// make sure that it doesnt return null
-		return metadata.getJSONObject("subtitles").getJSONObject("data").getJSONObject("fr-auto").getJSONArray("urls").getString(0);
-
-	}
-
 	@Override
 	public DLVideoExternalShortcut getDLVideoExternalShortcut(String url) {
 		Matcher matcher = _pattern.matcher(url);

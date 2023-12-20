@@ -31,7 +31,7 @@
                     <#if legend?has_content && showLegende>
                         ${legend}
                     </#if>
-                <#if copyright?has_content>
+                <#if copyright?has_content && showCopyright>
                     <button type="button" class="st-credits st-js-credits" aria-expanded="false" aria-label="© (copyright de l'image)">©</button>
                     <span class="st-credits-content">${copyright}</span>
                 </#if>
