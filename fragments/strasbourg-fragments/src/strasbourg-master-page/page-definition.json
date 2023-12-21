@@ -1,0 +1,89 @@
+{
+  "pageElement" : {
+    "pageElements" : [ {
+      "definition" : {
+        "fragmentSettings" : {
+          "unallowedFragments" : [ ]
+        }
+      },
+      "type" : "DropZone"
+    }, {
+      "definition" : {
+        "widgetInstance" : {
+          "widgetConfig" : {
+            "ddmTemplateKey" : "",
+            "assetEntryId" : "1087276",
+            "userToolAssetAddonEntryKeys" : "false",
+            "groupId" : "976405",
+            "enableViewCountIncrement" : "false",
+            "articleId" : "1087272",
+            "contentMetadataAssetAddonEntryKeys" : "false"
+          },
+          "widgetName" : "com_liferay_journal_content_web_portlet_JournalContentPortlet"
+        }
+      },
+      "type" : "Widget"
+    }, {
+      "definition" : {
+        "widgetInstance" : {
+          "widgetConfig" : {
+            "siteNavigationMenuId" : "435401109",
+            "displayStyle" : "ddmTemplate_435401114",
+            "displayDepth" : "0",
+            "siteNavigationMenuType" : "-1",
+            "rootMenuItemType" : "absolute",
+            "expandedLevels" : "auto",
+            "rootMenuItemLevel" : "0",
+            "displayStyleGroupId" : "976405"
+          },
+          "widgetName" : "com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet"
+        }
+      },
+      "type" : "Widget"
+    }, {
+      "definition" : {
+        "widgetInstance" : {
+          "widgetConfig" : {
+            "prefilterCategoriesIds" : "",
+            "dynamicSearch" : "false",
+            "assetClassNames" : "eu.strasbourg.service.edition.model.Edition,eu.strasbourg.service.edition.model.EditionGallery,eu.strasbourg.service.place.model.Place",
+            "searchDocument" : "false",
+            "delta" : "0",
+            "dateField" : "false",
+            "searchForm" : "strasbourg",
+            "dateRangeTo" : "60",
+            "dateRangeFrom" : "0",
+            "prefilterTagsNames" : "",
+            "assetClassNamesIds" : "30707,30708,555029",
+            "boostTagsNames" : "",
+            "globalScope" : "true",
+            "searchNews" : "false"
+          },
+          "widgetName" : "eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet"
+        }
+      },
+      "type" : "Widget"
+    }, {
+      "definition" : {
+        "widgetInstance" : {
+          "widgetConfig" : { },
+          "widgetName" : "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+          "widgetPermissions" : [ {
+            "actionKeys" : [ "PERMISSIONS", "PREFERENCES", "CONFIGURATION", "VIEW", "ADD_TO_PAGE" ],
+            "roleKey" : "Owner"
+          }, {
+            "actionKeys" : [ "VIEW" ],
+            "roleKey" : "Site Member"
+          } ]
+        }
+      },
+      "type" : "Widget"
+    } ],
+    "type" : "Root"
+  },
+  "settings" : {
+    "colorSchemeName" : "01",
+    "themeName" : "Strasbourg"
+  },
+  "version" : 1.1
+}

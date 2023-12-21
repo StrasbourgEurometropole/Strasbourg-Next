@@ -26,7 +26,7 @@
         </div>
 
         <div class="st-embed-container st-hide">
-            
+
         </div>
 
     </div>
@@ -38,7 +38,10 @@
             data-close-label="Masquer la transcription de la vidéo">Lire la transcription de la vidéo</button>
 
         <div class="st-video-transcription__content st-text-styles st-is-hidden" id="transcription-video-1">
+          [#if configuration.showAutoTranscript]
+          [#else]
             <lfr-drop-zone></lfr-drop-zone>
+          [/#if]
         </div>
     </div>
 	[/#if]

@@ -58,7 +58,10 @@ function main() {
 				videoContainerHtml = videoConfiguration.html;
 				maskVideo.classList.remove("st-hide");
         		videoContainer.classList.remove("st-hide");
-				maskVideo.addEventListener("click", () => { videoContainer.innerHTML = videoContainerHtml })
+				maskVideo.addEventListener("click", () => {
+          videoContainer.innerHTML = videoContainerHtml
+
+        })
 				let title = videoConfiguration.title;
 				// check if urlVideo is a DAILYMOTION video
 				if (videoContainerHtml.includes("dailymotion")) {
@@ -66,9 +69,20 @@ function main() {
 					let thumbnail = videoContainerHtml.match(/data-thumbnail="([^"]*)/) ? videoContainerHtml.match(/data-thumbnail="([^"]*)/)[1] : "";
 					// put the thumbnail in the maskVideo
 					let image = maskVideo.querySelector("img");
-					image.src = thumbnail;
 					// add autoplay=1 to the url of the iframe in videoContainerHtml
 					videoContainerHtml = videoContainerHtml.replace(/autoplay=0/g, "autoplay=1");
+        if(configuration.showAutoTranscript && configuration.showTranscript) {
+          let transcriptContent = fragmentElement.querySelector('.st-video-transcription__content');
+          // get the content of div class='video-subtitle' style='display:none'> in videoContainerHtml
+          let transcript = videoContainerHtml.match(/<div class='video-subtitle' style='display:none'>([^<]*)/) ? videoContainerHtml.match(/<div class='video-subtitle' style='display:none'>([^<]*)/)[1] : "";
+
+          // move the transcriptText in the transcriptContent
+          transcriptContent.innerHTML = transcript.replace(/(\r\n|\n|\r)/gm, "<br>");
+
+        }
+
+          // add the thumbnail to the maskVideo
+          image.src = thumbnail;
 					// add the title to the maskVideo
 					maskVideo.querySelector("p.st-surtitre").innerHTML = title;
 				}

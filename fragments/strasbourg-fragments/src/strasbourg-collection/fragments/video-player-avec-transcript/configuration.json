@@ -12,6 +12,13 @@
 					"name": "showTranscript",
 					"type": "checkbox"
 				},
+        {
+          "label": "Utiliser la transcription automatique",
+          "name": "showAutoTranscript",
+          "type": "checkbox",
+          "description": "Si la transcription automatique est disponible, elle sera affichée à la place de la transcription.",
+          "defaultValue": true
+        },
 				{
 					"defaultValue": "",
 					"label": "width",
