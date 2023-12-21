@@ -119,7 +119,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 <div class="st-page-fiche-lieu">
     <header class="st-header-fiche-lieu">
         <div class="st-wrapper st-wrapper-small">
-            <h1 class="st-h1 st-hide-until@t-portrait">${entry.getAlias(locale)}</h1>
+            <h1 class="st-h1">${entry.getAlias(locale)}</h1>
             <@liferay.breadcrumbs />
         </div>
 

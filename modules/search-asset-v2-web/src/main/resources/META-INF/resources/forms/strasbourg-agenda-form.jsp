@@ -1,5 +1,5 @@
 <%@ include file="/search-asset-init.jsp"%>
-<div class="st-barre-listing-sit st--listing-agenda">
+<div class="st-barre-listing-sit st--listing-agenda" role="region" aria-label="Agenda, formulaire de filtre">
     <div class="st-barre-inner st-wrapper form-styles">
 <c:if test="${dc.displayDatesButtons}">
     <c:set var="dateSelected" value="${dc.dateSelected}" />

@@ -15,7 +15,7 @@ title="Overlay" />
 
             <div class="st-overlay__header-row1 st-wrapper">
                 <div class="st-input-search-wrapper">
-                    <input id="recherche-input" class="st-input-search" type="search" placeholder="Votre recherche" aria-label="Votre recherche">
+                    <input id="recherche-input" class="st-input-search st-js-input-search"  type="search" placeholder="Votre recherche" aria-label="Votre recherche">
                 </div>
                 <button class="st-btn-menu" data-overlay-open="st-overlay-menu" aria-haspopup="dialog">
                    <span class="st-btn-menu__icon" aria-hidden="true">

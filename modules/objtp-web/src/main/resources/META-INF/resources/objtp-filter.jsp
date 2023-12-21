@@ -1,4 +1,4 @@
-<div class="st-barre-listing-sit st--listing-lost-and-found">
+<div class="st-barre-listing-sit st--listing-lost-and-found" role="region" aria-label="Objets trouvés, formulaire de filtre">
     <div class="st-barre-inner st-wrapper form-styles">
 
         <div class="st-filtre st-group-field">

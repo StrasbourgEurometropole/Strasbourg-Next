@@ -1,5 +1,5 @@
 <%@ include file="/search-asset-init.jsp"%>
-<div class="st-barre-listing-sit">
+<div class="st-barre-listing-sit" role="region" aria-label="formulaire de filtre">
 	<div class="st-barre-inner st-wrapper form-styles">
 			<c:if test="${dc.dateField}">
 				<div class="st-filtre">
