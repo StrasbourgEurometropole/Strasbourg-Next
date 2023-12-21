@@ -1,0 +1,154 @@
+[#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" /]
+[#assign sessionUtil = staticUtil["com.liferay.portal.kernel.util.SessionParamUtil"] /]
+<!-- ${request.session.getAttribute("publik_logged_in")!"Nexiste"} -->
+<div class="st-btn-search-mobile-wrapper st-hide-from@mobile">
+    <button class="st-btn-search-mobile" data-overlay-open="st-overlay-search"
+            aria-label="Rechercher - Ouvrir le moteur de recherche"  aria-haspopup="dialog">
+        [@liferay_ui.message key="eu.need-info" /]
+    </button>
+</div>
+<header id="st-barre-navigation" class="st-barre-navigation" role="banner">
+    <div class="st-barre-liens">
+        <div class="st-wrapper st-barre-inner-container">
+					<div>
+                <a href="${homeURL}" class="st-logo">
+                    <figure class="st-figure st-fit-cover" role="group">
+                        <picture>
+                            <img src="/o/strasbourg-theme/images/medias/logo.png">
+                        </picture>
+                    </figure>
+                </a>
+            </div>
+
+            <nav class="st-nav-primary" role="navigation">
+							[#assign journalArticleLocalService = serviceLocator.findService("com.liferay.journal.service.JournalArticleLocalService")]
+									[#if configuration.jesuis.content??]
+							
+${journalArticleLocalService.getArticleContent(jesuisObject, jesuisObject.getDDMTemplateKey(), "VIEW", themeDisplay.getLocale().toString(), null, themeDisplay)}
+							
+  [/#if]
+                <ul class="st-nav-primary__menu">
+                    <li class="st-nav-primary__item">
+                        <a href="#" class="st-nav-primary__link" data-overlay-open="st-overlay-location">
+                            [@liferay_ui.message key="eu.mycity" /]
+                        </a>
+                    </li>
+                    <li class="st-nav-primary__item">
+                        <a href="#" class="st-nav-primary__link">[@liferay_ui.message key="eu.ops.contact" /]</a>
+                    </li>
+                    <li class="st-has-lang-dropdown">
+                        <select onchange="document.location.href = this.value;" class="select-lang" title="Fr - changer la langue du site">
+                            <option value="https://strasbourg.eu"  aria-label="Fr (Version française)"
+                                    selected="selected">[@liferay_ui.message key="eu.fr" /]
+                            </option>
+                            <option value="https://int.strasbourg.eu/en" aria-label="En (English Version)" lang="en">[@liferay_ui.message key="eu.en" /]
+                            </option>
+                            <option value="https://int.strasbourg.eu/de" aria-label="De (Deutsche  Version)" lang="de">[@liferay_ui.message key="eu.de" /]
+                            </option>
+                        </select>
+                    </li>
+                    <li class="st-has-btn-compte">
+                        [#if request.session.getAttribute("publik_logged_in")!false]
+                        <a href="https://services.strasbourg.eu/" class="st-btn-compte">
+                            <span class="st-icon-demarche" aria-hidden="true"></span>[@liferay_ui.message key="eu.my-procedures" /]
+                        </a>
+                        [#else]
+                            
+                            <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="st-btn-compte">
+                                <span class="st-icon-person" aria-hidden="true"></span>
+                                <strong>[@liferay_ui.message key="eu.mystrasbourg" /]</strong>.eu
+                            </a>
+                        [/#if]
+                    </li>
+                </ul>
+
+            </nav>
+        </div>
+
+
+
+        <div class="st-wrapper st-barre-menu">
+            <div class="st-barre-menu-inner">
+							<div class="st-btn-search__wrapper" role="search">
+                    <button class="st-btn-search" data-overlay-open="st-overlay-search" aria-haspopup="dialog">
+                        [@liferay_ui.message key="eu.need-info" /]
+                    </button>
+                </div>
+							 <nav class="st-btn-menu__wrapper" role="navigation" aria-label="Menu principal">
+                    <button class="st-btn-menu" aria-haspopup="dialog" data-overlay-open="st-overlay-menu">
+                       <span class="st-btn-menu__icon" aria-hidden="true">
+                           <span class="st-btn-menu__line"></span>
+                            <span class="st-btn-menu__line"></span>
+                            <span class="st-btn-menu__line"></span>
+                       </span>
+                        [@liferay_ui.message key="eu.museum.menu" /]
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="st-toolbar-navigation">
+    <div class="st-wrapper">
+        <ul class="st-toolbar-inner">
+            <li class="st-has-logo">
+                <a href="${homeURL}" class="st-logo">
+
+                    <figure class="st-figure st-fit-cover" role="group">
+                        <picture>
+                            <img
+                                    alt=""
+                                    src="/o/strasbourg-theme/images/medias/logo.png"
+                                    srcset="/o/strasbourg-theme/images/medias/logo.png 1x,/o/strasbourg-theme/images/medias/logo@2x.png 2x">
+                        </picture>
+                    </figure>
+
+                </a>
+            </li>
+            <li class="st-has-lang-dropdown">
+                <select onchange="document.location.href = this.value;" class="select-lang" title="Fr - changer la langue du site">
+                    <option value="https://strasbourg.eu"  aria-label="Fr (Version française)"
+                      selected="selected">[@liferay_ui.message key="eu.fr" /]
+              </option>
+              <option value="https://int.strasbourg.eu/en" aria-label="En (English Version)" lang="en">[@liferay_ui.message key="eu.en" /]
+              </option>
+              <option value="https://int.strasbourg.eu/de" aria-label="De (Deutsche  Version)" lang="de">[@liferay_ui.message key="eu.de" /]
+              </option>
+                </select>
+            </li>
+            <li>
+                [#if request.session.getAttribute("publik_logged_in")!false]
+                    <a href="https://services.strasbourg.eu/" class="st-lien-libre">
+                        <span class="st-icon-demarche" aria-hidden="true"></span>
+                    </a>
+                [#else]
+                    <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="st-lien-libre">
+                        <span class="st-icon-person" aria-hidden="true"></span>
+                    </a>
+                [/#if]
+            </li>
+            <li>
+                <div role="search">
+                    <button class="st-btn-search" data-overlay-open="st-overlay-search" aria-haspopup="dialog">
+                        <span class="st-icon-search" aria-hidden="true"></span>
+                        <span class="st-sr-only">J’ai besoin d’informations sur…</span>
+                    </button>
+                </div>
+
+            </li>
+            <li>
+                 <nav class="st-btn-menu__wrapper" role="navigation" aria-label="Menu principal">
+                    <button class="st-btn-menu" aria-haspopup="dialog" data-overlay-open="st-overlay-menu">
+                       <span class="st-btn-menu__icon" aria-hidden="true">
+                           <span class="st-btn-menu__line"></span>
+                            <span class="st-btn-menu__line"></span>
+                            <span class="st-btn-menu__line"></span>
+                       </span>
+                        <span class="st-sr-only">Menu</span>
+                    </button>
+                </nav>
+            </li>
+        </ul>
+    </div>
+</div>
