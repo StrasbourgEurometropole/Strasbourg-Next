@@ -62,7 +62,8 @@
 	</aui:form>
 
 	<!-- ACTION RESOURCE : Export des élus-->
-    <liferay-portlet:resourceURL var="exportOfficialsURL" id="exportOfficials" />
+    <liferay-portlet:resourceURL var="exportOfficialsURL" id="exportOfficials"  copyCurrentRenderParameters="false">
+	</liferay-portlet:resourceURL>
 	<form method="POST" action="${exportOfficialsURL}">
         <aui:button-row>
             <aui:button cssClass="btn-lg" type="submit" value="eu.council.bo.export.officials" />
