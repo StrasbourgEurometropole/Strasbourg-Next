@@ -34,7 +34,7 @@
 		"gulp-sass-glob-import": "^0.1.0",
 		"gulp-sourcemaps": "^2.6.3",
 		"natives": "^1.1.6",
-		"node-sass": "^4.10.0"
+		"node-sass": "^7.0.0"
 	},
 	"scripts": {
 		"buildCssJs": "gulp js && gulp css"
