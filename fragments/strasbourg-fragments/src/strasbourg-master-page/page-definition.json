@@ -2,6 +2,65 @@
   "pageElement" : {
     "pageElements" : [ {
       "definition" : {
+        "fragment" : {
+          "key" : "header",
+          "siteKey" : "Strasbourg.eu"
+        },
+        "fragmentConfig" : {
+          "jesuis" : {
+            "statusDate" : 1702379226641,
+            "template" : {
+              "infoItemRendererKey" : "com.liferay.journal.web.internal.info.item.renderer.JournalArticleDDMTemplateInfoItemTemplatedRenderer",
+              "templateKey" : "435912457"
+            },
+            "descriptionCurrentValue" : "",
+            "smallImageId" : "0",
+            "smallImage" : false,
+            "groupId" : "976405",
+            "indexable" : true,
+            "description" : "",
+            "className" : "com.liferay.journal.model.JournalArticle",
+            "classNameId" : "28829",
+            "title" : "Je suis header",
+            "smallImageSource" : 1,
+            "uuid" : "60de8b5d-ac89-fa6f-ec35-34d844b323f8",
+            "content" : "<?xml version=\"1.0\"?>\n\n<root available-locales=\"fr_FR\" default-locale=\"fr_FR\" version=\"1.0\">\n\t<dynamic-element field-reference=\"FieldsetIam\" index-type=\"\" instance-id=\"435302592\" name=\"Fieldset42219664\" type=\"fieldset\">\n\t\t<dynamic-element field-reference=\"nameJesuis\" index-type=\"keyword\" instance-id=\"8NpLAyuZ\" name=\"Text50873106\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[un élu]]></dynamic-content>\n\t\t</dynamic-element>\n\t\t<dynamic-element field-reference=\"linkJesuis\" index-type=\"keyword\" instance-id=\"DOgfJOCM\" name=\"Text38716634\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[https://google.com]]></dynamic-content>\n\t\t</dynamic-element>\n\t</dynamic-element>\n\t<dynamic-element field-reference=\"FieldsetIam\" index-type=\"\" instance-id=\"2fyk8qaf\" name=\"Fieldset42219664\" type=\"fieldset\">\n\t\t<dynamic-element field-reference=\"nameJesuis\" index-type=\"keyword\" instance-id=\"iif1ntib\" name=\"Text50873106\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[un enseignant]]></dynamic-content>\n\t\t</dynamic-element>\n\t\t<dynamic-element field-reference=\"linkJesuis\" index-type=\"keyword\" instance-id=\"43f2sr3u\" name=\"Text38716634\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[https://google.com]]></dynamic-content>\n\t\t</dynamic-element>\n\t</dynamic-element>\n\t<dynamic-element field-reference=\"FieldsetIam\" index-type=\"\" instance-id=\"4eyz2ope\" name=\"Fieldset42219664\" type=\"fieldset\">\n\t\t<dynamic-element field-reference=\"nameJesuis\" index-type=\"keyword\" instance-id=\"1cipbxwn\" name=\"Text50873106\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[un étudiant]]></dynamic-content>\n\t\t</dynamic-element>\n\t\t<dynamic-element field-reference=\"linkJesuis\" index-type=\"keyword\" instance-id=\"v1cp82qj\" name=\"Text38716634\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[https://google.com]]></dynamic-content>\n\t\t</dynamic-element>\n\t</dynamic-element>\n\t<dynamic-element field-reference=\"FieldsetIam\" index-type=\"\" instance-id=\"eo7310m0\" name=\"Fieldset42219664\" type=\"fieldset\">\n\t\t<dynamic-element field-reference=\"nameJesuis\" index-type=\"keyword\" instance-id=\"9vwdtg83\" name=\"Text50873106\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[demandeur d'emploi]]></dynamic-content>\n\t\t</dynamic-element>\n\t\t<dynamic-element field-reference=\"linkJesuis\" index-type=\"keyword\" instance-id=\"9vg7nimk\" name=\"Text38716634\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[https://google.com]]></dynamic-content>\n\t\t</dynamic-element>\n\t</dynamic-element>\n</root>",
+            "externalReferenceCode" : "",
+            "classPK" : "435302652",
+            "layoutUuid" : "",
+            "ctCollectionId" : "0",
+            "descriptionMapAsXML" : "",
+            "id" : "436238199",
+            "createDate" : 1690550682298,
+            "statusByUserId" : "591872",
+            "smallImageURL" : "",
+            "urlTitle" : "je-suis-header",
+            "articleId" : "435302650",
+            "defaultLanguageId" : "fr_FR",
+            "userName" : "Thomas Tse",
+            "userId" : "591872",
+            "version" : 1.9,
+            "folderId" : "1087185",
+            "DDMTemplateKey" : "435302600",
+            "companyId" : "20116",
+            "DDMStructureId" : "435302592",
+            "titleMapAsXML" : "<?xml version='1.0' encoding='UTF-8'?><root available-locales=\"fr_FR\" default-locale=\"fr_FR\"><Title language-id=\"fr_FR\">Je suis header</Title></root>",
+            "displayDate" : 1690550640000,
+            "modifiedDate" : 1702379226641,
+            "statusByUserName" : "Thomas Tse",
+            "mvccVersion" : "1",
+            "titleCurrentValue" : "Je suis header",
+            "resourcePrimKey" : "435302652",
+            "treePath" : "/1087185/",
+            "status" : 0
+          }
+        },
+        "fragmentFields" : [ ],
+        "indexed" : true
+      },
+      "type" : "Fragment"
+    }, {
+      "definition" : {
         "fragmentSettings" : {
           "unallowedFragments" : [ ]
         }

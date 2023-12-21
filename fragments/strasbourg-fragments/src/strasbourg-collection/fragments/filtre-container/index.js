@@ -38,4 +38,3 @@ overlay.className = "";
     });
 
 // function when submitting form
-
