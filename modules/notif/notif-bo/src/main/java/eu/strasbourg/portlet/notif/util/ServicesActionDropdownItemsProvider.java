@@ -103,7 +103,7 @@ public class ServicesActionDropdownItemsProvider {
         return dropdownItem -> {
             dropdownItem.setHref(
                     PortletURLBuilder.createActionURL(_response)
-                            .setActionName("deleteNService")
+                            .setActionName("deleteService")
                             .setMVCPath("/notif-bo-view-services.jsp")
                             .setBackURL(_themeDisplay.getURLCurrent())
                             .setParameter("tab", "services")

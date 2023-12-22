@@ -24,7 +24,7 @@
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.service}" model="<%=ServiceNotif.class %>" />
-		<<div class="sheet"><div class="panel-group panel-group-flush">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 
 			<%-- Champ : (cache) PK de l'entite --%>
 			<aui:input name="serviceId" type="hidden" />
