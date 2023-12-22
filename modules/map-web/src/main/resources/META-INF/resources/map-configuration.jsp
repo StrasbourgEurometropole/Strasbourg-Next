@@ -5,7 +5,7 @@
 
 <liferay-portlet:renderURL portletConfiguration="true"
 	var="configurationRenderURL" />
-<aui:form action="${configurationActionURL}" method="post" name="fm">
+<aui:form action="${configurationActionURL}" method="post" name="fm" cssClass="container-fluid container-fluid-max-xl container-form-lg container-no-gutters">
 
     <aui:input name="cmd" type="hidden" value="update" />
 
@@ -15,7 +15,7 @@
                 <div class="panel-group panel-group-flush">
 
                     <!-- Mode -->
-                    <div class="modeSelection" style="margin-left: 20px;">
+                    <div class="modeSelection">
                         <aui:input type="radio" name="mode" value="normal" label="no-mode" checked="${(not widgetMod and not defaultConfig and not districtMod) or (empty widgetMod and empty defaultConfig and empty districtMod)}"/>
                         <aui:input type="radio" name="mode" value="district" label="district-mode" checked="${districtMod}"/>
                         <aui:input type="radio" name="mode" value="widget" label="widget-mode" checked="${widgetMod}"/>
@@ -173,7 +173,7 @@
                             />
                         </div>
 
-                        <div>
+                        <div class="tag-selector">
                             <liferay-asset:asset-tags-selector
                                 hiddenInput="prefilterTags"
                                 tagNames="${prefilterTags}" />
