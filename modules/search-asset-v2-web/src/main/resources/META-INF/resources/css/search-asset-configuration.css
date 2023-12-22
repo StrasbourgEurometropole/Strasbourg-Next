@@ -9,7 +9,7 @@
 	{
 	width: 250px;
 }
-.vocabulary-configuration .input-select-wrapper2
+html:not(#__):not(#___) .cadmin .vocabulary-configuration .input-select-wrapper2
  	{
  	width: 500px;
  }
@@ -39,7 +39,7 @@
 p {
 	max-width: 800px;
 }
-p.date {
+html:not(#__):not(#___) .cadmin p.date {
 	margin-top: 20px;
 }
 
@@ -49,4 +49,26 @@ p.date {
 
 #_com_liferay_portlet_configuration_web_portlet_PortletConfigurationPortlet_fmConfig #container .sheet .icon{
 	font-family: 'fontawesome-alloy';
+}
+
+html:not(#__):not(#___) .cadmin .panel-group-flush .panel-unstyled{
+	margin-bottom: 0;
+}
+
+html:not(#__):not(#___) .cadmin .sheet .panel-group .panel-body,
+html:not(#__):not(#___) .cadmin .sheet .panel-group .panel:last-child .panel-body{
+	padding-top:0;
+	margin-bottom: 0;
+}
+
+html:not(#__):not(#___) .cadmin .sheet + .sheet{
+	margin-top: 25px;
+}
+
+html:not(#__):not(#___) .cadmin .sheet{
+	margin-bottom: 25px;
+}
+
+html:not(#__):not(#___) .cadmin .tag-selector .form-group .sheet-subtitle{
+	display: none;
 }

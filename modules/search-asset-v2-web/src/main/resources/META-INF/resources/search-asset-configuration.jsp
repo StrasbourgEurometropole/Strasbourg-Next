@@ -7,7 +7,7 @@
 
 <liferay-ui:error key="wrong-friendly-url" message="eu.search.asset.web.configuration.wrong-friendly-url" />
 
-<aui:form action="${configurationActionURL}" id="fmConfig" method="post" name="fmConfig">
+<aui:form action="${configurationActionURL}" id="fmConfig" method="post" name="fmConfig" cssClass="container-fluid container-fluid-max-xl container-form-lg container-no-gutters">
 
     <aui:input name="cmd" type="hidden" value="update" />
 
@@ -93,16 +93,13 @@
                     </aui:fieldset>
 
                     <!-- GROUPE : Boosts -->
-                    <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.boosts">
+                    <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.boosts" cssClass="tag-selector">
 
                         <liferay-ui:message key="eu.search.asset.web.configuration.boost.explanations" />
-                        <p>
-                            <label><liferay-ui:message key="tags" /></label>
-                            <liferay-asset:asset-tags-selector
-                                    hiddenInput="boostTagsNames"
-                                    tagNames="${dc.configurationData.boostTagsNames}"
-                            />
-                        </p>
+                        <liferay-asset:asset-tags-selector
+                                hiddenInput="boostTagsNames"
+                                tagNames="${dc.configurationData.boostTagsNames}"
+                        />
 
                     </aui:fieldset>
 
@@ -134,7 +131,7 @@
                             <aui:col width="<%= 50 %>">
 
                                 <!-- CHAMP : Tri colonne 1 -->
-                                <aui:select label="order-by" name="firstSortingField" value="" wrapperCssClass="field-inline w80">
+                                <aui:select label="order-by" name="firstSortingField" value="" wrapperCssClass="field-inline w80 d-inline-block">
                                     <aui:option label="title" value="localized_title_fr_FR_sortable" selected="${dc.configurationData.firstSortingField eq 'localized_title_fr_FR_sortable'}"/>
                                     <aui:option label="create-date" value="createDate" selected="${dc.configurationData.firstSortingField eq 'createDate'}" />
                                     <aui:option label="modified-date" value="modified_sortable" selected="${dc.configurationData.firstSortingField eq 'modified_sortable'}" />
@@ -149,33 +146,39 @@
                                 </aui:select>
 
                                 <!-- CHAMP : Tri type 1 -->
-                                <aui:field-wrapper cssClass="field-label-inline order-by-type-container">
-                                    <liferay-ui:icon
-                                        cssClass='icon order-arrow-up-active ${dc.configurationData.firstSortingType == "ASC" ? "hide" : ""}'
-                                        icon="order-arrow"
-                                        linkCssClass="btn btn-outline-borderless btn-outline-secondary"
-                                        markupView="lexicon"
-                                        message="descending"
-                                        url="javascript:;"
-                                    />
+                                <aui:field-wrapper cssClass="field-label-inline order-by-type-container d-inline-block">
 
-                                    <liferay-ui:icon
-                                        cssClass='icon order-arrow-down-active ${dc.configurationData.firstSortingType == "ASC" ? "" : "hide"}'
-                                        icon="order-arrow"
-                                        linkCssClass="btn btn-outline-borderless btn-outline-secondary"
-                                        markupView="lexicon"
-                                        message="ascending"
-                                        url="javascript:;"
-                                    />
+                                    <div class="d-inline-flex lfr-portal-tooltip ml-1 order-by-type-container">
+                                        <clay:button
+                                                borderless="<%= true %>"
+                                                cssClass='icon ${dc.configurationData.firstSortingType == "DESC" ? "hide" : ""}'
+                                                displayType="secondary"
+                                                icon="order-list-up"
+                                                monospaced="<%= true %>"
+                                                title="ascending"
+                                        />
 
-                                    <aui:input cssClass="order-by-type-field" name="firstSortingType" type="hidden" value="${dc.configurationData.firstSortingType}" />
+                                        <clay:button
+                                                borderless="<%= true %>"
+                                                cssClass='icon ${dc.configurationData.firstSortingType == "ASC" ? "hide" : ""}'
+                                                displayType="secondary"
+                                                icon="order-list-down"
+                                                monospaced="<%= true %>"
+                                                title="descending"
+                                        />
+
+                                        <aui:input cssClass="order-by-type-field" name="firstSortingType" type="hidden" value="${dc.configurationData.firstSortingType}" />
+                                    </div>
+
                                 </aui:field-wrapper>
+
+
                             </aui:col>
 
                             <aui:col width="<%= 50 %>">
 
                                 <!-- CHAMP : Tri colonne 2 -->
-                                <aui:select label="and-then-by" name="secondSortingField" wrapperCssClass="field-inline w80">
+                                <aui:select label="and-then-by" name="secondSortingField" wrapperCssClass="field-inline w80 d-inline-block">
                                     <aui:option label="title" value="localized_title_fr_FR_sortable" selected="${dc.configurationData.secondSortingField eq 'localized_title_fr_FR_sortable'}"/>
                                     <aui:option label="create-date" value="createDate" selected="${dc.configurationData.secondSortingField eq 'createDate'}" />
                                     <aui:option label="modified-date" value="modified_sortable" selected="${dc.configurationData.secondSortingField eq 'modified_sortable'}" />
@@ -190,26 +193,29 @@
                                 </aui:select>
 
                                 <!-- CHAMP : Tri type 2 -->
-                                <aui:field-wrapper cssClass="field-label-inline order-by-type-container">
-                                    <liferay-ui:icon
-                                        cssClass='icon order-arrow-up-active ${dc.configurationData.secondSortingType == "ASC" ? "hide" : ""}'
-                                        icon="order-arrow"
-                                        linkCssClass="btn btn-outline-borderless btn-outline-secondary"
-                                        markupView="lexicon"
-                                        message="descending"
-                                        url="javascript:;"
-                                    />
+                                <aui:field-wrapper cssClass="field-label-inline order-by-type-container d-inline-block">
 
-                                    <liferay-ui:icon
-                                        cssClass='icon order-arrow-down-active ${dc.configurationData.secondSortingType == "ASC" ? "" : "hide"}'
-                                        icon="order-arrow"
-                                        linkCssClass="btn btn-outline-borderless btn-outline-secondary"
-                                        markupView="lexicon"
-                                        message="ascending"
-                                        url="javascript:;"
-                                    />
+                                    <div class="d-inline-flex lfr-portal-tooltip ml-1 order-by-type-container">
+                                        <clay:button
+                                                borderless="<%= true %>"
+                                                cssClass='icon ${dc.configurationData.secondSortingType == "DESC" ? "hide" : ""}'
+                                                displayType="secondary"
+                                                icon="order-list-up"
+                                                monospaced="<%= true %>"
+                                                title="ascending"
+                                        />
 
-                                    <aui:input cssClass="order-by-type-field" name="secondSortingType" type="hidden" value="${dc.configurationData.secondSortingType}" />
+                                        <clay:button
+                                                borderless="<%= true %>"
+                                                cssClass='icon ${dc.configurationData.secondSortingType == "ASC" ? "hide" : ""}'
+                                                displayType="secondary"
+                                                icon="order-list-down"
+                                                monospaced="<%= true %>"
+                                                title="descending"
+                                        />
+
+                                        <aui:input cssClass="order-by-type-field" name="secondSortingType" type="hidden" value="${dc.configurationData.secondSortingType}" />
+                                    </div>
                                 </aui:field-wrapper>
                             </aui:col>
                         </aui:row>
