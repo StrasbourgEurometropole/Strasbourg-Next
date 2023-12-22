@@ -8,7 +8,7 @@
 	varImpl="configurationActionURL" />
 
 <liferay-ui:error key="wrong-friendly-url" message="wrong-friendly-url" />
-<aui:form action="${configurationActionURL}" method="post" name="fm" >
+<aui:form action="${configurationActionURL}" method="post" name="fm"  cssClass="container-fluid container-fluid-max-xl container-form-lg container-no-gutters">
 
     <aui:input name="cmd" type="hidden" value="update" />
 
@@ -113,7 +113,7 @@
                 </aui:fieldset>
 
                 <!-- Prefiltre -->
-                <aui:fieldset collapsed="true" collapsible="true" label="prefilter">
+                <aui:fieldset collapsed="true" collapsible="true" label="prefilter" cssClass="tag-selector">
                     <liferay-ui:message key="prefilter-explanations" />
                     <label><liferay-ui:message key="categories" /></label>
                     <p>
@@ -126,13 +126,10 @@
                         />
                     </p>
                     <br>
-                    <p>
-                        <liferay-ui:message key="prefilter-tag-explanations" />
-                        <label><liferay-ui:message key="tags" /></label>
-                        <liferay-asset:asset-tags-selector
-                            hiddenInput="prefilterTagsNames"
-                            tagNames="${prefilterTagsNames}" />
-                    </p>
+                    <liferay-ui:message key="prefilter-tag-explanations" />
+                    <liferay-asset:asset-tags-selector
+                        hiddenInput="prefilterTagsNames"
+                        tagNames="${prefilterTagsNames}" />
                 </aui:fieldset>
 
                 <!-- Criteres de recherche -->
@@ -188,14 +185,11 @@
                 </aui:fieldset>
 
                 <!-- Boosts -->
-                <aui:fieldset collapsed="true" collapsible="true" label="boosts">
+                <aui:fieldset collapsed="true" collapsible="true" label="boosts" cssClass="tag-selector">
                     <liferay-ui:message key="boost-explanations" />
-                    <p>
-                        <label><liferay-ui:message key="tags" /></label>
-                        <liferay-asset:asset-tags-selector
-                            hiddenInput="boostTagsNames"
-                            tagNames="${boostTagsNames}" />
-                    </p>
+                    <liferay-asset:asset-tags-selector
+                        hiddenInput="boostTagsNames"
+                        tagNames="${boostTagsNames}" />
                 </aui:fieldset>
 
                 <!-- Affichage par defaut -->
@@ -353,33 +347,40 @@
 </aui:form>
 
 <style>
-.asset-types .asset-type-configuration .input-select-wrapper label,
-	.asset-types .input-text-wrapper label, .vocabulary-configuration .input-select-wrapper label
+html:not(#__):not(#___) .cadmin .asset-types .asset-type-configuration .input-select-wrapper label,
+html:not(#__):not(#___) .cadmin .asset-types .input-text-wrapper label,
+html:not(#__):not(#___) .cadmin .vocabulary-configuration .input-select-wrapper label
 	{
 	display: none;
 	float: right;
 }
 
-.asset-types .input-select-wrapper, .vocabulary-configuration .input-select-wrapper
-	{
+html:not(#__):not(#___) .cadmin .asset-types .input-select-wrapper,
+html:not(#__):not(#___) .cadmin .vocabulary-configuration .input-select-wrapper
+{
+    display: inline-block;
 	width: 250px;
 }
 
-.asset-types .input-text-wrapper {
+html:not(#__):not(#___) .cadmin .asset-types .input-text-wrapper {
+    display: inline-block;
 	margin-bottom: 10px;
 	margin-left: 50px;
 	width: 250px;
 }
 
-.asset-types .asset-type-configuration select, .vocabulary-configuration select
+html:not(#__):not(#___) .cadmin .asset-types .asset-type-configuration select,
+html:not(#__):not(#___) .cadmin .vocabulary-configuration select
 	{
 	margin-left: 20px;
 	min-width: 150px;
 	margin-bottom: -5px;
 }
 
-.asset-types .input-checkbox-wrapper, .vocabulary-configuration .input-checkbox-wrapper
-	{
+html:not(#__):not(#___) .cadmin .asset-types .input-checkbox-wrapper,
+html:not(#__):not(#___) .cadmin .vocabulary-configuration .input-checkbox-wrapper
+{
+    display: inline-block;
 	width: 250px;
 }
 p {
@@ -391,5 +392,19 @@ p.date {
 
 .date-range {
 	width: 100px;
+}
+
+html:not(#__):not(#___) .cadmin .panel-group-flush .panel-unstyled{
+    margin-bottom: 0;
+}
+
+html:not(#__):not(#___) .cadmin .sheet .panel-group .panel-body,
+html:not(#__):not(#___) .cadmin .sheet .panel-group .panel:last-child .panel-body{
+    padding-top:0;
+    margin-bottom: 0;
+}
+
+html:not(#__):not(#___) .cadmin .tag-selector .form-group .sheet-subtitle{
+    display: none;
 }
 </style>
