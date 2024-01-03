@@ -22,8 +22,6 @@ import eu.strasbourg.portlet.artwork.itemselector.ArtworkCollectionItemSelectorC
 import eu.strasbourg.portlet.artwork.itemselector.ArtworkItemSelectorCriterion;
 import eu.strasbourg.portlet.edition.itemselector.EditionGalleryItemSelectorCriterion;
 import eu.strasbourg.portlet.edition.itemselector.EditionItemSelectorCriterion;
-import eu.strasbourg.portlet.ejob.itemselector.AlertItemSelectorCriterion;
-import eu.strasbourg.portlet.ejob.itemselector.OfferItemSelectorCriterion;
 import eu.strasbourg.portlet.gtfs.itemselector.ArretItemSelectorCriterion;
 import eu.strasbourg.portlet.gtfs.itemselector.LigneItemSelectorCriterion;
 import eu.strasbourg.portlet.help.itemselector.HelpProposalItemSelectorCriterion;
@@ -371,26 +369,6 @@ public class EntityPickerTag extends IncludeTag {
 						.getItemSelectorURL(
 								RequestBackedPortletURLFactoryUtil.create(request),
 								"itemSelected" + _name, ligneItemSelectorCriterion);
-				break;
-			case "eu.strasbourg.service.ejob.model.Offer":
-				OfferItemSelectorCriterion offerItemSelectorCriterion = new OfferItemSelectorCriterion();
-				offerItemSelectorCriterion
-						.setDesiredItemSelectorReturnTypes(
-								desiredItemSelectorReturnTypes);
-				itemSelectorURL = ServletContextUtil.getItemSelector()
-						.getItemSelectorURL(
-								RequestBackedPortletURLFactoryUtil.create(request),
-								"itemSelected" + _name, offerItemSelectorCriterion);
-				break;
-			case "eu.strasbourg.service.ejob.model.Alert":
-				AlertItemSelectorCriterion alertItemSelectorCriterion = new AlertItemSelectorCriterion();
-				alertItemSelectorCriterion
-						.setDesiredItemSelectorReturnTypes(
-								desiredItemSelectorReturnTypes);
-				itemSelectorURL = ServletContextUtil.getItemSelector()
-						.getItemSelectorURL(
-								RequestBackedPortletURLFactoryUtil.create(request),
-								"itemSelected" + _name, alertItemSelectorCriterion);
 				break;
 			case "eu.strasbourg.service.help.model.HelpProposal":
 				HelpProposalItemSelectorCriterion helpProposalItemSelectorCriterion = new HelpProposalItemSelectorCriterion();
