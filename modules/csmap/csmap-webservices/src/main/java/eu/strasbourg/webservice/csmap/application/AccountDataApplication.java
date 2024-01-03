@@ -169,12 +169,11 @@ public class AccountDataApplication extends Application {
     @Path("get-family-space")
     public Response getFamily(@Context HttpHeaders httpHeaders) {
 
-        JSONObject response = JSONFactoryUtil.createJSONObject();
+        JSONObject response;
 
         try {
-            PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
-
-            response = WSAccountData.getFamily(publikUser.getPublikId(), WSConstants.TIMEOUT_WIDGET);
+            authenticator.validateUserInJWTHeader(httpHeaders);
+            response = WSAccountData.getFamily();
 
         } catch (NoJWTInHeaderException e) {
             log.error(e);

@@ -258,8 +258,8 @@ public class StrasbourgPropsUtil {
 
 	}
 
-	public static String getFamilySpaceWebServiceURL(){
-		return PropsUtil.get("eu.strasbourg.family.space.webservice.url");
+	public static String getFamilyKioskURL(){
+		return PropsUtil.get("eu.strasbourg.family.kiosk.url");
 	}
 
 
