@@ -24,11 +24,11 @@
                 <div class="st-group-field">
                     <label for="field1">${citySublabel.getData()} ${cityLabel.getData()}</label>
                     <div class="st-field-select">
-                        <select id="districtFieldSet" onchange="document.location.href = this.value;" name="districtFieldSet">
+                        <select id="cityFieldSet" onchange="document.location.href = this.value;" name="cityFieldSet">
                             <option value="" selected disabled ></option>
-                            <#if districtFieldSet.getSiblings()?has_content>
-                                <#list districtFieldSet.getSiblings() as cur_districtFieldSet>
-                                    <option value="${cur_districtFieldSet.districtLink.getFriendlyUrl()}" >${cur_districtFieldSet.district.getData()}</option>
+                            <#if cityFieldSet.getSiblings()?has_content>
+                                <#list cityFieldSet.getSiblings() as cur_cityFieldSet>
+                                    <option value="${cur_cityFieldSet.cityLink.getFriendlyUrl()}">${cur_cityFieldSet.city.getData()}</option>
                                 </#list>
                             </#if>
                         </select>
@@ -38,12 +38,13 @@
 
                 <div class="st-group-field">
                     <label for="field2">${districtSublabel.getData()} ${districtLabel.getData()}</label>
+
                     <div class="st-field-select">
-                        <select id="cityFieldSet" onchange="document.location.href = this.value;" name="cityFieldSet">
+                        <select id="districtFieldSet" onchange="document.location.href = this.value;" name="districtFieldSet">
                             <option value="" selected disabled ></option>
-                            <#if cityFieldSet.getSiblings()?has_content>
-                                <#list cityFieldSet.getSiblings() as cur_cityFieldSet>
-                                    <option value="${cur_cityFieldSet.cityLink.getFriendlyUrl()}">${cur_cityFieldSet.city.getData()}</option>
+                            <#if districtFieldSet.getSiblings()?has_content>
+                                <#list districtFieldSet.getSiblings() as cur_districtFieldSet>
+                                    <option value="${cur_districtFieldSet.districtLink.getFriendlyUrl()}" >${cur_districtFieldSet.district.getData()}</option>
                                 </#list>
                             </#if>
                         </select>
