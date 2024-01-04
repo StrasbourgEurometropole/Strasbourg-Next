@@ -10,7 +10,7 @@
     <#list entries as curEntry>
         <#assign link = curEntry.getAssetRenderer().getLink() />
         <a href="${link.getURL(locale)}"
-            title="${link.getHoverText(locale)} (<@liferay_ui.message key="eu.new-window" />)"  
+            title="${link.getHoverText(locale)?has_content?then(link.getHoverText(locale),link.getTitle(locale))} (<@liferay_ui.message key="eu.new-window" />)"
             class="seu-btn-square seu-bordered seu-core" 
             target="_blank">
             <span class="seu-btn-text"> 
