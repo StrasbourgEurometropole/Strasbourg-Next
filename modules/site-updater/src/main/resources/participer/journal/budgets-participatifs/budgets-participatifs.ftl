@@ -44,7 +44,7 @@
 
                                 <#if file.getData()?has_content >
 
-                                    <#assign fileEntry = fileEntryHelper.getFileEntryByRelativeURL(file.getData()) />
+                                    <#assign fileEntry = dlFileEntryLocalService.fetchDLFileEntryByUuidAndGroupId(file.data?eval["uuid"],file.data?eval["groupId"]?number) />
                                     <#assign title = fileEntryHelper.getFileTitle(fileEntry.getFileEntryId(), locale) />
                                     <#assign size = fileEntryHelper.getReadableFileEntrySize(fileEntry.getFileEntryId(), locale) />
 
