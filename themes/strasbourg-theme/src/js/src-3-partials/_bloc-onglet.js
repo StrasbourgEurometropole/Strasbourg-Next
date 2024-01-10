@@ -15,12 +15,25 @@
             // Init du slider des tablists
             this.splide = new Splide(groupNode, {
                 omitEnd: false,
+                label: 'Horaires et dates d’ouverture',
+
                 i18n: {
                     prev: 'Onglet précédent',
                     next: 'Onglet suivant',
                 }
 
             }).mount();
+
+            // RGAA : suppression du aria-roledescription injecté par défaut par splide
+            groupNode.removeAttribute('aria-roledescription');
+
+            const slides = groupNode.querySelectorAll('.splide__slide');
+            slides.forEach(slide => {
+                slide.setAttribute('role', 'presentation');
+                slide.removeAttribute('aria-roledescription');
+                slide.removeAttribute('aria-label');
+            });
+
 
             // Changement de slide -> active / désactive les tabs
             this.splide.on( 'active', Slide => {

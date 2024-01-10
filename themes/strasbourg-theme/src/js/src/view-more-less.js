@@ -10,13 +10,15 @@
             'textarea:not([disabled])',
             '[tabindex]:not([tabindex="-1"])',
         ];
+
         constructor(container) {
             this.container = container;
             this.height = container.offsetHeight;
+            this.height = convertPxToRem(this.height);
             this.btnClamp = container.nextElementSibling.querySelector(".st-btn-show-more");
 
             this.maxHeightVariable = getComputedStyle(container).getPropertyValue('--max-height-desktop')
-            this.maxHeightValue = parseInt(this.maxHeightVariable);
+            this.maxHeightValue = parseFloat(this.maxHeightVariable);
             this.showLabel = this.btnClamp.getAttribute("data-open-label");
             this.hideLabel = this.btnClamp.getAttribute("data-close-label");
 
@@ -25,7 +27,6 @@
 
             // éléments qui dépassent du container
             this.childrenHidden = [];
-
             this.showClampBtn();
             this.btnClampHandler();
         }
@@ -62,7 +63,7 @@
 
         // Rend inaccessible au clavier les enfants qui sont masqués ou partiellement masqués dans le container
         hideChildrenForSR(el) {
-            el.setAttribute("aria-hidden", 'false');
+            el.setAttribute("aria-hidden", 'true');
             if (el.matches(ViewMoreLess.focusableElementsArray)) {
                 el.setAttribute("tabindex", "-1");
             }

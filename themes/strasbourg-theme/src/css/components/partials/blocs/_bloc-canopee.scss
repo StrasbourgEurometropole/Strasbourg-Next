@@ -1,0 +1,91 @@
+.st-bloc-canopee {
+	.st-bloc-canopee__inner {
+		padding: 40px;
+		background-color: $c_greydark;
+		border-radius: $border-radius;
+	}
+
+	.st-chiffres-container {
+		// Déclaration des variables contenant la largeur du gap entre les éléments
+		--col-gap: 40px;
+		--row-gap: 40px;
+		--col-number: 3;
+
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		margin-left: calc(var(--col-gap) * -1 / 2);
+		margin-right: calc(var(--col-gap) * -1 / 2);
+		margin-top: calc(var(--row-gap) * -1);
+
+		> * {
+			width: 246px;
+			margin-left: calc(var(--col-gap) / 2);
+			margin-right: calc(var(--col-gap) / 2);
+			margin-top: var(--row-gap);
+		}
+	}
+
+	.st-container {
+		display: flex;
+		justify-content: center;
+		aspect-ratio: 1 / 1;
+		padding: 40px 20px;
+		text-align: center;
+		background-image: url(../images/deco/pattern-canopee.png), linear-gradient(to bottom, #8CCCAD, #2AD783);
+		background-size: cover;
+		border-radius: $border-radius;
+
+		@include mobile {
+			align-items: center;
+			padding: 20px;
+		}
+	}
+
+	.st-inner-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.number {
+		@include ft('', 50px, 700, $c_white, 1);
+		@include letter-spacing(25);
+
+		@include mobile-small {
+			font-size: 40px;
+		}
+
+		& + .text {
+			margin-top: 8px;
+		}
+	}
+
+	.text {
+		@include ft('', 16px, 700, $c_white, 1.2);
+		@include letter-spacing(25);
+	}
+
+	.st-figure {
+		width: initial;
+
+		& + * {
+			margin-top: 20px;
+		}
+
+		img {
+			width: 108px;
+		}
+	}
+
+	.st-note {
+		margin-top: 20px;
+		@include ft('', 14px, 300, $c_txt, 1.5);
+		font-style: italic;
+		@include letter-spacing(25);
+
+		@include mobile {
+			line-height: 1.43;
+		}
+	}
+}

@@ -71,7 +71,8 @@
 	}
 
 	option {
-		color: $c_main;
+		color: initial;
+		background-color: initial;
 	}
 
 	input[type="date"]::-webkit-inner-spin-button,
@@ -98,6 +99,7 @@
 		border: none;
 		background: none;
 		border-radius: 0;
+		align-items: normal;
 
 		&:not([disabled]) {
 			cursor: pointer;

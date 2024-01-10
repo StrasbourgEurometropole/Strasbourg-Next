@@ -25,6 +25,7 @@
 // Styles des librairies js utilisées dans le projet + fichiers pour faire un overriding des styles de ces librairies
 // ==========================================================================
 @import "libs/splide";
+@import "libs/select-a11y";
 @import "libs/leaflet/leaflet";
 @import "libs/leaflet/leaflet_cluster";
 @import "libs/leaflet/leaflet_custom_popup";
@@ -44,6 +45,7 @@
 @import "components/image-wysiwyg";
 @import "components/overlay";
 @import "components/cards";
+@import "components/card-defunt";
 @import "components/pagination";
 @import "components/social-share";
 @import "components/tooltip";

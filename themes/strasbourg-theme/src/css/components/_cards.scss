@@ -154,10 +154,20 @@
 		position: absolute;
 		top: 0;
 		left: calc(var(--image-size) - var(--btn-favorite-size));
+		z-index: 10;
 		margin-top: calc(var(--image-size) - var(--btn-favorite-size));
 		width: var(--btn-favorite-size);
 		height: var(--btn-favorite-size);
 	}
+
+
+	// Bouton invisible, étiré et en absolute sur la card quand la card doit avoir un comportement de bouton
+	.st-btn-stretch {
+		@include absolute-stretch();
+		z-index: 10;
+	}
+
+
 
 	// --modifiers
 	// gradient sur l'image pour mettre en avant le bouton de favoris

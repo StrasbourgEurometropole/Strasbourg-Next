@@ -43,6 +43,12 @@
 	align-items: center;
 	margin-bottom: 26px;
 
+	@include mobile {
+		flex-direction: column;
+		justify-content: initial;
+		align-items: initial;
+	}
+
 	.st-results {
 		@include ft('', 14px, 700, $c_white, 1.14);
 		@include letter-spacing(25);

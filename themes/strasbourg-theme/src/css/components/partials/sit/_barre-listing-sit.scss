@@ -175,4 +175,50 @@
 			justify-content: flex-end;
 		}
 	}
+
+
+	&.st--horaires {
+		.st-filtre {
+			&:not(.st--affluence) {
+				@include bp-down(1190px) {
+					display: none;
+				}
+			}
+
+			&.st--affluence {
+				@include tablet-portrait {
+					display: block;
+					margin-right: 40px;
+				}
+
+				@include mobile {
+					margin-right: 20px;
+				}
+
+				.st-field-checkbox {
+					position: initial;
+					align-items: center;
+					padding: initial;
+					margin-left: 10px;
+					font-weight: 600;
+					white-space: initial;
+
+					@include bp-down(1190px) {
+						margin-left: initial;
+					}
+
+					@include mobile {
+						font-size: 12px;
+						line-height: 1;
+					}
+				}
+			}
+		}
+
+		.col-right {
+			@include tablet-portrait {
+				width: initial;
+			}
+		}
+	}
 }
