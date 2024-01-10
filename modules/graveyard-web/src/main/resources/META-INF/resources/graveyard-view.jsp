@@ -10,205 +10,8 @@
 
 <liferay-portlet:renderURL varImpl="rechercheURL" />
 
-<%-- Action URL du formulaire --%>
-<section id="graveyard">
-	<div class="seu-container graveyard-web">
-	
-		<!-- Messages d'erreur géré en backOffice -->	
-		<c:if test="${not empty error}">
-			<div class="seu-error-messages">${error}</div>
-		</c:if>
 
-		<!-- Résultats -->
-        <c:if test="${empty error and not empty dc and not empty dc.graveyard}">
-            <div id="result">
-                <!-- Messages d'erreur au niveau du lien -->
-                <c:if test="${dc.graveyard.err eq 1}">
-                    <div class="seu-error-messages">${dc.graveyard.err_desc}</div>
-                </c:if>
-                <c:if test="${dc.graveyard.err eq 0}">
-                    <!-- Messages d'erreur géré par l'api -->
-                    <c:if test="${not empty dc.graveyard.erreur}">
-                        <div class="seu-error-messages">
-                            <c:if test="${dc.graveyard.codeErreur == 'LIMITE_DEPASSEE'}">
-                                <liferay-ui:message key="too-many-results" />
-                                <a href="${dc.contactURL}" target="_blank" title="<liferay-ui:message key="graveyard.contact" /> (<liferay-ui:message key="eu.new-window" />)">
-                                    <liferay-ui:message key="graveyard.contact" />
-                                </a>
-                            </c:if>
-                            <c:if test="${dc.graveyard.codeErreur != 'LIMITE_DEPASSEE'}">
-                                ${dc.graveyard.erreur}
-                            </c:if>
-                        </div>
-                    </c:if>
-                    <c:if test="${empty dc.graveyard.erreur}">
-                        <div class="graveyard-response rte">
-                            <p>
-                                <c:choose>
-                                    <c:when test="${dc.graveyard.count == '0'}">
-                                        <liferay-ui:message key="no-tot" />
-                                        <a href="${dc.contactURL}" target="_blank" title="<liferay-ui:message key="graveyard.contact" /> (<liferay-ui:message key="eu.new-window" />)">
-                                            <liferay-ui:message key="graveyard.contact" />
-                                        </a>
-                                    </c:when>
-                                    <c:when test="${dc.graveyard.count == '1'}">
-                                        ${dc.searchContainer.total} <liferay-ui:message key="graveyard.result" />
-                                    </c:when>
-                                    <c:otherwise>
-                                        ${dc.searchContainer.total} <liferay-ui:message key="graveyard.results" />
-                                    </c:otherwise>
-                                </c:choose>
-                            </p>
-
-                            <c:if test="${dc.searchContainer.total gt 0}">
-                                <!-- Liste des résultats -->
-                                <aui:form method="post" name="fm">
-                                    <liferay-ui:search-container id="entriesSearchContainer"
-                                                searchContainer="${dc.searchContainer}">
-                                        <c:forEach items="${dc.paginatedResults}" var="tot">
-                                            <div class="tot">
-                                                <span class="name">
-                                                    ${tot.firstName} ${tot.name}
-                                                    <c:if test="${tot.birthName != ''}">
-                                                        (<liferay-ui:message key="graveyard.birthname" arguments=""/> ${tot.birthName})
-                                                    </c:if>
-                                                </span>
-
-                                                <div class="webform-layout-box">
-                                                    <div class="form-group left">
-                                                        <!-- Date de naissance -->
-                                                        <div class="form-label"><label><liferay-ui:message key="graveyard.birthdate" /></label></div>
-                                                        <div class="form-field">
-                                                            <c:if test="${tot.birthDate == ''}">
-                                                                <liferay-ui:message key="unknown" />
-                                                            </c:if>
-                                                            <c:if test="${tot.birthDate != ''}">
-                                                                ${tot.birthDate}
-                                                            </c:if>
-                                                        </div>
-                                                        <!-- Date du dÃÂ©cÃÂ¨s -->
-                                                        <div class="form-label"><label><liferay-ui:message key="graveyard.deathdate" /></label></div>
-                                                        <div class="form-field">
-                                                            <c:if test="${tot.deathDate == ''}">
-                                                                <liferay-ui:message key="unknown" />
-                                                            </c:if>
-                                                            <c:if test="${tot.deathDate != ''}">
-                                                                ${tot.deathDate}
-                                                            </c:if>
-                                                        </div>
-                                                        <!-- Ville du dÃÂ©cÃÂ¨s -->
-                                                        <div class="form-label"><label><liferay-ui:message key="graveyard.deathplace" /></label></div>
-                                                        <div class="form-field">
-                                                            <c:if test="${tot.deathPlace == ''}">
-                                                                <liferay-ui:message key="unknown" />
-                                                            </c:if>
-                                                            <c:if test="${tot.deathPlace != ''}">
-                                                                ${tot.deathPlace}
-                                                            </c:if>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Localisation de la concession -->
-                                                    <div class="form-group">
-                                                        <div class="form-label">
-                                                            <a href="${homeURL}lieu/-/entity/sig/${tot.graveyardMapping.sigId}/${dc.getNormalizedForURL(tot.graveyardMapping.name)}" target="_blank" title="${tot.graveyardMapping.name} (<liferay-ui:message key="eu.new-window" />)">${tot.graveyardMapping.name}</a>
-                                                        </div>
-                                                        <div class="form-field"><liferay-ui:message key="graveyard.gravesector" /> : ${tot.graveSector}</div>
-                                                        <div class="form-field"><liferay-ui:message key="graveyard.graverow" /> : ${tot.graveRow}</div>
-                                                        <div class="form-field"><liferay-ui:message key="graveyard.gravenumber" /> : ${tot.graveNumber}</div>
-                                                    </div>
-                                                </div>
-                                                <div align="right">
-                                                    <a href="/o/graveyardweb/images/${tot.graveyardMapping.sigId}.jpg" class="seu-btn-square--bordered--core" target="_blank" title="<liferay-ui:message key="graveyard.downloadPlan" /> (<liferay-ui:message key="eu.new-window" />)">
-                                                        <span class="seu-flexbox">
-                                                            <span class="seu-btn-text"><liferay-ui:message key="graveyard.downloadPlan" /></span>
-                                                            <span class="seu-btn-arrow"></span>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </c:forEach>
-
-                                        <!-- Pagination -->
-                                        <c:if test="${dc.pager.lastPage > 1}">
-                                            <ul class="seu-pagination unstyled">
-                                                <!-- Page précédente -->
-                                                <li class="seu-pagin-prev seu-pagin-item">
-                                                    <c:if test="${not dc.pager.onFirstPage}">
-                                                        <a class="seu-btn-square seu-bordered seu-core" data-action="prev" title="<liferay-ui:message key="go-to-previous-page" />"
-                                                            href="${dc.getURLForPage(dc.pager.currentPage - 1)}">
-                                                            <span class="seu-flexbox">
-                                                                <span class="seu-btn-text"><liferay-ui:message key="previous" /></span>
-                                                                <span class="seu-btn-arrow"></span>
-                                                            </span>
-                                                        </a>
-                                                    </c:if>
-                                                </li>
-                                                <c:forEach var="page" items="${dc.pager.pages}">
-                                                    <c:choose>
-                                                        <c:when test="${page.isALink() and not (page.index eq dc.pager.currentPage)}">
-                                                            <!-- Lien vers page -->
-                                                            <li class="seu-pagin-item">
-                                                                <a data-page="${page.index}" href="${dc.getURLForPage(page.index)}">
-                                                                    <span class="seu-flexbox">
-                                                                        <span class="seu-btn-text">${page.label}</span>
-                                                                    </span>
-                                                                </a>
-                                                            </li>
-                                                        </c:when>
-                                                        <c:when test="${page.isALink() and (page.index eq dc.pager.currentPage)}">
-                                                            <!-- Page en cours -->
-                                                            <li class="seu-pagin-item seu-is-active">
-                                                                <span class="seu-flexbox">
-                                                                    <span class="seu-btn-text">${page.label}</span>
-                                                                </span>
-                                                            </li>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <!-- Texte -->
-                                                            <li class="seu-pagin-item">
-                                                                <span class="seu-flexbox">
-                                                                    <span class="seu-btn-text">${page.label}</span>
-                                                                </span>
-                                                            </li>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </c:forEach>
-
-                                                <!-- Page suivante -->
-                                                <li class="seu-pagin-next seu-pagin-item">
-                                                    <c:if test="${not dc.pager.onLastPage}">
-                                                        <a class="seu-btn-square seu-bordered seu-core" title="<liferay-ui:message key="go-to-next-page" />"
-                                                            data-action="next" href="${dc.getURLForPage(dc.pager.currentPage + 1)}">
-                                                            <span class="seu-flexbox">
-                                                                <span class="seu-btn-text"><liferay-ui:message key="next" /></span>
-                                                                <span class="seu-btn-arrow"></span>
-                                                            </span>
-                                                        </a>
-                                                    </c:if>
-                                                </li>
-                                            </ul>
-                                        </c:if>
-                                    </liferay-ui:search-container>
-                                </aui:form>
-                            </c:if>
-                            <div>
-                                <liferay-ui:message key="before-98" />
-                                <a href="${dc.contactURL}" target="_blank" title="<liferay-ui:message key="graveyard.contact" /> (<liferay-ui:message key="eu.new-window" />)">
-                                    <liferay-ui:message key="graveyard.contact" />
-                                </a>
-                            </div>
-                        </div>
-                    </c:if>
-                </c:if>
-            </div>
-        </c:if>
-	</div>
-</section>
-
-
-
-<div class="st-wrapper st-wrapper-small st-form-defunt">
+<div class="st-wrapper st-wrapper-small st-form-defunt form-styles">
 <aui:form name="fm" action="${rechercheURL}" class="generic-form toValidate">
         <div class="st-grid-fields st-grid-12">
 
@@ -221,7 +24,7 @@
                 </div>
             </c:if>
 
-            <p class="st-text-mandatory">Les champs marqués par * sont obligatoires</p>
+            <p class="st-text-mandatory"><liferay-ui:message key="eu.required-field-star" /></p>
 
             <div class="st-group-field st-col-6@t-small">
                 <label for="name"><liferay-ui:message key="graveyard.name" /><strong style="color:red">*</strong></label>
@@ -239,23 +42,23 @@
             <div class="st-group-field st-col-6@t-small">
                 <label for="birthdate"><liferay-ui:message key="graveyard.birthdate" /></label>
                 <div class="st-field-date">
-                    <input name="<portlet:namespace />birthdate" data-type="date" type="text" id="birthdate" placeholder="JJ/MM/AAAA"
+                    <input name="<portlet:namespace />birthdate" data-type="date" type="date" id="birthDate" placeholder="JJ/MM/AAAA" min="01/01/1998"
                            value="${birthdate}" <c:if test="${birthdateunknown}">disabled="disabled"</c:if>>
                 </div>
 
-                <label for="birthdateunknown">
+                <label for="birthdateunknown" class="st-field-checkbox">
                     <input type="checkbox" id="birthdateunknown" name="<portlet:namespace />birthdateunknown" <c:if test="${birthdateunknown }">checked</c:if> />
                     <span><span><liferay-ui:message key="graveyard.birthdateunknown" /></span></span>
                 </label>
-                <div id="birthRange" <c:if test="${!birthdateunknown }">style="display: none;"</c:if>>
+                <div id="birthRange" class="mt-3" <c:if test="${!birthdateunknown }">style="display: none;"</c:if>>
                 <label for="birthdatestart"><liferay-ui:message key="graveyard.birthrange" /></label>
                 <div class="st-grid-fields st-grid-12">
-                <div class="st-field-date st-col-5">
-                    <input name="<portlet:namespace />birthdatestart" data-type="date" type="text" id="birthdatestart" placeholder="JJ/MM/AAAA"
+                <div class="st-field-date st-col-6">
+                    <input name="<portlet:namespace />birthdatestart" data-type="date" type="date" id="birthdatestart" placeholder="JJ/MM/AAAA" min="01/01/1998"
                            value="${birthdatestart}">
                 </div>
-                <div class="st-field-date st-col-5">
-                    <input name="<portlet:namespace />birthdateend" data-type="date" type="text" id="birthdateend" placeholder="JJ/MM/AAAA"
+                <div class="st-field-date st-col-6">
+                    <input name="<portlet:namespace />birthdateend" data-type="date" type="date" id="birthdateend" placeholder="JJ/MM/AAAA" min="01/01/1998"
                            value="${birthdateend}">
                 </div>
                 </div>
@@ -264,26 +67,26 @@
 
 
             <div class="st-group-field st-col-6@t-small">
-                <label for="deathDate"><liferay-ui:message key="graveyard.deathDate" /></label>
+                <label for="deathDate"><liferay-ui:message key="graveyard.deathdate" /></label>
                 <div class="st-field-date">
-                    <input name="<portlet:namespace />deathDate" data-type="date" type="text" id="deathDate" placeholder="JJ/MM/AAAA"
-                           value="${deathDate}" <c:if test="${deathdateunknown}">disabled="disabled"</c:if>>
+                    <input name="<portlet:namespace />deathdate" data-type="date" type="date" id="deathDate" placeholder="JJ/MM/AAAA" min="01/01/1998"
+                           value="${deathdate}" <c:if test="${deathdateunknown}">disabled="disabled"</c:if>>
                 </div>
 
-                <label for="deathdateunknown">
+                <label for="deathdateunknown" class="mt-3 st-field-checkbox">
                     <input type="checkbox" id="deathdateunknown" name="<portlet:namespace />deathdateunknown" <c:if test="${deathdateunknown }">checked</c:if> />
                     <span><span><liferay-ui:message key="graveyard.deathdateunknown" /></span></span>
                 </label>
-                <div id="deathRange" <c:if test="${!deathdateunknown }">style="display: none;"</c:if>>
+                <div id="deathRange" class="mt-3" <c:if test="${!deathdateunknown }">style="display: none;"</c:if>>
 
                 <label for="deathdatestart"><liferay-ui:message key="graveyard.deathrange" /></label>
                 <div class="st-grid-fields st-grid-12">
-                    <div class="st-field-date st-col-5">
-                        <input name="<portlet:namespace />deathdatestart" data-type="date" type="text" id="deathdatestart" placeholder="JJ/MM/AAAA"
+                    <div class="st-field-date st-col-6">
+                        <input name="<portlet:namespace />deathdatestart" data-type="date" type="date" id="deathdatestart" placeholder="JJ/MM/AAAA" min="01/01/1998"
                                value="${deathdatestart}">
                     </div>
-                    <div class="st-field-date st-col-5">
-                        <input name="<portlet:namespace />deathdateend" data-type="date" type="text" id="deathdateend" placeholder="JJ/MM/AAAA"
+                    <div class="st-field-date st-col-6">
+                        <input name="<portlet:namespace />deathdateend" data-type="date" type="date" id="deathdateend" placeholder="JJ/MM/AAAA" min="01/01/1998"
                                value="${deathdateend}">
                     </div>
                 </div>
@@ -324,7 +127,7 @@
 
 <!-- Résultats -->
 <c:if test="${empty error and not empty dc and not empty dc.graveyard}">
-<div class="st-listing-cards st-wrapper st-wrapper-small">
+<div class="st-listing-cards st-wrapper st-wrapper-small"  id="result">
     <!-- Nombre de rÃ©sultats et items par page -->
     <div class="st-listing-results">
     <span class="st-results" role="status">
@@ -450,11 +253,12 @@
         </aui:form>
     </c:if>
 
-    <div>
-        <liferay-ui:message key="before-98" />
-        <a href="${dc.contactURL}" target="_blank" title="<liferay-ui:message key="graveyard.contact" /> (<liferay-ui:message key="eu.new-window" />)">
+    <div class="form-styles mt-3">
+        <p class="st-title-medium"><liferay-ui:message key="before-98" /></p>
+        <p class="st-title-medium mt-3"><liferay-ui:message key="please" /> <a href="${dc.contactURL}" target="_blank" >
             <liferay-ui:message key="graveyard.contact" />
-        </a>
+        </a></p>
+
     </div>
 
 </div>
@@ -465,27 +269,23 @@
 
 <script>
 	$(document).ready(function() {
-        $('input[data-type="date"].date-min').datepicker(
-            $.extend({
-                minDate: new Date(1998,0,1)
-            }, $.datepicker.regional[ "fr" ])
-        );
-
+        debugger;
 
 		$('#birthdateunknown').on('change', function() {
+
 			if($('#birthdateunknown').is(':checked')){
-            	$('#birthDate input').attr({'disabled': 'disabled' });
-            	$('#birthDate input').val("");
+            	$('input#birthDate').attr({'disabled': 'disabled' });
+            	$('input#birthDate').val("");
             	$('#birthRange').show();
 			}else{
-	            $('#birthDate input').removeAttr('disabled');
+	            $('input#birthDate').removeAttr('disabled');
 	            $('#birthRange').hide();
 			}
         });
 		$('#deathdateunknown').on('change', function() {
 			if($('#deathdateunknown').is(':checked')){
-            	$('#deathDate input').attr({'disabled': 'disabled' });
-            	$('#deathDate input').val("");
+            	$('input#deathDate').attr({'disabled': 'disabled' });
+            	$('input#deathDate').val("");
             	$('#deathRange').show();
 			}else{
 	            $('#deathDate input').removeAttr('disabled');
@@ -493,7 +293,10 @@
 			}
         });
         if($("#result").length > 0) {
-            $('html,body').animate({scrollTop: $("#result").offset().top - (($('.seu-nav-bottom #seu-main-menu').length > 0)?115:55)});
+            // scroll to result
+            $('html, body').animate({
+                scrollTop: $("#result").offset().top - $(".st-barre-navigation").height() -  $(".cadmin.control-menu-container").height()
+            }, 1000);
         }
 	});
 
