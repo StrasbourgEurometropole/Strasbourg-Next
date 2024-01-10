@@ -9,10 +9,11 @@
 
 <header class="st-header-edito">
     <div class="st-wrapper">
-        <div class="st-wrapper-modifier">
             <h1 class="st-h1">${layout.getName(locale)}</h1>
             <@liferay.breadcrumbs />
+        <div class="form-styles mt-2">
             <p>${layout.getDescription(locale)}</p>
         </div>
+
     </div>
 </header>
