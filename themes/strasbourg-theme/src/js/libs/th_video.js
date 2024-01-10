@@ -70,10 +70,10 @@ var th_video = {
         $elContainer.append(iframeHtml);
         if ($elMask !== false) {
             $elMask.addClass('st-hide-mask');
+            $elContainer.focus();
         }
 
         $elContainer.addClass("st-clicked-embed");
-        $elContainer.focus();
     },
 
     observer: function ($elContainer, $bloc) {

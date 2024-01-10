@@ -14,6 +14,10 @@ public interface SearchAssociationConfiguration {
 	@Meta.AD(name = "templateKey", required = false)
 	public String templateKey();
 
+	@Meta.AD(name = "description", required = false)
+	public String description();
+
+
 	@Meta.AD(name = "layoutFriendlyURL", required = false)
 	public String layoutFriendlyURL();
 

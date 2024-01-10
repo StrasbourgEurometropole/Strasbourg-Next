@@ -48,15 +48,23 @@
 </header>
 
 <div class="st-listing-cards st--listing-agenda st-wrapper st-wrapper-small">
-		<div class="seu-result-filter">
-			<span><liferay-ui:message key="results-per-page" /></span>
-			<select name="filter" id="" class="toCustomSelect" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-				<c:forEach var="delta" items="${[5, 10, 20, 50, 100]}">
-					<c:set var="selected" value="${delta eq dc.delta ? 'selected' : ''}" />
-					<option value="${dc.getURLForDelta(delta)}" ${selected} >${delta}</option>
-				</c:forEach>
-			</select>
+	<div class="st-listing-results st-hide-until@t-portrait">
+    <span class="st-results" role="status">
+         ${dc.searchContainer.total} <liferay-ui:message key="results" />
+    </span>
+
+		<div class="st-results-filter">
+			<label for="results-per-page"><liferay-ui:message key="results-per-page" /></label>
+			<div class="st-results-select">
+				<select id="results-per-page" name="results-per-page" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+					<c:forEach var="delta" items="${[5, 10, 20, 50, 100]}">
+						<c:set var="selected" value="${delta eq dc.delta ? 'selected' : ''}" />
+						<option value="${dc.getURLForDelta(delta)}" ${selected} >${delta}</option>
+					</c:forEach>
+				</select>
+			</div>
 		</div>
+	</div>
 
 	<aui:form method="post" name="fm">
 		<!-- Résultats -->

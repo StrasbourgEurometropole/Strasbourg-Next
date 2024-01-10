@@ -51,10 +51,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <li class="splide__slide">
                                     <figure class="st-figure st-fit-cover" role="group" aria-label="">
                                         <picture>
-                                            <img alt="Photo" src="${photo.getData()}">
+                                            <img alt="${photo.getAttribute("alt")! ""}" data-fileentryid="${photo.getAttribute("fileEntryId")! ""}" src="${photo.getData()}" />
                                         </picture>
                                         <figcaption>
-                                            ${photo.getChildren()[0].getData()}
+                                            <#if photo.getChildren()[0].getData()?has_content>
+                                                ${photo.getChildren()[0].getData()}
+                                            </#if>
                                         </figcaption>
                                     </figure>
                                     <button class="st-slide-galerie" aria-label="Afficher en grand"></button>

@@ -9,6 +9,9 @@
             </select>
         </div>
         <aui:select id="vocabularyControlType_${param.index}" name="vocabularyControlType_${param.index}" inlineField="true" label="">
+            <aui:option value="list-showcase" selected="${vocabularyControlType.value.equals('list-showcase') ? 'true' : 'false'}">
+                <liferay-ui:message key="dropdown-list-showcase"/>
+            </aui:option>
             <aui:option value="list" selected="${vocabularyControlType.value.equals('list') ? 'true' : 'false'}">
                 <liferay-ui:message key="dropdown-list"/>
             </aui:option>

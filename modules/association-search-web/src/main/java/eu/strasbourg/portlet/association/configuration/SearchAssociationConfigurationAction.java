@@ -51,6 +51,9 @@ public class SearchAssociationConfigurationAction extends DefaultConfigurationAc
 			String templateKey = ParamUtil
 					.getString(actionRequest, "templateKey");
 
+			String description = ParamUtil
+					.getString(actionRequest, "description");
+
 			// Et la friendlyURL du layout de détail correspondant
 			String layoutFriendlyURL = ParamUtil
 					.getString(actionRequest, "layoutFriendlyURL");
@@ -63,6 +66,7 @@ public class SearchAssociationConfigurationAction extends DefaultConfigurationAc
 				return;
 			}
 			setPreference(actionRequest, "templateKey", templateKey);
+			setPreference(actionRequest, "description", description);
 			setPreference(actionRequest, "layoutFriendlyURL",
 					layoutFriendlyURL);
 
@@ -94,6 +98,8 @@ public class SearchAssociationConfigurationAction extends DefaultConfigurationAc
 			// Template sélectionné
 			String templateKey = ParamUtil.getString(request,
 					"templateKey");
+
+			String description = configuration.description();
 			if (templateKey.isEmpty()) {
 				templateKey = configuration.templateKey();
 			}
@@ -102,6 +108,7 @@ public class SearchAssociationConfigurationAction extends DefaultConfigurationAc
 			// Layouts
 			String layoutFriendlyURL = configuration.layoutFriendlyURL();
 			request.setAttribute("layoutFriendlyURL", layoutFriendlyURL);
+			request.setAttribute("description", description);
 
 			// Delta
 			long delta = ParamUtil.getLong(request, "delta",

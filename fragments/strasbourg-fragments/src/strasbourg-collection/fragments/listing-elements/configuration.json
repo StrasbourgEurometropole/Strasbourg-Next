@@ -1,0 +1,22 @@
+{
+    "fieldSets": [
+        {
+            "fields": [
+							{
+                    "name": "displayStyle",
+                    "label": "Style d'affichage",
+                    "description": "number-of-features",
+                    "type": "select",
+                    "dataType": "string",
+                    "typeOptions": {
+                        "validValues": [
+                            {"value": "complete", label: "Complet"},
+                            {"value": "compact", label: "Compact"}
+                        ]
+                    },
+                    "defaultValue": "complete"
+                }
+            ]
+        }
+    ]
+}

@@ -119,7 +119,7 @@ function createEventVignette(data) {
                 ${!!data.city ? `<p class="st-location">${data.city}</p>` : ''}
             </div>
             <div class="st-image">
-            ${generateImage(data.imageURL)}
+            ${generateImage(data.imageURL, "agenda")}
             </div>
         </a>
         ${createButtonFavorite(data.title, data.link, data.id, 2, data.isFavorite)}
@@ -179,7 +179,7 @@ function createPlaceVignette(data) {
             </div>
 
             <div class="st-image">
-                ${generateImage(data.imageURL)}
+                ${generateImage(data.imageURL, "pin")}
                 <p class="st-badge-ouverture ${!data.isOpen ? "st--closed": ""}">${data.isOpen ? "Ouvert": "Fermé"}</p>
             </div>
         </a>

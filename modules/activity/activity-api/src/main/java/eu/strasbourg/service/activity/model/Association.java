@@ -79,4 +79,10 @@ public interface Association extends AssociationModel, PersistedModel {
 		<eu.strasbourg.service.activity.model.PracticeCategories>
 			getPracticesCategories();
 
+	/**
+	 * Retourne les territoires de l'association
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getTerritories();
+
 }

@@ -77,6 +77,17 @@ public class GraveyardDisplayContext {
 		return contactURL;
 	}
 
+	/**
+	 * Retourne l'URL sur laquelle aller pour avoir X items par page
+	 */
+	public String getURLForDelta(long delta) throws ConfigurationException {
+		PortletURL url = this.getSearchContainer().getIteratorURL();
+		url.setParameter("delta", String.valueOf(delta));
+		String valueToReturn = url.toString();
+		url.setParameter("delta", String.valueOf(getDelta()));
+		return valueToReturn;
+	}
+
 	public String getLimit() {
 		String limit = configuration.limit();
 		if (Validator.isNull(limit)) {
@@ -228,6 +239,9 @@ public class GraveyardDisplayContext {
 		if (this.defunts == null) {
 			// Récupération des défunts
 			this.defunts = graveyard.getDefunts();
+			if(this.defunts == null) {
+				this.defunts = new ArrayList<DefuntDTO>();
+			}
 
 			// On parcours les résultats pour supprimer les décès d'avant 1998
 			List<DefuntDTO> defuntsList = new ArrayList<DefuntDTO>();

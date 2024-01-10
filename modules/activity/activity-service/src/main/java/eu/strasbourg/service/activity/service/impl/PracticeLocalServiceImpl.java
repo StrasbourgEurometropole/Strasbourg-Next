@@ -343,12 +343,9 @@ public class PracticeLocalServiceImpl extends PracticeLocalServiceBaseImpl {
 	@Override
 	public List<PracticeCategories> getPracticesSortedByAssociation(long associationId) {
 		// Permet la récupération de toutes les catégories entières
-		Session session = practicePersistence.openSession();
-		SQLQuery query = session.createSQLQuery("SET SESSION group_concat_max_len = 1000000");
-		query.executeUpdate();
-
+		Session session = practicePersistence.getCurrentSession();
+		SQLQuery query = session.createSQLQuery(this.query);
 		List<PracticeCategories> practicesCategories = new ArrayList<>();
-		query = session.createSQLQuery(this.query);
 		QueryPos pos = QueryPos.getInstance(query);
 		pos.add(associationId);
 		for (Object values : query.list()) {
@@ -356,7 +353,6 @@ public class PracticeLocalServiceImpl extends PracticeLocalServiceBaseImpl {
 			PracticeCategories practiceCategories = new PracticeCategories(categoies);
 			practicesCategories.add(practiceCategories);
 		}
-		session.close();
 		return practicesCategories;
 	}
 

@@ -1,1 +1,230 @@
-{"definitionSchemaVersion":"2.0","availableLanguageIds":["fr_FR"],"successPage":{"body":{},"title":{},"enabled":false},"defaultLanguageId":"fr_FR","fields":[{"labelAtStructureLevel":false,"ddmDataProviderInstanceId":[],"predefinedValue":{},"tooltip":{"fr_FR":""},"requireConfirmation":false,"type":"text","showLabel":true,"required":false,"displayStyle":"singleline","ddmDataProviderInstanceOutput":[],"repeatable":false,"options":[{"reference":"","label":{"fr_FR":"Option"},"value":"Option"}],"nativeField":false,"confirmationLabel":{},"fieldReference":"title","tip":{"fr_FR":""},"placeholder":{"fr_FR":""},"direction":[],"hideField":false,"confirmationErrorMessage":{},"autocomplete":false,"dataType":"string","readOnly":false,"label":{"fr_FR":"Titre"},"indexType":"keyword","fieldNamespace":"","visibilityExpression":"","name":"title","localizable":true,"dataSourceType":"manual"},{"labelAtStructureLevel":true,"ddmDataProviderInstanceId":[],"predefinedValue":{"fr_FR":""},"tooltip":{"fr_FR":""},"requireConfirmation":false,"type":"text","showLabel":true,"required":false,"displayStyle":"singleline","requiredErrorMessage":{"fr_FR":""},"objectFieldName":"","ddmDataProviderInstanceOutput":[],"repeatable":false,"options":[{"reference":"Option66741640","label":{"fr_FR":"Option"},"value":"Option66741640"}],"nativeField":false,"confirmationLabel":{"fr_FR":""},"fieldReference":"TitleShort","tip":{"fr_FR":""},"placeholder":{"fr_FR":""},"direction":["vertical"],"hideField":false,"confirmationErrorMessage":{"fr_FR":""},"autocomplete":false,"dataType":"string","readOnly":false,"label":{"fr_FR":"Titre Court"},"indexType":"keyword","fieldNamespace":"","visibilityExpression":"","name":"Text14138812","localizable":true,"dataSourceType":"manual"},{"labelAtStructureLevel":false,"ddmDataProviderInstanceId":[],"predefinedValue":{},"tooltip":{"fr_FR":""},"requireConfirmation":false,"type":"text","showLabel":true,"required":false,"displayStyle":"singleline","ddmDataProviderInstanceOutput":[],"repeatable":false,"options":[{"reference":"","label":{"fr_FR":"Option"},"value":"Option"}],"nativeField":false,"confirmationLabel":{},"fieldReference":"chapo","tip":{"fr_FR":""},"placeholder":{"fr_FR":""},"direction":[],"hideField":false,"confirmationErrorMessage":{},"autocomplete":false,"dataType":"string","readOnly":false,"label":{"fr_FR":"Chapô"},"indexType":"text","fieldNamespace":"","visibilityExpression":"","name":"chapo","localizable":true,"dataSourceType":"manual"},{"dataType":"image","predefinedValue":{},"readOnly":false,"label":{"fr_FR":"Vignette"},"type":"image","showLabel":true,"required":true,"indexType":"keyword","fieldNamespace":"","visibilityExpression":"","repeatable":false,"requiredDescription":true,"name":"thumbnail","localizable":true,"fieldReference":"thumbnail","tip":{"fr_FR":""}},{"dataType":"image","predefinedValue":{},"readOnly":false,"label":{"fr_FR":"Image panoramique"},"type":"image","showLabel":true,"required":false,"indexType":"keyword","fieldNamespace":"","visibilityExpression":"","repeatable":false,"requiredDescription":true,"name":"image","localizable":true,"fieldReference":"image","tip":{"fr_FR":""}},{"dataType":"string","predefinedValue":{},"readOnly":false,"label":{"fr_FR":"Contenu"},"type":"rich_text","showLabel":true,"required":false,"indexType":"text","fieldNamespace":"","visibilityExpression":"","repeatable":false,"name":"content","localizable":true,"fieldReference":"content","tip":{"fr_FR":""}}]}
+{
+  "definitionSchemaVersion": "2.0",
+  "availableLanguageIds": [
+    "fr_FR"
+  ],
+  "successPage": {
+    "body": {},
+    "title": {},
+    "enabled": false
+  },
+  "defaultLanguageId": "fr_FR",
+  "fields": [
+    {
+      "labelAtStructureLevel": false,
+      "ddmDataProviderInstanceId": [],
+      "tooltip": {
+        "fr_FR": ""
+      },
+      "requireConfirmation": false,
+      "type": "text",
+      "required": false,
+      "showLabel": true,
+      "displayStyle": "singleline",
+      "ddmDataProviderInstanceOutput": [],
+      "repeatable": false,
+      "options": [
+        {
+          "reference": "",
+          "label": {
+            "fr_FR": "Option"
+          },
+          "value": "Option"
+        }
+      ],
+      "nativeField": false,
+      "confirmationLabel": {},
+      "fieldReference": "title",
+      "tip": {
+        "fr_FR": ""
+      },
+      "placeholder": {
+        "fr_FR": ""
+      },
+      "direction": [],
+      "hideField": false,
+      "confirmationErrorMessage": {},
+      "autocomplete": false,
+      "dataType": "string",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Titre"
+      },
+      "fieldNamespace": "",
+      "indexType": "keyword",
+      "visibilityExpression": "",
+      "name": "title",
+      "localizable": true,
+      "dataSourceType": "manual"
+    },
+    {
+      "labelAtStructureLevel": true,
+      "ddmDataProviderInstanceId": [],
+      "predefinedValue": {
+        "fr_FR": ""
+      },
+      "tooltip": {
+        "fr_FR": ""
+      },
+      "requireConfirmation": false,
+      "type": "text",
+      "required": false,
+      "showLabel": true,
+      "displayStyle": "singleline",
+      "requiredErrorMessage": {
+        "fr_FR": ""
+      },
+      "objectFieldName": "",
+      "ddmDataProviderInstanceOutput": [],
+      "repeatable": false,
+      "options": [
+        {
+          "reference": "Option32005116",
+          "label": {
+            "fr_FR": "Option"
+          },
+          "value": "Option32005116"
+        }
+      ],
+      "nativeField": false,
+      "confirmationLabel": {
+        "fr_FR": ""
+      },
+      "fieldReference": "TitleShort",
+      "tip": {
+        "fr_FR": ""
+      },
+      "placeholder": {
+        "fr_FR": ""
+      },
+      "direction": [
+        "vertical"
+      ],
+      "hideField": false,
+      "confirmationErrorMessage": {
+        "fr_FR": ""
+      },
+      "autocomplete": false,
+      "dataType": "string",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Titre Court"
+      },
+      "fieldNamespace": "",
+      "indexType": "keyword",
+      "visibilityExpression": "",
+      "name": "Text75081947",
+      "localizable": true,
+      "dataSourceType": "manual"
+    },
+    {
+      "labelAtStructureLevel": false,
+      "ddmDataProviderInstanceId": [],
+      "tooltip": {
+        "fr_FR": ""
+      },
+      "requireConfirmation": false,
+      "type": "text",
+      "required": false,
+      "showLabel": true,
+      "displayStyle": "singleline",
+      "ddmDataProviderInstanceOutput": [],
+      "repeatable": false,
+      "options": [
+        {
+          "reference": "",
+          "label": {
+            "fr_FR": "Option"
+          },
+          "value": "Option"
+        }
+      ],
+      "nativeField": false,
+      "confirmationLabel": {},
+      "fieldReference": "chapo",
+      "tip": {
+        "fr_FR": ""
+      },
+      "placeholder": {
+        "fr_FR": ""
+      },
+      "direction": [],
+      "hideField": false,
+      "confirmationErrorMessage": {},
+      "autocomplete": false,
+      "dataType": "string",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Chapô"
+      },
+      "fieldNamespace": "",
+      "indexType": "text",
+      "visibilityExpression": "",
+      "name": "chapo",
+      "localizable": true,
+      "dataSourceType": "manual"
+    },
+    {
+      "dataType": "image",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Vignette"
+      },
+      "type": "image",
+      "required": true,
+      "showLabel": true,
+      "fieldNamespace": "",
+      "indexType": "keyword",
+      "visibilityExpression": "",
+      "repeatable": false,
+      "requiredDescription": true,
+      "name": "thumbnail",
+      "localizable": true,
+      "fieldReference": "thumbnail",
+      "tip": {
+        "fr_FR": ""
+      }
+    },
+    {
+      "dataType": "image",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Image panoramique"
+      },
+      "type": "image",
+      "required": false,
+      "showLabel": true,
+      "fieldNamespace": "",
+      "indexType": "keyword",
+      "visibilityExpression": "",
+      "repeatable": false,
+      "requiredDescription": true,
+      "name": "image",
+      "localizable": true,
+      "fieldReference": "image",
+      "tip": {
+        "fr_FR": ""
+      }
+    },
+    {
+      "dataType": "string",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Contenu"
+      },
+      "type": "rich_text",
+      "required": false,
+      "showLabel": true,
+      "fieldNamespace": "",
+      "indexType": "text",
+      "visibilityExpression": "",
+      "repeatable": false,
+      "name": "content",
+      "localizable": true,
+      "fieldReference": "content",
+      "tip": {
+        "fr_FR": ""
+      }
+    }
+  ]
+}

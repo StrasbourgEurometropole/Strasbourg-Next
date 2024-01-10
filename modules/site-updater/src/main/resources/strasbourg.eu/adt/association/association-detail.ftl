@@ -21,6 +21,13 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <#assign uniqueDomaines=uniqueDomaines + [currentDomaine]>
     </#if>
 </#list>
+
+
+<#assign uniqueTerritoires=[]>
+<#list entry.getTerritories() as territoire>
+    <#assign currentTerritoire=territoire.getName()>
+    <#assign uniqueTerritoires=uniqueTerritoires + [currentTerritoire]>
+</#list>
 <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
 <div class="st-barre-single-sit st--association">
     <div class="st-barre-inner st-wrapper">
@@ -32,7 +39,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <p class="st-title">
                     ${entry.getName(locale)}
                 </p>
-                <p class="st-location">Adresse</p>
+                <p class="st-location">${uniqueTerritoires?join(", ")?truncate(65, '...')}</p>
             </div>
         </div>
         <div class="st-container-right">
@@ -124,37 +131,37 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 </div>
             </div>
             <div class="st-tabpanels">
-                        <@listGroups entry.practicesCategories; groupName, groupItems>
-                          <div class="st-tabpanel st-is-hidden" id="tabpanel-${groupName?url}" role="tabpanel" tabindex="0" aria-labelledby="tab-button-${groupName?url}">
-                                <ul class="st-list-rows st-basic-grid st-col-2@t-small">
-                                    <#list groupItems as groupItem>
-                                        <li class="st-item-row st--with-location">
-                                            <p class="st-surtitre">
-                                                ${groupItem.getPratique(locale)}
-                                            </p>
-                                            <p class="st-text-small">
-                                                ${groupName}
-                                                <#if groupItem.getSous_specialite(locale)?has_content>
-                                                    - ${groupItem.getSpecialite(locale)}
-                                                    <#if groupItem.getSous_sous_specialite(locale)?has_content>
-                                                        - ${groupItem.getSous_specialite(locale)}
-                                                    </#if>
-                                                </#if>
-                                            </p>
-                                            <div class="st-info">
-                                                <p class="st-surtitre-cat">
-                                                    ${groupItem.getPublics(locale)}
-                                                </p>
-                                                <p class="st-location">
-                                                    ${groupItem.getDistricts(locale)}
-                                                </p>
-                                            </div>
-                                        </li>
-                                    </#list>
-                                </ul>
-                            </div>
-                        </@listGroups>
+                <@listGroups entry.practicesCategories; groupName, groupItems>
+                    <div class="st-tabpanel st-is-hidden" id="tabpanel-${groupName?url}" role="tabpanel" tabindex="0" aria-labelledby="tab-button-${groupName?url}">
+                        <ul class="st-list-rows st-basic-grid st-col-2@t-small">
+                            <#list groupItems as groupItem>
+                                <li class="st-item-row st--with-location">
+                                    <p class="st-surtitre">
+                                        ${groupItem.getPratique(locale)}
+                                    </p>
+                                    <p class="st-text-small">
+                                        ${groupName}
+                                        <#if groupItem.getSous_specialite(locale)?has_content>
+                                            - ${groupItem.getSpecialite(locale)}
+                                            <#if groupItem.getSous_sous_specialite(locale)?has_content>
+                                                - ${groupItem.getSous_specialite(locale)}
+                                            </#if>
+                                        </#if>
+                                    </p>
+                                    <div class="st-info">
+                                        <p class="st-surtitre-cat">
+                                            ${groupItem.getPublics(locale)}
+                                        </p>
+                                        <p class="st-location">
+                                            ${groupItem.getDistricts(locale)}
+                                        </p>
+                                    </div>
+                                </li>
+                            </#list>
+                        </ul>
                     </div>
+                </@listGroups>
+            </div>
         </div>
     </div>
     <div class="st-bloc st-bloc-sit-focus st-wrapper ">

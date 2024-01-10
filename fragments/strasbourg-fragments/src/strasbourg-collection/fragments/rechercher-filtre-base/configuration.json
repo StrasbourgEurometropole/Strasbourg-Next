@@ -1,0 +1,15 @@
+{
+	"fieldSets": [
+		{
+            "fields": [
+                {
+                    "name": "numberOfFiltres",
+                    "label": "Nombre de filtres",
+                    "description": "hide-body",
+                    "type": "text",
+                    "defaultValue": "4"
+                }
+            ]
+        }
+	]
+}

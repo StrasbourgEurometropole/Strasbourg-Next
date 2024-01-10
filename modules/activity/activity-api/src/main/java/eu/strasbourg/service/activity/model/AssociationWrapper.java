@@ -751,6 +751,16 @@ public class AssociationWrapper
 	}
 
 	/**
+	 * Retourne les territoires de l'association
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getTerritories() {
+
+		return model.getTerritories();
+	}
+
+	/**
 	 * Returns the user ID of this association.
 	 *
 	 * @return the user ID of this association

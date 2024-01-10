@@ -1,0 +1,15 @@
+{
+  "fieldSets": [
+    {
+      "fields": [
+        {
+          "name": "numberOfSections",
+          "label": "Zones Supplémentaire",
+          "type": "text",
+          "dataType": "int",
+          "defaultValue": "3"
+        }
+      ]
+    }
+  ]
+}

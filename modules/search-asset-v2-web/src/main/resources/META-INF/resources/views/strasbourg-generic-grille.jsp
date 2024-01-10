@@ -7,10 +7,7 @@
 		<liferay-util:include page="/forms/strasbourg-generic-form.jsp" servletContext="<%=application %>" />
 	</aui:form>
 	<header class="st-small-header st-wrapper st-wrapper-small">
-		<c:if test="${not empty dc.getPortletTitle('')}">
-			<h1 class="st-h1">${dc.getPortletTitle('')}</h1>
-		</c:if>
-
+		<h1 class="st-h1">${dc.getLayoutTitle()}</h1>
 		<liferay-portlet:runtime
 				portletName="com_liferay_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
 				instanceId="breadcrumb-generic" />
@@ -19,14 +16,22 @@
 			<aui:form method="post" name="fm">
 				<!-- Résultats -->
 	<div class="st-listing st--listing-cards-horizontales listing st-wrapper st-wrapper-small">
-		<div>
-			<span><liferay-ui:message key="results-per-page" /></span>
-			<select name="filter" id="" class="toCustomSelect" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-				<c:forEach var="delta" items="${[5, 10, 20, 50, 100]}">
-					<c:set var="selected" value="${delta eq dc.delta ? 'selected' : ''}" />
-					<option value="${dc.getURLForDelta(delta)}" ${selected} >${delta}</option>
-				</c:forEach>
-			</select>
+		<div class="st-listing-results st-hide-until@t-portrait">
+    <span class="st-results" role="status">
+         ${dc.searchContainer.total} <liferay-ui:message key="results" />
+    </span>
+
+			<div class="st-results-filter">
+				<label for="results-per-page"><liferay-ui:message key="results-per-page" /></label>
+				<div class="st-results-select">
+					<select id="results-per-page" name="results-per-page" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+						<c:forEach var="delta" items="${[5, 10, 20, 50, 100]}">
+							<c:set var="selected" value="${delta eq dc.delta ? 'selected' : ''}" />
+							<option value="${dc.getURLForDelta(delta)}" ${selected} >${delta}</option>
+						</c:forEach>
+					</select>
+				</div>
+			</div>
 		</div>
 		<div class="st-listing-cards st-wrapper st-wrapper-small">
 			<ul class="st-cards-wrapper st--has-cards-horizontal st-basic-grid st-col-3@mobile st-col-4@t-small">

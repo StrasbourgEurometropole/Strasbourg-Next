@@ -4,6 +4,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
 public class BaseDisplayContext {
@@ -17,4 +18,14 @@ public class BaseDisplayContext {
 		this._themeDisplay = (ThemeDisplay) _request
 			.getAttribute(WebKeys.THEME_DISPLAY);
 	}
+
+	public String getLayoutTitle() {
+		String title = this._themeDisplay.getLayout().getTitle(_themeDisplay.getLocale());
+		// title is xml, so we need to extract the text from title tag
+		title = HtmlUtil.stripHtml(title);
+		return title;
+	}
+
+
+
 }

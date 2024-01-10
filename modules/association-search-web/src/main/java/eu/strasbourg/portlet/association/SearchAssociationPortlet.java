@@ -62,6 +62,7 @@ public class SearchAssociationPortlet extends MVCPortlet {
 			// correspondre à chaque type d'asset une page de détail
 			Map<String, Long> className_layoutId = new HashMap<>();
 			String layoutFriendlyURL = this._configuration.layoutFriendlyURL();
+			String description = this._configuration.description();
 			Layout layout = LayoutLocalServiceUtil.fetchLayoutByFriendlyURL(
 					themeDisplay.getScopeGroupId(), false,
 					layoutFriendlyURL);
@@ -70,6 +71,7 @@ public class SearchAssociationPortlet extends MVCPortlet {
 			}
 
 			request.setAttribute("classNameLayoutId", className_layoutId);
+			request.setAttribute("description", description);
 
 			super.render(request, response);
 		} catch (Exception ex) {
@@ -98,11 +100,6 @@ public class SearchAssociationPortlet extends MVCPortlet {
 
 	private boolean validate(ActionRequest request) {
 		boolean isValid = true;
-
-		if (Validator.isNull(ParamUtil.getString(request, "domain"))) {
-			SessionErrors.add(request, "practice-error");
-			isValid = false;
-		}
 
 		return isValid;
 	}

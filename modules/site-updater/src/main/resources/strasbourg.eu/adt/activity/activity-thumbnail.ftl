@@ -14,7 +14,7 @@
             <div class="st-caption">
                 <p class="st-title-card">${entry.getTitle(locale)}</p>
                 <p class="st-surtitre-cat">${entry.getTypesLabel(locale)}</p>
-                <p class="st-text">${entry.getDescription(locale)?replace(r'<[^>]*>', '', 'r')}</p>
+                <p class="st-text">${entry.getDescription(locale)?replace(r'<[^>]*>', '', 'r')?truncate(170, "...")}</p>
             </div>
             <div class="st-image">
                 <@addImage fileEntryId=entry.imageId showLegende=false showCopyright=false isFigure=true />

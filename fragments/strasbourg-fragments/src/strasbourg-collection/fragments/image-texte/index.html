@@ -1,0 +1,36 @@
+<div class="st-bloc st-bloc-image-texte st-wrapper st--has-margin">
+        <div class="st-container st--text-${configuration.orientationText}">
+            <div class="st-col-text">
+                <div class="st-text-styles">
+                    <h2 class="st-h2" data-lfr-editable-id="title" data-lfr-editable-type="text">Texte à gauche et image
+                        paysage à droite</h2>
+                    <p data-lfr-editable-id="description" data-lfr-editable-type="text">Orci varius natoque penatibus et
+                        magnis dis parturient montes, nascetur ridiculus mus. Nullam
+                        orci lacus, elementum ac orci ut, molestie porttitor lacus. Mauris ac mi facilisis erat
+                        hendrerit sagittis. Aliquam pharetra est non nisl fermentum feugiat. Cras rutrum aliquet tortor,
+                        eu tempor sapien volutpat id. Nam commodo pharetra lorem. Vivamus ullamcorper nisi eget nibh
+                        ullamcorper tristique. Phasellus feugiat consequat sapien vel ultricies. </p>
+                </div>
+            </div>
+            [#if configuration.image.fileEntryId?has_content]
+            <div class="st-st-col-image">
+                <div class="st-image">
+                    [#assign fileEntryHelper =
+                    serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") /]
+                    <span class="st-credits"
+                        aria-hidden="true">${fileEntryHelper.getImageCopyright(configuration.image.fileEntryId?number,
+                        locale)}</span>
+                    <figure class="st-figure st-fit-cover figcaption-only-credits" role="group"
+                        aria-label="${fileEntryHelper.getImageLegend(configuration.image.fileEntryId?number,locale)}">
+                        <picture>
+                            <img alt="${fileEntryHelper.getImageLegend(configuration.image.fileEntryId?number,locale)}" src="${fileEntryHelper.getFileEntryURL(configuration.image.fileEntryId?number)}" data-fileentryid="${configuration.image.fileEntryId}"  >
+                        </picture>
+                        <figcaption>
+                            <span class="st-sr-only">${fileEntryHelper.getImageLegend(configuration.image.fileEntryId?number,locale)}</span>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+            [/#if]
+        </div>
+</div>

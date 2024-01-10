@@ -119,7 +119,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 <div class="st-page-fiche-lieu">
     <header class="st-header-fiche-lieu">
         <div class="st-wrapper st-wrapper-small">
-            <h1 class="st-h1 st-hide-until@t-portrait">${entry.getAlias(locale)}</h1>
+            <h1 class="st-h1">${entry.getAlias(locale)}</h1>
             <@liferay.breadcrumbs />
         </div>
 
@@ -773,16 +773,17 @@ activityLocalService=serviceLocator.findService("eu.strasbourg.service.activity.
         <div class="st-component-container">
             <ul class="st-liste st-limit-height">
 
-                <#list entry.documentURLs as fileURL>
-                    <#if fileURL?has_content>
-                        <#assign file = fileEntryHelper.getFileEntryByRelativeURL(fileURL) />
-                        <#assign title = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
-                        <#assign size = fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale) />
+                <#list entry.documentsIds?split(",") as fileId>
+                    <#if fileId?has_content>
+                        <#assign url = fileEntryHelper.getFileEntryURL(fileId?number) />
+                        <#assign title = fileEntryHelper.getFileTitle(fileId?number, locale) />
+                        <#assign size = fileEntryHelper.getReadableFileEntrySize(fileId?number, locale) />
+                        <#assign extension = fileEntryHelper.getFileExtension(fileId?number) />
                         <li class="st-lien-container">
                             <a href="${fileURL}" class="st-lien" download>
                                 <p class="st-title-lien">${title}</p>
                                 <div class="st-lien-content">
-                                    <p class="st-type">(${file.getExtension()?upper_case} - ${size})</p>
+                                    <p class="st-type">(${extension?upper_case} - ${size})</p>
                                     <p class="st-text"><@liferay_ui.message key="eu.download" /></p>
 
                                 </div>

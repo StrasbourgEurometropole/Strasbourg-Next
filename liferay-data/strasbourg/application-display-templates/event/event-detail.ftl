@@ -33,7 +33,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <p class="st-surtitre-cat st-hide-until@t-portrait">
             ${entry.getTypeLabel(locale)}
         </p>
-        <h1 class="st-h1 st-hide-until@t-portrait">
+        <h1 class="st-h1">
             ${entry.getTitle(locale)}
         </h1>
         <@liferay.breadcrumbs />

@@ -842,6 +842,10 @@
 		fieldset {
 			margin-right: 10px;
 			flex-grow: 1;
+
+			@include tablet-landscape {
+				margin-right: initial;
+			}
 		}
 
 		legend {
@@ -851,7 +855,8 @@
 			@include ft('', 14px, 600, $c_white, 1);
 
 			@include tablet-landscape {
-				display: none;
+				float: initial;
+				margin-bottom: 4px;
 			}
 		}
 	}

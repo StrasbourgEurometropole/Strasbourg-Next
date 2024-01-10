@@ -1,0 +1,24 @@
+<div class="fragment_1 st-barre-listing-sit">
+	<form>
+	<div class="st-barre-inner st-wrapper form-styles">
+		[#list 0..(configuration.numberOfFiltres?number)-1 as i]
+      <lfr-drop-zone data-lfr-drop-zone-id="${i+1}" data-lfr-priority="${i+1}"></lfr-drop-zone>
+    [/#list]
+			
+		<div class="col-right">
+			<p class="st-resultats st--resultats-agenda">
+                <span class="st-resultats-range">
+									<span id="startItem"></span>
+									à
+                <span id="endItem"></span>
+                </span>
+				<span class="st-resultats-total"><span id="totalResult"></span> résultats</span>
+				<span class="st-resultats-period st-hide-from@t-portrait">Du </span>
+			</p>
+			    <button type="submit" class="st-btn st--btn-filtres" onclick="handleSubmit(event)">
+					Rechercher
+			    </button>
+		</div>
+	</div>
+	</form>
+</div>

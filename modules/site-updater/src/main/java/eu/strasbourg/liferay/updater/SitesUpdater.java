@@ -17,10 +17,11 @@ public class SitesUpdater {
 
     @Activate
     private void activate() {
+        // TODO add variable in portal-ext.properties to enable/disable this
         long defaultCompanyId = PortalUtil.getDefaultCompanyId();
         List<Group> groups = groupLocalService.getGroups(defaultCompanyId,0,true);
         for (Group group : groups) {
-            siteUpdater.updateSite(group.getFriendlyURL(), this.getClass());
+             siteUpdater.updateSite(group.getFriendlyURL(), this.getClass());
         }
     }
 

@@ -17,6 +17,14 @@
 		}
 	}
 
+	.st-header-intro {
+		margin-top: 50px;
+
+		@include mobile {
+			margin-top: 20px;
+		}
+	}
+
 	// --modifiers
 	&.st--two-columns {
 		row-gap: 16px;

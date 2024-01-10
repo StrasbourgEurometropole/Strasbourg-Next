@@ -33,11 +33,16 @@
                         value="${layoutFriendlyURL}" />
                 </aui:fieldset>
 
+
                 <!-- Affichage -->
                 <aui:fieldset collapsed="true" collapsible="true"
                     label="display">
                     <!-- Nombre de resultats par page -->
                     <aui:input type="number" name="delta" value="${delta}" />
+
+                    <aui:input type="text"
+                               name="description"
+                               value="${description}" />
                 </aui:fieldset>
 
             </div></div>
