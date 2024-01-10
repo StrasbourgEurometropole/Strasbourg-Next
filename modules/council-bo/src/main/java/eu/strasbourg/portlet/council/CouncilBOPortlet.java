@@ -119,6 +119,10 @@ public class CouncilBOPortlet extends MVCPortlet {
 			String sessionCategoryId = getCategoryIdSession(renderRequest, themeDisplay);
 			ViewDeliberationsDisplayContext dc = new ViewDeliberationsDisplayContext(renderRequest, renderResponse,sessionCategoryId );
 			renderRequest.setAttribute("dc", dc);
+		} else if (cmd.equals("importOfficials") || mvcPath.equals("/council-bo-import-officials.jsp")) {
+			renderRequest.setAttribute("returnURL", returnURL);
+			EditOfficialDisplayContext dc = new EditOfficialDisplayContext(renderRequest);
+			renderRequest.setAttribute("dc", dc);
 		} else if (tab.equals("officials")) {
 			ViewOfficialsDisplayContext dc = new ViewOfficialsDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);

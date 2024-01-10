@@ -34,6 +34,8 @@
 </liferay-frontend:management-bar>
 
 <div class="container-fluid-1280 main-content-body">
+    <liferay-ui:success key="import-successful" message="import-successful" />
+
 	<aui:form method="post" name="fm">
 		<aui:input type="hidden" name="selectionIds" />
 		<liferay-ui:search-container id="officialsSearchContainer" searchContainer="${dc.searchContainer}">
@@ -84,13 +86,21 @@
 		</liferay-ui:search-container>
 	</aui:form>
 
-	<!-- ACTION RESOURCE : Export des élus-->
-    <liferay-portlet:resourceURL var="exportOfficialsURL" id="exportOfficials" />
-	<form method="POST" action="${exportOfficialsURL}">
-        <aui:button-row>
+    <aui:button-row>
+	    <!-- ACTION RESOURCE : Export des élus-->
+        <liferay-portlet:resourceURL var="exportOfficialsURL" id="exportOfficials" />
+	    <form method="POST" action="${exportOfficialsURL}" style="display: inline">
             <aui:button cssClass="btn-lg" type="submit" value="eu.council.bo.export.officials" />
-        </aui:button-row>
-    </form>
+        </form>
+
+	    <!-- Import des élus-->
+        <liferay-portlet:renderURL varImpl="importOfficialsURL">
+            <portlet:param name="cmd" value="importOfficials" />
+            <portlet:param name="mvcPath" value="/council-bo-import-officials.jsp" />
+            <portlet:param name="returnURL" value="${officialsURL}" />
+        </liferay-portlet:renderURL>
+        <aui:button cssClass="btn-lg" type="submit" href="${importOfficialsURL}" value="Nouvel import" title="Importer des votants"/>
+    </aui:button-row>
 
 </div>
 
