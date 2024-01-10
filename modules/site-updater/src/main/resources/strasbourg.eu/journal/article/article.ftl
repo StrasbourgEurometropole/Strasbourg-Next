@@ -11,10 +11,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 <header class="st-header-edito" role="banner">
     <div class="st-wrapper">
-        <div class="st-wrapper-modifier">
             <h1 class="st-h1">${title.getData()}</h1>
             <@liferay.breadcrumbs />
-        </div>
         <#if layout.expandoBridge.getAttribute('image')?has_content>
             <div class="st-img-wrapper" tabindex="0">
                 <figure class="st-figure st-fit-cover figcaption-only-credits" role="group" aria-label="">

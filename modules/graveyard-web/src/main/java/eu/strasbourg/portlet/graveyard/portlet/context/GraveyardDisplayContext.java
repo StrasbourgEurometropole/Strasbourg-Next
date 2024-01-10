@@ -133,7 +133,8 @@ public class GraveyardDisplayContext {
 			if (Validator.isNull(name)) {
 				error += LanguageUtil.get(httpRequest, "required") + " " + LanguageUtil.get(httpRequest, "name-required");
 			}
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			// Vérification des dates avec le format HTML5 (RFC 3339/ISO 8601 "wire format")
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			if ((Validator.isNotNull(birthDateStartString) || Validator.isNotNull(birthDateEndString))
 					&& !(Validator.isNotNull(birthDateStartString) && Validator.isNotNull(birthDateEndString))) {
 				if (Validator.isNull(error)) {
@@ -241,6 +242,26 @@ public class GraveyardDisplayContext {
 			this.defunts = graveyard.getDefunts();
 			if(this.defunts == null) {
 				this.defunts = new ArrayList<DefuntDTO>();
+				// create fake defunt with fake info
+				DefuntDTO defunt = new DefuntDTO();
+				defunt.name = "DUPONT";
+				defunt.birthName = "DUPONT";
+				defunt.firstName = "Jean";
+				defunt.birthDate = "01/01/1900";
+				defunt.deathDate = "01/01/1998";
+				defunt.deathPlace = "Strasbourg";
+				defunt.graveyard = "Cimetière Nord";
+				defunt.graveSector = "1";
+				defunt.graveRow = "1";
+				defunt.graveNumber = "1";
+				defunt.nameImage = "DUPONT_Jean";
+				defunt.graveyardMapping = GraveyardMapping.get(1);
+
+				this.defunts.add(defunt);
+				this.defunts.add(defunt);
+				this.defunts.add(defunt);
+
+
 			}
 
 			// On parcours les résultats pour supprimer les décès d'avant 1998
