@@ -149,7 +149,6 @@
 
 // Styles pour les boutons et les dots utilisés dans les sliders et dans la pagination
 .st-page-wrapper .st-btn-arrow {
-	@include create-outline;
 	position: relative;
 	z-index: z-index('btn-slider');
 	@include inline-flex-center;

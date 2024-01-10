@@ -75,6 +75,13 @@ public class SearchActivityDisplayContext {
 				themeDisplay.getCompanyGroupId());
 	}
 
+	public String getLayoutTitle() {
+		String title = this.themeDisplay.getLayout().getTitle(themeDisplay.getLocale());
+		// title is xml, so we need to extract the text from title tag
+		title = HtmlUtil.stripHtml(title);
+		return title;
+	}
+
 	public Map<String, Object> getTemplateContextObjects(Activity activity) {
 
 		Map<String, Object> contextObjects = new HashMap<String, Object>();

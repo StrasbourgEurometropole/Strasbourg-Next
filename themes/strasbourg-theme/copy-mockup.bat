@@ -1,15 +1,15 @@
 @echo off
-set "sourceCSSDir=C:\liferay\ems-workspace\Strasbourg-Next\themes\strasbourg-theme\src\css"
+set "sourceCSSDir=C:\liferay\ems-workspace\strasbouorg-q34\themes\strasbourg-theme\src\css"
 set "overridePattern=_custom.scss"
 set "destinationCSSDir=C:\liferay\sf-strasbourgeu-mockup\assets\scss"
 
-set "sourceJSDir=C:\liferay\ems-workspace\Strasbourg-Next\themes\strasbourg-theme\src\js"
+set "sourceJSDir=C:\liferay\ems-workspace\strasbouorg-q34\themes\strasbourg-theme\src\js"
 set "destinationJSDir=C:\liferay\sf-strasbourgeu-mockup\assets\js"
 
-set "sourceImagesDir=C:\liferay\ems-workspace\Strasbourg-Next\themes\strasbourg-theme\src\images"
+set "sourceImagesDir=C:\liferay\ems-workspace\strasbouorg-q34\themes\strasbourg-theme\src\images"
 set "destinationImagesDir=C:\liferay\sf-strasbourgeu-mockup\assets\images"
 
-set "sourceFontsDir=C:\liferay\ems-workspace\Strasbourg-Next\themes\strasbourg-theme\src\fonts"
+set "sourceFontsDir=C:\liferay\ems-workspace\strasbouorg-q34\themes\strasbourg-theme\src\fonts"
 set "destinationFontsDir=C:\liferay\sf-strasbourgeu-mockup\assets\fonts"
 
 REM Delete everything in sourceCSSDir except override_*.scss
@@ -84,11 +84,11 @@ cd /d "%sourceFontsDir%"
 git add .
 
 REM Copy favicon.ico and logo.png
-copy /y "C:\liferay\sf-strasbourgeu-mockup\assets\images\favicon\favicon.ico" "C:\liferay\ems-workspace\Strasbourg-Next\themes\strasbourg-theme\src\images\favicon.ico"
-copy /y "C:\liferay\sf-strasbourgeu-mockup\assets\images\medias\logo.png" "C:\liferay\ems-workspace\Strasbourg-Next\themes\strasbourg-theme\src\images\thumbnail.png"
+copy /y "C:\liferay\sf-strasbourgeu-mockup\assets\images\favicon\favicon.ico" "C:\liferay\ems-workspace\strasbouorg-q34\themes\strasbourg-theme\src\images\favicon.ico"
+copy /y "C:\liferay\sf-strasbourgeu-mockup\assets\images\medias\logo.png" "C:\liferay\ems-workspace\strasbouorg-q34\themes\strasbourg-theme\src\images\thumbnail.png"
 
 REM Add the new favicon.ico and thumbnail.png to git
-cd /d "C:\liferay\ems-workspace\Strasbourg-Next\themes\strasbourg-theme\src\images"
+cd /d "C:\liferay\ems-workspace\strasbouorg-q34\themes\strasbourg-theme\src\images"
 git add favicon.ico thumbnail.png
 
 echo All tasks completed successfully.

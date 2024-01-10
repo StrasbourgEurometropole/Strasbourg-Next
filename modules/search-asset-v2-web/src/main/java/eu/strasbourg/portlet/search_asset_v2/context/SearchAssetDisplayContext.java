@@ -589,6 +589,7 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 		}
 	}
 
+
 	/**
 	 * Retourne true si les champs dates doivent être affichés
 	 */
@@ -931,6 +932,14 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 		return getConfigurationData().isDisplaySorting();
 	}
 
+	public String getVocabularyDisplayType(AssetVocabulary vocabulary) throws ConfigurationException {
+		HashMap<String, String> vocabularyIdsMap = getConfigurationData().getVocabulariesControlTypesMap();
+		if (Validator.isNotNull(vocabularyIdsMap)) {
+			return vocabularyIdsMap.get(String.valueOf(vocabulary.getVocabularyId()));
+		}
+		return null;
+	}
+
 	/**
 	 * Retourne true si le filtre sur les types d'asset est autorisé
 	 */
@@ -1046,6 +1055,7 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 	private SearchContainer<AssetEntry> _searchContainer;
 	private List<AssetEntry> _entries;
 	private List<AssetVocabulary> _vocabularies;
+	private LinkedHashMap<String, String> _sortFieldsAndTypes;
 	private String _keywords;
 	private List<Long[]> _filterCategoriesIds;
 	private String _filterCategoriesIdString;

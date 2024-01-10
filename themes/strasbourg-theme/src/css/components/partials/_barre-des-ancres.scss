@@ -22,6 +22,11 @@
 
 	&.st-footer-is-visible {
 		height: auto;
+		pointer-events: none;
+
+		.st-ancres__container {
+			pointer-events: initial;
+		}
 	}
 
 	// Menu des réseaux sociaux ouvert

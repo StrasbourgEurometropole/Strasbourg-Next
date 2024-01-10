@@ -13,13 +13,12 @@
 			portletName="com_liferay_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
 			instanceId="breadcrumb-generic" />
 </header>
+<c:if test="${not empty description}">
+	<div class="st-listing-introduction st-wrapper st-wrapper-small st-text-styles">
+		<p>${description}</p>
+	</div>
+</c:if>
 
-<div class="st-listing-introduction st-wrapper st-wrapper-small st-text-styles">
-	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer a erat sodales, auctor neque non,
-		varius purus. Morbi tempor finibus magna, id dignissim quam. Aliquam elementum, felis vitae sagittis
-		iaculis, est eros euismod urna, sit amet consectetur odio orci vitae nibh. Mauris at efficitur sem,
-		eget iaculis purus. Maecenas et lacinia diam.</p>
-</div>
 
 
 
@@ -30,15 +29,21 @@
 						searchContainer="${dc.searchContainer}">
 				<div class="st-listing-cards st-wrapper st-wrapper-small">
 					<!-- Nombre de rÃ©sultats et items par page -->
-					<div class="seu-view-results">
-						<div class="seu-result-filter">
-							<span><liferay-ui:message key="results-per-page" /></span>
-							<select name="filter" id="" class="toCustomSelect" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-								<c:forEach var="delta" items="${[5, 10, 20, 50, 100]}">
-									<c:set var="selected" value="${delta eq dc.delta ? 'selected' : ''}" />
-									<option value="${dc.getURLForDelta(delta)}" ${selected} >${delta}</option>
-								</c:forEach>
-							</select>
+					<div class="st-listing-results st-hide-until@t-portrait">
+    <span class="st-results" role="status">
+         ${dc.searchContainer.total} <liferay-ui:message key="results" />
+    </span>
+
+						<div class="st-results-filter">
+							<label for="results-per-page"><liferay-ui:message key="results-per-page" /></label>
+							<div class="st-results-select">
+								<select id="results-per-page" name="results-per-page" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+									<c:forEach var="delta" items="${[5, 10, 20, 50, 100]}">
+										<c:set var="selected" value="${delta eq dc.delta ? 'selected' : ''}" />
+										<option value="${dc.getURLForDelta(delta)}" ${selected} >${delta}</option>
+									</c:forEach>
+								</select>
+							</div>
 						</div>
 					</div>
 				<ul class="st-cards-wrapper st--has-cards-horizontal st-basic-grid st-col-2@t-small">

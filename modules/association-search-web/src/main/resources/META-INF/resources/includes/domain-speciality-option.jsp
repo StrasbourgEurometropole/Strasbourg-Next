@@ -1,4 +1,4 @@
-<%@ include file="/search-activity-init.jsp"%>
+<%@ include file="/search-association-init.jsp"%>
 <c:set var="prefix" value="" />
 <c:forEach var="i" begin="1" end="${level}">
 	<c:set var="prefix" value="${prefix} - " />

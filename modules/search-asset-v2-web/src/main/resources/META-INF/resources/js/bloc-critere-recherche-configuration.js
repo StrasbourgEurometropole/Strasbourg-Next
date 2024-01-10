@@ -8,7 +8,8 @@ var blocVocabulary = "" +
     "</div>" +
     "     <div class='form-group form-group-inline input-select-wrapper'>" +
         "<select class='form-control' id='" + namespace + "vocabularyControlType_%%INDEX%%' name='" + namespace + "vocabularyControlType_%%INDEX%%'>" +
-            "<option class='' value='list'>" + Liferay.Language.get("dropdown-list") + "</option>" +
+    "<option class='' value='list-showcase'>" + Liferay.Language.get("dropdown-list-showcase") + "</option>" +
+    "<option class='' value='list'>" + Liferay.Language.get("dropdown-list") + "</option>" +
             "<option class='' value='radio'>" + Liferay.Language.get("radio-button") + "</option>" +
             "<option class='' value='check'>" + Liferay.Language.get("checkbox") + "</option>" +
         "</select>" +

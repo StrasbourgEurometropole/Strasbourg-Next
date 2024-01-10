@@ -39,7 +39,7 @@
         </figure>
         <#else>
             <figure class="<#if isFigure>st-figure</#if> st-fit-cover" role="group">
-                <img src="https://placehold.co/600x400?text=404" />
+                <img src="https://placehold.co/600x400/20272F/2AD783/png?text=!&font=roboto" />
             </figure>
     </#if>
 </#macro>

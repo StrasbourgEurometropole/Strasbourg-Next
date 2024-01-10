@@ -12,30 +12,6 @@
 			instanceId="breadcrumb-generic" />
 </header>
 
-<!-- Nombre de rÃ©sultats et items par page -->
-<div class="seu-view-results">
-	<div class="seu-result-count">${dc.searchContainer.total}
-		<c:choose>
-			<c:when test="${dc.searchContainer.total gt 1}">
-				<liferay-ui:message key="results" />
-			</c:when>
-			<c:otherwise>
-				<liferay-ui:message key="result" />
-			</c:otherwise>
-		</c:choose>
-	</div>
-	<div class="seu-filler"></div>
-	<div class="seu-result-filter">
-		<span><liferay-ui:message key="results-per-page" /></span>
-		<select name="filter" id="" class="toCustomSelect" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-			<c:forEach var="delta" items="${[5, 10, 20, 50, 100]}">
-				<c:set var="selected" value="${delta eq dc.delta ? 'selected' : ''}" />
-				<option value="${dc.getURLForDelta(delta)}" ${selected} >${delta}</option>
-			</c:forEach>
-		</select>
-	</div>
-</div>
-
 
 <!-- Liste des rÃ©sultats -->
 <aui:form method="post" name="fm">
@@ -43,6 +19,24 @@
 	<liferay-ui:search-container id="entriesSearchContainer"
 								 searchContainer="${dc.searchContainer}">
 <div class="st-listing-cards st-wrapper st-wrapper-small">
+	<!-- Nombre de rÃ©sultats et items par page -->
+	<div class="st-listing-results st-hide-until@t-portrait">
+    <span class="st-results" role="status">
+         ${dc.searchContainer.total} <liferay-ui:message key="results" />
+    </span>
+
+		<div class="st-results-filter">
+			<label for="results-per-page"><liferay-ui:message key="results-per-page" /></label>
+			<div class="st-results-select">
+				<select id="results-per-page" name="results-per-page" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+					<c:forEach var="delta" items="${[5, 10, 20, 50, 100]}">
+						<c:set var="selected" value="${delta eq dc.delta ? 'selected' : ''}" />
+						<option value="${dc.getURLForDelta(delta)}" ${selected} >${delta}</option>
+					</c:forEach>
+				</select>
+			</div>
+		</div>
+	</div>
 	<ul class="st-cards-wrapper st--has-cards-vertical st-basic-grid st-col-3@mobile st-col-4@t-small">
 		<c:forEach var="activityEntry" items="${dc.paginatedResults}">
 			<liferay-ddm:template-renderer

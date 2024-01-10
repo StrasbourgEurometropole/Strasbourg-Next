@@ -94,51 +94,16 @@
 		@include tablet-portrait {
 			width: 100%;
 		}
-	}
-
-	.st-resultats {
-		margin-right: 20px;
-		text-align: right;
-		@include ft('', 14px, 300, $c_txt, 1);
-		@include letter-spacing(25);
-
-		@include tablet-portrait {
-			margin-right: auto;
-			text-align: left;
-		}
-		@include mobile {
-			font-size: 11px;
-		}
-
-		.st-resultats-range {
-			margin-right: 5px;
-		}
-
-		.st-resultats-total {
-			display: block;
-			color: $c_white;
-			font-weight: 700;
-			margin-top: 2px;
-		}
-
-		// --modifiers
-		&.st--resultats-agenda {
-			padding-right: 10px;
-
-			.st-resultats-total {
-				display: inline-block;
-				margin-left: 2px;
+		
+		.st-btn-submit {
+			& + * {
+				margin-left: 10px;
 			}
+		}
 
-			.st-resultats-period {
-				display: block;
-				margin-top: 2px;
-			}
-
-			.st-resultats-date {
-				font-weight: 700;
-				color: $c_white;
-			}
+		.st-btn-icon-filters {
+			width: 48px;
+			height: 48px;
 		}
 	}
 
@@ -179,6 +144,10 @@
 				}
 			}
 
+			.st-btn-icon-filters {
+				margin-left: 10px;
+			}
+
 			@include tablet-small {
 				flex-wrap: wrap;
 			}
@@ -188,28 +157,10 @@
 			}
 		}
 
-		.st-resultats {
+		.st-listing-results {
 			@include tablet-small {
 				flex-basis: 100%;
 				margin-bottom: 10px;
-			}
-		}
-
-		.st-social-share {
-			margin-left: 10px;
-
-			@include tablet-portrait {
-				display: none;
-			}
-
-			label {
-				width: 50px;
-				height: 50px;
-			}
-
-			.st-social-share__list {
-				left: 5px;
-				top: -10px;
 			}
 		}
 	}

@@ -20,7 +20,7 @@ public class SitesUpdater {
         long defaultCompanyId = PortalUtil.getDefaultCompanyId();
         List<Group> groups = groupLocalService.getGroups(defaultCompanyId,0,true);
         for (Group group : groups) {
-            siteUpdater.updateSite(group.getFriendlyURL(), this.getClass());
+            // siteUpdater.updateSite(group.getFriendlyURL(), this.getClass());
         }
     }
 

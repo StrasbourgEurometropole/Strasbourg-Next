@@ -10,13 +10,14 @@
     <@liferay_portlet.param name="classPK" value="${entry.assetEntry.classPK}" />
     <@liferay_portlet.param name="returnURL" value="${currentURL}" />
 </@liferay_portlet.renderURL>
+
 <@liferay_portlet.actionURL var="detailURLFilter">
     <@liferay_portlet.param name="userTargetClassId" value="${entry.assetEntry.classNameId}" />
     <@liferay_portlet.param name="userTargetClassPK" value="${entry.assetEntry.classPK}" />
     <@liferay_portlet.param name="userTargetTitle" value="${entry.getName(locale)}" />
     <@liferay_portlet.param name="detailURL" value="${detailURL}" />
-    <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
 </@liferay_portlet.actionURL>
+
 <#assign uniqueDomaines=[]>
 <#list entry.practicesCategories as practiceCategories>
     <#assign currentDomaine=practiceCategories.getDomaine(locale)>
@@ -24,10 +25,16 @@
         <#assign uniqueDomaines=uniqueDomaines + [currentDomaine]>
     </#if>
 </#list>
+
+<#assign uniqueTerritoires=[]>
+<#list entry.getTerritories() as territoire>
+    <#assign currentTerritoire=territoire.getName()>
+    <#assign uniqueTerritoires=uniqueTerritoires + [currentTerritoire]>
+</#list>
 <li>
     <div class="st-card-container">
         <a href="${detailURLFilter}" title="${entry.getName(locale)}"
-           class="st-card st--card-horizontal ">
+           class="st-card st--card-horizontal st--with-icon">
             <div class="st-caption">
                 <p class="st-title-card">
                     ${entry.getName(locale)}
@@ -35,14 +42,10 @@
                 <p class="st-surtitre-cat">
                     ${uniqueDomaines?join(", ")}
                 </p>
-                <p class="st-location">Address</p>
+                <p class="st-location">${uniqueTerritoires?join(", ")?truncate(65, '...')}</p>
             </div>
             <div class="st-image">
-                <figure class="st-figure st-fit-cover" role="group">
-                    <picture>
-                        <img alt="" src="https://placehold.co/600x400?text=404">
-                    </picture>
-                </figure>
+                <span class="st-icon st-icon-gps-activites"></span>
             </div>
         </a>
     </div>
