@@ -14,10 +14,10 @@
                        target="_blank"
                        class="seu-btn-square seu-bordered seu-core"
                        title="${link.getHoverText(locale)} (<@liferay_ui.message key="eu.new-window" />)" >
-                         <span class="seu-flexbox">
-                             <span class="seu-btn-text">${link.getTitle(locale)}</span>
-                             <span class="seu-btn-arrow"></span>
-                         </span>
+                        <span class="seu-flexbox">
+                            <span class="seu-btn-text">${link.getTitle(locale)}</span>
+                            <span class="seu-btn-arrow"></span>
+                        </span>
                     </a>
                 </#list>
             </#if>

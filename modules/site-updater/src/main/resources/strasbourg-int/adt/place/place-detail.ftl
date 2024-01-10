@@ -48,7 +48,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <a href="#" class="add-favorites"
            data-type="1"
            data-title="${entry.getAlias(locale)}"
-           data-url="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${entry.getSIGid()}"
+           data-url="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${entry.getSIGid()}/${entry.getNormalizedAlias(locale)}"
            data-id="${entry.placeId}">
             <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
         </a>
@@ -89,44 +89,47 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                             <#assign daySchedulesMap = entry.getFollowingWeekSchedules(.now, locale) />
                                             <#assign hasException = false />
                                             <#list daySchedulesMap?keys as day>
-                                                <li>
-                                                    <span>${day}</span>
-                                                    <span>
-                                                         <#list daySchedulesMap[day] as schedule>
-                                                             <div>
-                                                                 <#if schedule.isException() || schedule.isPublicHoliday()>
-                                                                     <#assign hasException = true />
-                                                                     <#assign hasAnyException = true />
-                                                                 <#else>
-                                                                     <#assign hasException = false />
-                                                                 </#if>
-                                                                 <#if schedule.isClosed()>
-                                                                     <#if hasException><span class="exception"></#if>
-                                                                     <@liferay_ui.message key="eu.closed" />
-                                                                     <#if hasException></span></#if>
-                                                                 <#elseif schedule.isAlwaysOpen()>
-                                                                     <#if hasException><span class="exception"></#if>
-                                                                     <@liferay_ui.message key="always-open" />
-                                                                     <#if hasException></span></#if>
-                                                                 <#else>
-                                                                     <#list schedule.openingTimes as openingTime>
-                                                                         <div>
-                                                                             <#if hasException><span class="exception"></#if>
-                                                                                 ${openingTime.first} - ${openingTime.second}
-                                                                                 <#if hasException></span></#if>
-                                                                         </div>
-                                                                         <#if schedule.comments[openingTime?index]?has_content>
-                                                                         <div style="margin-top: -10px;<#if hasException>color: #F44336;</#if>">(${schedule.comments[openingTime?index]})</div>
-                                                                     </#if>
-                                                                     </#list>
-                                                                 </#if>
-                                                             </div>
-                                                             <#if schedule.isException() || schedule.isPublicHoliday()>
-                                                                 </span>
-                                                    </#if>
-                                                    </#list>
-                                                    </span>
-                                                </li>
+                                                <!-- Correctif car suite à une modif on n'envoie plus une liste vide mais null, donc erreur freemarker -->
+                                                <#if daySchedulesMap[day]?size != 1 || (daySchedulesMap[day]?size == 1 && daySchedulesMap[day][0]?? && daySchedulesMap[day][0]?has_content)>
+                                                    <li>
+                                                        <span>${day}</span>
+                                                        <span>
+                                                            <#list daySchedulesMap[day] as schedule>
+                                                                <div>
+                                                                    <#if schedule.isException() || schedule.isPublicHoliday()>
+                                                                        <#assign hasException = true />
+                                                                        <#assign hasAnyException = true />
+                                                                    <#else>
+                                                                        <#assign hasException = false />
+                                                                    </#if>
+                                                                    <#if schedule.isClosed()>
+                                                                        <#if hasException><span class="exception"></#if>
+                                                                        <@liferay_ui.message key="eu.closed" />
+                                                                        <#if hasException></span></#if>
+                                                                    <#elseif schedule.isAlwaysOpen()>
+                                                                        <#if hasException><span class="exception"></#if>
+                                                                        <@liferay_ui.message key="always-open" />
+                                                                        <#if hasException></span></#if>
+                                                                    <#else>
+                                                                        <#list schedule.openingTimes as openingTime>
+                                                                            <div>
+                                                                                <#if hasException><span class="exception"></#if>
+                                                                                    ${openingTime.first} - ${openingTime.second}
+                                                                                    <#if hasException></span></#if>
+                                                                            </div>
+                                                                            <#if schedule.comments[openingTime?index]?has_content>
+                                                                            <div style="margin-top: -10px;<#if hasException>color: #F44336;</#if>">(${schedule.comments[openingTime?index]})</div>
+                                                                        </#if>
+                                                                        </#list>
+                                                                    </#if>
+                                                                </div>
+                                                                <#if schedule.isException() || schedule.isPublicHoliday()>
+                                                                    </span>
+                                                        </#if>
+                                                        </#list>
+                                                        </span>
+                                                    </li>
+                                                </#if>
                                             </#list>
                                         </ul>
                                         <!-- Jours suivants pour les sous-lieux -->
@@ -135,41 +138,44 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                             <ul class="schedule-list">
                                                 <#assign daySchedulesMap = subPlace.getFollowingWeekSchedules(.now, locale) />
                                                 <#list daySchedulesMap?keys as day>
-                                                    <li>
-                                                        <span>${day}</span>
-                                                        <span>
-                                                             <#list daySchedulesMap[day] as schedule>
-                                                                 <div>
-                                                                     <#if schedule.isException() || schedule.isPublicHoliday()>
-                                                                         <#assign hasException = true />
-                                                                         <#assign hasAnyException = true />
-                                                                     <#else>
-                                                                         <#assign hasException = false />
-                                                                     </#if>
-                                                                     <#if schedule.isClosed()>
-                                                                         <#if hasException><span class="exception"></#if>
-                                                                         <@liferay_ui.message key="eu.closed" />
-                                                                         <#if hasException></span></#if>
-                                                                     <#elseif schedule.isAlwaysOpen()>
-                                                                         <#if hasException><span class="exception"></#if>
-                                                                         <@liferay_ui.message key="always-open" />
-                                                                         <#if hasException></span></#if>
-                                                                     <#else>
-                                                                         <#list schedule.openingTimes as openingTime>
-                                                                             <div>
-                                                                                 <#if hasException><span class="exception"></#if>
-                                                                                     ${openingTime.first} - ${openingTime.second}
-                                                                                     <#if hasException></span></#if>
-                                                                             </div>
-                                                                             <#if schedule.comments[openingTime?index]?has_content>
-                                                                             <div style="margin-top: -10px;<#if hasException>color: #F44336;</#if>">(${schedule.comments[openingTime?index]})</div>
-                                                                         </#if>
-                                                                         </#list>
-                                                                     </#if>
-                                                                 </div>
-                                                             </#list>
-                                                         </span>
-                                                    </li>
+                                                    <!-- Correctif car suite à une modif on n'envoie plus une liste vide mais null, donc erreur freemarker -->
+                                                    <#if daySchedulesMap[day]?size != 1 || (daySchedulesMap[day]?size == 1 && daySchedulesMap[day][0]?? && daySchedulesMap[day][0]?has_content)>
+                                                        <li>
+                                                            <span>${day}</span>
+                                                            <span>
+                                                                <#list daySchedulesMap[day] as schedule>
+                                                                    <div>
+                                                                        <#if schedule.isException() || schedule.isPublicHoliday()>
+                                                                            <#assign hasException = true />
+                                                                            <#assign hasAnyException = true />
+                                                                        <#else>
+                                                                            <#assign hasException = false />
+                                                                        </#if>
+                                                                        <#if schedule.isClosed()>
+                                                                            <#if hasException><span class="exception"></#if>
+                                                                            <@liferay_ui.message key="eu.closed" />
+                                                                            <#if hasException></span></#if>
+                                                                        <#elseif schedule.isAlwaysOpen()>
+                                                                            <#if hasException><span class="exception"></#if>
+                                                                            <@liferay_ui.message key="always-open" />
+                                                                            <#if hasException></span></#if>
+                                                                        <#else>
+                                                                            <#list schedule.openingTimes as openingTime>
+                                                                                <div>
+                                                                                    <#if hasException><span class="exception"></#if>
+                                                                                        ${openingTime.first} - ${openingTime.second}
+                                                                                        <#if hasException></span></#if>
+                                                                                </div>
+                                                                                <#if schedule.comments[openingTime?index]?has_content>
+                                                                                <div style="margin-top: -10px;<#if hasException>color: #F44336;</#if>">(${schedule.comments[openingTime?index]})</div>
+                                                                            </#if>
+                                                                            </#list>
+                                                                        </#if>
+                                                                    </div>
+                                                                </#list>
+                                                            </span>
+                                                        </li>
+                                                    </#if>
                                                 </#list>
                                             </ul>
                                         </#list>
@@ -190,21 +196,21 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                                     <li>
                                                         <span><@liferay_ui.message key="jour-semaine${day}" /></span>
                                                         <span>
-                                                             <#if schedule.isClosed()>
-                                                                 <@liferay_ui.message key="eu.closed" />
-                                                             <#elseif schedule.isAlwaysOpen()>
-                                                                 <@liferay_ui.message key="always-open" />
-                                                             <#else>
-                                                                 <#list schedule.openingTimes as openingTime>
-                                                                     <div>
-                                                                         ${openingTime.first} - ${openingTime.second}
-                                                                     </div>
-                                                                     <#if schedule.comments[openingTime?index]?has_content>
-                                                                     <div style="margin-top: -10px">(${schedule.comments[openingTime?index]})</div>
-                                                                 </#if>
-                                                                 </#list>
-                                                             </#if>
-                                                         </span>
+                                                            <#if schedule.isClosed()>
+                                                                <@liferay_ui.message key="eu.closed" />
+                                                            <#elseif schedule.isAlwaysOpen()>
+                                                                <@liferay_ui.message key="always-open" />
+                                                            <#else>
+                                                                <#list schedule.openingTimes as openingTime>
+                                                                    <div>
+                                                                        ${openingTime.first} - ${openingTime.second}
+                                                                    </div>
+                                                                    <#if schedule.comments[openingTime?index]?has_content>
+                                                                    <div style="margin-top: -10px">(${schedule.comments[openingTime?index]})</div>
+                                                                </#if>
+                                                                </#list>
+                                                            </#if>
+                                                        </span>
                                                     </li>
                                                     <#assign day = day + 1 />
                                                 </#list>
@@ -219,21 +225,21 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                                         <li>
                                                             <span><@liferay_ui.message key="jour-semaine${day}" /></span>
                                                             <span>
-                                                                 <#if schedule.isClosed()>
-                                                                     <@liferay_ui.message key="eu.closed" />
-                                                                 <#elseif schedule.isAlwaysOpen()>
-                                                                     <@liferay_ui.message key="always-open" />
-                                                                 <#else>
-                                                                     <#list schedule.openingTimes as openingTime>
-                                                                         <div>
-                                                                             ${openingTime.first} - ${openingTime.second}
-                                                                         </div>
-                                                                         <#if schedule.comments[openingTime?index]?has_content>
-                                                                         <div style="margin-top: -10px">(${schedule.comments[openingTime?index]})</div>
-                                                                     </#if>
-                                                                     </#list>
-                                                                 </#if>
-                                                             </span>
+                                                                <#if schedule.isClosed()>
+                                                                    <@liferay_ui.message key="eu.closed" />
+                                                                <#elseif schedule.isAlwaysOpen()>
+                                                                    <@liferay_ui.message key="always-open" />
+                                                                <#else>
+                                                                    <#list schedule.openingTimes as openingTime>
+                                                                        <div>
+                                                                            ${openingTime.first} - ${openingTime.second}
+                                                                        </div>
+                                                                        <#if schedule.comments[openingTime?index]?has_content>
+                                                                        <div style="margin-top: -10px">(${schedule.comments[openingTime?index]})</div>
+                                                                    </#if>
+                                                                    </#list>
+                                                                </#if>
+                                                            </span>
                                                         </li>
                                                         <#assign day = day + 1 />
                                                     </#list>
@@ -253,23 +259,23 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                                     <li>
                                                         <span><@liferay_ui.message key="jour-semaine${day}" /></span>
                                                         <span>
-                                                             <div>
-                                                                 <#if schedule.isClosed()>
-                                                                     <@liferay_ui.message key="eu.closed" />
-                                                                 <#elseif schedule.isAlwaysOpen()>
-                                                                     <@liferay_ui.message key="always-open" />
-                                                                 <#else>
-                                                                     <#list schedule.openingTimes as openingTime>
-                                                                         <div>
-                                                                             ${openingTime.first} - ${openingTime.second}
-                                                                         </div>
-                                                                         <#if schedule.comments[openingTime?index]?has_content>
-                                                                         <div style="margin-top: -10px">(${schedule.comments[openingTime?index]})</div>
-                                                                     </#if>
-                                                                     </#list>
-                                                                 </#if>
-                                                             </div>
-                                                         </span>
+                                                            <div>
+                                                                <#if schedule.isClosed()>
+                                                                    <@liferay_ui.message key="eu.closed" />
+                                                                <#elseif schedule.isAlwaysOpen()>
+                                                                    <@liferay_ui.message key="always-open" />
+                                                                <#else>
+                                                                    <#list schedule.openingTimes as openingTime>
+                                                                        <div>
+                                                                            ${openingTime.first} - ${openingTime.second}
+                                                                        </div>
+                                                                        <#if schedule.comments[openingTime?index]?has_content>
+                                                                        <div style="margin-top: -10px">(${schedule.comments[openingTime?index]})</div>
+                                                                    </#if>
+                                                                    </#list>
+                                                                </#if>
+                                                            </div>
+                                                        </span>
                                                     </li>
                                                     <#assign day = day + 1 />
                                                 </#list>
@@ -284,23 +290,23 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                                         <li>
                                                             <span><@liferay_ui.message key="jour-semaine${day}" /></span>
                                                             <span>
-                                                                 <div>
-                                                                     <#if schedule.isClosed()>
-                                                                         <@liferay_ui.message key="eu.closed" />
-                                                                     <#elseif schedule.isAlwaysOpen()>
-                                                                         <@liferay_ui.message key="always-open" />
-                                                                     <#else>
-                                                                         <#list schedule.openingTimes as openingTime>
-                                                                             <div>
-                                                                                 ${openingTime.first} - ${openingTime.second}
-                                                                             </div>
-                                                                             <#if schedule.comments[openingTime?index]?has_content>
-                                                                             <div style="margin-top: -10px">(${schedule.comments[openingTime?index]})</div>
-                                                                         </#if>
-                                                                         </#list>
-                                                                     </#if>
-                                                                 </div>
-                                                             </span>
+                                                                <div>
+                                                                    <#if schedule.isClosed()>
+                                                                        <@liferay_ui.message key="eu.closed" />
+                                                                    <#elseif schedule.isAlwaysOpen()>
+                                                                        <@liferay_ui.message key="always-open" />
+                                                                    <#else>
+                                                                        <#list schedule.openingTimes as openingTime>
+                                                                            <div>
+                                                                                ${openingTime.first} - ${openingTime.second}
+                                                                            </div>
+                                                                            <#if schedule.comments[openingTime?index]?has_content>
+                                                                            <div style="margin-top: -10px">(${schedule.comments[openingTime?index]})</div>
+                                                                        </#if>
+                                                                        </#list>
+                                                                    </#if>
+                                                                </div>
+                                                            </span>
                                                         </li>
                                                         <#assign day = day + 1 />
                                                     </#list>
@@ -376,11 +382,11 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                         <#if (totalExceptionsCount > 5)>
                                             <div class="seu-line-left">
                                                 <button class="seu-see-more seu-btn-square seu-bordered seu-core">
-                                                     <span class="seu-flexbox">
-                                                         <span class="seu-btn-text seu-more"><@liferay_ui.message key="eu.see-more" /></span>
-                                                         <span class="seu-btn-text seu-less"><@liferay_ui.message key="eu.see-less" /></span>
-                                                         <span class="seu-btn-arrow"></span>
-                                                     </span>
+                                                    <span class="seu-flexbox">
+                                                        <span class="seu-btn-text seu-more"><@liferay_ui.message key="eu.see-more" /></span>
+                                                        <span class="seu-btn-text seu-less"><@liferay_ui.message key="eu.see-less" /></span>
+                                                        <span class="seu-btn-arrow"></span>
+                                                    </span>
                                                 </button>
                                             </div>
                                         </#if>
@@ -427,7 +433,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                             <#break>
                                         </#if>
                                         <div class="seu-agenda-slider-item seu-has-ville">
-                                            <a href="${homeURL}evenement/-/entity/id/${event.eventId}" class="seu-link" title="${event.getTitle(locale)}">
+                                            <a href="${homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}" class="seu-link" title="${event.getTitle(locale)}">
                                                 <div class="seu-date">
                                                     <div class="seu-date-sup">
                                                         <#if event.firstStartDate?date == event.lastEndDate?date>
@@ -464,10 +470,10 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 </div>
                                 <div class="seu-btn-line">
                                     <a href="${homeURL}agenda?idSIGPlace=${entry.getSIGid()}" class="seu-btn-square seu-filled seu-second" title="<@liferay_ui.message key="eu.all-events" />">
-                                         <span class="seu-flexbox">
-                                             <span class="seu-btn-text"><@liferay_ui.message key="eu.all-events" /></span>
-                                             <span class="seu-btn-arrow"></span>
-                                         </span>
+                                        <span class="seu-flexbox">
+                                            <span class="seu-btn-text"><@liferay_ui.message key="eu.all-events" /></span>
+                                            <span class="seu-btn-arrow"></span>
+                                        </span>
                                     </a>
                                 </div>
                             </div>
@@ -515,10 +521,10 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                                             <li>
                                                                 <span><@liferay_ui.message key="${course.getDayName(day)}" /></span>
                                                                 <span>
-                                                                     <#list schedules as schedule>
-                                                                         ${schedule.startTime} - ${schedule.endTime}<#sep><br></#sep>
-                                                                     </#list>
-                                                                 </span>
+                                                                    <#list schedules as schedule>
+                                                                        ${schedule.startTime} - ${schedule.endTime}<#sep><br></#sep>
+                                                                    </#list>
+                                                                </span>
                                                             </li>
                                                         </#if>
                                                     </#list>
@@ -547,35 +553,38 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 </#if>
 
                 <!-- Médias -->
-                <#if entry.documentURLs?has_content || entry.videos?has_content>
+                <#if entry.documentsIds?has_content || entry.videos?has_content>
                     <div class="seu-wi--collapsing">
                         <button class="seu-toggle-collapse">
                             <h2 class="media"><span><@liferay_ui.message key="eu.place.medias" /></span></h2>
                         </button>
                         <div class="seu-collapsing-box">
-                            <#list entry.documentURLs as fileURL>
-                                <#assign file = fileEntryHelper.getFileEntryByRelativeURL(fileURL) />
-                                <#assign title = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
-                                <#assign size = fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale) />
-                                <div class="seu-wi seu-media seu-wi-download">
-                                    <div class="seu-media-container">
-                                        <div class="seu-media-left"><div class="seu-media-picto"></div></div>
-                                        <div class="seu-media-right">
-                                            <div class="seu-media-text">
-                                                <div class="seu-media-title">${title}</div>
-                                                <p>${file.getExtension()?upper_case} - ${size}</p>
-                                            </div>
-                                            <a href="${fileURL}" target="_blank" class="seu-media-download seu-btn-square seu-filled seu-second" title="${title} (<@liferay_ui.message key="eu.new-window" />)">
-                                                <div class="seu-btn-text-editable">
-                                                     <span class="seu-flexbox">
-                                                         <span class="seu-btn-text"><@liferay_ui.message key="download" /></span>
-                                                         <span class="seu-btn-arrow">&nbsp;</span>
-                                                     </span>
+                            <#list entry.documentsIds?split(",") as fileId>
+                                <#if fileId?has_content>
+                                    <#assign url = fileEntryHelper.getFileEntryURL(fileId?number) />
+                                    <#assign title = fileEntryHelper.getFileTitle(fileId?number, locale) />
+                                    <#assign size = fileEntryHelper.getReadableFileEntrySize(fileId?number, locale) />
+                                    <#assign extension = fileEntryHelper.getFileExtension(fileId?number) />
+                                    <div class="seu-wi seu-media seu-wi-download">
+                                        <div class="seu-media-container">
+                                            <div class="seu-media-left"><div class="seu-media-picto"></div></div>
+                                            <div class="seu-media-right">
+                                                <div class="seu-media-text">
+                                                    <div class="seu-media-title">${title}</div>
+                                                    <p>${extension?upper_case} - ${size}</p>
                                                 </div>
-                                            </a>
+                                                <a href="${url}" target="_blank" class="seu-media-download seu-btn-square seu-filled seu-second" title="${title} (<@liferay_ui.message key="eu.new-window" />)">
+                                                    <div class="seu-btn-text-editable">
+                                                        <span class="seu-flexbox">
+                                                            <span class="seu-btn-text"><@liferay_ui.message key="download" /></span>
+                                                            <span class="seu-btn-arrow">&nbsp;</span>
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </#if>
                             </#list>
                             <#list entry.videos as video>
                                 <div class="seu-wi seu-media seu-wi-embed">
@@ -686,7 +695,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <#if entry.mail?has_content>
                     <div class="seu-wi--collapsing <#if renderRequest.getAttribute("fromContactForm")?has_content && renderRequest.getAttribute("fromContactForm")>seu-first-opened</#if>">
                         <button class="seu-toggle-collapse">
-                            <h2 class="contact"><span><@liferay_ui.message key="contact" /></span></h2>
+                            <h2 class="contact"><span><@liferay_ui.message key="eu.contact" /></span></h2>
                         </button>
                         <div class="seu-collapsing-box white-box">
                             <div class="rte">
@@ -771,11 +780,11 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     <div class="seu-wi-slideNpop">
                         <div class="slide">
                             <ul class="slider">
-                                <#list entry.imagesURLs as imageURL>
-                                    <#assign image = fileEntryHelper.getFileEntryByRelativeURL(imageURL) />
-                                    <#assign title = fileEntryHelper.getFileTitle(image.getFileEntryId(), locale) />
-                                    <#assign legend = fileEntryHelper.getImageLegend(image.getFileEntryId(), locale) />
-                                    <#assign copyright = fileEntryHelper.getImageCopyright(image.getFileEntryId(), locale) />
+                                <#list entry.imageIds?split(",") as imageId>
+                                    <#assign imageURL = fileEntryHelper.getFileEntryURL(imageId?number) />
+                                    <#assign title = fileEntryHelper.getFileTitle(imageId?number, locale) />
+                                    <#assign legend = fileEntryHelper.getImageLegend(imageId?number, locale) />
+                                    <#assign copyright = fileEntryHelper.getImageCopyright(imageId?number, locale) />
                                     <li style="background-image: url(${imageURL});"  data-title="${title}" data-description="${legend} <#if copyright?has_content>&copy; ${copyright}</#if>">
                                         <img src="${imageURL}" alt="${title}">
                                     </li>
@@ -825,34 +834,38 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <div class="seu-crowded-flexbox">
                             <div class="flex-left">
                                 <#assign isSwimmingPool = entry.isSwimmingPool() />
+                                <#assign isIceRink = entry.isIceRink() />
                                 <#assign isMairie = entry.isMairie() />
-                                <#if isSwimmingPool>
+                                <#assign isParking = entry.isParking() />
+                                <#assign isVelhopStation = entry.isVelhopStation() />
+                                <#if isSwimmingPool || isIceRink >
                                     <h3><@liferay_ui.message key="live-frequentation" /></h3>
-                                <#else>
-                                    <#if isMairie>
-                                        <h3><@liferay_ui.message key="estimated-time" /></h3>
-                                    <#else>
-                                        <h3><@liferay_ui.message key="live-occupation" /></h3>
-                                    </#if>
+                                <#elseif isMairie>
+                                    <h3><@liferay_ui.message key="estimated-time" /></h3>
+                                <#elseif isParking>
+                                    <h3><@liferay_ui.message key="live-occupation" /></h3>
+                                <#elseif isVelhopStation>
+                                    <h3><@liferay_ui.message key="live-disponibility" /></h3>
                                 </#if>
-                                <div class="crowded-date"><span class="wroded-day-month">${.now?date?string.long}</span><span> - </span><span class="crowded-time">${.now?time?string.short}</span></div>
                             </div>
                             <div class="flex-right">
                                 <!-- green orange red black -->
                                 <div class="crowded-amount ${occupationState.cssClass}" <#if isMairie> style="font-size: 1.5rem"</#if>>
-                                    <#if isSwimmingPool || isMairie>
+                                    <#if isSwimmingPool || isIceRink || isMairie>
                                         ${occupationState.occupationLabel}
-                                    <#else>
+                                    <#elseif isParking || isVelhopStation>
                                         ${occupationState.available}
                                     </#if>
                                 </div>
                             </div>
                         </div>
                         <div class="crowded-caption">
-                            <#if isSwimmingPool || isMairie>
+                            <#if isSwimmingPool || isIceRink || isMairie>
                                 <@liferay_ui.message key="${occupationState.label}" />
-                            <#else>
+                            <#elseif isParking>
                                 <@liferay_ui.message key="eu.place.available-spots" /> ${occupationState.available}
+                            <#elseif isVelhopStation>
+                                <@liferay_ui.message key="eu.place.available-velhop" /> ${occupationState.available}
                             </#if>
                         </div>
                         <!-- ajout post covid : affichage capacité totale -->
@@ -864,12 +877,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <div class="crowded-fyi">
                             <#if isSwimmingPool>
                                 <@liferay_ui.message key="live-occupation-explanation" />
-                            <#else>
-                                <#if isMairie>
-                                    <@liferay_ui.message key="estimated-time-explanation" />
-                                <#else>
-                                    <@liferay_ui.message key="eu.place.total-capacity" /> ${occupationState.capacity}
-                                </#if>
+                            <#elseif isMairie>
+                                <@liferay_ui.message key="estimated-time-explanation" />
+                            <#elseif isParking>
+                                <@liferay_ui.message key="eu.place.total-capacity" /> ${occupationState.capacity}
+                            <#elseif isIceRink>
+                                <@liferay_ui.message key="live-ice-rink-occupation-explanation" />
                             </#if>
                         </div>
                     </#if>

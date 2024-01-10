@@ -13,8 +13,8 @@
                 <a href="${cur_linkLabel.getChildren()[1].getData()}" class="seu-quicklink" title="${cur_linkLabel.getData()} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">
                     </#if>
                     <span class="seu-picto">
-                                 <img src="${cur_linkLabel.getChildren()[2].getData()}" alt="${cur_linkLabel.getData()}">
-                             </span>
+                                <img src="${cur_linkLabel.getChildren()[2].getData()}" alt="${cur_linkLabel.getData()}">
+                            </span>
                     <div class="seu-title">${cur_linkLabel.getData()}</div>
                 </a>
                 </#list>
@@ -22,10 +22,10 @@
         </div>
         <div class="seu-btn-line">
             <a href="${allServicesLink.getFriendlyUrl()}" class="seu-btn-square seu-bordered seu-white" title="Tous les services">
-                 <span class="seu-flexbox">
-                     <span class="seu-btn-text">${allServicesLinkLabel.getData()}</span>
-                     <span class="seu-btn-arrow"></span>
-                 </span>
+                <span class="seu-flexbox">
+                    <span class="seu-btn-text">${allServicesLinkLabel.getData()}</span>
+                    <span class="seu-btn-arrow"></span>
+                </span>
             </a>
         </div>
     </div>
