@@ -42,7 +42,7 @@
                             <#else>
                                 <div class="seu-grid-item-background"></div>
                             </#if>
-                            <div class="seu-grid-item-title" >${currentPage.getName(locale)}</div>
+                            <div class="seu-grid-item-title" data-dot="4" style="word-wrap: break-word;">${currentPage.getName(locale)}</div>
                         </a>
                         <#if hasVisibleChildren>
                         <ul class="seu-grid-item-sublist unstyled">

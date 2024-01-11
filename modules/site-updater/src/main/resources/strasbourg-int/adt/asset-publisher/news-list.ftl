@@ -69,35 +69,35 @@
                     <ul class="seu-pagination unstyled">
                         <li class="seu-pagin-prev disabled seu-pagin-item">
                             <button class="seu-btn-square seu-bordered seu-core" data-action="prev" title="<@liferay_ui.message key="next" />">
-                             <span class="seu-flexbox">
-                                 <span class="seu-btn-text"><@liferay_ui.message key="previous" /></span>
-                                 <span class="seu-btn-arrow"></span>
-                             </span>
+                            <span class="seu-flexbox">
+                                <span class="seu-btn-text"><@liferay_ui.message key="previous" /></span>
+                                <span class="seu-btn-arrow"></span>
+                            </span>
                             </button>
                         </li>
                         <li class="seu-is-active seu-pagin-item">
                             <button data-page="1" title="<@liferay_ui.message key="eu.go-to-page" /> 1">
-                             <span class="seu-flexbox">
-                                 <span class="seu-btn-text">1</span>
-                             </span>
+                            <span class="seu-flexbox">
+                                <span class="seu-btn-text">1</span>
+                            </span>
                             </button>
                         </li>
                         <li class="seu-pagin-next seu-pagin-item">
                             <button class="seu-btn-square seu-bordered seu-core" title="<@liferay_ui.message key="next" />" data-action="next">
-                             <span class="seu-flexbox">
-                                 <span class="seu-btn-text"><@liferay_ui.message key="next" /></span>
-                                 <span class="seu-btn-arrow"></span>
-                             </span>
+                            <span class="seu-flexbox">
+                                <span class="seu-btn-text"><@liferay_ui.message key="next" /></span>
+                                <span class="seu-btn-arrow"></span>
+                            </span>
                             </button>
                         </li>
                     </ul>
                 </div>
                 <div class="seu-btn-line">
                     <a href="${homeURL}actualite" class="seu-btn-square seu-bordered seu-core" title="<@liferay_ui.message key="eu.all-news" />">
-                     <span class="seu-flexbox">
-                         <span class="seu-btn-text"><@liferay_ui.message key="eu.all-news" /></span>
-                         <span class="seu-btn-arrow"></span>
-                     </span>
+                    <span class="seu-flexbox">
+                        <span class="seu-btn-text"><@liferay_ui.message key="eu.all-news" /></span>
+                        <span class="seu-btn-arrow"></span>
+                    </span>
                     </a>
                 </div>
             </div>

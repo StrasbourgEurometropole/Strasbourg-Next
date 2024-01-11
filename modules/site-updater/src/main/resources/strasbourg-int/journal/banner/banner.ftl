@@ -14,9 +14,9 @@
                 </#if>
 
                 <span class="seu-flexbox">
-             <span class="seu-btn-text">${cur_linkLabel.getData()}</span>
-             <span class="seu-btn-arrow"></span>
-           </span>
+            <span class="seu-btn-text">${cur_linkLabel.getData()}</span>
+            <span class="seu-btn-arrow"></span>
+          </span>
             </a>
             </#list>
             </#if>

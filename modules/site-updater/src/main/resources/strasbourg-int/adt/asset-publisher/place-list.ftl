@@ -20,7 +20,7 @@
                         <ul class="seu-wi-lieux-list unstyled" data-page="1">
                             <#list entries as curEntry>
                                 <#assign place = curEntry.assetRenderer.place />
-                                <li class="seu-wi-lieux-item"><a href="${homeURL}lieu/-/entity/id/${place.placeId}">${place.getAlias(locale)}</a></li>
+                                <li class="seu-wi-lieux-item"><a href="${homeURL}lieu/-/entity/id/${place.placeId}/${place.getNormalizedAlias(locale)}">${place.getAlias(locale)}</a></li>
                             </#list>
                         </ul>
                     </#if>
@@ -30,26 +30,26 @@
                 <ul class="seu-pagination unstyled">
                     <li class="seu-pagin-prev disabled seu-pagin-item">
                         <button class="seu-btn-square seu-bordered seu-white" data-action="prev" title="<@liferay_ui.message key="previous" />">
-                             <span class="seu-flexbox">
-                                 <span class="seu-btn-text"><@liferay_ui.message key="previous" /></span>
-                                 <span class="seu-btn-arrow"></span>
-                             </span>
+                            <span class="seu-flexbox">
+                                <span class="seu-btn-text"><@liferay_ui.message key="previous" /></span>
+                                <span class="seu-btn-arrow"></span>
+                            </span>
                         </button>
                     </li>
                     <li class="seu-is-active seu-pagin-item">
                         <button data-page="1" title="<@liferay_ui.message key="eu.go-to-page" /> 1">
-                             <span class="seu-flexbox">
-                                 <span class="seu-btn-text">1</span>
-                                 <span class="seu-btn-arrow"></span>
-                             </span>
+                            <span class="seu-flexbox">
+                                <span class="seu-btn-text">1</span>
+                                <span class="seu-btn-arrow"></span>
+                            </span>
                         </button>
                     </li>
                     <li class="seu-pagin-next seu-pagin-item">
                         <button class="seu-btn-square seu-bordered seu-white" title="<@liferay_ui.message key="next" />" data-action="next">
-                             <span class="seu-flexbox">
-                                 <span class="seu-btn-text"><@liferay_ui.message key="next" /></span>
-                                 <span class="seu-btn-arrow"></span>
-                             </span>
+                            <span class="seu-flexbox">
+                                <span class="seu-btn-text"><@liferay_ui.message key="next" /></span>
+                                <span class="seu-btn-arrow"></span>
+                            </span>
                         </button>
                     </li>
                 </ul>

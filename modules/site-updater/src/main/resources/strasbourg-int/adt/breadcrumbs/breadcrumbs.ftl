@@ -20,7 +20,11 @@
                             <#if curEntry?is_last>
                                 <div class="page active">${curEntry.getTitle()}</div>
                             <#else>
-                                <a href="${curEntry.getURL()}">${curEntry.getTitle()}</a>
+                                <#if curEntry.getURL()?has_content>
+                                    <a href="${curEntry.getURL()}">${curEntry.getTitle()}</a>
+                                <#else>
+                                    <div class="page active">${curEntry.getTitle()}</div>
+                                </#if>
                             </#if>
                         </li>
                     </#if>
