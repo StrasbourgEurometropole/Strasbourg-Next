@@ -11,7 +11,7 @@
     <div class="st-wrapper">
             <h1 class="st-h1">${layout.getName(locale)}</h1>
             <@liferay.breadcrumbs />
-        <div class="form-styles mt-2">
+        <div class="st-text-styles mt-3">
             <p>${layout.getDescription(locale)}</p>
         </div>
 

@@ -1,12 +1,19 @@
 package eu.strasbourg.utils;
 
+import com.liferay.adaptive.media.image.media.query.MediaQuery;
+import com.liferay.adaptive.media.image.media.query.MediaQueryProvider;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portlet.documentlibrary.lar.FileEntryUtil;
 import eu.strasbourg.utils.api.FileEntryHelperService;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.File;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -16,10 +23,54 @@ import java.util.Map;
  * helper
  */
 @Component(
-	immediate = true,
 	property = {},
 	service = FileEntryHelperService.class)
 public class FileEntryHelperImpl implements FileEntryHelperService {
+
+	@Reference(unbind = "-")
+	protected void setMediaQueryProvider(
+			MediaQueryProvider mediaQueryProvider) {
+
+		_mediaQueryProvider = mediaQueryProvider;
+	}
+
+	@Override
+	public  String getClosestSizeImageURL(long fileEntryId, int size) {
+		FileEntry fileEntry = FileEntryUtil.fetchByPrimaryKey(fileEntryId);
+		try {
+			List<MediaQuery> queries = _mediaQueryProvider.getMediaQueries(fileEntry);
+			MediaQuery closestQuery = null;
+
+			for (MediaQuery query : queries) {
+				if (query.getConditions().size() > 0) {
+					String attribute = query.getConditions().get(0).getAttribute();
+					if (attribute.equals("max-width")) {
+						String stringValue = GetterUtil.getString(query.getConditions().get(0).getValue());
+						// Remove all non-numeric characters
+						int value = Integer.parseInt(stringValue.replaceAll("[^0-9]", ""));
+
+
+						// Check if the value is greater than the provided size
+						if (value >= size) {
+							// If closestQuery is null or the current query is closer than the current closestQuery
+							if (closestQuery == null || value < GetterUtil.getInteger(closestQuery.getConditions().get(0).getValue())) {
+								closestQuery = query;
+							}
+						}
+					}
+				}
+			}
+			if(closestQuery == null) {
+				return "error";
+			}
+
+			return closestQuery.getSrc().split(",")[0];
+		} catch (PortalException e) {
+			// Handle PortalException appropriately
+			e.printStackTrace(); // You might want to log the exception
+			return "error"; // Or throw a custom exception
+		}
+	}
 
 	@Override
 	public String getFileTitle(long fileEntryId, Locale locale) {
@@ -78,5 +129,7 @@ public class FileEntryHelperImpl implements FileEntryHelperService {
 	public String getFileExtension(long fileEntryId) {
 		return FileEntryHelper.getFileExtension(fileEntryId);
 	}
+
+	private static MediaQueryProvider _mediaQueryProvider;
 
 }

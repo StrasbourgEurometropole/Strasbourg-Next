@@ -19,6 +19,8 @@ import java.util.Map;
 @ProviderType
 public interface FileEntryHelperService {
 
+	public  String getClosestSizeImageURL(long fileEntryId, int size);
+
 	public String getFileTitle(long fileEntryId, Locale locale);
 
 	public String getReadableFileEntrySize(long fileEntryId, Locale locale);
