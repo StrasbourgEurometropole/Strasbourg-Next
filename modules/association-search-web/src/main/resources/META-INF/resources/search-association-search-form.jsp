@@ -4,12 +4,12 @@
     <div class="st-barre-listing-sit">
         <div class="st-barre-inner st-wrapper form-styles">
 
-            <div class="st-filtre st-group-field domain">
-                <label for="<portlet:namespace />domain">
+            <div class="st-filtre st-group-field domainBarre">
+                <label for="<portlet:namespace />domainBarre">
                     <liferay-ui:message key="domain"/>
                 </label>
                 <div class="st-field-select">
-                    <select class="domains" id="<portlet:namespace />domain" name="<portlet:namespace />domain">
+                    <select class="domainsBarre" id="<portlet:namespace />domainBarre" data-name="<portlet:namespace />domain">
                         <aui:option value="" label="show-all"/>
                         <c:forEach items="${dc.getSortedCategories(dc.domainVocabulary)}" var="category">
                             <c:set var="category" value="${category}" scope="request"/>
@@ -20,17 +20,16 @@
                     </select>
                 </div>
             </div>
-            <c:set value="${dc.getSortedCategories(dc.domainVocabulary, param.speciality)}" var="subSpecialities"/>
-            <c:set value="${dc.getSortedCategories(dc.domainVocabulary, param.subSpeciality)}"
-                   var="subSubSpecialities"/>
-            <div class="st-filtre st-group-field speciality"
+
+
+            <div class="st-filtre st-group-field specialityBarre"
                  <c:if test="${empty param.domain}">style="display: none;" </c:if>>
-                <label for="<portlet:namespace />speciality">
+                <label for="<portlet:namespace />specialityBarre">
                     <liferay-ui:message key="speciality"/>
                 </label>
                 <div class="st-field-select">
-                    <select class="specialities" id="<portlet:namespace />speciality"
-                            name="<portlet:namespace />speciality">
+                    <select class="specialitiesBarre" id="<portlet:namespace />specialityBarre"
+                            data-name="<portlet:namespace />speciality">
                         <aui:option value="" label="show-all"/>
                         <c:if test="${param.domain != null}">
                             <c:forEach items="${dc.getSortedCategories(dc.domainVocabulary, param.domain)}"
@@ -45,14 +44,14 @@
                 </div>
             </div>
 
-            <div class="st-filtre st-group-field subSpeciality"
+            <div class="st-filtre st-group-field subSpecialityBarre"
                  <c:if test="${empty param.speciality || empty subSpecialities}">style="display: none;" </c:if>>
-                <label for="<portlet:namespace />subSpeciality">
+                <label for="<portlet:namespace />subSpecialityBarre">
                     <liferay-ui:message key="sub-speciality"/>
                 </label>
                 <div class="st-field-select">
-                    <select class="subSpecialities" id="<portlet:namespace />subSpeciality"
-                            name="<portlet:namespace />subSpeciality">
+                    <select class="subSpecialitiesBarre" id="<portlet:namespace />subSpecialityBarre"
+                            data-name="<portlet:namespace />subSpeciality">
                         <aui:option value="" label="show-all"/>
                         <c:if test="${param.speciality != null}">
                             <c:forEach items="${subSpecialities}" var="category">
@@ -66,14 +65,14 @@
                 </div>
             </div>
 
-            <div class="st-filtre st-group-field subSubSpeciality"
+            <div class="st-filtre st-group-field subSubSpecialityBarre"
                  <c:if test="${empty param.subSpeciality || empty subSubSpecialities}">style="display: none;" </c:if>>
-                <label for="<portlet:namespace />subSubSpeciality">
+                <label for="<portlet:namespace />subSubSpecialityBarre">
                     <liferay-ui:message key="sub-sub-speciality"/>
                 </label>
                 <div class="st-field-select">
-                    <select class="subSubSpeciality" id="<portlet:namespace />subSubSpeciality"
-                            name="<portlet:namespace />subSubSpeciality">
+                    <select class="subSubSpeciality" id="<portlet:namespace />subSubSpecialityBarre"
+                            data-name="<portlet:namespace />subSubSpeciality">
                         <aui:option value="" label="show-all"/>
                         <c:if test="${param.subSpeciality != null}">
                             <c:forEach items="${subSubSpecialities}" var="category">
@@ -139,8 +138,92 @@
 
                 <div class="st-grid-fields st-grid-12">
 
+                    <div class="st-group-field domain">
+                        <label for="<portlet:namespace />domain">
+                            <liferay-ui:message key="domain"/>
+                        </label>
+                        <div class="st-field-select">
+                            <select class="domains" id="<portlet:namespace />domain" name="<portlet:namespace />domain">
+                                <aui:option value="" label="show-all"/>
+                                <c:forEach items="${dc.getSortedCategories(dc.domainVocabulary)}" var="category">
+                                    <c:set var="category" value="${category}" scope="request"/>
+                                    <c:set var="level" value="0" scope="request"/>
+                                    <c:set var="curValue" value="${param.domain}" scope="request"/>
+                                    <jsp:include page="/includes/domain-speciality-option.jsp"/>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                    <c:set value="${dc.getSortedCategories(dc.domainVocabulary, param.speciality)}" var="subSpecialities"/>
+                    <c:set value="${dc.getSortedCategories(dc.domainVocabulary, param.subSpeciality)}"
+                           var="subSubSpecialities"/>
+                    <div class="st-group-field speciality"
+                         <c:if test="${empty param.domain}">style="display: none;" </c:if>>
+                        <label for="<portlet:namespace />speciality">
+                            <liferay-ui:message key="speciality"/>
+                        </label>
+                        <div class="st-field-select">
+                            <select class="specialities" id="<portlet:namespace />speciality"
+                                    name="<portlet:namespace />speciality">
+                                <aui:option value="" label="show-all"/>
+                                <c:if test="${param.domain != null}">
+                                    <c:forEach items="${dc.getSortedCategories(dc.domainVocabulary, param.domain)}"
+                                               var="category">
+                                        <c:set var="category" value="${category}" scope="request"/>
+                                        <c:set var="level" value="0" scope="request"/>
+                                        <c:set var="curValue" value="${param.speciality}" scope="request"/>
+                                        <jsp:include page="/includes/domain-speciality-option.jsp"/>
+                                    </c:forEach>
+                                </c:if>
+                            </select>
+                        </div>
+                    </div>
 
-                        <%-- TODO : multi select--%>
+                    <div class="st-group-field subSpeciality"
+                         <c:if test="${empty param.speciality || empty subSpecialities}">style="display: none;" </c:if>>
+                        <label for="<portlet:namespace />subSpeciality">
+                            <liferay-ui:message key="sub-speciality"/>
+                        </label>
+                        <div class="st-field-select">
+                            <select class="subSpecialities" id="<portlet:namespace />subSpeciality"
+                                    name="<portlet:namespace />subSpeciality">
+                                <aui:option value="" label="show-all"/>
+                                <c:if test="${param.speciality != null}">
+                                    <c:forEach items="${subSpecialities}" var="category">
+                                        <c:set var="category" value="${category}" scope="request"/>
+                                        <c:set var="level" value="0" scope="request"/>
+                                        <c:set var="curValue" value="${param.subSpeciality}" scope="request"/>
+                                        <jsp:include page="/includes/domain-speciality-option.jsp"/>
+                                    </c:forEach>
+                                </c:if>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="st-group-field subSubSpeciality"
+                         <c:if test="${empty param.subSpeciality || empty subSubSpecialities}">style="display: none;" </c:if>>
+                        <label for="<portlet:namespace />subSubSpeciality">
+                            <liferay-ui:message key="sub-sub-speciality"/>
+                        </label>
+                        <div class="st-field-select">
+                            <select class="subSubSpeciality" id="<portlet:namespace />subSubSpeciality"
+                                    name="<portlet:namespace />subSubSpeciality">
+                                <aui:option value="" label="show-all"/>
+                                <c:if test="${param.subSpeciality != null}">
+                                    <c:forEach items="${subSubSpecialities}" var="category">
+                                        <c:set var="category" value="${category}" scope="request"/>
+                                        <c:set var="level" value="0" scope="request"/>
+                                        <c:set var="curValue" value="${param.subSubSpeciality}" scope="request"/>
+                                        <jsp:include page="/includes/domain-speciality-option.jsp"/>
+                                    </c:forEach>
+                                </c:if>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                <%-- TODO : multi select--%>
                     <c:forEach items="${dc.vocabularies}" var="vocabulary"
                                varStatus="vocStatus">
                         <div class="st-group-field">
