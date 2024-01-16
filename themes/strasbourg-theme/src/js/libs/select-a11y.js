@@ -1,4 +1,4 @@
-const text = {
+const selectA11yTexts = {
   help: 'Utilisez la tabulation (ou les touches flèches) pour naviguer dans la liste des suggestions',
   placeholder: 'Rechercher dans la liste',
   noResult: 'Aucun résultat',
@@ -7,7 +7,7 @@ const text = {
   delete: 'Supprimer'
 };
 
-const matches = Element.prototype.matches || Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+const matchesA11y = Element.prototype.matches || Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
 let closest = Element.prototype.closest;
 
 if (!closest) {
@@ -15,7 +15,7 @@ if (!closest) {
     var el = this;
 
     do {
-      if (matches.call(el, s)) return el;
+      if (matchesA11y.call(el, s)) return el;
       el = el.parentElement || el.parentNode;
     } while (el !== null && el.nodeType === 1);
     return null;
@@ -33,8 +33,12 @@ class Select{
     this.suggestions = [];
     this.focusIndex = null;
 
+    // ∆∆∆∆ surcharge ∆∆∆∆∆
+    this.hideTag = (el.dataset.hideTag != undefined && el.dataset.hideTag != 'false') ? true : false;
+    // ∆∆∆∆ surcharge ∆∆∆∆∆
+
     const passedOptions = Object.assign({}, options);
-    const textOptions = Object.assign(text, passedOptions.text);
+    const textOptions = Object.assign(selectA11yTexts, passedOptions.text);
     delete passedOptions.text;
 
     this._options = Object.assign({
@@ -72,7 +76,9 @@ class Select{
     this.wrap.addEventListener('keydown', this._handleKeyboard);
     document.addEventListener('blur', this._handleFocus, true);
 
-    this.el.form.addEventListener('reset', this._handleReset);
+    if (this.el.form) {
+      this.el.form.addEventListener('reset', this._handleReset);
+    }
   }
 
   _createButton(){
@@ -84,7 +90,7 @@ class Select{
     const text = document.createElement('span');
 
     if(this.multiple){
-      text.innerText = this.label.innerText;
+      text.innerText = this.label.innerHTML;    // ∆∆∆∆ surcharge ∆∆∆∆
     }
     else {
       const selectedOption = this.el.item(this.el.selectedIndex);
@@ -117,7 +123,7 @@ class Select{
     container.classList.add('a11y-container');
 
     const suggestions = document.createElement('div');
-    suggestions.classList.add('a11y-suggestions');
+    suggestions.classList.add('a11y-suggestions', 'st-custom-scrollbar');
     suggestions.id = `a11y-${this.id}-suggestions`;
 
     container.innerHTML = `
@@ -475,14 +481,19 @@ class Select{
 
     this.selectedList.innerHTML = items.join('');
 
-    if(items.length){
-      if(!this.selectedList.parentElement){
-        this.wrap.appendChild(this.selectedList);
+    // ∆∆∆∆ surcharge ∆∆∆∆∆
+    if(!this.hideTag) {
+      if(items.length){
+        if(!this.selectedList.parentElement){
+          this.wrap.appendChild(this.selectedList);
+        }
+      }
+      else if(this.selectedList.parentElement){
+        this.wrap.removeChild(this.selectedList);
       }
     }
-    else if(this.selectedList.parentElement){
-      this.wrap.removeChild(this.selectedList);
-    }
+    // ∆∆∆∆ surcharge ∆∆∆∆∆
+
   }
 
   _wrap(){

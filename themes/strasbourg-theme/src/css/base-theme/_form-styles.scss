@@ -30,7 +30,8 @@
 		}
 	}
 
-	label {
+	label,
+	.label-fake {
 		display: inline-block;
 		margin-bottom: 5px;
 		@include ft('', 14px, 500, $c_sub, 1.42);
@@ -161,6 +162,7 @@
 			font-size: 16px;
 			border: 1px solid rgba($c_white, 0.5);
 			border-radius: $border-radius;
+			@include transition(border-color);
 
 			[class^="st-icon-"], [class*=" st-icon-"] {
 				color: $c_sub;
@@ -198,6 +200,12 @@
 			@include mobile {
 				margin-right: 16px;
 			}
+			
+			// pour recouvrir l'icône natif qu'on ne peut pas maquer sur FF
+			position: relative;
+			z-index: 1;
+			padding: 4px 0 4px 4px;
+			background-color: $c_main;
 		}
 
 		input {

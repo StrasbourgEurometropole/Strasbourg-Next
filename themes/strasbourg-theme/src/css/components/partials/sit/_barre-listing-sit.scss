@@ -58,16 +58,22 @@
 			display: none;
 		}
 
-		label {
+		label,
+		.label-fake {
 			position: absolute;
 			top: -10px;
 			left: 10px;
+			z-index: 1;
 			margin-bottom: initial;
 			padding: 0 5px;
 			font-weight: 600;
 			@include letter-spacing(25);
 			white-space: nowrap;
 			background-color: $c_greydark;
+		}
+
+		.label-fake {
+			pointer-events: none;
 		}
 
 		input[type="text"],
