@@ -16,7 +16,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     <script src="/o/strasbourg-theme/js/libs/leaflet.js"></script>
 </@>
 
+
 <#assign fileEntryHelper=serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
+${fileEntryHelper.getClosestSizeImageURL(413668460,900)}
 <#assign
 EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.service.EventLocalService") />
 
@@ -600,7 +602,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                 </div>
 
                 <div class="st-col-right">
-                    <a href="${homeURL}rechercher-lieu-public?category=${category.categoryId}"
+                    <a href="${homeURL}rechercher-lieu-public?p_p_id=eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_vocabulariesCount=2&_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords=&_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_vocabulary_0=${category.categoryId}&_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_vocabulary_1="
                        class="st-btn st--btn-secondary">
                         <@liferay_ui.message key="eu.see-all-other-places" />
                     </a>

@@ -16,13 +16,6 @@
 
 
         <div class="col-right">
-            <p class="st-resultats st--resultats-agenda">
-                <span class="st-resultats-range">${(dc.pager.currentPage - 1) * dc.delta + 1} <liferay-ui:message key="eu.to" />
-                ${(dc.pager.currentPage * dc.delta) > dc.searchContainer.total ? dc.searchContainer.total : dc.pager.currentPage * dc.delta}
-                </span>
-                <span class="st-resultats-total">${dc.searchContainer.total} <liferay-ui:message key="results" /></span>
-            </p>
-
             <a href="${urlDeclareLost}" class="st-btn st--btn-small-padding st--btn-secondary-ghost"><liferay-ui:message key="objtp.url.declare-lost" /></a>
             <a href="${urlGuideHowTo}" class="st-btn st--btn-small-padding"><liferay-ui:message key="objtp.url.how-to" /></a>
 

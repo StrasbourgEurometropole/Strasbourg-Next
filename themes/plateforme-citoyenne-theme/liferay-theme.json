@@ -2,6 +2,6 @@
   "LiferayTheme": {
     "appServerPath": "C:/liferay/ems-workspace/strasbouorg-q34/bundles/tomcat",
     "deployPath": "C:/liferay/ems-workspace/strasbouorg-q34/bundles/deploy",
-    "deployed": false
+    "deployed": true
   }
 }

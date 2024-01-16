@@ -82,4 +82,19 @@
         <name>Edition accueil</name>
         <key>edition-home</key>
     </template>
+    <template>
+        <script>webmag-big-slider.ftl</script>
+        <name>Webmag big slider</name>
+        <key>5099082</key>
+    </template>
+    <template>
+        <script>webmag-video.ftl</script>
+        <name>Webmag vidéos</name>
+        <key>5099129</key>
+    </template>
+    <template>
+        <script>listing-diaporama.ftl</script>
+        <name>Listing Diaporama</name>
+        <key>listing-diaporama</key>
+    </template>
 </root>

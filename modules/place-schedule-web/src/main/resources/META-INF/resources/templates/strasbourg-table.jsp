@@ -26,7 +26,6 @@
 	<portlet:param name="categoryId" value="${category.categoryId}" />
 </liferay-portlet:renderURL>
 
-<div class="seu-container">
 
 	<c:choose>
 		<c:when test="${noconfig}">
@@ -35,451 +34,249 @@
 		<c:when test="${empty places}">
 			<liferay-ui:message key="no-places-x" arguments="${category.getTitle(locale)}" />
 		</c:when>
-		<c:otherwise>	
-		
-			<h1><liferay-ui:message key="title-schedule1" /> ${category.getTitle(locale)}</h1>
+		<c:otherwise>
 
-			<!-- Formulaire de recherche -->
-			<aui:form action="${changeDataURL}" method="post" name="fm" id="search-asset-form" cssClass="seu-view-filters">
-				<div class="seu-filter-line">
-				    <div class="widget" style="width: calc( 50% - 15px);">
-				        <div class="title">
-				           <label for="place"><liferay-ui:message key="eu.place" /></label>
-				        </div>
-				        <div class="content">
-				            <select class="toCustomSelect" id="place" name="<portlet:namespace />placeId">
-				            	<aui:option value=""></aui:option>
-				                <c:forEach var="place" items="${places}">
-				                    <c:choose>
-				                        <c:when test="${place.placeId == placeId}">
-				                            <aui:option value="${place.placeId}" selected="true" >
-				                                ${place.getAlias(locale)}
-				                            </aui:option>
-				                        </c:when>
-				                        <c:otherwise>
-				                            <aui:option value="${place.placeId}" >
-				                                ${place.getAlias(locale)}
-				                            </aui:option>
-				                        </c:otherwise>
-				                    </c:choose>
-				                </c:forEach>
-				            </select>
-				        </div>
-				    </div>
-				    
-				    <div class="widget">
-				        <div class="title">
-				            <label for="date-start"><liferay-ui:message key="eu.date" /></label>
-				        </div>
-				        <div class="content">
-				            <input name="date" data-type="date" type="text" id="date" placeholder="JJ/MM/AAAA" 
-				              value="${selectedDay}/${selectedMonth + 1}/${selectedYear}">
-				            <input type="hidden" name="<portlet:namespace />day" data-name="dateDay" value="${selectedDay}" />
-				            <input type="hidden" name="<portlet:namespace />month" data-name="dateMonth" value="${selectedMonth}" />
-				            <input type="hidden" name="<portlet:namespace />year" data-name="dateYear" value="${selectedYear}" />
-				        </div>
-				    </div>
-				</div>
-			    
-			    <div class="seu-btn-line">
-			        <button type="submit" class="seu-btn-square seu-filled seu-core">
-			            <span class="seu-flexbox">
-			                <span class="seu-btn-text"><liferay-ui:message key="search" /></span>
-			                <span class="seu-btn-arrow"></span>
-			            </span>
-			        </button>
-			    </div>
-			</aui:form>			
+			<header class="st-small-header st-header-horaires st-wrapper st-wrapper-small">
+				<h1 class="st-h1">${category.getTitle(locale)}</h1>
+				<liferay-portlet:runtime
+						portletName="com_liferay_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
+						instanceId="breadcrumb-generic" />
+			</header>
 
-			
-			<aui:button-row>
-			        <a href="${previousURL}" class="seu-btn-square seu-filled seu-core pull-left seu-prev">
-			            <span class="seu-flexbox">
-			                <span class="seu-btn-arrow"></span>
-			                <span class="seu-btn-text"><liferay-ui:message key="previous" /></span>
-			            </span>
-			        </a>
-			        <a href="${nextURL}" class="seu-btn-square seu-filled seu-core pull-right">
-			            <span class="seu-flexbox">
-			                <span class="seu-btn-text"><liferay-ui:message key="next" /></span>
-			                <span class="seu-btn-arrow"></span>
-			            </span>
-			        </a>
-			</aui:button-row>
-				
-			<aui:fieldset>
-	       		<c:if test="${!empty selectedPlaces}">
-					<table>
-					    <tr>
-					        <th class="place" >
-					        	<div>
-					        		${category.getTitle(locale)}
-					        	</div>
-					        </th>
-                            <c:if test="${showAffluence}">
-                                <c:choose>
-                                    <c:when test="${piscine or patinoire}">
-                                        <th class="occupation" >
-                                            <div><liferay-ui:message key="live-attendance" /></div>
-                                        </th>
-                                    </c:when>
-                                    <c:when test="${parking}">
-                                        <th class="occupation" >
-                                            <div><liferay-ui:message key="occupation" /></div>
-                                        </th>
-                                    </c:when>
-                                    <c:when test="${mairie}">
-                                        <th class="occupation" >
-                                            <div><liferay-ui:message key="estimated-time" /></div>
-                                        </th>
-                                    </c:when>
-                                </c:choose>
-                            </c:if>
-							<fmt:formatDate value="${now}" type="date" var="shortNow" dateStyle="SHORT"/>
-							<c:forEach var="date" items="${weekDates}" varStatus="loopStatus" >
-								<fmt:formatDate value="${date}" type="date" var="shortDate" dateStyle="SHORT" />
-								<fmt:formatDate value="${date}" type="date" var="dayOfWeek" pattern="EEEE" />
-                                <c:choose>
-                                    <c:when test="${locale eq 'en_EN'}">
-								        <fmt:formatDate value="${date}" type="date" var="dateAndMonth" pattern="d MMMM" />
-                                    </c:when>
-                                    <c:when test="${locale eq 'de_DE'}">
-								        <fmt:formatDate value="${date}" type="date" var="dateAndMonth" pattern="d. MMMM" />
-                                    </c:when>
-                                    <c:otherwise>
-								        <fmt:formatDate value="${date}" type="date" var="dateAndMonth" pattern="d MMMM" />
-                                    </c:otherwise>
-                                </c:choose>
-								<c:set var="isToday" value="${shortNow eq shortDate}" />
+			<%@ include file="/strasbourg-form.jsp"%>
+
+
+			<div class="st-wrapper st-grid st-grid-12 mb-3">
+				<a href="${previousURL}" class="st-btn st--btn-secondary st-col-3">
+					<liferay-ui:message key="previous" />
+				</a>
+				<c:if test="${!empty selectedPlaces}">
+					<span class="st-title-medium st-col-6 text-center my-auto">${jourChoisiFormate} - ${lastDayFormate}</span>
+				</c:if>
+				<a href="${nextURL}" class="st-btn st--btn-secondary st-col-3">
+					<liferay-ui:message key="next" />
+				</a>
+			</div>
+
+			<c:set var="hasException" value="${false}" />
+			<c:forEach var="place" items="${selectedPlaces}" varStatus="placeStatus">
+				<c:set var="occupationState" value="${place.getRealTime()}" />
+				<c:set var="isSwimmingPool" value="${place.isSwimmingPool()}" />
+				<c:set var="isIceRink" value="${place.isIceRink()}" />
+				<c:set var="isMairie" value="${place.isMairie()}" />
+				<c:set var="isParking" value="${place.isParking()}" />
+				<c:set var="isVelhopStation" value="${place.isVelhopStation()}" />
+				<div class="st-bloc st-bloc-sit-onglets st--horaires st-wrapper st-wrapper-small st--has-margin">
+					<div class="st-top-bar">
+						<h2 class="st-h2 st-top-bar__title">${place.getAlias(locale)}</h2>
+						<div class="st-top-bar__content">
+							<c:choose>
+
+							<c:when test="${!place.isOpenNow()}">
+								<p class="st-title-medium st-u-color-pink"> <liferay-ui:message key="eu.currently-closed" /> </p>
+							</c:when>
+								<c:when test="${occupationState.toString() eq 'DISABLED' && place.isOpenNow()}">
+									<p class="st-frequentation"><liferay-ui:message key="eu.currently-open" /></p>
+								</c:when>
+								<c:when test="${occupationState.toString() eq 'NOT_AVAILABLE' && place.isOpenNow()}">
+									<p class="st-frequentation"><liferay-ui:message key="eu.currently-open" /></p>
+									<p class="st-small-text"> <liferay-ui:message key="${occupationState.label}-short" /></p>
+								</c:when>
+							<c:when test="${place.isOpenNow()}">
+							<p class="st-frequentation">
 								<c:choose>
-									<c:when test="${loopStatus.index eq 0}">
-										<th class="first-day">
+								<c:when test="${isSwimmingPool || isIceRink || isMairie}">
+									${occupationState.occupationLabel} personnes
+									(<liferay-ui:message key="${occupationState.label}-short" />)
+								</c:when>
+								<c:when test="${isParking || isVelhopStation}">
+									${occupationState.available} places
+								</c:when>
+								<c:otherwise>
+									<liferay-ui:message key="eu.currently-open" />
+							</c:otherwise>
+							</c:choose>
+
+							</p>
+							<p class="st-surtitre-cat">
+								<c:choose>
+									<c:when test="${isSwimmingPool}">
+										<liferay-ui:message key="eu.place.total-capacity-long" /> ${occupationState.capacity}
+										personnes
 									</c:when>
-									<c:otherwise>
-										<th class="not-first-day">
-									</c:otherwise>
+									<c:when test="${isParking}">
+										<liferay-ui:message key="eu.place.total-capacity-long" /> ${occupationState.capacity} places
+									</c:when>
 								</c:choose>
-									<c:if test="${isToday}">
-										<div class="today-label"><liferay-ui:message key="today" /></div>
-									</c:if>
-					        		<div class="day-of-week">${dayOfWeek}</div>
-					        		<div class="date-and-month">${dateAndMonth}</div>
-					        	</th>
-							</c:forEach>
-					    </tr>
-					    <c:set var="hasException" value="${false}" />
-						<c:forEach var="place" items="${selectedPlaces}" varStatus="placeStatus">
-							<tr class="${placeStatus.index % 2 eq 0 ? 'bg-white' : 'bg-grey'}">
-								<td class="place-name">
-								    ${place.getAlias(locale)}
-								</td>
-                                <c:if test="${showAffluence}">
-                                    <c:if test="${piscine or patinoire}">
-                                            <c:set var="occupationState" value="${place.getRealTime('1')}" />
-                                            <td rowspan="${place.getSubPlaces().size() + 2}" class="occupation-state" >
-                                                <div class="crowded-amount ${occupationState.cssClass}">
-                                                    ${occupationState.occupationLabel}
-                                                </div>
-                                                <div class="crowded-label">
-                                                    <liferay-ui:message key="${occupationState.label}" />
-                                                </div>
-                                                <div class="crowded-label">
-                                                    <liferay-ui:message key="eu.place.total-capacity" /> ${occupationState.capacity}
-                                                </div>
-                                            </td>
-                                    </c:if>
-                                    <c:if test="${parking}">
-                                            <c:set var="occupationState" value="${place.getRealTime('2')}" />
-                                            <td rowspan="${place.getSubPlaces().size() + 2}" class="occupation-state" >
-                                                <div class="crowded-amount ${occupationState.cssClass}">
-                                                    ${occupationState.available}
-                                                </div>
-                                                <div class="crowded-label">
-                                                    <liferay-ui:message key="${occupationState.label}" />
-                                                </div>
-                                            </td>
-                                    </c:if>
-                                    <c:if test="${mairie}">
-                                            <c:set var="occupationState" value="${place.getRealTime('3')}" />
-                                            <td rowspan="${place.getSubPlaces().size() + 2}" class="occupation-state" >
-                                                <div class="crowded-amount ${occupationState.cssClass}" style="font-size: 1.5rem">
-                                                    ${occupationState.occupationLabel}
-                                                </div>
-                                                <div class="crowded-label">
-                                                    <liferay-ui:message key="${occupationState.label}" />
-                                                </div>
-                                            </td>
-                                    </c:if>
-                                </c:if>
+							</p>
+							<p class="st-small-text">
+								<c:choose>
+									<c:when test="${isSwimmingPool}">
+										<liferay-ui:message key="live-occupation-explanation" />
+									</c:when>
+									<c:when test="${isMairie}">
+										<liferay-ui:message key="estimated-time-explanation" />
+									</c:when>
+									<c:when test="${isIceRink}">
+										<liferay-ui:message key="live-ice-rink-occupation-explanation" />
+									</c:when>
+								</c:choose>
+							</p>
+							</c:when>
+							</c:choose>
+						</div>
+					</div>
+
+					<div class="st-container">
+						<div class="st-slider-tablist st-js-slider-tablist splide" role="tablist">
+							<div class="splide__track">
+								<ul class="splide__list">
+
+									<li class="splide__slide">
+										<button class="st-slider-tablist__button" id="tab-button-${place.getSIGid()}-place" type="button" role="tab"
+												aria-selected="true" aria-controls="tabpanel-${place.getSIGid()}-0">
+											<span class="st-title">${place.getAlias(locale)}</span>
+										</button>
+									</li>
+
+									<c:forEach var="subPlace" items="${place.getSubPlaces()}" varStatus="loop">
+										<li class="splide__slide">
+											<button class="st-slider-tablist__button" id="tab-button-${place.getSIGid()}-${loop.index}" type="button"
+													role="tab" aria-selected="true" aria-controls="tabpanel-${place.getSIGid()}-${loop.count}">
+												<span class="st-title">${subPlace.getName(locale)}</span>
+											</button>
+										</li>
+									</c:forEach>
+
+
+								</ul>
+							</div>
+							<div class="splide__arrows st-nav-arrows">
+								<button class="splide__arrow splide__arrow--prev st-btn-arrow st--prev"></button>
+								<button class="splide__arrow splide__arrow--next st-btn-arrow st--next"></button>
+							</div>
+						</div>
+
+						<div class="st-tabpanels">
+
+							<div class="st-tabpanel" id="tabpanel-${place.getSIGid()}-0" role="tabpanel" tabindex="0"
+								 aria-labelledby="tab-button-${place.getSIGid()}-place">
+
 								<c:if test="${place.hasURLSchedule}">
-										<c:set var="occupationState" value="${place.getRealTime('3')}" />
-										<td rowspan="${place.getSubPlaces().size() + 2}" colspan="5" >
-										    <div class="rte">
-                                                <a href="${place.getScheduleLinkURL(locale)}" target="_blank" title="${place.getScheduleLinkName(locale)} (<liferay-ui:message key="eu.new-window" />)">
-                                                    <span class="seu-btn-text">${place.getScheduleLinkName(locale)}</span>
-                                                </a>
-                                            </div>
-								    	</td>
-							    </c:if>
-								<c:if test="${!place.hasURLSchedule}">
-                                    <c:forEach var="horaires" items="${place.getPlaceSchedule(jourChoisi, 5, locale)}" varStatus="status" >
-                                        <c:choose>
-                                            <c:when test="${status.index eq 0}">
-                                                <td class="first-day">
-                                            </c:when>
-                                            <c:otherwise>
-                                                <td class="not-first-day">
-                                            </c:otherwise>
-                                        </c:choose>
-                                            <c:forEach var="placeSchedule" items="${horaires.value}" varStatus="status">
-                                                <c:set var="isException" value="${placeSchedule.isException() || placeSchedule.isPublicHoliday()}" />
-                                                <c:if test="${isException}">
-                                                    <c:set var="hasException" value="${true}" />
-                                                </c:if>
-                                                <c:choose>
-                                                    <c:when test="${placeSchedule.isClosed()}">
-                                                        <div class="opening-time ${isException ? 'exception' : '' }">
-                                                            <liferay-ui:message key="eu.closed" />
-                                                        </div>
-                                                    </c:when>
-                                                    <c:when test="${placeSchedule.isAlwaysOpen()}">
-                                                        <div class="opening-time ${isException ? 'exception' : '' }">
-                                                            <liferay-ui:message key="always-open" />
-                                                        </div>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <c:forEach items="${placeSchedule.openingTimes}" var="openingTime" varStatus="loopStatus">
-                                                            <div class="opening-time ${isException ? 'exception' : '' }">
-                                                            ${openingTime.first} - ${openingTime.second}
-                                                            </div>
-                                                            <c:if test="${not empty placeSchedule.comments[loopStatus.index]}">
-                                                                <div style="font-weight: 400;margin-top:-10px;margin-bottom: 5px;font-size: 0.9em; ${isException ? 'color: #F44336' : '' }">(${placeSchedule.comments[loopStatus.index]})</div>
-                                                            </c:if>
-                                                        </c:forEach>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </c:forEach>
-                                        </td>
-                                    </c:forEach>
-                                </c:if>
-							</tr>  
-							<c:forEach var="subPlace" items="${place.getSubPlaces()}">
-								<tr class="${placeStatus.index % 2 eq 0 ? 'bg-white' : 'bg-grey'}">
-									 <td class="subplace-name">
-									    ${subPlace.getName(locale)}
-									</td> 
-
-                                    <c:if test="${!place.hasURLSchedule}">
-                                        <c:forEach var="horaires" items="${subPlace.getSubPlaceSchedule(jourChoisi, 5, locale)}" varStatus="status" >
-                                            <c:choose>
-                                                <c:when test="${status.index eq 0}">
-                                                    <td class="first-day">
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <td class="not-first-day">
-                                                </c:otherwise>
-                                            </c:choose>
-                                                <c:forEach var="subPlaceSchedule" items="${horaires.value}" varStatus="status">
-                                                    <c:set var="isException" value="${subPlaceSchedule.isException() || subPlaceSchedule.isPublicHoliday()}" />
-                                                    <c:if test="${isException}">
-                                                        <c:set var="hasException" value="${true}" />
-                                                    </c:if>
-                                                    <c:choose>
-                                                        <c:when test="${subPlaceSchedule.isClosed()}">
-                                                            <div class="opening-time ${isException ? 'exception' : '' }">
-                                                                <liferay-ui:message key="eu.closed" />
-                                                            </div>
-                                                        </c:when>
-                                                        <c:when test="${subPlaceSchedule.isAlwaysOpen()}">
-                                                            <div class="opening-time ${isException ? 'exception' : '' }">
-                                                                <liferay-ui:message key="always-open" />
-                                                            </div>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <c:forEach items="${subPlaceSchedule.openingTimes}" var="openingTime" varStatus="loopStatus">
-                                                                <div class="opening-time ${isException ? 'exception' : '' }">
-                                                                    ${openingTime.first} - ${openingTime.second}
-                                                                </div>
-                                                                <c:if test="${not empty subPlaceSchedule.comments[loopStatus.index]}">
-                                                                        <div style="font-weight: 400;margin-top:-10px;margin-bottom: 5px;font-size: 0.9em;${isException ? 'color: #F44336' : '' }">(${subPlaceSchedule.comments[loopStatus.index]})</div>
-                                                                    </c:if>
-                                                            </c:forEach>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </c:forEach>
-                                            </td>
-                                        </c:forEach>
-                                    </c:if>
-								</tr>
-							</c:forEach>
-							<tr class="${placeStatus.index % 2 eq 0 ? 'bg-white' : 'bg-grey'} see-more-row">
-								<td style="padding-top: 0">
-									<a href="${homeURL}lieu/-/entity/sig/${place.getSIGid()}/${place.getNormalizedAlias(locale)}"
-										class="seu-btn-square seu-bordered seu-core" 
-										title="${place.getAlias(locale)}"> 
-											<span class="seu-flexbox"> 
-												<span class="seu-btn-text"><liferay-ui:message key="eu.see-more" /></span>
-												<span class="seu-btn-arrow"></span> 
-											</span>
+									<a href="${place.getScheduleLinkURL(locale)}" target="_blank"
+									   class="st-btn st--btn-secondary st--btn-full-width">
+										<span class="seu-btn-text">${place.getScheduleLinkName(locale)}</span>
 									</a>
-								</td>
-                                <c:if test="${!place.hasURLSchedule}">
-                                    <td class="first-day"></td>
-                                    <td class="not-first-day" colspan="4"></td>
-                                </c:if>
-							</tr>
-						</c:forEach>
-						
-						<tr>
-					        <th class="place" >
-					        	<div>
-					        		${category.getTitle(locale)}
-					        	</div>
-					        </th>
-                            <c:if test="${showAffluence}">
-                                <c:choose>
-                                    <c:when test="${piscine or patinoire}">
-                                        <th class="occupation" >
-                                            <div><liferay-ui:message key="live-attendance" /></div>
-                                        </th>
-                                    </c:when>
-                                    <c:when test="${parking}">
-                                        <th class="occupation" >
-                                            <div><liferay-ui:message key="occupation" /></div>
-                                        </th>
-                                    </c:when>
-                                    <c:when test="${mairie}">
-                                        <th class="occupation" >
-                                            <div><liferay-ui:message key="estimated-time" /></div>
-                                        </th>
-                                    </c:when>
-                                </c:choose>
-                            </c:if>
-							<c:forEach var="date" items="${weekDates}" varStatus="loopStatus" >							
-								<fmt:formatDate value="${date}" type="date" var="shortDate" dateStyle="SHORT" />
-								<fmt:formatDate value="${date}" type="date" var="dayOfWeek" pattern="EEEE" />
-                                <c:choose>
-                                    <c:when test="${locale eq 'en_EN'}">
-								        <fmt:formatDate value="${date}" type="date" var="dateAndMonth" pattern="d MMMM" />
-                                    </c:when>
-                                    <c:when test="${locale eq 'de_DE'}">
-								        <fmt:formatDate value="${date}" type="date" var="dateAndMonth" pattern="d. MMMM" />
-                                    </c:when>
-                                    <c:otherwise>
-								        <fmt:formatDate value="${date}" type="date" var="dateAndMonth" pattern="d MMMM" />
-                                    </c:otherwise>
-                                </c:choose>
-								<c:set var="isToday" value="${shortNow eq shortDate}" />
-								<c:choose>
-									<c:when test="${loopStatus.index eq 0}">
-										<th class="first-day">
-									</c:when>
-									<c:otherwise>
-										<th class="not-first-day">
-									</c:otherwise>
-								</c:choose>
+								</c:if>
+
+								<c:if test="${!place.hasURLSchedule}">
 									<c:if test="${isToday}">
-										<div class=""><liferay-ui:message key="today" /></div>
+										<p class="st-badge-today"><liferay-ui:message key="today" /></p>
 									</c:if>
-					        		<div class="day-of-week">${dayOfWeek}</div>
-					        		<div class="date-and-month">${dateAndMonth}</div>
-					        	</th>
+									<ul class="st-list-rows st-basic-grid st-col-2@t-small">
+									<c:forEach var="horaires" items="${place.getPlaceSchedule(jourChoisi, 5, locale)}"
+											   varStatus="status">
+
+										<%@ include file="/horaire-row.jsp"%>
+
+										</td>
+									</c:forEach>
+									</ul>
+								</c:if>
+							</div>
+
+							<c:forEach var="subPlace" items="${place.getSubPlaces()}" varStatus="loop">
+								<div class="st-tabpanel" id="tabpanel-${place.getSIGid()}-${loop.count}" role="tabpanel" tabindex="0"
+									 aria-labelledby="tab-button-${place.getSIGid()}-${loop.index}">
+
+									<c:if test="${!place.hasURLSchedule}">
+										<c:set var="isToday" value="${DateUtils.isToday(jourChoisi)}" />
+										<c:if test="${isToday}">
+											<p class="st-badge-today"><liferay-ui:message key="today" /></p>
+										</c:if>
+										<ul class="st-list-rows st-basic-grid st-col-2@t-small">
+										<c:forEach var="horaires" items="${subPlace.getSubPlaceSchedule(jourChoisi, 5, locale)}"
+												   varStatus="status">
+
+											<%@ include file="/horaire-row.jsp"%>
+
+											</td>
+										</c:forEach>
+										</ul>
+									</c:if>
+								</div>
 							</c:forEach>
-					    </tr>
-					</table>
-		       	</c:if>
-			</aui:fieldset>
-			
-			<aui:button-row>
-		        <a href="${previousURL}" class="seu-btn-square seu-filled seu-core pull-left seu-prev">
-		            <span class="seu-flexbox">
-		                <span class="seu-btn-arrow"></span>
-		                <span class="seu-btn-text"><liferay-ui:message key="previous" /></span>
-		            </span>
-		        </a>
-		        <a href="${nextURL}" class="seu-btn-square seu-filled seu-core pull-right">
-		            <span class="seu-flexbox">
-		                <span class="seu-btn-text"><liferay-ui:message key="next" /></span>
-		                <span class="seu-btn-arrow"></span>
-		            </span>
-		        </a>
-			</aui:button-row>
-			
-			<!-- Message pour exceptions -->
-			<c:if test="${hasException}">
-				<div style="color: #F44336; font-weight: bold; font-size: 1.6rem;">
-					<liferay-ui:message key="eu.place.look-at-exceptionnal-schedule" />
+
+
+
+						</div>
+
+						<div class="st-bottom-part st-text-styles st-u-text-right">
+							<a href="${homeURL}lieu/-/entity/sig/${place.getSIGid()}/${place.getNormalizedAlias(locale)}" class="st-btn st--btn-secondary-ghost st--btn-full-width-mobile"><liferay-ui:message key="eu.see-more" /></a>
+						</div>
+					</div>
+
 				</div>
-			</c:if>
-       		<c:if test="${!empty exceptions}">
-       			<div class="calendar-schedule-exceptions rte">
-	                <h3 id="exceptions"><liferay-ui:message key="eu.exceptional-closings-openings" /></h3>
-	                <c:set var="nbExceptions" value="0" />
-	                <ul>
-						<c:forEach var="exception" items="${exceptions}">
-	               			<c:set var="nbExceptions" value="${nbExceptions + 1}" />
-							<c:if test="${nbExceptions <= 4}">
-	                			<li>
-							</c:if>
-							<c:if test="${nbExceptions > 4}">
-	                			<li class="more-schedules" style="display: none;">
-							</c:if>
+			</c:forEach>
+
+			<div class="st-wrapper st-grid st-grid-12">
+				<a href="${previousURL}" class="st-btn st--btn-secondary st-col-3">
+					<liferay-ui:message key="previous" />
+				</a>
+				<c:if test="${!empty selectedPlaces}">
+					<span class="st-title-medium st-col-6 text-center my-auto">${jourChoisiFormate} - ${lastDayFormate}</span>
+				</c:if>
+				<a href="${nextURL}" class="st-btn st--btn-secondary st-col-3">
+					<liferay-ui:message key="next" />
+				</a>
+			</div>
+
+			<p class="st-wrapper text-styles">
+				<!-- Message pour exceptions -->
+				<c:if test="${hasException}">
+					<p class="st-title-medium">
+						<liferay-ui:message key="eu.place.look-at-exceptionnal-schedule" />
+					</p>
+				</c:if>
+				<c:if test="${!empty exceptions}">
+					<div class="calendar-schedule-exceptions rte">
+						<h3 id="exceptions"><liferay-ui:message key="eu.exceptional-closings-openings" /></h3>
+						<c:set var="nbExceptions" value="0" />
+						<ul>
+							<c:forEach var="exception" items="${exceptions}">
+								<c:set var="nbExceptions" value="${nbExceptions + 1}" />
+								<c:if test="${nbExceptions <= 4}">
+									<li>
+								</c:if>
+								<c:if test="${nbExceptions > 4}">
+									<li class="more-schedules" style="display: none;">
+								</c:if>
 								<strong>
-			                		${exception.key[0]}
+										${exception.key[0]}
 									<c:if test="${fn:length(exception.key) > 1}">
-			                			- ${exception.key[1]}
+										- ${exception.key[1]}
 									</c:if>
-									 - 
-									${exception.value.period} :
+									-
+										${exception.value.period} :
 								</strong>
 								<c:if test="${exception.value.isClosed()}">
 									<liferay-ui:message key="eu.closed" />
 								</c:if>
 								<c:if test="${!exception.value.isClosed()}">
 									<c:forEach var="openingTime" items="${exception.value.openingTimes}">
-										${openingTime.first} - ${openingTime.second} 
+										${openingTime.first} - ${openingTime.second}
 									</c:forEach>
 								</c:if>
 								- ${exception.value.getDescription()}
-							</li>
-						</c:forEach>
-					</ul>
-					<a href=""
-						class="btn-more-schedules seu-btn-square seu-bordered seu-core" 
-						title="${place.getAlias(locale)}" style="display: ${(nbExceptions <= 4) ? 'none' : 'inline-block'};"> 
-							<span class="seu-flexbox"> 
-								<span class="seu-btn-text"><liferay-ui:message key="eu.see-more" /></span>
-								<span class="seu-btn-arrow" style="transform: rotateZ(90deg);"></span> 
-							</span>
-					</a>
-					<a href=""
-						class="btn-less-schedules seu-btn-square seu-bordered seu-core" 
-						title="${place.getAlias(locale)}" style="display: none;"> 
-							<span class="seu-flexbox"> 
-								<span class="seu-btn-text"><liferay-ui:message key="eu.see-less" /></span>
-								<span class="seu-btn-arrow" style="transform: rotateZ(-90deg);"></span> 
-							</span>
-					</a>
-				</div>
-				<script>
-					/*<![CDATA[*/
-						jQuery(".btn-more-schedules").on("click",function(a){
-							a.preventDefault();
-							jQuery(".more-schedules").show();
-							jQuery(".btn-more-schedules").hide();
-							jQuery(".btn-less-schedules").show()
-						});
-					
-						jQuery(".btn-less-schedules").on("click",function(a){
-							jQuery(document).scrollTop($("#exceptions").offset().top);  
-							jQuery(".more-schedules").hide();
-							jQuery(".btn-more-schedules").show();
-							jQuery(".btn-less-schedules").hide()
-						});
-					/*]]>*/
-				</script>
-       		</c:if>
+								</li>
+							</c:forEach>
+						</ul>
+					</div>
+				</c:if>
+			</div>
+
+			
+
 			
 		</c:otherwise>
-	</c:choose>	
-</div>
+	</c:choose>
