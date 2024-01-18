@@ -33,9 +33,15 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.ClassName;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.ResourceConstants;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.role.RoleConstants;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.service.GroupLocalService;
+import com.liferay.portal.kernel.service.ResourcePermissionLocalServiceUtil;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.template.TemplateConstants;
 import com.liferay.portal.kernel.util.LocaleUtil;
@@ -92,10 +98,13 @@ public class SiteUpdater {
 
     @Reference private Language language;
 
+    private long companyId;
     private long groupId;
     private String groupPath;
     private List<Locale> availableLanguages;
     private long userId;
+
+    private long guestId;
     private ServiceContext sc;
 
     public void updateSite(String groupFriendlyUrl, Class resourceBundleClass) {
@@ -125,6 +134,7 @@ public class SiteUpdater {
             this.log.error("No default company");
             return;
         }
+        this.companyId = company.getCompanyId();
 
         try {
             this.userId = company.getDefaultUser().getUserId();
@@ -132,13 +142,41 @@ public class SiteUpdater {
             this.log.error("No default company default user");
             return;
         }
+
+        try {
+            Role guest = RoleLocalServiceUtil.getRole(companyId, RoleConstants.GUEST);
+            if (guest == null) {
+                this.log.error("No role guest");
+                return;
+            }
+            this.guestId = guest.getRoleId();
+        } catch (PortalException e) {
+            this.log.error("No role guest");
+            return;
+        }
+
         this.sc = new ServiceContext();
+        this.sc.setIndexingEnabled(false);
         this.sc.setScopeGroupId(this.groupId);
         this.sc.setAttribute("status", WorkflowConstants.STATUS_APPROVED);
 
+        long startTime = System.nanoTime();
         this.updateStructures(resourceBundleClass);
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime) / 1_000_000_000;
+        this.log.info("update structures : " + duration + "s");
+
+        startTime = System.nanoTime();
         this.updateADTs(resourceBundleClass);
+        endTime = System.nanoTime();
+        duration = (endTime - startTime) / 1_000_000_000;
+        this.log.info("update ADTs : " + duration + "s");
+
+        startTime = System.nanoTime();
         this.updateVocabularies(resourceBundleClass);
+        endTime = System.nanoTime();
+        duration = (endTime - startTime) / 1_000_000_000;
+        this.log.info("update vocabularies : " + duration + "s");
 
         this.log.info("Done updating group");
     }
@@ -775,6 +813,7 @@ public class SiteUpdater {
                 }
             }
 
+            long startStructuresTime = System.nanoTime();
             // On parcourt structuresToCreate pour créer/updater les structures
             Map<String, String> resourceFTLFiles =
                     getResourceFolderFilesContent(this.groupPath, "journal", "*.ftl", resourceBundleClass);
@@ -800,9 +839,13 @@ public class SiteUpdater {
                     if (ddmStructure == null) {
                         // Create structure
                         this.log.debug("[" + structureKey + "] This a new structure, creating it...");
+                        long startCreateStructuresLayoutTime = System.nanoTime();
                         DDMForm ddmForm = getDDMForm(structureDefinition);
                         ddmStructure = createNewStructure(structureKey, structureNameMap, ddmForm, ddmFormLayout, this.sc);
                         this.log.info("[" + structureKey + "] Structure created");
+                        long endTime = System.nanoTime();
+                        long duration = (endTime - startCreateStructuresLayoutTime) / 1_000_000_000;
+                        this.log.info("create structures and layout : " + duration + "s");
                     } else {
                         // Update structure
                         this.log.debug(
@@ -811,11 +854,16 @@ public class SiteUpdater {
                                         + "] This is an existing structure (id: "
                                         + ddmStructure.getStructureId()
                                         + "), updating it...");
+                        long startUpdateStructuresLayoutTime = System.nanoTime();
                         ddmStructure =
                                 updateExistingStructure(
                                         ddmStructure, structureKey, structureNameMap, structureDefinition, ddmFormLayout, structureLayout, this.sc);
+                        long endTime = System.nanoTime();
+                        long duration = (endTime - startUpdateStructuresLayoutTime) / 1_000_000_000;
+                        this.log.info("update structures and layout : " + duration + "s");
                     }
 
+                    long startTemplatesTime = System.nanoTime();
                     // On parcourt templatesToCreate pour créer/updater les templates du CW
                     for(Template template : templatesToCreate.get(structureKey)) {
                         String templateKey = template.getKey();
@@ -843,14 +891,21 @@ public class SiteUpdater {
                             this.log.error(e);
                         }
                     }
+                    long endTime = System.nanoTime();
+                    long duration = (endTime - startTemplatesTime) / 1_000_000_000;
+                    this.log.info("create/update of structure template : " + duration + "s");
                 } catch (Exception e) {
                     this.log.error("[" + structureKey + "]" +
                             "Impossible to add or update CW, see following exception");
                     this.log.error(e);
                 }
             }
+            long endTime = System.nanoTime();
+            long duration = (endTime - startStructuresTime) / 1_000_000_000;
+            this.log.info("create/update structures with templates  : " + duration + "s");
 
             // On parcourt basicCWTemplatesToCreate pour créer/updater les templates du CW de base
+            long startBasicTemplatesTime = System.nanoTime();
             for(Template template : basicCWTemplatesToCreate) {
                 String templateKey = template.getKey();
                 try {
@@ -877,6 +932,9 @@ public class SiteUpdater {
                     this.log.error(e);
                 }
             }
+            endTime = System.nanoTime();
+            duration = (endTime - startBasicTemplatesTime) / 1_000_000_000;
+            this.log.info("create/update basic structures templates  : " + duration + "s");
 
         } catch (Exception e) {
             this.log.error(
@@ -912,7 +970,7 @@ public class SiteUpdater {
                     "["
                             + templateFilePath
                             + "] This a new template, creating it...");
-            this.ddmTemplateLocalService.addTemplate(
+            DDMTemplate adt = this.ddmTemplateLocalService.addTemplate(
                     this.userId,
                     groupId,
                     classNameId,
@@ -930,6 +988,8 @@ public class SiteUpdater {
                     StringPool.BLANK,
                     null,
                     sc);
+            ResourcePermissionLocalServiceUtil.setResourcePermissions(this.companyId,"com.liferay.dynamic.data.mapping.model.DDMTemplate",
+                    ResourceConstants.SCOPE_INDIVIDUAL,""+adt.getTemplateId(), guestId, new String[]{ActionKeys.VIEW});
             this.log.info("[" + templateFilePath + "] Template created");
         } else {
             // Update template
@@ -988,6 +1048,7 @@ public class SiteUpdater {
                         "[" + existingDdmStructure.getStructureKey() + "] No change for structure layout");
             }
 
+            long startUpdateStructureTime = System.nanoTime();
             boolean hasStructureChanged =
                     !equalsIgnoringWhitespaces(existingDdmStructure.getDefinition(), structureDefinition)
                             || !existingDdmStructure.getNameMap().equals(nameMap);
@@ -1002,8 +1063,11 @@ public class SiteUpdater {
                                 new HashMap<>(),
                                 structureDefinition,
                                 sc);
-
+                long endTime = System.nanoTime();
+                long duration = (endTime - startUpdateStructureTime) / 1_000_000_000;
+                this.log.info("update structure - " + structureKey + " : " + duration + "s");
                 this.log.info("[" + ddmStructure.getStructureKey() + "] Structure updated");
+
                 return ddmStructure;
             } else {
                 this.log.debug("[" + existingDdmStructure.getStructureKey() + "] No change for structure");
