@@ -13,12 +13,7 @@ import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.LocalizationUtil;
-import com.liferay.portal.kernel.util.ObjectValuePair;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.util.*;
 import eu.strasbourg.portlet.place_schedule.configuration.PlaceScheduleConfiguration;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.PlaceSchedule;
@@ -115,8 +110,15 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 
 				}
 			}
+			GregorianCalendar lastDay = new GregorianCalendar();
+			lastDay.setTime(jourChoisi.getTime());
+			lastDay.add(Calendar.DAY_OF_MONTH, 4);
+			boolean isToday = DateHelper.isToday(jourChoisi.getTime());
+			request.setAttribute("isToday", isToday);
 			request.setAttribute("jourChoisi", jourChoisi.getTime());
-			request.setAttribute("jourChoisiFormate", DateHelper.displayShortDate(jourChoisi.getTime(), locale));
+			request.setAttribute("lastDay", lastDay.getTime());
+			request.setAttribute("lastDayFormate", DateHelper.displayLongDate(lastDay.getTime(), locale));
+			request.setAttribute("jourChoisiFormate", DateHelper.displayLongDate(jourChoisi.getTime(), locale));
 			request.setAttribute("selectedDate", jourChoisi.getTime());
 			GregorianCalendar selectedCalendar = new GregorianCalendar();
 			selectedCalendar.setTime(jourChoisi.getTime());

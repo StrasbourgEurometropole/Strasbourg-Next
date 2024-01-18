@@ -48,14 +48,21 @@
         }
 
         // Gestion de l'accessibilité des éléments qui sont masqués ou partiellement masqués dans le container
-        initRGAA() {
-            for (let child of this.container.children) {
-                const isInside = this.isInParent(child, child.parentNode);
+        setChildrenHiddenList(containerRoot) {
+            for (let child of containerRoot.children) {
 
-               // élément en dehors du parent
-                if(!isInside) {
-                    this.childrenHidden.push(child);
-                    this.hideChildrenForSR(child);
+                // Si UL ou OL masquée, on masque en aria-hidden les LI à l'intérieur de la liste
+                if (child.tagName === 'UL' || child.tagName === 'OL') {
+                    this.setChildrenHiddenList(child);
+                // Sinon on masque l'élément enfant du container en aria-hidden
+                } else {
+                    const isInside = this.isInParent(child, this.container);
+
+                   // élément en dehors du parent
+                    if(!isInside) {
+                        this.childrenHidden.push(child);
+                        this.hideChildrenForSR(child);
+                    }
                 }
             }
         }
@@ -77,11 +84,14 @@
 
         // Quand on ouvre le view-more affiche les enfants précédemment masqués
         showChildrenForSR(el) {
-            el.removeAttribute("aria-hidden");
+            el.setAttribute("aria-hidden", 'false');
             el.removeAttribute("tabindex");
-            if (this.firstChildFocus === null && el.matches(ViewMoreLess.focusableElementsArray)) {
+
+            // Focus et tabindex=-1 sur le 1er élément précédemment masqué (interactif ou non)
+            if (this.firstChildFocus === null /*&& el.matches(ViewMoreLess.focusableElementsArray)*/) {
                 this.firstChildFocus = el;
-                this.firstChildFocus.focus();
+                el.setAttribute("tabindex", "-1");
+                el.focus();
             }
 
             const focusableElements = el.querySelectorAll(ViewMoreLess.focusableElementsArray);
@@ -102,7 +112,7 @@
                 this.container.classList.add("st--is-overflowing");
 
                 if (!this.container.classList.contains('st-no-auto-rgaa')) {
-                    this.initRGAA();
+                    this.setChildrenHiddenList(this.container);
                 }
             } else {
                 this.container.classList.remove("st--is-overflowing");

@@ -12,7 +12,7 @@ var thConfig = {
     map: {
         init: {
             maps_class: '.st-maps:not(.no-autoload):not(.initialized)',
-            tileLayerUrl: "https://wxs.ign.fr/{accessToken}/geoportail/wmts?" +
+            /*tileLayerUrl: "https://wxs.ign.fr/{accessToken}/geoportail/wmts?" +
                 "&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0" +
                 "&STYLE=normal" +
                 "&TILEMATRIXSET=PM" +
@@ -20,7 +20,19 @@ var thConfig = {
                 "&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2" +
                 "&TILEMATRIX={z}" +
                 "&TILEROW={y}" +
-                "&TILECOL={x}",
+                "&TILECOL={x}",*/
+
+            tileLayerUrl: "https://adict.strasbourg.eu/mapproxy/service?" +
+                "&service=WMS" +
+                "&request=GetMap" +
+                "&layers=monstrasbourg&" +
+                "&styles=" +
+                "&format=image/jpeg" +
+                "&transparent=false" +
+                "&version=1.1.1" +
+                "&width=256&height=256" +
+                "&srs=EPSG%3A3857" +
+                "&bbox=856094.7167939742,6203017.719398625,860986.6866042254,6207909.689208879",
             accessToken: 'cartes',
             tileLayerOptions: {
                 attribution: '',
