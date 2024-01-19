@@ -34,6 +34,15 @@ services:
       - 9200:9200
       - 9300:9300
 
+  mailcatcher:
+    image: sj26/mailcatcher
+    hostname: ems-homologation-mailhog.tools
+    command: "--smtp-port 25 --ip 0.0.0.0"
+    ports:
+      - 1080:1080
+    networks:
+      - backend-network
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.2.1
     environment:
@@ -46,22 +55,6 @@ services:
       options:
         max-size: "100m"
         max-file: "10"
-
-  kibana:
-    image: docker.elastic.co/kibana/kibana-oss:6.8.23
-    environment:
-      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
-    ports:
-      - 5601:5601
-    depends_on:
-      - elasticsearch
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "100m"
-        max-file: "10"
-    networks:
-      - backend-network
 
   liferay-active:
     image: ${REGISTRY_ADDRESS}liferay-ems:${LFR_TAG_VERSION}
@@ -92,10 +85,10 @@ services:
       - agenda_volume:/data/import/agenda
       - gtfs_volume:/data/import/gtfs
       - liferay_logs:/opt/liferay/logs
-      - tomcat_logs/opt/liferay/tomcat/logs
+      - tomcat_logs:/opt/liferay/tomcat/logs
     ports:
       - 9080:8080
-      - 9009:8009
+      - 8009:8009
     hostname: ${LCS_LIFERAY_ACTIVE_HOSTNAME}
     depends_on:
       - elasticsearch
