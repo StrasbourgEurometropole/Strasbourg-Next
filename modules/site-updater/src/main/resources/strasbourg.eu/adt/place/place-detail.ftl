@@ -18,7 +18,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 
 <#assign fileEntryHelper=serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
-${fileEntryHelper.getClosestSizeImageURL(413668460,900)}
 <#assign
 EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.service.EventLocalService") />
 

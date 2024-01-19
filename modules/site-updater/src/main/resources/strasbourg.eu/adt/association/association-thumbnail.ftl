@@ -33,8 +33,8 @@
 </#list>
 <li>
     <div class="st-card-container">
-        <a href="${detailURLFilter}" title="${entry.getName(locale)}"
-           class="st-card st--card-horizontal st--with-icon">
+        <a href="${detailURL}" title="${entry.getName(locale)}"
+           class="st-card st--card-horizontal st--with-icon hihi-${entry.assetEntry.classPK}">
             <div class="st-caption">
                 <p class="st-title-card">
                     ${entry.getName(locale)}

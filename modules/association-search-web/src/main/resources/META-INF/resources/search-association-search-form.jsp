@@ -120,7 +120,7 @@
                 </button>
                 <button class="st-btn st--btn-filtres st-hide-from@t-portrait" data-overlay-open="st-overlay-filters"
                         aria-haspopup="dialog">
-                    <liferay-ui:message key="filter-places"/>
+                    <liferay-ui:message key="filter"/>
                 </button>
             </div>
 
