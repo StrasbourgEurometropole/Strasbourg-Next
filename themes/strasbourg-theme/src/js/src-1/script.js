@@ -30,8 +30,15 @@ document.addEventListener('scroll', function () {
 
 
 const selectA11ys = document.querySelectorAll('select[data-select-a11y]');
+var selectA11lyClass = new Array();
 selectA11ys.forEach(select => {
-    new Select(select);
+    selectA11lyClass.push(new Select(select, {
+        onChange: function (selectClass, optionIndex) {
+            if(typeof selectA11yOnChange !== 'undefined'){
+                selectA11yOnChange(selectClass, optionIndex);
+            }
+        }
+    }));
 });
 
 
@@ -73,7 +80,7 @@ if (document.querySelector(autocompleteElement)) {
         'Vélo',
     ];
 
-    accessibleAutocomplete({
+    accessibleAutocomplete.enhanceSelectElement({
         element: document.querySelector('#filter-autocomplete-keywords-container'),
         id: 'filter-autocomplete-keywords', // To match it to the existing <label>.
         source: keywordsList,

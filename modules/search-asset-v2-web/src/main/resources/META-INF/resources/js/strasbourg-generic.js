@@ -34,11 +34,17 @@ function synchroniseFilter() {
 			return;
 		}
 		inputElement.addEventListener('change', function () {
-			destinationElement.value = inputElement.value;
+			// if element is not multi select
+			if(!inputElement.multiple) {
+				destinationElement.value = inputElement.value;
+			}
+
 		});
 		// also trigger change event on destination element, but change on inputElement
 		destinationElement.addEventListener('change', function () {
-			inputElement.value = destinationElement.value;
+			if(!destinationElement.multiple) {
+				inputElement.value = destinationElement.value;
+			}
 		});
 	});
 }
@@ -46,3 +52,31 @@ function synchroniseFilter() {
 document.addEventListener("DOMContentLoaded", function() {
 	synchroniseFilter();
 });
+
+
+selectA11yOnChange = function(selectClass, optionIndex) {
+	var select = selectClass
+	var id = select.id
+	// check if the id the Barre at the end of the id
+	if(id.indexOf("Barre") > -1) {
+		// get the id of the filter`
+		var filterId = id.replace("Barre", "");
+		// get the filter
+		selectA11lyClass.forEach(function (selectA11y) {
+			if(selectA11y.id == filterId) {
+				selectA11y._toggleSelection(optionIndex, true, false);
+			}
+		});
+
+	}
+	else {
+		// get the id of the filter
+		var filterId = id + "Barre";
+		// get the filter
+		selectA11lyClass.forEach(function (selectA11y) {
+			if(selectA11y.id == filterId) {
+				selectA11y._toggleSelection(optionIndex, true, false);
+			}
+		});
+	}
+}

@@ -34,56 +34,94 @@ function updateDescription(clickedElement) {
 }
 
 $(document).ready(function(){
-	
-	$('select[name=idSIGPlace]').select2({
-		"language": {
-		       "noResults": function(){
-		           return "Aucun résultat";
-		       },
-		       "inputTooShort": function(){
-		           return 'Veuillez entrer au moins 3 caractères';
-		       },
-		       "searching": function(){
-		           return 'Recherche ...';
-		       }
-		   },
-		minimumInputLength : 3,
-		multiple : false,
-		allowClear:true,
-		placeholder: Liferay.Language.get("eu.event-choose-place"),
-		ajax : {
-			url : "/api/jsonws/place.place/get-places-by-name-and-language/",
-			dataType : 'json',
-			delay : 250,
-			data : function(params) {
-				return {
-					name : params.term,
-					language : 'fr_FR',
-					p_auth : Liferay.authToken
-				};
-			},
-			processResults : function(data, params) {
-				// parse the results into the format expected by Select2
-				// since we are using custom formatting functions we do not need to
-				// alter the remote JSON data, except to indicate that infinite
-				// scrolling can be used
-				params.page = params.page || 1;
-				 const results = [];
-			     data.forEach(function makeResults(element, index) {
-			        results.push({
-			        	text: element.name.fr_FR,
-			        	id: element.idSurfs
-			        });
-			      });
-			     return {
-			         results: results
-			       };
-			},
+	const autocompleteElement = '#filter-autocomplete-keywords-container';
+	const source = [
+		'Piscine de la Kibitzenau',
+		'Piscine de la Robertsau',
+		'Piscine de la Meinau',
+		'Piscine de la Neudorf',
+		'Parking de la Kibitzenau',
+		'Parking de la Robertsau',
+		'Parking de la Meinau',
+		'Parking de la Neudorf'
+	]
+
+	accessibleAutocomplete.enhanceSelectElement({
+		selectElement: document.querySelector('#place-select'),
+		id: 'filter-autocomplete-keywords', // To match it to the existing <label>.
+		source: source,
+		displayMenu: 'overlay',
+		placeholder: 'Saisir un mot clé…',
+		minLength: 3,
+		showAllValues: false,
+		dropdownArrow: () => '<span class="st-icon-arrow-down"></span>',
+		tNoResults: () => 'Aucun résultat trouvé',
+		tStatusNoResults: () => 'Aucun résultat trouvé',
+		tStatusQueryTooShort: (minQueryLength) => `Tapez ${minQueryLength} caractères ou plus pour avoir des résultats`,
+		tStatusSelectedOption: (selectedOption, length, index) => `${selectedOption} ${index + 1} sur ${length} sont affichés`,
+		tStatusResults: (length, contentSelectedOption) => {
+			const words = {
+				result: (length === 1) ? 'résultat' : 'resultats',
+				is: (length === 1) ? 'est' : 'sont'
+			}
+
+			return `<span>{length} {words.result} {words.is} disponible. {contentSelectedOption}</span>`
 		},
-		templateResult : formatPlace,
-		templateSelection : formatPlaceSelection
-	
+		tAssistiveHint: () => 'Lorsque les résultats de la saisie semi-automatique sont disponibles, utilisez les flèches haut et bas pour les consulter et taper sur entrée pour les sélectionner. Sur les appareils tactiles, explorez les au toucher ou avec des gestes de glissement.',
 	});
+
+
+
+	
+	// $('select[name=idSIGPlace]').select2({
+	// 	"language": {
+	// 	       "noResults": function(){
+	// 	           return "Aucun résultat";
+	// 	       },
+	// 	       "inputTooShort": function(){
+	// 	           return 'Veuillez entrer au moins 3 caractères';
+	// 	       },
+	// 	       "searching": function(){
+	// 	           return 'Recherche ...';
+	// 	       }
+	// 	   },
+	// 	minimumInputLength : 3,
+	// 	multiple : false,
+	// 	allowClear:true,
+	// 	placeholder: Liferay.Language.get("eu.event-choose-place"),
+	// 	ajax : {
+	// 		url : "/api/jsonws/place.place/get-places-by-name-and-language/",
+	// 		dataType : 'json',
+	// 		delay : 250,
+	// 		data : function(params) {
+	// 			return {
+	// 				name : params.term,
+	// 				language : 'fr_FR',
+	// 				p_auth : Liferay.authToken
+	// 			};
+	// 		},
+	// 		processResults : function(data, params) {
+	// 			// parse the results into the format expected by Select2
+	// 			// since we are using custom formatting functions we do not need to
+	// 			// alter the remote JSON data, except to indicate that infinite
+	// 			// scrolling can be used
+	// 			params.page = params.page || 1;
+	// 			 const results = [];
+	// 		     data.forEach(function makeResults(element, index) {
+	// 		        results.push({
+	// 		        	text: element.name.fr_FR,
+	// 		        	id: element.idSurfs
+	// 		        });
+	// 		      });
+	// 		     return {
+	// 		         results: results
+	// 		       };
+	// 		},
+	// 	},
+	// 	templateResult : formatPlace,
+	// 	templateSelection : formatPlaceSelection
+	//
+	// });
 	
 	function formatPlace(place) {
 		const markup = `${place.text}`;

@@ -4,16 +4,11 @@
 <c:if test="${dc.displayDatesButtons}">
     <c:set var="dateSelected" value="${dc.dateSelected}" />
     <input type="hidden" name="<portlet:namespace />dateSelected" value="" />
-    <div class="st-filtre st-group-field  st--is-expanded">
-        <label for="filter-lieuBarre"><liferay-ui:message key="keywords" /></label>
-        <input id="filter-lieuBarre" type="text" data-name="<portlet:namespace />keywords"
-               placeholder="<liferay-ui:message key="please-enter-keyword" />" value="${dc.keywords}" />
-    </div>
         <div class="st-filtre st-group-field st--is-date">
             <label for="<portlet:namespace />fromDate"><liferay-ui:message key="eu.event.from-date" /></label>
             <div class="st-field-date">
                 <input name="from" data-type="date" type="date" id="<portlet:namespace />fromDate" placeholder="JJ/MM/AAAA"
-                       value="${dc.fromYear}-${dc.fromMonthValue lt 10 ? '0' :''}${dc.fromMonthValue}-${dc.fromDay}" />
+                       value="${dc.fromYear}-${dc.fromMonthValue lt 10 ? '0' :''}${dc.fromMonthValue}-${dc.fromDay lt 10 ? '0' :''}${dc.fromDay}" />
             </div>
         </div>
 
@@ -21,38 +16,34 @@
             <label for="<portlet:namespace />toDate"><liferay-ui:message key="eu.event.to" /></label>
             <div class="st-field-date">
                 <input name="to" data-type="date" type="date" id="<portlet:namespace />toDate" placeholder="JJ/MM/AAAA"
-                       value="${dc.toYear}-${dc.toMonthValue lt 10 ? '0' :''}${dc.toMonthValue}-${dc.toDay}" />
+                       value="${dc.toYear}-${dc.toMonthValue lt 10 ? '0' :''}${dc.toMonthValue}-${dc.toDay lt 10 ? '0' :''}${dc.toDay}" />
             </div>
         </div>
 </c:if>
 
         <div class="st-filtre st-group-field">
             <label ><liferay-ui:message key="eu.place" /></label>
-            <div class="st-field-select">
-                <select class="" id="">
+                <select class="" id="place-select">
+                    <option value=""><liferay-ui:message key="eu.place" /></option>
                 </select>
-            </div>
         </div>
 
-        <%-- TODO : multi select--%>
         <c:forEach items="${dc.vocabularies}" var="vocabulary"
                    varStatus="vocStatus">
             <c:if test="${dc.getVocabularyDisplayType(vocabulary) eq 'list-showcase'}">
                 <div class="st-filtre st-group-field">
+                     <span class="label-fake"> ${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}</span>
                     <label for="vocabulary_${vocStatus.index}Barre" >
                             ${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}
                     </label>
-                    <div class="st-field-select">
-                        <select class="" id="vocabulary_${vocStatus.index}Barre" data-name="<portlet:namespace />vocabulary_${vocStatus.index}">
-                            <option value="" ><liferay-ui:message key="show-all" /></option>
-                            <c:forEach items="${dc.getSortedCategories(vocabulary)}" var="category">
-                                <c:set var="category" value="${category}" scope="request"/>
-                                <c:set var="dc" value="${dc}" scope="request"/>
-                                <c:set var="level" value="0" scope="request" />
-                                <jsp:include page="/forms/category-option.jsp"/>
-                            </c:forEach>
-                        </select>
-                    </div>
+                    <select class="" id="vocabulary_${vocStatus.index}Barre" data-name="<portlet:namespace />vocabulary_${vocStatus.index}" data-select-a11y="" data-hide-tag="" multiple="">
+                        <c:forEach items="${dc.getSortedCategories(vocabulary)}" var="category">
+                            <c:set var="category" value="${category}" scope="request"/>
+                            <c:set var="dc" value="${dc}" scope="request"/>
+                            <c:set var="level" value="0" scope="request" />
+                            <jsp:include page="/forms/category-option.jsp"/>
+                        </c:forEach>
+                    </select>
                 </div>
             </c:if>
         </c:forEach>
@@ -121,7 +112,7 @@
                         <label for="date-start"><liferay-ui:message key="eu.event.from-date" /></label>
                         <div class="st-field-date">
                             <input name="from" data-type="date" type="date" id="date-start" placeholder="JJ/MM/AAAA"
-                                   value="${dc.fromYear}-${dc.fromMonthValue lt 10 ? '0' :''}${dc.fromMonthValue}-${dc.fromDay}" />
+                                   value="${dc.fromYear}-${dc.fromMonthValue lt 10 ? '0' :''}${dc.fromMonthValue}-${dc.fromDay lt 10 ? '0' :''}${dc.fromDay}" />
                         </div>
                         <input type="hidden" name="<portlet:namespace />fromDay" data-name="fromDay" value="${dc.fromDay}" />
                         <input type="hidden" name="<portlet:namespace />fromMonth" data-name="fromMonth" value="${dc.fromMonthIndex}" />
@@ -133,7 +124,7 @@
                         <label for="date-end"><liferay-ui:message key="eu.event.to" /></label>
                         <div class="st-field-date">
                             <input name="to" data-type="date" type="date" id="date-end" placeholder="JJ/MM/AAAA"
-                                   value="${dc.toYear}-${dc.toMonthValue lt 10 ? '0' :''}${dc.toMonthValue}-${dc.toDay}">
+                                   value="${dc.toYear}-${dc.toMonthValue lt 10 ? '0' :''}${dc.toMonthValue}-${dc.toDay lt 10 ? '0' :''}${dc.toDay}">
                         </div>
                         <input type="hidden" name="<portlet:namespace />toDay" data-name="toDay" value="${dc.toDay}" />
                         <input type="hidden" name="<portlet:namespace />toMonth" data-name="toMonth" value="${dc.toMonthIndex}" />
@@ -146,24 +137,21 @@
 
 
 
-                <%-- TODO : multi select--%>
                 <c:forEach items="${dc.vocabularies}" var="vocabulary"
                            varStatus="vocStatus">
                     <div class="st-group-field">
+                        <span class="label-fake"> ${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}</span>
                         <label for="vocabulary_${vocStatus.index}" >
                                 ${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}
                         </label>
-                        <div class="st-field-select">
-                            <select class="" id="vocabulary_${vocStatus.index}" name="<portlet:namespace />vocabulary_${vocStatus.index}">
-                                <option value="" ><liferay-ui:message key="show-all" /></option>
-                                <c:forEach items="${dc.getSortedCategories(vocabulary)}" var="category">
-                                    <c:set var="category" value="${category}" scope="request"/>
-                                    <c:set var="dc" value="${dc}" scope="request"/>
-                                    <c:set var="level" value="0" scope="request" />
-                                    <jsp:include page="/forms/category-option.jsp"/>
-                                </c:forEach>
-                            </select>
-                        </div>
+                        <select class="" id="vocabulary_${vocStatus.index}" name="<portlet:namespace />vocabulary_${vocStatus.index}" data-select-a11y="" multiple="">
+                            <c:forEach items="${dc.getSortedCategories(vocabulary)}" var="category">
+                                <c:set var="category" value="${category}" scope="request"/>
+                                <c:set var="dc" value="${dc}" scope="request"/>
+                                <c:set var="level" value="0" scope="request" />
+                                <jsp:include page="/forms/category-option.jsp"/>
+                            </c:forEach>
+                        </select>
                     </div>
                 </c:forEach>
 
@@ -173,7 +161,7 @@
         </div>
 
         <div class="st-overlay__footer">
-            <button class="st-btn-reset-filters st-js-btn-reset-filters"><liferay-ui:message key="reset-my-filters" /></button>
+            <button class="st-btn-reset-filters st-js-btn-reset-filters" type="reset"><liferay-ui:message key="reset-my-filters" /></button>
             <button class="st-btn st--btn-secondary-ghost" type="submit"><liferay-ui:message key="apply-filter" /></button>
         </div>
 
@@ -187,6 +175,7 @@
     </aui:script>
 
 	<script src="/o/searchassetv2web/js/bloc-date.js"></script>
+    <script src="/o/searchassetv2web/js/date-strasbourg.js"></script>
 	<script src="/o/searchassetv2web/js/strasbourg-agenda.js"></script>
     <script src="/o/searchassetv2web/js/strasbourg-generic.js"></script>
 </liferay-util:html-bottom>

@@ -19,10 +19,10 @@ jQuery(function() {
     var subSpecialitiesSelectBarre = $('select.subSpecialitiesBarre');
 
     var subSubSpecialityWidget = $('.st-group-field.subSubSpeciality');
-    var subSubSpecialitiesSelect = $('select.subSubSpecialities');
+    var subSubSpecialitiesSelect = $('select.subSubSpeciality');
 
     var subSubSpecialityWidgetBarre = $('.st-group-field.subSubSpecialityBarre');
-    var subSubSpecialitiesSelectBarre = $('select.subSubSpecialitiesBarre');
+    var subSubSpecialitiesSelectBarre = $('select.subSubSpecialityBarre');
 
     // Lors d'une selection de domaine
     domainsSelect.change(onDomainChange);
@@ -184,3 +184,32 @@ jQuery(function() {
         }
     }
 });
+
+
+
+selectA11yOnChange = function(selectClass, optionIndex) {
+    var select = selectClass
+    var id = select.id
+    // check if the id the Barre at the end of the id
+    if(id.indexOf("Barre") > -1) {
+        // get the id of the filter`
+        var filterId = id.replace("Barre", "");
+        // get the filter
+        selectA11lyClass.forEach(function (selectA11y) {
+            if(selectA11y.id == filterId) {
+                selectA11y._toggleSelection(optionIndex, true, false);
+            }
+        });
+
+    }
+    else {
+        // get the id of the filter
+        var filterId = id + "Barre";
+        // get the filter
+        selectA11lyClass.forEach(function (selectA11y) {
+            if(selectA11y.id == filterId) {
+                selectA11y._toggleSelection(optionIndex, true, false);
+            }
+        });
+    }
+}

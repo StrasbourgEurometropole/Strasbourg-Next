@@ -1,4 +1,8 @@
 <!-- Formulaire -->
+<c:set value="${dc.getSortedCategories(dc.domainVocabulary, param.speciality)}" var="subSpecialities"/>
+<c:set value="${dc.getSortedCategories(dc.domainVocabulary, param.subSpeciality)}"
+       var="subSubSpecialities"/>
+
 <aui:form action="${searchActionURL}" method="get" name="fm" id="search-asset-form">
     <liferay-portlet:renderURLParams varImpl="searchActionURL"/>
     <div class="st-barre-listing-sit">
@@ -71,7 +75,7 @@
                     <liferay-ui:message key="sub-sub-speciality"/>
                 </label>
                 <div class="st-field-select">
-                    <select class="subSubSpeciality" id="<portlet:namespace />subSubSpecialityBarre"
+                    <select class="subSubSpecialityBarre" id="<portlet:namespace />subSubSpecialityBarre"
                             data-name="<portlet:namespace />subSubSpeciality">
                         <aui:option value="" label="show-all"/>
                         <c:if test="${param.subSpeciality != null}">
@@ -154,9 +158,7 @@
                             </select>
                         </div>
                     </div>
-                    <c:set value="${dc.getSortedCategories(dc.domainVocabulary, param.speciality)}" var="subSpecialities"/>
-                    <c:set value="${dc.getSortedCategories(dc.domainVocabulary, param.subSpeciality)}"
-                           var="subSubSpecialities"/>
+
                     <div class="st-group-field speciality"
                          <c:if test="${empty param.domain}">style="display: none;" </c:if>>
                         <label for="<portlet:namespace />speciality">
@@ -223,25 +225,22 @@
 
 
 
-                <%-- TODO : multi select--%>
                     <c:forEach items="${dc.vocabularies}" var="vocabulary"
                                varStatus="vocStatus">
                         <div class="st-group-field">
+                            <span class="label-fake">${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}</span>
                             <label for="vocabulary_${vocStatus.index}">
                                     ${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}
                             </label>
-                            <div class="st-field-select">
-                                <select class="" id="vocabulary_${vocStatus.index}"
-                                        name="<portlet:namespace />vocabulary_${vocStatus.index}">
-                                    <aui:option value="" label="show-all"/>
-                                    <c:forEach items="${dc.getSortedCategories(vocabulary)}" var="category">
-                                        <c:set var="category" value="${category}" scope="request"/>
-                                        <c:set var="dc" value="${dc}" scope="request"/>
-                                        <c:set var="level" value="0" scope="request"/>
-                                        <jsp:include page="/includes/category-option.jsp"/>
-                                    </c:forEach>
-                                </select>
-                            </div>
+                            <select class="" id="vocabulary_${vocStatus.index}"
+                                    name="<portlet:namespace />vocabulary_${vocStatus.index}"  data-select-a11y="" multiple="">
+                                <c:forEach items="${dc.getSortedCategories(vocabulary)}" var="category">
+                                    <c:set var="category" value="${category}" scope="request"/>
+                                    <c:set var="dc" value="${dc}" scope="request"/>
+                                    <c:set var="level" value="0" scope="request"/>
+                                    <jsp:include page="/includes/category-option.jsp"/>
+                                </c:forEach>
+                            </select>
                         </div>
                     </c:forEach>
 
@@ -250,7 +249,7 @@
             </div>
 
             <div class="st-overlay__footer">
-                <button class="st-btn-reset-filters st-js-btn-reset-filters"><liferay-ui:message
+                <button class="st-btn-reset-filters st-js-btn-reset-filters" type="reset"><liferay-ui:message
                         key="reset-my-filters"/></button>
                 <button class="st-btn st--btn-secondary-ghost" type="submit"><liferay-ui:message
                         key="apply-filter"/></button>

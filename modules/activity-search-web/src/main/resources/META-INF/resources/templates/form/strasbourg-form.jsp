@@ -231,25 +231,24 @@
             </div>
 
                 <div class="st-group-field">
+                    <span class="label-fake"><liferay-ui:message key="day" /></span>
                     <label for="days"><liferay-ui:message key="day" /></label>
-                    <div class="st-field-select">
-                        <select id="days" name="days">
-                            <aui:option value="" label="every-day" />
-                            <aui:option value="monday" label="monday" selected="${dc.isDaySelected('monday')}" />
-                            <aui:option value="tuesday" label="tuesday" selected="${dc.isDaySelected('tuesday')}" />
-                            <aui:option value="wednesday" label="wednesday" selected="${dc.isDaySelected('wednesday')}" />
-                            <aui:option value="thursday" label="thursday" selected="${dc.isDaySelected('thursday')}" />
-                            <aui:option value="friday" label="friday" selected="${dc.isDaySelected('friday')}" />
-                            <aui:option value="saturday" label="saturday" selected="${dc.isDaySelected('saturday')}" />
-                            <aui:option value="sunday" label="sunday" selected="${dc.isDaySelected('sunday')}" />
-                        </select>
-                    </div>
+                    <select id="days" name="days" data-select-a11y="" multiple="">
+                        <aui:option value="" label="every-day" />
+                        <aui:option value="monday" label="monday" selected="${dc.isDaySelected('monday')}" />
+                        <aui:option value="tuesday" label="tuesday" selected="${dc.isDaySelected('tuesday')}" />
+                        <aui:option value="wednesday" label="wednesday" selected="${dc.isDaySelected('wednesday')}" />
+                        <aui:option value="thursday" label="thursday" selected="${dc.isDaySelected('thursday')}" />
+                        <aui:option value="friday" label="friday" selected="${dc.isDaySelected('friday')}" />
+                        <aui:option value="saturday" label="saturday" selected="${dc.isDaySelected('saturday')}" />
+                        <aui:option value="sunday" label="sunday" selected="${dc.isDaySelected('sunday')}" />
+                    </select>
                 </div>
             </div>
         </div>
 
         <div class="st-overlay__footer">
-            <button class="st-btn-reset-filters st-js-btn-reset-filters"><liferay-ui:message key="reset-my-filters" /></button>
+            <button class="st-btn-reset-filters st-js-btn-reset-filters" type="reset"><liferay-ui:message key="reset-my-filters" /></button>
             <button class="st-btn st--btn-secondary-ghost" type="submit"><liferay-ui:message key="apply-filter" /></button>
         </div>
 

@@ -37,9 +37,17 @@ class Select{
     this.hideTag = (el.dataset.hideTag != undefined && el.dataset.hideTag != 'false') ? true : false;
     // ∆∆∆∆ surcharge ∆∆∆∆∆
 
+
+
     const passedOptions = Object.assign({}, options);
     const textOptions = Object.assign(selectA11yTexts, passedOptions.text);
     delete passedOptions.text;
+
+    // ∆∆∆∆ surcharge sully ∆∆∆∆∆
+    if(passedOptions.onChange) {
+      this._onChange = passedOptions.onChange;
+    }
+    // ∆∆∆∆ surcharge sully ∆∆∆∆∆
 
     this._options = Object.assign({
       text: textOptions,
@@ -428,7 +436,7 @@ class Select{
     }
   }
 
-  _toggleSelection(optionIndex, close = true){
+  _toggleSelection(optionIndex, close = true, triggerChange = true){
     const option = this.el.item(optionIndex);
 
     if(this.multiple){
@@ -437,6 +445,13 @@ class Select{
     else {
       this.el.selectedIndex = optionIndex;
     }
+    this.el.dispatchEvent(new Event('change'));
+
+    // ∆∆∆∆ surcharge sully ∆∆∆∆∆
+    if(this._onChange && triggerChange) {
+        this._onChange.call(this,this, optionIndex);
+    }
+    // ∆∆∆∆ surcharge sully ∆∆∆∆∆
 
     this.suggestions.forEach(function(suggestion){
       const index = parseInt(suggestion.getAttribute('data-index'), 10);

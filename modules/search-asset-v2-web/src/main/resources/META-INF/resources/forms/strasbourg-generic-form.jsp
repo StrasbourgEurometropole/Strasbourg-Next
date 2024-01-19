@@ -6,27 +6,24 @@
 			<input type="text" id="nameBarre" data-name="<portlet:namespace />keywords" placeholder="<liferay-ui:message key="please-enter-keyword" />" value="${dc.keywords}" >
 		</div>
 
-		<%-- TODO : multi select--%>
 		<c:forEach items="${dc.vocabularies}" var="vocabulary"
 				   varStatus="vocStatus">
 			<c:if test="${dc.getVocabularyDisplayType(vocabulary) eq 'list-showcase'}">
 				<div class="st-filtre st-group-field">
+					<span class="label-fake"> ${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}</span>
 					<label for="vocabulary_${vocStatus.index}Barre" >
 							${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}
 					</label>
-					<div class="st-field-select">
-						<select class="" id="vocabulary_${vocStatus.index}Barre" data-name="<portlet:namespace />vocabulary_${vocStatus.index}">
-							<option value="" ><liferay-ui:message key="show-all" /></option>
-							<c:forEach items="${dc.getSortedCategories(vocabulary)}" var="category">
-								<c:set var="category" value="${category}" scope="request"/>
-								<c:set var="dc" value="${dc}" scope="request"/>
-								<c:set var="level" value="0" scope="request" />
-								<jsp:include page="/forms/category-option.jsp"/>
-							</c:forEach>
-						</select>
-					</div>
+					<select class="" id="vocabulary_${vocStatus.index}Barre" data-name="<portlet:namespace />vocabulary_${vocStatus.index}" data-select-a11y="" data-hide-tag="" multiple="">
+						<c:forEach items="${dc.getSortedCategories(vocabulary)}" var="category">
+							<c:set var="category" value="${category}" scope="request"/>
+							<c:set var="dc" value="${dc}" scope="request"/>
+							<c:set var="level" value="0" scope="request" />
+							<jsp:include page="/forms/category-option.jsp"/>
+						</c:forEach>
+					</select>
 				</div>
-		</c:if>
+			</c:if>
 		</c:forEach>
 
 
@@ -111,24 +108,21 @@
 
 
 
-				<%-- TODO : multi select--%>
 				<c:forEach items="${dc.vocabularies}" var="vocabulary"
 						   varStatus="vocStatus">
 					<div class="st-group-field">
+						<span class="label-fake"> ${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}</span>
 						<label for="vocabulary_${vocStatus.index}" >
 								${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}
 						</label>
-						<div class="st-field-select">
-							<select class="" id="vocabulary_${vocStatus.index}" name="<portlet:namespace />vocabulary_${vocStatus.index}">
-								<option value="" ><liferay-ui:message key="show-all" /></option>
-								<c:forEach items="${dc.getSortedCategories(vocabulary)}" var="category">
-									<c:set var="category" value="${category}" scope="request"/>
-									<c:set var="dc" value="${dc}" scope="request"/>
-									<c:set var="level" value="0" scope="request" />
-									<jsp:include page="/forms/category-option.jsp"/>
-								</c:forEach>
-							</select>
-						</div>
+						<select class="" id="vocabulary_${vocStatus.index}" name="<portlet:namespace />vocabulary_${vocStatus.index}" data-select-a11y="" multiple="">
+							<c:forEach items="${dc.getSortedCategories(vocabulary)}" var="category">
+								<c:set var="category" value="${category}" scope="request"/>
+								<c:set var="dc" value="${dc}" scope="request"/>
+								<c:set var="level" value="0" scope="request" />
+								<jsp:include page="/forms/category-option.jsp"/>
+							</c:forEach>
+						</select>
 					</div>
 				</c:forEach>
 
@@ -138,7 +132,7 @@
 		</div>
 
 		<div class="st-overlay__footer">
-			<button class="st-btn-reset-filters st-js-btn-reset-filters"><liferay-ui:message key="reset-my-filters" /></button>
+			<button class="st-btn-reset-filters st-js-btn-reset-filters" type="reset"><liferay-ui:message key="reset-my-filters" /></button>
 			<button class="st-btn st--btn-secondary-ghost" type="submit"><liferay-ui:message key="apply-filter" /></button>
 		</div>
 

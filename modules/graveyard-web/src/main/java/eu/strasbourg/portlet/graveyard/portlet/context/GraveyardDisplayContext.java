@@ -240,29 +240,6 @@ public class GraveyardDisplayContext {
 		if (this.defunts == null) {
 			// Récupération des défunts
 			this.defunts = graveyard.getDefunts();
-			if(this.defunts == null) {
-				this.defunts = new ArrayList<DefuntDTO>();
-				// create fake defunt with fake info
-				DefuntDTO defunt = new DefuntDTO();
-				defunt.name = "DUPONT";
-				defunt.birthName = "DUPONT";
-				defunt.firstName = "Jean";
-				defunt.birthDate = "01/01/1900";
-				defunt.deathDate = "01/01/1998";
-				defunt.deathPlace = "Strasbourg";
-				defunt.graveyard = "Cimetière Nord";
-				defunt.graveSector = "1";
-				defunt.graveRow = "1";
-				defunt.graveNumber = "1";
-				defunt.nameImage = "DUPONT_Jean";
-				defunt.graveyardMapping = GraveyardMapping.get(1);
-
-				this.defunts.add(defunt);
-				this.defunts.add(defunt);
-				this.defunts.add(defunt);
-
-
-			}
 
 			// On parcours les résultats pour supprimer les décès d'avant 1998
 			List<DefuntDTO> defuntsList = new ArrayList<DefuntDTO>();

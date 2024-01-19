@@ -83,9 +83,9 @@
         <key>edition-home</key>
     </template>
     <template>
-        <script>webmag-big-slider.ftl</script>
-        <name>Webmag big slider</name>
-        <key>5099082</key>
+        <script>webmag-news-slider.ftl</script>
+        <name>Webmag slider actualite</name>
+        <key>webmag-news-slider</key>
     </template>
     <template>
         <script>webmag-video.ftl</script>
@@ -96,5 +96,10 @@
         <script>listing-diaporama.ftl</script>
         <name>Listing Diaporama</name>
         <key>listing-diaporama</key>
+    </template>
+    <template>
+        <script>webmag-portrait.ftl</script>
+        <name>Webmag Rencontre</name>
+        <key>5099125</key>
     </template>
 </root>
