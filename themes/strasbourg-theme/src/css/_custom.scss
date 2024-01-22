@@ -187,6 +187,10 @@
   margin-top:20px;
   margin-bottom: 20px;
   .seu-container {
+    @include tablet-portrait {
+      flex-direction: column;
+      padding: 20px;
+    }
     display: flex;
     align-items: center;
     padding: 40px 40px 40px 60px;
@@ -206,11 +210,23 @@
       font-size: 2.5rem;
       color: #2ad783;
       padding-right: 50px;
+      @include tablet-portrait {
+        margin-bottom: 20px;
+        margin-top: -40px;
+        padding-right: 0;
+      }
     }
     .seu-section-title {
       display: flex;
       flex-direction: column;
       margin: 0;
+      font-family: "TTForsTrial",Sans-Serif;
+      font-size: 1.125rem;
+      font-weight: 300;
+      color: #fff;
+      line-height: 24px;
+      font-style: italic;
+      letter-spacing: .025em;
       .seu-title {
         font-family: "TTForsTrial",Sans-Serif;
         font-size: 1.125rem;

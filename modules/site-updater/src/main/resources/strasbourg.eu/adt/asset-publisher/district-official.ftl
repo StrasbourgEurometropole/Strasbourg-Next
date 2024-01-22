@@ -1,4 +1,5 @@
 <!-- Adjoint de quartier -->
+<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
 <#setting locale = locale />
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
@@ -6,42 +7,39 @@
     <#assign homeURL = "/" />
 </#if>
 
-<div class="seu-wi seu-wi-trombinoscope">
-    <#if entries?has_content>
-        <#assign official = entries[0].assetRenderer.official />
-        <div class="seu-container">
-            <h2 class="seu-section-title">
-                <span class="seu-title">
-                    <#if official.gender == 1>
-                        <@liferay_ui.message key="male-official-of-the-district" />
-                    <#else>
-                        <@liferay_ui.message key="female-official-of-the-district" />
-                    </#if>
-                </span>
+<div class="st-wrapper st-bloc st-bloc-elu st--with-image st--has-margin st-container">
+    <div class="st-container">
+        <#if entries?has_content>
+            <#assign official = entries[0].assetRenderer.official />
+            <h2 class="st-h2 st-title">
+                <#if official.gender == 1>
+                    <@liferay_ui.message key="male-official-of-the-district" />
+                <#else>
+                    <@liferay_ui.message key="female-official-of-the-district" />
+                </#if>
             </h2>
-            <#if official.imageURL?has_content>
-                <div class="seu-picture" style="background-image: url(${official.imageURL}); width: 247px; height: 325px; margin: auto auto 25px auto;"></div>
-            </#if>
-            <div class="seu-wi-content">
-                <div class="seu-wi-text">
-                <div class="seu-wi-title">${official.firstName} ${official.lastName}</div>
-                <p>
-                    <#if official.gender == 1>
-                        <@liferay_ui.message key="male-strasbourg-mayer-deputy" />
-                    <#else>
-                        <@liferay_ui.message key="female-strasbourg-mayer-deputy" />
-                    </#if>
-                </p>
+
+            <div class="st-bloc-elu__inner">
+                <div class="st-image">
+                    <@addImage fileEntryId=official.imageId  showCopyright=false  />
                 </div>
+
+                <div class="st-caption">
+                    <p class="st-name">${official.firstName} ${official.lastName}</p>
+                    <p class="st-surtitre-cat">
+                        <#if official.gender == 1>
+                            <@liferay_ui.message key="male-strasbourg-mayer-deputy" />
+                        <#else>
+                            <@liferay_ui.message key="female-strasbourg-mayer-deputy" />
+                        </#if>
+                    </p>
+                </div>
+
+                <a href="${homeURL}elu/-/entity/id/${official.officialId}" class="st-btn st--btn-secondary st--btn-secondary-ghost st--btn-small-padding st--btn-full-width-mobile"><@liferay_ui.message key="learn-more" /></a>
             </div>
-            <div class="seu-btn-line">
-                <a href="${homeURL}elu/-/entity/id/${official.officialId}" class="seu-btn-square seu-bordered seu-core" title="<@liferay_ui.message key="learn-more" />">
-                    <span class="seu-flexbox">
-                        <span class="seu-btn-text"><@liferay_ui.message key="learn-more" /></span>
-                        <span class="seu-btn-arrow"></span>
-                    </span>
-                </a>
-            </div>
-        </div>
-    </#if>
+        </#if>
+
+    </div>
+
+
 </div>

@@ -7,7 +7,7 @@
         <div class="st-filtre st-group-field st--is-date">
             <label for="<portlet:namespace />fromDate"><liferay-ui:message key="eu.event.from-date" /></label>
             <div class="st-field-date">
-                <input name="from" data-type="date" type="date" id="<portlet:namespace />fromDate" placeholder="JJ/MM/AAAA"
+                <input data-name="from" data-type="date" type="date" id="<portlet:namespace />fromDate" placeholder="JJ/MM/AAAA"
                        value="${dc.fromYear}-${dc.fromMonthValue lt 10 ? '0' :''}${dc.fromMonthValue}-${dc.fromDay lt 10 ? '0' :''}${dc.fromDay}" />
             </div>
         </div>
@@ -15,7 +15,7 @@
         <div class="st-filtre st-group-field st--is-date">
             <label for="<portlet:namespace />toDate"><liferay-ui:message key="eu.event.to" /></label>
             <div class="st-field-date">
-                <input name="to" data-type="date" type="date" id="<portlet:namespace />toDate" placeholder="JJ/MM/AAAA"
+                <input data-name="to" data-type="date" type="date" id="<portlet:namespace />toDate" placeholder="JJ/MM/AAAA"
                        value="${dc.toYear}-${dc.toMonthValue lt 10 ? '0' :''}${dc.toMonthValue}-${dc.toDay lt 10 ? '0' :''}${dc.toDay}" />
             </div>
         </div>
