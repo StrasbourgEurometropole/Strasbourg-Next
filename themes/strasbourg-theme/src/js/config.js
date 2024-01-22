@@ -22,22 +22,11 @@ var thConfig = {
                 "&TILEROW={y}" +
                 "&TILECOL={x}",*/
 
-            tileLayerUrl: "https://adict.strasbourg.eu/mapproxy/service?" +
-                "&service=WMS" +
-                "&request=GetMap" +
-                "&layers=monstrasbourg&" +
-                "&styles=" +
-                "&format=image/jpeg" +
-                "&transparent=false" +
-                "&version=1.1.1" +
-                "&width=256&height=256" +
-                "&srs=EPSG%3A3857" +
-                "&bbox=856094.7167939742,6203017.719398625,860986.6866042254,6207909.689208879",
+            tileLayerUrl: "https://adict.strasbourg.eu/mapproxy/service?",
             accessToken: 'cartes',
             tileLayerOptions: {
-                attribution: '',
-                maxZoom: 16,
-                accessToken: 'cartes'
+                wms: true,
+                layers: 'monstrasbourg'
             },
         },
         kmlBgColor: '00FFFFFF',

@@ -292,7 +292,13 @@ var th_maps = {
         if (el.getAttribute('data-theme') && typeof mapboxgl != 'undefined' && mapboxgl.supported()) {
             var gl = L.mapboxGL(th_maps.themes[el.getAttribute('data-theme')]).addTo(map);
         } else {
-            L.tileLayer(th_maps.tileLayerUrl, th_maps.tileLayerOptions).addTo(map);
+            if(th_maps.tileLayerOptions.wms) {
+                L.tileLayer.wms(th_maps.tileLayerUrl, th_maps.tileLayerOptions).addTo(map);
+            }
+            else {
+                L.tileLayer(th_maps.tileLayerUrl, th_maps.tileLayerOptions).addTo(map);
+            }
+
         }
 
         var marker = false;
