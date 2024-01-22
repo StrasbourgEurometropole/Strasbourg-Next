@@ -111,6 +111,16 @@ public class ContactFormContactAction implements MVCActionCommand {
             SessionErrors.add(request, "lastname-error");
             hasError = true;
         }
+        if (Validator.isNull(phone)) {
+            // Téléphone obligatoires
+            SessionErrors.add(request, "phone-error");
+            hasError = true;
+        }
+        if (Validator.isNull(object)) {
+            // Objet obligatoires
+            SessionErrors.add(request, "object-error");
+            hasError = true;
+        }
         if (Validator.isNull(content)) {
             // Message obligatoires
             SessionErrors.add(request, "content-error");
@@ -118,7 +128,12 @@ public class ContactFormContactAction implements MVCActionCommand {
         }
         if (!Validator.isEmailAddress(emailFrom)) {
             // Validité de l'adresse mail
-            SessionErrors.add(request, "invalid-mail");
+            SessionErrors.add(request, "invalid-mail-error");
+            hasError = true;
+        }
+        if (!Validator.isPhoneNumber(phone)) {
+            // Validité du téléphone
+            SessionErrors.add(request, "invalid-phone-error");
             hasError = true;
         }
         if (hasError) {
