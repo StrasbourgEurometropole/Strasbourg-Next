@@ -1172,13 +1172,8 @@ public class SiteUpdater {
      */
     private Map<Locale, String> getLocalizedMap(String text) {
         Map<Locale, String> localeMap = new HashMap<>();
-        Locale locale = LocaleUtil.getSiteDefault();
-        ResourceBundle resourceBundle =
-                ResourceBundleUtil.getModuleAndPortalResourceBundle(locale, getClass());
-
-        localeMap.put(locale, this.language.get(resourceBundle, text));
         for (Locale availableLanguage : this.availableLanguages) {
-            resourceBundle =
+            ResourceBundle resourceBundle =
                     ResourceBundleUtil.getModuleAndPortalResourceBundle(availableLanguage, getClass());
 
             localeMap.put(availableLanguage, this.language.get(resourceBundle, text));
