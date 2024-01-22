@@ -102,7 +102,6 @@
 
   <#assign isHome = layout.getFriendlyURL() == "/accueil" />
 	<main id="content" class="pro-overflow-visible <#if isHome> home-menu </#if>">
-		<h1 class="hide-accessible">${the_title}</h1>
 
 		<#if selectable>
 			<@liferay_util["include"] page=content_include />
