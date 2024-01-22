@@ -102,4 +102,14 @@
         <name>Webmag Rencontre</name>
         <key>5099125</key>
     </template>
+    <template>
+        <script>webmag-portrait.ftl</script>
+        <name>Webmag Rencontre</name>
+        <key>5099125</key>
+    </template>
+    <template>
+        <script>web-content-list.ftl</script>
+        <name>Liste de contenus web</name>
+        <key>1617792</key>
+    </template>
 </root>
