@@ -13,7 +13,7 @@
                     <a href="${link.getURL(locale)}" 
                     target="_blank" 
                     class="seu-btn-square seu-bordered seu-core"  
-                    title="${link.getHoverText(locale)?has_content?then(link.getHoverText(locale),link.getTitle(locale))} (<@liferay_ui.message key="eu.new-window" />)" >
+                    ${link.getHoverText(locale)?has_content?then(title="link.getHoverText(locale) ", "")} >
                         <span class="seu-flexbox">
                             <span class="seu-btn-text">${link.getTitle(locale)}</span>
                             <span class="seu-btn-arrow"></span>

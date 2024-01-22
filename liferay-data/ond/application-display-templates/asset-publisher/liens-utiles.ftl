@@ -9,7 +9,7 @@
                 <div class="doc">
                     <div class="desc">
                         <div class="name">
-                            <a target="_blank" href="${link.getURL(locale)}" title="${link.getHoverText(locale)?has_content?then(link.getHoverText(locale),link.getTitle(locale))} (<@liferay_ui.message key='new-window' />)">
+                            <a target="_blank" href="${link.getURL(locale)}" ${link.getHoverText(locale)?has_content?then(title="link.getHoverText(locale) ","")}>
                                 <#if link.getHoverText(locale)?has_content>${link.getHoverText(locale)}<#else>${link.getTitle(locale)}</#if>
                             </a>
                         </div>
