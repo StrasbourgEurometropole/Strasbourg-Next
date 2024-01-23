@@ -57,7 +57,7 @@
 	                    </div>
 	                    <div class="content">
 	                        <span class="publication">
-                             Publié le ${curEntry.getAssetRenderer().getDisplayDate()?date}
+                             Publié le ${entry.publishDate?date}
 	                        </span>
 	                        <h3>${title}</h3>
 	                        <p>${chapo?replace("<[^>]*>", "", "r")[0..*100]}...</p>
