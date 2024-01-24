@@ -231,13 +231,7 @@
 				</a>
 			</div>
 
-			<p class="st-wrapper text-styles">
-				<!-- Message pour exceptions -->
-				<c:if test="${hasException}">
-					<p class="st-title-medium">
-						<liferay-ui:message key="eu.place.look-at-exceptionnal-schedule" />
-					</p>
-				</c:if>
+			<div class="st-wrapper text-styles mt-4">
 				<c:if test="${!empty exceptions}">
 					<div class="calendar-schedule-exceptions rte">
 						<h3 id="exceptions"><liferay-ui:message key="eu.exceptional-closings-openings" /></h3>

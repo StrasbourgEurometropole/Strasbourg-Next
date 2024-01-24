@@ -21,6 +21,7 @@
                 <div class="st-caption">
                     <p class="st-name">${official.firstName} ${official.lastName}</p>
                     <p class="st-surtitre-cat"> ${official.getName(official.fonctionTown, locale)} <@liferay_ui.message key="eu.official.of" /> ${official.getTown().getTitle(locale)}</p>
+                    <p class="st-surtitre-cat"> ${official.getResumeFonction(locale)}</p>
                 </div>
 
                 <a href="${homeURL}elu/-/entity/id/${official.officialId}" class="st-btn st--btn-secondary st--btn-secondary-ghost st--btn-small-padding st--btn-full-width-mobile"><@liferay_ui.message key="learn-more" /></a>

@@ -41,6 +41,7 @@
                     }
                     .filtres__list {
                     display: flex;
+                        flex-wrap: wrap;
                         .grid-item {
                             margin: 0;
                         }
