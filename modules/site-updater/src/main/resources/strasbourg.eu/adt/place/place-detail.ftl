@@ -16,7 +16,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     <script src="/o/strasbourg-theme/js/libs/leaflet.js"></script>
 </@>
 
-
 <#assign fileEntryHelper=serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 <#assign
 EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.service.EventLocalService") />
@@ -252,7 +251,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 
                     <div class="st-tabpanel" id="tabpanel-1" role="tabpanel" tabindex="0" aria-labelledby="tab-button-1">
                         <#if entry.publishedSubPlaces?has_content>
-                            <h3 class="st-title-medium">${entry.getAlias(locale)}</h3>
+                            <h3 class="st-subplaces">${entry.getAlias(locale)}</h3>
                         </#if>
 
 
@@ -318,7 +317,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                         </ul>
                         <!-- Jours suivants pour les sous-lieux -->
                         <#list entry.publishedSubPlaces as subPlace>
-                            <h3 class="st-title-medium mt-4">${subPlace.getName(locale)}</h3>
+                            <h3 class="st-subplaces mt-4">${subPlace.getName(locale)}</h3>
                             <ul class="st-list-rows st-basic-grid st-col-2@t-small">
                                 <#assign
                                 daySchedulesMap=subPlace.getFollowingWeekSchedules(.now,
