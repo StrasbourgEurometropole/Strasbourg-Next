@@ -1,6 +1,6 @@
 <div class="st-select-visitor">
     <label for="select-public">
-        Je suis
+        <@liferay_ui.message key='my-profil' />
         <span class="st-sr-only">Sélectionner une option entraînera une redirection</span>
     </label>
     <select class="st-js-select-autoresize" id="select-public" style="width: 80px;">

@@ -1,8 +1,6 @@
 <div class="st-barre-dropdown">
     <button type="button" class="st-js-btn-disclosure" aria-expanded="false" aria-controls="menu-public">
-        <@liferay_ui.message key='i-am' /> <strong>
-            <@liferay_ui.message key='habitant' />
-        </strong>
+        <@liferay_ui.message key='my-profil' />
     </button>
 
     <ul id="menu-public" class="st-barre-dropdown__list">
@@ -12,7 +10,7 @@
                     <a href="<#if (cur_FieldsetIam.linkJesuis.getData())??>
           ${cur_FieldsetIam.linkJesuis.getData()}
         </#if>">
-                        <@liferay_ui.message key='i-am' /> <strong>
+                        <strong>
                             <#if (cur_FieldsetIam.nameJesuis.getData())??>
                                 ${cur_FieldsetIam.nameJesuis.getData()}
                             </#if>
