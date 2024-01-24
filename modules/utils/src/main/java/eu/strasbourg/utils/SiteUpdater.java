@@ -127,6 +127,8 @@ public class SiteUpdater {
             Locale locale = LocaleUtil.fromLanguageId(availableLanguageId);
             this.availableLanguages.add(locale);
         }
+        if(!this.availableLanguages.contains(LocaleUtil.getSiteDefault()))
+            this.availableLanguages.add(LocaleUtil.getSiteDefault());
         this.log.debug("Found group " + group.getName(Locale.FRANCE));
 
         Company company = this.companyLocalService.fetchCompany(PortalUtil.getDefaultCompanyId());
