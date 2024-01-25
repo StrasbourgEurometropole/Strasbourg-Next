@@ -50,6 +50,7 @@
                         </select>
                     </div>
                 </div>
+                <div class="st-btn" style="visibility: hidden"></div>
             </div>
         </div>
 

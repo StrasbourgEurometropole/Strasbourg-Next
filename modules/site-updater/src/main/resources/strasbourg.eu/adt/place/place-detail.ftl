@@ -849,7 +849,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                 </#if>
                 <#if entry.accessForDeaf>
                     <li>
-                        <span class="st-icon-handicap-vision" aria-hidden="true"></span>
+                        <span class="st-icon-handi-auditif" aria-hidden="true"></span>
                         <@liferay_ui.message key='eu.access-for-deaf' />
                     </li>
                 </#if>
@@ -862,14 +862,14 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 
                 <#if entry.accessForDeficient>
                     <li>
-                        <span class="st-icon-handicap-vision" aria-hidden="true"></span>
+                        <span class="st-icon-handi-mental" aria-hidden="true"></span>
                         <@liferay_ui.message key='eu.access-for-deficient' />
                     </li>
                 </#if>
 
                 <#if entry.accessForElder>
                     <li>
-                        <span class="st-icon-handicap-vision" aria-hidden="true"></span>
+                        <span class="st-icon-personnes-agees" aria-hidden="true"></span>
                         <@liferay_ui.message key='eu.access-for-elder' />
                     </li>
                 </#if>
