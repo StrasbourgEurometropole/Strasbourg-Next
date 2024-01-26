@@ -64,6 +64,7 @@ public class FelecWebServiceClient {
 			conn.setReadTimeout(StrasbourgPropsUtil.getWebServiceDefaultTimeout());
 			conn.setDoOutput(true);
 			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Accept", "application/json");
 			conn.setRequestProperty("Content-Type", type);
 			conn.setRequestProperty("Content-Length",
 				String.valueOf(postDataBytes.length));
