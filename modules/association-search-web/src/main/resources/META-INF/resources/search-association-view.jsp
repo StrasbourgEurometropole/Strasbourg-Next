@@ -27,51 +27,60 @@
 			<!-- RÃ©sultats -->
 			<liferay-ui:search-container id="entriesSearchContainer"
 						searchContainer="${dc.searchContainer}">
-				<div class="st-listing-cards st-wrapper st-wrapper-small">
-					<!-- Nombre de rÃ©sultats et items par page -->
-					<div class="st-listing-results st-hide-until@t-portrait">
-    <span class="st-results" role="status">
-         ${dc.searchContainer.total} <liferay-ui:message key="results" />
-    </span>
+				<c:if test="${dc.searchContainer.total > 0}">
+					<div class="st-listing-cards st-wrapper st-wrapper-small">
+						<!-- Nombre de rÃ©sultats et items par page -->
+						<div class="st-listing-results st-hide-until@t-portrait">
+							<span class="st-results" role="status">
+								 ${dc.searchContainer.total}
+								<c:choose>
+									<c:when test="${dc.searchContainer.total gt 1}">
+										<liferay-ui:message key="results" />
+									</c:when>
+									<c:otherwise>
+										<liferay-ui:message key="result" />
+									</c:otherwise>
+								</c:choose>
+							</span>
 
-						<div class="st-results-filter">
-							<label for="results-per-page"><liferay-ui:message key="results-per-page" /></label>
-							<div class="st-results-select">
-								<select id="results-per-page" name="results-per-page" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-									<c:forEach var="delta" items="${[5, 10, 20, 50, 100]}">
-										<c:set var="selected" value="${delta eq dc.delta ? 'selected' : ''}" />
-										<option value="${dc.getURLForDelta(delta)}" ${selected} >${delta}</option>
-									</c:forEach>
-								</select>
+							<div class="st-results-filter">
+								<label for="results-per-page"><liferay-ui:message key="results-per-page" /></label>
+								<div class="st-results-select">
+									<select id="results-per-page" name="results-per-page" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+										<c:forEach var="delta" items="${[5, 10, 20, 50, 100]}">
+											<c:set var="selected" value="${delta eq dc.delta ? 'selected' : ''}" />
+											<option value="${dc.getURLForDelta(delta)}" ${selected} >${delta}</option>
+										</c:forEach>
+									</select>
+								</div>
 							</div>
 						</div>
-					</div>
-				<ul class="st-cards-wrapper st--has-cards-horizontal st-basic-grid st-col-2@t-small">
+						<ul class="st-cards-wrapper st--has-cards-horizontal st-basic-grid st-col-2@t-small">
 
-		        	<liferay-ui:search-container-results results="${dc.entries}" />
-		        	<liferay-ui:search-container-row
-						className="com.liferay.asset.kernel.model.AssetEntry"
-						modelVar="entry" keyProperty="entryId" rowIdProperty="entryId">
-							<c:set var="className" value="${entry.className}" />
-                            <liferay-ddm:template-renderer
-                                className="${className}"
-                                contextObjects="${dc.getTemplateContextObjects(entry)}"
-                                displayStyle="${dc.displayStyle}"
-                                displayStyleGroupId="${themeDisplay.scopeGroupId}"
-                                entries="${dc.templateEntries }"
-                            >
-                                <liferay-asset:asset-display
-                                    assetEntry="${entry}"
-                                    assetRenderer="${entry.assetRenderer}"
-                                    assetRendererFactory="${entry.assetRendererFactory}"
-                                    template="abstract"
-                                />
-                            </liferay-ddm:template-renderer>
-					</liferay-ui:search-container-row>
-				</ul>
-	</div>
-				<!-- Pagination -->
-				<c:if test="${dc.pager.lastPage > 1}">
+							<liferay-ui:search-container-results results="${dc.entries}" />
+							<liferay-ui:search-container-row
+								className="com.liferay.asset.kernel.model.AssetEntry"
+								modelVar="entry" keyProperty="entryId" rowIdProperty="entryId">
+									<c:set var="className" value="${entry.className}" />
+									<liferay-ddm:template-renderer
+										className="${className}"
+										contextObjects="${dc.getTemplateContextObjects(entry)}"
+										displayStyle="${dc.displayStyle}"
+										displayStyleGroupId="${themeDisplay.scopeGroupId}"
+										entries="${dc.templateEntries }"
+									>
+										<liferay-asset:asset-display
+											assetEntry="${entry}"
+											assetRenderer="${entry.assetRenderer}"
+											assetRendererFactory="${entry.assetRendererFactory}"
+											template="abstract"
+										/>
+									</liferay-ddm:template-renderer>
+							</liferay-ui:search-container-row>
+						</ul>
+					</div>
+					<!-- Pagination -->
+					<c:if test="${dc.pager.lastPage > 1}">
 					<nav class="st-wrapper st-wrapper-small st-pagination" role="navigation" aria-label="Pagination">
 						<ul class="st-pagination__list">
 							<li class="st-pagination__item st--prev">
@@ -114,6 +123,16 @@
 
 						</ul>
 					</nav>
+				</c:if>
+				</c:if>
+				<c:if test="${dc.searchContainer.total == 0}">
+					<div class="st-listing-cards st-wrapper st-wrapper-small">
+						<div class="st-listing-results st-hide-until@t-portrait">
+							<span class="st-results" role="status">
+								<liferay-ui:message key="select-domain" />
+							</span>
+						</div>
+					</div>
 				</c:if>
 
 			</liferay-ui:search-container>
