@@ -51,7 +51,11 @@ public class SearchAssociationDisplayContext extends BaseDisplayContext {
         super(request, response);
         this._configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchAssociationConfiguration.class, _themeDisplay);
         this.initSearchContainer();
-        this.initEntries();
+        if (this.isUserSearch() || ParamUtil.getBoolean(this._request, "paginate")) {
+            this.initEntries();
+        } else {
+            this._entries = new ArrayList<AssetEntry>();
+        }
         long logSearchId = ParamUtil.getLong(request, "searchLogId");
         if (logSearchId > 0) {
             request.setAttribute("logSearchId", logSearchId);
