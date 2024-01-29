@@ -2,37 +2,57 @@
 --- VARIABLES ---
 ------------------ */
 
-// Fonts TT Fors
-// ==========================================================================
 @font-face {
     font-family: 'TT Fors';
-    src: url('../fonts/TT-Fors-Trial-Bold.woff2') format('woff2'),
-    url('../fonts/TT-Fors-Trial-Bold.woff') format('woff');
-    font-weight: bold;
+    src: url('../fonts/TTFors/TT_Fors_Bold.woff2') format('woff2');
+    font-weight: 700;
     font-style: normal;
+    font-display: swap;
 }
+
+// Version demibold
 @font-face {
     font-family: 'TT Fors';
-    src: url('../fonts/TT-Fors-Trial-Regular.woff2') format('woff2'),
-    url('../fonts/TT-Fors-Trial-Regular.woff') format('woff');
-    font-weight: normal;
+    src: url('../fonts/TTFors/TT_Fors_DemiBold.woff2') format('woff2');
+    font-weight: 600;
     font-style: normal;
+    font-display: swap;
 }
+
+// Version medium
 @font-face {
     font-family: 'TT Fors';
-    src: url('../fonts/TT-Fors-Trial-Light.woff2') format('woff2'),
-    url('../fonts/TT-Fors-Trial-Light.woff') format('woff');
+    src: url('../fonts/TTFors/TT_Fors_Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+// Version regular
+@font-face {
+    font-family: 'TT Fors';
+    src: url('../fonts/TTFors/TT_Fors_Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+// Version light
+@font-face {
+    font-family: 'TT Fors';
+    src: url('../fonts/TTFors/TT_Fors_Light.woff2') format('woff2');
     font-weight: 300;
     font-style: normal;
-
+    font-display: swap;
 }
+
+// Version italic
 @font-face {
     font-family: 'TT Fors';
-    src: url('../fonts/TT Fors-Trial-Italic.woff2') format('woff2'),
-    url('../fonts/TT Fors-Trial-Italic.woff') format('woff');
+    src: url('../fonts/TTFors/TT_Fors_Italic.woff2') format('woff2');
     font-weight: 400;
     font-style: italic;
-
+    font-display: swap;
 }
 
 
