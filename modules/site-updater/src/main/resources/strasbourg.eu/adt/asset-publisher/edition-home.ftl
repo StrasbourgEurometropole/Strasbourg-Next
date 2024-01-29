@@ -1,12 +1,12 @@
 <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
 <div class="st-bloc st-bloc-editions-dossiers">
-    <div>
+    <div class="st-col-left">
         <h2 class="st-h2">Nos éditions</h2>
         <ul class="st-editions-container">
             <#list entries as curEntry>
                 <#assign entry=curEntry.getAssetRenderer().getEdition() />
                 <li class="st-edition">
-                    <div class="st-image">
+                    <div class="st-image" style="width: 130px;">
                         <@addImage fileEntryId=entry.getImageId() showLegende=false showCopyright=false isFigure=true />
                     </div>
                     <div class="st-content">
