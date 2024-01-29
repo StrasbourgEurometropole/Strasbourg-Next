@@ -23,10 +23,6 @@
 	style="background-image: url(${water.getData()});"> 
 		Facturation eau et assainissement 
 	</a>
-	<a class="reom-menu" href="javascript:window.location.replace('${homeURL}facturation-redevance-ordures-menageres')"
-	style="background-image: url(${reom.getData()});"> 
-		Facturation Déchet REOM
-	</a>
 	<a class="rs-menu" href="javascript:window.location.replace('${homeURL}facturation-redevance-speciale-dechets')"
 	style="background-image: url(${rs.getData()});"> 
 		Facturation Déchet Redevance Spéciale 
