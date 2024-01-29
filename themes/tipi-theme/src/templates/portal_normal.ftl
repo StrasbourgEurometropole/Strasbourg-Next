@@ -149,6 +149,12 @@
 		</div>
 		<div class="closure"> <a href="http://www.strasbourg.eu" target="_blank" title="Strasbourg.eu">Strasbourg.eu</a></div>
 	</footer>
+	<script type="text/javascript">
+		document.querySelector(".footer-back-to-top").addEventListener("click", toTop);
+		function toTop(){
+			window.scrollTo(0, 0);
+		}
+	</script>
 </div>
 </body>
 

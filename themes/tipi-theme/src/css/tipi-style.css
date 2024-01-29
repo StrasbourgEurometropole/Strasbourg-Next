@@ -24,7 +24,7 @@ nav.nav-primary {
 }
 
 .logo {
-    background-image: url('src/images/tipi.png');
+    background-image: url('../images/tipi.png');
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -87,19 +87,19 @@ aside.quick-links-medias {
 }
 
 .childhood-menu {
-    background-image: url('src/images/childhood-menu.jpg');
+    background-image: url('../images/childhood-menu.jpg');
 }
 
 .afterSchool-menu {
-    background-image: url('src/images/afterSchool-menu.jpg');
+    background-image: url('../images/afterSchool-menu.jpg');
 }
 
 .schoolRestaurant-menu {
-    background-image: url('src/images/schoolRestaurant-menu.jpg');
+    background-image: url('../images/schoolRestaurant-menu.jpg');
 }
 
 .water-menu {
-    background-image: url('src/images/water-menu.jpg');
+    background-image: url('../images/water-menu.jpg');
 }
 
 .help {
@@ -362,7 +362,7 @@ aside.quick-links-medias {
     padding-left: 16px;
     height: 18px;
     display: block;
-    background-image: url(src/images/bg/point_map.png);
+    background-image: url(../images/bg/point_map.png);
     background-position: left center;
     background-repeat: no-repeat;
 }
