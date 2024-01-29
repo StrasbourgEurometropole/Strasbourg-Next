@@ -391,3 +391,14 @@
     }
   }
 }
+
+.st-bloc-elu {
+  .st-bloc-elu__inner {
+    .st-resume-fonction {
+      display: block;
+      @include ft($f_txt, $s_link, 400, $c_grey, 1.16);
+      letter-spacing: 0.025em;
+      margin-bottom: 5px;
+    }
+  }
+}

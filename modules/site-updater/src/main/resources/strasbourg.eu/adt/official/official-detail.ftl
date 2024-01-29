@@ -108,11 +108,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     </span>
             </h2>
 
-            <#if entry.getResumeFonction(locale)?has_content>
-                <p class="st-intro"> ${entry.getResumeFonction(locale)}
-                </p>
-            </#if>
-
             <#if entry.getMissions(locale)?has_content>
                 <p class="st-surtitre-cat">
                     <@liferay_ui.message key="eu.official.in-charge-of" />
