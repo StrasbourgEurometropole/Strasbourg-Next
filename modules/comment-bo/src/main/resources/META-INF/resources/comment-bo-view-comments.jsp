@@ -65,7 +65,7 @@
 
 				<%-- Colonne : Type de l'entite --%>
 				<liferay-ui:search-container-column-text
-                    name="entityType" truncate="true" orderable="true"
+                    name="entityType" orderable="true"
                     value="${comment.getTypeAssetEntry()}" />
 
 				<%-- Colonne : nom de l'entite--%>
