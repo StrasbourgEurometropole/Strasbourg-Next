@@ -81,6 +81,7 @@ public class FelecWebServiceClient {
 			felecResponse = new FelecResponse(jsonResponse);
 		} catch (Exception ex) {
 			_log.error(ex.getMessage(), ex);
+			felecResponse = new FelecResponse();
 		}
 
 		return felecResponse;

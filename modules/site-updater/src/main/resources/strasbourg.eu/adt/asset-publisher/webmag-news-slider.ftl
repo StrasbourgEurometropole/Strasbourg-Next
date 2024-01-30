@@ -68,7 +68,7 @@
     </div>
     <div class="st-wrapper st-wrapper-small st-bloc-slider-focus__bottom">
         <ul class="splide__pagination st-nav-dots"></ul>
-        <a href="/videos" class="st-btn st--btn-secondary st--btn-full-width-mobile st-btn-cta">Tous les articles</a>
+        <a href="/actualite" class="st-btn st--btn-secondary st--btn-full-width-mobile st-btn-cta">Tous les articles</a>
     </div>
 </div>
 

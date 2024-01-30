@@ -1,19 +1,6 @@
 <div class="st-barre-listing-sit st--listing-lost-and-found" role="region" aria-label="Objets trouvés, formulaire de filtre">
     <div class="st-barre-inner st-wrapper form-styles">
 
-        <div class="st-filtre st-group-field">
-            <label for="filter-territoire">Par mois</label>
-            <div class="st-field-select">
-                <select id="filter-mois" name="filter-mois">
-                    <option value="" selected="">Tout afficher</option>
-                    <option value="2023-09">Septembre 2023</option>
-                    <option value="2023-08">Août 2023</option>
-                    <option value="2023-07">Juillet 2023</option>
-                    <option value="2023-06">Juin 2023</option>
-                </select>
-            </div>
-        </div>
-
 
         <div class="col-right">
             <a href="${urlDeclareLost}" class="st-btn st--btn-small-padding st--btn-secondary-ghost"><liferay-ui:message key="objtp.url.declare-lost" /></a>

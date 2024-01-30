@@ -45,6 +45,7 @@ public class FelecResponse {
     }
 
     public FelecResponse() {
+
     }
 
     public String getReturnCard() {
