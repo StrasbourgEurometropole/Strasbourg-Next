@@ -113,47 +113,6 @@ public class ViewParticipationsDisplayContext extends ViewBaseDisplayContext<Par
 		}
 	}
 
-
-	private List<Participation> createObjectList(Hits hits) {
-		// Création de la liste d'objet
-		List<Participation> results = new ArrayList<>();
-		if (hits != null) {
-			for (Document document : hits.getDocs()) {
-				Participation participation = ParticipationLocalServiceUtil.fetchParticipation(
-					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-				if (participation != null) {
-					results.add(participation);
-				}
-			}
-		}
-		return results;
-	}
-
-	/**
-	 * Retourne la liste des participations correspondant à la recherche lancée en ignorant la pagination
-	 */
-	private List<Participation> getAllParticipations() throws PortalException {
-		Hits hits = getAllHits(this._themeDisplay.getCompanyGroupId());
-
-		// Création de la liste d'objet
-		return createObjectList(hits);
-	}
-	
-	/**
-	 * Retourne la liste des PK de toutes les participations
-	 * @return liste de PK (ex: "1,5,7,8")
-	 */
-	public String getAllParticipationIds() throws PortalException {
-		String participationIds = "";
-		for (Participation participation : this.getAllParticipations()) {
-			if (participationIds.length() > 0) {
-				participationIds += ",";
-			}
-			participationIds += participation.getParticipationId();
-		}
-		return participationIds;
-	}
-
 	protected SearchContainer<Participation> _searchContainer;
 	private final RenderRequest _request;
 	private final RenderResponse _response;

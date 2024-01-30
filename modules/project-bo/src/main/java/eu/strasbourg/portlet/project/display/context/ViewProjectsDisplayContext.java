@@ -112,41 +112,6 @@ public class ViewProjectsDisplayContext extends ViewBaseDisplayContext<Project> 
 				return "modified_sortable";
 		}
 	}
-	
-	/**
-	 * Retourne la liste des projets correspondant à la recherche lancée en ignorant la pagination
-	 */
-	private List<Project> getAllProjects() throws PortalException {
-		Hits hits = getAllHits(this._themeDisplay.getCompanyGroupId());
-
-		// Création de la liste d'objet
-		List<Project> results = new ArrayList<Project>();
-		if (hits != null) {
-			for (Document document : hits.getDocs()) {
-				Project project = ProjectLocalServiceUtil.fetchProject(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-				if (project != null) {
-					results.add(project);
-				}
-			}
-		}
-		return results;
-	}
-
-	/**
-	 * Retourne la liste des PK de tous les projets
-	 * @return liste de PK (ex: "1,5,7,8")
-	 */
-	@SuppressWarnings("unused")
-	public String getAllProjectIds() throws PortalException {
-		String projectIds = "";
-		for (Project project : this.getAllProjects()) {
-			if (projectIds.length() > 0) {
-				projectIds += ",";
-			}
-			projectIds += project.getProjectId();
-		}
-		return projectIds;
-	}
 
 	protected SearchContainer<Project> _searchContainer;
 	private final RenderRequest _request;

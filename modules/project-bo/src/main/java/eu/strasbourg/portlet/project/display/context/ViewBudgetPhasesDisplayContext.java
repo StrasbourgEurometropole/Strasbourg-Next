@@ -97,40 +97,6 @@ public class ViewBudgetPhasesDisplayContext  extends ViewBaseDisplayContext<Budg
 	}
 
 	/**
-	 * Retourne la liste des phases correspondant à la recherche lancée en ignorant la pagination
-	 */
-	private List<BudgetPhase> getAllBudgetPhases() throws PortalException {
-		Hits hits = getAllHits(this._themeDisplay.getCompanyGroupId());
-		
-		// Création de la liste d'objet
-		List<BudgetPhase> results = new ArrayList<BudgetPhase>();
-		if (hits != null) {
-			for (Document document : hits.getDocs()) {
-				BudgetPhase budgetPhase = BudgetPhaseLocalServiceUtil.fetchBudgetPhase(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-				if (budgetPhase != null) {
-					results.add(budgetPhase);
-				}
-			}
-		}
-		return results;
-	}
-
-	/**
-	 * Retourne la liste des PK de toutes les phases
-	 * @return liste de PK (ex: "1,5,7,8")
-	 */
-	public String getAllBudgetPhaseIds() throws PortalException {
-		String budgetPhaseIds = "";
-		for (BudgetPhase budgetPhase : this.getAllBudgetPhases()) {
-			if (budgetPhaseIds.length() > 0) {
-				budgetPhaseIds += ",";
-			}
-			budgetPhaseIds += budgetPhase.getBudgetPhaseId();
-		}
-		return budgetPhaseIds;
-	}
-
-	/**
 	 * Renvoie le nom du champ sur laquelle on fait le tri pour
 	 * ElasticSearch
 	 *

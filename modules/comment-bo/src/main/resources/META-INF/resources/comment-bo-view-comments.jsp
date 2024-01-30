@@ -88,7 +88,6 @@
 	<liferay-portlet:resourceURL var="exportCommentsXlsxURL" id="exportCommentsXlsx">
 	</liferay-portlet:resourceURL>
 	<form method="POST" action="${exportCommentsXlsxURL}">
-		<aui:input type="hidden" name="commentIds" value="${dc.allCommentIds}" />
 		<aui:button-row>
 			<aui:button cssClass="btn-lg" type="submit"
 				value="export-comments-xlsx" />

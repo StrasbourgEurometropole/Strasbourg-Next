@@ -114,48 +114,6 @@ public class ViewPetitionsDisplayContext extends ViewBaseDisplayContext<Petition
         }
     }
 
-    private List<Petition> createObjectList(Hits hits) {
-        // Création de la liste d'objet
-        List<Petition> results = new ArrayList<>();
-        if (hits != null) {
-            for (Document document : hits.getDocs()) {
-                Petition petition = PetitionLocalServiceUtil.fetchPetition(
-                        GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-                if (petition != null) {
-                    results.add(petition);
-                }
-            }
-        }
-        return results;
-    }
-
-
-    /**
-     * Retourne la liste des pétitions correspondante à la recherche lancée en ignorant la pagination
-     */
-    private List<Petition> getAllPetitions() throws PortalException {
-        Hits hits = getAllHits(this._themeDisplay.getCompanyGroupId());
-
-        // Création de la liste d'objet
-        return createObjectList(hits);
-    }
-
-    /**
-     * Retourne la liste des PK de toutes les pétitions
-     * @return liste de PK (ex: "1,5,7,8")
-     */
-    @SuppressWarnings("unused")
-    public String getAllPetitionIds() throws PortalException {
-        StringBuilder petitionIds = new StringBuilder();
-        for (Petition petition : this.getAllPetitions()) {
-            if (petitionIds.length() > 0) {
-                petitionIds.append(",");
-            }
-            petitionIds.append(petition.getPetitionId());
-        }
-        return petitionIds.toString();
-    }
-
     protected SearchContainer<Petition> _searchContainer;
     private final RenderRequest _request;
     private final RenderResponse _response;

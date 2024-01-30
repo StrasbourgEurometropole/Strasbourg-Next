@@ -125,48 +125,6 @@ public class ViewSaisineObservatoireDisplayContext  extends ViewBaseDisplayConte
         return ParamUtil.getString(_request, "orderByCol", "modified-date");
     }
 
-    private List<SaisineObservatoire> createObjectList(Hits hits) {
-        // Création de la liste d'objet
-        List<SaisineObservatoire> results = new ArrayList<>();
-        if (hits != null) {
-            for (Document document : hits.getDocs()) {
-                SaisineObservatoire saisineObservatoire = SaisineObservatoireLocalServiceUtil.fetchSaisineObservatoire(
-                        GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-                if (saisineObservatoire != null) {
-                    results.add(saisineObservatoire);
-                }
-            }
-        }
-        return results;
-    }
-
-    /**
-     * Retourne la liste des saisines observatoire correspondante à la recherche lancée en ignorant la pagination
-     */
-    private List<SaisineObservatoire> getAllSaisinesObservatoire() throws PortalException {
-        Hits hits = getAllHits(this._themeDisplay.getCompanyGroupId());
-
-        // Création de la liste d'objet
-        return createObjectList(hits);
-    }
-
-    /**
-     * Retourne la liste des PK de toutes les saisines observatoire
-     * @return liste de PK (ex: "1,5,7,8")
-     */
-    @SuppressWarnings("unused")
-    public String getAllSaisineObservatoireIds() throws PortalException {
-        StringBuilder saisineObservatoireIds = new StringBuilder();
-        for (SaisineObservatoire saisineObservatoire : this.getAllSaisinesObservatoire()) {
-            if (saisineObservatoireIds.length() > 0) {
-                saisineObservatoireIds.append(",");
-            }
-            saisineObservatoireIds.append(saisineObservatoire.getSaisineObservatoireId());
-        }
-        return saisineObservatoireIds.toString();
-    }
-
-
     protected SearchContainer<SaisineObservatoire> _searchContainer;
     private final RenderRequest _request;
     private final RenderResponse _response;

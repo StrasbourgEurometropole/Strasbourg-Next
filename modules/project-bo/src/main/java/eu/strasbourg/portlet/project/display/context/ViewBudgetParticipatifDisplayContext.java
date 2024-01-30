@@ -45,36 +45,6 @@ public class ViewBudgetParticipatifDisplayContext extends ViewBaseDisplayContext
                 _response);
     }
 
-    private List<BudgetParticipatif> createObjectList(Hits hits) {
-        //création de la liste d'objet
-        List<BudgetParticipatif> results = new ArrayList<>();
-        if (hits != null){
-            for (Document document : hits.getDocs()){
-                BudgetParticipatif budget = BudgetParticipatifLocalServiceUtil.fetchBudgetParticipatif(
-                        GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-                if (budget != null)
-                    results.add(budget);
-            }
-        }
-        return results;
-    }
-
-    /**
-     * Retourne la liste des PK de tous les budgets
-     * @return liste de PK (ex: "1,5,7,8")
-     */
-    @SuppressWarnings("unused")
-    public String getBudgetParticipatifIds() throws PortalException {
-        StringBuilder budgetIds = new StringBuilder();
-        for (BudgetParticipatif budgetParticipatif : this.createObjectList(_hits)) {
-            if (budgetIds.length() > 0) {
-                budgetIds.append(",");
-            }
-            budgetIds.append(budgetParticipatif.getBudgetParticipatifId());
-        }
-        return budgetIds.toString();
-    }
-
     /**
      * Retourne le searchContainer des Budget Participatifs
      *

@@ -38,7 +38,6 @@ public class ExportCommentsToXlsxResourceCommand implements MVCResourceCommand {
 			throws PortletException {
 		resourceResponse.setContentType("application/force-download");
 		resourceResponse.setProperty("content-disposition", "attachment; filename=Commentaires.xlsx");
-		//String commentIds = ParamUtil.getString(resourceRequest, "commentIds");
 		ThemeDisplay themeDisplay = (ThemeDisplay)resourceRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		long groupId = themeDisplay.getScopeGroupId();
 
