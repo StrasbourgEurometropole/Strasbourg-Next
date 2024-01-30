@@ -31,7 +31,7 @@ public class ExportBudgetSupportsToXlsxResourceCommand implements MVCResourceCom
 	public boolean serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
 		
 		resourceResponse.setContentType("application/force-download");
-		resourceResponse.setProperty("content-disposition", "attachment; filename=BudgetParticipatifs.xlsx");
+		resourceResponse.setProperty("content-disposition", "attachment; filename=Soutiens.xlsx");
 		Long budgetParticipatifId = ParamUtil.getLong(resourceRequest, "budgetParticipatifId");
 		
 		try {
