@@ -77,10 +77,9 @@
         </liferay-ui:search-container>
     </aui:form>
 
-    <liferay-portlet:resourceURL var="exportPetitionsXlsxURL" id="exportPetitionsXlsx" copyCurrentRenderParameters="false">
+    <liferay-portlet:resourceURL var="exportSaisinesXlsxURL" id="exportSaisinesXlsx" copyCurrentRenderParameters="false">
     </liferay-portlet:resourceURL>
-    <form method="POST" action="${exportPetitionsXlsxURL}">
-        <aui:input type="hidden" name="petitionIds" value="${dc.allSaisineObservatoireIds}" />
+    <form method="POST" action="${exportSaisinesXlsxURL}">
         <aui:button-row>
             <aui:button cssClass="btn-lg" type="submit"
                         value="export-saisines-observatoire-xlsx" />

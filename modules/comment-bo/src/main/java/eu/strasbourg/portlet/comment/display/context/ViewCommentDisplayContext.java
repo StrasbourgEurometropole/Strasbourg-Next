@@ -32,28 +32,6 @@ public class ViewCommentDisplayContext extends ViewBaseDisplayContext<Comment> {
                 .getAttribute(WebKeys.THEME_DISPLAY);
     }
 
-    @SuppressWarnings("unused")
-    public String getAllCommentIds() throws PortalException {
-        StringBuilder commentIds = new StringBuilder();
-        for (Comment comment : this.getComments()) {
-            if (commentIds.length() > 0) {
-                commentIds.append(",");
-            }
-            commentIds.append(comment.getCommentId());
-        }
-        return commentIds.toString();
-    }
-
-    public List<Comment> getComments() throws PortalException {
-
-        if (this._comments == null) {
-            Hits hits = getAllHits(this._themeDisplay.getScopeGroupId());
-            //Création de la liste d'objet
-            this._comments = populateComments(hits);
-        }
-        return this._comments;
-    }
-
     /**
      * Retourne le dropdownItemsProvider de commentaire
      *
@@ -63,21 +41,6 @@ public class ViewCommentDisplayContext extends ViewBaseDisplayContext<Comment> {
     public CommentActionDropdownItemsProvider getActionsComment(Comment comment) {
         return new CommentActionDropdownItemsProvider(comment, _request,
                 _response);
-    }
-
-    private List<Comment> populateComments(Hits hits) {
-        List<Comment> results = new ArrayList<>();
-        if (hits != null) {
-            for (Document document :
-                    hits.getDocs()) {
-                Comment comment = CommentLocalServiceUtil.fetchComment(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-                if (comment != null) {
-
-                    results.add(comment);
-                }
-            }
-        }
-        return results;
     }
 
     /**

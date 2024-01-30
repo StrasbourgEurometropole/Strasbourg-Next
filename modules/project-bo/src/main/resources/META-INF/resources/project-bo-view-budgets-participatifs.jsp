@@ -98,7 +98,6 @@
     </liferay-portlet:resourceURL>
     
    	<form method="POST" action="${exportBudgetsXlsxURL}">
-   		<aui:input type="hidden" name="budgetsParticipatifsIds" value="${dc.budgetParticipatifIds}" />
    		<aui:button-row>
    			<aui:button cssClass="btn-lg" type="submit" value="export-budgets-participatifs-xlsx" />
    		</aui:button-row>

@@ -122,47 +122,6 @@ public class ViewInitiativesDisplayContext  extends ViewBaseDisplayContext<Initi
 		}
 	}
 
-	private List<Initiative> createObjectList(Hits hits) {
-		// Création de la liste d'objet
-		List<Initiative> results = new ArrayList<>();
-		if (hits != null) {
-			for (Document document : hits.getDocs()) {
-				Initiative initiative = InitiativeLocalServiceUtil.fetchInitiative(
-					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-				if (initiative != null) {
-					results.add(initiative);
-				}
-			}
-		}
-		return results;
-	}
-
-	/**
-	 * Retourne la liste des initiatives correspondant à la recherche lancée en ignorant la pagination
-	 */
-	private List<Initiative> getAllInitiatives() throws PortalException {
-		Hits hits = getAllHits(this._themeDisplay.getCompanyGroupId());
-
-		// Création de la liste d'objet
-		return createObjectList(hits);
-	}
-
-	/**
-	 * Retourne la liste des PK de toutes les initiatives
-	 * @return liste de PK (ex: "1,5,7,8")
-	 */
-	@SuppressWarnings("unused")
-	public String getAllInitiativeIds() throws PortalException {
-		String initiativeIds = "";
-		for (Initiative initiative : this.getAllInitiatives()) {
-			if (initiativeIds.length() > 0) {
-				initiativeIds += ",";
-			}
-			initiativeIds += initiative.getInitiativeId();
-		}
-		return initiativeIds;
-	}
-
 	protected SearchContainer<Initiative> _searchContainer;
 	private final RenderRequest _request;
 	private final RenderResponse _response;

@@ -76,7 +76,6 @@
     </liferay-portlet:resourceURL>
     
    	<form method="POST" action="${exportInitiativesXlsxURL}">
-   		<aui:input type="hidden" name="initiativesIds" value="${dc.allInitiativeIds}" />
    		<aui:button-row>
    			<aui:button cssClass="btn-lg" type="submit" value="export-initiatives-xlsx" />
    		</aui:button-row>

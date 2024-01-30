@@ -1,6 +1,5 @@
 package eu.strasbourg.service.office.exporter.impl;
 
-import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -9,10 +8,9 @@ import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
-import com.liferay.portal.kernel.util.Validator;
-import eu.strasbourg.service.office.exporter.api.PetitionsXlsxExporter;
-import eu.strasbourg.service.project.model.Petition;
-import eu.strasbourg.service.project.service.PetitionLocalService;
+import eu.strasbourg.service.office.exporter.api.SaisinesXlsxExporter;
+import eu.strasbourg.service.project.model.SaisineObservatoire;
+import eu.strasbourg.service.project.service.SaisineObservatoireLocalService;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -23,38 +21,36 @@ import org.osgi.service.component.annotations.Reference;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static org.apache.commons.text.StringEscapeUtils.unescapeHtml4;
 
 /**
- * @author alexandre.quere
+ * @author AZC
  */
 @Component(
         immediate = true,
-        service = PetitionsXlsxExporter.class
+        service = SaisinesXlsxExporter.class
 )
-public class PetitionsXlsxExporterImpl implements PetitionsXlsxExporter {
+public class SaisinesXlsxExporterImpl implements SaisinesXlsxExporter {
 
     private ResourceBundle bundle = ResourceBundleUtil.getBundle("content.Language",
             this.getClass().getClassLoader());
 
-    private PetitionLocalService petitionLocalService;
+    private SaisineObservatoireLocalService saisineLocalService;
 
     @Reference(unbind = "-")
-    public void setPetitionLocalService(PetitionLocalService petitionLocalService) {
-        this.petitionLocalService = petitionLocalService;
+    public void setSaisineLocalService(SaisineObservatoireLocalService saisineLocalService) {
+        this.saisineLocalService = saisineLocalService;
     }
 
     @Override
-    public void exportPetitions(OutputStream stream) {
+    public void exportSaisines(OutputStream stream) {
         XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFSheet sheet = workbook.createSheet("Petitions");
-        Object[][] petitionData = {{LanguageUtil.get(bundle, "title"),
+        XSSFSheet sheet = workbook.createSheet("Saisines observatoires");
+        Object[][] saisinesData = {{LanguageUtil.get(bundle, "title"),
                 LanguageUtil.get(bundle, "create-date"),
                 LanguageUtil.get(bundle, "modification-date"),
                 LanguageUtil.get(bundle, "user-liferay"),
@@ -80,42 +76,42 @@ public class PetitionsXlsxExporterImpl implements PetitionsXlsxExporter {
                 LanguageUtil.get(bundle, "project"),
                 LanguageUtil.get(bundle, "districts")}};
 
-        for (Petition petition : this.petitionLocalService.getPetitions(QueryUtil.ALL_POS, QueryUtil.ALL_POS)) {
+        for (SaisineObservatoire sainsine : this.saisineLocalService.getSaisineObservatoires(-1,-1)) {
             String languageId = LocaleUtil.toLanguageId(Locale.FRANCE);
-            String title = LocalizationUtil.getLocalization(petition.getTitle(), languageId);
+            String title = LocalizationUtil.getLocalization(sainsine.getTitle(), languageId);
             Object[] petitionRow = {getfield(title),
-                    getfield(petition.getCreateDate()),
-                    getfield(petition.getModifiedDate()),
-                    getfield(petition.getUserName()),
-                    getfield(String.valueOf(petition.getNombreSignature())),
-                    getfield(String.valueOf(petition.getCountFakeSignataire())),
-                    getfield(petition.getDescription()),
-                    getfield(petition.getPublicationDate()),
-                    getfield(petition.getExpirationDate()),
-                    getfield(petition.getInTheNameOf()),
-                    getfield(unescapeHtml4(petition.getPetitionnaireLastname())),
-                    getfield(unescapeHtml4(petition.getPetitionnaireFirstname())),
-                    getfield(unescapeHtml4(petition.getPetitionnaireAdresse())),
-                    getfield(petition.getPetitionnairePostalCode()),
-                    getfield(petition.getPetitionnaireBirthday()),
-                    getfield(unescapeHtml4(petition.getPetitionnaireCity())),
-                    getfield(unescapeHtml4(petition.getPetitionnairePhone())),
-                    getfield(unescapeHtml4(petition.getPetitionnaireEmail())),
-                    getfield(petition.isIsSupported()),
-                    getfield(unescapeHtml4(petition.getSupportedBy())),
-                    getfield(petition.getPlaceTextArea()),
-                    getfield(petition.getPetitionStatusExcel()),
-                    getfield(petition.getProjectTitle(Locale.FRANCE)),
-                    getfield(petition.getThematicLabel(Locale.FRANCE)),
-                    getfield(petition.getDistrictLabel(Locale.FRANCE))};
-            petitionData = ArrayUtil.append(petitionData, petitionRow);
+                    getfield(sainsine.getCreateDate()),
+                    getfield(sainsine.getModifiedDate()),
+                    getfield(sainsine.getUserName()),
+                    getfield(String.valueOf(sainsine.getDistrictLabel(Locale.FRANCE))),
+                    getfield(String.valueOf(sainsine.getAuthorLabel())),
+                    getfield(sainsine.getDescription()),
+                    getfield(sainsine.getAuthorImageURL()),
+                    getfield(sainsine.getImageCopyright(Locale.FRANCE)),
+                    getfield(sainsine.getImageURL()),
+                    getfield(unescapeHtml4(sainsine.getPetitionnaireLastname())),
+                    getfield(unescapeHtml4(sainsine.getPetitionnaireFirstname())),
+                    getfield(unescapeHtml4(sainsine.getPetitionnaireAdresse())),
+                    getfield(sainsine.getPetitionnairePostalCode()),
+                    getfield(sainsine.getPetitionnaireBirthday()),
+                    getfield(unescapeHtml4(sainsine.getPetitionnaireCity())),
+                    getfield(unescapeHtml4(sainsine.getPetitionnairePhone())),
+                    getfield(unescapeHtml4(sainsine.getPetitionnaireEmail())),
+                    getfield(sainsine.getNbApprovedComments()),
+                    getfield(unescapeHtml4(sainsine.getNbApprovedCommentsLabel())),
+                    getfield(sainsine.getPlaceTextArea()),
+                    getfield(sainsine.getCityResponse(Locale.FRANCE)),
+                    getfield(sainsine.getProjectTitle(Locale.FRANCE)),
+                    getfield(sainsine.getThematicLabel(Locale.FRANCE)),
+                    getfield(sainsine.getDistrictLabel(Locale.FRANCE))};
+            saisinesData = ArrayUtil.append(saisinesData, petitionRow);
         }
         int rowIndex = 0;
         int columnIndex;
-        for (Object[] petitionObject : petitionData) {
+        for (Object[] saisineObject : saisinesData) {
             Row row = sheet.createRow(rowIndex);
             columnIndex = 0;
-            for (Object field : petitionObject) {
+            for (Object field : saisineObject) {
                 Cell cell = row.createCell(columnIndex);
                 if (field instanceof String) {
                     cell.setCellValue((String) field);

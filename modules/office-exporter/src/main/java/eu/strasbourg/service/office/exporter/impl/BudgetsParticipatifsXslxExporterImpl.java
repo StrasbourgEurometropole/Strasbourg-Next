@@ -1,17 +1,20 @@
 package eu.strasbourg.service.office.exporter.impl;
 
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import eu.strasbourg.service.office.exporter.api.BudgetsParticipatifsXlsxExporter;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
+import eu.strasbourg.service.project.service.BudgetParticipatifLocalService;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -35,8 +38,15 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
     private ResourceBundle bundle = ResourceBundleUtil.getBundle("content.Language",
             this.getClass().getClassLoader());
 
+    private BudgetParticipatifLocalService budgetParticipatifLocalService;
+
+    @Reference(unbind = "-")
+    public void setBudgetParticipatifLocalService(BudgetParticipatifLocalService budgetParticipatifLocalService) {
+        this.budgetParticipatifLocalService = budgetParticipatifLocalService;
+    }
+
     @Override
-    public void exportBudgetsParticipatifs(OutputStream stream, List<BudgetParticipatif> budgetsParticipatifs) {
+    public void exportBudgetsParticipatifs(OutputStream stream) {
         // Initialisation du document
         XSSFWorkbook workbook = new XSSFWorkbook();
 
@@ -80,7 +90,7 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
 		));
         	
         // Parcours des budget et creation de la ligne a ajouter dans l'excel
-        for (BudgetParticipatif budgetParticipatif : budgetsParticipatifs) {
+        for (BudgetParticipatif budgetParticipatif : this.budgetParticipatifLocalService.getBudgetParticipatifs(QueryUtil.ALL_POS, QueryUtil.ALL_POS)) {
         	
         	
         	String placesNames = String.join("\n", budgetParticipatif.getPlacitPlaces()

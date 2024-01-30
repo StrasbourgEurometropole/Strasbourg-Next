@@ -28,11 +28,10 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 public class ExportBudgetSupportsToXlsxResourceCommand implements MVCResourceCommand {
 
 	@Override
-	public boolean serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
-			throws PortletException {
+	public boolean serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
 		
 		resourceResponse.setContentType("application/force-download");
-		resourceResponse.setProperty("content-disposition", "attachment; filename=BudgetParticipatifs.xlsx");
+		resourceResponse.setProperty("content-disposition", "attachment; filename=Soutiens.xlsx");
 		Long budgetParticipatifId = ParamUtil.getLong(resourceRequest, "budgetParticipatifId");
 		
 		try {
