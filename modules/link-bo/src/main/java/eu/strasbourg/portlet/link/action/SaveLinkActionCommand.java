@@ -120,12 +120,6 @@ public class SaveLinkActionCommand implements MVCActionCommand {
 			isValid = false;
 		}
 
-		// Infobulle
-		if (Validator.isNull(ParamUtil.getString(request, "hoverText"))) {
-			SessionErrors.add(request, "infobulle-error");
-			isValid = false;
-		}
-
 		return isValid;
 	}
 
