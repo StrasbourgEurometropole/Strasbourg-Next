@@ -1,4 +1,0 @@
-DROP TABLE ejob_Alert;
-DROP TABLE ejob_Offer;
-
-COMMIT_TRANSACTION;
