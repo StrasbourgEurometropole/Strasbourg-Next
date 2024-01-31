@@ -32,7 +32,6 @@ import java.util.Map;
 @Component(
 	property = { "editor.name=ckeditor",
 		"javax.portlet.name=com_liferay_journal_web_portlet_JournalPortlet",
-		"javax.portlet.name=" + StrasbourgPortletKeys.ARTWORK_BO,
 		"javax.portlet.name=" + StrasbourgPortletKeys.EDITION_BO,
 		"javax.portlet.name=" + StrasbourgPortletKeys.AGENDA_BO,
 		"javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_BO,
