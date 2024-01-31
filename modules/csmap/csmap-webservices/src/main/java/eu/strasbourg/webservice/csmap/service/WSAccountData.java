@@ -6,10 +6,6 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.Validator;
-import eu.strasbourg.portlet.familySpace.Family;
-import eu.strasbourg.portlet.familySpace.FamilySpaceResponse;
-import eu.strasbourg.portlet.familySpace.FamilySpaceWebService;
-import eu.strasbourg.portlet.familySpace.Person;
 import eu.strasbourg.portlet.mediatheque.borrower.BorrowerResponse;
 import eu.strasbourg.portlet.mediatheque.borrower.BorrowerWebService;
 import eu.strasbourg.portlet.mediatheque.borrower.Media;
@@ -317,12 +313,12 @@ public class WSAccountData {
     }
 
     /**
-     * Appelle le WS Famille et renvoie les familles
+     * renvoie les infos du kiosque famille
      */
-    public static JSONObject getFamily(String publicUserId, int timeOut) {
+    public static JSONObject getFamily() {
 
         JSONObject response = JSONFactoryUtil.createJSONObject();
-        response.put(WSConstants.JSON_URL, StrasbourgPropsUtil.getFamilySpaceURL());
+        response.put(WSConstants.JSON_URL, StrasbourgPropsUtil.getFamilyKioskURL());
         response.put(WSConstants.JSON_LABELURL, WSConstants.FAMILY_SITE);
         response.put(WSConstants.JSON_MESSAGE, WSConstants.FAMILY_MESSAGE);
         response.put(WSConstants.JSON_RESPONSE_CODE, 200);
