@@ -115,10 +115,6 @@ public class StrasbourgPortletKeys {
 	public static final String COUNCIL_BO = "eu_strasbourg_portlet_council_CouncilBOPortlet";
 	public static final String COUNCIL_WEB = "eu_strasbourg_portlet_council_CouncilPortlet";
 
-	public static final String EJOB_BO = "eu_strasbourg_portlet_ejob_EjobBOPortlet";
-	public static final String EJOB_WEB = "eu_strasbourg_portlet_ejob_EjobPortlet";
-	public static final String OFFER_WEB = "eu_strasbourg_portlet_offer_OfferPortlet";
-
     public static final String HELP_BO = "eu_strasbourg_portlet_help_HelpBOPortlet";
 	public static final String HELP_POPUP_WEB = "eu_strasbourg_portlet_help_HelpPopupPortlet";
 	public static final String HELP_WEB = "eu_strasbourg_portlet_help_HelpPortlet";

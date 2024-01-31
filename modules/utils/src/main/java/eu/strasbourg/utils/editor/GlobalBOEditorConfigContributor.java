@@ -43,8 +43,7 @@ import java.util.Map;
 		"javax.portlet.name=" + StrasbourgPortletKeys.INTEREST_BO,
 		"javax.portlet.name=" + StrasbourgPortletKeys.NOTIFICATION_BO,
 		"javax.portlet.name=" + StrasbourgPortletKeys.ACTIVITY_SEARCH_WEB,
-		"javax.portlet.name=" + StrasbourgPortletKeys.PLACE_SCHEDULE_WEB,
-		"javax.portlet.name=" + StrasbourgPortletKeys.EJOB_BO },
+		"javax.portlet.name=" + StrasbourgPortletKeys.PLACE_SCHEDULE_WEB},
 	service = EditorConfigContributor.class)
 public class GlobalBOEditorConfigContributor
 	extends BaseEditorConfigContributor {
