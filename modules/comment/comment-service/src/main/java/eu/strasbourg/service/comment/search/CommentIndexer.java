@@ -100,9 +100,10 @@ public class CommentIndexer extends BaseIndexer<Comment> {
 		IndexHelper.addAssetCategoryTitles(document,Field.ASSET_CATEGORY_TITLES,assetCategories);
 		document.addNumber(Field.STATUS, comment.getStatus());
 		document.addNumber("reportings", comment.getCountSignalements());
-		document.addTextSortable(Field.USER_NAME,comment.getUserName());
 		document.addTextSortable("entityType",comment.getTypeAssetEntry());
 		document.addTextSortable("entityName",comment.getAssetEntryTitle());
+		document.addTextSortable(Field.TITLE, comment.getUserName());
+		document.addLocalizedText(Field.DESCRIPTION, comment.getTextMap());
 		return document;
 	}
 }

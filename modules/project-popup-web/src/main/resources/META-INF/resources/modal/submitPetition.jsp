@@ -251,9 +251,11 @@
             var emailValue = $("#"+namespaceSubmitPetition+"mail").val(); 
             var lastNameValue = $("#"+namespaceSubmitPetition+"username").val();
             var firstNameValue = $("#"+namespaceSubmitPetition+"firstname").val();
+            var saveInfoValue = $("#save-info").is(":checked");
             formData.append("<portlet:namespace/>email", emailValue);
-            formData.append("<portlet:namespace/>lastname", lastNameValue); 
-            formData.append("<portlet:namespace/>firstname", firstNameValue);  
+            formData.append("<portlet:namespace/>lastname", lastNameValue);
+            formData.append("<portlet:namespace/>firstname", firstNameValue);
+            formData.append("<portlet:namespace/>saveinfo", saveInfoValue);
             request.send(formData);
         }
     });

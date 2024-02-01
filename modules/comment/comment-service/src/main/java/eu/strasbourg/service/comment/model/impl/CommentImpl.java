@@ -100,7 +100,7 @@ public class CommentImpl extends CommentBaseImpl {
 			    result = "Vid&eacute;o";
 	        }
 		} catch (PortalException e) {
-			_log.error("Erreur lors de la récupération du type : ",e);
+			_log.error("Erreur lors de la récupération du type : " + e.getMessage());
 		}
 		return result;
 	}
@@ -118,7 +118,7 @@ public class CommentImpl extends CommentBaseImpl {
 				result = temp;
 			}
 		} catch (PortalException e) {
-			_log.error("Erreur lors de la récupération du nom : ",e);
+			_log.error("Erreur lors de la récupération du nom : " + e.getMessage());
 		}
 		return result;
 	}
