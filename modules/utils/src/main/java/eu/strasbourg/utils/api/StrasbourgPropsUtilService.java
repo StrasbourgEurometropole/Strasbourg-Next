@@ -8,10 +8,4 @@ import aQute.bnd.annotation.ProviderType;
 @ProviderType
 public interface StrasbourgPropsUtilService {
     public String getPublikApiBase() ;
-
-    public String getEJobURLOfferApply() ;
-
-    public String getEJobURLOfferStageCollegeApply() ;
-
-    public String getEJobURLApply() ;
 }

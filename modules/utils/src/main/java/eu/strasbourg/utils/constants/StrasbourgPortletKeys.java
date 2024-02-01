@@ -12,9 +12,6 @@ public class StrasbourgPortletKeys {
 	
 	public static final String EDITION_BO = "eu_strasbourg_portlet_edition_EditionBOPortlet";
 	public static final String EDITION_WEB = "eu_strasbourg_portlet_edition_EditionPortlet";
-
-	public static final String ARTWORK_BO = "eu_strasbourg_portlet_artwork_ArtworkBOPortlet";
-	public static final String ARTWORK_WEB = "eu_strasbourg_portlet_artwork_ArtworkPortlet";
 	
 	public static final String LINK_BO = "eu_strasbourg_portlet_link_LinkBOPortlet";
 	public static final String LINK_WEB = "eu_strasbourg_portlet_link_LinkPortlet";
@@ -89,8 +86,6 @@ public class StrasbourgPortletKeys {
 	public static final String MEDIATHEQUE_WEB = "eu_strasbourg_portlet_mediatheque_MediathequeWebPortlet";
 	public static final String VALIDATION_WEB = "eu_strasbourg_portlet_mediatheque_ValidationWebPortlet";
 
-	public static final String FAMILY_SPACE_WEB = "eu_strasbourg_portlet_familySpace_FamilySpaceWebPortlet";
-	
 	public static final String GRAVEYARD_WEB = "eu_strasbourg_portlet_graveyard_GraveyardWebPortlet";
 
 	public static final String RESID_WEB = "eu_strasbourg_portlet_resid_ResidWebPortlet";
@@ -119,10 +114,6 @@ public class StrasbourgPortletKeys {
 
 	public static final String COUNCIL_BO = "eu_strasbourg_portlet_council_CouncilBOPortlet";
 	public static final String COUNCIL_WEB = "eu_strasbourg_portlet_council_CouncilPortlet";
-
-	public static final String EJOB_BO = "eu_strasbourg_portlet_ejob_EjobBOPortlet";
-	public static final String EJOB_WEB = "eu_strasbourg_portlet_ejob_EjobPortlet";
-	public static final String OFFER_WEB = "eu_strasbourg_portlet_offer_OfferPortlet";
 
     public static final String HELP_BO = "eu_strasbourg_portlet_help_HelpBOPortlet";
 	public static final String HELP_POPUP_WEB = "eu_strasbourg_portlet_help_HelpPopupPortlet";

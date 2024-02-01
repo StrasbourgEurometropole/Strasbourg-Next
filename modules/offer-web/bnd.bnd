@@ -1,4 +1,0 @@
-Bundle-Name: offer-web
-Bundle-SymbolicName: eu.strasbourg.portlet.offer
-Bundle-Version: 1.0.0
-Export-Package: eu.strasbourg.portlet.offer.constants

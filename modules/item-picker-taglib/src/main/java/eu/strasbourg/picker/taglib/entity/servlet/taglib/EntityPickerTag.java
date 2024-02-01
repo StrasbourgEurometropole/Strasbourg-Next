@@ -18,12 +18,8 @@ import eu.strasbourg.portlet.activity.itemselector.AssociationItemSelectorCriter
 import eu.strasbourg.portlet.activity.itemselector.PracticeItemSelectorCriterion;
 import eu.strasbourg.portlet.agenda.itemselector.EventItemSelectorCriterion;
 import eu.strasbourg.portlet.agenda.itemselector.ManifestationItemSelectorCriterion;
-import eu.strasbourg.portlet.artwork.itemselector.ArtworkCollectionItemSelectorCriterion;
-import eu.strasbourg.portlet.artwork.itemselector.ArtworkItemSelectorCriterion;
 import eu.strasbourg.portlet.edition.itemselector.EditionGalleryItemSelectorCriterion;
 import eu.strasbourg.portlet.edition.itemselector.EditionItemSelectorCriterion;
-import eu.strasbourg.portlet.ejob.itemselector.AlertItemSelectorCriterion;
-import eu.strasbourg.portlet.ejob.itemselector.OfferItemSelectorCriterion;
 import eu.strasbourg.portlet.gtfs.itemselector.ArretItemSelectorCriterion;
 import eu.strasbourg.portlet.gtfs.itemselector.LigneItemSelectorCriterion;
 import eu.strasbourg.portlet.help.itemselector.HelpProposalItemSelectorCriterion;
@@ -101,7 +97,7 @@ public class EntityPickerTag extends IncludeTag {
 		request.setAttribute("global", "true".equals(_global));
 
 		// Entities
-		List<AssetEntry> entities = new ArrayList<AssetEntry>();
+		List<AssetEntry> entities = new ArrayList<>();
 
 		for (String entityId : _value.split(",")) {
 			if (Validator.isNumber(entityId) && Long.parseLong(entityId) > 0) {
@@ -143,26 +139,6 @@ public class EntityPickerTag extends IncludeTag {
 					RequestBackedPortletURLFactoryUtil.create(request),
 					"itemSelected" + _name,
 					editionGalleryItemSelectorCriterion);
-			break;
-		case "eu.strasbourg.service.artwork.model.Artwork":
-			ArtworkItemSelectorCriterion artworkItemSelectorCriterion = new ArtworkItemSelectorCriterion();
-			artworkItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-				desiredItemSelectorReturnTypes);
-			itemSelectorURL = ServletContextUtil.getItemSelector()
-				.getItemSelectorURL(
-					RequestBackedPortletURLFactoryUtil.create(request),
-					"itemSelected" + _name, artworkItemSelectorCriterion);
-			break;
-		case "eu.strasbourg.service.artwork.model.ArtworkCollection":
-			ArtworkCollectionItemSelectorCriterion artworkCollectionItemSelectorCriterion = new ArtworkCollectionItemSelectorCriterion();
-			artworkCollectionItemSelectorCriterion
-				.setDesiredItemSelectorReturnTypes(
-					desiredItemSelectorReturnTypes);
-			itemSelectorURL = ServletContextUtil.getItemSelector()
-				.getItemSelectorURL(
-					RequestBackedPortletURLFactoryUtil.create(request),
-					"itemSelected" + _name,
-					artworkCollectionItemSelectorCriterion);
 			break;
 		case "eu.strasbourg.service.video.model.Video":
 			VideoItemSelectorCriterion videoItemSelectorCriterion = new VideoItemSelectorCriterion();
@@ -371,26 +347,6 @@ public class EntityPickerTag extends IncludeTag {
 						.getItemSelectorURL(
 								RequestBackedPortletURLFactoryUtil.create(request),
 								"itemSelected" + _name, ligneItemSelectorCriterion);
-				break;
-			case "eu.strasbourg.service.ejob.model.Offer":
-				OfferItemSelectorCriterion offerItemSelectorCriterion = new OfferItemSelectorCriterion();
-				offerItemSelectorCriterion
-						.setDesiredItemSelectorReturnTypes(
-								desiredItemSelectorReturnTypes);
-				itemSelectorURL = ServletContextUtil.getItemSelector()
-						.getItemSelectorURL(
-								RequestBackedPortletURLFactoryUtil.create(request),
-								"itemSelected" + _name, offerItemSelectorCriterion);
-				break;
-			case "eu.strasbourg.service.ejob.model.Alert":
-				AlertItemSelectorCriterion alertItemSelectorCriterion = new AlertItemSelectorCriterion();
-				alertItemSelectorCriterion
-						.setDesiredItemSelectorReturnTypes(
-								desiredItemSelectorReturnTypes);
-				itemSelectorURL = ServletContextUtil.getItemSelector()
-						.getItemSelectorURL(
-								RequestBackedPortletURLFactoryUtil.create(request),
-								"itemSelected" + _name, alertItemSelectorCriterion);
 				break;
 			case "eu.strasbourg.service.help.model.HelpProposal":
 				HelpProposalItemSelectorCriterion helpProposalItemSelectorCriterion = new HelpProposalItemSelectorCriterion();

@@ -14,20 +14,4 @@ public class StrasbourgPropsUtilImpl  implements StrasbourgPropsUtilService {
 		return StrasbourgPropsUtil.getPublikApiBase();
 	}
 
-	@Override
-	public String getEJobURLOfferApply() {
-		return StrasbourgPropsUtil.getEJobURLOfferApply();
-	}
-
-	@Override
-	public String getEJobURLOfferStageCollegeApply() {
-		return StrasbourgPropsUtil.getEJobURLOfferStageCollegeApply();
-	}
-
-	@Override
-	public String getEJobURLApply() {
-		return StrasbourgPropsUtil.getEJobURLApply();
-	}
-
-
 }
