@@ -13,7 +13,8 @@
                     <a href="${link.getURL(locale)}" 
                     target="_blank" 
                     class="seu-btn-square seu-bordered seu-core"  
-                    ${link.getHoverText(locale)?has_content?then(title="link.getHoverText(locale) ", "")} >
+                    <#if link.getHoverText(locale)?has_content>title="${link.getHoverText(locale)}"</#if>
+                    >
                         <span class="seu-flexbox">
                             <span class="seu-btn-text">${link.getTitle(locale)}</span>
                             <span class="seu-btn-arrow"></span>

@@ -9,8 +9,8 @@
     </div>
     <#list entries as curEntry>
         <#assign link = curEntry.getAssetRenderer().getLink() />
-        <a href="${link.getURL(locale)}"
-            ${link.getHoverText(locale)?has_content?then(title="link.getHoverText(locale) ","")}
+        <a href="${link.getURL(locale)}"  
+            <#if link.getHoverText(locale)?has_content>title="${link.getHoverText(locale)}"</#if>
             class="seu-btn-square seu-bordered seu-core" 
             target="_blank">
             <span class="seu-btn-text"> 
