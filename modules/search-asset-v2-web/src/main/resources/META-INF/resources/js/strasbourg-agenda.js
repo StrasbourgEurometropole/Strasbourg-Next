@@ -34,41 +34,10 @@ function updateDescription(clickedElement) {
 }
 
 $(document).ready(function(){
-	const autocompleteElement = '#filter-autocomplete-keywords-container';
-	const source = [
-		'Piscine de la Kibitzenau',
-		'Piscine de la Robertsau',
-		'Piscine de la Meinau',
-		'Piscine de la Neudorf',
-		'Parking de la Kibitzenau',
-		'Parking de la Robertsau',
-		'Parking de la Meinau',
-		'Parking de la Neudorf'
-	]
 
-	accessibleAutocomplete.enhanceSelectElement({
-		selectElement: document.querySelector('#place-select'),
-		id: 'filter-autocomplete-keywords', // To match it to the existing <label>.
-		source: source,
-		displayMenu: 'overlay',
-		placeholder: 'Saisir un mot clé…',
-		minLength: 3,
-		showAllValues: false,
-		dropdownArrow: () => '<span class="st-icon-arrow-down"></span>',
-		tNoResults: () => 'Aucun résultat trouvé',
-		tStatusNoResults: () => 'Aucun résultat trouvé',
-		tStatusQueryTooShort: (minQueryLength) => `Tapez ${minQueryLength} caractères ou plus pour avoir des résultats`,
-		tStatusSelectedOption: (selectedOption, length, index) => `${selectedOption} ${index + 1} sur ${length} sont affichés`,
-		tStatusResults: (length, contentSelectedOption) => {
-			const words = {
-				result: (length === 1) ? 'résultat' : 'resultats',
-				is: (length === 1) ? 'est' : 'sont'
-			}
 
-			return `<span>{length} {words.result} {words.is} disponible. {contentSelectedOption}</span>`
-		},
-		tAssistiveHint: () => 'Lorsque les résultats de la saisie semi-automatique sont disponibles, utilisez les flèches haut et bas pour les consulter et taper sur entrée pour les sélectionner. Sur les appareils tactiles, explorez les au toucher ou avec des gestes de glissement.',
-	});
+
+
 
 
 
@@ -143,19 +112,43 @@ $(document).ready(function(){
 		  '/place.place/get-place-by-id-sig',
 		  {
 		    sigId: idSIGPlace
-		  }).then(function(data) {
-			 // create the option and append to Select2
-		     var option = new Option(data.name.fr_FR, data.idSurfs, true, true);
-		     placeSelect.append(option).trigger('change');
-	
-		     // manually trigger the `select2:select` event
-		     placeSelect.trigger({
-		         type: 'select2:select',
-		         params: {
-		             data: data
-		         }
-		     });
-		  }
-		);
+		  },function(data) {
+				 // create the option and append to Select2
+				 var option = new Option(data.name.fr_FR, data.idSurfs, true, true);
+				 placeSelect.append(option);
+				 initPlaceSelect();
+			 }
+
+			 );
+	}
+	else {
+		initPlaceSelect();
+	}
+	function initPlaceSelect() {
+		const selectAutocomplete = document.querySelectorAll('select#place-select');
+		var selectAutocompleteClass = null;
+		selectAutocomplete.forEach(select => {
+			selectAutocompleteClass = new Select(select, {
+				onChange: function (selectClass, optionIndex) {
+					if(typeof selectA11yOnChange !== 'undefined'){
+						selectA11yOnChange(selectClass, optionIndex);
+					}
+				},
+
+				onSearch: async function (searchTerm) {
+					// Send GET request to get places with json
+					// /api/jsonws/place.place/get-places-by-name-and-language/
+
+					const response = await fetch(`/api/jsonws/place.place/get-places-by-name-and-language/?name=${searchTerm}&language=fr_FR&p_auth=${Liferay.authToken}`).then(response => response.json());
+					const results = response.map(place => {
+						return {
+							value: place.idSurfs,
+							label: place.name.fr_FR
+						}
+					})
+					return results;
+				}
+			});
+		});
 	}
  });

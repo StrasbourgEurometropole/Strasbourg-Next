@@ -90,7 +90,7 @@
     <template>
         <script>webmag-video.ftl</script>
         <name>Webmag vidéos</name>
-        <key>5099129</key>
+        <key>5099128</key>
     </template>
     <template>
         <script>listing-diaporama.ftl</script>
@@ -100,16 +100,11 @@
     <template>
         <script>webmag-portrait.ftl</script>
         <name>Webmag Rencontre</name>
-        <key>5099125</key>
-    </template>
-    <template>
-        <script>webmag-portrait.ftl</script>
-        <name>Webmag Rencontre</name>
-        <key>5099125</key>
+        <key>5099124</key>
     </template>
     <template>
         <script>web-content-list.ftl</script>
         <name>Liste de contenus web</name>
-        <key>1617792</key>
+        <key>1617791</key>
     </template>
 </root>

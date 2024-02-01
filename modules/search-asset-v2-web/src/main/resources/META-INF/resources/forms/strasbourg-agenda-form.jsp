@@ -20,12 +20,13 @@
             </div>
         </div>
 </c:if>
-
         <div class="st-filtre st-group-field">
-            <label ><liferay-ui:message key="eu.place" /></label>
-                <select class="" id="place-select">
-                    <option value=""><liferay-ui:message key="eu.place" /></option>
-                </select>
+            <span class="label-fake"> <liferay-ui:message key="eu.place" /></span>
+            <label for="place-select" >
+                <liferay-ui:message key="eu.place" />
+            </label>
+            <select class="" id="place-select" data-hide-tag=""  name="idSIGPlace">
+            </select>
         </div>
 
         <c:forEach items="${dc.vocabularies}" var="vocabulary"

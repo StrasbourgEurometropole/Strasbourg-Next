@@ -9,8 +9,8 @@
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
-<header class="st-header-edito" role="banner">
-    <div class="st-wrapper-modifier">
+<header class="st-header-edito st-wrapper st-wrapper-small" role="banner">
+    <div>
             <h1 class="st-h1">${title.getData()}</h1>
             <@liferay.breadcrumbs />
         <#if layout.expandoBridge.getAttribute('image')?has_content>

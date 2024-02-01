@@ -47,6 +47,10 @@ class Select{
     if(passedOptions.onChange) {
       this._onChange = passedOptions.onChange;
     }
+
+    if(passedOptions.onSearch) {
+      this._onSearch = passedOptions.onSearch;
+    }
     // ∆∆∆∆ surcharge sully ∆∆∆∆∆
 
     this._options = Object.assign({
@@ -102,7 +106,7 @@ class Select{
     }
     else {
       const selectedOption = this.el.item(this.el.selectedIndex);
-      text.innerText = selectedOption.label || selectedOption.value;
+      text.innerText = selectedOption?.label || selectedOption?.value || "Sélectionner...";
 
       if(!this.label.id){
         this.label.id = `${this.el.id}-label`;
@@ -159,7 +163,39 @@ class Select{
     this.el.setAttribute('tabindex', -1);
   }
 
+  async startSearch(search) {
+    let options = await this._onSearch(search);
+    // empty this.el.options and fill it with the new options
+    // options has label and value
+    this.el.innerHTML = "";
+    options.forEach(option => {
+      // create the option
+        const optionHtml = document.createElement('option');
+      optionHtml.value = option.value;
+      optionHtml.innerText = option.label;
+        this.el.options.add(optionHtml);
+    })
+
+    this._postSearch(false);
+  }
+
   _fillSuggestions(){
+    const search = this.search.toLowerCase();
+
+    if(this._onSearch) {
+      // implement debounce on startSearch and at least 3 characters
+        if(search.length < 3) {
+            return;
+        }
+      this.startSearch(search)
+      return;
+    }
+      this._postSearch();
+
+  }
+
+  _postSearch(filter = true) {
+
     const search = this.search.toLowerCase();
 
     // loop over the
@@ -168,7 +204,7 @@ class Select{
       const formatedText = text.toLowerCase();
 
       // test if search text match the current option
-      if(formatedText.indexOf(search) === -1){
+      if(formatedText.indexOf(search) === -1 && (filter === true)){
         return;
       }
 
@@ -532,5 +568,6 @@ class Select{
     return wrapper;
   }
 }
+
 
 //export default Select;
